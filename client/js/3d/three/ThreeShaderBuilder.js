@@ -8,14 +8,14 @@ class ThreeShaderBuilder {
         this.gl;
         this.okCount = 0;
     }
-        loadShaderData = function(glContext) {
+    loadShaderData = function(glContext) {
 
-           let shaderChunks = this.shaderChunks;
-           let shaderDataIndex = this.shaderDataIndex;
-           let buildTimeout = this.buildTimeout;
-           this.gl = glContext;
-           let gl = this.gl;
-           let okCount = this.okCount;
+        let shaderChunks = this.shaderChunks;
+        let shaderDataIndex = this.shaderDataIndex;
+        let buildTimeout = this.buildTimeout;
+        this.gl = glContext;
+        let gl = this.gl;
+        let okCount = this.okCount;
 
         let testShader = function( src, type ) {
 
@@ -59,6 +59,7 @@ class ThreeShaderBuilder {
         }
 
         let buildStringChunks = function(src, data) {
+        //    console.log("buildStringChunks: ", src, data)
             let chunks = {}
             for (let key in data) {
                 chunks[key] = data[key].join( "\n" );
@@ -68,8 +69,8 @@ class ThreeShaderBuilder {
             //    console.log("CACHE STRING CHUNKS:", src, chunks);
         };
 
-            let mapThreeShaderChunks = function() {
-                let chunks = {}
+        let mapThreeShaderChunks = function() {
+            let chunks = {}
             for (let key in THREE.ShaderChunk) {
                 chunks[key] = THREE.ShaderChunk[key];
                 PipelineAPI.setCategoryKeyValue("THREE_CHUNKS", key, "\n" + chunks[key] + "\n");
@@ -77,61 +78,78 @@ class ThreeShaderBuilder {
             //    console.log("CACHE THREE CHUNKS:", chunks);
         };
 
-            let combineProgramFromSources = function(sources) {
-                let programString = '';
+        let combineProgramFromSources = function(sources) {
+            let programString = '';
             for (let i = 0; i < sources.length; i++) {
                 programString += PipelineAPI.readCachedConfigKey(sources[i].source, sources[i].chunk) + "\n";
             }
             return programString;
         };
 
-            let buildShaderPrograms = function(src, data) {
+        let buildShaderPrograms = function(src, data) {
 
-                let program = {};
-                let cached = PipelineAPI.readCachedConfigKey("SHADERS", src);
+            let program = {};
+            let cached = PipelineAPI.readCachedConfigKey("SHADERS", src);
 
-                let diff = 2;
+            let diff = 0;
 
             for (let key in data) {
+            //    console.log(key)
                 program[key] = combineProgramFromSources(data[key]);
 
-                if (!diff) {
-                    console.log("Shader not changed", src, key);
-                    return;
-                }
-
-                if (!testShader(program[key], key)) {
-                    console.log("Bad Shader", key, data);
-
-                    if (cached[key] != program[key]) {
-                        console.log("Broke Good Shader", src, key, [PipelineAPI.getCachedConfigs()], data);
-                        return;
+                if (cached[key]) {
+                    let cachedString = cached[key];
+                    let newString = program[key]
+                //    console.log(key)
+                    if (cachedString.length === newString.length) {
+                        for (let i = 0; i < cachedString.length; i++) {
+                            if (cachedString[i] !== newString[i]) {
+                                console.log("shader changed", src, key, cachedString[i], newString[i])
+                                diff ++;
+                                i = cachedString.length;
+                            }
+                        }
+                    } else {
+                    //    console.log("shader changed not equal string length", key)
+                        diff++
                     }
 
-                    return;
                 } else {
-                    //                console.log("Shader Test success: ", src, key)
+                    diff++
                 }
 
-                if (cached) {
-                    if (cached[key] == program[key]) {
-                        diff --;
+                if (diff) {
+                    if (!testShader(program[key], key)) {
+                        console.log("Bad Shader", key, data);
+
+                        if (cached[key] !== program[key]) {
+                            console.log("Broke Good Shader", src, key, [PipelineAPI.getCachedConfigs()], data);
+                            return;
+                        }
+
+                        return;
+                    } else if (diff && (typeof (cached[key]) !== 'undefined')) {
+                        console.log("Shader Test success: ", src, key)
                     }
                 }
 
+            }
+            if (!diff) {
+                //    console.log("Shader not changed", src, key);
+                return;
             }
 
             PipelineAPI.setCategoryKeyValue("SHADERS", src, program);
             //        console.log("CACHED SHADER PROGRAMS:", src, PipelineAPI.getCachedConfigs());
         };
 
-            let buildShadersFromIndex = function() {
+        let buildShadersFromIndex = function() {
             for (let key in shaderDataIndex) {
                 buildShaderPrograms(key, shaderDataIndex[key]);
             }
         };
 
-            let registerShaderProgram = function(src, data) {
+        let registerShaderProgram = function(src, data) {
             shaderDataIndex[src] = {};
             for (let key in data) {
                 shaderDataIndex[src][key] = data[key];
@@ -140,32 +158,33 @@ class ThreeShaderBuilder {
             notifyShaderDataUpdate();
         };
 
-            let notifyShaderDataUpdate = function() {
+        let notifyShaderDataUpdate = function() {
             clearTimeout(buildTimeout, 1);
             buildTimeout = setTimeout(function() {
                 buildShadersFromIndex();
             }, 10);
         };
 
-            let loadChunkIndex = function(src, data) {
+        let loadChunkIndex = function(src, data) {
             for (let i = 0; i < data.length; i++) {
                 new PipelineObject("SHADER_CHUNKS",   data[i], buildStringChunks)
             }
         };
 
-            let loadProgramIndex = function(src, data) {
+        let loadProgramIndex = function(src, data) {
+        //    console.log("Load shader program: ", src, data)
             for (let i = 0; i < data.length; i++) {
                 new PipelineObject("SHADER_PROGRAMS",   data[i], buildStringChunks)
             }
         };
 
-            let loadShaderIndex = function(src, data) {
+        let loadShaderIndex = function(src, data) {
             for (let i = 0; i < data.length; i++) {
                 new PipelineObject("SHADERS_THREE",   data[i], registerShaderProgram)
             }
         };
 
-            let monkeyPatchStandardShaderForInstancing = function() {
+        let monkeyPatchStandardShaderForInstancing = function() {
 
 
             THREE.ShaderLib.lambert = { // this is a cut-and-paste of the lambert shader -- modified to accommodate instancing for this app
@@ -334,19 +353,19 @@ class ThreeShaderBuilder {
         };
 
 
-            gl = glContext;
+        gl = glContext;
 
-            monkeyPatchStandardShaderForInstancing();
+        monkeyPatchStandardShaderForInstancing();
         //    console.log("Shader Lib: ", THREE.ShaderLib)
 
-            mapThreeShaderChunks();
+        mapThreeShaderChunks();
 
-            new PipelineObject("SHADER_CHUNKS",   "LOAD_CHUNK_INDEX", loadChunkIndex);
-            new PipelineObject("SHADER_PROGRAMS", "LOAD_PROGRAM_INDEX", loadProgramIndex);
-            new PipelineObject("SHADERS_THREE",   "LOAD_SHADER_INDEX", loadShaderIndex);
+        new PipelineObject("SHADER_CHUNKS",   "LOAD_CHUNK_INDEX", loadChunkIndex);
+        new PipelineObject("SHADER_PROGRAMS", "LOAD_PROGRAM_INDEX", loadProgramIndex);
+        new PipelineObject("SHADERS_THREE",   "LOAD_SHADER_INDEX", loadShaderIndex);
 
-        };
+    };
 
-    }
+}
 
 export { ThreeShaderBuilder }

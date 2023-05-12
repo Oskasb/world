@@ -72,7 +72,7 @@ class ThreeMaterial {
                 let id = config.textures[i].id;
                 let key = config.textures[i].key;
                 this.textureMap[id] = key;
-            //    console.log("Request texture:", id)
+        //        console.log("Request texture:", id)
                 ThreeAPI.loadThreeAsset('TEXTURES_', config.textures[i].id, textureAssetLoaded);
             }
         }
@@ -198,15 +198,15 @@ class ThreeMaterial {
         };
 
         let applyShaders = function(src, data) {
-
+// console.log("apply shaders", src, data)
             if (this.mat !== null) {
 
                 this.mat.vertexShader = data.vertex;
                 this.mat.fragmentShader = data.fragment;
 
-                //    console.log("Update custom material shaders");
+            //        console.log("Update custom material shaders");
 
-                //    this.mat.needsUpdate = true;
+                this.mat.needsUpdate = true;
                 return;
 
             }

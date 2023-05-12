@@ -12,16 +12,27 @@
       "TEXTURES"
     ],
     "POLL_INDEX":[
+      "/effects/effect_buffers.json"                         ,
+      "/effects/effect_effects.json"                         ,
+      "/effects/effect_particles.json"                       ,
       "/threedata/shaders/three_shader_programs.json"        ,
-      "/world/scenarios/home_scenario_static.json"            ,
-      "/threedata/shaders/three_particle_shaders.json"
+      "/threedata/shaders/three_shader_chunks.json"          ,
+      "/threedata/shaders/three_particle_shaders.json"       ,
+      "/threedata/vegetation/vegetation_grids.json"          ,
+      "/threedata/vegetation/vegetation_plants.json"         ,
+      "/threedata/assets/asset_terrain.json"                 ,
+      "/threedata/assets/three_materials.json"               ,
+      "/world/scenarios/home_scenario_static.json"           ,
+      "/ui/pages/characters/gui_page_leader_peace.json"
     ],
     "NOT_POLL_INDEX":[
+      "/threedata/assets/asset_environment.json"             ,
+      "/threedata/assets/asset_ocean.json"                   ,
+      "/threedata/assets/three_model_rigs.json"              ,
+      "/threedata/assets/three_models.json"                   ,
       "/world/spawn/spawn_patterns.json"                     ,
       "/world/grid/adventure_grids.json"                     ,
       "/ui/pages/characters/gui_page_companion_peace.json"    ,
-      "/ui/pages/characters/gui_page_leader_peace.json",
-      "/threedata/shaders/three_shader_chunks.json"          ,
       "/game/skeletons/biped_rigs.json"                      ,
       "/world/scenarios/home_dynamic/home_hero_dynamic.json" ,
       "/world/scenarios/home_dynamic/home_hovel_dynamic.json" ,

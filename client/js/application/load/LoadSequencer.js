@@ -53,8 +53,8 @@ class LoadSequencer {
         let cachedConfig = PipelineAPI.readCachedConfigKey('CONFIGS', assetKey);
         if (cachedConfig === assetKey) {
             //      console.log("Cache not ready: ", cachedConfig);
-            //    new PipelineObject('CONFIGS', assetKey, configLoaded)
-            PipelineAPI.cacheCategoryKey('CONFIGS', assetKey, configLoaded);
+            new PipelineObject('CONFIGS', assetKey, configLoaded)
+            //   PipelineAPI.cacheCategoryKey('CONFIGS', assetKey, configLoaded);
         } else {
             configLoaded(assetKey, cachedConfig);
         }

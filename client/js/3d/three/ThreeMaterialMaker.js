@@ -64,7 +64,7 @@ class ThreeMaterialMaker {
          }
 
          PipelineAPI.setCategoryKeyValue('THREE_MATERIAL', matId, materials[matId]);
-         //    console.log("Loaded all...", matId, loaded, data.textures[0]);
+             console.log("Loaded all...", matId, loaded, data.textures[0]);
      };
 
 
