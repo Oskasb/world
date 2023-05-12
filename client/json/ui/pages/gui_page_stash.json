@@ -1,0 +1,93 @@
+[
+  {
+    "UI": {
+      "PAGES":[
+        {
+          "id": "page_scene_stash",
+          "data": [
+            {
+              "containers":[
+                {
+                  "widget_id":"page_home_center",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"widget_hidden_container",
+                  "options": {
+                    "anchor":"center"
+                  }
+                },
+                {
+                  "widget_id":"text_box_home",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"main_text_box",
+                  "options":{
+                    "anchor":"bottom_center",
+                    "offset_x":0.0,
+                    "offset_y":0.005,
+                    "text":"Bring loot here"
+                  }
+
+                }
+              ],
+              "buttons":[
+                {
+                  "widget_id":"button_go_home",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"button_big_blue",
+                  "options":{
+                    "text":"BACK",
+                    "container_id":"page_home_center",
+                    "offset_x":0.14,
+                    "offset_y":-0.31,
+                    "dispatch":{
+                      "event":"REQUEST_SCENARIO",
+                      "value":{
+                        "id":"home_scenario",
+                        "dynamic":"home_hovel_dynamic"
+                      }
+                    }
+                  }
+                },
+                {
+                  "widget_id":"button_stash_grab",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"button_big_blue",
+                  "options":{
+                    "text":"GRAB",
+                    "container_id":"page_home_center",
+                    "offset_x":0.10,
+                    "offset_y":-0.25,
+                    "dispatch":{
+                      "event":"TAKE_STASH_ITEM",
+                      "value":{
+                        "item":"random",
+                        "time":1
+                      }
+                    }
+                  }
+                },
+                {
+                  "widget_id":"button_stash_grab",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"button_big_blue",
+                  "options":{
+                    "text":"DROP",
+                    "container_id":"page_home_center",
+                    "offset_x":0.06,
+                    "offset_y":-0.20,
+                    "dispatch":{
+                      "event":"STASH_ITEM",
+                      "value":{
+                        "item":"random",
+                        "time":1
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+]

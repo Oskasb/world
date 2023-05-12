@@ -1,0 +1,286 @@
+[
+  {
+    "VEGETATION": {
+      "PLANTS":[
+        {
+          "id":"plants_default",
+          "data": {
+            "plants":{
+              "leafy_small": {
+                "min_y": 0.0,
+                "max_y": 9999,
+                "normal_ymin": 0.985,
+                "normal_ymax": 0.94,
+                "size_min": 2,
+                "size_max": 3,
+                "color_min": [0.9, 0.85, 0.85, 1],
+                "color_max": [1, 1, 1, 1],
+                "sprite": [0, 7, 1, 0]
+              },
+              "grass_tall_1": {
+                "min_y": 1,
+                "max_y": 9999,
+                "normal_ymin": 0.9998,
+                "normal_ymax": 0.97,
+                "size_min": 4,
+                "size_max": 6,
+                "color_min": [0.95, 0.95, 0.95, 1],
+                "color_max": [1, 1, 1, 1],
+                "sprite": [0, 6, 1, 0]
+              },
+              "grass_tall_2": {
+                "min_y": 1,
+                "max_y": 9999,
+                "normal_ymin": 0.9998,
+                "normal_ymax": 0.97,
+                "size_min": 4,
+                "size_max": 6,
+                "color_min": [0.95, 0.93, 0.9, 1],
+                "color_max": [1, 1, 1, 1],
+                "sprite": [1, 6, 1, 0]
+              },
+              "grass_tall_sparse_1": {
+                "min_y": 1,
+                "max_y": 9999,
+                "normal_ymin": 0.9998,
+                "normal_ymax": 0.97,
+                "size_min": 4,
+                "size_max": 7,
+                "color_min": [0.95, 0.93, 0.9, 1],
+                "color_max": [1, 1, 1, 1],
+                "sprite": [2, 6, 1, 0]
+              },
+              "grass_tall_sparse_2": {
+                "min_y": 1,
+                "max_y": 9999,
+                "normal_ymin": 0.998,
+                "normal_ymax": 0.96,
+                "size_min": 6,
+                "size_max": 10,
+                "color_min": [0.95, 0.93, 0.9, 1],
+                "color_max": [1, 1, 1, 1],
+                "sprite": [3, 6, 1, 0]
+              },
+              "grass_low_1_dry": {
+                "min_y": 0.4,
+                "max_y": 4,
+                "normal_ymin": 1.0,
+                "normal_ymax": 0.98,
+                "size_min": 4,
+                "size_max": 6,
+                "color_min": [0.95, 0.95, 0.95, 1],
+                "color_max": [1, 1, 1, 1],
+                "sprite": [4, 6, 2, 1]
+              },
+              "grass_lowl_2": {
+                "min_y": 1,
+                "max_y": 9999,
+                "normal_ymin": 0.9998,
+                "normal_ymax": 0.998,
+                "size_min": 6,
+                "size_max": 10,
+                "color_min": [0.97, 0.97, 0.97, 1],
+                "color_max": [1, 1, 1, 1],
+                "sprite": [4, 6, 2, 2]
+              },
+              "grass_low_3_flowery": {
+                "min_y": 3,
+                "max_y": 6,
+                "normal_ymin": 1.0,
+                "normal_ymax": 0.98,
+                "size_min": 6,
+                "size_max": 10,
+                "color_min": [0.95, 0.95, 0.95, 1],
+                "color_max": [1, 1, 1, 1],
+                "sprite": [5, 6, 2, 1]
+              },
+              "grass_lowl_4_green": {
+                "min_y": 1,
+                "max_y": 9999,
+                "normal_ymin": 1.9998,
+                "normal_ymax": 0.998,
+                "size_min": 4,
+                "size_max": 6,
+                "color_min": [0.95, 0.92, 0.95, 1],
+                "color_max": [1, 1, 1, 1],
+                "sprite": [5, 6, 2, 2]
+              },
+              "grass_low_5_dry": {
+                "min_y": 0.1,
+                "max_y": 3,
+                "normal_ymin": 1.9998,
+                "normal_ymax": 0.91,
+                "size_min": 6,
+                "size_max": 10,
+                "color_min": [0.95, 0.95, 0.95, 1],
+                "color_max": [1, 1, 1, 1],
+                "sprite": [6, 6, 2, 1]
+              },
+              "grass_low_6_bright": {
+                "min_y": 1,
+                "max_y": 9999,
+                "normal_ymin": 0.9993,
+                "normal_ymax": 0.9918,
+                "size_min": 9,
+                "size_max": 13,
+                "color_min": [0.95, 0.95, 0.95, 1],
+                "color_max": [1, 1, 1, 1],
+                "sprite": [7, 6, 2, 2]
+              },
+              "ferns_1": {
+                "min_y": 1,
+                "max_y": 9999,
+                "normal_ymin": 0.998,
+                "normal_ymax": 0.965,
+                "size_min": 9,
+                "size_max": 15,
+                "color_min": [0.95, 0.95, 0.95, 1],
+                "color_max": [1, 1, 1, 1],
+                "sprite": [7, 6, 2, 1]
+              },
+              "bushes_1": {
+                "min_y": 0.0,
+                "max_y": 9999,
+                "normal_ymin": 0.985,
+                "normal_ymax": 0.96,
+                "size_min": 9,
+                "size_max": 15,
+                "color_min": [0.95, 0.95, 0.95, 1],
+                "color_max": [1, 1, 1, 1],
+                "sprite": [4, 5, 1, 0]
+              },
+              "reeds_1": {
+                "min_y": -2.0,
+                "max_y": 0,
+                "normal_ymin": 1.985,
+                "normal_ymax": 0.921,
+                "size_min": 5,
+                "size_max": 9,
+                "color_min": [0.95, 0.95, 0.95, 1],
+                "color_max": [1, 1, 1, 1],
+                "sprite": [7, 5, 1, 0],
+                "surface": true
+              },
+              "reeds_2": {
+                "min_y": -2.0,
+                "max_y": 0,
+                "normal_ymin": 1.985,
+                "normal_ymax": 0.91,
+                "size_min": 7,
+                "size_max": 9,
+                "color_min": [0.95, 0.95, 0.95, 1],
+                "color_max": [1, 1, 1, 1],
+                "sprite": [6, 5, 1, 0],
+                "surface": true
+              }
+            },
+            "patches": {
+              "tree_companions_small": {
+                "size": 1,
+                "plants_min": 5,
+                "plants_max": 8,
+                "plants": [
+                  {"plant_id": "grass_low_6_bright",   "weight": 1, "dst_min": 0.1,  "dst_max": 0.2},
+                  {"plant_id": "grass_low_3_flowery",  "weight": 4, "dst_min": 0.2,  "dst_max": 0.5}
+                ]
+              },
+              "tree_companions_medium": {
+                "size": 2,
+                "plants_min": 6,
+                "plants_max": 16,
+                "plants": [
+                  {"plant_id": "grass_low_6_bright",   "weight": 3, "dst_min": 0.1,  "dst_max": 0.3},
+                  {"plant_id": "grass_low_3_flowery",  "weight": 6, "dst_min": 0.2,  "dst_max": 0.5},
+                  {"plant_id": "bushes_1",             "weight": 1, "dst_min": 0.15,  "dst_max": 0.3}
+                ]
+              },
+              "tree_companions_large": {
+                "size": 2,
+                "plants_min": 18,
+                "plants_max": 24,
+                "plants": [
+                  {"plant_id": "ferns_1",              "weight": 1, "dst_min": 0.41,  "dst_max": 0.6},
+                  {"plant_id": "grass_low_3_flowery",  "weight": 3, "dst_min": 0.4,  "dst_max": 0.6},
+                  {"plant_id": "grass_low_6_bright",   "weight": 1, "dst_min": 0.5,  "dst_max": 1.0},
+                  {"plant_id": "bushes_1",             "weight": 1, "dst_min": 0.46,  "dst_max": 0.6}
+                ]
+              }
+            },
+            "trees": {
+              "tree_1": {
+                "asset_ids": ["asset_tree_1", "asset_tree_2", "asset_tree_3", "asset_tree_4"],
+                "patch": "tree_companions_medium",
+                "min_y":  2.0,
+                "max_y": 9999,
+                "normal_ymin": 1.05,
+                "normal_ymax": 0.96,
+                "size_min": 15,
+                "size_max": 25,
+                "color_min": [0.85, 0.65, 0.65, 1],
+                "color_max": [1, 1, 1, 1],
+                "sprite": [6, 5, 1, 0],
+                "surface": true
+              },
+              "tree_2": {
+                "asset_ids": ["asset_tree_1", "asset_tree_2", "asset_tree_3", "asset_tree_4"],
+                "patch": "tree_companions_large",
+                "min_y":  2.0,
+                "max_y": 9999,
+                "normal_ymin": 1.05,
+                "normal_ymax": 0.98,
+                "size_min": 26,
+                "size_max": 46,
+                "color_min": [0.75, 0.75, 0.75, 1],
+                "color_max": [1, 1, 1, 1],
+                "sprite": [6, 5, 1, 0],
+                "surface": true
+              },
+              "tree_3": {
+                "asset_ids": ["asset_tree_1", "asset_tree_2", "asset_tree_3", "asset_tree_4"],
+                "patch": "tree_companions_small",
+                "min_y":  2.0,
+                "max_y": 9999,
+                "normal_ymin": 1.05,
+                "normal_ymax": 0.96,
+                "size_min": 12,
+                "size_max": 15,
+                "color_min": [0.75, 0.75, 0.75, 1],
+                "color_max": [1, 1, 1, 1],
+                "sprite": [6, 5, 1, 0],
+                "surface": true
+              },
+              "tree_4": {
+                "asset_ids": ["asset_tree_5"],
+                "patch": "tree_companions_small",
+                "min_y":  2.0,
+                "max_y": 9999,
+                "normal_ymin": 1.05,
+                "normal_ymax": 0.96,
+                "size_min": 5,
+                "size_max": 7,
+                "color_min": [0.75, 0.75, 0.75, 1],
+                "color_max": [1, 1, 1, 1],
+                "sprite": [6, 5, 1, 0],
+                "surface": true
+              },
+              "tree_5": {
+                "asset_ids": ["asset_tree_5"],
+                "patch": "tree_companions_large",
+                "min_y":  2.0,
+                "max_y": 9999,
+                "normal_ymin": 1.05,
+                "normal_ymax": 0.96,
+                "size_min": 7,
+                "size_max": 15,
+                "color_min": [0.75, 0.75, 0.75, 1],
+                "color_max": [1, 1, 1, 1],
+                "sprite": [6, 5, 1, 0],
+                "surface": true
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+]

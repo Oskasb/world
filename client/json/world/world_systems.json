@@ -1,0 +1,200 @@
+[{
+  "WORLD_SYSTEMS":{
+    "GAME_SCENARIOS":[
+      {
+        "id": "home_scenario",
+        "config": {
+          "scenario_static":"home_scenario_static",
+          "dynamic_scenarios": [
+            "home_hovel_dynamic",
+            "home_world_dynamic",
+            "home_stash_dynamic",
+            "home_hero_dynamic",
+            "hero_allies_dynamic",
+            "world_manor_dynamic",
+            "world_town_dynamic",
+            "town_merchant_dynamic",
+            "town_inn_dynamic",
+            "world_woods_dynamic",
+            "manor_village_dynamic",
+            "village_house_dynamic",
+            "village_cottage_dynamic",
+            "encounter_front_yard_home_dynamic",
+            "encounter_friends_home_dynamic"
+          ]
+        }
+      },
+      {
+        "id": "cave_scenario",
+        "config": {
+          "scenario_static": "cave_scenario_static",
+          "dynamic_scenarios": [
+            "encounter_cave_basic_dynamic"
+          ]
+        }
+      }
+    ],
+    "WORLD_NAV_POINTS": [
+      {"id":"world_dynamic_navpoints",
+      "config":{
+        "home_hovel_dynamic":{
+          "camera": {
+            "time":0.8,
+            "pos": [2, 5, -8],
+            "lookAt": [0, 3, 0]
+          }
+        },
+        "encounter_front_yard_home_dynamic":{
+          "camera": {
+            "time":0.8,
+            "pos": [0, 5, -14],
+            "lookAt": [0, 1, 0]
+          }
+        },
+        "home_world_dynamic":{
+          "camera": {
+            "time":1.3,
+            "pos": [5, 180, -340],
+            "lookAt": [-5, 0, -120]
+          }
+        },
+        "home_stash_dynamic":{
+          "camera": {
+            "time":0.6,
+            "pos": [3, 5, -2],
+            "lookAt": [0.6, 0, 4]
+          }
+
+        },
+        "home_hero_dynamic":{
+          "camera": {
+            "time":0.6,
+            "pos": [0.6, 1.7, -2.1],
+            "lookAt": [-0.4, 1.6, -0.5]
+          }
+
+        },
+        "encounter_field_bandits_dynamic":{
+          "camera": {
+            "time":0.6,
+            "pos": [ 5.6, 24.4, -5.1],
+            "lookAt": [12.0, 2.1, -0.5]
+          }
+        },
+        "encounter_friends_home_dynamic":{
+          "camera": {
+            "time":0.6,
+            "pos": [ 5.6, 24.4, -5.1],
+            "lookAt": [12.0, 2.1, -0.5]
+          }
+
+        },
+        "hero_allies_dynamic":{
+          "camera": {
+            "time":0.6,
+            "pos": [ 7.6, 8.4, -12.1],
+            "lookAt": [-5.0, 2.1, -0.5]
+          }
+
+        },
+         "world_manor_dynamic":{
+           "camera": {
+             "time":1.3,
+             "pos": [-45, 125,   -20],
+             "lookAt": [-66, 0, 137]
+           }
+
+        },
+        "manor_garden_dynamic":{
+          "camera": {
+            "time":1.3,
+            "pos": [-215, 40,   120],
+            "lookAt": [-105, 0, 155]
+          }
+
+        },
+        "encounter_manor_entrance_dynamic":{
+          "camera": {
+            "time":1.3,
+            "pos": [-74, 5.83, 131],
+            "lookAt": [-84, 3.83, 141]
+          }
+
+        },
+        "manor_village_dynamic":{
+          "camera": {
+            "time":1.3,
+            "pos": [-105, 80,   110],
+            "lookAt": [-45, 0, 125]
+          }
+
+        },
+        "village_house_dynamic":{
+          "camera": {
+            "time":1.3,
+            "pos": [-55, 20,   120],
+            "lookAt": [-65, 0, 155]
+          }
+
+        },
+        "village_cottage_dynamic":{
+          "camera": {
+            "time":1.3,
+            "pos": [-55, 20,   120],
+            "lookAt": [-65, 0, 155]
+          }
+
+        },
+        "world_town_dynamic":{
+          "camera": {
+            "time":1.3,
+            "pos": [18, 20, -202],
+            "lookAt": [-18, 0, -211]
+          }
+
+        },
+        "town_merchant_dynamic":{
+          "camera": {
+            "time":1.3,
+            "pos": [-19, 6, -208],
+            "lookAt": [-9, 0, -220]
+          }
+
+        },
+        "town_inn_dynamic":{
+          "camera": {
+            "time":1.3,
+            "pos": [-14, 13, -205],
+            "lookAt": [-7, 0, -216]
+          }
+
+        },
+        "town_cellar_dynamic":{
+          "camera": {
+            "time":1.3,
+            "pos": [35, 10, -210],
+            "lookAt": [-15, 0, -203]
+          }
+
+        },
+        "world_woods_dynamic":{
+          "camera": {
+            "time":1.3,
+            "pos": [5, 180, -340],
+            "lookAt": [-5, 0, -120]
+          }
+
+        },
+        "encounter_cave_basic_dynamic":{
+          "camera": {
+            "time":2,
+            "pos": [0, 8, -7],
+            "lookAt": [0, 0, 2]
+          }
+
+        }
+      }
+      }
+    ]
+  }
+}]

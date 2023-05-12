@@ -1,0 +1,111 @@
+[
+  {
+    "UI": {
+      "PAGES":[
+        {
+          "id": "page_scene_manor",
+          "data": [
+            {
+              "containers":[
+                {
+                  "widget_id":"page_home_center",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"widget_hidden_container",
+                  "options": {
+                    "anchor":"center"
+                  }
+                },
+                {
+                  "widget_id":"text_box_home",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"main_text_box",
+                  "options":{
+                    "anchor":"bottom_center",
+                    "offset_x":0.0,
+                    "offset_y":0.005,
+                    "text":"Strange sounds from in there."
+                  }
+
+                }
+              ],
+              "buttons":[
+                {
+                  "widget_id":"button_go_world",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"button_big_blue",
+                  "options":{
+                    "text":"LEAVE",
+                    "container_id":"page_home_center",
+                    "offset_x":0.06,
+                    "offset_y":-0.26,
+                    "dispatch":{
+                      "event":"REQUEST_SCENARIO",
+                      "value":{
+                        "id":"home_scenario",
+                        "dynamic":"home_world_dynamic"
+                      }
+                    }
+                  }
+                },
+                {
+                  "widget_id":"button_go_village",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"button_big_blue",
+                  "options":{
+                    "text":"VILLAGE",
+                    "container_id":"page_home_center",
+                    "offset_x":-0.11,
+                    "offset_y":-0.12,
+                    "dispatch":{
+                      "event":"REQUEST_SCENARIO",
+                      "value":{
+                        "id":"home_scenario",
+                        "dynamic":"manor_village_dynamic"
+                      }
+                    }
+                  }
+                },
+                {
+                  "widget_id":"button_go_garden",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"button_big_blue",
+                  "options":{
+                    "text":"GARDEN",
+                    "container_id":"page_home_center",
+                    "offset_x": 0.12,
+                    "offset_y": 0.20,
+                    "dispatch":{
+                      "event":"REQUEST_SCENARIO",
+                      "value":{
+                        "id":"home_scenario",
+                        "dynamic":"manor_garden_dynamic"
+                      }
+                    }
+                  }
+                },
+                {
+                  "widget_id":"button_go_manor",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"button_big_red",
+                  "options":{
+                    "text":"ENTER",
+                    "container_id":"page_home_center",
+                    "offset_x":0.09,
+                    "offset_y":-0.05,
+                    "dispatch":{
+                      "event":"REQUEST_SCENARIO",
+                      "value":{
+                        "id":"home_scenario",
+                        "dynamic":"encounter_manor_entrance_dynamic"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+]

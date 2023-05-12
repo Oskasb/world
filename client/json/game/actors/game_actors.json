@@ -1,0 +1,27 @@
+[{
+  "GAME":{
+    "ACTORS":[
+      {
+        "id":"ACTOR_FIGHTER",
+        "data":{
+          "game_piece": "PIECE_FIGHTER",
+          "equip_slots": "SLOTS_FIGHTER"
+        }
+      },
+      {
+        "id":"ACTOR_BARB",
+        "data":{
+          "game_piece": "PIECE_BARBARIAN",
+          "equip_slots": "SLOTS_BARB"
+        }
+      },
+      {
+        "id":"ACTOR_DUDE",
+        "data":{
+          "game_piece": "PIECE_DUDE",
+          "equip_slots": "SLOTS_DUDE"
+        }
+      }
+    ]
+  }
+}]

@@ -1,0 +1,38 @@
+[
+  {
+    "ASSETS": {
+      "TEXTURES":[
+
+        {"id": "atlas_2k_diff"      ,  "config": {  "img" : "img_atlas_2k_diff"       , "settings": "tx_settings_model_normal"    }} ,
+        {"id": "atlas_2k_green"     ,  "config": {  "img" : "img_atlas_2k_green"      , "settings": "tx_settings_model_normal"    }} ,
+        {"id": "atlas_2k_red"       ,  "config": {  "img" : "img_atlas_2k_red"        , "settings": "tx_settings_model_normal"    }} ,
+        {"id": "atlas_2k_purple"    ,  "config": {  "img" : "img_atlas_2k_purple"     , "settings": "tx_settings_model_normal"    }} ,
+        {"id": "atlas_2k_diff"      ,  "config": {  "img" : "img_atlas_2k_diff"       , "settings": "tx_settings_model_normal"    }} ,
+        {"id": "atlas_2k_spec"      ,  "config": {  "img" : "img_atlas_2k_spec"       , "settings": "tx_settings_model_normal"    }} ,
+        {"id": "atlas_2k_metalness" ,  "config": {  "img" : "img_atlas_2k_metalness"  , "settings": "tx_settings_model_normal"    }} ,
+        {"id": "atlas_2k_roughness" ,  "config": {  "img" : "img_atlas_2k_roughness"  , "settings": "tx_settings_model_normal"    }} ,
+        {"id": "atlas_2k_norm"      ,  "config": {  "img" : "img_atlas_2k_norm"       , "settings": "tx_settings_model_normal"    }} ,
+        {"id": "tx_veg_2k"          ,  "config": {  "img" : "img_veg_2k"              , "settings": "tx_settings_tiles_8x8"       }} ,
+        {"id": "canopy_normals"     ,  "config": {  "img" : "img_canopy_normals"      , "settings": "tx_settings_model_normal"    }} ,
+        {"id": "glass_surface"      ,  "config": {  "img" : "img_glass_surface"       , "settings": "tx_settings_model_normal"    }} ,
+        {"id": "ref_sphere"         ,  "config": {  "img" : "img_ref_sphere"          , "settings": "tx_settings_environment"     }} ,
+        {"id": "data_texture"       ,  "config": {  "img" : "img_data_texture"        , "settings": "tx_settings_data"            }} ,
+        {"id": "particle_atlas_8x8" ,  "config": {  "img" : "img_particle_atlas_8x8"  , "settings": "tx_settings_tiles_8x8"       }} ,
+        {"id": "tx_box_tiles8x8"    ,  "config": {  "img" : "img_box_tiles8x8"        , "settings": "tx_settings_tiles_8x8"       }} ,
+        {"id": "gui_atlas_16x16"    ,  "config": {  "img" : "img_gui_atlas_16x16"     , "settings": "tx_settings_tiles_16x16"     }} ,
+        {"id": "fontatlas"          ,  "config": {  "img" : "img_fontatlas"           , "settings": "tx_settings_tiles_16x16"     }} ,
+        {"id": "terrain_darkrock"   ,  "config": {  "img" : "img_terrain_darkrock"    , "settings": "tx_settings_terrain"         }} ,
+        {"id": "terrain_striperock" ,  "config": {  "img" : "img_terrain_striperock"  , "settings": "tx_settings_terrain"         }} ,
+        {"id": "terrain_mud"        ,  "config": {  "img" : "img_terrain_mud"         , "settings": "tx_settings_terrain"         }} ,
+        {"id": "terrain_detail"     ,  "config": {  "img" : "img_terrain_detail"      , "settings": "tx_settings_terrain"         }} ,
+        {"id": "terrain_sand"       ,  "config": {  "img" : "img_terrain_sand"        , "settings": "tx_settings_terrain"         }} ,
+        {"id": "terrain_fract"      ,  "config": {  "img" : "img_terrain_fract"       , "settings": "tx_settings_terrain"         }} ,
+        {"id": "terrain_crackstile" ,  "config": {  "img" : "img_terrain_crackstile"  , "settings": "tx_settings_terrain"         }} ,
+        {"id": "terrain_dark_grass" ,  "config": {  "img" : "img_terrain_dark_grass"  , "settings": "tx_settings_terrain"         }} ,
+        {"id": "terrain_grass"      ,  "config": {  "img" : "img_terrain_grass"       , "settings": "tx_settings_terrain"         }} ,
+        {"id": "ocean_watertile2"   ,  "config": {  "img" : "img_ocean_watertile2"    , "settings": "tx_settings_model_normal"    }} ,
+        {"id": "ocean_watertile"    ,  "config": {  "img" : "img_ocean_watertile"     , "settings": "tx_settings_model_normal"    }}
+      ]
+    }
+  }
+]

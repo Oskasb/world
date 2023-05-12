@@ -1,0 +1,76 @@
+
+@font-face {
+    font-family: 'Russo One';
+    src: url('../css/fonts/RussoOne-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'Berlin Sans Demi';
+    src: url('../css/fonts/BRLNSDB.TTF');
+}
+
+@font-face {
+    font-family: 'Berlin Sans Bold';
+    src: url('../css/fonts/BRLNSB.TTF');
+}
+
+span {
+    display:block;
+    left:0em;
+    right:0em;
+}
+
+
+div.point {
+    position: absolute;
+}
+
+canvas {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    cursor:none;
+    touch-action: none;
+    pointer-events: none;
+    font-family: 'Russo One';
+    font-weight: 400;
+    position: fixed;
+    background-color: #000;
+    font-size: 1pt;
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    user-select:none;
+}
+
+
+div.canvas_window {
+    top: 0em;
+    left: 0em;
+    right: 0em;
+    bottom: 0em;
+    position: fixed;
+    transform: translate3d(0px, 0px, 0px);
+}
+
+div.canvas_window_landscape {
+    top: 0em;
+    left: 0em;
+    right: 0em;
+    bottom: 0em;
+    position: absolute;
+}
+
+div.canvas_window_portrait {
+    top: 0em;
+    left: 0em;
+    right: 0em;
+    bottom: 0em;
+    position: absolute;
+}

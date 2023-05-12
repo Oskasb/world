@@ -1,0 +1,93 @@
+[
+  {
+    "UI": {
+      "PAGES":[
+        {
+          "id": "page_scene_merchant",
+          "data": [
+            {
+              "containers":[
+                {
+                  "widget_id":"page_home_center",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"widget_hidden_container",
+                  "options": {
+                    "anchor":"center"
+                  }
+                },
+                {
+                  "widget_id":"text_box_home",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"main_text_box",
+                  "options":{
+                    "anchor":"bottom_center",
+                    "offset_x":0.0,
+                    "offset_y":0.005,
+                    "text":"Looks like a shopkeeper."
+                  }
+
+                }
+              ],
+              "buttons":[
+                {
+                  "widget_id":"button_go_world",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"button_big_blue",
+                  "options":{
+                    "text":"BACK",
+                    "container_id":"page_home_center",
+                    "offset_x":0.04,
+                    "offset_y":-0.26,
+                    "dispatch":{
+                      "event":"REQUEST_SCENARIO",
+                      "value":{
+                        "id":"home_scenario",
+                        "dynamic":"world_town_dynamic"
+                      }
+                    }
+                  }
+                },
+                {
+                  "widget_id":"button_go_merchant",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"button_big_blue",
+                  "options":{
+                    "text":"TRADE",
+                    "container_id":"page_home_center",
+                    "offset_x":-0.13,
+                    "offset_y":-0.12,
+                    "dispatch":{
+                      "event":"REQUEST_SCENARIO",
+                      "value":{
+                        "id":"home_scenario",
+                        "dynamic":"town_merchant_dynamic"
+                      }
+                    }
+                  }
+                },
+                {
+                  "widget_id":"button_go_inn",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"button_big_blue",
+                  "options":{
+                    "text":"INN",
+                    "container_id":"page_home_center",
+                    "offset_x":0.15,
+                    "offset_y":-0.02,
+                    "dispatch":{
+                      "event":"REQUEST_SCENARIO",
+                      "value":{
+                        "id":"home_scenario",
+                        "dynamic":"town_inn_dynamic"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+]

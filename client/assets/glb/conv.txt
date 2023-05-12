@@ -1,0 +1,109 @@
+
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combat\client\assets\models\characters\pilot\pilot_bind             			D:\projects\rpg_combat\client\assets\models\characters\pilot\pilot_bind.FBX       -b
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combat\client\assets\models\characters\pilot\idle\basic_idle        			D:\projects\rpg_combat\client\assets\models\characters\pilot\idle\basic_idle.FBX  -b
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combat\client\assets\models\characters\pilot\movement\run           			D:\projects\rpg_combat\client\assets\models\characters\pilot\movement\run.FBX     -b	
+
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combat\client\assets\models\characters\pilot\idle\sit           			D:\projects\rpg_combat\client\assets\models\characters\pilot\idle\sit.FBX     -b	
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combat\client\assets\models\characters\pilot\idle\sleep           			D:\projects\rpg_combat\client\assets\models\characters\pilot\idle\sleep.FBX   -b	
+	
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combat\client\assets\models\characters\pilot\dance\dance_1          			D:\projects\rpg_combat\client\assets\models\characters\pilot\dance\dance_1.FBX     -b		
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combat\client\assets\models\characters\pilot\dance\dance_2         				D:\projects\rpg_combat\client\assets\models\characters\pilot\dance\dance_2.FBX     -b		
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combat\client\assets\models\characters\pilot\dance\dance_3        				D:\projects\rpg_combat\client\assets\models\characters\pilot\dance\dance_3.FBX     -b		
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combat\client\assets\models\characters\pilot\dance\dance_4         				D:\projects\rpg_combat\client\assets\models\characters\pilot\dance\dance_4.FBX     -b		
+
+
+
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combat\client\assets\models\characters\pilot\combat\melee_backpivot_swing 		D:\projects\rpg_combat\client\assets\models\characters\pilot\combat\melee_backpivot_swing.FBX     -b	
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combat\client\assets\models\characters\pilot\combat\melee_high_swing 		D:\projects\rpg_combat\client\assets\models\characters\pilot\combat\melee_high_swing.FBX     -b	
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combat\client\assets\models\characters\pilot\combat\melee_jump_swing 		D:\projects\rpg_combat\client\assets\models\characters\pilot\combat\melee_jump_swing.FBX     -b	
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combat\client\assets\models\characters\pilot\combat\melee_pose_crossed 		D:\projects\rpg_combat\client\assets\models\characters\pilot\combat\melee_pose_crossed.FBX     -b	
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combat\client\assets\models\characters\pilot\combat\melee_pose_guard 		D:\projects\rpg_combat\client\assets\models\characters\pilot\combat\melee_pose_guard.FBX     -b	
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combat\client\assets\models\characters\pilot\combat\melee_pose_high 		D:\projects\rpg_combat\client\assets\models\characters\pilot\combat\melee_pose_high.FBX     -b	
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combat\client\assets\models\characters\pilot\combat\melee_pose_pulled 		D:\projects\rpg_combat\client\assets\models\characters\pilot\combat\melee_pose_pulled.FBX     -b	
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combat\client\assets\models\characters\pilot\combat\melee_pose_wide 		D:\projects\rpg_combat\client\assets\models\characters\pilot\combat\melee_pose_wide.FBX     -b	
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combat\client\assets\models\characters\pilot\combat\melee_prep 		D:\projects\rpg_combat\client\assets\models\characters\pilot\combat\melee_prep.FBX     -b	
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combat\client\assets\models\characters\pilot\combat\melee_slash_high 		D:\projects\rpg_combat\client\assets\models\characters\pilot\combat\melee_slash_high.FBX     -b	
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combat\client\assets\models\characters\pilot\combat\melee_slash_low 		D:\projects\rpg_combat\client\assets\models\characters\pilot\combat\melee_slash_low.FBX     -b	
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combat\client\assets\models\characters\pilot\combat\melee_stab 		D:\projects\rpg_combat\client\assets\models\characters\pilot\combat\melee_stab.FBX     -b	
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combat\client\assets\models\characters\pilot\combat\pistol_aim 		D:\projects\rpg_combat\client\assets\models\characters\pilot\combat\pistol_aim.FBX     -b	
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combat\client\assets\models\characters\pilot\combat\pistol_recoil 		D:\projects\rpg_combat\client\assets\models\characters\pilot\combat\pistol_recoil.FBX     -b	
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combat\client\assets\models\characters\pilot\combat\pushed_back 		D:\projects\rpg_combat\client\assets\models\characters\pilot\combat\pushed_back.FBX     -b	
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combat\client\assets\models\characters\pilot\combat\rifle_aim 		D:\projects\rpg_combat\client\assets\models\characters\pilot\combat\rifle_aim.FBX     -b	
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combat\client\assets\models\characters\pilot\combat\rifle_fire 		D:\projects\rpg_combat\client\assets\models\characters\pilot\combat\rifle_fire.FBX     -b	
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combat\client\assets\models\characters\pilot\combat\rifle_melee_prep 		D:\projects\rpg_combat\client\assets\models\characters\pilot\combat\rifle_melee_prep.FBX     -b	
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combat\client\assets\models\characters\pilot\combat\rifle_ready 		D:\projects\rpg_combat\client\assets\models\characters\pilot\combat\rifle_ready.FBX     -b	
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combat\client\assets\models\characters\pilot\combat\rifle_strike 		D:\projects\rpg_combat\client\assets\models\characters\pilot\combat\rifle_strike.FBX     -b	
+
+						
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combat\client\assets\models\trees\tree_1                            			D:\projects\rpg_combat\client\assets\models\trees\tree_1.FBX     -b
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combat\client\assets\models\trees\tree_2                            			D:\projects\rpg_combat\client\assets\models\trees\tree_2.FBX     -b
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combat\client\assets\models\trees\tree_3                            			D:\projects\rpg_combat\client\assets\models\trees\tree_3.FBX     -b
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combat\client\assets\models\trees\tree_4                            			D:\projects\rpg_combat\client\assets\models\trees\tree_4.FBX     -b
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combat\client\assets\models\trees\tree_5_big                        			D:\projects\rpg_combat\client\assets\models\trees\tree_5_big.FBX     -b
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combat\client\assets\models\shapes\bullet                           			D:\projects\rpg_combat\client\assets\models\shapes\bullet.FBX    -b			
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combat\client\assets\models\characters\barb\barb_bind               			D:\projects\rpg_combat\client\assets\models\characters\barb\barb_bind.FBX             -b
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combat\client\assets\models\characters\barb\idle\barb_idle          			D:\projects\rpg_combat\client\assets\models\characters\barb\idle\barb_idle.FBX        -b			
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combat\client\assets\models\characters\barb\idle\barb_idle_combat   			D:\projects\rpg_combat\client\assets\models\characters\barb\idle\barb_idle_combat.FBX        -b			
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combat\client\assets\models\characters\barb\idle\barb_legs_idle_cbt 			D:\projects\rpg_combat\client\assets\models\characters\barb\idle\barb_legs_idle_cbt.FBX        -b
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combat\client\assets\models\characters\barb\idle\barb_body_idle_cbt 			D:\projects\rpg_combat\client\assets\models\characters\barb\idle\barb_body_idle_cbt.FBX        -b			
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combat\client\assets\models\characters\barb\actions\barb_attack_1   			D:\projects\rpg_combat\client\assets\models\characters\barb\actions\barb_attack_1.FBX        -b
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combat\client\assets\models\characters\barb\actions\barb_attack_2   			D:\projects\rpg_combat\client\assets\models\characters\barb\actions\barb_attack_2.FBX        -b			
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combat\client\assets\models\characters\barb\status\barb_fall        			D:\projects\rpg_combat\client\assets\models\characters\barb\status\barb_fall.FBX        -b
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combat\client\assets\models\characters\barb\status\barb_dead        			D:\projects\rpg_combat\client\assets\models\characters\barb\status\barb_dead.FBX        -b			
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combat\client\assets\models\characters\barb\movement\barb_run       			D:\projects\rpg_combat\client\assets\models\characters\barb\movement\barb_run.FBX     -b									
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combat\client\assets\models\characters\barb\items\item_breastplate  			D:\projects\rpg_combat\client\assets\models\characters\barb\items\item_breastplate.FBX    -b
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combat\client\assets\models\characters\barb\items\item_greaves      			D:\projects\rpg_combat\client\assets\models\characters\barb\items\item_greaves.FBX        -b			
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combat\client\assets\models\shapes\cross3d                          			D:\projects\rpg_combat\client\assets\models\shapes\cross3d.FBX    -b
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combat\client\assets\models\shapes\flatQuad                         			D:\projects\rpg_combat\client\assets\models\shapes\flatQuad.FBX   -b
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combat\client\assets\models\shapes\nineQuad                         			D:\projects\rpg_combat\client\assets\models\shapes\nineQuad.FBX   -b
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combatl\client\assets\models\shapes\quad                             			D:\projects\rpg_combat\client\assets\models\shapes\quad.FBX   -b
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combatl\client\assets\models\items_rigid\weapons\ninjablade          			D:\projects\rpg_combat\client\assets\models\items_rigid\weapons\ninjablade.FBX   -b		
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combatl\client\assets\models\items_rigid\armor\head\helmet_viking    			D:\projects\rpg_combat\client\assets\models\items_rigid\armor\head\helmet_viking.FBX   -b
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combatl\client\assets\models\items_rigid\armor\head\helmet_bronze    			D:\projects\rpg_combat\client\assets\models\items_rigid\armor\head\helmet_bronze.FBX     -b		
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combatl\client\assets\models\items_rigid\armor\belt\belt_plate       			D:\projects\rpg_combat\client\assets\models\items_rigid\armor\belt\belt_plate.FBX         -b
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combatl\client\assets\models\items_rigid\armor\belt\belt_bronze      			D:\projects\rpg_combat\client\assets\models\items_rigid\armor\belt\belt_bronze.FBX        -b
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combatl\client\assets\models\items_rigid\armor\bracer\bracer_bronze  			D:\projects\rpg_combat\client\assets\models\items_rigid\armor\bracer\bracer_bronze.FBX      -b
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combatl\client\assets\models\items_skinned\fighter_rig\armor\bronze_bp         	D:\projects\rpg_combat\client\assets\models\items_skinned\fighter_rig\armor\bronze_bp.FBX      -b
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combatl\client\assets\models\items_skinned\fighter_rig\armor\bronze_legs       	D:\projects\rpg_combat\client\assets\models\items_skinned\fighter_rig\armor\bronze_legs.FBX    -b
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combatl\client\assets\models\items_skinned\fighter_rig\armor\chain_shirt       	D:\projects\rpg_combat\client\assets\models\items_skinned\fighter_rig\armor\chain_shirt.FBX      -b
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combatl\client\assets\models\items_skinned\fighter_rig\armor\chain_legs        	D:\projects\rpg_combat\client\assets\models\items_skinned\fighter_rig\armor\chain_legs.FBX       -b
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combatl\client\assets\models\items_skinned\fighter_rig\armor\scale_shirt       	D:\projects\rpg_combat\client\assets\models\items_skinned\fighter_rig\armor\scale_shirt.FBX      -b
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combatl\client\assets\models\items_skinned\fighter_rig\armor\scale_legs        	D:\projects\rpg_combat\client\assets\models\items_skinned\fighter_rig\armor\scale_legs.FBX      -b
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combatl\client\assets\models\items_skinned\fighter_rig\armor\scale_boots       	D:\projects\rpg_combat\client\assets\models\items_skinned\fighter_rig\armor\scale_boots.FBX      -b
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combatl\client\assets\models\items_skinned\fighter_rig\armor\scale_gloves      	D:\projects\rpg_combat\client\assets\models\items_skinned\fighter_rig\armor\scale_gloves.FBX      -b
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combatl\client\assets\models\characters\fighter\SKIN_fighter_male           	D:\projects\rpg_combat\client\assets\models\characters\fighter\SKIN_fighter_male.FBX   -b
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combatl\client\assets\models\characters\fighter\idle\pose_idle         			D:\projects\rpg_combat\client\assets\models\characters\fighter\idle\pose_idle.FBX   -b
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combatl\client\assets\models\characters\fighter\legs\LEFT_gd_lt_ff      		D:\projects\rpg_combat\client\assets\models\characters\fighter\legs\LEFT_gd_lt_ff.FBX   -b
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combatl\client\assets\models\characters\fighter\legs\LEFT_set_lt_ff     		D:\projects\rpg_combat\client\assets\models\characters\fighter\legs\LEFT_set_lt_ff.FBX     -b
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combatl\client\assets\models\characters\fighter\legs\RIGHT_gd_rt_ff      		D:\projects\rpg_combat\client\assets\models\characters\fighter\legs\RIGHT_gd_rt_ff.FBX   -b
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combatl\client\assets\models\characters\fighter\legs\RIGHT_set_rt_ff     		D:\projects\rpg_combat\client\assets\models\characters\fighter\legs\RIGHT_set_rt_ff.FBX     -b
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combatl\client\assets\models\characters\fighter\legs\IDLE_legs     				D:\projects\rpg_combat\client\assets\models\characters\fighter\legs\IDLE_legs.FBX     -b
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combatl\client\assets\models\characters\fighter\body\GUARD_middle_rff     		D:\projects\rpg_combat\client\assets\models\characters\fighter\body\GUARD_middle_rff.FBX     -b
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combatl\client\assets\models\characters\fighter\body\GUARD_high_rff       		D:\projects\rpg_combat\client\assets\models\characters\fighter\body\GUARD_high_rff.FBX       -b
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combatl\client\assets\models\characters\fighter\body\GUARD_low_rff       		D:\projects\rpg_combat\client\assets\models\characters\fighter\body\GUARD_low_rff.FBX       -b
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combatl\client\assets\models\characters\fighter\body\GUARD_long_rff       		D:\projects\rpg_combat\client\assets\models\characters\fighter\body\GUARD_long_rff.FBX       -b
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combatl\client\assets\models\characters\fighter\body\GUARD_short_rff       		D:\projects\rpg_combat\client\assets\models\characters\fighter\body\GUARD_short_rff.FBX       -b
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combatl\client\assets\models\characters\fighter\body\GUARD_back_rff       		D:\projects\rpg_combat\client\assets\models\characters\fighter\body\GUARD_back_rff.FBX       -b
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combatl\client\assets\models\characters\fighter\body\GUARD_hanging_rff       	D:\projects\rpg_combat\client\assets\models\characters\fighter\body\GUARD_hanging_rff.FBX       -b
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combatl\client\assets\models\characters\fighter\body\GUARD_inside_rff       	D:\projects\rpg_combat\client\assets\models\characters\fighter\body\GUARD_inside_rff.FBX       -b
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combatl\client\assets\models\characters\fighter\body\GUARD_side_rff       		D:\projects\rpg_combat\client\assets\models\characters\fighter\body\GUARD_side_rff.FBX       -b
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combatl\client\assets\models\characters\fighter\body\SWING_back_rff       		D:\projects\rpg_combat\client\assets\models\characters\fighter\body\SWING_back_rff.FBX       -b
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combatl\client\assets\models\characters\fighter\body\SWING_side_rff       		D:\projects\rpg_combat\client\assets\models\characters\fighter\body\SWING_side_rff.FBX       -b
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combatl\client\assets\models\characters\fighter\body\CUT_ml_rff       			D:\projects\rpg_combat\client\assets\models\characters\fighter\body\CUT_ml_rff.FBX       -b
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combatl\client\assets\models\characters\fighter\body\CUT_mr_rff       			D:\projects\rpg_combat\client\assets\models\characters\fighter\body\CUT_mr_rff.FBX       -b
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combatl\client\assets\models\characters\fighter\body\CUT_tr_rff       			D:\projects\rpg_combat\client\assets\models\characters\fighter\body\CUT_tr_rff.FBX       -b
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combatl\client\assets\models\characters\fighter\body\CUT_tc_rff       			D:\projects\rpg_combat\client\assets\models\characters\fighter\body\CUT_tc_rff.FBX       -b
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combatl\client\assets\models\characters\fighter\movement\WALK_legs       		D:\projects\rpg_combat\client\assets\models\characters\fighter\movement\WALK_legs.FBX       -b
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combatl\client\assets\models\characters\fighter\movement\WALK_legs_combat      	D:\projects\rpg_combat\client\assets\models\characters\fighter\movement\WALK_legs_combat.FBX       -b
+FBX2glTF-windows-x64.exe -o D:\projects\rpg_combatl\client\assets\models\characters\fighter\movement\WALK_body       		D:\projects\rpg_combat\client\assets\models\characters\fighter\movement\WALK_body.FBX       -b
+
+
+
+
+
+
+
+
+
+
+

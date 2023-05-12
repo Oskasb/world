@@ -1,0 +1,127 @@
+[
+  {
+    "UI": {
+      "PAGES":[
+        {
+          "id": "page_activity_combat",
+          "data": [
+            {
+              "containers":[
+                {
+                  "widget_id":"page_activity_combat_center",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"widget_hidden_container",
+                  "options": {
+                    "anchor":"center"
+                  }
+                },
+                {
+                  "widget_id":"page_activity_combat_bottom_right",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"widget_hidden_container",
+                  "options": {
+                    "anchor":"bottom_right"
+                  }
+                },
+                {
+                  "widget_id":"page_activity_combat_top_right",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"widget_hidden_container",
+                  "options": {
+                    "anchor":"top_right"
+                  }
+                },
+                {
+                  "widget_id":"page_activity_combat_top_left",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"widget_hidden_container",
+                  "options": {
+                    "anchor":"top_left"
+                  }
+                },
+                {
+                  "widget_id":"page_activity_combat_mid_left",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"widget_hidden_container",
+                  "options": {
+                    "anchor":"mid_left"
+                  }
+                },
+                {
+                  "widget_id":"page_activity_combat_bottom_left",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"widget_hidden_container",
+                  "options": {
+                    "anchor":"bottom_left"
+                  }
+                },
+                {
+                  "widget_id": "feedback_container_buttons",
+                  "widget_class": "GuiExpandingContainer",
+                  "widget_config_id": "widget_gui_anchor",
+                  "options": {
+                    "container_id": "page_activity_combat_center"
+                  }
+                },
+                {
+                  "widget_id": "feedback_container_turn_values",
+                  "widget_class": "GuiExpandingContainer",
+                  "widget_config_id": "widget_hidden_container",
+                  "options": {
+                    "container_id": "page_activity_combat_top_right",
+                    "offset_x": -0.12,
+                    "offset_y": -0.12
+                  }
+                },
+                {
+                  "widget_id": "feedback_container_combat_values",
+                  "widget_class": "GuiExpandingContainer",
+                  "widget_config_id": "widget_hidden_container",
+                  "options": {
+                    "container_id": "page_activity_combat_top_left",
+                    "offset_x": 0.10,
+                    "offset_y": -0.10
+                  }
+                },
+                {
+                  "widget_id": "container_player_status",
+                  "widget_class": "GuiStatsPanel",
+                  "widget_config_id":"widget_stats_container",
+                  "options": {
+                    "container_id": "feedback_container_combat_values",
+                    "offset_x": -0.2,
+                    "offset_y": -0.2,
+                    "track_config": {"category": "CHARACTERS","key": "MAIN_CHAR_STATUS",
+                      "samplers": [
+                        {
+                          "key": "hp",
+                          "digits": 0
+                        },
+                        {
+                          "key": "targState",
+                          "digits": 0
+                        },
+                        {
+                          "key": "charState",
+                          "digits": 0
+                        },
+                        {
+                          "key": "atkProg",
+                          "digits": 2
+                        }
+                      ]
+                    }
+                  }
+                }
+              ],
+              "buttons":[
+
+              ]
+            }
+
+          ]
+        }
+      ]
+    }
+  }
+]

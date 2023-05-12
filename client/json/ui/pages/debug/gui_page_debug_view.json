@@ -1,0 +1,161 @@
+[
+  {
+    "UI": {
+      "PAGES":[
+        {
+          "id": "page_debug_view",
+          "data": [
+            {
+              "containers":[
+                {
+                  "widget_id":"page_debug_center",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"widget_hidden_container",
+                  "options": {
+                    "anchor":"center"
+                  }
+                },
+
+                {
+                  "widget_id":"page_debug_bottom_right",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"widget_hidden_container",
+                  "options": {
+                    "anchor":"bottom_right"
+                  }
+                },
+                {
+                  "widget_id":"page_debug_top_right",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"widget_hidden_container",
+                  "options": {
+                    "anchor":"top_right"
+                  }
+                },
+                {
+                  "widget_id":"page_debug_top_left",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"widget_hidden_container",
+                  "options": {
+                    "anchor":"top_left"
+                  }
+                },
+                {
+                  "widget_id":"page_debug_mid_left",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"widget_hidden_container",
+                  "options": {
+                    "anchor":"mid_left"
+                  }
+                },
+                {
+                  "widget_id":"page_debug_bottom_left",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"widget_hidden_container",
+                  "options": {
+                    "anchor":"bottom_left"
+                  }
+                },
+                {
+                  "widget_id": "debug_text",
+                  "widget_class": "GuiExpandingContainer",
+                  "widget_config_id": "debug_text_box",
+                  "options": {
+                    "on_event": {"event_id": "DEBUG_TEXT", "call": "printWidgetText"},
+                    "anchor": "bottom_left",
+                    "offset_x": -0.01,
+                    "offset_y": 0.08,
+                    "text": "debug text here"
+                  }
+                },
+                {
+                  "widget_id": "button_container_models",
+                  "widget_class": "GuiExpandingContainer",
+                  "widget_config_id": "widget_gui_anchor",
+                  "options": {
+                    "container_id": "page_debug_top_left"
+                  }
+                },
+                {
+                  "widget_id": "button_container_pools",
+                  "widget_class": "GuiExpandingContainer",
+                  "widget_config_id": "widget_gui_anchor",
+                  "options": {
+                    "container_id": "page_debug_top_left"
+                  }
+                },
+                {
+                  "widget_id": "button_container_buffers",
+                  "widget_class": "GuiExpandingContainer",
+                  "widget_config_id": "widget_gui_anchor",
+                  "options": {
+                    "container_id": "page_debug_top_left"
+                  }
+                }
+              ],
+              "buttons":[
+                {
+                  "widget_id":"button_view_models",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"button_big_blue",
+                  "options":{
+                    "text":"MODELS",
+                    "container_id":"button_container_models",
+                    "offset_x": 0.08,
+                    "offset_y": -0.13,
+                    "dispatch":{
+                      "event":"TOGGLE_GUI_PAGE",
+                      "value":{
+                        "page_id":"page_debug_view_models",
+                        "parent_page_id":"page_debug_view",
+                        "parent_container_id": "button_container_models"
+                      }
+                    }
+                  }
+                },
+                {
+                  "widget_id":"button_view_pools",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"button_big_blue",
+                  "options":{
+                    "text":"POOLS",
+                    "container_id":"button_container_pools",
+                    "offset_x": 0.21,
+                    "offset_y": -0.13,
+                    "dispatch":{
+                      "event":"TOGGLE_GUI_PAGE",
+                      "value":{
+                        "page_id":"page_debug_view_pools",
+                        "parent_page_id":"page_debug_view",
+                        "parent_container_id": "button_container_pools"
+                      }
+                    }
+                  }
+                },
+                {
+                  "widget_id":"button_view_pools",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"button_big_blue",
+                  "options":{
+                    "text":"BUFFERS",
+                    "container_id":"button_container_buffers",
+                    "offset_x": 0.34,
+                    "offset_y": -0.13,
+                    "dispatch":{
+                      "event":"TOGGLE_GUI_PAGE",
+                      "value":{
+                        "page_id":"page_debug_view_buffers",
+                        "parent_page_id":"page_debug_view",
+                        "parent_container_id": "button_container_buffers"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+]

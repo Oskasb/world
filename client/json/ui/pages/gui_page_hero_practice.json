@@ -1,0 +1,84 @@
+[
+  {
+    "UI": {
+      "PAGES":[
+        {
+          "id": "page_scene_hero_practice",
+          "data": [
+            {
+              "containers":[
+                {
+                  "widget_id":"page_home_center",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"widget_hidden_container",
+                  "options": {
+                    "anchor":"center"
+                  }
+                },
+                {
+                  "widget_id":"activity_page_parent",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"widget_gui_anchor",
+                  "options": {
+                    "container_id":"page_home_center"
+                  }
+                },
+                {
+                  "widget_id":"text_box_home",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"main_text_box",
+                  "options":{
+                    "anchor":"bottom_center",
+                    "offset_x":0.0,
+                    "offset_y":0.005,
+                    "text":"Take some swings."
+                  }
+
+                }
+              ],
+              "buttons":[
+                {
+                  "widget_id":"button_go_home",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"button_big_blue",
+                  "options":{
+                    "text":"HOUSE",
+                    "container_id":"page_home_center",
+                    "offset_x":-0.07,
+                    "offset_y":-0.31,
+                    "dispatch":{
+                      "event":"REQUEST_SCENARIO",
+                      "value":{
+                        "id":"home_scenario",
+                        "dynamic":"home_hovel_dynamic"
+                      }
+                    }
+                  }
+                },
+                {
+                  "widget_id":"button_hero_train",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"button_big_blue",
+                  "options":{
+                    "text":"INSPECT",
+                    "container_id":"page_home_center",
+                    "offset_x":0.07,
+                    "offset_y":-0.31,
+                    "dispatch":{
+                      "event":"TOGGLE_GUI_PAGE",
+                      "value":{
+                        "page_id":"page_activity_practice",
+                        "parent_page_id":"page_scene_hero_practice",
+                        "parent_container_id": "activity_page_parent"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+]

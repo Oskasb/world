@@ -1,0 +1,91 @@
+[
+  {
+    "UI": {
+      "PAGES":[
+        {
+          "id": "page_scenario_victory",
+          "data": [
+            {
+              "containers":[
+                {
+                  "widget_id":"page_home_center",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"widget_hidden_container",
+                  "options": {
+                    "anchor":"center"
+                  }
+                },
+                {
+                  "widget_id":"page_dungeon_top_center",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"widget_hidden_container",
+                  "options": {
+                    "anchor":"top_center"
+                  }
+                },
+                {
+                  "widget_id":"top_bar_header",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"scene_page_header_text_box",
+                  "options":{
+                    "text":"VICTORY",
+                    "anchor":"center",
+                    "offset_x": 0.0,
+                    "offset_y": 0.0
+                  }
+                },
+                {
+                  "widget_id":"text_box_home",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"main_text_box",
+                  "options":{
+                    "anchor":"bottom_center",
+                    "offset_x":0.0,
+                    "offset_y":0.005,
+                    "text":"Adventure onwards or go home.",
+                    "on_event": {"event_id": "SCENARIO_TEXT", "call": "printWidgetText"}
+                  }
+                }
+              ],
+              "buttons":[
+                {
+                  "widget_id":"button_go_home",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"button_big_blue",
+                  "options":{
+                    "text":"GO HOME",
+                    "container_id":"page_home_center",
+                    "offset_x": -0.11,
+                    "offset_y": -0.05,
+                    "dispatch":{
+                      "event":"MAIN_CHAR_RETURN_HOME",
+                      "value":{}
+                    }
+                  }
+                },
+                {
+                  "widget_id":"button_go_deeper",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"button_big_red",
+                  "options":{
+                    "text":"FORWARD",
+                    "container_id":"page_home_center",
+                    "offset_x":  0.11,
+                    "offset_y": -0.05,
+                    "dispatch":{
+                      "event":"REQUEST_SCENARIO",
+                      "value":{
+                        "id":"cave_scenario",
+                        "dynamic":"encounter_cave_basic_dynamic"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+]

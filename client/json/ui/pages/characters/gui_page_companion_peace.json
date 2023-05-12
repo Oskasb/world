@@ -1,0 +1,44 @@
+[
+  {
+    "UI": {
+      "PAGES":[
+        {
+          "id": "page_companion_peace",
+          "data": [
+            {
+              "containers":[
+                {
+                  "widget_id":"page_hero_center",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"widget_hidden_container",
+                  "options": {
+                    "anchor":"center"
+                  }
+                }
+              ],
+              "buttons":[
+                {
+                  "widget_id":"button_exit_hero_page",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"button_big_blue",
+                  "options":{
+                    "text":"LEAD",
+                    "container_id":"page_hero_center",
+                    "offset_x": 0.15,
+                    "offset_y":-0.21,
+                    "dispatch":{
+                      "event":"SET_COMPANION_AS_LEADER",
+                      "value":{
+                        "status": "xp"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+]

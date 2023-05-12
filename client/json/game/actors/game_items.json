@@ -1,0 +1,109 @@
+[{
+  "GAME":{
+    "GAME_ITEMS":[
+      {
+        "id":"ITEM_KATANA",
+        "data":{
+          "game_piece"    : "NINJASWORD",
+          "item_type"     : "SWORD"
+        }
+      },
+      {
+        "id":"ITEM_VIKINGHELMET",
+        "data":{
+          "game_piece"    : "HELMET_VIKING",
+          "item_type"     : "HELMET"
+        }
+      },
+
+      {
+        "id":"ITEM_LEGS_BRONZE",
+        "data":{
+          "game_piece"    : "LEGS_BRONZE",
+          "item_type"     : "LEGGINGS"
+        }
+      },
+      {
+        "id":"ITEM_BREASTPLATE_BRONZE",
+        "data":{
+          "game_piece"    : "BREASTPLATE_BRONZE",
+          "item_type"     : "MAILARMOR"
+        }
+      },
+
+      {
+        "id":"ITEM_HELMET_BRONZE",
+        "data":{
+          "game_piece"    : "HELMET_BRONZE",
+          "item_type"     : "HELMET"
+        }
+      },
+
+      {
+        "id":"ITEM_BRACER_BRONZE",
+        "data":{
+          "game_piece"    : "BRACER_BRONZE",
+          "item_type"     : "BRACER"
+        }
+      },
+      {
+        "id":"ITEM_BELT_BRONZE",
+        "data":{
+          "game_piece"    : "BELT_BRONZE",
+          "item_type"     : "BELT"
+        }
+      },
+
+
+      {
+        "id":"ITEM_PLATEBELT",
+        "data":{
+          "game_piece"    : "BELT_PLATE",
+          "item_type"     : "BELT"
+        }
+      },
+      {
+        "id":"ITEM_CHAINSHIRT",
+        "data":{
+          "game_piece"    : "SHIRT_CHAIN",
+          "item_type"     : "SHIRT"
+        }
+      },
+      {
+        "id":"ITEM_SCALEMAIL",
+        "data":{
+          "game_piece"    : "SHIRT_SCALE",
+          "item_type"     : "MAILARMOR"
+        }
+      },
+      {
+        "id":"ITEM_CHAINLEGGINGS",
+        "data":{
+          "game_piece"    : "LEGS_CHAIN",
+          "item_type"     : "LEGGINGS"
+        }
+      },
+      {
+        "id":"ITEM_SCALESKIRT",
+        "data":{
+          "game_piece"    : "LEGS_SCALE",
+          "item_type"     : "SKIRT"
+        }
+      },
+      {
+        "id":"ITEM_SCALEBOOTS",
+        "data":{
+          "game_piece"    : "BOOTS_SCALE",
+          "item_type"     : "BOOTS"
+        }
+      },
+      {
+        "id":"ITEM_SCALEGLOVES",
+        "data":{
+          "game_piece"    : "GLOVES_SCALE",
+          "item_type"     : "GLOVES"
+        }
+      }
+    ]
+  }
+}]

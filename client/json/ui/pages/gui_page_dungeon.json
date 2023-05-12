@@ -1,0 +1,62 @@
+[
+  {
+    "UI": {
+      "PAGES":[
+        {
+          "id": "page_scene_dungeon",
+          "data": [
+            {
+              "containers":[
+                {
+                  "widget_id":"page_home_center",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"widget_hidden_container",
+                  "options": {
+                    "anchor":"center"
+                  }
+                },
+                {
+                  "widget_id":"page_dungeon_top_center",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"widget_hidden_container",
+                  "options": {
+                    "anchor":"top_center"
+                  }
+                },
+                {
+                  "widget_id":"text_box_home",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"main_text_box",
+                  "options":{
+                    "anchor":"bottom_center",
+                    "offset_x":0.0,
+                    "offset_y":0.005,
+                    "text":"",
+                    "on_event": {"event_id": "SCENARIO_TEXT", "call": "printWidgetText"}
+                  }
+                }
+              ],
+              "buttons":[
+                {
+                  "widget_id":"button_go_world",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"button_big_blue",
+                  "options":{
+                    "text":"HOME",
+                    "container_id":"page_dungeon_top_center",
+                    "offset_x": -0.13,
+                    "offset_y": -0.07,
+                    "dispatch":{
+                      "event":"MAIN_CHAR_RETURN_HOME",
+                      "value":{}
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+]

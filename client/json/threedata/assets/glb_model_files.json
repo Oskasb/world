@@ -1,0 +1,125 @@
+[
+  {
+    "ASSETS": {
+      "FILES_GLB": [
+        {"id": "file_pilot_bind",         "config": { "url": "./client/assets/models/characters/pilot/pilot_bind"                     }},
+        {"id": "file_pilot_run" ,         "config": { "url": "./client/assets/models/characters/pilot/movement/run"                   }},
+        {"id": "file_pilot_idle",         "config": { "url": "./client/assets/models/characters/pilot/idle/basic_idle"                }},
+
+        {"id": "file_pilot_sit",                     "config": { "url": "./client/assets/models/characters/pilot/idle/sit"                }},
+        {"id": "file_pilot_sleep",                    "config": { "url": "./client/assets/models/characters/pilot/idle/sleep"                }},
+        {"id": "file_pilot_dance_1",                  "config": { "url": "./client/assets/models/characters/pilot/dance/dance_1"                }},
+        {"id": "file_pilot_dance_2",                  "config": { "url": "./client/assets/models/characters/pilot/dance/dance_2"                }},
+        {"id": "file_pilot_dance_3",                  "config": { "url": "./client/assets/models/characters/pilot/dance/dance_3"                }},
+        {"id": "file_pilot_dance_4",                  "config": { "url": "./client/assets/models/characters/pilot/dance/dance_4"                 }},
+        {"id": "file_pilot_melee_backpivot_swing",  "config": { "url": "./client/assets/models/characters/pilot/combat/melee_backpivot_swing"                }},
+        {"id": "file_pilot_melee_high_swing"    ,  "config": { "url": "./client/assets/models/characters/pilot/combat/melee_high_swing"                }},
+        {"id": "file_pilot_melee_jump_swing"    ,  "config": { "url": "./client/assets/models/characters/pilot/combat/melee_jump_swing"                }},
+
+        {"id": "file_pilot_melee_slash_high"    ,  "config": { "url": "./client/assets/models/characters/pilot/combat/melee_slash_high"                }},
+        {"id": "file_pilot_melee_slash_low"     ,  "config": { "url": "./client/assets/models/characters/pilot/combat/melee_slash_low"                }},
+
+        {"id": "file_fighter_bind",       "config": { "url": "./client/assets/models/characters/fighter/SKIN_fighter_male"            }},
+        {"id": "file_idle_legs"   ,       "config": { "url": "./client/assets/models/characters/fighter/idle/pose_idle"               }},
+        {"id": "file_walk_legs"   ,       "config": { "url": "./client/assets/models/characters/fighter/movement/WALK_legs"           }},
+        {"id": "file_walk_legs_combat",   "config": { "url": "./client/assets/models/characters/fighter/movement/WALK_legs_combat"    }},
+        {"id": "file_walk_body"   ,       "config": { "url": "./client/assets/models/characters/fighter/movement/WALK_body"           }},
+        {"id": "file_idle_legs"     ,      "config": { "url": "./client/assets/models/characters/fighter/legs/IDLE_legs"              }},
+        {"id": "file_gd_left_ff"  ,       "config": { "url": "./client/assets/models/characters/fighter/legs/LEFT_gd_lt_ff"           }},
+        {"id": "file_set_left_ff"  ,       "config": { "url": "./client/assets/models/characters/fighter/legs/LEFT_set_lt_ff"         }},
+        {"id": "file_gd_right_ff"  ,       "config": { "url": "./client/assets/models/characters/fighter/legs/RIGHT_gd_rt_ff"         }},
+        {"id": "file_set_right_ff"  ,      "config": { "url": "./client/assets/models/characters/fighter/legs/RIGHT_set_rt_ff"        }},
+        {"id": "file_guard_high_rff" ,     "config": { "url": "./client/assets/models/characters/fighter/body/GUARD_high_rff"         }},
+        {"id": "file_guard_mid_rff"  ,     "config": { "url": "./client/assets/models/characters/fighter/body/GUARD_middle_rff"       }},
+        {"id": "file_guard_low_rff"  ,     "config": { "url": "./client/assets/models/characters/fighter/body/GUARD_low_rff"          }},
+        {"id": "file_guard_long_rff"  ,    "config": { "url": "./client/assets/models/characters/fighter/body/GUARD_long_rff"         }},
+        {"id": "file_guard_short_rff"  ,   "config": { "url": "./client/assets/models/characters/fighter/body/GUARD_short_rff"        }},
+        {"id": "file_guard_back_rff"  ,    "config": { "url": "./client/assets/models/characters/fighter/body/GUARD_back_rff"         }},
+        {"id": "file_guard_hanging_rff"  , "config": { "url": "./client/assets/models/characters/fighter/body/GUARD_hanging_rff"      }},
+        {"id": "file_guard_inside_rff"  ,  "config": { "url": "./client/assets/models/characters/fighter/body/GUARD_inside_rff"       }},
+        {"id": "file_guard_side_rff"  ,    "config": { "url": "./client/assets/models/characters/fighter/body/GUARD_side_rff"         }},
+
+        {"id": "file_swing_back_rff"  ,    "config": { "url": "./client/assets/models/characters/fighter/body/SWING_back_rff"         }},
+        {"id": "file_swing_side_rff"  ,    "config": { "url": "./client/assets/models/characters/fighter/body/SWING_side_rff"         }},
+
+
+        {"id": "file_cut_topcenter_rff" ,  "config": { "url": "./client/assets/models/characters/fighter/body/CUT_tc_rff"         }},
+        {"id": "file_cut_topright_rff"  ,  "config": { "url": "./client/assets/models/characters/fighter/body/CUT_tr_rff"         }},
+        {"id": "file_cut_midright_rff"  ,  "config": { "url": "./client/assets/models/characters/fighter/body/CUT_mr_rff"         }},
+        {"id": "file_cut_midleft_rff"   ,  "config": { "url": "./client/assets/models/characters/fighter/body/CUT_ml_rff"         }},
+
+
+        {"id": "file_barb_bind" ,         "config": { "url": "./client/assets/models/characters/barb/barb_bind"                   }},
+        {"id": "file_barb_run"  ,         "config": { "url": "./client/assets/models/characters/barb/movement/barb_run"           }},
+
+        {"id": "file_barb_idle" ,         "config": { "url": "./client/assets/models/characters/barb/idle/barb_idle"              }},
+
+        {"id": "barb_legs_idle_cbt" ,     "config": { "url": "./client/assets/models/characters/barb/idle/barb_legs_idle_cbt"     }},
+
+        {"id": "barb_body_idle_cbt" ,     "config": { "url": "./client/assets/models/characters/barb/idle/barb_body_idle_cbt"     }},
+
+        {"id": "file_barb_attack_1" ,     "config": { "url": "./client/assets/models/characters/barb/actions/barb_attack_1"       }},
+        {"id": "file_barb_attack_2" ,     "config": { "url": "./client/assets/models/characters/barb/actions/barb_attack_2"       }},
+
+        {"id": "file_barb_fall" ,         "config": { "url": "./client/assets/models/characters/barb/status/barb_fall"            }},
+        {"id": "file_barb_dead" ,         "config": { "url": "./client/assets/models/characters/barb/status/barb_dead"            }},
+
+        {"id": "file_barb_item_bp",       "config": { "url": "./client/assets/models/characters/barb/items/item_breastplate"      }},
+        {"id": "file_barb_item_greaves",  "config": { "url": "./client/assets/models/characters/barb/items/item_greaves"          }},
+
+
+
+        {"id": "file_bronze_bp",     "config": { "url": "./client/assets/models/items_skinned/fighter_rig/armor/bronze_bp"        }},
+        {"id": "file_bronze_legs",   "config": { "url": "./client/assets/models/items_skinned/fighter_rig/armor/bronze_legs"      }},
+
+        {"id": "file_chain_shirt",  "config": { "url": "./client/assets/models/items_skinned/fighter_rig/armor/chain_shirt"       }},
+        {"id": "file_scale_shirt",  "config": { "url": "./client/assets/models/items_skinned/fighter_rig/armor/scale_shirt"       }},
+        {"id": "file_chain_legs",   "config": { "url": "./client/assets/models/items_skinned/fighter_rig/armor/chain_legs"        }},
+        {"id": "file_scale_legs",   "config": { "url": "./client/assets/models/items_skinned/fighter_rig/armor/scale_legs"        }},
+
+        {"id": "file_scale_boots",   "config": { "url": "./client/assets/models/items_skinned/fighter_rig/armor/scale_boots"      }},
+        {"id": "file_scale_gloves",  "config": { "url": "./client/assets/models/items_skinned/fighter_rig/armor/scale_gloves"     }},
+
+        {"id": "file_ninjablade",    "config": { "url": "./client/assets/models/items_rigid/weapons/ninjablade"                   }},
+        {"id": "file_slicer_axe_2h",    "config": { "url": "./client/assets/models/items_rigid/weapons/slicer_axe_2h"             }},
+        {"id": "file_sword_fancy",    "config": { "url": "./client/assets/models/items_rigid/weapons/sword_fancy"                 }},
+        {"id": "file_emerald_blade",    "config": { "url": "./client/assets/models/items_rigid/weapons/emerald_blade"             }},
+        {"id": "file_hatchet_nice",    "config": { "url": "./client/assets/models/items_rigid/weapons/hatchet_nice"                }},
+
+        {"id": "file_beltplate",     "config": { "url": "./client/assets/models/items_rigid/armor/belt/belt_plate"                }},
+        {"id": "file_belt_bronze",   "config": { "url": "./client/assets/models/items_rigid/armor/belt/belt_bronze"               }},
+        {"id": "file_helmet_bronze", "config": { "url": "./client/assets/models/items_rigid/armor/head/helmet_bronze"             }},
+        {"id": "file_helmetviking",  "config": { "url": "./client/assets/models/items_rigid/armor/head/helmet_viking"             }},
+        {"id": "file_bracer_bronze", "config": { "url": "./client/assets/models/items_rigid/armor/wrist/bracer_bronze"            }},
+
+        {"id": "file_hat_cloth_white","config": { "url": "./client/assets/models/items_rigid/clothes/head/hat_cloth_white"         }},
+        {"id": "file_hat_cloth_yellow","config": { "url": "./client/assets/models/items_rigid/clothes/head/hat_cloth_yellow"       }},
+
+        {"id": "file_hat_cloth_blue","config": { "url": "./client/assets/models/items_rigid/clothes/head/hat_cloth_blue"         }},
+        {"id": "file_hat_cloth_red","config": { "url": "./client/assets/models/items_rigid/clothes/head/hat_cloth_red"         }},
+        {"id": "file_hat_leather_brown","config": { "url": "./client/assets/models/items_rigid/clothes/head/hat_leather_brown"         }},
+        {"id": "file_hat_pointy_white","config": { "url": "./client/assets/models/items_rigid/clothes/head/hat_pointy_white"         }},
+
+        {"id": "file_box",           "config": { "url": "./client/assets/models/shapes/box"                                          }},
+        {"id": "file_quad",          "config": { "url": "./client/assets/models/shapes/quad"                                         }},
+        {"id": "file_flatQuad",      "config": { "url": "./client/assets/models/shapes/flatQuad"                                     }},
+        {"id": "file_nineQuad",      "config": { "url": "./client/assets/models/shapes/nineQuad"                                     }},
+        {"id": "file_vegQuad",       "config": { "url": "./client/assets/models/shapes/vegQuad"                                      }},
+        {"id": "file_cross3d",       "config": { "url": "./client/assets/models/shapes/cross3d"                                      }},
+        {"id": "file_bullet",        "config": { "url": "./client/assets/models/shapes/bullet"                                       }},
+
+        {"id": "file_house_small",   "config": { "url": "./client/assets/models/buildings/house_small"                               }},
+        {"id": "file_town_house",    "config": { "url": "./client/assets/models/buildings/town_house"                               }},
+        {"id": "file_mansion_roof",   "config": { "url": "./client/assets/models/buildings/mansion_roof"                               }},
+        {"id": "file_mansion_main",   "config": { "url": "./client/assets/models/buildings/mansion_main"                               }},
+        {"id": "file_house_t",        "config": { "url": "./client/assets/models/buildings/house_t"                                  }},
+
+        {"id": "file_tree_1",        "config": { "url": "./client/assets/models/trees/tree_1"                                        }},
+        {"id": "file_tree_2",        "config": { "url": "./client/assets/models/trees/tree_2"                                        }},
+        {"id": "file_tree_3",        "config": { "url": "./client/assets/models/trees/tree_3"                                        }},
+        {"id": "file_tree_4",        "config": { "url": "./client/assets/models/trees/tree_4"                                        }},
+        {"id": "file_tree_5_big",    "config": { "url": "./client/assets/models/trees/tree_5_big"                                    }}
+      ]
+    }
+  }
+]

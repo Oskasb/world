@@ -1,0 +1,31 @@
+[
+  {
+    "VEGETATION": {
+      "GRID":[
+        {
+          "id":"grid_default",
+          "data": {
+            "sys_key": "VEG_8x8",
+            "asset_id":  "asset_vegQuad",
+            "pool_size": 9000,
+            "render_order": 0,
+            "area_plants": "plants_default",
+            "grid_range": 100,
+            "sector_plants": 100,
+            "area_sectors": [100, 100],
+            "sector_trees": 3,
+            "tree_sectors": [30, 30],
+            "tree_Sector_range": 650,
+            "trees":[
+              {"asset_id": "asset_tree_1", "pool_size": 200, "render_order": 0},
+              {"asset_id": "asset_tree_2", "pool_size": 200, "render_order": 0},
+              {"asset_id": "asset_tree_3", "pool_size": 200, "render_order": 0},
+              {"asset_id": "asset_tree_4", "pool_size": 200, "render_order": 0},
+              {"asset_id": "asset_tree_5", "pool_size": 100, "render_order": 0}
+            ]
+          }
+        }
+      ]
+    }
+  }
+]
