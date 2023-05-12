@@ -114,8 +114,12 @@ class DynamicMain {
 
     updateDynamicMatrices = function() {
         for (var i = 0; i < this.instances.length; i++) {
-            this.instances[i].updateSpatialWorldMatrix();
-        }
+        //    if (this.instances[i].getSpatial().call.getFrameVelocity()) {
+                this.instances[i].updateSpatialWorldMatrix();
+        //        evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:this.instances[i].getSpatial().getPos(), color:'GREEN', size:1})
+
+        //    }
+           }
     };
 
     tickDynamicMain = function() {

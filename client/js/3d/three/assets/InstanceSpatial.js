@@ -1,3 +1,4 @@
+import {Vector3} from "../../../../libs/three/math/Vector3.js";
 
 let testVec3ForNaN = function(vec3) {
     if (isNaN(vec3.x) || isNaN(vec3.y) || isNaN(vec3.z)) {
@@ -8,6 +9,8 @@ let testVec3ForNaN = function(vec3) {
     }
 }
 
+let tempVec = new Vector3();
+
 class InstanceSpatial{
 
         constructor(obj3d) {
@@ -16,10 +19,13 @@ class InstanceSpatial{
             let frameMovement = new THREE.Vector3(0.0, 0.0, 0.0);
 
             let getFrameVelocity = function(tpf, storeVec3) {
+                if (!storeVec3) {
+                    storeVec3 = tempVec;
+                }
                 testVec3ForNaN(frameMovement)
                 storeVec3.copy(frameMovement);
                 storeVec3.multiplyScalar(tpf);
-
+                return storeVec3.lengthSq();
             }.bind(this);
 
             let setPrePos = function(pos) {
