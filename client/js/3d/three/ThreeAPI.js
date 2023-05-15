@@ -6,7 +6,9 @@ import {ThreeModelLoader} from './ThreeModelLoader.js';
 import {ThreeTextureMaker} from './ThreeTextureMaker.js';
 import {ThreeMaterialMaker} from './ThreeMaterialMaker.js';
 import {ThreeSpatialFunctions} from './ThreeSpatialFunctions.js';
+import {ThreeTerrain} from "./assets/ThreeTerrain.js";
 
+let threeTerrain = new ThreeTerrain();
 
 class ThreeAPI {
 
@@ -49,6 +51,7 @@ class ThreeAPI {
         var envReady = function() {
             _this.threeEnvironment.enableEnvironment(_this.threeEnvironment);
             _this.getSetup().addPostrenderCallback(_this.threeEnvironment.tickEnvironment);
+            threeTerrain.loadData();
         };
 
         var onLoaded = function() {
@@ -302,7 +305,11 @@ class ThreeAPI {
     };
 
     loadGround = function(applies, array1d, rootObject, partsReady) {
-        return this.threeModelLoader.loadGroundMesh(applies, array1d, rootObject, this.threeSetup, partsReady);
+
+        ThreeTerrain.loadTerrain(applies, array1d, rootObject, this.threeSetup, partsReady);
+        return rootObject;
+
+    //    return this.threeModelLoader.loadGroundMesh(applies, array1d, rootObject, this.threeSetup, partsReady);
     };
 
     buildTerrainFromBuffers = function(buffers, x, y, z) {
