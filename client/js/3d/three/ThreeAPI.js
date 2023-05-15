@@ -6,7 +6,8 @@ import {ThreeModelLoader} from './ThreeModelLoader.js';
 import {ThreeTextureMaker} from './ThreeTextureMaker.js';
 import {ThreeMaterialMaker} from './ThreeMaterialMaker.js';
 import {ThreeSpatialFunctions} from './ThreeSpatialFunctions.js';
-import {ThreeTerrain} from "./assets/ThreeTerrain.js";
+import {ThreeTerrain} from "./terrain/ThreeTerrain.js";
+import {TerrainSystem} from "./terrain/TerrainSystem.js";
 
 let threeTerrain = new ThreeTerrain();
 
@@ -40,6 +41,7 @@ class ThreeAPI {
         this.tempVec4 = new THREE.Vector4();
         this.tempObj = new THREE.Object3D();
     }
+
     initThreeLoaders = function(assetLoader) {
         this.spatialFunctions = new ThreeSpatialFunctions();
         this.assetLoader = assetLoader;
@@ -47,11 +49,16 @@ class ThreeAPI {
 
     initEnvironment = function(store) {
 
+        let matLoadedCB = function() {
+            console.log("Terrain Mat Loaded")
+
+        }
+
         let _this = this;
         var envReady = function() {
             _this.threeEnvironment.enableEnvironment(_this.threeEnvironment);
             _this.getSetup().addPostrenderCallback(_this.threeEnvironment.tickEnvironment);
-            threeTerrain.loadData();
+            threeTerrain.loadData(matLoadedCB);
         };
 
         var onLoaded = function() {

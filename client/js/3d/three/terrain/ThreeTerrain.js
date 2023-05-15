@@ -1,7 +1,7 @@
 import {PipelineObject} from "../../../application/load/PipelineObject.js";
 import {TerrainMaterial} from "./TerrainMaterial.js";
 import {Vector3} from "../../../../libs/three/math/Vector3.js";
-import * as TerrainFunctions from "./TerrainFunctions.js";
+import * as TerrainFunctions from "../assets/TerrainFunctions.js";
 
 
 let terrainList = {};
@@ -139,7 +139,7 @@ class ThreeTerrain {
 
     }
 
-    loadData = function() {
+    loadData = function(matLoadedCB) {
 
         terrainMaterial = new TerrainMaterial(ThreeAPI);
 
@@ -148,7 +148,8 @@ class ThreeTerrain {
             for (let i = 0; i < data.length; i++){
                 terrainList[data[i].id] = data[i];
                 terrainMaterial.addTerrainMaterial(data[i].id, data[i].textures, data[i].shader);
-                console.log("terrainListLoaded", terrainMaterial)
+                console.log("terrainListLoaded", data, terrainMaterial)
+                matLoadedCB();
             }
         };
 

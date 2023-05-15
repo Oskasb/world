@@ -1,5 +1,5 @@
 import {PipelineObject } from "../../../application/load/PipelineObject.js";
-import {ThreeTexture} from "./ThreeTexture.js";
+import {ThreeTexture} from "../assets/ThreeTexture.js";
 import {Vector3} from "../../../../libs/three/math/Vector3.js";
 
 let ThreeAPI;
@@ -111,15 +111,14 @@ let addTexture = function (id, txConf) {
             updateUniforms(trId, uniforms[trId]);
 
             tx.needsUpdate = true;
-            console.log("TX Attached", tx)
+        //    console.log("TX Attached", tx)
         };
 
-        let txKey = "terrain_" + txConf.file + "_" + txUrl + txConf.file + ".png"
+    //    let txKey = "terrain_" + txConf.file + "_" + txUrl + txConf.file + ".png"
     let txId = "terrain_" + txConf.file;
-        console.log("TX ", txId, txKey, id, txConf)
+     //   console.log("TX ", txId, txKey, id, txConf)
     ThreeAPI.loadThreeAsset('TEXTURES_', txId, applyTexture);
-//    new ThreeTexture(txId, {settings:{}}, applyTexture)
-//         new PipelineObject("THREE_TEXTURE", txKey, applyTexture);
+
     };
 
 
