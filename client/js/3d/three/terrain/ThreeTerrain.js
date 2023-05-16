@@ -1,11 +1,15 @@
 import {PipelineObject} from "../../../application/load/PipelineObject.js";
+import {ConfigData} from "../../../application/utils/ConfigData.js";
 import {TerrainMaterial} from "./TerrainMaterial.js";
 import {Vector3} from "../../../../libs/three/math/Vector3.js";
-import * as TerrainFunctions from "../assets/TerrainFunctions.js";
+import {Object3D} from "../../../../libs/three/core/Object3D.js";
+import {TerrainGeometry} from "./TerrainGeometry.js";
+import {TerrainFunctions} from "./TerrainFunctions.js";
 
 
 let terrainList = {};
 let terrainIndex = {};
+let terrainGeometries = [];
 let calcVec = new Vector3();
 let terrainMaterial;
 
@@ -134,6 +138,47 @@ let getThreeTerrainHeightAt = function(terrain, pos, normalStore) {
     return TerrainFunctions.getHeightAt(pos, terrain.array1d, terrain.size, terrain.segments, normalStore);
 };
 
+let constructGeometries = function(heightMapData, transform) {
+    let dims = heightMapData['dimensions'];
+    let gridMeshAssetId = dims['grid_mesh'];
+    let txWidth = dims['tx_width'];
+    let mesh_segments = dims['mesh_segments'];
+    let segs = txWidth / (mesh_segments+1);
+    console.log("Constructs HM Geos", gridMeshAssetId, txWidth, mesh_segments, segs);
+
+    let terrainOrigin = new Vector3();
+    MATH.vec3FromArray(terrainOrigin, transform['pos']);
+    let terrainScale = new Vector3();
+    MATH.vec3FromArray(terrainScale, transform['scale']);
+
+    let segmentScale = new Vector3();
+    segmentScale.copy(terrainScale);
+    segmentScale.multiplyScalar(1/segs);
+
+    let vertsPerSegAxis = txWidth/segs;
+    let segsPerPlaneInstanceAxis = vertsPerSegAxis-1;
+
+    let x0 = -terrainScale.x * 0.5;
+    let z0 = -terrainScale.z * 0.5;
+
+    for (let i = 0; i < segs; i++) {
+        terrainGeometries[i] = [];
+        for (let j = 0; j < segs; j++) {
+            let obj3d = new Object3D();
+            obj3d.position.x = x0 + segmentScale.x * i;
+            obj3d.position.z = z0 + segmentScale.z * j;
+            obj3d.position.add(terrainOrigin);
+            obj3d.scale.copy(segmentScale);
+            obj3d.scale.multiplyScalar(0.005);
+            let terrainGeo = new TerrainGeometry(obj3d, i , j);
+            terrainGeometries[i][j] = terrainGeo;
+            terrainGeo.attachGeometryInstance(gridMeshAssetId)
+
+        }
+    }
+
+};
+
 class ThreeTerrain {
     constructor() {
 
@@ -141,21 +186,29 @@ class ThreeTerrain {
 
     loadData = function(matLoadedCB) {
 
+        let terrainId = 'main_world'
+
         terrainMaterial = new TerrainMaterial(ThreeAPI);
 
-        let terrainListLoaded = function(scr, data) {
-            console.log("TERRAINS", scr, data)
-            for (let i = 0; i < data.length; i++){
-                terrainList[data[i].id] = data[i];
-                terrainMaterial.addTerrainMaterial(data[i].id, data[i].textures, data[i].shader);
-                console.log("terrainListLoaded", data, terrainMaterial)
+        let terrainListLoaded = function(data) {
+            console.log("TERRAINS", data);
+                terrainList[terrainId] = data;
+                terrainMaterial.addTerrainMaterial(terrainId, data['textures'], data['shader']);
+                console.log("terrainListLoaded", data, terrainMaterial);
+                constructGeometries(data['height_map'], data['transform']);
                 matLoadedCB();
-            }
+
         };
 
-        console.log("TERRAINS", "THREE", terrainMaterial)
+    //    console.log("TERRAINS", "THREE", terrainMaterial)
 
-        new PipelineObject("ASSETS", "TERRAIN", terrainListLoaded);
+        let configData = new ConfigData("ASSETS", "TERRAIN", "terrain_config", 'data_key', 'config')
+
+    //    let configData =  new ConfigData("GAME", "GAME_ABILITIES",  'ability_config', 'data_key', 'config')
+        configData.addUpdateCallback(terrainListLoaded);
+        configData.parseConfig( terrainId, terrainListLoaded)
+
+//        new PipelineObject("ASSETS", "TERRAIN", terrainListLoaded);
     };
 
     addTerrainToIndex = function(terrainModel, parent) {

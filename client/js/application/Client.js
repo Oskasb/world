@@ -68,10 +68,12 @@ class Client {
         client.gameEffects = [];
 
         let callback = function() {
+
             setTimeout(function() {
 
                 client.setup.initDefaultUi();
                 GameAPI.initGameMain();
+                ThreeAPI.initThreeTerrain();
                 }, 10)
 
 

@@ -100,6 +100,7 @@
         {"id": "file_hat_leather_brown","config": { "url": "./client/assets/models/items_rigid/clothes/head/hat_leather_brown"         }},
         {"id": "file_hat_pointy_white","config": { "url": "./client/assets/models/items_rigid/clothes/head/hat_pointy_white"         }},
 
+        {"id": "file_grid_63",       "config": { "url": "./client/assets/models/shapes/grid_63"                                  }},
         {"id": "file_box",           "config": { "url": "./client/assets/models/shapes/box"                                          }},
         {"id": "file_quad",          "config": { "url": "./client/assets/models/shapes/quad"                                         }},
         {"id": "file_flatQuad",      "config": { "url": "./client/assets/models/shapes/flatQuad"                                     }},

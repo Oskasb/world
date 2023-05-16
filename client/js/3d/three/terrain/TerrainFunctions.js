@@ -582,6 +582,10 @@ class TerrainFunctions {
             return getHeightAt(calcVec2, terrain.array1d, terrainSize, segments, normalStore);
         };
 
+    getTerrainBuffers(terrain) {
+        return getTerrainBuffers(terrain)
+    }
+
     }
 
 export {TerrainFunctions}

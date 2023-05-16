@@ -6,10 +6,9 @@ import {ThreeModelLoader} from './ThreeModelLoader.js';
 import {ThreeTextureMaker} from './ThreeTextureMaker.js';
 import {ThreeMaterialMaker} from './ThreeMaterialMaker.js';
 import {ThreeSpatialFunctions} from './ThreeSpatialFunctions.js';
-import {ThreeTerrain} from "./terrain/ThreeTerrain.js";
 import {TerrainSystem} from "./terrain/TerrainSystem.js";
 
-let threeTerrain = new ThreeTerrain();
+let terrainSystem = new TerrainSystem();
 
 class ThreeAPI {
 
@@ -49,16 +48,12 @@ class ThreeAPI {
 
     initEnvironment = function(store) {
 
-        let matLoadedCB = function() {
-            console.log("Terrain Mat Loaded")
-
-        }
 
         let _this = this;
-        var envReady = function() {
+        let envReady = function() {
             _this.threeEnvironment.enableEnvironment(_this.threeEnvironment);
             _this.getSetup().addPostrenderCallback(_this.threeEnvironment.tickEnvironment);
-            threeTerrain.loadData(matLoadedCB);
+
         };
 
         var onLoaded = function() {
@@ -90,6 +85,17 @@ class ThreeAPI {
         this.threeSetup.addToScene(this.threeSetup.getCamera());
 
         this.shaderBuilder.loadShaderData(this.glContext);
+
+
+
+    };
+
+
+    initThreeTerrain = function() {
+        let terrainSysCB = function() {
+            console.log("Terrain System Ready")
+        };
+            terrainSystem.initTerrainSystem(terrainSysCB);
     };
 
     updateSceneMatrixWorld = function() {

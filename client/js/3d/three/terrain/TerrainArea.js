@@ -1,12 +1,16 @@
 import {AreaFunctions} from "./AreaFunctions.js";
+import {TerrainFunctions} from "./TerrainFunctions.js";
 import {Vector3} from "../../../../libs/three/math/Vector3.js";
+import {Object3D} from "../../../../libs/three/core/Object3D.js";
 
 let tempVec1 = new Vector3();
 let tempVec2 = new Vector3();
 let tempObj3d = new Object3D();
 
+let terrainFunctions = new TerrainFunctions();
+
         class TerrainArea {
-            constructor(terrainFunctions, x, z) {
+            constructor(x, z) {
 
             this.x = x || 0;
             this.z = z || 0;
