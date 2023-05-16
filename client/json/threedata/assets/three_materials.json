@@ -107,6 +107,20 @@
           }
         },
         {
+          "id":"material_instanced_terrain",
+          "config":{
+            "settings": "mat_settings_terrain_instanced",
+            "textures":[
+              {"key":"map"           , "id":"atlas_2k_purple"     } ,
+              {"key":"envMap"        , "id":"ref_sphere"          } ,
+              {"key":"metalnessMap"  , "id":"atlas_2k_metalness"  } ,
+              {"key":"roughnessMap"  , "id":"atlas_2k_roughness"  } ,
+              {"key":"normalMap"     , "id":"atlas_2k_norm"       }
+            ]
+          }
+        },
+
+        {
           "id":"material_terrain",
           "config":{
             "settings": "mat_settings_terrain_basic",

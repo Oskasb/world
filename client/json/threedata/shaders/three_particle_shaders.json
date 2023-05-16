@@ -8,6 +8,7 @@
         "BOX_INSTANCING",
         "GUI_INSTANCING_STANDARD",
         "GEOMETRY_INSTANCING_STANDARD",
+        "TERRAIN_INSTANCING",
         "TERRAIN_SHADER",
         "OCEAN_SHADER",
         "INSTANCING_GPU_TRAIL",
@@ -895,6 +896,20 @@
           {
             "source": "INSTANCING_PROGRAMS",
             "chunk": "fragmentParticleInstancing"
+          }
+        ]
+      },
+      "TERRAIN_INSTANCING": {
+        "vertex": [
+          {
+            "source": "INSTANCING_PROGRAMS",
+            "chunk": "vertexTerrainInstancing"
+          }
+        ],
+        "fragment": [
+          {
+            "source": "INSTANCING_PROGRAMS",
+            "chunk": "fragmentTerrainInstancing"
           }
         ]
       }

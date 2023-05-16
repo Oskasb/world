@@ -85,7 +85,26 @@
             }
           }
         },
-
+        {
+          "id": "mat_settings_terrain_instanced"  ,
+          "config": {
+            "shader": "RawShaderMaterial",
+            "properties": {
+              "program": "TERRAIN_INSTANCING",
+              "blending": "NoBlending",
+              "global_uniforms":{
+                "fogDensity": { "value": 0.00025 },
+                "fogColor": { "value": {"r":1, "g":1, "b":1}},
+                "ambientLightColor": { "value": {"r":1, "g":1, "b":1}},
+                "sunLightColor": { "value": {"r":1, "g":1, "b":1}},
+                "sunLightDirection": { "value": {"x":1, "y":1, "z":1}}
+              },
+              
+              "settings": {
+              }
+            }
+          }
+        },
         {
           "id": "mat_settings_terrain_basic"  ,
           "config": {
