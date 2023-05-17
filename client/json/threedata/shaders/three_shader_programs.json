@@ -1506,7 +1506,7 @@
           "uniform float fogDensity;",
           "varying float fogDepth;",
           "varying float vFragDepth;",
-
+          "varying vec4 terrainSample;",
 
           "void main(){",
           "vec3 vPosition = position;",
@@ -1526,6 +1526,8 @@
           "heightSampler = (scaledUv + tileOffset);",
 
           "vec4 sample = texture2D( heightmap, heightSampler);",
+
+          "terrainSample = sample;",
 
           "float txPointOffset = 1.0/2048.0;",
           "vec2 normalSamplerP1 = vec2(heightSampler.x - txPointOffset, heightSampler.y);",
@@ -1582,26 +1584,25 @@
           "varying float vFragDepth;",
           "varying vec4 vColor;",
           "varying vec3 vPosition;",
-
+          "varying vec4 terrainSample;",
 
           "void main(){",
 
-          "vec4 sprite = vec4(1.0, 1.0, 1.0, 1.0);",
 
+          "vec4 sprite = vec4(2.0, 1.0, 1.0, 1.0);",
           "vec2 tileScale = 1.0/tx0tiles;",
-
-          "vec2 tileOffset = vec2(sprite.x * tileScale.x, (sprite.y-sprite.w) * tileScale.y / sprite.z);",
-
           "tileScale.y /= sprite.z;",
-
           "vec2 scaledUv = vUv*tileScale;",
-
           "scaledUv.y /= sprite.z;",
-
+          
+          "vec2 tileOffset = vec2(sprite.x * tileScale.x, (sprite.y-sprite.w) * tileScale.y / sprite.z);",
           "vec2 tileUv = vec2(scaledUv + tileOffset);",
 
-
           "vec4 txColor = texture2D( tx0, tileUv);",
+
+          "float sampleBlue = terrainSample.b;",
+          "float sampleGreen = terrainSample.g;",
+
 
           "vec4 lightColor = vec4(sunDir, 1.0);",
 
