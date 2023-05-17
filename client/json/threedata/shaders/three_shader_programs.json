@@ -1527,19 +1527,33 @@
 
           "vec4 sample = texture2D( heightmap, heightSampler);",
 
-          "vUv = uv;",
+          "float txPointOffset = 1.0/2048.0;",
+          "vec2 normalSamplerP1 = vec2(heightSampler.x - txPointOffset, heightSampler.y);",
+          "vec4 normalSampleP1 = texture2D( heightmap, normalSamplerP1);",
+
+          "vec2 normalSamplerP2 = vec2(heightSampler.x, heightSampler.y - txPointOffset);",
+          "vec4 normalSampleP2 = texture2D( heightmap, normalSamplerP2);",
+
+          "vec3 triPoint0 = vec3( heightSampler.x, sample.x*100.0, heightSampler.y);",
+          "vec3 triPoint1 = vec3( normalSamplerP1.x, normalSampleP1.x*100.0, normalSamplerP1.y);",
+          "vec3 triPoint2 = vec3( normalSamplerP2.x, normalSampleP2.x*100.0, normalSamplerP2.y);",
+
+          "vec3 tangent = triPoint2 - triPoint0;",
+          "vec3 bitangent = triPoint1 - triPoint0;",
 
           "vPosition.x = vPosition.x * (1.0 * scale3d.x);",
-          "vPosition.y = sample.x*scale3d.y*100.0 + vPosition.y * (1.0 * scale3d.y);",
+          "vPosition.y = triPoint0.y*scale3d.y + vPosition.y * (1.0 * scale3d.y);",
           "vPosition.z = vPosition.z * (1.0 * scale3d.z);"  ,
 
-          "vec3 vNormal = normal.xyz;",
+
+
+          "vec3 vNormal = normalize(cross(tangent, bitangent));",
           "vec3 faceNormal = vNormal + 2.0 * cross( orientation.xyz, cross( orientation.xyz, vNormal ) + orientation.w * vNormal );",
 
           "float intensity = max( 0.4 + dot(faceNormal, sunLightDirection ) * 0.5, 0.0);",
           "sunDir = sunLightColor * intensity * (0.3+intensity*intensity*0.3);",
 
-
+          "vUv = uv;",
           "vColor.r = sunDir.r + ambientLightColor.r ;",
           "vColor.g = sunDir.g + ambientLightColor.g ;",
           "vColor.b = sunDir.b + ambientLightColor.b ;",
