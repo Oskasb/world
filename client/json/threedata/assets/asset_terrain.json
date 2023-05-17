@@ -27,9 +27,9 @@
                 ],
                 "shader":"TERRAIN_SHADER",
                 "transform": {
-                  "pos": [0, 0.1, -5],
+                  "pos": [0, -0.15, -5],
                   "rot": [0.0, 0.0, 0.0],
-                  "scale": [10, 4, 10]
+                  "scale": [10, 1, 10]
                 }
               }
             }

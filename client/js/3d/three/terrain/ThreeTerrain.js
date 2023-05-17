@@ -1,4 +1,3 @@
-import {PipelineObject} from "../../../application/load/PipelineObject.js";
 import {ConfigData} from "../../../application/utils/ConfigData.js";
 import {TerrainMaterial} from "./TerrainMaterial.js";
 import {Vector3} from "../../../../libs/three/math/Vector3.js";
@@ -176,6 +175,10 @@ let constructGeometries = function(heightMapData, transform) {
 
         }
     }
+
+    let originalModel =terrainGeometries[0][0].instance.originalModel
+
+    console.log(originalModel.material)
 
 };
 

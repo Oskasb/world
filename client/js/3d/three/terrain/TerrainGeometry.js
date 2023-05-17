@@ -25,6 +25,14 @@ class TerrainGeometry{
             instance.spatial.setScaleXYZ(boxSize*0.02, boxSize*0.02, boxSize*0.02)
         */
         //    instance.setSprite(iconSprite);
+
+                ThreeAPI.tempVec4.x =  this.gridX;
+                ThreeAPI.tempVec4.y =     this.gridY+1;
+                ThreeAPI.tempVec4.z =     1;
+                ThreeAPI.tempVec4.w =     1;
+
+                instance.setAttributev4('sprite', ThreeAPI.tempVec4)
+
             ThreeAPI.getScene().remove(instance.spatial.obj3d)
         }.bind(this);
 

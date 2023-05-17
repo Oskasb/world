@@ -164,7 +164,7 @@ class ThreeMaterial {
 
 
     addTextureUniform = function(uniforms, texConf) {
-        //        console.log("TEXTURE addTextureUniform:", uniforms, texConf);;
+                console.log("TEXTURE addTextureUniform:", uniforms, texConf);;
 
         let key = texConf.key;
 
@@ -177,8 +177,15 @@ class ThreeMaterial {
         //   tx.repeat.y = texConf.repeat[1];
         uniforms[key].value = tx;
         uniforms[key].type = 't';
-        uniforms[key+'repeat'] = {};
-        uniforms[key+'repeat'].value = {x:texConf.repeat[0],y:texConf.repeat[1]};
+        if (texConf['repeat']) {
+            uniforms[key+'repeat'] = {};
+            uniforms[key+'repeat'].value = {x:texConf.repeat[0],y:texConf.repeat[1]};
+        }
+
+        if (texConf['tiles']) {
+            uniforms[key+'tiles'] = {};
+            uniforms[key+'tiles'].value = {x:texConf.tiles[0],y:texConf.tiles[1]};
+        }
 
         //   tx.needsUpdate = true;
     };

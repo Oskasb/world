@@ -75,21 +75,6 @@
           }
         },
         {
-          "id": "tx_settings_tiles_8x8"  ,
-          "config":{
-            "settings" : {
-              "wrapS": "RepeatWrapping",
-              "wrapT": "RepeatWrapping",
-              "generateMipmaps": false,
-              "magFilter": "LinearFilter",
-              "minFilter": "LinearFilter",
-              "tiles_x":8,
-              "tiles_y":8,
-              "flipY": false
-            }
-          }
-        },
-        {
           "id": "tx_settings_tiles_16x16"  ,
           "config":{
             "settings" : {
@@ -100,6 +85,21 @@
               "minFilter": "LinearFilter",
               "tiles_x":16,
               "tiles_y":16,
+              "flipY": false
+            }
+          }
+        },
+        {
+          "id": "tx_settings_tiles_32x32"  ,
+          "config":{
+            "settings" : {
+              "wrapS": "ClampToEdgeWrapping",
+              "wrapT": "ClampToEdgeWrapping",
+              "generateMipmaps": false,
+              "magFilter": "LinearFilter",
+              "minFilter": "LinearFilter",
+              "tiles_x":32,
+              "tiles_y":32,
               "flipY": false
             }
           }
