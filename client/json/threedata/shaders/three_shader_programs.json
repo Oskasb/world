@@ -1519,7 +1519,7 @@
 
           "tileScale.y /= sprite.z;",
 
-          "vec2 scaledUv = uv*tileScale;",
+          "vec2 scaledUv = vec2(vPosition.x*0.5 + 0.5, vPosition.z *0.5 + 0.5)*tileScale;",
 
           "scaledUv.y /= sprite.z;",
 
