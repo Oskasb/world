@@ -1590,22 +1590,32 @@
           "void main(){",
           "float slope = 1.0 - 1.0*dot(vNormal, vec3(0.0, 0.0, 1.0));",
 
-          "vec4 sprite = vec4(2.0, 1.0, 1.0, 1.0);",
+          "vec4 sprite = vec4(0.0, 8.0, 1.0, 1.0);",
           "vec2 tileScale = 1.0/tx0tiles;",
           "tileScale.y /= sprite.z;",
           "vec2 scaledUv = vUv*tileScale;",
           "scaledUv.y /= sprite.z;",
 
-          "vec2 tileBaseOffset = vec2(sprite.x * tileScale.x, (sprite.y-sprite.w) * tileScale.y / sprite.z);",
-          "vec2 tileBaseUv = vec2(scaledUv + tileBaseOffset);",
-          "vec4 txColorBase = texture2D( tx0, tileBaseUv);",
-
-
-
           "float sampleBlue = terrainSample.b;",
           "float sampleGreen = terrainSample.g;",
-          "vec2 tileRoad = vec2(0.0, 3.0);",
 
+          "vec2 tileBaseOffset = vec2(sprite.x * tileScale.x, (sprite.y-sprite.w) * tileScale.y / sprite.z);",
+          "vec2 tileBaseUv = vec2(scaledUv + tileBaseOffset);",
+          "vec4 txColorBase =  (smoothstep(-1.0, 0.05, slope) - smoothstep(0.05, 0.1, slope)) * texture2D( tx0, tileBaseUv);",
+
+          "vec2 tileSlopeMod = vec2(1.0, 8.0);",
+          "vec2 tileSlopeModOffset = vec2(tileSlopeMod.x * tileScale.x, (tileSlopeMod.y-sprite.w) * tileScale.y / sprite.z);",
+          "vec2 tileSlopeModUv = vec2(scaledUv + tileSlopeModOffset);",
+          "vec4 txColorSlopeMod01 = (smoothstep(0.05, 0.10, slope) - smoothstep(0.15, 0.20, slope)) * texture2D( tx0, tileSlopeModUv);",
+          "txColorBase = txColorBase + txColorSlopeMod01;",
+
+          "tileSlopeMod = vec2(2.0, 8.0);",
+          "tileSlopeModOffset = vec2(tileSlopeMod.x * tileScale.x, (tileSlopeMod.y-sprite.w) * tileScale.y / sprite.z);",
+          "tileSlopeModUv = vec2(scaledUv + tileSlopeModOffset);",
+          "txColorSlopeMod01 = (smoothstep(0.15, 0.20, slope) - smoothstep(0.25, 0.30, slope)) * texture2D( tx0, tileSlopeModUv);",
+          "txColorBase = txColorBase + txColorSlopeMod01;",
+
+          "vec2 tileRoad = vec2(3.0, 8.0);",
           "vec2 tileRoadOffset = vec2(tileRoad.x * tileScale.x, (tileRoad.y-sprite.w) * tileScale.y / sprite.z);",
           "vec2 tileRoadUv = vec2(scaledUv + tileRoadOffset);",
 
@@ -1618,6 +1628,9 @@
           "vec2 tile01Uv = vec2(scaledUv + tile01Offset);",
 
           "vec4 txColor1 = (smoothstep(0.0, 1.0, sampleBlue))      * texture2D( tx0, tile01Uv  );",
+
+
+
 
           "txColorBase = mix( txColorBase, txColor1,  sampleBlue);",
 

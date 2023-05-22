@@ -2,6 +2,7 @@
   {
     "ASSETS": {
       "FILES_IMAGES":[
+        {"id": "img_ground_tiles8x8"     , "config": { "url":"./client/assets/images/textures/tiles/ground8x8.png"   }},
         {"id": "img_box_tiles8x8"        , "config": { "url":"./client/assets/images/textures/tiles/boxtiles8x8.png" }},
         {"id": "img_atlas_2k_diff"       , "config": { "url":"./client/assets/images/textures/atlas_2k_diff.png"     }},
         {"id": "img_atlas_2k_red"        , "config": { "url":"./client/assets/images/textures/atlas_2k_red.png"      }},
