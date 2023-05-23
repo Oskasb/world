@@ -1,7 +1,7 @@
 
 
 class TerrainGeometry{
-    constructor(obj3d, x, y, gridMeshAssetId) {
+    constructor(obj3d, segmentScale, x, y, gridMeshAssetId) {
         this.gridMeshAssetId = gridMeshAssetId;
         this.gridX = x;
         this.gridY = y;
@@ -9,6 +9,7 @@ class TerrainGeometry{
         this.instance = null;
         this.posX = obj3d.position.x;
         this.posZ = obj3d.position.z;
+        this.size = segmentScale;
         this.isActive = false;
 
         let activateGeo = function() {

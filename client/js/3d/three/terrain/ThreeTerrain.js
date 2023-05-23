@@ -154,7 +154,7 @@ let constructGeometries = function(heightMapData, transform) {
     let segmentScale = new Vector3();
     segmentScale.copy(terrainScale);
     segmentScale.multiplyScalar(1/segs);
-
+    let geometrySize = segmentScale.x
     let vertsPerSegAxis = txWidth/segs;
     let segsPerPlaneInstanceAxis = vertsPerSegAxis-1;
 
@@ -170,7 +170,7 @@ let constructGeometries = function(heightMapData, transform) {
             obj3d.position.add(terrainOrigin);
             obj3d.scale.copy(segmentScale);
             obj3d.scale.multiplyScalar(0.005);
-            terrainGeometries[i][j] = new TerrainGeometry(obj3d, i , j, gridMeshAssetId);
+            terrainGeometries[i][j] = new TerrainGeometry(obj3d, geometrySize, i , j, gridMeshAssetId);
         }
     }
     geoBeneathPlayer = terrainGeometries[0][0];
@@ -181,10 +181,10 @@ let getTerrainGeoAtPos = function(posVec3) {
 
     for (let i = 0; i < terrainGeometries.length; i++) {
         let row = terrainGeometries[i][0];
-        if (row.posX > posVec3.x) {
+        if (row.posX + row.size*0.5 > posVec3.x) {
             for (let j = 0; j < terrainGeometries[i].length; j++) {
                 let geo = terrainGeometries[i][j];
-                if (geo.posZ > posVec3.z) {
+                if (geo.posZ + row.size*0.5 > posVec3.z) {
                     return geo;
                 }
             }

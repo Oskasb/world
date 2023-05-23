@@ -1622,6 +1622,8 @@
 
           "float rockRow = 1.0;",
 
+
+
           "float slope01 = 0.012;",
           "float slope02 = 0.026;",
           "float slope03 = 0.049;",
@@ -1707,24 +1709,120 @@
           "txColorBase = txColorBase + txColorSlopeMod01;",
           "txNmBase =  txNmBase + txNmSlopeMod01;",
 
-          "vec2 tileRoad = vec2(3.0, rockRow);",
-          "vec2 tileRoadOffset = vec2(tileRoad.x * tileScale.x, (tileRoad.y-sprite.w) * tileScale.y / sprite.z);",
-          "vec2 tileRoadUv = vec2(scaledUv + tileRoadOffset);",
+          "float natureRow = 2.0;",
+          "float natureStep = 0.07;",
 
-          "vec4 txColor0 = (smoothstep(0.0, 1.0, sampleGreen))       * texture2D( tx0, tileRoadUv );",
-
-          "vec4 roadColor = mix(txColorBase, txColor0,  sampleGreen);",
-
-          "vec2 tile01 = vec2(1.0, 2.0);",
+          "vec2 tile01 = vec2(0.0, natureRow);",
           "vec2 tile01Offset = vec2(tile01.x * tileScale.x, (tile01.y-sprite.w) * tileScale.y / sprite.z);",
           "vec2 tile01Uv = vec2(scaledUv + tile01Offset);",
+          "smoothFactor = smoothstep(-0.01, natureStep*1.0, sampleGreen) - smoothstep(natureStep*2.0, natureStep*3.0, sampleGreen);",
+          "vec4 natureColor = smoothFactor * texture2D(tx0, tile01Uv);",
+          "vec4 natureNormal = smoothFactor * texture2D(tx0nm, tile01Uv);",
 
-          "vec4 txColor1 = (smoothstep(0.0, 1.0, sampleBlue))      * texture2D( tx0, tile01Uv  );",
+          "tile01 = vec2(1.0, natureRow);",
+          "tile01Offset = vec2(tile01.x * tileScale.x, (tile01.y-sprite.w) * tileScale.y / sprite.z);",
+          "tile01Uv = vec2(scaledUv + tile01Offset);",
+          "smoothFactor = smoothstep(natureStep*2.0, natureStep*3.0, sampleGreen) - smoothstep(natureStep*4.0, natureStep*5.0, sampleGreen);",
+          "natureColor += smoothFactor * texture2D(tx0, tile01Uv);",
+          "natureNormal += smoothFactor * texture2D(tx0nm, tile01Uv);",
+
+          "tile01 = vec2(2.0, natureRow);",
+          "tile01Offset = vec2(tile01.x * tileScale.x, (tile01.y-sprite.w) * tileScale.y / sprite.z);",
+          "tile01Uv = vec2(scaledUv + tile01Offset);",
+          "smoothFactor = smoothstep(natureStep*4.0, natureStep*5.0, sampleGreen) - smoothstep(natureStep*6.0, natureStep*7.0, sampleGreen);",
+          "natureColor += smoothFactor * texture2D(tx0, tile01Uv);",
+          "natureNormal += smoothFactor * texture2D(tx0nm, tile01Uv);",
+
+          "tile01 = vec2(3.0, natureRow);",
+          "tile01Offset = vec2(tile01.x * tileScale.x, (tile01.y-sprite.w) * tileScale.y / sprite.z);",
+          "tile01Uv = vec2(scaledUv + tile01Offset);",
+          "smoothFactor = smoothstep(natureStep*6.0, natureStep*7.0, sampleGreen) - smoothstep(natureStep*8.0, natureStep*9.0, sampleGreen);",
+          "natureColor += smoothFactor * texture2D(tx0, tile01Uv);",
+          "natureNormal += smoothFactor * texture2D(tx0nm, tile01Uv);",
+
+          "tile01 = vec2(4.0, natureRow);",
+          "tile01Offset = vec2(tile01.x * tileScale.x, (tile01.y-sprite.w) * tileScale.y / sprite.z);",
+          "tile01Uv = vec2(scaledUv + tile01Offset);",
+          "smoothFactor = smoothstep(natureStep*8.0, natureStep*9.0, sampleGreen) - smoothstep(natureStep*10.0, natureStep*11.0, sampleGreen);",
+          "natureColor += smoothFactor * texture2D(tx0, tile01Uv);",
+          "natureNormal += smoothFactor * texture2D(tx0nm, tile01Uv);",
+
+          "tile01 = vec2(5.0, natureRow);",
+          "tile01Offset = vec2(tile01.x * tileScale.x, (tile01.y-sprite.w) * tileScale.y / sprite.z);",
+          "tile01Uv = vec2(scaledUv + tile01Offset);",
+          "smoothFactor = smoothstep(natureStep*10.0, natureStep*11.0, sampleGreen) - smoothstep(natureStep*12.0, natureStep*13.0, sampleGreen);",
+          "natureColor += smoothFactor * texture2D(tx0, tile01Uv);",
+          "natureNormal += smoothFactor * texture2D(tx0nm, tile01Uv);",
+
+          "tile01 = vec2(6.0, natureRow);",
+          "tile01Offset = vec2(tile01.x * tileScale.x, (tile01.y-sprite.w) * tileScale.y / sprite.z);",
+          "tile01Uv = vec2(scaledUv + tile01Offset);",
+          "smoothFactor = smoothstep(natureStep*12.0, natureStep*13.0, sampleGreen) - smoothstep(natureStep*14.0, natureStep*15.0, sampleGreen);",
+          "natureColor += smoothFactor * texture2D(tx0, tile01Uv);",
+          "natureNormal += smoothFactor * texture2D(tx0nm, tile01Uv);",
+
+          "float natureMix = min(max(-natureStep*1.2 + sampleGreen, 0.0)/natureStep*1.0, 1.0);",
+          "txColorBase = mix( txColorBase, natureColor,  natureMix);",
+          "txNmBase = mix( txNmBase, natureNormal,  natureMix);",
 
 
+          "float civRow = 3.0;",
+          "float civStep = 0.07;",
 
 
-          "vec4 natureColor = mix( txColorBase, txColor1,  sampleBlue);",
+          "tile01 = vec2(0.0, civRow);",
+          "tile01Offset = vec2(tile01.x * tileScale.x, (tile01.y-sprite.w) * tileScale.y / sprite.z);",
+          "tile01Uv = vec2(scaledUv + tile01Offset);",
+          "smoothFactor = smoothstep(-0.01, civStep*1.0, sampleBlue) - smoothstep(civStep*2.0, civStep*3.0, sampleBlue);",
+          "vec4 civColor = smoothFactor * texture2D(tx0, tile01Uv);",
+          "vec4 civNormal = smoothFactor * texture2D(tx0nm, tile01Uv);",
+
+          "tile01 = vec2(1.0, civRow);",
+          "tile01Offset = vec2(tile01.x * tileScale.x, (tile01.y-sprite.w) * tileScale.y / sprite.z);",
+          "tile01Uv = vec2(scaledUv + tile01Offset);",
+          "smoothFactor = smoothstep(civStep*2.0, civStep*3.0, sampleBlue) - smoothstep(civStep*4.0, civStep*5.0, sampleBlue);",
+          "civColor += smoothFactor * texture2D(tx0, tile01Uv);",
+          "civNormal += smoothFactor * texture2D(tx0nm, tile01Uv);",
+
+          "tile01 = vec2(2.0, civRow);",
+          "tile01Offset = vec2(tile01.x * tileScale.x, (tile01.y-sprite.w) * tileScale.y / sprite.z);",
+          "tile01Uv = vec2(scaledUv + tile01Offset);",
+          "smoothFactor = smoothstep(civStep*4.0, civStep*5.0, sampleBlue) - smoothstep(civStep*6.0, civStep*7.0, sampleBlue);",
+          "civColor += smoothFactor * texture2D(tx0, tile01Uv);",
+          "civNormal += smoothFactor * texture2D(tx0nm, tile01Uv);",
+
+          "tile01 = vec2(3.0, civRow);",
+          "tile01Offset = vec2(tile01.x * tileScale.x, (tile01.y-sprite.w) * tileScale.y / sprite.z);",
+          "tile01Uv = vec2(scaledUv + tile01Offset);",
+          "smoothFactor = smoothstep(civStep*6.0, civStep*7.0, sampleBlue) - smoothstep(civStep*8.0, civStep*9.0, sampleBlue);",
+          "civColor += smoothFactor * texture2D(tx0, tile01Uv);",
+          "civNormal += smoothFactor * texture2D(tx0nm, tile01Uv);",
+
+          "tile01 = vec2(4.0, civRow);",
+          "tile01Offset = vec2(tile01.x * tileScale.x, (tile01.y-sprite.w) * tileScale.y / sprite.z);",
+          "tile01Uv = vec2(scaledUv + tile01Offset);",
+          "smoothFactor = smoothstep(civStep*8.0, civStep*9.0, sampleBlue) - smoothstep(civStep*10.0, civStep*11.0, sampleBlue);",
+          "civColor += smoothFactor * texture2D(tx0, tile01Uv);",
+          "civNormal += smoothFactor * texture2D(tx0nm, tile01Uv);",
+
+          "tile01 = vec2(5.0, civRow);",
+          "tile01Offset = vec2(tile01.x * tileScale.x, (tile01.y-sprite.w) * tileScale.y / sprite.z);",
+          "tile01Uv = vec2(scaledUv + tile01Offset);",
+          "smoothFactor = smoothstep(civStep*10.0, civStep*11.0, sampleBlue) - smoothstep(civStep*12.0, civStep*13.0, sampleBlue);",
+          "civColor += smoothFactor * texture2D(tx0, tile01Uv);",
+          "civNormal += smoothFactor * texture2D(tx0nm, tile01Uv);",
+
+          "tile01 = vec2(6.0, civRow);",
+          "tile01Offset = vec2(tile01.x * tileScale.x, (tile01.y-sprite.w) * tileScale.y / sprite.z);",
+          "tile01Uv = vec2(scaledUv + tile01Offset);",
+          "smoothFactor = smoothstep(civStep*12.0, civStep*13.0, sampleBlue) - smoothstep(civStep*14.0, civStep*15.0, sampleBlue);",
+          "civColor += smoothFactor * texture2D(tx0, tile01Uv);",
+          "civNormal += smoothFactor * texture2D(tx0nm, tile01Uv);",
+
+          "float civMix = min(max(-civStep*1.2 + sampleBlue, 0.0)/civStep*1.0, 1.0);",
+          "txColorBase = mix(txColorBase, civColor,  civMix);",
+          "txNmBase = mix(txNmBase, civNormal,  civMix);",
+
 
           "vec4 txColor = txColorBase;",
 
