@@ -13,13 +13,24 @@ class TerrainGeometry{
         this.isActive = false;
 
         let activateGeo = function() {
+            if (this.isActive) {
+                console.log("Geo Already Active")
+                return;
+            }
+            console.log("Activate Geo", this.gridX, this.gridY);
             this.isActive = true;
             this.attachGeometryInstance()
         }.bind(this);
 
         let deactivateGeo = function() {
-            this.isActive = false;
-            this.detachGeometryInstance()
+            if (this.isActive) {
+                this.isActive = false;
+                this.detachGeometryInstance()
+            } else {
+                console.log("Geo not Active")
+                return;
+            }
+
         }.bind(this);
 
         this.call = {
@@ -35,7 +46,6 @@ class TerrainGeometry{
     }
 
     attachGeometryInstance() {
-
         let addSceneInstance = function(instance) {
             this.instance = instance;
             instance.setActive(ENUMS.InstanceState.ACTIVE_VISIBLE);

@@ -13,6 +13,8 @@ let calcVec = new Vector3();
 let terrainMaterial;
 let gridMeshAssetId = 'thisLoadsFromConfig';
 let geoBeneathPlayer = null;
+let activeTerrainGeometries = [];
+
 let transformModel = function(trf, model) {
     model.position.x = trf.pos[0];
     model.position.y = trf.pos[1];
@@ -174,7 +176,8 @@ let constructGeometries = function(heightMapData, transform) {
         }
     }
     geoBeneathPlayer = terrainGeometries[0][0];
-    geoBeneathPlayer.call.activateGeo()
+  //  geoBeneathPlayer.call.activateGeo()
+  //  activeTerrainGeometries.push(geoBeneathPlayer);
 };
 
 let getTerrainGeoAtPos = function(posVec3) {
@@ -190,6 +193,46 @@ let getTerrainGeoAtPos = function(posVec3) {
             }
         }
     }
+}
+
+let activatingGeos = [];
+let activateTerrainGeos = function(x, y, range) {
+
+    let sections = range*2+1;
+    for (let i = 0; i < sections; i++) {
+        if (x - range < 0 || x + range+i > terrainGeometries.length) {
+
+        } else {
+
+            for (let j = 0; j < sections; j++) {
+
+                if (y - range < 0 || y + range+j > terrainGeometries[i].length) {
+
+                } else {
+                    activatingGeos.push(terrainGeometries[x-range+i][y-range+j]);
+                }
+            }
+        }
+    }
+
+    while (activeTerrainGeometries.length) {
+        let preActiveGeo = activeTerrainGeometries.pop();
+        if (activatingGeos.indexOf(preActiveGeo) === -1) {
+        //    if (preActiveGeo.isActive) {
+                preActiveGeo.call.deactivateGeo();
+         //   }
+        }
+    }
+
+    while (activatingGeos.length) {
+        let postActiveGeo = activatingGeos.pop()
+         //   if (postActiveGeo.isActive === false) {
+                postActiveGeo.call.activateGeo();
+        //    }
+            activeTerrainGeometries.push(postActiveGeo);
+        }
+
+
 }
 
 class ThreeTerrain {
@@ -277,11 +320,9 @@ class ThreeTerrain {
             let playerGeo = getTerrainGeoAtPos(playerPos);
 
             if (playerGeo !== geoBeneathPlayer) {
-                geoBeneathPlayer.call.deactivateGeo();
+                activateTerrainGeos(playerGeo.gridX, playerGeo.gridY, 1)
                 geoBeneathPlayer = playerGeo;
-                if (geoBeneathPlayer.isActive === false) {
-                    geoBeneathPlayer.call.activateGeo()
-                }
+
             }
         }
     }
