@@ -57,6 +57,8 @@
         {"id": "asset_scale_purple_shirt",  "config":{"model": "file_scale_shirt",  "material": "material_red",           "settings": "model_settings_default"}},
         {"id": "asset_scale_purple_legs",    "config":{"model": "file_scale_legs",   "material": "material_red",          "settings": "model_settings_default"}},
 
+
+        {"id": "asset_grid_127",    "config": { "model": "file_grid_127",     "material": "material_instanced_terrain",      "settings": "model_settings_terrain"  }},
         {"id": "asset_grid_63",     "config": { "model": "file_grid_63",     "material": "material_instanced_terrain",      "settings": "model_settings_terrain"  }},
         {"id": "asset_box",         "config": { "model": "file_box",         "material": "material_instancing_tileset",      "settings": "model_settings_tileset"  }},
 

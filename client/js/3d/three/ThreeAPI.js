@@ -94,6 +94,7 @@ class ThreeAPI {
     initThreeTerrain = function() {
         let terrainSysCB = function() {
             console.log("Terrain System Ready")
+            terrainSystem.activateTerrainSystem();
         };
             terrainSystem.initTerrainSystem(terrainSysCB);
     };

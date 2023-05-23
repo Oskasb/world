@@ -35,6 +35,7 @@ class TerrainSystem {
 
     initTerrainSystem = function(callback) {
         threeTerrain.loadData(callback);
+
     };
 
     generateTerrainArea = function() {
@@ -58,6 +59,11 @@ class TerrainSystem {
             }
         }
     };
+
+
+    activateTerrainSystem = function() {
+        ThreeAPI.addPrerenderCallback(threeTerrain.updateTerrainGeometry)
+    }
 
 }
 

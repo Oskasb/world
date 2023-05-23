@@ -101,13 +101,7 @@
               },
               "texture_uniforms": [
                 {"key":"heightmap",   "repeat":[1,     1], "tiles":[32, 32]},
-                {"key":"tx0",         "repeat":[11,   11], "tiles":[8,   8]},
-                {"key":"tx1",         "repeat":[43,   43]},
-                {"key":"tx2",         "repeat":[198, 198]},
-                {"key":"tx3",         "repeat":[64,   64]},
-                {"key":"tx4",         "repeat":[75,   75]},
-                {"key":"tx5",         "repeat":[82,   82]},
-                {"key":"tx6",         "repeat":[4,     4]}
+                {"key":"tx0",         "repeat":[11,   11], "tiles":[8,   8]}
               ],
               "settings": {
               }

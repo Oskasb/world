@@ -112,13 +112,7 @@
             "settings": "mat_settings_terrain_instanced",
             "textures":[
               {"key":"heightmap"      , "id":"tx_heightmap_world_01"   } ,
-              {"key":"tx0"            , "id":"tx_ground_tiles8x8"      },
-              {"key":"tx1"            , "id":"atlas_2k_roughness"    },
-              {"key":"tx2"            , "id":"atlas_2k_norm"         },
-              {"key":"tx3"            , "id":"terrain_dark_grass"  },
-              {"key":"tx4"            , "id":"terrain_grass"       },
-              {"key":"tx5"            , "id":"terrain_detail"      },
-              {"key":"tx6"            , "id":"terrain_fract"       }
+              {"key":"tx0"            , "id":"tx_ground_tiles8x8"      }
             ]
           }
         },

@@ -11,7 +11,8 @@ let terrainIndex = {};
 let terrainGeometries = [];
 let calcVec = new Vector3();
 let terrainMaterial;
-
+let gridMeshAssetId = 'thisLoadsFromConfig';
+let geoBeneathPlayer = null;
 let transformModel = function(trf, model) {
     model.position.x = trf.pos[0];
     model.position.y = trf.pos[1];
@@ -139,7 +140,7 @@ let getThreeTerrainHeightAt = function(terrain, pos, normalStore) {
 
 let constructGeometries = function(heightMapData, transform) {
     let dims = heightMapData['dimensions'];
-    let gridMeshAssetId = dims['grid_mesh'];
+    gridMeshAssetId = dims['grid_mesh'];
     let txWidth = dims['tx_width'];
     let mesh_segments = dims['mesh_segments'];
     let segs = txWidth / (mesh_segments+1);
@@ -169,18 +170,27 @@ let constructGeometries = function(heightMapData, transform) {
             obj3d.position.add(terrainOrigin);
             obj3d.scale.copy(segmentScale);
             obj3d.scale.multiplyScalar(0.005);
-            let terrainGeo = new TerrainGeometry(obj3d, i , j);
-            terrainGeometries[i][j] = terrainGeo;
-            terrainGeo.attachGeometryInstance(gridMeshAssetId)
-
+            terrainGeometries[i][j] = new TerrainGeometry(obj3d, i , j, gridMeshAssetId);
         }
     }
-
-    let originalModel =terrainGeometries[0][0].instance.originalModel
-
-    console.log(originalModel.material)
-
+    geoBeneathPlayer = terrainGeometries[0][0];
+    geoBeneathPlayer.call.activateGeo()
 };
+
+let getTerrainGeoAtPos = function(posVec3) {
+
+    for (let i = 0; i < terrainGeometries.length; i++) {
+        let row = terrainGeometries[i][0];
+        if (row.posX > posVec3.x) {
+            for (let j = 0; j < terrainGeometries[i].length; j++) {
+                let geo = terrainGeometries[i][j];
+                if (geo.posZ > posVec3.z) {
+                    return geo;
+                }
+            }
+        }
+    }
+}
 
 class ThreeTerrain {
     constructor() {
@@ -190,7 +200,6 @@ class ThreeTerrain {
     loadData = function(matLoadedCB) {
 
         let terrainId = 'main_world'
-
         terrainMaterial = new TerrainMaterial(ThreeAPI);
 
         let terrainListLoaded = function(data) {
@@ -203,15 +212,9 @@ class ThreeTerrain {
 
         };
 
-    //    console.log("TERRAINS", "THREE", terrainMaterial)
-
         let configData = new ConfigData("ASSETS", "TERRAIN", "terrain_config", 'data_key', 'config')
-
-    //    let configData =  new ConfigData("GAME", "GAME_ABILITIES",  'ability_config', 'data_key', 'config')
         configData.addUpdateCallback(terrainListLoaded);
         configData.parseConfig( terrainId, terrainListLoaded)
-
-//        new PipelineObject("ASSETS", "TERRAIN", terrainListLoaded);
     };
 
     addTerrainToIndex = function(terrainModel, parent) {
@@ -268,6 +271,20 @@ class ThreeTerrain {
 
     };
 
+    updateTerrainGeometry = function() {
+        if (GameAPI.gameMain.getPlayerCharacter()) {
+            let playerPos = GameAPI.getMainCharPiece().getPos();
+            let playerGeo = getTerrainGeoAtPos(playerPos);
+
+            if (playerGeo !== geoBeneathPlayer) {
+                geoBeneathPlayer.call.deactivateGeo();
+                geoBeneathPlayer = playerGeo;
+                if (geoBeneathPlayer.isActive === false) {
+                    geoBeneathPlayer.call.activateGeo()
+                }
+            }
+        }
+    }
 }
 
 export {ThreeTerrain}

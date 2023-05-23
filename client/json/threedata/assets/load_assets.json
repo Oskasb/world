@@ -98,6 +98,7 @@
       "/threedata/assets/sprites/particle_sprites_8x8.json"
     ],
     "LOAD_MODELS":[
+      "asset_grid_127",
       "asset_grid_63",
       "asset_house_small",
       "asset_box"
