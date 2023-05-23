@@ -18,6 +18,7 @@
         {"id": "ref_sphere"         ,  "config": {  "img" : "img_ref_sphere"          , "settings": "tx_settings_environment"     }} ,
         {"id": "data_texture"       ,  "config": {  "img" : "img_data_texture"        , "settings": "tx_settings_data"            }} ,
         {"id": "particle_atlas_8x8" ,  "config": {  "img" : "img_particle_atlas_8x8"  , "settings": "tx_settings_tiles_8x8"       }} ,
+        {"id": "tx_ground_tiles8x8nm", "config": {  "img" : "img_ground_tiles8x8nm"   , "settings": "tx_settings_tiles_8x8"       }} ,
         {"id": "tx_ground_tiles8x8" ,  "config": {  "img" : "img_ground_tiles8x8"     , "settings": "tx_settings_tiles_8x8"       }} ,
         {"id": "tx_box_tiles8x8"    ,  "config": {  "img" : "img_box_tiles8x8"        , "settings": "tx_settings_tiles_8x8"       }} ,
         {"id": "gui_atlas_16x16"    ,  "config": {  "img" : "img_gui_atlas_16x16"     , "settings": "tx_settings_tiles_16x16"     }} ,

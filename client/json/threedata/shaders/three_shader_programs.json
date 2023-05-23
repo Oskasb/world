@@ -1531,7 +1531,7 @@
 
           "terrainSample = sample;",
 
-          "float txPointOffset = 0.5/2048.0;",
+          "float txPointOffset = 1.0/2048.0;",
           "float shift = txPointOffset * 0.5;",
 
 
@@ -1544,9 +1544,9 @@
           "vec2 normalSamplerP2 = vec2(normalSamplerP0.x, normalSamplerP0.y - txPointOffset);",
           "vec4 normalSampleP2 = texture2D( heightmap, normalSamplerP2);",
 
-          "vec3 triPoint0 = vec3( normalSamplerP0.x, normalSampleP0.x*100.0, normalSamplerP0.y);",
-          "vec3 triPoint1 = vec3( normalSamplerP1.x, normalSampleP1.x*100.0, normalSamplerP1.y);",
-          "vec3 triPoint2 = vec3( normalSamplerP2.x, normalSampleP2.x*100.0, normalSamplerP2.y);",
+          "vec3 triPoint0 = vec3( normalSamplerP0.x, normalSampleP0.x*txPointOffset*2.0, normalSamplerP0.y);",
+          "vec3 triPoint1 = vec3( normalSamplerP1.x, normalSampleP1.x*txPointOffset*2.0, normalSamplerP1.y);",
+          "vec3 triPoint2 = vec3( normalSamplerP2.x, normalSampleP2.x*txPointOffset*2.0, normalSamplerP2.y);",
 
           "vec3 tangent = triPoint2 - triPoint0;",
           "vec3 bitangent = triPoint1 - triPoint0;",
@@ -1577,13 +1577,21 @@
           ""
         ],
 
+        "skip": [
+          "slope = slope * 0.98 + 0.02*sin(vPosition.x * twoPi*2.0)  + 0.03*cos(vPosition.z * twoPi*2.0);",
+          "slope = slope * 0.95 + 0.05*sin(vPosition.x * twoPi*0.5)  + 0.05*cos(vPosition.z * twoPi*0.5);",
+          "slope = slope * 0.97 + 0.03*sin(vPosition.x * twoPi*1.0)  + 0.05*cos(vPosition.z * twoPi*1.0);"
+        ],
+
         "fragmentTerrainInstancing":[
           "precision highp float;",
 
+          "uniform vec3 sunLightDirection;",
           "uniform vec3 fogColor;",
           "uniform float fogDensity;",
 
           "uniform sampler2D tx0;",
+          "uniform sampler2D tx0nm;",
           "uniform sampler2D tx1;",
           "uniform vec2 tx0tiles;",
           "varying vec2 vUv;",
@@ -1599,10 +1607,10 @@
           "void main(){",
 
           "float twoPi = 6.2831;",
-          "float slope = 1.0 - 1.0*dot(faceNormal, vec3(0.0, 1.0, 0.0));",
-          "slope = slope * 0.98 + 0.02*sin(vPosition.x * twoPi*2.0)  + 0.03*cos(vPosition.z * twoPi*2.0);",
-          "slope = slope * 0.95 + 0.05*sin(vPosition.x * twoPi*0.5)  + 0.05*cos(vPosition.z * twoPi*0.5);",
-          "slope = slope * 0.97 + 0.03*sin(vPosition.x * twoPi*1.0)  + 0.05*cos(vPosition.z * twoPi*1.0);",
+          "float slope =  1.0-(0.0 + dot(vNormal, vec3(0.0, 1.0, 0.0))*1.0);",
+          "slope = slope * 0.998 + 0.002*sin(vPosition.x * twoPi*2.0)  + 0.002*cos(vPosition.z * twoPi*2.0);",
+          "slope = slope * 0.995 + 0.005*sin(vPosition.x * twoPi*0.5)  + 0.005*cos(vPosition.z * twoPi*0.25);",
+          "slope = slope * 0.997 + 0.003*sin(vPosition.x * twoPi*2.0)  + 0.003*cos(vPosition.z * twoPi*1.0);",
           "vec4 sprite = vec4(0.0, 8.0, 1.0, 1.0);",
           "vec2 tileScale = 1.0/tx0tiles;",
           "tileScale.y /= sprite.z;",
@@ -1614,67 +1622,90 @@
 
           "float rockRow = 1.0;",
 
-          "float slope01 = 0.07;",
-          "float slope02 = 0.22;",
-          "float slope03 = 0.24;",
-          "float slope04 = 0.38;",
-          "float slope05 = 0.42;",
-          "float slope06 = 0.55;",
-          "float slope07 = 0.65;",
-          "float slope08 = 0.72;",
-          "float slope09 = 0.81;",
-          "float slope10 = 0.91;",
-          "float slope11 = 0.93;",
-          "float slope12 = 0.96;",
-          "float slope13 = 0.98;",
-          "float slope14 = 1.0;",
+          "float slope01 = 0.012;",
+          "float slope02 = 0.026;",
+          "float slope03 = 0.049;",
+          "float slope04 = 0.12;",
+          "float slope05 = 0.17;",
+          "float slope06 = 0.19;",
+          "float slope07 = 0.21;",
+          "float slope08 = 0.23;",
+          "float slope09 = 0.25;",
+          "float slope10 = 0.27;",
+          "float slope11 = 0.29;",
+          "float slope12 = 0.31;",
+          "float slope13 = 0.32;",
+          "float slope14 = 0.34;",
 
 
           "vec2 tileBaseOffset = vec2(sprite.x * tileScale.x, (rockRow-sprite.w) * tileScale.y / sprite.z);",
           "vec2 tileBaseUv = vec2(scaledUv + tileBaseOffset);",
-          "vec4 txColorBase =  (smoothstep(-1.0, slope01, slope) - smoothstep(slope01, slope02, slope)) * texture2D( tx0, tileBaseUv);",
+          "float smoothFactor = smoothstep(-1.0, slope01, slope) - smoothstep(slope01, slope02, slope);",
+          "vec4 txColorBase =  smoothFactor * texture2D( tx0, tileBaseUv);",
+          "vec4 txNmBase =  smoothFactor * texture2D( tx0nm, tileBaseUv);",
 
           "vec2 tileSlopeMod = vec2(1.0, rockRow);",
           "vec2 tileSlopeModOffset = vec2(tileSlopeMod.x * tileScale.x, (tileSlopeMod.y-sprite.w) * tileScale.y / sprite.z);",
           "vec2 tileSlopeModUv = vec2(scaledUv + tileSlopeModOffset);",
-          "vec4 txColorSlopeMod01 = (smoothstep(slope01, slope02, slope) - smoothstep(slope03, slope04, slope)) * texture2D( tx0, tileSlopeModUv);",
+          "smoothFactor = smoothstep(slope01, slope02, slope) - smoothstep(slope03, slope04, slope);",
+          "vec4 txColorSlopeMod01 = smoothFactor * texture2D( tx0, tileSlopeModUv);",
+          "vec4 txNmSlopeMod01 = smoothFactor * texture2D( tx0nm, tileSlopeModUv);",
           "txColorBase = txColorBase + txColorSlopeMod01;",
+          "txNmBase =  txNmBase + txNmSlopeMod01;",
 
           "tileSlopeMod = vec2(2.0, rockRow);",
           "tileSlopeModOffset = vec2(tileSlopeMod.x * tileScale.x, (tileSlopeMod.y-sprite.w) * tileScale.y / sprite.z);",
           "tileSlopeModUv = vec2(scaledUv + tileSlopeModOffset);",
-          "txColorSlopeMod01 = (smoothstep(slope03, slope04, slope) - smoothstep(slope05, slope06, slope)) * texture2D( tx0, tileSlopeModUv);",
+          "smoothFactor = smoothstep(slope03, slope04, slope) - smoothstep(slope05, slope06, slope);",
+          "txColorSlopeMod01 = smoothFactor * texture2D( tx0, tileSlopeModUv);",
+          "txNmSlopeMod01 = smoothFactor * texture2D( tx0nm, tileSlopeModUv);",
           "txColorBase = txColorBase + txColorSlopeMod01;",
+          "txNmBase =  txNmBase + txNmSlopeMod01;",
 
           "tileSlopeMod = vec2(3.0, rockRow);",
           "tileSlopeModOffset = vec2(tileSlopeMod.x * tileScale.x, (tileSlopeMod.y-sprite.w) * tileScale.y / sprite.z);",
           "tileSlopeModUv = vec2(scaledUv + tileSlopeModOffset);",
-          "txColorSlopeMod01 = (smoothstep(slope05, slope06, slope) - smoothstep(slope07, slope08, slope)) * texture2D( tx0, tileSlopeModUv);",
+          "smoothFactor = (smoothstep(slope05, slope06, slope) - smoothstep(slope07, slope08, slope));",
+          "txColorSlopeMod01 = smoothFactor * texture2D( tx0, tileSlopeModUv);",
+          "txNmSlopeMod01 = smoothFactor * texture2D( tx0nm, tileSlopeModUv);",
           "txColorBase = txColorBase + txColorSlopeMod01;",
+          "txNmBase =  txNmBase + txNmSlopeMod01;",
 
           "tileSlopeMod = vec2(4.0, rockRow);",
           "tileSlopeModOffset = vec2(tileSlopeMod.x * tileScale.x, (tileSlopeMod.y-sprite.w) * tileScale.y / sprite.z);",
           "tileSlopeModUv = vec2(scaledUv + tileSlopeModOffset);",
-          "txColorSlopeMod01 = (smoothstep(slope07, slope08, slope) - smoothstep(slope09, slope10, slope)) * texture2D( tx0, tileSlopeModUv);",
+          "smoothFactor = (smoothstep(slope07, slope08, slope) - smoothstep(slope09, slope10, slope));",
+          "txColorSlopeMod01 = smoothFactor * texture2D( tx0, tileSlopeModUv);",
+          "txNmSlopeMod01 = smoothFactor * texture2D( tx0nm, tileSlopeModUv);",
           "txColorBase = txColorBase + txColorSlopeMod01;",
+          "txNmBase =  txNmBase + txNmSlopeMod01;",
 
           "tileSlopeMod = vec2(5.0, rockRow);",
           "tileSlopeModOffset = vec2(tileSlopeMod.x * tileScale.x, (tileSlopeMod.y-sprite.w) * tileScale.y / sprite.z);",
           "tileSlopeModUv = vec2(scaledUv + tileSlopeModOffset);",
-          "txColorSlopeMod01 = (smoothstep(slope09, slope10, slope) - smoothstep(slope11, slope12, slope)) * texture2D( tx0, tileSlopeModUv);",
+          "smoothFactor = (smoothstep(slope09, slope10, slope) - smoothstep(slope11, slope12, slope));",
+          "txColorSlopeMod01 = smoothFactor * texture2D( tx0, tileSlopeModUv);",
+          "txNmSlopeMod01 = smoothFactor * texture2D( tx0nm, tileSlopeModUv);",
           "txColorBase = txColorBase + txColorSlopeMod01;",
+          "txNmBase =  txNmBase + txNmSlopeMod01;",
 
           "tileSlopeMod = vec2(6.0, rockRow);",
           "tileSlopeModOffset = vec2(tileSlopeMod.x * tileScale.x, (tileSlopeMod.y-sprite.w) * tileScale.y / sprite.z);",
           "tileSlopeModUv = vec2(scaledUv + tileSlopeModOffset);",
-          "txColorSlopeMod01 = (smoothstep(slope11, slope12, slope) - smoothstep(slope13, slope14, slope)) * texture2D( tx0, tileSlopeModUv);",
+          "smoothFactor = (smoothstep(slope11, slope12, slope) - smoothstep(slope13, slope14, slope));",
+          "txColorSlopeMod01 = smoothFactor * texture2D( tx0, tileSlopeModUv);",
+          "txNmSlopeMod01 = smoothFactor * texture2D( tx0nm, tileSlopeModUv);",
           "txColorBase = txColorBase + txColorSlopeMod01;",
+          "txNmBase =  txNmBase + txNmSlopeMod01;",
 
           "tileSlopeMod = vec2(7.0, rockRow);",
           "tileSlopeModOffset = vec2(tileSlopeMod.x * tileScale.x, (tileSlopeMod.y-sprite.w) * tileScale.y / sprite.z);",
           "tileSlopeModUv = vec2(scaledUv + tileSlopeModOffset);",
-          "txColorSlopeMod01 = smoothstep(slope13, slope14, slope) * texture2D( tx0, tileSlopeModUv);",
+          "smoothFactor = smoothstep(slope13, slope14, slope);",
+          "txColorSlopeMod01 = smoothFactor * texture2D( tx0, tileSlopeModUv);",
+          "txNmSlopeMod01 = smoothFactor * texture2D( tx0nm, tileSlopeModUv);",
           "txColorBase = txColorBase + txColorSlopeMod01;",
+          "txNmBase =  txNmBase + txNmSlopeMod01;",
 
           "vec2 tileRoad = vec2(3.0, rockRow);",
           "vec2 tileRoadOffset = vec2(tileRoad.x * tileScale.x, (tileRoad.y-sprite.w) * tileScale.y / sprite.z);",
@@ -1703,7 +1734,9 @@
 
           "vec4 lightColor = vec4(sunDir, 1.0);",
 
-          "gl_FragColor = vColor * txColor * 1.0 + txColor * lightColor*1.0;",
+          "float intensity = max( 0.2 + dot(txNmBase.rgb, sunLightDirection ) * 0.8, 0.0);",
+
+          "gl_FragColor = vColor * txColor * 1.0 + txColor * lightColor*intensity;",
 
           "float fogFactor = min(fogDensity * fogDepth, 1.0);",
           "gl_FragColor.rgb = mix(gl_FragColor.rgb, fogColor,  fogFactor );",
