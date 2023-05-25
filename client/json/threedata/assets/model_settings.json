@@ -29,7 +29,7 @@
         {"id": "model_settings_terrain" ,
           "config": {
             "instancing": {
-              "instances": 9,
+              "instances": 64,
               "attributes": ["offset", "vertexColor", "scale3d", "orientation", "sprite", "texelRowSelect", "lifecycle"],
               "cameraspace": false
             },

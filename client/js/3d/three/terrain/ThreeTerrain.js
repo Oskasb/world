@@ -12,6 +12,7 @@ let terrainGeometries = [];
 let calcVec = new Vector3();
 let terrainMaterial;
 let gridMeshAssetId = 'thisLoadsFromConfig';
+let gridConfig = {};
 let geoBeneathPlayer = null;
 let activeTerrainGeometries = [];
 
@@ -145,8 +146,8 @@ let constructGeometries = function(heightMapData, transform) {
     gridMeshAssetId = dims['grid_mesh'];
     let txWidth = dims['tx_width'];
     let mesh_segments = dims['mesh_segments'];
-    let segs = txWidth / (mesh_segments+1);
-    console.log("Constructs HM Geos", gridMeshAssetId, txWidth, mesh_segments, segs);
+    let tiles = (txWidth / (mesh_segments+1));
+    console.log("Constructs HM Geos", gridMeshAssetId, txWidth, mesh_segments, tiles);
 
     let terrainOrigin = new Vector3();
     MATH.vec3FromArray(terrainOrigin, transform['pos']);
@@ -155,24 +156,25 @@ let constructGeometries = function(heightMapData, transform) {
 
     let segmentScale = new Vector3();
     segmentScale.copy(terrainScale);
-    segmentScale.multiplyScalar(1/segs);
+    segmentScale.multiplyScalar(1/tiles);
+    segmentScale.y = terrainScale.y * 0.02;
     let geometrySize = segmentScale.x
-    let vertsPerSegAxis = txWidth/segs;
+    let vertsPerSegAxis = txWidth/tiles;
     let segsPerPlaneInstanceAxis = vertsPerSegAxis-1;
 
     let x0 = -terrainScale.x * 0.5;
     let z0 = -terrainScale.z * 0.5;
 
-    for (let i = 0; i < segs; i++) {
+    for (let i = 0; i < tiles; i++) {
         terrainGeometries[i] = [];
-        for (let j = 0; j < segs; j++) {
+        for (let j = 0; j < tiles; j++) {
             let obj3d = new Object3D();
-            obj3d.position.x = x0 + segmentScale.x * i;
-            obj3d.position.z = z0 + segmentScale.z * j;
+            obj3d.position.x = x0 + segmentScale.x * i + segmentScale.x*0.5;
+            obj3d.position.z = z0 + segmentScale.z * j + segmentScale.z*0.5;
             obj3d.position.add(terrainOrigin);
             obj3d.scale.copy(segmentScale);
             obj3d.scale.multiplyScalar(0.005);
-            terrainGeometries[i][j] = new TerrainGeometry(obj3d, geometrySize, i , j, gridMeshAssetId);
+            terrainGeometries[i][j] = new TerrainGeometry(obj3d, geometrySize, i , j, gridMeshAssetId, vertsPerSegAxis, tiles, txWidth);
         }
     }
     geoBeneathPlayer = terrainGeometries[0][0];
@@ -229,9 +231,9 @@ let activateTerrainGeos = function(x, y, range) {
          //   if (postActiveGeo.isActive === false) {
                 postActiveGeo.call.activateGeo();
         //    }
+        evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:postActiveGeo.obj3d.position, color:'YELLOW', size:0.2})
             activeTerrainGeometries.push(postActiveGeo);
         }
-
 
 }
 
@@ -248,8 +250,9 @@ class ThreeTerrain {
         let terrainListLoaded = function(data) {
             console.log("TERRAINS", data);
                 terrainList[terrainId] = data;
-                terrainMaterial.addTerrainMaterial(terrainId, data['textures'], data['shader']);
-                console.log("terrainListLoaded", data, terrainMaterial);
+            //    terrainMaterial.addTerrainMaterial(terrainId, data['textures'], data['shader']);
+            //    console.log("terrainListLoaded", data, terrainMaterial, terrainMaterial.getMaterialById(terrainId));
+                gridConfig = data['grid']
                 constructGeometries(data['height_map'], data['transform']);
                 matLoadedCB();
 
@@ -319,8 +322,10 @@ class ThreeTerrain {
             let playerPos = GameAPI.getMainCharPiece().getPos();
             let playerGeo = getTerrainGeoAtPos(playerPos);
 
+            evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:playerGeo.obj3d.position, color:'GREEN', size:0.3})
+
             if (playerGeo !== geoBeneathPlayer) {
-                activateTerrainGeos(playerGeo.gridX, playerGeo.gridY, 1)
+                activateTerrainGeos(playerGeo.gridX, playerGeo.gridY, gridConfig.range)
                 geoBeneathPlayer = playerGeo;
 
             }

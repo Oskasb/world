@@ -100,9 +100,9 @@
                 "sunLightDirection": { "value": {"x":1, "y":1, "z":1}}
               },
               "texture_uniforms": [
-                {"key":"heightmap",   "repeat":[1,     1], "tiles":[32, 32]},
-                {"key":"tx0",         "repeat":[11,   11], "tiles":[8,   8]},
-                {"key":"tx0nm",       "repeat":[11,   11], "tiles":[8,   8]}
+                {"key":"heightmap",   "tiles":[0,   0]},
+                {"key":"tx0",         "tiles":[8,   8]},
+                {"key":"tx0nm",       "tiles":[8,   8]}
               ],
               "settings": {
               }

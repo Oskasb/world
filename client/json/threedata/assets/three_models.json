@@ -60,6 +60,9 @@
 
         {"id": "asset_grid_127",    "config": { "model": "file_grid_127",     "material": "material_instanced_terrain",      "settings": "model_settings_terrain"  }},
         {"id": "asset_grid_63",     "config": { "model": "file_grid_63",     "material": "material_instanced_terrain",      "settings": "model_settings_terrain"  }},
+        {"id": "asset_grid_31",     "config": { "model": "file_grid_31",     "material": "material_instanced_terrain",      "settings": "model_settings_terrain"  }},
+        {"id": "asset_grid_15",     "config": { "model": "file_grid_15",     "material": "material_instanced_terrain",      "settings": "model_settings_terrain"  }},
+
         {"id": "asset_box",         "config": { "model": "file_box",         "material": "material_instancing_tileset",      "settings": "model_settings_tileset"  }},
 
         {"id": "asset_vegQuad",      "config": { "model": "file_vegQuad",    "material": "mat_instancing_vegetation",  "settings": "model_settings_vegetation"  }},

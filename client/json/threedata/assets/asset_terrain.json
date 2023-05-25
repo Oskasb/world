@@ -9,11 +9,14 @@
             {
               "data_key":"terrain_config",
               "config":{
+                "grid": {
+                  "range": 1
+                },
                 "height_map":{
                   "dimensions":{
                     "tx_width":2048,
-                    "grid_mesh":"asset_grid_63",
-                    "mesh_segments":63
+                    "grid_mesh":"asset_grid_15",
+                    "mesh_segments":15
                   }
                 },
                 "textures": [
@@ -21,9 +24,9 @@
                 ],
                 "shader":"TERRAIN_SHADER",
                 "transform": {
-                  "pos": [0, -0.02, -5],
+                  "pos": [0, 0.2, -5],
                   "rot": [0.0, 0.0, 0.0],
-                  "scale": [200, 1, 200]
+                  "scale": [2000, 1, 2000]
                 }
               }
             }
