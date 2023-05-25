@@ -1511,12 +1511,13 @@
           "varying vec3 faceNormal;",
           "void main(){",
           "vPosition = position;",
-
+          "float txw = heightmaptiles.z;",
+          "float txPointOffset = 1.0/txw;",
           "vec4 quat = orientation.xyzw;",
 
           "vec2 tileScale = 1.0/heightmaptiles.xy;",
 
-          "vec2 tileOffset = vec2(sprite.x * tileScale.x, sprite.y * tileScale.y);",
+          "vec2 tileOffset = vec2(sprite.x * tileScale.x + txPointOffset*0.5, sprite.y * tileScale.y + txPointOffset*0.5);",
 
           "vec2 scaledVPos = vec2(vPosition.x*0.5 + 0.5, vPosition.z *0.5 + 0.5)*tileScale;",
 
@@ -1526,8 +1527,7 @@
 
           "terrainSample = sample;",
 
-          "float txw = heightmaptiles.z;",
-          "float txPointOffset = 1.0/txw;",
+
           "float shift = txPointOffset * 0.5;",
 
 
