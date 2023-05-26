@@ -4,6 +4,7 @@ let heightmap = null;
 let heightGrid = [];
 let width = null;
 let height = null;
+let debugWorld = null;
 
 let setupHeightmapData = function() {
 
@@ -20,7 +21,10 @@ let setupHeightmapData = function() {
     img.src = heightmapTx.sourceUrl
 
     context.drawImage(img, 0, 0);
-
+    debugWorld.material.map = heightmapTx.clone() // new THREE.CanvasTexture(canvas);
+    debugWorld.material.map.flipY = false;
+ //   debugWorld.material.map.repeat.y = -1;
+    debugWorld.material.needsUpdate = true;
  //   context.drawImage(heightmapTx.source.data, 0, 0, width, height);
     heightmap = context.getImageData(0, 0, width, height).data;
     console.log(heightmap)
@@ -143,6 +147,25 @@ class TerrainGeometry{
     attachGeometryInstance(geoReady) {
         let addSceneInstance = function(instance) {
             this.instance = instance;
+
+
+            if (!debugWorld) {
+                const geometry = new THREE.PlaneGeometry( 1, 1 );
+                debugWorld = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial());
+                debugWorld.rotateX(MATH.HALF_PI);
+            //    debugWorld.rotateY(Math.PI);
+            //    debugWorld.rotateZ(Math.PI);
+            //    debugWorld.scale.copy(this.obj3d.scale);
+            //    debugWorld.scale.multiplyScalar(100)
+                debugWorld.scale.multiplyScalar(this.tx_width);
+            //    debugWorld.material.wireframe = true;
+                debugWorld.material.opacity = 0.4;
+                debugWorld.material.side = THREE.DoubleSide;
+                debugWorld.material.transparent = true;
+                debugWorld.material.depthTest = false;
+                debugWorld.material.depthWrite = false;
+                ThreeAPI.addToScene(debugWorld);
+            }
 
             if (!this.model) {
                 this.model = instance.originalModel.model.scene.children[0].clone();
