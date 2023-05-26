@@ -1,12 +1,36 @@
 
 let terrainMaterial = null;
+let heightmap = null;
+
+let setupHeightmapData = function() {
+
+    let heightmapTx = terrainMaterial.heightmap;
+    let imgData = heightmapTx.source.data
+    console.log(terrainMaterial, heightmapTx, heightmapTx.source.data, imgData , this);
+
+    let canvas = document.createElement('canvas');
+    let context = canvas.getContext('2d')
+
+    context.drawImage(heightmapTx.source.data, 0, 0, imgData.width, imgData.height);
+    heightmap = context.getImageData(0, 0, imgData.width, imgData.height).data;
+    console.log(heightmap)
+    for (let row = 0; row < imgData.height; row++) {
+        for (let col = 0; col < imgData.width; col++) {
+            let i = row * imgData.width + col;
+                let idx = i * 4;
+        //    g[i].z = (data[idx] + data[idx+1] + data[idx+2]) / 765 * spread + options.minHeight;
+        }
+    }
+}
+
 class TerrainGeometry{
     constructor(obj3d, segmentScale, x, y, gridMeshAssetId, vertsPerSegAxis, tiles, tx_width) {
         this.gridMeshAssetId = gridMeshAssetId;
         this.gridX = x;
         this.gridY = y;
         this.obj3d = obj3d;
-        this.instance = null;
+        this.instance = null; // this gets rendered by the shader
+        this.model = null; // use this for physics and debug
         this.posX = obj3d.position.x;
         this.posZ = obj3d.position.z;
         this.size = segmentScale;
@@ -22,13 +46,13 @@ class TerrainGeometry{
             }
 
 
-
             console.log("Activate Geo", this.gridX, this.gridY);
             this.isActive = true;
             this.attachGeometryInstance()
             if (!terrainMaterial) {
                 terrainMaterial = this.instance.originalModel.material.mat;
-                console.log(terrainMaterial, this);
+                setupHeightmapData()
+
                 terrainMaterial.uniforms.heightmaptiles.value.x = this.tiles;
                 terrainMaterial.uniforms.heightmaptiles.value.y = this.tiles;
                 terrainMaterial.uniforms.heightmaptiles.value.z = this.tx_width;
@@ -62,6 +86,16 @@ class TerrainGeometry{
     attachGeometryInstance() {
         let addSceneInstance = function(instance) {
             this.instance = instance;
+
+            if (!this.model) {
+                this.model = instance.originalModel.model.scene.children[0].clone();
+                this.model.name = 'Grid_'+this.gridX+'_'+this.gridY;
+                this.model.position.copy(this.obj3d.position);
+                this.model.position.y = 1;
+                ThreeAPI.addToScene(this.model);
+                console.log(this.model);
+            }
+
             instance.setActive(ENUMS.InstanceState.ACTIVE_VISIBLE);
             instance.spatial.stickToObj3D(this.obj3d);
             ThreeAPI.tempVec4.x = this.gridX;
@@ -72,6 +106,10 @@ class TerrainGeometry{
             ThreeAPI.getScene().remove(instance.spatial.obj3d)
         }.bind(this);
         client.dynamicMain.requestAssetInstance(this.gridMeshAssetId, addSceneInstance)
+    }
+
+    getHeightmapData() {
+        return heightmap;
     }
 
 }

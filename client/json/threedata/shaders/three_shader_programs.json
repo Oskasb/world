@@ -1513,6 +1513,7 @@
           "vPosition = position;",
           "float txw = heightmaptiles.z;",
           "float txPointOffset = 1.0/txw;",
+          "float shift = txPointOffset * 0.5;",
           "vec4 quat = orientation.xyzw;",
 
           "vec2 tileScale = 1.0/heightmaptiles.xy;",
@@ -1526,10 +1527,6 @@
           "vec4 sample = texture2D( heightmap, heightSampler);",
 
           "terrainSample = sample;",
-
-
-          "float shift = txPointOffset * 0.5;",
-
 
           "vec2 normalSamplerP0 = vec2(heightSampler.x +shift , heightSampler.y +shift);",
           "vec4 normalSampleP0 = texture2D( heightmap, normalSamplerP0);",

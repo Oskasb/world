@@ -178,7 +178,10 @@ let constructGeometries = function(heightMapData, transform) {
         }
     }
     geoBeneathPlayer = terrainGeometries[0][0];
-  //  geoBeneathPlayer.call.activateGeo()
+    geoBeneathPlayer.call.activateGeo();
+    let heightmapData = geoBeneathPlayer.getHeightmapData();
+    geoBeneathPlayer.call.deactivateGeo();
+
   //  activeTerrainGeometries.push(geoBeneathPlayer);
 };
 
