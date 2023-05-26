@@ -320,6 +320,7 @@ function setupEncounterGrid(gridTiles, instances, gridConfig, scenarioGridConfig
                     instance.decommissionInstancedModel()
                 } else {
                     instance.spatial.setPosXYZ(tempVec1.x + offsetX,  tempVec1.y+ elevation*0.5, tempVec1.z + offsetZ);
+                    tempVec1.copy(instance.spatial.getPos())
                     instance.spatial.setQuatXYZW(quat.x, quat.y, quat.z, quat.w );
                     instances.push(instance)
                     gridTile.setTileInstance(instance);
@@ -327,10 +328,25 @@ function setupEncounterGrid(gridTiles, instances, gridConfig, scenarioGridConfig
                     let scaleZ = boxScale * (1 + (boxElevation*(1+boxSize*1*boxElevation+boxSize*0.5)));
                     instance.spatial.setScaleXYZ(boxScale, scaleZ, boxScale);
                     instance.setSprite(iconSprite);
+
+                    let groundY = ThreeAPI.terrainAt(tempVec1, ThreeAPI.tempVec3c)-boxSize // * 0.01;
+                    if (groundY > tempVec1.y) {
+                        tempVec1.y = groundY;
+                        posY = groundY;
+                        instance.spatial.setPosXYZ(tempVec1.x,  tempVec1.y, tempVec1.z);
+
+                    }
+
                 }
-                gridTile.obj3d.position.x = tempVec1.x + offsetX
+
+                gridTile.obj3d.position.x = tempVec1.x
                 gridTile.obj3d.position.y = posY;
-                gridTile.obj3d.position.z = tempVec1.z + offsetZ
+                gridTile.obj3d.position.z = tempVec1.z
+                ThreeAPI.tempVec3c.add(gridTile.obj3d.position)
+            //    instance.spatial.obj3d.lookAt(ThreeAPI.tempVec3c)
+            //    quat.copy(instance.spatial.obj3d.quaternion);
+            //    instance.spatial.setQuatXYZW(quat.x, quat.y, quat.z, quat.w );
+
                 ThreeAPI.getScene().remove(instance.spatial.obj3d)
             };
 

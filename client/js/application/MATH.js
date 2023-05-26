@@ -349,12 +349,12 @@ if(typeof(MATH) === "undefined") {
 
 
 	MATH.barycentricInterpolation = function (t1, t2, t3, p) {
-		var t1Area = this.triangleArea(t2, t3, p);
-		var t2Area = this.triangleArea(t1, t3, p);
-		var t3Area = this.triangleArea(t1, t2, p);
+		let t1Area = this.triangleArea(t2, t3, p);
+		let t2Area = this.triangleArea(t1, t3, p);
+		let t3Area = this.triangleArea(t1, t2, p);
 
 		// assuming the point is inside the triangle
-		var totalArea = t1Area + t2Area + t3Area;
+		let totalArea = t1Area + t2Area + t3Area;
 		if (!totalArea) {
 
 			if (p[0] === t1[0] && p[2] === t1[2]) {

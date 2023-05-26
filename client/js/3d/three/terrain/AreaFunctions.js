@@ -1,5 +1,6 @@
 "use strict";
 import {Vector3} from "../../../../libs/three/math/Vector3.js";
+import * as TerrainFunctions from "./TerrainFunctions.js";
 
 let checkPositionWithin = function(pos, terrainModel, parentObj) {
 
@@ -39,8 +40,8 @@ let hitPosStore = new Vector3();
 let hitNormalStore = new Vector3();
 
         class AreaFunctions {
-            constructor(terrainFunctions) {
-                this.terrainFunctions = terrainFunctions;
+            constructor() {
+            //    this.terrainFunctions = terrainFunctions;
             };
 
         setTerrainArea = function(terrainArea) {
@@ -72,7 +73,7 @@ let hitNormalStore = new Vector3();
         };
 
         terrainHeightAtPos = function(terrain, vec3, normalStore) {
-            return this.terrainFunctions.getTerrainHeightAt(terrain, vec3, this.getAreaOrigin(), normalStore);
+            return TerrainFunctions.getTerrainHeightAt(terrain, vec3, this.getAreaOrigin(), normalStore);
         };
 
         randomTerrainSetPosVec3 = function(vec3, terrain, rootObj3D, normalStore) {

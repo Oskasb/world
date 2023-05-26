@@ -3,13 +3,15 @@ import {TerrainMaterial} from "./TerrainMaterial.js";
 import {Vector3} from "../../../../libs/three/math/Vector3.js";
 import {Object3D} from "../../../../libs/three/core/Object3D.js";
 import {TerrainGeometry} from "./TerrainGeometry.js";
-import {TerrainFunctions} from "./TerrainFunctions.js";
+import * as TerrainFunctions from "./TerrainFunctions.js";
 
 
 let terrainList = {};
 let terrainIndex = {};
 let terrainGeometries = [];
 let calcVec = new Vector3();
+let posVec = new Vector3();
+let normVec = new Vector3();
 let terrainMaterial;
 let gridMeshAssetId = 'thisLoadsFromConfig';
 let gridConfig = {};
@@ -137,8 +139,8 @@ let getThreeTerrainByPosition = function(pos) {
         }
     }
 };
-let getThreeTerrainHeightAt = function(terrain, pos, normalStore) {
-    return TerrainFunctions.getHeightAt(pos, terrain.array1d, terrain.size, terrain.segments, normalStore);
+let getThreeTerrainHeightAt = function(terrainGeo, pos, normalStore) {
+    return TerrainFunctions.getHeightAt(pos, terrainGeo.getHeightmapData(), terrainGeo.tx_width, terrainGeo.tx_width - 1, normalStore);
 };
 
 let constructGeometries = function(heightMapData, transform) {
@@ -240,9 +242,16 @@ let activateTerrainGeos = function(x, y, range) {
 
 }
 
+let getHeightAndNormal = function(pos, normal) {
+    return getThreeTerrainHeightAt(geoBeneathPlayer, pos, normal)
+}
+
 class ThreeTerrain {
     constructor() {
 
+        this.call = {
+            getHeightAndNormal:getHeightAndNormal
+        }
     }
 
     loadData = function(matLoadedCB) {
@@ -320,7 +329,21 @@ class ThreeTerrain {
 
     };
 
+
+
+
     updateTerrainGeometry = function() {
+
+        let debugDrawNearby = function(index) {
+            calcVec.set(0.5 * Math.sin(GameAPI.getGameTime()), 0 , 0.5 * Math.cos(GameAPI.getGameTime()));
+            calcVec.multiplyScalar(Math.sin(0.3 * GameAPI.getGameTime()+index) + 1.0)
+            posVec.add(calcVec);
+            posVec.y = getHeightAndNormal(posVec, normVec) * 10;
+            normVec.add(posVec);
+            evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:posVec, color:'GREEN', size:0.3});
+            evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:posVec, to:normVec, color:'ORANGE'});
+        }
+
         if (GameAPI.gameMain.getPlayerCharacter()) {
             let playerPos = GameAPI.getMainCharPiece().getPos();
             let playerGeo = getTerrainGeoAtPos(playerPos);
@@ -330,7 +353,16 @@ class ThreeTerrain {
             if (playerGeo !== geoBeneathPlayer) {
                 activateTerrainGeos(playerGeo.gridX, playerGeo.gridY, gridConfig.range)
                 geoBeneathPlayer = playerGeo;
+            }
 
+            posVec.copy(playerPos);
+            posVec.y = getHeightAndNormal(playerPos, normVec);
+            evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:posVec, color:'GREEN', size:0.3});
+            normVec.add(posVec);
+            evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:posVec, to:normVec, color:'AQUA'});
+
+            for (let i = 0; i < 4; i++) {
+                debugDrawNearby(i);
             }
         }
     }

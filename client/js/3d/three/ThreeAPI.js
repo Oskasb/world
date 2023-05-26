@@ -188,8 +188,8 @@ class ThreeAPI {
         return this.threeModelLoader.terrainVegetationAt(pos, normalStore);
     };
 
-    setYbyTerrainHeightAt = function(pos, normalStore) {
-        return this.threeModelLoader.getHeightFromTerrainAt(pos, normalStore);
+    terrainAt = function(pos, normalStore) {
+        return terrainSystem.getTerrainHeightAndNormal(pos, normalStore);
     };
 
     updateWindowParameters = function(width, height, aspect, pxRatio) {
@@ -285,6 +285,10 @@ class ThreeAPI {
 
     addToScene = function(threeObject) {
         this.threeSetup.addToScene(threeObject);
+    };
+
+    removeFromScene = function(threeObject) {
+        this.scene.remove(threeObject);
     };
 
     createRootObject = function() {

@@ -199,18 +199,20 @@ let getTriangleAt = function(array1d, segments, x, y) {
     p1.x = xf;
     p1.y = yc;
 
-    p1.z = this.getAt(array1d, segments, xf, yc);
+    p1.z = getAt(array1d, segments, xf, yc);
 
 
-    setTri(p1, xf, yc, this.getAt(array1d, segments,xf, yc));
-    setTri(p2, xc, yf, this.getAt(array1d, segments,xc, yf));
+    setTri(p1, xf, yc, getAt(array1d, segments,xf, yc));
+    setTri(p2, xc, yf, getAt(array1d, segments,xc, yf));
 
 
     if (fracX < 1-fracY) {
-        setTri(p3,xf,yf,this.getAt(array1d, segments,xf, yf));
+        setTri(p3,xf,yf,getAt(array1d, segments,xf, yf));
     } else {
-        setTri(p3, xc, yc, this.getAt(array1d, segments,xc, yc));
+        setTri(p3, xc, yc, getAt(array1d, segments,xc, yc));
     }
+
+
 
     points[0] = p1;
     points[1] = p2;
@@ -279,7 +281,14 @@ let getAt = function(array1d, segments, x, y) {
 
     let  idx = (yFactor + xFactor);
 
-    return array1d[idx];
+    ThreeAPI.tempVec3.x = x -segments*0.5;
+    ThreeAPI.tempVec3.z = y -segments*0.5;
+
+    ThreeAPI.tempVec3.y = array1d[idx * 4]/255 +0.2;
+  //  console.log(array1d[idx * 4])
+    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos: ThreeAPI.tempVec3, color:'YELLOW', size:0.4});
+
+    return array1d[idx * 4] / 255;
 };
 
 // get the value at the precise integer (x, y) coordinates
@@ -390,7 +399,7 @@ let getTerrainBuffers = function(terrain) {
 
 
 let getPreciseHeight = function(array1d, segments, x, z, normalStore, htN, htP) {
-    let  tri = this.getTriangleAt(array1d, segments, x, z);
+    let  tri = getTriangleAt(array1d, segments, x, z);
 
     setTri(p0, x, z, 0);
 
@@ -399,16 +408,16 @@ let getPreciseHeight = function(array1d, segments, x, z, normalStore, htN, htP) 
 
     if (normalStore) {
 
-        triangle.a.x =  this.returnToWorldDimensions(tri[0].x, htN, htP, segments);
-        triangle.a.z =  this.returnToWorldDimensions(tri[0].y, htN, htP, segments);
+        triangle.a.x =  returnToWorldDimensions(tri[0].x, htN, htP, segments);
+        triangle.a.z =  returnToWorldDimensions(tri[0].y, htN, htP, segments);
         triangle.a.y =  tri[0].z;
 
-        triangle.b.x =  this.returnToWorldDimensions(tri[1].x, htN, htP, segments);
-        triangle.b.z =  this.returnToWorldDimensions(tri[1].y, htN, htP, segments);
+        triangle.b.x =  returnToWorldDimensions(tri[1].x, htN, htP, segments);
+        triangle.b.z =  returnToWorldDimensions(tri[1].y, htN, htP, segments);
         triangle.b.y =  tri[1].z;
 
-        triangle.c.x =  this.returnToWorldDimensions(tri[2].x, htN, htP, segments);
-        triangle.c.z =  this.returnToWorldDimensions(tri[2].y, htN, htP, segments);
+        triangle.c.x =  returnToWorldDimensions(tri[2].x, htN, htP, segments);
+        triangle.c.z =  returnToWorldDimensions(tri[2].y, htN, htP, segments);
         triangle.c.y =  tri[2].z;
 
         if (triangle.a.equals(triangle.b)) {
@@ -428,6 +437,14 @@ let getPreciseHeight = function(array1d, segments, x, z, normalStore, htN, htP) 
         if (normalStore.y < 0) {
             normalStore.negate();
         }
+
+        evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:triangle.a, color:'GREEN', size:0.2});
+        evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:triangle.b, color:'GREEN', size:0.2});
+        evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:triangle.c, color:'GREEN', size:0.2});
+
+        evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:triangle.a, to:triangle.b, color:'AQUA'});
+        evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:triangle.b, to:triangle.c, color:'AQUA'});
+        evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:triangle.c, to:triangle.a, color:'AQUA'});
 
     }
 
@@ -508,6 +525,7 @@ class TerrainFunctions {
             constructor() {
                 iWeightCurve = new MATH.CurveState(MATH.curves['zeroOneZero'], 1);
                 jWeightCurve = new MATH.CurveState(MATH.curves['zeroOneZero'], 1);
+
             }
 
         createTerrain = function(moduleOptions) {
@@ -582,10 +600,25 @@ class TerrainFunctions {
             return getHeightAt(calcVec2, terrain.array1d, terrainSize, segments, normalStore);
         };
 
+    getTerrainHeightAndNormalAt = function(pos, terrainData, terrainSize, segments, normalStore) {
+/*
+        calcVec2.subVectors(pos, terrainOrigin);
+
+        let  terrainSize = terrain.opts.xSize;
+        let  segments = terrain.opts.xSegments;
+
+        calcVec2.x -= terrain.opts.xSize / 2;
+        calcVec2.z -= terrain.opts.xSize / 2;
+*/
+        return getHeightAt(pos, terrainData, terrainSize, segments, normalStore);
+    };
+
     getTerrainBuffers(terrain) {
         return getTerrainBuffers(terrain)
     }
 
     }
 
-export {TerrainFunctions}
+export {
+    getHeightAt
+}

@@ -21,7 +21,9 @@
         {"id": "img_particle_atlas_8x8"  , "config": { "url":"./client/assets/images/effects/particle_atlas_8x8.png" }},
         {"id": "img_gui_atlas_16x16"     , "config": { "url":"./client/assets/images/effects/gui_atlas_16x16.png"    }},
         {"id": "img_fontatlas"           , "config": { "url":"./client/assets/images/effects/fontatlas_sego.png"     }},
-        {"id": "img_heightmap_world_01"  , "config": { "url":"./client/assets/images/textures/heightmap_w01.png"    }},
+        {"id": "img_heightmap_64"        , "config": { "url":"./client/assets/images/textures/heightmap_64.png"      }},
+
+        {"id": "img_heightmap_world_01"  , "config": { "url":"./client/assets/images/textures/heightmap_w01.png"     }},
         {"id": "img_terrain_darkrock"    , "config": { "url":"./client/assets/images/textures/tiles/darkrock.png"    }},
         {"id": "img_terrain_striperock"  , "config": { "url":"./client/assets/images/textures/tiles/striperock.png"  }},
         {"id": "img_terrain_mud"         , "config": { "url":"./client/assets/images/textures/tiles/mud.png"         }},

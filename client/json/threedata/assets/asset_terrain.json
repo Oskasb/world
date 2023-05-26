@@ -10,7 +10,7 @@
               "data_key":"terrain_config",
               "config":{
                 "grid": {
-                  "range": 1
+                  "range": 0
                 },
                 "height_map":{
                   "dimensions":{

@@ -1,26 +1,77 @@
 
 let terrainMaterial = null;
 let heightmap = null;
+let heightGrid = [];
+let width = null;
+let height = null;
 
 let setupHeightmapData = function() {
 
     let heightmapTx = terrainMaterial.heightmap;
     let imgData = heightmapTx.source.data
+    width = imgData.width;
+    height = imgData.height;
     console.log(terrainMaterial, heightmapTx, heightmapTx.source.data, imgData , this);
 
     let canvas = document.createElement('canvas');
     let context = canvas.getContext('2d')
 
-    context.drawImage(heightmapTx.source.data, 0, 0, imgData.width, imgData.height);
-    heightmap = context.getImageData(0, 0, imgData.width, imgData.height).data;
+    var img = new Image();
+    img.src = heightmapTx.sourceUrl
+
+    context.drawImage(img, 0, 0);
+
+ //   context.drawImage(heightmapTx.source.data, 0, 0, width, height);
+    heightmap = context.getImageData(0, 0, width, height).data;
     console.log(heightmap)
-    for (let row = 0; row < imgData.height; row++) {
-        for (let col = 0; col < imgData.width; col++) {
-            let i = row * imgData.width + col;
-                let idx = i * 4;
-        //    g[i].z = (data[idx] + data[idx+1] + data[idx+2]) / 765 * spread + options.minHeight;
+
+    //    for (let i = 0; i < heightmap.length / 4; i++) {
+    //        let idx = i * 4;
+    //        heightmap[idx] = Math.random()*255;
+            //    g[i].z = (data[idx] + data[idx+1] + data[idx+2]) / 765 * spread + options.minHeight;
+    //    }
+
+    console.log(heightGrid)
+}
+
+let getPixelRedAtBufferIndex = function(i, j, terrainGeo) {
+    let tiles = terrainGeo.tiles;
+    let gridX = terrainGeo.gridX;
+    let gridY = terrainGeo.gridY;
+    let txWidth = terrainGeo.tx_width;
+    let vertsPerSegAxis = terrainGeo.vertsPerSegAxis;
+ //   let texelX = index%vertsPerSegAxis;
+    let texelY = MATH.remainder()
+
+    let pxX =  (0 + i + vertsPerSegAxis * gridX);
+    let pxY =  (0 + j + vertsPerSegAxis * gridY);
+    return 100 * heightGrid[pxX][pxY] / 255 // *100;
+}
+
+
+let applyHeightmapToMesh = function(mesh, terrainGeo) {
+    let posBuffer = mesh.geometry.attributes.position.array;
+    let index = mesh.geometry.index.array;
+    console.log(posBuffer);
+    let vertsPerSegAxis = terrainGeo.vertsPerSegAxis;
+
+    for (let i = 0; i < vertsPerSegAxis; i++) {
+        for (let j = 0; j < vertsPerSegAxis; j++) {
+            let idx = i * vertsPerSegAxis + j;
+            posBuffer[idx*3+1] = getPixelRedAtBufferIndex(i, j, terrainGeo);
         }
     }
+
+    posBuffer[index[6]] = 100;
+    posBuffer[index[20]] = 100;
+    posBuffer[index[2]] = 100;
+
+    posBuffer[index[4]] = 50;
+
+ //   for (let i = 0; i < posBuffer.length / 3; i++) {
+
+ //   }
+    mesh.needsUpdate = true;
 }
 
 class TerrainGeometry{
@@ -39,16 +90,8 @@ class TerrainGeometry{
         this.tx_width = tx_width;
         this.isActive = false;
 
-        let activateGeo = function() {
-            if (this.isActive) {
-                console.log("Geo Already Active")
-                return;
-            }
+        let geoReady = function() {
 
-
-            console.log("Activate Geo", this.gridX, this.gridY);
-            this.isActive = true;
-            this.attachGeometryInstance()
             if (!terrainMaterial) {
                 terrainMaterial = this.instance.originalModel.material.mat;
                 setupHeightmapData()
@@ -58,6 +101,19 @@ class TerrainGeometry{
                 terrainMaterial.uniforms.heightmaptiles.value.z = this.tx_width;
                 terrainMaterial.needsUpdate = true;
             }
+        //    applyHeightmapToMesh(this.model, this);
+        }.bind(this);
+
+        let activateGeo = function() {
+            if (this.isActive) {
+                console.log("Geo Already Active")
+                return;
+            }
+
+            console.log("Activate Geo", this.gridX, this.gridY);
+            this.isActive = true;
+            this.attachGeometryInstance(geoReady)
+
         }.bind(this);
 
         let deactivateGeo = function() {
@@ -80,21 +136,37 @@ class TerrainGeometry{
 
     detachGeometryInstance() {
         this.instance.decommissionInstancedModel();
+        ThreeAPI.removeFromScene(this.model);
         this.instance = null;
     }
 
-    attachGeometryInstance() {
+    attachGeometryInstance(geoReady) {
         let addSceneInstance = function(instance) {
             this.instance = instance;
 
             if (!this.model) {
                 this.model = instance.originalModel.model.scene.children[0].clone();
+                this.model.material = new THREE.MeshBasicMaterial();
+                this.model.material.wireframe = true;
+                this.model.material.color.r = 0.1;
+                this.model.material.color.g = 0.5;
+                this.model.material.color.b = 0.1;
+                this.model.material.color.a = 0.4;
+                this.model.material.renderOrder = 10;
+                this.model.material.needsUpdate = true;
+                this.model.material.depthTest = false;
+                this.model.material.depthWrite = false;
                 this.model.name = 'Grid_'+this.gridX+'_'+this.gridY;
                 this.model.position.copy(this.obj3d.position);
-                this.model.position.y = 1;
-                ThreeAPI.addToScene(this.model);
-                console.log(this.model);
+            //    this.model.position.y = 0.1;
+                this.model.scale.copy(this.obj3d.scale);
+                this.model.scale.multiplyScalar(100)
+
+                console.log(this.model, instance.originalModel);
             }
+
+
+            ThreeAPI.addToScene(this.model);
 
             instance.setActive(ENUMS.InstanceState.ACTIVE_VISIBLE);
             instance.spatial.stickToObj3D(this.obj3d);
@@ -104,6 +176,7 @@ class TerrainGeometry{
             ThreeAPI.tempVec4.w = 1;
             instance.setAttributev4('sprite', ThreeAPI.tempVec4)
             ThreeAPI.getScene().remove(instance.spatial.obj3d)
+            geoReady();
         }.bind(this);
         client.dynamicMain.requestAssetInstance(this.gridMeshAssetId, addSceneInstance)
     }

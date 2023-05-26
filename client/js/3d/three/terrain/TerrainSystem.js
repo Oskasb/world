@@ -1,6 +1,6 @@
 import {ThreeTerrain} from "./ThreeTerrain.js";
 import {TerrainArea} from "./TerrainArea.js";
-import {TerrainFunctions} from "./TerrainFunctions.js";
+import * as TerrainFunctions from "./TerrainFunctions.js";
 import {Vector3} from "../../../../libs/three/math/Vector3.js";
 
 let tempVec = new Vector3();
@@ -16,7 +16,6 @@ let spawnCount = 0;
 let row = 0;
 let col = 0;
 
-let terrainFunctions = new TerrainFunctions();
 
 let gridPosX = function() {
     row = MATH.moduloPositive(spawnCount, gridWidth);
@@ -43,12 +42,7 @@ class TerrainSystem {
     };
 
     getTerrainHeightAndNormal = function(pos, normalStore) {
-
-        for (let i = 0; i < this.terrainAreas.length; i++) {
-            if (this.terrainAreas[i].positionIsWithin(pos)) {
-                return this.terrainAreas[i].getHeightAndNormalForPos(pos, normalStore)
-            }
-        }
+        return threeTerrain.call.getHeightAndNormal(pos, normalStore);
     };
 
     getTerrainAreaAtPos = function(pos) {
