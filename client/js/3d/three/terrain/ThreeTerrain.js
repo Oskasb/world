@@ -338,7 +338,7 @@ class ThreeTerrain {
             calcVec.set(0.5 * Math.sin(GameAPI.getGameTime()), 0 , 0.5 * Math.cos(GameAPI.getGameTime()));
             calcVec.multiplyScalar(Math.sin(0.3 * GameAPI.getGameTime()+index) + 1.0)
             posVec.add(calcVec);
-            posVec.y = getHeightAndNormal(posVec, normVec) * 10;
+            posVec.y = getHeightAndNormal(posVec, normVec);
             normVec.add(posVec);
             evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:posVec, color:'GREEN', size:0.3});
             evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:posVec, to:normVec, color:'ORANGE'});

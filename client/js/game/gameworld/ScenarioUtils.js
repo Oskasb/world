@@ -329,7 +329,7 @@ function setupEncounterGrid(gridTiles, instances, gridConfig, scenarioGridConfig
                     instance.spatial.setScaleXYZ(boxScale, scaleZ, boxScale);
                     instance.setSprite(iconSprite);
 
-                    let groundY = 10*ThreeAPI.terrainAt(tempVec1, ThreeAPI.tempVec3c)-boxSize // * 0.01;
+                    let groundY = ThreeAPI.terrainAt(tempVec1, ThreeAPI.tempVec3c)-boxSize * 0.5;
                     if (groundY > tempVec1.y) {
                         tempVec1.y = groundY;
                         posY = groundY;
@@ -340,7 +340,7 @@ function setupEncounterGrid(gridTiles, instances, gridConfig, scenarioGridConfig
                 }
 
                 gridTile.obj3d.position.x = tempVec1.x
-                gridTile.obj3d.position.y = posY;
+                gridTile.obj3d.position.y = tempVec1.y+boxSize;
                 gridTile.obj3d.position.z = tempVec1.z
             //    ThreeAPI.tempVec3c.add(gridTile.obj3d.position)
             //    instance.spatial.obj3d.lookAt(ThreeAPI.tempVec3c)

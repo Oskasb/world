@@ -286,7 +286,14 @@ let getAt = function(array1d, segments, x, y) {
 
     ThreeAPI.tempVec3.y = array1d[idx * 4]/255 +0.2;
   //  console.log(array1d[idx * 4])
-    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos: ThreeAPI.tempVec3, color:'YELLOW', size:0.4});
+
+    let rgba = {
+        x:array1d[idx * 4] / 255,
+        y:array1d[idx * 4+1] / 255,
+        z:array1d[idx * 4+2] / 255
+    }
+
+    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos: ThreeAPI.tempVec3, color:rgba, size:0.4});
 
     return array1d[idx * 4] / 255;
 };

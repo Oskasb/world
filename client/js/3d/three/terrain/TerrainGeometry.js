@@ -5,7 +5,7 @@ let heightGrid = [];
 let width = null;
 let height = null;
 let debugWorld = null;
-
+let ctx;
 let setupHeightmapData = function() {
 
     let heightmapTx = terrainMaterial.heightmap;
@@ -16,26 +16,24 @@ let setupHeightmapData = function() {
 
     let canvas = document.createElement('canvas');
     let context = canvas.getContext('2d')
+    canvas.width = width;
+    canvas.height = height;
 
-    var img = new Image();
-    img.src = heightmapTx.sourceUrl
-
-    context.drawImage(img, 0, 0);
+    context.drawImage(imgData, 0, 0, width, height);
     debugWorld.material.map = heightmapTx.clone() // new THREE.CanvasTexture(canvas);
     debugWorld.material.map.flipY = false;
  //   debugWorld.material.map.repeat.y = -1;
     debugWorld.material.needsUpdate = true;
  //   context.drawImage(heightmapTx.source.data, 0, 0, width, height);
     heightmap = context.getImageData(0, 0, width, height).data;
+/*
+    setTimeout(function() {
+        context.drawImage(imgData, 0, 0, width, height);
+        heightmap = context.getImageData(0, 0, width, height).data;
+        console.log(canvas.width, canvas.height, heightmap)
+    }, 3000)
+*/
     console.log(heightmap)
-
-    //    for (let i = 0; i < heightmap.length / 4; i++) {
-    //        let idx = i * 4;
-    //        heightmap[idx] = Math.random()*255;
-            //    g[i].z = (data[idx] + data[idx+1] + data[idx+2]) / 765 * spread + options.minHeight;
-    //    }
-
-    console.log(heightGrid)
 }
 
 let getPixelRedAtBufferIndex = function(i, j, terrainGeo) {
@@ -205,7 +203,8 @@ class TerrainGeometry{
     }
 
     getHeightmapData() {
-        return heightmap;
+        //      return ctx.getImageData(0, 0, width, height).data;
+       return heightmap;
     }
 
 }
