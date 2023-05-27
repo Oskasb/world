@@ -17,7 +17,7 @@ let gridMeshAssetId = 'thisLoadsFromConfig';
 let gridConfig = {};
 let geoBeneathPlayer = null;
 let activeTerrainGeometries = [];
-
+let terrainScale = new Vector3();
 let transformModel = function(trf, model) {
     model.position.x = trf.pos[0];
     model.position.y = trf.pos[1];
@@ -140,7 +140,7 @@ let getThreeTerrainByPosition = function(pos) {
     }
 };
 let getThreeTerrainHeightAt = function(terrainGeo, pos, normalStore) {
-    return TerrainFunctions.getHeightAt(pos, terrainGeo.getHeightmapData(), terrainGeo.tx_width, terrainGeo.tx_width - 1, normalStore);
+    return TerrainFunctions.getHeightAt(pos, terrainGeo.getHeightmapData(), terrainGeo.tx_width, terrainGeo.tx_width - 1, normalStore, terrainScale);
 };
 
 let constructGeometries = function(heightMapData, transform) {
@@ -153,7 +153,7 @@ let constructGeometries = function(heightMapData, transform) {
 
     let terrainOrigin = new Vector3();
     MATH.vec3FromArray(terrainOrigin, transform['pos']);
-    let terrainScale = new Vector3();
+
     MATH.vec3FromArray(terrainScale, transform['scale']);
 
     let segmentScale = new Vector3();
