@@ -1575,7 +1575,12 @@
         "skip": [
           "slope = slope * 0.98 + 0.02*sin(vPosition.x * twoPi*2.0)  + 0.03*cos(vPosition.z * twoPi*2.0);",
           "slope = slope * 0.95 + 0.05*sin(vPosition.x * twoPi*0.5)  + 0.05*cos(vPosition.z * twoPi*0.5);",
-          "slope = slope * 0.97 + 0.03*sin(vPosition.x * twoPi*1.0)  + 0.05*cos(vPosition.z * twoPi*1.0);"
+          "slope = slope * 0.97 + 0.03*sin(vPosition.x * twoPi*1.0)  + 0.05*cos(vPosition.z * twoPi*1.0);",
+
+
+          "slope = slope * 0.9998 + 0.0002*sin(vPosition.x * twoPi*2.0)  + 0.0002*cos(vPosition.z * twoPi*2.0);",
+          "slope = slope * 0.9995 + 0.0005*sin(vPosition.x * twoPi*0.5)  + 0.0005*cos(vPosition.z * twoPi*0.25);",
+          "slope = slope * 0.9997 + 0.0003*sin(vPosition.x * twoPi*2.0)  + 0.0003*cos(vPosition.z * twoPi*1.0);"
         ],
 
         "fragmentTerrainInstancing":[
@@ -1610,9 +1615,7 @@
 
           "float twoPi = 6.2831;",
           "float slope =  1.0-(0.0 + dot(vNormal, vec3(0.0, 1.0, 0.0))*1.0);",
-          "slope = slope * 0.998 + 0.002*sin(vPosition.x * twoPi*2.0)  + 0.002*cos(vPosition.z * twoPi*2.0);",
-          "slope = slope * 0.995 + 0.005*sin(vPosition.x * twoPi*0.5)  + 0.005*cos(vPosition.z * twoPi*0.25);",
-          "slope = slope * 0.997 + 0.003*sin(vPosition.x * twoPi*2.0)  + 0.003*cos(vPosition.z * twoPi*1.0);",
+
           "vec4 sprite = vec4(0.0, 8.0, 1.0, 1.0);",
           "vec2 tileScale = 1.0/tx0tiles;",
           "tileScale.y /= sprite.z;",
@@ -1627,11 +1630,11 @@
 
 
 
-          "float slope01 = 0.012;",
-          "float slope02 = 0.026;",
-          "float slope03 = 0.049;",
-          "float slope04 = 0.12;",
-          "float slope05 = 0.17;",
+          "float slope01 = 0.00002;",
+          "float slope02 = 0.00004;",
+          "float slope03 = 0.00006;",
+          "float slope04 = 0.00008;",
+          "float slope05 = 0.00012;",
           "float slope06 = 0.19;",
           "float slope07 = 0.21;",
           "float slope08 = 0.23;",
@@ -1835,9 +1838,9 @@
 
           "vec4 lightColor = vec4(sunDir, 1.0);",
 
-          "float intensity = max( 0.2 + dot(txNmBase.rgb, sunLightDirection ) * 0.8, 0.0);",
+          "float intensity = max( 0.01 + dot(txNmBase.rgb, sunLightDirection ) * 0.99, 0.0);",
 
-          "gl_FragColor = vColor * txColor * 1.0 + txColor * lightColor*intensity;",
+          "gl_FragColor = vColor * txColor * (intensity*0.25 + 0.75) + txColor * lightColor*intensity*2.0;",
 
           "float fogFactor = min(fogDensity * fogDepth, 1.0);",
           "gl_FragColor.rgb = mix(gl_FragColor.rgb, fogColor,  fogFactor );",
