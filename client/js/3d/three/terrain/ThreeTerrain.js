@@ -171,8 +171,8 @@ let constructGeometries = function(heightMapData, transform) {
         terrainGeometries[i] = [];
         for (let j = 0; j < tiles; j++) {
             let obj3d = new Object3D();
-            obj3d.position.x = x0 + segmentScale.x * i + segmentScale.x*0.5;
-            obj3d.position.z = z0 + segmentScale.z * j + segmentScale.z*0.5;
+            obj3d.position.x = x0 + segmentScale.x * i + segmentScale.x*0.5 + terrainScale.x*0.5 / txWidth;
+            obj3d.position.z = z0 + segmentScale.z * j + segmentScale.z*0.5 + terrainScale.z*0.5 / txWidth;
             obj3d.position.add(terrainOrigin);
             obj3d.scale.copy(segmentScale);
             obj3d.scale.multiplyScalar(0.005);

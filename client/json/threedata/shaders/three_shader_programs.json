@@ -1518,7 +1518,7 @@
 
           "vec2 tileScale = 1.0/heightmaptiles.xy;",
 
-          "vec2 tileOffset = vec2(sprite.x * tileScale.x + txPointOffset*0.0, sprite.y * tileScale.y + txPointOffset*0.0);",
+          "vec2 tileOffset = vec2(sprite.x * tileScale.x + txPointOffset*0.5, sprite.y * tileScale.y + txPointOffset*0.5);",
 
           "vec2 scaledVPos = vec2(vPosition.x*0.5 + 0.5, vPosition.z *0.5 + 0.5)*tileScale;",
 
