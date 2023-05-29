@@ -1,12 +1,28 @@
 
 let terrainMaterial = null;
 let heightmap = null;
+let terrainmap = null;
 let heightGrid = [];
 let width = null;
 let height = null;
+let terrainWidth = null;
+let terrainHeight = null;
+
 let debugWorld = null;
 let ctx;
 let setupHeightmapData = function() {
+
+    let terrainmapTx = terrainMaterial.terrainmap;
+    let terrainData = terrainmapTx.source.data;
+    terrainWidth = terrainData.width;
+    terrainHeight = terrainData.height;
+
+    let terrainCanvas = document.createElement('canvas');
+    let terrainContext = terrainCanvas.getContext('2d')
+    terrainContext.width = terrainWidth;
+    terrainContext.height = terrainHeight;
+    terrainContext.drawImage(terrainData, 0, 0, terrainWidth, terrainHeight);
+    terrainmap = terrainContext.getImageData(0, 0, terrainWidth, terrainHeight).data;
 
     let heightmapTx = terrainMaterial.heightmap;
     let imgData = heightmapTx.source.data
@@ -20,10 +36,11 @@ let setupHeightmapData = function() {
     canvas.height = height;
 
     context.drawImage(imgData, 0, 0, width, height);
-    debugWorld.material.map = heightmapTx.clone() // new THREE.CanvasTexture(canvas);
+    debugWorld.material.map = terrainmapTx.clone() // new THREE.CanvasTexture(canvas);
     debugWorld.material.map.flipY = false;
  //   debugWorld.material.map.repeat.y = -1;
     debugWorld.material.needsUpdate = true;
+ //   terrainMaterial.needsUpdate = true;
  //   context.drawImage(heightmapTx.source.data, 0, 0, width, height);
     heightmap = context.getImageData(0, 0, width, height).data;
 /*
@@ -33,7 +50,7 @@ let setupHeightmapData = function() {
         console.log(canvas.width, canvas.height, heightmap)
     }, 3000)
 */
-    console.log(heightmap)
+    console.log([heightmap], [terrainmap])
 }
 
 let getPixelRedAtBufferIndex = function(i, j, terrainGeo) {
@@ -147,7 +164,7 @@ class TerrainGeometry{
             this.instance = instance;
 
 
-            if (!debugWorld) {
+            if (debugWorld === null) {
                 const geometry = new THREE.PlaneGeometry( 1, 1 );
                 debugWorld = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial());
                 debugWorld.rotateX(MATH.HALF_PI);
@@ -162,7 +179,7 @@ class TerrainGeometry{
                 debugWorld.material.transparent = true;
                 debugWorld.material.depthTest = false;
                 debugWorld.material.depthWrite = false;
-                ThreeAPI.addToScene(debugWorld);
+            //    ThreeAPI.addToScene(debugWorld);
             }
 
             if (!this.model) {
@@ -187,7 +204,7 @@ class TerrainGeometry{
             }
 
 
-            ThreeAPI.addToScene(this.model);
+        //    ThreeAPI.addToScene(this.model);
 
             instance.setActive(ENUMS.InstanceState.ACTIVE_VISIBLE);
             instance.spatial.stickToObj3D(this.obj3d);

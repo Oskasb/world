@@ -1475,6 +1475,7 @@
 
           "precision highp float;",
           "uniform sampler2D heightmap;",
+          "uniform sampler2D terrainmap;",
           "uniform mat4 modelViewMatrix;",
           "uniform mat4 projectionMatrix;",
 
@@ -1505,36 +1506,37 @@
           "uniform float fogDensity;",
           "varying float fogDepth;",
           "varying float vFragDepth;",
-          "varying vec4 terrainSample;",
           "varying vec3 vPosition;",
           "varying vec3 vNormal;",
           "varying vec3 faceNormal;",
+          "varying vec2 tileOffset;",
+          "varying vec2 tileScale;",
+          "varying vec3 terrainPosition;",
           "void main(){",
           "vPosition = position;",
+          "terrainPosition = position;",
           "float txw = heightmaptiles.z;",
           "float txPointOffset = 1.0/txw;",
-          "float shift = txPointOffset * 0.5;",
+          "float shift = txPointOffset * 1.0;",
           "vec4 quat = orientation.xyzw;",
 
-          "vec2 tileScale = 1.0/heightmaptiles.xy;",
+          "tileScale = 1.0/heightmaptiles.xy;",
 
-          "vec2 tileOffset = vec2(sprite.x * tileScale.x + txPointOffset*0.5, sprite.y * tileScale.y + txPointOffset*0.5);",
+          "tileOffset = vec2(sprite.x * tileScale.x + txPointOffset*0.5, sprite.y * tileScale.y + txPointOffset*0.5);",
 
-          "vec2 scaledVPos = vec2(vPosition.x*0.5 + 0.5, vPosition.z *0.5 + 0.5)*tileScale;",
+          "vec2 scaledVPos = vec2(position.x*0.5 + 0.5, position.z *0.5 + 0.5)*tileScale;",
 
           "heightSampler = (scaledVPos + tileOffset);",
 
           "vec4 sample = texture2D( heightmap, heightSampler);",
 
-          "terrainSample = sample;",
-
-          "vec2 normalSamplerP0 = vec2(heightSampler.x +shift , heightSampler.y +shift);",
+          "vec2 normalSamplerP0 = vec2(heightSampler.x +shift*0.5 , heightSampler.y +shift*0.5);",
           "vec4 normalSampleP0 = texture2D( heightmap, normalSamplerP0);",
 
-          "vec2 normalSamplerP1 = vec2(normalSamplerP0.x - txPointOffset, normalSamplerP0.y);",
+          "vec2 normalSamplerP1 = vec2(normalSamplerP0.x - shift, normalSamplerP0.y);",
           "vec4 normalSampleP1 = texture2D( heightmap, normalSamplerP1);",
 
-          "vec2 normalSamplerP2 = vec2(normalSamplerP0.x, normalSamplerP0.y - txPointOffset);",
+          "vec2 normalSamplerP2 = vec2(normalSamplerP0.x, normalSamplerP0.y - shift);",
           "vec4 normalSampleP2 = texture2D( heightmap, normalSamplerP2);",
 
           "vec3 triPoint0 = vec3( normalSamplerP0.x, normalSampleP0.x*txPointOffset*2.0, normalSamplerP0.y);",
@@ -1582,7 +1584,7 @@
           "uniform vec3 sunLightDirection;",
           "uniform vec3 fogColor;",
           "uniform float fogDensity;",
-
+          "uniform sampler2D terrainmap;",
           "uniform sampler2D tx0;",
           "uniform sampler2D tx0nm;",
           "uniform sampler2D tx1;",
@@ -1595,9 +1597,16 @@
           "varying vec3 vPosition;",
           "varying vec3 vNormal;",
           "varying vec3 faceNormal;",
-          "varying vec4 terrainSample;",
-
+          "varying vec2 tileOffset;",
+          "varying vec2 tileScale;",
+          "varying vec3 terrainPosition;",
           "void main(){",
+
+          "vec2 scaledVPos = vec2(terrainPosition.x*0.5 + 0.5, terrainPosition.z *0.5 + 0.5)*tileScale;",
+
+          "vec2 terrainSampler = (scaledVPos + tileOffset);",
+
+          "vec4 terrainMapSample = texture2D( terrainmap, terrainSampler);",
 
           "float twoPi = 6.2831;",
           "float slope =  1.0-(0.0 + dot(vNormal, vec3(0.0, 1.0, 0.0))*1.0);",
@@ -1610,8 +1619,9 @@
           "vec2 scaledUv = vUv*tileScale;",
           "scaledUv.y /= sprite.z;",
 
-          "float sampleBlue = terrainSample.b;",
-          "float sampleGreen = terrainSample.g;",
+
+          "float sampleBlue = terrainMapSample.b;",
+          "float sampleGreen = terrainMapSample.g;",
 
           "float rockRow = 1.0;",
 

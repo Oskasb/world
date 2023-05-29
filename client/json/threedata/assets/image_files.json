@@ -23,6 +23,7 @@
         {"id": "img_fontatlas"           , "config": { "url":"./client/assets/images/effects/fontatlas_sego.png"     }},
         {"id": "img_heightmap_64"        , "config": { "url":"./client/assets/images/textures/heightmap_64.png"      }},
 
+        {"id": "img_terrainmap_world_01" , "config": { "url":"./client/assets/images/textures/terrainmap_w01.png"    }},
         {"id": "img_heightmap_world_01"  , "config": { "url":"./client/assets/images/textures/heightmap_w01.png"     }},
         {"id": "img_terrain_darkrock"    , "config": { "url":"./client/assets/images/textures/tiles/darkrock.png"    }},
         {"id": "img_terrain_striperock"  , "config": { "url":"./client/assets/images/textures/tiles/striperock.png"  }},
