@@ -1513,12 +1513,15 @@
           "varying vec2 tileScale;",
           "varying vec3 terrainPosition;",
           "void main(){",
+
           "vPosition = position;",
           "terrainPosition = position;",
           "float txw = heightmaptiles.z;",
           "float txPointOffset = 1.0/txw;",
           "float shift = txPointOffset * 1.0;",
           "vec4 quat = orientation.xyzw;",
+
+          "vUv = uv;",
 
           "tileScale = 1.0/heightmaptiles.xy;",
 
@@ -1558,13 +1561,13 @@
           "float intensity = max( 0.4 + dot(faceNormal, sunLightDirection ) * 0.5, 0.0);",
           "sunDir = sunLightColor * intensity * (0.3+intensity*intensity*0.3);",
 
-          "vUv = uv;",
           "vColor.r = sunDir.r + ambientLightColor.r ;",
           "vColor.g = sunDir.g + ambientLightColor.g ;",
           "vColor.b = sunDir.b + ambientLightColor.b ;",
           "vColor.a = 1.0;",
 
-          "vColor = vec4(vertexColor.r * vColor.r, vertexColor.g*vColor.g, vertexColor.b*vColor.b,  vColor.a*vertexColor.a);",
+          "vColor = vec4(vertexColor.r * vColor.r, vertexColor.g*vColor.g , vertexColor.b*vColor.b,  vColor.a*vertexColor.a);",
+
 
           "gl_Position = projectionMatrix * modelViewMatrix * vec4( offset + vPosition, 1.0 );",
           "fogDepth = gl_Position.z*1.0;",
@@ -1607,6 +1610,14 @@
           "varying vec3 terrainPosition;",
           "void main(){",
 
+
+          "float tileCount = 16.0;",
+          "float tileXuv = max(0.001, min(vUv.x*0.999, 0.999)) * tileCount;",
+          "float tileYuv = max(0.001, min(vUv.y*0.999, 0.999)) * tileCount;",
+          "float uvX = tileXuv * 1.0 - floor(tileXuv * 1.0)*0.9999;",
+          "float uvY = tileYuv * 1.0 - floor(tileYuv * 1.0)*0.9999;",
+          "vec2 tileUv = vec2(uvX*1.0, uvY*1.0);",
+
           "vec2 scaledVPos = vec2(terrainPosition.x*0.5 + 0.5, terrainPosition.z *0.5 + 0.5)*tileScale;",
 
           "vec2 terrainSampler = (scaledVPos + tileOffset);",
@@ -1623,7 +1634,7 @@
           "vec4 sprite = vec4(0.0, 8.0, 1.0, 1.0);",
           "vec2 tileScale = 1.0/tx0tiles;",
           "tileScale.y /= sprite.z;",
-          "vec2 scaledUv = vUv*tileScale;",
+          "vec2 scaledUv = tileUv*tileScale;",
           "scaledUv.y /= sprite.z;",
 
           "float smoothFactor  = 0.0;",
@@ -1842,8 +1853,8 @@
 
           "vec4 txColor = txColorBase;",
 
-          "txColor.r += vNormal.x * 0.0;",
-          "txColor.g += vNormal.y * 0.0;",
+          "txColor.r += vNormal.x * 0.0 + tileUv.x *0.0;",
+          "txColor.g += vNormal.y * 0.0 + tileUv.y *0.0;",
           "txColor.b += vNormal.z * 0.0;",
         "vec4 lightColor = vec4(sunDir, 1.0);",
         "float intensity = max( 0.01 + dot(txNmBase.rgb, sunLightDirection ) * 0.99, 0.0);",
