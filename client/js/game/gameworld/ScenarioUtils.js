@@ -309,8 +309,8 @@ function setupEncounterGrid(gridTiles, instances, gridConfig, scenarioGridConfig
                 gridTiles[i].push(gridTile);
                 let boxElevation = grid[j][i][1]*stepHeight;
                 let posY = elevation + boxElevation
-                let boxX = gridTile.tileX * 2 * boxSize ;
-                let boxZ = gridTile.tileZ * 2 * boxSize ;
+                let boxX = gridTile.tileX * 2 * boxSize +0.5 ;
+                let boxZ = gridTile.tileZ * 2 * boxSize +0.25;
                 let boxScale = boxSize*0.02;
                 tempVec1.set(boxX, posY*0.5-boxSize, boxZ);
                 tempVec1.applyQuaternion(quat);
@@ -329,10 +329,15 @@ function setupEncounterGrid(gridTiles, instances, gridConfig, scenarioGridConfig
                     instance.spatial.setScaleXYZ(boxScale*0.5, scaleZ, boxScale*0.5);
                     instance.setSprite(iconSprite);
 
-                    let groundY = ThreeAPI.terrainAt(tempVec1, ThreeAPI.tempVec3c)-boxSize * 0.5;
+                    let groundY = ThreeAPI.terrainAt(tempVec1, ThreeAPI.tempVec3c)-boxSize * 0.99;
                     if (groundY > tempVec1.y) {
+
+                        if (ThreeAPI.tempVec3c.y < 0.7) {
+                            gridTile.hidden = true;
+                            instance.decommissionInstancedModel()
+                        }
+
                         tempVec1.y = groundY;
-                        posY = groundY;
                         instance.spatial.setPosXYZ(tempVec1.x,  tempVec1.y, tempVec1.z);
 
                     }

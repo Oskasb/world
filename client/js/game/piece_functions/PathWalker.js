@@ -70,11 +70,14 @@ class PathWalker {
             // Move towards next tile, assuming index 0 is close enough
        //     evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:pathTiles[0].getPos(), color:'GREEN', size:0.3})
         //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:pathTiles[1].getPos(), color:'YELLOW', size:0.3})
+            if (pathTiles[1].hidden === false) {
                 targetTile = pathTiles[1]
+            }
+
         //    this.setMovementHeadingVector(gamePiece.getPos(), )
         } else {
             // final tile is near or reached, path end point
-            if (pathTiles.length !== 0) {
+            if (pathTiles.length !== 0 && (pathTiles[0].hidden === false)) {
                 targetTile = pathTiles[0]
             //    this.setMovementHeadingVector(gamePiece.getPos(), pathTiles[0].getPos())
        //         evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:gamePiece.getPos(), color:'ORANGE', size:0.5})

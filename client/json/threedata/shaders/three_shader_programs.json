@@ -1612,11 +1612,11 @@
 
 
           "float tileCount = 16.0;",
-          "float tileXuv = max(0.001, min(vUv.x*0.999, 0.999)) * tileCount;",
-          "float tileYuv = max(0.001, min(vUv.y*0.999, 0.999)) * tileCount;",
+          "float tileXuv = max(0.001, min(vUv.x*1.0, 0.9999)) * tileCount;",
+          "float tileYuv = max(0.001, min(vUv.y*1.0, 0.9999)) * tileCount;",
           "float uvX = tileXuv * 1.0 - floor(tileXuv * 1.0)*0.9999;",
           "float uvY = tileYuv * 1.0 - floor(tileYuv * 1.0)*0.9999;",
-          "vec2 tileUv = vec2(uvX*1.0, uvY*1.0);",
+          "vec2 tileUv = vec2(0.005 + uvX*0.990, 0.005 + uvY*0.990);",
 
           "vec2 scaledVPos = vec2(terrainPosition.x*0.5 + 0.5, terrainPosition.z *0.5 + 0.5)*tileScale;",
 
@@ -1627,9 +1627,9 @@
           "float twoPi = 6.2831;",
           "float slope = 1.0-vNormal.y;",
 
-          "slope = slope * 0.98 + 0.02*sin(vPosition.x * twoPi*0.25)  + 0.02*cos(vPosition.z * twoPi*1.0);",
-          "slope = slope * 0.98 + 0.02*sin(vPosition.x * twoPi*0.25)  + 0.02*cos(vPosition.z * twoPi*0.125);",
-          "slope = slope * 0.98 + 0.02*sin(vPosition.x * twoPi*1.0)   + 0.02*cos(vPosition.z * twoPi*0.5);",
+          "slope = slope * 0.998 + 0.12*slope*sin(vPosition.x * twoPi*0.25)  + 0.12*slope*cos(vPosition.z * twoPi*1.0);",
+          "slope = slope * 0.998 + 0.22*slope*sin(vPosition.x * twoPi*0.25)  + 0.22*slope*cos(vPosition.z * twoPi*0.125);",
+          "slope = slope * 0.998 + 0.22*slope*sin(vPosition.x * twoPi*1.0)   + 0.22*slope*cos(vPosition.z * twoPi*0.5);",
 
           "vec4 sprite = vec4(0.0, 8.0, 1.0, 1.0);",
           "vec2 tileScale = 1.0/tx0tiles;",
@@ -1645,20 +1645,20 @@
 
           "float slopeScale = 0.98;",
 
-          "float slope01 = 0.01 * slopeScale;",
-          "float slope02 = 0.10 * slopeScale;",
-          "float slope03 = 0.11 * slopeScale;",
-          "float slope04 = 0.19 * slopeScale;",
-          "float slope05 = 0.20 * slopeScale;",
-          "float slope06 = 0.28 * slopeScale;",
-          "float slope07 = 0.29 * slopeScale;",
-          "float slope08 = 0.65 * slopeScale;",
-          "float slope09 = 0.70 * slopeScale;",
-          "float slope10 = 0.80 * slopeScale;",
-          "float slope11 = 0.85 * slopeScale;",
-          "float slope12 = 0.90 * slopeScale;",
-          "float slope13 = 0.95 * slopeScale;",
-          "float slope14 = 1.0 * slopeScale;",
+          "float slope01 = 0.015 * slopeScale;",
+          "float slope02 = 0.035 * slopeScale;",
+          "float slope03 = 0.042 * slopeScale;",
+          "float slope04 = 0.058 * slopeScale;",
+          "float slope05 = 0.067 * slopeScale;",
+          "float slope06 = 0.098 * slopeScale;",
+          "float slope07 = 0.12 * slopeScale;",
+          "float slope08 = 0.22 * slopeScale;",
+          "float slope09 = 0.23 * slopeScale;",
+          "float slope10 = 0.32 * slopeScale;",
+          "float slope11 = 0.41 * slopeScale;",
+          "float slope12 = 0.42 * slopeScale;",
+          "float slope13 = 0.65 * slopeScale;",
+          "float slope14 = 0.70 * slopeScale;",
 
 
           "float natureRow = 2.0;",
@@ -1800,21 +1800,21 @@
           "tile01 = vec2(0.0, civRow);",
           "tile01Offset = vec2(tile01.x * tileScale.x, (tile01.y-sprite.w) * tileScale.y / sprite.z);",
           "tile01Uv = vec2(scaledUv + tile01Offset);",
-          "smoothFactor = smoothstep(-0.01, civStep*1.0, sampleBlue) - smoothstep(civStep*2.0, civStep*3.0, sampleBlue);",
+          "smoothFactor = smoothstep(-0.01, civStep*0.9, sampleBlue) - smoothstep(civStep*1.5, civStep*2.2, sampleBlue);",
           "vec4 civColor = smoothFactor * texture2D(tx0, tile01Uv);",
           "vec4 civNormal = smoothFactor * texture2D(tx0nm, tile01Uv);",
 
           "tile01 = vec2(1.0, civRow);",
           "tile01Offset = vec2(tile01.x * tileScale.x, (tile01.y-sprite.w) * tileScale.y / sprite.z);",
           "tile01Uv = vec2(scaledUv + tile01Offset);",
-          "smoothFactor = smoothstep(civStep*2.0, civStep*3.0, sampleBlue) - smoothstep(civStep*4.0, civStep*5.0, sampleBlue);",
+          "smoothFactor = smoothstep(civStep*1.5, civStep*2.2, sampleBlue) - smoothstep(civStep*3.0, civStep*5.0, sampleBlue);",
           "civColor += smoothFactor * texture2D(tx0, tile01Uv);",
           "civNormal += smoothFactor * texture2D(tx0nm, tile01Uv);",
 
           "tile01 = vec2(2.0, civRow);",
           "tile01Offset = vec2(tile01.x * tileScale.x, (tile01.y-sprite.w) * tileScale.y / sprite.z);",
           "tile01Uv = vec2(scaledUv + tile01Offset);",
-          "smoothFactor = smoothstep(civStep*4.0, civStep*5.0, sampleBlue) - smoothstep(civStep*6.0, civStep*7.0, sampleBlue);",
+          "smoothFactor = smoothstep(civStep*3.0, civStep*5.0, sampleBlue) - smoothstep(civStep*6.0, civStep*7.0, sampleBlue);",
           "civColor += smoothFactor * texture2D(tx0, tile01Uv);",
           "civNormal += smoothFactor * texture2D(tx0nm, tile01Uv);",
 
