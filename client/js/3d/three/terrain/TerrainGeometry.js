@@ -254,10 +254,10 @@ class TerrainGeometry{
                 let gridDistY  = Math.abs(centerGridY - this.gridY);
                 let gridDist = Math.max(gridDistX, gridDistY);
 
-                let lodLevel = Math.floor(1 + gridDist / 10)
-                if (lodLevel < 5) {
+                let lodLevel = Math.min(Math.floor(1 + gridDist / 3), 5)
+            //    if (lodLevel < 6) {
                     this.attachGeometryInstance(null, lodLevel)
-                }
+            //    }
 
             }
         } else {
