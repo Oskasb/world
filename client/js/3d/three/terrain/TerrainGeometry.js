@@ -248,14 +248,14 @@ class TerrainGeometry{
                 evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:ThreeAPI.tempVec3, color:'YELLOW', size:3.0})
             */
             //    this.call.activateGeo(1);
-                 
+
 
                 let gridDistX = Math.abs(centerGridX - this.gridX);
                 let gridDistY  = Math.abs(centerGridY - this.gridY);
                 let gridDist = Math.max(gridDistX, gridDistY);
 
                 let lodLevel = Math.floor(1 + gridDist / 10)
-                if (lodLevel < 4) {
+                if (lodLevel < 5) {
                     this.attachGeometryInstance(null, lodLevel)
                 }
 

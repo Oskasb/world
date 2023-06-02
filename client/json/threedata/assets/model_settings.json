@@ -43,7 +43,21 @@
         {"id": "model_settings_terrain_8" ,
           "config": {
             "instancing": {
-              "instances": 350,
+              "instances": 128,
+              "attributes": ["offset", "vertexColor", "scale3d", "orientation", "sprite", "texelRowSelect", "lifecycle"],
+              "cameraspace": false
+            },
+            "transform": {
+              "pos":   [0, 0, 0],
+              "rot":   [0, 0, 0],
+              "scale": [1, 1, 1]
+            }
+          }
+        },
+        {"id": "model_settings_terrain_2" ,
+          "config": {
+            "instancing": {
+              "instances": 1000,
               "attributes": ["offset", "vertexColor", "scale3d", "orientation", "sprite", "texelRowSelect", "lifecycle"],
               "cameraspace": false
             },
