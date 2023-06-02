@@ -242,10 +242,13 @@ class TerrainGeometry{
             this.isVisible = ThreeAPI.testPosIsVisible(this.obj3d.position)
 
             if (this.isVisible) {
+                /*
                 ThreeAPI.tempVec3.copy(this.obj3d.position)
                 ThreeAPI.tempVec3.y = ThreeAPI.terrainAt(this.obj3d.position)
                 evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:ThreeAPI.tempVec3, color:'YELLOW', size:3.0})
+            */
             //    this.call.activateGeo(1);
+                 
 
                 let gridDistX = Math.abs(centerGridX - this.gridX);
                 let gridDistY  = Math.abs(centerGridY - this.gridY);
