@@ -1561,12 +1561,14 @@
           "float intensity = max( 0.4 + dot(faceNormal, sunLightDirection ) * 0.5, 0.0);",
           "sunDir = sunLightColor * intensity * (0.3+intensity*intensity*0.3);",
 
-          "vColor.r = sunDir.r + ambientLightColor.r ;",
-          "vColor.g = sunDir.g + ambientLightColor.g ;",
-          "vColor.b = sunDir.b + ambientLightColor.b ;",
+          "float ambIntensity = 0.75;",
+
+          "vColor.r = sunDir.r + ambientLightColor.r * ambIntensity ;",
+          "vColor.g = sunDir.g + ambientLightColor.g * ambIntensity;",
+          "vColor.b = sunDir.b + ambientLightColor.b * ambIntensity;",
           "vColor.a = 1.0;",
 
-          "vColor = vec4(vertexColor.r * vColor.r, vertexColor.g*vColor.g , vertexColor.b*vColor.b,  vColor.a*vertexColor.a);",
+
 
 
           "gl_Position = projectionMatrix * modelViewMatrix * vec4( offset + vPosition, 1.0 );",
@@ -1654,10 +1656,10 @@
           "float slope07 = 0.12 * slopeScale;",
           "float slope08 = 0.22 * slopeScale;",
           "float slope09 = 0.23 * slopeScale;",
-          "float slope10 = 0.32 * slopeScale;",
-          "float slope11 = 0.41 * slopeScale;",
-          "float slope12 = 0.42 * slopeScale;",
-          "float slope13 = 0.65 * slopeScale;",
+          "float slope10 = 0.34 * slopeScale;",
+          "float slope11 = 0.36 * slopeScale;",
+          "float slope12 = 0.52 * slopeScale;",
+          "float slope13 = 0.55 * slopeScale;",
           "float slope14 = 0.70 * slopeScale;",
 
 

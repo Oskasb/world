@@ -181,7 +181,7 @@ let constructGeometries = function(heightMapData, transform) {
         }
     }
     geoBeneathPlayer = terrainGeometries[0][0];
-    geoBeneathPlayer.call.activateGeo();
+    geoBeneathPlayer.call.activateGeo(0);
     let heightmapData = geoBeneathPlayer.getHeightmapData();
     geoBeneathPlayer.call.deactivateGeo();
 
@@ -235,7 +235,7 @@ let activateTerrainGeos = function(x, y, range) {
     while (activatingGeos.length) {
         let postActiveGeo = activatingGeos.pop()
          //   if (postActiveGeo.isActive === false) {
-                postActiveGeo.call.activateGeo();
+                postActiveGeo.call.activateGeo(0);
         //    }
         evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:postActiveGeo.obj3d.position, color:'YELLOW', size:0.2})
             activeTerrainGeometries.push(postActiveGeo);
@@ -366,6 +366,13 @@ class ThreeTerrain {
                 debugDrawNearby(i);
             }
         }
+
+        for (let i = 0; i<terrainGeometries.length; i++) {
+            for (let j = 0; j<terrainGeometries.length; j++) {
+                terrainGeometries[i][j].updateTerrainGeometry(geoBeneathPlayer)
+            }
+        }
+
     }
 }
 

@@ -9,7 +9,7 @@ import {ThreeSpatialFunctions} from './ThreeSpatialFunctions.js';
 import {TerrainSystem} from "./terrain/TerrainSystem.js";
 
 let terrainSystem = new TerrainSystem();
-
+let tempVec = null;
 class ThreeAPI {
 
     constructor() {
@@ -39,6 +39,7 @@ class ThreeAPI {
         this.tempVec3c = new THREE.Vector3();
         this.tempVec4 = new THREE.Vector4();
         this.tempObj = new THREE.Object3D();
+        tempVec = new THREE.Vector3();
     }
 
     initThreeLoaders = function(assetLoader) {
@@ -238,6 +239,15 @@ class ThreeAPI {
     toScreenPosition = function(vec3, store) {
         this.threeSetup.toScreenPosition(vec3, store);
     };
+
+    testPosIsVisible = function(vec3) {
+        this.threeSetup.toScreenPosition(vec3, tempVec);
+        if (Math.abs(tempVec.x) < 0.5 && Math.abs(tempVec.y) < 0.5) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     checkVolumeObjectVisible = function(vec3, radius) {
         return this.threeSetup.cameraTestXYZRadius(vec3, radius);

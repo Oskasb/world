@@ -94,8 +94,8 @@ let applyHeightmapToMesh = function(mesh, terrainGeo) {
 }
 
 class TerrainGeometry{
-    constructor(obj3d, segmentScale, x, y, gridMeshAssetId, vertsPerSegAxis, tiles, tx_width) {
-        this.gridMeshAssetId = gridMeshAssetId;
+    constructor(obj3d, segmentScale, x, y, gridMeshAssetIds, vertsPerSegAxis, tiles, tx_width) {
+        this.gridMeshAssetIds = gridMeshAssetIds;
         this.gridX = x;
         this.gridY = y;
         this.obj3d = obj3d;
@@ -108,22 +108,24 @@ class TerrainGeometry{
         this.tiles = tiles;
         this.tx_width = tx_width;
         this.isActive = false;
+        this.isVisible = false;
+
+        this.levelOfDetail = 0;
 
         let geoReady = function() {
 
             if (!terrainMaterial) {
                 terrainMaterial = this.instance.originalModel.material.mat;
                 setupHeightmapData()
-
                 terrainMaterial.uniforms.heightmaptiles.value.x = this.tiles;
                 terrainMaterial.uniforms.heightmaptiles.value.y = this.tiles;
                 terrainMaterial.uniforms.heightmaptiles.value.z = this.tx_width;
                 terrainMaterial.needsUpdate = true;
             }
-        //    applyHeightmapToMesh(this.model, this);
+
         }.bind(this);
 
-        let activateGeo = function() {
+        let activateGeo = function(lodLevel) {
             if (this.isActive) {
                 console.log("Geo Already Active")
                 return;
@@ -131,7 +133,7 @@ class TerrainGeometry{
 
             console.log("Activate Geo", this.gridX, this.gridY);
             this.isActive = true;
-            this.attachGeometryInstance(geoReady)
+            this.attachGeometryInstance(geoReady, lodLevel)
 
         }.bind(this);
 
@@ -159,7 +161,8 @@ class TerrainGeometry{
         this.instance = null;
     }
 
-    attachGeometryInstance(geoReady) {
+    attachGeometryInstance(geoReady, lodLevel) {
+        this.levelOfDetail = lodLevel;
         let addSceneInstance = function(instance) {
             this.instance = instance;
 
@@ -214,15 +217,61 @@ class TerrainGeometry{
             ThreeAPI.tempVec4.w = 1;
             instance.setAttributev4('sprite', ThreeAPI.tempVec4)
             ThreeAPI.getScene().remove(instance.spatial.obj3d)
-            geoReady();
+            if (typeof (geoReady) === 'function') {
+                geoReady();
+            }
         }.bind(this);
-        client.dynamicMain.requestAssetInstance(this.gridMeshAssetId, addSceneInstance)
+    //    if (this.levelOfDetail === 0) {
+            client.dynamicMain.requestAssetInstance(this.gridMeshAssetIds[this.levelOfDetail], addSceneInstance)
+    //    }
+
     }
 
     getHeightmapData() {
         //      return ctx.getImageData(0, 0, width, height).data;
        return heightmap;
     }
+
+
+    updateTerrainGeometry(geoBeneathPlayer) {
+
+        let centerGridX = geoBeneathPlayer.gridX;
+        let centerGridY = geoBeneathPlayer.gridY;
+
+        if (this.instance === null) {
+            this.isVisible = ThreeAPI.testPosIsVisible(this.obj3d.position)
+
+            if (this.isVisible) {
+                ThreeAPI.tempVec3.copy(this.obj3d.position)
+                ThreeAPI.tempVec3.y = ThreeAPI.terrainAt(this.obj3d.position)
+                evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:ThreeAPI.tempVec3, color:'YELLOW', size:3.0})
+            //    this.call.activateGeo(1);
+
+                let gridDistX = Math.abs(centerGridX - this.gridX);
+                let gridDistY  = Math.abs(centerGridY - this.gridY);
+                let gridDist = Math.max(gridDistX, gridDistY);
+
+                let lodLevel = Math.floor(1 + gridDist / 10)
+                if (lodLevel < 4) {
+                    this.attachGeometryInstance(null, lodLevel)
+                }
+
+            }
+        } else {
+            this.isVisible = true;
+
+            if (this.levelOfDetail !== 0) {
+                this.isVisible = ThreeAPI.testPosIsVisible(this.obj3d.position)
+
+                if (this.isVisible === false) {
+                    this.detachGeometryInstance();
+                }
+            }
+
+        }
+
+    }
+
 
 }
 

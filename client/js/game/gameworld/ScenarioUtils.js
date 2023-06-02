@@ -332,7 +332,7 @@ function setupEncounterGrid(gridTiles, instances, gridConfig, scenarioGridConfig
                     let groundY = ThreeAPI.terrainAt(tempVec1, ThreeAPI.tempVec3c)-boxSize * 0.99;
                     if (groundY > tempVec1.y) {
 
-                        if (ThreeAPI.tempVec3c.y < 0.7) {
+                        if (ThreeAPI.tempVec3c.y < 0.8) {
                             gridTile.hidden = true;
                             instance.decommissionInstancedModel()
                         }
