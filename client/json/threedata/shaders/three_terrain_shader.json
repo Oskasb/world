@@ -155,9 +155,9 @@
           "float twoPi = 6.2831;",
           "float slope = 1.0-vNormal.y;",
 
-          "slope = slope * 0.998 + 0.12*slope*sin(vPosition.x * twoPi*0.25)  + 0.12*slope*cos(vPosition.z * twoPi*1.0);",
-          "slope = slope * 0.998 + 0.22*slope*sin(vPosition.x * twoPi*0.25)  + 0.22*slope*cos(vPosition.z * twoPi*0.125);",
-          "slope = slope * 0.998 + 0.22*slope*sin(vPosition.x * twoPi*1.0)   + 0.22*slope*cos(vPosition.z * twoPi*0.5);",
+          "slope = slope * 0.998 + 0.10*slope*sin(vPosition.x * twoPi*0.25)  + 0.22*slope*cos(vPosition.z * twoPi*1.0);",
+          "slope = slope * 0.998 + 0.14*slope*sin(vPosition.x * twoPi*0.25)  + 0.08*slope*cos(vPosition.z * twoPi*0.125);",
+          "slope = slope * 0.998 + 0.08*slope*sin(vPosition.x * twoPi*1.0)   + 0.14*slope*cos(vPosition.z * twoPi*0.5);",
 
           "vec4 sprite = vec4(0.0, 8.0, 1.0, 1.0);",
           "vec2 tileScale = 1.0/tx0tiles;",
