@@ -12,18 +12,10 @@
       "TEXTURES"
     ],
     "POLL_INDEX":[
-      "/effects/effect_buffers.json"                         ,
-      "/effects/effect_effects.json"                         ,
-      "/effects/effect_particles.json"                       ,
       "/threedata/shaders/three_shader_programs.json"        ,
+      "/threedata/shaders/three_terrain_shader.json"         ,
       "/threedata/shaders/three_shader_chunks.json"          ,
-      "/threedata/shaders/three_particle_shaders.json"       ,
-      "/threedata/vegetation/vegetation_grids.json"          ,
-      "/threedata/vegetation/vegetation_plants.json"         ,
-      "/threedata/assets/asset_terrain.json"                 ,
-      "/threedata/assets/three_materials.json"               ,
-      "/world/scenarios/home_scenario_static.json"           ,
-      "/ui/pages/characters/gui_page_leader_peace.json"
+      "/threedata/shaders/three_particle_shaders.json"
     ],
     "NOT_POLL_INDEX":[
       "/threedata/assets/asset_environment.json"             ,

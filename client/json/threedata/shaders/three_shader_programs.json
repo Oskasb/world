@@ -2,7 +2,8 @@
   {
     "SHADER_PROGRAMS": {
       "LOAD_PROGRAM_INDEX":[
-        "INSTANCING_PROGRAMS"
+        "INSTANCING_PROGRAMS",
+        "TERRAIN_SHADER"
       ],
 
       "INSTANCING_PROGRAMS":{
@@ -1471,7 +1472,7 @@
           ""
         ],
 
-        "vertexTerrainInstancing": [
+        "_vertexTerrainInstancing": [
 
           "precision highp float;",
           "uniform sampler2D heightmap;",
@@ -1588,7 +1589,7 @@
           "slope = slope * 0.9997 + 0.0003*sin(vPosition.x * twoPi*2.0)  + 0.0003*cos(vPosition.z * twoPi*1.0);"
         ],
 
-        "fragmentTerrainInstancing":[
+        "_fragmentTerrainInstancing":[
           "precision highp float;",
 
           "uniform vec3 sunLightDirection;",
@@ -1715,12 +1716,7 @@
           "natureColor += smoothFactor * texture2D(tx0, tile01Uv);",
           "natureNormal += smoothFactor * texture2D(tx0nm, tile01Uv);",
 
-
-
-
           "float natureMix = min(max(-natureStep*1.2 + sampleGreen, 0.0)/natureStep*1.0, 1.0);",
-
-
 
           "vec2 tileBaseOffset = vec2(sprite.x * tileScale.x, (rockRow-sprite.w) * tileScale.y / sprite.z);",
           "vec2 tileBaseUv = vec2(scaledUv + tileBaseOffset);",
@@ -1858,10 +1854,10 @@
           "txColor.r += vNormal.x * 0.0 + tileUv.x *0.0;",
           "txColor.g += vNormal.y * 0.0 + tileUv.y *0.0;",
           "txColor.b += vNormal.z * 0.0;",
-        "vec4 lightColor = vec4(sunDir, 1.0);",
-        "float intensity = max( 0.01 + dot(txNmBase.rgb, sunLightDirection ) * 0.99, 0.0);",
-        "gl_FragColor = vColor * txColor * (intensity*0.25 + 0.75) + txColor * lightColor*intensity*2.0;",
-        "float fogFactor = min(fogDensity * fogDepth, 1.0);",
+          "vec4 lightColor = vec4(sunDir, 1.0);",
+          "float intensity = max( 0.01 + dot(txNmBase.rgb, sunLightDirection ) * 0.99, 0.0);",
+          "gl_FragColor = vColor * txColor * (intensity*0.25 + 0.75) + txColor * lightColor*intensity*2.0;",
+          "float fogFactor = min(fogDensity * fogDepth, 1.0);",
           "gl_FragColor.rgb = mix(gl_FragColor.rgb, fogColor,  fogFactor );",
 
           "}",

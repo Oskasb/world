@@ -902,13 +902,13 @@
       "TERRAIN_INSTANCING": {
         "vertex": [
           {
-            "source": "INSTANCING_PROGRAMS",
+            "source": "TERRAIN_SHADER",
             "chunk": "vertexTerrainInstancing"
           }
         ],
         "fragment": [
           {
-            "source": "INSTANCING_PROGRAMS",
+            "source": "TERRAIN_SHADER",
             "chunk": "fragmentTerrainInstancing"
           }
         ]
