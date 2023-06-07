@@ -108,6 +108,7 @@ class TerrainGeometry{
         this.tiles = tiles;
         this.tx_width = tx_width;
         this.isActive = false;
+        this.wasVisible = false;
         this.isVisible = false;
 
         this.levelOfDetail = 0;
@@ -233,31 +234,23 @@ class TerrainGeometry{
     }
 
 
-    updateTerrainGeometry(geoBeneathPlayer) {
+    updateTerrainGeometry(geoBeneathPlayer, tileUpdateCB) {
 
         let centerGridX = geoBeneathPlayer.gridX;
         let centerGridY = geoBeneathPlayer.gridY;
+        this.wasVisible = this.isVisible;
 
         if (this.instance === null) {
             this.isVisible = ThreeAPI.testPosIsVisible(this.obj3d.position)
 
             if (this.isVisible) {
-                /*
-                ThreeAPI.tempVec3.copy(this.obj3d.position)
-                ThreeAPI.tempVec3.y = ThreeAPI.terrainAt(this.obj3d.position)
-                evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:ThreeAPI.tempVec3, color:'YELLOW', size:3.0})
-            */
-            //    this.call.activateGeo(1);
-
 
                 let gridDistX = Math.abs(centerGridX - this.gridX);
                 let gridDistY  = Math.abs(centerGridY - this.gridY);
                 let gridDist = Math.max(gridDistX, gridDistY);
 
                 let lodLevel = Math.min(Math.floor(1 + gridDist / 3), 5)
-            //    if (lodLevel < 6) {
-                    this.attachGeometryInstance(null, lodLevel)
-            //    }
+                this.attachGeometryInstance(null, lodLevel)
 
             }
         } else {
@@ -270,12 +263,9 @@ class TerrainGeometry{
                     this.detachGeometryInstance();
                 }
             }
-
         }
-
+        tileUpdateCB(this);
     }
-
-
 }
 
 export {TerrainGeometry}

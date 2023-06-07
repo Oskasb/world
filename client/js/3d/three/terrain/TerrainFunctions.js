@@ -186,9 +186,10 @@ let  sliceGeometryAtSeaLevel = function(vertices, maxDepth) {
 
 
 
-let getTriangleAt = function(array1d, segments, x, y, terrainScale) {
+let getTriangleAt = function(array1d, segments, x, y, terrainScale, terrainOrigin) {
 
     let zScale = terrainScale.y;
+    let zOffset = terrainOrigin.y;
 
     let  xc = Math.ceil(x);
     let  xf = Math.floor(x);
@@ -201,17 +202,17 @@ let getTriangleAt = function(array1d, segments, x, y, terrainScale) {
     p1.x = xf;
     p1.y = yc;
 
-    p1.z = getAt(array1d, segments, xf, yc)*zScale;
+    p1.z = getAt(array1d, segments, xf, yc)*zScale +zOffset;
 
 
-    setTri(p1, xf, yc, getAt(array1d, segments,xf, yc)*zScale);
-    setTri(p2, xc, yf, getAt(array1d, segments,xc, yf)*zScale);
+    setTri(p1, xf, yc, getAt(array1d, segments,xf, yc)*zScale +zOffset);
+    setTri(p2, xc, yf, getAt(array1d, segments,xc, yf)*zScale +zOffset);
 
 
     if (fracX < 1-fracY) {
-        setTri(p3,xf,yf,getAt(array1d, segments,xf, yf)*zScale);
+        setTri(p3,xf,yf,getAt(array1d, segments,xf, yf)*zScale +zOffset);
     } else {
-        setTri(p3, xc, yc, getAt(array1d, segments,xc, yc)*zScale);
+        setTri(p3, xc, yc, getAt(array1d, segments,xc, yc)*zScale +zOffset);
     }
 
 
@@ -222,15 +223,15 @@ let getTriangleAt = function(array1d, segments, x, y, terrainScale) {
     return points;
 };
 
-let getDisplacedHeight = function(array1d, segments, x, z, htP, htN, normalStore, terrainScale) {
+let getDisplacedHeight = function(array1d, segments, x, z, htP, htN, normalStore, terrainScale, terrainOrigin) {
     let  tx = displaceAxisDimensions(x, htN, htP, segments);
     let  tz = displaceAxisDimensions(z, htN, htP, segments);
 
-    return getPreciseHeight(array1d, segments, tx, tz, normalStore, htN, htP, terrainScale);
+    return getPreciseHeight(array1d, segments, tx, tz, normalStore, htN, htP, terrainScale, terrainOrigin);
 
 };
 
-let getHeightAt = function(pos, array1d, terrainSize, segments, normalStore, terrainScale) {
+let getHeightAt = function(pos, array1d, terrainSize, segments, normalStore, terrainScale, terrainOrigin) {
 
     let  htP = terrainSize*0.5;
     let  htN = - htP;
@@ -251,7 +252,7 @@ let getHeightAt = function(pos, array1d, terrainSize, segments, normalStore, ter
         pos.z = MATH.clamp(pos.z, htN, htP);
     }
 
-    return getDisplacedHeight(array1d, segments, pos.x, pos.z, htP, htN, normalStore, terrainScale);
+    return getDisplacedHeight(array1d, segments, pos.x, pos.z, htP, htN, normalStore, terrainScale, terrainOrigin);
 };
 
 
@@ -287,15 +288,6 @@ let getAt = function(array1d, segments, x, y) {
     ThreeAPI.tempVec3.z = y -segments*0.5;
 
     ThreeAPI.tempVec3.y = array1d[idx * 4]/255 +0.2;
-  //  console.log(array1d[idx * 4])
-
-    let rgba = {
-        x:array1d[idx * 4] / 255,
-        y:array1d[idx * 4+1] / 255,
-        z:array1d[idx * 4+2] / 255
-    }
-
-    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos: ThreeAPI.tempVec3, color:rgba, size:0.4});
 
     return array1d[idx * 4] / 255;
 };
@@ -407,8 +399,8 @@ let getTerrainBuffers = function(terrain) {
 };
 
 
-let getPreciseHeight = function(array1d, segments, x, z, normalStore, htN, htP, terrainScale) {
-    let  tri = getTriangleAt(array1d, segments, x, z, terrainScale);
+let getPreciseHeight = function(array1d, segments, x, z, normalStore, htN, htP, terrainScale, terrainOrigin) {
+    let  tri = getTriangleAt(array1d, segments, x, z, terrainScale, terrainOrigin);
 
     setTri(p0, x, z, 0);
 
