@@ -111,7 +111,7 @@ class TerrainGeometry{
         this.isActive = false;
         this.wasVisible = false;
         this.isVisible = false;
-        this.boundingSphere = new Sphere(this.obj3d.position, this.size*1.5)
+        this.boundingSphere = new Sphere(this.obj3d.position, this.size*1.15)
         this.updateFrame = 0;
         this.neighborsUpdatedFrame = 0;
 
@@ -272,14 +272,14 @@ class TerrainGeometry{
             //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:GameAPI.getMainCharPiece().getPos(), to:this.obj3d.position, color:color});
 
             } else {
-                evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:GameAPI.getMainCharPiece().getPos(), to:this.obj3d.position, color:'RED'});
+             //   evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:GameAPI.getMainCharPiece().getPos(), to:this.obj3d.position, color:'RED'});
                 this.detachGeometryInstance();
             }
 
             if (this.isVisible) {
                 if (visibleGeoTiles.indexOf(this) === -1) {
-                    let color = {x:Math.cos(this.levelOfDetail/3)*0.5+0.5, y:Math.cos(this.levelOfDetail)*0.5 + 0.5, z: Math.sin(this.levelOfDetail)*0.5+0.5, w:1}
-                    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:GameAPI.getMainCharPiece().getPos(), to:this.obj3d.position, color:color});
+                //    let color = {x:Math.cos(this.levelOfDetail/3)*0.5+0.5, y:Math.cos(this.levelOfDetail)*0.5 + 0.5, z: Math.sin(this.levelOfDetail)*0.5+0.5, w:1}
+                //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:GameAPI.getMainCharPiece().getPos(), to:this.obj3d.position, color:color});
 
                     visibleGeoTiles.push(this);
                 }

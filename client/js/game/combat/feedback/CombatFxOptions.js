@@ -480,7 +480,9 @@ function setupOptsBoneToGround(efct, gamePiece) {
 
 
     tempVec3.add(ThreeAPI.tempVec3)
-    tempVec3.y = 0.1;
+    tempVec3.y = ThreeAPI.terrainAt(tempVec3, ThreeAPI.tempVec3c);
+    tempObj.position.set(0, 0, 0);
+    tempObj.lookAt(ThreeAPI.tempVec3c);
     let fromSize = size*0.2+Math.random()*0.2;
     let toSize = size*0.6+Math.random()*size*0.5
     let time = 0.4+Math.random()*0.3

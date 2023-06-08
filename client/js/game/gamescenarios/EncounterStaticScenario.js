@@ -45,7 +45,7 @@ class EncounterStaticScenario {
         let patches = config['patches'];
         let locations = config['locations'];
 
-        if (boxGrid) ScenarioUtils.setupBoxGrid(instances, boxGrid)
+    //    if (boxGrid) ScenarioUtils.setupBoxGrid(instances, boxGrid)
 
         if (patches) {
             for (let i = 0; i < patches.length; i++) {

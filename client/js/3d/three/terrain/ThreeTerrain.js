@@ -247,7 +247,7 @@ let activateTerrainGeos = function(x, y, range) {
         if (postActiveGeo.isActive === false) {
             postActiveGeo.call.activateGeo(0);
         }
-        evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:postActiveGeo.obj3d.position, color:'YELLOW', size:0.2})
+    //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:postActiveGeo.obj3d.position, color:'YELLOW', size:0.2})
         activeTerrainGeometries.push(postActiveGeo);
     }
 
@@ -494,7 +494,7 @@ class ThreeTerrain {
             let playerPos = GameAPI.getMainCharPiece().getPos();
             let playerGeo = getTerrainGeoAtPos(playerPos);
 
-            evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:playerGeo.obj3d.position, color:'GREEN', size:0.3})
+        //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:playerGeo.obj3d.position, color:'GREEN', size:0.3})
 
             if (playerGeo !== geoBeneathPlayer) {
                 //    activateTerrainGeos(playerGeo.gridX, playerGeo.gridY, gridConfig.range)
@@ -503,12 +503,12 @@ class ThreeTerrain {
 
             posVec.copy(playerPos);
             posVec.y = getHeightAndNormal(playerPos, normVec);
-            evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:posVec, color:'GREEN', size:0.3});
+        //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:posVec, color:'GREEN', size:0.3});
             normVec.add(posVec);
-            evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:posVec, to:normVec, color:'AQUA'});
+        //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:posVec, to:normVec, color:'AQUA'});
 
             for (let i = 0; i < 20; i++) {
-                debugDrawNearby(i);
+            //    debugDrawNearby(i);
             }
 
             drawNearbyTerrain();
