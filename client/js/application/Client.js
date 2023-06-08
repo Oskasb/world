@@ -11,7 +11,8 @@ let frame = {
     tpf:0.01,
     gameTime:0.01,
     systemTime:0.01,
-    elapsedTime:0.01
+    elapsedTime:0.01,
+    frame:0
 };
 class Client {
 
@@ -87,6 +88,7 @@ class Client {
 
 
         function triggerFrame() {
+            frame.frame ++;
             frame.tpf = clock.getDelta();
 
             frame.elapsedTime = clock.elapsedTime;

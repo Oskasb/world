@@ -56,7 +56,7 @@ class TerrainSystem {
 
 
     activateTerrainSystem = function() {
-        ThreeAPI.addPrerenderCallback(threeTerrain.updateTerrainGeometry)
+        ThreeAPI.addPrerenderCallback(threeTerrain.updateThreeTerrainGeometry)
     }
 
 }

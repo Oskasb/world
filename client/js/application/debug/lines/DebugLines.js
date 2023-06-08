@@ -26,7 +26,11 @@ class DebugLines {
         }.bind(this)
 
         let drawLine = function(event) {
-            color = lineDenderSystem.color(event.color);
+            if (typeof (event.color) === 'string') {
+                color = lineDenderSystem.color(event.color);
+            } else {
+                color = event.color;
+            }
             lineDenderSystem.drawLine(event.from, event.to, color)
             renderCall()
         };
@@ -35,8 +39,6 @@ class DebugLines {
             if (typeof (event.color) === 'string') {
                 color = lineDenderSystem.color(event.color);
             } else {
-                color = event.color;
-                color = event.color;
                 color = event.color;
             }
 

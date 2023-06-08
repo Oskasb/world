@@ -241,12 +241,11 @@ class ThreeAPI {
     };
 
     testPosIsVisible = function(vec3) {
-        this.threeSetup.toScreenPosition(vec3, tempVec);
-        if (Math.abs(tempVec.x) < 0.5 && Math.abs(tempVec.y) < 0.5) {
-            return true;
-        } else {
-            return false;
-        }
+        return this.threeSetup.pointIsVisible(vec3);
+    }
+
+    testSphereIsVisible = function(sphere) {
+        return this.threeSetup.sphereIsVisible(sphere);
     }
 
     checkVolumeObjectVisible = function(vec3, radius) {

@@ -127,13 +127,18 @@ class ThreeSetup {
         this.postrenderCallbacks.splice(this.postrenderCallbacks.lastIndexOf(callback, 1));
     };
 
+    pointIsVisible = function(vec3) {
+        return this.frustum.containsPoint(vec3)
+    }
 
-
+    sphereIsVisible = function(sphere) {
+        return this.frustum.intersectsSphere(sphere)
+    }
     toScreenPosition = function(vec3, store) {
 
         this.tempObj.position.copy(vec3);
 
-        if (!this.frustum.containsPoint(this.tempObj.position)) {
+        if (!this.pointIsVisible(this.tempObj.position)) {
 
             store.x = -1;
             store.y = -1;

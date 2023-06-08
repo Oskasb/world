@@ -1,3 +1,4 @@
+import {Sphere} from "../../../../libs/three/math/Sphere.js";
 
 let terrainMaterial = null;
 let heightmap = null;
@@ -110,8 +111,11 @@ class TerrainGeometry{
         this.isActive = false;
         this.wasVisible = false;
         this.isVisible = false;
+        this.boundingSphere = new Sphere(this.obj3d.position, this.size*1.5)
+        this.updateFrame = 0;
+        this.neighborsUpdatedFrame = 0;
 
-        this.levelOfDetail = 0;
+        this.levelOfDetail = -1;
 
         let geoReady = function() {
 
@@ -157,16 +161,24 @@ class TerrainGeometry{
     }
 
     detachGeometryInstance() {
-        this.instance.decommissionInstancedModel();
-        ThreeAPI.removeFromScene(this.model);
-        this.instance = null;
+        this.levelOfDetail = -1;
+        if (this.instance) {
+            this.instance.decommissionInstancedModel();
+            ThreeAPI.removeFromScene(this.model);
+            this.instance = null;
+        }
+
     }
 
     attachGeometryInstance(geoReady, lodLevel) {
+        if (lodLevel === this.levelOfDetail) {
+            return;
+        } else if (this.instance) {
+            this.detachGeometryInstance();
+        }
         this.levelOfDetail = lodLevel;
         let addSceneInstance = function(instance) {
             this.instance = instance;
-
 
             if (debugWorld === null) {
                 const geometry = new THREE.PlaneGeometry( 1, 1 );
@@ -234,36 +246,50 @@ class TerrainGeometry{
     }
 
 
-    updateTerrainGeometry(geoBeneathPlayer, tileUpdateCB) {
+    updateTerrainGeometry(visibleGeoTiles, geoBeneathPlayer, tileUpdateCB, frame) {
+
+        if (this.updateFrame === frame) {
+        //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:GameAPI.getMainCharPiece().getPos(), to:this.obj3d.position, color:'GREY'});
+
+            return;
+        }
+        let changed = false;
 
         let centerGridX = geoBeneathPlayer.gridX;
         let centerGridY = geoBeneathPlayer.gridY;
         this.wasVisible = this.isVisible;
+        this.isVisible = ThreeAPI.testSphereIsVisible(this.boundingSphere);
 
-        if (this.instance === null) {
-            this.isVisible = ThreeAPI.testPosIsVisible(this.obj3d.position)
-
+    //    if (this.instance === null) {
             if (this.isVisible) {
 
                 let gridDistX = Math.abs(centerGridX - this.gridX);
                 let gridDistY  = Math.abs(centerGridY - this.gridY);
                 let gridDist = Math.max(gridDistX, gridDistY);
-
-                let lodLevel = Math.min(Math.floor(1 + gridDist / 3), 5)
+                let lodLevel = Math.min(Math.floor( gridDist/3), 5)
                 this.attachGeometryInstance(null, lodLevel)
+            //    let color = {x:Math.cos(lodLevel/2)*0.5+0.5, y:Math.cos(lodLevel)*0.5 + 0.5, z: Math.sin(lodLevel)*0.5+0.5, w:1}
+            //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:GameAPI.getMainCharPiece().getPos(), to:this.obj3d.position, color:color});
 
+            } else {
+                evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:GameAPI.getMainCharPiece().getPos(), to:this.obj3d.position, color:'RED'});
+                this.detachGeometryInstance();
             }
-        } else {
-            this.isVisible = true;
 
-            if (this.levelOfDetail !== 0) {
-                this.isVisible = ThreeAPI.testPosIsVisible(this.obj3d.position)
+            if (this.isVisible) {
+                if (visibleGeoTiles.indexOf(this) === -1) {
+                    let color = {x:Math.cos(this.levelOfDetail/3)*0.5+0.5, y:Math.cos(this.levelOfDetail)*0.5 + 0.5, z: Math.sin(this.levelOfDetail)*0.5+0.5, w:1}
+                    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:GameAPI.getMainCharPiece().getPos(), to:this.obj3d.position, color:color});
 
-                if (this.isVisible === false) {
-                    this.detachGeometryInstance();
+                    visibleGeoTiles.push(this);
+                }
+            } else {
+                if (visibleGeoTiles.indexOf(this) !== -1) {
+                //    MATH.quickSplice(visibleGeoTiles, this)
                 }
             }
-        }
+
+        this.updateFrame = frame;
         tileUpdateCB(this);
     }
 }

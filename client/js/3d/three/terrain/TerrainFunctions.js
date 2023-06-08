@@ -523,86 +523,64 @@ let setHeightByIndexAndReach = function(array1d, xf, yf, vertexReach, height) {
 };
 
 class TerrainFunctions {
-            constructor() {
-                iWeightCurve = new MATH.CurveState(MATH.curves['zeroOneZero'], 1);
-                jWeightCurve = new MATH.CurveState(MATH.curves['zeroOneZero'], 1);
+    constructor() {
+        iWeightCurve = new MATH.CurveState(MATH.curves['zeroOneZero'], 1);
+        jWeightCurve = new MATH.CurveState(MATH.curves['zeroOneZero'], 1);
 
-            }
+    }
 
-        createTerrain = function(moduleOptions) {
+    createTerrain = function(moduleOptions) {
 
-            moduleOptions = moduleOptions || defaultoptions;
+        moduleOptions = moduleOptions || defaultoptions;
 
 
-            let  edges = getTerrainModuleEdges(moduleOptions);
-            let  opts = getTerrainModuleOpts(moduleOptions);
+        let  edges = getTerrainModuleEdges(moduleOptions);
+        let  opts = getTerrainModuleOpts(moduleOptions);
 
-            let  terrain = new THREE.Terrain(opts);
-            terrain.opts = opts;
-            terrain.edges = edges;
-            terrain.options = moduleOptions
+        let  terrain = new THREE.Terrain(opts);
+        terrain.opts = opts;
+        terrain.edges = edges;
+        terrain.options = moduleOptions
 
-            elevateTerrainVerts(terrain.children[0].geometry.vertices, 1);
-             THREE.Terrain.Edges(terrain.children[0].geometry.vertices, opts, false, edges.edgeSize, null) // edges.easingFunc);
+        elevateTerrainVerts(terrain.children[0].geometry.vertices, 1);
+        THREE.Terrain.Edges(terrain.children[0].geometry.vertices, opts, false, edges.edgeSize, null) // edges.easingFunc);
 
         //    sliceGeometryAtSeaLevel(terrain.children[0].geometry.vertices, opts.minHeight);
 
         //    function(g, options, direction, distance, easing) {
-            //     THREE.Terrain.RadialEdges(terrain.children[0].geometry.vertices, opts, false, 2) // edges.easingFunc);
+        //     THREE.Terrain.RadialEdges(terrain.children[0].geometry.vertices, opts, false, 2) // edges.easingFunc);
         //    this.setEdgeVerticeHeight(terrain.children[0].geometry.vertices, -0.5);
 
-            return terrain;
-        };
+        return terrain;
+    };
 
-        enableTerrainPhysics = function(piece) {
-            let  module = this.getPieceTerrainModule(piece);
-            physicsApi.includeBody(module.body);
-        };
+    enableTerrainPhysics = function(piece) {
+        let  module = this.getPieceTerrainModule(piece);
+        physicsApi.includeBody(module.body);
+    };
 
-        disableTerrainPhysics = function(piece) {
-            let  module = this.getPieceTerrainModule(piece);
-            physicsApi.excludeBody(module.body);
-        };
+    disableTerrainPhysics = function(piece) {
+        let  module = this.getPieceTerrainModule(piece);
+        physicsApi.excludeBody(module.body);
+    };
 
-        addTerrainToPhysics = function(terrainOpts, buffer, posX, posZ) {
+    addTerrainToPhysics = function(terrainOpts, buffer, posX, posZ) {
 
-                let  opts = terrainOpts;
+        let  opts = terrainOpts;
         //    let  matrix = makeMatrix2D(array1d);
-                let  body = physicsApi.buildPhysicalTerrain(
-                buffer,
-                opts.terrain_size,
-                posX-opts.terrain_size/2,
-                posZ-opts.terrain_size/2,
-                opts.min_height,
-                opts.max_height);
+        let  body = physicsApi.buildPhysicalTerrain(
+            buffer,
+            opts.terrain_size,
+            posX-opts.terrain_size/2,
+            posZ-opts.terrain_size/2,
+            opts.min_height,
+            opts.max_height);
 
-            return body;
-        };
+        return body;
+    };
 
-        getHeightForPlayer = function(serverPlayer, normalStore) {
+    getTerrainHeightAt = function(terrain, pos, terrainOrigin, normalStore) {
 
-            let  gridSector = serverPlayer.currentGridSector;
-            if (!gridSector) return 0;
-            let  groundPiece = gridSector.groundPiece;
-
-            return this.getTerrainHeightAt(groundPiece, serverPlayer.piece.spatial.pos, normalStore);
-        };
-
-        getTerrainHeightAt = function(terrain, pos, terrainOrigin, normalStore) {
-
-            calcVec2.subVectors(pos, terrainOrigin);
-
-                let  terrainSize = terrain.opts.xSize;
-                let  segments = terrain.opts.xSegments;
-
-            calcVec2.x -= terrain.opts.xSize / 2;
-            calcVec2.z -= terrain.opts.xSize / 2;
-
-            return getHeightAt(calcVec2, terrain.array1d, terrainSize, segments, normalStore);
-        };
-
-    getTerrainHeightAndNormalAt = function(pos, terrainData, terrainSize, segments, normalStore) {
-/*
         calcVec2.subVectors(pos, terrainOrigin);
 
         let  terrainSize = terrain.opts.xSize;
@@ -610,15 +588,15 @@ class TerrainFunctions {
 
         calcVec2.x -= terrain.opts.xSize / 2;
         calcVec2.z -= terrain.opts.xSize / 2;
-*/
-        return getHeightAt(pos, terrainData, terrainSize, segments, normalStore);
+
+        return getHeightAt(calcVec2, terrain.array1d, terrainSize, segments, normalStore);
     };
 
     getTerrainBuffers(terrain) {
         return getTerrainBuffers(terrain)
     }
 
-    }
+}
 
 export {
     getHeightAt

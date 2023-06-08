@@ -60,10 +60,12 @@ class GameAPI {
             return 0
         }
         let time = client.getFrame().systemTime;
-        if (typeof (time) !== 'number') {
-            console.log("Time is bad, investigate")
-        }
+
         return time;
+    }
+
+    getFrame = function() {
+        return client.getFrame();
     }
 
     getTurnStatus() {
