@@ -12,6 +12,7 @@
       "TEXTURES"
     ],
     "POLL_INDEX":[
+      "/threedata/assets/asset_ocean.json"                   ,
       "/threedata/shaders/three_shader_programs.json"        ,
       "/threedata/shaders/three_terrain_shader.json"         ,
       "/threedata/shaders/three_shader_chunks.json"          ,
@@ -19,7 +20,6 @@
     ],
     "NOT_POLL_INDEX":[
       "/threedata/assets/asset_environment.json"             ,
-      "/threedata/assets/asset_ocean.json"                   ,
       "/threedata/assets/three_model_rigs.json"              ,
       "/threedata/assets/three_models.json"                   ,
       "/world/spawn/spawn_patterns.json"                     ,

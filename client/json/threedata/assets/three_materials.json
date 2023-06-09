@@ -107,6 +107,18 @@
           }
         },
         {
+          "id":"material_ocean",
+          "config":{
+            "settings": "mat_settings_ocean",
+            "textures":[
+              {"key":"heightmap"      , "id":"tx_heightmap_world_01"   },
+              {"key":"tx0"            , "id":"ocean_watertile2"},
+              {"key":"tx1"            , "id":"ocean_watertile"},
+              {"key":"tx2"            , "id":"ocean_watertile"}
+            ]
+          }
+        },
+        {
           "id":"material_instanced_terrain",
           "config":{
             "settings": "mat_settings_terrain_instanced",

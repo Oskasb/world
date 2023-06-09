@@ -2,6 +2,7 @@ import {ThreeTerrain} from "./ThreeTerrain.js";
 import {TerrainArea} from "./TerrainArea.js";
 import * as TerrainFunctions from "./TerrainFunctions.js";
 import {Vector3} from "../../../../libs/three/math/Vector3.js";
+import {Ocean} from "../water/Ocean.js";
 
 let tempVec = new Vector3();
 let threeTerrain = new ThreeTerrain();
@@ -15,7 +16,7 @@ let minZ = 1000;
 let spawnCount = 0;
 let row = 0;
 let col = 0;
-
+let ocean = new Ocean();
 
 let gridPosX = function() {
     row = MATH.moduloPositive(spawnCount, gridWidth);
@@ -33,6 +34,7 @@ class TerrainSystem {
     };
 
     initTerrainSystem = function(callback) {
+        ocean.generateOcean();
         threeTerrain.loadData(callback);
 
     };

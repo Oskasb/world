@@ -3,7 +3,6 @@
     "files": [
       "/world/world_systems.json"                            ,
       "/threedata/assets/load_assets.json"                   ,
-      "/geometry/terrain_configs.json"                       ,
 
       "/world/spawn/spawn_patterns.json"                     ,
       "/world/grid/main_encounter_grids.json"                ,
