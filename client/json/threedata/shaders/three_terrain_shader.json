@@ -71,33 +71,20 @@
 
           "vec4 sample = texture2D( heightmap, heightSampler);",
 
-          "vec2 normalSamplerP0 = vec2(heightSampler.x +shift*0.5 , heightSampler.y +shift*0.5);",
-          "vec4 normalSampleP0 = texture2D( heightmap, normalSamplerP0);",
 
-          "vec2 normalSamplerP1 = vec2(normalSamplerP0.x - shift, normalSamplerP0.y);",
-          "vec4 normalSampleP1 = texture2D( heightmap, normalSamplerP1);",
-
-          "vec2 normalSamplerP2 = vec2(normalSamplerP0.x, normalSamplerP0.y - shift);",
-          "vec4 normalSampleP2 = texture2D( heightmap, normalSamplerP2);",
-
-          "vec3 triPoint0 = vec3( normalSamplerP0.x, normalSampleP0.x*0.01, normalSamplerP0.y);",
-          "vec3 triPoint1 = vec3( normalSamplerP1.x, normalSampleP1.x*0.01, normalSamplerP1.y);",
-          "vec3 triPoint2 = vec3( normalSamplerP2.x, normalSampleP2.x*0.01, normalSamplerP2.y);",
-
-          "vec3 tangent = triPoint2 - triPoint0;",
-          "vec3 biTangent = triPoint1 - triPoint0;",
 
           "vPosition.x = vPosition.x *  scale3d.x;",
           "vPosition.y = vPosition.y *  scale3d.y * 100.0 -offset.y;",
           "vPosition.z = vPosition.z *  scale3d.z;"  ,
 
-          "vNormal = normalize(cross(tangent, biTangent));",
-          "faceNormal = vNormal + 2.0 * cross( orientation.xyz, cross( orientation.xyz, vNormal ) + orientation.w * vNormal );",
+          "vNormal.x = 0.0;",
+          "vNormal.y = 1.0;",
+          "vNormal.z = 0.0;",
 
-          "float intensity = max( 0.4 + dot(faceNormal, sunLightDirection ) * 0.5, 0.0);",
+          "float intensity = max( 0.4 + dot(vNormal, sunLightDirection ) * 0.5, 0.0);",
           "sunDir = sunLightColor * intensity * (0.3+intensity*intensity*0.3);",
 
-          "float ambIntensity = 0.75 * (sin(systemTime)*0.5+0.5);",
+          "float ambIntensity = 0.75 * (sin(systemTime*0.3 + (offset.x+(vPosition.x*0.2)+systemTime)*1.0)*0.2+0.2);",
 
           "vColor.r = sunDir.r + ambientLightColor.r * ambIntensity ;",
           "vColor.g = sunDir.g + ambientLightColor.g * ambIntensity;",
@@ -140,7 +127,7 @@
           "varying float maxHeight;",
           "void main(){",
 
-          "float tileCount = 16.0;",
+          "float tileCount = 8.0;",
           "float tileXuv = max(0.001, min(vUv.x*1.0, 0.9999)) * tileCount;",
           "float tileYuv = max(0.001, min(vUv.y*1.0, 0.9999)) * tileCount;",
           "float uvX = tileXuv * 1.0 - floor(tileXuv * 1.0)*0.9999;",
@@ -156,8 +143,8 @@
           "float twoPi = 6.2831;",
           "float depth = min(max(terrainMapSample.r*1.2*(maxHeight-minHeight)-0.1, 0.0), 1.0);",
 
-          "float mod = sin(systemTime*0.22)*0.01 + cos(systemTime*0.3)*0.01 +0.02;",
-          "float mod2 = sin(systemTime*0.2+terrainSampler.x*1.1)*0.05 +cos(systemTime*0.25+terrainSampler.y*1.1)*0.05;",
+          "float mod = sin(systemTime*0.42)*0.15 + cos(systemTime*0.3)*0.15 +0.3;",
+          "float mod2 = sin(systemTime*0.32+terrainSampler.x*1.1)*0.15 +cos(systemTime*0.25+terrainSampler.y*1.1)*0.15 + 0.2 +mod;",
 
 
 
@@ -174,15 +161,15 @@
           "float waterRow = 7.0;",
           "float depthScale = 0.98;",
 
-          "float scatter = (cos(vPosition.z*113.0) + sin(vPosition.x*113.0))*0.002 + (cos(vPosition.z*25.0) + sin(vPosition.x*25.0))*0.002;",
+          "float scatter = (cos(vPosition.z*113.0) + sin(vPosition.x*113.0))*0.012 + (cos(vPosition.z*25.0) + sin(vPosition.x*25.0))*0.012;",
 
-          "depth = depth * 0.999 + 0.080*depth*sin((vPosition.x+mod2) * twoPi*0.125)  + 0.082*depth*cos((vPosition.z+mod2) * twoPi*0.25+ mod) ;",
-          "depth = depth * 0.999 + 0.044*depth*sin(vPosition.x * twoPi*0.25)  + 0.058*depth*cos((vPosition.z+mod2) * twoPi*0.125+ mod) ;",
-          "depth = depth * 0.999 + 0.088*depth*sin((vPosition.x+mod2) * twoPi*0.25)   + 0.084*depth*cos(vPosition.z * twoPi*0.25+ mod) ;",
+          "depth = depth * 0.99 + 0.180*depth*sin((vPosition.x+mod2) * twoPi*0.125)  + 0.182*depth*cos((vPosition.z+mod2) * twoPi*0.25+ mod) ;",
+          "depth = depth * 0.99 + 0.144*depth*sin(vPosition.x * twoPi*0.25)  + 0.158*depth*cos((vPosition.z+mod2) * twoPi*0.125+ mod) ;",
+          "depth = depth * 0.99 + 0.188*depth*sin((vPosition.x+mod2) * twoPi*0.25)   + 0.184*depth*cos(vPosition.z * twoPi*0.25+ mod) ;",
 
-          "depth = min(max(depth*1.8-0.05, 0.0), 1.0);",
+          "depth = min(max(depth*1.9-0.05, 0.0), 1.0);",
 
-          "vec2 tileDepthMod = vec2(min(floor(max(sqrt(depth -0.01) +scatter*0.5*(sin((vPosition.x+systemTime)*0.2)+1.5) +scatter*mod, 0.01) * 10.0), 7.0), waterRow);",
+          "vec2 tileDepthMod = vec2(min(floor(max((depth -0.001) +scatter*0.75*(sin((vPosition.x+systemTime)*(1.2))+0.5) +scatter*mod, 0.01) * 10.0), 7.0), waterRow);",
           "vec2 tileDepthModOffset = vec2(tileDepthMod.x * tileScale.x, (tileDepthMod.y-sprite.w) * tileScale.y / sprite.z);",
           "vec2 tileDepthModUv = vec2(scaledUv + tileDepthModOffset);",
           "vec4 txColorDepthMod01 = texture2D( tx0, tileDepthModUv);",
