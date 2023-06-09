@@ -216,7 +216,7 @@ class TerrainGeometry{
                 this.model.scale.copy(this.obj3d.scale);
                 this.model.scale.multiplyScalar(100)
 
-                console.log(this.model, instance.originalModel);
+            //    console.log(this.model, instance.originalModel);
             }
 
 

@@ -81,7 +81,7 @@
           "vec3 biTangent = triPoint1 - triPoint0;",
 
           "vPosition.x = vPosition.x *  scale3d.x;",
-          "vPosition.y = sample.x*100.0*scale3d.y + vPosition.y *  scale3d.y;",
+          "vPosition.y = sample.x*100.0*scale3d.y + vPosition.y *  scale3d.y * 20.0;",
           "vPosition.z = vPosition.z *  scale3d.z;"  ,
 
 

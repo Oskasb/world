@@ -9,6 +9,14 @@ class Ocean {
         const plane = new THREE.Mesh( geometry, material );
         plane.rotateX(-Math.PI*0.5)
         ThreeAPI.getScene().add( plane );
+
+
+        let addSceneInstance = function(oceanModel) {
+            console.log(oceanModel);
+        }
+
+        let asset = client.dynamicMain.assets['asset_ocean_16'];
+        console.log(asset, client.dynamicMain.assets);
     }
 
 }

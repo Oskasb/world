@@ -90,9 +90,7 @@
       "/threedata/assets/sprites/particle_sprites_8x8.json"
     ],
     "LOAD_MODELS":[
-      "asset_grid_127",
-      "asset_grid_63",
-      "asset_grid_31",
+
       "asset_grid_16",
       "asset_grid_8",
       "asset_grid_4",
@@ -107,7 +105,7 @@
     ],
 
     "NOT_PRELOAD_FILES": [
-
+      "asset_ocean_16",
       "file_town_house",
       "file_house_t",
       "file_mansion_main",
