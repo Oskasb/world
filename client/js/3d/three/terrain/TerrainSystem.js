@@ -34,7 +34,6 @@ class TerrainSystem {
     };
 
     initTerrainSystem = function(callback) {
-        ocean.generateOcean();
         threeTerrain.loadData(callback);
 
     };

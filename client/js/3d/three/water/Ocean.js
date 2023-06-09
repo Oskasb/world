@@ -4,19 +4,25 @@ class Ocean {
     }
 
     generateOcean() {
-        const geometry = new THREE.PlaneGeometry( 4000, 4000, 64, 64 );
-        const material = new THREE.MeshBasicMaterial( {color: 0xaabbff, side: THREE.DoubleSide} );
-        const plane = new THREE.Mesh( geometry, material );
-        plane.rotateX(-Math.PI*0.5)
-        ThreeAPI.getScene().add( plane );
+        let addSceneInstance = function(instance) {
+            console.log(instance);
 
+            instance.setActive(ENUMS.InstanceState.ACTIVE_VISIBLE);
 
-        let addSceneInstance = function(oceanModel) {
-            console.log(oceanModel);
+            instance.spatial.setScaleXYZ(10, 0, 10);
+
+        //    instance.spatial.stickToObj3D(this.obj3d);
+            ThreeAPI.tempVec4.x = 0;
+            ThreeAPI.tempVec4.y = 0;
+            ThreeAPI.tempVec4.z = 1;
+            ThreeAPI.tempVec4.w = 1;
+            instance.setAttributev4('sprite', ThreeAPI.tempVec4)
+            ThreeAPI.getScene().remove(instance.spatial.obj3d)
+
         }
 
-        let asset = client.dynamicMain.assets['asset_ocean_16'];
-        console.log(asset, client.dynamicMain.assets);
+    //    client.dynamicMain.requestAssetInstance('asset_ocean_16', addSceneInstance)
+
     }
 
 }

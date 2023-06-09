@@ -1,6 +1,7 @@
 import {Sphere} from "../../../../libs/three/math/Sphere.js";
 
 let terrainMaterial = null;
+let oceanMaterial = null
 let heightmap = null;
 let terrainmap = null;
 let heightGrid = [];
@@ -101,6 +102,7 @@ class TerrainGeometry{
         this.gridY = y;
         this.obj3d = obj3d;
         this.instance = null; // this gets rendered by the shader
+        this.oceanInstance = null;
         this.model = null; // use this for physics and debug
         this.posX = obj3d.position.x;
         this.posZ = obj3d.position.z;
@@ -120,12 +122,19 @@ class TerrainGeometry{
         let geoReady = function() {
 
             if (!terrainMaterial) {
+                oceanMaterial = this.oceanInstance.originalModel.material.mat;
                 terrainMaterial = this.instance.originalModel.material.mat;
                 setupHeightmapData()
                 terrainMaterial.uniforms.heightmaptiles.value.x = this.tiles;
                 terrainMaterial.uniforms.heightmaptiles.value.y = this.tiles;
                 terrainMaterial.uniforms.heightmaptiles.value.z = this.tx_width;
                 terrainMaterial.needsUpdate = true;
+
+                oceanMaterial.uniforms.heightmaptiles.value.x = this.tiles;
+                oceanMaterial.uniforms.heightmaptiles.value.y = this.tiles;
+                oceanMaterial.uniforms.heightmaptiles.value.z = this.tx_width;
+                oceanMaterial.needsUpdate = true;
+
             }
 
         }.bind(this);
@@ -164,8 +173,10 @@ class TerrainGeometry{
         this.levelOfDetail = -1;
         if (this.instance) {
             this.instance.decommissionInstancedModel();
+            this.oceanInstance.decommissionInstancedModel();
             ThreeAPI.removeFromScene(this.model);
             this.instance = null;
+            this.oceanInstance = null;
         }
 
     }
@@ -176,8 +187,9 @@ class TerrainGeometry{
         } else if (this.instance) {
             this.detachGeometryInstance();
         }
-        this.levelOfDetail = lodLevel;
+
         let addSceneInstance = function(instance) {
+            this.levelOfDetail = lodLevel;
             this.instance = instance;
 
             if (debugWorld === null) {
@@ -235,8 +247,27 @@ class TerrainGeometry{
             }
         }.bind(this);
     //    if (this.levelOfDetail === 0) {
-            client.dynamicMain.requestAssetInstance(this.gridMeshAssetIds[this.levelOfDetail], addSceneInstance)
+
     //    }
+
+        let addOceanInstance = function(instance) {
+            this.oceanInstance = instance;
+            instance.setActive(ENUMS.InstanceState.ACTIVE_VISIBLE);
+            instance.spatial.stickToObj3D(this.obj3d);
+            ThreeAPI.tempVec4.x = this.gridX;
+            ThreeAPI.tempVec4.y = this.gridY;
+            ThreeAPI.tempVec4.z = 1;
+            ThreeAPI.tempVec4.w = 1;
+            instance.setAttributev4('sprite', ThreeAPI.tempVec4)
+            ThreeAPI.getScene().remove(instance.spatial.obj3d)
+            client.dynamicMain.requestAssetInstance(this.gridMeshAssetIds[lodLevel], addSceneInstance)
+        }.bind(this);
+        if (this.levelOfDetail === -1) {
+            client.dynamicMain.requestAssetInstance('asset_ocean_16', addOceanInstance)
+        } else {
+            client.dynamicMain.requestAssetInstance(this.gridMeshAssetIds[lodLevel], addSceneInstance)
+        }
+
 
     }
 

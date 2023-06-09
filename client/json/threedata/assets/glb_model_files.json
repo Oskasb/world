@@ -110,6 +110,7 @@
         {"id": "file_grid_8",        "config": { "url": "./client/assets/models/shapes/grid_8"                                  }},
         {"id": "file_grid_4",        "config": { "url": "./client/assets/models/shapes/grid_4"                                  }},
         {"id": "file_grid_2",        "config": { "url": "./client/assets/models/shapes/grid_2"                                  }},
+        {"id": "file_grid_1",        "config": { "url": "./client/assets/models/shapes/grid_1"                                  }},
 
         {"id": "file_box",           "config": { "url": "./client/assets/models/shapes/box"                                          }},
         {"id": "file_quad",          "config": { "url": "./client/assets/models/shapes/quad"                                         }},

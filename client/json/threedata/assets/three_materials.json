@@ -107,13 +107,14 @@
           }
         },
         {
-          "id":"material_ocean",
+          "id":"material_instanced_ocean",
           "config":{
             "settings": "mat_settings_ocean",
             "textures":[
-              {"key":"tx0"            , "id":"ocean_watertile2"},
-              {"key":"tx1"            , "id":"ocean_watertile"},
-              {"key":"tx2"            , "id":"ocean_watertile"}
+              {"key":"terrainmap"     , "id":"tx_terrainmap_world_01"  },
+              {"key":"heightmap"      , "id":"tx_heightmap_world_01"   },
+              {"key":"tx0"            , "id":"tx_ground_tiles8x8"      },
+              {"key":"tx0nm"          , "id":"tx_ground_tiles8x8nm"    }
             ]
           }
         },
