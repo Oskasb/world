@@ -57,7 +57,7 @@
         {"id": "asset_scale_purple_shirt",  "config":{"model": "file_scale_shirt",  "material": "material_red",           "settings": "model_settings_default"}},
         {"id": "asset_scale_purple_legs",    "config":{"model": "file_scale_legs",   "material": "material_red",          "settings": "model_settings_default"}},
 
-        {"id": "asset_ocean_16",    "config": { "model": "file_grid_1",      "material": "material_instanced_ocean",        "settings": "model_settings_terrain_2" }},
+        {"id": "asset_ocean_16",    "config": { "model": "file_grid_1",      "material": "material_instanced_ocean",        "settings": "model_settings_terrain_1" }},
 
         {"id": "asset_grid_127",    "config": { "model": "file_grid_127",    "material": "material_instanced_terrain",      "settings": "model_settings_terrain"  }},
         {"id": "asset_grid_63",     "config": { "model": "file_grid_63",     "material": "material_instanced_terrain",      "settings": "model_settings_terrain"  }},
@@ -67,6 +67,7 @@
         {"id": "asset_grid_8",      "config": { "model": "file_grid_8",      "material": "material_instanced_terrain",      "settings": "model_settings_terrain_8"  }},
         {"id": "asset_grid_4",      "config": { "model": "file_grid_4",      "material": "material_instanced_terrain",      "settings": "model_settings_terrain_4"  }},
         {"id": "asset_grid_2",      "config": { "model": "file_grid_2",      "material": "material_instanced_terrain",      "settings": "model_settings_terrain_2"  }},
+        {"id": "asset_grid_1",      "config": { "model": "file_grid_1",      "material": "material_instanced_terrain",      "settings": "model_settings_terrain_1"  }},
 
         {"id": "asset_box",         "config": { "model": "file_box",         "material": "material_instancing_tileset",      "settings": "model_settings_tileset"  }},
 

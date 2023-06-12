@@ -46,6 +46,7 @@
           "varying vec2 tileOffset;",
           "varying vec2 tileScale;",
           "varying vec3 terrainPosition;",
+          "varying float heightSample;",
           "varying float minHeight;",
           "varying float maxHeight;",
           "void main(){",
@@ -70,7 +71,7 @@
           "heightSampler = (scaledVPos + tileOffset);",
 
           "vec4 sample = texture2D( heightmap, heightSampler);",
-
+          "heightSample = sample.r;",
 
 
           "vPosition.x = vPosition.x *  scale3d.x;",
@@ -123,6 +124,7 @@
           "varying vec2 tileOffset;",
           "varying vec2 tileScale;",
           "varying vec3 terrainPosition;",
+          "varying float heightSample;",
           "varying float minHeight;",
           "varying float maxHeight;",
           "void main(){",
@@ -141,7 +143,7 @@
           "vec4 terrainMapSample = texture2D( terrainmap, terrainSampler);",
 
           "float twoPi = 6.2831;",
-          "float depth = min(max(terrainMapSample.r*1.2*(maxHeight-minHeight)-0.1, 0.0), 1.0);",
+          "float depth = min(max(heightSample*1.2*(maxHeight-minHeight)-0.1, 0.0), 1.0);",
 
           "float mod = sin(systemTime*0.42)*0.15 + cos(systemTime*0.3)*0.15 +0.3;",
           "float mod2 = sin(systemTime*0.32+terrainSampler.x*1.1)*0.15 +cos(systemTime*0.25+terrainSampler.y*1.1)*0.15 + 0.2 +mod;",
@@ -160,12 +162,14 @@
 
           "float waterRow = 7.0;",
           "float depthScale = 0.98;",
+          "float modFactor = 0.05;",
+
 
           "float scatter = (cos(vPosition.z*113.0) + sin(vPosition.x*113.0))*0.012 + (cos(vPosition.z*25.0) + sin(vPosition.x*25.0))*0.012;",
 
-          "depth = depth * 0.99 + 0.180*depth*sin((vPosition.x+mod2) * twoPi*0.125)  + 0.182*depth*cos((vPosition.z+mod2) * twoPi*0.25+ mod) ;",
-          "depth = depth * 0.99 + 0.144*depth*sin(vPosition.x * twoPi*0.25)  + 0.158*depth*cos((vPosition.z+mod2) * twoPi*0.125+ mod) ;",
-          "depth = depth * 0.99 + 0.188*depth*sin((vPosition.x+mod2) * twoPi*0.25)   + 0.184*depth*cos(vPosition.z * twoPi*0.25+ mod) ;",
+          "depth = depth * 0.99 + modFactor*depth*sin((vPosition.x+mod2) * twoPi*0.125)  + modFactor*depth*cos((vPosition.z+mod2) * twoPi*0.25+ mod) ;",
+          "depth = depth * 0.99 + modFactor*depth*sin(vPosition.x * twoPi*0.25)  + modFactor*depth*cos((vPosition.z+mod2) * twoPi*0.125+ mod) ;",
+          "depth = depth * 0.99 + modFactor*depth*sin((vPosition.x+mod2) * twoPi*0.25)   + modFactor*depth*cos(vPosition.z * twoPi*0.25+ mod) ;",
 
           "depth = min(max(depth*1.9-0.05, 0.0), 1.0);",
 
@@ -357,7 +361,7 @@
 
 
           "float natureRow = 2.0;",
-          "float natureStep = 0.07;",
+          "float natureStep = 0.06;",
 
           "float scatter = (cos(vPosition.z*113.0) + sin(vPosition.x*113.0))*0.002 + (cos(vPosition.z*25.0) + sin(vPosition.x*25.0))*0.002;",
 
@@ -368,7 +372,7 @@
           "vec4 natureColor = texture2D(tx0, tile01Uv);",
           "vec4 natureNormal = texture2D(tx0nm, tile01Uv);",
 
-          "float natureMix = min(max(-natureStep*1.2 + sampleGreen, 0.0)/natureStep*1.0, 1.0);",
+          "float natureMix = min(max(-natureStep*0.25 + sampleGreen, 0.0)/natureStep*1.0, 1.0);",
 
           "vec2 tileSlopeMod = vec2(min(floor(max(sqrt(slope -0.01) +scatter*4.0, 0.01) * 10.0), 7.0), rockRow);",
           "vec2 tileSlopeModOffset = vec2(tileSlopeMod.x * tileScale.x, (tileSlopeMod.y-sprite.w) * tileScale.y / sprite.z);",

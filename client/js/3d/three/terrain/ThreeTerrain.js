@@ -293,7 +293,7 @@ let updateNeighbors = function(geoTile) {
     let gridDistY = updatedTileY - playerGeoGridY;
     let gridDeltaX = updatedTileX
 
-    if (Math.abs(gridDistX) > 32 || Math.abs(gridDistY) > 32) {
+    if (Math.abs(gridDistX) > 28 || Math.abs(gridDistY) > 28) {
         return;
     }
 
