@@ -216,7 +216,6 @@ let getTriangleAt = function(array1d, segments, x, y, terrainScale, terrainOrigi
     }
 
 
-
     points[0] = p1;
     points[1] = p2;
     points[2] = p3;

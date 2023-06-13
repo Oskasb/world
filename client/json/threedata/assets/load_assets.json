@@ -12,11 +12,9 @@
       "TEXTURES"
     ],
     "POLL_INDEX":[
-      "/threedata/assets/asset_ocean.json"                   ,
+      "/threedata/vegetation/vegetation_terrain_trees.json"  ,
       "/threedata/shaders/three_shader_programs.json"        ,
-      "/threedata/shaders/three_terrain_shader.json"         ,
-      "/threedata/shaders/three_shader_chunks.json"          ,
-      "/threedata/shaders/three_particle_shaders.json"
+      "/threedata/shaders/three_terrain_shader.json"
     ],
     "NOT_POLL_INDEX":[
       "/threedata/assets/asset_environment.json"             ,
@@ -96,6 +94,11 @@
       "asset_grid_4",
       "asset_grid_2",
       "asset_grid_1",
+      "asset_tree_5",
+      "asset_tree_1",
+      "asset_tree_3",
+      "asset_tree_2",
+      "asset_tree_4",
       "asset_house_small",
       "asset_box"
 

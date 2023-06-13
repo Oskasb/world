@@ -12,6 +12,9 @@
                 "grid": {
                   "range": 1
                 },
+                "vegetation": {
+                  "terrain_trees": "woodland_trees"
+                },
                 "height_map":{
                   "dimensions":{
                     "tx_width":2048,
@@ -30,7 +33,6 @@
                 }
               }
             }
-
           ]
         }
       ]

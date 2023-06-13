@@ -1,0 +1,27 @@
+[
+  {
+    "VEGETATION": {
+      "TERRAIN_TREES":[
+        {
+          "id":"woodland_trees",
+          "data": [
+            {
+              "data_key":"terrain_trees_config",
+              "config": {
+                "lod_map": [
+                  [],  [],
+                  [],
+                  [],
+
+                  [],
+                  ["asset_tree_2"]
+
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
+]

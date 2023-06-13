@@ -1,4 +1,5 @@
 import {Sphere} from "../../../../libs/three/math/Sphere.js";
+import {TerrainTrees} from "./TerrainTrees.js";
 
 let terrainMaterial = null;
 let oceanMaterial = null
@@ -96,13 +97,16 @@ let applyHeightmapToMesh = function(mesh, terrainGeo) {
 }
 
 class TerrainGeometry{
-    constructor(obj3d, segmentScale, x, y, gridMeshAssetIds, vertsPerSegAxis, tiles, tx_width) {
+    constructor(obj3d, segmentScale, x, y, gridMeshAssetIds, vertsPerSegAxis, tiles, tx_width, vegetationConfig) {
         this.gridMeshAssetIds = gridMeshAssetIds;
         this.gridX = x;
         this.gridY = y;
         this.obj3d = obj3d;
+        this.vegetationConfig = vegetationConfig;
         this.instance = null; // this gets rendered by the shader
         this.oceanInstance = null;
+        this.terrainTrees = new TerrainTrees(this);
+        this.terrainTrees.loadData(this.vegetationConfig['terrain_trees'])
         this.model = null; // use this for physics and debug
         this.posX = obj3d.position.x;
         this.posZ = obj3d.position.z;
@@ -213,26 +217,7 @@ class TerrainGeometry{
             if (!this.model) {
                 this.model = instance.originalModel.model.scene.children[0].clone();
                 this.model.material = new THREE.MeshBasicMaterial();
-                this.model.material.wireframe = true;
-                this.model.material.color.r = 0.1;
-                this.model.material.color.g = 0.5;
-                this.model.material.color.b = 0.1;
-                this.model.material.color.a = 0.4;
-                this.model.material.renderOrder = 10;
-                this.model.material.needsUpdate = true;
-                this.model.material.depthTest = false;
-                this.model.material.depthWrite = false;
-                this.model.name = 'Grid_'+this.gridX+'_'+this.gridY;
-                this.model.position.copy(this.obj3d.position);
-            //    this.model.position.y = 0.1;
-                this.model.scale.copy(this.obj3d.scale);
-                this.model.scale.multiplyScalar(100)
-
-            //    console.log(this.model, instance.originalModel);
             }
-
-
-        //    ThreeAPI.addToScene(this.model);
 
             instance.setActive(ENUMS.InstanceState.ACTIVE_VISIBLE);
             instance.spatial.stickToObj3D(this.obj3d);
@@ -320,6 +305,7 @@ class TerrainGeometry{
                 }
             }
 
+        this.terrainTrees.applyLevelOfDetail(this.levelOfDetail);
         this.updateFrame = frame;
         tileUpdateCB(this);
     }
