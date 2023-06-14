@@ -258,13 +258,15 @@ let activateTerrainGeos = function(x, y, range) {
 
 }
 
+let color = {};
 let debugDrawNearby = function(index) {
     calcVec.set(0.5 * Math.sin(GameAPI.getGameTime()), 0 , 0.5 * Math.cos(GameAPI.getGameTime()));
-    calcVec.multiplyScalar( 1.0 + index*3)
+    calcVec.multiplyScalar( 1.0 + index*0.4)
     posVec.add(calcVec);
     posVec.y = getHeightAndNormal(posVec, normVec);
     normVec.add(posVec);
-    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:posVec, color:'GREEN', size:0.3});
+    ThreeAPI.groundAt(posVec, color);
+    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:posVec, color:color, size:0.2});
     evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:posVec, to:normVec, color:'ORANGE'});
 }
 
@@ -520,7 +522,7 @@ class ThreeTerrain {
         //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:posVec, to:normVec, color:'AQUA'});
 
             for (let i = 0; i < 20; i++) {
-            //    debugDrawNearby(i);
+                debugDrawNearby(i);
             }
 
             drawNearbyTerrain();

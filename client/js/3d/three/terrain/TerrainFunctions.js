@@ -285,8 +285,9 @@ let getGroundTexel = function(array1d, segments, x, y, dataStore, htN, htP, terr
 };
 
 let getDisplacedGround = function(array1d, segments, x, z, htP, htN, normalStore, terrainScale, terrainOrigin) {
-    let  tx = displaceAxisDimensions(x, htN, htP, segments);
-    let  tz = displaceAxisDimensions(z, htN, htP, segments);
+    // NOTE: the x2 for x and z comes from texture resolution difference between height and ground texture size (2048 and 4096)
+    let  tx = displaceAxisDimensions(x*2, htN, htP, segments);
+    let  tz = displaceAxisDimensions(z*2, htN, htP, segments);
 
     return getGroundTexel(array1d, segments, tx, tz, normalStore, htN, htP, terrainScale, terrainOrigin);
 
