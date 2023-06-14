@@ -96,7 +96,7 @@
 
       "/game/pieces/game_characters.json"                    ,
 
-      "/threedata/vegetation/vegetation_terrain_trees.json"  ,
+      "/threedata/terrain/ground_elements.json"  ,
 
       "/threedata/vegetation/vegetation_grids.json"          ,
       "/threedata/vegetation/vegetation_plants.json"         ,

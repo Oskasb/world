@@ -151,7 +151,7 @@ let getThreeTerrainDataAt = function(terrainGeo, pos, dataStore) {
     return TerrainFunctions.getGroundDataAt(pos, terrainGeo.getGroundData(), terrainGeo.groundTxWidth, terrainGeo.groundTxWidth - 1, dataStore, terrainScale, terrainOrigin);
 }
 
-let constructGeometries = function(heightMapData, transform, vegetation, sectionInfoCfg) {
+let constructGeometries = function(heightMapData, transform, groundConfig, sectionInfoCfg) {
     let dims = heightMapData['dimensions'];
     gridMeshAssetId = dims['grid_mesh'];
     let txWidth = dims['tx_width'];
@@ -185,7 +185,7 @@ let constructGeometries = function(heightMapData, transform, vegetation, section
             obj3d.position.add(terrainOrigin);
             obj3d.scale.copy(segmentScale);
             obj3d.scale.multiplyScalar(0.005);
-            terrainGeometries[i][j] = new TerrainGeometry(obj3d, geometrySize, i , j, gridMeshAssetId, vertsPerSegAxis, tiles, txWidth, groundTxWidth, vegetation, sectionInfoCfg);
+            terrainGeometries[i][j] = new TerrainGeometry(obj3d, geometrySize, i , j, gridMeshAssetId, vertsPerSegAxis, tiles, txWidth, groundTxWidth, groundConfig, sectionInfoCfg);
         }
     }
     geoBeneathPlayer = terrainGeometries[2][2];
@@ -433,7 +433,7 @@ class ThreeTerrain {
             //    terrainMaterial.addTerrainMaterial(terrainId, data['textures'], data['shader']);
             //    console.log("terrainListLoaded", data, terrainMaterial, terrainMaterial.getMaterialById(terrainId));
             gridConfig = data['grid']
-            constructGeometries(data['height_map'], data['transform'], data['vegetation'], data['section_info']);
+            constructGeometries(data['height_map'], data['transform'], data['ground'], data['section_info']);
             matLoadedCB();
 
         };

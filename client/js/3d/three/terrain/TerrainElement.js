@@ -4,7 +4,8 @@ import {Vector3} from "../../../../libs/three/math/Vector3.js";
 let calcVec = new Vector3();
 
 class TerrainElement {
-    constructor() {
+    constructor(lodLevel) {
+        this.lodLevel = lodLevel;
         this.obj3d = new Object3D();
         this.groundData = {x:0, y:0, z:0, w:0};
     }
@@ -19,9 +20,22 @@ class TerrainElement {
         let pos = this.obj3d.position;
         setTimeout(function() {
             evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:GameAPI.getMainCharPiece().getPos(), to:pos, color:gData});
-        }, Math.random()*1000)
+        }, 200 + Math.random()*200)
 
     }
+
+
+    setupElementModel(assetId, callback) {
+
+        let addInstance = function(instance) {
+            instance.spatial.stickToObj3D(this.obj3d);
+            ThreeAPI.getScene().remove(instance.spatial.obj3d)
+            callback(instance);
+        }.bind(this);
+
+        client.dynamicMain.requestAssetInstance(assetId, addInstance)
+    }
+
 
 }
 

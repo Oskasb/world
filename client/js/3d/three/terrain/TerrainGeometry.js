@@ -1,5 +1,5 @@
 import {Sphere} from "../../../../libs/three/math/Sphere.js";
-import {TerrainTrees} from "./TerrainTrees.js";
+import {TerrainElementModel} from "./TerrainElementModel.js";
 import {TerrainSectionInfo} from "./TerrainSectionInfo.js";
 
 
@@ -34,7 +34,7 @@ let setupHeightmapData = function() {
     let imgData = heightmapTx.source.data
     width = imgData.width;
     height = imgData.height;
-    console.log(terrainMaterial, heightmapTx, heightmapTx.source.data, imgData , this);
+//    console.log(terrainMaterial, heightmapTx, heightmapTx.source.data, imgData , this);
 
     let canvas = document.createElement('canvas');
     let context = canvas.getContext('2d')
@@ -49,13 +49,13 @@ let setupHeightmapData = function() {
  //   terrainMaterial.needsUpdate = true;
  //   context.drawImage(heightmapTx.source.data, 0, 0, width, height);
     heightmap = context.getImageData(0, 0, width, height).data;
-
+/*
     setTimeout(function() {
         terrainmap = terrainContext.getImageData(0, 0, terrainWidth, terrainHeight).data;
         console.log(terrainmap)
     }, 3000)
-
-    console.log([heightmap], [terrainmap])
+*/
+//    console.log([heightmap], [terrainmap])
 }
 
 let getPixelRedAtBufferIndex = function(i, j, terrainGeo) {
@@ -99,17 +99,17 @@ let applyHeightmapToMesh = function(mesh, terrainGeo) {
 }
 
 class TerrainGeometry{
-    constructor(obj3d, segmentScale, x, y, gridMeshAssetIds, vertsPerSegAxis, tiles, tx_width,groundTxWidth, vegetationConfig, sectionInfoCponfig) {
+    constructor(obj3d, segmentScale, x, y, gridMeshAssetIds, vertsPerSegAxis, tiles, tx_width,groundTxWidth, groundConfig, sectionInfoCponfig) {
         this.gridMeshAssetIds = gridMeshAssetIds;
         this.gridX = x;
         this.gridY = y;
         this.obj3d = obj3d;
-        this.vegetationConfig = vegetationConfig;
+        this.groundConfig = groundConfig;
         this.instance = null; // this gets rendered by the shader
         this.oceanInstance = null;
         this.terrainSectionInfo = new TerrainSectionInfo(this, sectionInfoCponfig);
-        this.terrainTrees = new TerrainTrees(this);
-        this.terrainTrees.loadData(this.vegetationConfig['terrain_trees'])
+        this.terrainElementModels = new TerrainElementModel(this);
+        this.terrainElementModels.loadData(this.groundConfig['terrain_elements'])
         this.model = null; // use this for physics and debug
         this.posX = obj3d.position.x;
         this.posZ = obj3d.position.z;
@@ -182,7 +182,7 @@ class TerrainGeometry{
 
     applyLodLevelChange() {
         this.terrainSectionInfo.applyLodLevel(this.levelOfDetail, maxLodLevel);
-        this.terrainTrees.applyLevelOfDetail(this.levelOfDetail);
+        this.terrainElementModels.applyLevelOfDetail(this.levelOfDetail, this.terrainSectionInfo);
     }
 
     detachGeometryInstance() {

@@ -12,7 +12,7 @@
       "TEXTURES"
     ],
     "POLL_INDEX":[
-      "/threedata/vegetation/vegetation_terrain_trees.json"  ,
+      "/threedata/terrain/ground_elements.json"  ,
       "/threedata/shaders/three_shader_programs.json"        ,
       "/threedata/shaders/three_terrain_shader.json"
     ],

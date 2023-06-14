@@ -3,7 +3,7 @@ import {Object3D} from "../../../../libs/three/core/Object3D.js";
 
 let tempObj = new Object3D();
 
-class TerrainTrees {
+class TerrainElementModel {
     constructor(terrainGeo) {
         this.terrainGeometry = terrainGeo;
         this.levelOfDetail = -1;
@@ -21,12 +21,12 @@ class TerrainTrees {
             }
         }.bind(this);
 
-        let configData = new ConfigData("VEGETATION", "TERRAIN_TREES", "terrain_trees_config", 'data_key', 'config')
+        let configData = new ConfigData("TERRAIN", "GROUND_ELEMENTS", "ground_elements", 'data_key', 'config')
         configData.addUpdateCallback(terrainListLoaded);
         configData.parseConfig( terrainTreesId, terrainListLoaded)
     };
 
-    updateTrees(fromLod, toLod, maxLod) {
+    updateElementModels(terrainSectionInfo, fromLod, toLod, maxLod) {
 
         for (let i = 0; i < this.lodLevelInstances.length; i++) {
             if (this.lodMap[i].length) {
@@ -39,7 +39,7 @@ class TerrainTrees {
 
                 } else {
                     for (let i = toLod; i < maxLod; i++) {
-                        this.populateLodLevel(i);
+                        this.populateLodLevel(terrainSectionInfo, i);
                     }
 
 
@@ -52,41 +52,28 @@ class TerrainTrees {
         this.applyLevelOfDetail(-1);
     }
 
-    populateLodLevel(lodLevel) {
+    populateLodLevel(terrainSectionInfo, lodLevel) {
         let lodInstances = this.lodLevelInstances[lodLevel];
         if (lodInstances.length) {
             return;
         }
    //     console.log("Populate lod level. ", lodLevel)
         let addLodInstance = function(instance) {
-
-            instance.spatial.obj3d.position.copy(this.terrainGeometry.obj3d.position);
-
-            let tGeo = this.terrainGeometry;
-        //    tempObj.position.z += 10;
-
-        //    tempObj.scale.set(0.5, 0.5, 0.5);
             lodInstances.push(instance);
-        //    setTimeout(function () {
-            //    instance.setActive(ENUMS.InstanceState.ACTIVE_VISIBLE);
-                tempObj.position.copy(instance.spatial.obj3d.position)
-                tempObj.position.y = ThreeAPI.terrainAt(instance.spatial.obj3d.position, ThreeAPI.tempVec3c);
-                ThreeAPI.tempVec3c.add(tempObj.position);
-                tempObj.lookAt(ThreeAPI.tempVec3c);
-                tempObj.scale.set(1, 1, 1);
-                instance.spatial.stickToObj3D(tempObj);
-         //   }, 100)
-
-        //    instance.spatial.stickToObj3D(tempObj);
-            ThreeAPI.getScene().remove(instance.spatial.obj3d)
         }.bind(this);
 
         let lodAssets = this.lodMap[lodLevel]
+        let groundElems = terrainSectionInfo.getLodLevelGroundElements(lodLevel);
 
-        for (let i = 0; i < lodAssets.length  ; i++) {
-            client.dynamicMain.requestAssetInstance(lodAssets[i], addLodInstance)
+        if (!groundElems) return;
+
+        for (let i = 0; i < groundElems.length  ; i++) {
+            for (let j = 0; j < lodAssets.length  ;j++) {
+                if (groundElems[i].groundData.y > 0.9) {
+                    groundElems[i].setupElementModel(lodAssets[j], addLodInstance)
+                }
+            }
         }
-
 
     }
 
@@ -94,12 +81,12 @@ class TerrainTrees {
         let lodInstances = this.lodLevelInstances[lodLevel];
         while (lodInstances.length) {
        //     console.log("Clear lod level. ", lodLevel)
-            let tree = lodInstances.pop();
-            tree.decommissionInstancedModel();
+            let model = lodInstances.pop();
+            model.decommissionInstancedModel();
         }
     }
 
-    applyLevelOfDetail(lodLevel) {
+    applyLevelOfDetail(lodLevel, terrainSectionInfo) {
         if (this.levelOfDetail === lodLevel || this.lodMap.length === 0) {
             return;
         }
@@ -112,7 +99,7 @@ class TerrainTrees {
         } else {
             // console.log("Update trees lod level. ", lodLevel)
         //    if (lodLevel === 0) {
-                this.updateTrees(MATH.clamp(this.levelOfDetail, 0, this.lodMap.length), lodLevel,  this.lodMap.length);
+                this.updateElementModels(terrainSectionInfo, MATH.clamp(this.levelOfDetail, 0, this.lodMap.length), lodLevel,  this.lodMap.length);
         //    }
 
         }
@@ -120,4 +107,4 @@ class TerrainTrees {
     }
 }
 
-export { TerrainTrees }
+export { TerrainElementModel }

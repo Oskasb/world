@@ -14,16 +14,16 @@
                 },
                 "section_info": {
                   "lod_levels": [
-                    {"grid": [12, 12]},
-                    {"grid": [10, 10]},
-                    {"grid": [8, 8]},
-                    {"grid": [6, 6]},
-                    {"grid": [4, 4]},
-                    {"grid": [2, 2]}
+                    {"grid": [3, 3]},
+                    {"grid": [2, 2]},
+                    {"grid": [2, 2]},
+                    {"grid": [2, 2]},
+                    {"grid": [2, 2]},
+                    {"grid": [1, 1]}
                   ]
                 },
-                "vegetation": {
-                  "terrain_trees": "woodland_trees"
+                "ground": {
+                  "terrain_elements": "woodland_ground"
                 },
                 "height_map":{
                   "dimensions":{

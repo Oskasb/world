@@ -31,7 +31,7 @@ class TerrainSectionInfo {
                 let yFrac = MATH.calcFraction(0, yElems, j);
                 calcVec.x = this.minExtents.x + xFrac*size;
                 calcVec.z = this.minExtents.z + yFrac*size;
-                let terrainElement = new TerrainElement();
+                let terrainElement = new TerrainElement(lodLevel);
                 terrainElement.setPosition(calcVec);
                 groundElements.push(terrainElement);
             }
@@ -54,6 +54,11 @@ class TerrainSectionInfo {
             }
         }
     }
+
+    getLodLevelGroundElements(lodLevel) {
+        return this.lodLevels[lodLevel];
+    }
+
 }
 
 export { TerrainSectionInfo }

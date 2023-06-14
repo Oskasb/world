@@ -1,19 +1,19 @@
 [
   {
-    "VEGETATION": {
-      "TERRAIN_TREES":[
+    "TERRAIN": {
+      "GROUND_ELEMENTS":[
         {
-          "id":"woodland_trees",
+          "id":"woodland_ground",
           "data": [
             {
-              "data_key":"terrain_trees_config",
+              "data_key":"ground_elements",
               "config": {
                 "lod_map": [
+                  ["asset_tree_1"],
                   ["asset_tree_2"],
-                  [],  [],
                   [],
+                  ["asset_tree_3"],
                   [],
-
                   [],
                   []
 
