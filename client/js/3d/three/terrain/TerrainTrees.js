@@ -31,17 +31,17 @@ class TerrainTrees {
         for (let i = 0; i < this.lodLevelInstances.length; i++) {
             if (this.lodMap[i].length) {
 
-                if (fromLod > toLod) {
-
+                if (fromLod < toLod) {
                     for (let i = fromLod; i < toLod; i++) {
                         this.clearLodLevel(i);
                     }
 
-                } else {
 
+                } else {
                     for (let i = toLod; i < maxLod; i++) {
                         this.populateLodLevel(i);
                     }
+
 
                 }
             }
@@ -93,7 +93,7 @@ class TerrainTrees {
     clearLodLevel(lodLevel) {
         let lodInstances = this.lodLevelInstances[lodLevel];
         while (lodInstances.length) {
-            console.log("Clear lod level. ", lodLevel)
+       //     console.log("Clear lod level. ", lodLevel)
             let tree = lodInstances.pop();
             tree.decommissionInstancedModel();
         }

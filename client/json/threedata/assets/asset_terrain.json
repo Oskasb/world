@@ -12,12 +12,23 @@
                 "grid": {
                   "range": 1
                 },
+                "section_info": {
+                  "lod_levels": [
+                    {"grid": [12, 12]},
+                    {"grid": [10, 10]},
+                    {"grid": [8, 8]},
+                    {"grid": [6, 6]},
+                    {"grid": [4, 4]},
+                    {"grid": [2, 2]}
+                  ]
+                },
                 "vegetation": {
                   "terrain_trees": "woodland_trees"
                 },
                 "height_map":{
                   "dimensions":{
                     "tx_width":2048,
+                    "ground_tx_width":4096,
                     "grid_mesh":["asset_grid_16", "asset_grid_16", "asset_grid_8", "asset_grid_4", "asset_grid_2", "asset_grid_1", "asset_grid_1"],
                     "mesh_segments":15
                   }

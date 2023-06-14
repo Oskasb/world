@@ -1,6 +1,4 @@
 import {ThreeTerrain} from "./ThreeTerrain.js";
-import {TerrainArea} from "./TerrainArea.js";
-import * as TerrainFunctions from "./TerrainFunctions.js";
 import {Vector3} from "../../../../libs/three/math/Vector3.js";
 import {Ocean} from "../water/Ocean.js";
 
@@ -30,7 +28,7 @@ let gridPosZ = function() {
 
 class TerrainSystem {
     constructor() {
-        this.terrainAreas = [];
+
     };
 
     initTerrainSystem = function(callback) {
@@ -38,23 +36,13 @@ class TerrainSystem {
 
     };
 
-    generateTerrainArea = function() {
-        this.terrainAreas.push(new TerrainArea())
-    };
-
     getTerrainHeightAndNormal = function(pos, normalStore) {
         return threeTerrain.call.getHeightAndNormal(pos, normalStore);
     };
 
-    getTerrainAreaAtPos = function(pos) {
-
-        for (let i = 0; i < this.terrainAreas.length; i++) {
-            if (this.terrainAreas[i].positionIsWithin(pos)) {
-                return this.terrainAreas[i];
-            }
-        }
-    };
-
+    getTerrainGroundDataAtPos = function(pos, dataStore) {
+        return threeTerrain.call.getTerrainData(pos, dataStore);
+    }
 
     activateTerrainSystem = function() {
         ThreeAPI.addPrerenderCallback(threeTerrain.updateThreeTerrainGeometry)

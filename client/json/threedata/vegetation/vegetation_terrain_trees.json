@@ -9,12 +9,13 @@
               "data_key":"terrain_trees_config",
               "config": {
                 "lod_map": [
+                  ["asset_tree_2"],
                   [],  [],
                   [],
                   [],
 
                   [],
-                  ["asset_tree_2"]
+                  []
 
                 ]
               }

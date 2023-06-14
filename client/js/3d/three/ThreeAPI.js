@@ -193,6 +193,10 @@ class ThreeAPI {
         return terrainSystem.getTerrainHeightAndNormal(pos, normalStore);
     };
 
+    groundAt = function(pos, dataStore) {
+        return terrainSystem.getTerrainGroundDataAtPos(pos, dataStore);
+    }
+
     updateWindowParameters = function(width, height, aspect, pxRatio) {
     //    console.log(width, height, aspect, pxRatio)
         this.threeSetup.setRenderParams(width, height, aspect, pxRatio);

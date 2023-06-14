@@ -1,5 +1,7 @@
 import {Sphere} from "../../../../libs/three/math/Sphere.js";
 import {TerrainTrees} from "./TerrainTrees.js";
+import {TerrainSectionInfo} from "./TerrainSectionInfo.js";
+
 
 let terrainMaterial = null;
 let oceanMaterial = null
@@ -10,6 +12,7 @@ let width = null;
 let height = null;
 let terrainWidth = null;
 let terrainHeight = null;
+let maxLodLevel = 5;
 
 let debugWorld = null;
 let ctx;
@@ -22,8 +25,8 @@ let setupHeightmapData = function() {
 
     let terrainCanvas = document.createElement('canvas');
     let terrainContext = terrainCanvas.getContext('2d')
-    terrainContext.width = terrainWidth;
-    terrainContext.height = terrainHeight;
+    terrainCanvas.width = terrainWidth;
+    terrainCanvas.height = terrainHeight;
     terrainContext.drawImage(terrainData, 0, 0, terrainWidth, terrainHeight);
     terrainmap = terrainContext.getImageData(0, 0, terrainWidth, terrainHeight).data;
 
@@ -46,13 +49,12 @@ let setupHeightmapData = function() {
  //   terrainMaterial.needsUpdate = true;
  //   context.drawImage(heightmapTx.source.data, 0, 0, width, height);
     heightmap = context.getImageData(0, 0, width, height).data;
-/*
+
     setTimeout(function() {
-        context.drawImage(imgData, 0, 0, width, height);
-        heightmap = context.getImageData(0, 0, width, height).data;
-        console.log(canvas.width, canvas.height, heightmap)
+        terrainmap = terrainContext.getImageData(0, 0, terrainWidth, terrainHeight).data;
+        console.log(terrainmap)
     }, 3000)
-*/
+
     console.log([heightmap], [terrainmap])
 }
 
@@ -97,7 +99,7 @@ let applyHeightmapToMesh = function(mesh, terrainGeo) {
 }
 
 class TerrainGeometry{
-    constructor(obj3d, segmentScale, x, y, gridMeshAssetIds, vertsPerSegAxis, tiles, tx_width, vegetationConfig) {
+    constructor(obj3d, segmentScale, x, y, gridMeshAssetIds, vertsPerSegAxis, tiles, tx_width,groundTxWidth, vegetationConfig, sectionInfoCponfig) {
         this.gridMeshAssetIds = gridMeshAssetIds;
         this.gridX = x;
         this.gridY = y;
@@ -105,6 +107,7 @@ class TerrainGeometry{
         this.vegetationConfig = vegetationConfig;
         this.instance = null; // this gets rendered by the shader
         this.oceanInstance = null;
+        this.terrainSectionInfo = new TerrainSectionInfo(this, sectionInfoCponfig);
         this.terrainTrees = new TerrainTrees(this);
         this.terrainTrees.loadData(this.vegetationConfig['terrain_trees'])
         this.model = null; // use this for physics and debug
@@ -114,6 +117,7 @@ class TerrainGeometry{
         this.vertsPerSegAxis = vertsPerSegAxis;
         this.tiles = tiles;
         this.tx_width = tx_width;
+        this.groundTxWidth = groundTxWidth;
         this.isActive = false;
         this.wasVisible = false;
         this.isVisible = false;
@@ -138,9 +142,7 @@ class TerrainGeometry{
                 oceanMaterial.uniforms.heightmaptiles.value.y = this.tiles;
                 oceanMaterial.uniforms.heightmaptiles.value.z = this.tx_width;
                 oceanMaterial.needsUpdate = true;
-
             }
-
         }.bind(this);
 
         let activateGeo = function(lodLevel) {
@@ -148,11 +150,9 @@ class TerrainGeometry{
                 console.log("Geo Already Active")
                 return;
             }
-
             console.log("Activate Geo", this.gridX, this.gridY);
             this.isActive = true;
             this.attachGeometryInstance(geoReady, lodLevel)
-
         }.bind(this);
 
         let deactivateGeo = function() {
@@ -163,14 +163,26 @@ class TerrainGeometry{
                 console.log("Geo not Active")
                 return;
             }
-
         }.bind(this);
 
         this.call = {
             activateGeo:activateGeo,
             deactivateGeo:deactivateGeo
         }
+    }
 
+    getExtentsMinMax(storeMin, storeMax) {
+        storeMin.copy(this.obj3d.position);
+        storeMin.x -= this.size*0.5;
+        storeMin.z -= this.size*0.5;
+        storeMax.copy(storeMin);
+        storeMax.x += this.size;
+        storeMax.z += this.size;
+    }
+
+    applyLodLevelChange() {
+        this.terrainSectionInfo.applyLodLevel(this.levelOfDetail, maxLodLevel);
+        this.terrainTrees.applyLevelOfDetail(this.levelOfDetail);
     }
 
     detachGeometryInstance() {
@@ -181,6 +193,7 @@ class TerrainGeometry{
             ThreeAPI.removeFromScene(this.model);
             this.instance = null;
             this.oceanInstance = null;
+            this.applyLodLevelChange()
         }
 
     }
@@ -252,7 +265,7 @@ class TerrainGeometry{
         } else {
             client.dynamicMain.requestAssetInstance(this.gridMeshAssetIds[lodLevel], addSceneInstance)
         }
-
+        this.applyLodLevelChange()
 
     }
 
@@ -261,6 +274,10 @@ class TerrainGeometry{
        return heightmap;
     }
 
+    getGroundData() {
+        //      return ctx.getImageData(0, 0, width, height).data;
+        return terrainmap;
+    }
 
     updateTerrainGeometry(visibleGeoTiles, geoBeneathPlayer, tileUpdateCB, frame) {
 
@@ -282,7 +299,7 @@ class TerrainGeometry{
                 let gridDistX = Math.abs(centerGridX - this.gridX);
                 let gridDistY  = Math.abs(centerGridY - this.gridY);
                 let gridDist = Math.max(gridDistX, gridDistY);
-                let lodLevel = Math.min(Math.floor( gridDist/3), 5)
+                let lodLevel = Math.min(Math.floor( gridDist/3), maxLodLevel)
                 this.attachGeometryInstance(null, lodLevel)
             //    let color = {x:Math.cos(lodLevel/2)*0.5+0.5, y:Math.cos(lodLevel)*0.5 + 0.5, z: Math.sin(lodLevel)*0.5+0.5, w:1}
             //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:GameAPI.getMainCharPiece().getPos(), to:this.obj3d.position, color:color});
@@ -305,7 +322,6 @@ class TerrainGeometry{
                 }
             }
 
-        this.terrainTrees.applyLevelOfDetail(this.levelOfDetail);
         this.updateFrame = frame;
         tileUpdateCB(this);
     }

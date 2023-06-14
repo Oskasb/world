@@ -232,8 +232,8 @@ let getDisplacedHeight = function(array1d, segments, x, z, htP, htN, normalStore
 
 let getHeightAt = function(pos, array1d, terrainSize, segments, normalStore, terrainScale, terrainOrigin) {
 
-    let  htP = terrainSize*0.5;
-    let  htN = - htP;
+    let htP = terrainSize*0.5;
+    let htN = - htP;
 
     if (pos.x < htN || pos.z < htN) {
         console.log("Terrain!", pos.x, pos.z, htP, htN ,"Is Outside WORKER");
@@ -255,6 +255,64 @@ let getHeightAt = function(pos, array1d, terrainSize, segments, normalStore, ter
 };
 
 
+let getRGBAAt = function(array1d, segments, x, y, dataStore) {
+
+    let  yFactor = (y) * (segments+1);
+    let  xFactor = x;
+
+    let  idx = (yFactor + xFactor);
+
+    ThreeAPI.tempVec3.x = x -segments*0.5;
+    ThreeAPI.tempVec3.z = y -segments*0.5;
+
+    ThreeAPI.tempVec3.y = array1d[idx * 4]/255 +0.02;
+
+    dataStore.x = array1d[idx * 4] / 255;
+    dataStore.y = array1d[idx * 4 + 1] / 255;
+    dataStore.z = array1d[idx * 4 + 2] / 255;
+    dataStore.w = array1d[idx * 4 + 3] / 255;
+};
+
+let getGroundTexel = function(array1d, segments, x, y, dataStore, htN, htP, terrainScale, terrainOrigin) {
+
+    let  xc = Math.ceil(x);
+    let  xf = Math.floor(x);
+    let  yc = Math.ceil(y);
+    let  yf = Math.floor(y);
+
+    getRGBAAt(array1d, segments, xf, yf, dataStore);
+    return dataStore;
+};
+
+let getDisplacedGround = function(array1d, segments, x, z, htP, htN, normalStore, terrainScale, terrainOrigin) {
+    let  tx = displaceAxisDimensions(x, htN, htP, segments);
+    let  tz = displaceAxisDimensions(z, htN, htP, segments);
+
+    return getGroundTexel(array1d, segments, tx, tz, normalStore, htN, htP, terrainScale, terrainOrigin);
+
+};
+
+let getGroundDataAt = function(pos, array1d, terrainSize, segments, dataStore, terrainScale, terrainOrigin) {
+    let htP = terrainSize*0.5;
+    let htN = - htP;
+
+    if (pos.x < htN || pos.z < htN) {
+        console.log("Terrain!", pos.x, pos.z, htP, htN ,"Is Outside WORKER");
+        GuiAPI.printDebugText("Is Outside Terrain at "+pos.x < htN+" "+pos.z < htN)
+        return false;
+        pos.x = MATH.clamp(pos.x, htN, htP);
+        pos.z = MATH.clamp(pos.z, htN, htP);
+    }
+
+    if (pos.x > htP  || pos.z > htP) {
+        console.log("Terrain!", pos.x, pos.z, htP, htN ,"Is Outside WORKER");
+        GuiAPI.printDebugText("Is Outside Terrain at "+pos.x > htP+" "+ pos.z > htP)
+        return false;
+        pos.x = MATH.clamp(pos.x, htN, htP);
+        pos.z = MATH.clamp(pos.z, htN, htP);
+    }
+    return getDisplacedGround(array1d, segments, pos.x, pos.z, htP, htN, dataStore, terrainScale, terrainOrigin);
+}
 
 // get a height at point from matrix
 let getPointInMatrix = function(matrixData, y, x) {
@@ -280,13 +338,7 @@ let getAt = function(array1d, segments, x, y) {
 
     let  yFactor = (y) * (segments+1);
     let  xFactor = x;
-
     let  idx = (yFactor + xFactor);
-
-    ThreeAPI.tempVec3.x = x -segments*0.5;
-    ThreeAPI.tempVec3.z = y -segments*0.5;
-
-    ThreeAPI.tempVec3.y = array1d[idx * 4]/255 +0.2;
 
     return array1d[idx * 4] / 255;
 };
@@ -598,5 +650,6 @@ class TerrainFunctions {
 }
 
 export {
-    getHeightAt
+    getHeightAt,
+    getGroundDataAt
 }
