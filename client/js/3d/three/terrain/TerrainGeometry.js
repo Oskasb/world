@@ -12,7 +12,7 @@ let width = null;
 let height = null;
 let terrainWidth = null;
 let terrainHeight = null;
-let maxLodLevel = 5;
+let maxLodLevel = 6;
 
 let debugWorld = null;
 let ctx;

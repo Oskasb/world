@@ -6,7 +6,7 @@ let tempObj = new Object3D();
 class TerrainElementModel {
     constructor(terrainGeo) {
         this.terrainGeometry = terrainGeo;
-        this.levelOfDetail = -1;
+        this.levelOfDetail = 7;
         this.lodMap = null;
         this.lodLevelInstances = [];
         this.instances = [];
@@ -27,6 +27,13 @@ class TerrainElementModel {
     };
 
     updateElementModels(terrainSectionInfo, fromLod, toLod, maxLod) {
+
+
+        if (toLod < fromLod) {
+            if (toLod === 1) {
+                console.log("toLod 1, from", fromLod);
+            }
+        }
 
         for (let i = 0; i < this.lodLevelInstances.length; i++) {
             if (this.lodMap[i].length) {
@@ -87,6 +94,8 @@ class TerrainElementModel {
     }
 
     applyLevelOfDetail(lodLevel, terrainSectionInfo) {
+
+
         if (this.levelOfDetail === lodLevel || this.lodMap.length === 0) {
             return;
         }
@@ -99,6 +108,10 @@ class TerrainElementModel {
         } else {
             // console.log("Update trees lod level. ", lodLevel)
         //    if (lodLevel === 0) {
+
+            if (this.levelOfDetail === -1) {
+                this.levelOfDetail = this.lodMap.length
+            }
                 this.updateElementModels(terrainSectionInfo, MATH.clamp(this.levelOfDetail, 0, this.lodMap.length), lodLevel,  this.lodMap.length);
         //    }
 
