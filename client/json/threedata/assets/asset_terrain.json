@@ -14,7 +14,7 @@
                 },
                 "section_info": {
                   "lod_levels": [
-                    {"grid": [3, 3]},
+                    {"grid": [6, 6]},
                     {"grid": [4, 4]},
                     {"grid": [3, 3]},
                     {"grid": [2, 2]},

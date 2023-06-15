@@ -28,22 +28,12 @@ class TerrainElementModel {
 
     updateElementModels(terrainSectionInfo, fromLod, toLod, maxLod) {
 
-
-        if (toLod < fromLod) {
-            if (toLod === 1) {
-                console.log("toLod 1, from", fromLod);
-            }
-        }
-
         for (let i = 0; i < this.lodLevelInstances.length; i++) {
             if (this.lodMap[i].length) {
-
                 if (fromLod < toLod) {
                     for (let i = fromLod; i < toLod; i++) {
                         this.clearLodLevel(i);
                     }
-
-
                 } else {
                     for (let i = toLod; i < maxLod; i++) {
                         this.populateLodLevel(terrainSectionInfo, i);

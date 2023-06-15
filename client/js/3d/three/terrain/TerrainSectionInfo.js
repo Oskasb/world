@@ -29,10 +29,11 @@ class TerrainSectionInfo {
 
             for (let j = 0; j < yElems; j++) {
                 let yFrac = MATH.calcFraction(0, yElems, j);
-                calcVec.x = this.minExtents.x + xFrac*size;
-                calcVec.z = this.minExtents.z + yFrac*size;
+                let seed = i+j+this.minExtents.x+this.minExtents.z
+                calcVec.x = this.minExtents.x + xFrac*size + MATH.sillyRandom(seed)*xElems/size;
+                calcVec.z = this.minExtents.z + yFrac*size + MATH.sillyRandom(seed+1)*yElems/size;
                 let terrainElement = new TerrainElement(lodLevel);
-                terrainElement.setPosition(calcVec);
+                terrainElement.setTerrainElementPosition(calcVec);
                 groundElements.push(terrainElement);
             }
         }

@@ -10,17 +10,25 @@ class TerrainElement {
         this.groundData = {x:0, y:0, z:0, w:0};
     }
 
-    setPosition(posVec3) {
-
+    setTerrainElementPosition(posVec3) {
+        let seed = Math.floor(posVec3.x+posVec3.z);
+        let scale = MATH.sillyRandomBetween(0.2, 1, seed);
+        let rotZ = scale*1000;
         posVec3.y = ThreeAPI.terrainAt(posVec3, calcVec);
+        this.obj3d.rotateZ(rotZ);
+        calcVec.y = 3
+        calcVec.normalize();
         this.obj3d.lookAt(calcVec);
+        this.obj3d.rotateX(MATH.sillyRandomBetween(-0.2, 0.2, seed+1));
+        this.obj3d.rotateY(MATH.sillyRandomBetween(-0.2, 0.2, seed+2));
+        this.obj3d.scale.multiplyScalar(scale);
         this.obj3d.position.copy(posVec3);
         ThreeAPI.groundAt(posVec3, this.groundData);
-        let gData = this.groundData;
-        let pos = this.obj3d.position;
-        setTimeout(function() {
-            evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:GameAPI.getMainCharPiece().getPos(), to:pos, color:gData});
-        }, 200 + Math.random()*200)
+    //    let gData = this.groundData;
+    //    let pos = this.obj3d.position;
+    //    setTimeout(function() {
+    //        evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:GameAPI.getMainCharPiece().getPos(), to:pos, color:gData});
+    //    }, 200 + Math.random()*200)
 
     }
 
