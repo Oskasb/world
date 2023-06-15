@@ -66,8 +66,8 @@ class TerrainElementModel {
 
         for (let i = 0; i < groundElems.length  ; i++) {
             for (let j = 0; j < lodAssets.length  ;j++) {
-                if (groundElems[i].groundData.y > 0.9) {
-                    groundElems[i].setupElementModel(lodAssets[j], addLodInstance)
+                if (groundElems[i].groundData.y > lodAssets[j].y) {
+                    groundElems[i].setupElementModel(lodAssets[j].asset, addLodInstance, lodAssets[j].shade)
                 }
             }
         }

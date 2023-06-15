@@ -148,7 +148,12 @@ let getThreeTerrainHeightAt = function(terrainGeo, pos, normalStore) {
 };
 
 let getThreeTerrainDataAt = function(terrainGeo, pos, dataStore) {
-    return TerrainFunctions.getGroundDataAt(pos, terrainGeo.getGroundData(), terrainGeo.groundTxWidth, terrainGeo.groundTxWidth - 1, dataStore, terrainScale, terrainOrigin);
+    return TerrainFunctions.getGroundDataAt(pos, terrainGeo.getGroundData(), terrainGeo.groundTxWidth, terrainGeo.groundTxWidth - 1, dataStore);
+}
+
+let shadeThreeTerrainDataAt = function(terrainGeo, pos, size) {
+    TerrainFunctions.shadeGroundCanvasAt(pos, terrainGeo.getGroundDataCanvas(), terrainGeo.groundTxWidth, terrainGeo.groundTxWidth - 1, size);
+    terrainGeo.updateGroundCanvasTexture();
 }
 
 let constructGeometries = function(heightMapData, transform, groundConfig, sectionInfoCfg) {
@@ -271,14 +276,6 @@ let debugDrawNearby = function(index) {
 }
 
 let neighbors = [[-1,-1], [-1, 0], [-1, 1], [0, 0], [0, -1], [0, 1], [1,-1], [1, 0], [1, 1]];
-let outsidersXNeg = [[-1, 0]];
-let outsidersXPos = [[1, 0]];
-let outsidersYNeg = [[0, -1]];
-let outsidersYPos = [[0, 1]];
-let outsidersCornerNegNeg = [[-1,-1]];
-let outsidersCornerPosNeg = [[ 1,-1]];
-let outsidersCornerNegPos = [[-1, 1]];
-let outsidersCornerPosPos = [[ 1, 1]];
 
 let updateGridGeoByXY = function (gridX, gridY) {
     if (terrainGeometries[gridX]) {
@@ -413,12 +410,17 @@ let getTerrainData = function(pos, dataStore) {
     return getThreeTerrainDataAt(geoBeneathPlayer, pos, dataStore)
 }
 
+let shadeTerrainDataCanvas = function(pos, size) {
+    shadeThreeTerrainDataAt(geoBeneathPlayer, pos, size)
+}
+
 class ThreeTerrain {
     constructor() {
 
         this.call = {
             getHeightAndNormal:getHeightAndNormal,
-            getTerrainData:getTerrainData
+            getTerrainData:getTerrainData,
+            shadeTerrainDataCanvas:shadeTerrainDataCanvas
         }
     }
 

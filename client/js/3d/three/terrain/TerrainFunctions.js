@@ -273,7 +273,7 @@ let getRGBAAt = function(array1d, segments, x, y, dataStore) {
     dataStore.w = array1d[idx * 4 + 3] / 255;
 };
 
-let getGroundTexel = function(array1d, segments, x, y, dataStore, htN, htP, terrainScale, terrainOrigin) {
+let getGroundTexel = function(array1d, segments, x, y, dataStore) {
 
    // let  xc = Math.ceil(x);
     let  xf = Math.floor(x);
@@ -284,14 +284,14 @@ let getGroundTexel = function(array1d, segments, x, y, dataStore, htN, htP, terr
     return dataStore;
 };
 
-let getDisplacedGround = function(array1d, segments, x, z, htP, htN, normalStore, terrainScale, terrainOrigin) {
+let getDisplacedGround = function(array1d, segments, x, z, htP, htN, dataStore) {
     // NOTE: the x2 for x and z comes from texture resolution difference between height and ground texture size (2048 and 4096)
     let  tx = displaceAxisDimensions(x*2, htN, htP, segments);
     let  tz = displaceAxisDimensions(z*2, htN, htP, segments);
-    return getGroundTexel(array1d, segments, tx, tz, normalStore, htN, htP, terrainScale, terrainOrigin);
+    return getGroundTexel(array1d, segments, tx, tz, dataStore);
 };
 
-let getGroundDataAt = function(pos, array1d, terrainSize, segments, dataStore, terrainScale, terrainOrigin) {
+let getGroundDataAt = function(pos, array1d, terrainSize, segments, dataStore) {
     let htP = terrainSize*0.5;
     let htN = - htP;
 
@@ -310,7 +310,20 @@ let getGroundDataAt = function(pos, array1d, terrainSize, segments, dataStore, t
         pos.x = MATH.clamp(pos.x, htN, htP);
         pos.z = MATH.clamp(pos.z, htN, htP);
     }
-    return getDisplacedGround(array1d, segments, pos.x, pos.z, htP, htN, dataStore, terrainScale, terrainOrigin);
+    return getDisplacedGround(array1d, segments, pos.x, pos.z, htP, htN, dataStore);
+}
+
+
+let shadeGroundCanvasAt = function(pos, canvasContext, terrainSize, segments, size) {
+    let htP = terrainSize*0.5;
+    let htN = - htP;
+    let tx = displaceAxisDimensions(pos.x*2, htN, htP, segments);
+    let tz = displaceAxisDimensions(pos.z*2, htN, htP, segments);
+    canvasContext.fillStyle = "blue";
+    canvasContext.fillRect(tx-1, tz-1, 2, 2);
+    //    canvasContext.fillRect(2000, 2000, 2, 2);
+//    canvasContext.fillRect()
+
 }
 
 // get a height at point from matrix
@@ -650,5 +663,6 @@ class TerrainFunctions {
 
 export {
     getHeightAt,
-    getGroundDataAt
+    getGroundDataAt,
+    shadeGroundCanvasAt
 }

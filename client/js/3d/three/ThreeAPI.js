@@ -197,6 +197,10 @@ class ThreeAPI {
         return terrainSystem.getTerrainGroundDataAtPos(pos, dataStore);
     }
 
+    shadeGroundAt = function(pos, size) {
+        terrainSystem.shadeTerrainGround(pos, size)
+    }
+
     updateWindowParameters = function(width, height, aspect, pxRatio) {
     //    console.log(width, height, aspect, pxRatio)
         this.threeSetup.setRenderParams(width, height, aspect, pxRatio);

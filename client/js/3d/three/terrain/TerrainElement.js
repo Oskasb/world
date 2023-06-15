@@ -33,7 +33,11 @@ class TerrainElement {
     }
 
 
-    setupElementModel(assetId, callback) {
+    setupElementModel(assetId, callback, shade) {
+
+        if (typeof (shade) === 'number') {
+            ThreeAPI.shadeGroundAt(this.obj3d.position, shade*this.obj3d.scale.x)
+        }
 
         let addInstance = function(instance) {
             instance.spatial.stickToObj3D(this.obj3d);

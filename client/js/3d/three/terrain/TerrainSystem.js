@@ -44,6 +44,10 @@ class TerrainSystem {
         return threeTerrain.call.getTerrainData(pos, dataStore);
     }
 
+    shadeTerrainGround = function(pos, size) {
+        threeTerrain.call.shadeTerrainDataCanvas(pos, size);
+    }
+
     activateTerrainSystem = function() {
         ThreeAPI.addPrerenderCallback(threeTerrain.updateThreeTerrainGeometry)
     }

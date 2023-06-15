@@ -13,6 +13,7 @@ let height = null;
 let terrainWidth = null;
 let terrainHeight = null;
 let maxLodLevel = 6;
+let terrainContext = null;
 
 let debugWorld = null;
 let ctx;
@@ -24,11 +25,16 @@ let setupHeightmapData = function() {
     terrainHeight = terrainData.height;
 
     let terrainCanvas = document.createElement('canvas');
-    let terrainContext = terrainCanvas.getContext('2d')
+    terrainContext = terrainCanvas.getContext('2d')
     terrainCanvas.width = terrainWidth;
     terrainCanvas.height = terrainHeight;
     terrainContext.drawImage(terrainData, 0, 0, terrainWidth, terrainHeight);
     terrainmap = terrainContext.getImageData(0, 0, terrainWidth, terrainHeight).data;
+
+    let terrainMapCanvasTx = new THREE.CanvasTexture(terrainCanvas)
+    terrainMapCanvasTx.flipY = false;
+    terrainMaterial.terrainmap = terrainMapCanvasTx;
+    terrainMaterial.uniforms.terrainmap.value = terrainMapCanvasTx;
 
     let heightmapTx = terrainMaterial.heightmap;
     let imgData = heightmapTx.source.data
@@ -270,13 +276,24 @@ class TerrainGeometry{
     }
 
     getHeightmapData() {
-        //      return ctx.getImageData(0, 0, width, height).data;
        return heightmap;
     }
 
     getGroundData() {
-        //      return ctx.getImageData(0, 0, width, height).data;
         return terrainmap;
+    }
+
+    getGroundDataCanvas() {
+        return terrainContext;
+    }
+
+    updateGroundCanvasTexture() {
+        console.log(terrainMaterial)
+        terrainMaterial.uniforms.terrainmap.value = terrainMaterial.terrainmap;
+        terrainMaterial.terrainmap.needsUpdate = true;
+        terrainMaterial.uniforms.terrainmap.needsUpdate = true;
+        terrainMaterial.uniformsNeedUpdate = true;
+        terrainMaterial.needsUpdate = true;
     }
 
     updateTerrainGeometry(visibleGeoTiles, geoBeneathPlayer, tileUpdateCB, frame) {
