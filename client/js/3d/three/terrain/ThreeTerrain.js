@@ -503,8 +503,22 @@ class ThreeTerrain {
         updateFrame = GameAPI.getFrame().frame;
 
         if (GameAPI.gameMain.getPlayerCharacter()) {
+            let camera = ThreeAPI.getCamera()
+            calcVec.set(0, -0.2, -0.9);
+            calcVec.applyQuaternion(camera.quaternion)
+            let camPos = ThreeAPI.getCamera().position;
+            let elevFactor = 1;
+            if (camPos.y > elevFactor) {
+                elevFactor = Math.abs(camPos.y / calcVec.y);
+            }
+
+            calcVec.multiplyScalar(elevFactor);
+            calcVec.add(camPos);
+            calcVec.y = 0;
+            evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:GameAPI.getMainCharPiece().getPos(), to:calcVec, color:"YELLOW"});
+
             let playerPos = GameAPI.getMainCharPiece().getPos();
-            let playerGeo = getTerrainGeoAtPos(playerPos);
+            let playerGeo = getTerrainGeoAtPos(calcVec);
 
             let color = {}
             ThreeAPI.groundAt(playerPos, color);
