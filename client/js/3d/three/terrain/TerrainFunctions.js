@@ -313,14 +313,32 @@ let getGroundDataAt = function(pos, array1d, terrainSize, segments, dataStore) {
     return getDisplacedGround(array1d, segments, pos.x, pos.z, htP, htN, dataStore);
 }
 
+let centerRGBA = "rgb(95, 0, 0)";
+let edgeRGA = "rgb(0, 0, 0)";
+let createGradient = function(ctx, size, tx, tz) {
+
+
+// Create a radial gradient
+// The inner circle is at x=110, y=90, with radius=30
+// The outer circle is at x=100, y=100, with radius=70
+ const gradient = ctx.createRadialGradient(tz, tz, 1, tx, tz, size/1);
+    //      const gradient = ctx.createRadialGradient(size, size, size*0.5, size, size, size);
+    gradient.addColorStop(1, centerRGBA);
+    gradient.addColorStop(0, edgeRGA);
+    return gradient;
+}
+
+
 
 let shadeGroundCanvasAt = function(pos, canvasContext, terrainSize, segments, size) {
     let htP = terrainSize*0.5;
     let htN = - htP;
     let tx = displaceAxisDimensions(pos.x*2, htN, htP, segments);
     let tz = displaceAxisDimensions(pos.z*2, htN, htP, segments);
-    canvasContext.fillStyle = "blue";
-    canvasContext.fillRect(tx-1, tz-1, 2, 2);
+    size = size*2;
+    canvasContext.fillStyle = createGradient(canvasContext, size, tx+0, tz+0);
+    canvasContext.globalCompositeOperation = "lighter";
+    canvasContext.fillRect(tx-size, tz-size, size*2+1, size*2+1);
     //    canvasContext.fillRect(2000, 2000, 2, 2);
 //    canvasContext.fillRect()
 

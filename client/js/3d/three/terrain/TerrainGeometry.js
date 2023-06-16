@@ -29,6 +29,11 @@ let setupHeightmapData = function() {
     terrainCanvas.width = terrainWidth;
     terrainCanvas.height = terrainHeight;
     terrainContext.drawImage(terrainData, 0, 0, terrainWidth, terrainHeight);
+//    terrainContext.fillStyle = "rgb(255, 0, 0)";
+    terrainContext.globalCompositeOperation = "lighter";
+//    terrainContext.fillRect(0, 0, terrainWidth, terrainHeight);
+
+
     terrainmap = terrainContext.getImageData(0, 0, terrainWidth, terrainHeight).data;
 
     let terrainMapCanvasTx = new THREE.CanvasTexture(terrainCanvas)

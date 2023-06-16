@@ -8,6 +8,7 @@ class TerrainElement {
         this.lodLevel = lodLevel;
         this.obj3d = new Object3D();
         this.groundData = {x:0, y:0, z:0, w:0};
+        this.hasShade = false;
     }
 
     setTerrainElementPosition(posVec3) {
@@ -35,9 +36,13 @@ class TerrainElement {
 
     setupElementModel(assetId, callback, shade) {
 
-        if (typeof (shade) === 'number') {
-            ThreeAPI.shadeGroundAt(this.obj3d.position, shade*this.obj3d.scale.x)
+        if (this.hasShade === false) {
+            if (typeof (shade) === 'number') {
+                ThreeAPI.shadeGroundAt(this.obj3d.position, shade*this.obj3d.scale.x)
+            }
+            this.hasShade = true;
         }
+
 
         let addInstance = function(instance) {
             instance.spatial.stickToObj3D(this.obj3d);
