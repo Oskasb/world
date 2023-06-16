@@ -313,7 +313,7 @@ let getGroundDataAt = function(pos, array1d, terrainSize, segments, dataStore) {
     return getDisplacedGround(array1d, segments, pos.x, pos.z, htP, htN, dataStore);
 }
 
-let centerRGBA = "rgb(95, 0, 0)";
+let centerRGBA = "rgb(35, 0, 0)";
 let edgeRGA = "rgb(0, 0, 0)";
 let createGradient = function(ctx, size, tx, tz) {
 
@@ -338,6 +338,10 @@ let shadeGroundCanvasAt = function(pos, canvasContext, terrainSize, segments, si
     size = size*2;
     canvasContext.fillStyle = createGradient(canvasContext, size, tx+0, tz+0);
     canvasContext.globalCompositeOperation = "lighter";
+    canvasContext.fillRect(tx-size, tz-size, size*2+1, size*2+1);
+    size *=0.5
+    canvasContext.fillRect(tx-size, tz-size, size*2+1, size*2+1);
+    size *=0.5
     canvasContext.fillRect(tx-size, tz-size, size*2+1, size*2+1);
     //    canvasContext.fillRect(2000, 2000, 2, 2);
 //    canvasContext.fillRect()
