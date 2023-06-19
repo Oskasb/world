@@ -1,6 +1,6 @@
 import {Object3D} from "../../../../../libs/three/core/Object3D.js";
 
-var tempObj = new Object3D();
+let tempObj = new Object3D();
 
         class Plant {
             constructor(poolKey, activate, deactivate) {
@@ -31,7 +31,7 @@ var tempObj = new Object3D();
 
             this.bufferElement;
 
-            var elementReady = function(bufferElement) {
+                let elementReady = function(bufferElement) {
                 this.setBufferElement(bufferElement);
             }.bind(this);
 
@@ -49,7 +49,7 @@ var tempObj = new Object3D();
 
         applyPlantConfig = function(config) {
 
-            for (var key in config) {
+            for (let key in config) {
                 this.config[key] = config[key];
             }
 

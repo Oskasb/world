@@ -9,7 +9,7 @@
             "asset_id":  "asset_vegQuad",
             "pool_size": 9000,
             "render_order": 0,
-            "§": "plants_default",
+            "area_plants": "plants_default",
             "grid_range": 100,
             "sector_plants": 100,
             "area_sectors": [100, 100],

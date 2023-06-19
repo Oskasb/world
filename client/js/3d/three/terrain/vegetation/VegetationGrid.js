@@ -1,9 +1,9 @@
 import {VegetationSector} from "./VegetationSector.js";
 import {Vector3} from "../../../../../libs/three/math/Vector3.js";
 
-var clears = [];
-var tempVec1 = new Vector3();
-var centerSector;
+let clears = [];
+let tempVec1 = new Vector3();
+let centerSector;
 
         class VegetationGrid {
             constructor(terrainArea, populateSector, depopulateSector, getPlantConfigs, plantsKey) {
@@ -25,11 +25,11 @@ var centerSector;
             this.vegetationPatches = [];
             this.activePatches = [];
 
-            var sectorActivate = function(sector, plantCount, parentPlant) {
+                let sectorActivate = function(sector, plantCount, parentPlant) {
                 this.gridSectorActivate(sector, plantCount, parentPlant);
             }.bind(this);
 
-            var sectorDeactivate = function(sector) {
+                let sectorDeactivate = function(sector) {
                 this.gridSectorDeactivate(sector);
             }.bind(this);
 
@@ -42,9 +42,9 @@ var centerSector;
 
         generateGridSectors(sectorPlants, gridRange, sectorsX, sectorsZ) {
             this.activeGridRange = gridRange;
-            for (var i = 0; i < sectorsX; i++) {
+            for (let i = 0; i < sectorsX; i++) {
                 this.sectors[i] = [];
-                for (var j = 0; j < sectorsZ; j++) {
+                for (let j = 0; j < sectorsZ; j++) {
                     let sector = new VegetationSector(sectorPlants, this.callbacks.sectorActivate, this.callbacks.sectorDeactivate, this.terrainArea, this.callbacks.getPlantConfigs, this.plantsKey)
                     sector.setupAsGridSector(i, j, sectorsX, sectorsZ);
                     this.sectors[i].push(sector)
@@ -67,7 +67,7 @@ var centerSector;
             let config = this.callbacks.getPlantConfigs('patches')[patchConfig];
         //    console.log("PatchCfg:", config);
 
-            var plantCount = Math.round(MATH.randomBetween(config.plants_min, config.plants_max));
+            let plantCount = Math.round(MATH.randomBetween(config.plants_min, config.plants_max));
 
             if (config['plants']) {
                 let sector = new VegetationSector(plantCount, this.callbacks.sectorActivate, this.callbacks.sectorDeactivate, this.terrainArea, this.callbacks.getPlantConfigs, 'plants');
@@ -102,20 +102,20 @@ var centerSector;
 
         activateNeighboringSectors(centerSector) {
 
-            var range = Math.ceil((this.activeGridRange / this.sectors.length) * centerSector.sectorSizeX) ;
-            var row;
-            var col;
-            var sector;
+            let range = Math.ceil((this.activeGridRange / this.sectors.length) * centerSector.sectorSizeX) ;
+            let row;
+            let col;
+            let sector;
 
             while (this.activeSectors.length) {
                 clears.push(this.activeSectors.pop());
             }
 
-            for (var i = -range; i < range; i++) {
+            for (let i = -range; i < range; i++) {
                 row = centerSector.gridX + i;
                 if (this.sectors[row]) {
 
-                    for (var j = -range; j < range; j++) {
+                    for (let j = -range; j < range; j++) {
 
                         col = centerSector.gridZ + j;
                         sector = this.sectors[row][col];
@@ -167,13 +167,13 @@ var centerSector;
 
         updateGridProximity(centerPos) {
 
-            for (var i = 0; i < this.activeSectors.length; i++) {
+            for (let i = 0; i < this.activeSectors.length; i++) {
                 let distance = this.calcDistanceFromCenter(this.activeSectors[i], centerPos);
                 this.activeSectors[i].updateProximityStatus(distance);
             }
 
 
-            for (var i = 0; i < this.vegetationPatches.length; i++) {
+            for (let i = 0; i < this.vegetationPatches.length; i++) {
 
             //    if (Math.random() < 0.1) {
                     let distance = this.calcDistanceFromCenter(this.vegetationPatches[i], centerPos);
