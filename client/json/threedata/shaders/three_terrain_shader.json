@@ -404,7 +404,7 @@
           "txColor.r += vNormal.x * 0.0 + tileUv.x *0.0;",
           "txColor.g += vNormal.y * 0.0 + tileUv.y *0.0;",
           "txColor.b += vNormal.z * 0.0;",
-          "float shadowing = 1.0 - terrainMapSample.r*0.45;",
+          "float shadowing = 1.0 - terrainMapSample.r*0.55;",
         "vec4 lightColor = vec4(sunDir, 1.0) * shadowing;",
         "float intensity = max( 0.01 + dot(txNmBase.rgb, sunLightDirection ) * 0.99, 0.0) * shadowing;",
         "gl_FragColor = (shadowing * vColor * txColor * (intensity*0.25 + 0.75) + txColor * lightColor*intensity*2.0) * shadowing;",
