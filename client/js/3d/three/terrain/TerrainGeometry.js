@@ -293,7 +293,7 @@ class TerrainGeometry{
     }
 
     updateGroundCanvasTexture() {
-        console.log(terrainMaterial)
+    //    console.log(terrainMaterial)
         terrainMaterial.uniforms.terrainmap.value = terrainMaterial.terrainmap;
         terrainMaterial.terrainmap.needsUpdate = true;
         terrainMaterial.uniforms.terrainmap.needsUpdate = true;

@@ -2,11 +2,13 @@ class GameCamera {
     constructor() {
         let tpf;
         let fraction = 1;
+        let calcVec = new THREE.Vector3();
         let tempVec3 = new THREE.Vector3();
         let cameraPos = new THREE.Vector3();
         let cameraLookAt = new THREE.Vector3();
         let targetLookAt = new THREE.Vector3();
         let lookAtModifier = new THREE.Vector3();
+        let lookAtPoint = new THREE.Vector3();
         this.lookAtModApplied = new THREE.Vector3();
         let positionModifier = new THREE.Vector3();
         this.posModApplied = new THREE.Vector3();
@@ -111,8 +113,25 @@ class GameCamera {
 
         let applyFrame = function(frame) {
 
+
                 currentTime = frame.elapsedTime;
                 tpf = frame.tpf;
+
+            let camera = ThreeAPI.getCamera()
+            calcVec.set(0, -0.2, -0.9);
+            calcVec.applyQuaternion(camera.quaternion)
+            let camPos = ThreeAPI.getCamera().position;
+            let elevFactor = 1;
+            if (camPos.y > elevFactor) {
+                elevFactor = Math.abs(camPos.y / calcVec.y);
+            }
+
+            calcVec.multiplyScalar(elevFactor);
+            calcVec.add(camPos);
+            calcVec.y = 0;
+
+            lookAtPoint.copy(calcVec);
+
                 applyFrameToCameraMotion()
             };
 
@@ -129,6 +148,10 @@ class GameCamera {
             return fraction;
         }
 
+        let getLookAtPoint = function() {
+            return lookAtPoint;
+        }
+
         evt.on(ENUMS.Event.FRAME_READY, applyFrame);
         evt.on(ENUMS.Event.SET_CAMERA_TARGET, setCameraTargetPosInTime)
 
@@ -136,7 +159,8 @@ class GameCamera {
             setCameraTargetPosInTime:setCameraTargetPosInTime,
             getPositionModifier:getPositionModifier,
             getLookAtModifier:getLookAtModifier,
-            getFraction:getFraction
+            getFraction:getFraction,
+            getLookAtPoint:getLookAtPoint
         }
     }
 

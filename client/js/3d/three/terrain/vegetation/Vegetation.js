@@ -2,6 +2,7 @@ import {ExpandingPool} from "../../../../application/utils/ExpandingPool.js";
 import {Instantiator} from "../../instancer/Instantiator.js";
 import {Plant} from "./Plant.js";
 import {VegetationGrid} from "./VegetationGrid.js";
+import {ConfigData} from "../../../../application/utils/ConfigData.js";
 
 let configDefault = {
     "sys_key": "VEG_8x8",
@@ -17,6 +18,7 @@ class Vegetation {
 
         count++;
 
+        this.init = 0;
         this.areaGrids = [];
         this.config = {};
         this.plantConfigs = {};
@@ -36,42 +38,59 @@ class Vegetation {
             return this.plantConfigs[key]
         }.bind(this);
 
+        let updateVegetation = function()  {
+            this.updateVegetation();
+        }.bind(this)
+
         this.callbacks = {
             populateSector:populateSector,
             depopulateSector:depopulateSector,
-            getPlantConfigs:getPlantConfigs
+            getPlantConfigs:getPlantConfigs,
+            updateVegetation:updateVegetation
         }
-
     };
 
-    initVegetation = function(dataId, workerData, plantsData, onReady) {
+    //   this.vegetation.initVegetation("grid_default", new WorkerData('VEGETATION', 'GRID'),  new WorkerData('VEGETATION', 'PLANTS') ,simReady);
+    initVegetation() {
+        let dataId = "plants_default"
+        let vegGridData = new ConfigData('VEGETATION', 'GRID')
+        let plantsData = new ConfigData('VEGETATION', 'PLANTS')
 
-        this.workerData = workerData;
+        let dataInit = 0;
+        let plantInit = 0;
 
-        let plantDataReady = function(isUpdate) {
-            this.applyPlantConfig(plantsData.data);
-            if (!isUpdate) {
-                onReady(this);
+        let plantDataReady = function(data) {
+            console.log("Plants data",this.init,  data[0].data);
+            this.applyPlantConfig(data[0].data);
+            if (plantInit === 0) {
+                plantInit = 1;
+                GameAPI.registerGameUpdateCallback(this.callbacks.updateVegetation);
             } else {
                 this.resetVegetationSectors();
             }
         }.bind(this);
 
-        let onDataReady = function(isUpdate) {
+        plantsData.addUpdateCallback(plantDataReady)
 
-            this.applyConfig(this.workerData.data);
-
-            if (!isUpdate) {
-                plantsData.fetchData("plants_default", plantDataReady);
+        let onDataReady = function(data) {
+            console.log("Veg data",this.init, data[0].data);
+            this.applyConfig(data[0].data);
+            if (dataInit === 0) {
+                dataInit = 1;
                 this.setupInstantiator();
             }
             this.resetVegetationSectors();
         }.bind(this);
 
-        workerData.fetchData(dataId, onDataReady);
+        console.log("init Veg data", vegGridData);
+        vegGridData.addUpdateCallback(onDataReady)
+        vegGridData.fetchData('grid_default');
+
+        plantsData.fetchData(dataId);
+
     };
 
-    applyConfig = function(config) {
+    applyConfig(config) {
 
         for (let key in config) {
             this.config[key] = config[key];
@@ -79,7 +98,7 @@ class Vegetation {
 
     };
 
-    applyPlantConfig = function(config) {
+    applyPlantConfig(config) {
 
         for (let key in config) {
             this.plantConfigs[key] = config[key];
@@ -87,8 +106,7 @@ class Vegetation {
 
     };
 
-
-    setupInstantiator = function() {
+    setupInstantiator() {
 
         let addPlant = function(poolKey, callback) {
             callback(poolKey, new Plant(poolKey, plantActivate, plantDectivate))
@@ -118,13 +136,11 @@ class Vegetation {
 
     };
 
-
-    buildBufferElement = function(poolKey, cb) {
+    buildBufferElement(poolKey, cb) {
         this.instantiator.buildBufferElement(poolKey, cb)
     };
 
-
-    addVegetationAtPosition = function(patchConfig, pos, terrainSystem) {
+    addVegetationAtPosition(patchConfig, pos, terrainSystem) {
 
         let area = terrainSystem.getTerrainAreaAtPos(pos);
         let grid = MATH.getFromArrayByKeyValue(this.areaGrids, 'terrainArea', area);
@@ -132,9 +148,7 @@ class Vegetation {
 
     };
 
-
-
-    createPlant = function(assetId, cb, area, parentPlant) {
+    createPlant(assetId, cb, area, parentPlant) {
 
         let getPlant = function(key, plant) {
             cb(plant, area, parentPlant);
@@ -144,7 +158,7 @@ class Vegetation {
 
     };
 
-    vegetateTerrainArea = function(area) {
+    vegetateTerrainArea(area) {
 
         let grid = new VegetationGrid(area, this.callbacks.populateSector, this.callbacks.depopulateSector, this.callbacks.getPlantConfigs, 'plants');
         this.areaGrids.push(grid);
@@ -158,35 +172,32 @@ class Vegetation {
         this.areaGrids.push(treeGrid);
     };
 
-    activateVegetationPlant = function(plant) {
+    activateVegetationPlant(plant) {
         this.buildBufferElement(plant.poolKey, plant.getElementCallback())
     };
 
-    deactivateVegetationPlant = function(plant) {
+    deactivateVegetationPlant(plant) {
         this.instantiator.recoverBufferElement(plant.poolKey, plant.getPlantElement());
         plant.bufferElement = null;
     };
 
-    populateVegetationSector = function(sector, area, plantCount, parentPlant) {
+    populateVegetationSector(sector, area, plantCount, parentPlant) {
         //    "asset_vegQuad" gets replaced when instancing buffer is fetched.. redundant maybe...
         for (let i = 0; i < plantCount; i++) {
             this.createPlant("asset_vegQuad", sector.getAddPlantCallback(), area, parentPlant);
         }
     };
 
-
-    depopulateVegetationSector = function(sector) {
+    depopulateVegetationSector(sector) {
         sector.deactivateSectorPlants();
     };
 
-    updateVegetation = function(tpf, time, worldCamera) {
+    updateVegetation() {
         for (let i = 0; i < this.areaGrids.length; i++) {
-            this.areaGrids[i].updateVegetationGrid(tpf, time, worldCamera)
+            this.areaGrids[i].updateVegetationGrid()
         }
-
         this.instantiator.updateInstantiatorBuffers();
     };
-
 
     resetVegetationSectors = function() {
 

@@ -3,8 +3,10 @@ import {TerrainMaterial} from "./TerrainMaterial.js";
 import {Vector3} from "../../../../libs/three/math/Vector3.js";
 import {Object3D} from "../../../../libs/three/core/Object3D.js";
 import {TerrainGeometry} from "./TerrainGeometry.js";
+import {Vegetation} from "./vegetation/Vegetation.js";
 import * as TerrainFunctions from "./TerrainFunctions.js";
 
+let vegetation = new Vegetation();
 let terrainList = {};
 let terrainIndex = {};
 let terrainGeometries = [];
@@ -439,10 +441,11 @@ class ThreeTerrain {
             matLoadedCB();
 
         };
-
+        vegetation.initVegetation();
         let configData = new ConfigData("ASSETS", "TERRAIN", "terrain_config", 'data_key', 'config')
         configData.addUpdateCallback(terrainListLoaded);
         configData.parseConfig( terrainId, terrainListLoaded)
+
     };
 
     addTerrainToIndex = function(terrainModel, parent) {
@@ -505,18 +508,8 @@ class ThreeTerrain {
         updateFrame = GameAPI.getFrame().frame;
 
         if (GameAPI.gameMain.getPlayerCharacter()) {
-            let camera = ThreeAPI.getCamera()
-            calcVec.set(0, -0.2, -0.9);
-            calcVec.applyQuaternion(camera.quaternion)
-            let camPos = ThreeAPI.getCamera().position;
-            let elevFactor = 1;
-            if (camPos.y > elevFactor) {
-                elevFactor = Math.abs(camPos.y / calcVec.y);
-            }
 
-            calcVec.multiplyScalar(elevFactor);
-            calcVec.add(camPos);
-            calcVec.y = 0;
+            calcVec.copy(GameAPI.getGameCamera().call.getLookAtPoint());
             evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:GameAPI.getMainCharPiece().getPos(), to:calcVec, color:"YELLOW"});
 
             let playerPos = GameAPI.getMainCharPiece().getPos();

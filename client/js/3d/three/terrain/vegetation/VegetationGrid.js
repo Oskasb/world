@@ -182,13 +182,14 @@ let centerSector;
             }
         };
 
-        updateCenterSectorAtPosition(worldCamera) {
+        updateCenterSectorAtPosition() {
 
-            let centerPos = worldCamera.getCameraLookAt();
+            let centerPos = GameAPI.getGameCamera().call.getLookAtPoint()
 
             if (this.lastUpdatedCenterPos.distanceToSquared(centerPos) < 1) {
                 return;
             }
+
             this.lastUpdatedCenterPos.copy(centerPos);
 
             centerSector = this.getSectorAtPosition(centerPos);
@@ -203,8 +204,8 @@ let centerSector;
             }
         };
 
-        updateVegetationGrid(tpf, time, worldCamera) {
-            this.updateCenterSectorAtPosition(worldCamera);
+        updateVegetationGrid() {
+            this.updateCenterSectorAtPosition();
         };
 
         disposeGridSectors() {
