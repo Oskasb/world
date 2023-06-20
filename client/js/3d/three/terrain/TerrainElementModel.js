@@ -9,7 +9,7 @@ class TerrainElementModel {
         this.levelOfDetail = 7;
         this.lodMap = null;
         this.lodLevelInstances = [];
-        this.instances = [];
+    //    this.instances = [];
     }
 
     loadData = function(terrainTreesId) {

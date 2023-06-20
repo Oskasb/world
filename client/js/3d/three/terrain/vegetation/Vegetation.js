@@ -26,12 +26,12 @@ class Vegetation {
         this.instantiator = new Instantiator();
         this.plantPools = {};
 
-        let populateSector = function(sector, area, plantCount, parentPlant) {
-            this.populateVegetationSector(sector, area, plantCount, parentPlant)
+        let populateSector = function(sector, plantCount) {
+            this.populateVegetationSector(sector, plantCount)
         }.bind(this);
 
-        let depopulateSector = function(sector, area) {
-            this.depopulateVegetationSector(sector, area)
+        let depopulateSector = function(sector) {
+            this.depopulateVegetationSector(sector)
         }.bind(this);
 
         let getPlantConfigs = function(key) {
@@ -51,7 +51,7 @@ class Vegetation {
     };
 
     //   this.vegetation.initVegetation("grid_default", new WorkerData('VEGETATION', 'GRID'),  new WorkerData('VEGETATION', 'PLANTS') ,simReady);
-    initVegetation() {
+    initVegetation(vegReadyCB) {
         let dataId = "plants_default"
         let vegGridData = new ConfigData('VEGETATION', 'GRID')
         let plantsData = new ConfigData('VEGETATION', 'PLANTS')
@@ -65,6 +65,7 @@ class Vegetation {
             if (plantInit === 0) {
                 plantInit = 1;
                 GameAPI.registerGameUpdateCallback(this.callbacks.updateVegetation);
+                vegReadyCB()
             } else {
                 this.resetVegetationSectors();
             }
@@ -148,10 +149,10 @@ class Vegetation {
 
     };
 
-    createPlant(assetId, cb, area, parentPlant) {
+    createPlant(assetId, cb) {
 
         let getPlant = function(key, plant) {
-            cb(plant, area, parentPlant);
+            cb(plant);
         }.bind(this);
 
         this.plantPools[assetId].getFromExpandingPool(getPlant)
@@ -159,17 +160,10 @@ class Vegetation {
     };
 
     vegetateTerrainArea(area) {
-
         let grid = new VegetationGrid(area, this.callbacks.populateSector, this.callbacks.depopulateSector, this.callbacks.getPlantConfigs, 'plants');
-        this.areaGrids.push(grid);
-
         grid.generateGridSectors(this.config.sector_plants, this.config.grid_range, this.config.area_sectors[0], this.config.area_sectors[1]);
+        area.call.setVegetationGrid(grid);
 
-        if (this.config.trees) {
-            let treeGrid = new VegetationGrid(area, this.callbacks.populateSector, this.callbacks.depopulateSector, this.callbacks.getPlantConfigs, 'trees');
-            treeGrid.generateGridSectors(this.config.sector_trees, this.config.tree_Sector_range, this.config.tree_sectors[0], this.config.tree_sectors[1]);
-        }
-        this.areaGrids.push(treeGrid);
     };
 
     activateVegetationPlant(plant) {
@@ -181,10 +175,10 @@ class Vegetation {
         plant.bufferElement = null;
     };
 
-    populateVegetationSector(sector, area, plantCount, parentPlant) {
+    populateVegetationSector(sector, plantCount) {
         //    "asset_vegQuad" gets replaced when instancing buffer is fetched.. redundant maybe...
         for (let i = 0; i < plantCount; i++) {
-            this.createPlant("asset_vegQuad", sector.getAddPlantCallback(), area, parentPlant);
+            this.createPlant("asset_vegQuad", sector.getAddPlantCallback());
         }
     };
 
@@ -193,9 +187,9 @@ class Vegetation {
     };
 
     updateVegetation() {
-        for (let i = 0; i < this.areaGrids.length; i++) {
-            this.areaGrids[i].updateVegetationGrid()
-        }
+    //    for (let i = 0; i < this.areaGrids.length; i++) {
+    //        this.areaGrids[i].updateVegetationGrid()
+    //    }
         this.instantiator.updateInstantiatorBuffers();
     };
 

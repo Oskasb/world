@@ -1,131 +1,163 @@
 import {Object3D} from "../../../../../libs/three/core/Object3D.js";
+import {Vector3} from "../../../../../libs/three/math/Vector3.js";
 
 let tempObj = new Object3D();
+let tempVec = new Vector3();
+class Plant {
+    constructor(poolKey, posX, posZ) {
 
-        class Plant {
-            constructor(poolKey, activate, deactivate) {
+        let instance = null;
 
-            this.poolKey = poolKey;
-            this.pos = new THREE.Vector3();
-            this.normal = new THREE.Vector3(0, 1, 0);
+        this.poolKey = poolKey;
+        this.obj3d = new Object3D();
+        tempVec.set(posX, 0, posZ);
+   //     this.obj3d.scale.set(0.005, 0.015, 0.005)
+        this.normal = new THREE.Vector3(0, 1, 0);
+        tempVec.y = ThreeAPI.terrainAt(tempVec, this.normal)
+        this.obj3d.lookAt(this.normal);
+        this.obj3d.position.copy(tempVec);
+        this.pos = this.obj3d.position;
 
-            this.size = 2+Math.random()*3;
+        this.size = 2+Math.random()*3;
 
-            this.colorRgba = {r:1, g:1, b:1, a: 1};
+        this.colorRgba = {r:1, g:1, b:1, a: 1};
 
-            this.config = {
-                "min_y": 0.0,
-                "max_y": 9999,
-                "normal_ymin": 1.985,
-                "normal_ymax": 0.92,
-                "size_min": 7,
-                "size_max": 22,
-                "color_min": [0.95, 0.95, 0.95, 1],
-                "color_max": [1, 1, 1, 1],
-                "sprite": [4, 5, 1, 0]
-            };
+        this.config = {
+            "min_y": 0.0,
+            "max_y": 9999,
+            "normal_ymin": 1.985,
+            "normal_ymax": 0.92,
+            "size_min": 7,
+            "size_max": 22,
+            "color_min": [0.95, 0.95, 0.95, 1],
+            "color_max": [1, 1, 1, 1],
+            "sprite": [4, 5, 1, 0]
+        };
 
-            this.sprite = [0, 7];
+        this.sprite = [0, 7];
 
-            this.isActive = false;
+        this.isActive = false;
 
-            this.bufferElement;
+        this.bufferElement;
+        let elementReady = function(bufferElement) {
+            this.setBufferElement(bufferElement);
+        }.bind(this);
 
-                let elementReady = function(bufferElement) {
-                this.setBufferElement(bufferElement);
-            }.bind(this);
+        let setInstance = function(modelInstance) {
+            instance = modelInstance;
+        }
 
-            this.callbacks = {
-                elementReady:elementReady,
-                activatePlant:[activate],
-                deactivatePlant:[deactivate]
+        let getInstance = function() {
+            return instance;
+        }
+
+        this.callbacks = {
+            elementReady:elementReady,
+            setInstance:setInstance,
+            getInstance:getInstance
+        }
+
+    };
+
+    getIsActive = function() {
+        return this.isActive;
+    };
+
+    applyPlantConfig = function(config) {
+
+        for (let key in config) {
+            this.config[key] = config[key];
+        }
+
+        this.size = MATH.randomBetween(this.config.size_min, this.config.size_max) || 5;
+
+        this.colorRgba.r = MATH.randomBetween(this.config.color_min[0], this.config.color_max[0]) || 1;
+        this.colorRgba.g = MATH.randomBetween(this.config.color_min[1], this.config.color_max[1]) || 1;
+        this.colorRgba.b = MATH.randomBetween(this.config.color_min[2], this.config.color_max[2]) || 1;
+        this.colorRgba.a = MATH.randomBetween(this.config.color_min[3], this.config.color_max[3]) || 1;
+        this.sprite[0] = this.config.sprite[0] || 0;
+        this.sprite[1] = this.config.sprite[1] || 7;
+        this.sprite[2] = this.config.sprite[2] || 1;
+        this.sprite[3] = this.config.sprite[3] || 0;
+
+        if (this.config.asset_ids) {
+            this.poolKey = MATH.getRandomArrayEntry(this.config.asset_ids)
+        }
+
+        if (config.surface) {
+
+            if (this.pos.y < 0) {
+                this.pos.y = 0;
+                this.normal.set(0, 1, 0)
             }
 
-        };
+        }
 
-        getIsActive = function() {
-            return this.isActive;
-        };
+    };
 
-        applyPlantConfig = function(config) {
+    plantActivate = function() {
 
-            for (let key in config) {
-                this.config[key] = config[key];
-            }
+        this.isActive = true;
 
-            this.size = MATH.randomBetween(this.config.size_min, this.config.size_max) || 5;
+        let addPlant = function(instance) {
+            instance.spatial.stickToObj3D(this.obj3d);
+            ThreeAPI.getScene().remove(instance.spatial.obj3d)
+            evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:GameAPI.getMainCharPiece().getPos(), to:this.obj3d.position, color:'YELLOW'});
+            this.callbacks.setInstance(instance)
+        }.bind(this)
 
-            this.colorRgba.r = MATH.randomBetween(this.config.color_min[0], this.config.color_max[0]) || 1;
-            this.colorRgba.g = MATH.randomBetween(this.config.color_min[1], this.config.color_max[1]) || 1;
-            this.colorRgba.b = MATH.randomBetween(this.config.color_min[2], this.config.color_max[2]) || 1;
-            this.colorRgba.a = MATH.randomBetween(this.config.color_min[3], this.config.color_max[3]) || 1;
-            this.sprite[0] = this.config.sprite[0] || 0;
-            this.sprite[1] = this.config.sprite[1] || 7;
-            this.sprite[2] = this.config.sprite[2] || 1;
-            this.sprite[3] = this.config.sprite[3] || 0;
+    //    this.poolKey = "asset_box";
 
-            if (this.config.asset_ids) {
-                this.poolKey = MATH.getRandomArrayEntry(this.config.asset_ids)
-            }
+        client.dynamicMain.requestAssetInstance(this.poolKey, addPlant)
 
-            if (config.surface) {
+   //     MATH.callAll(this.callbacks.activatePlant, this);
+    };
 
-                if (this.pos.y < 0) {
-                    this.pos.y = 0;
-                    this.normal.set(0, 1, 0)
-                }
+    plantDeactivate = function() {
+        if (this.isActive === false) return;
+        this.isActive = false;
+        this.callbacks.getInstance().decommissionInstancedModel();
+        this.callbacks.setInstance(null);
+        evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:GameAPI.getMainCharPiece().getPos(), to:this.obj3d.position, color:'RED'});
+        //    this.bufferElement.endLifecycleNow();
+        //    MATH.callAll(this.callbacks.deactivatePlant, this);
+    };
 
-            }
+    getElementCallback = function() {
+        return this.callbacks.elementReady;
+    };
 
-        };
+    setPlantPosition = function(pos) {
+        this.pos.copy(pos);
+    };
 
-        plantActivate = function() {
-            this.isActive = true;
-            MATH.callAll(this.callbacks.activatePlant, this);
-        };
+    getPlantElement = function() {
+        return this.bufferElement;
+    };
 
-        plantDeactivate = function() {
-            if (this.isActive === false) return;
-            this.isActive = false;
-            this.bufferElement.endLifecycleNow();
-            MATH.callAll(this.callbacks.deactivatePlant, this);
-        };
+    setBufferElement = function(bufferElement) {
+        this.bufferElement = bufferElement;
+        this.bufferElement.setPositionVec3(this.pos);
 
-        getElementCallback = function() {
-            return this.callbacks.elementReady;
-        };
+        tempObj.lookAt(this.normal);
+        tempObj.rotateZ(Math.random() * 10);
 
-        setPlantPosition = function(pos) {
-            this.pos.copy(pos);
-        };
+        this.bufferElement.setQuat(tempObj.quaternion);
 
-        getPlantElement = function() {
-            return this.bufferElement;
-        };
+        this.bufferElement.scaleUniform(this.size);
+        this.bufferElement.sprite.x = this.sprite[0];
+        this.bufferElement.sprite.y = this.sprite[1];
+        this.bufferElement.sprite.z = this.sprite[2];
+        this.bufferElement.sprite.w = this.sprite[3];
+        this.bufferElement.setSprite(this.bufferElement.sprite);
+        this.bufferElement.setColorRGBA(this.colorRgba);
 
-        setBufferElement = function(bufferElement) {
-            this.bufferElement = bufferElement;
-            this.bufferElement.setPositionVec3(this.pos);
+        this.bufferElement.setAttackTime(1.0);
+        this.bufferElement.setReleaseTime(1.0);
+        this.bufferElement.startLifecycleNow();
 
-            tempObj.lookAt(this.normal);
-            tempObj.rotateZ(Math.random() * 10);
+    };
 
-            this.bufferElement.setQuat(tempObj.quaternion);
+}
 
-            this.bufferElement.scaleUniform(this.size);
-            this.bufferElement.sprite.x = this.sprite[0];
-            this.bufferElement.sprite.y = this.sprite[1];
-            this.bufferElement.sprite.z = this.sprite[2];
-            this.bufferElement.sprite.w = this.sprite[3];
-            this.bufferElement.setSprite(this.bufferElement.sprite);
-            this.bufferElement.setColorRGBA(this.colorRgba);
-
-            this.bufferElement.setAttackTime(1.0);
-            this.bufferElement.setReleaseTime(1.0);
-            this.bufferElement.startLifecycleNow();
-
-        };
-
-    }
-
-    export {Plant}
+export {Plant}

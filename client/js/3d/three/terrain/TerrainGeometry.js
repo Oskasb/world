@@ -110,12 +110,13 @@ let applyHeightmapToMesh = function(mesh, terrainGeo) {
 }
 
 class TerrainGeometry{
-    constructor(obj3d, segmentScale, x, y, gridMeshAssetIds, vertsPerSegAxis, tiles, tx_width,groundTxWidth, groundConfig, sectionInfoCponfig) {
+    constructor(obj3d, segmentScale, x, y, gridMeshAssetIds, vertsPerSegAxis, tiles, tx_width,groundTxWidth, groundConfig, sectionInfoCponfig, vegetation) {
         this.gridMeshAssetIds = gridMeshAssetIds;
         this.gridX = x;
         this.gridY = y;
         this.obj3d = obj3d;
         this.groundConfig = groundConfig;
+        this.vegetation = vegetation;
         this.instance = null; // this gets rendered by the shader
         this.oceanInstance = null;
         this.terrainSectionInfo = new TerrainSectionInfo(this, sectionInfoCponfig);
@@ -137,6 +138,8 @@ class TerrainGeometry{
         this.neighborsUpdatedFrame = 0;
 
         this.levelOfDetail = -1;
+
+        let vegetationGrid = null;
 
         let geoReady = function() {
 
@@ -176,9 +179,24 @@ class TerrainGeometry{
             }
         }.bind(this);
 
+        let activateVegetation = function() {
+            vegetation.vegetateTerrainArea(this);
+        }.bind(this)
+
+        let setVegetationGrid = function(vegGrid) {
+            vegetationGrid = vegGrid;
+        }
+
+        let getVegetationGrid = function() {
+            return vegetationGrid;
+        }
+
         this.call = {
             activateGeo:activateGeo,
-            deactivateGeo:deactivateGeo
+            deactivateGeo:deactivateGeo,
+            setVegetationGrid:setVegetationGrid,
+            getVegetationGrid:getVegetationGrid,
+            activateVegetation:activateVegetation
         }
     }
 
@@ -194,6 +212,16 @@ class TerrainGeometry{
     applyLodLevelChange() {
         this.terrainSectionInfo.applyLodLevel(this.levelOfDetail, maxLodLevel);
         this.terrainElementModels.applyLevelOfDetail(this.levelOfDetail, this.terrainSectionInfo);
+
+        let vegGrid = this.call.getVegetationGrid();
+
+        if (vegGrid) {
+            if (this.levelOfDetail === 0) {
+                vegGrid.showGridPlants()
+            } else {
+                vegGrid.hideGridPlants()
+            }
+        }
     }
 
     detachGeometryInstance() {
@@ -299,6 +327,18 @@ class TerrainGeometry{
         terrainMaterial.uniforms.terrainmap.needsUpdate = true;
         terrainMaterial.uniformsNeedUpdate = true;
         terrainMaterial.needsUpdate = true;
+    }
+
+    getOrigin() {
+        return this.obj3d.position;
+    }
+
+    getSizeX() {
+        return this.size * 2;
+    }
+
+    getSizeZ() {
+        return this.size * 2;
     }
 
     updateTerrainGeometry(visibleGeoTiles, geoBeneathPlayer, tileUpdateCB, frame) {

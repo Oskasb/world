@@ -192,7 +192,7 @@ let constructGeometries = function(heightMapData, transform, groundConfig, secti
             obj3d.position.add(terrainOrigin);
             obj3d.scale.copy(segmentScale);
             obj3d.scale.multiplyScalar(0.005);
-            terrainGeometries[i][j] = new TerrainGeometry(obj3d, geometrySize, i , j, gridMeshAssetId, vertsPerSegAxis, tiles, txWidth, groundTxWidth, groundConfig, sectionInfoCfg);
+            terrainGeometries[i][j] = new TerrainGeometry(obj3d, geometrySize, i , j, gridMeshAssetId, vertsPerSegAxis, tiles, txWidth, groundTxWidth, groundConfig, sectionInfoCfg, vegetation);
         }
     }
     geoBeneathPlayer = terrainGeometries[2][2];
@@ -441,7 +441,19 @@ class ThreeTerrain {
             matLoadedCB();
 
         };
-        vegetation.initVegetation();
+
+        let vegReadyCB = function() {
+            for (let i = 0; i < terrainGeometries.length; i++) {
+                for (let j = 0; j < terrainGeometries[i].length; j++) {
+                    let geo = terrainGeometries[i][j];
+               //     if (geo.levelOfDetail === 0) {
+                        geo.call.activateVegetation();
+                //    }
+                }
+            }
+        }
+
+        vegetation.initVegetation(vegReadyCB);
         let configData = new ConfigData("ASSETS", "TERRAIN", "terrain_config", 'data_key', 'config')
         configData.addUpdateCallback(terrainListLoaded);
         configData.parseConfig( terrainId, terrainListLoaded)

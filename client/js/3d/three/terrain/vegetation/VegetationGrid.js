@@ -1,20 +1,32 @@
 import {VegetationSector} from "./VegetationSector.js";
 import {Vector3} from "../../../../../libs/three/math/Vector3.js";
+import {Plant} from "./Plant.js";
 
 let clears = [];
 let tempVec1 = new Vector3();
 let centerSector;
+let seed = 0;
+
 
         class VegetationGrid {
             constructor(terrainArea, populateSector, depopulateSector, getPlantConfigs, plantsKey) {
+
+                seed++;
+
             this.activeGridRange = 8;
             this.terrainArea = terrainArea;
+
+                this.extMin = new THREE.Vector3();
+                this.extMax = new THREE.Vector3();
+                terrainArea.getExtentsMinMax(this.extMin, this.extMax);
 
             this.plantsKey = plantsKey;
 
             this.lastUpdatedCenterPos = new THREE.Vector3();
 
             this.sectors = [];
+
+            this.plants = [];
 
             this.populateCallbacks = [populateSector];
             this.depopulateCallbacks = [depopulateSector];
@@ -41,6 +53,12 @@ let centerSector;
         };
 
         generateGridSectors(sectorPlants, gridRange, sectorsX, sectorsZ) {
+            for (let i = 0; i < sectorPlants; i++) {
+                let px = MATH.sillyRandomBetween(this.extMin.x, this.extMax.x, seed)
+                let pz = MATH.sillyRandomBetween(this.extMin.z, this.extMax.z, seed+1)
+                this.plants.push(new Plant("asset_vegQuad", px, pz))
+            }
+            return;
             this.activeGridRange = gridRange;
             for (let i = 0; i < sectorsX; i++) {
                 this.sectors[i] = [];
@@ -54,12 +72,12 @@ let centerSector;
 
 
 
-        gridSectorActivate(sector, plantCount, parentPlant) {
-            MATH.callAll(this.populateCallbacks, sector, this.terrainArea, plantCount, parentPlant)
+        gridSectorActivate(sector, plantCount) {
+            MATH.callAll(this.populateCallbacks, sector, plantCount)
         };
 
         gridSectorDeactivate(sector) {
-            MATH.callAll(this.depopulateCallbacks, sector, this.terrainArea)
+            MATH.callAll(this.depopulateCallbacks, sector)
         };
 
         addPatchToVegetationGrid(patchConfig, pos) {
@@ -207,6 +225,18 @@ let centerSector;
         updateVegetationGrid() {
             this.updateCenterSectorAtPosition();
         };
+
+        showGridPlants() {
+            for (let i = 0; i < this.plants.length; i++) {
+                this.plants[i].plantActivate();
+            }
+        }
+
+        hideGridPlants() {
+            for (let i = 0; i < this.plants.length; i++) {
+                this.plants[i].plantDeactivate();
+            }
+        }
 
         disposeGridSectors() {
 

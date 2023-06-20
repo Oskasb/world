@@ -71,7 +71,9 @@
 
         {"id": "asset_box",         "config": { "model": "file_box",         "material": "material_instancing_tileset",      "settings": "model_settings_tileset"  }},
 
-        {"id": "asset_vegQuad",      "config": { "model": "file_vegQuad",    "material": "mat_instancing_vegetation",  "settings": "model_settings_vegetation"  }},
+        {"id": "_asset_vegQuad",      "config": { "model": "file_vegQuad",    "material": "mat_instancing_vegetation",  "settings": "model_settings_vegetation"  }},
+
+        {"id": "asset_vegQuad",      "config": { "model": "file_vegQuad",    "material": "mat_instancing_basic",     "settings": "model_settings_instancing"     }},
         {"id": "asset_letterQuad",   "config": { "model": "file_quad",       "material": "material_instancing_font",   "settings": "model_settings_ui"  }},
 
         {"id": "asset_normalStamp", "config": { "model": "file_flatQuad",  "material": "mat_stamp_normal_8x8",        "settings": "model_settings_particles"  }},
