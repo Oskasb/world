@@ -275,6 +275,16 @@
           }
         },
         {
+          "id":"material_instancing_vegetation",
+          "config":{
+            "settings": "mat_settings_instancing_vegetation",
+            "textures":[
+              {"key":"map"           , "id":"tx_veg_2k"      },
+              {"key":"data_texture"  , "id":"data_texture"         }
+            ]
+          }
+        },
+        {
           "id":"material_instancing_font",
           "config":{
             "settings": "mat_settings_font",

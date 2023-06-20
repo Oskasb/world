@@ -31,8 +31,9 @@ class Plant {
             "size_max": 22,
             "color_min": [0.95, 0.95, 0.95, 1],
             "color_max": [1, 1, 1, 1],
-            "sprite": [4, 5, 1, 0]
+            "sprite": [0, 0, 1, 1]
         };
+
 
         this.sprite = [0, 7];
 
@@ -104,6 +105,8 @@ class Plant {
             ThreeAPI.getScene().remove(instance.spatial.obj3d)
             evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:GameAPI.getMainCharPiece().getPos(), to:this.obj3d.position, color:'YELLOW'});
             this.callbacks.setInstance(instance)
+            console.log(instance.getGeometryInstance().instancingBuffers);
+            this.applyInstanceAttributes(instance);
         }.bind(this)
 
     //    this.poolKey = "asset_box";
@@ -135,8 +138,9 @@ class Plant {
         return this.bufferElement;
     };
 
-    setBufferElement = function(bufferElement) {
-        this.bufferElement = bufferElement;
+    applyInstanceAttributes = function(instance) {
+    //    this.bufferElement = bufferElement;
+    /*
         this.bufferElement.setPositionVec3(this.pos);
 
         tempObj.lookAt(this.normal);
@@ -145,17 +149,17 @@ class Plant {
         this.bufferElement.setQuat(tempObj.quaternion);
 
         this.bufferElement.scaleUniform(this.size);
-        this.bufferElement.sprite.x = this.sprite[0];
-        this.bufferElement.sprite.y = this.sprite[1];
-        this.bufferElement.sprite.z = this.sprite[2];
-        this.bufferElement.sprite.w = this.sprite[3];
+      */
+        instance.setSprite(this.sprite)
+
+/*
         this.bufferElement.setSprite(this.bufferElement.sprite);
         this.bufferElement.setColorRGBA(this.colorRgba);
 
         this.bufferElement.setAttackTime(1.0);
         this.bufferElement.setReleaseTime(1.0);
         this.bufferElement.startLifecycleNow();
-
+*/
     };
 
 }

@@ -861,7 +861,7 @@
 
         ],
 
-        "vertexVegetationInstancing": [
+        "_vertexVegetationInstancing": [
           "precision highp float;",
           "uniform mat4 modelViewMatrix;",
           "uniform mat4 projectionMatrix;",
@@ -1029,7 +1029,7 @@
           ""
         ],
 
-        "fragmentVegetationInstancing":[
+        "_fragmentVegetationInstancing":[
           "precision highp float;",
 
           "uniform float alphaTest;",
@@ -1055,6 +1055,122 @@
           "gl_FragColor = vColor * txColor * 1.0 + txColor * lightColor*1.0;",
           "float fogFactor = min(fogDensity * fogDepth, 1.0);",
           "gl_FragColor.rgb = mix(gl_FragColor.rgb, fogColor,  fogFactor );",
+          "}",
+          ""
+
+        ],
+
+
+        "vertexVegetationInstancing": [
+          "precision highp float;",
+          "uniform mat4 modelViewMatrix;",
+          "uniform mat4 projectionMatrix;",
+
+          "attribute vec3 position;",
+          "attribute vec3 normal;",
+          "attribute vec3 offset;",
+          "attribute vec3 scale3d;",
+          "attribute vec2 uv;",
+          "attribute vec4 sprite;",
+          "uniform vec2 tiles;",
+
+          "attribute vec4 vertexColor;",
+          "varying vec4 vColor;",
+
+          "varying vec2 vUv;",
+          "attribute vec4 orientation;",
+
+          "uniform vec3 ambientLightColor;",
+          "uniform vec3 sunLightColor;",
+
+          "uniform vec3 sunLightDirection;",
+          "varying vec3 sunDir;",
+
+          "uniform vec3 fogColor;",
+          "uniform float fogDensity;",
+          "varying float fogDepth;",
+          "varying float vFragDepth;",
+
+
+
+          "void main(){",
+          "vec3 vPosition = position;",
+
+          "vec4 quat = orientation.xyzw;",
+
+          "vec3 vcV = cross(quat.xyz, vPosition);",
+          "vPosition = vcV * (2.0 * quat.w) + (cross(quat.xyz, vcV) * 2.0 + vPosition);",
+
+          "vec2 tileScale = 1.0/tiles;",
+
+          "vec2 tileOffset = vec2(sprite.x * tileScale.x, (sprite.y-sprite.w) * tileScale.y / sprite.z);",
+
+          "tileScale.y /= sprite.z;",
+
+          "vec2 scaledUv = uv*tileScale;",
+
+          "scaledUv.y /= sprite.z;",
+
+          "vUv = (scaledUv + tileOffset);",
+        
+
+          "vPosition.x = vPosition.x * (1.0 * scale3d.x);",
+          "vPosition.y = vPosition.y * (1.0 * scale3d.y);",
+          "vPosition.z = vPosition.z * (1.0 * scale3d.z);"  ,
+
+          "vec3 vNormal = normal.xyz;",
+          "vec3 faceNormal = vNormal + 2.0 * cross( orientation.xyz, cross( orientation.xyz, vNormal ) + orientation.w * vNormal );",
+
+          "float intensity = max( 0.4 + dot(faceNormal, sunLightDirection ) * 0.5, 0.0);",
+          "sunDir = sunLightColor * intensity * (0.3+intensity*intensity*0.3);",
+
+          "vec3 fromAbove = vec3(0.0, 1.0, 0.0);",
+
+          "float ambInt = 0.3 + dot(faceNormal, fromAbove ) * 0.2;",
+
+          "vColor.r = sunDir.r + ambientLightColor.r * ambInt;",
+          "vColor.g = sunDir.g + ambientLightColor.g * ambInt;",
+          "vColor.b = sunDir.b + ambientLightColor.b * ambInt;",
+          "vColor.a = 1.0;",
+
+          "vColor = vec4(vertexColor.r * vColor.r, vertexColor.g*vColor.g, vertexColor.b*vColor.b,  vColor.a*vertexColor.a);",
+
+          "gl_Position = projectionMatrix * modelViewMatrix * vec4( offset + vPosition, 1.0 );",
+          "fogDepth = gl_Position.z*1.0;",
+          "}",
+          ""
+        ],
+
+        "fragmentVegetationInstancing":[
+          "precision highp float;",
+
+          "uniform float alphaTest;",
+          "uniform vec3 fogColor;",
+          "uniform float fogDensity;",
+
+          "uniform sampler2D map;",
+
+          "varying vec2 vUv;",
+          "varying vec3 sunDir;",
+          "varying float fogDepth;",
+          "varying float vFragDepth;",
+          "varying vec4 vColor;",
+
+          "void main(){",
+
+          "vec4 txColor = texture2D( map, vUv);",
+          "txColor *= 1.0;",
+
+          "if (txColor.a <= alphaTest) discard;",
+
+          "vec4 lightColor = vec4(sunDir, 1.0);",
+
+
+          "gl_FragColor = vColor * txColor * 1.0 + txColor * lightColor*1.0;",
+
+          "float fogFactor = min(fogDensity * fogDepth, 1.0);",
+          "gl_FragColor.rgb = mix(gl_FragColor.rgb, fogColor,  fogFactor );",
+
           "}",
           ""
 

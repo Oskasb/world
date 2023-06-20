@@ -56,7 +56,9 @@ let seed = 0;
             for (let i = 0; i < sectorPlants; i++) {
                 let px = MATH.sillyRandomBetween(this.extMin.x, this.extMax.x, seed)
                 let pz = MATH.sillyRandomBetween(this.extMin.z, this.extMax.z, seed+1)
-                this.plants.push(new Plant("asset_vegQuad", px, pz))
+                let plant = new Plant("asset_vegQuad", px, pz);
+                plant.applyPlantConfig(plant.config);
+                this.plants.push(plant)
             }
             return;
             this.activeGridRange = gridRange;
