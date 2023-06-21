@@ -161,9 +161,8 @@ class Vegetation {
 
     vegetateTerrainArea(area) {
         let grid = new VegetationGrid(area, this.callbacks.populateSector, this.callbacks.depopulateSector, this.callbacks.getPlantConfigs, 'plants');
-        grid.generateGridSectors(this.config.sector_plants, this.config.grid_range, this.config.area_sectors[0], this.config.area_sectors[1]);
+        grid.generateGridSectors(this.config.sector_plants, this.config.grid_range);
         area.call.setVegetationGrid(grid);
-
     };
 
     activateVegetationPlant(plant) {

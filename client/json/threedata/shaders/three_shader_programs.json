@@ -1066,19 +1066,21 @@
           "uniform mat4 modelViewMatrix;",
           "uniform mat4 projectionMatrix;",
 
+          "attribute vec4 orientation;",
           "attribute vec3 position;",
           "attribute vec3 normal;",
           "attribute vec3 offset;",
           "attribute vec3 scale3d;",
           "attribute vec2 uv;",
           "attribute vec4 sprite;",
+          "attribute vec4 vertexColor;",
+          "attribute vec4 texelRowSelect;",
+          "attribute vec4 lifecycle;",
+
           "uniform vec2 tiles;",
 
-          "attribute vec4 vertexColor;",
           "varying vec4 vColor;",
-
           "varying vec2 vUv;",
-          "attribute vec4 orientation;",
 
           "uniform vec3 ambientLightColor;",
           "uniform vec3 sunLightColor;",
@@ -1090,9 +1092,7 @@
           "uniform float fogDensity;",
           "varying float fogDepth;",
           "varying float vFragDepth;",
-
-
-
+          "uniform float systemTime;",
           "void main(){",
           "vec3 vPosition = position;",
 
@@ -1113,27 +1113,23 @@
 
           "vUv = (scaledUv + tileOffset);",
         
+          "float motionTime = systemTime+offset.x+offset.y;",
 
-          "vPosition.x = vPosition.x * (1.0 * scale3d.x);",
-          "vPosition.y = vPosition.y * (1.0 * scale3d.y);",
-          "vPosition.z = vPosition.z * (1.0 * scale3d.z);"  ,
+          "vPosition.y = vPosition.y * (1.0 * scale3d.y) + (0.25*sin(motionTime*0.9)+0.5) * (1.0-uv.y);",
+          "vPosition.x = vPosition.x * (1.0 * scale3d.x) + 0.15 * sin(motionTime * 0.5) * (1.0-uv.y) * (1.0-uv.y);",
+          "vPosition.z = vPosition.z * (1.0 * scale3d.z) + 0.15 * cos(motionTime * 0.2) * (1.0-uv.y) * (1.0-uv.y);",
 
-          "vec3 vNormal = normal.xyz;",
-          "vec3 faceNormal = vNormal + 2.0 * cross( orientation.xyz, cross( orientation.xyz, vNormal ) + orientation.w * vNormal );",
-
-          "float intensity = max( 0.4 + dot(faceNormal, sunLightDirection ) * 0.5, 0.0);",
+          "vec3 faceNormal = vec3(0.0, 1.0, 0.0);",
+          "vec3 fromAbove = vec3(0.0, 1.0-uv.y, 0.0);",
+          "float intensity = max( 0.25 + dot(faceNormal, sunLightDirection ) *  (1.0-uv.y), 0.0) * 1.0 - vertexColor.g*0.65;",
           "sunDir = sunLightColor * intensity * (0.3+intensity*intensity*0.3);",
 
-          "vec3 fromAbove = vec3(0.0, 1.0, 0.0);",
-
-          "float ambInt = 0.3 + dot(faceNormal, fromAbove ) * 0.2;",
+          "float ambInt = 0.3 + dot(faceNormal, fromAbove ) * 0.2 * (1.0-uv.y);",
 
           "vColor.r = sunDir.r + ambientLightColor.r * ambInt;",
           "vColor.g = sunDir.g + ambientLightColor.g * ambInt;",
           "vColor.b = sunDir.b + ambientLightColor.b * ambInt;",
           "vColor.a = 1.0;",
-
-          "vColor = vec4(vertexColor.r * vColor.r, vertexColor.g*vColor.g, vertexColor.b*vColor.b,  vColor.a*vertexColor.a);",
 
           "gl_Position = projectionMatrix * modelViewMatrix * vec4( offset + vPosition, 1.0 );",
           "fogDepth = gl_Position.z*1.0;",
@@ -1166,7 +1162,7 @@
           "vec4 lightColor = vec4(sunDir, 1.0);",
 
 
-          "gl_FragColor = vColor * txColor * 1.0 + txColor * lightColor*1.0;",
+          "gl_FragColor = vColor * txColor * 1.0 + vColor * txColor * lightColor*1.0;",
 
           "float fogFactor = min(fogDensity * fogDepth, 1.0);",
           "gl_FragColor.rgb = mix(gl_FragColor.rgb, fogColor,  fogFactor );",

@@ -305,8 +305,8 @@ class InstancedModel {
                 this.unifVec.x = pos.x;
                 this.unifVec.y = pos.y;
                 this.unifVec.z = pos.z;
-            //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos: this.unifVec, color:'CYAN', size:0.1})
-                ThreeAPI.registerDynamicGlobalUniform('character',this.unifVec)
+            //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos: this.unifVec, color:'CYAN', size:0.91})
+            //    ThreeAPI.registerDynamicGlobalUniform('character',this.unifVec)
             }
         };
 

@@ -18,7 +18,10 @@ let seed = 0;
 
                 this.extMin = new THREE.Vector3();
                 this.extMax = new THREE.Vector3();
+
                 terrainArea.getExtentsMinMax(this.extMin, this.extMax);
+
+                this.seed = this.extMin.x + this.extMin.z;
 
             this.plantsKey = plantsKey;
 
@@ -54,9 +57,11 @@ let seed = 0;
 
         generateGridSectors(sectorPlants, gridRange, sectorsX, sectorsZ) {
             for (let i = 0; i < sectorPlants; i++) {
+                seed = this.seed +i;
                 let px = MATH.sillyRandomBetween(this.extMin.x, this.extMax.x, seed)
                 let pz = MATH.sillyRandomBetween(this.extMin.z, this.extMax.z, seed+1)
-                let plant = new Plant("asset_vegQuad", px, pz);
+                let rotZ = MATH.sillyRandom(seed+2)*6.5;
+                let plant = new Plant("asset_vegQuad", px, pz, rotZ);
                 plant.applyPlantConfig(plant.config);
                 this.plants.push(plant)
             }

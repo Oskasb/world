@@ -2,7 +2,7 @@ import {Sphere} from "../../../../libs/three/math/Sphere.js";
 import {TerrainElementModel} from "./TerrainElementModel.js";
 import {TerrainSectionInfo} from "./TerrainSectionInfo.js";
 
-
+let groundUpdate = false;
 let terrainMaterial = null;
 let oceanMaterial = null
 let heightmap = null;
@@ -25,7 +25,9 @@ let setupHeightmapData = function() {
     terrainHeight = terrainData.height;
 
     let terrainCanvas = document.createElement('canvas');
-    terrainContext = terrainCanvas.getContext('2d')
+    terrainContext = terrainCanvas.getContext('2d',  { willReadFrequently: true })
+    terrainContext.getContextAttributes().willReadFrequently = true;
+    console.log(terrainContext, terrainContext.getContextAttributes())
     terrainCanvas.width = terrainWidth;
     terrainCanvas.height = terrainHeight;
     terrainContext.drawImage(terrainData, 0, 0, terrainWidth, terrainHeight);
@@ -179,7 +181,10 @@ class TerrainGeometry{
             }
         }.bind(this);
 
+        this.vegActive = false;
+
         let activateVegetation = function() {
+            this.vegActive = true;
             vegetation.vegetateTerrainArea(this);
         }.bind(this)
 
@@ -213,8 +218,12 @@ class TerrainGeometry{
         this.terrainSectionInfo.applyLodLevel(this.levelOfDetail, maxLodLevel);
         this.terrainElementModels.applyLevelOfDetail(this.levelOfDetail, this.terrainSectionInfo);
 
+        if (this.levelOfDetail === 0) {
+            if (this.vegActive === false) {
+                this.call.activateVegetation();
+            }
+        }
         let vegGrid = this.call.getVegetationGrid();
-
         if (vegGrid) {
             if (this.levelOfDetail === 0) {
                 vegGrid.showGridPlants()
@@ -313,6 +322,10 @@ class TerrainGeometry{
     }
 
     getGroundData() {
+        if (groundUpdate) {
+        //    terrainmap = terrainContext.getImageData(0, 0, terrainWidth, terrainHeight).data;
+            groundUpdate = false;
+        }
         return terrainmap;
     }
 
@@ -327,6 +340,7 @@ class TerrainGeometry{
         terrainMaterial.uniforms.terrainmap.needsUpdate = true;
         terrainMaterial.uniformsNeedUpdate = true;
         terrainMaterial.needsUpdate = true;
+        groundUpdate = true;
     }
 
     getOrigin() {

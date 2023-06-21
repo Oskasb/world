@@ -443,6 +443,7 @@ class ThreeTerrain {
         };
 
         let vegReadyCB = function() {
+            /*
             for (let i = 0; i < terrainGeometries.length; i++) {
                 for (let j = 0; j < terrainGeometries[i].length; j++) {
                     let geo = terrainGeometries[i][j];
@@ -451,6 +452,8 @@ class ThreeTerrain {
                 //    }
                 }
             }
+
+             */
         }
 
         vegetation.initVegetation(vegReadyCB);
