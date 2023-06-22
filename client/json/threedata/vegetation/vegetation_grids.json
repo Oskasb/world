@@ -11,7 +11,7 @@
             "render_order": 0,
             "area_plants": "plants_default",
             "grid_range": 4,
-            "sector_plants": 55,
+            "sector_plants": 45,
             "area_sectors": [4, 4],
             "sector_trees": 3,
             "tree_sectors": [1, 1],

@@ -4,14 +4,45 @@ import {Plant} from "./Plant.js";
 
 let clears = [];
 let tempVec1 = new Vector3();
+let tempVec2 = new Vector3();
 let centerSector;
 let seed = 0;
 
+let terrainCandidates = [];
+let groundCandiates = [];
+
+let processTerrainCandidates = function(configs, elevation, normalY) {
+    MATH.emptyArray(terrainCandidates);
+    for (let key in configs) {
+        if (elevation > configs[key]['min_y']) {
+            if  (elevation < configs[key]['max_y']) {
+                if (configs[key]['normal_ymin'] > normalY) {
+                    if  (configs[key]['normal_ymax'] < normalY) {
+                        terrainCandidates.push(configs[key])
+                    }
+                }
+            }
+        }
+    }
+};
+
+let processGroundCandidates = function(groundData) {
+    MATH.emptyArray(groundCandiates);
+    for (let i = 0; i < terrainCandidates.length; i++) {
+        let candidate = terrainCandidates[i];
+        let min = candidate['ground_min'];
+        let max = candidate['ground_max'];
+
+        if (MATH.valueIsBetween(groundData.y, min[1], max[1])) {
+            if (MATH.valueIsBetween(groundData.z, min[2], max[2])) {
+                groundCandiates.push(candidate)
+            }
+        }
+    }
+}
 
         class VegetationGrid {
             constructor(terrainArea, populateSector, depopulateSector, getPlantConfigs, plantsKey) {
-
-                seed++;
 
             this.activeGridRange = 8;
             this.terrainArea = terrainArea;
@@ -55,15 +86,40 @@ let seed = 0;
             }
         };
 
+
+
         generateGridSectors(sectorPlants, gridRange, sectorsX, sectorsZ) {
+            let plantConfigs = this.callbacks.getPlantConfigs('plants');
+            if (!plantConfigs) {
+                console.log("Premature grid setup", this)
+                return;
+            }
+            console.log(plantConfigs);
+
             for (let i = 0; i < sectorPlants; i++) {
+
                 seed = this.seed +i;
                 let px = MATH.sillyRandomBetween(this.extMin.x, this.extMax.x, seed)
                 let pz = MATH.sillyRandomBetween(this.extMin.z, this.extMax.z, seed+1)
                 let rotZ = MATH.sillyRandom(seed+2)*6.5;
-                let plant = new Plant("asset_vegQuad", px, pz, rotZ);
-                plant.applyPlantConfig(plant.config);
-                this.plants.push(plant)
+                tempVec1.set(px, 0, pz);
+                tempVec1.y = ThreeAPI.terrainAt(tempVec1, tempVec2);
+
+                processTerrainCandidates(plantConfigs, tempVec1.y, tempVec2.y)
+                if (terrainCandidates.length) {
+                    let vertexColor = {x:1, y:1, z:1, w: 1};
+                    ThreeAPI.groundAt(tempVec1, vertexColor);
+                    processGroundCandidates(vertexColor)
+
+                    if (groundCandiates.length) {
+                        let config = MATH.getRandomArrayEntry(groundCandiates);
+                        let size = MATH.sillyRandomBetween(config['size_min'], config['size_max'], seed + 2);
+                        let plant = new Plant("asset_vegQuad", config, vertexColor, tempVec1, tempVec2, rotZ, size);
+                        plant.applyPlantConfig(config);
+                        this.plants.push(plant)
+                    }
+                }
+
             }
             return;
             this.activeGridRange = gridRange;
@@ -90,7 +146,7 @@ let seed = 0;
         addPatchToVegetationGrid(patchConfig, pos) {
 
             let config = this.callbacks.getPlantConfigs('patches')[patchConfig];
-        //    console.log("PatchCfg:", config);
+            console.log("PatchCfg:", config);
 
             let plantCount = Math.round(MATH.randomBetween(config.plants_min, config.plants_max));
 

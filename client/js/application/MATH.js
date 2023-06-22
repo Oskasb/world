@@ -297,7 +297,7 @@ if(typeof(MATH) === "undefined") {
 
 
 	MATH.valueIsBetween = function(value, min, max) {
-        return value > min && value < max
+        return value >= min && value <= max
 	};
 
 	var half32BitInt = 1047483647;

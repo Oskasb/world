@@ -4,41 +4,35 @@ import {Vector3} from "../../../../../libs/three/math/Vector3.js";
 let tempObj = new Object3D();
 let tempVec = new Vector3();
 class Plant {
-    constructor(poolKey, posX, posZ, rotZ) {
+    constructor(poolKey, config, vertexColor, posVec, normVec, rotZ, size) {
 
         let instance = null;
 
         this.poolKey = poolKey;
         this.obj3d = new Object3D();
-        tempVec.set(posX, 0, posZ);
+    //    tempVec.set(posX, 0, posZ);
    //     this.obj3d.scale.set(0.005, 0.015, 0.005)
-        this.normal = new THREE.Vector3(0, 1, 0);
-        tempVec.y = ThreeAPI.terrainAt(tempVec, this.normal);
 
+        if (config.surface && posVec.y < 0) {
+            posVec.y = 0;
+            normVec.set(0, 1, 0)
+        }
 
+        this.normal = new THREE.Vector3(normVec.x, normVec.y, normVec.z);
+   //     tempVec.y = ThreeAPI.terrainAt(tempVec, this.normal);
+        this.rotZ = rotZ;
         this.obj3d.lookAt(this.normal);
         this.obj3d.rotateZ(rotZ);
-        this.obj3d.position.copy(tempVec);
+        this.obj3d.position.copy(posVec);
         this.pos = this.obj3d.position;
+        this.obj3d.scale.multiplyScalar(size);
 
         this.size = 2+Math.random()*3;
 
-        this.vertexColor = {x:1, y:1, z:1, w: 1};
-        ThreeAPI.groundAt(this.obj3d.position, this.vertexColor);
-        this.config = {
-            "min_y": 0.0,
-            "max_y": 9999,
-            "normal_ymin": 1.985,
-            "normal_ymax": 0.92,
-            "size_min": 7,
-            "size_max": 22,
-            "color_min": [this.vertexColor.x, this.vertexColor.y, this.vertexColor.z, 1],
-            "color_max": [this.vertexColor.x, this.vertexColor.y, this.vertexColor.z, 1],
-            "sprite": [1, 1, 1, 1]
-        };
-
-
-        this.sprite = [0, 7];
+        this.vertexColor = vertexColor;
+    //    ThreeAPI.groundAt(this.obj3d.position, this.vertexColor);
+        this.sprite = {x:1, y:1, z:1, w:1};
+        this.applyPlantConfig(config);
 
         this.isActive = false;
 
@@ -69,47 +63,44 @@ class Plant {
 
     applyPlantConfig = function(config) {
 
-        for (let key in config) {
-            this.config[key] = config[key];
-        }
-
-        this.size = MATH.randomBetween(this.config.size_min, this.config.size_max) || 5;
+        this.size = MATH.randomBetween(config.size_min, config.size_max) || 5;
 
     //    this.colorRgba.r = MATH.randomBetween(this.config.color_min[0], this.config.color_max[0]) || 1;
     //    this.colorRgba.g = MATH.randomBetween(this.config.color_min[1], this.config.color_max[1]) || 1;
     //    this.colorRgba.b = MATH.randomBetween(this.config.color_min[2], this.config.color_max[2]) || 1;
     //    this.colorRgba.a = MATH.randomBetween(this.config.color_min[3], this.config.color_max[3]) || 1;
-        this.sprite[0] = this.config.sprite[0] || 0;
-        this.sprite[1] = this.config.sprite[1] || 7;
-        this.sprite[2] = this.config.sprite[2] || 1;
-        this.sprite[3] = this.config.sprite[3] || 1;
+        this.sprite.x = config.sprite[0] || 0;
+        this.sprite.y = config.sprite[1] || 7;
+        this.sprite.z = config.sprite[2] || 1;
+        this.sprite.w = config.sprite[3] || 1;
 
-        if (this.config.asset_ids) {
-            this.poolKey = MATH.getRandomArrayEntry(this.config.asset_ids)
+
+
+        if (config.asset_ids) {
+            this.poolKey = MATH.getRandomArrayEntry(config.asset_ids)
         }
 
-        if (config.surface) {
 
-            if (this.pos.y < 0) {
-                this.pos.y = 0;
-                this.normal.set(0, 1, 0)
-            }
-
-        }
 
     };
 
     plantActivate = function() {
 
+        if (this.isActive) {
+            return;
+        }
+
         this.isActive = true;
 
         let addPlant = function(instance) {
-            instance.spatial.stickToObj3D(this.obj3d);
+
             ThreeAPI.getScene().remove(instance.spatial.obj3d)
             evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:GameAPI.getMainCharPiece().getPos(), to:this.obj3d.position, color:'YELLOW'});
             this.callbacks.setInstance(instance)
-            console.log(instance.getGeometryInstance().instancingBuffers);
+        //    console.log(instance.getGeometryInstance().instancingBuffers);
+        //    this.applyPlantConfig(this.config);
             this.applyInstanceAttributes(instance);
+            instance.spatial.stickToObj3D(this.obj3d);
         }.bind(this)
 
     //    this.poolKey = "asset_box";
@@ -153,7 +144,8 @@ class Plant {
 
         this.bufferElement.scaleUniform(this.size);
       */
-        instance.setSprite(this.sprite)
+    //    instance.setSprite(this.sprite)
+        instance.setAttributev4('sprite', this.sprite)
         instance.setAttributev4('vertexColor', this.vertexColor)
 /*
         this.bufferElement.setSprite(this.bufferElement.sprite);

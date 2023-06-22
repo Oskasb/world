@@ -102,7 +102,6 @@ let applyHeightmapToMesh = function(mesh, terrainGeo) {
     posBuffer[index[6]] = 100;
     posBuffer[index[20]] = 100;
     posBuffer[index[2]] = 100;
-
     posBuffer[index[4]] = 50;
 
  //   for (let i = 0; i < posBuffer.length / 3; i++) {
@@ -218,7 +217,7 @@ class TerrainGeometry{
         this.terrainSectionInfo.applyLodLevel(this.levelOfDetail, maxLodLevel);
         this.terrainElementModels.applyLevelOfDetail(this.levelOfDetail, this.terrainSectionInfo);
 
-        if (this.levelOfDetail === 0) {
+        if (this.levelOfDetail !== -1) {
             if (this.vegActive === false) {
                 this.call.activateVegetation();
             }
@@ -247,6 +246,7 @@ class TerrainGeometry{
     }
 
     attachGeometryInstance(geoReady, lodLevel) {
+
         if (lodLevel === this.levelOfDetail) {
             return;
         } else if (this.instance) {

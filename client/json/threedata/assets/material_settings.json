@@ -227,12 +227,7 @@
             "shader": "RawShaderMaterial",
             "properties": {
               "program": "VEGETATION_INSTANCING",
-              "blending": "CustomBlending",
-              "customBlending": {
-                "blendEquation": "AddEquation",
-                "blendSrc": "SrcAlphaFactor",
-                "blendDst": "OneMinusSrcAlphaFactor"
-              },
+              "blending": "NoBlending",
               "data_texture": "data_texture",
               "global_uniforms":{
                 "character0": { "value": {"x":1, "y":1, "z":1}},

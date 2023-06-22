@@ -25,12 +25,15 @@ class TerrainElement {
         this.obj3d.scale.multiplyScalar(scale);
         this.obj3d.position.copy(posVec3);
         ThreeAPI.groundAt(posVec3, this.groundData);
-    //    let gData = this.groundData;
-    //    let pos = this.obj3d.position;
-    //    setTimeout(function() {
-    //        evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:GameAPI.getMainCharPiece().getPos(), to:pos, color:gData});
-    //    }, 200 + Math.random()*200)
+/*
+        let gData = this.groundData;
+        let pos = this.obj3d.position;
 
+    setTimeout(function() {
+            evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:GameAPI.getMainCharPiece().getPos(), to:pos, color:gData});
+    //    ThreeAPI.shadeGroundAt(pos, 2)
+        }, 200 + Math.random()*200)
+  */
     }
 
 
@@ -42,7 +45,6 @@ class TerrainElement {
             }
             this.hasShade = true;
         }
-
 
         let addInstance = function(instance) {
             instance.spatial.stickToObj3D(this.obj3d);
