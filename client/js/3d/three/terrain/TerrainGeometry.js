@@ -224,8 +224,8 @@ class TerrainGeometry{
         }
         let vegGrid = this.call.getVegetationGrid();
         if (vegGrid) {
-            if (this.levelOfDetail === 0) {
-                vegGrid.showGridPlants()
+            if (this.levelOfDetail === 0 || this.levelOfDetail ===  1) {
+               vegGrid.showGridPlants()
             } else {
                 vegGrid.hideGridPlants()
             }

@@ -155,7 +155,7 @@ class ThreeModel {
     recoverModelClone = function(spatial) {
 
         if (this.geometryInstancingSettings()) {
-            spatial.setPosXYZ(20+this.modelNr*5, 5+this.expandingPool.poolEntryCount()*0.3, 3000);
+            spatial.setPosXYZ(20+this.modelNr*5, - 5000, 3000);
         //    spatial.setScaleXYZ(0.0, 0.0, 0.0);
 
             if (this.expandingPool.pool.indexOf(spatial) !== -1) {
