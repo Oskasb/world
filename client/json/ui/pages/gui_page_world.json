@@ -26,7 +26,6 @@
                     "offset_y": 0.025
                   }
                 },
-
                 {
                   "widget_id":"text_box_home",
                   "widget_class":"GuiExpandingContainer",
@@ -37,7 +36,6 @@
                     "offset_y":0.005,
                     "text":"A world of adventures."
                   }
-
                 }
               ],
               "buttons":[

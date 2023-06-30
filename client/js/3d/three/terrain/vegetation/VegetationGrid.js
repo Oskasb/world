@@ -94,7 +94,7 @@ let processGroundCandidates = function(groundData) {
                 console.log("Premature grid setup", this)
                 return;
             }
-            console.log(plantConfigs);
+        //    console.log(plantConfigs);
 
             for (let i = 0; i < sectorPlants; i++) {
 

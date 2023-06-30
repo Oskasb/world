@@ -163,6 +163,7 @@ if(typeof(MATH) === "undefined") {
 		return Math.round((number/total) * 100);
 	};
 
+
 	MATH.isOddNumber = function(number) {
 		return number % 2;
 	};

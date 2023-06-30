@@ -523,11 +523,11 @@ class ThreeTerrain {
         updateFrame = GameAPI.getFrame().frame;
 
         if (GameAPI.gameMain.getPlayerCharacter()) {
-
+            let playerPos = GameAPI.getMainCharPiece().getPos();
             calcVec.copy(GameAPI.getGameCamera().call.getLookAtPoint());
             evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:GameAPI.getMainCharPiece().getPos(), to:calcVec, color:"YELLOW"});
+       //     GuiAPI.printDebugText(''+calcVec.x+' '+calcVec.y+' '+calcVec.z)
 
-            let playerPos = GameAPI.getMainCharPiece().getPos();
             let playerGeo = getTerrainGeoAtPos(calcVec);
 
             let color = {}

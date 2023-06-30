@@ -5,13 +5,14 @@ class GameCamera {
         let calcVec = new THREE.Vector3();
         let tempVec3 = new THREE.Vector3();
         let cameraPos = new THREE.Vector3();
+        let camTranslate = new THREE.Vector3();
         let cameraLookAt = new THREE.Vector3();
         let targetLookAt = new THREE.Vector3();
         let lookAtModifier = new THREE.Vector3();
-        let lookAtPoint = new THREE.Vector3();
         this.lookAtModApplied = new THREE.Vector3();
         let positionModifier = new THREE.Vector3();
         this.posModApplied = new THREE.Vector3();
+        let lookAtPoint = new THREE.Vector3();
         let targetPos = new THREE.Vector3();
         let transitionStartTime = 0;
         let transitionEndTime = 1;
@@ -90,6 +91,9 @@ class GameCamera {
             cLook.y = MATH.interpolateFromTo(cLook.y, tLook.y, factor);
             cLook.z = MATH.interpolateFromTo(cLook.z, tLook.z, factor);
 
+            pos.add(camTranslate);
+            cLook.add(camTranslate);
+
             ThreeAPI.setCameraPos(pos.x, pos.y, pos.z);
             ThreeAPI.cameraLookAt(cLook.x, cLook.y, cLook.z);
         };
@@ -128,9 +132,12 @@ class GameCamera {
 
             calcVec.multiplyScalar(elevFactor);
             calcVec.add(camPos);
-            calcVec.y = 0;
+            calcVec.y = ThreeAPI.terrainAt(calcVec);
 
-            lookAtPoint.copy(calcVec);
+            if (lookAtPoint.distanceToSquared(calcVec)) {
+                GuiAPI.printDebugText('x:'+MATH.decimalify(calcVec.x, 100)+' y:'+MATH.decimalify(calcVec.y, 100)+' z:'+MATH.decimalify(calcVec.z, 100))
+                lookAtPoint.copy(calcVec);
+            }
 
                 applyFrameToCameraMotion()
             };
@@ -152,6 +159,10 @@ class GameCamera {
             return lookAtPoint;
         }
 
+        let moveCamera = function(vec3) {
+            camTranslate.copy(vec3);
+        }
+
         evt.on(ENUMS.Event.FRAME_READY, applyFrame);
         evt.on(ENUMS.Event.SET_CAMERA_TARGET, setCameraTargetPosInTime)
 
@@ -160,7 +171,8 @@ class GameCamera {
             getPositionModifier:getPositionModifier,
             getLookAtModifier:getLookAtModifier,
             getFraction:getFraction,
-            getLookAtPoint:getLookAtPoint
+            getLookAtPoint:getLookAtPoint,
+            moveCamera:moveCamera
         }
     }
 

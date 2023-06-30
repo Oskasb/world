@@ -54,8 +54,8 @@
         "home_world_dynamic":{
           "camera": {
             "time":1.3,
-            "pos": [5, 180, -340],
-            "lookAt": [-5, 0, -120]
+            "pos": [5, 60, -270],
+            "lookAt": [-5, 0, -220]
           }
         },
         "home_stash_dynamic":{
@@ -64,7 +64,6 @@
             "pos": [3, 5, -2],
             "lookAt": [0.6, 0, 4]
           }
-
         },
         "home_hero_dynamic":{
           "camera": {
@@ -72,7 +71,6 @@
             "pos": [0.6, 1.7, -2.1],
             "lookAt": [-0.4, 1.6, -0.5]
           }
-
         },
         "encounter_field_bandits_dynamic":{
           "camera": {

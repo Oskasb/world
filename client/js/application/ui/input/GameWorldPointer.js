@@ -277,6 +277,16 @@ class GameWorldPointer {
                     }
 
 
+                } else {
+                    let y = 0;
+                    if (pointer.wheelDelta) {
+                        y = pointer.wheelDelta;
+                    }
+                    tempVec3.set(pointer.dragDistance[0], y, pointer.dragDistance[1])
+                    if (tempVec3.lengthSq()) {
+                        tempVec3.y = ThreeAPI.terrainAt(ThreeAPI.getCamera().position);
+                    }
+                    GameAPI.getGameCamera().call.moveCamera(tempVec3)
                 }
                 pointer.worldSpaceTarget = null;
             }
