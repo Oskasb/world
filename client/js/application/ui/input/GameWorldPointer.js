@@ -282,8 +282,12 @@ class GameWorldPointer {
                     if (pointer.wheelDelta) {
                         y = pointer.wheelDelta;
                     }
-                    tempVec3.set(pointer.dragDistance[0], y, pointer.dragDistance[1])
+                    tempVec3.set(-pointer.dragDistance[0], y, -pointer.dragDistance[1])
                     if (tempVec3.lengthSq()) {
+                        let scale = tempVec3.length();
+                        tempVec3.applyQuaternion(ThreeAPI.getCamera().quaternion);
+                        tempVec3.normalize();
+                        tempVec3.multiplyScalar(scale);
                         tempVec3.y = ThreeAPI.terrainAt(ThreeAPI.getCamera().position);
                     }
                     GameAPI.getGameCamera().call.moveCamera(tempVec3)

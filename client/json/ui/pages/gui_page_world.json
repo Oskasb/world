@@ -94,19 +94,18 @@
                   }
                 },
                 {
-                  "widget_id":"button_go_cave",
+                  "widget_id":"button_go_nav",
                   "widget_class":"GuiExpandingContainer",
-                  "widget_config_id":"button_big_red",
+                  "widget_config_id":"button_big_blue",
                   "options":{
-                    "text":"CAVE",
+                    "text":"NAV",
                     "container_id":"page_home_center",
                     "offset_x":-0.09,
                     "offset_y":-0.08,
                     "dispatch":{
-                      "event":"REQUEST_SCENARIO",
+                      "event":"ACTIVATE_NAV_POINTS",
                       "value":{
-                        "id":"cave_scenario",
-                        "dynamic":"encounter_cave_basic_dynamic"
+                        "data_id":"world_dynamic_navpoints"
                       }
                     }
                   }

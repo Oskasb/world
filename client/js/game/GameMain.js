@@ -60,6 +60,31 @@ class GameMain {
         this.playerMain = new PlayerMain();
         this.onUpdateCallbacks = [];
         this.onTurnCallbacks = []
+
+        let navPointGroup = null;
+
+        let setActiveNavPointGroup = function(navPG) {
+            navPointGroup = navPG;
+            console.log("Activate Nav points", navPointGroup);
+        }
+
+        let renderActiveNavPointGroup = function() {
+            let camLookPos = GameAPI.getGameCamera().call.getLookAtPoint();
+            for (let key in navPointGroup) {
+                MATH.vec3FromArray(tempVec3, navPointGroup[key].camera.lookAt)
+                evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:camLookPos, to:tempVec3, color:'AQUA'});
+            }
+
+
+        }.bind(this)
+
+
+
+        this.call = {
+            setActiveNavPointGroup:setActiveNavPointGroup,
+            renderActiveNavPointGroup:renderActiveNavPointGroup
+        }
+
     }
 
     setupCallbacks = function () {
@@ -255,6 +280,29 @@ class GameMain {
             MATH.callAll(this.onTurnCallbacks, this.turnStatus)
 
         }
+    }
+
+
+    renderNavPoints = function(dataId) {
+
+    }
+
+    activateGameNavPoints = function(event) {
+        console.log("Activate Nav Points", event)
+
+        let navPointData = this.navPointConfigData.parseConfigData()[event['data_id']];
+        let navConf = navPointData.config;
+
+        this.call.setActiveNavPointGroup(navConf);
+
+        if (this.onUpdateCallbacks.indexOf(this.call.renderActiveNavPointGroup) === -1) {
+            GameAPI.registerGameUpdateCallback(this.call.renderActiveNavPointGroup)
+        } else {
+            GameAPI.unregisterGameUpdateCallback(this.call.renderActiveNavPointGroup)
+        }
+
+    //    let navPoint = navConf[this.dynamicId]['camera'];
+
     }
 
     updateGameMain(frame) {

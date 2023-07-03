@@ -72,8 +72,9 @@ if(typeof(ENUMS) === "undefined"){
         TOGGLE_AUTO_TURN_PAUSE:     52,
         CHEAT_APPLY_PIMP:           53,
         MAIN_CHAR_OPEN_TARGET:      54,
-        SWITCH_GUI_PAGE:             55,
-        SET_COMPANION_AS_LEADER:     57
+        SWITCH_GUI_PAGE:            55,
+        SET_COMPANION_AS_LEADER:    57,
+        ACTIVATE_NAV_POINTS:        58
     };
 
     ENUMS.Args = {

@@ -54,8 +54,15 @@
         "home_world_dynamic":{
           "camera": {
             "time":1.3,
-            "pos": [5, 60, -270],
-            "lookAt": [-5, 0, -220]
+            "pos": [-15, 40, -200],
+            "lookAt": [15, 0, -198]
+          }
+        },
+        "world_delta_dynamic":{
+          "camera": {
+            "time":1.3,
+            "pos": [-875, 40, 520],
+            "lookAt": [-855, 0, 520]
           }
         },
         "home_stash_dynamic":{

@@ -172,6 +172,10 @@ class PlayerMain {
             this.setPlayerCharacter(gamePiece.character, playerPiece)
         }.bind(this);
 
+        let activateNavPoints = function(event) {
+            GameAPI.gameMain.activateGameNavPoints(event);
+        }
+
         let callbacks = {
             handleEquip : equipItem,
             handleUnequip : unequipItem,
@@ -188,7 +192,8 @@ class PlayerMain {
             returnHome:returnHome,
             applyCheatPimp:applyCheatPimp,
             switchGuiPage:switchGuiPage,
-            setCompanionAsLeader:setCompanionAsLeader
+            setCompanionAsLeader:setCompanionAsLeader,
+            activateNavPoints:activateNavPoints
         }
 
         this.callbacks = callbacks;
@@ -209,6 +214,7 @@ class PlayerMain {
         evt.on(ENUMS.Event.CHEAT_APPLY_PIMP, callbacks.applyCheatPimp);
         evt.on(ENUMS.Event.SWITCH_GUI_PAGE, callbacks.switchGuiPage);
         evt.on(ENUMS.Event.SET_COMPANION_AS_LEADER, callbacks.setCompanionAsLeader);
+        evt.on(ENUMS.Event.ACTIVATE_NAV_POINTS, callbacks.activateNavPoints);
 
 
     }

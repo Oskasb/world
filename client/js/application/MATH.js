@@ -49,6 +49,9 @@ if(typeof(MATH) === "undefined") {
 
 	MATH.quickSplice = function(array, removeEntry) {
 
+
+	//	array.splice(array.indexOf(removeEntry), 1)
+	//	return removeEntry
 		remove = null;
 
 		while (array.length) {
