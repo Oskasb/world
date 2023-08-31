@@ -4,10 +4,13 @@ import { Object3D } from "../../../libs/three/core/Object3D.js";
 let calcVec = new Vector3()
 let tempVec3 = new Vector3();
 let cursorObj3d = new Object3D()
+let dragFromVec3 = new Vector3();
+let dragToVec3 = new Vector3();
 
 let posMod = new Vector3();
 let lookAtMod = new Vector3();
 let pointerDragVector = new Vector3()
+
 
 let camParams = {
     camCallback : function() {},
@@ -55,7 +58,17 @@ let updateWorldDisplay = function() {
 
 let updateWorldLook = function() {
 
-
+    tempVec3.copy(cursorObj3d.position);
+    tempVec3.y = ThreeAPI.terrainAt(tempVec3);
+    dragToVec3.y = ThreeAPI.terrainAt(dragToVec3, calcVec);
+    calcVec.add(dragToVec3);
+    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:tempVec3, to:dragToVec3, color:'CYAN'});
+    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:dragToVec3, to:calcVec, color:'YELLOW'});
+    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:dragToVec3, color:'CYAN', size:0.3})
+ //   tempVec3.add(dragFromVec3);
+ //   cursorObj3d.position.copy(tempVec3);
+ //   camParams.offsetLookAt[0] = pointerDragVector.x
+ //   camParams.offsetLookAt[2] = pointerDragVector.yz
 
     cursorObj3d.position.y = ThreeAPI.terrainAt(cursorObj3d.position)+2
  //   camParams.offsetPos[0] = Math.sin(GameAPI.getGameTime()*0.3)*22
@@ -83,12 +96,16 @@ class CameraSpatialCursor {
         }
 
         let activePointerUpdate = function(pointer, isFirstPressFrame) {
-        //     console.log(pointer)
-            pointerDragVector.x = pointer.dragDistance[0];
-            pointerDragVector.y = pointer.dragDistance[1];
+            if (isFirstPressFrame) {
+                dragFromVec3.copy(cursorObj3d.position);
+            }
+            pointerDragVector.x = -pointer.dragDistance[0] * 0.1;
+            pointerDragVector.y = 0;
+            pointerDragVector.z = -pointer.dragDistance[1] * 0.1;
 
-            cursorObj3d.position.x += pointerDragVector.x*0.01;
-            cursorObj3d.position.z += pointerDragVector.y*0.01;
+            dragToVec3.copy(pointerDragVector)
+            dragToVec3.applyQuaternion(cursorObj3d.quaternion);
+            dragToVec3.add(cursorObj3d.position)
 
         }
 
@@ -130,6 +147,19 @@ class CameraSpatialCursor {
     }
 
     updateSpatialCursor = function() {
+
+        ThreeAPI.copyCameraLookAt(tempVec3);
+        tempVec3.sub(ThreeAPI.camera.position);
+
+        tempVec3.y = cursorObj3d.position.y;
+        tempVec3.normalize();
+        tempVec3.multiplyScalar(3)
+        tempVec3.add(cursorObj3d.position);
+
+        cursorObj3d.lookAt(tempVec3);
+
+        evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:cursorObj3d.position, to:tempVec3, color:'WHITE'});
+
         if (camParams.mode === camModes.worldDisplay) {
             updateWorldDisplay();
         }
