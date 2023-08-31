@@ -95,6 +95,21 @@
               ],
               "buttons":[
                 {
+                  "widget_id":"button_cam_look",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"button_big_blue",
+                  "options":{
+                    "text":"LOOK",
+                    "container_id":"page_debug_bottom_right",
+                    "offset_x": -0.08,
+                    "offset_y": 0.13,
+                    "dispatch":{
+                      "event":"SET_CAMERA_MODE",
+                      "value":{"mode":"world_viewer"}
+                    }
+                  }
+                },
+                {
                   "widget_id":"button_view_models",
                   "widget_class":"GuiExpandingContainer",
                   "widget_config_id":"button_big_blue",

@@ -7,6 +7,7 @@ let cursorObj3d = new Object3D()
 
 let posMod = new Vector3();
 let lookAtMod = new Vector3();
+let pointerDragVector = new Vector3()
 
 let camParams = {
     camCallback : function() {},
@@ -15,6 +16,13 @@ let camParams = {
     lookAt :[0, 0, 0],
     offsetPos : [0, 0, 0],
     offsetLookAt : [0, 0, 0]
+}
+
+let camModes = {
+    worldDisplay:'world_display',
+    worldViewer:'world_viewer',
+    gameCombat:'game_combat',
+    gameTravel:'game_travel'
 }
 
 let debugDrawCursor = function() {
@@ -36,10 +44,62 @@ let updateCursorFrame = function() {
     camParams.lookAt[2] = cursorPos.z + camParams.offsetLookAt[2] + lookAtMod.z;
 }
 
+let updateWorldDisplay = function() {
+    cursorObj3d.position.x = Math.sin(GameAPI.getGameTime()*0.045)*420
+    cursorObj3d.position.z = Math.cos(GameAPI.getGameTime()*0.055)*420
+    cursorObj3d.position.y = ThreeAPI.terrainAt(cursorObj3d.position)+2
+    camParams.offsetPos[0] = Math.sin(GameAPI.getGameTime()*0.3)*22
+    camParams.offsetPos[1] = 16 + Math.sin(GameAPI.getGameTime())*11 + ThreeAPI.terrainAt(cursorObj3d.position)
+    camParams.offsetPos[2] = Math.cos(GameAPI.getGameTime()*0.3)*22
+}
+
+let updateWorldLook = function() {
+
+
+
+    cursorObj3d.position.y = ThreeAPI.terrainAt(cursorObj3d.position)+2
+ //   camParams.offsetPos[0] = Math.sin(GameAPI.getGameTime()*0.3)*22
+    camParams.offsetPos[1] = 16 + Math.sin(GameAPI.getGameTime())*11 + ThreeAPI.terrainAt(cursorObj3d.position)
+ //   camParams.offsetPos[2] = Math.cos(GameAPI.getGameTime()*0.3)*22
+
+}
+
+let modeHistory = [];
+
 class CameraSpatialCursor {
     constructor() {
+        camParams.mode = camModes.worldDisplay;
+
+        let setCamMode = function(evt) {
+            let selectedMode = evt.mode;
+            if (selectedMode === camParams.mode) {
+                selectedMode = modeHistory.pop();
+            } else {
+                modeHistory.push(camParams.mode);
+            }
+
+            camParams.mode = selectedMode;
+            console.log(evt, camParams.mode);
+        }
+
+        let activePointerUpdate = function(pointer, isFirstPressFrame) {
+        //     console.log(pointer)
+            pointerDragVector.x = pointer.dragDistance[0];
+            pointerDragVector.y = pointer.dragDistance[1];
+
+            cursorObj3d.position.x += pointerDragVector.x*0.01;
+            cursorObj3d.position.z += pointerDragVector.y*0.01;
+
+        }
+
+        this.call = {
+            setCamMode:setCamMode,
+            activePointerUpdate:activePointerUpdate
+        }
 
     }
+
+
 
     setCursorPosition = function(vec3) {
         cursorObj3d.position.copy(vec3);
@@ -65,16 +125,19 @@ class CameraSpatialCursor {
         lookAtMod.copy(vec3);
     }
 
+    setMode = function(mode) {
+
+    }
+
     updateSpatialCursor = function() {
+        if (camParams.mode === camModes.worldDisplay) {
+            updateWorldDisplay();
+        }
 
-        cursorObj3d.position.x = Math.sin(GameAPI.getGameTime()*0.2)*50
-        cursorObj3d.position.z = Math.cos(GameAPI.getGameTime()*0.2)*50
-        cursorObj3d.position.y = ThreeAPI.terrainAt(cursorObj3d.position)
+        if (camParams.mode === camModes.worldViewer) {
+            updateWorldLook();
+        }
 
-
-        camParams.offsetPos[0] = Math.sin(GameAPI.getGameTime()*0.5)*20
-        camParams.offsetPos[1] = 16 + Math.sin(GameAPI.getGameTime())*2 + ThreeAPI.terrainAt(this.getPos())
-        camParams.offsetPos[2] = Math.cos(GameAPI.getGameTime()*0.5)*20
         updateCursorFrame();
         GameAPI.getGameCamera().updatePlayerCamera(camParams)
     //    debugDrawCursor();

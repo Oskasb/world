@@ -95,7 +95,7 @@ class Plant {
         let addPlant = function(instance) {
 
             ThreeAPI.getScene().remove(instance.spatial.obj3d)
-            evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ThreeAPI.getCameraCursor().getPos(), to:this.obj3d.position, color:'YELLOW'});
+        //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ThreeAPI.getCameraCursor().getPos(), to:this.obj3d.position, color:'YELLOW'});
             this.callbacks.setInstance(instance)
         //    console.log(instance.getGeometryInstance().instancingBuffers);
         //    this.applyPlantConfig(this.config);
@@ -115,7 +115,7 @@ class Plant {
         this.isActive = false;
         this.callbacks.getInstance().decommissionInstancedModel();
         this.callbacks.setInstance(null);
-        evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ThreeAPI.getCameraCursor().getPos(), to:this.obj3d.position, color:'RED'});
+    //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ThreeAPI.getCameraCursor().getPos(), to:this.obj3d.position, color:'RED'});
         //    this.bufferElement.endLifecycleNow();
         //    MATH.callAll(this.callbacks.deactivatePlant, this);
     };

@@ -70,6 +70,8 @@ class Client {
 
         let callback = function() {
 
+
+
             setTimeout(function() {
 
                 client.setup.initDefaultUi();
@@ -82,6 +84,7 @@ class Client {
 
         client.setup.initUiSetup(callback);
 
+        this.evt.on(ENUMS.Event.SET_CAMERA_MODE, ThreeAPI.getCameraCursor().call.setCamMode);
 
         const clock = new THREE.Clock(true);
 

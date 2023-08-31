@@ -148,6 +148,8 @@ class GameWorldPointer {
     }
     updateWorldPointer = function(pointer, isFirstPressFrame) {
 
+        ThreeAPI.getCameraCursor().call.activePointerUpdate(pointer, isFirstPressFrame);
+
     //    if (!GameAPI.gameMain) {
             return;
     //    }
