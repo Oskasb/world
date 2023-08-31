@@ -7,6 +7,7 @@ let tempVec3 = new Vector3();
 let cursorObj3d = new Object3D()
 let dragFromVec3 = new Vector3();
 let dragToVec3 = new Vector3();
+let camPosVec = new Vector3();
 
 let posMod = new Vector3();
 let lookAtMod = new Vector3();
@@ -73,10 +74,15 @@ let updateWorldLook = function() {
     tempVec3.copy(cursorObj3d.position);
     tempVec3.y = ThreeAPI.terrainAt(tempVec3);
     dragToVec3.y = ThreeAPI.terrainAt(dragToVec3, calcVec);
+    camPosVec.subVectors(dragToVec3, tempVec3)
+    camPosVec.multiplyScalar(-1);
+    camPosVec.add(tempVec3);
     calcVec.add(dragToVec3);
     evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:tempVec3, to:dragToVec3, color:'CYAN'});
     evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:dragToVec3, to:calcVec, color:'YELLOW'});
     evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:dragToVec3, color:'CYAN', size:0.3})
+
+    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:tempVec3, to:camPosVec, color:'RED'});
  //   tempVec3.add(dragFromVec3);
  //   cursorObj3d.position.copy(tempVec3);
  //   camParams.offsetLookAt[0] = pointerDragVector.x
