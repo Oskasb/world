@@ -14,7 +14,7 @@ let lookAtMod = new Vector3();
 let pointerDragVector = new Vector3()
 
 let navPoint = {
-    time:0.8,
+    time:0.42,
     pos: [0, 5, -14],
     lookAt: [0, 1, 0]
 }
@@ -82,6 +82,8 @@ let updateWorldLook = function() {
     camParams.offsetPos[1] = camPosVec.y;
     camParams.offsetPos[2] = camPosVec.z;
 
+    let height = camPosVec.length() * 0.5;
+
     camPosVec.add(tempVec3);
     calcVec.add(dragToVec3);
 
@@ -101,7 +103,7 @@ let updateWorldLook = function() {
 
     cursorObj3d.position.y = ThreeAPI.terrainAt(cursorObj3d.position)+2
  //   camParams.offsetPos[0] = Math.sin(GameAPI.getGameTime()*0.3)*22
-    camParams.offsetPos[1] = 16 + Math.sin(GameAPI.getGameTime())*11 + ThreeAPI.terrainAt(cursorObj3d.position)
+    camParams.offsetPos[1] = height + cursorObj3d.position.y
  //   camParams.offsetPos[2] = Math.cos(GameAPI.getGameTime()*0.3)*22
 
 
@@ -155,9 +157,14 @@ class CameraSpatialCursor {
 
         }
 
+        let setNavPoint = function(event) {
+
+        }
+
         this.call = {
             setCamMode:setCamMode,
-            activePointerUpdate:activePointerUpdate
+            activePointerUpdate:activePointerUpdate,
+            setNavPoint:setNavPoint
         }
 
     }
