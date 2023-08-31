@@ -146,6 +146,13 @@ let getThreeTerrainByPosition = function(pos) {
 };
 
 let getThreeTerrainHeightAt = function(terrainGeo, pos, normalStore) {
+    if (!terrainGeo) {
+        if (normalStore) {
+            normalStore.set(0, 1, 0);
+        }
+        return pos.y
+    }
+
     return TerrainFunctions.getHeightAt(pos, terrainGeo.getHeightmapData(), terrainGeo.tx_width, terrainGeo.tx_width - 1, normalStore, terrainScale, terrainOrigin);
 };
 
@@ -522,25 +529,27 @@ class ThreeTerrain {
 
         updateFrame = GameAPI.getFrame().frame;
 
-        if (GameAPI.gameMain.getPlayerCharacter()) {
-            let playerPos = GameAPI.getMainCharPiece().getPos();
+
+
+    //    if (GameAPI.gameMain.getPlayerCharacter()) {
+            let cursorPos = ThreeAPI.getCameraCursor().getPos();
             calcVec.copy(GameAPI.getGameCamera().call.getLookAtPoint());
-            evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:GameAPI.getMainCharPiece().getPos(), to:calcVec, color:"YELLOW"});
+            evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:cursorPos, to:calcVec, color:"YELLOW"});
        //     GuiAPI.printDebugText(''+calcVec.x+' '+calcVec.y+' '+calcVec.z)
 
             let playerGeo = getTerrainGeoAtPos(calcVec);
 
             let color = {}
-            ThreeAPI.groundAt(playerPos, color);
-            evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:playerPos, color:color, size:0.3})
+            ThreeAPI.groundAt(cursorPos, color);
+            evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:cursorPos, color:color, size:0.3})
 
             if (playerGeo !== geoBeneathPlayer) {
                 //    activateTerrainGeos(playerGeo.gridX, playerGeo.gridY, gridConfig.range)
                 geoBeneathPlayer = playerGeo;
             }
 
-            posVec.copy(playerPos);
-            posVec.y = getHeightAndNormal(playerPos, normVec);
+            posVec.copy(cursorPos);
+            posVec.y = getHeightAndNormal(cursorPos, normVec);
         //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:posVec, color:'GREEN', size:0.3});
             normVec.add(posVec);
         //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:posVec, to:normVec, color:'AQUA'});
@@ -566,7 +575,7 @@ class ThreeTerrain {
 
         }
 
-    }
+   // }
 }
 
 export {ThreeTerrain}

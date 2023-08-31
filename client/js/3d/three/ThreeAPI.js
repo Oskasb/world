@@ -6,8 +6,11 @@ import {ThreeModelLoader} from './ThreeModelLoader.js';
 import {ThreeTextureMaker} from './ThreeTextureMaker.js';
 import {ThreeMaterialMaker} from './ThreeMaterialMaker.js';
 import {ThreeSpatialFunctions} from './ThreeSpatialFunctions.js';
+import {CameraSpatialCursor } from "../camera/CameraSpatialCursor.js";
 import {TerrainSystem} from "./terrain/TerrainSystem.js";
 
+
+let cameraSpatialCursor = new CameraSpatialCursor();
 let terrainSystem = new TerrainSystem();
 let tempVec = null;
 class ThreeAPI {
@@ -100,6 +103,10 @@ class ThreeAPI {
             terrainSystem.initTerrainSystem(terrainSysCB);
     };
 
+    getCameraCursor = function() {
+        return cameraSpatialCursor;
+    }
+
     updateSceneMatrixWorld = function() {
         this.scene.updateMatrixWorld();
     };
@@ -145,10 +152,11 @@ class ThreeAPI {
         return glContext;
     };
 
+    /*
     setEffectCallbacks = function(callbacks) {
         effectCallbacks = callbacks;
     };
-
+*/
     getEffectCallbacks = function() {
         return effectCallbacks;
     };
@@ -520,6 +528,7 @@ class ThreeAPI {
 
 
     requestFrameRender = function(frame) {
+        cameraSpatialCursor.updateSpatialCursor();
         this.threeSetup.callPrerender(frame);
     };
 

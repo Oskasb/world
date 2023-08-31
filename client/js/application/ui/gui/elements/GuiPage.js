@@ -60,7 +60,8 @@ class GuiPage {
         }
 
         let updateCamera = function() {
-            GameAPI.getGameCamera().updatePlayerCamera(camParams)
+            console.log("Legacy cam update for params")
+            // GameAPI.getGameCamera().updatePlayerCamera(camParams)
         };
 
         this.call = {

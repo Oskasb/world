@@ -24,7 +24,8 @@ class EncounterDynamicScenario {
         }
 
         let updateCamera = function() {
-            GameAPI.getGameCamera().updatePlayerCamera(camParams)
+            console.log("Legacy cam update for params")
+            // GameAPI.getGameCamera().updatePlayerCamera(camParams)
         };
 
         let setConfig = function(config) {

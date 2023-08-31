@@ -100,7 +100,7 @@ class Client {
             requestAnimationFrame( triggerFrame );
 
             client.evt.dispatch(ENUMS.Event.FRAME_READY, frame);
-
+            GameAPI.getGameCamera().call.applyFrame(frame)
             frame.gameTime = GameAPI.getGameTime();
             frame.systemTime += frame.tpf;
 

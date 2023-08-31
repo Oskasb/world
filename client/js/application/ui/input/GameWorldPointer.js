@@ -102,6 +102,7 @@ class GameWorldPointer {
         }
     }
     worldPointerReleased = function(pointer) {
+        return
         let call = this.call;
         //    if (typeof(this.selectionEvent.isOpen) === 'object') {
 
@@ -146,10 +147,19 @@ class GameWorldPointer {
         pointer.setLongPressProgress(0) //
     }
     updateWorldPointer = function(pointer, isFirstPressFrame) {
-        let playerPiece = GameAPI.getMainCharPiece()
+
+    //    if (!GameAPI.gameMain) {
+            return;
+    //    }
+
         if (GuiAPI.calls.getInMenu() === true) {
             return;
         }
+
+        //      let worldCursor = ThreeAPI.getCameraCursor();
+       let playerPiece = GameAPI.getMainCharPiece()
+
+
 
         if (isFirstPressFrame) {
             pointer.isWorldActive = true;

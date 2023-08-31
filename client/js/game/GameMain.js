@@ -1,5 +1,4 @@
 import { GameScenario }  from "./gameworld/GameScenario.js";
-import { GameCamera } from "../3d/camera/GameCamera.js";
 import { ConfigData } from "../application/utils/ConfigData.js";
 import { GameWorld } from "./gameworld/GameWorld.js";
 import { PlayerMain } from "./Player/PlayerMain.js";
@@ -55,7 +54,6 @@ class GameMain {
 
         this.navPointConfigData.addUpdateCallback(updateNavpoint);
 
-        this.gameCamera = new GameCamera();
         this.gameWorld = new GameWorld();
         this.playerMain = new PlayerMain();
         this.onUpdateCallbacks = [];
@@ -69,7 +67,7 @@ class GameMain {
         }
 
         let renderActiveNavPointGroup = function() {
-            let camLookPos = GameAPI.getGameCamera().call.getLookAtPoint();
+            let camLookPos = gameCamera.call.getLookAtPoint();
             for (let key in navPointGroup) {
                 MATH.vec3FromArray(tempVec3, navPointGroup[key].camera.lookAt)
                 evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:camLookPos, to:tempVec3, color:'AQUA'});
@@ -78,13 +76,10 @@ class GameMain {
 
         }.bind(this)
 
-
-
         this.call = {
             setActiveNavPointGroup:setActiveNavPointGroup,
             renderActiveNavPointGroup:renderActiveNavPointGroup
         }
-
     }
 
     setupCallbacks = function () {
@@ -135,8 +130,8 @@ class GameMain {
 
         }.bind(this)
 
-        GameAPI.composeCharacter("PLAYER_MAIN", charReady)
-        evt.on(ENUMS.Event.REQUEST_SCENARIO, this.callbacks.requestScenario);
+    //    GameAPI.composeCharacter("PLAYER_MAIN", charReady)
+    //    evt.on(ENUMS.Event.REQUEST_SCENARIO, this.callbacks.requestScenario);
         evt.on(ENUMS.Event.FRAME_READY, this.callbacks.updateGameFrame)
 
     }

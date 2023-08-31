@@ -3,6 +3,9 @@ import { GameCharacter } from "./character/GameCharacter.js";
 import { GamePiece } from "./gamepieces/GamePiece.js";
 import { GameMain } from "./GameMain.js";
 import { GameWorldPointer } from "../application/ui/input/GameWorldPointer.js";
+import { GameCamera } from "../3d/camera/GameCamera.js";
+
+let gameCamera = new GameCamera();
 
 class GameAPI {
     constructor() {
@@ -25,7 +28,7 @@ class GameAPI {
     };
 
     getGameCamera() {
-        return this.gameMain.gameCamera;
+        return gameCamera;
     }
 
     composeCharacter(gameCharConfigId, callback) {
