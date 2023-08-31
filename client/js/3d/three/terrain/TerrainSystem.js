@@ -26,15 +26,28 @@ let gridPosZ = function() {
     return minZ + col*gridSpacing+ Math.random()*scatter
 };
 
+let activateTerrainSystem = function() {
+    ThreeAPI.addPrerenderCallback(threeTerrain.updateThreeTerrainGeometry)
+}
+
 class TerrainSystem {
     constructor() {
-
+        this.sysReady = false;
+        this.vegReady = false;
+        this.plantsReady = false;
     };
 
     initTerrainSystem = function(callback) {
         threeTerrain.loadData(callback);
 
     };
+
+    testReady = function() {
+        if (this.sysReady && this.vegReady && this.plantsReady) {
+            console.log("Terrain data ready")
+            activateTerrainSystem();
+        }
+    }
 
     getTerrainHeightAndNormal = function(pos, normalStore) {
         return threeTerrain.call.getHeightAndNormal(pos, normalStore);
@@ -48,9 +61,7 @@ class TerrainSystem {
         threeTerrain.call.shadeTerrainDataCanvas(pos, size);
     }
 
-    activateTerrainSystem = function() {
-        ThreeAPI.addPrerenderCallback(threeTerrain.updateThreeTerrainGeometry)
-    }
+
 
 }
 

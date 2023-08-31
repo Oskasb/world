@@ -66,9 +66,15 @@ class CameraSpatialCursor {
     }
 
     updateSpatialCursor = function() {
-        camParams.offsetPos[0] = Math.sin(GameAPI.getGameTime()*0.5)*10
-        camParams.offsetPos[1] = 2 + Math.sin(GameAPI.getGameTime())*2 + ThreeAPI.terrainAt(this.getPos())
-        camParams.offsetPos[2] = Math.cos(GameAPI.getGameTime()*0.5)*10
+
+        cursorObj3d.position.x = Math.sin(GameAPI.getGameTime()*0.2)*50
+        cursorObj3d.position.z = Math.cos(GameAPI.getGameTime()*0.2)*50
+        cursorObj3d.position.y = ThreeAPI.terrainAt(cursorObj3d.position)
+
+
+        camParams.offsetPos[0] = Math.sin(GameAPI.getGameTime()*0.5)*20
+        camParams.offsetPos[1] = 16 + Math.sin(GameAPI.getGameTime())*2 + ThreeAPI.terrainAt(this.getPos())
+        camParams.offsetPos[2] = Math.cos(GameAPI.getGameTime()*0.5)*20
         updateCursorFrame();
         GameAPI.getGameCamera().updatePlayerCamera(camParams)
     //    debugDrawCursor();

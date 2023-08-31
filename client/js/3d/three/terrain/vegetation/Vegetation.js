@@ -65,6 +65,8 @@ class Vegetation {
             if (plantInit === 0) {
                 plantInit = 1;
                 GameAPI.registerGameUpdateCallback(this.callbacks.updateVegetation);
+                ThreeAPI.getTerrainSystem().plantsReady = true;
+                ThreeAPI.getTerrainSystem().testReady();
                 vegReadyCB()
             } else {
                 this.resetVegetationSectors();
@@ -81,6 +83,8 @@ class Vegetation {
                 this.setupInstantiator();
             }
             this.resetVegetationSectors();
+            ThreeAPI.getTerrainSystem().vegReady = true;
+            ThreeAPI.getTerrainSystem().testReady();
         }.bind(this);
 
         console.log("init Veg data", vegGridData);

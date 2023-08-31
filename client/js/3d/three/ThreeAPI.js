@@ -94,14 +94,18 @@ class ThreeAPI {
 
     };
 
-
     initThreeTerrain = function() {
         let terrainSysCB = function() {
             console.log("Terrain System Ready")
-            terrainSystem.activateTerrainSystem();
+            terrainSystem.sysReady = true;
+            terrainSystem.testReady();
         };
             terrainSystem.initTerrainSystem(terrainSysCB);
     };
+
+    getTerrainSystem = function() {
+        return terrainSystem;
+    }
 
     getCameraCursor = function() {
         return cameraSpatialCursor;

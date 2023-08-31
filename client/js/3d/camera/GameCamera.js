@@ -105,6 +105,13 @@ class GameCamera {
             pos.add(camTranslate);
             cameraLookAt.add(camTranslate);
 
+            let terrainHeight = ThreeAPI.terrainAt(pos);
+
+            if (pos.y < terrainHeight + 1) {
+                pos.y = terrainHeight + 1;
+            }
+
+
             ThreeAPI.setCameraPos(pos.x, pos.y, pos.z);
             ThreeAPI.cameraLookAt(cameraLookAt.x, cameraLookAt.y, cameraLookAt.z);
             debugDrawCamLookAt()
@@ -137,10 +144,11 @@ class GameCamera {
             calcVec.set(0, -0.2, -0.9);
             calcVec.applyQuaternion(camera.quaternion)
             let camPos = ThreeAPI.getCamera().position;
-            let elevFactor = 1;
+            let elevFactor = 1 ;
             if (camPos.y > elevFactor) {
                 elevFactor = Math.abs(camPos.y / calcVec.y);
             }
+
 
             calcVec.multiplyScalar(elevFactor);
             calcVec.add(camPos);
