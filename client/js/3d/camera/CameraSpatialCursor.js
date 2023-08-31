@@ -75,9 +75,20 @@ let updateWorldLook = function() {
     tempVec3.y = ThreeAPI.terrainAt(tempVec3);
     dragToVec3.y = ThreeAPI.terrainAt(dragToVec3, calcVec);
     camPosVec.subVectors(dragToVec3, tempVec3)
-    camPosVec.multiplyScalar(-1);
+    camPosVec.multiplyScalar(-2);
+  //  posMod.copy(camPosVec);
+
+    camParams.offsetPos[0] = camPosVec.x;
+    camParams.offsetPos[1] = camPosVec.y;
+    camParams.offsetPos[2] = camPosVec.z;
+
     camPosVec.add(tempVec3);
     calcVec.add(dragToVec3);
+
+    //camParams.pos[0] = camPosVec.x
+    //camParams.pos[1] = cursorPos.y
+    //camParams.pos[2] = camPosVec.z
+
     evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:tempVec3, to:dragToVec3, color:'CYAN'});
     evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:dragToVec3, to:calcVec, color:'YELLOW'});
     evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:dragToVec3, color:'CYAN', size:0.3})
