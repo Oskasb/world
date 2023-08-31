@@ -78,7 +78,7 @@ class GameCamera {
             fraction = MATH.calcFraction(transitionStartTime, transitionEndTime, currentTime);
             let factor = 1;
             let posFactor = 1;
-            if (fraction < 0.95) {
+            if (fraction < 0.92) {
                 factor =  MATH.curveSigmoid(fraction*0.85);
                 posFactor = MATH.curveSigmoid(fraction*0.95);
             } else {
@@ -118,6 +118,7 @@ class GameCamera {
         };
 
         let setCameraTargetPosInTime = function(eventData) {
+        //    console.log(eventData)
             fraction = 0;
             transitionStartTime = currentTime;
             transitionEndTime = currentTime + eventData.time;

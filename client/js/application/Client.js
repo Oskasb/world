@@ -85,7 +85,7 @@ class Client {
         client.setup.initUiSetup(callback);
 
         this.evt.on(ENUMS.Event.SET_CAMERA_MODE, ThreeAPI.getCameraCursor().call.setCamMode);
-
+        this.evt.on(ENUMS.Event.SET_CAMERA_TARGET, GameAPI.getGameCamera().call.setCameraTargetPosInTime)
         const clock = new THREE.Clock(true);
 
 

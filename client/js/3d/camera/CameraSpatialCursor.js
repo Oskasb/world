@@ -1,3 +1,4 @@
+
 import { Vector3 } from "../../../libs/three/math/Vector3.js";
 import { Object3D } from "../../../libs/three/core/Object3D.js";
 
@@ -11,6 +12,11 @@ let posMod = new Vector3();
 let lookAtMod = new Vector3();
 let pointerDragVector = new Vector3()
 
+let navPoint = {
+    time:0.8,
+    pos: [0, 5, -14],
+    lookAt: [0, 1, 0]
+}
 
 let camParams = {
     camCallback : function() {},
@@ -45,6 +51,11 @@ let updateCursorFrame = function() {
     camParams.lookAt[0] = cursorPos.x + camParams.offsetLookAt[0] + lookAtMod.x;
     camParams.lookAt[1] = cursorPos.y + camParams.offsetLookAt[1] + lookAtMod.y;
     camParams.lookAt[2] = cursorPos.z + camParams.offsetLookAt[2] + lookAtMod.z;
+
+    cursorPos.x = camParams.lookAt[0]
+    cursorPos.y = camParams.lookAt[1]
+    cursorPos.z = camParams.lookAt[2]
+
 }
 
 let updateWorldDisplay = function() {
@@ -54,6 +65,7 @@ let updateWorldDisplay = function() {
     camParams.offsetPos[0] = Math.sin(GameAPI.getGameTime()*0.3)*22
     camParams.offsetPos[1] = 16 + Math.sin(GameAPI.getGameTime())*11 + ThreeAPI.terrainAt(cursorObj3d.position)
     camParams.offsetPos[2] = Math.cos(GameAPI.getGameTime()*0.3)*22
+    GameAPI.getGameCamera().updatePlayerCamera(camParams)
 }
 
 let updateWorldLook = function() {
@@ -75,9 +87,16 @@ let updateWorldLook = function() {
     camParams.offsetPos[1] = 16 + Math.sin(GameAPI.getGameTime())*11 + ThreeAPI.terrainAt(cursorObj3d.position)
  //   camParams.offsetPos[2] = Math.cos(GameAPI.getGameTime()*0.3)*22
 
+
 }
 
 let modeHistory = [];
+
+let camCB = function() {
+    cursorObj3d.position.x = navPoint.lookAt[0];
+    cursorObj3d.position.y = navPoint.lookAt[1];
+    cursorObj3d.position.z = navPoint.lookAt[2];
+}
 
 class CameraSpatialCursor {
     constructor() {
@@ -95,8 +114,11 @@ class CameraSpatialCursor {
             console.log(evt, camParams.mode);
         }
 
+
+
         let activePointerUpdate = function(pointer, isFirstPressFrame) {
             if (isFirstPressFrame) {
+                ThreeAPI.copyCameraLookAt(cursorObj3d.position)
                 dragFromVec3.copy(cursorObj3d.position);
             }
             pointerDragVector.x = -pointer.dragDistance[0] * 0.1;
@@ -106,6 +128,13 @@ class CameraSpatialCursor {
             dragToVec3.copy(pointerDragVector)
             dragToVec3.applyQuaternion(cursorObj3d.quaternion);
             dragToVec3.add(cursorObj3d.position)
+
+            navPoint.callback = camCB;
+            navPoint.pos = camParams.pos;
+            navPoint.lookAt[0] = dragToVec3.x //-dragFromVec3.x;
+            navPoint.lookAt[1] = dragToVec3.y //-dragFromVec3.y;
+            navPoint.lookAt[2] = dragToVec3.z //-dragFromVec3.z;
+            evt.dispatch(ENUMS.Event.SET_CAMERA_TARGET, navPoint);
 
         }
 
@@ -169,7 +198,7 @@ class CameraSpatialCursor {
         }
 
         updateCursorFrame();
-        GameAPI.getGameCamera().updatePlayerCamera(camParams)
+
     //    debugDrawCursor();
     }
 
