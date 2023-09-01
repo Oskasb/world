@@ -60,12 +60,12 @@ let updateCursorFrame = function() {
 }
 
 let updateWorldDisplay = function() {
-    cursorObj3d.position.x = Math.sin(GameAPI.getGameTime()*0.045)*420
-    cursorObj3d.position.z = Math.cos(GameAPI.getGameTime()*0.055)*420
+    cursorObj3d.position.x = -885 + Math.sin(GameAPI.getGameTime()*0.15)*11
+    cursorObj3d.position.z = 530 + Math.cos(GameAPI.getGameTime()*0.15)*11
     cursorObj3d.position.y = ThreeAPI.terrainAt(cursorObj3d.position)+2
-    camParams.offsetPos[0] = Math.sin(GameAPI.getGameTime()*0.3)*22
-    camParams.offsetPos[1] = 16 + Math.sin(GameAPI.getGameTime())*11 + ThreeAPI.terrainAt(cursorObj3d.position)
-    camParams.offsetPos[2] = Math.cos(GameAPI.getGameTime()*0.3)*22
+    camParams.offsetPos[0] = Math.sin(GameAPI.getGameTime()*0.15)*55
+    camParams.offsetPos[1] = 35 + Math.sin(GameAPI.getGameTime()*0.4)*12 + cursorObj3d.position.y
+    camParams.offsetPos[2] = Math.cos(GameAPI.getGameTime()*0.18)*55
     GameAPI.getGameCamera().updatePlayerCamera(camParams)
 }
 
