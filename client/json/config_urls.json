@@ -3,7 +3,8 @@
     "files": [
       "/world/world_systems.json"                            ,
       "/threedata/assets/load_assets.json"                   ,
-
+      "/world/locations/location_home.json"                  ,
+      "/world/locations/location_home_pier.json"             ,
       "/world/spawn/spawn_patterns.json"                     ,
       "/world/grid/main_encounter_grids.json"                ,
       "/world/grid/adventure_grids.json"                     ,

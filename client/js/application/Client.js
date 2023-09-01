@@ -63,6 +63,11 @@ class Client {
     getFrame() {
         return frame;
     }
+
+    terrainReady() {
+        GameAPI.initGameWorldModels();
+    }
+
     createScene() {
 
 

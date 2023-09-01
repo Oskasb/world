@@ -12,6 +12,8 @@
       "TEXTURES"
     ],
     "POLL_INDEX":[
+      "/world/locations/location_home.json"                  ,
+      "/world/locations/location_home_pier.json"             ,
       "/threedata/terrain/ground_elements.json"  ,
       "/threedata/shaders/three_shader_programs.json"        ,
       "/threedata/shaders/three_terrain_shader.json"
@@ -100,6 +102,7 @@
       "asset_tree_2",
       "asset_tree_4",
       "asset_vegQuad",
+      "asset_town_house",
       "asset_house_small",
       "asset_box"
 

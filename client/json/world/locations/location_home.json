@@ -1,0 +1,26 @@
+[{
+  "WORLD_LOCATIONS":{
+    "MODELS":[
+      {
+        "id": "home",
+        "data": [
+          {
+            "data_key":"location_data",
+            "config": {
+              "models": [
+                {
+                  "asset": "asset_house_small",
+                  "pos": [-887, 2, 531.6],
+                  "rot": [0, 0, 0],
+                  "scale": [0.002, 0.002, 0.002],
+                  "on_ground": true,
+                  "visibility": 3
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  }
+}]

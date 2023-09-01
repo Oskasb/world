@@ -28,6 +28,7 @@ let gridPosZ = function() {
 
 let activateTerrainSystem = function() {
     ThreeAPI.addPrerenderCallback(threeTerrain.updateThreeTerrainGeometry)
+    client.terrainReady();
 }
 
 class TerrainSystem {

@@ -4,6 +4,8 @@ import { GamePiece } from "./gamepieces/GamePiece.js";
 import { GameMain } from "./GameMain.js";
 import { GameWorldPointer } from "../application/ui/input/GameWorldPointer.js";
 import { GameCamera } from "../3d/camera/GameCamera.js";
+import { WorldModels } from "./gameworld/WorldModels.js";
+
 
 let gameCamera = new GameCamera();
 
@@ -12,11 +14,16 @@ class GameAPI {
         this.activePlayerCharacter = null;
         this.characterComposer = new CharacterComposer();
         this.gameWorldPointer = new GameWorldPointer();
+
     }
 
     initGameMain() {
         this.gameMain = new GameMain();
         this.gameMain.initGameMain();
+    }
+
+    initGameWorldModels() {
+        this.worldModels = new WorldModels();
     }
 
     getPlayerMain() {
