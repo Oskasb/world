@@ -121,9 +121,9 @@
                     "dispatch":{
                       "event":"SET_CAMERA_TARGET",
                       "value":{
-                        "time":0.3,
-                        "pos": [-990, 25, 540],
-                        "lookAt": [-950, 1, 540]
+                        "time":0.5,
+                        "pos": [-911, 8, 507],
+                        "lookAt": [-892, 1, 520]
                       }
                     }
                   }
