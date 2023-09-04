@@ -210,7 +210,26 @@ class ThreeAPI {
     }
 
     terrainAt = function(pos, normalStore) {
-        return terrainSystem.getTerrainHeightAndNormal(pos, normalStore);
+
+        let terrainHeight = terrainSystem.getTerrainHeightAndNormal(pos, normalStore);
+
+        let boxHeight = terrainHeight;
+        if (GameAPI.worldModels) {
+            boxHeight = GameAPI.getWorldModelHeightAtPos(pos, boxHeight);
+        }
+
+
+
+        if (boxHeight > terrainHeight) {
+            if (normalStore) {
+                normalStore.set (0, 1, 0);
+            }
+            return boxHeight
+        } else {
+            return terrainHeight;
+        }
+
+
     };
 
     groundAt = function(pos, dataStore) {

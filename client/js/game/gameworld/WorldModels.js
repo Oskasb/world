@@ -4,8 +4,11 @@ import { WorldModel} from "./WorldModel.js";
 import { WorldBox }from "./WorldBox.js";
 
 let worldModels = [];
+let worldBoxes = [];
 let locationConfigs = [];
 
+let heightTestNear = [];
+let heightIntersects = [];
 
 let initWorldModels = function(config) {
     locationConfigs = [];
@@ -15,6 +18,12 @@ let initWorldModels = function(config) {
 
     while (worldModels.length) {
         let model = worldModels.pop()
+        ThreeAPI.clearTerrainLodUpdateCallback(model.call.lodUpdated)
+        model.removeWorldModel()
+    }
+
+    while (worldBoxes.length) {
+        let model = worldBoxes.pop()
         ThreeAPI.clearTerrainLodUpdateCallback(model.call.lodUpdated)
         model.removeWorldModel()
     }
@@ -32,7 +41,7 @@ let initWorldModels = function(config) {
         for (let i = 0; i < boxes.length;i++) {
             let box = new WorldBox(boxes[i])
             ThreeAPI.registerTerrainLodUpdateCallback(box.getPos(), box.call.lodUpdated)
-            worldModels.push(box);
+            worldBoxes.push(box);
             console.log("Add box:", box)
         }
     }
@@ -60,6 +69,27 @@ class WorldModels {
     constructor() {
         this.configData =  new ConfigData("WORLD_LOCATIONS","MODELS", null, null, null, initWorldModels)
     }
+
+    queryWorldModelHeight = function(posVec3, boxHeight) {
+
+        for (let i = 0; i < worldBoxes.length; i++) {
+            let isNear = worldBoxes[i].testIsNearPosition(posVec3)
+            if (isNear) {
+                heightTestNear.push(worldBoxes[i])
+            }
+        }
+
+        let highestIntersection = -99999;
+
+        while (heightTestNear.length) {
+            let box = heightTestNear.pop();
+            boxHeight = box.testIntersectPosition(posVec3, boxHeight)
+        }
+
+        return boxHeight;
+
+    }
+
 }
 
 export { WorldModels }

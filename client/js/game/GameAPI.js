@@ -26,6 +26,10 @@ class GameAPI {
         this.worldModels = new WorldModels();
     }
 
+    getWorldModelHeightAtPos(posVec3, boxHeight) {
+        return this.worldModels.queryWorldModelHeight(posVec3, boxHeight)
+    }
+
     getPlayerMain() {
         return this.gameMain.playerMain;
     }

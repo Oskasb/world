@@ -83,20 +83,20 @@
               "tiles":[[4, 3]]
             },
             {
-              "id":"add_here",
-              "tiles":[[1, 0]]
+              "id":"wood_plank",
+              "tiles":[[5, 3]]
             },
             {
-              "id":"add_here",
-              "tiles":[[1, 0]]
+              "id":"creative_crate",
+              "tiles":[[0, 6]]
             },
             {
-              "id":"add_here",
-              "tiles":[[1, 0]]
+              "id":"planks_h",
+              "tiles":[[4, 5]]
             },
             {
-              "id":"add_here",
-              "tiles":[[1, 0]]
+              "id":"planks_v",
+              "tiles":[[3, 5]]
             },
             {
               "id":"add_here",

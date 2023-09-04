@@ -1,4 +1,5 @@
 import {Object3D} from "../../../libs/three/core/Object3D.js";
+import {Vector3} from "../../../libs/three/math/Vector3.js";
 
 let iconKeysAll = [
     "grass",
@@ -51,11 +52,17 @@ class WorldBox {
 
         MATH.vec3FromArray(this.obj3d.scale, this.config.scale)
 
+        this.sizeXYZ = new Vector3();
+        this.sizeXYZ.copy(this.obj3d.scale);
+        this.sizeXYZ.multiplyScalar(50);
+        this.size = this.sizeXYZ.length();
+
         this.obj3d.rotateX(this.config.rot[0]);
         this.obj3d.rotateY(this.config.rot[1]);
         this.obj3d.rotateZ(this.config.rot[2]);
 
         this.isVisible = false;
+
 
         let lodUpdated = function(lodLevel) {
             if (lodLevel !== -1 && lodLevel < config['visibility']) {
@@ -75,6 +82,33 @@ class WorldBox {
 
         this.instance = null;
     }
+
+
+    testIsNearPosition(vec3) {
+
+        if (this.isVisible) {
+            if (Math.abs(vec3.x - this.obj3d.position.x) < this.size) {
+                if (Math.abs(vec3.z - this.obj3d.position.z) < this.size) {
+                    return true
+                }
+            }
+        }
+
+    };
+
+    testIntersectPosition(vec3, boxHeight) {
+
+        if (boxHeight > this.obj3d.position.y + this.sizeXYZ.y) {
+
+        } else if (Math.abs(vec3.x - this.obj3d.position.x) < this.sizeXYZ.x ) {
+            if (Math.abs(vec3.z - this.obj3d.position.z) < this.sizeXYZ.z ) {
+                boxHeight = this.obj3d.position.y + this.sizeXYZ.y
+            }
+        }
+
+        return boxHeight
+    }
+
 
     getPos() {
         return this.obj3d.position;
