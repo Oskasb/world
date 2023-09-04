@@ -15,6 +15,7 @@
       "/world/locations/location_home.json"                  ,
       "/world/locations/location_home_pier.json"             ,
       "/world/locations/location_delta_fork.json"            ,
+      "/world/locations/location_exit_bridge.json"            ,
       "/threedata/terrain/ground_elements.json"  ,
       "/threedata/shaders/three_shader_programs.json"        ,
       "/threedata/shaders/three_terrain_shader.json"
