@@ -2,9 +2,11 @@ import {ConfigData} from "../../application/utils/ConfigData.js";
 import * as ScenarioUtils from "../gameworld/ScenarioUtils.js";
 class EncounterGrid {
     constructor() {
+
         this.gridTiles = [];
         this.instances = [];
         this.configData = new ConfigData("GRID", "ENCOUNTER_GRIDS",  'grid_main_data', 'data_key', 'config')
+
     }
 
     initEncounterGrid(scenarioGridConfig) {

@@ -75,7 +75,9 @@ if(typeof(ENUMS) === "undefined"){
         SWITCH_GUI_PAGE:            55,
         SET_COMPANION_AS_LEADER:    57,
         ACTIVATE_NAV_POINTS:        58,
-        SET_CAMERA_MODE:            59
+        SET_CAMERA_MODE:            59,
+        GAME_MODE_WALK:             60,
+        GAME_MODE_BATTLE:           61
     };
 
     ENUMS.Args = {

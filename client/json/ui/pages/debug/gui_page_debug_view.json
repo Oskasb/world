@@ -102,7 +102,7 @@
                     "text":"LOOK",
                     "container_id":"page_debug_bottom_right",
                     "offset_x": -0.05,
-                    "offset_y": 0.05,
+                    "offset_y": 0.04,
                     "dispatch":{
                       "event":"SET_CAMERA_MODE",
                       "value":{"mode":"world_viewer"}
@@ -117,13 +117,47 @@
                     "text":"HOME",
                     "container_id":"page_debug_bottom_right",
                     "offset_x": -0.05,
-                    "offset_y": 0.13,
+                    "offset_y": 0.08,
                     "dispatch":{
                       "event":"SET_CAMERA_TARGET",
                       "value":{
                         "time":0.5,
                         "pos": [-911, 8, 507],
                         "lookAt": [-892, 1, 520]
+                      }
+                    }
+                  }
+                },
+                {
+                  "widget_id":"button_game_walk",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"button_big_blue",
+                  "options":{
+                    "text":"WALK",
+                    "container_id":"page_debug_bottom_right",
+                    "offset_x": -0.05,
+                    "offset_y": 0.12,
+                    "dispatch":{
+                      "event":"GAME_MODE_WALK",
+                      "value":{
+                        "data_id": "grid_walk_world"
+                      }
+                    }
+                  }
+                },
+                {
+                  "widget_id":"button_game_battle",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"button_big_blue",
+                  "options":{
+                    "text":"BATTLE",
+                    "container_id":"page_debug_bottom_right",
+                    "offset_x": -0.05,
+                    "offset_y": 0.16,
+                    "dispatch":{
+                      "event":"GAME_MODE_BATTLE",
+                      "value":{
+
                       }
                     }
                   }

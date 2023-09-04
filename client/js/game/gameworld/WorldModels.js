@@ -14,8 +14,6 @@ let initWorldModels = function(config) {
     locationConfigs = [];
     console.log("World Models; ", config);
 
-
-
     while (worldModels.length) {
         let model = worldModels.pop()
         ThreeAPI.clearTerrainLodUpdateCallback(model.call.lodUpdated)
@@ -42,12 +40,11 @@ let initWorldModels = function(config) {
             let box = new WorldBox(boxes[i])
             ThreeAPI.registerTerrainLodUpdateCallback(box.getPos(), box.call.lodUpdated)
             worldBoxes.push(box);
-            console.log("Add box:", box)
+         //   console.log("Add box:", box)
         }
     }
 
     let locationData = function(data) {
-        console.log(data);
         for (let i = 0; i < data.length;i++) {
             if (data[i].config['models']) {
                 modelsData(data[i].config.models);
@@ -61,7 +58,6 @@ let initWorldModels = function(config) {
     for (let i = 0; i < config.length;i++) {
         locationData(config[i].data);
     }
-    console.log(worldModels)
 
 }
 

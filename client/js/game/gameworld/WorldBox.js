@@ -115,7 +115,7 @@ class WorldBox {
     }
 
     showWorldModel() {
-        console.log("Show Box ", this.isVisible, this)
+     //   console.log("Show Box ", this.isVisible, this)
         if (this.isVisible) {
             return;
         }
@@ -140,7 +140,7 @@ class WorldBox {
     }
 
     removeWorldModel() {
-        console.log("Remove Model ", this.isVisible, this)
+    //    console.log("Remove Model ", this.isVisible, this)
         if (!this.isVisible) {
             return;
         }

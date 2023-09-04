@@ -592,11 +592,11 @@ class ThreeTerrain {
         //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:posVec, color:'GREEN', size:0.3});
             normVec.add(posVec);
         //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:posVec, to:normVec, color:'AQUA'});
-
+/*
             for (let i = 0; i < 20; i++) {
                 debugDrawNearby(i);
             }
-
+*/
             drawNearbyTerrain();
 
             while (visibleGeoTiles.length) {

@@ -253,7 +253,10 @@ class ConfigCache {
             this.categories[category].subscription[key] = [];
         }
 
-        this.categories[category].subscription[key].push(callback);
+
+        if (this.categories[category].subscription[key].indexOf(callback) === -1) {
+            this.categories[category].subscription[key].push(callback);
+        }
 
     };
 

@@ -8,7 +8,7 @@ class WorldModel {
 
         if (config['on_ground']) {
             this.obj3d.position.y = ThreeAPI.terrainAt(this.obj3d.position);
-            console.log("Stick to ground", this.obj3d.position.y)
+        //    console.log("Stick to ground", this.obj3d.position.y)
         }
 
         MATH.vec3FromArray(this.obj3d.scale, this.config.scale)
@@ -43,7 +43,7 @@ class WorldModel {
     }
 
     showWorldModel() {
-        console.log("Show Model ", this.isVisible, this)
+    //    console.log("Show Model ", this.isVisible, this)
         if (this.isVisible) {
             return;
         }
@@ -69,7 +69,7 @@ class WorldModel {
     }
 
     removeWorldModel() {
-        console.log("Remove Model ", this.isVisible, this)
+    //    console.log("Remove Model ", this.isVisible, this)
         if (!this.isVisible) {
             return;
         }

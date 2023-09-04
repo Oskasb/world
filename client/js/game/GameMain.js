@@ -4,9 +4,10 @@ import { GameWorld } from "./gameworld/GameWorld.js";
 import { PlayerMain } from "./Player/PlayerMain.js";
 import { CharacterComposer } from "./Player/CharacterComposer.js";
 import { Vector3 } from "../../libs/three/math/Vector3.js";
+import { GameWalkGrid } from "./gameworld/GameWalkGrid.js";
 
 let tempVec3 = new Vector3()
-
+let gameWalkGrid = new GameWalkGrid();
 
 class GameMain {
     constructor() {
@@ -76,7 +77,19 @@ class GameMain {
 
         }.bind(this)
 
+        let activateGameWalkGrid = function(event) {
+        //    console.log("Activate Walk Grid", event)
+            gameWalkGrid.activateWalkGrid(event)
+        }.bind(this)
+
+        let activateGameBattleMode = function(event) {
+            console.log("Activate battle mode", event)
+            gameWalkGrid.deactivateWalkGrid(event)
+        };
+
         this.call = {
+            activateGameBattleMode:activateGameBattleMode,
+            activateGameWalkGrid:activateGameWalkGrid,
             setActiveNavPointGroup:setActiveNavPointGroup,
             renderActiveNavPointGroup:renderActiveNavPointGroup
         }

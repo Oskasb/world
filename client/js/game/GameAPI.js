@@ -14,11 +14,26 @@ class GameAPI {
         this.activePlayerCharacter = null;
         this.characterComposer = new CharacterComposer();
         this.gameWorldPointer = new GameWorldPointer();
+        this.gameMain = new GameMain();
+
+        let activateWalkGrid = function(event) {
+            this.gameMain.call.activateGameWalkGrid(event)
+        }.bind(this);
+
+        let activateBattleMode = function(event) {
+            this.gameMain.call.activateGameBattleMode(event)
+        }.bind(this);
+
+        this.call = {
+            activateWalkGrid:activateWalkGrid,
+            activateBattleMode:activateBattleMode
+        }
 
     }
 
+
     initGameMain() {
-        this.gameMain = new GameMain();
+
         this.gameMain.initGameMain();
     }
 
