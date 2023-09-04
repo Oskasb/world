@@ -75,7 +75,7 @@ class ThreeAPI {
         this.renderer = store.renderer;
         this.reflectionScene = store.reflectionScene;
 
-        const camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.3, 11000 );
+        const camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.3, 8000 );
         this.setCamera(camera);
         PipelineAPI.setCategoryKeyValue('SYSTEM', 'CAMERA', camera);
         store.camera = camera;
@@ -200,6 +200,14 @@ class ThreeAPI {
     plantVegetationAt = function(pos, normalStore) {
         return this.threeModelLoader.terrainVegetationAt(pos, normalStore);
     };
+
+    clearTerrainLodUpdateCallback(callback) {
+        terrainSystem.clearLodUpdates(callback)
+    }
+
+    registerTerrainLodUpdateCallback(pos, callback) {
+        terrainSystem.registerLodUpdateCB(pos, callback)
+    }
 
     terrainAt = function(pos, normalStore) {
         return terrainSystem.getTerrainHeightAndNormal(pos, normalStore);

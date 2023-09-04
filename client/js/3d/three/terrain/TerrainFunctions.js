@@ -236,17 +236,17 @@ let getHeightAt = function(pos, array1d, terrainSize, segments, normalStore, ter
     let htN = - htP;
 
     if (pos.x < htN || pos.z < htN) {
-        console.log("Terrain!", pos.x, pos.z, htP, htN ,"Is Outside WORKER");
+    //    console.log("Terrain!", pos.x, pos.z, htP, htN ,"Is Outside WORKER");
         GuiAPI.printDebugText("Is Outside Terrain at "+pos.x < htN+" "+pos.z < htN)
-        return false;
+    //    return false;
         pos.x = MATH.clamp(pos.x, htN, htP);
         pos.z = MATH.clamp(pos.z, htN, htP);
     }
 
     if (pos.x > htP  || pos.z > htP) {
-        console.log("Terrain!", pos.x, pos.z, htP, htN ,"Is Outside WORKER");
-        GuiAPI.printDebugText("Is Outside Terrain at "+pos.x > htP+" "+ pos.z > htP)
-        return false;
+    //    console.log("Terrain!", pos.x, pos.z, htP, htN ,"Is Outside WORKER");
+     GuiAPI.printDebugText("Is Outside Terrain at "+pos.x > htP+" "+ pos.z > htP)
+        //     return false;
         pos.x = MATH.clamp(pos.x, htN, htP);
         pos.z = MATH.clamp(pos.z, htN, htP);
     }

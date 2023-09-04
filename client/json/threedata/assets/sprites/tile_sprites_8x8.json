@@ -75,6 +75,30 @@
               "tiles":[[3, 4]]
             },
             {
+              "id":"wood_solid",
+              "tiles":[[4, 4]]
+            },
+            {
+              "id":"wood_chunk",
+              "tiles":[[4, 3]]
+            },
+            {
+              "id":"add_here",
+              "tiles":[[1, 0]]
+            },
+            {
+              "id":"add_here",
+              "tiles":[[1, 0]]
+            },
+            {
+              "id":"add_here",
+              "tiles":[[1, 0]]
+            },
+            {
+              "id":"add_here",
+              "tiles":[[1, 0]]
+            },
+            {
               "id":"add_here",
               "tiles":[[1, 0]]
             }

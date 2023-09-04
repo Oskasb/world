@@ -1,6 +1,44 @@
 import {Object3D} from "../../../libs/three/core/Object3D.js";
 
-class WorldModel {
+let iconKeysAll = [
+    "grass",
+    "mud",
+    "gravel",
+    "sand_pink",
+    "rock",
+    "marsh",
+    "rock_layers",
+    "rock_purple",
+    "rock_stripes",
+    "rock_hard",
+    "rock_rusty",
+    "sand",
+    "rock_grey",
+    "rock_blue",
+    "sand_cracked"
+];
+
+
+
+function setupBoxInstance(worldBox) {
+
+    let iconSprites = GuiAPI.getUiSprites("box_tiles_8x8");
+    let iconKey = 'rock_hard';
+
+            let iconSprite = iconSprites[iconKey];
+
+            let addSceneBox = function(instance) {
+                instance.setActive(ENUMS.InstanceState.ACTIVE_VISIBLE);
+                instance.spatial.stickToObj3D(worldBox.obj3d);
+                instance.setSprite(iconSprite);
+                ThreeAPI.getScene().remove(instance.spatial.obj3d)
+            };
+
+            client.dynamicMain.requestAssetInstance('asset_box', addSceneBox)
+
+}
+
+class WorldBox {
     constructor(config) {
         this.config = config;
         this.obj3d = new Object3D();
@@ -8,7 +46,7 @@ class WorldModel {
 
         if (config['on_ground']) {
             this.obj3d.position.y = ThreeAPI.terrainAt(this.obj3d.position);
-            console.log("Stick to ground", this.obj3d.position.y)
+        //    console.log("Stick to ground", this.obj3d.position.y)
         }
 
         MATH.vec3FromArray(this.obj3d.scale, this.config.scale)
@@ -43,28 +81,27 @@ class WorldModel {
     }
 
     showWorldModel() {
-        console.log("Show Model ", this.isVisible, this)
+        console.log("Show Box ", this.isVisible, this)
         if (this.isVisible) {
             return;
         }
 
         let config = this.config;
 
-        let addModelInstance = function(instance) {
+        let iconSprites = GuiAPI.getUiSprites("box_tiles_8x8");
+        let iconKey = config['sprite'] || "rock_hard";
 
-            ThreeAPI.getScene().remove(instance.spatial.obj3d)
-            //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ThreeAPI.getCameraCursor().getPos(), to:this.obj3d.position, color:'YELLOW'});
-        //    this.callbacks.setInstance(instance)
-            //    console.log(instance.getGeometryInstance().instancingBuffers);
-            //    this.applyPlantConfig(this.config);
-        //    this.applyInstanceAttributes(instance);
+        let iconSprite = iconSprites[iconKey];
+
+        let addSceneBox = function(instance) {
+            instance.setActive(ENUMS.InstanceState.ACTIVE_VISIBLE);
             instance.spatial.stickToObj3D(this.obj3d);
+            instance.setSprite(iconSprite);
+            ThreeAPI.getScene().remove(instance.spatial.obj3d)
             this.instance = instance;
-        }.bind(this)
+        }.bind(this);
 
-        //    this.poolKey = "asset_box";
-
-        client.dynamicMain.requestAssetInstance(this.config.asset, addModelInstance)
+        client.dynamicMain.requestAssetInstance('asset_box', addSceneBox)
 
     }
 
@@ -78,4 +115,4 @@ class WorldModel {
 
 }
 
-export { WorldModel }
+export { WorldBox }

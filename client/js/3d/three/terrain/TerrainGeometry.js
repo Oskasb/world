@@ -1,4 +1,5 @@
 import {Sphere} from "../../../../libs/three/math/Sphere.js";
+import {Vector3} from "../../../../libs/three/math/Vector3.js";
 import {TerrainElementModel} from "./TerrainElementModel.js";
 import {TerrainSectionInfo} from "./TerrainSectionInfo.js";
 
@@ -134,11 +135,16 @@ class TerrainGeometry{
         this.isActive = false;
         this.wasVisible = false;
         this.isVisible = false;
-        this.boundingSphere = new Sphere(this.obj3d.position, this.size*1.15)
+        let boundCenter = new Vector3();
+        boundCenter.copy(this.obj3d.position)
+        this.boundingSphere = new Sphere(boundCenter, this.size*1.25)
+        this.boundingSphere.center.y = ThreeAPI.terrainAt(this.obj3d.position)+5;
         this.updateFrame = 0;
         this.neighborsUpdatedFrame = 0;
 
         this.levelOfDetail = -1;
+
+        this.lodUpdateCallbaks = [];
 
         let vegetationGrid = null;
 
@@ -204,6 +210,16 @@ class TerrainGeometry{
         }
     }
 
+
+    addLodUpdateCallback = function(cb) {
+        this.lodUpdateCallbaks.push(cb)
+        cb(this.levelOfDetail);
+    }
+
+    removeLodUpdateCallback = function(cb) {
+        MATH.quickSplice(this.lodUpdateCallbaks, cb)
+    }
+
     getExtentsMinMax(storeMin, storeMax) {
         storeMin.copy(this.obj3d.position);
         storeMin.x -= this.size*0.5;
@@ -216,6 +232,8 @@ class TerrainGeometry{
     applyLodLevelChange() {
         this.terrainSectionInfo.applyLodLevel(this.levelOfDetail, maxLodLevel);
         this.terrainElementModels.applyLevelOfDetail(this.levelOfDetail, this.terrainSectionInfo);
+
+        MATH.callAll(this.lodUpdateCallbaks, this.levelOfDetail);
 
         if (this.levelOfDetail !== -1) {
             if (this.vegActive === false) {
@@ -355,6 +373,11 @@ class TerrainGeometry{
         return this.size * 2;
     }
 
+
+    updateVisibility() {
+
+    }
+
     updateTerrainGeometry(visibleGeoTiles, geoBeneathPlayer, tileUpdateCB, frame) {
 
         if (this.updateFrame === frame) {
@@ -366,6 +389,8 @@ class TerrainGeometry{
 
         let centerGridX = geoBeneathPlayer.gridX;
         let centerGridY = geoBeneathPlayer.gridY;
+
+
         this.wasVisible = this.isVisible;
         this.isVisible = ThreeAPI.testSphereIsVisible(this.boundingSphere);
 

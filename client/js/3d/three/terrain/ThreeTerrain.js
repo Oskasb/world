@@ -6,6 +6,8 @@ import {TerrainGeometry} from "./TerrainGeometry.js";
 import {Vegetation} from "./vegetation/Vegetation.js";
 import * as TerrainFunctions from "./TerrainFunctions.js";
 
+let scrubIndex = 0;
+
 let vegetation = new Vegetation();
 let terrainList = {};
 let terrainIndex = {};
@@ -411,6 +413,25 @@ let drawNearbyTerrain = function() {
 
 }
 
+let scrubTerrainForError = function() {
+    let countX = terrainGeometries.length;
+    let countY = terrainGeometries[0].length;
+    let gridY = scrubIndex % countY;
+    let gridX = Math.floor(scrubIndex / countY) % countX;
+//    console.log("Scrub terrain:", gridX, gridY)
+    let geoTile = terrainGeometries[gridX][gridY];
+    let wasVis = geoTile.isVisible;
+    geoTile.updateTerrainGeometry(visibleGeoTiles, geoBeneathPlayer, geoTileUpdateCallback, updateFrame+0.5)
+    let isVis = geoTile.isVisible;
+
+    /*
+    if (isVis !== wasVis) {
+        console.log("Scrub found failed tile visibility check",  wasVis, isVis, geoTile);
+    }
+*/
+    scrubIndex++;
+}
+
 let getHeightAndNormal = function(pos, normal) {
     return getThreeTerrainHeightAt(geoBeneathPlayer, pos, normal)
 }
@@ -423,13 +444,29 @@ let shadeTerrainDataCanvas = function(pos, size) {
     shadeThreeTerrainDataAt(geoBeneathPlayer, pos, size)
 }
 
+
+let subscribeToLodUpdate = function(pos, callback) {
+    let geoTile = getTerrainGeoAtPos(pos);
+    geoTile.addLodUpdateCallback(callback);
+}
+
+let removeLodUpdateCB = function(callback) {
+    for (let i = 0; i < terrainGeometries.length; i++) {
+        for (let j = 0; j < terrainGeometries[i].length;j++) {
+            terrainGeometries[i][j].removeLodUpdateCallback(callback);
+        }
+    }
+}
+
 class ThreeTerrain {
     constructor() {
 
         this.call = {
             getHeightAndNormal:getHeightAndNormal,
             getTerrainData:getTerrainData,
-            shadeTerrainDataCanvas:shadeTerrainDataCanvas
+            shadeTerrainDataCanvas:shadeTerrainDataCanvas,
+            subscribeToLodUpdate:subscribeToLodUpdate,
+            removeLodUpdateCB:removeLodUpdateCB
         }
     }
 
@@ -529,7 +566,9 @@ class ThreeTerrain {
 
         updateFrame = GameAPI.getFrame().frame;
 
+        let visibleCount = visibleGeoTiles.length;
 
+        scrubTerrainForError();
 
     //    if (GameAPI.gameMain.getPlayerCharacter()) {
             let cursorPos = ThreeAPI.getCameraCursor().getPos();
@@ -573,7 +612,15 @@ class ThreeTerrain {
                 visibleGeoTiles.push(tile);
             }
 
+        /*
+        if (visibleGeoTiles.length !== visibleCount) {
+            console.log("Change visible geoTile count to:", visibleGeoTiles.length, "change:", visibleGeoTiles.length-visibleCount);
         }
+        */
+
+        }
+
+
 
    // }
 }

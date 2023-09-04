@@ -62,7 +62,13 @@ class TerrainSystem {
         threeTerrain.call.shadeTerrainDataCanvas(pos, size);
     }
 
+    registerLodUpdateCB = function(pos, callback) {
+        threeTerrain.call.subscribeToLodUpdate(pos, callback);
+    }
 
+    clearLodUpdates = function(callback) {
+        threeTerrain.call.removeLodUpdateCB(callback);
+    }
 
 }
 
