@@ -26,7 +26,9 @@ class DynamicTile {
             //    efct.setEffectQuaternion(tempObj.quaternion);
 
             //    if (typeof (tileX) === 'number' && typeof(tileY) === 'number') {
-            efct.setEffectSpriteXY(1, 1);
+        //    efct.setEffectSize()
+            efct.setEffectSpriteXY(7, 1);
+            efct.scaleEffectSize(0.8)
             //    }
 
             //    gamePiece.addPieceUpdateCallback(this.call.updateIndicator)
@@ -40,15 +42,65 @@ class DynamicTile {
     setTileIndex = function(indexX, indexY) {
         this.obj3d.position.x = indexX;
         this.obj3d.position.z = indexY;
-        this.obj3d.position.y = ThreeAPI.terrainAt(this.obj3d.position, this.groundNormal);
+        let height = ThreeAPI.terrainAt(this.obj3d.position, this.groundNormal);
+        this.obj3d.position.y = height;
         let pos = this.obj3d.position;
         ThreeAPI.groundAt(pos, this.groundData)
 
-        this.obj3d.position.y += 0.1 + 0.75 * Math.max(Math.abs(Math.sin(this.groundNormal.x)) , Math.abs(Math.sin(this.groundNormal.z)));
+        let slope = Math.sin(Math.max(Math.abs(this.groundNormal.x) , Math.abs(this.groundNormal.z)))
 
+        this.obj3d.position.y += 0.1 + 0.75 * slope;
 
+        let spriteX = 7;
+        let spriteY = 1;
+        let r = 0;
+        let g = 1;
+        let b = 0;
+        let a = 1;
+
+        if (slope < 0.3) {
+
+        } else {
+            spriteX = 6;
+            spriteY = 2;
+            r = 1;
+            g = 0;
+            b = 0;
+            a = 0.2;
+        }
+
+        if (height < 0.1) {
+            spriteX = 6;
+            spriteY = 2;
+            r = 0;
+            g = 0;
+            b = 1;
+            a = 0.4;
+        }
+
+        if (this.groundData.y > 0.2) {
+            r = 0.3;
+            g = 0.6;
+            b = 0;
+        }
+
+        if (this.groundData.y > 0.6) {
+            spriteX = 6;
+            spriteY = 2;
+            r = 0.;
+            g = 0.3;
+            b = 0;
+            a = 0.4;
+        }
+
+        if (this.groundData.z > 0.05) {
+            b = 1;
+        }
+
+        this.tileEffect.setEffectSpriteXY(spriteX, spriteY);
+        this.tileEffect.setEffectColorRGBA(CombatFxUtils.setRgba(r, g, b, a))
         this.tileEffect.setEffectPosition(pos)
-        this.tileEffect.setEffectColorRGBA(CombatFxUtils.setRgba(this.groundData.x, this.groundData.y, this.groundData.z, Math.sin(this.groundNormal.y*this.groundNormal.y)))
+
 
     }
 
