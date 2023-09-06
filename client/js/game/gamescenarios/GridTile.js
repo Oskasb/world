@@ -14,6 +14,11 @@ class GridTile {
         this.tileIndicator = new TileIndicator(this);
     }
 
+    setTileXZ(x, z) {
+        this.tileX = tileX;
+        this.tileZ = tileZ;
+    }
+
     indicateTileStatus(bool) {
         if (bool) {
             this.tileIndicator.activateTileIndicator();

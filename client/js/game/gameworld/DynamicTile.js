@@ -2,13 +2,16 @@ import { Vector3 } from "../../../libs/three/math/Vector3.js";
 import {Object3D} from "../../../libs/three/core/Object3D.js";
 import * as CombatFxOptions from "../combat/feedback/CombatFxOptions.js";
 import * as CombatFxUtils from "../combat/feedback/CombatFxUtils.js";
+import {GridTile} from "../gamescenarios/GridTile.js";
 
 let up = new Vector3(0, 1, 0)
 let tempObj = new Object3D();
 class DynamicTile {
     constructor() {
+
         this.obj3d = new Object3D();
         this.obj3d.lookAt(up);
+        this.gridTile = new GridTile(0, 0, 1, 0.1, this.obj3d)
         this.groundNormal = new Vector3();
         this.groundData = {x:0, y:0, z:0, w:0};
 
@@ -41,6 +44,7 @@ class DynamicTile {
     }
 
     setTileIndex = function(indexX, indexY) {
+        this.gridTile.setTileXZ(indexX, indexY);
         this.obj3d.position.x = indexX;
         this.obj3d.position.z = indexY;
         let height = ThreeAPI.terrainAt(this.obj3d.position, this.groundNormal);
@@ -61,7 +65,7 @@ class DynamicTile {
             r = 0;
             g = 0;
             b = 1;
-            a = 0.4;
+            a = 1;
         } else {
             this.obj3d.position.y = height;
 
@@ -78,28 +82,36 @@ class DynamicTile {
             if (slope > 0.65) {
                 spriteX = 6;
                 spriteY = 2;
-                r = 1;
+                r = 0.2;
                 g = 0;
                 b = 0;
-                a = 0.2;
+                a = 1;
             } else {
 
                 if (this.groundData.y > 0.2) {
-                    r = 0.3;
-                    g = 0.6;
+                    r = 0.0;
+                    g = 0.3;
                     b = 0;
                 }
-
-                if (this.groundData.y > 0.6) {
+                if (this.groundData.y > 0.35) {
+                    r = 0.6;
+                    g = 0.2;
+                    b = 0;
+                    spriteX = 6;
+                    spriteY = 3;
+                }
+                if (this.groundData.y > 0.52) {
                     spriteX = 6;
                     spriteY = 2;
                     r = 0.;
-                    g = 0.3;
+                    g = 0.2;
                     b = 0;
-                    a = 0.4;
+                    a = 0.2;
                 }
 
                 if (this.groundData.z > 0.05) {
+                    r = 0.2;
+                    g = 0.2;
                     b = 1;
                 }
 
