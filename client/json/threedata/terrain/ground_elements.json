@@ -10,9 +10,9 @@
               "config": {
                 "lod_map": [
                   [],
-                  [{"y": 0.4 , "asset":"asset_tree_1", "shade": 3}],
-                  [{"y": 0.5 , "asset":"asset_tree_2", "shade": 4}],
-                  [{"y": 0.6 , "asset":"asset_tree_3", "shade": 6}],
+                  [{"y": 0.55 , "asset":"asset_tree_1", "shade": 3}],
+                  [{"y": 0.6 , "asset":"asset_tree_2", "shade": 4}],
+                  [{"y": 0.66 , "asset":"asset_tree_3", "shade": 6}],
                   [{"y": 0.6 , "asset":"asset_tree_4", "shade": 8}],
                   [{"y": 0.7 , "asset":"asset_tree_5", "shade": 12}]
                 ],

@@ -55,6 +55,8 @@ class WorldBox {
         this.sizeXYZ = new Vector3();
         this.sizeXYZ.copy(this.obj3d.scale);
         this.sizeXYZ.multiplyScalar(50);
+        this.sizeXYZ.x += 0.1;
+        this.sizeXYZ.z += 0.1;
         this.size = this.sizeXYZ.length();
 
         this.obj3d.rotateX(this.config.rot[0]);
