@@ -1,11 +1,13 @@
 import {ConfigData} from "../../application/utils/ConfigData.js";
-import { Vector3 } from "../../../libs/three/math/Vector3.js";
-import { Object3D } from "../../../libs/three/core/Object3D.js";
+import { DynamicGrid} from "./DynamicGrid.js";
+
+let centerTileIndexX = 0;
+let centerTileIndexY = 0;
 
 class GameWalkGrid {
     constructor() {
+        this.dynamicGrid = new DynamicGrid();
         this.isActive = false;
-        this.gridTiles = [];
 
         this.dataId = null;
 
@@ -13,8 +15,6 @@ class GameWalkGrid {
         this.configData = new ConfigData("GRID", "WALK_GRID",  'walk_grid_data', 'data_key', 'config')
 
         this.config = null;
-
-        this.cursorTileCenter = new Vector3()
 
         let configUpdate = function(config, updateCount) {
             console.log("Update Count: ", updateCount, config)
@@ -38,7 +38,6 @@ class GameWalkGrid {
             configUpdate:configUpdate,
             updateWalkGrid:updateWalkGrid
         }
-
     }
 
     activateWalkGrid = function(event) {
@@ -51,31 +50,37 @@ class GameWalkGrid {
                 this.configData.parseConfig(event['data_id'], this.call.configUpdate)
                 this.dataId = event['data_id'];
             }
+
             this.isActive = true;
+
+            let dispatches = this.config['dispatch']
+            if (typeof(dispatches) ===  'object') {
+                for (let i = 0; i < dispatches.length; i++) {
+                    evt.dispatch(ENUMS.Event[dispatches[i]['event']], dispatches[i]['value'])
+                }
+            }
+
+            this.dynamicGrid.activateDynamicGrid(this.config['grid'])
             GameAPI.registerGameUpdateCallback(this.call.updateWalkGrid);
         }
 
     }
 
-
-
-
     updateWalkGrid = function() {
         let cursorPos = ThreeAPI.getCameraCursor().getPos();
-        let offset = 0.5 // this.config['tile_spacing'] * 0.5
-        this.cursorTileCenter.set(Math.floor(cursorPos.x + offset), 0, Math.floor(cursorPos.z + offset) )
-        this.cursorTileCenter.y = ThreeAPI.terrainAt(this.cursorTileCenter);
-        evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:this.cursorTileCenter, color:'WHITE', size:this.config['tile_size']});
-
-
+        let offset = this.config['grid']['tile_spacing'] * 0.5
+        centerTileIndexX = Math.floor(cursorPos.x + offset)
+        centerTileIndexY = Math.floor(cursorPos.z + offset)
+        this.dynamicGrid.updateDynamicGrid(centerTileIndexX, centerTileIndexY);
     }
 
     deactivateWalkGrid() {
         console.log("Deactivate Walk Grid:", this)
+        this.dynamicGrid.deactivateDynamicGrid();
         GameAPI.unregisterGameUpdateCallback(this.call.updateWalkGrid);
         this.isActive = false;
     }
 
 }
 
-export {GameWalkGrid}
+export { GameWalkGrid }

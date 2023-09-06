@@ -7,12 +7,27 @@
           {
             "data_key":"walk_grid_data",
             "config": {
+
               "INFO": {},
-              "elevation": 0.02,
-              "tile_spacing:": 1.0,
-              "tile_size": 0.9,
-              "step_height": 0.2,
-              "tile_range": 5
+
+              "grid": {
+
+                "elevation": 0.02,
+                "tile_spacing": 1.0,
+                "tile_size": 0.9,
+                "step_height": 0.2,
+                "tile_range": 15
+
+              },
+
+              "dispatch": [
+
+                {
+                  "event":"SET_CAMERA_MODE",
+                  "value":{"mode":"game_travel"}
+                }
+
+              ]
             }
           }
         ]

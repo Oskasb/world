@@ -102,6 +102,7 @@ class GameWorldPointer {
         }
     }
     worldPointerReleased = function(pointer) {
+        ThreeAPI.getCameraCursor().call.activePointerUpdate(pointer, false, true);
         return
         let call = this.call;
         //    if (typeof(this.selectionEvent.isOpen) === 'object') {
