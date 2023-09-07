@@ -211,10 +211,28 @@ let updateWalkCamera = function() {
     //   camParams.offsetLookAt[0] = pointerDragVector.x
     //   camParams.offsetLookAt[2] = pointerDragVector.yz
 
-    cursorObj3d.position.y = ThreeAPI.terrainAt(cursorObj3d.position)+2
+    cursorObj3d.position.y = ThreeAPI.terrainAt(cursorObj3d.position)
     //   camParams.offsetPos[0] = Math.sin(GameAPI.getGameTime()*0.3)*22
     camParams.offsetPos[1] = height + cursorObj3d.position.y
     //   camParams.offsetPos[2] = Math.cos(GameAPI.getGameTime()*0.3)*22
+    let tpf = GameAPI.getFrame().tpf
+
+    if (tilePath) {
+        if (tilePath.pathTiles.length) {
+            //    navPoint.callback = camCB;
+            //
+            // cursorObj3d.position.copy(tilePath.pathTiles[tilePath.pathTiles.length-1].getPos());
+            //    updateWorldLook();
+            //    updateCursorFrame();
+            let endPos = tilePath.pathTiles[tilePath.pathTiles.length-1].getPos()
+            camLookAtVec.lerp(endPos, tpf)
+            calcVec.subVectors(endPos , tilePath.pathTiles[0].getPos() )
+            calcVec.multiplyScalar(-2);
+            calcVec.y = 5;
+            calcVec.add(cursorObj3d.position)
+            camPosVec.lerp(calcVec, tpf);
+        }
+    }
 
 
 }
