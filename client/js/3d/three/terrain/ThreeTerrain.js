@@ -424,11 +424,17 @@ let scrubTerrainForError = function() {
     geoTile.updateTerrainGeometry(visibleGeoTiles, geoBeneathPlayer, geoTileUpdateCallback, updateFrame+0.5)
     let isVis = geoTile.isVisible;
 
-    /*
-    if (isVis !== wasVis) {
-        console.log("Scrub found failed tile visibility check",  wasVis, isVis, geoTile);
-    }
-*/
+
+   // if (isVis !== wasVis) {
+        if (isVis) {
+            geoTile.detachGeometryInstance();
+            geoTile.attachGeometryInstance(null, geoTile.levelOfDetail);
+        } else {
+            geoTile.detachGeometryInstance();
+        }
+        // console.log("Scrub found failed tile visibility check",  wasVis, isVis, geoTile);
+   // }
+
     scrubIndex++;
 }
 

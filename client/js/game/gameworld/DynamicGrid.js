@@ -1,5 +1,6 @@
 import {DynamicTile} from "./DynamicTile.js";
 import { Vector3 } from "../../../libs/three/math/Vector3.js";
+import * as ScenarioUtils from "./ScenarioUtils.js";
 
 let moveCenterTileTo = function(dynamicGrid, centerTileIndexX, centerTileIndexY) {
     dynamicGrid.moveX = centerTileIndexX - dynamicGrid.centerTileIndexX;
@@ -38,7 +39,7 @@ class DynamicGrid {
         this.moveY = 0;
         this.dynamicGridTiles = [];
         this.config = null;
-
+        this.gridTiles = [];
     }
 
     activateDynamicGrid = function(config) {
@@ -65,6 +66,9 @@ class DynamicGrid {
         this.dynamicGridTiles = [];
     }
 
+    getTileAtPosition(posVec3) {
+        return ScenarioUtils.getTileForPosition(this.dynamicGridTiles, posVec3)
+    }
 
     updateDynamicGrid = function(centerTileIndexX, centerTileIndexY) {
 

@@ -232,7 +232,7 @@ let getDisplacedHeight = function(array1d, segments, x, z, htP, htN, normalStore
 
 let getHeightAt = function(pos, array1d, terrainSize, segments, normalStore, terrainScale, terrainOrigin) {
 
-    let htP = terrainSize*0.5;
+    let htP = segments*0.5;
     let htN = - htP;
 
     if (pos.x < htN || pos.z < htN) {

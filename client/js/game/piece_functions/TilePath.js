@@ -3,8 +3,7 @@ import { Vector3 } from "../../../libs/three/math/Vector3.js";
 let tempVec3 = new Vector3()
 
 class TilePath {
-    constructor(gamePiece) {
-        this.gamePiece = gamePiece;
+    constructor() {
         this.startTile = null;
         this.endTile = null;
         this.pathTiles = [];

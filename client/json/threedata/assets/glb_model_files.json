@@ -104,7 +104,7 @@
         {"id": "file_grid_127",      "config": { "url": "./client/assets/models/shapes/grid_127"                                  }},
 
         {"id": "file_grid_63",       "config": { "url": "./client/assets/models/shapes/grid_63"                                  }},
-        {"id": "file_grid_31",       "config": { "url": "./client/assets/models/shapes/grid_31"                                  }},
+        {"id": "file_grid_32",       "config": { "url": "./client/assets/models/shapes/grid_32"                                  }},
         {"id": "file_grid_15",       "config": { "url": "./client/assets/models/shapes/grid_15"                                  }},
         {"id": "file_grid_16",       "config": { "url": "./client/assets/models/shapes/grid_16"                                  }},
         {"id": "file_grid_8",        "config": { "url": "./client/assets/models/shapes/grid_8"                                  }},

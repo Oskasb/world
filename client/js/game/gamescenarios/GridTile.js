@@ -15,8 +15,8 @@ class GridTile {
     }
 
     setTileXZ(x, z) {
-        this.tileX = tileX;
-        this.tileZ = tileZ;
+        this.tileX = x;
+        this.tileZ = z;
     }
 
     indicateTileStatus(bool) {

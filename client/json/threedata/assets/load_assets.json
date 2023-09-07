@@ -94,6 +94,7 @@
     ],
     "LOAD_MODELS":[
       "asset_ocean_16",
+      "asset_grid_32",
       "asset_grid_16",
       "asset_grid_8",
       "asset_grid_4",

@@ -11,6 +11,8 @@ class DynamicTile {
 
         this.obj3d = new Object3D();
         this.obj3d.lookAt(up);
+        this.tileX = 0;
+        this.tileZ = 0;
         this.gridTile = new GridTile(0, 0, 1, 0.1, this.obj3d)
         this.groundNormal = new Vector3();
         this.groundData = {x:0, y:0, z:0, w:0};
@@ -44,7 +46,9 @@ class DynamicTile {
     }
 
     setTileIndex = function(indexX, indexY) {
-        this.gridTile.setTileXZ(indexX, indexY);
+        this.tileX = indexX;
+        this.tileZ = indexY;
+    //    this.gridTile.setTileXZ(indexX, indexY);
         this.obj3d.position.x = indexX;
         this.obj3d.position.z = indexY;
         let height = ThreeAPI.terrainAt(this.obj3d.position, this.groundNormal);
@@ -67,16 +71,11 @@ class DynamicTile {
             b = 1;
             a = 1;
         } else {
-            this.obj3d.position.y = height;
+            this.obj3d.position.y = height + 0.1;
 
             ThreeAPI.groundAt(pos, this.groundData)
 
             slope = this.groundNormal.angleTo(up);
-
-            this.obj3d.position.y += 0.3 + 0.055 * slope/3.14;
-
-            tempObj.rotateX(Math.sin(this.groundNormal.z) * 0.5);
-            tempObj.rotateY(Math.sin(this.groundNormal.x) * 0.5);
 
 
             if (slope > 0.65) {
@@ -86,7 +85,11 @@ class DynamicTile {
                 g = 0;
                 b = 0;
                 a = 1;
+                tempObj.lookAt(this.groundNormal);
             } else {
+                tempObj.rotateX(Math.sin(this.groundNormal.z) * 0.5);
+                tempObj.rotateY(Math.sin(this.groundNormal.x) * 0.5);
+                this.obj3d.position.y += 0.2 + 0.055 * slope/3.14;
 
                 if (this.groundData.y > 0.2) {
                     r = 0.0;
