@@ -138,10 +138,8 @@
                     "offset_x": -0.05,
                     "offset_y": 0.12,
                     "dispatch":{
-                      "event":"GAME_MODE_WALK",
-                      "value":{
-                        "data_id": "grid_walk_world"
-                      }
+                      "event":"SET_CAMERA_MODE",
+                      "value":{"mode":"game_travel"}
                     }
                   }
                 },
@@ -158,6 +156,23 @@
                       "event":"GAME_MODE_BATTLE",
                       "value":{
 
+                      }
+                    }
+                  }
+                },
+                {
+                  "widget_id":"button_game_grid",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"button_big_blue",
+                  "options":{
+                    "text":"GRID",
+                    "container_id":"page_debug_bottom_right",
+                    "offset_x": -0.05,
+                    "offset_y": 0.20,
+                    "dispatch":{
+                      "event":"GAME_MODE_WALK",
+                      "value":{
+                        "data_id": "grid_walk_world"
                       }
                     }
                   }

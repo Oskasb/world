@@ -22,11 +22,6 @@
 
               "dispatch": [
 
-                {
-                  "event":"SET_CAMERA_MODE",
-                  "value":{"mode":"game_travel"}
-                }
-
               ]
             }
           }
