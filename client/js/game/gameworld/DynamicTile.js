@@ -91,7 +91,6 @@ class DynamicTile {
 
             slope = this.groundNormal.angleTo(up);
 
-
             if (slope > 0.65) {
                 spriteX = 6;
                 spriteY = 2;
@@ -127,13 +126,11 @@ class DynamicTile {
                 }
 
                 if (this.groundData.z > 0.05) {
-                    r = 0.1;
-                    g = 0.1;
-                    b = 0.5;
+                    r = 0.0;
+                    g = 0.05;
+                    b = 0.4;
                 }
-
             }
-
         }
 
         this.rgba.r = r;
@@ -145,9 +142,7 @@ class DynamicTile {
         this.tileEffect.setEffectColorRGBA(CombatFxUtils.setRgba(r, g, b, a))
         this.tileEffect.setEffectPosition(pos)
         this.tileEffect.setEffectQuaternion(tempObj.quaternion);
-
     }
-
 
     indicatePath = function() {
         this.tileEffect.setEffectColorRGBA(CombatFxUtils.setRgba(this.rgba.r*4, this.rgba.g*4, this.rgba.b*4, this.rgba.a*4))
@@ -161,13 +156,12 @@ class DynamicTile {
         return this.obj3d.position;
     }
 
-    setTilePosition = function (posVec) {
-        this.obj3d.position.copy(posVec);
+    removeTile = function () {
+        this.tileEffect.recoverEffectOfClass();
     }
 
     updateDynamicTile = function() {
     //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:this.obj3d.position, color:'RED', size:0.3});
-
     }
 
 }

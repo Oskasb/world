@@ -295,6 +295,10 @@ class ThreeAPI {
         return this.threeSetup.sphereIsVisible(sphere);
     }
 
+    testBoxIsVisible = function(boundingBox) {
+        return this.threeSetup.boxIsVisible(boundingBox);
+    }
+
     checkVolumeObjectVisible = function(vec3, radius) {
         return this.threeSetup.cameraTestXYZRadius(vec3, radius);
     };

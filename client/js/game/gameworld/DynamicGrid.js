@@ -63,7 +63,15 @@ class DynamicGrid {
     }
 
     deactivateDynamicGrid = function() {
-        this.dynamicGridTiles = [];
+
+        while (this.dynamicGridTiles.length) {
+            let row = this.dynamicGridTiles.pop();
+            while (row.length) {
+                let tile = row.pop();
+                tile.removeTile();
+            }
+        }
+
     }
 
     getTileAtPosition(posVec3) {

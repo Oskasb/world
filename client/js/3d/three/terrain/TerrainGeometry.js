@@ -1,4 +1,5 @@
 import {Sphere} from "../../../../libs/three/math/Sphere.js";
+import {Box3} from "../../../../libs/three/math/Box3.js";
 import {Vector3} from "../../../../libs/three/math/Vector3.js";
 import {TerrainElementModel} from "./TerrainElementModel.js";
 import {TerrainSectionInfo} from "./TerrainSectionInfo.js";
@@ -135,10 +136,24 @@ class TerrainGeometry{
         this.isActive = false;
         this.wasVisible = false;
         this.isVisible = false;
+     /*
         let boundCenter = new Vector3();
         boundCenter.copy(this.obj3d.position)
         this.boundingSphere = new Sphere(boundCenter, this.size*1.25)
         this.boundingSphere.center.y = ThreeAPI.terrainAt(this.obj3d.position)+5;
+*/
+        let box3min = new Vector3();
+        box3min.x = this.posX - this.size*0.65;
+        box3min.y = 0;
+        box3min.z = this.posZ - this.size*0.65;
+        let box3Max = new Vector3();
+
+        box3Max.x = this.posX + this.size*0.65;
+        box3Max.y = 200;
+        box3Max.z = this.posZ + this.size*0.65;
+
+        this.boundingBox = new Box3(box3min, box3Max);
+
         this.updateFrame = 0;
         this.neighborsUpdatedFrame = 0;
 
@@ -392,7 +407,9 @@ class TerrainGeometry{
 
 
         this.wasVisible = this.isVisible;
-        this.isVisible = ThreeAPI.testSphereIsVisible(this.boundingSphere);
+        // this.isVisible = ThreeAPI.testSphereIsVisible(this.boundingSphere);
+
+        this.isVisible = ThreeAPI.testBoxIsVisible(this.boundingBox);
 
     //    if (this.instance === null) {
             if (this.isVisible) {

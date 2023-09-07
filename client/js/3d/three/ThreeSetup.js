@@ -134,6 +134,11 @@ class ThreeSetup {
     sphereIsVisible = function(sphere) {
         return this.frustum.intersectsSphere(sphere)
     }
+
+    boxIsVisible = function(box) {
+        return this.frustum.intersectsBox(box)
+    }
+
     toScreenPosition = function(vec3, store) {
 
         this.tempObj.position.copy(vec3);

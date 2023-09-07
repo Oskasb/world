@@ -56,15 +56,15 @@ class GameWalkGrid {
 
             this.isActive = true;
 
-            let dispatches = this.config['dispatch']
-            if (typeof(dispatches) ===  'object') {
-                for (let i = 0; i < dispatches.length; i++) {
-                    evt.dispatch(ENUMS.Event[dispatches[i]['event']], dispatches[i]['value'])
-                }
-            }
-
             this.dynamicGrid.activateDynamicGrid(this.config['grid'])
             GameAPI.registerGameUpdateCallback(this.call.updateWalkGrid);
+        }
+
+        let dispatches = this.config['dispatch']
+        if (typeof(dispatches) ===  'object') {
+            for (let i = 0; i < dispatches.length; i++) {
+                evt.dispatch(ENUMS.Event[dispatches[i]['event']], dispatches[i]['value'])
+            }
         }
 
     }
