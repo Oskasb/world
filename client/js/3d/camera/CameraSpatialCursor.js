@@ -17,6 +17,7 @@ let lookAtMod = new Vector3();
 let pointerDragVector = new Vector3()
 
 let pointerActive = false;
+let tilePath = null;
 
 let navPoint = {
     time:0.8,
@@ -166,7 +167,7 @@ let updateWalkCamera = function() {
 
 
     walkDirVec.multiplyScalar(frameTime);
-    movePiecePos.add(walkDirVec)
+//    movePiecePos.add(walkDirVec)
     cursorObj3d.position.copy(movePiecePos);
    // evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:tempVec3, to:dragToVec3, color:'CYAN'});
     evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:tempVec3, to:calcVec, color:'YELLOW'});
@@ -245,7 +246,18 @@ class CameraSpatialCursor {
                 updateWalkCamera();
                 if (released) {
                     navPoint.time = 2;
+                    if (tilePath.pathTiles.length) {
+                    //    navPoint.callback = camCB;
+                        cursorObj3d.position.copy(tilePath.pathTiles[tilePath.pathTiles.length-1].getPos());
+                    //    updateWorldLook();
+                    //    updateCursorFrame();
+                    }
+
+                } else {
+                    tilePath = GameAPI.getTilePath(cursorObj3d.position, dragToVec3)
+                 //   console.log(tilePath);
                 }
+
             }
 
             evt.dispatch(ENUMS.Event.SET_CAMERA_TARGET, navPoint);

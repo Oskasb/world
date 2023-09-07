@@ -370,15 +370,12 @@ function getTileForPosition(gridTiles, posVec3) {
 
         for (let j = 0; j < gridTiles[i].length; j++) {
             let tile = gridTiles[i][j];
-            if (tile.hidden === false) {
                 tempVec2D.set(tile.obj3d.position.x - posVec3.x, tile.obj3d.position.z - posVec3.z);
                 let lengthSq = tempVec2D.lengthSq();
                 if (lengthSq < nearestTileDist) {
                     selectedTile = tile;
                     nearestTileDist = lengthSq;
                 }
-            }
-
         }
     }
 

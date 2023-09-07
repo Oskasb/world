@@ -1,11 +1,14 @@
 import {ConfigData} from "../../application/utils/ConfigData.js";
 import { DynamicGrid} from "./DynamicGrid.js";
+import { DynamicPath } from "./DynamicPath.js";
+import * as ScenarioUtils from "./ScenarioUtils.js";
 
 let centerTileIndexX = 0;
 let centerTileIndexY = 0;
 
 class GameWalkGrid {
     constructor() {
+        this.dynamicPath = new DynamicPath();
         this.dynamicGrid = new DynamicGrid();
         this.isActive = false;
 
@@ -66,6 +69,13 @@ class GameWalkGrid {
 
     }
 
+    buildGridPath(from, to) {
+        let gridTiles = this.dynamicGrid.dynamicGridTiles
+        let fromTile = ScenarioUtils.getTileForPosition(gridTiles, from)
+        let toTile = ScenarioUtils.getTileForPosition(gridTiles, to)
+        return this.dynamicPath.selectTilesBeneathPath(fromTile, toTile, gridTiles);
+    }
+
     updateWalkGrid = function() {
         let cursorPos = ThreeAPI.getCameraCursor().getPos();
         let offset = this.config['grid']['tile_spacing'] * 0.5
@@ -80,6 +90,7 @@ class GameWalkGrid {
         GameAPI.unregisterGameUpdateCallback(this.call.updateWalkGrid);
         this.isActive = false;
     }
+
 
 }
 

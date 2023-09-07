@@ -31,9 +31,11 @@ class GameAPI {
 
     }
 
+    getTilePath(fromVec3, toVec3) {
+        return this.gameMain.generateDynamicPath(fromVec3, toVec3);
+    }
 
     initGameMain() {
-
         this.gameMain.initGameMain();
     }
 

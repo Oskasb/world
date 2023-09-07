@@ -157,6 +157,10 @@ class GameMain {
         this.onUpdateCallbacks.push(callback);
     }
 
+    generateDynamicPath(from, to) {
+        return gameWalkGrid.buildGridPath(from, to)
+    }
+
     getPlayerCharacter() {
         return this.playerMain.playerCharacter
     }

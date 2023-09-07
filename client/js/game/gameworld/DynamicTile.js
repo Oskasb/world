@@ -5,6 +5,7 @@ import * as CombatFxUtils from "../combat/feedback/CombatFxUtils.js";
 import {GridTile} from "../gamescenarios/GridTile.js";
 
 let up = new Vector3(0, 1, 0)
+let tempVec = new Vector3();
 let tempObj = new Object3D();
 class DynamicTile {
     constructor() {
@@ -13,9 +14,18 @@ class DynamicTile {
         this.obj3d.lookAt(up);
         this.tileX = 0;
         this.tileZ = 0;
+        this.gridI = 0;
+        this.gridJ = 0;
         this.gridTile = new GridTile(0, 0, 1, 0.1, this.obj3d)
         this.groundNormal = new Vector3();
         this.groundData = {x:0, y:0, z:0, w:0};
+
+        this.rgba = {
+            r : 0,
+            g : 1,
+            b : 0,
+            a : 1
+        }
 
         this.tileEffect = null;
 
@@ -45,9 +55,13 @@ class DynamicTile {
 
     }
 
-    setTileIndex = function(indexX, indexY) {
+    setTileIndex = function(indexX, indexY, gridI, gridJ) {
         this.tileX = indexX;
         this.tileZ = indexY;
+
+        this.gridI = gridI;
+        this.gridJ = gridJ;
+
     //    this.gridTile.setTileXZ(indexX, indexY);
         this.obj3d.position.x = indexX;
         this.obj3d.position.z = indexY;
@@ -58,9 +72,9 @@ class DynamicTile {
         let spriteX = 7;
         let spriteY = 1;
         let r = 0;
-        let g = 1;
+        let g = 0.1;
         let b = 0;
-        let a = 1;
+        let a = 0.3;
 
         if (height < 0.1) {
             this.obj3d.position.y = 0.1;
@@ -68,7 +82,7 @@ class DynamicTile {
             spriteY = 2;
             r = 0;
             g = 0;
-            b = 1;
+            b = 0.5;
             a = 1;
         } else {
             this.obj3d.position.y = height + 0.1;
@@ -81,7 +95,7 @@ class DynamicTile {
             if (slope > 0.65) {
                 spriteX = 6;
                 spriteY = 2;
-                r = 0.2;
+                r = 0.1;
                 g = 0;
                 b = 0;
                 a = 1;
@@ -93,12 +107,12 @@ class DynamicTile {
 
                 if (this.groundData.y > 0.2) {
                     r = 0.0;
-                    g = 0.3;
+                    g = 0.1;
                     b = 0;
                 }
                 if (this.groundData.y > 0.35) {
-                    r = 0.6;
-                    g = 0.2;
+                    r = 0.1;
+                    g = 0.05;
                     b = 0;
                     spriteX = 6;
                     spriteY = 3;
@@ -107,27 +121,44 @@ class DynamicTile {
                     spriteX = 6;
                     spriteY = 2;
                     r = 0.;
-                    g = 0.2;
+                    g = 0.05;
                     b = 0;
-                    a = 0.2;
+                    a = 0.1;
                 }
 
                 if (this.groundData.z > 0.05) {
-                    r = 0.2;
-                    g = 0.2;
-                    b = 1;
+                    r = 0.1;
+                    g = 0.1;
+                    b = 0.5;
                 }
 
             }
 
         }
 
+        this.rgba.r = r;
+        this.rgba.g = g;
+        this.rgba.b = b;
+        this.rgba.a = a;
 
         this.tileEffect.setEffectSpriteXY(spriteX, spriteY);
         this.tileEffect.setEffectColorRGBA(CombatFxUtils.setRgba(r, g, b, a))
         this.tileEffect.setEffectPosition(pos)
         this.tileEffect.setEffectQuaternion(tempObj.quaternion);
 
+    }
+
+
+    indicatePath = function() {
+        this.tileEffect.setEffectColorRGBA(CombatFxUtils.setRgba(this.rgba.r*4, this.rgba.g*4, this.rgba.b*4, this.rgba.a*4))
+    }
+
+    clearPathIndication = function() {
+        this.tileEffect.setEffectColorRGBA(CombatFxUtils.setRgba(this.rgba.r, this.rgba.g, this.rgba.b, this.rgba.a))
+    }
+
+    getPos = function() {
+        return this.obj3d.position;
     }
 
     setTilePosition = function (posVec) {

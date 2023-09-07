@@ -15,7 +15,7 @@ let updateTileIndices = function(dynamicGrid, dynamicGridTiles) {
 
         for (let j = 0; j < dynamicGridTiles[i].length; j++) {
             let dynamicTile = dynamicGridTiles[i][j];
-            dynamicTile.setTileIndex(dynamicGrid.centerTileIndexX + i -half, dynamicGrid.centerTileIndexY + j-half)
+            dynamicTile.setTileIndex(dynamicGrid.centerTileIndexX + i -half, dynamicGrid.centerTileIndexY + j-half, i, j)
         }
     }
 }
