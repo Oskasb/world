@@ -1,6 +1,7 @@
 import {ConfigData} from "../../application/utils/ConfigData.js";
 import { DynamicGrid} from "./DynamicGrid.js";
 import { DynamicPath } from "./DynamicPath.js";
+import { DynamicWalker} from "./DynamicWalker.js";
 import * as ScenarioUtils from "./ScenarioUtils.js";
 
 let centerTileIndexX = 0;
@@ -10,6 +11,7 @@ class GameWalkGrid {
     constructor() {
         this.dynamicPath = new DynamicPath();
         this.dynamicGrid = new DynamicGrid();
+        this.dynamicWalker = new DynamicWalker();
         this.isActive = false;
 
         this.dataId = null;
@@ -69,11 +71,21 @@ class GameWalkGrid {
 
     }
 
+    getTileAtPosition(posVec) {
+        let gridTiles = this.dynamicGrid.dynamicGridTiles
+        return ScenarioUtils.getTileForPosition(gridTiles, posVec)
+    }
+
     buildGridPath(from, to) {
         let gridTiles = this.dynamicGrid.dynamicGridTiles
         let fromTile = ScenarioUtils.getTileForPosition(gridTiles, from)
         let toTile = ScenarioUtils.getTileForPosition(gridTiles, to)
         return this.dynamicPath.selectTilesBeneathPath(fromTile, toTile, gridTiles);
+    }
+
+    walkAlongPath(tilePath, obj3d) {
+        console.log("Walk path", tilePath, obj3d);
+        this.dynamicWalker.call.walkDynamicPath(tilePath, obj3d)
     }
 
     updateWalkGrid = function() {

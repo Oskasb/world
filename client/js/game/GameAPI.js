@@ -35,6 +35,10 @@ class GameAPI {
         return this.gameMain.generateDynamicPath(fromVec3, toVec3);
     }
 
+    processTilePath(tilePath, cursorObj3d) {
+        this.gameMain.applyDynamicPathToObj3d(tilePath, cursorObj3d);
+    }
+
     initGameMain() {
         this.gameMain.initGameMain();
     }

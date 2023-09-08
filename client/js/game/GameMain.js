@@ -161,6 +161,14 @@ class GameMain {
         return gameWalkGrid.buildGridPath(from, to)
     }
 
+    applyDynamicPathToObj3d(tilePath, obj3d) {
+        return gameWalkGrid.walkAlongPath(tilePath, obj3d)
+    }
+
+    getGridTileAtPos(posVec) {
+        return gameWalkGrid.getTileAtPosition(posVec)
+    }
+
     getPlayerCharacter() {
         return this.playerMain.playerCharacter
     }

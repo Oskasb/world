@@ -5,15 +5,9 @@ class DynamicPath {
     constructor() {
         this.tilePath = new TilePath();
         this.tempVec = new Vector3()
-        this.isPathing = false;
-    //    this.pathTargetPiece = null;
-        this.pathTargetPos = new Vector3();
-        this.turnPathEnd = new Vector3()
-        this.currentPosTile = null;
-        this.targetPosTile = null;
         this.tempVec = new Vector3();
 
-    //    this.pathWalker = new PathWalker(gamePiece, this.tilePath);
+
 
         this.lineEvent = {
             from:new Vector3(),
@@ -22,23 +16,12 @@ class DynamicPath {
         }
     }
 
-
     drawPathLine(from, to, color) {
         this.lineEvent.from.copy(from)
         this.lineEvent.to.copy(to);
         this.lineEvent.color = color || 'CYAN';
         evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, this.lineEvent);
     }
-
-    setDestination(posVec) {
-        this.tilePath.setEndTile(this.getTileAtPos(posVec))
-    }
-
-    clearTilePathStatus() {
-        this.isPathing = false;
-        this.tilePath.clearTilePath()
-    }
-
 
     selectTilesBeneathPath(startTile, endTile, gridTiles) {
 
@@ -47,7 +30,6 @@ class DynamicPath {
             clearTile.clearPathIndication();
         }
 
-        this.drawPathLine(startTile.getPos(), endTile.getPos(), 'WHITE')
         let startX = startTile.gridI;
         let startZ = startTile.gridJ;
         let endX = endTile.gridI;
@@ -96,11 +78,10 @@ class DynamicPath {
                 this.drawPathLine(this.tempVec, tile.getPos(), color)
                 this.tempVec.copy(tile.getPos());
             }
-
         }
 
-        endTile.indicatePath()
-        this.tilePath.addTileToPath(endTile);
+        this.tilePath.setEndTile(endTile);
+
         return this.tilePath
 
     }

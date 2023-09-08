@@ -7,6 +7,8 @@ class TilePath {
         this.startTile = null;
         this.endTile = null;
         this.pathTiles = [];
+        this.pathCompetedCallbacks = [];
+        this.pathingUpdateCallbacks = [];
         this.activeTurn = 0;
     }
 

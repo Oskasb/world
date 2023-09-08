@@ -9,6 +9,7 @@ let calcVec = new Vector3()
 let tempVec3 = new Vector3();
 let walkDirVec = new Vector3();
 let cursorObj3d = new Object3D()
+let walkObj3d = new Object3D();
 let movePiecePos = new Vector3();
 let dragFromVec3 = new Vector3();
 let dragToVec3 = new Vector3();
@@ -154,6 +155,14 @@ let camCB = function() {
     cursorObj3d.position.z = navPoint.lookAt[2];
 }
 
+let pathCompletedCallback = function(movedObj3d) {
+    cursorObj3d.position.copy(movedObj3d.position)
+}
+
+let updatePathingCamera = function(movedObj3d) {
+    camLookAtVec.copy(movedObj3d.position);
+}
+
 class CameraSpatialCursor {
     constructor() {
         cursorObj3d.position.copy(lookAroundPoint);
@@ -195,7 +204,6 @@ class CameraSpatialCursor {
 
 
             if (camParams.mode === camModes.worldViewer) {
-            //    navPoint.callback = camCB;
                 if (released) {
                     lerpFactor = tpf;
                 } else {
@@ -207,23 +215,35 @@ class CameraSpatialCursor {
             if (camParams.mode === camModes.gameTravel) {
                 navPoint.callback = null;
                 updateWalkCamera();
+                if (isFirstPressFrame) {
+                    if (tilePath) {
+                        if (tilePath.pathTiles.length) {
+                            while (tilePath.pathCompetedCallbacks.length) {
+                                tilePath.pathCompetedCallbacks.pop()(walkObj3d)
+                            }
+                            //    MATH.callAll(tilePath.pathCompetedCallbacks, walkObj3d)
+                            //    tilePath.pathCompetedCallbacks.length = 0;
+                        }
+                    }
+
+                //
+                }
+
                 if (released) {
                     navPoint.time = 2;
                     if (tilePath.pathTiles.length) {
-                    //    navPoint.callback = camCB;
-                        cursorObj3d.position.copy(tilePath.pathTiles[tilePath.pathTiles.length-1].getPos());
-                    //    updateWorldLook();
-                    //    updateCursorFrame();
+
+                        walkObj3d.position.copy(cursorObj3d.position)
+                        GameAPI.processTilePath(tilePath, walkObj3d);
+                        tilePath.pathCompetedCallbacks.push(pathCompletedCallback)
+                        tilePath.pathingUpdateCallbacks.push(updatePathingCamera);
                     }
 
                 } else {
                     tilePath = GameAPI.getTilePath(cursorObj3d.position, dragToVec3)
-                 //   console.log(tilePath);
                 }
-
             }
 
-        //    evt.dispatch(ENUMS.Event.SET_CAMERA_TARGET, navPoint);
         }
 
         let setNavPoint = function(event) {
