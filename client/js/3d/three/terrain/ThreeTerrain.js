@@ -5,6 +5,7 @@ import {Object3D} from "../../../../libs/three/core/Object3D.js";
 import {TerrainGeometry} from "./TerrainGeometry.js";
 import {Vegetation} from "./vegetation/Vegetation.js";
 import * as TerrainFunctions from "./TerrainFunctions.js";
+import * as CursorUtils from "../../camera/CursorUtils.js";
 
 let scrubIndex = 0;
 
@@ -576,33 +577,14 @@ class ThreeTerrain {
 
         scrubTerrainForError();
 
+        CursorUtils.processTerrainLodCenter(calcVec)
     //    if (GameAPI.gameMain.getPlayerCharacter()) {
-            let cursorPos = ThreeAPI.getCameraCursor().getPos();
-            calcVec.copy(GameAPI.getGameCamera().call.getLookAtPoint());
-            evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:cursorPos, to:calcVec, color:"YELLOW"});
-       //     GuiAPI.printDebugText(''+calcVec.x+' '+calcVec.y+' '+calcVec.z)
 
             let playerGeo = getTerrainGeoAtPos(calcVec);
-
-            let color = {}
-            ThreeAPI.groundAt(cursorPos, color);
-            evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:cursorPos, color:color, size:0.3})
-
             if (playerGeo !== geoBeneathPlayer) {
-                //    activateTerrainGeos(playerGeo.gridX, playerGeo.gridY, gridConfig.range)
+            //    activateTerrainGeos(playerGeo.gridX, playerGeo.gridY, gridConfig.range)
                 geoBeneathPlayer = playerGeo;
             }
-
-            posVec.copy(cursorPos);
-            posVec.y = getHeightAndNormal(cursorPos, normVec);
-        //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:posVec, color:'GREEN', size:0.3});
-            normVec.add(posVec);
-        //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:posVec, to:normVec, color:'AQUA'});
-/*
-            for (let i = 0; i < 20; i++) {
-                debugDrawNearby(i);
-            }
-*/
             drawNearbyTerrain();
 
             while (visibleGeoTiles.length) {

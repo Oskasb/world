@@ -1,6 +1,9 @@
 
 import { Vector3 } from "../../../libs/three/math/Vector3.js";
 import { Object3D } from "../../../libs/three/core/Object3D.js";
+import * as CursorUtils from "./CursorUtils.js";
+import {processLookCursorInput} from "./CursorUtils.js";
+
 
 let calcVec = new Vector3()
 let tempVec3 = new Vector3();
@@ -9,18 +12,20 @@ let cursorObj3d = new Object3D()
 let movePiecePos = new Vector3();
 let dragFromVec3 = new Vector3();
 let dragToVec3 = new Vector3();
+let camTargetPos = new Vector3();
 let camPosVec = new Vector3();
 let camLookAtVec = new Vector3();
 let cursorTravelVec = new Vector3();
 let cursorForward = new Vector3();
-let dragDirection = new Vector3();
+
 
 let lookAroundPoint = new Vector3(-885, 0, 530)
 
 let posMod = new Vector3();
 let lookAtMod = new Vector3();
 let pointerDragVector = new Vector3()
-
+let tpf = 0.01;
+let lerpFactor = 0.01;
 let pointerActive = false;
 let tilePath = null;
 
@@ -93,62 +98,24 @@ let updateWorldLook = function() {
 
   //  tempVec3.set(0, 0, 5)
    // tempVec3.applyQuaternion(cursorObj3d.quaternion);
-    tempVec3.copy(cursorObj3d.position);
-    cursorObj3d.position.y = ThreeAPI.terrainAt(cursorObj3d.position)
-    tempVec3.y = cursorObj3d.position.y // ThreeAPI.terrainAt(tempVec3);
-    dragToVec3.y = tempVec3.y // ThreeAPI.terrainAt(dragToVec3, calcVec)+2;
 
-    calcVec.subVectors(dragToVec3, cursorObj3d.position);
-    cursorTravelVec.copy(calcVec);
-    dragDirection.copy(calcVec);
-    dragDirection.normalize();
-    let inputAngle = cursorForward.angleTo(cursorTravelVec);
+    let inputAngle = CursorUtils.processLookCursorInput(cursorObj3d, dragToVec3, camTargetPos, cursorForward, cursorTravelVec)
+    CursorUtils.drawInputCursorState(cursorObj3d, dragToVec3, camTargetPos, cursorForward, cursorTravelVec)
+    let inputForce = cursorTravelVec.lengthSq();
 
-    let inputForce = calcVec.lengthSq();
-    calcVec.multiplyScalar(-2);
-    calcVec.add(cursorObj3d.position);
-  //  posMod.copy(camPosVec);
+    lerpFactor = tpf
+    let directionalGain = Math.cos(inputAngle)
 
-    camParams.offsetPos[0] = 0;
-    camParams.offsetPos[1] = 2;
-    camParams.offsetPos[2] = 0;
-
-    camParams.offsetLookAt[0] = 0;
-    camParams.offsetLookAt[1] = 1;
-    camParams.offsetLookAt[2] = 0;
-
-    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:tempVec3, to:dragToVec3, color:'CYAN'});
-    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:cursorObj3d.position, to:calcVec, color:'RED'});
-    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:dragToVec3, color:'CYAN', size:0.3})
-
- //   evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:tempVec3, to:camPosVec, color:'RED'});
-
-    tempVec3.copy(calcVec);
-    calcVec.y = ThreeAPI.terrainAt(cursorObj3d.position) + calcVec.distanceTo(cursorObj3d.position) * 0.5 + 1;
-
-    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:tempVec3, to:calcVec, color:'RED'});
-    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:calcVec, color:'RED', size:0.3})
-
-    tempVec3.copy(cursorForward);
-    tempVec3.add(dragToVec3);
-    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:tempVec3, to:dragToVec3, color:'YELLOW'});
-    tempVec3.copy(dragDirection);
-    tempVec3.add(dragToVec3);
-    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:tempVec3, to:dragToVec3, color:'YELLOW'});
-
-    let tpf = GameAPI.getFrame().tpf
-    let lerpFactor = tpf
-
-    if (inputForce > 10 * Math.cos(inputAngle)) {
-        lerpFactor *=  inputForce*0.01
+    if (inputForce > 5 * directionalGain) {
+        lerpFactor *=  inputForce*0.001
         lerpFactor = MATH.clamp(lerpFactor, 0.01, 0.05);
-        lerpFactor *= Math.cos(inputAngle) // -1;
+        lerpFactor *= directionalGain*directionalGain // -1;
         cursorTravelVec.multiplyScalar(Math.abs(lerpFactor));
         cursorObj3d.position.add(cursorTravelVec);
     }
 
-    camLookAtVec.lerp(cursorObj3d.position, tpf + lerpFactor * 3)
-    camPosVec.lerp(calcVec, tpf + lerpFactor * 2)
+    // camLookAtVec.lerp(cursorObj3d.position, tpf + lerpFactor * lerpFactor * 3)
+
 }
 
 let updateWalkCamera = function() {
@@ -215,7 +182,7 @@ let updateWalkCamera = function() {
     //   camParams.offsetPos[0] = Math.sin(GameAPI.getGameTime()*0.3)*22
     camParams.offsetPos[1] = height + cursorObj3d.position.y
     //   camParams.offsetPos[2] = Math.cos(GameAPI.getGameTime()*0.3)*22
-    let tpf = GameAPI.getFrame().tpf
+
 
     if (tilePath) {
         if (tilePath.pathTiles.length) {
@@ -287,7 +254,12 @@ class CameraSpatialCursor {
 */
             if (camParams.mode === camModes.worldViewer) {
             //    navPoint.callback = camCB;
-                updateWorldLook();
+                if (released) {
+
+                } else {
+                    updateWorldLook();
+                }
+                
             }
 
             if (camParams.mode === camModes.gameTravel) {
@@ -309,7 +281,7 @@ class CameraSpatialCursor {
 
             }
 
-            evt.dispatch(ENUMS.Event.SET_CAMERA_TARGET, navPoint);
+        //    evt.dispatch(ENUMS.Event.SET_CAMERA_TARGET, navPoint);
         }
 
         let setNavPoint = function(event) {
@@ -355,7 +327,7 @@ class CameraSpatialCursor {
     }
 
     updateSpatialCursor = function() {
-
+        let tpf = GameAPI.getFrame().tpf
         ThreeAPI.copyCameraLookAt(tempVec3);
         tempVec3.y = ThreeAPI.camera.position.y;
         tempVec3.sub(ThreeAPI.camera.position);
@@ -370,10 +342,15 @@ class CameraSpatialCursor {
         cursorObj3d.lookAt(tempVec3);
         cursorForward.set(0, 0, 1);
         cursorForward.applyQuaternion(cursorObj3d.quaternion);
-        evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:cursorObj3d.position, to:tempVec3, color:'WHITE'});
+    //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:cursorObj3d.position, to:tempVec3, color:'WHITE'});
 
         if (camParams.mode === camModes.worldDisplay) {
             updateWorldDisplay();
+        } else {
+            CursorUtils.drawInputCursorState(cursorObj3d, dragToVec3, camTargetPos, cursorForward, cursorTravelVec)
+            camLookAtVec.copy(cursorObj3d.position)
+            camLookAtVec.y += 1
+            camPosVec.lerp(camTargetPos, tpf + lerpFactor * 2)
         }
 
         updateCursorFrame();

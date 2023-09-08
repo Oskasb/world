@@ -114,7 +114,7 @@ class GameCamera {
 
             ThreeAPI.setCameraPos(pos.x, pos.y, pos.z);
             ThreeAPI.cameraLookAt(cameraLookAt.x, cameraLookAt.y, cameraLookAt.z);
-            debugDrawCamLookAt()
+          //  debugDrawCamLookAt()
         };
 
         let setCameraTargetPosInTime = function(eventData) {

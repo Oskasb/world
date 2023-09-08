@@ -43,7 +43,7 @@
         {"id": "model_settings_terrain_32" ,
           "config": {
             "instancing": {
-              "instances": 48,
+              "instances": 64,
               "attributes": ["offset", "vertexColor", "scale3d", "orientation", "sprite", "texelRowSelect", "lifecycle"],
               "cameraspace": false
             },
@@ -71,7 +71,7 @@
         {"id": "model_settings_terrain_8" ,
           "config": {
             "instancing": {
-              "instances": 120,
+              "instances": 140,
               "attributes": ["offset", "vertexColor", "scale3d", "orientation", "sprite", "texelRowSelect", "lifecycle"],
               "cameraspace": false
             },
@@ -99,7 +99,7 @@
         {"id": "model_settings_terrain_2" ,
           "config": {
             "instancing": {
-              "instances": 200,
+              "instances": 260,
               "attributes": ["offset", "vertexColor", "scale3d", "orientation", "sprite", "texelRowSelect", "lifecycle"],
               "cameraspace": false
             },
@@ -113,7 +113,7 @@
         {"id": "model_settings_terrain_1" ,
           "config": {
             "instancing": {
-              "instances": 1800,
+              "instances": 2400,
               "attributes": ["offset", "vertexColor", "scale3d", "orientation", "sprite", "texelRowSelect", "lifecycle"],
               "cameraspace": false
             },
