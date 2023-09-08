@@ -85,7 +85,7 @@ class DynamicTile {
             b = 0.5;
             a = 1;
         } else {
-            this.obj3d.position.y = height + 0.1;
+            this.obj3d.position.y = height + 0.01;
 
             ThreeAPI.groundAt(pos, this.groundData)
 
@@ -102,7 +102,7 @@ class DynamicTile {
             } else {
                 tempObj.rotateX(Math.sin(this.groundNormal.z) * 0.5);
                 tempObj.rotateY(Math.sin(this.groundNormal.x) * 0.5);
-                this.obj3d.position.y += 0.2 + 0.055 * slope/3.14;
+                this.obj3d.position.y += 0.05 + 0.55 * slope;
 
                 if (this.groundData.y > 0.2) {
                     r = 0.0;

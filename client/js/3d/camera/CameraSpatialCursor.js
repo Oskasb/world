@@ -2,7 +2,7 @@
 import { Vector3 } from "../../../libs/three/math/Vector3.js";
 import { Object3D } from "../../../libs/three/core/Object3D.js";
 import * as CursorUtils from "./CursorUtils.js";
-import {processLookCursorInput} from "./CursorUtils.js";
+import {processLookCursorInput, processTileSelectionCursorInput} from "./CursorUtils.js";
 
 
 let calcVec = new Vector3()
@@ -100,7 +100,7 @@ let updateWorldLook = function() {
    // tempVec3.applyQuaternion(cursorObj3d.quaternion);
 
     let inputAngle = CursorUtils.processLookCursorInput(cursorObj3d, dragToVec3, camTargetPos, cursorForward, cursorTravelVec)
-    CursorUtils.drawInputCursorState(cursorObj3d, dragToVec3, camTargetPos, cursorForward, cursorTravelVec)
+//    CursorUtils.drawInputCursorState(cursorObj3d, dragToVec3, camTargetPos, cursorForward, cursorTravelVec)
     let inputForce = cursorTravelVec.lengthSq();
 
     lerpFactor = tpf
@@ -114,6 +114,9 @@ let updateWorldLook = function() {
         cursorObj3d.position.add(cursorTravelVec);
     }
 
+    camLookAtVec.copy(cursorObj3d.position)
+    camLookAtVec.y += 1;
+
     // camLookAtVec.lerp(cursorObj3d.position, tpf + lerpFactor * lerpFactor * 3)
 
 }
@@ -122,85 +125,24 @@ let updateWalkCamera = function() {
 
   //  walkDirVec.normalize();
 
-    tempVec3.copy(movePiecePos);
-    tempVec3.y = ThreeAPI.terrainAt(tempVec3);
-    movePiecePos.y = tempVec3.y;
-    walkDirVec.y = ThreeAPI.terrainAt(walkDirVec);
+    let inputAngle = CursorUtils.processTileSelectionCursorInput(tilePath, cursorObj3d, calcVec, dragToVec3, tempVec3, cursorForward, cursorTravelVec)
+//    CursorUtils.drawInputCursorState(cursorObj3d, dragToVec3, tempVec3, cursorForward, cursorTravelVec)
 
- //   camPosVec.subVectors(dragToVec3, tempVec3)
- //   camPosVec.normalize()
- //   camPosVec.multiplyScalar(-10);
-    //  posMod.copy(camPosVec);
+    let inputForce = cursorTravelVec.lengthSq();
 
-    camParams.offsetPos[0] = 0; //camPosVec.x;
-    camParams.offsetPos[1] = 2; //camPosVec.y;
-    camParams.offsetPos[2] = 0; //camPosVec.z;
+    lerpFactor = tpf
+    let directionalGain = Math.cos(inputAngle)
 
-    let height = 8 // camPosVec.length() * 0.5;
-
- //   camPosVec.add(tempVec3);
-
-    let frameTime = GameAPI.getFrame().tpf;
-    //camParams.pos[0] = camPosVec.x
-    //camParams.pos[1] = cursorPos.y
-    //camParams.pos[2] = camPosVec.z
-    walkDirVec.copy(dragToVec3);
-    walkDirVec.sub(tempVec3);
-    let speed = 2;
-    let walkInputSpeed = walkDirVec.length()
-    if (walkDirVec.length() > speed) {
-        walkDirVec.normalize();
-        walkDirVec.multiplyScalar(speed)
+    if (inputForce > 5 * directionalGain) {
+        lerpFactor *=  inputForce*0.001
+        lerpFactor = MATH.clamp(lerpFactor, 0.01, 0.05);
+        // lerpFactor *= directionalGain*directionalGain // -1;
+        cursorTravelVec.multiplyScalar(Math.abs(lerpFactor));
+    //    cursorObj3d.position.add(cursorTravelVec);
     }
 
-    if (walkInputSpeed > 0.01) {
-        navPoint.time = frameTime*5
-    } else {
-        navPoint.time = 2;
-    }
-
-    calcVec.addVectors(tempVec3, walkDirVec);
-//    camLookAtVec.copy(calcVec)
-
-//    camLookAtVec.y +=2;
-
-
-    walkDirVec.multiplyScalar(frameTime);
-//    movePiecePos.add(walkDirVec)
-    cursorObj3d.position.copy(movePiecePos);
-   // evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:tempVec3, to:dragToVec3, color:'CYAN'});
-    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:tempVec3, to:calcVec, color:'YELLOW'});
-    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:dragToVec3, color:'WHITE', size:0.3})
-
-    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:tempVec3, to:camPosVec, color:'BLUE'});
-    //   tempVec3.add(dragFromVec3);
-    //   cursorObj3d.position.copy(tempVec3);
-    //   camParams.offsetLookAt[0] = pointerDragVector.x
-    //   camParams.offsetLookAt[2] = pointerDragVector.yz
-
-    cursorObj3d.position.y = ThreeAPI.terrainAt(cursorObj3d.position)
-    //   camParams.offsetPos[0] = Math.sin(GameAPI.getGameTime()*0.3)*22
-    camParams.offsetPos[1] = height + cursorObj3d.position.y
-    //   camParams.offsetPos[2] = Math.cos(GameAPI.getGameTime()*0.3)*22
-
-
-    if (tilePath) {
-        if (tilePath.pathTiles.length) {
-            //    navPoint.callback = camCB;
-            //
-            // cursorObj3d.position.copy(tilePath.pathTiles[tilePath.pathTiles.length-1].getPos());
-            //    updateWorldLook();
-            //    updateCursorFrame();
-            let endPos = tilePath.pathTiles[tilePath.pathTiles.length-1].getPos()
-            camLookAtVec.lerp(endPos, tpf)
-            calcVec.subVectors(endPos , tilePath.pathTiles[0].getPos() )
-            calcVec.multiplyScalar(-2);
-            calcVec.y = 5;
-            calcVec.add(cursorObj3d.position)
-            camPosVec.lerp(calcVec, tpf);
-        }
-    }
-
+    camLookAtVec.lerp(calcVec, tpf*4);
+    camTargetPos.lerp(tempVec3, tpf*2);
 
 }
 
@@ -224,6 +166,8 @@ class CameraSpatialCursor {
                 selectedMode = camModes.worldDisplay;
             }
 
+            updateWorldLook()
+
             movePiecePos.copy(cursorObj3d.position);
             camParams.mode = selectedMode;
 
@@ -234,10 +178,13 @@ class CameraSpatialCursor {
 
         let activePointerUpdate = function(pointer, isFirstPressFrame, released) {
             pointerActive = true;
-        //    if (isFirstPressFrame) {
+            if (isFirstPressFrame) {
             //    ThreeAPI.copyCameraLookAt(cursorObj3d.position)
-                dragFromVec3.copy(cursorObj3d.position);
-        //    }
+                camPosVec.copy(ThreeAPI.getCamera().position);
+                dragToVec3.copy( cursorObj3d.position)
+                //cursorObj3d.position.copy(lookAroundPoint);
+            }
+            dragFromVec3.copy(cursorObj3d.position);
             pointerDragVector.x = -pointer.dragDistance[0] * 0.1;
             pointerDragVector.y = 0;
             pointerDragVector.z = -pointer.dragDistance[1] * 0.1;
@@ -246,20 +193,15 @@ class CameraSpatialCursor {
             dragToVec3.applyQuaternion(cursorObj3d.quaternion);
             dragToVec3.add(cursorObj3d.position)
 
-/*
-            navPoint.pos = camParams.pos;
-            navPoint.lookAt[0] = camLookAtVec.x //-dragFromVec3.x;
-            navPoint.lookAt[1] = camLookAtVec.y //-dragFromVec3.y;
-            navPoint.lookAt[2] = camLookAtVec.z //-dragFromVec3.z;
-*/
+
             if (camParams.mode === camModes.worldViewer) {
             //    navPoint.callback = camCB;
                 if (released) {
-
+                    lerpFactor = tpf;
                 } else {
                     updateWorldLook();
                 }
-                
+
             }
 
             if (camParams.mode === camModes.gameTravel) {
@@ -346,10 +288,11 @@ class CameraSpatialCursor {
 
         if (camParams.mode === camModes.worldDisplay) {
             updateWorldDisplay();
+            camLookAtVec.copy(cursorObj3d.position)
+            cursorObj3d.position.copy(camLookAtVec)
         } else {
             CursorUtils.drawInputCursorState(cursorObj3d, dragToVec3, camTargetPos, cursorForward, cursorTravelVec)
-            camLookAtVec.copy(cursorObj3d.position)
-            camLookAtVec.y += 1
+
             camPosVec.lerp(camTargetPos, tpf + lerpFactor * 2)
         }
 

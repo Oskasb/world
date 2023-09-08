@@ -26,22 +26,52 @@ function processLookCursorInput(cursorObj3d, dragToVec3, camTargetPos, cursorFor
     calcVec.copy(cursorForward)
     calcVec.multiplyScalar(3)
     camTargetPos.sub(calcVec);
-    //  posMod.copy(camPosVec);
-
-    /*
-    camParams.offsetPos[0] = 0;
-    camParams.offsetPos[1] = 0;
-    camParams.offsetPos[2] = 0;
-
-    camParams.offsetLookAt[0] = 0;
-    camParams.offsetLookAt[1] = 0;
-    camParams.offsetLookAt[2] = 0;
-*/
-
 
     camTargetPos.y = cursorObj3d.position.y + camTargetPos.distanceTo(cursorObj3d.position) * 0.5 + 0.55 +inputForce * 0.0005;
     return inputAngle;
 }
+
+function processTileSelectionCursorInput(tilePath, cursorObj3d, camLookAtVec, dragToVec3, camTargetPos, cursorForward, cursorTravelVec) {
+    let inputForce = cursorTravelVec.lengthSq();
+    let inputAngle = cursorForward.angleTo(cursorTravelVec);
+    tempVec3.copy(cursorObj3d.position);
+    cursorObj3d.position.y = ThreeAPI.terrainAt(cursorObj3d.position)
+    tempVec3.y = cursorObj3d.position.y // ThreeAPI.terrainAt(tempVec3);
+    dragToVec3.y = tempVec3.y // ThreeAPI.terrainAt(dragToVec3, calcVec)+2;
+
+    calcVec.subVectors(dragToVec3, cursorObj3d.position);
+
+    cursorTravelVec.copy(calcVec);
+
+    calcVec.multiplyScalar(Math.cos(inputAngle) * -1.6);
+    calcVec.add(cursorObj3d.position);
+    camTargetPos.copy(calcVec);
+    calcVec.copy(cursorForward)
+    calcVec.multiplyScalar(5)
+    camTargetPos.sub(calcVec);
+
+    camTargetPos.y = cursorObj3d.position.y + camTargetPos.distanceTo(cursorObj3d.position) * 0.25 + 0.55 +inputForce * 0.0001;
+
+    if (tilePath) {
+        if (tilePath.pathTiles.length) {
+
+            let endPos = tilePath.pathTiles[tilePath.pathTiles.length-1].getPos()
+            camLookAtVec.copy(endPos)
+            calcVec.subVectors(endPos , tilePath.pathTiles[0].getPos() )
+            let tileDistance = calcVec.length()
+            camTargetPos.y += tileDistance*0.7;
+
+                calcVec.multiplyScalar(-2);
+            calcVec.y = 2;
+            calcVec.add(cursorObj3d.position)
+            camTargetPos.y += calcVec.y;
+            camLookAtVec.y += 1.1 - tileDistance*0.5;
+        }
+    }
+
+    return inputAngle;
+}
+
 
 function drawInputCursorState(cursorObj3d, dragToVec3, camTargetPos, cursorForward, cursorTravelVec) {
     dragDirection.copy(cursorTravelVec);
@@ -104,6 +134,7 @@ function processTerrainLodCenter(calcVec) {
 
 export {
     processTerrainLodCenter,
+    processTileSelectionCursorInput,
     processLookCursorInput,
     drawInputCursorState
 }
