@@ -26,10 +26,8 @@ class PieceAnimator {
 
     }
 
-    initPieceAnimator = function(piece, rigData) {
-        this.gamePiece = piece;
+    initPieceAnimator = function(rigData) {
         return this.setupPieceAnimations(rigData)
-
     };
 
     setupAnimations = function(model, scale) {
@@ -104,7 +102,7 @@ class PieceAnimator {
     activatePieceAnimation = function(animationKey, weight, timeScale, fadeTime) {
 
         let anim = this.getPieceAnim(animationKey);
-
+        console.log("animationKey: ", animationKey, anim)
         if (!anim) {
             console.log("Bad animationKey: ", animationKey)
             return;

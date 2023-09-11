@@ -22,7 +22,7 @@ class LoaderUtils {
 
 		try {
 
-			// merges multi-byte utf-8 characters.
+			// merges multi-byte utf-8 characters.json.
 
 			return decodeURIComponent( escape( s ) );
 

@@ -47,7 +47,7 @@ class ConfigData {
                 let config = MATH.getFromArrayByKeyValue(data, this.dataKey, this.dataId)[this.configKey];
                 onUpdate(config, updateCount)
             } else {
-                console.log("parseConfig without configKey set is not right", this);
+            //    console.log("parseConfig without configKey set is not right", this);
                 if (typeof (onUpdate) === 'function') {
                     onUpdate(data, updateCount);
                 }

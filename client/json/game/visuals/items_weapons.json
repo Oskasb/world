@@ -1,0 +1,44 @@
+[{
+  "GAME":{
+    "VISUALS":[
+      {
+        "id":"KATANA_GREEN",
+        "data":{
+          "model_asset":"asset_katana_green"
+        }
+      },
+      {
+        "id":"NINJASWORD",
+        "data":{
+          "model_asset":"asset_ninjablade"
+        }
+      },
+      {
+        "id":"AXE_SLICER",
+        "data":{
+
+          "model_asset":"asset_slicer_axe_2h"
+        }
+      },
+      {
+        "id":"SWORD_FANCY",
+        "data":{
+
+          "model_asset":"asset_sword_fancy"
+        }
+      },
+      {
+        "id":"EMERALD_BLADE",
+        "data": {
+          "model_asset": "asset_emerald_blade"
+        }
+      },
+      {
+        "id": "HATCHET_NICE",
+        "data": {
+          "model_asset": "asset_hatchet_nice"
+        }
+      }
+    ]
+  }
+}]

@@ -99,7 +99,7 @@
                   "widget_class":"GuiExpandingContainer",
                   "widget_config_id":"button_big_blue",
                   "options":{
-                    "text":"LOOK",
+                    "text":"FLY",
                     "container_id":"page_debug_bottom_right",
                     "offset_x": -0.05,
                     "offset_y": 0.04,
@@ -173,6 +173,23 @@
                       "event":"GAME_MODE_WALK",
                       "value":{
                         "data_id": "grid_walk_world"
+                      }
+                    }
+                  }
+                },
+                {
+                  "widget_id":"button_visual_fighter",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"button_big_blue",
+                  "options":{
+                    "text":"FIGHTER",
+                    "container_id":"page_debug_bottom_right",
+                    "offset_x": -0.05,
+                    "offset_y": 0.24,
+                    "dispatch":{
+                      "event":"LOAD_VISUAL_PIECE",
+                      "value":{
+                        "id": "VISUAL_FIGHTER"
                       }
                     }
                   }

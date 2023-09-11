@@ -95,36 +95,48 @@ class DynamicMain {
             this.instances.push(modelInstance);
             modelInstance.activateInstancedModel();
             modelInstance.setPointer(this.instancePointer);
-        //    this.instanceEvt[1] = this.assetIndex[modelInstance.getAssetId()];
-        //    this.instanceEvt[3] = modelInstance.getPointer();
-        //    evt.dispatch(ENUMS.Event.REGISTER_INSTANCE, this.instanceEvt);
             callback(modelInstance);
         }.bind(this);
 
         let asset = this.assets[assetId];
-        asset.instantiateAsset(instanceReady);
+
+        if (asset) {
+            asset.instantiateAsset(instanceReady);
+        } else {
+
+            let postLoadCB = function(loadedAsset) {
+                console.log("Post Init Asset Loaded: ", loadedAsset);
+                loadedAsset.instantiateAsset(instanceReady);
+            }
+
+            this.requestAsset(assetId, postLoadCB)
+        }
+
+
 
     };
 
     updateDynamicInstances = function() {
         for (var i = 0; i < this.instances.length; i++) {
             this.instances[i].getSpatial().updateSpatialFrame();
+            evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:this.instances[i].getSpatial().getPos(), color:'WHITE', size:0.35})
         }
     };
 
     updateDynamicMatrices = function() {
         for (var i = 0; i < this.instances.length; i++) {
-        //    if (this.instances[i].getSpatial().call.getFrameVelocity()) {
-                this.instances[i].updateSpatialWorldMatrix();
-        //        evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:this.instances[i].getSpatial().getPos(), color:'GREEN', size:1})
 
-        //    }
-           }
+            if (this.instances[i].getSpatial().call.getFrameVelocity()) {
+                this.instances[i].updateSpatialWorldMatrix();
+                evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:this.instances[i].getSpatial().getPos(), color:'WHITE', size:0.35})
+            }
+
+        }
     };
 
     tickDynamicMain = function() {
         this.updateDynamicMatrices();
-        this.updateDynamicInstances();
+     //   this.updateDynamicInstances();
         InstanceAPI.updateInstances();
 
     };

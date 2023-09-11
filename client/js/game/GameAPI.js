@@ -5,8 +5,9 @@ import { GameMain } from "./GameMain.js";
 import { GameWorldPointer } from "../application/ui/input/GameWorldPointer.js";
 import { GameCamera } from "../3d/camera/GameCamera.js";
 import { WorldModels } from "./gameworld/WorldModels.js";
+import { GamePieceSystem } from "./GamePieceSystem.js";
 
-
+let gamePieceSystem = new GamePieceSystem();
 let gameCamera = new GameCamera();
 
 class GameAPI {
@@ -40,6 +41,7 @@ class GameAPI {
     }
 
     initGameMain() {
+        gamePieceSystem.initGamePieceSystem()
         this.gameMain.initGameMain();
     }
 

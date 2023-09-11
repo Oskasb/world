@@ -166,7 +166,8 @@ class InstanceSpatial{
                 return;
             }
             testVec3ForNaN(obj3d.position)
-            this.obj3d.position.copy(obj3d.position);
+            this.setPosVec3(obj3d.position)
+        //    this.obj3d.position.copy(obj3d.position);
             this.obj3d.scale.copy(obj3d.scale);
             this.obj3d.quaternion.copy(obj3d.quaternion);
 
@@ -177,9 +178,6 @@ class InstanceSpatial{
             }
         }
 
-        updateSpatialFrame = function() {
-
-        };
 
         turnTowardsPos(posVec3) {
             this.obj3d.lookAt(posVec3);

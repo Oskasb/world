@@ -77,7 +77,8 @@ if(typeof(ENUMS) === "undefined"){
         ACTIVATE_NAV_POINTS:        58,
         SET_CAMERA_MODE:            59,
         GAME_MODE_WALK:             60,
-        GAME_MODE_BATTLE:           61
+        GAME_MODE_BATTLE:           61,
+        LOAD_VISUAL_PIECE:           62,
     };
 
     ENUMS.Args = {

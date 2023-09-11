@@ -13,8 +13,8 @@ class PieceActionSystem {
             switchFrame:false
         }
     }
-    initPieceActionSystem(gamePiece, rigData) {
-        this.gamePiece = gamePiece;
+    initPieceActionSystem(visualPiece, rigData) {
+        this.visualPiece = visualPiece;
         let actions = this.actions;
         let addActionGroup = function(actionList, data) {
             for (let i = 0; i < data.length; i++) {
@@ -26,6 +26,7 @@ class PieceActionSystem {
             actions[key] = [];
             addActionGroup(actions[key], rigData['action_maps'][key])
         }
+        console.log(actions);
     }
 
     activateActionOfType(actionType, actionName) {
@@ -47,17 +48,17 @@ class PieceActionSystem {
         let actionUpdate = this.actionUpdate;
         pieceAction.updatePieceActionState(actionUpdate, source, init, active, end);
 
-        if (!this.gamePiece.getPlayingAnimation( actionUpdate.animKey)) {
+        if (!this.visualPiece.getPlayingAnimation( actionUpdate.animKey)) {
             if (actionUpdate.lastAnim) {
-                this.gamePiece.applyPieceAnimationState(actionUpdate.lastAnim, actionUpdate.lastDuartion*0.5, actionUpdate.lastAnimChannel, 0, clamp)
+                this.visualPiece.applyPieceAnimationState(actionUpdate.lastAnim, actionUpdate.lastDuartion*0.5, actionUpdate.lastAnimChannel, 0, clamp)
             }
-            this.gamePiece.applyPieceAnimationState(actionUpdate.animKey, duration+0.1, actionUpdate.animChannel, null, clamp)
+            this.visualPiece.applyPieceAnimationState(actionUpdate.animKey, duration+0.1, actionUpdate.animChannel, null, clamp)
             actionUpdate.lastAnim = actionUpdate.animKey;
             actionUpdate.lastDuartion = duration;
             actionUpdate.lastAnimChannel = actionUpdate.animChannel;
         } else {
         //    let weight = Math.random();
-        //    this.gamePiece.activatePieceAnimation(actionUpdate.animKey, weight)
+        //    this.visualPiece.activatePieceAnimation(actionUpdate.animKey, weight)
         }
         return actionUpdate.animKey;
     }

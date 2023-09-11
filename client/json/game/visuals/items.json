@@ -1,0 +1,18 @@
+[{
+  "GAME":{
+    "VISUALS":[
+      {
+        "id":"BARB_BREASTPLATE",
+        "data":{
+          "model_asset":"skinned_barb_bp"
+        }
+      },
+      {
+        "id":"BARB_GREAVES",
+        "data":{
+          "model_asset":"skinned_barb_greaves"
+        }
+      }
+    ]
+  }
+}]
