@@ -1,8 +1,9 @@
 import {LineRenderer} from "./LineRenderer.js";
+import {Vector3} from "../../../../libs/three/math/Vector3.js";
 
 class LineRenderSystem {
 	constructor() {
-		var	Vector3 = THREE.Vector3;
+
 
 		this.isActive = false;
 
@@ -49,13 +50,13 @@ class LineRenderSystem {
 
 
 	_drawAxisLine = function (start, startEndDelta, startDataIndex, endDataIndex, startPolarity, endPolarity, color, transformMatrix) {
-		let startAxis = LineRenderSystem.axis[startDataIndex];
-		let endAxis = LineRenderSystem.axis[endDataIndex];
+		let startAxis = this.axis[startDataIndex];
+		let endAxis = this.axis[endDataIndex];
 
-		let lineStart = tmpVec2.set(start);
+		let lineStart = this.tmpVec2.copy(start);
 		lineStart[startAxis] += startEndDelta[startAxis] * startPolarity;
 
-		let lineEnd = tmpVec3.set(lineStart);
+		let lineEnd = this.tmpVec3.copy(lineStart);
 		lineEnd[endAxis] += startEndDelta[endAxis] * endPolarity;
 
 		if (transformMatrix !== undefined) {
@@ -74,10 +75,10 @@ class LineRenderSystem {
 	 * @param {Matrix4} [transformMatrix]
 	 */
 	drawAABox = function (min, max, color, transformMatrix) {
-		var diff = this.tmpVec1.set(max).sub(min);
+		let diff = this.tmpVec1.copy(max).sub(min);
 
-		for (var a = 0; a < 3; a++) {
-			for (var b = 0; b < 3; b++) {
+		for (let a = 0; a < 3; a++) {
+			for (let b = 0; b < 3; b++) {
 				if (b !== a) {
 					this._drawAxisLine(min, diff, a, b, 1, 1, color, transformMatrix);
 				}

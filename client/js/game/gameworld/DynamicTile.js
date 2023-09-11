@@ -156,6 +156,10 @@ class DynamicTile {
         return this.obj3d.position;
     }
 
+    getNormal = function() {
+        return this.groundNormal;
+    }
+
     removeTile = function () {
         this.tileEffect.recoverEffectOfClass();
     }

@@ -47,11 +47,13 @@ class DebugLines {
         };
 
 
-        let drawBox = function(args) {
-            tempVec1.set(args[0], args[1], args[2]);
-            tempVec2.set(args[3], args[4], args[5]);
-            color = lineDenderSystem.color(ENUMS.getKey('Color', args[6]));
-            lineDenderSystem.drawAABox(tempVec1, tempVec2, color)
+        let drawBox = function(event) {
+            if (typeof (event.color) === 'string') {
+                color = lineDenderSystem.color(event.color);
+            } else {
+                color = event.color;
+            }
+            lineDenderSystem.drawAABox(event.min, event.max, color)
         };
 
         evt.on(ENUMS.Event.DEBUG_DRAW_LINE, drawLine);

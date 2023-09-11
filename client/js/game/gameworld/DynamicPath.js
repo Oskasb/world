@@ -1,6 +1,45 @@
 import { TilePath } from "../piece_functions/TilePath.js";
 import {Vector3} from "../../../libs/three/math/Vector3.js";
 
+let tempVec = new Vector3()
+let tempVec1 = new Vector3()
+let tempVec2 = new Vector3()
+let tempVec3 = new Vector3()
+
+let drawPathTileVector = function(pathTiles, gamePiece) {
+    if (pathTiles.length > 1) {
+        evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:pathTiles[0].getPos(), color:'GREEN', size:0.3})
+        evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:pathTiles[1].getPos(), color:'YELLOW', size:0.3})
+        evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:gamePiece.getPos(), to:pathTiles[1].getPos(), color:'YELLOW'})
+    } else {
+        evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:gamePiece.getPos(), color:'RED', size:0.5})
+    }
+}
+
+let drawPathTiles = function(pathTiles) {
+    tempVec.copy(pathTiles[0].getPos());
+    tempVec1.set(0.49, 0, 0.49);
+    for (let i = 0; i < pathTiles.length; i++) {
+
+        evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:tempVec, color:'GREEN', size:0.1})
+
+        if (pathTiles[i+1]) {
+
+            tempVec2.subVectors(tempVec, tempVec1);
+            tempVec3.addVectors(tempVec, tempVec1);
+
+
+            tempVec.copy(pathTiles[i+1].getPos());
+            tempVec3.y = tempVec.y;
+
+
+            evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:tempVec2, max:tempVec3, color:'GREEN'})
+
+        }
+
+    }
+}
+
 class DynamicPath {
     constructor() {
         this.tilePath = new TilePath();
@@ -22,6 +61,8 @@ class DynamicPath {
         this.lineEvent.color = color || 'CYAN';
         evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, this.lineEvent);
     }
+
+
 
     selectTilesBeneathPath(startTile, endTile, gridTiles) {
 
@@ -81,6 +122,8 @@ class DynamicPath {
         }
 
         this.tilePath.setEndTile(endTile);
+
+        drawPathTiles(this.tilePath.getTiles())
 
         return this.tilePath
 

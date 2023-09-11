@@ -1,22 +1,6 @@
 import {Vector3} from "../../../libs/three/math/Vector3.js";
 let tempVec = new Vector3()
 
-let drawPathTiles = function(pathTiles) {
-    for (let i = 0; i < pathTiles.length; i++) {
-        evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:pathTiles[i].getPos(), color:'GREEN', size:0.1})
-    }
-}
-
-let drawPathTileVector = function(pathTiles, gamePiece) {
-    if (pathTiles.length > 1) {
-        evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:pathTiles[0].getPos(), color:'GREEN', size:0.3})
-        evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:pathTiles[1].getPos(), color:'YELLOW', size:0.3})
-        evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:gamePiece.getPos(), to:pathTiles[1].getPos(), color:'YELLOW'})
-    } else {
-        evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:gamePiece.getPos(), color:'RED', size:0.5})
-    }
-
-}
 
 class DynamicWalker {
     constructor() {
@@ -64,7 +48,6 @@ class DynamicWalker {
 
         let pathTiles = this.tilePath.getTiles();
 
-        drawPathTiles(pathTiles);
         let targetTile = this.tilePath.getEndTile();
 
         let charSpeed = 4;
