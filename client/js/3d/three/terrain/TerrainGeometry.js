@@ -143,14 +143,14 @@ class TerrainGeometry{
         this.boundingSphere.center.y = ThreeAPI.terrainAt(this.obj3d.position)+5;
 */
         let box3min = new Vector3();
-        box3min.x = this.posX - this.size*0.65;
+        box3min.x = this.posX - this.size*0.55;
         box3min.y = 0;
-        box3min.z = this.posZ - this.size*0.65;
+        box3min.z = this.posZ - this.size*0.55;
         let box3Max = new Vector3();
 
-        box3Max.x = this.posX + this.size*0.65;
-        box3Max.y = 200;
-        box3Max.z = this.posZ + this.size*0.65;
+        box3Max.x = this.posX + this.size*0.55;
+        box3Max.y = 60;
+        box3Max.z = this.posZ + this.size*0.55;
 
         this.boundingBox = new Box3(box3min, box3Max);
 
@@ -268,6 +268,7 @@ class TerrainGeometry{
     detachGeometryInstance() {
         this.levelOfDetail = -1;
         if (this.instance) {
+            evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ThreeAPI.getCameraCursor().getPos(), to:this.obj3d.position, color:'RED'});
             this.instance.decommissionInstancedModel();
             this.oceanInstance.decommissionInstancedModel();
             ThreeAPI.removeFromScene(this.model);
@@ -283,8 +284,12 @@ class TerrainGeometry{
         if (lodLevel === this.levelOfDetail) {
             return;
         } else if (this.instance) {
+            evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:this.boundingBox.min, max:this.boundingBox.max, color:'RED'})
             this.detachGeometryInstance();
         }
+
+        evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:this.boundingBox.min, max:this.boundingBox.max, color:'GREEN'})
+        evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ThreeAPI.getCameraCursor().getPos(), to:this.obj3d.position, color:'YELLOW'});
 
         let addSceneInstance = function(instance) {
             this.levelOfDetail = lodLevel;
@@ -419,12 +424,16 @@ class TerrainGeometry{
                 let gridDist = Math.max(gridDistX, gridDistY);
                 let lodLevel = Math.min(Math.floor( gridDist/3), maxLodLevel)
                 this.attachGeometryInstance(null, lodLevel)
+
+            //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:this.boundingBox.min, max:this.boundingBox.max, color:'GREEN'})
+
             //    let color = {x:Math.cos(lodLevel/2)*0.5+0.5, y:Math.cos(lodLevel)*0.5 + 0.5, z: Math.sin(lodLevel)*0.5+0.5, w:1}
             //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:GameAPI.getMainCharPiece().getPos(), to:this.obj3d.position, color:color});
 
             } else {
-             //   evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:GameAPI.getMainCharPiece().getPos(), to:this.obj3d.position, color:'RED'});
+
                 this.detachGeometryInstance();
+            //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:this.boundingBox.min, max:this.boundingBox.max, color:'RED'})
             }
 
             if (this.isVisible) {

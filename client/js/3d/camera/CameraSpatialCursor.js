@@ -18,7 +18,7 @@ let camPosVec = new Vector3();
 let camLookAtVec = new Vector3();
 let cursorTravelVec = new Vector3();
 let cursorForward = new Vector3();
-
+let walkForward = new Vector3()
 
 let lookAroundPoint = new Vector3(-885, 0, 530)
 
@@ -147,6 +147,7 @@ let updateWalkCamera = function() {
 
 }
 
+
 let modeHistory = [];
 
 let camCB = function() {
@@ -157,10 +158,29 @@ let camCB = function() {
 
 let pathCompletedCallback = function(movedObj3d) {
     cursorObj3d.position.copy(movedObj3d.position)
+    cursorObj3d.quaternion.copy(walkObj3d.quaternion)
 }
 
 let updatePathingCamera = function(movedObj3d) {
-    camLookAtVec.copy(movedObj3d.position);
+
+    walkForward.set(0, 0, 1);
+    walkForward.applyQuaternion(walkObj3d.quaternion);
+
+
+
+    let inputForce = CursorUtils.processTilePathingCamera(tilePath, walkObj3d, calcVec, tempVec3, walkForward)
+
+    lerpFactor = tpf
+
+    lerpFactor *=  inputForce*0.001
+    lerpFactor = MATH.clamp(lerpFactor, 0.01, 0.05);
+    cursorTravelVec.multiplyScalar(Math.abs(lerpFactor));
+
+
+    camLookAtVec.lerp(calcVec, tpf*7);
+    camTargetPos.lerp(tempVec3, tpf*2);
+
+ //   camLookAtVec.copy(movedObj3d.position);
 }
 
 class CameraSpatialCursor {

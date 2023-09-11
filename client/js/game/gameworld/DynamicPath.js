@@ -46,8 +46,6 @@ class DynamicPath {
         this.tempVec = new Vector3()
         this.tempVec = new Vector3();
 
-
-
         this.lineEvent = {
             from:new Vector3(),
             to: new Vector3(),

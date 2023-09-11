@@ -580,7 +580,11 @@ class ThreeTerrain {
         CursorUtils.processTerrainLodCenter(calcVec)
     //    if (GameAPI.gameMain.getPlayerCharacter()) {
 
+
+
             let playerGeo = getTerrainGeoAtPos(calcVec);
+
+
             if (playerGeo !== geoBeneathPlayer) {
             //    activateTerrainGeos(playerGeo.gridX, playerGeo.gridY, gridConfig.range)
                 geoBeneathPlayer = playerGeo;
@@ -599,6 +603,9 @@ class ThreeTerrain {
                 let tile = postVisibleGeoTiles.pop();
                 visibleGeoTiles.push(tile);
             }
+
+    //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:playerGeo.boundingBox.min, max:playerGeo.boundingBox.max, color:'GREEN'})
+
 
         /*
         if (visibleGeoTiles.length !== visibleCount) {

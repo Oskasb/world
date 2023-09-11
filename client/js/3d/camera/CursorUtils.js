@@ -1,6 +1,8 @@
 import {Vector3} from "../../../libs/three/math/Vector3.js";
 
 let calcVec = new Vector3()
+let tempVec1 = new Vector3()
+let tempVec2 = new Vector3()
 let tempVec3 = new Vector3();
 let dragDirection = new Vector3();
 let color = {}
@@ -17,8 +19,6 @@ function processLookCursorInput(cursorObj3d, dragToVec3, camTargetPos, cursorFor
 
     cursorTravelVec.copy(calcVec);
     cursorTravelVec.y += inputForce * 0.1;
-
-
 
     calcVec.multiplyScalar(Math.cos(inputAngle) * -2);
     calcVec.add(cursorObj3d.position);
@@ -61,7 +61,7 @@ function processTileSelectionCursorInput(tilePath, cursorObj3d, camLookAtVec, dr
             let tileDistance = calcVec.length()
             camTargetPos.y += tileDistance*0.7;
 
-                calcVec.multiplyScalar(-2);
+            calcVec.multiplyScalar(-2);
             calcVec.y = 2;
             calcVec.add(cursorObj3d.position)
             camTargetPos.y += calcVec.y;
@@ -71,6 +71,34 @@ function processTileSelectionCursorInput(tilePath, cursorObj3d, camLookAtVec, dr
 
     return inputAngle;
 }
+
+function processTilePathingCamera(tilePath, cursorObj3d, camLookAtVec, camTargetPos, walkForward) {
+    tempVec3.copy(cursorObj3d.position);
+    let endPos = tilePath.getEndTile().getPos()
+    tempVec1.subVectors(endPos, tempVec3 );
+    let inputForce = tempVec1.length();
+
+    calcVec.copy(tempVec1);
+
+    calcVec.multiplyScalar( -0.7);
+    calcVec.add(cursorObj3d.position);
+    camTargetPos.copy(calcVec);
+    calcVec.copy(walkForward)
+    calcVec.multiplyScalar(1.2)
+    camTargetPos.sub(calcVec);
+
+    camTargetPos.y = cursorObj3d.position.y + camTargetPos.distanceTo(cursorObj3d.position) * 0.25 + 0.9 +inputForce * 0.2;
+
+    tempVec1.multiplyScalar(0.5);
+    camLookAtVec.copy(cursorObj3d.position);
+    camLookAtVec.add(tempVec1);
+
+    camTargetPos.y += inputForce*0.7;
+    camLookAtVec.y += 1.1 - inputForce*0.3;
+
+    return inputForce;
+}
+
 
 
 function drawInputCursorState(cursorObj3d, dragToVec3, camTargetPos, cursorForward, cursorTravelVec) {
@@ -105,36 +133,19 @@ function processTerrainLodCenter(calcVec) {
     calcVec.multiplyScalar(-0.2);
     calcVec.add(cursorPos);
     calcVec.y = cursorPos.y+0.1
-    //     evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:cursorPos, to:calcVec, color:"YELLOW"});
-    //     GuiAPI.printDebugText(''+calcVec.x+' '+calcVec.y+' '+calcVec.z)
 
-
-
-
-//    ThreeAPI.groundAt(calcVec, color);
     evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:calcVec, color:'WHITE', size:0.2})
- //   evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:calcVec, color:color, size:0.3})
+    //   evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:calcVec, color:color, size:0.3})
     ThreeAPI.groundAt(cursorPos, color);
     evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:cursorPos, color:'WHITE', size:0.35})
     evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:cursorPos, color:color, size:0.3})
-
-
-
-   // posVec.copy(cursorPos);
-   // posVec.y = getHeightAndNormal(cursorPos, normVec);
-    //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:posVec, color:'GREEN', size:0.3});
-   // normVec.add(posVec);
-    //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:posVec, to:normVec, color:'AQUA'});
-    /*
-                for (let i = 0; i < 20; i++) {
-                    debugDrawNearby(i);
-                }
-    */
+    
 }
 
 export {
     processTerrainLodCenter,
     processTileSelectionCursorInput,
+    processTilePathingCamera,
     processLookCursorInput,
     drawInputCursorState
 }
