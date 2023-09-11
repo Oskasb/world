@@ -8,9 +8,12 @@ class ThreeTexture {
         let imgLoaded = function(asset) {
         //       console.log("image loaded", asset);
             _this.texture = new THREE.CanvasTexture( asset.bitmap);
+            _this.texture.isTexture = true;
         //    console.log('CanvasTexture', this.id, this.texture)
             _this.applyTxSettings(_this.texture, _this.config.settings);
             _this.texture.sourceUrl = asset.url;
+            _this.texture.generateMipmaps = false;
+            _this.texture.needsUpdate = true;
             callback(this)
         }.bind(this);
 

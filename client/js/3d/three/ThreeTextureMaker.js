@@ -67,6 +67,7 @@ class ThreeTextureMaker {
 
                             if (txType === 'envMap') {
                                 tx.mapping = THREE.SphericalReflectionMapping;
+                                console.log("Load Env Map; ", tx)
                             }
 
                             if (txType === 'particle_texture') {

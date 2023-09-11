@@ -48,7 +48,7 @@
               "settings": {
                 "roughness":1,
                 "metalness":1.0,
-                "envMapIntensity":1.8,
+                "envMapIntensity":10000.8,
                 "aoMapIntensity":1.1
               }
             }
@@ -62,10 +62,9 @@
               "blending": "NoBlending",
               "color": {"r": 1, "g": 1, "b": 1 },
               "settings": {
-                "roughness":1,
+                "roughness":1.0,
                 "metalness":1.0,
-                "envMapIntensity":1.2,
-                "aoMapIntensity":1.1
+                "envMapIntensity":1.8
               }
             }
           }

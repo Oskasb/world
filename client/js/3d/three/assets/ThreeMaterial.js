@@ -15,9 +15,14 @@ class ThreeMaterial {
         let matReady = function(mat) {
             _this.mat = mat;
             mat.name = _this.id;
-        //    console.log(mat.name)
-           //   console.log("Material Ready", this);
+        //   console.log(mat.name)
+        //      console.log("Material Ready", this);
+
             for (let key in this.textureMap) {
+
+                if (key === 'envMap') {
+                    console.log("EnvMap: ", this);
+                }
 
                 if (!this.textures[this.textureMap[key]]) {
                     console.error("No such texture", key, this)
@@ -27,7 +32,14 @@ class ThreeMaterial {
 
                 mat[this.textureMap[key]] = this.textures[this.textureMap[key]].texture;
             }
-           //   console.log("Material Ready", this);
+              console.log("Material Ready", this);
+
+            if (mat['envMap']) {
+                mat['envMap'].mapping = THREE.SphericalReflectionMapping;
+                console.log("Spherical MApping", mat['envMap'])
+            }
+
+            mat.needsUpdate = true;
             callback(this);
         }.bind(this);
 
