@@ -3,8 +3,8 @@ const _RESERVED_CHARS_RE = '\\[\\]\\.:\\/';
 const _reservedRe = new RegExp( '[' + _RESERVED_CHARS_RE + ']', 'g' );
 
 // Attempts to allow node names from any language. ES5's `\w` regexp matches
-// only latin characters.json, and the unicode \p{L} is not yet supported. So
-// instead, we exclude reserved characters.json and match everything else.
+// only latin characters, and the unicode \p{L} is not yet supported. So
+// instead, we exclude reserved characters and match everything else.
 const _wordChar = '[^' + _RESERVED_CHARS_RE + ']';
 const _wordCharOrDot = '[^' + _RESERVED_CHARS_RE.replace( '\\.', '' ) + ']';
 
@@ -12,15 +12,15 @@ const _wordCharOrDot = '[^' + _RESERVED_CHARS_RE.replace( '\\.', '' ) + ']';
 // be matched to parse the rest of the track name.
 const _directoryRe = /*@__PURE__*/ /((?:WC+[\/:])*)/.source.replace( 'WC', _wordChar );
 
-// Target node. May contain word characters.json (a-zA-Z0-9_) and '.' or '-'.
+// Target node. May contain word characters (a-zA-Z0-9_) and '.' or '-'.
 const _nodeRe = /*@__PURE__*/ /(WCOD+)?/.source.replace( 'WCOD', _wordCharOrDot );
 
 // Object on target node, and accessor. May not contain reserved
-// characters.json. Accessor may contain any character except closing bracket.
+// characters. Accessor may contain any character except closing bracket.
 const _objectRe = /*@__PURE__*/ /(?:\.(WC+)(?:\[(.+)\])?)?/.source.replace( 'WC', _wordChar );
 
-// Property and accessor. May not contain reserved characters.json. Accessor may
-// contain any non-bracket characters.json.
+// Property and accessor. May not contain reserved characters. Accessor may
+// contain any non-bracket characters.
 const _propertyRe = /*@__PURE__*/ /\.(WC+)(?:\[(.+)\])?/.source.replace( 'WC', _wordChar );
 
 const _trackRe = new RegExp( ''
@@ -133,7 +133,7 @@ class PropertyBinding {
 	}
 
 	/**
-	 * Replaces spaces with underscores and removes unsupported characters.json from
+	 * Replaces spaces with underscores and removes unsupported characters from
 	 * node names, to ensure compatibility with parseTrackName().
 	 *
 	 * @param {string} name Node name to be sanitized.
@@ -173,7 +173,7 @@ class PropertyBinding {
 			// Object names must be checked against an allowlist. Otherwise, there
 			// is no way to parse 'foo.bar.baz': 'baz' must be a property, but
 			// 'bar' could be the objectName, or part of a nodeName (which can
-			// include '.' characters.json).
+			// include '.' characters).
 			if ( _supportedObjectNames.indexOf( objectName ) !== - 1 ) {
 
 				results.nodeName = results.nodeName.substring( 0, lastDot );
@@ -436,7 +436,7 @@ class PropertyBinding {
 		// ensure there is a value node
 		if ( ! targetObject ) {
 
-			console.error( 'THREE.PropertyBinding: Trying to update node for track: ' + this.path + ' but it wasn\'t found.' );
+			console.warn( 'THREE.PropertyBinding: No target node found for track: ' + this.path + '.' );
 			return;
 
 		}

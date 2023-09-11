@@ -1,9 +1,10 @@
-import { BackSide, DoubleSide, CubeUVReflectionMapping, ObjectSpaceNormalMap, TangentSpaceNormalMap, NoToneMapping, NormalBlending, LinearSRGBColorSpace } from '../../constants.js';
+import { BackSide, DoubleSide, CubeUVReflectionMapping, ObjectSpaceNormalMap, TangentSpaceNormalMap, NoToneMapping, NormalBlending, LinearSRGBColorSpace, SRGBTransfer } from '../../constants.js';
 import { Layers } from '../../core/Layers.js';
 import { WebGLProgram } from './WebGLProgram.js';
 import { WebGLShaderCache } from './WebGLShaderCache.js';
 import { ShaderLib } from '../shaders/ShaderLib.js';
 import { UniformsUtils } from '../shaders/UniformsUtils.js';
+import { ColorManagement } from '../../math/ColorManagement.js';
 
 function WebGLPrograms( renderer, cubemaps, cubeuvmaps, extensions, capabilities, bindingStates, clipping ) {
 
@@ -37,11 +38,9 @@ function WebGLPrograms( renderer, cubemaps, cubeuvmaps, extensions, capabilities
 
 	function getChannel( value ) {
 
-		if ( value === 1 ) return 'uv1';
-		if ( value === 2 ) return 'uv2';
-		if ( value === 3 ) return 'uv3';
+		if ( value === 0 ) return 'uv';
 
-		return 'uv';
+		return `uv${ value }`;
 
 	}
 
@@ -123,10 +122,13 @@ function WebGLPrograms( renderer, cubemaps, cubeuvmaps, extensions, capabilities
 		const HAS_METALNESSMAP = !! material.metalnessMap;
 		const HAS_ROUGHNESSMAP = !! material.roughnessMap;
 
+		const HAS_ANISOTROPY = material.anisotropy > 0;
 		const HAS_CLEARCOAT = material.clearcoat > 0;
 		const HAS_IRIDESCENCE = material.iridescence > 0;
 		const HAS_SHEEN = material.sheen > 0;
 		const HAS_TRANSMISSION = material.transmission > 0;
+
+		const HAS_ANISOTROPYMAP = HAS_ANISOTROPY && !! material.anisotropyMap;
 
 		const HAS_CLEARCOATMAP = HAS_CLEARCOAT && !! material.clearcoatMap;
 		const HAS_CLEARCOAT_NORMALMAP = HAS_CLEARCOAT && !! material.clearcoatNormalMap;
@@ -151,18 +153,33 @@ function WebGLPrograms( renderer, cubemaps, cubeuvmaps, extensions, capabilities
 
 		const HAS_ALPHATEST = material.alphaTest > 0;
 
+		const HAS_ALPHAHASH = !! material.alphaHash;
+
 		const HAS_EXTENSIONS = !! material.extensions;
 
 		const HAS_ATTRIBUTE_UV1 = !! geometry.attributes.uv1;
 		const HAS_ATTRIBUTE_UV2 = !! geometry.attributes.uv2;
 		const HAS_ATTRIBUTE_UV3 = !! geometry.attributes.uv3;
 
+		let toneMapping = NoToneMapping;
+
+		if ( material.toneMapped ) {
+
+			if ( currentRenderTarget === null || currentRenderTarget.isXRRenderTarget === true ) {
+
+				toneMapping = renderer.toneMapping;
+
+			}
+
+		}
+
 		const parameters = {
 
 			isWebGL2: IS_WEBGL2,
 
 			shaderID: shaderID,
-			shaderName: material.type,
+			shaderType: material.type,
+			shaderName: material.name,
 
 			vertexShader: vertexShader,
 			fragmentShader: fragmentShader,
@@ -200,6 +217,9 @@ function WebGLPrograms( renderer, cubemaps, cubeuvmaps, extensions, capabilities
 			metalnessMap: HAS_METALNESSMAP,
 			roughnessMap: HAS_ROUGHNESSMAP,
 
+			anisotropy: HAS_ANISOTROPY,
+			anisotropyMap: HAS_ANISOTROPYMAP,
+
 			clearcoat: HAS_CLEARCOAT,
 			clearcoatMap: HAS_CLEARCOATMAP,
 			clearcoatNormalMap: HAS_CLEARCOAT_NORMALMAP,
@@ -227,6 +247,7 @@ function WebGLPrograms( renderer, cubemaps, cubeuvmaps, extensions, capabilities
 
 			alphaMap: HAS_ALPHAMAP,
 			alphaTest: HAS_ALPHATEST,
+			alphaHash: HAS_ALPHAHASH,
 
 			combine: material.combine,
 
@@ -242,6 +263,8 @@ function WebGLPrograms( renderer, cubemaps, cubeuvmaps, extensions, capabilities
 
 			metalnessMapUv: HAS_METALNESSMAP && getChannel( material.metalnessMap.channel ),
 			roughnessMapUv: HAS_ROUGHNESSMAP && getChannel( material.roughnessMap.channel ),
+
+			anisotropyMapUv: HAS_ANISOTROPYMAP && getChannel( material.anisotropyMap.channel ),
 
 			clearcoatMapUv: HAS_CLEARCOATMAP && getChannel( material.clearcoatMap.channel ),
 			clearcoatNormalMapUv: HAS_CLEARCOAT_NORMALMAP && getChannel( material.clearcoatNormalMap.channel ),
@@ -264,7 +287,7 @@ function WebGLPrograms( renderer, cubemaps, cubeuvmaps, extensions, capabilities
 
 			//
 
-			vertexTangents: HAS_NORMALMAP && !! geometry.attributes.tangent,
+			vertexTangents: !! geometry.attributes.tangent && ( HAS_NORMALMAP || HAS_ANISOTROPY ),
 			vertexColors: material.vertexColors,
 			vertexAlphas: material.vertexColors === true && !! geometry.attributes.color && geometry.attributes.color.itemSize === 4,
 			vertexUv1s: HAS_ATTRIBUTE_UV1,
@@ -310,8 +333,10 @@ function WebGLPrograms( renderer, cubemaps, cubeuvmaps, extensions, capabilities
 			shadowMapEnabled: renderer.shadowMap.enabled && shadows.length > 0,
 			shadowMapType: renderer.shadowMap.type,
 
-			toneMapping: material.toneMapped ? renderer.toneMapping : NoToneMapping,
-			useLegacyLights: renderer.useLegacyLights,
+			toneMapping: toneMapping,
+			useLegacyLights: renderer._useLegacyLights,
+
+			decodeVideoTexture: HAS_MAP && ( material.map.isVideoTexture === true ) && ( ColorManagement.getTransfer( material.map.colorSpace ) === SRGBTransfer ),
 
 			premultipliedAlpha: material.premultipliedAlpha,
 
@@ -396,6 +421,7 @@ function WebGLPrograms( renderer, cubemaps, cubeuvmaps, extensions, capabilities
 		array.push( parameters.emissiveMapUv );
 		array.push( parameters.metalnessMapUv );
 		array.push( parameters.roughnessMapUv );
+		array.push( parameters.anisotropyMapUv );
 		array.push( parameters.clearcoatMapUv );
 		array.push( parameters.clearcoatNormalMapUv );
 		array.push( parameters.clearcoatRoughnessMapUv );
@@ -469,6 +495,8 @@ function WebGLPrograms( renderer, cubemaps, cubeuvmaps, extensions, capabilities
 			_programLayers.enable( 15 );
 		if ( parameters.vertexTangents )
 			_programLayers.enable( 16 );
+		if ( parameters.anisotropy )
+			_programLayers.enable( 17 );
 
 		array.push( _programLayers.mask );
 		_programLayers.disableAll();
@@ -511,6 +539,8 @@ function WebGLPrograms( renderer, cubemaps, cubeuvmaps, extensions, capabilities
 			_programLayers.enable( 17 );
 		if ( parameters.pointsUvs )
 			_programLayers.enable( 18 );
+		if ( parameters.decodeVideoTexture )
+			_programLayers.enable( 19 );
 
 		array.push( _programLayers.mask );
 
@@ -608,6 +638,5 @@ function WebGLPrograms( renderer, cubemaps, cubeuvmaps, extensions, capabilities
 	};
 
 }
-
 
 export { WebGLPrograms };
