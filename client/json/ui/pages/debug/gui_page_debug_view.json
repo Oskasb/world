@@ -187,9 +187,9 @@
                     "offset_x": -0.05,
                     "offset_y": 0.24,
                     "dispatch":{
-                      "event":"LOAD_VISUAL_PIECE",
+                      "event":"LOAD_ACTOR",
                       "value":{
-                        "id": "VISUAL_FIGHTER"
+                        "id": "ACTOR_FIGHTER"
                       }
                     }
                   }

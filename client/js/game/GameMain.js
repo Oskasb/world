@@ -80,6 +80,7 @@ class GameMain {
         let activateGameWalkGrid = function(event) {
         //    console.log("Activate Walk Grid", event)
             gameWalkGrid.activateWalkGrid(event)
+            return gameWalkGrid;
         }.bind(this)
 
         let activateGameBattleMode = function(event) {
@@ -161,8 +162,8 @@ class GameMain {
         return gameWalkGrid.buildGridPath(from, to)
     }
 
-    applyDynamicPathToObj3d(tilePath, obj3d) {
-        return gameWalkGrid.walkAlongPath(tilePath, obj3d)
+    applyDynamicPathToObj3d( obj3d) {
+        return gameWalkGrid.walkAlongPath(obj3d)
     }
 
     getGridTileAtPos(posVec) {

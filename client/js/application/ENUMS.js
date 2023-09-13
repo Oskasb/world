@@ -78,7 +78,7 @@ if(typeof(ENUMS) === "undefined"){
         SET_CAMERA_MODE:            59,
         GAME_MODE_WALK:             60,
         GAME_MODE_BATTLE:           61,
-        LOAD_VISUAL_PIECE:           62,
+        LOAD_ACTOR:                 62,
     };
 
     ENUMS.Args = {

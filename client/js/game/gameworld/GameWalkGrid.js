@@ -1,4 +1,5 @@
-import {ConfigData} from "../../application/utils/ConfigData.js";
+import { ConfigData } from "../../application/utils/ConfigData.js";
+import {Object3D } from "../../../libs/three/core/Object3D.js";
 import { DynamicGrid} from "./DynamicGrid.js";
 import { DynamicPath } from "./DynamicPath.js";
 import { DynamicWalker} from "./DynamicWalker.js";
@@ -15,6 +16,9 @@ class GameWalkGrid {
         this.isActive = false;
 
         this.dataId = null;
+
+        this.hostObj3d = new Object3D();
+        this.moveObj3d = this.hostObj3d;
 
         this.instances = [];
         this.configData = new ConfigData("GRID", "WALK_GRID",  'walk_grid_data', 'data_key', 'config')
@@ -45,28 +49,21 @@ class GameWalkGrid {
         }
     }
 
-    activateWalkGrid = function(event) {
+    activateWalkGrid = function() {
 
         if (this.isActive) {
             this.deactivateWalkGrid();
         } else {
-            console.log("Activate Walk Grid:", event)
-            if (this.dataId !== event['data_id']) {
-                this.configData.parseConfig(event['data_id'], this.call.configUpdate)
-                this.dataId = event['data_id'];
+            console.log("Activate Walk Grid")
+            if (this.dataId !== "grid_walk_world") {
+                this.configData.parseConfig("grid_walk_world", this.call.configUpdate)
+                this.dataId = "grid_walk_world";
             }
 
             this.isActive = true;
 
             this.dynamicGrid.activateDynamicGrid(this.config['grid'])
             GameAPI.registerGameUpdateCallback(this.call.updateWalkGrid);
-        }
-
-        let dispatches = this.config['dispatch']
-        if (typeof(dispatches) ===  'object') {
-            for (let i = 0; i < dispatches.length; i++) {
-                evt.dispatch(ENUMS.Event[dispatches[i]['event']], dispatches[i]['value'])
-            }
         }
 
     }
@@ -77,22 +74,37 @@ class GameWalkGrid {
     }
 
     buildGridPath(from, to) {
+        this.dynamicWalker.call.clearDynamicPath()
         let gridTiles = this.dynamicGrid.dynamicGridTiles
         let fromTile = ScenarioUtils.getTileForPosition(gridTiles, from)
         let toTile = ScenarioUtils.getTileForPosition(gridTiles, to)
         return this.dynamicPath.selectTilesBeneathPath(fromTile, toTile, gridTiles);
     }
 
-    walkAlongPath(tilePath, obj3d) {
-        console.log("Walk path", tilePath, obj3d);
-        this.dynamicWalker.call.walkDynamicPath(tilePath, obj3d)
+    getActiveTilePath() {
+        return this.dynamicPath.tilePath;
+    }
+
+    walkAlongPath(obj3d) {
+        console.log("Walk path", obj3d);
+        this.setGridHostObj3d(obj3d);
+        this.setGridMovementObj3d(obj3d);
+        this.dynamicWalker.call.walkDynamicPath(this.getActiveTilePath(), obj3d)
+    }
+
+    setGridHostObj3d = function(obj3d) {
+        this.hostObj3d.copy(obj3d);
+    }
+
+    setGridMovementObj3d = function(obj3d) {
+        this.moveObj3d = obj3d;
     }
 
     updateWalkGrid = function() {
-        let cursorPos = ThreeAPI.getCameraCursor().getPos();
+        let origin = this.hostObj3d.position; // ThreeAPI.getCameraCursor().getPos();
         let offset = this.config['grid']['tile_spacing'] * 0.5
-        centerTileIndexX = Math.floor(cursorPos.x + offset)
-        centerTileIndexY = Math.floor(cursorPos.z + offset)
+        centerTileIndexX = Math.floor(origin.x + offset)
+        centerTileIndexY = Math.floor(origin.z + offset)
         this.dynamicGrid.updateDynamicGrid(centerTileIndexX, centerTileIndexY);
     }
 

@@ -7,8 +7,9 @@ class VisualGamePiece {
     constructor(config) {
         this.assetId = config['model_asset'];
         this.config = config;
+        this.hostObj3d = null;
 
-        let updateGamePiece = function(tpf) {
+            let updateVisualGamePiece = function(tpf) {
             this.updateVisualGamePiece(tpf);
 
             if (this.pieceAnimator) {
@@ -18,7 +19,7 @@ class VisualGamePiece {
         }.bind(this);
 
         this.call = {
-            updateGamePiece:updateGamePiece
+            updateVisualGamePiece:updateVisualGamePiece
         }
 
     }
@@ -105,7 +106,7 @@ class VisualGamePiece {
             this.enablePieceAnimations()
         }
 
-        ThreeAPI.addPrerenderCallback(this.call.updateGamePiece);
+        ThreeAPI.addPrerenderCallback(this.call.updateVisualGamePiece);
 
     };
 
@@ -113,9 +114,12 @@ class VisualGamePiece {
         this.getModel().decommissionInstancedModel();
     //    this.gamePieceUpdateCallbacks.length = 0;
         this.disablePieceAnimations()
-        ThreeAPI.unregisterPrerenderCallback(this.call.updateGamePiece);
+        ThreeAPI.unregisterPrerenderCallback(this.call.updateVisualGamePiece);
     };
 
+    setHostObj3d = function(obj3d) {
+        this.hostObj3d = obj3d;
+    }
 
     updateAnimatedGamePiece(tpf, gameTime) {
         this.pieceAnimator.updatePieceAnimations(tpf, gameTime);
@@ -123,7 +127,7 @@ class VisualGamePiece {
     }
 
     updateVisualGamePiece(tpf) {
-
+        this.getSpatial().stickToObj3D(this.hostObj3d);
     }
 
 }

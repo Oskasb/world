@@ -6,16 +6,6 @@ let tempVec1 = new Vector3()
 let tempVec2 = new Vector3()
 let tempVec3 = new Vector3()
 
-let drawPathTileVector = function(pathTiles, gamePiece) {
-    if (pathTiles.length > 1) {
-        evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:pathTiles[0].getPos(), color:'GREEN', size:0.3})
-        evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:pathTiles[1].getPos(), color:'YELLOW', size:0.3})
-        evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:gamePiece.getPos(), to:pathTiles[1].getPos(), color:'YELLOW'})
-    } else {
-        evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:gamePiece.getPos(), color:'RED', size:0.5})
-    }
-}
-
 let drawPathTiles = function(pathTiles) {
     tempVec.copy(pathTiles[0].getPos());
     tempVec1.set(0.49, 0, 0.49);
@@ -125,14 +115,6 @@ class DynamicPath {
 
         return this.tilePath
 
-    }
-
-    getTileAtPos = function(posVec3) {
-        if (!GameAPI.getActiveEncounterGrid()) {
-            console.log("Sometimes no active grid", this)
-            return;
-        }
-        return GameAPI.getActiveEncounterGrid().getTileAtPosition(posVec3);
     }
 
 

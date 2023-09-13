@@ -16,12 +16,16 @@ class DynamicWalker {
             this.tilePath = tilePath;
             GameAPI.unregisterGameUpdateCallback(updateWalker);
             GameAPI.registerGameUpdateCallback(updateWalker);
-
         }.bind(this);
+
+        let clearDynamicPath = function () {
+            GameAPI.unregisterGameUpdateCallback(updateWalker);
+        }
 
         this.call = {
             updateWalker:updateWalker,
-            walkDynamicPath:walkDynamicPath
+            walkDynamicPath:walkDynamicPath,
+            clearDynamicPath:clearDynamicPath,
         }
 
     }
@@ -83,7 +87,7 @@ class DynamicWalker {
             if (turnDistance > frameTravelDistance) {
 
                 this.applyHeadingToGamePiece(this.walkObj3d, frameTravelDistance);
-                MATH.callAll(this.tilePath.pathingUpdateCallbacks, this.walkObj3d)
+                MATH.callAll(this.tilePath.pathingUpdateCallbacks, this.tilePath, this.walkObj3d)
        //         evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:gamePiece.getPos(), color:'CYAN', size:0.4})
             } else {
         //        console.log("Turn path ended")
@@ -94,8 +98,8 @@ class DynamicWalker {
 
                 //    gamePiece.getSpatial().call.setStopped();
                     console.log("Path End Tile Reached")
-                    MATH.callAndClearAll(this.tilePath.pathCompetedCallbacks, this.walkObj3d)
-                    MATH.callAndClearAll(this.tilePath.pathingUpdateCallbacks, this.walkObj3d)
+                    MATH.callAndClearAll(this.tilePath.pathCompetedCallbacks, this.tilePath, this.walkObj3d)
+                    MATH.callAndClearAll(this.tilePath.pathingUpdateCallbacks, this.tilePath, this.walkObj3d)
                     GameAPI.unregisterGameUpdateCallback(this.call.updateWalker);
                     // onArriveCB()
                 } else {

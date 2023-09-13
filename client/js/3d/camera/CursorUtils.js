@@ -34,6 +34,9 @@ function processLookCursorInput(cursorObj3d, dragToVec3, camTargetPos, cursorFor
 function processTileSelectionCursorInput(tilePath, cursorObj3d, camLookAtVec, dragToVec3, camTargetPos, cursorForward, cursorTravelVec) {
     let inputForce = cursorTravelVec.lengthSq();
     let inputAngle = cursorForward.angleTo(cursorTravelVec);
+
+
+
     tempVec3.copy(cursorObj3d.position);
     cursorObj3d.position.y = ThreeAPI.terrainAt(cursorObj3d.position)
     tempVec3.y = cursorObj3d.position.y // ThreeAPI.terrainAt(tempVec3);
@@ -66,6 +69,10 @@ function processTileSelectionCursorInput(tilePath, cursorObj3d, camLookAtVec, dr
             calcVec.add(cursorObj3d.position)
             camTargetPos.y += calcVec.y;
             camLookAtVec.y += 1.1 - tileDistance*0.5;
+
+            camLookAtVec.copy(endPos);
+            camTargetPos.copy(tilePath.pathTiles[0].getPos())
+            camTargetPos.y += 25
         }
     }
 
@@ -81,16 +88,16 @@ function processTilePathingCamera(tilePath, cursorObj3d, camLookAtVec, camTarget
     calcVec.copy(tempVec1);
 
     calcVec.multiplyScalar( -0.7);
-    calcVec.add(cursorObj3d.position);
+    calcVec.add(tempVec3);
     camTargetPos.copy(calcVec);
     calcVec.copy(walkForward)
     calcVec.multiplyScalar(1.2)
     camTargetPos.sub(calcVec);
 
-    camTargetPos.y = cursorObj3d.position.y + camTargetPos.distanceTo(cursorObj3d.position) * 0.25 + 0.9 +inputForce * 0.2;
+    camTargetPos.y = tempVec3.y + camTargetPos.distanceTo(tempVec3) * 0.25 + 0.9 +inputForce * 0.2;
 
     tempVec1.multiplyScalar(0.5);
-    camLookAtVec.copy(cursorObj3d.position);
+    camLookAtVec.copy(tempVec3);
     camLookAtVec.add(tempVec1);
 
     camTargetPos.y += inputForce*0.7;

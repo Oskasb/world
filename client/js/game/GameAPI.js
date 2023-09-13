@@ -17,8 +17,9 @@ class GameAPI {
         this.gameWorldPointer = new GameWorldPointer();
         this.gameMain = new GameMain();
 
-        let activateWalkGrid = function(event) {
-            this.gameMain.call.activateGameWalkGrid(event)
+        let activateWalkGrid = function() {
+            let walkGrid = this.gameMain.call.activateGameWalkGrid()
+            walkGrid.setGridHostObj3d(ThreeAPI.getCameraCursor().getCursorObj3d());
         }.bind(this);
 
         let activateBattleMode = function(event) {
@@ -43,6 +44,10 @@ class GameAPI {
     initGameMain() {
         gamePieceSystem.initGamePieceSystem()
         this.gameMain.initGameMain();
+    }
+
+    getGamePieceSystem() {
+        return gamePieceSystem;
     }
 
     initGameWorldModels() {
