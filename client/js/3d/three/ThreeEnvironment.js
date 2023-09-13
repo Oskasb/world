@@ -84,9 +84,9 @@ class ThreeEnvironment {
         let ambColor = config.ambient.color;
         let sunColor = config.sun.color;
 
-        var evFact = Math.min(this.camera.position.y*0.00005, 0.099);
+        let evFact = Math.min(this.camera.position.y*0.00005, 0.099);
 
-        var grd = ctx.createLinearGradient(0,0,0, _this.ctxHeight);
+        let grd = ctx.createLinearGradient(0,0,0, _this.ctxHeight);
 
         grd.addColorStop(1-1, ThreeAPI.toRgb(0.0, 0.0, fogColor[2]));
         //	grd.addColorStop(0.8+evFact,toRgb([color[0]*(0.5)*(1-evFact)+fog[0]*(0.5)*evFact*evFact, color[1]*0.5*(1-evFact)+fog[1]*(0.5)*evFact*evFact, color[2]*0.5*(1-evFact)+fog[2]*0.5*evFact*evFact]));
@@ -130,9 +130,9 @@ class ThreeEnvironment {
 
     applyEnvironment = function() {
 
-        var config = this.currentEnvConfig;
+        let config = this.currentEnvConfig;
 
-        for (var key in config) {
+        for (let key in config) {
 
             if (config[key].color) {
 
@@ -181,10 +181,7 @@ class ThreeEnvironment {
         uniforms.mieDirectionalG.value = config.mieDirectionalG;
 
         this.sunSphere.visible = true;
-
     }
-
-
 
     updateDynamigFog = function(sunInTheBack) {
 
@@ -206,7 +203,7 @@ class ThreeEnvironment {
 
     interpolateEnv = function(current, target, fraction) {
 
-        for (var key in current) {
+        for (let key in current) {
             if (fraction >= 1) {
                 if (current[key].color) {
                     current[key].color[0] = target[key].color[0];
@@ -237,7 +234,7 @@ class ThreeEnvironment {
 
     interpolateSky = function(current, target, fraction) {
 
-        for (var key in current) {
+        for (let key in current) {
             if (fraction >= 1) {
                 current[key] = target[key]
             } else {
@@ -284,7 +281,7 @@ class ThreeEnvironment {
 
         if (sky.ctx) {
 
-            var grd = ctx.createLinearGradient(0,0,0, ctxHeight);
+            let grd = ctx.createLinearGradient(0,0,0, ctxHeight);
 
             grd.addColorStop(1, ThreeAPI.toRgb(0.0, 0.0, 0));
             //	grd.addColorStop(0.8+evFact,toRgb([color[0]*(0.5)*(1-evFact)+fog[0]*(0.5)*evFact*evFact, color[1]*0.5*(1-evFact)+fog[1]*(0.5)*evFact*evFact, color[2]*0.5*(1-evFact)+fog[2]*0.5*evFact*evFact]));
@@ -438,10 +435,6 @@ class ThreeEnvironment {
 
 
 
-
-
-
-
     initEnvironment = function(store, ready) {
 
         let _this = this;
@@ -464,9 +457,9 @@ class ThreeEnvironment {
 
         evt.on(ENUMS.Event.ADVANCE_ENVIRONMENT, advanceEnv);
 
-        var canvas = document.createElement("canvas");
+        let canvas = document.createElement("canvas");
 
-        var setupCanvas = function(canvas) {
+        let setupCanvas = function(canvas) {
             canvas.id = 'sky_canvas';
             canvas.width  = _this.ctxWidth;
             canvas.height = _this.ctxHeight;
@@ -474,16 +467,16 @@ class ThreeEnvironment {
             return canvas.getContext('2d');
         };
 
-        var tx = ThreeAPI.newCanvasTexture(canvas);
-        var mat = ThreeAPI.buildCanvasMaterial(tx);
+        let tx = ThreeAPI.newCanvasTexture(canvas);
+        let mat = ThreeAPI.buildCanvasMaterial(tx);
         mat.side = THREE.BackSide;
 
         //    mat.depthWrite = false;
 
-        var skyGeo = new THREE.SphereGeometry(4000, 36, 9 );
-        var skyMesh = new THREE.Mesh( skyGeo, mat);
+        let skyGeo = new THREE.SphereGeometry(4000, 36, 9 );
+        let skyMesh = new THREE.Mesh( skyGeo, mat);
 
-        var uniforms = {
+        let uniforms = {
             luminance: { value: 1 },
             turbidity: { value: 2 },
             rayleigh: { value: 1 },
@@ -513,13 +506,13 @@ class ThreeEnvironment {
 
         this.sunSphere.position.y = 0;
 
-        var createEnvWorld = function(worldSetup) {
+        let createEnvWorld = function(worldSetup) {
 
-            for (var key in _this.world) {
+            for (let key in _this.world) {
                 scene.remove(_this.world[key]);
             }
 
-            for (key in worldSetup) {
+            for (let key in worldSetup) {
 
                 if (key === "ambient") {
 
@@ -549,11 +542,11 @@ class ThreeEnvironment {
 
                 _this.envList[data[i].id] = {};
                 _this.skyList[data[i].id] = {};
-                var configs = data[i].configs;
+                let configs = data[i].configs;
 
                 _this.skyList[data[i].id] = data[i].sky;
 
-                for (var j = 0; j < configs.length; j++) {
+                for (let j = 0; j < configs.length; j++) {
 
                     _this.envList[data[i].id][configs[j].id] = configs[j];
                 }

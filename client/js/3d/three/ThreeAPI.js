@@ -4,7 +4,6 @@ import {ThreeEnvironment} from './ThreeEnvironment.js';
 import {ThreeShaderBuilder} from './ThreeShaderBuilder.js';
 import {ThreeModelLoader} from './ThreeModelLoader.js';
 import {ThreeTextureMaker} from './ThreeTextureMaker.js';
-import {ThreeMaterialMaker} from './ThreeMaterialMaker.js';
 import {ThreeSpatialFunctions} from './ThreeSpatialFunctions.js';
 import {CameraSpatialCursor } from "../camera/CameraSpatialCursor.js";
 import {TerrainSystem} from "./terrain/TerrainSystem.js";
@@ -20,7 +19,6 @@ class ThreeAPI {
         this.threeEnvironment = new ThreeEnvironment();
         this.threeSetup = new ThreeSetup();
         this.threeTextureMaker = new ThreeTextureMaker();
-        this.threeMaterialMaker = new ThreeMaterialMaker();
         this.threeModelLoader = new ThreeModelLoader();
         this.shaderBuilder = new ThreeShaderBuilder();
         this.glContext;
@@ -311,21 +309,9 @@ class ThreeAPI {
         return this.threeTextureMaker.createCanvasTexture(canvas);
     };
 
-    buildCanvasHudMaterial = function(canvasTexture) {
-        return this.threeMaterialMaker.createCanvasHudMaterial(canvasTexture);
-    };
 
-    buildCanvasMaterial = function(canvasTexture) {
-        return this.threeMaterialMaker.createCanvasMaterial(canvasTexture);
-    };
-
-    buildCanvasObject = function(model, canvas, store) {
-        var tx = this.newCanvasTexture(canvas);
-        var mat = this.threeMaterialMaker.createCanvasHudMaterial(tx);
-        this.threeModelLoader.applyMaterialToMesh(mat, model);
-        store.texture = tx;
-        store.materia = mat;
-        return store;
+    buildCanvasMaterial = function(texture) {
+        return  new THREE.MeshBasicMaterial({ map: texture, blending:THREE["AdditiveBlending"], depthWrite:false});
     };
 
     attachObjectToCamera = function(object) {

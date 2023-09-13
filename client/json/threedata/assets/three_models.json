@@ -3,12 +3,12 @@
   {
     "ASSETS": {
       "MODELS": [
-        {"id": "animated_fighter_male", "config":{"model": "file_fighter_bind", "rig": "rig_fighter",   "material": "material_standard", "settings": "model_settings_default" }},
+        {"id": "animated_fighter_male", "config":{"model": "file_fighter_bind", "rig": "rig_fighter",   "material": "material_opaque", "settings": "model_settings_default" }},
         {"id": "animated_pilot",        "config":{"model": "file_pilot_bind",   "rig": "rig_pilot",     "material": "material_opaque", "settings": "model_settings_default" }},
         {"id": "animated_barbarian",    "config":{"model": "file_barb_bind",    "rig": "rig_barbarian", "material": "material_opaque", "settings": "model_settings_default" }},
 
-        {"id": "skinned_barb_bp",       "config":{"model": "file_barb_item_bp", "material": "material_standard",      "settings": "model_settings_default"}},
-        {"id": "skinned_barb_greaves",  "config":{"model": "file_barb_item_greaves", "material": "material_standard",  "settings": "model_settings_default"}},
+        {"id": "skinned_barb_bp",       "config":{"model": "file_barb_item_bp", "material": "material_opaque",      "settings": "model_settings_default"}},
+        {"id": "skinned_barb_greaves",  "config":{"model": "file_barb_item_greaves", "material": "material_opaque",  "settings": "model_settings_default"}},
 
 
         {"id": "asset_belt_green", "config": { "model": "file_belt_bronze",  "material":        "mat_instancing_green",  "settings": "model_settings_items" }},
@@ -27,15 +27,15 @@
         {"id": "asset_scale_green_legs",    "config":{"model": "file_scale_legs",   "material": "material_purple",          "settings": "model_settings_default"}},
         {"id": "asset_scale_shirt_green",  "config":{"model": "file_scale_shirt",  "material": "material_purple",           "settings": "model_settings_default"}},
 
-        {"id": "asset_chain_shirt",  "config":{"model": "file_chain_shirt",  "material": "material_standard",           "settings": "model_settings_default"}},
-        {"id": "asset_chain_legs",   "config":{"model": "file_chain_legs",   "material": "material_standard",           "settings": "model_settings_default"}},
-        {"id": "asset_scale_shirt",  "config":{"model": "file_scale_shirt",  "material": "material_standard",           "settings": "model_settings_default"}},
-        {"id": "asset_scale_legs",   "config":{"model": "file_scale_legs",   "material": "material_standard",          "settings": "model_settings_default"}},
+        {"id": "asset_chain_shirt",  "config":{"model": "file_chain_shirt",  "material": "material_opaque",           "settings": "model_settings_default"}},
+        {"id": "asset_chain_legs",   "config":{"model": "file_chain_legs",   "material": "material_opaque",           "settings": "model_settings_default"}},
+        {"id": "asset_scale_shirt",  "config":{"model": "file_scale_shirt",  "material": "material_opaque",           "settings": "model_settings_default"}},
+        {"id": "asset_scale_legs",   "config":{"model": "file_scale_legs",   "material": "material_opaque",          "settings": "model_settings_default"}},
 
-        {"id": "asset_bronze_legs",  "config":{"model": "file_bronze_legs",  "material": "material_standard",          "settings": "model_settings_default"}},
-        {"id": "asset_bronze_bp",    "config":{"model": "file_bronze_bp",    "material": "material_standard",          "settings": "model_settings_default"}},
-        {"id": "asset_scale_boots",  "config":{"model": "file_scale_boots",  "material": "material_standard",          "settings": "model_settings_default"}},
-        {"id": "asset_scale_gloves", "config":{"model": "file_scale_gloves", "material": "material_standard",          "settings": "model_settings_default"}},
+        {"id": "asset_bronze_legs",  "config":{"model": "file_bronze_legs",  "material": "material_opaque",          "settings": "model_settings_default"}},
+        {"id": "asset_bronze_bp",    "config":{"model": "file_bronze_bp",    "material": "material_opaque",          "settings": "model_settings_default"}},
+        {"id": "asset_scale_boots",  "config":{"model": "file_scale_boots",  "material": "material_opaque",          "settings": "model_settings_default"}},
+        {"id": "asset_scale_gloves", "config":{"model": "file_scale_gloves", "material": "material_opaque",          "settings": "model_settings_default"}},
 
 
         {"id": "asset_red_legs",          "config":{"model": "file_bronze_legs",  "material": "material_red",          "settings": "model_settings_default"}},

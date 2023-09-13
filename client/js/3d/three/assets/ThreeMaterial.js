@@ -32,11 +32,11 @@ class ThreeMaterial {
 
                 mat[this.textureMap[key]] = this.textures[this.textureMap[key]].texture;
             }
-              console.log("Material Ready", this);
+            //  console.log("Material Ready", this);
 
             if (mat['envMap']) {
-                mat['envMap'].mapping = THREE.SphericalReflectionMapping;
-                console.log("Spherical MApping", mat['envMap'])
+                console.log("EquirectangularReflectionMapping ", mat['envMap'])
+                mat['envMap'].mapping = THREE.EquirectangularReflectionMapping;
             }
 
             mat.needsUpdate = true;
@@ -157,8 +157,15 @@ class ThreeMaterial {
             mat.color.b = props.color.b;
         }
 
+        if (props.specular) {
+            mat.specular.r = props.specular.r;
+            mat.specular.g = props.specular.g;
+            mat.specular.b = props.specular.b;
+        }
+
         if (props.side) mat.side = THREE[props.side];
         if (props.combine) mat.combine = THREE[props.combine];
+        if (props.normalMapType) mat.normalMapType = THREE[props.normalMapType];
         if (props.depthTest) mat.depthTest = props.depthTest;
 
         if (props.defines) {
@@ -166,10 +173,49 @@ class ThreeMaterial {
             mat.defines = mat.defines || {};
             for (let key in props.defines) {
                 mat.defines[key] = props.defines[key]
-
             }
         }
+    //     "vertexColor", "scale3d", "orientation"
+        if (props.instanced) {
+            mat.onBeforeCompile = function ( shader ) {
 
+                shader.vertexShader = 'attribute vec3 offset;\n' + 'attribute vec3 scale3d;\n'+ 'attribute vec4 vertexColor;\n'+ 'attribute vec4 orientation;\n' + shader.vertexShader;
+                shader.vertexShader = shader.vertexShader.replace(
+                    '#include <begin_vertex>',
+                    [
+                        'vec3 transformed = vec3( position );',
+                        'transformed.x *= 1.0 * scale3d.x;',
+                        'transformed.y *= 1.0 * scale3d.y;',
+                        'transformed.z *= 1.0 * scale3d.z;',
+                        'transformed = transformed.xyz;',
+                        'vec3 vcV = cross(orientation.xyz, transformed);',
+                        'transformed = vcV * (2.0 * orientation.w) + (cross(orientation.xyz, vcV) * 2.0 + transformed);',
+                        'transformed += offset;'
+                    ].join( '\n' )
+                );
+
+                shader.vertexShader = shader.vertexShader.replace(
+                    '#include <color_fragment>',
+                    [
+                        '#if defined( USE_COLOR_ALPHA )',
+                        'diffuseColor *= vColor * vertexColor;',
+                        '#elif defined( USE_COLOR )',
+                        'diffuseColor.rgb *= vColor * vertexColor;',
+                        '#endif'
+
+                    ].join( '\n' )
+                );
+
+                console.log(shader.vertexShader)
+                console.log("Make instanced: ", shader)
+            };
+        }
+
+        // transform a standard material to support instanced rendering
+
+
+
+        console.log("mat", mat)
 
         cb(mat);
     };

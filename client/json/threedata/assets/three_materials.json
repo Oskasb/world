@@ -16,6 +16,30 @@
           }
         },
         {
+          "id":"material_opaque",
+          "config":{
+            "settings": "mat_settings_phong_opaque",
+            "textures":[
+              {"key":"map"           , "id":"atlas_2k_diff"   },
+              {"key":"specularMap"   , "id":"atlas_2k_spec"   },
+              {"key":"envMap"        , "id":"ref_sphere"      },
+              {"key":"normalMap"     , "id":"atlas_2k_norm"   }
+            ]
+          }
+        },
+        {
+          "id":"mat_instancing_opaque",
+          "config":{
+            "settings": "mat_settings_phong_instancing",
+            "textures":[
+              {"key":"map"           , "id":"atlas_2k_diff"   },
+              {"key":"specularMap"   , "id":"atlas_2k_spec"   },
+              {"key":"envMap"        , "id":"ref_sphere"      },
+              {"key":"normalMap"     , "id":"atlas_2k_norm"   }
+            ]
+          }
+        },
+        {
           "id":"mat_instancing_standard",
           "config":{
             "settings": "mat_settings_standard_instancing",
@@ -147,17 +171,7 @@
           }
         },
 
-        {
-          "id":"material_opaque",
-          "config":{
-            "settings": "mat_settings_phong_opaque",
-            "textures":[
-              {"key":"map"           , "id":"atlas_2k_diff"   },
-              {"key":"specularMap"   , "id":"atlas_2k_spec"   },
-              {"key":"envMap"        , "id":"ref_sphere"      }
-            ]
-          }
-        },
+
         {
           "id":"material_nature",
           "config":{
@@ -167,6 +181,7 @@
             ]
           }
         },
+
         {
           "id":"mat_instancing_basic",
           "config":{

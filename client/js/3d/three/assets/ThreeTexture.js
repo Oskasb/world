@@ -1,3 +1,67 @@
+
+function init() {
+
+    const textures = getTexturesFromAtlasFile( 'textures/cube/sun_temple_stripe.jpg', 6 );
+    const materials = [];
+
+    for ( let i = 0; i < 6; i ++ ) {
+        materials.push( new THREE.MeshBasicMaterial( { map: textures[ i ] } ) );
+    }
+
+    const skyBox = new THREE.Mesh( new THREE.BoxGeometry( 1, 1, 1 ), materials );
+    skyBox.geometry.scale( 1, 1, - 1 );
+    scene.add( skyBox );
+
+    // window.addEventListener( 'resize', onWindowResize );
+
+}
+
+function buildCubeMap( image ) {
+
+    console.log("Build Cube Map", image)
+
+
+    let loader = new THREE.CubeTextureLoader()
+    let cubeMap = loader.load( [
+            image.url,
+            image.url,
+            image.url,
+            image.url,
+            image.url,
+            image.url
+        ] );
+
+    console.log(cubeMap);
+/*
+    const textures = [];
+
+    let tilesNum = 6;
+
+    for ( let i = 0; i < tilesNum; i ++ ) {
+        textures[ i ] = new THREE.Texture();
+    }
+
+            let canvas, context;
+            const tileWidth = image.bitmap.height;
+
+            for ( let i = 0; i < textures.length; i ++ ) {
+
+                canvas = document.createElement( 'canvas' );
+                context = canvas.getContext( '2d' );
+                canvas.height = tileWidth;
+                canvas.width = tileWidth;
+                context.drawImage( image, tileWidth * i, 0, tileWidth, tileWidth, 0, 0, tileWidth, tileWidth );
+                textures[ i ].colorSpace = THREE.SRGBColorSpace;
+                textures[ i ].image = canvas;
+                textures[ i ].needsUpdate = true;
+
+            }
+*/
+
+    return cubeMap;
+
+}
+
 class ThreeTexture {
     constructor(id, config, callback) {
 
@@ -6,11 +70,12 @@ class ThreeTexture {
         let _this = this;
 
         let imgLoaded = function(asset) {
-        //       console.log("image loaded", asset);
+
             _this.texture = new THREE.CanvasTexture( asset.bitmap);
+
             _this.texture.isTexture = true;
-        //    console.log('CanvasTexture', this.id, this.texture)
             _this.applyTxSettings(_this.texture, _this.config.settings);
+
             _this.texture.sourceUrl = asset.url;
             _this.texture.generateMipmaps = false;
             _this.texture.needsUpdate = true;

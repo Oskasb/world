@@ -109,7 +109,6 @@
           "config":{
             "settings" : {
               "combine": "AddOperation",
-              "mapping": "CubeReflectionMapping",
               "wrapS": "RepeatWrapping",
               "wrapT": "RepeatWrapping",
               "generateMipmaps": false,

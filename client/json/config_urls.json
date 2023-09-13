@@ -79,7 +79,14 @@
       "/threedata/assets/sprites/tile_sprites_8x8.json"      ,
       "/threedata/assets/sprites/particle_sprites_8x8.json"  ,
       "/game/visuals/characters.json"                        ,
-      "/game/visuals/items.json"                        ,
+      "/game/visuals/items.json"                             ,
+
+      "/game/visuals/items_armor_default.json"                        ,
+      "/game/visuals/items_armor_green.json"                        ,
+      "/game/visuals/items_armor_purple.json"                        ,
+      "/game/visuals/items_armor_red.json"                        ,
+      "/game/visuals/items_weapons.json"                        ,
+
       "/game/stats/game_level_stats.json"                    ,
       "/game/stats/game_item_stats.json"                     ,
       "/game/abilities/abilities_main.json"                  ,
