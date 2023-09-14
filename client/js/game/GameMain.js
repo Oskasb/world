@@ -77,9 +77,8 @@ class GameMain {
 
         }.bind(this)
 
-        let activateGameWalkGrid = function(event) {
-        //    console.log("Activate Walk Grid", event)
-            gameWalkGrid.activateWalkGrid(event)
+        let activateGameWalkGrid = function(obj3d) {
+            gameWalkGrid.activateWalkGrid(obj3d)
             return gameWalkGrid;
         }.bind(this)
 

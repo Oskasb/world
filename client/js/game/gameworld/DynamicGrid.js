@@ -45,11 +45,11 @@ class DynamicGrid {
     activateDynamicGrid = function(config) {
         this.config = config;
 
-        this.elevation = config['elevation'];
+        this.elevation =  config['elevation'];
         this.tileSpacing = config['tile_spacing'];
-        this.tileSize = config['tile_size'];
+        this.tileSize =  config['tile_size'];
         this.stepHeight = config['step_height'];
-        this.tileRange = config['tile_range'];
+        this.tileRange =  config['tile_range'];
 
         for (let i = 0; i < this.tileRange; i++) {
 
@@ -59,6 +59,9 @@ class DynamicGrid {
                 this.dynamicGridTiles[i][j] = new DynamicTile();
             }
         }
+
+        this.centerTileIndexX = -1;
+        this.centerTileIndexY = -1;
 
     }
 
@@ -87,7 +90,7 @@ class DynamicGrid {
 
         this.gridCenterPos.set(centerTileIndexX, 0,  centerTileIndexY)
         this.gridCenterPos.y = ThreeAPI.terrainAt(this.gridCenterPos);
-        evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:this.gridCenterPos, color:'WHITE', size:this.config['tile_size'] * 0.5});
+        evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:this.gridCenterPos, color:'WHITE', size:this.tileSize * 0.5});
 
         renderDynamicTiles(this, this.dynamicGridTiles)
 

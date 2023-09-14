@@ -1,5 +1,6 @@
 import * as ModelUtils from "../../3d/ModelUtils.js";
 import { Vector3 } from "../../../libs/three/math/Vector3.js";
+import { Object3D } from "../../../libs/three/core/Object3D.js";
 
 let tempVec = new Vector3();
 
@@ -7,7 +8,7 @@ class VisualGamePiece {
     constructor(config) {
         this.assetId = config['model_asset'];
         this.config = config;
-        this.hostObj3d = null;
+        this.visualPieceObj3d = new Object3D();
 
             let updateVisualGamePiece = function(tpf) {
             this.updateVisualGamePiece(tpf);
@@ -117,8 +118,8 @@ class VisualGamePiece {
         ThreeAPI.unregisterPrerenderCallback(this.call.updateVisualGamePiece);
     };
 
-    setHostObj3d = function(obj3d) {
-        this.hostObj3d = obj3d;
+    setVisualPieceObj3d = function(obj3d) {
+        this.visualPieceObj3d = obj3d;
     }
 
     updateAnimatedGamePiece(tpf, gameTime) {
@@ -126,8 +127,8 @@ class VisualGamePiece {
     //    this.pieceAttacher.tickAttacher();
     }
 
-    updateVisualGamePiece(tpf) {
-        this.getSpatial().stickToObj3D(this.hostObj3d);
+    updateVisualGamePiece() {
+        this.getSpatial().stickToObj3D(this.visualPieceObj3d);
     }
 
 }

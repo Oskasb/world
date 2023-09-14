@@ -91,7 +91,7 @@ let updateWorldDisplay = function() {
     camLookAtVec.x = lookAroundPoint.x + camParams.offsetLookAt[0] + lookAtMod.x;
     camLookAtVec.y = lookAroundPoint.y + camParams.offsetLookAt[1] + lookAtMod.y;
     camLookAtVec.z = lookAroundPoint.z + camParams.offsetLookAt[2] + lookAtMod.z;
-
+    dragToVec3.copy( cursorObj3d.position)
 }
 
 let updateWorldLook = function() {
@@ -121,11 +121,12 @@ let updateWorldLook = function() {
 
 }
 
-let updateWalkCamera = function() {
+let updateWalkCamera = function(activeTilePath) {
 
   //  walkDirVec.normalize();
 
-    let inputAngle = CursorUtils.processTileSelectionCursorInput(tilePath, cursorObj3d, calcVec, dragToVec3, tempVec3, cursorForward, cursorTravelVec)
+
+    let inputAngle = CursorUtils.processTileSelectionCursorInput(activeTilePath, cursorObj3d, calcVec, dragToVec3, tempVec3, cursorForward, cursorTravelVec)
 //    CursorUtils.drawInputCursorState(cursorObj3d, dragToVec3, tempVec3, cursorForward, cursorTravelVec)
 
     let inputForce = cursorTravelVec.lengthSq();
@@ -141,8 +142,8 @@ let updateWalkCamera = function() {
     //    cursorObj3d.position.add(cursorTravelVec);
     }
 
-    if (tilePath) {
-        if (tilePath.pathTiles.length) {
+            if (activeTilePath) {
+                if (activeTilePath.pathTiles.length > 1) {
             camLookAtVec.lerp(calcVec, tpf*4);
             camTargetPos.lerp(tempVec3, tpf*2);
         }
@@ -169,7 +170,7 @@ let pathCompletedCallback = function(tilePath, movedObj3d) {
 let updatePathingCamera = function(tilePath, movedObj3d) {
 
     walkForward.set(0, 0, 1);
-    walkForward.applyQuaternion(movedObj3d.quaternion);
+    walkForward.applyQuaternion(cursorObj3d.quaternion);
 
     let inputForce = CursorUtils.processTilePathingCamera(tilePath, movedObj3d, calcVec, tempVec3, walkForward)
 
@@ -180,7 +181,7 @@ let updatePathingCamera = function(tilePath, movedObj3d) {
    // cursorTravelVec.multiplyScalar(Math.abs(lerpFactor));
 
     if (tilePath) {
-        if (tilePath.pathTiles.length) {
+        if (tilePath.pathTiles.length > 1) {
             camLookAtVec.lerp(calcVec, tpf*7);
             camTargetPos.lerp(tempVec3, tpf*2);
         }
@@ -242,53 +243,28 @@ class CameraSpatialCursor {
 
             if (camParams.mode === camModes.gameTravel) {
                 navPoint.callback = null;
-                updateWalkCamera();
+
 
                 let selectedActor = GameAPI.getGamePieceSystem().getSelectedGameActor();
 
-                if (!selectedActor) return;
+                if (!selectedActor) {
+                    return;
+                }
 
                 let gameWalkGrid = selectedActor.getGameWalkGrid()
-                tilePath = gameWalkGrid.getActiveTilePath();
+
                 cursorObj3d.position.copy(selectedActor.actorObj3d.position);
 
                 if (isFirstPressFrame) {
-
-
-                    if (tilePath) {
-                        gameWalkGrid.deactivateWalkGrid()
-                        if (tilePath.pathTiles.length) {
-                            while (tilePath.pathCompetedCallbacks.length) {
-                                tilePath.pathCompetedCallbacks.pop()
-                            }
-
-                            while (tilePath.pathingUpdateCallbacks.length) {
-                                tilePath.pathingUpdateCallbacks.pop()
-                            }
-                        }
-                    }
-
-                    gameWalkGrid.setGridHostObj3d(selectedActor.actorObj3d);
-                    gameWalkGrid.activateWalkGrid()
-
-                }
-
-                if (released) {
+                    gameWalkGrid.activateWalkGrid(selectedActor.actorObj3d)
+                } else if (released) {
                     navPoint.time = 2;
-                    if (tilePath.pathTiles.length) {
-
-                        selectedActor.getGameWalkGrid().walkAlongPath(selectedActor.actorObj3d)
-
-                        tilePath.pathCompetedCallbacks.push(pathCompletedCallback)
-                        tilePath.pathingUpdateCallbacks.push(updatePathingCamera);
-                    }
-
+                    gameWalkGrid.applySelectedPath(updatePathingCamera, pathCompletedCallback)
                 } else {
-                    cursorObj3d.position.copy(selectedActor.actorObj3d.position);
-                    selectedActor.getGameWalkGrid().buildGridPath(selectedActor.actorObj3d.position, dragToVec3)
-                //    tilePath = GameAPI.getTilePath(cursorObj3d.position, dragToVec3)
+                    gameWalkGrid.buildGridPath(dragToVec3)
                 }
-
+            //    tilePath = gameWalkGrid.getActiveTilePath();
+                updateWalkCamera(gameWalkGrid.getActiveTilePath());
             }
 
         }
@@ -353,15 +329,16 @@ class CameraSpatialCursor {
         cursorForward.applyQuaternion(cursorObj3d.quaternion);
     //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:cursorObj3d.position, to:tempVec3, color:'WHITE'});
 
+        cursorTravelVec.subVectors(dragToVec3, cursorObj3d.position);
+        cursorTravelVec.y = 0;
+    //    cursorTravelVec.add(cursorForward)
         if (camParams.mode === camModes.worldDisplay) {
             updateWorldDisplay();
             camLookAtVec.copy(cursorObj3d.position)
-            cursorObj3d.position.copy(camLookAtVec)
+        //    cursorObj3d.position.copy(camLookAtVec)
         } else {
             CursorUtils.drawInputCursorState(cursorObj3d, dragToVec3, camTargetPos, cursorForward, cursorTravelVec)
-
             camPosVec.lerp(camTargetPos, tpf ) // + lerpFactor * 2)
-
         }
 
         updateCursorFrame();

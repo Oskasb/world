@@ -56,7 +56,7 @@ function processTileSelectionCursorInput(tilePath, cursorObj3d, camLookAtVec, dr
     camTargetPos.y = cursorObj3d.position.y + camTargetPos.distanceTo(cursorObj3d.position) * 0.25 + 0.55 +inputForce * 0.0001;
 
     if (tilePath) {
-        if (tilePath.pathTiles.length) {
+        if (tilePath.pathTiles.length > 1) {
 
             let endPos = tilePath.pathTiles[tilePath.pathTiles.length-1].getPos()
             camLookAtVec.copy(endPos)
@@ -70,9 +70,6 @@ function processTileSelectionCursorInput(tilePath, cursorObj3d, camLookAtVec, dr
             camTargetPos.y += calcVec.y;
             camLookAtVec.y += 1.1 - tileDistance*0.5;
 
-            camLookAtVec.copy(endPos);
-            camTargetPos.copy(tilePath.pathTiles[0].getPos())
-            camTargetPos.y += 25
         }
     }
 

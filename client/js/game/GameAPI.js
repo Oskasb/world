@@ -18,8 +18,7 @@ class GameAPI {
         this.gameMain = new GameMain();
 
         let activateWalkGrid = function() {
-            let walkGrid = this.gameMain.call.activateGameWalkGrid()
-            walkGrid.setGridHostObj3d(ThreeAPI.getCameraCursor().getCursorObj3d());
+            let walkGrid = this.gameMain.call.activateGameWalkGrid(ThreeAPI.getCameraCursor().getCursorObj3d())
         }.bind(this);
 
         let activateBattleMode = function(event) {

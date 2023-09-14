@@ -14,6 +14,7 @@ class DynamicWalker {
         let walkDynamicPath = function(tilePath, obj3d) {
             this.walkObj3d = obj3d;
             this.tilePath = tilePath;
+            obj3d.position.copy(tilePath.pathTiles[0].getPos())
             GameAPI.unregisterGameUpdateCallback(updateWalker);
             GameAPI.registerGameUpdateCallback(updateWalker);
         }.bind(this);

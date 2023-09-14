@@ -49,7 +49,9 @@ class GamePieceSystem {
 
     setSelectedGameActor = function(gameActor) {
         console.log("Set Selected Actor: ", gameActor);
-        gameActor.actorObj3d.copy(ThreeAPI.getCameraCursor().getCursorObj3d());
+        gameActor.actorObj3d.position.copy(ThreeAPI.getCameraCursor().getCursorObj3d().position);
+        gameActor.getGameWalkGrid().setGridMovementObj3d(gameActor.actorObj3d)
+        evt.dispatch(ENUMS.Event.SET_CAMERA_MODE, {mode:'game_travel'})
         gameActor.call.setAsSelection();
         this.selectedActor = gameActor;
     }

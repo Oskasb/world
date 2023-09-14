@@ -18,7 +18,7 @@ class GameWalkGrid {
         this.dataId = null;
 
         this.hostObj3d = new Object3D();
-        this.moveObj3d = this.hostObj3d;
+        this.moveObj3d = new Object3D();
 
         this.instances = [];
         this.configData = new ConfigData("GRID", "WALK_GRID",  'walk_grid_data', 'data_key', 'config')
@@ -49,12 +49,12 @@ class GameWalkGrid {
         }
     }
 
-    activateWalkGrid = function() {
+    activateWalkGrid = function(walkOriginObj3d) {
+        this.hostObj3d.copy(walkOriginObj3d);
 
-        if (this.isActive) {
             this.deactivateWalkGrid();
-        } else {
-            console.log("Activate Walk Grid")
+
+            console.log("Activate Walk Grid", this.hostObj3d.position)
             if (this.dataId !== "grid_walk_world") {
                 this.configData.parseConfig("grid_walk_world", this.call.configUpdate)
                 this.dataId = "grid_walk_world";
@@ -64,8 +64,11 @@ class GameWalkGrid {
 
             this.dynamicGrid.activateDynamicGrid(this.config['grid'])
             GameAPI.registerGameUpdateCallback(this.call.updateWalkGrid);
-        }
 
+    }
+
+    getGridOriginPos() {
+        return this.hostObj3d.position;
     }
 
     getTileAtPosition(posVec) {
@@ -73,23 +76,39 @@ class GameWalkGrid {
         return ScenarioUtils.getTileForPosition(gridTiles, posVec)
     }
 
-    buildGridPath(from, to) {
+    buildGridPath(to) {
         this.dynamicWalker.call.clearDynamicPath()
         let gridTiles = this.dynamicGrid.dynamicGridTiles
-        let fromTile = ScenarioUtils.getTileForPosition(gridTiles, from)
+        let fromTile = ScenarioUtils.getTileForPosition(gridTiles, this.getGridOriginPos())
         let toTile = ScenarioUtils.getTileForPosition(gridTiles, to)
         return this.dynamicPath.selectTilesBeneathPath(fromTile, toTile, gridTiles);
+    }
+
+    applySelectedPath(onUpdateCB, onCompletedCB) {
+
+        let activePath = this.getActiveTilePath();
+
+        if (activePath.pathTiles.length > 1) {
+            activePath.pathCompetedCallbacks.push(onCompletedCB)
+            activePath.pathingUpdateCallbacks.push(onUpdateCB);
+            this.walkObj3dAlongPath(this.moveObj3d)
+        } else {
+            this.deactivateWalkGrid();
+        }
+
+
     }
 
     getActiveTilePath() {
         return this.dynamicPath.tilePath;
     }
 
-    walkAlongPath(obj3d) {
-        console.log("Walk path", obj3d);
+    walkObj3dAlongPath(obj3d) {
+        console.log("Walk path", obj3d.position);
+        this.dynamicWalker.call.walkDynamicPath(this.getActiveTilePath(), obj3d)
         this.setGridHostObj3d(obj3d);
         this.setGridMovementObj3d(obj3d);
-        this.dynamicWalker.call.walkDynamicPath(this.getActiveTilePath(), obj3d)
+
     }
 
     setGridHostObj3d = function(obj3d) {
@@ -97,7 +116,11 @@ class GameWalkGrid {
     }
 
     setGridMovementObj3d = function(obj3d) {
-        this.moveObj3d = obj3d;
+        this.moveObj3d.copy(obj3d);
+    }
+
+    getGridMovementObj3d = function() {
+        return this.moveObj3d;
     }
 
     updateWalkGrid = function() {
@@ -110,6 +133,16 @@ class GameWalkGrid {
 
     deactivateWalkGrid() {
         console.log("Deactivate Walk Grid:", this)
+
+        let activePath = this.getActiveTilePath();
+
+        while (activePath.pathCompetedCallbacks.length) {
+            activePath.pathCompetedCallbacks.pop()
+        }
+        while (activePath.pathingUpdateCallbacks.length) {
+            activePath.pathingUpdateCallbacks.pop()
+        }
+
         this.dynamicGrid.deactivateDynamicGrid();
         GameAPI.unregisterGameUpdateCallback(this.call.updateWalkGrid);
         this.isActive = false;

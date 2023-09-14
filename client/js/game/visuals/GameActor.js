@@ -27,8 +27,16 @@ class GameActor {
         return this.gameWalkGrid;
     }
 
+    getPos() {
+        return this.gameWalkGrid.getGridMovementObj3d().position;
+    }
+
+    getQuat() {
+        return this.gameWalkGrid.getGridMovementObj3d().quaternion;
+    }
+
     setVisualGamePiece(visualGamePiece) {
-        visualGamePiece.setHostObj3d(this.actorObj3d);
+        visualGamePiece.setVisualPieceObj3d(this.actorObj3d);
         this.visualGamePiece = visualGamePiece;
     }
 
@@ -50,7 +58,10 @@ class GameActor {
     }
 
     updateGameActor = function() {
-    //    this.obj3d.copy(ThreeAPI.getCameraCursor().getCursorObj3d())
+
+        this.actorObj3d.position.copy(this.getPos())
+        this.actorObj3d.quaternion.copy(this.getQuat())
+
     }
 
 }
