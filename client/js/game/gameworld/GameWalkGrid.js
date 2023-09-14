@@ -81,7 +81,10 @@ class GameWalkGrid {
         let gridTiles = this.dynamicGrid.dynamicGridTiles
         let fromTile = ScenarioUtils.getTileForPosition(gridTiles, this.getGridOriginPos())
         let toTile = ScenarioUtils.getTileForPosition(gridTiles, to)
-        return this.dynamicPath.selectTilesBeneathPath(fromTile, toTile, gridTiles);
+        let tilePath = this.dynamicPath.selectTilesBeneathPath(fromTile, toTile, gridTiles);
+
+        return tilePath;
+
     }
 
     applySelectedPath(onUpdateCB, onCompletedCB) {

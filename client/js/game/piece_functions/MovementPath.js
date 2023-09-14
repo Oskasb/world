@@ -240,6 +240,7 @@ class MovementPath {
                 tile.setPathClaimant(this.gamePiece);
             }
         }
+        return this.tilePath;
     }
 
 
@@ -275,7 +276,7 @@ class MovementPath {
             return;
         }
         this.turnPathEnd.copy(endTile.getPos());
-        this.selectTilesBeneathPath(this.getTileAtPos(cPos), endTile)
+        return this.selectTilesBeneathPath(this.getTileAtPos(cPos), endTile)
 
     }
 

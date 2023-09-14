@@ -38,6 +38,14 @@ class GameActor {
         return this.gameWalkGrid.getGridMovementObj3d().quaternion;
     }
 
+    inspectTilePath(tilePath) {
+        if (tilePath.pathTiles.length > 1) {
+            tempVec.copy(tilePath.getEndTile().getPos());
+            tempVec.y = this.actorObj3d.position.y;
+            this.actorObj3d.lookAt(tempVec)
+        }
+    };
+
     setVisualGamePiece(visualGamePiece) {
         visualGamePiece.setVisualPieceObj3d(this.actorObj3d);
         this.visualGamePiece = visualGamePiece;
