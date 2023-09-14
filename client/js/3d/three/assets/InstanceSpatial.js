@@ -51,7 +51,7 @@ class InstanceSpatial{
             this.call = {
                 setStopped:setStopped,
                 setPrePos:setPrePos,
-                setPosPos:setPostPos,
+                setPostPos:setPostPos,
                 getMovement:getMovement,
                 getFrameVelocity:getFrameVelocity
             }
@@ -129,7 +129,7 @@ class InstanceSpatial{
             testVec3ForNaN(posVec3)
             this.call.setPrePos(this.obj3d.position);
             this.obj3d.position.copy(posVec3);
-            this.call.setPosPos(posVec3)
+            this.call.setPostPos(posVec3)
             if (this.geometryInstance) {
                 this.geometryInstance.applyObjPos();
             }

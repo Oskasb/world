@@ -6,8 +6,10 @@ import { GameWorldPointer } from "../application/ui/input/GameWorldPointer.js";
 import { GameCamera } from "../3d/camera/GameCamera.js";
 import { WorldModels } from "./gameworld/WorldModels.js";
 import { GamePieceSystem } from "./GamePieceSystem.js";
+import { GameEncounterSystem } from "./GameEncounterSystem.js";
 
 let gamePieceSystem = new GamePieceSystem();
+let gameEncounterSystem = new GameEncounterSystem()
 let gameCamera = new GameCamera();
 
 class GameAPI {
@@ -22,12 +24,25 @@ class GameAPI {
         }.bind(this);
 
         let activateBattleMode = function(event) {
+            gameEncounterSystem.activateEncounter(event);
             this.gameMain.call.activateGameBattleMode(event)
         }.bind(this);
 
+        let travelToPos = function(event) {
+            let selectedActor = gamePieceSystem.getSelectedGameActor();
+
+            if (selectedActor) {
+                MATH.vec3FromArray(selectedActor.getPos(), event.pos)
+            }
+
+            MATH.vec3FromArray(ThreeAPI.getCameraCursor().getPos(), event.pos)
+
+        }
+
         this.call = {
             activateWalkGrid:activateWalkGrid,
-            activateBattleMode:activateBattleMode
+            activateBattleMode:activateBattleMode,
+            travelToPos:travelToPos
         }
 
     }

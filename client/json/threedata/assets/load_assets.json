@@ -12,6 +12,8 @@
       "TEXTURES"
     ],
     "POLL_INDEX":[
+      "/world/grid/adventure_grids.json"                     ,
+      "/world/grid/main_encounter_grids.json"                     ,
       "/world/grid/walk_grid.json"                           ,
       "/world/locations/location_home.json"                  ,
       "/world/locations/location_home_pier.json"             ,
@@ -27,6 +29,7 @@
       "/threedata/assets/three_models.json"                   ,
       "/world/spawn/spawn_patterns.json"                     ,
       "/world/grid/adventure_grids.json"                     ,
+      "/world/grid/main_encounter_grids.json"                     ,
       "/ui/pages/characters/gui_page_companion_peace.json"    ,
       "/game/skeletons/biped_rigs.json"                      ,
       "/world/scenarios/home_dynamic/home_hero_dynamic.json" ,
@@ -44,7 +47,7 @@
       "/world/scenarios/encounter_dynamic/encounter_friends_home_dynamic.json" ,
       "/world/scenarios/encounter_dynamic/encounter_field_bandits_dynamic.json" ,
       "/world/scenarios/home_dynamic/hero_allies_dynamic.json" ,
-      "/world/grid/main_encounter_grids.json"                     ,
+
       "/ui/elements/surface_elements.json"                   ,
       "/ui/elements/text_elements.json"                      ,
       "/world/world_systems.json"                            ,

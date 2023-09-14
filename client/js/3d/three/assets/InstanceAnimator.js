@@ -36,7 +36,7 @@ class InstanceAnimator {
                 clamp = params['clamp']
             }
 
-            this.updateAnimationAction(
+           return this.updateAnimationAction(
                 stateId,
                 weight,
                 params['time_scale'],
@@ -216,6 +216,8 @@ class InstanceAnimator {
                     this.stopChannelAction(this.channels[chan], action)
                 }
             }
+
+            return action;
 
         };
 

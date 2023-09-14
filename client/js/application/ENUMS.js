@@ -79,6 +79,7 @@ if(typeof(ENUMS) === "undefined"){
         GAME_MODE_WALK:             60,
         GAME_MODE_BATTLE:           61,
         LOAD_ACTOR:                 62,
+        TRAVEL_TO:                  63
     };
 
     ENUMS.Args = {

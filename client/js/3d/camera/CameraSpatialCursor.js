@@ -245,14 +245,11 @@ class CameraSpatialCursor {
                     //    cursorObj3d.position.copy(selectedActor.actorObj3d.position);
                     }
 
-
                 }
-
             }
 
             if (camParams.mode === camModes.gameTravel) {
                 navPoint.callback = null;
-
 
                 let selectedActor = GameAPI.getGamePieceSystem().getSelectedGameActor();
 
@@ -273,7 +270,6 @@ class CameraSpatialCursor {
                     let selectedPath = gameWalkGrid.buildGridPath(dragToVec3)
                     selectedActor.inspectTilePath(selectedPath)
                 }
-            //    tilePath = gameWalkGrid.getActiveTilePath();
                 updateWalkCamera(gameWalkGrid.getActiveTilePath());
             }
 

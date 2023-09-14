@@ -341,7 +341,7 @@
             "config": {
               "INFO": {},
               "elevation": 0.02,
-              "box_size": 0.3,
+              "box_size": 1.0,
               "step_height": 0.28,
               "grid_tiles": [
                 "rock_hard",

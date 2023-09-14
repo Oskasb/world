@@ -84,7 +84,9 @@ class GameMain {
 
         let activateGameBattleMode = function(event) {
             console.log("Activate battle mode", event)
-            gameWalkGrid.deactivateWalkGrid(event)
+
+        //    gameWalkGrid.deactivateWalkGrid(event)
+
         };
 
         this.call = {

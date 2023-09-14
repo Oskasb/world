@@ -26,7 +26,7 @@ class GameWalkGrid {
         this.config = null;
 
         let configUpdate = function(config, updateCount) {
-            console.log("Update Count: ", updateCount, config)
+        //    console.log("Update Count: ", updateCount, config)
             this.config = config;
             if (updateCount) {
                 GuiAPI.printDebugText("REFLOW GRID")
@@ -54,7 +54,7 @@ class GameWalkGrid {
 
             this.deactivateWalkGrid();
 
-            console.log("Activate Walk Grid", this.hostObj3d.position)
+       //     console.log("Activate Walk Grid", this.hostObj3d.position)
             if (this.dataId !== "grid_walk_world") {
                 this.configData.parseConfig("grid_walk_world", this.call.configUpdate)
                 this.dataId = "grid_walk_world";
@@ -107,7 +107,7 @@ class GameWalkGrid {
     }
 
     walkObj3dAlongPath(obj3d) {
-        console.log("Walk path", obj3d.position);
+    //    console.log("Walk path", obj3d.position);
         this.setGridHostObj3d(obj3d);
         this.setGridMovementObj3d(obj3d);
         this.dynamicWalker.call.walkDynamicPath(this.getActiveTilePath(), this)
@@ -135,7 +135,7 @@ class GameWalkGrid {
     }
 
     deactivateWalkGrid() {
-        console.log("Deactivate Walk Grid:", this)
+     //   console.log("Deactivate Walk Grid:", this)
 
         let activePath = this.getActiveTilePath();
 

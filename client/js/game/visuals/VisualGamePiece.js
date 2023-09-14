@@ -58,7 +58,7 @@ class VisualGamePiece {
             if (action.active.length) {
                 let actionMap = this.pieceActionSystem.actions[actionName][0].active;
                 let animId = MATH.getRandomArrayEntry(actionMap)
-                this.applyPieceAnimationState(animId);
+                return this.applyPieceAnimationState(animId);
             }
         }
     }
@@ -68,7 +68,7 @@ class VisualGamePiece {
     };
 
     applyPieceAnimationState(animName, duration, channel, weight) {
-        this.instance.animator.applyAnimationState(animName, this.animStateMap, duration, channel, weight)
+        return this.instance.animator.applyAnimationState(animName, this.animStateMap, duration, channel, weight)
     }
 
     setModel(instance) {
@@ -125,6 +125,18 @@ class VisualGamePiece {
     updateAnimatedGamePiece(tpf, gameTime) {
         this.pieceAnimator.updatePieceAnimations(tpf, gameTime);
     //    this.pieceAttacher.tickAttacher();
+
+        this.getSpatial().call.getMovement(tempVec);
+        let frameVelocity = tempVec.length() / tpf
+
+        if (frameVelocity) {
+            let action = this.animateActionState('MOVE')
+        //    console.log(action);
+            action.timeScale = frameVelocity * 0.33;
+        } else {
+            this.animateActionState('IDLE_LEGS')
+        }
+
     }
 
     updateVisualGamePiece() {

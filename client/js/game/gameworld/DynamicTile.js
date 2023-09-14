@@ -8,7 +8,12 @@ let up = new Vector3(0, 1, 0)
 let tempVec = new Vector3();
 let tempObj = new Object3D();
 class DynamicTile {
-    constructor() {
+    constructor(defaultSprite, defaultSize) {
+
+        this.defaultSprite = defaultSprite || [7, 3]
+        this.defaultSize = defaultSize || 0.9
+
+        this.groundSprite = [7, 1]
 
         this.obj3d = new Object3D();
         this.obj3d.lookAt(up);
@@ -30,24 +35,14 @@ class DynamicTile {
         this.tileEffect = null;
 
         let effectCb = function(efct) {
-            //    this.indicators.push(efct);
+
             efct.activateEffectFromConfigId(true)
-            //    tempObj.quaternion.set(0, 0, 0, 1);
-            //   tempObj.lookAt(0, 1, 0);
+
             efct.setEffectQuaternion(this.obj3d.quaternion);
-            //    gamePiece.getSpatial().getSpatialPosition(this.tempVec3);
-            //    this.tempVec3.y+=0.03;
-            // efct.setEffectPosition(pos)
-            //    tempObj.lookAt(0, 1, 0);
-            //    efct.setEffectQuaternion(tempObj.quaternion);
 
-            //    if (typeof (tileX) === 'number' && typeof(tileY) === 'number') {
-        //    efct.setEffectSize()
-            efct.setEffectSpriteXY(7, 1);
-            efct.scaleEffectSize(0.8)
-            //    }
+            efct.setEffectSpriteXY(this.defaultSprite[0], this.defaultSprite[1]);
+            efct.scaleEffectSize( this.defaultSize)
 
-            //    gamePiece.addPieceUpdateCallback(this.call.updateIndicator)
             this.tileEffect = efct;
         }.bind(this);
 
@@ -69,12 +64,12 @@ class DynamicTile {
         tempObj.lookAt(up);
         let pos = this.obj3d.position;
         let slope = 0;
-        let spriteX = 7;
-        let spriteY = 1;
+        let spriteX = this.defaultSprite[0];
+        let spriteY = this.defaultSprite[1];
         let r = 0;
-        let g = 0.1;
+        let g = 0.2;
         let b = 0;
-        let a = 0.3;
+        let a = 1;
 
         if (height < 0.1) {
             this.obj3d.position.y = 0.1;
@@ -138,17 +133,22 @@ class DynamicTile {
         this.rgba.b = b;
         this.rgba.a = a;
 
-        this.tileEffect.setEffectSpriteXY(spriteX, spriteY);
+        this.groundSprite[0] = spriteX;
+        this.groundSprite[1] = spriteY;
+
+        this.tileEffect.setEffectSpriteXY(this.groundSprite[0], this.groundSprite[1]);
         this.tileEffect.setEffectColorRGBA(CombatFxUtils.setRgba(r, g, b, a))
         this.tileEffect.setEffectPosition(pos)
         this.tileEffect.setEffectQuaternion(tempObj.quaternion);
     }
 
     indicatePath = function() {
+        this.tileEffect.setEffectSpriteXY(7, 1);
         this.tileEffect.setEffectColorRGBA(CombatFxUtils.setRgba(this.rgba.r*4, this.rgba.g*4, this.rgba.b*4, this.rgba.a*4))
     }
 
     clearPathIndication = function() {
+        this.tileEffect.setEffectSpriteXY(this.groundSprite[0], this.groundSprite[1]);
         this.tileEffect.setEffectColorRGBA(CombatFxUtils.setRgba(this.rgba.r, this.rgba.g, this.rgba.b, this.rgba.a))
     }
 

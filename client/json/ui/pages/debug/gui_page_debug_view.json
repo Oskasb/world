@@ -119,11 +119,9 @@
                     "offset_x": -0.05,
                     "offset_y": 0.08,
                     "dispatch":{
-                      "event":"SET_CAMERA_TARGET",
+                      "event":"TRAVEL_TO",
                       "value":{
-                        "time":0.5,
-                        "pos": [-911, 8, 507],
-                        "lookAt": [-892, 1, 520]
+                        "pos": [-886, 2, 525]
                       }
                     }
                   }
@@ -155,24 +153,7 @@
                     "dispatch":{
                       "event":"GAME_MODE_BATTLE",
                       "value":{
-
-                      }
-                    }
-                  }
-                },
-                {
-                  "widget_id":"button_game_grid",
-                  "widget_class":"GuiExpandingContainer",
-                  "widget_config_id":"button_big_blue",
-                  "options":{
-                    "text":"GRID",
-                    "container_id":"page_debug_bottom_right",
-                    "offset_x": -0.05,
-                    "offset_y": 0.20,
-                    "dispatch":{
-                      "event":"GAME_MODE_WALK",
-                      "value":{
-                        "data_id": "grid_walk_world"
+                        "grid_id":"grid_flat_32x12"
                       }
                     }
                   }

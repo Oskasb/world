@@ -2,6 +2,7 @@ import { Vector3} from "../../../libs/three/math/Vector3.js";
 import { Vector2} from "../../../libs/three/math/Vector2.js";
 import { Object3D } from "../../../libs/three/core/Object3D.js";
 import { GridTile } from "../gamescenarios/GridTile.js";
+import { DynamicTile } from "./DynamicTile.js";
 
 let tempVec1 = new Vector3();
 let tempVec2 = new Vector3();
@@ -269,7 +270,7 @@ function resetScenarioCharacterPiece(charPiece) {
 
 
 
-function setupEncounterGrid(gridTiles, instances, gridConfig, scenarioGridConfig) {
+function setupEncounterGrid(gridTiles, instances, gridConfig, posVec) {
 // console.log(scenarioGridConfig);
     let iconSprites = GuiAPI.getUiSprites("box_tiles_8x8");
     let iconKeys = gridConfig['grid_tiles'];
@@ -279,83 +280,37 @@ function setupEncounterGrid(gridTiles, instances, gridConfig, scenarioGridConfig
     let grid = gridConfig['grid'];
     let gridWidth = grid[0].length;
     let gridDepth = grid.length;
-    let pos = scenarioGridConfig['pos'];
-    let rot = scenarioGridConfig['rot'];
-    elevation+=pos[1];
+  //  let pos = scenarioGridConfig['pos'];
+    let pos = new Vector3(Math.floor(posVec.x), Math.floor(posVec.y), Math.floor(posVec.z))
+
+    // let rot = scenarioGridConfig['rot'];
+    elevation = 0.3 // [1];
 
     tempObj.quaternion.set(0, 0, 0, 1);
 
-    MATH.rotateObj(tempObj, rot);
+ //   MATH.rotateObj(tempObj, rot);
     let quat = tempObj.quaternion;
 
 
 
+    let defaultSprite = [7, 2]
+    let defaultSize = 0.9;
  //   console.log(gridConfig, gridWidth, gridDepth);
     tempVec1.set(boxSize*gridWidth-boxSize, 0, boxSize*gridWidth-boxSize)
     tempVec1.applyQuaternion(quat);
-    let offsetX = pos[0] - tempVec1.x;
-    let offsetZ = pos[2] - tempVec1.z
+    let offsetX = pos.x - tempVec1.x;
+    let offsetZ = pos.z - tempVec1.z
 
     for (let i = 0; i < gridWidth; i++) {
         gridTiles.push([])
         for (let j = 0; j < gridDepth; j++) {
 
-            let iconSprite = iconSprites[iconKeys[grid[j][i][0]]];
+            let x = pos.x+i;
+            let z = pos.z+j;
 
-            let addSceneBox = function(instance) {
-                let gridTile = new GridTile(gridWidth-i, gridDepth-j, boxSize, stepHeight, new Object3D())
-                gridTile.setTileQuat(quat);
-
-                gridTiles[i].push(gridTile);
-                let boxElevation = grid[j][i][1]*stepHeight;
-                let posY = elevation + boxElevation
-                let boxX = gridTile.tileX * 2 * boxSize +0.5 ;
-                let boxZ = gridTile.tileZ * 2 * boxSize +0.25;
-                let boxScale = boxSize*0.02;
-                tempVec1.set(boxX, posY*0.5-boxSize, boxZ);
-                tempVec1.applyQuaternion(quat);
-
-                if (grid[j][i][1] === 9) {
-                    gridTile.hidden = true;
-                    instance.decommissionInstancedModel()
-                } else {
-                    instance.spatial.setPosXYZ(tempVec1.x + offsetX,  tempVec1.y+ elevation*0.5, tempVec1.z + offsetZ);
-                    tempVec1.copy(instance.spatial.getPos())
-                    instance.spatial.setQuatXYZW(quat.x, quat.y, quat.z, quat.w );
-                    instances.push(instance)
-                    gridTile.setTileInstance(instance);
-                    instance.setActive(ENUMS.InstanceState.ACTIVE_VISIBLE);
-                    let scaleZ = boxScale * (1 + (boxElevation*(1+boxSize*1*boxElevation+boxSize*0.5)));
-                    instance.spatial.setScaleXYZ(boxScale*0.5, scaleZ, boxScale*0.5);
-                    instance.setSprite(iconSprite);
-
-                    let groundY = ThreeAPI.terrainAt(tempVec1, ThreeAPI.tempVec3c)-boxSize * 0.99;
-                    if (groundY > tempVec1.y) {
-
-                        if (ThreeAPI.tempVec3c.y < 0.8) {
-                            gridTile.hidden = true;
-                            instance.decommissionInstancedModel()
-                        }
-
-                        tempVec1.y = groundY;
-                        instance.spatial.setPosXYZ(tempVec1.x,  tempVec1.y, tempVec1.z);
-
-                    }
-
-                }
-
-                gridTile.obj3d.position.x = tempVec1.x
-                gridTile.obj3d.position.y = tempVec1.y+boxSize;
-                gridTile.obj3d.position.z = tempVec1.z
-            //    ThreeAPI.tempVec3c.add(gridTile.obj3d.position)
-            //    instance.spatial.obj3d.lookAt(ThreeAPI.tempVec3c)
-            //    quat.copy(instance.spatial.obj3d.quaternion);
-            //    instance.spatial.setQuatXYZW(quat.x, quat.y, quat.z, quat.w );
-
-                ThreeAPI.getScene().remove(instance.spatial.obj3d)
-            };
-
-            client.dynamicMain.requestAssetInstance('asset_box', addSceneBox)
+            let dynamicTile = new DynamicTile(defaultSprite, defaultSize);
+            dynamicTile.setTileIndex(x, z, i, j)
+            gridTiles[i].push(dynamicTile);
 
         }
     }

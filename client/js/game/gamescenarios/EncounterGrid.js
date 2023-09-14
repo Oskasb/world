@@ -2,14 +2,12 @@ import {ConfigData} from "../../application/utils/ConfigData.js";
 import * as ScenarioUtils from "../gameworld/ScenarioUtils.js";
 class EncounterGrid {
     constructor() {
-
         this.gridTiles = [];
         this.instances = [];
         this.configData = new ConfigData("GRID", "ENCOUNTER_GRIDS",  'grid_main_data', 'data_key', 'config')
-
     }
 
-    initEncounterGrid(scenarioGridConfig) {
+    initEncounterGrid(gridId) {
         let onConfig = function(config, updateCount) {
             //    console.log("Update Count: ", updateCount, config)
             if (updateCount) {
@@ -20,10 +18,10 @@ class EncounterGrid {
                 //    onReady(this);
                 }, 0);
             }
-            this.applyGridConfig(config, scenarioGridConfig);
+            this.applyGridConfig(config);
         }.bind(this)
 
-        this.configData.parseConfig(scenarioGridConfig['dataId'], onConfig)
+        this.configData.parseConfig(gridId, onConfig)
     }
 
     getPlayerEntranceTile() {
@@ -43,10 +41,10 @@ class EncounterGrid {
         let col = this.gridTiles[0].length - this.startTile[1];
         return this.gridTiles[row][col]
     }
-    applyGridConfig(config, scenarioGridConfig) {
-        this.entranceTile = scenarioGridConfig['entrance_tile'] || [3, 3];
-        this.startTile = scenarioGridConfig['start_tile'] || [3, 3];
-        ScenarioUtils.setupEncounterGrid(this.gridTiles, this.instances, config, scenarioGridConfig)
+    applyGridConfig(config) {
+        this.entranceTile = [3, 3];
+        this.startTile =  [3, 3];
+        ScenarioUtils.setupEncounterGrid(this.gridTiles, this.instances, config, ThreeAPI.getCameraCursor().getPos())
 
     }
 
