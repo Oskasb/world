@@ -1,5 +1,8 @@
 import {Object3D} from "../../../libs/three/core/Object3D.js";
 import { GameWalkGrid } from "../gameworld/GameWalkGrid.js";
+import { Vector3 } from "../../../libs/three/math/Vector3.js";
+
+let tempVec = new Vector3();
 
 class GameActor {
     constructor(config) {
@@ -58,10 +61,12 @@ class GameActor {
     }
 
     updateGameActor = function() {
-
-        this.actorObj3d.position.copy(this.getPos())
-        this.actorObj3d.quaternion.copy(this.getQuat())
-
+        tempVec.copy(this.getPos());
+        if (MATH.distanceBetween(tempVec, this.actorObj3d.position) > 0.001) {
+            this.actorObj3d.position.y = tempVec.y;
+            this.actorObj3d.lookAt(tempVec)
+        }
+        this.actorObj3d.position.copy(tempVec)
     }
 
 }

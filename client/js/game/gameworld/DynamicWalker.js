@@ -6,15 +6,18 @@ class DynamicWalker {
     constructor() {
 
         this.headingVector = new Vector3();
+        this.walkPos = new Vector3()
 
-        let updateWalker = function(tpf, gameTime) {
+        let updateWalker = function(tpf) {
             this.processTilePathMovement(tpf);
         }.bind(this)
 
-        let walkDynamicPath = function(tilePath, obj3d) {
-            this.walkObj3d = obj3d;
+        let walkDynamicPath = function(tilePath, walkGrid) {
+            this.walkGrid = walkGrid;
+            this.walkObj3d = walkGrid.getGridMovementObj3d();
+            this.walkPos.copy(this.walkObj3d.position);
             this.tilePath = tilePath;
-            obj3d.position.copy(tilePath.pathTiles[0].getPos())
+            this.walkObj3d.position.copy(tilePath.pathTiles[0].getPos())
             GameAPI.unregisterGameUpdateCallback(updateWalker);
             GameAPI.registerGameUpdateCallback(updateWalker);
         }.bind(this);
@@ -42,7 +45,7 @@ class DynamicWalker {
     applyHeadingToGamePiece(obj3d, frameTravelDistance) {
         tempVec.copy(this.headingVector);
         tempVec.multiplyScalar(frameTravelDistance);
-        tempVec.add(obj3d.position)
+        tempVec.add(this.walkPos)
         obj3d.position.set(0, 0, 0);
         obj3d.lookAt(this.headingVector);
         obj3d.position.copy(tempVec);
@@ -50,72 +53,47 @@ class DynamicWalker {
     }
 
     processTilePathMovement(tpf, gameTime) {
-
+        this.walkPos.copy(this.walkObj3d.position)
+        let currentPos = this.walkPos
         let pathTiles = this.tilePath.getTiles();
-
         let targetTile = this.tilePath.getEndTile();
 
         let charSpeed = 4;
         let frameTravelDistance = charSpeed * tpf // GameAPI.getTurnStatus().turnTime
 
         if (pathTiles.length > 1) {
-
-            // Move towards next tile, assuming index 0 is close enough
-       //     evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:pathTiles[0].getPos(), color:'GREEN', size:0.3})
-        //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:pathTiles[1].getPos(), color:'YELLOW', size:0.3})
-        //    if (pathTiles[1].hidden === false) {
-                targetTile = pathTiles[1]
-        //    }
-
-        //    this.setMovementHeadingVector(gamePiece.getPos(), )
+            targetTile = pathTiles[1]
         } else {
             // final tile is near or reached, path end point
-            if (pathTiles.length !== 0 && (pathTiles[0].hidden === false)) {
+            if (pathTiles.length !== 0) {
                 targetTile = pathTiles[0]
-            //    this.setMovementHeadingVector(gamePiece.getPos(), pathTiles[0].getPos())
-       //         evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:gamePiece.getPos(), color:'ORANGE', size:0.5})
-            } else {
-
             }
         }
-
-        let currentPos = this.walkObj3d.position
 
         this.setMovementHeadingVector(currentPos, targetTile.getPos())
 
-            let currentTile = GameAPI.gameMain.getGridTileAtPos(this.walkObj3d.position)
-            let turnDistance = MATH.distanceBetween(currentPos, this.tilePath.getTurnEndTile().getPos())
-            if (turnDistance > frameTravelDistance) {
+        let pathRemainingDistance = MATH.distanceBetween(currentPos, this.tilePath.getEndTile().getPos())
 
-                this.applyHeadingToGamePiece(this.walkObj3d, frameTravelDistance);
-                MATH.callAll(this.tilePath.pathingUpdateCallbacks, this.tilePath, this.walkObj3d)
-       //         evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:gamePiece.getPos(), color:'CYAN', size:0.4})
-            } else {
-        //        console.log("Turn path ended")
-                this.applyHeadingToGamePiece(this.walkObj3d, turnDistance);
-         //       evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:gamePiece.getPos(), color:'RED', size:0.5})
+        frameTravelDistance = Math.min(pathRemainingDistance , frameTravelDistance)
 
-                if (currentTile === this.tilePath.getEndTile()) {
+        this.applyHeadingToGamePiece(this.walkObj3d, frameTravelDistance);
+        let currentTile = this.walkGrid.getTileAtPosition(this.walkObj3d.position)
+        MATH.callAll(this.tilePath.pathingUpdateCallbacks, this.tilePath, this.walkObj3d)
 
-                //    gamePiece.getSpatial().call.setStopped();
-                    console.log("Path End Tile Reached")
-                    MATH.callAndClearAll(this.tilePath.pathCompetedCallbacks, this.tilePath, this.walkObj3d)
-                    MATH.callAndClearAll(this.tilePath.pathingUpdateCallbacks, this.tilePath, this.walkObj3d)
-                    GameAPI.unregisterGameUpdateCallback(this.call.updateWalker);
-                    // onArriveCB()
-                } else {
-                    if (this.tilePath.getEndTile()) {
-                        // gamePiece.movementPath.determineGridPathToPos(this.tilePath.getEndTile().getPos());
-                        console.log("Continue Path Walker")
-                    }
-                }
-            }
-            if (currentTile === pathTiles[1]) {
-                pathTiles[0].clearPathIndication();
-                pathTiles.shift();
-            }
+        if (pathRemainingDistance <= frameTravelDistance) {
+
+            console.log("Path End Tile Reached")
+            this.walkGrid.deactivateWalkGrid();
+            GameAPI.unregisterGameUpdateCallback(this.call.updateWalker);
 
         }
+
+        if (currentTile === pathTiles[1]) {
+            pathTiles[0].clearPathIndication();
+            pathTiles.shift();
+        }
+
+    }
 
 }
 

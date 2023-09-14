@@ -162,7 +162,7 @@ let camCB = function() {
     cursorObj3d.position.z = navPoint.lookAt[2];
 }
 
-let pathCompletedCallback = function(tilePath, movedObj3d) {
+let pathCompletedCallback = function(movedObj3d) {
     cursorObj3d.position.copy(movedObj3d.position)
     cursorObj3d.quaternion.copy(movedObj3d.quaternion)
 }
@@ -237,6 +237,15 @@ class CameraSpatialCursor {
                     lerpFactor = tpf;
                 } else {
                     updateWorldLook();
+
+                    let selectedActor = GameAPI.getGamePieceSystem().getSelectedGameActor();
+
+                    if (selectedActor) {
+                        selectedActor.getPos().copy(cursorObj3d.position)
+                    //    cursorObj3d.position.copy(selectedActor.actorObj3d.position);
+                    }
+
+
                 }
 
             }

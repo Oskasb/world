@@ -105,9 +105,9 @@ class GameWalkGrid {
 
     walkObj3dAlongPath(obj3d) {
         console.log("Walk path", obj3d.position);
-        this.dynamicWalker.call.walkDynamicPath(this.getActiveTilePath(), obj3d)
         this.setGridHostObj3d(obj3d);
         this.setGridMovementObj3d(obj3d);
+        this.dynamicWalker.call.walkDynamicPath(this.getActiveTilePath(), this)
 
     }
 
@@ -137,7 +137,7 @@ class GameWalkGrid {
         let activePath = this.getActiveTilePath();
 
         while (activePath.pathCompetedCallbacks.length) {
-            activePath.pathCompetedCallbacks.pop()
+            activePath.pathCompetedCallbacks.pop()(this.moveObj3d)
         }
         while (activePath.pathingUpdateCallbacks.length) {
             activePath.pathingUpdateCallbacks.pop()
