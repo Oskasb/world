@@ -317,6 +317,19 @@ class CameraSpatialCursor {
 
     }
 
+    getPointAtDistanceAhead(distance) {
+        tempVec3.set(0, 0, distance);
+        tempVec3.applyQuaternion(cursorObj3d.quaternion);
+        tempVec3.add(cursorObj3d.position);
+        return tempVec3;
+    }
+
+    getForward() {
+        tempVec3.set(0, 0, 1);
+        tempVec3.applyQuaternion(cursorObj3d.quaternion);
+        return tempVec3;
+    }
+
     updateSpatialCursor = function() {
         let tpf = GameAPI.getFrame().tpf
         ThreeAPI.copyCameraLookAt(tempVec3);

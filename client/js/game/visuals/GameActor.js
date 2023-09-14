@@ -68,6 +68,19 @@ class GameActor {
         GameAPI.unregisterGameUpdateCallback(this.call.updateGameActor);
     }
 
+    getPointAtDistanceAhead(distance) {
+        tempVec.set(0, 0, distance);
+        tempVec.applyQuaternion(this.actorObj3d.quaternion);
+        tempVec.add(this.actorObj3d.position);
+        return tempVec;
+    }
+
+    getForward() {
+        tempVec.set(0, 0, 1);
+        tempVec.applyQuaternion(this.actorObj3d.quaternion);
+        return tempVec;
+    }
+
     updateGameActor = function() {
         tempVec.copy(this.getPos());
         if (MATH.distanceBetween(tempVec, this.actorObj3d.position) > 0.001) {

@@ -270,7 +270,7 @@ function resetScenarioCharacterPiece(charPiece) {
 
 
 
-function setupEncounterGrid(gridTiles, instances, gridConfig, posVec) {
+function setupEncounterGrid(gridTiles, instances, gridConfig, posVec, forwardVec) {
 // console.log(scenarioGridConfig);
     let iconSprites = GuiAPI.getUiSprites("box_tiles_8x8");
     let iconKeys = gridConfig['grid_tiles'];
@@ -280,8 +280,11 @@ function setupEncounterGrid(gridTiles, instances, gridConfig, posVec) {
     let grid = gridConfig['grid'];
     let gridWidth = grid[0].length;
     let gridDepth = grid.length;
+    forwardVec.x *= gridWidth * 0.6;
+    forwardVec.z *= gridDepth * 0.6;
+    posVec.add(forwardVec);
   //  let pos = scenarioGridConfig['pos'];
-    let pos = new Vector3(Math.floor(posVec.x), Math.floor(posVec.y), Math.floor(posVec.z))
+    let pos = new Vector3(Math.floor(posVec.x - gridWidth*0.5), Math.floor(posVec.y), Math.floor(posVec.z  - gridDepth*0.5))
 
     // let rot = scenarioGridConfig['rot'];
     elevation = 0.3 // [1];

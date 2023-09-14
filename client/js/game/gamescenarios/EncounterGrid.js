@@ -1,5 +1,10 @@
 import {ConfigData} from "../../application/utils/ConfigData.js";
 import * as ScenarioUtils from "../gameworld/ScenarioUtils.js";
+import {Vector3} from "../../../libs/three/math/Vector3.js";
+
+let initPos = new Vector3();
+let forward = new Vector3();
+
 class EncounterGrid {
     constructor() {
         this.gridTiles = [];
@@ -7,7 +12,9 @@ class EncounterGrid {
         this.configData = new ConfigData("GRID", "ENCOUNTER_GRIDS",  'grid_main_data', 'data_key', 'config')
     }
 
-    initEncounterGrid(gridId) {
+    initEncounterGrid(gridId, pos, forwardVec) {
+        initPos.copy(pos);
+        forward.copy(forwardVec);
         let onConfig = function(config, updateCount) {
             //    console.log("Update Count: ", updateCount, config)
             if (updateCount) {
@@ -18,7 +25,7 @@ class EncounterGrid {
                 //    onReady(this);
                 }, 0);
             }
-            this.applyGridConfig(config);
+            this.applyGridConfig(config, initPos, forward);
         }.bind(this)
 
         this.configData.parseConfig(gridId, onConfig)
@@ -41,10 +48,10 @@ class EncounterGrid {
         let col = this.gridTiles[0].length - this.startTile[1];
         return this.gridTiles[row][col]
     }
-    applyGridConfig(config) {
+    applyGridConfig(config, initPoz, forward) {
         this.entranceTile = [3, 3];
         this.startTile =  [3, 3];
-        ScenarioUtils.setupEncounterGrid(this.gridTiles, this.instances, config, ThreeAPI.getCameraCursor().getPos())
+        ScenarioUtils.setupEncounterGrid(this.gridTiles, this.instances, config, initPos, forward)
 
     }
 
@@ -53,16 +60,11 @@ class EncounterGrid {
     }
 
     removeEncounterGrid() {
-        let instances = this.instances;
-        while (instances.length) {
-            let instance = instances.pop();
-            instance.decommissionInstancedModel();
-        }
         while (this.gridTiles.length) {
             let col = this.gridTiles.pop()
             while (col.length) {
                 let tile = col.pop();
-                tile.indicateTileStatus(false);
+                tile.removeTile();
             }
         }
     }
