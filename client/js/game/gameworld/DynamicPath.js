@@ -117,6 +117,8 @@ class DynamicPath {
 
         startTile.indicatePath()
 
+        let leapOver = false;
+
         this.tilePath.addTileToPath(startTile);
         for (let i = 0; i < tileCount; i++) {
 
@@ -138,24 +140,28 @@ class DynamicPath {
             let tile = gridTiles[tileX][tileZ];
             if (!tile) {
                 console.log("No tile")
-            } else {
+            } else if (tile.blocking) {
+                i = tileCount;
+            } else if (tile.walkable) {
                 tile.indicatePath()
                 let color = 'YELLOW';
                 this.tilePath.addTileToPath(tile);
                 let elevationDiff = tile.getPos().y - this.tempVec.y;
-                if (Math.abs(elevationDiff) > 0.7) {
+                if (Math.abs(elevationDiff) > 0.7 || leapOver) {
                     tile.requiresLeap = true;
+                    leapOver = false;
                 } else {
                     tile.requiresLeap = false;
                 }
                 this.drawPathLine(this.tempVec, tile.getPos(), color, tile)
                 this.tempVec.copy(tile.getPos());
+            } else {
+                leapOver = true;
             }
         }
 
-        this.tilePath.setEndTile(endTile);
-
-    //    drawPathTiles(this.tilePath.getTiles())
+        this.tilePath.setEndTile(this.tilePath.getTurnEndTile());
+        //    drawPathTiles(this.tilePath.getTiles())
 
         return this.tilePath
 

@@ -1,11 +1,21 @@
 import {Vector3} from "../../../libs/three/math/Vector3.js";
-let tempVec = new Vector3()
 
+let tempVec = new Vector3()
+let effectEvent = {
+    pos:new Vector3(),
+    dir:new Vector3(),
+    rgba:{r:0.1, g:0.4, b:0.1, a:0.5},
+    fromSize:0.2,
+    toSize:1.8,
+    duration:0.25,
+    sprite:[0, 1],
+    effectName:'stamp_additive_pool'
+}
 
 class DynamicWalker {
     constructor() {
 
-        this.isLaaping = false;
+        this.isLeaping = false;
 
         this.headingVector = new Vector3();
         this.walkPos = new Vector3()
@@ -45,7 +55,7 @@ class DynamicWalker {
     }
 
     applyHeadingToGamePiece(obj3d, frameTravelDistance) {
-        this.isLaaping = false;
+        this.isLeaping = false;
         tempVec.copy(this.headingVector);
         tempVec.multiplyScalar(frameTravelDistance);
         tempVec.add(this.walkPos)
@@ -62,6 +72,8 @@ class DynamicWalker {
 
         tempVec.x =  obj3d.position.x;
         tempVec.z =  obj3d.position.z;
+
+        let leapDistance = Math.sqrt(MATH.distanceBetween(from, to));
 
         let fracX = 1;
         let fracZ = 1;
@@ -80,10 +92,45 @@ class DynamicWalker {
         tempVec.copy(this.headingVector);
         let leaPMod = 1;
         if (frac > 0 && frac < 1) {
-            this.isLaaping = true;
-            leaPMod = MATH.valueFromCurve(frac, MATH.curves["oneZeroOne"])*0.7 + 0.3;
+            effectEvent.pos.copy(obj3d.position);
+            effectEvent.dir.set(0, 1, 0);
+            if (!this.isLeaping) {
+                effectEvent.fromSize = 5.2;
+                effectEvent.toSize = 0.5;
+                effectEvent.duration = 0.2;
+                effectEvent.rgba.r=0.1;
+                effectEvent.rgba.g=0.7;
+                effectEvent.rgba.b=0.3;
+                effectEvent.rgba.a=0.6;
+
+                evt.dispatch(ENUMS.Event.SPAWN_EFFECT, effectEvent)
+            }
+            effectEvent.rgba.r=0.1;
+            effectEvent.rgba.g=0.6;
+            effectEvent.rgba.b=0.1;
+            effectEvent.rgba.a=0.5;
+            effectEvent.fromSize = 0.2;
+            effectEvent.toSize = 1.0;
+            effectEvent.duration = 0.2;
+            evt.dispatch(ENUMS.Event.SPAWN_EFFECT, effectEvent)
+
+            this.isLeaping = true;
+            leaPMod = leapDistance * MATH.valueFromCurve(frac, MATH.curves["oneZeroOne"])*0.7 + 0.3*leapDistance;
         } else {
-            this.isLaaping = false;
+
+            if (this.isLeaping) {
+                effectEvent.fromSize = 1.2;
+                effectEvent.toSize = 5.5;
+                effectEvent.duration = 0.2;
+                effectEvent.rgba.r = 0.1;
+                effectEvent.rgba.g = 0.7;
+                effectEvent.rgba.b = 0.3;
+                effectEvent.rgba.a = 0.6;
+
+                evt.dispatch(ENUMS.Event.SPAWN_EFFECT, effectEvent)
+            }
+
+            this.isLeaping = false;
         }
         tempVec.multiplyScalar(frameTravelDistance * leaPMod);
         tempVec.add(this.walkPos)
@@ -91,10 +138,12 @@ class DynamicWalker {
 
         let startY = from.y;
         let endY = to.y;
-        let leapY = MATH.valueFromCurve(frac, MATH.curves["centerHump"]) // Math.sin(frac*MATH.HALF_PI)
+        let leapY = MATH.valueFromCurve(frac, MATH.curves["centerHump"]) * leapDistance// Math.sin(frac*MATH.HALF_PI)
 
         tempVec.y = startY + frac*(endY-startY)  + leapY;
-        obj3d.position.set(0, 0, 0);
+        let groundY = ThreeAPI.terrainAt(tempVec)
+        tempVec.y = Math.max(tempVec.y , groundY);
+            obj3d.position.set(0, 0, 0);
         obj3d.lookAt(this.headingVector);
         obj3d.position.copy(tempVec);
         evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:obj3d.position, color:'PURPLE', size:0.9})

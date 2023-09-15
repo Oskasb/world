@@ -16,6 +16,8 @@ class DynamicTile {
         this.groundSprite = [7, 1]
 
         this.requiresLeap = false;
+        this.walkable = false;
+        this.blocking = false;
 
         this.obj3d = new Object3D();
         this.obj3d.lookAt(up);
@@ -73,6 +75,8 @@ class DynamicTile {
         let b = 0;
         let a = 1;
 
+        this.walkable = false;
+        this.blocking = false;
         if (height < 0.1) {
             this.obj3d.position.y = 0.1;
             spriteX = 6;
@@ -97,29 +101,33 @@ class DynamicTile {
                 a = 1;
                 tempObj.lookAt(this.groundNormal);
             } else {
+                this.walkable = true;
                 tempObj.rotateX(Math.sin(this.groundNormal.z) * 0.5);
                 tempObj.rotateY(Math.sin(this.groundNormal.x) * 0.5);
                 this.obj3d.position.y += 0.05 + 0.55 * slope;
 
                 if (this.groundData.y > 0.2) {
-                    r = 0.0;
+                    r = 0.05;
                     g = 0.1;
                     b = 0;
                 }
-                if (this.groundData.y > 0.35) {
-                    r = 0.1;
+                if (this.groundData.y > 0.32) {
+                    r = 0.2;
                     g = 0.05;
                     b = 0;
                     spriteX = 6;
                     spriteY = 3;
+
                 }
                 if (this.groundData.y > 0.52) {
                     spriteX = 6;
                     spriteY = 2;
-                    r = 0.;
-                    g = 0.05;
-                    b = 0;
-                    a = 0.1;
+                    r = 0.0;
+                    g = 0.11;
+                    b = 0.02;
+                    a = 0.2;
+                    this.walkable = false;
+                    this.blocking = true;
                 }
 
                 if (this.groundData.z > 0.05) {

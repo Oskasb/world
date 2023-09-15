@@ -7,9 +7,11 @@ import { GameCamera } from "../3d/camera/GameCamera.js";
 import { WorldModels } from "./gameworld/WorldModels.js";
 import { GamePieceSystem } from "./GamePieceSystem.js";
 import { GameEncounterSystem } from "./GameEncounterSystem.js";
+import {VisualEffectSystem } from "./visuals/VisualEffectSystem.js";
 
 let gamePieceSystem = new GamePieceSystem();
 let gameEncounterSystem = new GameEncounterSystem()
+
 let gameCamera = new GameCamera();
 
 class GameAPI {
@@ -18,7 +20,7 @@ class GameAPI {
         this.characterComposer = new CharacterComposer();
         this.gameWorldPointer = new GameWorldPointer();
         this.gameMain = new GameMain();
-
+        let visualEffectSystem = new VisualEffectSystem()
         let activateWalkGrid = function() {
             let walkGrid = this.gameMain.call.activateGameWalkGrid(ThreeAPI.getCameraCursor().getCursorObj3d())
         }.bind(this);
