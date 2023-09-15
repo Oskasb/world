@@ -1,7 +1,15 @@
 import { EncounterGrid } from "./gamescenarios/EncounterGrid.js";
+import {DynamicEncounter } from "./gamescenarios/DynamicEncounter.js";
 
 let activeEncounterGrid = null;
+let dynamicEncounter = null;
 
+let gridLoaded = function(grid) {
+    console.log("gridLoaded", grid)
+    dynamicEncounter = new DynamicEncounter()
+    dynamicEncounter.setEncounterGrid(grid);
+    dynamicEncounter.addEncounterActors(8)
+}
 
 class GameEncounterSystem {
     constructor() {
@@ -9,6 +17,12 @@ class GameEncounterSystem {
     }
 
     activateEncounter(event) {
+
+        if (dynamicEncounter) {
+            dynamicEncounter.removeEncounterActors()
+            dynamicEncounter = null;
+        }
+
         if (activeEncounterGrid) {
             activeEncounterGrid.removeEncounterGrid()
             activeEncounterGrid = null;
@@ -22,7 +36,7 @@ class GameEncounterSystem {
                 forward = selectedActor.getForward();
             }
 
-            encounterGrid.initEncounterGrid(event['grid_id'], pos, forward)
+            encounterGrid.initEncounterGrid(event['grid_id'], pos, forward, gridLoaded)
             activeEncounterGrid = encounterGrid;
         }
 

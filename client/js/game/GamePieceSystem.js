@@ -17,7 +17,16 @@ let loadActor = function(event) {
 
     console.log("loadActor:", actor)
 
-    GameAPI.getGamePieceSystem().setSelectedGameActor(actor);
+    if (event.tile) {
+        actor.getPos().copy(event.tile.getPos());
+    } else {
+        GameAPI.getGamePieceSystem().setSelectedGameActor(actor);
+    }
+
+    if (event.callback) {
+        event.callback(actor);
+    }
+
 
 }
 

@@ -115,7 +115,7 @@ class VisualGamePiece {
 
     };
 
-    hideVisualGamePiece() {
+    removeVisualGamePiece() {
         this.getModel().decommissionInstancedModel();
     //    this.gamePieceUpdateCallbacks.length = 0;
         this.disablePieceAnimations()

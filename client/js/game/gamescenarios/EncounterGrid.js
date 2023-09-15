@@ -1,9 +1,12 @@
 import {ConfigData} from "../../application/utils/ConfigData.js";
 import * as ScenarioUtils from "../gameworld/ScenarioUtils.js";
 import {Vector3} from "../../../libs/three/math/Vector3.js";
+import {filterForWalkableTiles} from "../gameworld/ScenarioUtils.js";
 
 let initPos = new Vector3();
 let forward = new Vector3();
+
+let store = [];
 
 class EncounterGrid {
     constructor() {
@@ -12,7 +15,7 @@ class EncounterGrid {
         this.configData = new ConfigData("GRID", "ENCOUNTER_GRIDS",  'grid_main_data', 'data_key', 'config')
     }
 
-    initEncounterGrid(gridId, pos, forwardVec) {
+    initEncounterGrid(gridId, pos, forwardVec, gridLoaded) {
         initPos.copy(pos);
         forward.copy(forwardVec);
         let onConfig = function(config, updateCount) {
@@ -26,6 +29,7 @@ class EncounterGrid {
                 }, 0);
             }
             this.applyGridConfig(config, initPos, forward);
+            gridLoaded(this);
         }.bind(this)
 
         this.configData.parseConfig(gridId, onConfig)
@@ -52,6 +56,24 @@ class EncounterGrid {
         this.entranceTile = [3, 3];
         this.startTile =  [3, 3];
         ScenarioUtils.setupEncounterGrid(this.gridTiles, this.instances, config, initPos, forward)
+
+    }
+
+    getRandomWalkableTiles(count) {
+        let tiles = filterForWalkableTiles(this.gridTiles);
+
+        if (tiles.length < count) {
+            console.log("Not enought tiles", tiles)
+        }
+
+        let walkableTiles = [];
+
+        for (let i = 0; i < count; i++) {
+            let tile = MATH.getRandomArrayEntry(tiles);
+            MATH.quickSplice(tiles, tile)
+            walkableTiles.push(tile);
+        }
+        return walkableTiles;
 
     }
 

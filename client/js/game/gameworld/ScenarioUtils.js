@@ -320,6 +320,26 @@ function setupEncounterGrid(gridTiles, instances, gridConfig, posVec, forwardVec
     return gridTiles;
 }
 
+let tileStore = [];
+function filterForWalkableTiles(gridTiles) {
+
+    while (tileStore.length) {
+        tileStore.pop();
+    }
+
+    for (let i = 0; i < gridTiles.length; i++) {
+
+        for (let j = 0; j < gridTiles[i].length; j++) {
+            let tile = gridTiles[i][j];
+            if (tile.walkable) {
+                tileStore.push(tile);
+            }
+        }
+    }
+
+    return tileStore
+}
+
 function getTileForPosition(gridTiles, posVec3) {
     let selectedTile = null;
     let nearestTileDist = MATH.bigSafeValue();
@@ -387,6 +407,7 @@ export {
     spawnLocation,
     resetScenarioCharacterPiece,
     setupEncounterGrid,
+    filterForWalkableTiles,
     getTileForPosition,
     buildScenarioCharacter
 }

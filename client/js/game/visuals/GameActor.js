@@ -65,6 +65,7 @@ class GameActor {
     }
 
     deactivateGameActor() {
+        this.visualGamePiece.removeVisualGamePiece();
         GameAPI.unregisterGameUpdateCallback(this.call.updateGameActor);
     }
 
