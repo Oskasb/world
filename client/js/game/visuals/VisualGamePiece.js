@@ -6,6 +6,10 @@ let tempVec = new Vector3();
 
 class VisualGamePiece {
     constructor(config) {
+
+        this.moveState = 'MOVE';
+        this.bodyState = 'IDLE_HANDS';
+
         this.assetId = config['model_asset'];
         this.config = config;
         this.visualPieceObj3d = new Object3D();
@@ -122,6 +126,14 @@ class VisualGamePiece {
         this.visualPieceObj3d = obj3d;
     }
 
+    setMoveState = function(state) {
+        this.moveState = state;
+    }
+
+    setBodyState = function(state) {
+        this.bodyState = state;
+    }
+
     updateAnimatedGamePiece(tpf, gameTime) {
         this.pieceAnimator.updatePieceAnimations(tpf, gameTime);
     //    this.pieceAttacher.tickAttacher();
@@ -130,12 +142,14 @@ class VisualGamePiece {
         let frameVelocity = tempVec.length() / tpf
 
         if (frameVelocity) {
-            let action = this.animateActionState('MOVE')
+            let action = this.animateActionState(this.moveState)
         //    console.log(action);
             action.timeScale = frameVelocity * 0.33;
         } else {
             this.animateActionState('IDLE_LEGS')
         }
+        this.animateActionState(this.bodyState)
+
 
     }
 

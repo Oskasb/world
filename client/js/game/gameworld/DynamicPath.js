@@ -51,8 +51,18 @@ class DynamicPath {
         tempVec.copy(to);
         tempVec.sub(from);
         let frac = MATH.calcFraction(0, segments, segment);
-        let heightFrac = MATH.curveSigmoid(frac);
-        tempVec.y *= MATH.curveQuad(heightFrac)
+
+
+
+        if (tile.requiresLeap) {
+            tempVec.y *= frac
+            tempVec.y += Math.sin(frac*Math.PI)
+        } else {
+            let heightFrac = MATH.curveSigmoid(frac);
+            tempVec.y *= MATH.curveQuad(heightFrac)
+        }
+
+
         let travelFrac = frac // MATH.valueFromCurve(frac, MATH.curves["edgeStep"])
         tempVec.x *= travelFrac;
         tempVec.z *= travelFrac;
@@ -65,7 +75,7 @@ class DynamicPath {
         this.lineEvent.color = color || 'CYAN';
         evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, this.lineEvent);
         if (segment) {
-            visualPath.addVisualPathPoint(this.lineStepFromVec, tempVec, segment, tile);
+            visualPath.addVisualPathPoint(this.lineStepFromVec, tempVec, segment, tile, frac);
         }
         this.lineStepFromVec.copy(tempVec)
 
@@ -132,6 +142,12 @@ class DynamicPath {
                 tile.indicatePath()
                 let color = 'YELLOW';
                 this.tilePath.addTileToPath(tile);
+                let elevationDiff = tile.getPos().y - this.tempVec.y;
+                if (Math.abs(elevationDiff) > 0.7) {
+                    tile.requiresLeap = true;
+                } else {
+                    tile.requiresLeap = false;
+                }
                 this.drawPathLine(this.tempVec, tile.getPos(), color, tile)
                 this.tempVec.copy(tile.getPos());
             }

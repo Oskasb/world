@@ -15,6 +15,8 @@ class DynamicTile {
 
         this.groundSprite = [7, 1]
 
+        this.requiresLeap = false;
+
         this.obj3d = new Object3D();
         this.obj3d.lookAt(up);
         this.tileX = 0;

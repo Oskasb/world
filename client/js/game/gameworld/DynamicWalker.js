@@ -5,6 +5,8 @@ let tempVec = new Vector3()
 class DynamicWalker {
     constructor() {
 
+        this.isLaaping = false;
+
         this.headingVector = new Vector3();
         this.walkPos = new Vector3()
 
@@ -43,6 +45,7 @@ class DynamicWalker {
     }
 
     applyHeadingToGamePiece(obj3d, frameTravelDistance) {
+        this.isLaaping = false;
         tempVec.copy(this.headingVector);
         tempVec.multiplyScalar(frameTravelDistance);
         tempVec.add(this.walkPos)
@@ -50,6 +53,51 @@ class DynamicWalker {
         obj3d.lookAt(this.headingVector);
         obj3d.position.copy(tempVec);
         evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:obj3d.position, color:'GREEN', size:0.5})
+    }
+
+    applyHeadingToLeapingGamePiece(obj3d, frameTravelDistance, from, to) {
+    //    console.log(from, to);
+        tempVec.copy(from);
+        tempVec.y = to.y;
+
+        tempVec.x =  obj3d.position.x;
+        tempVec.z =  obj3d.position.z;
+
+        let fracX = 1;
+        let fracZ = 1;
+
+        if (from.x !== to.x) {
+            fracX = MATH.calcFraction(from.x, to.x, obj3d.position.x) * 2;
+        }
+        if (from.z !== to.z) {
+            fracZ = MATH.calcFraction(from.z, to.z, obj3d.position.z) * 2;
+        }
+
+        let frac = MATH.clamp(Math.min(fracZ, fracX), 0, 1);
+
+        console.log(frac);
+
+        tempVec.copy(this.headingVector);
+        let leaPMod = 1;
+        if (frac > 0 && frac < 1) {
+            this.isLaaping = true;
+            leaPMod = MATH.valueFromCurve(frac, MATH.curves["oneZeroOne"])*0.7 + 0.3;
+        } else {
+            this.isLaaping = false;
+        }
+        tempVec.multiplyScalar(frameTravelDistance * leaPMod);
+        tempVec.add(this.walkPos)
+   //     tempVec.y += Math.sin(frac*MATH.TWO_PI) * 2;
+
+        let startY = from.y;
+        let endY = to.y;
+        let leapY = MATH.valueFromCurve(frac, MATH.curves["centerHump"]) // Math.sin(frac*MATH.HALF_PI)
+
+        tempVec.y = startY + frac*(endY-startY)  + leapY;
+        obj3d.position.set(0, 0, 0);
+        obj3d.lookAt(this.headingVector);
+        obj3d.position.copy(tempVec);
+        evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:obj3d.position, color:'PURPLE', size:0.9})
     }
 
     processTilePathMovement(tpf, gameTime) {
@@ -71,12 +119,16 @@ class DynamicWalker {
         }
 
         this.setMovementHeadingVector(currentPos, targetTile.getPos())
-
         let pathRemainingDistance = MATH.distanceBetween(currentPos, this.tilePath.getEndTile().getPos())
-
         frameTravelDistance = Math.min(pathRemainingDistance , frameTravelDistance)
 
-        this.applyHeadingToGamePiece(this.walkObj3d, frameTravelDistance);
+        if (targetTile.requiresLeap) {
+            this.applyHeadingToLeapingGamePiece(this.walkObj3d, frameTravelDistance, pathTiles[0].getPos(), targetTile.getPos());
+        } else {
+            this.applyHeadingToGamePiece(this.walkObj3d, frameTravelDistance);
+        }
+
+
         let currentTile = this.walkGrid.getTileAtPosition(this.walkObj3d.position)
         MATH.callAll(this.tilePath.pathingUpdateCallbacks, this.tilePath, this.walkObj3d)
 

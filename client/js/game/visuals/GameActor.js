@@ -88,6 +88,16 @@ class GameActor {
             this.actorObj3d.lookAt(tempVec)
         }
         this.actorObj3d.position.copy(tempVec)
+
+        let isLeaping = this.gameWalkGrid.dynamicWalker.isLaaping;
+        if (isLeaping) {
+            this.visualGamePiece.setMoveState('STAND_COMBAT')
+            this.visualGamePiece.setBodyState('DISENGAGING')
+        } else {
+            this.visualGamePiece.setMoveState('MOVE')
+            this.visualGamePiece.setBodyState('IDLE_HANDS')
+        }
+
     }
 
 }

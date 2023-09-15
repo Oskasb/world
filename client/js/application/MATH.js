@@ -297,6 +297,9 @@ if(typeof(MATH) === "undefined") {
 
 
 	MATH.calcFraction = function(start, end, current) {
+		if (start === end) {
+			return 1;
+		}
 		return (current-start) / (end-start);
 	};
 

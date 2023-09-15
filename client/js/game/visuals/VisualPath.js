@@ -8,6 +8,7 @@ let tempVec = new Vector3();
 class VisualPath {
     constructor() {
         this.defaultSprite = [7, 4]
+        this.leapSprite = [1, 1];
         this.defaultSize = 0.2
         this.rgba = {
             r : 0,
@@ -17,7 +18,7 @@ class VisualPath {
         }
     }
 
-    addVisualPathPoint(from, to, segment, tile) {
+    addVisualPathPoint(from, to, segment, tile, segmentFraction) {
 
         let effectCb = function(efct) {
 
@@ -37,13 +38,23 @@ class VisualPath {
                 tempVec.x-=MATH.randomBetween(0.02, 0.11);
             }
                          */
-            tempVec.x+=Math.sin(segment*1.4)*0.07
+
+
+
+            let size = this.defaultSize
+            if (tile.requiresLeap) {
+                efct.setEffectSpriteXY(this.leapSprite[0], this.leapSprite[1]);
+                size *= 0.2 + Math.sin(segmentFraction*Math.PI)*2
+            } else {
+                efct.setEffectSpriteXY(this.defaultSprite[0], this.defaultSprite[1]);
+                tempVec.x+=Math.sin(segment*1.4)*0.07
+            }
+
             tempVec.applyQuaternion(tempObj.quaternion);
             tempObj.rotateX(-MATH.HALF_PI)
             efct.setEffectQuaternion(tempObj.quaternion);
 
-            efct.setEffectSpriteXY(this.defaultSprite[0], this.defaultSprite[1]);
-            efct.scaleEffectSize( this.defaultSize)
+            efct.scaleEffectSize( size)
             tempVec.add(from)
             efct.setEffectColorRGBA(tile.rgba)
             efct.setEffectPosition(tempVec)
