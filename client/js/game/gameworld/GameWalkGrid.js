@@ -88,7 +88,7 @@ class GameWalkGrid {
     }
 
     applySelectedPath(onUpdateCB, onCompletedCB) {
-
+        this.dynamicPath.clearPathVisuals();
         let activePath = this.getActiveTilePath();
 
         if (activePath.pathTiles.length > 1) {

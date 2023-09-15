@@ -297,7 +297,7 @@ function setupEncounterGrid(gridTiles, instances, gridConfig, posVec, forwardVec
 
 
     let defaultSprite = [7, 2]
-    let defaultSize = 0.9;
+    let defaultSize = 0.88;
  //   console.log(gridConfig, gridWidth, gridDepth);
     tempVec1.set(boxSize*gridWidth-boxSize, 0, boxSize*gridWidth-boxSize)
     tempVec1.applyQuaternion(quat);

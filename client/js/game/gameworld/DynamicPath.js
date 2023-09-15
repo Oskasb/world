@@ -1,10 +1,13 @@
 import { TilePath } from "../piece_functions/TilePath.js";
 import {Vector3} from "../../../libs/three/math/Vector3.js";
+import {VisualPath} from "../visuals/VisualPath.js";
 
 let tempVec = new Vector3()
 let tempVec1 = new Vector3()
 let tempVec2 = new Vector3()
 let tempVec3 = new Vector3()
+
+let visualPath = new VisualPath()
 
 let drawPathTiles = function(pathTiles) {
     tempVec.copy(pathTiles[0].getPos());
@@ -34,7 +37,7 @@ class DynamicPath {
     constructor() {
         this.tilePath = new TilePath();
         this.tempVec = new Vector3()
-        this.tempVec = new Vector3();
+        this.lineStepFromVec = new Vector3();
 
         this.lineEvent = {
             from:new Vector3(),
@@ -43,17 +46,42 @@ class DynamicPath {
         }
     }
 
-    drawPathLine(from, to, color) {
-        this.lineEvent.from.copy(from)
-        this.lineEvent.to.copy(to);
+
+    drawLineSegment(from, to, segment, segments, color, tile) {
+        tempVec.copy(to);
+        tempVec.sub(from);
+        let frac = MATH.calcFraction(0, segments, segment);
+        let heightFrac = MATH.curveSigmoid(frac);
+        tempVec.y *= MATH.curveQuad(heightFrac)
+        let travelFrac = frac // MATH.valueFromCurve(frac, MATH.curves["edgeStep"])
+        tempVec.x *= travelFrac;
+        tempVec.z *= travelFrac;
+
+        tempVec.add(from);
+       // tempVec.x = to.x;
+       // tempVec.z = to.z;
+        this.lineEvent.from.copy(this.lineStepFromVec)
+        this.lineEvent.to.copy(tempVec);
         this.lineEvent.color = color || 'CYAN';
         evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, this.lineEvent);
+        if (segment) {
+            visualPath.addVisualPathPoint(this.lineStepFromVec, tempVec, segment, tile);
+        }
+        this.lineStepFromVec.copy(tempVec)
+
+    }
+
+    drawPathLine(from, to, color, tile) {
+        let segments = 9;
+        this.lineStepFromVec.copy(from)
+        for (let i = 0; i < segments+1; i++) {
+            this.drawLineSegment(from, to, i, segments, color, tile)
+        }
     }
 
 
-
     selectTilesBeneathPath(startTile, endTile, gridTiles) {
-
+        visualPath.clearVisualPath();
         while (this.tilePath.pathTiles.length) {
             let clearTile =  this.tilePath.pathTiles.pop();
             clearTile.clearPathIndication();
@@ -104,17 +132,21 @@ class DynamicPath {
                 tile.indicatePath()
                 let color = 'YELLOW';
                 this.tilePath.addTileToPath(tile);
-                this.drawPathLine(this.tempVec, tile.getPos(), color)
+                this.drawPathLine(this.tempVec, tile.getPos(), color, tile)
                 this.tempVec.copy(tile.getPos());
             }
         }
 
         this.tilePath.setEndTile(endTile);
 
-        drawPathTiles(this.tilePath.getTiles())
+    //    drawPathTiles(this.tilePath.getTiles())
 
         return this.tilePath
 
+    }
+
+    clearPathVisuals() {
+        visualPath.clearVisualPath();
     }
 
 
