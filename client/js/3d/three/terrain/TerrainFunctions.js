@@ -313,8 +313,8 @@ let getGroundDataAt = function(pos, array1d, terrainSize, segments, dataStore) {
     return getDisplacedGround(array1d, segments, pos.x, pos.z, htP, htN, dataStore);
 }
 
-let centerRGBA = "rgb(15, 0, 0)";
-let edgeRGA = "rgb(0, 0, 0)";
+let centerRGBA = "rgba(0, 0, 215, 1)";
+let edgeRGA = "rgba(0, 0, 0, 1)";
 let createGradient = function(ctx, size, tx, tz) {
 
 
@@ -328,31 +328,60 @@ let createGradient = function(ctx, size, tx, tz) {
     return gradient;
 }
 
+let fillShade = function(ctx, x, y, w, h, cornerRadii) {
 
+    ctx.beginPath();
+
+   ctx.roundRect(x, y, w, h, cornerRadii);
+  //  ctx.stroke();
+
+   // ctx.arc(x-w*0.5, y-h*0.5, w, h, MATH.TWO_PI);
+     ctx.fill();
+
+}
 
 let shadeGroundCanvasAt = function(pos, canvasContext, terrainSize, segments, size) {
-    let htP = terrainSize*0.5;
+    let htP = terrainSize*1;
     let htN = - htP;
     let tx = displaceAxisDimensions(pos.x*2, htN, htP, segments);
     let tz = displaceAxisDimensions(pos.z*2, htN, htP, segments);
-    size = size*3;
-    canvasContext.fillStyle = createGradient(canvasContext, size, tx+0, tz+0);
+    size = size*2;
+    //   canvasContext.fillStyle = createGradient(canvasContext, size, tx+0, tz+0);
+//    canvasContext.strokeStyle = "rgba(0, 0, 182, 1)";
+    let blobs = 3;
+    let blobShade = 120 / blobs
+
+    canvasContext.fillStyle = "rgba(0, 0, "+blobShade+", 1)";
     canvasContext.globalCompositeOperation = "lighter";
-    canvasContext.fillRect(tx-size, tz-size, size*2+1, size*2+1);
+
+   //   canvasContext.fillRect(0, 0, 2048, 2048);
+
+
+
+    for (let i = 0; i < blobs; i++) {
+        size = 4 * MATH.curveCube((blobs-i) / blobs)
+        fillShade(canvasContext, tx-size, tz-size, size*2+1, size*2+1, size);
+    }
+
+  //  fillShade(canvasContext, tx-size, tz-size, size*2+1, size*2+1, size);
+   /*
+    canvasContext.roundRect(tx-size, tz-size, size*2+1, size*2+1, size);
+    size *=1.25
+    canvasContext.roundRect(tx-size, tz-size, size*2+1, size*2+1, size);
     size *=0.75
-    canvasContext.fillRect(tx-size, tz-size, size*2+1, size*2+1);
-    size *=0.75
-    canvasContext.fillRect(tx-size, tz-size, size*2+1, size*2+1);
+    canvasContext.roundRect(tx-size, tz-size, size*2+1, size*2+1, size);
     size *=0.65
-    canvasContext.fillRect(tx-size, tz-size, size*2+1, size*2+1);
+    canvasContext.roundRect(tx-size, tz-size, size*2+1, size*2+1, size);
+    size *=0.75
+    canvasContext.roundRect(tx-size, tz-size, size*2+1, size*2+1, size);
     size *=0.75
     canvasContext.fillRect(tx-size, tz-size, size*2+1, size*2+1);
     size *=0.75
     canvasContext.fillRect(tx-size, tz-size, size*2+1, size*2+1);
     size *=0.75
     canvasContext.fillRect(tx-size, tz-size, size*2+1, size*2+1);
-    size *=0.75
-    canvasContext.fillRect(tx-size, tz-size, size*2+1, size*2+1);
+
+    */
     //    canvasContext.fillRect(2000, 2000, 2, 2);
 //    canvasContext.fillRect()
 

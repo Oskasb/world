@@ -202,7 +202,6 @@
 
           "precision highp float;",
           "uniform sampler2D heightmap;",
-          "uniform sampler2D terrainmap;",
           "uniform mat4 modelViewMatrix;",
           "uniform mat4 projectionMatrix;",
 
@@ -308,6 +307,7 @@
           "uniform vec3 fogColor;",
           "uniform float fogDensity;",
           "uniform sampler2D terrainmap;",
+          "uniform sampler2D heightmap;",
           "uniform sampler2D tx0;",
           "uniform sampler2D tx0nm;",
           "uniform sampler2D tx1;",
@@ -337,6 +337,8 @@
           "vec2 terrainSampler = (scaledVPos + tileOffset);",
 
           "vec4 terrainMapSample = texture2D( terrainmap, terrainSampler);",
+          "vec4 heightMapSample = texture2D( heightmap, terrainSampler);",
+
 
           "float twoPi = 6.2831;",
           "float slope = 1.0-vNormal.y;",
@@ -404,7 +406,7 @@
           "txColor.r += vNormal.x * 0.0 + tileUv.x *0.0;",
           "txColor.g += vNormal.y * 0.0 + tileUv.y *0.0;",
           "txColor.b += vNormal.z * 0.0;",
-          "float shadowing = 1.0 - terrainMapSample.r*0.55;",
+          "float shadowing = 1.0 - heightMapSample.b*0.55;",
         "vec4 lightColor = vec4(sunDir, 1.0) * shadowing;",
         "float intensity = max( 0.01 + dot(txNmBase.rgb, sunLightDirection ) * 0.99, 0.0) * shadowing;",
         "gl_FragColor = (shadowing * vColor * txColor * (intensity*0.25 + 0.75) + txColor * lightColor*intensity*2.0) * shadowing;",

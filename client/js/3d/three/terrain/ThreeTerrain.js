@@ -164,8 +164,8 @@ let getThreeTerrainDataAt = function(terrainGeo, pos, dataStore) {
 }
 
 let shadeThreeTerrainDataAt = function(terrainGeo, pos, size) {
-    TerrainFunctions.shadeGroundCanvasAt(pos, terrainGeo.getGroundDataCanvas(), terrainGeo.groundTxWidth, terrainGeo.groundTxWidth - 1, size);
-    terrainGeo.updateGroundCanvasTexture();
+    TerrainFunctions.shadeGroundCanvasAt(pos, terrainGeo.getHeightmapCanvas(), terrainGeo.tx_width, terrainGeo.tx_width - 1, size);
+    terrainGeo.updateHeightmapCanvasTexture();
 }
 
 let constructGeometries = function(heightMapData, transform, groundConfig, sectionInfoCfg) {

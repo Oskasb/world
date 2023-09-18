@@ -16,11 +16,12 @@ let terrainWidth = null;
 let terrainHeight = null;
 let maxLodLevel = 6;
 let terrainContext = null;
+let heightmapContext = null;
 
 let debugWorld = null;
 let ctx;
-let setupHeightmapData = function() {
-
+let setupHeightmapData = function(originalModelMat) {
+    terrainMaterial = originalModelMat;
     let terrainmapTx = terrainMaterial.terrainmap;
     let terrainData = terrainmapTx.source.data;
     terrainWidth = terrainData.width;
@@ -37,10 +38,10 @@ let setupHeightmapData = function() {
     terrainContext.globalCompositeOperation = "lighter";
 //    terrainContext.fillRect(0, 0, terrainWidth, terrainHeight);
 
-
     terrainmap = terrainContext.getImageData(0, 0, terrainWidth, terrainHeight).data;
 
     let terrainMapCanvasTx = new THREE.CanvasTexture(terrainCanvas)
+    terrainMapCanvasTx.generateMipmaps = false;
     terrainMapCanvasTx.flipY = false;
     terrainMaterial.terrainmap = terrainMapCanvasTx;
     terrainMaterial.uniforms.terrainmap.value = terrainMapCanvasTx;
@@ -51,66 +52,49 @@ let setupHeightmapData = function() {
     height = imgData.height;
 //    console.log(terrainMaterial, heightmapTx, heightmapTx.source.data, imgData , this);
 
-    let canvas = document.createElement('canvas');
-    let context = canvas.getContext('2d')
-    canvas.width = width;
-    canvas.height = height;
+    let heightCanvas = document.createElement('canvas');
+    heightmapContext = heightCanvas.getContext('2d' )
 
-    context.drawImage(imgData, 0, 0, width, height);
+    heightCanvas.width = width;
+    heightCanvas.height = height;
+
+    heightmapContext.drawImage(imgData, 0, 0, width, height);
     debugWorld.material.map = terrainmapTx.clone() // new THREE.CanvasTexture(canvas);
     debugWorld.material.map.flipY = false;
  //   debugWorld.material.map.repeat.y = -1;
     debugWorld.material.needsUpdate = true;
  //   terrainMaterial.needsUpdate = true;
  //   context.drawImage(heightmapTx.source.data, 0, 0, width, height);
-    heightmap = context.getImageData(0, 0, width, height).data;
+    heightmap = heightmapContext.getImageData(0, 0, width, height).data;
+
+
+    let heightMapCanvasTx = new THREE.CanvasTexture(heightCanvas)
+    heightMapCanvasTx.generateMipmaps = false;
+    heightMapCanvasTx.flipY = false;
+    terrainMaterial.heightmap = heightMapCanvasTx;
+    terrainMaterial.uniforms.heightmap.value = heightMapCanvasTx;
+    terrainMaterial.heightmap.needsUpdate = true;
+    terrainMaterial.uniforms.needsUpdate = true;
+    terrainMaterial.uniformsNeedUpdate = true;
+    terrainMaterial.needsUpdate = true;
+  //  heightMapCanvasTx.fillStyle = createGradient(canvasContext, size, tx+0, tz+0);
+    heightmapContext.fillStyle = "rgba(255, 255, 0, 1)";
+    heightmapContext.globalCompositeOperation = "darken";
+    heightmapContext.fillRect(0, 0, 2048, 2048);
+
+//    heightmapContext.fillStyle = "rgba(9, 0, 0, 1)";
+    heightmapContext.globalCompositeOperation = "lighter";
+//    heightmapContext.fillRect(0, 0, 2048, 2048);
+
 /*
     setTimeout(function() {
         terrainmap = terrainContext.getImageData(0, 0, terrainWidth, terrainHeight).data;
         console.log(terrainmap)
     }, 3000)
 */
-//    console.log([heightmap], [terrainmap])
+    console.log(terrainMaterial, [heightmap], [terrainmap])
 }
 
-let getPixelRedAtBufferIndex = function(i, j, terrainGeo) {
-    let tiles = terrainGeo.tiles;
-    let gridX = terrainGeo.gridX;
-    let gridY = terrainGeo.gridY;
-    let txWidth = terrainGeo.tx_width;
-    let vertsPerSegAxis = terrainGeo.vertsPerSegAxis;
- //   let texelX = index%vertsPerSegAxis;
-    let texelY = MATH.remainder()
-
-    let pxX =  (0 + i + vertsPerSegAxis * gridX);
-    let pxY =  (0 + j + vertsPerSegAxis * gridY);
-    return 100 * heightGrid[pxX][pxY] / 255 // *100;
-}
-
-
-let applyHeightmapToMesh = function(mesh, terrainGeo) {
-    let posBuffer = mesh.geometry.attributes.position.array;
-    let index = mesh.geometry.index.array;
-    console.log(posBuffer);
-    let vertsPerSegAxis = terrainGeo.vertsPerSegAxis;
-
-    for (let i = 0; i < vertsPerSegAxis; i++) {
-        for (let j = 0; j < vertsPerSegAxis; j++) {
-            let idx = i * vertsPerSegAxis + j;
-            posBuffer[idx*3+1] = getPixelRedAtBufferIndex(i, j, terrainGeo);
-        }
-    }
-
-    posBuffer[index[6]] = 100;
-    posBuffer[index[20]] = 100;
-    posBuffer[index[2]] = 100;
-    posBuffer[index[4]] = 50;
-
- //   for (let i = 0; i < posBuffer.length / 3; i++) {
-
- //   }
-    mesh.needsUpdate = true;
-}
 
 class TerrainGeometry{
     constructor(obj3d, segmentScale, x, y, gridMeshAssetIds, vertsPerSegAxis, tiles, tx_width,groundTxWidth, groundConfig, sectionInfoCponfig, vegetation) {
@@ -167,8 +151,8 @@ class TerrainGeometry{
 
             if (!terrainMaterial) {
                 oceanMaterial = this.oceanInstance.originalModel.material.mat;
-                terrainMaterial = this.instance.originalModel.material.mat;
-                setupHeightmapData()
+
+                setupHeightmapData(this.instance.originalModel.material.mat)
                 terrainMaterial.uniforms.heightmaptiles.value.x = this.tiles;
                 terrainMaterial.uniforms.heightmaptiles.value.y = this.tiles;
                 terrainMaterial.uniforms.heightmaptiles.value.z = this.tx_width;
@@ -359,6 +343,10 @@ class TerrainGeometry{
        return heightmap;
     }
 
+    getHeightmapCanvas() {
+        return heightmapContext;
+    }
+
     getGroundData() {
         if (groundUpdate) {
         //    terrainmap = terrainContext.getImageData(0, 0, terrainWidth, terrainHeight).data;
@@ -379,6 +367,10 @@ class TerrainGeometry{
         terrainMaterial.uniformsNeedUpdate = true;
         terrainMaterial.needsUpdate = true;
         groundUpdate = true;
+    }
+
+    updateHeightmapCanvasTexture() {
+        terrainMaterial.heightmap.needsUpdate = true;
     }
 
     getOrigin() {
