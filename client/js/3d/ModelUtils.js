@@ -48,7 +48,7 @@ function attachSkeletonRig(visualPiece, rigId, pieceReady) {
         let rigData = new ConfigData("ASSETS", "RIGS", rigDataKey);
         let onRigData = function(config) {
 
-            console.log("rigConf:", rigDataKey, config)
+    //        console.log("rigConf:", rigDataKey, config)
             let skeletonData = new ConfigData("GAME", "SKELETON_RIGS");
 
             visualPiece.rigData = MATH.getFromArrayByKeyValue(config, 'id', rigDataKey);
@@ -61,9 +61,9 @@ function attachSkeletonRig(visualPiece, rigId, pieceReady) {
             //    gamePiece.pieceAttachments = gamePiece.pieceAttacher.initPieceAttacher(gamePiece, skeletonData.data);
 
             let onSkelRigData = function (skelConfig) {
-                console.log("SkelRig", skelConfig, skeletonData);
+   //             console.log("SkelRig", skelConfig, skeletonData);
                 visualPiece.animStateMap = visualPiece.pieceAnimator.initPieceAnimator(skeletonData);
-                console.log(visualPiece.animStateMap)
+   //             console.log(visualPiece.animStateMap)
                 visualPiece.pieceActionSystem.initPieceActionSystem(visualPiece, skeletonData.data);
                 pieceReady(visualPiece)
             }
@@ -86,7 +86,7 @@ function setupVisualModel(visualPiece, assetId, config, pieceReady) {
             visualPiece.setModel(instance);
             visualPiece.obj3d = instance.spatial.obj3d;
             instance.spatial.setPosVec3(ThreeAPI.getCameraCursor().getPos())
-            console.log("Visual Game Piece:",visualPiece);
+   //         console.log("Visual Game Piece:",visualPiece);
 
             if (config['skeleton_rig'])   {
                 attachSkeletonRig(visualPiece, config['skeleton_rig'], pieceReady)

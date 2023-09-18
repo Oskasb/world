@@ -12,12 +12,20 @@ class EncounterGrid {
     constructor() {
         this.gridTiles = [];
         this.instances = [];
+        this.minXYZ = new Vector3();
+        this.maxXYZ = new Vector3();
         this.configData = new ConfigData("GRID", "ENCOUNTER_GRIDS",  'grid_main_data', 'data_key', 'config')
     }
 
-    initEncounterGrid(gridId, pos, forwardVec, gridLoaded) {
+    initEncounterGrid(gridId, pos, gridLoaded, forwardVec) {
         initPos.copy(pos);
-        forward.copy(forwardVec);
+        if (forwardVec) {
+            forward.copy(forwardVec);
+        } else {
+            forward.set(0, 0, 0);
+        }
+
+
         let onConfig = function(config, updateCount) {
             //    console.log("Update Count: ", updateCount, config)
             if (updateCount) {
@@ -52,11 +60,10 @@ class EncounterGrid {
         let col = this.gridTiles[0].length - this.startTile[1];
         return this.gridTiles[row][col]
     }
-    applyGridConfig(config, initPoz, forward) {
+    applyGridConfig(config, pos, forward) {
         this.entranceTile = [3, 3];
         this.startTile =  [3, 3];
-        ScenarioUtils.setupEncounterGrid(this.gridTiles, this.instances, config, initPos, forward)
-
+        ScenarioUtils.setupEncounterGrid(this.gridTiles, this.instances, config, pos, forward, this.minXYZ , this.maxXYZ )
     }
 
     getRandomWalkableTiles(count) {

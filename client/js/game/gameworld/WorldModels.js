@@ -14,7 +14,7 @@ let heightIntersects = [];
 
 let initWorldModels = function(config) {
     locationConfigs = [];
-    console.log("World Models; ", config);
+  //  console.log("World Models; ", config);
 
     while (worldModels.length) {
         let model = worldModels.pop()
@@ -30,15 +30,13 @@ let initWorldModels = function(config) {
 
     while (worldEncounters.length) {
         let encounter = worldEncounters.pop()
-        ThreeAPI.clearTerrainLodUpdateCallback(encounter.call.lodUpdated)
-        encounter.removeWorldEncounter()
+        encounter.deactivateWorldEncounter()
     }
 
     let modelsData = function(models) {
         for (let i = 0; i < models.length;i++) {
             let model = new WorldModel(models[i])
             ThreeAPI.registerTerrainLodUpdateCallback(model.getPos(), model.call.lodUpdated)
-            // model.showWorldModel()
             worldModels.push(model);
         }
     }
@@ -48,16 +46,14 @@ let initWorldModels = function(config) {
             let box = new WorldBox(boxes[i])
             ThreeAPI.registerTerrainLodUpdateCallback(box.getPos(), box.call.lodUpdated)
             worldBoxes.push(box);
-         //   console.log("Add box:", box)
         }
     }
 
     let encountersData = function(encounters) {
         for (let i = 0; i < encounters.length;i++) {
             let encounter = new WorldEncounter(encounters[i])
-            ThreeAPI.registerTerrainLodUpdateCallback(encounter.getPos(), encounter.call.lodUpdated)
             worldEncounters.push(encounter);
-               console.log("Add encounters:", encounter)
+            encounter.activateWorldEncounter()
         }
     }
 

@@ -38,7 +38,10 @@ let attachEncounterFx = function(encounter) {
 }
 
 let detachEncounterFx = function(encounter) {
-    encounter.encounterFx.recoverEffectOfClass(encounter.call.updateEffect);
+    if (encounter.encounterFx) {
+        encounter.encounterFx.recoverEffectOfClass();
+    }
+
     GameAPI.unregisterGameUpdateCallback(encounter.call.updateEffect)
 }
 
@@ -56,6 +59,8 @@ let indicateTriggerRadius = function(encounter) {
     evt.dispatch(ENUMS.Event.INDICATE_RADIUS, radiusEvent)
 }
 
+let encounterEvent = {};
+
 function checkTriggerPlayer(encounter) {
 
     let selectedActor = GameAPI.getGamePieceSystem().getSelectedGameActor();
@@ -66,12 +71,11 @@ function checkTriggerPlayer(encounter) {
         let distance = MATH.distanceBetween(selectedActor.getPos(), encounter.getPos())
 
         if (distance < radius) {
-            radiusEvent.heads = 2
-            radiusEvent.speed = 8
-            radiusEvent.radius = distance - radius
-            radiusEvent.pos = selectedActor.getPos();
-            radiusEvent.rgba = [0.5, 0.5, 1,1];
-            evt.dispatch(ENUMS.Event.INDICATE_RADIUS, radiusEvent)
+            encounterEvent.pos = encounter.getPos();
+            encounterEvent.grid_id = encounter.config.grid_id;
+            encounterEvent.spawn = encounter.config.spawn;
+            evt.dispatch(ENUMS.Event.GAME_MODE_BATTLE, encounterEvent)
+            encounter.deactivateWorldEncounter();
         }
 
     }
@@ -131,9 +135,10 @@ class WorldEncounter {
         }
 
         let actorLoaded = function(actor) {
-            console.log("Enc Actor", actor);
+    //        console.log("Enc Actor", actor);
             MATH.rotateObj(actor.actorObj3d, this.config.host.rot)
             this.actor = actor;
+            lodUpdated(1)
         }.bind(this)
 
         if (this.config.host) {
@@ -149,19 +154,29 @@ class WorldEncounter {
         return this.obj3d.position;
     }
 
+    activateWorldEncounter() {
+        ThreeAPI.registerTerrainLodUpdateCallback(this.getPos(), this.call.lodUpdated)
+    }
+
+    deactivateWorldEncounter() {
+        ThreeAPI.clearTerrainLodUpdateCallback(this.call.lodUpdated)
+        this.removeWorldEncounter()
+    }
+
     showWorldEncounter() {
         if (this.isVisible) {
             return;
         }
-        console.log("showWorldEncounter", this)
+//        console.log("showWorldEncounter", this)
         attachEncounterFx(this);
         this.actor.activateGameActor();
         GameAPI.registerGameUpdateCallback(this.call.onGameUpdate)
+        this.isVisible = true;
     }
 
     removeWorldEncounter() {
         if (this.isVisible) {
-            console.log("removeWorldEncounter", this)
+//            console.log("removeWorldEncounter", this)
             detachEncounterFx(this);
             GameAPI.unregisterGameUpdateCallback(this.call.onGameUpdate)
             this.actor.deactivateGameActor();

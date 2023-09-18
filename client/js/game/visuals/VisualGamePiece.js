@@ -38,7 +38,6 @@ class VisualGamePiece {
                 visualPiece.animateActionState('IDLE_HANDS')
             }
 
-            console.log("Visual Game Piece Ready", visualPiece)
         }
 
         ModelUtils.setupVisualModel(this, this.assetId, this.config, pieceReady);

@@ -30,7 +30,7 @@ let setupHeightmapData = function(originalModelMat) {
     let terrainCanvas = document.createElement('canvas');
     terrainContext = terrainCanvas.getContext('2d',  { willReadFrequently: true })
     terrainContext.getContextAttributes().willReadFrequently = true;
-    console.log(terrainContext, terrainContext.getContextAttributes())
+//    console.log(terrainContext, terrainContext.getContextAttributes())
     terrainCanvas.width = terrainWidth;
     terrainCanvas.height = terrainHeight;
     terrainContext.drawImage(terrainData, 0, 0, terrainWidth, terrainHeight);
@@ -92,7 +92,7 @@ let setupHeightmapData = function(originalModelMat) {
         console.log(terrainmap)
     }, 3000)
 */
-    console.log(terrainMaterial, [heightmap], [terrainmap])
+  //  console.log(terrainMaterial, [heightmap], [terrainmap])
 }
 
 
@@ -170,7 +170,7 @@ class TerrainGeometry{
                 console.log("Geo Already Active")
                 return;
             }
-            console.log("Activate Geo", this.gridX, this.gridY);
+        //    console.log("Activate Geo", this.gridX, this.gridY);
             this.isActive = true;
             this.attachGeometryInstance(geoReady, lodLevel)
         }.bind(this);

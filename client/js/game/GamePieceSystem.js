@@ -15,7 +15,7 @@ let loadActor = function(event) {
     actor.setVisualGamePiece(visualPiece);
     actor.activateGameActor();
 
-    console.log("loadActor:", actor)
+  //  console.log("loadActor:", actor)
 
     if (event.tile) {
         actor.getPos().copy(event.tile.getPos());
@@ -42,14 +42,14 @@ class GamePieceSystem {
     initGamePieceSystem = function() {
         let onData = function(data) {
             visualConfigs = data;
-            console.log("visualConfigs", visualConfigs)
+    //        console.log("visualConfigs", visualConfigs)
         }
 
         configDataList("GAME","VISUALS", onData)
 
         let onActorsData = function(data) {
             actorConfigs = data;
-            console.log("actorConfigs", actorConfigs)
+    //        console.log("actorConfigs", actorConfigs)
         }
 
         configDataList("GAME","ACTORS", onActorsData)

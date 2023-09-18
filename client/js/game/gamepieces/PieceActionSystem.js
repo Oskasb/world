@@ -26,7 +26,7 @@ class PieceActionSystem {
             actions[key] = [];
             addActionGroup(actions[key], rigData['action_maps'][key])
         }
-        console.log(actions);
+
     }
 
     activateActionOfType(actionType, actionName) {

@@ -11,23 +11,72 @@ let gridLoaded = function(grid) {
     dynamicEncounter.addEncounterActors(8)
 }
 
+let testPosIsWithin = function(pos, min, max) {
+    if (min.x <= pos.x && max.x >= pos.x) {
+        if (min.z <= pos.z && max.z >= pos.z) {
+            return true;
+        }
+    }
+    return false;
+}
+
+
+
 class GameEncounterSystem {
     constructor() {
+
+
+        let updateEncounterSystem = function() {
+
+            let selectedActor = GameAPI.getGamePieceSystem().getSelectedGameActor();
+
+            let min = activeEncounterGrid.minXYZ;
+            let max = activeEncounterGrid.maxXYZ;
+            evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:min, max:max, color:'GREEN'})
+
+            let isWithin = testPosIsWithin(selectedActor.getPos(), min, max);
+
+            if (isWithin) {
+
+            } else {
+                this.deactivateActiveEncounter()
+            }
+
+
+        }.bind(this);
+
+        this.call = {
+            updateEncounterSystem:updateEncounterSystem
+        }
 
     }
 
     activateEncounter(event) {
 
-        if (dynamicEncounter) {
-            dynamicEncounter.removeEncounterActors()
-            dynamicEncounter = null;
-        }
+        console.log("activateEncounter", event)
 
         if (activeEncounterGrid) {
-            activeEncounterGrid.removeEncounterGrid()
-            activeEncounterGrid = null;
+            this.deactivateActiveEncounter()
+            return;
+        }
+
+        let encounterGrid = new EncounterGrid();
+        if (event.pos) {
+
+            let gridReady = function(grid) {
+                dynamicEncounter = new DynamicEncounter()
+                dynamicEncounter.setEncounterGrid(grid);
+
+                if (event.spawn) {
+                    dynamicEncounter.processSpawnEvent(event.spawn)
+                } else {
+                    dynamicEncounter.addEncounterActors(8)
+                }
+            }
+
+            encounterGrid.initEncounterGrid(event['grid_id'], event.pos, gridReady )
+            activeEncounterGrid = encounterGrid;
         } else {
-            let encounterGrid = new EncounterGrid();
             let selectedActor = GameAPI.getGamePieceSystem().getSelectedGameActor();
             let pos = ThreeAPI.getCameraCursor().getPos();
             let forward = ThreeAPI.getCameraCursor().getForward();
@@ -36,12 +85,29 @@ class GameEncounterSystem {
                 forward = selectedActor.getForward();
             }
 
-            encounterGrid.initEncounterGrid(event['grid_id'], pos, forward, gridLoaded)
+            encounterGrid.initEncounterGrid(event['grid_id'], pos,gridLoaded , forward)
             activeEncounterGrid = encounterGrid;
+
         }
 
+        GameAPI.registerGameUpdateCallback(this.call.updateEncounterSystem)
 
     }
+
+    deactivateActiveEncounter() {
+        if (dynamicEncounter) {
+            dynamicEncounter.removeEncounterActors()
+            dynamicEncounter = null;
+        }
+
+        if (activeEncounterGrid) {
+            activeEncounterGrid.removeEncounterGrid()
+            activeEncounterGrid = null;
+        }
+        GameAPI.unregisterGameUpdateCallback(this.call.updateEncounterSystem)
+    }
+
+
 
 }
 

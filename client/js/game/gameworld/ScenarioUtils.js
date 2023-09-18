@@ -270,7 +270,7 @@ function resetScenarioCharacterPiece(charPiece) {
 
 
 
-function setupEncounterGrid(gridTiles, instances, gridConfig, posVec, forwardVec) {
+function setupEncounterGrid(gridTiles, instances, gridConfig, posVec, forwardVec, minXYZ, maxXYZ) {
 // console.log(scenarioGridConfig);
     let iconSprites = GuiAPI.getUiSprites("box_tiles_8x8");
     let iconKeys = gridConfig['grid_tiles'];
@@ -278,31 +278,26 @@ function setupEncounterGrid(gridTiles, instances, gridConfig, posVec, forwardVec
     let stepHeight = gridConfig['step_height'];
     let boxSize = gridConfig['box_size'] / 2;
     let grid = gridConfig['grid'];
-    let gridWidth = grid[0].length;
-    let gridDepth = grid.length;
+    let gridWidth = grid.length;
+    let gridDepth = grid[0].length;
     forwardVec.x *= gridWidth * 0.6;
     forwardVec.z *= gridDepth * 0.6;
     posVec.add(forwardVec);
   //  let pos = scenarioGridConfig['pos'];
-    let pos = new Vector3(Math.floor(posVec.x - gridWidth*0.5), Math.floor(posVec.y), Math.floor(posVec.z  - gridDepth*0.5))
+    let pos = new Vector3(Math.round(posVec.x - gridWidth*0.5), Math.floor(posVec.y), Math.round(posVec.z  - gridDepth*0.5))
 
-    // let rot = scenarioGridConfig['rot'];
-    elevation = 0.3 // [1];
 
     tempObj.quaternion.set(0, 0, 0, 1);
-
- //   MATH.rotateObj(tempObj, rot);
-    let quat = tempObj.quaternion;
-
-
 
     let defaultSprite = [7, 2]
     let defaultSize = 0.88;
  //   console.log(gridConfig, gridWidth, gridDepth);
-    tempVec1.set(boxSize*gridWidth-boxSize, 0, boxSize*gridWidth-boxSize)
-    tempVec1.applyQuaternion(quat);
-    let offsetX = pos.x - tempVec1.x;
-    let offsetZ = pos.z - tempVec1.z
+
+    minXYZ.x = pos.x -0.5;
+    minXYZ.z = pos.z - 0.5;
+    minXYZ.y = pos.y = 9999;
+
+    maxXYZ.y = pos.y = -9999;
 
     for (let i = 0; i < gridWidth; i++) {
         gridTiles.push([])
@@ -315,6 +310,16 @@ function setupEncounterGrid(gridTiles, instances, gridConfig, posVec, forwardVec
             dynamicTile.setTileIndex(x, z, i, j)
             gridTiles[i].push(dynamicTile);
 
+            if (dynamicTile.getPos().y < minXYZ.y) {
+                minXYZ.y = dynamicTile.getPos().y;
+            }
+
+            if (dynamicTile.getPos().y > maxXYZ.y) {
+                maxXYZ.y = dynamicTile.getPos().y;
+            }
+
+            maxXYZ.x = x +0.5;
+            maxXYZ.z = z +0.5;
         }
     }
     return gridTiles;
