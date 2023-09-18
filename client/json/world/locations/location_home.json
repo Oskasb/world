@@ -7,6 +7,28 @@
           {
             "data_key":"location_data",
             "config": {
+              "encounters": [
+                {
+                  "actor": "ACTOR_FIGHTER",
+                  "indicator": {
+                    "sprite": [3, 5],
+                    "height": 2.6,
+                    "rgba": [1, 0.3, 0.3, 1],
+                    "size": 3
+                  },
+                  "trigger": {
+                    "heads": 5,
+                    "radius":4,
+                    "speed": 2
+                  },
+
+                  "pos": [-888, 2, 522.6],
+                  "rot": [0, 1.2, 0],
+                  "scale": [0.02, 0.002, 0.002],
+                  "on_ground": true,
+                  "visibility": 1
+                }
+              ],
               "models": [
                 {
                   "asset": "asset_house_small",
@@ -74,8 +96,6 @@
                   "visibility": 2
                 },
 
-
-
                 {
                   "sprite": "wood_chunk",
                   "pos": [-887.9, 2.3, 526.09],
@@ -117,7 +137,6 @@
                   "on_ground": false,
                   "visibility": 2
                 },
-
                 {
                   "sprite": "creative_crate",
                   "pos": [-881.8, 2.45, 521.15],

@@ -613,6 +613,7 @@ function setupOptsSproutFromGround(efct, posVec3, size) {
 }
 
 export {
+    defaultOptions,
     setupOptsPowerHands,
     setupOptsPowerCore,
     setupOptsFriendlyHands,

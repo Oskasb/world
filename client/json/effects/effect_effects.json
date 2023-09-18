@@ -98,6 +98,28 @@
                                 }
                             ]
                         },
+                        "particle_normal_pool":{
+                            "effect_class": "GameEffect",
+                            "max_active": 200,
+                            "spread_pos":[0.00001, 0.00001, 0.00001],
+                            "particles": [
+                                {
+                                    "id":"particle_normal_pool",
+                                    "count": [1, 1]
+                                }
+                            ]
+                        },
+                        "stamp_normal_pool":{
+                            "effect_class": "GameEffect",
+                            "max_active": 200,
+                            "spread_pos":[0.00001, 0.00001, 0.00001],
+                            "particles": [
+                                {
+                                    "id":"stamp_normal_pool",
+                                    "count": [1, 1]
+                                }
+                            ]
+                        },
                         "stamp_additive_pool":{
                             "effect_class": "GameEffect",
                             "max_active": 200,
@@ -133,13 +155,12 @@
                         },
                         "effect_action_point_wisp":{
                             "effect_class": "GameEffect",
-                            "max_active": 25,
-                            "duration": [0.3, 0.7],
-                            "spread_pos":[0.05, 0.01, 0.05],
+                            "max_active": 200,
+                            "spread_pos":[0.00001, 0.00001, 0.00001],
                             "particles": [
                                 {
                                     "id":"particle_wisp_additive",
-                                    "count": [3, 5]
+                                    "count": [1, 1]
                                 }
                             ]
                         }

@@ -19,6 +19,8 @@ let loadActor = function(event) {
 
     if (event.tile) {
         actor.getPos().copy(event.tile.getPos());
+    } else if (event.pos) {
+        actor.getPos().copy(event.pos);
     } else {
         GameAPI.getGamePieceSystem().setSelectedGameActor(actor);
     }

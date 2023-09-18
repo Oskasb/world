@@ -2,9 +2,11 @@ import { ConfigData } from "../../application/utils/ConfigData.js";
 import * as ScenarioUtils from "../gameworld/ScenarioUtils.js";
 import { WorldModel} from "./WorldModel.js";
 import { WorldBox }from "./WorldBox.js";
+import { WorldEncounter } from "./WorldEncounter.js";
 
 let worldModels = [];
 let worldBoxes = [];
+let worldEncounters = [];
 let locationConfigs = [];
 
 let heightTestNear = [];
@@ -26,6 +28,12 @@ let initWorldModels = function(config) {
         model.removeWorldModel()
     }
 
+    while (worldEncounters.length) {
+        let encounter = worldEncounters.pop()
+        ThreeAPI.clearTerrainLodUpdateCallback(encounter.call.lodUpdated)
+        encounter.removeWorldEncounter()
+    }
+
     let modelsData = function(models) {
         for (let i = 0; i < models.length;i++) {
             let model = new WorldModel(models[i])
@@ -44,6 +52,15 @@ let initWorldModels = function(config) {
         }
     }
 
+    let encountersData = function(encounters) {
+        for (let i = 0; i < encounters.length;i++) {
+            let encounter = new WorldEncounter(encounters[i])
+            ThreeAPI.registerTerrainLodUpdateCallback(encounter.getPos(), encounter.call.lodUpdated)
+            worldEncounters.push(encounter);
+               console.log("Add encounters:", encounter)
+        }
+    }
+
     let locationData = function(data) {
         for (let i = 0; i < data.length;i++) {
             if (data[i].config['models']) {
@@ -51,6 +68,9 @@ let initWorldModels = function(config) {
             }
             if (data[i].config['boxes']) {
                 boxesData(data[i].config.boxes);
+            }
+            if (data[i].config['encounters']) {
+                encountersData(data[i].config.encounters);
             }
         }
     }
