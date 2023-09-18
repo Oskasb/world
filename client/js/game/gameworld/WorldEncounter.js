@@ -46,14 +46,36 @@ let detachEncounterFx = function(encounter) {
 let radiusEvent = {
 
 }
-let indicateTriggerRadius = function(encounter, gameTime) {
+let indicateTriggerRadius = function(encounter) {
     let trigger = encounter.config.trigger;
-
-    radiusEvent.heads = trigger.heads
-    radiusEvent.speed = trigger.speed
-    radiusEvent.radius = trigger.radius
+    radiusEvent.heads = trigger.heads;
+    radiusEvent.speed = trigger.speed;
+    radiusEvent.radius = trigger.radius;
     radiusEvent.pos = encounter.getPos();
+    radiusEvent.rgba = encounter.config.indicator.rgba;
     evt.dispatch(ENUMS.Event.INDICATE_RADIUS, radiusEvent)
+}
+
+function checkTriggerPlayer(encounter) {
+
+    let selectedActor = GameAPI.getGamePieceSystem().getSelectedGameActor();
+
+    if (selectedActor) {
+        let trigger = encounter.config.trigger;
+        let radius = trigger.radius;
+        let distance = MATH.distanceBetween(selectedActor.getPos(), encounter.getPos())
+
+        if (distance < radius) {
+            radiusEvent.heads = 2
+            radiusEvent.speed = 8
+            radiusEvent.radius = distance - radius
+            radiusEvent.pos = selectedActor.getPos();
+            radiusEvent.rgba = [0.5, 0.5, 1,1];
+            evt.dispatch(ENUMS.Event.INDICATE_RADIUS, radiusEvent)
+        }
+
+    }
+
 
 }
 
@@ -64,16 +86,16 @@ class WorldEncounter {
         this.fxObj3d = new Object3D();
         MATH.vec3FromArray(this.obj3d.position, this.config.pos)
 
-        if (config['on_ground']) {
+   //     if (config['on_ground']) {
             this.obj3d.position.y = ThreeAPI.terrainAt(this.obj3d.position);
             //    console.log("Stick to ground", this.obj3d.position.y)
-        }
+    //    }
 
-        MATH.vec3FromArray(this.obj3d.scale, this.config.scale)
+    //    MATH.vec3FromArray(this.obj3d.scale, this.config.scale)
 
-        this.obj3d.rotateX(this.config.rot[0]);
-        this.obj3d.rotateY(this.config.rot[1]);
-        this.obj3d.rotateZ(this.config.rot[2]);
+    //    this.obj3d.rotateX(this.config.rot[0]);
+    //    this.obj3d.rotateY(this.config.rot[1]);
+    //    this.obj3d.rotateZ(this.config.rot[2]);
 
 
 
@@ -93,6 +115,7 @@ class WorldEncounter {
 
         let onGameUpdate = function(tpf, gameTime) {
             indicateTriggerRadius(this, gameTime);
+            checkTriggerPlayer(this);
         }.bind(this)
 
         let updateEffect = function(tpf) {
@@ -109,10 +132,15 @@ class WorldEncounter {
 
         let actorLoaded = function(actor) {
             console.log("Enc Actor", actor);
+            MATH.rotateObj(actor.actorObj3d, this.config.host.rot)
             this.actor = actor;
         }.bind(this)
 
-        evt.dispatch(ENUMS.Event.LOAD_ACTOR, {id: this.config.actor, pos:this.getPos(), callback:actorLoaded});
+        if (this.config.host) {
+            evt.dispatch(ENUMS.Event.LOAD_ACTOR, {id: this.config.host.actor, pos:this.getPos(), callback:actorLoaded});
+        }
+
+
 
 
     }
@@ -135,8 +163,8 @@ class WorldEncounter {
         if (this.isVisible) {
             console.log("removeWorldEncounter", this)
             detachEncounterFx(this);
-            this.actor.deactivateGameActor();
             GameAPI.unregisterGameUpdateCallback(this.call.onGameUpdate)
+            this.actor.deactivateGameActor();
         }
 
     }

@@ -33,9 +33,7 @@ function setupOptsSprayUpwards(efct, pos, applies) {
 
     let options = CombatFxOptions.defaultOptions();
     options.fromPos = tempObj.position;
-    options.fromQuat =  efct.quat;
     options.toPos = tempVec3;
-    options.toQuat = tempObj.quaternion;
     options.fromSize = fromSize;
     options.toSize = toSize;
     options.time = time;
@@ -46,7 +44,7 @@ function setupOptsSprayUpwards(efct, pos, applies) {
     return options
 }
 
-let drawTriggerHead = function(head, heads, radius, triggerCycle, center) {
+let drawTriggerHead = function(head, heads, radius, triggerCycle, center, rgba) {
 
 
     let offset = MATH.TWO_PI / (heads/head)
@@ -72,16 +70,16 @@ let drawTriggerHead = function(head, heads, radius, triggerCycle, center) {
         let options = setupOptsSprayUpwards(efct, calcVec, applies)
         efct.setEffectSpriteXY(1, 5);
         efct.activateSpatialTransition(options)
-        efct.setEffectColorRGBA(CombatFxUtils.setRgba(1,0.2, 0.1, 1))
+        efct.setEffectColorRGBA(CombatFxUtils.setRgba(rgba[0], rgba[1], rgba[2], rgba[3]))
         applies ++;
     };
 
-    EffectAPI.buildEffectClassByConfigId('additive_stamps_8x8', 'particle_additive_pool',  effectCb)
+    EffectAPI.buildEffectClassByConfigId('additive_particles_8x8', 'particle_additive_pool',  effectCb)
 
 }
 
 let spawnEffect = function(event) {
-    console.log("Spawn Effect", event);
+ //   console.log("Spawn Effect", event);
     let shockwaveCb = function(efct) {
         efct.activateEffectFromConfigId()
         let options = CombatFxOptions.setupOptsShockwave(efct, event.pos, event.fromSize, event.toSize, event.duration)
@@ -100,7 +98,7 @@ function indicateRadius(event) {
     let radius = event.radius;
     let center = event.pos;
     for (let i = 0; i < event.heads; i++) {
-        drawTriggerHead(i, event.heads, radius, cycle, center)
+        drawTriggerHead(i, event.heads, radius, cycle, center, event.rgba)
     }
 
 }

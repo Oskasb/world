@@ -89,7 +89,7 @@
                         },
                         "particle_additive_pool":{
                             "effect_class": "GameEffect",
-                            "max_active": 200,
+                            "max_active": 500,
                             "spread_pos":[0.00001, 0.00001, 0.00001],
                             "particles": [
                                 {
