@@ -18,7 +18,11 @@ class VisualGamePiece {
             this.updateVisualGamePiece(tpf);
 
             if (this.pieceAnimator) {
-                this.updateAnimatedGamePiece(tpf, GameAPI.getGameTime());
+
+                if (this.pieceAnimator.animationStates.length) {
+                    this.updateAnimatedGamePiece(tpf, GameAPI.getGameTime());
+                }
+
             }
 
         }.bind(this);
