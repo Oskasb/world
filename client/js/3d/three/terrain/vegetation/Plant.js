@@ -43,6 +43,7 @@ class Plant {
 
         let setInstance = function(modelInstance) {
             instance = modelInstance;
+
         }
 
         let getInstance = function() {
@@ -93,7 +94,7 @@ class Plant {
         this.isActive = true;
 
         let addPlant = function(instance) {
-
+            instance.stationary = true;
             ThreeAPI.getScene().remove(instance.spatial.obj3d)
         //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ThreeAPI.getCameraCursor().getPos(), to:this.obj3d.position, color:'YELLOW'});
             this.callbacks.setInstance(instance)

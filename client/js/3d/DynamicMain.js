@@ -126,12 +126,17 @@ class DynamicMain {
     };
 
     updateDynamicMatrices = function() {
-        for (var i = 0; i < this.instances.length; i++) {
+        for (let i = 0; i < this.instances.length; i++) {
 
-            if (this.instances[i].getSpatial().call.getFrameVelocity()) {
-                this.instances[i].updateSpatialWorldMatrix();
-                evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:this.instances[i].getSpatial().getPos(), color:'WHITE', size:0.35})
+            if (this.instances[i].stationary) {
+
+            } else {
+                if (this.instances[i].getSpatial().call.getFrameVelocity()) {
+                    this.instances[i].updateSpatialWorldMatrix();
+                    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:this.instances[i].getSpatial().getPos(), color:'WHITE', size:0.35})
+                }
             }
+
 
         }
     };

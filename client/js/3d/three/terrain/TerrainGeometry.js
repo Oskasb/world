@@ -278,7 +278,7 @@ class TerrainGeometry{
         let addSceneInstance = function(instance) {
             this.levelOfDetail = lodLevel;
             this.instance = instance;
-
+            instance.stationary = true;
             if (debugWorld === null) {
                 const geometry = new THREE.PlaneGeometry( 1, 1 );
                 debugWorld = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial());
@@ -320,6 +320,7 @@ class TerrainGeometry{
 
         let addOceanInstance = function(instance) {
             this.oceanInstance = instance;
+            instance.stationary = true;
             instance.setActive(ENUMS.InstanceState.ACTIVE_VISIBLE);
             instance.spatial.stickToObj3D(this.obj3d);
             ThreeAPI.tempVec4.x = this.gridX;
