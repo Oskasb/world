@@ -31,7 +31,7 @@ class CharacterInventory {
         if(gamePiece) {
             gamePiece.showGamePiece();
         }
-        let removeItem = MATH.quickSplice(this.pieces, gamePiece );
+        let removeItem = MATH.splice(this.pieces, gamePiece );
         GuiAPI.printDebugText("Inventory Items: "+this.pieces.length)
 
         return removeItem

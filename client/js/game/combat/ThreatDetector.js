@@ -72,7 +72,7 @@ class ThreatDetector {
         for (let i = 0; i < this.knownHostiles.length; i++) {
             let hostileChar = this.knownHostiles[i];
             if (this.hostilesInRange.indexOf(hostileChar) === -1) {
-                _this.unregisterKnownHostile(MATH.quickSplice(this.knownHostiles, hostileChar));
+                _this.unregisterKnownHostile(MATH.splice(this.knownHostiles, hostileChar));
             }
         }
     }

@@ -239,7 +239,7 @@ class GuiAPI {
     };
 
     removeInputUpdateCallback = function(cb) {
-        MATH.quickSplice(this.inputUpdateCallbacks, cb);
+        MATH.splice(this.inputUpdateCallbacks, cb);
     };
 
     addGuiUpdateCallback = function(cb) {
@@ -251,7 +251,7 @@ class GuiAPI {
     };
 
     removeGuiUpdateCallback = function(cb) {
-        MATH.quickSplice(this.guiUpdateCallbacks, cb);
+        MATH.splice(this.guiUpdateCallbacks, cb);
     };
 
     addAspectUpdateCallback = function(cb) {
@@ -259,7 +259,7 @@ class GuiAPI {
     };
 
     removeAspectUpdateCallback = function(cb) {
-        MATH.quickSplice(this.aspectUpdateCallbacks, cb);
+        MATH.splice(this.aspectUpdateCallbacks, cb);
     };
 
 
@@ -293,13 +293,13 @@ class GuiAPI {
     releaseWorldSpacePointer = function(pointer) {
         if (MATH.arrayContains(this.worldSpacePointers, pointer)) {
             GameAPI.handleWorldSpacePointerUpdate(pointer, false, true)
-            MATH.quickSplice(this.worldSpacePointers, pointer)
+            MATH.splice(this.worldSpacePointers, pointer)
         }
     };
 
     unregisterWorldSpacePointer = function(pointer) {
         GameAPI.deactivateWorldSpacePointer(pointer)
-        MATH.quickSplice(this.worldSpacePointers, pointer)
+        MATH.splice(this.worldSpacePointers, pointer)
     };
 
     getWorldSpacePointers = function() {

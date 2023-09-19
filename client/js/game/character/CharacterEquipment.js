@@ -111,7 +111,7 @@ class CharacterEquipment {
         if (typeof (itemPiece) === 'string') {
             itemPiece = this.getItemByItemId(itemPiece);
         }
-        itemPiece = MATH.quickSplice(this.pieces ,itemPiece );
+        itemPiece = MATH.splice(this.pieces ,itemPiece );
 
         if(itemPiece) {
             this.detatchEquipItem(itemPiece);

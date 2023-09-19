@@ -174,6 +174,7 @@ class GameMain {
     getPlayerCharacter() {
         return this.playerMain.playerCharacter
     }
+
     removeGameUpdateCallback(callback) {
         return MATH.quickSplice(this.onUpdateCallbacks, callback);
     }

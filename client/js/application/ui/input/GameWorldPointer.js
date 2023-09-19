@@ -68,7 +68,7 @@ class GameWorldPointer {
             }
             return indicator
         } else {
-            MATH.quickSplice(this.indicatedSelections, selection);
+            MATH.splice(this.indicatedSelections, selection);
             pointer.worldSpaceIndicator.removeTargetIndicatorFromPiece(selection);
             pointer.worldSpaceIndicator.hideIndicatorFx();
             selection.pieceInfoGui.deactivatePieceInfoGui()

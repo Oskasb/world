@@ -206,7 +206,7 @@ let processGroundCandidates = function(groundData) {
                                 sector.activateVegetationSector();
                             }
                             if (clears.indexOf(sector) !== -1) {
-                                MATH.quickSplice(clears, sector);
+                                MATH.splice(clears, sector);
                             }
                             this.activeSectors.push(sector);
                         }

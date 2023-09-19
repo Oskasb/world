@@ -452,7 +452,7 @@ class GuiWidget {
 
         removeChild = function(guiWidget) {
             guiWidget.parent = null;
-            MATH.quickSplice(this.children, guiWidget);
+            MATH.splice(this.children, guiWidget);
         };
 
 

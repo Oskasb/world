@@ -2,6 +2,8 @@ import { PieceAnim } from "./PieceAnim.js";
 import { AttachmentJoint } from "../../3d/three/animations/AttachmentJoint.js";
 import { AnimationState } from "../../3d/three/animations/AnimationState.js";
 
+let clears = []
+
 class PieceAnimator {
     constructor() {
         this.animations = {};
@@ -140,6 +142,8 @@ class PieceAnimator {
         return MATH.getFromArrayByKeyValue(this.activeAnimations, 'key', key);
     };
 
+
+
     updatePieceAnimations = function(tpf, time, frozen) {
 
         this.timeAtKey += tpf;
@@ -149,8 +153,14 @@ class PieceAnimator {
         }
 
         while (this.removes.length) {
-            MATH.quickSplice(this.activeAnimations, this.removes.pop());
+            let remove = this.removes.pop()
+            clears.push(remove);
         }
+
+        while (clears.length) {
+            MATH.quickSplice(this.activeAnimations, clears.pop());
+        }
+
 
     };
 }

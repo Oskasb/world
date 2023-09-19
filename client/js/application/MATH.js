@@ -49,9 +49,6 @@ if(typeof(MATH) === "undefined") {
 
 	MATH.quickSplice = function(array, removeEntry) {
 
-
-	//	array.splice(array.indexOf(removeEntry), 1)
-	//	return removeEntry
 		remove = null;
 
 		while (array.length) {
@@ -75,6 +72,15 @@ if(typeof(MATH) === "undefined") {
 		}
 
 		return removeEntry;
+	};
+
+	MATH.splice = function(array, removeEntry) {
+		let idx = array.indexOf(removeEntry)
+		array.splice(idx, 1)
+		if (idx === -1) {
+			return false;
+		}
+		return removeEntry
 	};
 
 	MATH.emptyArray = function(array) {
@@ -134,13 +140,13 @@ if(typeof(MATH) === "undefined") {
 		}
 	};
 
+
 	MATH.callAndClearAll = function(array, arg1, arg2, arg3, arg4, arg5) {
 		while(array.length) {
 			let cb = array.pop()
-			setTimeout(function() {
-				cb(arg1, arg2, arg3, arg4, arg5);
-			},0)
+			cb(arg1, arg2, arg3, arg4, arg5);
 		}
+
 	};
 
 	MATH.vectorAtPositionTowards = function(sourceVec3, targVec3, distance, storeVec3) {

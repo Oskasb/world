@@ -92,7 +92,7 @@ class GuiPageSystem {
     }
 
     closeGuiPage(page) {
-        let oldPage = MATH.quickSplice(this.activePages, page)
+        let oldPage = MATH.splice(this.activePages, page)
         oldPage.closeGuiPage();
     }
 

@@ -71,7 +71,7 @@ class AttachmentJoint {
     };
 
     removePositionUpdateCallback = function(cb) {
-        MATH.quickSplice(this.positionUpdateCallbacks, cb);
+        MATH.splice(this.positionUpdateCallbacks, cb);
     };
 
     getDynamicPosition = function(storeVec) {

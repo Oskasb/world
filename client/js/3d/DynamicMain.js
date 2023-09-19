@@ -85,7 +85,7 @@ class DynamicMain {
     };
 
     removeFromIsntanceIndex = function(instancedModel) {
-        MATH.quickSplice(this.instances, instancedModel);
+        MATH.splice(this.instances, instancedModel);
     };
 
     requestAssetInstance = function(assetId, callback) {

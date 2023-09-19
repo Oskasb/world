@@ -37,11 +37,11 @@ class InteractiveElement {
         };
 
         releasePressIndex = function(inputIndex) {
-            MATH.quickSplice(this.pressIndices, inputIndex);
+            MATH.splice(this.pressIndices, inputIndex);
         };
 
         releaseHoverIndex = function(inputIndex) {
-            MATH.quickSplice(this.hoverIndices, inputIndex);
+            MATH.splice(this.hoverIndices, inputIndex);
         };
 
         notifyPointerPress = function(inputIndex) {

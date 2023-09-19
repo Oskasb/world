@@ -106,7 +106,7 @@ class evt {
     };
 
     spliceListener(listeners, cb) {
-        MATH.quickSplice(listeners, cb);
+        MATH.splice(listeners, cb);
     };
 
     getEventSystemStatus() {

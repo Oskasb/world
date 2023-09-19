@@ -216,7 +216,7 @@ class TerrainGeometry{
     }
 
     removeLodUpdateCallback = function(cb) {
-        MATH.quickSplice(this.lodUpdateCallbaks, cb)
+        MATH.splice(this.lodUpdateCallbaks, cb)
     }
 
     getExtentsMinMax(storeMin, storeMax) {

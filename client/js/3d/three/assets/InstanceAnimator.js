@@ -174,7 +174,7 @@ class InstanceAnimator {
 
         stopChannelAction = function(channel, action) {
 
-            MATH.quickSplice(channel, action);
+            MATH.splice(channel, action);
             action.stop();
         };
 

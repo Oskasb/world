@@ -189,7 +189,7 @@ class InputSystem {
     };
 
     unregisterInteractiveSurfaceElement = function(surfaceElement) {
-        MATH.quickSplice(this.surfaceElements, surfaceElement);
+        MATH.splice(this.surfaceElements, surfaceElement);
     };
 
 }

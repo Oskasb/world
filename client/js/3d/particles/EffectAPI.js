@@ -148,7 +148,7 @@ class EffectAPI {
 
     recoverParticleEffect = function(effect) {
         let spawner = effect.getSpawnerId();
-        MATH.quickSplice(this.activeEffects[spawner], effect);
+        MATH.splice(this.activeEffects[spawner], effect);
         this.effectSpawners[spawner].deactivateEffect(effect);
         this.effectPool.returnToExpandingPool(effect);
     };

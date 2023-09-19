@@ -199,7 +199,7 @@ define([
 
             while (removes.length) {
                 var remove = removes.pop();
-                MATH.quickSplice(this.releasedActionPoints, remove);
+                MATH.splice(this.releasedActionPoints, remove);
 
                 remove.removeGuiWidget();
             }

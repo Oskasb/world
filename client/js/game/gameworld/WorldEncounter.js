@@ -70,6 +70,10 @@ function checkTriggerPlayer(encounter) {
         let radius = trigger.radius;
         let distance = MATH.distanceBetween(selectedActor.getPos(), encounter.getPos())
 
+        if (distance < radius * 2) {
+            indicateTriggerRadius(encounter);
+        }
+
         if (distance < radius) {
             encounterEvent.pos = encounter.getPos();
             encounterEvent.grid_id = encounter.config.grid_id;
@@ -118,8 +122,8 @@ class WorldEncounter {
 
 
         let onGameUpdate = function(tpf, gameTime) {
-            indicateTriggerRadius(this, gameTime);
-            checkTriggerPlayer(this);
+
+            checkTriggerPlayer(this, gameTime);
         }.bind(this)
 
         let updateEffect = function(tpf) {
