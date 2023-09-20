@@ -7,13 +7,12 @@ import { WorldEncounter } from "./WorldEncounter.js";
 let worldModels = [];
 let worldBoxes = [];
 let worldEncounters = [];
-let locationConfigs = [];
 
 let heightTestNear = [];
 let heightIntersects = [];
 
 let initWorldModels = function(config) {
-    locationConfigs = [];
+
   //  console.log("World Models; ", config);
 
     while (worldModels.length) {
@@ -26,11 +25,6 @@ let initWorldModels = function(config) {
         let model = worldBoxes.pop()
         ThreeAPI.clearTerrainLodUpdateCallback(model.call.lodUpdated)
         model.removeWorldModel()
-    }
-
-    while (worldEncounters.length) {
-        let encounter = worldEncounters.pop()
-        encounter.deactivateWorldEncounter()
     }
 
     let modelsData = function(models) {
@@ -49,6 +43,33 @@ let initWorldModels = function(config) {
         }
     }
 
+
+    let locationData = function(data) {
+        for (let i = 0; i < data.length;i++) {
+            if (data[i].config['models']) {
+                modelsData(data[i].config.models);
+            }
+            if (data[i].config['boxes']) {
+                boxesData(data[i].config.boxes);
+            }
+        }
+    }
+
+    for (let i = 0; i < config.length;i++) {
+        locationData(config[i].data);
+    }
+
+}
+
+let initWorldEncounters = function(config) {
+    //  console.log("World Models; ", config);
+
+    while (worldEncounters.length) {
+        let encounter = worldEncounters.pop()
+        encounter.deactivateWorldEncounter()
+    }
+
+
     let encountersData = function(encounters) {
         for (let i = 0; i < encounters.length;i++) {
             let encounter = new WorldEncounter(encounters[i])
@@ -59,12 +80,6 @@ let initWorldModels = function(config) {
 
     let locationData = function(data) {
         for (let i = 0; i < data.length;i++) {
-            if (data[i].config['models']) {
-                modelsData(data[i].config.models);
-            }
-            if (data[i].config['boxes']) {
-                boxesData(data[i].config.boxes);
-            }
             if (data[i].config['encounters']) {
                 encountersData(data[i].config.encounters);
             }
@@ -80,6 +95,7 @@ let initWorldModels = function(config) {
 class WorldModels {
     constructor() {
         this.configData =  new ConfigData("WORLD_LOCATIONS","MODELS", null, null, null, initWorldModels)
+        this.configData =  new ConfigData("WORLD_ENCOUNTERS","ENCOUNTERS", null, null, null, initWorldEncounters)
     }
 
     queryWorldModelHeight = function(posVec3, boxHeight) {

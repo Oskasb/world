@@ -3,6 +3,8 @@
     "files": [
       "/world/world_systems.json"                            ,
       "/threedata/assets/load_assets.json"                   ,
+      "/world/encounters/hosts/encounter_hosts.json"         ,
+      "/world/encounters/encounters_home.json"               ,
       "/world/locations/location_home.json"                  ,
       "/world/locations/location_home_pier.json"             ,
       "/world/locations/location_delta_fork.json"            ,

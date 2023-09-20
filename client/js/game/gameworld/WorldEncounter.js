@@ -2,6 +2,7 @@ import {Object3D} from "../../../libs/three/core/Object3D.js";
 import {Vector3} from "../../../libs/three/math/Vector3.js";
 import * as CombatFxOptions from "../combat/feedback/CombatFxOptions.js";
 import * as CombatFxUtils from "../combat/feedback/CombatFxUtils.js";
+import { ConfigData } from "../../application/utils/ConfigData.js";
 
 let calcVec = new Vector3();
 let calcVec2 = new Vector3();
@@ -150,7 +151,16 @@ class WorldEncounter {
         }
 
 
+        if (this.config.host_id) {
+            console.log("config host_id: ", this.config.host_id)
+            let onData = function(config) {
+                console.log("Host config data: ", config)
+            }
 
+            let configData =  new ConfigData("ENCOUNTER_HOSTS", "HOSTS",  'host_data', 'data_key', 'config')
+            configData.addUpdateCallback(onData);
+            configData.parseConfig(this.config.host_id, onData)
+        }
 
     }
 
