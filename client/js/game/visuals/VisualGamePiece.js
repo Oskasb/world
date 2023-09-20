@@ -37,11 +37,9 @@ class VisualGamePiece {
 
         let pieceReady = function(visualPiece) {
             visualPiece.showVisualGamePiece();
-
             if (visualPiece.pieceAnimator) {
                 visualPiece.animateActionState('IDLE_HANDS')
             }
-
         }
 
         ModelUtils.setupVisualModel(this, this.assetId, this.config, pieceReady);

@@ -1,0 +1,20 @@
+[{
+  "ENCOUNTER_INDICATORS":{
+    "INDICATORS":[
+      {
+        "id": "battle_indicator",
+        "data": [
+          {
+            "data_key":"indicator_data",
+            "config": {
+                "sprite": [3, 5],
+                "height": 2.6,
+                "rgba": [1, 0.1, 0.3, 1],
+                "size": 3
+            }
+          }
+        ]
+      }
+    ]
+  }
+}]

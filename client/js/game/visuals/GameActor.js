@@ -6,6 +6,7 @@ let tempVec = new Vector3();
 
 class GameActor {
     constructor(config) {
+        this.activated = false;
         this.actorObj3d = new Object3D();
         this.config = config;
         this.visualGamePiece = null;
@@ -60,13 +61,17 @@ class GameActor {
     }
 
     activateGameActor() {
-        this.visualGamePiece.attachModelAsset();
-        GameAPI.registerGameUpdateCallback(this.call.updateGameActor);
+        if (!this.activated) {
+            this.visualGamePiece.attachModelAsset();
+            GameAPI.registerGameUpdateCallback(this.call.updateGameActor);
+        }
+        this.activated = true;
     }
 
     deactivateGameActor() {
         this.visualGamePiece.removeVisualGamePiece();
         GameAPI.unregisterGameUpdateCallback(this.call.updateGameActor);
+        this.activated = false;
     }
 
     getPointAtDistanceAhead(distance) {

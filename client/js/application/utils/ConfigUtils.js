@@ -17,6 +17,14 @@ let configDataList = function(root, folder, onData) {
     new ConfigData(root, folder, null, null, null, initData)
 }
 
+
+function parseConfigDataKey(root, folder, dataId, id, callback) {
+    let configData =  new ConfigData(root, folder, dataId, 'data_key', 'config')
+    configData.addUpdateCallback(callback);
+    configData.parseConfig(id, callback)
+}
+
 export {
-    configDataList
+    configDataList,
+    parseConfigDataKey
  }

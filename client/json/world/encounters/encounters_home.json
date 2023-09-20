@@ -13,27 +13,16 @@
                   "visibility": 1,
                   "grid_id": "grid_15x15",
                   "host_id": "bandit_basic",
-                  "host": {
-                    "actor": "ACTOR_FIGHTER",
-                    "rot": [0, 1.2, 0],
-                    "on_ground": true
-                  },
-                  "indicator": {
-                    "sprite": [3, 5],
-                    "height": 2.6,
-                    "rgba": [1, 0.1, 0.3, 1],
-                    "size": 3
-                  },
-                  "trigger": {
-                    "heads": 9,
-                    "radius":7,
-                    "speed": 1
-                  }
+                  "indicator_id": "battle_indicator",
+                  "trigger_radius": 7
                 },
                 {
-                  "pos": [-882, 2, 523],
+                  "pos": [-879, 2, 521],
                   "visibility": 1,
                   "grid_id": "grid_12x12",
+                  "host_id": "bandit_basic",
+                  "indicator_id": "battle_indicator",
+                  "trigger_radius": 5,
                   "spawn": {
                     "actors": [
                       {
@@ -55,86 +44,31 @@
                         "tile": [10, 6]
                       }
                     ]
-                  },
-                  "host": {
-                    "actor": "ACTOR_FIGHTER",
-                    "rot": [0, 1.2, 0],
-                    "on_ground": true
-                  },
-                  "indicator": {
-                    "sprite": [3, 5],
-                    "height": 2.6,
-                    "rgba": [0.0, 1.0, 0.1, 1],
-                    "size": 3
-                  },
-                  "trigger": {
-                    "heads": 9,
-                    "radius":5,
-                    "speed": 1
                   }
                 },
                 {
                   "pos": [-867, 2, 525],
                   "visibility": 1,
                   "grid_id": "grid_15x15",
-                  "host": {
-                    "actor": "ACTOR_FIGHTER",
-                    "rot": [0, 1.2, 0],
-                    "on_ground": true
-                  },
-                  "indicator": {
-                    "sprite": [3, 5],
-                    "height": 2.6,
-                    "rgba": [1, 0.5, 0.1, 1],
-                    "size": 3
-                  },
-                  "trigger": {
-                    "heads": 9,
-                    "radius":6,
-                    "speed": 1
-                  }
+                  "host_id": "bandit_basic",
+                  "indicator_id": "battle_indicator",
+                  "trigger_radius": 7
                 },
                 {
                   "pos": [-857, 2, 532],
                   "visibility": 1,
                   "grid_id": "grid_15x15",
-                  "host": {
-                    "actor": "ACTOR_FIGHTER",
-                    "rot": [0, 1.2, 0],
-                    "on_ground": true
-                  },
-                  "indicator": {
-                    "sprite": [3, 5],
-                    "height": 2.6,
-                    "rgba": [1, 0.5, 0.1, 1],
-                    "size": 3
-                  },
-                  "trigger": {
-                    "heads": 9,
-                    "radius":6,
-                    "speed": 1
-                  }
+                  "host_id": "bandit_basic",
+                  "indicator_id": "battle_indicator",
+                  "trigger_radius": 7
                 },
                 {
                   "pos": [-908, 2, 535],
                   "visibility": 1,
                   "grid_id": "grid_15x15",
-                  "host": {
-                    "actor": "ACTOR_FIGHTER",
-                    "rot": [0, 1.2, 0],
-                    "on_ground": true
-                  },
-                  "indicator": {
-                    "sprite": [3, 5],
-                    "height": 2.6,
-                    "rgba": [1, 0.1, 0.3, 1],
-                    "size": 3
-                  },
-                  "trigger": {
-                    "heads": 9,
-                    "radius":6,
-                    "speed": 1
-                  }
+                  "host_id": "bandit_basic",
+                  "indicator_id": "battle_indicator",
+                  "trigger_radius": 7
                 }
               ]
             }
