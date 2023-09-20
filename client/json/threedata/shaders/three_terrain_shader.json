@@ -341,7 +341,7 @@
 
 
           "float twoPi = 6.2831;",
-          "float slope = cos(vNormal.y*1.571)*1.55;",
+          "float slope = cos(vNormal.y*1.571)*1.35;",
 
           "slope = slope * 0.998 + 0.10*slope*sin(vPosition.x * twoPi*0.25)  + 0.22*slope*cos(vPosition.z * twoPi*1.0);",
           "slope = slope * 0.998 + 0.14*slope*sin(vPosition.x * twoPi*0.25)  + 0.08*slope*cos(vPosition.z * twoPi*0.125);",
