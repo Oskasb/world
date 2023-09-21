@@ -13,6 +13,9 @@ class InstanceAnimator {
         };
 
         addMixer = function(clone) {
+            if (this.mixer) {
+                console.log("Already a mixer...", this)
+            }
             this.mixer = new THREE.AnimationMixer( clone );
         };
 
@@ -174,7 +177,7 @@ class InstanceAnimator {
 
         stopChannelAction = function(channel, action) {
 
-            MATH.splice(channel, action);
+            MATH.quickSplice(channel, action);
             action.stop();
         };
 
@@ -222,10 +225,21 @@ class InstanceAnimator {
         };
 
         activateAnimator = function() {
+            this.initAnimatior();
+            this.mixer.stopAllAction();
             ThreeAPI.activateMixer(this.mixer);
         };
 
         deActivateAnimator = function() {
+
+            for (let i = 0; i < this.channels.length; i++) {
+                while (this.channels[i].length) {
+                    let action = this.channels[i].pop();
+                    this.stopChannelAction(this.channels[i], action)
+                }
+            }
+            this.initAnimatior();
+
             ThreeAPI.deActivateMixer(this.mixer);
         };
 
