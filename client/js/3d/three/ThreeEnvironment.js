@@ -313,7 +313,7 @@ class ThreeEnvironment {
         //    console.log("Tick Env")
 
         // waterFx.tickWaterEffect(tpf);
-
+        this.sky.mesh.position.copy(ThreeAPI.getCamera().position);
         let fraction = this.calcTransitionProgress(tpf * 1.0);
 
         //    t+=evt.args(e).tpf
@@ -473,7 +473,7 @@ class ThreeEnvironment {
 
         //    mat.depthWrite = false;
 
-        let skyGeo = new THREE.SphereGeometry(4000, 36, 9 );
+        let skyGeo = new THREE.SphereGeometry(500, 36, 9 );
         let skyMesh = new THREE.Mesh( skyGeo, mat);
 
         let uniforms = {

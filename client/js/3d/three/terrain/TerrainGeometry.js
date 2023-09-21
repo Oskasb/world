@@ -18,6 +18,8 @@ let maxLodLevel = 6;
 let terrainContext = null;
 let heightmapContext = null;
 
+let oceanPlane = null;
+
 let debugWorld = null;
 let ctx;
 let setupHeightmapData = function(originalModelMat) {
@@ -216,7 +218,7 @@ class TerrainGeometry{
     }
 
     removeLodUpdateCallback = function(cb) {
-        MATH.splice(this.lodUpdateCallbaks, cb)
+        MATH.quickSplice(this.lodUpdateCallbaks, cb)
     }
 
     getExtentsMinMax(storeMin, storeMax) {
@@ -266,7 +268,17 @@ class TerrainGeometry{
     attachGeometryInstance(geoReady, lodLevel) {
 
         if (lodLevel === this.levelOfDetail) {
+            
             return;
+            if (lodLevel === 0) {
+                evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:this.boundingBox.min, max:this.boundingBox.max, color:'CYAN'})
+            }
+            if (lodLevel === 3) {
+                evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:this.boundingBox.min, max:this.boundingBox.max, color:'GREEN'})
+            }
+            if (lodLevel === 6) {
+                evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:this.boundingBox.min, max:this.boundingBox.max, color:'RED'})
+            }
         } else if (this.instance) {
             evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:this.boundingBox.min, max:this.boundingBox.max, color:'RED'})
             this.detachGeometryInstance();
@@ -337,6 +349,7 @@ class TerrainGeometry{
             client.dynamicMain.requestAssetInstance(this.gridMeshAssetIds[lodLevel], addSceneInstance)
         }
         this.applyLodLevelChange()
+
 
     }
 
@@ -415,8 +428,27 @@ class TerrainGeometry{
                 let gridDistX = Math.abs(centerGridX - this.gridX);
                 let gridDistY  = Math.abs(centerGridY - this.gridY);
                 let gridDist = Math.max(gridDistX, gridDistY);
-                let lodLevel = Math.min(Math.floor( gridDist/3), maxLodLevel)
-                this.attachGeometryInstance(null, lodLevel)
+                let lodDist = (gridDist + Math.sqrt(gridDistX * gridDistY ) * 0.55) / 3;
+                let lodLevel = Math.min(Math.floor( lodDist * 0.85 + MATH.curveQuad(lodDist) * 0.075), maxLodLevel)
+
+                if (lodLevel > 3) {
+                    if (Math.random() < 0.9 && this.wasVisible === false) {
+                        this.isVisible = false;
+                    } else {
+                        this.attachGeometryInstance(null, lodLevel)
+                    }
+                } else if (lodLevel > 2) {
+                //    if ( this.levelOfDetail === -1) {
+                        if (Math.random() < 0.25) {
+                            this.attachGeometryInstance(null, lodLevel)
+                        }
+                //    }
+
+                } else {
+                    this.attachGeometryInstance(null, lodLevel)
+                }
+
+
 
             //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:this.boundingBox.min, max:this.boundingBox.max, color:'GREEN'})
 

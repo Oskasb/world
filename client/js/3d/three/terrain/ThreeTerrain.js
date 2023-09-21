@@ -397,14 +397,6 @@ let drawNearbyTerrain = function() {
     //  }
 
     updateGeo(geoBeneathPlayer)
-    //   updateNeighbors(geoBeneathPlayer)
-//    updateGeo(terrainGeometries[lastFrameGridExtentsChecks[1]][lastFrameGridExtentsChecks[2]])
-//    updateGeo(terrainGeometries[lastFrameGridExtentsChecks[2]][lastFrameGridExtentsChecks[3]])
-//    updateGeo(terrainGeometries[lastFrameGridExtentsChecks[3]][lastFrameGridExtentsChecks[0]])
-    //  terrainGeometries[lastFrameGridExtentsChecks[0]][lastFrameGridExtentsChecks[1]].updateTerrainGeometry(geoBeneathPlayer, geoTileUpdateCallback)
-    //  terrainGeometries[lastFrameGridExtentsChecks[0]][lastFrameGridExtentsChecks[3]].updateTerrainGeometry(geoBeneathPlayer, geoTileUpdateCallback)
-    //  terrainGeometries[lastFrameGridExtentsChecks[2]][lastFrameGridExtentsChecks[1]].updateTerrainGeometry(geoBeneathPlayer, geoTileUpdateCallback)
-    //  terrainGeometries[lastFrameGridExtentsChecks[2]][lastFrameGridExtentsChecks[3]].updateTerrainGeometry(geoBeneathPlayer, geoTileUpdateCallback)
 
 
     lastFrameGridExtentsChecks[0] = frameGridExtentsChecks[0];

@@ -136,6 +136,7 @@
             "settings": "mat_settings_ocean",
             "textures":[
               {"key":"terrainmap"     , "id":"tx_terrainmap_world_01"  },
+              {"key":"envMap"         , "id":"ref_sphere"              } ,
               {"key":"heightmap"      , "id":"tx_heightmap_world_01"   },
               {"key":"tx0"            , "id":"tx_ground_tiles8x8"      },
               {"key":"tx0nm"          , "id":"tx_ground_tiles8x8nm"    }

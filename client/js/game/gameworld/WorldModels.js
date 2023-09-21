@@ -11,6 +11,8 @@ let worldEncounters = [];
 let heightTestNear = [];
 let heightIntersects = [];
 
+let encounterConfigs = null;
+
 let initWorldModels = function(config) {
 
   //  console.log("World Models; ", config);
@@ -61,15 +63,14 @@ let initWorldModels = function(config) {
 
 }
 
-let initWorldEncounters = function(config) {
-    //  console.log("World Models; ", config);
-
+let deactivateWorldEncounters = function () {
     while (worldEncounters.length) {
         let encounter = worldEncounters.pop()
         encounter.deactivateWorldEncounter()
     }
+}
 
-
+let activateWorldEncounters = function() {
     let encountersData = function(encounters) {
         for (let i = 0; i < encounters.length;i++) {
             let encounter = new WorldEncounter(encounters[i])
@@ -86,16 +87,30 @@ let initWorldEncounters = function(config) {
         }
     }
 
-    for (let i = 0; i < config.length;i++) {
-        locationData(config[i].data);
+    for (let i = 0; i < encounterConfigs.length;i++) {
+        locationData(encounterConfigs[i].data);
     }
+}
 
+let initWorldEncounters = function(config) {
+    //  console.log("World Models; ", config);
+    encounterConfigs = config;
+    deactivateWorldEncounters();
+    activateWorldEncounters();
 }
 
 class WorldModels {
     constructor() {
         this.configData =  new ConfigData("WORLD_LOCATIONS","MODELS", null, null, null, initWorldModels)
         this.configData =  new ConfigData("WORLD_ENCOUNTERS","ENCOUNTERS", null, null, null, initWorldEncounters)
+    }
+
+    deactivateEncounters() {
+        deactivateWorldEncounters()
+    }
+
+    activateEncounters() {
+        activateWorldEncounters()
     }
 
     queryWorldModelHeight = function(posVec3, boxHeight) {

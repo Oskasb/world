@@ -105,6 +105,7 @@ class GameEncounterSystem {
             activeEncounterGrid = null;
         }
         GameAPI.unregisterGameUpdateCallback(this.call.updateEncounterSystem)
+        GameAPI.call.spawnWorldEncounters();
     }
 
 
