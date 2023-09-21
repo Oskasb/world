@@ -22,7 +22,14 @@ class PieceAnimator {
             this.addAttachmentUpdate(joint)
         }.bind(this);
 
+        let resetAnimator = function() {
+            this.activeAnimations = [];
+            this.activeActions = [];
+            this.removes = [];
+        }.bind(this);
+
         this.callbacks = {
+            resetAnimator:resetAnimator,
             setAttachmentUpdated:setAttachmentUpdated
         }
 

@@ -268,7 +268,7 @@ class TerrainGeometry{
     attachGeometryInstance(geoReady, lodLevel) {
 
         if (lodLevel === this.levelOfDetail) {
-            
+
             return;
             if (lodLevel === 0) {
                 evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:this.boundingBox.min, max:this.boundingBox.max, color:'CYAN'})

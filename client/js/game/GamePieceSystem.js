@@ -13,15 +13,38 @@ let loadActor = function(event) {
 
     let visualPiece = new VisualGamePiece(visualConfig);
     actor.setVisualGamePiece(visualPiece);
-    actor.activateGameActor();
+
 
   //  console.log("loadActor:", actor)
 
     if (event.tile) {
-        actor.getPos().copy(event.tile.getPos());
+        actor.activateGameActor();
+        let gameWalkGrid = actor.getGameWalkGrid()
+
+        let activateEncounterGrid = GameAPI.call.getActiveEncounter();
+
+        actor.getPos().copy(activateEncounterGrid.getPos());
+/*
+        MATH.spreadVector(actor.getPos(), MATH.randomVector().multiplyScalar(12))
+        actor.getPos().y = ThreeAPI.terrainAt(actor.getPos())
+  */
+        actor.actorObj3d.position.copy(actor.getPos())
+        let startPos = actor.getGameWalkGrid().hostObj3d // getGridOriginPos();
+
+
+        gameWalkGrid.activateWalkGrid(actor.actorObj3d)
+        gameWalkGrid.call.updateWalkGrid()
+        gameWalkGrid.buildGridPath(event.tile.getPos())
+
+
+        gameWalkGrid.applySelectedPath( )
+
+
+    //
     } else if (event.pos) {
         actor.getPos().copy(event.pos);
     } else {
+        actor.activateGameActor();
         GameAPI.getGamePieceSystem().setSelectedGameActor(actor);
     }
 

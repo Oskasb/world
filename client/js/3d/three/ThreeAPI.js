@@ -470,6 +470,8 @@ class ThreeAPI {
     activateMixer = function(mixer) {
         if (this.animationMixers.indexOf(mixer) === -1) {
             this.animationMixers.push(mixer);
+        } else {
+            console.log("Mixer already added", mixer)
         }
     };
 

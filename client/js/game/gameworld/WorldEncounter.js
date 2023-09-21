@@ -36,7 +36,6 @@ function checkTriggerPlayer(encounter) {
             encounterEvent.pos = encounter.getPos();
             encounterEvent.grid_id = encounter.config.grid_id;
             encounterEvent.spawn = encounter.config.spawn;
-        //    deactivateWorldEncounter(encounter);
             evt.dispatch(ENUMS.Event.GAME_MODE_BATTLE, encounterEvent)
         }
     }
@@ -57,12 +56,16 @@ class WorldEncounter {
 
         this.isVisible = false;
 
+        let lastLod = null;
+
         let lodUpdated = function(lodLevel) {
+            if (lastLod === lodLevel) return;
+            lastLod = lodLevel;
         //    console.log(lodLevel)
             if (lodLevel !== -1 && lodLevel <= config['visibility']) {
-                this.showWorldEncounter()
+                this.showWorldEncounter(lodLevel)
             } else {
-                this.removeWorldEncounter()
+                this.removeWorldEncounter(lodLevel)
             }
 
         }.bind(this)
@@ -79,7 +82,7 @@ class WorldEncounter {
 
 
         if (this.config.host_id) {
-            console.log("config host_id: ", this.config.host_id)
+        //    console.log("config host_id: ", this.config.host_id)
             let onData = function(config) {
                 this.visualEncounterHost.applyHostConfig(config);
             }.bind(this)
@@ -88,7 +91,7 @@ class WorldEncounter {
         }
 
         if (this.config.indicator_id) {
-            console.log("config indicator_id: ", this.config.indicator_id)
+        //    console.log("config indicator_id: ", this.config.indicator_id)
             let onIndicatorData = function(config) {
                 this.encounterIndicator.applyIndicatorConfig(config);
             }.bind(this)
@@ -107,20 +110,22 @@ class WorldEncounter {
     }
 
     activateWorldEncounter() {
+        console.log("activateWorldEncounter", this)
         ThreeAPI.registerTerrainLodUpdateCallback(this.getPos(), this.call.lodUpdated)
     }
 
     deactivateWorldEncounter() {
         ThreeAPI.clearTerrainLodUpdateCallback(this.call.lodUpdated)
-        this.removeWorldEncounter(this.encounterIndex)
+        this.removeWorldEncounter()
     }
 
-    showWorldEncounter() {
-
+    showWorldEncounter(lodLevel) {
+     //   console.log("showWorldEncounter", lodLevel, this)
         if (this.isVisible) {
+            console.log("ALREADY VISIBLE showWorldEncounter", this)
             return;
         }
-        console.log("showWorldEncounter", this.encounterIndex, this)
+
 
         this.encounterIndicator.showIndicator();
         this.visualEncounterHost.showEncounterHost();
@@ -128,10 +133,10 @@ class WorldEncounter {
         this.isVisible = true;
     }
 
-    removeWorldEncounter() {
-
+    removeWorldEncounter(lodLevel) {
+    //    console.log("removeWorldEncounter", lodLevel, this)
         if (this.isVisible) {
-            console.log("removeWorldEncounter", this.encounterIndex, this)
+
             this.encounterIndicator.hideIndicator();
             this.visualEncounterHost.hideEncounterHost();
             GameAPI.unregisterGameUpdateCallback(this.call.onGameUpdate)

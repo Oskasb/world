@@ -20,7 +20,9 @@ let testPosIsWithin = function(pos, min, max) {
     return false;
 }
 
-
+let getActiveEncounterGrid = function() {
+    return activeEncounterGrid;
+}
 
 class GameEncounterSystem {
     constructor() {
@@ -46,7 +48,8 @@ class GameEncounterSystem {
         }.bind(this);
 
         this.call = {
-            updateEncounterSystem:updateEncounterSystem
+            updateEncounterSystem:updateEncounterSystem,
+            getActiveEncounterGrid:getActiveEncounterGrid
         }
 
     }
@@ -61,6 +64,8 @@ class GameEncounterSystem {
         }
 
         let encounterGrid = new EncounterGrid();
+        activeEncounterGrid = encounterGrid;
+
         if (event.pos) {
 
             let gridReady = function(grid) {
@@ -75,7 +80,7 @@ class GameEncounterSystem {
             }
 
             encounterGrid.initEncounterGrid(event['grid_id'], event.pos, gridReady )
-            activeEncounterGrid = encounterGrid;
+
         } else {
             let selectedActor = GameAPI.getGamePieceSystem().getSelectedGameActor();
             let pos = ThreeAPI.getCameraCursor().getPos();
@@ -86,7 +91,6 @@ class GameEncounterSystem {
             }
 
             encounterGrid.initEncounterGrid(event['grid_id'], pos,gridLoaded , forward)
-            activeEncounterGrid = encounterGrid;
 
         }
 

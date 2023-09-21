@@ -17,6 +17,10 @@ class EncounterGrid {
         this.configData = new ConfigData("GRID", "ENCOUNTER_GRIDS",  'grid_main_data', 'data_key', 'config')
     }
 
+    getPos() {
+        return initPos;
+    }
+
     initEncounterGrid(gridId, pos, gridLoaded, forwardVec) {
         initPos.copy(pos);
         if (forwardVec) {

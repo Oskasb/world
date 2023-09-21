@@ -12,6 +12,9 @@
       "TEXTURES"
     ],
     "POLL_INDEX":[
+      "/world/encounters/indicators/encounter_indicators.json"         ,
+      "/world/encounters/hosts/encounter_hosts.json"         ,
+      "/world/encounters/encounters_home.json"               ,
       "/world/grid/adventure_grids.json"                     ,
       "/world/grid/main_encounter_grids.json"                     ,
       "/world/grid/walk_grid.json"                           ,

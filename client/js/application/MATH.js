@@ -1,3 +1,6 @@
+
+let MATH;
+
 if(typeof(MATH) === "undefined") {
 	MATH = {};
 
@@ -326,11 +329,16 @@ if(typeof(MATH) === "undefined") {
 	    return MATH.clamp(value, -bigSafeValue, bigSafeValue);
     };
 
+	let tempRandVec = null;
+
 	MATH.randomVector = function(vec) {
+		if (!tempRandVec) tempRandVec =  new THREE.Vector3()
+		if (!vec) vec=tempRandVec;
 		vec.x = MATH.randomBetween(-1, 1);
 		vec.y = MATH.randomBetween(-1, 1);
 		vec.z = MATH.randomBetween(-1, 1);
 		vec.normalize();
+		return vec;
 	};
 
     MATH.safeForceVector = function(vec) {

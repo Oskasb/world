@@ -31,6 +31,10 @@ class GameAPI {
             this.gameMain.call.activateGameBattleMode(event)
         }.bind(this);
 
+        let getActiveEncounter = function() {
+            return gameEncounterSystem.call.getActiveEncounterGrid();
+        }
+
         let spawnWorldEncounters = function() {
             this.worldModels.activateEncounters();
         }.bind(this);
@@ -50,6 +54,7 @@ class GameAPI {
             activateWalkGrid:activateWalkGrid,
             activateBattleMode:activateBattleMode,
             spawnWorldEncounters:spawnWorldEncounters,
+            getActiveEncounter:getActiveEncounter,
             travelToPos:travelToPos
         }
 

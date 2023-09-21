@@ -4,8 +4,12 @@ import { Object3D } from "../../../libs/three/core/Object3D.js";
 
 let tempVec = new Vector3();
 
+let visualIndex = 0;
 class VisualGamePiece {
     constructor(config) {
+
+        this.visualIndex = visualIndex;
+        visualIndex ++;
 
         this.moveState = 'MOVE';
         this.bodyState = 'IDLE_HANDS';
@@ -37,7 +41,9 @@ class VisualGamePiece {
 
         let pieceReady = function(visualPiece) {
             visualPiece.showVisualGamePiece();
+
             if (visualPiece.pieceAnimator) {
+                visualPiece.enablePieceAnimations();
                 visualPiece.animateActionState('IDLE_HANDS')
             }
         }
@@ -89,20 +95,16 @@ class VisualGamePiece {
     }
 
     disablePieceAnimations() {
-        let mixer = this.getModel().getAnimationMixer()
-        if (mixer) {
-            ThreeAPI.deActivateMixer(mixer);
-        }
+        this.getSpatial().call.setStopped();
     }
 
     enablePieceAnimations() {
-        let mixer = this.getModel().getAnimationMixer()
-        if (mixer) {
-            ThreeAPI.activateMixer(mixer);
-        }
+        this.pieceAnimator.callbacks.resetAnimator();
+        this.getSpatial().call.setStopped();
     }
 
     showVisualGamePiece = function() {
+
         if (this.getSpatial().geometryInstance) {
             tempVec.set(1, 1, 1);
             this.getSpatial().geometryInstance.setScale(tempVec);
@@ -117,10 +119,9 @@ class VisualGamePiece {
     };
 
     removeVisualGamePiece() {
-        this.getModel().decommissionInstancedModel();
-    //    this.gamePieceUpdateCallbacks.length = 0;
-        this.disablePieceAnimations()
         ThreeAPI.unregisterPrerenderCallback(this.call.updateVisualGamePiece);
+        this.disablePieceAnimations()
+        this.getModel().decommissionInstancedModel();
     };
 
     setVisualPieceObj3d = function(obj3d) {

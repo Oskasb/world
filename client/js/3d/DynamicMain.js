@@ -104,17 +104,12 @@ class DynamicMain {
             asset.instantiateAsset(instanceReady);
         } else {
 
-            // Check this for stacked load calls
             let postLoadCB = function(loadedAsset) {
-
-        //        console.log("Post Init Asset Loaded: ", loadedAsset);
                 loadedAsset.instantiateAsset(instanceReady);
             }
 
             this.requestAsset(assetId, postLoadCB)
         }
-
-
 
     };
 

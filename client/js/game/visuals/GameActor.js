@@ -62,6 +62,7 @@ class GameActor {
 
     activateGameActor() {
         if (!this.activated) {
+            this.updateGameActor()
             this.visualGamePiece.attachModelAsset();
             GameAPI.registerGameUpdateCallback(this.call.updateGameActor);
         }
@@ -93,6 +94,7 @@ class GameActor {
             this.actorObj3d.position.y = tempVec.y;
             this.actorObj3d.lookAt(tempVec)
         }
+
         this.actorObj3d.position.copy(tempVec)
 
         let isLeaping = this.gameWalkGrid.dynamicWalker.isLeaping;
