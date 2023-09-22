@@ -48,7 +48,7 @@ class GameActor {
     };
 
     setVisualGamePiece(visualGamePiece) {
-        visualGamePiece.setVisualPieceObj3d(this.actorObj3d);
+        visualGamePiece.setVisualPieceActor(this);
         this.visualGamePiece = visualGamePiece;
     }
 

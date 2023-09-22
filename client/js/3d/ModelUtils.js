@@ -84,7 +84,7 @@ function setupVisualModel(visualPiece, assetId, config, pieceReady) {
 
         let addModel = function(instance) {
             visualPiece.setModel(instance);
-            visualPiece.obj3d = instance.spatial.obj3d;
+
    //         instance.spatial.setPosVec3(ThreeAPI.getCameraCursor().getPos())
    //         console.log("Visual Game Piece:",visualPiece);
 

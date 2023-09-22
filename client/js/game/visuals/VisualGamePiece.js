@@ -5,6 +5,16 @@ import { Object3D } from "../../../libs/three/core/Object3D.js";
 let tempVec = new Vector3();
 
 let visualIndex = 0;
+
+let pieceReady = function(visualPiece) {
+    visualPiece.showVisualGamePiece();
+
+    if (visualPiece.pieceAnimator) {
+        visualPiece.enablePieceAnimations();
+        visualPiece.animateActionState('IDLE_HANDS')
+    }
+}
+
 class VisualGamePiece {
     constructor(config) {
 
@@ -38,15 +48,6 @@ class VisualGamePiece {
     }
 
     attachModelAsset = function() {
-
-        let pieceReady = function(visualPiece) {
-            visualPiece.showVisualGamePiece();
-
-            if (visualPiece.pieceAnimator) {
-                visualPiece.enablePieceAnimations();
-                visualPiece.animateActionState('IDLE_HANDS')
-            }
-        }
 
         ModelUtils.setupVisualModel(this, this.assetId, this.config, pieceReady);
     }
@@ -124,8 +125,12 @@ class VisualGamePiece {
         this.getModel().decommissionInstancedModel();
     };
 
-    setVisualPieceObj3d = function(obj3d) {
-        this.visualPieceObj3d = obj3d;
+    setVisualPieceActor = function(actor) {
+        this.actor = actor;
+    }
+
+    getModelObj3d() {
+        return this.actor.actorObj3d;
     }
 
     setMoveState = function(state) {
@@ -156,7 +161,7 @@ class VisualGamePiece {
     }
 
     updateVisualGamePiece() {
-        this.getSpatial().stickToObj3D(this.visualPieceObj3d);
+        this.getSpatial().stickToObj3D(this.getModelObj3d());
     }
 
 }

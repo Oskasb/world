@@ -476,6 +476,7 @@ class ThreeAPI {
     };
 
     deActivateMixer = function(mixer) {
+        mixer.update(0.01);
         MATH.quickSplice(this.animationMixers, mixer);
     };
 

@@ -1,7 +1,10 @@
 import {Object3D} from "../../../libs/three/core/Object3D.js";
+import { Vector3 } from "../../../libs/three/math/Vector3.js";
 import { VisualEncounterHost } from "../visuals/VisualEncounterHost.js";
 import { EncounterIndicator } from "../visuals/EncounterIndicator.js";
 import {parseConfigDataKey} from "../../application/utils/ConfigUtils.js";
+
+let tempVec = new Vector3()
 
 let radiusEvent = {
 
@@ -13,12 +16,30 @@ let indicateTriggerRadius = function(encounter) {
     radiusEvent.radius = radius;
     radiusEvent.pos = encounter.getPos();
     radiusEvent.rgba = encounter.getTriggerRGBA();
+    radiusEvent.elevation = 0;
     evt.dispatch(ENUMS.Event.INDICATE_RADIUS, radiusEvent)
 }
 
 let encounterEvent = {};
 
+let indicateTriggerTime = function(actor, encounter) {
+    let radius = 0.5 + MATH.curveQuad(encounter.timeInsideTrigger)
+    radiusEvent.heads = 1;
+    radiusEvent.speed = 1.5 * MATH.curveQuad(encounter.timeInsideTrigger) + 0.1;
+    radiusEvent.radius = radius;
+    tempVec.copy(actor.getPos());
+    radiusEvent.elevation = 2 - encounter.timeInsideTrigger * 2;
+    radiusEvent.pos = tempVec
+    radiusEvent.rgba = encounter.getTriggerRGBA();
+    evt.dispatch(ENUMS.Event.INDICATE_RADIUS, radiusEvent)
 
+    tempVec.copy(encounter.getPos());
+    evt.dispatch(ENUMS.Event.INDICATE_RADIUS, radiusEvent)
+    radiusEvent.elevation = 0;
+    evt.dispatch(ENUMS.Event.INDICATE_RADIUS, radiusEvent)
+    tempVec.copy(actor.getPos());
+    evt.dispatch(ENUMS.Event.INDICATE_RADIUS, radiusEvent)
+}
 
 function checkTriggerPlayer(encounter) {
 
@@ -33,11 +54,19 @@ function checkTriggerPlayer(encounter) {
         }
 
         if (distance < radius) {
-            encounterEvent.pos = encounter.getPos();
-            encounterEvent.grid_id = encounter.config.grid_id;
-            encounterEvent.spawn = encounter.config.spawn;
-            evt.dispatch(ENUMS.Event.GAME_MODE_BATTLE, encounterEvent)
+            encounter.timeInsideTrigger += GameAPI.getFrame().tpf;
+            indicateTriggerTime(selectedActor, encounter)
+            if (encounter.timeInsideTrigger > 1) {
+                encounterEvent.pos = encounter.getPos();
+                encounterEvent.grid_id = encounter.config.grid_id;
+                encounterEvent.spawn = encounter.config.spawn;
+                evt.dispatch(ENUMS.Event.GAME_MODE_BATTLE, encounterEvent)
+            }
+        } else {
+            encounter.timeInsideTrigger = 0;
         }
+
+
     }
 
 }
@@ -45,7 +74,7 @@ function checkTriggerPlayer(encounter) {
 class WorldEncounter {
     constructor(config) {
 
-
+        this.timeInsideTrigger = 0;
         this.config = config;
         this.obj3d = new Object3D();
         MATH.vec3FromArray(this.obj3d.position, this.config.pos)
@@ -63,9 +92,9 @@ class WorldEncounter {
             lastLod = lodLevel;
         //    console.log(lodLevel)
             if (lodLevel !== -1 && lodLevel <= config['visibility']) {
-                this.showWorldEncounter(lodLevel)
+                this.showWorldEncounter()
             } else {
-                this.removeWorldEncounter(lodLevel)
+                this.removeWorldEncounter()
             }
 
         }.bind(this)
@@ -119,7 +148,7 @@ class WorldEncounter {
         this.removeWorldEncounter()
     }
 
-    showWorldEncounter(lodLevel) {
+    showWorldEncounter() {
      //   console.log("showWorldEncounter", lodLevel, this)
         if (this.isVisible) {
             console.log("ALREADY VISIBLE showWorldEncounter", this)
@@ -133,7 +162,7 @@ class WorldEncounter {
         this.isVisible = true;
     }
 
-    removeWorldEncounter(lodLevel) {
+    removeWorldEncounter() {
     //    console.log("removeWorldEncounter", lodLevel, this)
         if (this.isVisible) {
 

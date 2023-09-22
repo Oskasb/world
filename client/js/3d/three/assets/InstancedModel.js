@@ -127,6 +127,9 @@ class InstancedModel {
 
 
         setActive = function(ENUM) {
+
+        //    console.log("Set Active ", this)
+
             this.active = ENUM;
             if (this.active !== ENUMS.InstanceState.DECOMISSION ) {
                 this.activateInstancedModel();

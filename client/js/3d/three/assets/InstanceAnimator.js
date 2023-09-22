@@ -1,3 +1,5 @@
+import {AnimationMixer} from "../../../../libs/three/animation/AnimationMixer.js";
+
 class InstanceAnimator {
     constructor(instancedModel) {
 
@@ -8,16 +10,20 @@ class InstanceAnimator {
 
             this.channels = [];
 
-            this.addMixer(this.instancedModel.getObj3d());
+        //    this.addMixer(this.instancedModel.getObj3d());
+        this.mixer = new AnimationMixer( this.instancedModel.getObj3d() );
             this.setupAnimations(this.instancedModel.getAnimationMap())
+
+        let updateMixer = function(tpf) {
+                this.mixer.update(tpf)
+        }.bind(this)
+
+            this.call = {
+                updateMixer:updateMixer
+        }
+
         };
 
-        addMixer = function(clone) {
-            if (this.mixer) {
-                console.log("Already a mixer...", this)
-            }
-            this.mixer = new THREE.AnimationMixer( clone );
-        };
 
         applyAnimationState = function(stateId, animMap, duration, channel, weight, clamp) {
             if (!animMap[stateId]) {
@@ -57,9 +63,9 @@ class InstanceAnimator {
 
             this.actionKeys = [];
 
-            for (var key in animMap) {
-                var actionClip = this.instancedModel.originalModel.getAnimationClip(animMap[key]);
-                var action = this.addAnimationAction(actionClip);
+            for (let key in animMap) {
+                let actionClip = this.instancedModel.originalModel.getAnimationClip(animMap[key]);
+                let action = this.addAnimationAction(actionClip);
                 action.setEffectiveWeight( 1 );
                 action.setEffectiveTimeScale( 1 );
             //    action.play();
@@ -70,8 +76,8 @@ class InstanceAnimator {
 
         initAnimatior = function() {
 
-            for (var key in this.animationActions) {
-                var action = this.animationActions[key];
+            for (let key in this.animationActions) {
+                let action = this.animationActions[key];
                 action.stop();
                 action.on = false;
             //    action.setEffectiveWeight( 0 );
@@ -93,7 +99,7 @@ class InstanceAnimator {
 
         getSyncSource = function(sync) {
 
-            for (var i = 0; i < this.channels.length; i++ ) {
+            for (let i = 0; i < this.channels.length; i++ ) {
                 let src = MATH.getFromArrayByKeyValue(this.channels[i], 'sync', sync);
                 if (src) {
                     return src;
@@ -153,7 +159,7 @@ class InstanceAnimator {
 
             if (channel.indexOf(toAction) === -1) {
 
-                var fromAction = channel.pop();
+                let fromAction = channel.pop();
 
                 this.startChannelAction(channel, toAction, weight, fade, loop, clamp, timeScale, sync);
 
@@ -176,9 +182,9 @@ class InstanceAnimator {
 
 
         stopChannelAction = function(channel, action) {
-
-            MATH.quickSplice(channel, action);
             action.stop();
+            MATH.quickSplice(channel, action);
+
         };
 
 
@@ -225,9 +231,13 @@ class InstanceAnimator {
         };
 
         activateAnimator = function() {
-            this.initAnimatior();
-            this.mixer.stopAllAction();
-            ThreeAPI.activateMixer(this.mixer);
+        //    this.initAnimatior();
+        //    this.mixer.stopAllAction();
+
+            this.call.updateMixer(0.1);
+            GameAPI.registerGameUpdateCallback(this.call.updateMixer)
+
+            // ThreeAPI.activateMixer(this.mixer);
         };
 
         deActivateAnimator = function() {
@@ -240,7 +250,9 @@ class InstanceAnimator {
             }
             this.initAnimatior();
 
-            ThreeAPI.deActivateMixer(this.mixer);
+            GameAPI.unregisterGameUpdateCallback(this.call.updateMixer)
+            this.call.updateMixer(0.1);
+            //    ThreeAPI.deActivateMixer(this.mixer);
         };
 
 

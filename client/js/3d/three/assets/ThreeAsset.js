@@ -40,17 +40,14 @@ class ThreeAsset  {
     disableAssetInstance = function(modelInstance) {
         modelInstance.detatchAllAttachmnets();
 
-        //     client.dynamicMain.instances.splice( client.dynamicMain.instances.indexOf(modelInstance), 1)
-
-      MATH.quickSplice( client.dynamicMain.instances, modelInstance);
-
-
         if (modelInstance.assetId !== this.id) {
             console.log("wrong ID returned", modelInstance, this);
             return;
         }
 
         this.expandingPool.returnToExpandingPool(modelInstance);
+        MATH.splice( client.dynamicMain.instances, modelInstance);
+        //     client.dynamicMain.instances.splice( client.dynamicMain.instances.indexOf(modelInstance), 1)
     };
 }
 

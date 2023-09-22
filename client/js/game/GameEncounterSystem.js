@@ -72,11 +72,12 @@ class GameEncounterSystem {
                 dynamicEncounter = new DynamicEncounter()
                 dynamicEncounter.setEncounterGrid(grid);
 
-                if (event.spawn) {
-                    dynamicEncounter.processSpawnEvent(event.spawn)
-                } else {
-                    dynamicEncounter.addEncounterActors(8)
-                }
+                    if (event.spawn) {
+                        dynamicEncounter.processSpawnEvent(event.spawn)
+                    } else {
+                        dynamicEncounter.addEncounterActors(8)
+                    }
+
             }
 
             encounterGrid.initEncounterGrid(event['grid_id'], event.pos, gridReady )

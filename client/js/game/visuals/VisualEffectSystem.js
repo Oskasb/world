@@ -44,7 +44,7 @@ function setupOptsSprayUpwards(efct, pos, applies) {
     return options
 }
 
-let drawTriggerHead = function(head, heads, radius, triggerCycle, center, rgba) {
+let drawTriggerHead = function(head, heads, radius, triggerCycle, center, rgba, elevation) {
 
 
     let offset = MATH.TWO_PI / (heads/head)
@@ -53,7 +53,7 @@ let drawTriggerHead = function(head, heads, radius, triggerCycle, center, rgba) 
     calcVec.set(Math.sin(cycle), 0, Math.cos(cycle));
     calcVec.multiplyScalar(radius);
     calcVec.add(center);
-    calcVec.y = ThreeAPI.terrainAt(calcVec);
+    calcVec.y = ThreeAPI.terrainAt(calcVec) +elevation;
   //  calcVec2.set(Math.sin(cycle+0.3), 0, Math.cos(cycle+0.3));
  //   calcVec2.multiplyScalar(radius);
   //  calcVec2.add(center);
@@ -97,8 +97,9 @@ function indicateRadius(event) {
     let cycle = gameTime * event.speed;
     let radius = event.radius;
     let center = event.pos;
+    let elevation = event.elevation || 0;
     for (let i = 0; i < event.heads; i++) {
-        drawTriggerHead(i, event.heads, radius, cycle, center, event.rgba)
+        drawTriggerHead(i, event.heads, radius, cycle, center, event.rgba, elevation)
     }
 
 }
