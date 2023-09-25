@@ -1,0 +1,34 @@
+[{
+  "WORLD_LOCATIONS":{
+    "MODELS":[
+      {
+        "id": "bridgetown_walls",
+        "data": [
+          {
+            "data_key":"location_data",
+            "config": {
+              "models": [
+                {
+                  "model": "model_stone_wall_gate",
+                  "pos": [-765, 0.0, 491],
+                  "rot": [0, 4.4, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": true,
+                  "visibility": 3
+                },
+                {
+                  "model": "model_stone_wall_10m",
+                  "pos": [-762, 0.0, 483],
+                  "rot": [0, 4.3, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": true,
+                  "visibility": 3
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  }
+}]

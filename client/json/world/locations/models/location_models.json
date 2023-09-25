@@ -1,0 +1,334 @@
+[{
+  "WORLD_LOCATIONS":{
+    "LOCATION_MODELS":[
+      {
+        "id": "model_house_small",
+        "data": [
+          {
+            "data_key":"model_data",
+            "config": {
+              "assets": [
+                {
+                  "asset": "asset_house_small",
+                  "pos": [0, 0, 0],
+                  "rot": [0, 0, 0],
+                  "scale": [0.002, 0.002, 0.002],
+                  "visibility": 3,
+                  "boxes": [
+                    {
+                      "sprite": "wood_plank",
+                      "pos": [2, 0.2, -4],
+                      "rot": [0, 0, 0],
+                      "scale": [0.005, 0.005, 0.005],
+                      "visibility": 2
+                    },
+                    {
+                      "sprite": "wood_plank",
+                      "pos": [2.5, 0.2, -4.5],
+                      "rot": [0, 0, 0],
+                      "scale": [0.005, 0.005, 0.005],
+                      "visibility": 2
+                    },
+                    {
+                      "sprite": "wood_plank",
+                      "pos": [1.7, 0.2, -4.7],
+                      "rot": [0, 0, 0],
+                      "scale": [0.005, 0.005, 0.005],
+                      "visibility": 2
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "model_town_house",
+        "data": [
+          {
+            "data_key":"model_data",
+            "config": {
+              "assets": [
+                {
+                  "asset": "asset_town_house",
+                  "pos": [0, 0, 0],
+                  "rot": [0, 0, 0],
+                  "scale": [0.001, 0.001, 0.001],
+                  "visibility": 3,
+                  "boxes": [
+
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "model_fence_small",
+        "data": [
+          {
+            "data_key":"model_data",
+            "config": {
+              "assets": [
+                {
+                  "boxes": [
+                    {
+                      "sprite": "wood_chunk",
+                      "pos": [0, 0.5, 0],
+                      "rot": [0, 0, 0.01],
+                      "scale": [0.0024, 0.010, 0.0024],
+                      "on_ground": false,
+                      "visibility": 2
+                    },
+                    {
+                      "sprite": "wood_plank",
+                      "pos": [0, 0.5, 3],
+                      "rot": [0, 0, 0],
+                      "scale": [0.002, 0.002, 0.02],
+                      "visibility": 2
+                    },
+                    {
+                      "sprite": "wood_chunk",
+                      "pos": [0, 0.5, 2],
+                      "rot": [0, 0, 0],
+                      "scale": [0.0022, 0.010, 0.0024],
+                      "on_ground": false,
+                      "visibility": 2
+                    },
+                    {
+                      "sprite": "wood_plank",
+                      "pos": [0, 0.6, 1],
+                      "rot": [0, 0, 0],
+                      "scale": [0.002, 0.002, 0.02],
+                      "on_ground": false,
+                      "visibility": 2
+                    },
+                    {
+                      "sprite": "wood_chunk",
+                      "pos": [0, 0.5, 4],
+                      "rot": [0, 0, 0],
+                      "scale": [0.0024, 0.010, 0.0024],
+                      "on_ground": false,
+                      "visibility": 2
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "model_home_pier",
+        "data": [
+          {
+            "data_key":"model_data",
+            "config": {
+              "assets": [
+                {
+                  "boxes": [
+                    {
+                      "sprite": "rock",
+                      "pos": [1, -0.0, 0],
+                      "rot": [0, 0, 0],
+                      "scale": [0.03, 0.01, 0.03],
+                      "visibility": 2
+                    }, {
+                      "sprite": "wood_solid",
+                      "pos": [-1, 0.4, 0],
+                      "rot": [0, 0, 0],
+                      "scale": [0.01, 0.0012, 0.02],
+                      "on_ground": false,
+                      "visibility": 2
+                    },
+                    {
+                      "sprite": "wood_solid",
+                      "pos": [-2, 0.4, 0],
+                      "rot": [0, 0, 0],
+                      "scale": [0.01, 0.0012, 0.02],
+                      "on_ground": false,
+                      "visibility": 2
+                    },
+                    {
+                      "sprite": "wood_solid",
+                      "pos": [-3, 0.4, 0],
+                      "rot": [0, 0, 0],
+                      "scale": [0.01, 0.0012, 0.02],
+                      "on_ground": false,
+                      "visibility": 2
+                    },
+                    {
+                      "sprite": "wood_solid",
+                      "pos": [-4, 0.4, 0],
+                      "rot": [0, 0, 0],
+                      "scale": [0.01, 0.0012, 0.02],
+                      "on_ground": false,
+                      "visibility": 2
+                    },
+                    {
+                      "sprite": "wood_solid",
+                      "pos": [-5, 0.4, 0],
+                      "rot": [0, 0, 0],
+                      "scale": [0.01, 0.0012, 0.02],
+                      "on_ground": false,
+                      "visibility": 2
+                    },
+                    {
+                      "sprite": "wood_solid",
+                      "pos": [-6, 0.4, 0],
+                      "rot": [0, 0, 0],
+                      "scale": [0.01, 0.0012, 0.02],
+                      "on_ground": false,
+                      "visibility": 2
+                    },
+                    {
+                      "sprite": "wood_solid",
+                      "pos": [-7, 0.4, 0],
+                      "rot": [0, 0, 0],
+                      "scale": [0.01, 0.0012, 0.02],
+                      "on_ground": false,
+                      "visibility": 2
+                    },
+                    {
+                      "sprite": "wood_solid",
+                      "pos": [-8, 0.4, 0],
+                      "rot": [0, 0, 0],
+                      "scale": [0.01, 0.0012, 0.02],
+                      "on_ground": false,
+                      "visibility": 2
+                    },
+                    {
+                      "sprite": "wood_solid",
+                      "pos": [-7.5, 0.4, 1.5],
+                      "rot": [0, 1.5708, 0],
+                      "scale": [0.01, 0.0012, 0.02],
+                      "on_ground": false,
+                      "visibility": 2
+                    },
+                    {
+                      "sprite": "wood_solid",
+                      "pos": [-7.5, 0.4, 2.5],
+                      "rot": [0, 1.5708, 0],
+                      "scale": [0.01, 0.0012, 0.02],
+                      "on_ground": false,
+                      "visibility": 2
+                    },
+                    {
+                      "sprite": "wood_solid",
+                      "pos": [-7.5, 0.4, 3.5],
+                      "rot": [0, 1.5708, 0],
+                      "scale": [0.01, 0.0012, 0.02],
+                      "on_ground": false,
+                      "visibility": 2
+                    },
+                    {
+                      "sprite": "wood_solid",
+                      "pos": [-7.5, 0.4, 4.5],
+                      "rot": [0, 1.5708, 0],
+                      "scale": [0.01, 0.0012, 0.02],
+                      "on_ground": false,
+                      "visibility": 2
+                    },
+                    {
+                      "sprite": "wood_solid",
+                      "pos": [-7.5, 0.4, 5.5],
+                      "rot": [0, 1.5708, 0],
+                      "scale": [0.01, 0.0012, 0.02],
+                      "on_ground": false,
+                      "visibility": 2
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [-6.6, 0.0, 5.9],
+                      "rot": [0, 1.5708, 0],
+                      "scale": [0.006, 0.006, 0.006],
+                      "on_ground": false,
+                      "visibility": 2
+                    },
+                    {
+                      "sprite": "wood_chunk",
+                      "pos": [-2, 0.0, 1],
+                      "rot": [0, 0, 0],
+                      "scale": [0.003, 0.01, 0.003],
+                      "on_ground": false,
+                      "visibility": 2
+                    },                {
+                      "sprite": "wood_chunk",
+                      "pos": [-4, 0.0, 1],
+                      "rot": [0, 0, 0],
+                      "scale": [0.003, 0.01, 0.003],
+                      "on_ground": false,
+                      "visibility": 2
+                    },                {
+                      "sprite": "wood_chunk",
+                      "pos": [-6.5, 0.0, 1],
+                      "rot": [0, 0, 0],
+                      "scale": [0.003, 0.01, 0.003],
+                      "on_ground": false,
+                      "visibility": 2
+                    },                {
+                      "sprite": "wood_chunk",
+                      "pos": [-6.5, 0.0, 2.5],
+                      "rot": [0, 0, 0],
+                      "scale": [0.003, 0.01, 0.003],
+                      "on_ground": false,
+                      "visibility": 2
+                    },
+
+                    {
+                      "sprite": "wood_chunk",
+                      "pos": [-2, 0.0, -1],
+                      "rot": [0, 0, 0],
+                      "scale": [0.003, 0.01, 0.003],
+                      "on_ground": false,
+                      "visibility": 2
+                    },                {
+                      "sprite": "wood_chunk",
+                      "pos": [-4, 0.0, -1],
+                      "rot": [0, 0, 0],
+                      "scale": [0.003, 0.01, 0.003],
+                      "on_ground": false,
+                      "visibility": 2
+                    },                {
+                      "sprite": "wood_chunk",
+                      "pos": [-6.5, 0.0, -1],
+                      "rot": [0, 0, 0],
+                      "scale": [0.003, 0.01, 0.003],
+                      "on_ground": false,
+                      "visibility": 2
+                    },                {
+                      "sprite": "wood_chunk",
+                      "pos": [-8.5, 0.0, -1],
+                      "rot": [0, 0, 0],
+                      "scale": [0.003, 0.01, 0.003],
+                      "on_ground": false,
+                      "visibility": 2
+
+                    },                {
+                      "sprite": "wood_chunk",
+                      "pos": [-8.5, 0.0, 1],
+                      "rot": [0, 0, 0],
+                      "scale": [0.003, 0.01, 0.003],
+                      "on_ground": false,
+                      "visibility": 2
+
+                    },                {
+                      "sprite": "wood_chunk",
+                      "pos": [-8.5, 0.0, 2.5],
+                      "rot": [0, 0, 0],
+                      "scale": [0.003, 0.01, 0.003],
+                      "on_ground": false,
+                      "visibility": 2
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  }
+}]
