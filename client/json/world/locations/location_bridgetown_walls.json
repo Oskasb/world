@@ -34,8 +34,8 @@
                 },
                 {
                   "model": "model_stone_wall_tower_5x5m",
-                  "pos": [-767, 0.0, 507.0],
-                  "rot": [0, 4.73, 0],
+                  "pos": [-766.2, 0.0, 506.6],
+                  "rot": [0, 5.0, 0],
                   "scale": [1, 1, 1],
                   "on_ground": true,
                   "visibility": 3

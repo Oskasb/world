@@ -22,9 +22,7 @@ class ExpandingPool {
         this.track.poolKeys.push(dataKey)
         this.pool = [];
         this.generatePoolEntry = function(callback) {
-
             this.track.added++
-            // effect and particles not returning to pool! -- fix also UI_TEXT_MAIN-- letters?
             createFunc(dataKey, callback)
         }.bind(this);
 

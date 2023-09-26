@@ -2,6 +2,7 @@ import {Object3D} from "../../../libs/three/core/Object3D.js";
 import {inheritAsParent, inheritConfigTransform} from "../../3d/ModelUtils.js";
 import {WorldBox} from "./WorldBox.js";
 import {LodTest} from "../visuals/LodTest.js";
+import {poolFetch, registerPool} from "../../application/utils/PoolUtils.js";
 
 function showLocationModel(model) {
 
@@ -50,7 +51,8 @@ class LocationModel {
 
             for (let i = 0; i < boxes.length; i++) {
                 console.log("Add box")
-                let box = new WorldBox(boxes[i])
+                let box = new WorldBox();
+                box.activateBoxByConfig(boxes[i])
                 box.attachToParent(parentObj3d);
                 ThreeAPI.registerTerrainLodUpdateCallback(box.getPos(), box.call.lodUpdated)
                 this.boxes.push(box);

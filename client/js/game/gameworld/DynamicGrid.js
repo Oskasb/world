@@ -1,6 +1,7 @@
 import {DynamicTile} from "./DynamicTile.js";
 import { Vector3 } from "../../../libs/three/math/Vector3.js";
 import * as ScenarioUtils from "./ScenarioUtils.js";
+import {registerPool, poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
 
 let moveCenterTileTo = function(dynamicGrid, centerTileIndexX, centerTileIndexY) {
     dynamicGrid.moveX = centerTileIndexX - dynamicGrid.centerTileIndexX;
@@ -29,9 +30,11 @@ let renderDynamicTiles = function(dynamicGrid, dynamicGridTiles) {
     }
 }
 
+
+
 class DynamicGrid {
     constructor() {
-
+        registerPool(DynamicTile)
         this.gridCenterPos = new Vector3();
         this.centerTileIndexX = 0;
         this.centerTileIndexY = 0;
@@ -56,7 +59,9 @@ class DynamicGrid {
             this.dynamicGridTiles[i] = [];
 
             for (let j = 0; j < this.tileRange; j++) {
-                this.dynamicGridTiles[i][j] = new DynamicTile();
+                let tile = poolFetch('DynamicTile')
+                tile.activateTile();
+                this.dynamicGridTiles[i][j] = tile;
             }
         }
 

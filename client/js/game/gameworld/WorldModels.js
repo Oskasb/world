@@ -1,7 +1,6 @@
 import { ConfigData } from "../../application/utils/ConfigData.js";
 import * as ScenarioUtils from "../gameworld/ScenarioUtils.js";
 import { WorldModel} from "./WorldModel.js";
-import { WorldBox }from "./WorldBox.js";
 import { WorldEncounter } from "./WorldEncounter.js";
 
 let worldModels = [];

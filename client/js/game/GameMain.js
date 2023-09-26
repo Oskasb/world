@@ -7,11 +7,11 @@ import { Vector3 } from "../../libs/three/math/Vector3.js";
 import { GameWalkGrid } from "./gameworld/GameWalkGrid.js";
 
 let tempVec3 = new Vector3()
-let gameWalkGrid = new GameWalkGrid();
+let gameWalkGrid = null
 
 class GameMain {
     constructor() {
-
+        gameWalkGrid = new GameWalkGrid();
         let timeRemaining = function() {
             return this.turnStatus.turnProgress * this.turnStatus.turnTime;
         }.bind(this)

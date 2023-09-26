@@ -3,6 +3,7 @@ import { Vector2} from "../../../libs/three/math/Vector2.js";
 import { Object3D } from "../../../libs/three/core/Object3D.js";
 import { GridTile } from "../gamescenarios/GridTile.js";
 import { DynamicTile } from "./DynamicTile.js";
+import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
 
 let tempVec1 = new Vector3();
 let tempVec2 = new Vector3();
@@ -306,7 +307,8 @@ function setupEncounterGrid(gridTiles, instances, gridConfig, posVec, forwardVec
             let x = pos.x+i;
             let z = pos.z+j;
 
-            let dynamicTile = new DynamicTile(defaultSprite, defaultSize);
+            let dynamicTile = poolFetch('DynamicTile');
+            dynamicTile.activateTile(defaultSprite, defaultSize)
             dynamicTile.setTileIndex(x, z, i, j)
             gridTiles[i].push(dynamicTile);
 

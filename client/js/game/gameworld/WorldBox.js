@@ -2,6 +2,7 @@ import {Object3D} from "../../../libs/three/core/Object3D.js";
 import {Vector3} from "../../../libs/three/math/Vector3.js";
 import {inheritAsParent, inheritConfigTransform} from "../../3d/ModelUtils.js";
 import {LodTest} from "../visuals/LodTest.js";
+import {poolReturn} from "../../application/utils/PoolUtils.js";
 
 let iconKeysAll = [
     "grass",
@@ -70,9 +71,13 @@ function showWorldBox(box) {
 }
 
 class WorldBox {
-    constructor(config) {
-        this.config = config;
+    constructor() {
         this.obj3d = new Object3D();
+    }
+
+    activateBoxByConfig(config) {
+        this.config = config;
+
 
         inheritConfigTransform(this.obj3d, config);
 

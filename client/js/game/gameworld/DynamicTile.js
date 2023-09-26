@@ -3,6 +3,7 @@ import {Object3D} from "../../../libs/three/core/Object3D.js";
 import * as CombatFxOptions from "../combat/feedback/CombatFxOptions.js";
 import * as CombatFxUtils from "../combat/feedback/CombatFxUtils.js";
 import {GridTile} from "../gamescenarios/GridTile.js";
+import {poolReturn} from "../../application/utils/PoolUtils.js";
 
 let up = new Vector3(0, 1, 0)
 let tempVec = new Vector3();
@@ -10,6 +11,11 @@ let tempObj = new Object3D();
 class DynamicTile {
     constructor(defaultSprite, defaultSize) {
 
+
+
+    }
+
+    activateTile = function(defaultSprite, defaultSize) {
         this.defaultSprite = defaultSprite || [7, 3]
         this.defaultSize = defaultSize || 0.9
 
@@ -51,7 +57,6 @@ class DynamicTile {
         }.bind(this);
 
         EffectAPI.buildEffectClassByConfigId('additive_stamps_8x8', 'effect_character_indicator',  effectCb)
-
     }
 
     setTileIndex = function(indexX, indexY, gridI, gridJ) {
@@ -172,6 +177,7 @@ class DynamicTile {
 
     removeTile = function () {
         this.tileEffect.recoverEffectOfClass();
+        poolReturn(this);
     }
 
     updateDynamicTile = function() {
