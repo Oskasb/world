@@ -93,8 +93,15 @@ class Plant {
 
         this.isActive = true;
 
+        let instances = client.dynamicMain.instances;
+
         let addPlant = function(instance) {
             instance.stationary = true;
+
+            if (instances.indexOf(instance) !== -1) {
+                MATH.splice(instances , instance);
+            }
+
             ThreeAPI.getScene().remove(instance.spatial.obj3d)
         //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ThreeAPI.getCameraCursor().getPos(), to:this.obj3d.position, color:'YELLOW'});
             this.callbacks.setInstance(instance)

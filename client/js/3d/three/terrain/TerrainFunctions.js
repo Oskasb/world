@@ -348,42 +348,16 @@ let shadeGroundCanvasAt = function(pos, canvasContext, terrainSize, segments, si
     size = size*2;
     //   canvasContext.fillStyle = createGradient(canvasContext, size, tx+0, tz+0);
 //    canvasContext.strokeStyle = "rgba(0, 0, 182, 1)";
-    let blobs = 3;
-    let blobShade = 120 / blobs
+    let blobs = 2;
+    let blobShade = 80 / blobs
 
     canvasContext.fillStyle = "rgba(0, 0, "+blobShade+", 1)";
     canvasContext.globalCompositeOperation = "lighter";
-
-   //   canvasContext.fillRect(0, 0, 2048, 2048);
-
-
 
     for (let i = 0; i < blobs; i++) {
         size = 4 * MATH.curveCube((blobs-i) / blobs)
         fillShade(canvasContext, tx-size, tz-size, size*2+1, size*2+1, size);
     }
-
-  //  fillShade(canvasContext, tx-size, tz-size, size*2+1, size*2+1, size);
-   /*
-    canvasContext.roundRect(tx-size, tz-size, size*2+1, size*2+1, size);
-    size *=1.25
-    canvasContext.roundRect(tx-size, tz-size, size*2+1, size*2+1, size);
-    size *=0.75
-    canvasContext.roundRect(tx-size, tz-size, size*2+1, size*2+1, size);
-    size *=0.65
-    canvasContext.roundRect(tx-size, tz-size, size*2+1, size*2+1, size);
-    size *=0.75
-    canvasContext.roundRect(tx-size, tz-size, size*2+1, size*2+1, size);
-    size *=0.75
-    canvasContext.fillRect(tx-size, tz-size, size*2+1, size*2+1);
-    size *=0.75
-    canvasContext.fillRect(tx-size, tz-size, size*2+1, size*2+1);
-    size *=0.75
-    canvasContext.fillRect(tx-size, tz-size, size*2+1, size*2+1);
-
-    */
-    //    canvasContext.fillRect(2000, 2000, 2, 2);
-//    canvasContext.fillRect()
 
 }
 

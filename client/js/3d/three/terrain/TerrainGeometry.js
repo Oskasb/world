@@ -384,7 +384,9 @@ class TerrainGeometry{
     }
 
     updateHeightmapCanvasTexture() {
-        terrainMaterial.heightmap.needsUpdate = true;
+        if (MATH.isEvenNumber(GameAPI.getFrame().frame * 0.25)) {
+            terrainMaterial.heightmap.needsUpdate = true;
+        }
     }
 
     getOrigin() {
