@@ -1,4 +1,6 @@
 import { PipelineAPI } from '../data_pipeline/PipelineAPI.js';
+window.PipelineAPI = new PipelineAPI();
+
 import { evt } from './event/evt.js';
 import { GameScreen } from './ui/GameScreen.js';
 import { PointerAndTouchCursors } from './ui/input/PointerAndTouchCursors.js';
@@ -6,6 +8,8 @@ import { Setup } from './setup/Setup.js';
 import * as THREE from '../../libs/three/Three.js';
 import { ThreeController } from '../3d/ThreeController.js';
 import { DynamicMain } from '../3d/DynamicMain.js';
+
+
 
 let frame = {
     tpf:0.01,
@@ -24,7 +28,7 @@ class Client {
         this.evt = new evt(ENUMS.Event);
         window.evt = this.evt;
         this.threeController = new ThreeController();
-        window.PipelineAPI = new PipelineAPI();
+
         this.gameScreen = new GameScreen();
         this.dynamicMain = new DynamicMain();
         window.GameScreen = this.gameScreen;

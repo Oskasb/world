@@ -106,12 +106,17 @@ function processTilePathingCamera(tilePath, cursorObj3d, camLookAtVec, camTarget
 
 
 function drawInputCursorState(cursorObj3d, dragToVec3, camTargetPos, cursorForward, cursorTravelVec) {
+
+
+
     dragDirection.copy(cursorTravelVec);
     dragDirection.normalize();
     calcVec.copy(camTargetPos);
     calcVec.y = cursorObj3d.position.y;
 
     let cursorPos = cursorObj3d.position
+
+    GuiAPI.printDebugText('x:'+MATH.decimalify(cursorPos.x, 100)+' y:'+MATH.decimalify(cursorPos.y, 100)+' z:'+MATH.decimalify(cursorPos.z, 100))
 
     evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE,  {from:cursorPos, to:dragToVec3, color:'BLUE'});
     evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE,  {from:cursorPos, to:calcVec, color:'RED'});

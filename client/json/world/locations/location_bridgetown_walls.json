@@ -17,9 +17,25 @@
                   "visibility": 3
                 },
                 {
-                  "model": "model_stone_wall_10m",
+                  "model": "model_stone_wall_10x8m",
                   "pos": [-762, 0.0, 483],
                   "rot": [0, 4.3, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": true,
+                  "visibility": 3
+                },
+                {
+                  "model": "model_stone_wall_10x3m",
+                  "pos": [-766.3, 0.0, 499.5],
+                  "rot": [0, 4.73, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": true,
+                  "visibility": 3
+                },
+                {
+                  "model": "model_stone_wall_tower_5x5m",
+                  "pos": [-767, 0.0, 507.0],
+                  "rot": [0, 4.73, 0],
                   "scale": [1, 1, 1],
                   "on_ground": true,
                   "visibility": 3

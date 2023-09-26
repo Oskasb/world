@@ -156,7 +156,6 @@ class GameCamera {
             calcVec.y = ThreeAPI.terrainAt(calcVec);
 
             if (lookAtPoint.distanceToSquared(calcVec)) {
-                GuiAPI.printDebugText('x:'+MATH.decimalify(calcVec.x, 100)+' y:'+MATH.decimalify(calcVec.y, 100)+' z:'+MATH.decimalify(calcVec.z, 100))
                 lookAtPoint.copy(calcVec);
             }
 

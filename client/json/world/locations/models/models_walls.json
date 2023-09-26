@@ -16,14 +16,14 @@
                       "rot": [0, 0, 0.0],
                       "scale": [0.025, 0.02, 0.025],
                       "on_ground": false,
-                      "visibility": 2
+                      "visibility": 3
                     },
                     {
                       "sprite": "rock",
                       "pos": [-3, 3.0, 0],
                       "rot": [0, 0, 0],
                       "scale": [0.020, 0.04, 0.020],
-                      "visibility": 2
+                      "visibility": 3
                     },
                     {
                       "sprite": "rock",
@@ -31,14 +31,14 @@
                       "rot": [0, 0, 0.0],
                       "scale": [0.025, 0.02, 0.025],
                       "on_ground": false,
-                      "visibility": 2
+                      "visibility": 3
                     },
                     {
                       "sprite": "rock",
                       "pos": [3, 3.0, 0],
                       "rot": [0, 0, 0],
                       "scale": [0.020, 0.04, 0.020],
-                      "visibility": 2
+                      "visibility": 3
                     },
                     {
                       "sprite": "rock",
@@ -46,7 +46,7 @@
                       "rot": [0, 0, 0],
                       "scale": [0.06, 0.005, 0.024],
                       "on_ground": false,
-                      "visibility": 2
+                      "visibility": 3
                     },
                     {
                       "sprite": "rock",
@@ -54,7 +54,7 @@
                       "rot": [0, 0, 0],
                       "scale": [0.02, 0.005, 0.024],
                       "on_ground": false,
-                      "visibility": 2
+                      "visibility": 3
                     },
                     {
                       "sprite": "rock",
@@ -62,7 +62,7 @@
                       "rot": [0, 0, 0],
                       "scale": [0.02, 0.005, 0.024],
                       "on_ground": false,
-                      "visibility": 2
+                      "visibility": 3
                     },
                     {
                       "sprite": "rock",
@@ -70,7 +70,7 @@
                       "rot": [0, 0, 0],
                       "scale": [0.04, 0.005, 0.03],
                       "on_ground": false,
-                      "visibility": 2
+                      "visibility": 3
                     },
                     {
                       "sprite": "rock",
@@ -78,7 +78,7 @@
                       "rot": [0, 0, 0],
                       "scale": [0.03, 0.005, 0.03],
                       "on_ground": false,
-                      "visibility": 2
+                      "visibility": 3
                     },
                     {
                       "sprite": "rock",
@@ -86,7 +86,7 @@
                       "rot": [0, 0, 0],
                       "scale": [0.03, 0.005, 0.03],
                       "on_ground": false,
-                      "visibility": 2
+                      "visibility": 3
                     },
                     {
                       "sprite": "rock",
@@ -94,7 +94,7 @@
                       "rot": [1, 0, 0],
                       "scale": [0.01, 0.01, 0.01],
                       "on_ground": false,
-                      "visibility": 2
+                      "visibility": 3
                     },
                     {
                       "sprite": "rock",
@@ -102,7 +102,7 @@
                       "rot": [1, 0, 0],
                       "scale": [0.01, 0.01, 0.01],
                       "on_ground": false,
-                      "visibility": 2
+                      "visibility": 3
                     },
                     {
                       "sprite": "rock",
@@ -110,7 +110,7 @@
                       "rot": [1, 0, 0],
                       "scale": [0.01, 0.01, 0.01],
                       "on_ground": false,
-                      "visibility": 2
+                      "visibility": 3
                     },
                     {
                       "sprite": "rock",
@@ -118,7 +118,7 @@
                       "rot": [0, 0, 0],
                       "scale": [0.04, 0.01, 0.01],
                       "on_ground": false,
-                      "visibility": 2
+                      "visibility": 3
                     },
                     {
                       "sprite": "rock",
@@ -126,7 +126,7 @@
                       "rot": [0, 0, 0],
                       "scale": [0.03, 0.01, 0.01],
                       "on_ground": false,
-                      "visibility": 2
+                      "visibility": 3
                     },
                     {
                       "sprite": "rock",
@@ -134,7 +134,7 @@
                       "rot": [0, 0, 0],
                       "scale": [0.03, 0.01, 0.01],
                       "on_ground": false,
-                      "visibility": 2
+                      "visibility": 3
                     },
 
 
@@ -144,7 +144,7 @@
                       "rot": [0, 0, 0],
                       "scale": [0.005, 0.006, 0.005],
                       "on_ground": false,
-                      "visibility": 2
+                      "visibility": 3
                     },
                     {
                       "sprite": "rock",
@@ -152,7 +152,7 @@
                       "rot": [0, 0, 0],
                       "scale": [0.005, 0.006, 0.005],
                       "on_ground": false,
-                      "visibility": 2
+                      "visibility": 3
                     },
                     {
                       "sprite": "rock",
@@ -160,7 +160,7 @@
                       "rot": [0, 0, 0],
                       "scale": [0.005, 0.006, 0.005],
                       "on_ground": false,
-                      "visibility": 2
+                      "visibility": 3
                     },
                     {
                       "sprite": "rock",
@@ -168,7 +168,7 @@
                       "rot": [0, 0, 0],
                       "scale": [0.005, 0.006, 0.005],
                       "on_ground": false,
-                      "visibility": 2
+                      "visibility": 3
                     },
                     {
                       "sprite": "rock",
@@ -176,7 +176,7 @@
                       "rot": [0, 0, 0],
                       "scale": [0.005, 0.006, 0.005],
                       "on_ground": false,
-                      "visibility": 2
+                      "visibility": 3
                     },
                     {
                       "sprite": "rock",
@@ -184,7 +184,7 @@
                       "rot": [0, 0, 0],
                       "scale": [0.005, 0.006, 0.005],
                       "on_ground": false,
-                      "visibility": 2
+                      "visibility": 3
                     },
                     {
                       "sprite": "rock",
@@ -192,7 +192,7 @@
                       "rot": [0, 0, 0],
                       "scale": [0.005, 0.006, 0.005],
                       "on_ground": false,
-                      "visibility": 2
+                      "visibility": 3
                     },
                     {
                       "sprite": "rock",
@@ -200,7 +200,7 @@
                       "rot": [0, 0, 0],
                       "scale": [0.005, 0.006, 0.005],
                       "on_ground": false,
-                      "visibility": 2
+                      "visibility": 3
                     },
                     {
                       "sprite": "rock",
@@ -208,7 +208,7 @@
                       "rot": [0, 0, 0],
                       "scale": [0.005, 0.006, 0.005],
                       "on_ground": false,
-                      "visibility": 2
+                      "visibility": 3
                     },
                     {
                       "sprite": "rock",
@@ -216,7 +216,7 @@
                       "rot": [0, 0, 0],
                       "scale": [0.005, 0.006, 0.005],
                       "on_ground": false,
-                      "visibility": 2
+                      "visibility": 3
                     },
                     {
                       "sprite": "rock",
@@ -224,7 +224,7 @@
                       "rot": [0, 0, 0],
                       "scale": [0.005, 0.006, 0.005],
                       "on_ground": false,
-                      "visibility": 2
+                      "visibility": 3
                     },
 
                     {
@@ -233,7 +233,7 @@
                       "rot": [0, 0, 0],
                       "scale": [0.005, 0.015, 0.04],
                       "on_ground": false,
-                      "visibility": 2
+                      "visibility": 3
                     },
                     {
                       "sprite": "rock",
@@ -241,7 +241,7 @@
                       "rot": [0, 0, 0],
                       "scale": [0.005, 0.015, 0.04],
                       "on_ground": false,
-                      "visibility": 2
+                      "visibility": 3
                     }
                   ]
                 }
@@ -250,8 +250,310 @@
           }
         ]
       },
+
       {
-        "id": "model_stone_wall_10m",
+        "id": "model_stone_wall_tower_5x5m",
+        "data": [
+          {
+            "data_key":"model_data",
+            "config": {
+              "assets": [
+                {
+                  "boxes": [
+                    {
+                      "sprite": "rock",
+                      "pos": [-0, 0.4, 2.2],
+                      "rot": [0, 0, 0.0],
+                      "scale": [0.025, 0.02, 0.01],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+
+                    {
+                      "sprite": "rock",
+                      "pos": [-0, 2.9, -1.2],
+                      "rot": [0, 0, 0.0],
+                      "scale": [0.032, 0.002, 0.04],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+
+                    {
+                      "sprite": "rock",
+                      "pos": [-2, 2.9, -1.2],
+                      "rot": [0, 0, 0.0],
+                      "scale": [0.008, 0.002, 0.02],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [2, 2.9, -1.2],
+                      "rot": [0, 0, 0.0],
+                      "scale": [0.008, 0.002, 0.02],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+
+                    {
+                      "sprite": "rock",
+                      "pos": [-2, 0.0, -0.5],
+                      "rot": [0, 0, 0.0],
+                      "scale": [0.015, 0.03, 0.06],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+
+                    {
+                      "sprite": "rock",
+                      "pos": [2, 0.0, -0.5],
+                      "rot": [0, 0, 0.0],
+                      "scale": [0.015, 0.03, 0.06],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [-2, 3.0, 1],
+                      "rot": [-0.15, 0, 0],
+                      "scale": [0.010, 0.033, 0.020],
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [2, 3.0, 1],
+                      "rot": [-0.15, 0, 0],
+                      "scale": [0.010, 0.033, 0.020],
+                      "visibility": 3
+                    },
+
+                    {
+                      "sprite": "rock",
+                      "pos": [-0.75, 3.0, 1.5],
+                      "rot": [-0.1, -0.2, 0],
+                      "scale": [0.016, 0.038, 0.003],
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [0.75, 3.0, 1.5],
+                      "rot": [-0.1, 0.2, 0],
+                      "scale": [0.016, 0.038, 0.003],
+                      "visibility": 3
+                    },
+
+                    {
+                      "sprite": "rock",
+                      "pos": [-2, 3.0, -2.3],
+                      "rot": [0.3, 0, 0],
+                      "scale": [0.008, 0.035, 0.005],
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [2, 3.0, -2.3],
+                      "rot": [0.3, 0, 0],
+                      "scale": [0.0080, 0.035, 0.005],
+                      "visibility": 3
+                    },
+
+
+                    {
+                      "sprite": "rock",
+                      "pos": [0, 4.75, -2.0],
+                      "rot": [0, 0, 0],
+                      "scale": [0.03, 0.005, 0.01],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [2, 4.75, -1.2],
+                      "rot": [0, 0, 0],
+                      "scale": [0.01, 0.005, 0.024],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [-2, 4.75, -1.2],
+                      "rot": [0, 0, 0],
+                      "scale": [0.01, 0.005, 0.024],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [0, 4.75, 0],
+                      "rot": [0, 0, 0],
+                      "scale": [0.03, 0.005, 0.03],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [-2.375, 5.25, 0.5],
+                      "rot": [0, 0, 0],
+                      "scale": [0.0075, 0.015, 0.02],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [2.375, 5.25, 0.5],
+                      "rot": [0, 0, 0],
+                      "scale": [0.0075, 0.015, 0.02],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [0, 5.0, 1.5],
+                      "rot": [1, 0, 0],
+                      "scale": [0.01, 0.01, 0.01],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [-2, 5.0, 1.65],
+                      "rot": [8.7, 0, 0],
+                      "scale": [0.012, 0.012, 0.012],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [2, 5.0, 1.65],
+                      "rot": [0.7, 0, 0],
+                      "scale": [0.012, 0.012, 0.012],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [0, 5.5, 2],
+                      "rot": [0, 0, 0],
+                      "scale": [0.04, 0.01, 0.01],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [-2.5, 5.5, 2.1],
+                      "rot": [0, 0, 0],
+                      "scale": [0.01, 0.01, 0.012],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [2.5, 5.5, 2.1],
+                      "rot": [0, 0, 0],
+                      "scale": [0.01, 0.01, 0.012],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+
+
+                    {
+                      "sprite": "rock",
+                      "pos": [-2.5, 6.3, 0.2],
+                      "rot": [0, 0, 0],
+                      "scale": [0.005, 0.006, 0.005],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [-2.5, 6.3, 1.2],
+                      "rot": [0, 0, 0],
+                      "scale": [0.005, 0.006, 0.005],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [-2.5, 6.3, 2.2],
+                      "rot": [0, 0, 0],
+                      "scale": [0.005, 0.006, 0.005],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [-1.5, 6.3, 2.2],
+                      "rot": [0, 0, 0],
+                      "scale": [0.005, 0.006, 0.005],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [-0.5, 6.3, 2.2],
+                      "rot": [0, 0, 0],
+                      "scale": [0.005, 0.006, 0.005],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [0.5, 6.3, 2.2],
+                      "rot": [0, 0, 0],
+                      "scale": [0.005, 0.006, 0.005],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [2.5, 6.3, 0.2],
+                      "rot": [0, 0, 0],
+                      "scale": [0.005, 0.006, 0.005],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [2.5, 6.3, 1.2],
+                      "rot": [0, 0, 0],
+                      "scale": [0.005, 0.006, 0.005],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [2.5, 6.3, 2.2],
+                      "rot": [0, 0, 0],
+                      "scale": [0.005, 0.006, 0.005],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [1.5, 6.3, 2.2],
+                      "rot": [0, 0, 0],
+                      "scale": [0.005, 0.006, 0.005],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [0.5, 6.3, 2.2],
+                      "rot": [0, 0, 0],
+                      "scale": [0.005, 0.006, 0.005],
+                      "on_ground": false,
+                      "visibility": 3
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+
+      {
+        "id": "model_stone_wall_10x8m",
         "data": [
           {
             "data_key":"model_data",
@@ -264,28 +566,28 @@
                       "pos": [-4, 1.0, 0],
                       "rot": [0, 0, 0.0],
                       "scale": [0.02, 0.025, 0.03],
-                      "visibility": 2
+                      "visibility": 3
                     },
                     {
                       "sprite": "rock",
                       "pos": [-4, -2, 0],
                       "rot": [0, 0, 0.0],
                       "scale": [0.02, 0.035, 0.04],
-                      "visibility": 2
+                      "visibility": 3
                     },
                     {
                       "sprite": "rock",
                       "pos": [0, -2, 0],
                       "rot": [0, 0, 0.0],
                       "scale": [0.06, 0.035, 0.025],
-                      "visibility": 2
+                      "visibility": 3
                     },
                     {
                       "sprite": "rock",
                       "pos": [4, -2, 0],
                       "rot": [0, 0, 0.0],
                       "scale": [0.02, 0.035, 0.04],
-                      "visibility": 2
+                      "visibility": 3
                     },
 
                     {
@@ -293,68 +595,68 @@
                       "pos": [-2, 0.5, -0.3],
                       "rot": [-0.2, 0, 0],
                       "scale": [0.01, 0.02, 0.01],
-                      "visibility": 2
+                      "visibility": 3
                     },                    {
                       "sprite": "rock",
                       "pos": [0, 0.5, 0.3],
                       "rot": [-0.2, 0, 0],
                       "scale": [0.01, 0.02, 0.01],
-                      "visibility": 2
+                      "visibility": 3
                     },                    {
                       "sprite": "rock",
                       "pos": [2, 0.5, -0.3],
                       "rot": [-0.2, 0, 0],
                       "scale": [0.01, 0.02, 0.01],
-                      "visibility": 2
+                      "visibility": 3
                     },
                     {
                       "sprite": "rock",
                       "pos": [4, 1, 0],
                       "rot": [0, 0, 0],
                       "scale": [0.02, 0.025, 0.03],
-                      "visibility": 2
+                      "visibility": 3
                     },
                     {
                       "sprite": "rock",
                       "pos": [1.5, 0.5, -0.5],
                       "rot": [0, 0.2, 0],
                       "scale": [0.03, 0.02, 0.01],
-                      "visibility": 2
+                      "visibility": 3
                     },
                     {
                       "sprite": "rock",
                       "pos": [-1.5, 0.5, -0.5],
                       "rot": [0, -0.2, 0],
                       "scale": [0.03, 0.02, 0.01],
-                      "visibility": 2
+                      "visibility": 3
                     },
                     {
                       "sprite": "rock",
                       "pos": [1.5, 2.5, -0.5],
                       "rot": [0, 0.1, 0],
                       "scale": [0.031, 0.02, 0.005],
-                      "visibility": 2
+                      "visibility": 3
                     },
                     {
                       "sprite": "rock",
                       "pos": [-1.5, 2.5, -0.5],
                       "rot": [0, -0.1, 0],
                       "scale": [0.031, 0.02, 0.005],
-                      "visibility": 2
+                      "visibility": 3
                     },
                     {
                       "sprite": "rock",
                       "pos": [4, 4, -0.5],
                       "rot": [0, 0.0, 0],
                       "scale": [0.02, 0.035, 0.021],
-                      "visibility": 2
+                      "visibility": 3
                     },
                     {
                       "sprite": "rock",
                       "pos": [-4, 4, -0.5],
                       "rot": [0, -0.0, 0],
                       "scale": [0.02, 0.035, 0.021],
-                      "visibility": 2
+                      "visibility": 3
                     },
 
 
@@ -363,23 +665,476 @@
                       "pos": [2.2, 4.5, -0.5],
                       "rot": [0, 0.06, 0],
                       "scale": [0.031, 0.02, 0.005],
-                      "visibility": 2
+                      "visibility": 3
                     },
                     {
                       "sprite": "rock",
                       "pos": [-2.2, 4.5, -0.5],
                       "rot": [0, -0.06, 0],
                       "scale": [0.031, 0.02, 0.005],
-                      "visibility": 2
+                      "visibility": 3
                     },
                     {
                       "sprite": "rock",
                       "pos": [0, 4.5, -0.25],
                       "rot": [0.20, -0.0, 0],
                       "scale": [0.01, 0.022, 0.0075],
-                      "visibility": 2
-                    }
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [2.2, 5.75, -0.2],
+                      "rot": [0, 0.06, 0],
+                      "scale": [0.02, 0.005, 0.01],
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [-2.2, 5.75, -0.2],
+                      "rot": [0, -0.06, 0],
+                      "scale": [0.02, 0.005, 0.01],
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [0, 5.75, 0],
+                      "rot": [0.0, -0.0, 0],
+                      "scale": [0.03, 0.005, 0.01],
+                      "visibility": 3
+                    },
 
+                    {
+                      "sprite": "rock",
+                      "pos": [4, 5.75, -0.5],
+                      "rot": [0, 0.0, 0],
+                      "scale": [0.022, 0.005, 0.023],
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [-4, 5.75, -0.5],
+                      "rot": [0, -0.0, 0],
+                      "scale": [0.022, 0.005, 0.023],
+                      "visibility": 3
+                    },
+
+                    {
+                      "sprite": "rock",
+                      "pos": [2, 6.25, 0],
+                      "rot": [0, 0.0, 0],
+                      "scale": [0.018, 0.005, 0.03],
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [-2, 6.25, 0],
+                      "rot": [0, -0.0, 0],
+                      "scale": [0.018, 0.005, 0.03],
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [0, 6.25, 0],
+                      "rot": [0.0, -0.0, 0],
+                      "scale": [0.022, 0.005, 0.03],
+                      "visibility": 3
+                    },
+
+                    {
+                      "sprite": "rock",
+                      "pos": [4, 6.25, -0.25],
+                      "rot": [0, 0.0, 0],
+                      "scale": [0.022, 0.005, 0.035],
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [-4, 6.25, -0.25],
+                      "rot": [0, -0.0, 0],
+                      "scale": [0.022, 0.005, 0.035],
+                      "visibility": 3
+                    },
+
+
+                    {
+                      "sprite": "rock",
+                      "pos": [2, 6.75, 1.25],
+                      "rot": [0, 0.0, 0],
+                      "scale": [0.018, 0.005, 0.0075],
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [-2, 6.75, 1.25],
+                      "rot": [0, -0.0, 0],
+                      "scale": [0.018, 0.005, 0.0075],
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [0, 6.75, 1.25],
+                      "rot": [0.0, -0.0, 0],
+                      "scale": [0.022, 0.005, 0.0075],
+                      "visibility": 3
+                    },
+
+                    {
+                      "sprite": "rock",
+                      "pos": [4, 6.75, 1.25],
+                      "rot": [0, 0.0, 0],
+                      "scale": [0.022, 0.005, 0.0075],
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [-4, 6.75, 1.25],
+                      "rot": [0, -0.0, 0],
+                      "scale": [0.022, 0.005, 0.0075],
+                      "visibility": 3
+                    },
+
+
+
+                    {
+                      "sprite": "rock",
+                      "pos": [-4.5, 7.3, 1.35],
+                      "rot": [0, 0, 0],
+                      "scale": [0.005, 0.006, 0.005],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [-3.5, 7.3, 1.35],
+                      "rot": [0, 0, 0],
+                      "scale": [0.005, 0.006, 0.005],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [-2.5, 7.3, 1.35],
+                      "rot": [0, 0, 0],
+                      "scale": [0.005, 0.006, 0.005],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [-1.5, 7.3, 1.35],
+                      "rot": [0, 0, 0],
+                      "scale": [0.005, 0.006, 0.005],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [-0.5, 7.3, 1.35],
+                      "rot": [0, 0, 0],
+                      "scale": [0.005, 0.006, 0.005],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [0.5, 7.3, 1.35],
+                      "rot": [0, 0, 0],
+                      "scale": [0.005, 0.006, 0.005],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [4.5, 7.3, 1.35],
+                      "rot": [0, 0, 0],
+                      "scale": [0.005, 0.006, 0.005],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [3.5, 7.3, 1.35],
+                      "rot": [0, 0, 0],
+                      "scale": [0.005, 0.006, 0.005],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [2.5, 7.3, 1.35],
+                      "rot": [0, 0, 0],
+                      "scale": [0.005, 0.006, 0.005],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [1.5, 7.3, 1.35],
+                      "rot": [0, 0, 0],
+                      "scale": [0.005, 0.006, 0.005],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [0.5, 7.3, 1.35],
+                      "rot": [0, 0, 0],
+                      "scale": [0.005, 0.006, 0.005],
+                      "on_ground": false,
+                      "visibility": 3
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "model_stone_wall_10x3m",
+        "data": [
+          {
+            "data_key":"model_data",
+            "config": {
+              "assets": [
+                {
+                  "boxes": [
+                    {
+                      "sprite": "rock",
+                      "pos": [-4, 1.0, 0],
+                      "rot": [0, 0, 0.0],
+                      "scale": [0.02, 0.025, 0.028],
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [-4, -2, 0],
+                      "rot": [0, 0, 0.0],
+                      "scale": [0.02, 0.035, 0.04],
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [0, -2, 0],
+                      "rot": [0, 0, 0.0],
+                      "scale": [0.06, 0.035, 0.025],
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [4, -2, 0],
+                      "rot": [0, 0, 0.0],
+                      "scale": [0.02, 0.035, 0.04],
+                      "visibility": 3
+                    },
+
+                    {
+                      "sprite": "rock",
+                      "pos": [-2, 0.5, -0.3],
+                      "rot": [-0.2, 0, 0],
+                      "scale": [0.01, 0.02, 0.01],
+                      "visibility": 3
+                    },                    {
+                      "sprite": "rock",
+                      "pos": [0, 0.5, 0.3],
+                      "rot": [-0.2, 0, 0],
+                      "scale": [0.01, 0.02, 0.01],
+                      "visibility": 3
+                    },                    {
+                      "sprite": "rock",
+                      "pos": [2, 0.5, -0.3],
+                      "rot": [-0.2, 0, 0],
+                      "scale": [0.01, 0.02, 0.01],
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [4, 1, 0],
+                      "rot": [0, 0, 0],
+                      "scale": [0.02, 0.025, 0.028],
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [1.5, 0.75, -0.5],
+                      "rot": [0, 0.2, 0],
+                      "scale": [0.035, 0.03, 0.01],
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [-1.5, 0.75, -0.5],
+                      "rot": [0, -0.2, 0],
+                      "scale": [0.035, 0.03, 0.01],
+                      "visibility": 3
+                    },
+
+
+                    {
+                      "sprite": "rock",
+                      "pos": [2, 2.25, 0],
+                      "rot": [0, 0.0, 0],
+                      "scale": [0.018, 0.005, 0.03],
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [-2, 2.25, 0],
+                      "rot": [0, -0.0, 0],
+                      "scale": [0.018, 0.005, 0.03],
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [0, 2.25, 0],
+                      "rot": [0.0, -0.0, 0],
+                      "scale": [0.022, 0.005, 0.03],
+                      "visibility": 3
+                    },
+
+                    {
+                      "sprite": "rock",
+                      "pos": [4, 2.25, -0.25],
+                      "rot": [0, 0.0, 0],
+                      "scale": [0.022, 0.005, 0.035],
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [-4, 2.25, -0.25],
+                      "rot": [0, -0.0, 0],
+                      "scale": [0.022, 0.005, 0.035],
+                      "visibility": 3
+                    },
+
+
+                    {
+                      "sprite": "rock",
+                      "pos": [2, 2.75, 1.25],
+                      "rot": [0, 0.0, 0],
+                      "scale": [0.018, 0.005, 0.0075],
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [-2, 2.75, 1.25],
+                      "rot": [0, -0.0, 0],
+                      "scale": [0.018, 0.005, 0.0075],
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [0, 2.75, 1.25],
+                      "rot": [0.0, -0.0, 0],
+                      "scale": [0.022, 0.005, 0.0075],
+                      "visibility": 3
+                    },
+
+                    {
+                      "sprite": "rock",
+                      "pos": [4, 2.75, 1.25],
+                      "rot": [0, 0.0, 0],
+                      "scale": [0.022, 0.005, 0.0075],
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [-4, 2.75, 1.25],
+                      "rot": [0, -0.0, 0],
+                      "scale": [0.022, 0.005, 0.0075],
+                      "visibility": 3
+                    },
+
+
+
+                    {
+                      "sprite": "rock",
+                      "pos": [-4.5, 3.3, 1.35],
+                      "rot": [0, 0, 0],
+                      "scale": [0.005, 0.006, 0.005],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [-3.5, 3.3, 1.35],
+                      "rot": [0, 0, 0],
+                      "scale": [0.005, 0.006, 0.005],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [-2.5, 3.3, 1.35],
+                      "rot": [0, 0, 0],
+                      "scale": [0.005, 0.006, 0.005],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [-1.5, 3.3, 1.35],
+                      "rot": [0, 0, 0],
+                      "scale": [0.005, 0.006, 0.005],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [-0.5, 3.3, 1.35],
+                      "rot": [0, 0, 0],
+                      "scale": [0.005, 0.006, 0.005],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [0.5, 3.3, 1.35],
+                      "rot": [0, 0, 0],
+                      "scale": [0.005, 0.006, 0.005],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [4.5, 3.3, 1.35],
+                      "rot": [0, 0, 0],
+                      "scale": [0.005, 0.006, 0.005],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [3.5, 3.3, 1.35],
+                      "rot": [0, 0, 0],
+                      "scale": [0.005, 0.006, 0.005],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [2.5, 3.3, 1.35],
+                      "rot": [0, 0, 0],
+                      "scale": [0.005, 0.006, 0.005],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [1.5, 3.3, 1.35],
+                      "rot": [0, 0, 0],
+                      "scale": [0.005, 0.006, 0.005],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [0.5, 3.3, 1.35],
+                      "rot": [0, 0, 0],
+                      "scale": [0.005, 0.006, 0.005],
+                      "on_ground": false,
+                      "visibility": 3
+                    }
                   ]
                 }
               ]

@@ -8,14 +8,7 @@
             "data_key":"location_data",
             "config": {
               "models": [
-                {
-                  "asset": "asset_town_house",
-                  "pos": [-891, 2, 512],
-                  "rot": [0, 1.2, 0],
-                  "scale": [0.001, 0.001, 0.001],
-                  "on_ground": true,
-                  "visibility": 2
-                }
+
               ],
               "boxes": [
                 {

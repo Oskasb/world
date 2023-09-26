@@ -1,7 +1,11 @@
 import {ConfigData} from "../application/utils/ConfigData.js";
 import {PieceAnimator} from "../game/gamepieces/PieceAnimator.js";
 import {PieceActionSystem} from "../game/gamepieces/PieceActionSystem.js";
+import {Vector3} from "../../libs/three/math/Vector3.js";
+import {Object3D} from "../../libs/three/core/Object3D.js";
 
+let tempVec = new Vector3()
+let tempObj = new Object3D()
 function buildAssetInstance(assetId, config, callback) {
 
     let addModelInstance = function(instance) {
@@ -100,9 +104,48 @@ function setupVisualModel(visualPiece, assetId, config, pieceReady) {
 
 }
 
+function inheritConfigTransform(obj3d, config) {
+
+    if (config.pos) {
+        MATH.vec3FromArray(tempVec, config.pos)
+        obj3d.position.add(tempVec);
+    }
+
+
+    if (config.scale) {
+        MATH.vec3FromArray(tempVec, config.scale)
+        obj3d.scale.multiply(tempVec);
+    }
+
+    if (config.rot) {
+    //    tempObj.quaternion.set(0, 0, 0, 1);
+        MATH.rotXYZFromArray(obj3d, config.rot)
+    //    obj3d.quaternion.copy(tempObj.quaternion);
+    }
+
+
+    if (config['on_ground']) {
+        obj3d.position.y = ThreeAPI.terrainAt(obj3d.position);
+    }
+
+}
+
+function inheritAsParent(childObj, parentObj) {
+    childObj.quaternion.premultiply(parentObj.quaternion);
+    childObj.position.applyQuaternion(parentObj.quaternion)
+    childObj.position.add(parentObj.position);
+    childObj.scale.x *= parentObj.scale.x;
+    childObj.scale.y *= parentObj.scale.y;
+    childObj.scale.z *= parentObj.scale.z;
+
+}
+
 
 export {
+
     setupVisualModel,
     buildAssetInstance,
-    attachSkeletonRig
+    attachSkeletonRig,
+    inheritConfigTransform,
+    inheritAsParent
 }

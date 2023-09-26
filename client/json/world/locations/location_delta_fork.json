@@ -9,10 +9,10 @@
             "config": {
               "models": [
                 {
-                  "asset": "asset_house_small",
+                  "model": "model_house_small",
                   "pos": [-833, 2, 462.6],
-                  "rot": [0, 1, 0],
-                  "scale": [0.002, 0.002, 0.002],
+                  "rot": [0, 1.7, 0],
+                  "scale": [1, 1, 1],
                   "on_ground": true,
                   "visibility": 3
                 }

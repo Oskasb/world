@@ -1,5 +1,7 @@
 import {Object3D} from "../../../libs/three/core/Object3D.js";
 import {Vector3} from "../../../libs/three/math/Vector3.js";
+import {inheritAsParent, inheritConfigTransform} from "../../3d/ModelUtils.js";
+import {LodTest} from "../visuals/LodTest.js";
 
 let iconKeysAll = [
     "grass",
@@ -20,37 +22,59 @@ let iconKeysAll = [
 ];
 
 
+function setupBoxInstance(box) {
 
-function setupBoxInstance(worldBox) {
-
+    let config = box.config;
     let iconSprites = GuiAPI.getUiSprites("box_tiles_8x8");
-    let iconKey = 'rock_hard';
+    let iconKey = config['sprite'] || "rock_hard";
+    let iconSprite = iconSprites[iconKey];
+    let addSceneBox = function(instance) {
+        instance.setActive(ENUMS.InstanceState.ACTIVE_VISIBLE);
+        instance.spatial.stickToObj3D(box.obj3d);
+        instance.setSprite(iconSprite);
+        ThreeAPI.getScene().remove(instance.spatial.obj3d)
+        box.instance = instance;
+    };
+    client.dynamicMain.requestAssetInstance('asset_box', addSceneBox)
 
-            let iconSprite = iconSprites[iconKey];
+}
 
-            let addSceneBox = function(instance) {
-                instance.setActive(ENUMS.InstanceState.ACTIVE_VISIBLE);
-                instance.spatial.stickToObj3D(worldBox.obj3d);
-                instance.setSprite(iconSprite);
-                ThreeAPI.getScene().remove(instance.spatial.obj3d)
-            };
 
-            client.dynamicMain.requestAssetInstance('asset_box', addSceneBox)
+function removeWorldBox(box) {
+    //    console.log("Remove Model ", this.isVisible, this)
 
+    if (!box.isVisible) {
+        console.log("Remove !isVisible.. ", box)
+    //    return;
+    }
+    GameAPI.worldModels.unregisterWorldBox(box);
+    if (!box.instance) {
+        console.log("Remove !instance.. ", box)
+        return;
+    }
+    box.instance.decommissionInstancedModel();
+    box.instance = null;
+}
+
+function showWorldBox(box) {
+    //   console.log("Show Box ", this.isVisible, this)
+    if (box.isVisible) {
+        console.log("Show isVisible.. ", box)
+    //    return;
+    }
+    if (!box.instance) {
+        setupBoxInstance(box);
+    }
+
+    GameAPI.worldModels.registerWorldBox(box);
 }
 
 class WorldBox {
     constructor(config) {
         this.config = config;
         this.obj3d = new Object3D();
-        MATH.vec3FromArray(this.obj3d.position, this.config.pos)
 
-        if (config['on_ground']) {
-            this.obj3d.position.y = ThreeAPI.terrainAt(this.obj3d.position);
-        //    console.log("Stick to ground", this.obj3d.position.y)
-        }
-
-        MATH.vec3FromArray(this.obj3d.scale, this.config.scale)
+        inheritConfigTransform(this.obj3d, config);
 
         this.sizeXYZ = new Vector3();
         this.sizeXYZ.copy(this.obj3d.scale);
@@ -59,32 +83,25 @@ class WorldBox {
         this.sizeXYZ.z += 0.1;
         this.size = this.sizeXYZ.length();
 
-        this.obj3d.rotateX(this.config.rot[0]);
-        this.obj3d.rotateY(this.config.rot[1]);
-        this.obj3d.rotateZ(this.config.rot[2]);
-
         this.isVisible = false;
 
+        let lodTest = new LodTest()
 
         let lodUpdated = function(lodLevel) {
-            if (lodLevel !== -1 && lodLevel < config['visibility']) {
-                this.showWorldModel()
-                this.isVisible = true;
-            } else {
-                this.removeWorldModel()
-                this.isVisible = false;
-            }
-
+            lodTest.lodTestModel(this, lodLevel, config.visibility, showWorldBox, removeWorldBox)
         }.bind(this)
 
         this.call = {
-            lodUpdated:lodUpdated
+            lodUpdated:lodUpdated,
+            removeWorldBox:removeWorldBox
         }
-
 
         this.instance = null;
     }
 
+    attachToParent(obj3d) {
+        inheritAsParent(this.obj3d, obj3d);
+    }
 
     testIsNearPosition(vec3) {
 
@@ -116,38 +133,8 @@ class WorldBox {
         return this.obj3d.position;
     }
 
-    showWorldModel() {
-     //   console.log("Show Box ", this.isVisible, this)
-        if (this.isVisible) {
-            return;
-        }
 
-        let config = this.config;
 
-        let iconSprites = GuiAPI.getUiSprites("box_tiles_8x8");
-        let iconKey = config['sprite'] || "rock_hard";
-
-        let iconSprite = iconSprites[iconKey];
-
-        let addSceneBox = function(instance) {
-            instance.setActive(ENUMS.InstanceState.ACTIVE_VISIBLE);
-            instance.spatial.stickToObj3D(this.obj3d);
-            instance.setSprite(iconSprite);
-            ThreeAPI.getScene().remove(instance.spatial.obj3d)
-            this.instance = instance;
-        }.bind(this);
-
-        client.dynamicMain.requestAssetInstance('asset_box', addSceneBox)
-
-    }
-
-    removeWorldModel() {
-    //    console.log("Remove Model ", this.isVisible, this)
-        if (!this.isVisible) {
-            return;
-        }
-        this.instance.decommissionInstancedModel();
-    }
 
 }
 

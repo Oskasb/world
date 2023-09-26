@@ -19,40 +19,20 @@ let initWorldModels = function(config) {
 
     while (worldModels.length) {
         let model = worldModels.pop()
-        ThreeAPI.clearTerrainLodUpdateCallback(model.call.lodUpdated)
-        model.removeWorldModel()
-    }
-
-    while (worldBoxes.length) {
-        let model = worldBoxes.pop()
-        ThreeAPI.clearTerrainLodUpdateCallback(model.call.lodUpdated)
-        model.removeWorldModel()
+        model.call.removeWorldModel(model)
     }
 
     let modelsData = function(models) {
         for (let i = 0; i < models.length;i++) {
             let model = new WorldModel(models[i])
-            ThreeAPI.registerTerrainLodUpdateCallback(model.getPos(), model.call.lodUpdated)
             worldModels.push(model);
         }
     }
-
-    let boxesData = function(boxes) {
-        for (let i = 0; i < boxes.length;i++) {
-            let box = new WorldBox(boxes[i])
-            ThreeAPI.registerTerrainLodUpdateCallback(box.getPos(), box.call.lodUpdated)
-            worldBoxes.push(box);
-        }
-    }
-
 
     let locationData = function(data) {
         for (let i = 0; i < data.length;i++) {
             if (data[i].config['models']) {
                 modelsData(data[i].config.models);
-            }
-            if (data[i].config['boxes']) {
-                boxesData(data[i].config.boxes);
             }
         }
     }
@@ -112,6 +92,19 @@ class WorldModels {
     activateEncounters() {
         activateWorldEncounters()
     }
+
+    registerWorldBox(box) {
+        if (worldBoxes.indexOf(box) === -1) {
+            worldBoxes.push(box)
+        } else {
+            console.log("Box Already Added", box);
+        }
+
+    };
+
+    unregisterWorldBox(box) {
+        MATH.splice(worldBoxes, box);
+    };
 
     queryWorldModelHeight = function(posVec3, boxHeight) {
 

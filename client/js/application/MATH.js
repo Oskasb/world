@@ -578,6 +578,12 @@ if(typeof(MATH) === "undefined") {
 		vec3.z = array[2];
 	}
 
+	MATH.rotXYZFromArray = function(obj3d, rot) {
+		obj3d.rotateX(rot[0]);
+		obj3d.rotateY(rot[1]);
+		obj3d.rotateZ(rot[2]);
+	}
+
 	MATH.vectorXZToAngleAxisY = function(vec) {
 		return Math.atan2(vec.x, vec.z);
 	};

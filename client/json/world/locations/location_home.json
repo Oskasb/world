@@ -9,135 +9,33 @@
             "config": {
               "models": [
                 {
-                  "asset": "asset_house_small",
+                  "model": "model_house_small",
                   "pos": [-887, 2, 531.6],
                   "rot": [0, 0, 0],
-                  "scale": [0.002, 0.002, 0.002],
+                  "scale": [1, 1, 1],
                   "on_ground": true,
                   "visibility": 3
-                }
-              ],
-              "boxes": [
-                {
-                  "sprite": "wood_plank",
-                  "pos": [-884.5, 2.5, 526],
-                  "rot": [0, 0, 0],
-                  "scale": [0.02, 0.002, 0.002],
-                  "on_ground": false,
-                  "visibility": 2
                 },
                 {
-                  "sprite": "wood_chunk",
-                  "pos": [-885.3, 2.5, 526],
-                  "rot": [0, 0, 0],
-                  "scale": [0.002, 0.010, 0.002],
-                  "on_ground": false,
-                  "visibility": 2
+                  "model": "model_fence_small",
+                  "pos": [-885.1, 0.75, 525.8],
+                  "rot": [0, 1.57, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": true
                 },
                 {
-                  "sprite": "wood_plank",
-                  "pos": [-882.4, 2.6, 526.1],
-                  "rot": [0, 0, 0],
-                  "scale": [0.02, 0.002, 0.002],
-                  "on_ground": false,
-                  "visibility": 2
+                  "model": "model_fence_small",
+                  "pos": [-888.3, 0.8, 525.6],
+                  "rot": [0, -1.73, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": true
                 },
                 {
-                  "sprite": "wood_chunk",
-                  "pos": [-883.4, 2.4, 526],
-                  "rot": [0, 0, 0],
-                  "scale": [0.0022, 0.010, 0.0024],
-                  "on_ground": false,
-                  "visibility": 2
-                },                {
-                  "sprite": "wood_plank",
-                  "pos": [-880.5, 2.53, 526.04],
-                  "rot": [0, 0, 0],
-                  "scale": [0.02, 0.002, 0.002],
-                  "on_ground": false,
-                  "visibility": 2
-                },
-                {
-                  "sprite": "wood_chunk",
-                  "pos": [-881.5, 2.6, 526.1],
-                  "rot": [0, 0, 0],
-                  "scale": [0.0022, 0.010, 0.0024],
-                  "on_ground": false,
-                  "visibility": 2
-                },
-                {
-                  "sprite": "wood_chunk",
-                  "pos": [-879.3, 2.4, 526.15],
-                  "rot": [0, 0, 0],
-                  "scale": [0.0026, 0.01, 0.0029],
-                  "on_ground": false,
-                  "visibility": 2
-                },
-
-                {
-                  "sprite": "wood_chunk",
-                  "pos": [-887.9, 2.3, 526.09],
-                  "rot": [0, 0, 0],
-                  "scale": [0.0022, 0.010, 0.0026],
-                  "on_ground": false,
-                  "visibility": 2
-                },
-                {
-                  "sprite": "wood_plank",
-                  "pos": [-888.9, 2.6, 526.1],
-                  "rot": [0, 0, 0],
-                  "scale": [0.02, 0.002, 0.002],
-                  "on_ground": false,
-                  "visibility": 2
-                },
-                {
-                  "sprite": "wood_chunk",
-                  "pos": [-890.0, 2.2, 526.1],
-                  "rot": [0, 0, 0],
-                  "scale": [0.0022, 0.010, 0.0024],
-                  "on_ground": false,
-                  "visibility": 2
-                },
-              {
-                  "sprite": "wood_plank",
-                  "pos": [-891.0, 2.43, 526.04],
-                  "rot": [0, 0, 0],
-                  "scale": [0.02, 0.002, 0.002],
-                  "on_ground": false,
-                  "visibility": 2
-                },
-
-                {
-                  "sprite": "wood_chunk",
-                  "pos": [-892.1, 2.3, 526.05],
-                  "rot": [0, 0, 0],
-                  "scale": [0.0026, 0.01, 0.0029],
-                  "on_ground": false,
-                  "visibility": 2
-                },
-                {
-                  "sprite": "creative_crate",
-                  "pos": [-881.8, 2.45, 521.15],
-                  "rot": [0.0, 0.5, 0.1],
-                  "scale": [0.01, 0.01, 0.01],
-                  "on_ground": false,
-                  "visibility": 2
-                },
-                {
-                  "sprite": "planks_h",
-                  "pos": [-884.1, 2.45, 521.05],
-                  "rot": [0, 0, 0],
-                  "scale": [0.01, 0.01, 0.01],
-                  "on_ground": false,
-                  "visibility": 2
-                },
-                {
-                  "sprite": "planks_v",
-                  "pos": [-882.9, 2.45, 521.25],
-                  "rot": [0, 0, 0],
-                  "scale": [0.01, 0.01, 0.01],
-                  "on_ground": false,
-                  "visibility": 2
+                  "model": "model_fence_small",
+                  "pos": [-892.7, 0.8, 524.6],
+                  "rot": [0, -2.53, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": true
                 }
               ]
             }
