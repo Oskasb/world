@@ -3,7 +3,10 @@ import {PieceAnimator} from "../game/gamepieces/PieceAnimator.js";
 import {PieceActionSystem} from "../game/gamepieces/PieceActionSystem.js";
 import {Vector3} from "../../libs/three/math/Vector3.js";
 import {Object3D} from "../../libs/three/core/Object3D.js";
+import {Box3} from "../../libs/three/math/Box3.js";
 
+
+let tempBox = new Box3();
 let tempVec = new Vector3()
 let tempObj = new Object3D()
 function buildAssetInstance(assetId, config, callback) {
@@ -140,9 +143,21 @@ function inheritAsParent(childObj, parentObj) {
 
 }
 
+function cubeTestVisibility(center, size) {
+
+    tempBox.min.x = center.x - size*0.5;
+    tempBox.min.y = center.y - size*0.5;
+    tempBox.min.z = center.z - size*0.5;
+
+    tempBox.max.x = center.x + size*0.5;
+    tempBox.max.y = center.y + size*0.5;
+    tempBox.max.z = center.z + size*0.5;
+
+    return ThreeAPI.testBoxIsVisible(tempBox);
+}
 
 export {
-
+    cubeTestVisibility,
     setupVisualModel,
     buildAssetInstance,
     attachSkeletonRig,

@@ -11,13 +11,14 @@ let tempObj = new Object3D();
 class DynamicTile {
     constructor(defaultSprite, defaultSize) {
 
-
-
     }
 
-    activateTile = function(defaultSprite, defaultSize) {
+    activateTile = function(defaultSprite, defaultSize, spacing) {
         this.defaultSprite = defaultSprite || [7, 3]
-        this.defaultSize = defaultSize || 0.9
+
+        this.spacing = spacing || 1;
+
+        this.defaultSize = this.spacing * defaultSize || 0.9
 
         this.groundSprite = [7, 1]
 
@@ -67,8 +68,8 @@ class DynamicTile {
         this.gridJ = gridJ;
 
     //    this.gridTile.setTileXZ(indexX, indexY);
-        this.obj3d.position.x = indexX;
-        this.obj3d.position.z = indexY;
+        this.obj3d.position.x = indexX*this.spacing;
+        this.obj3d.position.z = indexY*this.spacing;
         let height = ThreeAPI.terrainAt(this.obj3d.position, this.groundNormal);
         tempObj.lookAt(up);
         let pos = this.obj3d.position;

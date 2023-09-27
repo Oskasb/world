@@ -60,7 +60,7 @@ class DynamicGrid {
 
             for (let j = 0; j < this.tileRange; j++) {
                 let tile = poolFetch('DynamicTile')
-                tile.activateTile();
+                tile.activateTile(null, this.tileSize, this.tileSpacing);
                 this.dynamicGridTiles[i][j] = tile;
             }
         }
@@ -91,11 +91,14 @@ class DynamicGrid {
         if (centerTileIndexX !== this.centerTileIndexX || centerTileIndexY !== this.centerTileIndexY) {
             moveCenterTileTo(this, centerTileIndexX, centerTileIndexY)
             updateTileIndices(this, this.dynamicGridTiles)
+            this.updated = true;
+        } else {
+            this.updated = false;
         }
 
         this.gridCenterPos.set(centerTileIndexX, 0,  centerTileIndexY)
         this.gridCenterPos.y = ThreeAPI.terrainAt(this.gridCenterPos);
-        evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:this.gridCenterPos, color:'WHITE', size:this.tileSize * 2.5});
+        evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:this.gridCenterPos, color:'WHITE', size:this.tileSize * 0.5});
 
         renderDynamicTiles(this, this.dynamicGridTiles)
 

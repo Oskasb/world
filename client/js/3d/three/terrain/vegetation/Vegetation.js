@@ -13,8 +13,18 @@ let configDefault = {
 
 let config = {
     "lod_levels": [
-        {"max_distance": 200, "sectors":5},
-        {"max_distance":70, "sectors":6}
+        {
+            "elevation" : 0.1,
+            "tile_size" : 0.8,
+            "tile_range" : 9,
+            "tile_spacing" : 6
+        },
+        {
+            "elevation" : 0.1,
+            "tile_size" : 0.9,
+            "tile_range" : 7,
+            "tile_spacing" : 18
+        }
     ]
 }
 
