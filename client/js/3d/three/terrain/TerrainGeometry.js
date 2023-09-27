@@ -1,4 +1,4 @@
-import {Sphere} from "../../../../libs/three/math/Sphere.js";
+
 import {Box3} from "../../../../libs/three/math/Box3.js";
 import {Vector3} from "../../../../libs/three/math/Vector3.js";
 import {TerrainElementModel} from "./TerrainElementModel.js";
@@ -99,13 +99,12 @@ let setupHeightmapData = function(originalModelMat) {
 
 
 class TerrainGeometry{
-    constructor(obj3d, segmentScale, x, y, gridMeshAssetIds, vertsPerSegAxis, tiles, tx_width,groundTxWidth, groundConfig, sectionInfoCponfig, vegetation) {
+    constructor(obj3d, segmentScale, x, y, gridMeshAssetIds, vertsPerSegAxis, tiles, tx_width,groundTxWidth, groundConfig, sectionInfoCponfig) {
         this.gridMeshAssetIds = gridMeshAssetIds;
         this.gridX = x;
         this.gridY = y;
         this.obj3d = obj3d;
         this.groundConfig = groundConfig;
-        this.vegetation = vegetation;
         this.instance = null; // this gets rendered by the shader
         this.oceanInstance = null;
         this.terrainSectionInfo = new TerrainSectionInfo(this, sectionInfoCponfig);
@@ -147,8 +146,6 @@ class TerrainGeometry{
 
         this.lodUpdateCallbaks = [];
 
-        let vegetationGrid = null;
-
         let geoReady = function() {
 
             if (!terrainMaterial) {
@@ -187,27 +184,10 @@ class TerrainGeometry{
             }
         }.bind(this);
 
-        this.vegActive = false;
-
-        let activateVegetation = function() {
-            this.vegActive = true;
-            vegetation.vegetateTerrainArea(this);
-        }.bind(this)
-
-        let setVegetationGrid = function(vegGrid) {
-            vegetationGrid = vegGrid;
-        }
-
-        let getVegetationGrid = function() {
-            return vegetationGrid;
-        }
 
         this.call = {
             activateGeo:activateGeo,
-            deactivateGeo:deactivateGeo,
-            setVegetationGrid:setVegetationGrid,
-            getVegetationGrid:getVegetationGrid,
-            activateVegetation:activateVegetation
+            deactivateGeo:deactivateGeo
         }
     }
 
@@ -236,19 +216,6 @@ class TerrainGeometry{
 
         MATH.callAll(this.lodUpdateCallbaks, this.levelOfDetail);
 
-        if (this.levelOfDetail !== -1) {
-            if (this.vegActive === false) {
-                this.call.activateVegetation();
-            }
-        }
-        let vegGrid = this.call.getVegetationGrid();
-        if (vegGrid) {
-            if (this.levelOfDetail === 0 || this.levelOfDetail ===  1) {
-               vegGrid.showGridPlants()
-            } else {
-                vegGrid.hideGridPlants()
-            }
-        }
     }
 
     detachGeometryInstance() {

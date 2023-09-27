@@ -1,9 +1,11 @@
 import {ThreeTerrain} from "./ThreeTerrain.js";
 import {Vector3} from "../../../../libs/three/math/Vector3.js";
 import {Ocean} from "../water/Ocean.js";
+import {VegetationSystem} from "./vegetation/VegetationSystem.js";
 
 let tempVec = new Vector3();
 let threeTerrain = new ThreeTerrain();
+let vegetationSystem = new VegetationSystem();
 
 let scatter = 0;
 
@@ -40,13 +42,13 @@ class TerrainSystem {
 
     initTerrainSystem = function(callback) {
         threeTerrain.loadData(callback);
-
     };
 
     testReady = function() {
-        if (this.sysReady && this.vegReady && this.plantsReady) {
+        if (this.sysReady) {
             console.log("Terrain data ready")
             activateTerrainSystem();
+            vegetationSystem.activateVegetationSystem(threeTerrain.call.getLodCenter())
         }
     }
 

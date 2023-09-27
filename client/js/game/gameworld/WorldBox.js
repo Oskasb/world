@@ -45,12 +45,12 @@ function removeWorldBox(box) {
     //    console.log("Remove Model ", this.isVisible, this)
 
     if (!box.isVisible) {
-        console.log("Remove !isVisible.. ", box)
+    //    console.log("Remove !isVisible.. ", box)
     //    return;
     }
     GameAPI.worldModels.unregisterWorldBox(box);
     if (!box.instance) {
-        console.log("Remove !instance.. ", box)
+    //    console.log("Remove !instance.. ", box)
         return;
     }
     box.instance.decommissionInstancedModel();

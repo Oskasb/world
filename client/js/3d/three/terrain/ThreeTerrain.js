@@ -3,16 +3,15 @@ import {TerrainMaterial} from "./TerrainMaterial.js";
 import {Vector3} from "../../../../libs/three/math/Vector3.js";
 import {Object3D} from "../../../../libs/three/core/Object3D.js";
 import {TerrainGeometry} from "./TerrainGeometry.js";
-import {Vegetation} from "./vegetation/Vegetation.js";
 import * as TerrainFunctions from "./TerrainFunctions.js";
 import * as CursorUtils from "../../camera/CursorUtils.js";
 
 let scrubIndex = 0;
 
-let vegetation = new Vegetation();
 let terrainList = {};
 let terrainIndex = {};
 let terrainGeometries = [];
+let lodCenter = new Vector3();
 let calcVec = new Vector3();
 let posVec = new Vector3();
 let normVec = new Vector3();
@@ -202,7 +201,7 @@ let constructGeometries = function(heightMapData, transform, groundConfig, secti
             obj3d.position.add(terrainOrigin);
             obj3d.scale.copy(segmentScale);
             obj3d.scale.multiplyScalar(0.005);
-            terrainGeometries[i][j] = new TerrainGeometry(obj3d, geometrySize, i , j, gridMeshAssetId, vertsPerSegAxis, tiles, txWidth, groundTxWidth, groundConfig, sectionInfoCfg, vegetation);
+            terrainGeometries[i][j] = new TerrainGeometry(obj3d, geometrySize, i , j, gridMeshAssetId, vertsPerSegAxis, tiles, txWidth, groundTxWidth, groundConfig, sectionInfoCfg);
         }
     }
     geoBeneathPlayer = terrainGeometries[2][2];
@@ -457,10 +456,17 @@ let removeLodUpdateCB = function(callback) {
     }
 }
 
+function getLodCenter() {
+    return lodCenter;
+}
+
 class ThreeTerrain {
     constructor() {
 
+
+
         this.call = {
+            getLodCenter:getLodCenter,
             getHeightAndNormal:getHeightAndNormal,
             getTerrainData:getTerrainData,
             shadeTerrainDataCanvas:shadeTerrainDataCanvas,
@@ -485,21 +491,7 @@ class ThreeTerrain {
 
         };
 
-        let vegReadyCB = function() {
-            /*
-            for (let i = 0; i < terrainGeometries.length; i++) {
-                for (let j = 0; j < terrainGeometries[i].length; j++) {
-                    let geo = terrainGeometries[i][j];
-               //     if (geo.levelOfDetail === 0) {
-                        geo.call.activateVegetation();
-                //    }
-                }
-            }
 
-             */
-        }
-
-        vegetation.initVegetation(vegReadyCB);
         let configData = new ConfigData("ASSETS", "TERRAIN", "terrain_config", 'data_key', 'config')
         configData.addUpdateCallback(terrainListLoaded);
         configData.parseConfig( terrainId, terrainListLoaded)
@@ -534,14 +526,6 @@ class ThreeTerrain {
         delete terrainIndex[terrain.model.uuid]
     };
 
-    terrainVegetationIdAt = function(pos, normalStore) {
-
-        let terrain = ThreeTerrain.getThreeHeightAt(pos, normalStore);
-
-        if (terrain) {
-            return terrain.vegetation;
-        }
-    };
 
     getThreeHeightAt = function(pos, normalStore) {
 
@@ -569,12 +553,12 @@ class ThreeTerrain {
 
         scrubTerrainForError();
 
-        CursorUtils.processTerrainLodCenter(calcVec)
+        CursorUtils.processTerrainLodCenter(lodCenter)
     //    if (GameAPI.gameMain.getPlayerCharacter()) {
 
 
 
-            let playerGeo = getTerrainGeoAtPos(calcVec);
+            let playerGeo = getTerrainGeoAtPos(lodCenter);
 
 
             if (playerGeo !== geoBeneathPlayer) {

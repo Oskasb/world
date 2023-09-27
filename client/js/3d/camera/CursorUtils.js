@@ -139,7 +139,7 @@ function processTerrainLodCenter(calcVec) {
     let cursorPos = ThreeAPI.getCameraCursor().getPos();
 
     calcVec.subVectors(cursorPos , ThreeAPI.getCamera().position );
-    calcVec.multiplyScalar(-0.2);
+    calcVec.multiplyScalar(-0.3);
     calcVec.add(cursorPos);
     calcVec.y = cursorPos.y+0.1
 

@@ -1,8 +1,8 @@
 import {ExpandingPool} from "../../../../application/utils/ExpandingPool.js";
 import {Instantiator} from "../../instancer/Instantiator.js";
 import {Plant} from "./Plant.js";
-import {VegetationGrid} from "./VegetationGrid.js";
 import {ConfigData} from "../../../../application/utils/ConfigData.js";
+import {VegetationLodGrid } from "./VegetationLodGrid.js";
 
 let configDefault = {
     "sys_key": "VEG_8x8",
@@ -10,6 +10,13 @@ let configDefault = {
     "pool_size": 6000,
     "render_order": 0
 };
+
+let config = {
+    "lod_levels": [
+        {"max_distance": 200, "sectors":5},
+        {"max_distance":70, "sectors":6}
+    ]
+}
 
 let count = 0;
 
@@ -26,6 +33,8 @@ class Vegetation {
         this.instantiator = new Instantiator();
         this.plantPools = {};
 
+        this.vegetationLodGrids = [];
+
         let populateSector = function(sector, plantCount) {
             this.populateVegetationSector(sector, plantCount)
         }.bind(this);
@@ -38,16 +47,10 @@ class Vegetation {
             return this.plantConfigs[key]
         }.bind(this);
 
-        let updateVegetation = function()  {
-            this.updateVegetation();
-        }.bind(this)
-
         this.callbacks = {
             populateSector:populateSector,
             depopulateSector:depopulateSector,
-            getPlantConfigs:getPlantConfigs,
-            updateVegetation:updateVegetation
-        }
+            getPlantConfigs:getPlantConfigs}
     };
 
     //   this.vegetation.initVegetation("grid_default", new WorkerData('VEGETATION', 'GRID'),  new WorkerData('VEGETATION', 'PLANTS') ,simReady);
@@ -64,27 +67,31 @@ class Vegetation {
             this.applyPlantConfig(data[0].data);
             if (plantInit === 0) {
                 plantInit = 1;
-                GameAPI.registerGameUpdateCallback(this.callbacks.updateVegetation);
-                ThreeAPI.getTerrainSystem().plantsReady = true;
-                ThreeAPI.getTerrainSystem().testReady();
                 vegReadyCB()
             } else {
                 this.resetVegetationSectors();
             }
         }.bind(this);
 
-        plantsData.addUpdateCallback(plantDataReady)
+
+        let setupLodGrids = function(cfg) {
+            for (let i = 0; i < cfg['lod_levels'].length; i++) {
+                let lodGrid =  new VegetationLodGrid()
+                lodGrid.activateLodGrid(cfg['lod_levels'][i])
+                this.vegetationLodGrids[i] =lodGrid;
+            }
+        }.bind(this)
 
         let onDataReady = function(data) {
             console.log("Veg data",this.init, data[0].data);
             this.applyConfig(data[0].data);
+            setupLodGrids(config)
             if (dataInit === 0) {
                 dataInit = 1;
                 this.setupInstantiator();
+                plantsData.addUpdateCallback(plantDataReady)
             }
             this.resetVegetationSectors();
-            ThreeAPI.getTerrainSystem().vegReady = true;
-            ThreeAPI.getTerrainSystem().testReady();
         }.bind(this);
 
         console.log("init Veg data", vegGridData);
@@ -119,16 +126,6 @@ class Vegetation {
 
         this.instantiator.addInstanceSystem(this.config.asset_id, this.config.sys_key, this.config.asset_id, this.config.pool_size, this.config.render_order);
 
-        let treesCfg = this.config.trees;
-        if (treesCfg) {
-            for (let i = 0; i < treesCfg.length; i++) {
-                let assetId = treesCfg[i].asset_id
-                this.instanceAssetKeys.push(assetId);
-                this.instantiator.addInstanceSystem(assetId, assetId, assetId, treesCfg[i].pool_size, treesCfg[i].render_order);
-                this.plantPools[assetId] = new ExpandingPool(assetId, addPlant);
-            }
-        }
-
         this.plantPools[this.config.asset_id] = new ExpandingPool(this.config.asset_id, addPlant);
 
         let plantActivate = function(plant) {
@@ -145,13 +142,6 @@ class Vegetation {
         this.instantiator.buildBufferElement(poolKey, cb)
     };
 
-    addVegetationAtPosition(patchConfig, pos, terrainSystem) {
-
-        let area = terrainSystem.getTerrainAreaAtPos(pos);
-        let grid = MATH.getFromArrayByKeyValue(this.areaGrids, 'terrainArea', area);
-        grid.addPatchToVegetationGrid(patchConfig, pos);
-
-    };
 
     createPlant(assetId, cb) {
 
@@ -163,11 +153,6 @@ class Vegetation {
 
     };
 
-    vegetateTerrainArea(area) {
-        let grid = new VegetationGrid(area, this.callbacks.populateSector, this.callbacks.depopulateSector, this.callbacks.getPlantConfigs, 'plants');
-        grid.generateGridSectors(this.config.sector_plants, this.config.grid_range);
-        area.call.setVegetationGrid(grid);
-    };
 
     activateVegetationPlant(plant) {
         this.buildBufferElement(plant.poolKey, plant.getElementCallback())
@@ -189,10 +174,13 @@ class Vegetation {
         sector.deactivateSectorPlants();
     };
 
-    updateVegetation() {
-    //    for (let i = 0; i < this.areaGrids.length; i++) {
-    //        this.areaGrids[i].updateVegetationGrid()
-    //    }
+    updateVegetation(lodCenter) {
+
+        for (let i = 0; i < this.vegetationLodGrids.length; i++) {
+            this.vegetationLodGrids[i].updateVegLodGrid(lodCenter)
+        }
+
+
         this.instantiator.updateInstantiatorBuffers();
     };
 
@@ -211,7 +199,6 @@ class Vegetation {
 
         if (rebuild) {
             this.instantiator.updateInstantiatorBuffers();
-            this.vegetateTerrainArea(rebuild)
         }
 
     };

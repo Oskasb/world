@@ -259,6 +259,8 @@ class VegetationSector {
     };
 
     activateVegetationSector = function() {
+        evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:this.extMin, max:this.extMax, color:'GREEN'})
+
         this.isActive = true;
     };
 

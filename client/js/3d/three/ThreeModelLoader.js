@@ -971,9 +971,6 @@ class ThreeModelLoader {
         };
 
 
-        terrainVegetationAt = function(pos, nmStore) {
-            return ThreeTerrain.terrainVegetationIdAt(pos, nmStore);
-        };
 
         getHeightFromTerrainAt = function(pos, normalStore) {
             return ThreeTerrain.getThreeHeightAt(pos, normalStore);

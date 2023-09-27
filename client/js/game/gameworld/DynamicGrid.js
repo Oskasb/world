@@ -95,7 +95,7 @@ class DynamicGrid {
 
         this.gridCenterPos.set(centerTileIndexX, 0,  centerTileIndexY)
         this.gridCenterPos.y = ThreeAPI.terrainAt(this.gridCenterPos);
-        evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:this.gridCenterPos, color:'WHITE', size:this.tileSize * 0.5});
+        evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:this.gridCenterPos, color:'WHITE', size:this.tileSize * 2.5});
 
         renderDynamicTiles(this, this.dynamicGridTiles)
 

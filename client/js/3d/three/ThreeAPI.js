@@ -195,9 +195,6 @@ class ThreeAPI {
         return this.renderer;
     };
 
-    plantVegetationAt = function(pos, normalStore) {
-        return this.threeModelLoader.terrainVegetationAt(pos, normalStore);
-    };
 
     clearTerrainLodUpdateCallback(callback) {
         terrainSystem.clearLodUpdates(callback)
