@@ -1,12 +1,13 @@
 import {borrowBox, cubeTestVisibility} from "../../../ModelUtils.js";
 
 let index = 0;
-let boxColor = {r:1, g:1, b:1}
+let boxColor = {}
 class VegetationTile {
     constructor(dynamicGridTile) {
         this.index = index;
         index++
         this.dynamicGridTile = dynamicGridTile;
+        this.isVisible = false;
     }
 
 
@@ -22,9 +23,10 @@ class VegetationTile {
         let tileSize = dynamicGridTile.spacing
         let isVisible = cubeTestVisibility(pos,  tileSize * 0.1)
         let borrowedBox = borrowBox();
-        let farness = MATH.clamp( MATH.curveSigmoid( (camDistSQ - 5) / maxDistance) * 1.2, 0, 1)
+        let farness = MATH.clamp( MATH.curveSigmoid( (camDistSQ - 5) / maxDistance) * 1.1, 0, 1)
         let nearness = 1-farness;
-
+        this.nearness = nearness;
+        this.isVisible = false;
         if (isVisible) {
             rgba.r = farness;
             rgba.g = nearness;
@@ -33,7 +35,12 @@ class VegetationTile {
             boxColor.x = Math.sin(this.index*1.1);
             boxColor.y = Math.cos(this.index*0.4);
             boxColor.z = Math.cos(this.index*1.5);
-            evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:borrowedBox.min, max:borrowedBox.max, color:boxColor})
+
+
+            if (nearness > 0) {
+                this.isVisible = true;
+            //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:borrowedBox.min, max:borrowedBox.max, color:boxColor})
+            }
 
         } else {
             rgba.r = 0;
