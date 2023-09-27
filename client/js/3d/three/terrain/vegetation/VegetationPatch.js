@@ -13,7 +13,7 @@ class VegetationPatch {
 
     setVegTile(vegTile) {
         this.position.copy(vegTile.getPos())
-
+        tempVec.set(vegTile.nearness, vegTile.nearness, vegTile.nearness)
         let borrowedBox = borrowBox();
         borrowedBox.min.copy(this.position).sub(tempVec);
         borrowedBox.max.copy(this.position).add(tempVec);
