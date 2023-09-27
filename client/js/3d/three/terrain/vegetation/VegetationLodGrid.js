@@ -1,11 +1,13 @@
 import {DynamicGrid} from "../../../../game/gameworld/DynamicGrid.js";
 import {cubeTestVisibility} from "../../../ModelUtils.js";
 import {VegetationTile} from "./VegetationTile.js";
+import {VegetationPatch} from "./VegetationPatch.js";
 
 class VegetationLodGrid {
     constructor() {
         this.dynamicGrid = new DynamicGrid()
         this.vegetationTiles = [];
+        this.vegetationPatches = [];
     }
 
 
@@ -17,6 +19,7 @@ class VegetationLodGrid {
         for (let i = 0; i < tiles.length; i++) {
             for (let j = 0; j < tiles[i].length;j++) {
                 this.vegetationTiles.push(new VegetationTile(tiles[i][j]));
+                this.vegetationPatches.push(new VegetationPatch())
             }
         }
 
@@ -30,12 +33,17 @@ class VegetationLodGrid {
         }
     }
 
+    refitPatches() {
+
+    }
+
     updateVegLodGrid(lodCenter) {
         let centerTile = this.dynamicGrid.getTileAtPosition(lodCenter);
         this.dynamicGrid.updateDynamicGrid(centerTile.tileX, centerTile.tileZ)
-    //    if (this.dynamicGrid.updated) {
-            this.processLodVisibility()
-    //    }
+        this.processLodVisibility()
+        if (this.dynamicGrid.updated) {
+            this.refitPatches();
+        }
 
     }
 

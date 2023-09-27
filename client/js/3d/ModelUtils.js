@@ -156,7 +156,12 @@ function cubeTestVisibility(center, size) {
     return ThreeAPI.testBoxIsVisible(tempBox);
 }
 
+function borrowBox() {
+    return tempBox;
+}
+
 export {
+    borrowBox,
     cubeTestVisibility,
     setupVisualModel,
     buildAssetInstance,
