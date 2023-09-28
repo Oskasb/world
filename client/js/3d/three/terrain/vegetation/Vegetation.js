@@ -47,8 +47,8 @@ let config = {
             "elevation" : 0.1,
             "tile_size" : 0.8,
             "tile_range" : 9,
-            "tile_spacing" : 18,
-            "max_plants":140,
+            "tile_spacing" : 15,
+            "max_plants":170,
             "plants":[
                 "leafy_small",
                 "flower_1_red",
