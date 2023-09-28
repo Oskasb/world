@@ -13,9 +13,10 @@ class DynamicTile {
 
     }
 
-    activateTile = function(defaultSprite, defaultSize, spacing) {
+    activateTile = function(defaultSprite, defaultSize, spacing, hideTile) {
         this.defaultSprite = defaultSprite || [7, 3]
 
+        this.hideTile = hideTile;
         this.spacing = spacing || 1;
 
         this.defaultSize = this.spacing * defaultSize || 0.9
@@ -57,7 +58,10 @@ class DynamicTile {
             this.tileEffect = efct;
         }.bind(this);
 
-        EffectAPI.buildEffectClassByConfigId('additive_stamps_8x8', 'effect_character_indicator',  effectCb)
+        if (!this.hideTile) {
+            EffectAPI.buildEffectClassByConfigId('additive_stamps_8x8', 'effect_character_indicator',  effectCb)
+        }
+
     }
 
     setTileIndex = function(indexX, indexY, gridI, gridJ) {
@@ -71,6 +75,13 @@ class DynamicTile {
         this.obj3d.position.x = indexX*this.spacing;
         this.obj3d.position.z = indexY*this.spacing;
         let height = ThreeAPI.terrainAt(this.obj3d.position, this.groundNormal);
+        this.obj3d.position.y = height + 0.01;
+
+        if (this.hideTile) {
+            return;
+        }
+
+
         tempObj.lookAt(up);
         let pos = this.obj3d.position;
         let slope = 0;
@@ -79,7 +90,7 @@ class DynamicTile {
         let r = 0;
         let g = 0.2;
         let b = 0;
-        let a = 1;
+        let a = 0.3;
 
         this.walkable = false;
         this.blocking = false;
@@ -159,12 +170,12 @@ class DynamicTile {
     }
 
     indicatePath = function() {
-        this.tileEffect.setEffectSpriteXY(7, 1);
+    //    this.tileEffect.setEffectSpriteXY(7, 1);
         this.tileEffect.setEffectColorRGBA(CombatFxUtils.setRgba(this.rgba.r*4, this.rgba.g*4, this.rgba.b*4, this.rgba.a*4))
     }
 
     clearPathIndication = function() {
-        this.tileEffect.setEffectSpriteXY(this.groundSprite[0], this.groundSprite[1]);
+    //    this.tileEffect.setEffectSpriteXY(this.groundSprite[0], this.groundSprite[1]);
         this.tileEffect.setEffectColorRGBA(CombatFxUtils.setRgba(this.rgba.r, this.rgba.g, this.rgba.b, this.rgba.a))
     }
 
@@ -172,12 +183,25 @@ class DynamicTile {
         return this.obj3d.position;
     }
 
+    getTileExtents(minStore, maxStore) {
+        let pos = this.getPos();
+        minStore.x = pos.x - this.spacing*0.5;
+        minStore.y = pos.y - this.spacing*0.5;
+        minStore.z = pos.z - this.spacing*0.5;
+        maxStore.copy(minStore);
+        maxStore.x += this.spacing;
+        maxStore.y += this.spacing;
+        maxStore.z += this.spacing;
+    }
+
     getNormal = function() {
         return this.groundNormal;
     }
 
     removeTile = function () {
-        this.tileEffect.recoverEffectOfClass();
+        if (this.tileEffect) {
+            this.tileEffect.recoverEffectOfClass();
+        }
         poolReturn(this);
     }
 

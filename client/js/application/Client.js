@@ -8,7 +8,7 @@ import { Setup } from './setup/Setup.js';
 import * as THREE from '../../libs/three/Three.js';
 import { ThreeController } from '../3d/ThreeController.js';
 import { DynamicMain } from '../3d/DynamicMain.js';
-
+import {initPools, registerPool} from "./utils/PoolUtils.js";
 
 
 let frame = {
@@ -21,6 +21,8 @@ let frame = {
 class Client {
 
     constructor( devMode, env ) {
+
+
         window.THREE = THREE;
         this.type = 'Client';
         this.devMode = devMode;
@@ -57,6 +59,7 @@ class Client {
         document.body
         let pipeWorkersReadyCB = function() {
             client.setup.initConfigCache(window.PipelineAPI, dataPipelineOptions);
+            initPools()
             client.initUiSystem();
         };
 

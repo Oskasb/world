@@ -1,4 +1,3 @@
-import {DynamicTile} from "./DynamicTile.js";
 import { Vector3 } from "../../../libs/three/math/Vector3.js";
 import * as ScenarioUtils from "./ScenarioUtils.js";
 import {registerPool, poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
@@ -34,7 +33,6 @@ let renderDynamicTiles = function(dynamicGrid, dynamicGridTiles) {
 
 class DynamicGrid {
     constructor() {
-        registerPool(DynamicTile)
         this.gridCenterPos = new Vector3();
         this.centerTileIndexX = 0;
         this.centerTileIndexY = 0;
@@ -53,6 +51,7 @@ class DynamicGrid {
         this.tileSize =  config['tile_size'];
         this.stepHeight = config['step_height'];
         this.tileRange =  config['tile_range'];
+        this.hideTiles = config['hide_tiles'] || false;
 
         for (let i = 0; i < this.tileRange; i++) {
 
@@ -60,7 +59,7 @@ class DynamicGrid {
 
             for (let j = 0; j < this.tileRange; j++) {
                 let tile = poolFetch('DynamicTile')
-                tile.activateTile(null, this.tileSize, this.tileSpacing);
+                tile.activateTile(null, this.tileSize, this.tileSpacing, this.hideTiles);
                 this.dynamicGridTiles[i][j] = tile;
             }
         }
@@ -98,9 +97,6 @@ class DynamicGrid {
 
         this.gridCenterPos.set(centerTileIndexX, 0,  centerTileIndexY)
         this.gridCenterPos.y = ThreeAPI.terrainAt(this.gridCenterPos);
-        evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:this.gridCenterPos, color:'WHITE', size:this.tileSize * 0.5});
-
-        renderDynamicTiles(this, this.dynamicGridTiles)
 
     }
 

@@ -14,16 +14,73 @@ let configDefault = {
 let config = {
     "lod_levels": [
         {
+            "hide_tiles": true,
             "elevation" : 0.1,
             "tile_size" : 0.8,
             "tile_range" : 9,
-            "tile_spacing" : 6
+            "tile_spacing" : 6,
+            "max_plants":180,
+            "plants":[
+                "leafy_small",
+                "flower_1_red",
+                "flower_1_yellow",
+                "flower_1_white",
+                "bushes_1_small",
+                "bushes_2_small",
+                "grass_low_1_dead",
+                "grass_tall_sparse_1",
+                "grass_tall_sparse_2",
+                "grass_low_1_dry",
+                "grass_low_2",
+                "grass_low_1_flowery",
+                "grass_low_3_flowery",
+                "grass_low_4_green",
+                "grass_low_5_dry",
+                "grass_low_6_bright",
+                "ferns_1",
+                "reeds_1",
+                "reeds_3"
+            ]
         },
         {
+            "hide_tiles": true,
+            "elevation" : 0.1,
+            "tile_size" : 0.8,
+            "tile_range" : 9,
+            "tile_spacing" : 18,
+            "max_plants":140,
+            "plants":[
+                "leafy_small",
+                "flower_1_red",
+                "flower_1_white",
+                "bushes_2_small",
+                "bushes_1_small",
+                "grass_low_1_dead",
+                "grass_tall_sparse_1",
+                "grass_tall_sparse_2",
+                "grass_tall_2",
+                "grass_low_1_dry",
+                "bushes_1_small",
+                "bushes_1_flowery_small",
+                "ferns_1",
+                "reeds_2",
+                "reeds_3"
+            ]
+        },
+        {
+            "hide_tiles": true,
             "elevation" : 0.1,
             "tile_size" : 0.9,
-            "tile_range" : 7,
-            "tile_spacing" : 18
+            "tile_range" : 9,
+            "tile_spacing" : 50,
+            "max_plants":120,
+            "plants":[
+                "leafy_big",
+                "bushes_1",
+                "bushes_1_flowery",
+                "reeds_1",
+                "reeds_2"
+            ]
         }
     ]
 }
@@ -63,7 +120,6 @@ class Vegetation {
             getPlantConfigs:getPlantConfigs}
     };
 
-    //   this.vegetation.initVegetation("grid_default", new WorkerData('VEGETATION', 'GRID'),  new WorkerData('VEGETATION', 'PLANTS') ,simReady);
     initVegetation(vegReadyCB) {
         let dataId = "plants_default"
         let vegGridData = new ConfigData('VEGETATION', 'GRID')
@@ -72,30 +128,36 @@ class Vegetation {
         let dataInit = 0;
         let plantInit = 0;
 
+        let setupLodGrids = function(cfg, plantsConfig) {
+            for (let i = 0; i < cfg['lod_levels'].length; i++) {
+                let lodGrid =  new VegetationLodGrid()
+                lodGrid.activateLodGrid(cfg['lod_levels'][i], plantsConfig)
+                this.vegetationLodGrids[i] =lodGrid;
+            }
+        }.bind(this)
+
         let plantDataReady = function(data) {
             console.log("Plants data",this.init,  data[0].data);
             this.applyPlantConfig(data[0].data);
+                setupLodGrids(config, data[0].data)
             if (plantInit === 0) {
                 plantInit = 1;
                 vegReadyCB()
             } else {
                 this.resetVegetationSectors();
             }
+
+
+
         }.bind(this);
 
 
-        let setupLodGrids = function(cfg) {
-            for (let i = 0; i < cfg['lod_levels'].length; i++) {
-                let lodGrid =  new VegetationLodGrid()
-                lodGrid.activateLodGrid(cfg['lod_levels'][i])
-                this.vegetationLodGrids[i] =lodGrid;
-            }
-        }.bind(this)
+
 
         let onDataReady = function(data) {
             console.log("Veg data",this.init, data[0].data);
             this.applyConfig(data[0].data);
-            setupLodGrids(config)
+
             if (dataInit === 0) {
                 dataInit = 1;
                 this.setupInstantiator();
@@ -189,7 +251,6 @@ class Vegetation {
         for (let i = 0; i < this.vegetationLodGrids.length; i++) {
             this.vegetationLodGrids[i].updateVegLodGrid(lodCenter)
         }
-
 
         this.instantiator.updateInstantiatorBuffers();
     };

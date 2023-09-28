@@ -12,11 +12,12 @@ class VegetationLodGrid {
     }
 
 
-    activateLodGrid(config) {
+    activateLodGrid(config, plantsConfig) {
+        this.plantsConfig = plantsConfig;
+        this.plantList = config['plants'];
+        this.maxPlants = config['max_plants'];
         this.maxDistance = config['tile_range'] * config['tile_spacing'];
         this.dynamicGrid.activateDynamicGrid(config)
-
-        registerPool(VegetationPatch);
 
         let tiles = this.dynamicGrid.dynamicGridTiles;
         for (let i = 0; i < tiles.length; i++) {
@@ -24,7 +25,6 @@ class VegetationLodGrid {
                 this.vegetationTiles.push(new VegetationTile(tiles[i][j]));
             }
         }
-
     }
 
 
@@ -55,9 +55,10 @@ class VegetationLodGrid {
                 let tile = tiles[i];
             let patch = this.getPatchByPosition(tile.getPos());
                 if (tile.isVisible) {
-                    patch.setVegTile(tile);
+                    patch.setVegTile(tile, this.plantsConfig, this.plantList, this.maxPlants);
                 } else {
                     MATH.splice(this.vegetationPatches, patch);
+                    patch.recoverVegetationPatch();
                     poolReturn(patch)
                 }
         }
@@ -70,6 +71,11 @@ class VegetationLodGrid {
         this.processLodVisibility()
     //    if (this.dynamicGrid.updated) {
             this.refitPatches(this.vegetationTiles);
+
+        for (let i = 0; i < this.vegetationPatches.length; i++) {
+            let patch = this.vegetationPatches[i];
+            patch.applyGridVisibility()
+        }
     //    }
 
     }

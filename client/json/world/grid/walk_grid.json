@@ -13,7 +13,7 @@
               "grid": {
 
                 "elevation": 0.02,
-                "tile_spacing": 0.7,
+                "tile_spacing": 1,
                 "tile_size": 0.9,
                 "step_height": 0.2,
                 "tile_range": 21

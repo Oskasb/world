@@ -111,6 +111,27 @@ if(typeof(MATH) === "undefined") {
 		return array[Math.floor(Math.random()*array.length)]
 	};
 
+	MATH.getSillyRandomArrayEntry = function(array, seed) {
+		return array[Math.floor(MATH.sillyRandom(seed)*array.length)]
+	};
+
+	let rgba = {};
+	MATH.sillyRandomBetweenColors = function(rgba1, rgba2, seed, store) {
+		if (!store) store = rgba;
+		store.r = MATH.sillyRandomBetween(rgba1[0], rgba2[0], seed);
+		store.g = MATH.sillyRandomBetween(rgba1[1], rgba2[1], seed+1);
+		store.b = MATH.sillyRandomBetween(rgba1[2], rgba2[2], seed+2);
+		store.a = MATH.sillyRandomBetween(rgba1[3], rgba2[3], seed+3);
+		return store;
+	}
+
+	MATH.rgbaToXYZW = function(rgba, store) {
+		store.x = rgba.r;
+		store.y = rgba.g;
+		store.z = rgba.b;
+		store.w = rgba.a;
+	}
+
 	MATH.arrayContains = function(array, entry) {
 		return array.indexOf(entry) !== -1;
 	};

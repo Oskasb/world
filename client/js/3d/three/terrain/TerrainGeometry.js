@@ -401,14 +401,14 @@ class TerrainGeometry{
                 let lodLevel = Math.min(Math.floor( lodDist * 0.85 + MATH.curveQuad(lodDist) * 0.075), maxLodLevel)
 
                 if (lodLevel > 3) {
-                    if (Math.random() < 0.9 && this.wasVisible === false) {
+                    if (Math.random() < 0.7 && this.wasVisible === false) {
                         this.isVisible = false;
                     } else {
                         this.attachGeometryInstance(null, lodLevel)
                     }
                 } else if (lodLevel > 2) {
                 //    if ( this.levelOfDetail === -1) {
-                        if (Math.random() < 0.25) {
+                        if (Math.random() < 0.5) {
                             this.attachGeometryInstance(null, lodLevel)
                         }
                 //    }
