@@ -88,6 +88,50 @@
         ]
       },
       {
+        "id": "model_tree_1",
+        "data": [
+          {
+            "data_key":"model_data",
+            "config": {
+              "assets": [
+                {
+                  "asset": "asset_tree_1",
+                  "pos": [0, 0, 0],
+                  "rot": [-1.77, 0, 0],
+                  "scale": [1.001, 1.001, 1.001],
+                  "visibility": 3,
+                  "boxes": [
+
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "model_tree_2",
+        "data": [
+          {
+            "data_key":"model_data",
+            "config": {
+              "assets": [
+                {
+                  "asset": "asset_tree_2",
+                  "pos": [0, 0, 0],
+                  "rot": [-1.71, 0, 0],
+                  "scale": [1.001, 1.001, 1.001],
+                  "visibility": 3,
+                  "boxes": [
+
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
         "id": "model_fence_small",
         "data": [
           {

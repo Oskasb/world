@@ -125,6 +125,20 @@
                   "rot": [0, 4.68, 0],
                   "scale": [1, 1, 1],
                   "on_ground": true
+                },
+                {
+                  "model": "model_tree_1",
+                  "pos": [-713.0, 0.75, 511.01],
+                  "rot": [0, 2.68, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": true
+                }              ,
+                {
+                  "model": "model_tree_2",
+                  "pos": [-698.0, 0.75, 517.01],
+                  "rot": [0, 2.68, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": true
                 }
               ]
             }
