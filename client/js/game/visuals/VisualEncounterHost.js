@@ -38,11 +38,12 @@ class VisualEncounterHost {
         return this.obj3d.position;
     }
 
-    applyHostConfig(config) {
+    applyHostConfig(config, actorReady) {
 
         let actorLoaded = function(actor) {
             MATH.rotateObj(actor.actorObj3d, config.rot)
             this.call.setActor(actor);
+            actorReady(actor)
         }.bind(this)
 
         if (config.actor) {

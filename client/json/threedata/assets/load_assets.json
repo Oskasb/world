@@ -12,6 +12,8 @@
       "TEXTURES"
     ],
     "POLL_INDEX":[
+      "/threedata/vegetation/vegetation_grids.json"          ,
+      "/threedata/vegetation/vegetation_plants.json"         ,
       "/world/locations/location_bridgetown_walls.json"       ,
       "/world/locations/location_bridgetown_main.json"       ,
       "/world/locations/models/location_models.json"         ,

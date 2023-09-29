@@ -52,9 +52,12 @@ let deactivateWorldEncounters = function () {
 let activateWorldEncounters = function() {
     let encountersData = function(encounters) {
         for (let i = 0; i < encounters.length;i++) {
-            let encounter = new WorldEncounter(encounters[i])
-            worldEncounters.push(encounter);
-            encounter.activateWorldEncounter()
+            let onReady = function(encounter) {
+                worldEncounters.push(encounter);
+                encounter.activateWorldEncounter()
+            }
+            new WorldEncounter(encounters[i], onReady)
+
         }
     }
 

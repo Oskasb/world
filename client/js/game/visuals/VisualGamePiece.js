@@ -6,14 +6,7 @@ let tempVec = new Vector3();
 
 let visualIndex = 0;
 
-let pieceReady = function(visualPiece) {
-    visualPiece.showVisualGamePiece();
 
-    if (visualPiece.pieceAnimator) {
-        visualPiece.enablePieceAnimations();
-        visualPiece.animateActionState('IDLE_HANDS')
-    }
-}
 
 class VisualGamePiece {
     constructor(config) {
@@ -47,7 +40,17 @@ class VisualGamePiece {
 
     }
 
-    attachModelAsset = function() {
+    attachModelAsset = function(onReady) {
+
+        let pieceReady = function(visualPiece) {
+            visualPiece.showVisualGamePiece();
+
+            if (visualPiece.pieceAnimator) {
+                visualPiece.enablePieceAnimations();
+                visualPiece.animateActionState('IDLE_HANDS')
+            }
+            onReady(this)
+        }
 
         ModelUtils.setupVisualModel(this, this.assetId, this.config, pieceReady);
     }

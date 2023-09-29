@@ -72,7 +72,7 @@ function checkTriggerPlayer(encounter) {
 }
 
 class WorldEncounter {
-    constructor(config) {
+    constructor(config, onReady) {
 
         this.timeInsideTrigger = 0;
         this.config = config;
@@ -112,11 +112,18 @@ class WorldEncounter {
 
         if (this.config.host_id) {
         //    console.log("config host_id: ", this.config.host_id)
+
+            let actorReady = function(actor) {
+                onReady(this)
+            }.bind(this)
+
             let onData = function(config) {
-                this.visualEncounterHost.applyHostConfig(config);
+                this.visualEncounterHost.applyHostConfig(config, actorReady);
             }.bind(this)
 
             parseConfigDataKey("ENCOUNTER_HOSTS", "HOSTS",  'host_data', this.config.host_id, onData)
+        } else {
+            onReady(this);
         }
 
         if (this.config.indicator_id) {

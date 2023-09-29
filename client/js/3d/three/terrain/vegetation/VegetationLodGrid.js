@@ -6,7 +6,7 @@ import {poolFetch, poolReturn, registerPool} from "../../../../application/utils
 
 class VegetationLodGrid {
     constructor() {
-        this.dynamicGrid = new DynamicGrid()
+        this.dynamicGrid = poolFetch( 'DynamicGrid')
         this.vegetationTiles = [];
         this.vegetationPatches = [];
     }
@@ -22,7 +22,9 @@ class VegetationLodGrid {
         let tiles = this.dynamicGrid.dynamicGridTiles;
         for (let i = 0; i < tiles.length; i++) {
             for (let j = 0; j < tiles[i].length;j++) {
-                this.vegetationTiles.push(new VegetationTile(tiles[i][j]));
+                let vegTile = poolFetch('VegetationTile');
+                vegTile.setDynamicTile(tiles[i][j])
+                this.vegetationTiles.push(vegTile);
             }
         }
     }
@@ -78,6 +80,22 @@ class VegetationLodGrid {
         }
     //    }
 
+    }
+
+    deactivateLodGrid() {
+        while (this.vegetationPatches.length) {
+            let patch = this.vegetationPatches.pop();
+            patch.recoverVegetationPatch();
+            poolReturn(patch)
+        }
+
+        while (this.vegetationTiles.length) {
+            let vegTile = this.vegetationTiles.pop();
+            poolReturn(vegTile);
+        }
+
+        this.dynamicGrid.deactivateDynamicGrid();
+        poolReturn(this.dynamicGrid);
     }
 
 }

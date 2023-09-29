@@ -21,7 +21,17 @@ class GameActor {
             this.updateGameActor();
         }.bind(this);
 
+        let onActive = function() {
+            if (this.preDeactivated) {
+                console.log("Pre Deactivated happened, fix callback chain..")
+                return;
+            }
+            this.activated = true;
+            GameAPI.registerGameUpdateCallback(updateGameActor);
+        }.bind(this);
+
         this.call = {
+            onActive:onActive,
             setAsSelection:setAsSelection,
             updateGameActor:updateGameActor
         }
@@ -62,17 +72,24 @@ class GameActor {
 
     activateGameActor() {
         if (!this.activated) {
-            this.updateGameActor()
-            this.visualGamePiece.attachModelAsset();
-            GameAPI.registerGameUpdateCallback(this.call.updateGameActor);
+        //    this.updateGameActor()
+            this.visualGamePiece.attachModelAsset(this.call.onActive);
+
+        } else {
+            this.activated = true;
         }
-        this.activated = true;
+
     }
 
     deactivateGameActor() {
-        this.visualGamePiece.removeVisualGamePiece();
-        GameAPI.unregisterGameUpdateCallback(this.call.updateGameActor);
-        this.activated = false;
+        if (this.activated === true) {
+            this.visualGamePiece.removeVisualGamePiece();
+            GameAPI.unregisterGameUpdateCallback(this.call.updateGameActor);
+            this.activated = false;
+        } else {
+            this.preDeactivated = true;
+        }
+
     }
 
     getPointAtDistanceAhead(distance) {
