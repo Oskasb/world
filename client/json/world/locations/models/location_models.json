@@ -13,28 +13,28 @@
                   "pos": [0, 0, 0],
                   "rot": [0, 0, 0],
                   "scale": [0.002, 0.002, 0.002],
-                  "visibility": 3,
+                  "visibility": 2,
                   "boxes": [
                     {
                       "sprite": "wood_plank",
                       "pos": [2, 0.2, -4],
                       "rot": [0, 0, 0],
                       "scale": [0.005, 0.005, 0.005],
-                      "visibility": 2
+                      "visibility": 1
                     },
                     {
                       "sprite": "wood_plank",
                       "pos": [2.5, 0.2, -4.5],
                       "rot": [0, 0, 0],
                       "scale": [0.005, 0.005, 0.005],
-                      "visibility": 2
+                      "visibility": 1
                     },
                     {
                       "sprite": "wood_plank",
                       "pos": [1.7, 0.2, -4.7],
                       "rot": [0, 0, 0],
                       "scale": [0.005, 0.005, 0.005],
-                      "visibility": 2
+                      "visibility": 1
                     }
                   ]
                 }
@@ -55,7 +55,7 @@
                   "pos": [0, 0, 0],
                   "rot": [0, 0, 0],
                   "scale": [0.003, 0.003, 0.003],
-                  "visibility": 3,
+                  "visibility": 2,
                   "boxes": [
 
                   ]
@@ -77,7 +77,7 @@
                   "pos": [0, 0, 0],
                   "rot": [0, 0, 0],
                   "scale": [0.001, 0.001, 0.001],
-                  "visibility": 3,
+                  "visibility": 2,
                   "boxes": [
 
                   ]
@@ -99,7 +99,7 @@
                   "pos": [0, 0, 0],
                   "rot": [-1.77, 0, 0],
                   "scale": [1.001, 1.001, 1.001],
-                  "visibility": 3,
+                  "visibility": 2,
                   "boxes": [
 
                   ]
@@ -121,7 +121,7 @@
                   "pos": [0, 0, 0],
                   "rot": [-1.71, 0, 0],
                   "scale": [1.001, 1.001, 1.001],
-                  "visibility": 3,
+                  "visibility": 2,
                   "boxes": [
 
                   ]
