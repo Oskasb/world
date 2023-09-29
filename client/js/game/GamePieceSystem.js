@@ -34,7 +34,7 @@ let loadActor = function(event) {
 
         gameWalkGrid.activateWalkGrid(actor.actorObj3d)
         gameWalkGrid.call.updateWalkGrid()
-        gameWalkGrid.buildGridPath(event.tile.getPos())
+        gameWalkGrid.buildGridPath(event.tile.getPos(), actor.getPos())
 
 
         gameWalkGrid.applySelectedPath( )

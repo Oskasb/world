@@ -66,13 +66,10 @@
                 "tile_spacing" : 55,
                 "max_plants":90,
                 "plants":[
-                  "grass_tall_sparse_1",
-                  "grass_tall_sparse_2",
                   "leafy_big",
                   "bushes_1",
                   "bushes_1_flowery",
-                  "reeds_1",
-                  "reeds_2"
+                  "reeds_1"
                 ]
               }
             ]
