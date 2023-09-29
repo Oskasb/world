@@ -39,6 +39,150 @@
                   "scale": [1, 1, 1],
                   "on_ground": true,
                   "visibility": 3
+                },
+                {
+                  "model": "model_stone_wall_10x3m",
+                  "pos": [-763.5, 0.0, 513.5],
+                  "rot": [0, 5.1, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": true,
+                  "visibility": 3
+                },
+                {
+                  "model": "model_stone_wall_10x3m",
+                  "pos": [-759.7, 0.0, 522.8],
+                  "rot": [0, 5.1, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": true,
+                  "visibility": 3
+                },
+                {
+                  "model": "model_stone_wall_tower_5x5m",
+                  "pos": [-757.2, 0.0, 529.6],
+                  "rot": [0, 5.5, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": true,
+                  "visibility": 3
+                },
+                {
+                  "model": "model_stone_wall_10x3m",
+                  "pos": [-751.2, 0.0, 533.2],
+                  "rot": [0, 5.8, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": true,
+                  "visibility": 3
+                },
+                {
+                  "model": "model_stone_wall_10x3m",
+                  "pos": [-742.2, 0.0, 537.7],
+                  "rot": [0, 5.8, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": true,
+                  "visibility": 3
+                },
+                {
+                  "model": "model_stone_wall_tower_5x5m",
+                  "pos": [-735.5, 0.0, 540.4],
+                  "rot": [0, 6.2, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": true,
+                  "visibility": 3
+                },
+                {
+                  "model": "model_stone_wall_10x3m",
+                  "pos": [-728.6, 0.0, 538.2],
+                  "rot": [0, 0.25, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": true,
+                  "visibility": 3
+                },
+                {
+                  "model": "model_stone_wall_tower_5x5m",
+                  "pos": [-721.5, 0.0, 536.4],
+                  "rot": [0, 0.3, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": true,
+                  "visibility": 3
+                },
+                {
+                  "model": "model_stone_wall_10x3m",
+                  "pos": [-714.2, 0.0, 534.2],
+                  "rot": [0, 0.12, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": true,
+                  "visibility": 3
+                },
+                {
+                  "model": "model_stone_wall_gate",
+                  "pos": [-705, 8.0, 535],
+                  "rot": [0, 0.0, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": false,
+                  "visibility": 3
+                },
+                {
+                  "model": "model_stone_wall_10x3m",
+                  "pos": [-697.4, 0.0, 531.2],
+                  "rot": [0, 0.5, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": true,
+                  "visibility": 3
+                },
+                {
+                  "model": "model_stone_wall_10x3m",
+                  "pos": [-688.5, 0.0, 526.5],
+                  "rot": [0, 0.5, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": true,
+                  "visibility": 3
+                },
+                {
+                  "model": "model_stone_wall_tower_5x5m",
+                  "pos": [-681.1, 0.0, 524.4],
+                  "rot": [0, 0.1, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": true,
+                  "visibility": 3
+                },
+                {
+                  "model": "model_stone_wall_10x3m",
+                  "pos": [-673.5, 0.0, 524.5],
+                  "rot": [0, 0.0, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": true,
+                  "visibility": 3
+                },
+                {
+                  "model": "model_stone_wall_10x3m",
+                  "pos": [-663.5, 0.0, 524.5],
+                  "rot": [0, 0.0, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": true,
+                  "visibility": 3
+                },
+                {
+                  "model": "model_stone_wall_10x3m",
+                  "pos": [-653.5, 0.0, 524.5],
+                  "rot": [0, 0.0, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": true,
+                  "visibility": 3
+                },
+                {
+                  "model": "model_stone_wall_tower_5x5m",
+                  "pos": [-646.2, 0.0, 524.4],
+                  "rot": [0, 0.0, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": true,
+                  "visibility": 3
+                },
+                {
+                  "model": "model_stone_wall_10x8m",
+                  "pos": [-638.5, 3.0, 524],
+                  "rot": [0, 0, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": false,
+                  "visibility": 3
                 }
               ]
             }

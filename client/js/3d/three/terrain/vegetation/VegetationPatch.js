@@ -85,7 +85,7 @@ let determinePlantConfig = function(patch, plant, min, max, seed, retries) {
 
             return patch.plantsConfig.plants["rock_small"];
         }
-        evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ThreeAPI.getCameraCursor().getPos(), to:tempPos, color:'BLACK'});
+    //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ThreeAPI.getCameraCursor().getPos(), to:tempPos, color:'BLACK'});
         return determinePlantConfig(patch, plant, min, max, seed+retries, retries)
     }
     return config;
