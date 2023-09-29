@@ -10,8 +10,8 @@
                 "hide_tiles": true,
                 "elevation" : 0.1,
                 "tile_size" : 0.8,
-                "tile_range" : 9,
-                "tile_spacing" : 7,
+                "tile_range" : 13,
+                "tile_spacing" : 5,
                 "max_plants":110,
                 "plants":[
                   "leafy_small",

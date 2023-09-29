@@ -98,6 +98,10 @@ class VegetationLodGrid {
         poolReturn(this.dynamicGrid);
     }
 
+    rebuildLodGrid() {
+
+    }
+
 }
 
 export { VegetationLodGrid }

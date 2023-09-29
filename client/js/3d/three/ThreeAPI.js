@@ -12,6 +12,7 @@ import {TerrainSystem} from "./terrain/TerrainSystem.js";
 let cameraSpatialCursor = new CameraSpatialCursor();
 let terrainSystem = new TerrainSystem();
 let tempVec = null;
+let groundHeightData = [0, 0, 0, 0];
 class ThreeAPI {
 
     constructor() {
@@ -204,9 +205,16 @@ class ThreeAPI {
         terrainSystem.registerLodUpdateCB(pos, callback)
     }
 
-    terrainAt = function(pos, normalStore) {
+    terrainAt = function(pos, normalStore, groundData) {
 
-        let terrainHeight = terrainSystem.getTerrainHeightAndNormal(pos, normalStore);
+        if (groundData) {
+            groundData[0] = 0;
+            groundData[1] = 0;
+            groundData[2] = 0;
+            groundData[3] = 0;
+        }
+
+        let terrainHeight = terrainSystem.getTerrainHeightAndNormal(pos, normalStore, groundData);
 
         let boxHeight = terrainHeight;
         if (GameAPI.worldModels) {
@@ -232,7 +240,15 @@ class ThreeAPI {
     }
 
     shadeGroundAt = function(pos, size) {
-        terrainSystem.shadeTerrainGround(pos, size)
+        terrainSystem.shadeTerrainGround(pos, size, 2, "lighter", 0.5)
+    }
+
+    digIntoGroundAt = function(pos, size, elevationChange) {
+        let groundHeight = this.terrainAt(this.getCameraCursor().getPos(), null, groundHeightData)
+        let heightFraction = elevationChange / terrainSystem.getTerrainHeight()
+        let targetIntensity = groundHeightData[0] + heightFraction;
+        terrainSystem.shadeTerrainGround(pos, size, 0, "source-over", targetIntensity)
+        terrainSystem.rebuildGround()
     }
 
     updateWindowParameters = function(width, height, aspect, pxRatio) {

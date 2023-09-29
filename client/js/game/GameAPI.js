@@ -50,12 +50,22 @@ class GameAPI {
 
         }
 
+        let activateBomb = function(event) {
+            if (event.pos) {
+                ThreeAPI.digIntoGroundAt(event.pos, 5, - 2)
+            } else {
+                ThreeAPI.digIntoGroundAt(ThreeAPI.getCameraCursor().getPos(), 2, -1.0)
+            }
+
+        }
+
         this.call = {
             activateWalkGrid:activateWalkGrid,
             activateBattleMode:activateBattleMode,
             spawnWorldEncounters:spawnWorldEncounters,
             getActiveEncounter:getActiveEncounter,
-            travelToPos:travelToPos
+            travelToPos:travelToPos,
+            activateBomb:activateBomb
         }
 
     }

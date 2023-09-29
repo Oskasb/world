@@ -112,7 +112,7 @@ class Plant {
             }
 
             ThreeAPI.getScene().remove(instance.spatial.obj3d)
-        //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ThreeAPI.getCameraCursor().getPos(), to:this.obj3d.position, color:'GREEN'});
+            evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ThreeAPI.getCameraCursor().getPos(), to:this.obj3d.position, color:'GREEN'});
             this.callbacks.setInstance(instance)
             this.applyInstanceAttributes(instance, nearness);
             instance.spatial.stickToObj3D(this.obj3d);
@@ -131,7 +131,7 @@ class Plant {
 
         this.geoInstance.setAttribXYZW('lifecycle', this.startTime, attackTime, endTime+decayTime, decayTime)
         this.callbacks.setInstance(null);
-   //     evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ThreeAPI.getCameraCursor().getPos(), to:this.obj3d.position, color:'ORANGE'});
+        evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ThreeAPI.getCameraCursor().getPos(), to:this.obj3d.position, color:'ORANGE'});
         //    this.bufferElement.endLifecycleNow();
         //    MATH.callAll(this.callbacks.deactivatePlant, this);
     };

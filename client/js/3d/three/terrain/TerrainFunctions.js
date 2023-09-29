@@ -186,7 +186,7 @@ let  sliceGeometryAtSeaLevel = function(vertices, maxDepth) {
 
 
 
-let getTriangleAt = function(array1d, segments, x, y, terrainScale, terrainOrigin) {
+let getTriangleAt = function(array1d, segments, x, y, terrainScale, terrainOrigin, groundData) {
 
     let zScale = terrainScale.y;
     let zOffset = terrainOrigin.y;
@@ -202,17 +202,17 @@ let getTriangleAt = function(array1d, segments, x, y, terrainScale, terrainOrigi
     p1.x = xf;
     p1.y = yc;
 
-    p1.z = getAt(array1d, segments, xf, yc)*zScale +zOffset;
+    p1.z = getAt(array1d, segments, xf, yc, groundData)*zScale +zOffset;
 
 
-    setTri(p1, xf, yc, getAt(array1d, segments,xf, yc)*zScale +zOffset);
-    setTri(p2, xc, yf, getAt(array1d, segments,xc, yf)*zScale +zOffset);
+    setTri(p1, xf, yc, getAt(array1d, segments,xf, yc, groundData)*zScale +zOffset);
+    setTri(p2, xc, yf, getAt(array1d, segments,xc, yf, groundData)*zScale +zOffset);
 
 
     if (fracX < 1-fracY) {
-        setTri(p3,xf,yf,getAt(array1d, segments,xf, yf)*zScale +zOffset);
+        setTri(p3,xf,yf,getAt(array1d, segments,xf, yf, groundData)*zScale +zOffset);
     } else {
-        setTri(p3, xc, yc, getAt(array1d, segments,xc, yc)*zScale +zOffset);
+        setTri(p3, xc, yc, getAt(array1d, segments,xc, yc, groundData)*zScale +zOffset);
     }
 
 
@@ -222,15 +222,15 @@ let getTriangleAt = function(array1d, segments, x, y, terrainScale, terrainOrigi
     return points;
 };
 
-let getDisplacedHeight = function(array1d, segments, x, z, htP, htN, normalStore, terrainScale, terrainOrigin) {
+let getDisplacedHeight = function(array1d, segments, x, z, htP, htN, normalStore, terrainScale, terrainOrigin, groundData) {
     let  tx = displaceAxisDimensions(x, htN, htP, segments);
     let  tz = displaceAxisDimensions(z, htN, htP, segments);
 
-    return getPreciseHeight(array1d, segments, tx, tz, normalStore, htN, htP, terrainScale, terrainOrigin);
+    return getPreciseHeight(array1d, segments, tx, tz, normalStore, htN, htP, terrainScale, terrainOrigin, groundData);
 
 };
 
-let getHeightAt = function(pos, array1d, terrainSize, segments, normalStore, terrainScale, terrainOrigin) {
+let getHeightAt = function(pos, array1d, terrainSize, segments, normalStore, terrainScale, terrainOrigin, groundData) {
 
     let htP = segments*0.5;
     let htN = - htP;
@@ -251,7 +251,7 @@ let getHeightAt = function(pos, array1d, terrainSize, segments, normalStore, ter
         pos.z = MATH.clamp(pos.z, htN, htP);
     }
 
-    return getDisplacedHeight(array1d, segments, pos.x, pos.z, htP, htN, normalStore, terrainScale, terrainOrigin);
+    return getDisplacedHeight(array1d, segments, pos.x, pos.z, htP, htN, normalStore, terrainScale, terrainOrigin, groundData);
 };
 
 
@@ -340,22 +340,39 @@ let fillShade = function(ctx, x, y, w, h, cornerRadii) {
 
 }
 
-let shadeGroundCanvasAt = function(pos, canvasContext, terrainSize, segments, size) {
+let fillRgba = [0, 0, 0, 0];
+
+let shadeGroundCanvasAt = function(pos, canvasContext, terrainSize, segments, size, channelIndex, operation, intensity) {
+
+    let blobs = 4;
+    let blobShade = 255 / blobs
+
+    fillRgba[0] = 0;
+    fillRgba[1] = 0;
+    fillRgba[2] = 0;
+    if (operation === "lighter") {
+        fillRgba[3] = 1;
+
+    } else {
+        fillRgba[3] = 1 / blobs;
+        blobShade = 255
+    }
+
     let htP = terrainSize*1;
     let htN = - htP;
     let tx = displaceAxisDimensions(pos.x*2, htN, htP, segments);
     let tz = displaceAxisDimensions(pos.z*2, htN, htP, segments);
-    size = size*2;
     //   canvasContext.fillStyle = createGradient(canvasContext, size, tx+0, tz+0);
 //    canvasContext.strokeStyle = "rgba(0, 0, 182, 1)";
-    let blobs = 2;
-    let blobShade = 80 / blobs
 
-    canvasContext.fillStyle = "rgba(0, 0, "+blobShade+", 1)";
-    canvasContext.globalCompositeOperation = "lighter";
+    fillRgba[channelIndex] = (blobShade * intensity) ;
+
+
+    canvasContext.fillStyle = "rgba("+fillRgba[0]+", "+fillRgba[1]+", "+fillRgba[2]+", "+fillRgba[3]+")";
+    canvasContext.globalCompositeOperation = operation;
 
     for (let i = 0; i < blobs; i++) {
-        size = 4 * MATH.curveCube((blobs-i) / blobs)
+        size = size * MATH.curveCube((blobs-i) / blobs)
         fillShade(canvasContext, tx-size, tz-size, size*2+1, size*2+1, size);
     }
 
@@ -381,11 +398,18 @@ let returnToWorldDimensions = function(axPos, axMin, axMax, quadCount) {
 
 
 // get the value at the precise integer (x, y) coordinates
-let getAt = function(array1d, segments, x, y) {
+let getAt = function(array1d, segments, x, y, groundData) {
 
     let  yFactor = (y) * (segments+1);
     let  xFactor = x;
     let  idx = (yFactor + xFactor);
+
+    if (groundData) {
+        groundData[0] += (array1d[idx * 4] +1) / 1015;
+        groundData[1] += (array1d[idx * 4 + 1] +1) / 1015;
+        groundData[2] += (array1d[idx * 4 + 2] +1) / 1015;
+        groundData[3] += (array1d[idx * 4 + 3]) / 4;
+    }
 
     return array1d[idx * 4] / 255;
 };
@@ -497,8 +521,8 @@ let getTerrainBuffers = function(terrain) {
 };
 
 
-let getPreciseHeight = function(array1d, segments, x, z, normalStore, htN, htP, terrainScale, terrainOrigin) {
-    let  tri = getTriangleAt(array1d, segments, x, z, terrainScale, terrainOrigin);
+let getPreciseHeight = function(array1d, segments, x, z, normalStore, htN, htP, terrainScale, terrainOrigin, groundData) {
+    let  tri = getTriangleAt(array1d, segments, x, z, terrainScale, terrainOrigin, groundData);
 
     setTri(p0, x, z, 0);
 

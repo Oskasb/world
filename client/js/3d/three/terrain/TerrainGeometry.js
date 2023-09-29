@@ -17,6 +17,7 @@ let terrainHeight = null;
 let maxLodLevel = 6;
 let terrainContext = null;
 let heightmapContext = null;
+let terrainUpdate = false;
 
 let oceanPlane = null;
 
@@ -55,7 +56,7 @@ let setupHeightmapData = function(originalModelMat) {
 //    console.log(terrainMaterial, heightmapTx, heightmapTx.source.data, imgData , this);
 
     let heightCanvas = document.createElement('canvas');
-    heightmapContext = heightCanvas.getContext('2d' )
+    heightmapContext = heightCanvas.getContext('2d', { willReadFrequently: true } )
 
     heightCanvas.width = width;
     heightCanvas.height = height;
@@ -321,6 +322,11 @@ class TerrainGeometry{
     }
 
     getHeightmapData() {
+        if (terrainUpdate) {
+            heightmap = heightmapContext.getImageData(0, 0, width, height).data;
+            terrainUpdate = false;
+        }
+
        return heightmap;
     }
 
@@ -351,9 +357,10 @@ class TerrainGeometry{
     }
 
     updateHeightmapCanvasTexture() {
-        if (MATH.isEvenNumber(GameAPI.getFrame().frame * 0.25)) {
+    //    if (MATH.isEvenNumber(GameAPI.getFrame().frame * 0.25)) {
             terrainMaterial.heightmap.needsUpdate = true;
-        }
+            terrainUpdate = true;
+    //    }
     }
 
     getOrigin() {

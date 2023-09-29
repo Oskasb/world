@@ -81,7 +81,8 @@ if(typeof(ENUMS) === "undefined"){
         LOAD_ACTOR:                 62,
         TRAVEL_TO:                  63,
         SPAWN_EFFECT:               64,
-        INDICATE_RADIUS:            65
+        INDICATE_RADIUS:            65,
+        DEPLOY_BOMB:                66
     };
 
     ENUMS.Args = {

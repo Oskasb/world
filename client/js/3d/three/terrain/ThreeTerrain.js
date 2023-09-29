@@ -147,7 +147,7 @@ let getThreeTerrainByPosition = function(pos) {
     }
 };
 
-let getThreeTerrainHeightAt = function(terrainGeo, pos, normalStore) {
+let getThreeTerrainHeightAt = function(terrainGeo, pos, normalStore, groundData) {
     if (!terrainGeo) {
         if (normalStore) {
             normalStore.set(0, 1, 0);
@@ -155,15 +155,15 @@ let getThreeTerrainHeightAt = function(terrainGeo, pos, normalStore) {
         return pos.y
     }
 
-    return TerrainFunctions.getHeightAt(pos, terrainGeo.getHeightmapData(), terrainGeo.tx_width, terrainGeo.tx_width - 1, normalStore, terrainScale, terrainOrigin);
+    return TerrainFunctions.getHeightAt(pos, terrainGeo.getHeightmapData(), terrainGeo.tx_width, terrainGeo.tx_width - 1, normalStore, terrainScale, terrainOrigin, groundData);
 };
 
 let getThreeTerrainDataAt = function(terrainGeo, pos, dataStore) {
     return TerrainFunctions.getGroundDataAt(pos, terrainGeo.getGroundData(), terrainGeo.groundTxWidth, terrainGeo.groundTxWidth - 1, dataStore);
 }
 
-let shadeThreeTerrainDataAt = function(terrainGeo, pos, size) {
-    TerrainFunctions.shadeGroundCanvasAt(pos, terrainGeo.getHeightmapCanvas(), terrainGeo.tx_width, terrainGeo.tx_width - 1, size);
+let shadeThreeTerrainDataAt = function(terrainGeo, pos, size, channelIndex, operation, intensity) {
+    TerrainFunctions.shadeGroundCanvasAt(pos, terrainGeo.getHeightmapCanvas(), terrainGeo.tx_width, terrainGeo.tx_width - 1, size, channelIndex, operation, intensity);
     terrainGeo.updateHeightmapCanvasTexture();
 }
 
@@ -430,16 +430,16 @@ let scrubTerrainForError = function() {
     scrubIndex++;
 }
 
-let getHeightAndNormal = function(pos, normal) {
-    return getThreeTerrainHeightAt(geoBeneathPlayer, pos, normal)
+let getHeightAndNormal = function(pos, normal, groundData) {
+    return getThreeTerrainHeightAt(geoBeneathPlayer, pos, normal, groundData)
 }
 
 let getTerrainData = function(pos, dataStore) {
     return getThreeTerrainDataAt(geoBeneathPlayer, pos, dataStore)
 }
 
-let shadeTerrainDataCanvas = function(pos, size) {
-    shadeThreeTerrainDataAt(geoBeneathPlayer, pos, size)
+let shadeTerrainDataCanvas = function(pos, size, channelIndex, operation, intensity) {
+    shadeThreeTerrainDataAt(geoBeneathPlayer, pos, size, channelIndex, operation, intensity)
 }
 
 
@@ -460,6 +460,10 @@ function getLodCenter() {
     return lodCenter;
 }
 
+function getTerrainScale() {
+    return terrainScale;
+}
+
 class ThreeTerrain {
     constructor() {
 
@@ -471,7 +475,8 @@ class ThreeTerrain {
             getTerrainData:getTerrainData,
             shadeTerrainDataCanvas:shadeTerrainDataCanvas,
             subscribeToLodUpdate:subscribeToLodUpdate,
-            removeLodUpdateCB:removeLodUpdateCB
+            removeLodUpdateCB:removeLodUpdateCB,
+            getTerrainScale:getTerrainScale
         }
     }
 

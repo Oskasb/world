@@ -176,6 +176,23 @@
                   }
                 },
                 {
+                  "widget_id":"button_debug_bomb",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"button_big_red",
+                  "options":{
+                    "text":"BOMB",
+                    "container_id":"page_debug_bottom_right",
+                    "offset_x": -0.05,
+                    "offset_y": 0.32,
+                    "dispatch":{
+                      "event":"DEPLOY_BOMB",
+                      "value":{
+                        "id": "DEBUG_BOMB"
+                      }
+                    }
+                  }
+                },
+                {
                   "widget_id":"button_view_models",
                   "widget_class":"GuiExpandingContainer",
                   "widget_config_id":"button_big_blue",

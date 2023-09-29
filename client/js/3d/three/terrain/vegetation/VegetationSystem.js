@@ -19,8 +19,12 @@ class VegetationSystem {
 
         vegetation.initVegetation(vegReadyCB);
 
-
     }
+
+    processGroundDataUpdate() {
+        vegetation.resetVegetationGrids()
+    }
+
 
 }
 

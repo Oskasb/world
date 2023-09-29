@@ -33,20 +33,6 @@ class Vegetation {
             return this.plantConfigs[key]
         }.bind(this);
 
-        this.callbacks = {
-            populateSector:populateSector,
-            depopulateSector:depopulateSector,
-            getPlantConfigs:getPlantConfigs}
-    };
-
-    initVegetation(vegReadyCB) {
-        let dataId = "plants_default"
-        let vegGridData = new ConfigData('VEGETATION', 'GRID')
-        let plantsData = new ConfigData('VEGETATION', 'PLANTS')
-
-        let dataInit = 0;
-        let plantInit = 0;
-
         let setupLodGrids = function(cfg, plantsConfig) {
             while (this.vegetationLodGrids.length) {
                 let grid = this.vegetationLodGrids.pop();
@@ -60,10 +46,28 @@ class Vegetation {
             }
         }.bind(this)
 
+
+        this.callbacks = {
+            setupLodGrids:setupLodGrids,
+            populateSector:populateSector,
+            depopulateSector:depopulateSector,
+            getPlantConfigs:getPlantConfigs}
+    };
+
+    initVegetation(vegReadyCB) {
+        let dataId = "plants_default"
+        let vegGridData = new ConfigData('VEGETATION', 'GRID')
+        let plantsData = new ConfigData('VEGETATION', 'PLANTS')
+
+        let dataInit = 0;
+        let plantInit = 0;
+
+
+
         let plantDataReady = function(data) {
             console.log("Plants data",this.init,  data[0].data);
             this.applyPlantConfig(data[0].data);
-            setupLodGrids(this.config, this.plantConfigs)
+            this.callbacks.setupLodGrids(this.config, this.plantConfigs)
             if (plantInit === 0) {
                 plantInit = 1;
                 vegReadyCB()
@@ -84,7 +88,7 @@ class Vegetation {
                 plantsData.addUpdateCallback(plantDataReady)
             } else {
                 console.log("Reflow Vegetation Grids")
-                setupLodGrids(this.config, this.plantConfigs)
+                this.callbacks.setupLodGrids(this.config, this.plantConfigs)
             }
 
         }.bind(this);
@@ -178,8 +182,8 @@ class Vegetation {
         this.instantiator.updateInstantiatorBuffers();
     };
 
-    resetVegetationSectors = function() {
-
+    resetVegetationGrids = function() {
+        this.callbacks.setupLodGrids(this.config, this.plantConfigs)
     };
 
 };

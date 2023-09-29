@@ -52,16 +52,20 @@ class TerrainSystem {
         }
     }
 
-    getTerrainHeightAndNormal = function(pos, normalStore) {
-        return threeTerrain.call.getHeightAndNormal(pos, normalStore);
+    getTerrainHeight() {
+        return threeTerrain.call.getTerrainScale().y;
+    }
+
+    getTerrainHeightAndNormal = function(pos, normalStore, groundData) {
+        return threeTerrain.call.getHeightAndNormal(pos, normalStore, groundData);
     };
 
     getTerrainGroundDataAtPos = function(pos, dataStore) {
         return threeTerrain.call.getTerrainData(pos, dataStore);
     }
 
-    shadeTerrainGround = function(pos, size) {
-        threeTerrain.call.shadeTerrainDataCanvas(pos, size);
+    shadeTerrainGround = function(pos, size, channelIndex, operation, intensity) {
+        threeTerrain.call.shadeTerrainDataCanvas(pos, size, channelIndex, operation, intensity);
     }
 
     registerLodUpdateCB = function(pos, callback) {
@@ -70,6 +74,10 @@ class TerrainSystem {
 
     clearLodUpdates = function(callback) {
         threeTerrain.call.removeLodUpdateCB(callback);
+    }
+
+    rebuildGround() {
+        vegetationSystem.processGroundDataUpdate()
     }
 
 }

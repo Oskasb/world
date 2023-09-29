@@ -5,6 +5,8 @@ import {poolFetch, poolReturn} from "../../../../application/utils/PoolUtils.js"
 let index = 0;
 let boxColor = {x:1, y:1, z:1}
 
+let groundHeightData = [0, 0, 0, 0];
+
 let tempVec = new Vector3(1, 1, 1)
 let minExt = new Vector3();
 let maxExt = new Vector3()
@@ -71,7 +73,7 @@ let determinePlantConfig = function(patch, plant, min, max, seed, retries) {
     retries++
     tempPos.x = MATH.sillyRandomBetween(min.x, max.x, seed+3);
     tempPos.z = MATH.sillyRandomBetween(min.z, max.z, seed+4);
-    tempPos.y = ThreeAPI.terrainAt(tempPos, plant.normal)
+    tempPos.y = ThreeAPI.terrainAt(tempPos, plant.normal, groundHeightData)
     processTerrainCandidates(patch.plantsList, patch.plantsConfig.plants, tempPos, plant.normal.y)
 
     let config = MATH.getSillyRandomArrayEntry(groundCandiates, seed)
@@ -79,9 +81,11 @@ let determinePlantConfig = function(patch, plant, min, max, seed, retries) {
     if (!config) {
 
         if (retries > 3) {
+
+
             return patch.plantsConfig.plants["rock_small"];
         }
-
+        evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ThreeAPI.getCameraCursor().getPos(), to:tempPos, color:'BLACK'});
         return determinePlantConfig(patch, plant, min, max, seed+retries, retries)
     }
     return config;
@@ -97,8 +101,15 @@ function addPlantsToPatch(patch, plantCount) {
         let config = determinePlantConfig(patch, plant, minExt, maxExt, seed, 1)
 
         let rgba = MATH.sillyRandomBetweenColors(config['color_min'], config['color_max'], seed+1);
-        MATH.rgbaToXYZW(rgba, plant.vertexColor)
+
         let size = MATH.sillyRandomBetween(config['size_min'], config['size_max'], seed+2);
+
+        let groundShade = 1 - groundHeightData[2]*1;
+        rgba.r *=groundShade;
+        rgba.g *=groundShade;
+        rgba.b *=groundShade;
+
+        MATH.rgbaToXYZW(rgba, plant.vertexColor)
 
         let rotZ = MATH.sillyRandom(seed+5) * MATH.TWO_PI;
         plant.plantActivate("asset_vegQuad", config, tempPos, rotZ, size, vegTile.nearness)
