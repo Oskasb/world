@@ -14,6 +14,11 @@ let gameEncounterSystem = new GameEncounterSystem()
 
 let gameCamera = new GameCamera();
 
+let parameters = {
+    brush_size : 2,
+    dig_strength: 2,
+}
+
 class GameAPI {
     constructor() {
         this.activePlayerCharacter = null;
@@ -50,11 +55,26 @@ class GameAPI {
 
         }
 
-        let activateBomb = function(event) {
+        let editGround = function(event) {
+            let change = event.delta
+            if (typeof (event.delta) === 'undefined') {
+                change = -1;
+            }
+            change*=parameters['dig_strength']
+
+            let size = event.size + parameters['brush_size'];
             if (event.pos) {
                 ThreeAPI.digIntoGroundAt(event.pos, 5, - 2)
             } else {
-                ThreeAPI.digIntoGroundAt(ThreeAPI.getCameraCursor().getPos(), 2, -1.0)
+                ThreeAPI.digIntoGroundAt(ThreeAPI.getCameraCursor().getPos(), size, change)
+            }
+
+        }
+
+        let editParameters = function(event) {
+
+            for (let key in event.params) {
+                parameters[key] += event.params[key];
             }
 
         }
@@ -65,7 +85,8 @@ class GameAPI {
             spawnWorldEncounters:spawnWorldEncounters,
             getActiveEncounter:getActiveEncounter,
             travelToPos:travelToPos,
-            activateBomb:activateBomb
+            editGround:editGround,
+            editParameters:editParameters
         }
 
     }

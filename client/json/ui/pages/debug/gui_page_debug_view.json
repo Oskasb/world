@@ -176,22 +176,138 @@
                   }
                 },
                 {
-                  "widget_id":"button_debug_bomb",
+                  "widget_id":"button_debug_dig",
                   "widget_class":"GuiExpandingContainer",
                   "widget_config_id":"button_big_red",
                   "options":{
-                    "text":"BOMB",
+                    "text":"DIG",
                     "container_id":"page_debug_bottom_right",
                     "offset_x": -0.05,
                     "offset_y": 0.32,
                     "dispatch":{
-                      "event":"DEPLOY_BOMB",
+                      "event":"EDIT_GROUND",
                       "value":{
-                        "id": "DEBUG_BOMB"
+                        "delta": -2,
+                        "size": 3
                       }
                     }
                   }
                 },
+                {
+                  "widget_id":"button_debug_flatten",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"button_big_red",
+                  "options":{
+                    "text":"FLATTEN",
+                    "container_id":"page_debug_bottom_right",
+                    "offset_x": -0.05,
+                    "offset_y": 0.38,
+                    "dispatch":{
+                      "event":"EDIT_GROUND",
+                      "value":{
+                        "delta": 0.0,
+                        "size": 3
+                      }
+                    }
+                  }
+                },
+                {
+                  "widget_id":"button_debug_raise",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"button_big_red",
+                  "options":{
+                    "text":"RAISE",
+                    "container_id":"page_debug_bottom_right",
+                    "offset_x": -0.05,
+                    "offset_y": 0.44,
+                    "dispatch":{
+                      "event":"EDIT_GROUND",
+                      "value":{
+                        "delta": 2,
+                        "size": 3
+                      }
+                    }
+                  }
+                },
+                {
+                  "widget_id":"button_debug_param_more_str",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"button_big_blue",
+                  "options":{
+                    "text":"DEEPER",
+                    "container_id":"page_debug_bottom_right",
+                    "offset_x": -0.05,
+                    "offset_y": 0.50,
+                    "dispatch":{
+                      "event":"EDIT_PARAMETERS",
+                      "value":{
+                        "params": {
+                          "dig_strength": 1
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "widget_id":"button_debug_param_less_str",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"button_big_blue",
+                  "options":{
+                    "text":"SHALLOWER",
+                    "container_id":"page_debug_bottom_right",
+                    "offset_x": -0.05,
+                    "offset_y": 0.54,
+                    "dispatch":{
+                      "event":"EDIT_PARAMETERS",
+                      "value":{
+                        "params": {
+                          "dig_strength": -1
+                        }
+                      }
+                    }
+                  }
+                },
+
+                {
+                  "widget_id":"button_debug_param_less_wide",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"button_big_blue",
+                  "options":{
+                    "text":"SMALLER",
+                    "container_id":"page_debug_bottom_right",
+                    "offset_x": -0.05,
+                    "offset_y": 0.58,
+                    "dispatch":{
+                      "event":"EDIT_PARAMETERS",
+                      "value":{
+                        "params": {
+                          "brush_size": -1
+                        }
+                      }
+                    }
+                  }
+                },
+
+                {
+                  "widget_id":"button_debug_param_more_wide",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"button_big_blue",
+                  "options":{
+                    "text":"BIGGER",
+                    "container_id":"page_debug_bottom_right",
+                    "offset_x": -0.05,
+                    "offset_y": 0.62,
+                    "dispatch":{
+                      "event":"EDIT_PARAMETERS",
+                      "value":{
+                        "params": {
+                          "brush_size": 1
+                        }
+                      }
+                    }
+                  }
+                },
+
                 {
                   "widget_id":"button_view_models",
                   "widget_class":"GuiExpandingContainer",

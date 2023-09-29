@@ -344,7 +344,7 @@ let fillRgba = [0, 0, 0, 0];
 
 let shadeGroundCanvasAt = function(pos, canvasContext, terrainSize, segments, size, channelIndex, operation, intensity) {
 
-    let blobs = 4;
+    let blobs = 8;
     let blobShade = 255 / blobs
 
     fillRgba[0] = 0;

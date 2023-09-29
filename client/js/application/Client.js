@@ -101,7 +101,8 @@ class Client {
         this.evt.on(ENUMS.Event.TRAVEL_TO,         GameAPI.call.travelToPos)
         this.evt.on(ENUMS.Event.GAME_MODE_WALK,    GameAPI.call.activateWalkGrid)
         this.evt.on(ENUMS.Event.GAME_MODE_BATTLE,    GameAPI.call.activateBattleMode)
-        this.evt.on(ENUMS.Event.DEPLOY_BOMB,    GameAPI.call.activateBomb)
+        this.evt.on(ENUMS.Event.EDIT_GROUND,        GameAPI.call.editGround)
+        this.evt.on(ENUMS.Event.EDIT_PARAMETERS,    GameAPI.call.editParameters)
         const clock = new THREE.Clock(true);
 
 
