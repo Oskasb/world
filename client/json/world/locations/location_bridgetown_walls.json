@@ -183,6 +183,32 @@
                   "scale": [1, 1, 1],
                   "on_ground": false,
                   "visibility": 3
+                },
+
+
+                {
+                  "model": "model_stone_wall_gate",
+                  "pos": [-700, 0.0, 482],
+                  "rot": [0, 3.0, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": true,
+                  "visibility": 3
+                },
+                {
+                  "model": "model_stone_wall_10x3m",
+                  "pos": [-692.8, 0.0, 484.5],
+                  "rot": [0, 2.8, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": true,
+                  "visibility": 3
+                },
+                {
+                  "model": "model_stone_wall_10x8m",
+                  "pos": [-708.5, 3.0, 482],
+                  "rot": [0, 3.2, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": true,
+                  "visibility": 3
                 }
               ]
             }

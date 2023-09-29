@@ -10,16 +10,119 @@
               "models": [
                 {
                   "model": "model_house_small",
-                  "pos": [-720, 2, 505.6],
-                  "rot": [0, 1, 0],
+                  "pos": [-706, 2, 515.7],
+                  "rot": [0, 2.3, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": true,
+                  "visibility": 3
+                },                {
+                  "model": "model_house_small",
+                  "pos": [-719, 2, 510.6],
+                  "rot": [0, 3.3, 0],
                   "scale": [1, 1, 1],
                   "on_ground": true,
                   "visibility": 3
                 },
                 {
+                  "model": "model_house_small",
+                  "pos": [-724.5, 2, 512.6],
+                  "rot": [0, 3.5, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": true,
+                  "visibility": 3
+                },
+                {
+                  "model": "model_house_t",
+                  "pos": [-736.5, 2, 510.1],
+                  "rot": [0, 2.9, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": true,
+                  "visibility": 3
+                },
+                {
+                  "model": "model_house_t",
+                  "pos": [-717.5, 0.75, 522.5],
+                  "rot": [0, 0.1, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": true,
+                  "visibility": 3
+                },
+                {
+                  "model": "model_house_t",
+                  "pos": [-733.5, 0.75, 491.5],
+                  "rot": [0, 5.4, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": true,
+                  "visibility": 3
+                },
+                {
+                  "model": "model_house_small",
+                  "pos": [-733.5, 2, 505.1],
+                  "rot": [0, 4.65, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": true,
+                  "visibility": 3
+                },
+                {
+                  "model": "model_house_small",
+                  "pos": [-732.1, 2, 499.8],
+                  "rot": [0, 4.82, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": true,
+                  "visibility": 3
+                },
+                {
+                  "model": "model_town_house",
+                  "pos": [-702.5, 2, 509.5],
+                  "rot": [0, 5.82, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": true,
+                  "visibility": 3
+                },
+                {
+                  "model": "model_town_house",
+                  "pos": [-749.5, 2, 487.5],
+                  "rot": [0, 4.32, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": true,
+                  "visibility": 3
+                },
+                {
+                  "model": "model_town_house",
+                  "pos": [-742.5, 2, 489.5],
+                  "rot": [0, 4.62, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": true,
+                  "visibility": 3
+                },
+
+                {
+                  "model": "model_house_t",
+                  "pos": [-693.5, 0.75, 512.5],
+                  "rot": [0, 6.1, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": true,
+                  "visibility": 3
+                },
+
+                {
                   "model": "model_fence_small",
-                  "pos": [-718.1, 0.75, 409.8],
-                  "rot": [0, 1.57, 0],
+                  "pos": [-707.5, 0.75, 512.5],
+                  "rot": [0, 5.7, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": true
+                },
+                {
+                  "model": "model_fence_small",
+                  "pos": [-709.9, 0.75, 511.5],
+                  "rot": [0, 5.62, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": true
+                },
+                {
+                  "model": "model_fence_small",
+                  "pos": [-713.0, 0.75, 515.01],
+                  "rot": [0, 4.68, 0],
                   "scale": [1, 1, 1],
                   "on_ground": true
                 }
