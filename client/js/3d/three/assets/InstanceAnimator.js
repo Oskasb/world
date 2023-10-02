@@ -243,9 +243,11 @@ class InstanceAnimator {
         deActivateAnimator = function() {
 
             for (let i = 0; i < this.channels.length; i++) {
-                while (this.channels[i].length) {
-                    let action = this.channels[i].pop();
-                    this.stopChannelAction(this.channels[i], action)
+                if (this.channels[i]) {
+                    while (this.channels[i].length) {
+                        let action = this.channels[i].pop();
+                        this.stopChannelAction(this.channels[i], action)
+                    }
                 }
             }
             this.initAnimatior();

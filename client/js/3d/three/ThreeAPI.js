@@ -74,7 +74,7 @@ class ThreeAPI {
         this.renderer = store.renderer;
         this.reflectionScene = store.reflectionScene;
 
-        const camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.3, 1000 );
+        const camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.3, 900 );
         this.setCamera(camera);
         PipelineAPI.setCategoryKeyValue('SYSTEM', 'CAMERA', camera);
         store.camera = camera;

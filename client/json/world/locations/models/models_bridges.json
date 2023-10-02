@@ -1,0 +1,273 @@
+[{
+  "WORLD_LOCATIONS":{
+    "LOCATION_MODELS":[
+      {
+        "id": "model_stone_bridge_12m",
+        "data": [
+          {
+            "data_key":"model_data",
+            "config": {
+              "assets": [
+                {
+                  "boxes": [
+                    {
+                      "sprite": "rock",
+                      "pos": [0, 0.0, 0],
+                      "rot": [0, 0, 0.0],
+                      "scale": [0.025, 0.005, 0.025],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [0, 0, 2.5],
+                      "rot": [0, 0, 0.0],
+                      "scale": [0.025, 0.01, 0.025],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [0, 0.2, 5.00],
+                      "rot": [0, 0, 0.0],
+                      "scale": [0.025, 0.01, 0.025],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [0, 0.4, 7.5],
+                      "rot": [0, 0, 0.0],
+                      "scale": [0.025, 0.01, 0.025],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [0, 0.2, 10.0],
+                      "rot": [0, 0, 0.0],
+                      "scale": [0.025, 0.01, 0.025],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [0, 0, 12.5],
+                      "rot": [0, 0, 0.0],
+                      "scale": [0.025, 0.0075, 0.025],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+
+                    {
+                      "sprite": "rock",
+                      "pos": [0, -3.0, 2.50],
+                      "rot": [0.3, 0, 0.0],
+                      "scale": [0.015, 0.06, 0.005],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [0, -3.0, 9.00],
+                      "rot": [-0.3, 0, 0.0],
+                      "scale": [0.015, 0.065, 0.005],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+
+
+                    {
+                      "sprite": "wood_plank",
+                      "pos": [-1.4, 0.0, 0],
+                      "rot": [0, 0, 0.0],
+                      "scale": [0.003, 0.015, 0.005],
+                      "on_ground": false,
+                      "visibility": 2
+                    },
+                    {
+                      "sprite": "wood_plank",
+                      "pos": [-1.4, 0.2, 2.5],
+                      "rot": [0, 0, 0.0],
+                      "scale": [0.003, 0.015, 0.005],
+                      "on_ground": false,
+                      "visibility": 2
+                    },
+                    {
+                      "sprite": "wood_plank",
+                      "pos": [-1.4, 0.4, 5.00],
+                      "rot": [0, 0, 0.0],
+                      "scale": [0.003, 0.015, 0.005],
+                      "on_ground": false,
+                      "visibility": 2
+                    },
+                    {
+                      "sprite": "wood_plank",
+                      "pos": [-1.4, 0.6, 7.5],
+                      "rot": [0, 0, 0.0],
+                      "scale": [0.003, 0.015, 0.005],
+                      "on_ground": false,
+                      "visibility": 2
+                    },
+                    {
+                      "sprite": "wood_plank",
+                      "pos": [-1.4, 0.4, 10.0],
+                      "rot": [0, 0, 0.0],
+                      "scale": [0.003, 0.015, 0.005],
+                      "on_ground": false,
+                      "visibility": 2
+                    },
+                    {
+                      "sprite": "wood_plank",
+                      "pos": [-1.4, 0, 12.5],
+                      "rot": [0, 0, 0.0],
+                      "scale": [0.003, 0.015, 0.005],
+                      "on_ground": false,
+                      "visibility": 2
+                    },
+
+
+                    {
+                      "sprite": "wood_plank",
+                      "pos": [-1.4, 0.85, 1.25],
+                      "rot": [-0.07, 0, 0.0],
+                      "scale": [0.005, 0.0015, 0.025],
+                      "on_ground": false,
+                      "visibility": 2
+                    },
+                    {
+                      "sprite": "wood_plank",
+                      "pos": [-1.4, 1.05, 3.75],
+                      "rot": [-0.07, 0, 0.0],
+                      "scale": [0.005, 0.0015, 0.025],
+                      "on_ground": false,
+                      "visibility": 2
+                    },
+                    {
+                      "sprite": "wood_plank",
+                      "pos": [-1.4, 1.25, 6.25],
+                      "rot": [-0.07, 0, 0.0],
+                      "scale": [0.005, 0.0015, 0.025],
+                      "on_ground": false,
+                      "visibility": 2
+                    },
+                    {
+                      "sprite": "wood_plank",
+                      "pos": [-1.4, 1.25, 8.75],
+                      "rot": [0.07, 0, 0.0],
+                      "scale": [0.005, 0.0015, 0.025],
+                      "on_ground": false,
+                      "visibility": 2
+                    },
+                    {
+                      "sprite": "wood_plank",
+                      "pos": [-1.4, 1.0, 11.25],
+                      "rot": [0.15, 0, 0.0],
+                      "scale": [0.005, 0.0015, 0.025],
+                      "on_ground": false,
+                      "visibility": 2
+                    },
+
+
+
+                    {
+                      "sprite": "wood_plank",
+                      "pos": [1.4, 0.0, 0],
+                      "rot": [0, 0, 0.0],
+                      "scale": [0.003, 0.015, 0.005],
+                      "on_ground": false,
+                      "visibility": 2
+                    },
+                    {
+                      "sprite": "wood_plank",
+                      "pos": [1.4, 0.2, 2.5],
+                      "rot": [0, 0, 0.0],
+                      "scale": [0.003, 0.015, 0.005],
+                      "on_ground": false,
+                      "visibility": 2
+                    },
+                    {
+                      "sprite": "wood_plank",
+                      "pos": [1.4, 0.4, 5.00],
+                      "rot": [0, 0, 0.0],
+                      "scale": [0.003, 0.015, 0.005],
+                      "on_ground": false,
+                      "visibility": 2
+                    },
+                    {
+                      "sprite": "wood_plank",
+                      "pos": [1.4, 0.6, 7.5],
+                      "rot": [0, 0, 0.0],
+                      "scale": [0.003, 0.015, 0.005],
+                      "on_ground": false,
+                      "visibility": 2
+                    },
+                    {
+                      "sprite": "wood_plank",
+                      "pos": [1.4, 0.4, 10.0],
+                      "rot": [0, 0, 0.0],
+                      "scale": [0.003, 0.015, 0.005],
+                      "on_ground": false,
+                      "visibility": 2
+                    },
+                    {
+                      "sprite": "wood_plank",
+                      "pos": [1.4, 0, 12.5],
+                      "rot": [0, 0, 0.0],
+                      "scale": [0.003, 0.015, 0.005],
+                      "on_ground": false,
+                      "visibility": 2
+                    },
+
+
+                    {
+                      "sprite": "wood_plank",
+                      "pos": [1.4, 0.85, 1.25],
+                      "rot": [-0.07, 0, 0.0],
+                      "scale": [0.005, 0.0015, 0.025],
+                      "on_ground": false,
+                      "visibility": 2
+                    },
+                    {
+                      "sprite": "wood_plank",
+                      "pos": [1.4, 1.05, 3.75],
+                      "rot": [-0.07, 0, 0.0],
+                      "scale": [0.005, 0.0015, 0.025],
+                      "on_ground": false,
+                      "visibility": 2
+                    },
+                    {
+                      "sprite": "wood_plank",
+                      "pos": [1.4, 1.25, 6.25],
+                      "rot": [-0.07, 0, 0.0],
+                      "scale": [0.005, 0.0015, 0.025],
+                      "on_ground": false,
+                      "visibility": 2
+                    },
+                    {
+                      "sprite": "wood_plank",
+                      "pos": [1.4, 1.25, 8.75],
+                      "rot": [0.07, 0, 0.0],
+                      "scale": [0.005, 0.0015, 0.025],
+                      "on_ground": false,
+                      "visibility": 2
+                    },
+                    {
+                      "sprite": "wood_plank",
+                      "pos": [1.4, 1.0, 11.25],
+                      "rot": [0.15, 0, 0.0],
+                      "scale": [0.005, 0.0015, 0.025],
+                      "on_ground": false,
+                      "visibility": 2
+                    }
+
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  }
+}]

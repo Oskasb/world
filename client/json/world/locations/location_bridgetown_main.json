@@ -121,8 +121,28 @@
                   "scale": [1, 1, 1],
                   "on_ground": true,
                   "visibility": 3
+                },                {
+                  "model": "model_house_small",
+                  "pos": [-727.1, 2, 529.5],
+                  "rot": [0, 1.2, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": true,
+                  "visibility": 3
+                },                {
+                  "model": "model_house_small",
+                  "pos": [-742.2, 2, 532.2],
+                  "rot": [0, 6.1, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": true,
+                  "visibility": 3
+                },                {
+                  "model": "model_house_small",
+                  "pos": [-747.2, 2, 530.5],
+                  "rot": [0, 5.8, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": true,
+                  "visibility": 3
                 },
-
 
 
 

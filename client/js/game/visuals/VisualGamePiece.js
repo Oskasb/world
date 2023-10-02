@@ -68,14 +68,18 @@ class VisualGamePiece {
     }
 
     animateActionState = function(actionName) {
-        let action = this.pieceActionSystem.actions[actionName][0];
-        if (action) {
-            if (action.active.length) {
-                let actionMap = this.pieceActionSystem.actions[actionName][0].active;
-                let animId = MATH.getRandomArrayEntry(actionMap)
-                return this.applyPieceAnimationState(animId);
+        let actions = this.pieceActionSystem.actions[actionName]
+        if (actions) {
+            let action = actions[0];
+            if (action) {
+                if (action.active.length) {
+                    let actionMap = this.pieceActionSystem.actions[actionName][0].active;
+                    let animId = MATH.getRandomArrayEntry(actionMap)
+                    return this.applyPieceAnimationState(animId);
+                }
             }
         }
+
     }
 
     getPlayingAnimation = function(animName) {

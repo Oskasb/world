@@ -12,12 +12,14 @@
       "TEXTURES"
     ],
     "POLL_INDEX":[
+      "/world/locations/location_bridgetown_islet.json"       ,
       "/threedata/vegetation/vegetation_grids.json"          ,
       "/threedata/vegetation/vegetation_plants.json"         ,
       "/world/locations/location_bridgetown_walls.json"       ,
       "/world/locations/location_bridgetown_main.json"       ,
       "/world/locations/models/location_models.json"         ,
       "/world/locations/models/models_walls.json"         ,
+      "/world/locations/models/models_bridges.json"         ,
       "/world/encounters/indicators/encounter_indicators.json"         ,
       "/world/encounters/hosts/encounter_hosts.json"         ,
       "/world/encounters/encounters_home.json"               ,

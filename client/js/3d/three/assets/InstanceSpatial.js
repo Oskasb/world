@@ -22,29 +22,24 @@ class InstanceSpatial{
                 if (!storeVec3) {
                     storeVec3 = tempVec;
                 }
-                testVec3ForNaN(frameMovement)
                 storeVec3.copy(frameMovement);
                 storeVec3.multiplyScalar(tpf);
                 return storeVec3.lengthSq();
             }.bind(this);
 
             let setPrePos = function(pos) {
-                testVec3ForNaN(pos)
                 frameMovement.copy(pos);
             }
 
             let setPostPos = function(pos) {
-                testVec3ForNaN(pos)
                 frameMovement.sub(pos);
             }
 
             let getMovement = function(store) {
-                testVec3ForNaN(frameMovement)
                 return store.copy(frameMovement);
             }
 
             let setStopped = function() {
-                testVec3ForNaN(frameMovement)
                 frameMovement.set(0, 0, 0)
             }
 
@@ -63,7 +58,6 @@ class InstanceSpatial{
         };
 
         getSpatialPosition = function(store) {
-            testVec3ForNaN(this.obj3d.position)
             store.copy(this.obj3d.position);
         };
 
@@ -71,7 +65,6 @@ class InstanceSpatial{
             this.obj3d.position.x = x;
             this.obj3d.position.y = y;
             this.obj3d.position.z = z;
-            testVec3ForNaN(this.obj3d.position)
             if (this.geometryInstance) {
                 this.geometryInstance.applyObjPos();
             }
@@ -83,7 +76,6 @@ class InstanceSpatial{
             obj3d.quaternion.y = 1;
             obj3d.quaternion.z = 0;
             obj3d.quaternion.w = 0;
-            testVec3ForNaN(this.obj3d.quaternion)
             obj3d.rotateX(x);
             obj3d.rotateY(y);
             obj3d.rotateZ(z)
@@ -96,19 +88,16 @@ class InstanceSpatial{
             this.obj3d.quaternion.y = y;
             this.obj3d.quaternion.z = z;
             this.obj3d.quaternion.w = w;
-            testVec3ForNaN(this.obj3d.quaternion)
             if (this.geometryInstance) {
                 this.geometryInstance.applyObjQuat();
             }
         };
 
         getQuat() {
-            testVec3ForNaN(this.obj3d.quaternion)
             return this.obj3d.quaternion;
         }
 
         getPos() {
-            testVec3ForNaN(this.obj3d.position)
             return this.obj3d.position;
         }
 
@@ -126,7 +115,6 @@ class InstanceSpatial{
         };
 
         setPosVec3 = function(posVec3) {
-            testVec3ForNaN(posVec3)
             this.call.setPrePos(this.obj3d.position);
             this.obj3d.position.copy(posVec3);
             this.call.setPostPos(posVec3)
@@ -161,11 +149,7 @@ class InstanceSpatial{
         };
 
         stickToObj3D(obj3d) {
-            if (isNaN(obj3d.position.x)) {
-                console.log("stickToObj is bad, fix!")
-                return;
-            }
-            testVec3ForNaN(obj3d.position)
+
             this.setPosVec3(obj3d.position)
         //    this.obj3d.position.copy(obj3d.position);
             this.obj3d.scale.copy(obj3d.scale);

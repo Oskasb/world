@@ -19,6 +19,8 @@ let terrainContext = null;
 let heightmapContext = null;
 let terrainUpdate = false;
 
+let globalUpdateFrame = 0;
+
 let oceanPlane = null;
 
 let debugWorld = null;
@@ -322,10 +324,7 @@ class TerrainGeometry{
     }
 
     getHeightmapData() {
-        if (terrainUpdate) {
-            heightmap = heightmapContext.getImageData(0, 0, width, height).data;
-            terrainUpdate = false;
-        }
+
 
        return heightmap;
     }
@@ -358,7 +357,6 @@ class TerrainGeometry{
 
     updateHeightmapCanvasTexture() {
     //    if (MATH.isEvenNumber(GameAPI.getFrame().frame * 0.25)) {
-            terrainMaterial.heightmap.needsUpdate = true;
             terrainUpdate = true;
     //    }
     }
@@ -387,6 +385,18 @@ class TerrainGeometry{
 
             return;
         }
+
+        if (globalUpdateFrame !== frame) {
+            if (terrainUpdate) {
+                terrainMaterial.heightmap.needsUpdate = true;
+                heightmap = heightmapContext.getImageData(0, 0, width, height).data;
+                terrainUpdate = false;
+            }
+            globalUpdateFrame = frame;
+        }
+
+
+
         let changed = false;
 
         let centerGridX = geoBeneathPlayer.gridX;
