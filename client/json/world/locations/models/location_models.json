@@ -13,7 +13,7 @@
                   "pos": [0, 0, 0],
                   "rot": [0, 0, 0],
                   "scale": [0.002, 0.002, 0.002],
-                  "visibility": 2,
+                  "visibility": 4,
                   "boxes": [
                     {
                       "sprite": "wood_plank",
@@ -55,7 +55,7 @@
                   "pos": [0, 0, 0],
                   "rot": [0, 0, 0],
                   "scale": [0.003, 0.003, 0.003],
-                  "visibility": 2,
+                  "visibility": 4,
                   "boxes": [
 
                   ]
@@ -77,7 +77,7 @@
                   "pos": [0, 0, 0],
                   "rot": [0, 0, 0],
                   "scale": [0.001, 0.001, 0.001],
-                  "visibility": 2,
+                  "visibility": 4,
                   "boxes": [
 
                   ]
@@ -99,7 +99,7 @@
                   "pos": [0, 0, 0],
                   "rot": [-1.77, 0, 0],
                   "scale": [1.001, 1.001, 1.001],
-                  "visibility": 2,
+                  "visibility": 3,
                   "boxes": [
 
                   ]
@@ -121,7 +121,7 @@
                   "pos": [0, 0, 0],
                   "rot": [-1.71, 0, 0],
                   "scale": [1.001, 1.001, 1.001],
-                  "visibility": 2,
+                  "visibility": 3,
                   "boxes": [
 
                   ]
@@ -200,14 +200,14 @@
                       "pos": [1, -0.0, 0],
                       "rot": [0, 0, 0],
                       "scale": [0.03, 0.01, 0.03],
-                      "visibility": 2
+                      "visibility": 3
                     }, {
                       "sprite": "wood_solid",
                       "pos": [-1, 0.4, 0],
                       "rot": [0, 0, 0],
                       "scale": [0.01, 0.0012, 0.02],
                       "on_ground": false,
-                      "visibility": 2
+                      "visibility": 3
                     },
                     {
                       "sprite": "wood_solid",
