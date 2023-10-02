@@ -97,10 +97,10 @@ class DynamicTile {
         if (height < 0.1) {
             this.obj3d.position.y = 0.1;
             spriteX = 6;
-            spriteY = 2;
-            r = 0;
-            g = 0;
-            b = 0.5;
+            spriteY = 5;
+            r = 0.1;
+            g = 0.1;
+            b = 1.0;
             a = 1;
         } else {
             this.obj3d.position.y = height + 0.01;
@@ -112,7 +112,7 @@ class DynamicTile {
             if (slope > 0.65) {
                 spriteX = 6;
                 spriteY = 2;
-                r = 0.1;
+                r = 0.2;
                 g = 0;
                 b = 0;
                 a = 1;
@@ -129,8 +129,8 @@ class DynamicTile {
                     b = 0;
                 }
                 if (this.groundData.y > 0.32) {
-                    r = 0.2;
-                    g = 0.05;
+                    r = 0.15;
+                    g = 0.12;
                     b = 0;
                     spriteX = 6;
                     spriteY = 3;
@@ -138,11 +138,11 @@ class DynamicTile {
                 }
                 if (this.groundData.y > 0.52) {
                     spriteX = 6;
-                    spriteY = 2;
-                    r = 0.0;
-                    g = 0.11;
-                    b = 0.02;
-                    a = 0.2;
+                    spriteY = 4;
+                    r = 1.0;
+                    g = 0.0;
+                    b = 0.0;
+                    a = 0.6;
                     this.walkable = false;
                     this.blocking = true;
                 }

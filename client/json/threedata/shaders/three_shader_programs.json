@@ -1124,7 +1124,9 @@
 
           "vec4 quat = orientation.xyzw;",
 
+
           "vec3 vcV = cross(quat.xyz, vPosition);",
+
           "vPosition = vcV * (2.0 * quat.w) + (cross(quat.xyz, vcV) * 2.0 + vPosition);",
 
           "vec2 tileScale = 1.0/tiles;",

@@ -98,6 +98,10 @@ class VisualGamePiece {
         return this.instance.getSpatial();
     }
 
+    getPos() {
+        return this.getSpatial().getPos()
+    }
+
     disablePieceAnimations() {
         this.getSpatial().call.setStopped();
     }

@@ -91,13 +91,6 @@ class GameAPI {
 
     }
 
-    getTilePath(fromVec3, toVec3) {
-        return this.gameMain.generateDynamicPath(fromVec3, toVec3);
-    }
-
-    processTilePath(tilePath, cursorObj3d) {
-        this.gameMain.applyDynamicPathToObj3d(tilePath, cursorObj3d);
-    }
 
     initGameMain() {
         gamePieceSystem.initGamePieceSystem()

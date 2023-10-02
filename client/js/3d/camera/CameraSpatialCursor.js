@@ -266,8 +266,9 @@ class CameraSpatialCursor {
                 } else if (released) {
                     navPoint.time = 2;
                     gameWalkGrid.applySelectedPath(updatePathingCamera, pathCompletedCallback)
+                    dragToVec3.copy(selectedActor.getVisualGamePiece().getSpatial().getPos())
                 } else {
-                    let selectedPath = gameWalkGrid.buildGridPath(dragToVec3, selectedActor.getPos())
+                    let selectedPath = gameWalkGrid.buildGridPath(dragToVec3, selectedActor.getVisualGamePiece().getSpatial().getPos())
                     selectedActor.inspectTilePath(selectedPath)
                 }
                 updateWalkCamera(gameWalkGrid.getActiveTilePath());

@@ -10,9 +10,27 @@
                 "hide_tiles": true,
                 "elevation" : 0.1,
                 "tile_size" : 0.8,
-                "tile_range" : 13,
-                "tile_spacing" : 7,
-                "max_plants":70,
+                "tile_range" : 11,
+                "tile_spacing" : 5,
+                "max_plants":40,
+                "plants":[
+                  "grass_low_1_dead",
+                  "grass_low_1_dry",
+                  "grass_low_2",
+                  "grass_low_1_flowery",
+                  "grass_low_3_flowery",
+                  "grass_low_4_green",
+                  "grass_low_5_dry",
+                  "grass_low_6_bright"
+                ]
+              },
+              {
+                "hide_tiles": true,
+                "elevation" : 0.1,
+                "tile_size" : 0.8,
+                "tile_range" : 11,
+                "tile_spacing" : 11,
+                "max_plants":40,
                 "plants":[
                   "leafy_small",
                   "flower_1_red",
@@ -38,8 +56,8 @@
                 "elevation" : 0.1,
                 "tile_size" : 0.8,
                 "tile_range" : 9,
-                "tile_spacing" : 22,
-                "max_plants":90,
+                "tile_spacing" : 24,
+                "max_plants":40,
                 "plants":[
                   "leafy_small",
                   "flower_1_red",
@@ -64,7 +82,7 @@
                 "tile_size" : 0.9,
                 "tile_range" : 9,
                 "tile_spacing" : 55,
-                "max_plants":60,
+                "max_plants":40,
                 "plants":[
                   "leafy_big",
                   "bushes_1",
