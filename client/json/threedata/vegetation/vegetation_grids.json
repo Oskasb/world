@@ -22,7 +22,10 @@
                   "grass_low_3_flowery",
                   "grass_low_4_green",
                   "grass_low_5_dry",
-                  "grass_low_6_bright"
+                  "grass_low_6_bright",
+                  "reeds_1_small",
+                  "reeds_2_small",
+                  "reeds_3_small"
                 ]
               },
               {
@@ -43,6 +46,9 @@
                   "grass_low_4_green",
                   "grass_low_5_dry",
                   "grass_low_6_bright",
+                  "reeds_1_small",
+                  "reeds_2_small",
+                  "reeds_3_small",
                   "reeds_2",
                   "reeds_3"
                 ]
