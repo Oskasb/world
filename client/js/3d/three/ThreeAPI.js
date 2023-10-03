@@ -240,7 +240,7 @@ class ThreeAPI {
     }
 
     shadeGroundAt = function(pos, size) {
-        terrainSystem.shadeTerrainGround(pos, size, 2, "lighter", 0.5)
+        terrainSystem.shadeTerrainGround(pos, size, 2, "lighter", 0.8)
     }
 
     digIntoGroundAt = function(pos, size, elevationChange) {

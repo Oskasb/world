@@ -201,12 +201,12 @@ let constructGeometries = function(heightMapData, transform, groundConfig, secti
             obj3d.position.add(terrainOrigin);
             obj3d.scale.copy(segmentScale);
             obj3d.scale.multiplyScalar(0.005);
-            terrainGeometries[i][j] = new TerrainGeometry(obj3d, geometrySize, i , j, gridMeshAssetId, vertsPerSegAxis, tiles, txWidth, groundTxWidth, groundConfig, sectionInfoCfg);
+            let geo = new TerrainGeometry(obj3d, geometrySize, i , j, gridMeshAssetId, vertsPerSegAxis, tiles, txWidth, groundTxWidth, groundConfig, sectionInfoCfg);
+            terrainGeometries[i][j] = geo;
         }
     }
     geoBeneathPlayer = terrainGeometries[2][2];
     geoBeneathPlayer.call.activateGeo(0);
-    let heightmapData = geoBeneathPlayer.getHeightmapData();
     geoBeneathPlayer.call.deactivateGeo();
 
     frameGridExtentsChecks[0] = geoBeneathPlayer.gridX - gridConfig.range;
@@ -371,10 +371,6 @@ let updateGeo = function(geoTile) {
 
 let lastFrameGridExtentsChecks = [-1, 0, 0, 0]; // xMin, yMin, xMax, yMax
 let frameGridExtentsChecks = [0, 0, 0, 0];
-let firstNonVisibleRow = 0;
-let lastNonVisibleRow = 0;
-let firstNonVisibleColumn = 0;
-let lastNonVisibleColumn = 0;
 
 let drawNearbyTerrain = function() {
     let playerGeoGridX = geoBeneathPlayer.gridX;
@@ -467,8 +463,6 @@ function getTerrainScale() {
 class ThreeTerrain {
     constructor() {
 
-
-
         this.call = {
             getLodCenter:getLodCenter,
             getHeightAndNormal:getHeightAndNormal,
@@ -530,6 +524,18 @@ class ThreeTerrain {
     removeTerrainFromIndex = function(terrain) {
         delete terrainIndex[terrain.model.uuid]
     };
+
+    buildGroundShadeTexture() {
+        for (let i = 0; i < terrainGeometries.length; i++) {
+            for (let j = 0; j < terrainGeometries[i].length; j++) {
+                let geo = terrainGeometries[i][j];
+                geo.terrainSectionInfo.applyLodLevel(1, 6)
+                geo.terrainElementModels.applyLevelOfDetail(1, geo.terrainSectionInfo);
+                geo.terrainSectionInfo.applyLodLevel(-1, 6)
+                geo.terrainElementModels.applyLevelOfDetail(-1, geo.terrainSectionInfo);
+            }
+        }
+    }
 
 
     getThreeHeightAt = function(pos, normalStore) {

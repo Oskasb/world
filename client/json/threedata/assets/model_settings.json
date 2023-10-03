@@ -208,10 +208,52 @@
             }
           }
         },
-        {"id": "model_settings_instancing" ,
+        {"id": "model_settings_instancing_250" ,
           "config": {
             "instancing": {
-              "instances": 150,
+              "instances": 250,
+              "attributes": ["offset", "vertexColor", "scale3d", "orientation"],
+              "cameraspace": false
+            },
+            "transform": {
+              "pos":   [0, 0, 0],
+              "rot":   [0, 0, 0],
+              "scale": [1, 1, 1]
+            }
+          }
+        },
+        {"id": "model_settings_instancing_100" ,
+          "config": {
+            "instancing": {
+              "instances": 100,
+              "attributes": ["offset", "vertexColor", "scale3d", "orientation"],
+              "cameraspace": false
+            },
+            "transform": {
+              "pos":   [0, 0, 0],
+              "rot":   [0, 0, 0],
+              "scale": [1, 1, 1]
+            }
+          }
+        },
+        {"id": "model_settings_instancing_50" ,
+          "config": {
+            "instancing": {
+              "instances": 50,
+              "attributes": ["offset", "vertexColor", "scale3d", "orientation"],
+              "cameraspace": false
+            },
+            "transform": {
+              "pos":   [0, 0, 0],
+              "rot":   [0, 0, 0],
+              "scale": [1, 1, 1]
+            }
+          }
+        },
+        {"id": "model_settings_instancing_25" ,
+          "config": {
+            "instancing": {
+              "instances": 25,
               "attributes": ["offset", "vertexColor", "scale3d", "orientation"],
               "cameraspace": false
             },
