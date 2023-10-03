@@ -224,7 +224,7 @@ class TerrainGeometry{
     detachGeometryInstance() {
         this.levelOfDetail = -1;
         if (this.instance) {
-            evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ThreeAPI.getCameraCursor().getPos(), to:this.obj3d.position, color:'RED'});
+   //         evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ThreeAPI.getCameraCursor().getPos(), to:this.obj3d.position, color:'RED'});
             this.instance.decommissionInstancedModel();
             this.oceanInstance.decommissionInstancedModel();
             ThreeAPI.removeFromScene(this.model);
@@ -250,12 +250,12 @@ class TerrainGeometry{
                 evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:this.boundingBox.min, max:this.boundingBox.max, color:'RED'})
             }
         } else if (this.instance) {
-            evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:this.boundingBox.min, max:this.boundingBox.max, color:'RED'})
+         //   evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:this.boundingBox.min, max:this.boundingBox.max, color:'RED'})
             this.detachGeometryInstance();
         }
 
-        evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:this.boundingBox.min, max:this.boundingBox.max, color:'GREEN'})
-        evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ThreeAPI.getCameraCursor().getPos(), to:this.obj3d.position, color:'YELLOW'});
+    //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:this.boundingBox.min, max:this.boundingBox.max, color:'GREEN'})
+    //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ThreeAPI.getCameraCursor().getPos(), to:this.obj3d.position, color:'YELLOW'});
 
         let addSceneInstance = function(instance) {
             this.levelOfDetail = lodLevel;
