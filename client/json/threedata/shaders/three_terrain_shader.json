@@ -351,20 +351,13 @@
           "varying vec3 terrainPosition;",
           "void main(){",
 
-          "float tileCount = 16.0;",
-          "float tileXuv = max(0.001, min(vUv.x*1.0, 0.9999)) * tileCount;",
-          "float tileYuv = max(0.001, min(vUv.y*1.0, 0.9999)) * tileCount;",
-          "float uvX = tileXuv * 1.0 - floor(tileXuv * 1.0)*0.9999;",
-          "float uvY = tileYuv * 1.0 - floor(tileYuv * 1.0)*0.9999;",
-          "vec2 tileUv = vec2(0.005 + uvX*0.990, 0.005 + uvY*0.990);",
+
+
 
           "vec2 scaledVPos = vec2(terrainPosition.x*0.5 + 0.5, terrainPosition.z *0.5 + 0.5)*tileScale;",
-
           "vec2 terrainSampler = (scaledVPos + tileOffset);",
-
           "vec4 terrainMapSample = texture2D( terrainmap, terrainSampler);",
           "vec4 heightMapSample = texture2D( heightmap, terrainSampler);",
-
 
           "float twoPi = 6.2831;",
           "float slope = cos(vNormal.y*1.571)*1.35;",
@@ -376,7 +369,15 @@
           "vec4 sprite = vec4(0.0, 8.0, 1.0, 1.0);",
           "vec2 tileScale = 1.0/tx0tiles;",
           "tileScale.y /= sprite.z;",
-          "vec2 scaledUv = tileUv*tileScale;",
+
+
+          "float tileCount = 16.0;",
+          "float tileXuv = max(0.001, min(vUv.x*1.0, 0.9999)) * tileCount;",
+          "float tileYuv = max(0.001, min(vUv.y*1.0, 0.9999)) * tileCount;",
+          "float uvX = (tileXuv * 1.0 - floor(tileXuv * 1.0)*0.9999) * 1.0;",
+          "float uvY = (tileYuv * 1.0 - floor(tileYuv * 1.0)*0.9999) * 1.0;",
+          "vec2 tileUv = vec2(0.005 + uvX*0.990, 0.005 + uvY*0.990);",
+          "vec2 scaledUv = tileUv*tileScale * 1.0;",
           "scaledUv.y /= sprite.z;",
 
           "float smoothFactor  = 0.0;",
@@ -384,10 +385,7 @@
           "float sampleGreen = terrainMapSample.g;",
 
           "float rockRow = 1.0;",
-
           "float slopeScale = 0.98;",
-
-
           "float natureRow = 2.0;",
           "float natureStep = 0.06;",
 
@@ -395,6 +393,9 @@
 
           "vec2 tile01 = vec2(min(floor((sampleGreen+scatter) * 10.0), 7.0), natureRow);",
           "vec2 tile01Offset = vec2(tile01.x * tileScale.x, (tile01.y-sprite.w) * tileScale.y / sprite.z);",
+
+
+
           "vec2 tile01Uv = vec2(scaledUv + tile01Offset);",
           "smoothFactor = smoothstep(-0.01, natureStep*0.5, sampleGreen) - smoothstep(natureStep*2.0, natureStep*3.0, sampleGreen);",
           "vec4 natureColor = texture2D(tx0, tile01Uv);",
@@ -404,7 +405,14 @@
 
           "vec2 tileSlopeMod = vec2(min(floor(max(sqrt(slope -0.01) +scatter*4.0, 0.01) * 10.0), 7.0), rockRow);",
           "vec2 tileSlopeModOffset = vec2(tileSlopeMod.x * tileScale.x, (tileSlopeMod.y-sprite.w) * tileScale.y / sprite.z);",
+
+
+
+          "tileSlopeMod *= 1.0;",
+          "tileSlopeModOffset *= 1.0;",
+
           "vec2 tileSlopeModUv = vec2(scaledUv + tileSlopeModOffset);",
+          "tileSlopeModUv *= 1.0;",
           "vec4 txColorSlopeMod01 = texture2D( tx0, tileSlopeModUv);",
           "vec4 txNmSlopeMod01 = texture2D( tx0nm, tileSlopeModUv);",
           "vec4 txColorBase = txColorSlopeMod01;",

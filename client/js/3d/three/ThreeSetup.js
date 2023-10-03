@@ -1,3 +1,5 @@
+// import { SsrFx } from "./fx/SsrFx.js";
+
 class ThreeSetup {
 
     constructor() {
@@ -106,12 +108,18 @@ class ThreeSetup {
             containerElement.appendChild(renderer.domElement);
        //         console.log("initThreeRenderer", store);
 
+     //
+
         return store;
     };
 
     addPrerenderCallback = function(callback) {
         this.prerenderCallbacks.push(callback);
     };
+
+    activateScreenspaceReflections(renderer, scene, camera) {
+        new SsrFx(renderer, scene, camera)
+    }
 
     removePrerenderCallback = function(callback) {
         this.prerenderCallbacks.splice(prerenderCallbacks.lastIndexOf(callback, 1));

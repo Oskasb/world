@@ -110,10 +110,24 @@
             }
           }
         },
+        {"id": "model_settings_ocean_tile" ,
+          "config": {
+            "instancing": {
+              "instances": 800,
+              "attributes": ["offset", "vertexColor", "scale3d", "orientation", "sprite", "texelRowSelect", "lifecycle"],
+              "cameraspace": false
+            },
+            "transform": {
+              "pos":   [0, 0, 0],
+              "rot":   [0, 0, 0],
+              "scale": [1, 1, 1]
+            }
+          }
+        },
         {"id": "model_settings_terrain_1" ,
           "config": {
             "instancing": {
-              "instances": 700,
+              "instances": 300,
               "attributes": ["offset", "vertexColor", "scale3d", "orientation", "sprite", "texelRowSelect", "lifecycle"],
               "cameraspace": false
             },

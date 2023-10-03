@@ -89,7 +89,7 @@ class ThreeAPI {
 
         this.shaderBuilder.loadShaderData(this.glContext);
 
-
+        this.threeSetup.activateScreenspaceReflections(this.renderer, this.scene, this.threeSetup.getCamera())
 
     };
 
