@@ -49,7 +49,7 @@ class SsrFx {
             groundReflector.resolution.set( window.innerWidth, window.innerHeight );
         }
 
-        window.addEventListener( 'resize', onWindowResize );
+    //    window.addEventListener( 'resize', onWindowResize );
     }
 
     getGroundReflector() {
