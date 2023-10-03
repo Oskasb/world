@@ -9,6 +9,8 @@ class TerrainElementModel {
         this.levelOfDetail = 7;
         this.lodMap = null;
         this.lodLevelInstances = [];
+        this.minY = 9999;
+        this.maxY = -9999;
     //    this.instances = [];
     }
 

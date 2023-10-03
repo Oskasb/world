@@ -106,6 +106,8 @@ class TerrainGeometry{
         this.gridMeshAssetIds = gridMeshAssetIds;
         this.gridX = x;
         this.gridY = y;
+        this.minY = MATH.bigSafeValue();
+        this.maxY = -MATH.bigSafeValue();
         this.obj3d = obj3d;
         this.groundConfig = groundConfig;
         this.instance = null; // this gets rendered by the shader
@@ -194,6 +196,15 @@ class TerrainGeometry{
         }
     }
 
+    registerContainsHeight(posY) {
+        if (posY < this.minY) {
+            this.minY = posY;
+        }
+
+        if (posY > this.maxY) {
+            this.maxY = posY;
+        }
+    }
 
     addLodUpdateCallback = function(cb) {
         this.lodUpdateCallbaks.push(cb)
@@ -216,9 +227,7 @@ class TerrainGeometry{
     applyLodLevelChange() {
         this.terrainSectionInfo.applyLodLevel(this.levelOfDetail, maxLodLevel);
         this.terrainElementModels.applyLevelOfDetail(this.levelOfDetail, this.terrainSectionInfo);
-
         MATH.callAll(this.lodUpdateCallbaks, this.levelOfDetail);
-
     }
 
     detachGeometryInstance() {
@@ -311,9 +320,15 @@ class TerrainGeometry{
             ThreeAPI.tempVec4.w = 1;
             instance.setAttributev4('sprite', ThreeAPI.tempVec4)
             ThreeAPI.getScene().remove(instance.spatial.obj3d)
-            client.dynamicMain.requestAssetInstance(this.gridMeshAssetIds[lodLevel], addSceneInstance)
+
+         //   if (this.maxY > 2) {
+                client.dynamicMain.requestAssetInstance(this.gridMeshAssetIds[lodLevel], addSceneInstance)
+         //   }
+
+
         }.bind(this);
-        if (this.levelOfDetail === -1) {
+
+        if (this.levelOfDetail === -1 && this.minY ) {
             client.dynamicMain.requestAssetInstance('asset_ocean_16', addOceanInstance)
         } else {
             client.dynamicMain.requestAssetInstance(this.gridMeshAssetIds[lodLevel], addSceneInstance)

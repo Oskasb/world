@@ -34,6 +34,7 @@ class TerrainElement {
     //    ThreeAPI.shadeGroundAt(pos, 2)
         }, 200 + Math.random()*200)
   */
+        return posVec3.y;
     }
 
 

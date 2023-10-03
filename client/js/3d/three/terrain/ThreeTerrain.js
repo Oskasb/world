@@ -562,7 +562,7 @@ class ThreeTerrain {
 
         let visibleCount = visibleGeoTiles.length;
 
-        scrubTerrainForError();
+    //    scrubTerrainForError();
 
         CursorUtils.processTerrainLodCenter(lodCenter)
     //    if (GameAPI.gameMain.getPlayerCharacter()) {

@@ -33,8 +33,10 @@ class TerrainSectionInfo {
                 calcVec.x = this.minExtents.x + xFrac*size + 2*MATH.sillyRandom(seed)*xElems/size;
                 calcVec.z = this.minExtents.z + yFrac*size + 2*MATH.sillyRandom(seed+1)*yElems/size;
                 let terrainElement = new TerrainElement(lodLevel);
-                terrainElement.setTerrainElementPosition(calcVec);
+                let posY = terrainElement.setTerrainElementPosition(calcVec);
                 groundElements.push(terrainElement);
+                this.terrainGeometry.registerContainsHeight(posY);
+
             }
         }
     }
