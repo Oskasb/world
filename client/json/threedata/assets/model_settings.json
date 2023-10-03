@@ -29,7 +29,7 @@
         {"id": "model_settings_terrain" ,
           "config": {
             "instancing": {
-              "instances": 20,
+              "instances": 32,
               "attributes": ["offset", "vertexColor", "scale3d", "orientation", "sprite", "texelRowSelect", "lifecycle"],
               "cameraspace": false
             },
@@ -43,7 +43,7 @@
         {"id": "model_settings_terrain_32" ,
           "config": {
             "instancing": {
-              "instances": 44,
+              "instances": 64,
               "attributes": ["offset", "vertexColor", "scale3d", "orientation", "sprite", "texelRowSelect", "lifecycle"],
               "cameraspace": false
             },
@@ -57,7 +57,7 @@
         {"id": "model_settings_terrain_16" ,
           "config": {
             "instancing": {
-              "instances": 80,
+              "instances": 100,
               "attributes": ["offset", "vertexColor", "scale3d", "orientation", "sprite", "texelRowSelect", "lifecycle"],
               "cameraspace": false
             },
@@ -71,7 +71,7 @@
         {"id": "model_settings_terrain_8" ,
           "config": {
             "instancing": {
-              "instances": 90,
+              "instances": 100,
               "attributes": ["offset", "vertexColor", "scale3d", "orientation", "sprite", "texelRowSelect", "lifecycle"],
               "cameraspace": false
             },
@@ -85,7 +85,7 @@
         {"id": "model_settings_terrain_4" ,
           "config": {
             "instancing": {
-              "instances": 50,
+              "instances": 80,
               "attributes": ["offset", "vertexColor", "scale3d", "orientation", "sprite", "texelRowSelect", "lifecycle"],
               "cameraspace": false
             },
@@ -127,7 +127,7 @@
         {"id": "model_settings_vegetation" ,
           "config": {
             "instancing": {
-              "instances": 3200,
+              "instances": 3800,
               "attributes": ["offset", "vertexColor", "scale3d", "orientation", "sprite", "texelRowSelect", "lifecycle"],
               "cameraspace": false
             },
