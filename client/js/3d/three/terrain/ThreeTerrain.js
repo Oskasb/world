@@ -206,8 +206,9 @@ let constructGeometries = function(heightMapData, transform, groundConfig, secti
         }
     }
     geoBeneathPlayer = terrainGeometries[2][2];
-    geoBeneathPlayer.call.activateGeo(0);
-    geoBeneathPlayer.call.deactivateGeo();
+    geoBeneathPlayer.call.initTerrainMaterials();
+   // geoBeneathPlayer.call.activateGeo(0);
+   // geoBeneathPlayer.call.deactivateGeo();
 
     frameGridExtentsChecks[0] = geoBeneathPlayer.gridX - gridConfig.range;
     frameGridExtentsChecks[1] = geoBeneathPlayer.gridY - gridConfig.range;

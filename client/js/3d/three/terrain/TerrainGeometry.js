@@ -4,6 +4,8 @@ import {Vector3} from "../../../../libs/three/math/Vector3.js";
 import {TerrainElementModel} from "./TerrainElementModel.js";
 import {TerrainSectionInfo} from "./TerrainSectionInfo.js";
 
+
+let tempVec = new Vector3()
 let groundUpdate = false;
 let terrainMaterial = null;
 let oceanMaterial = null
@@ -100,6 +102,33 @@ let setupHeightmapData = function(originalModelMat) {
   //  console.log(terrainMaterial, [heightmap], [terrainmap])
 }
 
+let containsPoint = function(geo, posVec) {
+
+}
+
+let probeForHeightMinMax = function(geo) {
+    let pos = geo.obj3d.position
+    let bounds = geo.boundingBox;
+    tempVec.copy(bounds.min)
+    geo.registerContainsHeight(ThreeAPI.terrainAt(tempVec))
+    tempVec.x = pos.x;
+    geo.registerContainsHeight(ThreeAPI.terrainAt(tempVec))
+    tempVec.copy(bounds.max)
+    geo.registerContainsHeight(ThreeAPI.terrainAt(tempVec))
+    tempVec.x = pos.x;
+    geo.registerContainsHeight(ThreeAPI.terrainAt(tempVec))
+
+    geo.registerContainsHeight(ThreeAPI.terrainAt(pos))
+
+    tempVec.set(bounds.min.x, 0, bounds.max.z)
+    geo.registerContainsHeight(ThreeAPI.terrainAt(tempVec))
+    tempVec.z = pos.z;
+    geo.registerContainsHeight(ThreeAPI.terrainAt(tempVec))
+    tempVec.set(bounds.max.x, 0, bounds.min.z)
+    geo.registerContainsHeight(ThreeAPI.terrainAt(tempVec))
+    tempVec.z = pos.z;
+    geo.registerContainsHeight(ThreeAPI.terrainAt(tempVec))
+}
 
 class TerrainGeometry{
     constructor(obj3d, segmentScale, x, y, gridMeshAssetIds, vertsPerSegAxis, tiles, tx_width,groundTxWidth, groundConfig, sectionInfoCponfig) {
@@ -115,7 +144,6 @@ class TerrainGeometry{
         this.terrainSectionInfo = new TerrainSectionInfo(this, sectionInfoCponfig);
         this.terrainElementModels = new TerrainElementModel(this);
         this.terrainElementModels.loadData(this.groundConfig['terrain_elements'])
-        this.model = null; // use this for physics and debug
         this.posX = obj3d.position.x;
         this.posZ = obj3d.position.z;
         this.size = segmentScale;
@@ -126,6 +154,7 @@ class TerrainGeometry{
         this.isActive = false;
         this.wasVisible = false;
         this.isVisible = false;
+        this.updateMinMax = true;
      /*
         let boundCenter = new Vector3();
         boundCenter.copy(this.obj3d.position)
@@ -133,14 +162,14 @@ class TerrainGeometry{
         this.boundingSphere.center.y = ThreeAPI.terrainAt(this.obj3d.position)+5;
 */
         let box3min = new Vector3();
-        box3min.x = this.posX - this.size*0.55;
+        box3min.x = this.posX - this.size*0.5;
         box3min.y = 0;
-        box3min.z = this.posZ - this.size*0.55;
+        box3min.z = this.posZ - this.size*0.5;
         let box3Max = new Vector3();
 
-        box3Max.x = this.posX + this.size*0.55;
+        box3Max.x = this.posX + this.size*0.5;
         box3Max.y = 60;
-        box3Max.z = this.posZ + this.size*0.55;
+        box3Max.z = this.posZ + this.size*0.5;
 
         this.boundingBox = new Box3(box3min, box3Max);
 
@@ -151,9 +180,8 @@ class TerrainGeometry{
 
         this.lodUpdateCallbaks = [];
 
-        let geoReady = function() {
-
-            if (!terrainMaterial) {
+        let initTerrainMaterials = function() {
+            let geoReady = function() {
                 oceanMaterial = this.oceanInstance.originalModel.material.mat;
 
                 setupHeightmapData(this.instance.originalModel.material.mat)
@@ -166,8 +194,14 @@ class TerrainGeometry{
                 oceanMaterial.uniforms.heightmaptiles.value.y = this.tiles;
                 oceanMaterial.uniforms.heightmaptiles.value.z = this.tx_width;
                 oceanMaterial.needsUpdate = true;
+                this.detachGeometryInstance()
+            }.bind(this);
+
+            if (!terrainMaterial) {
+                this.attachGeometryInstance(geoReady, 0)
             }
-        }.bind(this);
+
+        }.bind(this)
 
         let activateGeo = function(lodLevel) {
             if (this.isActive) {
@@ -176,7 +210,7 @@ class TerrainGeometry{
             }
         //    console.log("Activate Geo", this.gridX, this.gridY);
             this.isActive = true;
-            this.attachGeometryInstance(geoReady, lodLevel)
+            this.attachGeometryInstance(null, lodLevel)
         }.bind(this);
 
         let deactivateGeo = function() {
@@ -191,6 +225,7 @@ class TerrainGeometry{
 
 
         this.call = {
+            initTerrainMaterials:initTerrainMaterials,
             activateGeo:activateGeo,
             deactivateGeo:deactivateGeo
         }
@@ -199,10 +234,12 @@ class TerrainGeometry{
     registerContainsHeight(posY) {
         if (posY < this.minY) {
             this.minY = posY;
+            this.boundingBox.min.y = posY;
         }
 
         if (posY > this.maxY) {
             this.maxY = posY;
+            this.boundingBox.max.y = posY;
         }
     }
 
@@ -230,22 +267,39 @@ class TerrainGeometry{
         MATH.callAll(this.lodUpdateCallbaks, this.levelOfDetail);
     }
 
-    detachGeometryInstance() {
-        this.levelOfDetail = -1;
+    removeGroundInstance() {
         if (this.instance) {
-   //         evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ThreeAPI.getCameraCursor().getPos(), to:this.obj3d.position, color:'RED'});
+            //         evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ThreeAPI.getCameraCursor().getPos(), to:this.obj3d.position, color:'RED'});
             this.instance.decommissionInstancedModel();
-            this.oceanInstance.decommissionInstancedModel();
-            ThreeAPI.removeFromScene(this.model);
             this.instance = null;
-            this.oceanInstance = null;
-            this.applyLodLevelChange()
         }
-
     }
 
-    attachGeometryInstance(geoReady, lodLevel) {
+    removeOceanInstance() {
+        if (this.oceanInstance) {
+            this.oceanInstance.decommissionInstancedModel();
+            this.oceanInstance = null;
+        }
+    }
 
+    detachGeometryInstance() {
+        this.levelOfDetail = -1;
+        this.applyLodLevelChange()
+        this.removeGroundInstance()
+        this.removeOceanInstance()
+    }
+
+    attachGeometryInstance(geoReady, lodLevel, hideGround, hideOcean) {
+
+        /*
+        if (hideOcean) {
+            evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:this.boundingBox.min, max:this.boundingBox.max, color:'GREEN'})
+        } else if (hideGround) {
+            evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:this.boundingBox.min, max:this.boundingBox.max, color:'BLUE'})
+        } else {
+            evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:this.boundingBox.min, max:this.boundingBox.max, color:'YELLOW'})
+        }
+*/
         if (lodLevel === this.levelOfDetail) {
 
             return;
@@ -258,12 +312,10 @@ class TerrainGeometry{
             if (lodLevel === 6) {
                 evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:this.boundingBox.min, max:this.boundingBox.max, color:'RED'})
             }
-        } else if (this.instance) {
-         //   evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:this.boundingBox.min, max:this.boundingBox.max, color:'RED'})
+        } else if (this.instance || this.oceanInstance) {
+        //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:this.boundingBox.min, max:this.boundingBox.max, color:'CYAN'})
             this.detachGeometryInstance();
         }
-
-    //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:this.boundingBox.min, max:this.boundingBox.max, color:'GREEN'})
     //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ThreeAPI.getCameraCursor().getPos(), to:this.obj3d.position, color:'YELLOW'});
 
         let addSceneInstance = function(instance) {
@@ -274,23 +326,12 @@ class TerrainGeometry{
                 const geometry = new THREE.PlaneGeometry( 1, 1 );
                 debugWorld = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial());
                 debugWorld.rotateX(MATH.HALF_PI);
-            //    debugWorld.rotateY(Math.PI);
-            //    debugWorld.rotateZ(Math.PI);
-            //    debugWorld.scale.copy(this.obj3d.scale);
-            //    debugWorld.scale.multiplyScalar(100)
                 debugWorld.scale.multiplyScalar(this.tx_width);
-            //    debugWorld.material.wireframe = true;
                 debugWorld.material.opacity = 0.4;
                 debugWorld.material.side = THREE.DoubleSide;
                 debugWorld.material.transparent = true;
                 debugWorld.material.depthTest = false;
                 debugWorld.material.depthWrite = false;
-            //    ThreeAPI.addToScene(debugWorld);
-            }
-
-            if (!this.model) {
-                this.model = instance.originalModel.model.scene.children[0].clone();
-                this.model.material = new THREE.MeshBasicMaterial();
             }
 
             instance.setActive(ENUMS.InstanceState.ACTIVE_VISIBLE);
@@ -305,9 +346,6 @@ class TerrainGeometry{
                 geoReady();
             }
         }.bind(this);
-    //    if (this.levelOfDetail === 0) {
-
-    //    }
 
         let addOceanInstance = function(instance) {
             this.oceanInstance = instance;
@@ -321,20 +359,18 @@ class TerrainGeometry{
             instance.setAttributev4('sprite', ThreeAPI.tempVec4)
             ThreeAPI.getScene().remove(instance.spatial.obj3d)
 
-         //   if (this.maxY > 2) {
-                client.dynamicMain.requestAssetInstance(this.gridMeshAssetIds[lodLevel], addSceneInstance)
-         //   }
-
-
         }.bind(this);
 
-        if (this.levelOfDetail === -1 && this.minY ) {
-            client.dynamicMain.requestAssetInstance('asset_ocean_16', addOceanInstance)
-        } else {
-            client.dynamicMain.requestAssetInstance(this.gridMeshAssetIds[lodLevel], addSceneInstance)
+        if (this.levelOfDetail === -1) {
+            if (!hideOcean) {
+                client.dynamicMain.requestAssetInstance('asset_ocean_16', addOceanInstance)
+            }
+
+            if (!hideGround) {
+                client.dynamicMain.requestAssetInstance(this.gridMeshAssetIds[lodLevel], addSceneInstance)
+            }
         }
         this.applyLodLevelChange()
-
 
     }
 
@@ -408,8 +444,6 @@ class TerrainGeometry{
             globalUpdateFrame = frame;
         }
 
-
-
         let changed = false;
 
         let centerGridX = geoBeneathPlayer.gridX;
@@ -430,22 +464,21 @@ class TerrainGeometry{
                 let lodDist = (gridDist + Math.sqrt(gridDistX * gridDistY ) * 0.55) / 3;
                 let lodLevel = Math.min(Math.floor( lodDist * 0.85 + MATH.curveQuad(lodDist) * 0.075), maxLodLevel)
 
-                if (lodLevel > 3) {
-               //     if (Math.random() < 0.7 && this.wasVisible === false) {
-                //        this.isVisible = false;
-               //     } else {
-                        this.attachGeometryInstance(null, lodLevel)
-                 //   }
-                } else if (lodLevel > 2) {
-                //    if ( this.levelOfDetail === -1) {
-                     //   if (Math.random() < 0.5) {
-                            this.attachGeometryInstance(null, lodLevel)
-                   //     }
+                if (this.updateMinMax === true) {
+                    probeForHeightMinMax(this);
+                    this.updateMinMax = false
+                };
 
-                } else {
-                    this.attachGeometryInstance(null, lodLevel)
+                let hideGround = false;
+                let hideOcean = false;
+
+                if (this.minY > 0) {
+                    hideOcean = true;
+                } else if (this.maxY < 0) {
+                    hideGround = true;
                 }
 
+                this.attachGeometryInstance(null, lodLevel, hideGround, hideOcean)
 
 
             //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:this.boundingBox.min, max:this.boundingBox.max, color:'GREEN'})
@@ -454,7 +487,6 @@ class TerrainGeometry{
             //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:GameAPI.getMainCharPiece().getPos(), to:this.obj3d.position, color:color});
 
             } else {
-
                 this.detachGeometryInstance();
             //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:this.boundingBox.min, max:this.boundingBox.max, color:'RED'})
             }
