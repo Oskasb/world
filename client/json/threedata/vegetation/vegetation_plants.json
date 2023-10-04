@@ -272,7 +272,7 @@
                 "normal_ymin": 2,
                 "normal_ymax": 0.81,
                 "ground_max": [0, 0.5, 0, 1],
-                "ground_min": [0, 0.05, 0, 0],
+                "ground_min": [0, 0.0, 0, 0],
                 "size_min": 0.07,
                 "size_max": 0.17,
                 "color_min": [0.6, 0.6, 0.6, 0.5],
@@ -285,7 +285,7 @@
                 "normal_ymin": 2,
                 "normal_ymax": 0.81,
                 "ground_max": [0, 0.5, 0, 1],
-                "ground_min": [0, 0.05, 0, 0],
+                "ground_min": [0, 0.0, 0, 0],
                 "size_min": 0.09,
                 "size_max": 0.14,
                 "color_min": [0.6, 0.6, 0.6, 0.5],
@@ -298,7 +298,7 @@
                 "normal_ymin": 1.985,
                 "normal_ymax": 0.81,
                 "ground_max": [0, 0.5, 0, 1],
-                "ground_min": [0, 0.05, 0, 0],
+                "ground_min": [0, 0.0, 0, 0],
                 "size_min": 0.11,
                 "size_max": 0.16,
                 "color_min": [0.6, 0.6, 0.6, 0.5],
@@ -335,7 +335,7 @@
                 "min_y": -0.8,
                 "max_y": 0.0,
                 "normal_ymin": 1.985,
-                "normal_ymax": 0.71,
+                "normal_ymax": 0.41,
                 "ground_max": [0, 1, 0, 1],
                 "ground_min": [0, 0, 0, 0],
                 "size_min": 0.55,
@@ -346,7 +346,7 @@
                 "surface": true
               },
               "reeds_2": {
-                "min_y": -1.4,
+                "min_y": -0.5,
                 "max_y": 0.25,
                 "normal_ymin": 1.985,
                 "normal_ymax": 0.91,
@@ -360,7 +360,7 @@
                 "surface": true
               },
               "reeds_3": {
-                "min_y": -1.2,
+                "min_y": -0.3,
                 "max_y": 0.5,
                 "normal_ymin": 1.985,
                 "normal_ymax": 0.91,
@@ -374,7 +374,7 @@
                 "surface": true
               },
               "reeds_1_small": {
-                "min_y": -1.2,
+                "min_y": -0.4,
                 "max_y": 0.5,
                 "normal_ymin": 1.985,
                 "normal_ymax": 0.91,
@@ -388,10 +388,10 @@
                 "surface": true
               },
               "reeds_2_small": {
-                "min_y": -1.9,
+                "min_y": -0.5,
                 "max_y": 0.0,
                 "normal_ymin": 1.985,
-                "normal_ymax": 0.61,
+                "normal_ymax": 0.41,
                 "ground_max": [0, 1, 0, 1],
                 "ground_min": [0, 0, 0, 0],
                 "size_min": 0.14,
@@ -402,8 +402,8 @@
                 "surface": true
               },
               "reeds_3_small": {
-                "min_y": -1.2,
-                "max_y": 0.5,
+                "min_y": -0.2,
+                "max_y": 0.3,
                 "normal_ymin": 1.985,
                 "normal_ymax": 0.91,
                 "ground_max": [0, 1, 0, 1],
