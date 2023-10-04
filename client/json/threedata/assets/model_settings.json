@@ -57,7 +57,7 @@
         {"id": "model_settings_terrain_16" ,
           "config": {
             "instancing": {
-              "instances": 100,
+              "instances": 80,
               "attributes": ["offset", "vertexColor", "scale3d", "orientation", "sprite", "texelRowSelect", "lifecycle"],
               "cameraspace": false
             },
@@ -71,7 +71,7 @@
         {"id": "model_settings_terrain_8" ,
           "config": {
             "instancing": {
-              "instances": 100,
+              "instances": 80,
               "attributes": ["offset", "vertexColor", "scale3d", "orientation", "sprite", "texelRowSelect", "lifecycle"],
               "cameraspace": false
             },
@@ -113,7 +113,7 @@
         {"id": "model_settings_ocean_tile" ,
           "config": {
             "instancing": {
-              "instances": 800,
+              "instances": 500,
               "attributes": ["offset", "vertexColor", "scale3d", "orientation", "sprite", "texelRowSelect", "lifecycle"],
               "cameraspace": false
             },
@@ -127,7 +127,7 @@
         {"id": "model_settings_terrain_1" ,
           "config": {
             "instancing": {
-              "instances": 300,
+              "instances": 200,
               "attributes": ["offset", "vertexColor", "scale3d", "orientation", "sprite", "texelRowSelect", "lifecycle"],
               "cameraspace": false
             },
