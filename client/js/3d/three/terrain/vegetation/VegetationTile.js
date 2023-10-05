@@ -23,28 +23,35 @@ class VegetationTile {
         return this.dynamicGridTile.getTileExtents(minStore, maxStore);
     }
 
-    processTileVisibility(maxDistance) {
+    processTileVisibility(maxDistance, lodCenter) {
         let dynamicGridTile = this.dynamicGridTile;
         let pos = dynamicGridTile.getPos()
-        let camDistSQ = pos.distanceTo(ThreeAPI.getCamera().position)
+        let lodDistance = pos.distanceTo(lodCenter)
         let rgba = dynamicGridTile.rgba
         let tileSize = dynamicGridTile.spacing
-        let isVisible = cubeTestVisibility(pos,  tileSize * 0.8)
+        let farness = MATH.calcFraction(0, maxDistance, lodDistance * 2.0)
+        let nearness = MATH.clamp(1-farness, 0, 1);
+        let isVisible = cubeTestVisibility(pos,  tileSize * nearness)
         let borrowedBox = borrowBox();
-        let farness = MATH.clamp( MATH.curveSigmoid( (camDistSQ - 5) / maxDistance) * 1.1, 0, 1)
-        let nearness = 1-farness;
+
+        /*
         if (this.nearness > nearness) {
             this.nearness = 1-farness*0.5;
         } else {
-            this.nearness = nearness;
+
         }
 
+         */
+
+        this.nearness = nearness;
         this.isVisible = false;
         if (isVisible) {
 
             if (nearness > 0) {
                 this.isVisible = true;
-            //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:borrowedBox.min, max:borrowedBox.max, color:boxColor})
+        //        evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:borrowedBox.min, max:borrowedBox.max, color:'CYAN'})
+            } else {
+         //       evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:borrowedBox.min, max:borrowedBox.max, color:'BLACK'})
             }
         }
 

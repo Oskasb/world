@@ -30,10 +30,10 @@ class VegetationLodGrid {
     }
 
 
-    processLodVisibility() {
+    processLodVisibility(lodCenter) {
         let tiles = this.vegetationTiles;
         for (let i = 0; i < tiles.length; i++) {
-            tiles[i].processTileVisibility(this.maxDistance)
+            tiles[i].processTileVisibility(this.maxDistance, lodCenter)
         }
     }
 
@@ -70,7 +70,7 @@ class VegetationLodGrid {
     updateVegLodGrid(lodCenter) {
         let centerTile = this.dynamicGrid.getTileAtPosition(lodCenter);
         this.dynamicGrid.updateDynamicGrid(centerTile.tileX, centerTile.tileZ)
-        this.processLodVisibility()
+        this.processLodVisibility(lodCenter)
     //    if (this.dynamicGrid.updated) {
             this.refitPatches(this.vegetationTiles);
 

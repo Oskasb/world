@@ -87,7 +87,7 @@ class DynamicWalker {
 
         let frac = MATH.clamp(Math.min(fracZ, fracX), 0, 1);
 
-        console.log(frac);
+    //    console.log(frac);
 
         tempVec.copy(this.headingVector);
         let leaPMod = 1;

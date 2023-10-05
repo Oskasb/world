@@ -171,7 +171,7 @@ let updatePathingCamera = function(tilePath, movedObj3d) {
 
     walkForward.set(0, 0, 1);
     walkForward.applyQuaternion(cursorObj3d.quaternion);
-
+    cursorObj3d.position.copy(movedObj3d.position)
     let inputForce = CursorUtils.processTilePathingCamera(tilePath, movedObj3d, calcVec, tempVec3, walkForward)
 
     lerpFactor = tpf
