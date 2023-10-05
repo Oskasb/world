@@ -952,25 +952,6 @@ class ThreeModelLoader {
             return new THREE.Mesh( geometry, material2 );
         };
 
-        loadGroundMesh = function(applies, array1d, rootObject, ThreeSetup, partsReady) {
-            ThreeTerrain.loadTerrain(applies, array1d, rootObject, ThreeSetup, partsReady);
-            return rootObject;
-        };
-
-        removeGroundMesh = function(pos) {
-            var terrain = ThreeTerrain.getThreeTerrainByPosition(pos);
-            if (!terrain) {
-                console.log("No terrain found at position", pos);
-                return;
-            }
-            terrain.model.children[0].geometry.dispose();
-            setup.removeModelFromScene(terrain.model);
-            setup.removeModelFromScene(terrain.model.children[0]);
-            ThreeTerrain.removeTerrainFromIndex(terrain);
-
-        };
-
-
 
         getHeightFromTerrainAt = function(pos, normalStore) {
             return ThreeTerrain.getThreeHeightAt(pos, normalStore);

@@ -33,7 +33,7 @@ function hideLocationModel(model) {
 
 class LocationModel {
     constructor(parentObj3d, config) {
-        console.log("LocationModel", config);
+    //    console.log("LocationModel", config);
         this.obj3d = new Object3D();
         this.instance = null;
         this.config = config;
@@ -50,7 +50,7 @@ class LocationModel {
             this.clearLocationBoxes()
 
             for (let i = 0; i < boxes.length; i++) {
-                console.log("Add box")
+        //        console.log("Add box")
                 let box = new WorldBox();
                 box.activateBoxByConfig(boxes[i])
                 box.attachToParent(parentObj3d);

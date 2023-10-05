@@ -10,11 +10,11 @@
               "config": {
                 "lod_map": [
                   [],
-                  [{"y_min": 0.55 , "asset":"asset_tree_1", "shade": 4}],
-                  [{"y_min": 0.6 , "asset":"asset_tree_2", "shade": 7}],
-                  [{"y_min": 0.66 , "asset":"asset_tree_3", "shade": 9}],
-                  [{"y_min": 0.6 , "asset":"asset_tree_4", "shade": 12}],
-                  [{"y_min": 0.7 , "asset":"asset_tree_5", "shade": 18}]
+                  [{"y_min": 0.55 ,"y_max": 0.85 , "asset":"asset_tree_1", "shade": 4}],
+                  [{"y_min": 0.6, "y_max": 0.95  , "asset":"asset_tree_2", "shade": 7}],
+                  [{"y_min": 0.66,"y_max": 2.0  , "asset":"asset_tree_3", "shade": 9}],
+                  [{"y_min": 0.6,"y_max": 2.0  , "asset":"asset_tree_4", "shade": 12}],
+                  [{"y_min": 0.7,"y_max": 2.0  , "asset":"asset_tree_5", "shade": 18}]
                 ],
                 "_lod_map": [
                   [],

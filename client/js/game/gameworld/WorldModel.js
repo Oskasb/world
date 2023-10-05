@@ -22,7 +22,7 @@ class WorldModel {
         this.visibility = null;
 
         let locationModels = function(data) {
-            console.log("Reflow Location Models: ", this.locationModels.length)
+        //    console.log("Reflow Location Models: ", this.locationModels.length)
             this.removeLocationModels();
             for (let i = 0; i < data.assets.length; i++) {
                 let model = new LocationModel(this.obj3d, data.assets[i])

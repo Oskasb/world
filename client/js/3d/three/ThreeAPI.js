@@ -381,53 +381,6 @@ class ThreeAPI {
         return this.threeSetup.addToScene(model);
     };
 
-    loadGround = function(applies, array1d, rootObject, partsReady) {
-
-        ThreeTerrain.loadTerrain(applies, array1d, rootObject, this.threeSetup, partsReady);
-        return rootObject;
-
-    //    return this.threeModelLoader.loadGroundMesh(applies, array1d, rootObject, this.threeSetup, partsReady);
-    };
-
-    buildTerrainFromBuffers = function(buffers, x, y, z) {
-
-        var bufferGeo = new THREE.BufferGeometry();
-        var train = new THREE.Object3D();
-
-        var matReady=function(mat, value) {
-            console.log("Mat Ready", mat, value)
-            var mesh = new THREE.Mesh( bufferGeo, value.mat);
-            train.add(mesh);
-
-            //    var bufferGeo = train.children[0].geometry;
-//
-            //    bufferGeo.attributes.position.array = buffers[0];
-            //  //    bufferGeo.attributes.normal.array = buffers[1];
-            //    bufferGeo.attributes.color.array = buffers[2];
-            //    bufferGeo.attributes.uv.array = buffers[3];
-
-            bufferGeo.setAttribute( 'position', new THREE.Float32BufferAttribute( buffers[0], 3 ) );
-            bufferGeo.setAttribute( 'normal', new THREE.Float32BufferAttribute( buffers[1], 3 ) );
-            bufferGeo.setAttribute( 'color', new THREE.Float32BufferAttribute(  buffers[2], 3 ) );
-            bufferGeo.setAttribute( 'uv', new THREE.Float32BufferAttribute(  buffers[3], 2 ) );
-
-
-            bufferGeo.needsUpdate = true;
-
-            //    */
-            train.rotateX(-Math.PI/2);
-            this.threeSetup.addToScene(train);
-        };
-
-        console.log("Load Terrain Mat");
-        assetLoader.loadAsset('MATERIALS_', 'material_terrain', matReady);
-
-        return train;
-    };
-
-    removeTerrainByPosition = function(pos) {
-        return this.threeModelLoader.removeGroundMesh(pos);
-    };
 
     addChildToObject3D = function(child, parent) {
         this.threeSetup.addChildToParent(child, parent);

@@ -146,7 +146,7 @@ class WorldEncounter {
     }
 
     activateWorldEncounter() {
-        console.log("activateWorldEncounter", this)
+    //    console.log("activateWorldEncounter", this)
         ThreeAPI.registerTerrainLodUpdateCallback(this.getPos(), this.call.lodUpdated)
     }
 

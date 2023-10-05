@@ -46,12 +46,14 @@ class DynamicGrid {
     activateDynamicGrid = function(config) {
         this.config = config;
 
-        this.elevation =  config['elevation'];
+        this.elevation =  config['elevation'] || 0;
         this.tileSpacing = config['tile_spacing'];
-        this.tileSize =  config['tile_size'];
-        this.stepHeight = config['step_height'];
+        this.tileSize =  config['tile_size'] || 1;
+        this.stepHeight = config['step_height'] || 0;
         this.tileRange =  config['tile_range'];
         this.hideTiles = config['hide_tiles'] || false;
+        this.centerOffset = config['center_offset'] || false;
+        this.debug = config['debug'] || false;
 
         for (let i = 0; i < this.tileRange; i++) {
 
@@ -59,7 +61,7 @@ class DynamicGrid {
 
             for (let j = 0; j < this.tileRange; j++) {
                 let tile = poolFetch('DynamicTile')
-                tile.activateTile(null, this.tileSize, this.tileSpacing, this.hideTiles);
+                tile.activateTile(null, this.tileSize, this.tileSpacing, this.hideTiles, this.centerOffset, this.debug);
                 this.dynamicGridTiles[i][j] = tile;
             }
         }

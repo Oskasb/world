@@ -542,7 +542,7 @@ let getPreciseHeight = function(array1d, segments, x, z, normalStore, htN, htP, 
         triangle.c.x =  returnToWorldDimensions(tri[2].x, htN, htP, segments);
         triangle.c.z =  returnToWorldDimensions(tri[2].y, htN, htP, segments);
         triangle.c.y =  tri[2].z;
-
+/*
         if (triangle.a.equals(triangle.b)) {
             //    console.log("TrianglePoint is the same..., A & B");
             if (triangle.b.equals(triangle.c)) {
@@ -554,7 +554,7 @@ let getPreciseHeight = function(array1d, segments, x, z, normalStore, htN, htP, 
             }
 
         }
-
+*/
         triangle.getNormal(normalStore);
 
         if (normalStore.y < 0) {

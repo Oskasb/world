@@ -138,7 +138,7 @@ class GameWalkGrid {
 
     updateWalkGrid = function() {
         let origin = this.hostObj3d.position; // ThreeAPI.getCameraCursor().getPos();
-        let offset = this.config['grid']['tile_spacing'] * 0.5
+        let offset = 0 //this.config['grid']['tile_spacing'] * 0.5
         centerTileIndexX = Math.floor(origin.x + offset)
         centerTileIndexY = Math.floor(origin.z + offset)
         this.dynamicGrid.updateDynamicGrid(centerTileIndexX, centerTileIndexY);

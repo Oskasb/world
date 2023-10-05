@@ -261,10 +261,21 @@ class TerrainGeometry{
         storeMax.z += this.size;
     }
 
-    applyLodLevelChange() {
-        this.terrainSectionInfo.applyLodLevel(this.levelOfDetail, maxLodLevel);
-        this.terrainElementModels.applyLevelOfDetail(this.levelOfDetail, this.terrainSectionInfo);
-        MATH.callAll(this.lodUpdateCallbaks, this.levelOfDetail);
+    applyLodLevelChange(lodLevel) {
+        if (typeof (lodLevel) === 'number') {
+            if (this.levelOfDetail !== lodLevel)  {
+                this.levelOfDetail = lodLevel;
+                this.terrainSectionInfo.applyLodLevel(this.levelOfDetail, maxLodLevel);
+                this.terrainElementModels.applyLevelOfDetail(this.levelOfDetail, this.terrainSectionInfo);
+                MATH.callAll(this.lodUpdateCallbaks, this.levelOfDetail);
+            }
+        } else {
+            this.terrainSectionInfo.applyLodLevel(this.levelOfDetail, maxLodLevel);
+            this.terrainElementModels.applyLevelOfDetail(this.levelOfDetail, this.terrainSectionInfo);
+            MATH.callAll(this.lodUpdateCallbaks, this.levelOfDetail);
+        }
+
+
     }
 
     removeGroundInstance() {
@@ -283,15 +294,14 @@ class TerrainGeometry{
     }
 
     detachGeometryInstance() {
-        this.levelOfDetail = -1;
-        this.applyLodLevelChange()
+        this.applyLodLevelChange(-1)
         this.removeGroundInstance()
         this.removeOceanInstance()
     }
 
     attachGeometryInstance(geoReady, lodLevel, hideGround, hideOcean) {
 
-        /*
+/*
         if (hideOcean) {
             evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:this.boundingBox.min, max:this.boundingBox.max, color:'GREEN'})
         } else if (hideGround) {
@@ -299,6 +309,7 @@ class TerrainGeometry{
         } else {
             evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:this.boundingBox.min, max:this.boundingBox.max, color:'YELLOW'})
         }
+             /*
 */
         if (lodLevel === this.levelOfDetail) {
 
@@ -423,8 +434,42 @@ class TerrainGeometry{
     }
 
 
-    updateVisibility() {
+    updateVisibility(lodLevel, frame) {
+        this.wasVisible = this.isVisible;
 
+        if (this.updateMinMax === true) {
+            probeForHeightMinMax(this);
+            this.updateMinMax = false
+        };
+
+        if (globalUpdateFrame !== frame) {
+            if (terrainUpdate) {
+                terrainMaterial.heightmap.needsUpdate = true;
+                heightmap = heightmapContext.getImageData(0, 0, width, height).data;
+                terrainUpdate = false;
+            }
+            globalUpdateFrame = frame;
+        }
+
+        let hideGround = false;
+        let hideOcean = false;
+
+        if (this.minY > 0) {
+            hideOcean = true;
+        } else if (this.maxY < 0) {
+            hideGround = true;
+        }
+
+        if (lodLevel === -1) {
+            this.detachGeometryInstance();
+            this.isVisible = false;
+        } else {
+            this.attachGeometryInstance(null, lodLevel, hideGround, hideOcean)
+            this.isVisible = true;
+        }
+
+
+        this.updateFrame = frame;
     }
 
     updateTerrainGeometry(visibleGeoTiles, geoBeneathPlayer, tileUpdateCB, frame) {

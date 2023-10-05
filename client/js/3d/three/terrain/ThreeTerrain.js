@@ -3,6 +3,7 @@ import {TerrainMaterial} from "./TerrainMaterial.js";
 import {Vector3} from "../../../../libs/three/math/Vector3.js";
 import {Object3D} from "../../../../libs/three/core/Object3D.js";
 import {TerrainGeometry} from "./TerrainGeometry.js";
+import {DynamicLodGrid} from "../../utils/DynamicLodGrid.js";
 import * as TerrainFunctions from "./TerrainFunctions.js";
 import * as CursorUtils from "../../camera/CursorUtils.js";
 
@@ -25,6 +26,7 @@ let terrainOrigin = new Vector3();
 let updateFrame = 0;
 let visibleGeoTiles = [];
 let postVisibleGeoTiles = [];
+let dynamicLodGrid = null;
 let transformModel = function(trf, model) {
     model.position.x = trf.pos[0];
     model.position.y = trf.pos[1];
@@ -453,6 +455,38 @@ let removeLodUpdateCB = function(callback) {
     }
 }
 
+
+let drawTilesByLodGrid = function(frame) {
+
+    let tiles = dynamicLodGrid.getTiles();
+    for (let i = 0; i < tiles.length; i++) {
+        for (let j = 0; j < tiles[i].length;j++) {
+            let tile = tiles[i][j];
+            let geo = getTerrainGeoAtPos(tile.getPos());
+        //    if (geo.levelOfDetail !== tile.lodLevel) {
+        //    if (tile.lodLevel !== -1) {
+                geo.updateVisibility(tile.lodLevel, frame)
+        //    }
+
+        //    }
+        }
+    }
+    if (Math.random() < 0.01) {
+        for (let i = 0; i < terrainGeometries.length; i++) {
+            for (let j = 0; j < terrainGeometries[i].length;j++) {
+                let geo = terrainGeometries[i][j];
+                if (geo.updateFrame !== frame) {
+                    if (geo.levelOfDetail !== -1) {
+                        console.log("not hidden tile found")
+                        geo.updateVisibility(-1,  frame)
+                    }
+                }
+            }
+        }
+    }
+
+}
+
 function getLodCenter() {
     return lodCenter;
 }
@@ -491,6 +525,8 @@ class ThreeTerrain {
 
         };
 
+        dynamicLodGrid = new DynamicLodGrid();
+        dynamicLodGrid.activateLodGrid({lod_levels: 6, tile_range:30, tile_spacing:16, hide_tiles:true, center_offset:true, debug:false})
 
         let configData = new ConfigData("ASSETS", "TERRAIN", "terrain_config", 'data_key', 'config')
         configData.addUpdateCallback(terrainListLoaded);
@@ -498,33 +534,8 @@ class ThreeTerrain {
 
     };
 
-    addTerrainToIndex = function(terrainModel, parent) {
-        console.log("Add to Terrain index:", terrainModel, parent );
-        terrainIndex[terrainModel.uuid] = {model:terrainModel, parent:parent};
-    };
 
-    loadTerrain = function(applies, array1d, rootObject, ThreeSetup, partsReady) {
 
-        let setup = ThreeSetup;
-        let modelId = applies.three_terrain;
-
-        let attachModel = function(model) {
-
-            setup.addToScene(model);
-            rootObject.add(model);
-            ThreeTerrain.addTerrainToIndex(model, rootObject);
-            transformModel(terrainList[modelId].transform, model);
-
-        };
-
-        createTerrain(attachModel, applies, array1d);
-
-        return rootObject;
-    };
-
-    removeTerrainFromIndex = function(terrain) {
-        delete terrainIndex[terrain.model.uuid]
-    };
 
     buildGroundShadeTexture() {
         for (let i = 0; i < terrainGeometries.length; i++) {
@@ -537,7 +548,6 @@ class ThreeTerrain {
             }
         }
     }
-
 
     getThreeHeightAt = function(pos, normalStore) {
 
@@ -557,6 +567,8 @@ class ThreeTerrain {
     };
 
 
+
+
     updateThreeTerrainGeometry = function() {
 
         updateFrame = GameAPI.getFrame().frame;
@@ -568,44 +580,19 @@ class ThreeTerrain {
         CursorUtils.processTerrainLodCenter(lodCenter)
     //    if (GameAPI.gameMain.getPlayerCharacter()) {
 
-
-
             let playerGeo = getTerrainGeoAtPos(lodCenter);
-
 
             if (playerGeo !== geoBeneathPlayer) {
             //    activateTerrainGeos(playerGeo.gridX, playerGeo.gridY, gridConfig.range)
                 geoBeneathPlayer = playerGeo;
             }
-            drawNearbyTerrain();
 
-            while (visibleGeoTiles.length) {
-                let tile = visibleGeoTiles.pop();
-                tile.updateTerrainGeometry(visibleGeoTiles, geoBeneathPlayer, geoTileUpdateCallback, updateFrame)
-                if (tile.isVisible) {
-                    postVisibleGeoTiles.push(tile);
-                }
-            }
+            dynamicLodGrid.updateDynamicLodGrid(lodCenter);
 
-            while (postVisibleGeoTiles.length) {
-                let tile = postVisibleGeoTiles.pop();
-                visibleGeoTiles.push(tile);
-            }
-
-    //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:playerGeo.boundingBox.min, max:playerGeo.boundingBox.max, color:'GREEN'})
+            drawTilesByLodGrid(updateFrame)
 
 
-        /*
-        if (visibleGeoTiles.length !== visibleCount) {
-            console.log("Change visible geoTile count to:", visibleGeoTiles.length, "change:", visibleGeoTiles.length-visibleCount);
-        }
-        */
-
-        }
-
-
-
-   // }
+    }
 }
 
 export {ThreeTerrain}

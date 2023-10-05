@@ -4,20 +4,28 @@ import * as CombatFxOptions from "../combat/feedback/CombatFxOptions.js";
 import * as CombatFxUtils from "../combat/feedback/CombatFxUtils.js";
 import {GridTile} from "../gamescenarios/GridTile.js";
 import {poolReturn} from "../../application/utils/PoolUtils.js";
+import {borrowBox, cubeTestVisibility} from "../../3d/ModelUtils.js";
 
 let up = new Vector3(0, 1, 0)
 let tempVec = new Vector3();
 let tempObj = new Object3D();
 class DynamicTile {
-    constructor(defaultSprite, defaultSize) {
-
+    constructor() {
+        this.offset = 0;
     }
 
-    activateTile = function(defaultSprite, defaultSize, spacing, hideTile) {
+    activateTile = function(defaultSprite, defaultSize, spacing, hideTile, centerOffset, debug) {
         this.defaultSprite = defaultSprite || [7, 3]
 
+        this.debug = debug;
         this.hideTile = hideTile;
         this.spacing = spacing || 1;
+
+        if (centerOffset) {
+            this.offset = spacing * 0.5
+        } else {
+            this.offset = 0;
+        }
 
         this.defaultSize = this.spacing * defaultSize || 0.9
 
@@ -72,8 +80,8 @@ class DynamicTile {
         this.gridJ = gridJ;
 
     //    this.gridTile.setTileXZ(indexX, indexY);
-        this.obj3d.position.x = indexX*this.spacing;
-        this.obj3d.position.z = indexY*this.spacing;
+        this.obj3d.position.x = indexX*this.spacing + this.offset
+        this.obj3d.position.z = indexY*this.spacing + this.offset;
         let height = ThreeAPI.terrainAt(this.obj3d.position, this.groundNormal);
         this.obj3d.position.y = height + 0.01;
 
@@ -205,8 +213,55 @@ class DynamicTile {
         poolReturn(this);
     }
 
+    processDynamicTileVisibility = function(maxDistance, lodLevels, lodCenter) {
+        let dynamicGridTile = this;
+        let pos = this.getPos()
+        let lodDistance = pos.distanceTo(lodCenter)
+        let rgba = this.rgba
+        let tileSize = this.spacing
+        let isVisible = cubeTestVisibility(pos,  tileSize * 1)
+        let borrowedBox = borrowBox();
+        let farness = MATH.calcFraction(0, maxDistance, lodDistance * 2.0)  //MATH.clamp( (camDist / maxDistance) * 1.0, 0, 1)
+        let nearness = 1-farness;
+        let lodLevel = Math.floor(farness * (lodLevels));
+        if (this.nearness > nearness) {
+            this.nearness = 1-farness*0.5;
+        } else {
+            this.nearness = nearness;
+        }
+
+        this.isVisible = false;
+        this.lodLevel = lodLevel;
+        if (isVisible) {
+
+            if (nearness > 0) {
+                this.isVisible = true;
+                if (this.debug) {
+                    let color = {x:MATH.sillyRandom(lodLevel), y:Math.sin(lodLevel*1.8), z:Math.cos(lodLevel), w:1}
+                    this.debugDrawTilePosition(nearness*nearness*tileSize*0.5, color)
+                    evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:borrowedBox.min, max:borrowedBox.max, color:color})
+                }
+            } else {
+                if (this.debug) {
+                    this.debugDrawTilePosition(nearness*nearness*tileSize*0.5, 'BLACK')
+                    evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:borrowedBox.min, max:borrowedBox.max, color:'BLACK'})
+                }
+
+            }
+        } else {
+            this.lodLevel = -1;
+        }
+
+    }
+
+    debugDrawTilePosition(size, color) {
+        evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:this.obj3d.position, color:color || 'RED', size: size || 1});
+    }
     updateDynamicTile = function() {
-    //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:this.obj3d.position, color:'RED', size:0.3});
+        if (this.debug) {
+
+        }
+    //
     }
 
 }

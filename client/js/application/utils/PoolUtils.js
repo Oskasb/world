@@ -38,6 +38,8 @@ let fetcher = function(entry) {
 }
 
 function poolFetch(dataKey) {
+   // if (!pools[dataKey])
+
     pools[dataKey].getFromExpandingPool(fetcher)
     let entry = fetched;
     fetched = null;
