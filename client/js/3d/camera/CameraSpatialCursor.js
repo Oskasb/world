@@ -17,7 +17,8 @@ let camPosVec = new Vector3();
 let camLookAtVec = new Vector3();
 let cursorTravelVec = new Vector3();
 let cursorForward = new Vector3();
-let walkForward = new Vector3()
+let walkForward = new Vector3();
+let viewTargetPos = new Vector3();
 
 let lookAroundPoint = new Vector3(-885, 0, 530)
 
@@ -94,6 +95,21 @@ let updateWorldDisplay = function() {
     camLookAtVec.y = lookAroundPoint.y + camParams.offsetLookAt[1] + lookAtMod.y;
     camLookAtVec.z = lookAroundPoint.z + camParams.offsetLookAt[2] + lookAtMod.z;
     dragToVec3.copy( cursorObj3d.position)
+}
+
+let updateEncounterActivate = function() {
+    let selectedActor = GameAPI.getGamePieceSystem().getSelectedGameActor();
+    let actorPos = selectedActor.getPos();
+    lerpFactor = tpf*2
+    calcVec.copy(viewTargetPos);
+    calcVec.sub(actorPos);
+    calcVec.multiplyScalar(0.8);
+    tempVec3.addVectors(actorPos, calcVec);
+    camLookAtVec.lerp(tempVec3, lerpFactor);
+    calcVec.multiplyScalar(-1.1);
+    tempVec3.addVectors(actorPos, calcVec);
+    tempVec3.y += calcVec.length()*2;
+    camPosVec.lerp(tempVec3, lerpFactor*2)
 }
 
 let updateWorldLook = function() {
@@ -204,6 +220,11 @@ class CameraSpatialCursor {
 
             if (selectedMode === camParams.mode) {
                 selectedMode = camModes.worldDisplay;
+            }
+
+            if (evt.pos) {
+                viewTargetPos.copy(evt.pos);
+                lookAroundPoint.copy(evt.pos);
             }
 
             updateWorldLook()
@@ -358,6 +379,8 @@ class CameraSpatialCursor {
             updateWorldDisplay();
             camLookAtVec.copy(cursorObj3d.position)
         //    cursorObj3d.position.copy(camLookAtVec)
+        } else if (camParams.mode === camModes.activateEncounter) {
+            updateEncounterActivate();
         } else {
             CursorUtils.drawInputCursorState(cursorObj3d, dragToVec3, camTargetPos, cursorForward, cursorTravelVec)
             camPosVec.lerp(camTargetPos, tpf ) // + lerpFactor * 2)

@@ -22,22 +22,28 @@ let indicateTriggerRadius = function(encounter) {
 
 let encounterEvent = {};
 
+let green =  [0, 0.5, 0.0, 1]
+
 let indicateTriggerTime = function(actor, encounter) {
     let radius = 0.5 + MATH.curveQuad(encounter.timeInsideTrigger)
     radiusEvent.heads = 1;
     radiusEvent.speed = 1.5 * MATH.curveQuad(encounter.timeInsideTrigger) + 0.1;
     radiusEvent.radius = radius;
-    tempVec.copy(actor.getPos());
-    radiusEvent.elevation = 2 - encounter.timeInsideTrigger * 2;
     radiusEvent.pos = tempVec
-    radiusEvent.rgba = encounter.getTriggerRGBA();
-    evt.dispatch(ENUMS.Event.INDICATE_RADIUS, radiusEvent)
 
-    tempVec.copy(encounter.getPos());
+
+    radiusEvent.pos.copy(actor.getPos());
+    radiusEvent.rgba = green;
+    radiusEvent.elevation = 2 - encounter.timeInsideTrigger * 2;
     evt.dispatch(ENUMS.Event.INDICATE_RADIUS, radiusEvent)
     radiusEvent.elevation = 0;
     evt.dispatch(ENUMS.Event.INDICATE_RADIUS, radiusEvent)
-    tempVec.copy(actor.getPos());
+
+    radiusEvent.pos.copy(encounter.getPos());
+    radiusEvent.rgba = encounter.getTriggerRGBA();
+    radiusEvent.elevation = 2 - encounter.timeInsideTrigger * 2;
+    evt.dispatch(ENUMS.Event.INDICATE_RADIUS, radiusEvent)
+    radiusEvent.elevation = 0;
     evt.dispatch(ENUMS.Event.INDICATE_RADIUS, radiusEvent)
 }
 
@@ -56,11 +62,12 @@ function checkTriggerPlayer(encounter) {
         if (distance < radius) {
             if (encounter.timeInsideTrigger === 0) {
                 selectedActor.getGameWalkGrid().cancelActivePath()
+                evt.dispatch(ENUMS.Event.SET_CAMERA_MODE, {mode:'activate_encounter', pos:encounter.getPos()})
             //    selectedActor.getGameWalkGrid().buildGridPath(selectedActor.getPos(), selectedActor.getPos());
             //    selectedActor.getGameWalkGrid().applySelectedPath()
                 console.log("Activate Encounter Triggered Transition")
             }
-            encounter.timeInsideTrigger += GameAPI.getFrame().tpf;
+            encounter.timeInsideTrigger += GameAPI.getFrame().tpf *0.5;
             indicateTriggerTime(selectedActor, encounter)
             if (encounter.timeInsideTrigger > 1) {
                 encounterEvent.pos = encounter.getPos();
