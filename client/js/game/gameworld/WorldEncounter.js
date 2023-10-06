@@ -54,6 +54,9 @@ function checkTriggerPlayer(encounter) {
         }
 
         if (distance < radius) {
+            if (encounter.timeInsideTrigger === 0) {
+                console.log("Activate Encounter Triggered Transition")
+            }
             encounter.timeInsideTrigger += GameAPI.getFrame().tpf;
             indicateTriggerTime(selectedActor, encounter)
             if (encounter.timeInsideTrigger > 1) {
@@ -65,10 +68,7 @@ function checkTriggerPlayer(encounter) {
         } else {
             encounter.timeInsideTrigger = 0;
         }
-
-
     }
-
 }
 
 class WorldEncounter {

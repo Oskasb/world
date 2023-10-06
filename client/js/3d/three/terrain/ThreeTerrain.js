@@ -405,9 +405,12 @@ class ThreeTerrain {
                 geoBeneathPlayer = playerGeo;
             }
 
-            dynamicLodGrid.updateDynamicLodGrid(lodCenter);
+            let update = dynamicLodGrid.updateDynamicLodGrid(lodCenter);
 
-            drawTilesByLodGrid(updateFrame)
+if (update) {
+    drawTilesByLodGrid(updateFrame)
+}
+
 
 
     }

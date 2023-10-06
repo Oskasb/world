@@ -92,13 +92,12 @@ class DynamicGrid {
         if (centerTileIndexX !== this.centerTileIndexX || centerTileIndexY !== this.centerTileIndexY) {
             moveCenterTileTo(this, centerTileIndexX, centerTileIndexY)
             updateTileIndices(this, this.dynamicGridTiles)
+            this.gridCenterPos.set(centerTileIndexX, 0,  centerTileIndexY)
+            this.gridCenterPos.y = ThreeAPI.terrainAt(this.gridCenterPos);
             this.updated = true;
         } else {
             this.updated = false;
         }
-
-        this.gridCenterPos.set(centerTileIndexX, 0,  centerTileIndexY)
-        this.gridCenterPos.y = ThreeAPI.terrainAt(this.gridCenterPos);
 
     }
 

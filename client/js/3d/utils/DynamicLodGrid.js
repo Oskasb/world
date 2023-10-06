@@ -1,9 +1,11 @@
 import {DynamicGrid} from "../../game/gameworld/DynamicGrid.js";
 import {cubeTestVisibility} from "../ModelUtils.js";
 import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
+import { Vector3 } from "../../../libs/three/math/Vector3.js";
 
 class DynamicLodGrid {
     constructor() {
+        this.lastLodCenter = new Vector3();
         this.dynamicGrid = poolFetch( 'DynamicGrid')
         this.lodElements = [];
     }
@@ -37,17 +39,13 @@ class DynamicLodGrid {
     }
 
     updateDynamicLodGrid(lodCenter) {
-        let centerTile = this.dynamicGrid.getTileAtPosition(lodCenter);
-        this.dynamicGrid.updateDynamicGrid(centerTile.tileX, centerTile.tileZ)
-        this.processLodVisibility(lodCenter)
-    //    if (this.dynamicGrid.updated) {
-     //       this.refitPatches(this.vegetationTiles);
-
-    //    for (let i = 0; i < this.vegetationPatches.length; i++) {
-    //        let patch = this.vegetationPatches[i];
-    //        patch.applyGridVisibility()
-    //    }
-    //    }
+        if (this.lastLodCenter.distanceToSquared(lodCenter) > 0.01) {
+            let centerTile = this.dynamicGrid.getTileAtPosition(lodCenter);
+            this.dynamicGrid.updateDynamicGrid(centerTile.tileX, centerTile.tileZ)
+            this.processLodVisibility(lodCenter)
+            this.lastLodCenter.copy(lodCenter);
+            return true;
+        }
 
     }
 

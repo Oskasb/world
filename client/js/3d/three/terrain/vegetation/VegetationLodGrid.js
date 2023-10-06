@@ -3,12 +3,14 @@ import {cubeTestVisibility} from "../../../ModelUtils.js";
 import {VegetationTile} from "./VegetationTile.js";
 import {VegetationPatch} from "./VegetationPatch.js";
 import {poolFetch, poolReturn, registerPool} from "../../../../application/utils/PoolUtils.js";
+import {Vector3} from "../../../../../libs/three/math/Vector3.js";
 
 class VegetationLodGrid {
     constructor() {
         this.dynamicGrid = poolFetch( 'DynamicGrid')
         this.vegetationTiles = [];
         this.vegetationPatches = [];
+        this.lastLodCenter = new Vector3();
     }
 
 
@@ -31,9 +33,12 @@ class VegetationLodGrid {
 
 
     processLodVisibility(lodCenter) {
-        let tiles = this.vegetationTiles;
-        for (let i = 0; i < tiles.length; i++) {
-            tiles[i].processTileVisibility(this.maxDistance, lodCenter)
+        if (this.lastLodCenter.distanceToSquared(lodCenter) > 0.5) {
+            let tiles = this.vegetationTiles;
+            for (let i = 0; i < tiles.length; i++) {
+                tiles[i].processTileVisibility(this.maxDistance, lodCenter)
+            }
+            this.lastLodCenter.copy(lodCenter);
         }
     }
 

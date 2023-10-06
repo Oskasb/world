@@ -117,9 +117,10 @@ class Client {
             ThreeAPI.updateCamera();
             GuiAPI.updateGui(frame.tpf, frame.elapsedTime);
             ThreeAPI.requestFrameRender(frame)
-            requestAnimationFrame( triggerFrame );
 
             client.evt.dispatch(ENUMS.Event.FRAME_READY, frame);
+            requestAnimationFrame( triggerFrame );
+
             GameAPI.getGameCamera().call.applyFrame(frame)
             frame.gameTime = GameAPI.getGameTime();
             frame.systemTime += frame.tpf;
