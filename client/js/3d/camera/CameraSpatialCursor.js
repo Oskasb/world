@@ -47,6 +47,8 @@ let camParams = {
 let camModes = {
     worldDisplay:'world_display',
     worldViewer:'world_viewer',
+    activateEncounter:'activate_encounter',
+    deactivateEncounter:'deactivate_encounter',
     gameCombat:'game_combat',
     gameTravel:'game_travel'
 }

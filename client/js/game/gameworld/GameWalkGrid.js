@@ -74,6 +74,10 @@ class GameWalkGrid {
         return this.hostObj3d.position;
     }
 
+    cancelActivePath() {
+        this.dynamicPath.tilePath.cutTilePath();
+    }
+
     getTileAtPosition(posVec) {
         let gridTiles = this.dynamicGrid.dynamicGridTiles
         return ScenarioUtils.getTileForPosition(gridTiles, posVec)

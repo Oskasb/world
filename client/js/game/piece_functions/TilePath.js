@@ -16,6 +16,13 @@ class TilePath {
         this.pathTiles.push(tile);
     }
 
+    cutTilePath() {
+        if (this.pathTiles.length > 1) {
+            this.pathTiles.length = 2;
+            this.setEndTile(this.pathTiles[1])
+        }
+    }
+
     deductNextTileFromPath() {
         return this.pathTiles.shift();
     }

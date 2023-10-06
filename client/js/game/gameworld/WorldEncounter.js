@@ -55,6 +55,9 @@ function checkTriggerPlayer(encounter) {
 
         if (distance < radius) {
             if (encounter.timeInsideTrigger === 0) {
+                selectedActor.getGameWalkGrid().cancelActivePath()
+            //    selectedActor.getGameWalkGrid().buildGridPath(selectedActor.getPos(), selectedActor.getPos());
+            //    selectedActor.getGameWalkGrid().applySelectedPath()
                 console.log("Activate Encounter Triggered Transition")
             }
             encounter.timeInsideTrigger += GameAPI.getFrame().tpf;

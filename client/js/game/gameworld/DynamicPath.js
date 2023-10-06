@@ -47,6 +47,7 @@ class DynamicPath {
     }
 
 
+
     drawLineSegment(from, to, segment, segments, color, tile) {
         tempVec.copy(to);
         tempVec.sub(from);
