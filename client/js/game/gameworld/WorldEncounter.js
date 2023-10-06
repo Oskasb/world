@@ -61,6 +61,7 @@ function checkTriggerPlayer(encounter) {
 
         if (distance < radius) {
             if (encounter.timeInsideTrigger === 0) {
+                selectedActor.getGameWalkGrid().setTargetPosition(encounter.getPos())
                 selectedActor.getGameWalkGrid().cancelActivePath()
                 evt.dispatch(ENUMS.Event.SET_CAMERA_MODE, {mode:'activate_encounter', pos:encounter.getPos()})
             //    selectedActor.getGameWalkGrid().buildGridPath(selectedActor.getPos(), selectedActor.getPos());

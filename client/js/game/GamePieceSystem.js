@@ -19,25 +19,15 @@ let loadActor = function(event) {
 
     if (event.tile) {
         actor.activateGameActor();
-        let gameWalkGrid = actor.getGameWalkGrid()
 
+        let gameWalkGrid = actor.getGameWalkGrid()
         let activateEncounterGrid = GameAPI.call.getActiveEncounter();
 
         actor.getPos().copy(activateEncounterGrid.getPos());
-/*
-        MATH.spreadVector(actor.getPos(), MATH.randomVector().multiplyScalar(12))
-        actor.getPos().y = ThreeAPI.terrainAt(actor.getPos())
-  */
         actor.actorObj3d.position.copy(actor.getPos())
-        let startPos = actor.getGameWalkGrid().hostObj3d // getGridOriginPos();
 
+        gameWalkGrid.setTargetPosition(event.tile.getPos())
 
-        gameWalkGrid.activateWalkGrid(actor.actorObj3d)
-        gameWalkGrid.call.updateWalkGrid()
-        gameWalkGrid.buildGridPath(event.tile.getPos(), actor.getPos())
-
-
-        gameWalkGrid.applySelectedPath( )
 
 
     //

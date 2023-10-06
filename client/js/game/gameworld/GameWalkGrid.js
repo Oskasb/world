@@ -1,5 +1,6 @@
 import { ConfigData } from "../../application/utils/ConfigData.js";
 import {Object3D } from "../../../libs/three/core/Object3D.js";
+import {Vector3} from "../../../libs/three/math/Vector3.js";
 import { DynamicGrid} from "./DynamicGrid.js";
 import { DynamicPath } from "./DynamicPath.js";
 import { DynamicWalker} from "./DynamicWalker.js";
@@ -17,6 +18,8 @@ class GameWalkGrid {
         this.isActive = false;
 
         this.dataId = null;
+
+        this.targetPosition = new Vector3()
 
         this.hostObj3d = new Object3D();
         this.moveObj3d = new Object3D();
@@ -48,6 +51,14 @@ class GameWalkGrid {
             configUpdate:configUpdate,
             updateWalkGrid:updateWalkGrid
         }
+    }
+
+    setTargetPosition(posVec) {
+        this.targetPosition.copy(posVec);
+    }
+
+    getTargetPosition() {
+        return this.targetPosition;
     }
 
     activateWalkGrid = function(walkOriginObj3d) {

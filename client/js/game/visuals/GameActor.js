@@ -92,6 +92,14 @@ class GameActor {
 
     }
 
+    moveActorOnGridTo(pos, onMoveEnded) {
+        let gameWalkGrid = this.getGameWalkGrid()
+        gameWalkGrid.activateWalkGrid(this.actorObj3d)
+        gameWalkGrid.call.updateWalkGrid()
+        gameWalkGrid.buildGridPath(pos, this.getPos())
+        gameWalkGrid.applySelectedPath(null, onMoveEnded )
+    }
+
     getPointAtDistanceAhead(distance) {
         tempVec.set(0, 0, distance);
         tempVec.applyQuaternion(this.actorObj3d.quaternion);

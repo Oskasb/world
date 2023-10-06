@@ -1,4 +1,3 @@
-import { GameScenario }  from "./gameworld/GameScenario.js";
 import { ConfigData } from "../application/utils/ConfigData.js";
 import { GameWorld } from "./gameworld/GameWorld.js";
 import { PlayerMain } from "./Player/PlayerMain.js";
@@ -200,62 +199,6 @@ class GameMain {
         evt.dispatch(ENUMS.Event.SET_CAMERA_TARGET, navPoint);
     }
 
-    requestScenario(scenarioEvent) {
-        evt.dispatch(ENUMS.Event.MAIN_CHAR_SELECT_TARGET, {piece:null, value:false });
-        let scenarioId = scenarioEvent['id']
-        let dynamicId = scenarioEvent['dynamic']
-        this.dynamicId = dynamicId;
-        let data = this.configData.parseConfigData()[scenarioId];
-        let config = data.config;
-        let staticId = config['scenario_static'];
-        this.applyNavPoint();
-
-        let dynamicReady = function(dynScen) {
-
-        }
-
-        let staticReadyCB = function() {
-            this.activeScenario.initGameDynamicScenario(dynamicId, dynamicReady)
-        }.bind(this)
-
-        if (this.activeScenario) {
-            if (this.activeScenario.scenarioId === scenarioId) {
-
-                staticReadyCB();
-                return;
-            }
-        }
-        this.closeGameScenario();
-        this.initGameScenario(scenarioId, staticId, staticReadyCB)
-
-    }
-
-    initGameScenario(scenarioId, staticId, staticReadyCB) {
-        if (this.activeScenario) {
-            if (this.activeScenario.scenarioId !== scenarioId) {
-                console.log("Game Scenario already active... cancelling change")
-                return;
-            } else {
-                this.closeGameScenario();
-            }
-        }
-
-        let scenario = new GameScenario(scenarioId);
-        this.activeScenario = scenario;
-        scenario.initGameStaticScenario(staticId, staticReadyCB);
-    }
-
-    closeGameScenario() {
-        if (!this.activeScenario) {
-            //    console.log("No Game Scenario active... cancelling")
-        } else {
-            let scenario = this.activeScenario;
-            this.activeScenario = null;
-            scenario.exitGameScenario();
-        }
-
-
-    }
 
     addGameTurnCallback(callback) {
         if (this.onTurnCallbacks.indexOf(callback) !== -1) {

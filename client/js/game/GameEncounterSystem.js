@@ -1,6 +1,8 @@
-import { EncounterGrid } from "./gamescenarios/EncounterGrid.js";
-import {DynamicEncounter } from "./gamescenarios/DynamicEncounter.js";
+import { EncounterGrid } from "./encounter/EncounterGrid.js";
+import { DynamicEncounter } from "./encounter/DynamicEncounter.js";
+import {EncounterTurnSequencer} from "./encounter/EncounterTurnSequencer.js";
 
+let encounterTurnSequencer = null;
 let activeEncounterGrid = null;
 let dynamicEncounter = null;
 
@@ -27,7 +29,7 @@ let getActiveEncounterGrid = function() {
 class GameEncounterSystem {
     constructor() {
 
-
+        encounterTurnSequencer = new EncounterTurnSequencer();
         let updateEncounterSystem = function() {
 
             let selectedActor = GameAPI.getGamePieceSystem().getSelectedGameActor();
@@ -39,7 +41,7 @@ class GameEncounterSystem {
             let isWithin = testPosIsWithin(selectedActor.getPos(), min, max);
 
             if (isWithin) {
-
+                encounterTurnSequencer.updateTurnSequencer()
             } else {
                 this.deactivateActiveEncounter()
             }
@@ -78,6 +80,12 @@ class GameEncounterSystem {
                         dynamicEncounter.addEncounterActors(8)
                     }
 
+                    let actors = dynamicEncounter.getEncounterActors();
+                    for (let i = 0; i < actors.length; i++) {
+                        encounterTurnSequencer.addEncounterActor(actors[i]);
+                    }
+                //let selectedActor = GameAPI.getGamePieceSystem().getSelectedGameActor();
+                encounterTurnSequencer.addEncounterActor(GameAPI.getGamePieceSystem().getSelectedGameActor());
             }
 
             encounterGrid.initEncounterGrid(event['grid_id'], event.pos, gridReady )
@@ -91,7 +99,7 @@ class GameEncounterSystem {
                 forward = selectedActor.getForward();
             }
 
-            encounterGrid.initEncounterGrid(event['grid_id'], pos,gridLoaded , forward)
+            encounterGrid.initEncounterGrid(event['grid_id'], pos, gridLoaded , forward)
 
         }
 

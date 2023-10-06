@@ -1,4 +1,5 @@
 
+
 let encounterActors = []
 
 function spawnActor(actorConfig, tile) {
@@ -27,10 +28,17 @@ class DynamicEncounter {
             for (let i = 0; i < spawn.actors.length; i++) {
                 let cfg = spawn.actors[i]
                 let tile =  this.encounterGrid.getTileByRowCol(cfg.tile[0], cfg.tile[1]);
+                if (tile.walkable === false) {
+                    tile = this.encounterGrid.getRandomWalkableTiles(1)[0];
+                }
                 spawnActor(cfg, tile);
             }
         }
 
+    }
+
+    getEncounterActors() {
+        return encounterActors;
     }
 
     addEncounterActors(count) {
