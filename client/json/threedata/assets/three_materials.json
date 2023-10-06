@@ -241,6 +241,16 @@
           }
         },
         {
+          "id":"mat_stamp_overlay_8x8",
+          "config":{
+            "settings": "mat_settings_particle_stamp_overlay",
+            "textures":[
+              {"key":"map"           , "id":"particle_atlas_8x8"  },
+              {"key":"data_texture"  , "id":"data_texture"        }
+            ]
+          }
+        },
+        {
           "id":"mat_particles_normal_8x8",
           "config":{
             "settings": "mat_settings_instancing_normal",

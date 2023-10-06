@@ -209,17 +209,7 @@ let constructGeometries = function(heightMapData, transform, groundConfig, secti
     }
     geoBeneathPlayer = terrainGeometries[2][2];
     geoBeneathPlayer.call.initTerrainMaterials();
-   // geoBeneathPlayer.call.activateGeo(0);
-   // geoBeneathPlayer.call.deactivateGeo();
 
-    frameGridExtentsChecks[0] = geoBeneathPlayer.gridX - gridConfig.range;
-    frameGridExtentsChecks[1] = geoBeneathPlayer.gridY - gridConfig.range;
-    frameGridExtentsChecks[2] = geoBeneathPlayer.gridX + gridConfig.range;
-    frameGridExtentsChecks[3] = geoBeneathPlayer.gridY + gridConfig.range;
-    lastFrameGridExtentsChecks[0] = frameGridExtentsChecks[0];
-    lastFrameGridExtentsChecks[1] = frameGridExtentsChecks[1];
-    lastFrameGridExtentsChecks[2] = frameGridExtentsChecks[2];
-    lastFrameGridExtentsChecks[3] = frameGridExtentsChecks[3];
 };
 
 let getTerrainGeoAtPos = function(posVec3) {
@@ -237,45 +227,6 @@ let getTerrainGeoAtPos = function(posVec3) {
     }
 }
 
-let activatingGeos = [];
-let activateTerrainGeos = function(x, y, range) {
-
-    let sections = range*2+1;
-    for (let i = 0; i < sections; i++) {
-        if (x - range < 0 || x + range+i > terrainGeometries.length) {
-
-        } else {
-
-            for (let j = 0; j < sections; j++) {
-
-                if (y - range < 0 || y + range+j > terrainGeometries[i].length) {
-
-                } else {
-                    activatingGeos.push(terrainGeometries[x-range+i][y-range+j]);
-                }
-            }
-        }
-    }
-
-    while (activeTerrainGeometries.length) {
-        let preActiveGeo = activeTerrainGeometries.pop();
-        if (activatingGeos.indexOf(preActiveGeo) === -1) {
-            if (preActiveGeo.isActive) {
-                preActiveGeo.call.deactivateGeo();
-            }
-        }
-    }
-
-    while (activatingGeos.length) {
-        let postActiveGeo = activatingGeos.pop()
-        if (postActiveGeo.isActive === false) {
-            postActiveGeo.call.activateGeo(0);
-        }
-    //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:postActiveGeo.obj3d.position, color:'YELLOW', size:0.2})
-        activeTerrainGeometries.push(postActiveGeo);
-    }
-
-}
 
 let color = {};
 let debugDrawNearby = function(index) {
@@ -289,145 +240,12 @@ let debugDrawNearby = function(index) {
     evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:posVec, to:normVec, color:'ORANGE'});
 }
 
-let neighbors = [[-1,-1], [-1, 0], [-1, 1], [0, 0], [0, -1], [0, 1], [1,-1], [1, 0], [1, 1]];
-
-let updateGridGeoByXY = function (gridX, gridY) {
-    if (terrainGeometries[gridX]) {
-        if (terrainGeometries[gridX][gridY]) {
-            updateGeo(terrainGeometries[gridX][gridY])
-        }
-    }
-}
-
-let updateNeighbors = function(geoTile) {
-    geoTile.neighborsUpdatedFrame = updateFrame;
-    let playerGeoGridX = geoBeneathPlayer.gridX;
-    let playerGeoGridY = geoBeneathPlayer.gridY;
-    let updatedTileX = geoTile.gridX;
-    let updatedTileY = geoTile.gridY;
-    let nextX = updatedTileX;
-    let nextY = updatedTileY;
-    let gridDistX = updatedTileX - playerGeoGridX;
-    let gridDistY = updatedTileY - playerGeoGridY;
-    let gridDeltaX = updatedTileX
-
-    if (Math.abs(gridDistX) > 28 || Math.abs(gridDistY) > 28) {
-        return;
-    }
-
-
-        let isCorner = (Math.abs(gridDistX) - Math.abs(gridDistY)) === 0;
-        nextX = updatedTileX + MATH.clamp(gridDistX, -1, 1);
-        nextY = updatedTileY + MATH.clamp(gridDistY, -1, 1);
-        if (isCorner) {
-        //    updateGridGeoByXY(nextX, updatedTileY)
-        //    updateGridGeoByXY(updatedTileX, nextY)
-            updateGridGeoByXY(nextX, nextY)
-        }
-            updateGridGeoByXY(nextX, updatedTileY)
-            updateGridGeoByXY(updatedTileX, nextY)
-
-}
-
-let geoTileUpdateCallback = function(geoTile) {
-    // find the edges of terrain expanding from player (closest to camera?) geo and check for changes to the edge
-    let updatedTileX = geoTile.gridX;
-    let updatedTileY = geoTile.gridY;
-    let nextX = updatedTileX;
-    let nextY = updatedTileY;
-    let isVisible = geoTile.isVisible;
-    let wasVisible = geoTile.wasVisible;
-    let playerGeoGridX = geoBeneathPlayer.gridX;
-    let playerGeoGridY = geoBeneathPlayer.gridY;
-
-    if (updatedTileX < frameGridExtentsChecks[0]) {
-        frameGridExtentsChecks[0] = updatedTileX;
-    }
-    if (updatedTileY < frameGridExtentsChecks[1]) {
-        frameGridExtentsChecks[1] = updatedTileY;
-    }
-    if (updatedTileX > frameGridExtentsChecks[2]) {
-        frameGridExtentsChecks[2] = updatedTileX;
-    }
-    if (updatedTileY > frameGridExtentsChecks[3]) {
-        frameGridExtentsChecks[3] = updatedTileY;
-    }
-
-    //   evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:GameAPI.getMainCharPiece().getPos(), to:geoTile.obj3d.position, color:'ORANGE'});
-    if (geoTile === geoBeneathPlayer) {
-        for (let i = 0; i < neighbors.length; i++) {
-            let neighborXY = neighbors[i];
-            nextX = updatedTileX + neighborXY[0];
-            nextY = updatedTileY + neighborXY[1];
-            updateGridGeoByXY(nextX, nextY)
-        }
-    } else if (isVisible || wasVisible) {
-        if (geoTile.neighborsUpdatedFrame !== updateFrame) {
-            updateNeighbors(geoTile)
-        }
-    }
-}
-
-let updateGeo = function(geoTile) {
-    geoTile.updateTerrainGeometry(visibleGeoTiles, geoBeneathPlayer, geoTileUpdateCallback, updateFrame)
-}
 
 let lastFrameGridExtentsChecks = [-1, 0, 0, 0]; // xMin, yMin, xMax, yMax
 let frameGridExtentsChecks = [0, 0, 0, 0];
 
-let drawNearbyTerrain = function() {
-    let playerGeoGridX = geoBeneathPlayer.gridX;
-    let playerGeoGridY = geoBeneathPlayer.gridY;
-    let centerRange = gridConfig.range+1;
-    // always visible gridP -> pgg+cr
-    // needs check -> pgg+cr+n
-
-    frameGridExtentsChecks[0] = playerGeoGridX;
-    frameGridExtentsChecks[1] = playerGeoGridY;
-    frameGridExtentsChecks[2] = playerGeoGridX;
-    frameGridExtentsChecks[3] = playerGeoGridY;
-
-    //  if (lastFrameGridExtentsChecks[0] === -1) {
-    lastFrameGridExtentsChecks[0] = playerGeoGridX;
-    lastFrameGridExtentsChecks[1] = playerGeoGridY;
-    lastFrameGridExtentsChecks[2] = playerGeoGridX;
-    lastFrameGridExtentsChecks[3] = playerGeoGridY;
-    //  }
-
-    updateGeo(geoBeneathPlayer)
 
 
-    lastFrameGridExtentsChecks[0] = frameGridExtentsChecks[0];
-    lastFrameGridExtentsChecks[1] = frameGridExtentsChecks[1];
-    lastFrameGridExtentsChecks[2] = frameGridExtentsChecks[2];
-    lastFrameGridExtentsChecks[3] = frameGridExtentsChecks[3];
-
-}
-
-let scrubTerrainForError = function() {
-    let countX = terrainGeometries.length;
-    let countY = terrainGeometries[0].length;
-    let gridY = scrubIndex % countY;
-    let gridX = Math.floor(scrubIndex / countY) % countX;
-//    console.log("Scrub terrain:", gridX, gridY)
-    let geoTile = terrainGeometries[gridX][gridY];
-    let wasVis = geoTile.isVisible;
-    geoTile.updateTerrainGeometry(visibleGeoTiles, geoBeneathPlayer, geoTileUpdateCallback, updateFrame+0.5)
-    let isVis = geoTile.isVisible;
-
-
-   // if (isVis !== wasVis) {
-        if (isVis) {
-            geoTile.detachGeometryInstance();
-            geoTile.attachGeometryInstance(null, geoTile.levelOfDetail);
-        } else {
-            geoTile.detachGeometryInstance();
-        }
-        // console.log("Scrub found failed tile visibility check",  wasVis, isVis, geoTile);
-   // }
-
-    scrubIndex++;
-}
 
 let getHeightAndNormal = function(pos, normal, groundData) {
     return getThreeTerrainHeightAt(geoBeneathPlayer, pos, normal, groundData)
@@ -526,7 +344,7 @@ class ThreeTerrain {
         };
 
         dynamicLodGrid = new DynamicLodGrid();
-        dynamicLodGrid.activateLodGrid({lod_levels: 6, tile_range:30, tile_spacing:16, hide_tiles:true, center_offset:true, debug:false})
+        dynamicLodGrid.activateLodGrid({lod_levels: 4, tile_range:22, tile_spacing:16, hide_tiles:true, center_offset:true, debug:false})
 
         let configData = new ConfigData("ASSETS", "TERRAIN", "terrain_config", 'data_key', 'config')
         configData.addUpdateCallback(terrainListLoaded);

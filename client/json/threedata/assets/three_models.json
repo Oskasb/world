@@ -76,7 +76,12 @@
         {"id": "asset_letterQuad",   "config": { "model": "file_quad",       "material": "material_instancing_font",   "settings": "model_settings_ui"  }},
 
         {"id": "asset_normalStamp", "config": { "model": "file_flatQuad",  "material": "mat_stamp_normal_8x8",        "settings": "model_settings_particles"  }},
+
+
         {"id": "asset_additiveStamp","config": { "model": "file_flatQuad", "material": "mat_stamp_additive_8x8",      "settings": "model_settings_particles"  }},
+
+        {"id": "asset_overlayStamp","config": { "model": "file_flatQuad", "material": "mat_stamp_overlay_8x8",       "settings": "model_settings_particles"  }},
+
         {"id": "asset_normalQuad",  "config": { "model": "file_flatQuad",  "material": "mat_particles_normal_8x8",    "settings": "model_settings_particles"  }},
         {"id": "asset_additiveQuad","config": { "model": "file_flatQuad",  "material": "mat_particles_additive_8x8",  "settings": "model_settings_particles"  }},
 

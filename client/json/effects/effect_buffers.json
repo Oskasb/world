@@ -18,6 +18,12 @@
                             "render_order": 5
                         },
                         {
+                            "spawner": "overlay_stamps_8x8",
+                            "asset_id":  "asset_overlayStamp",
+                            "pool_size": 2000,
+                            "render_order": 4
+                        },
+                        {
                             "spawner": "normal_stamps_8x8",
                             "asset_id":  "asset_normalStamp",
                             "pool_size": 1200,

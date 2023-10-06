@@ -43,7 +43,7 @@
         {"id": "model_settings_terrain_32" ,
           "config": {
             "instancing": {
-              "instances": 24,
+              "instances": 40,
               "attributes": ["offset", "vertexColor", "scale3d", "orientation", "sprite", "texelRowSelect", "lifecycle"],
               "cameraspace": false
             },
@@ -141,7 +141,7 @@
         {"id": "model_settings_vegetation" ,
           "config": {
             "instancing": {
-              "instances": 9000,
+              "instances": 3500,
               "attributes": ["offset", "vertexColor", "scale3d", "orientation", "sprite", "texelRowSelect", "lifecycle"],
               "cameraspace": false
             },

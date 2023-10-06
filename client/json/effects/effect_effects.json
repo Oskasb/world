@@ -122,11 +122,22 @@
                         },
                         "stamp_additive_pool":{
                             "effect_class": "GameEffect",
-                            "max_active": 200,
+                            "max_active": 400,
                             "spread_pos":[0.00001, 0.00001, 0.00001],
                             "particles": [
                                 {
                                     "id":"stamp_additive_pool",
+                                    "count": [1, 1]
+                                }
+                            ]
+                        },
+                        "stamp_overlay_pool":{
+                            "effect_class": "GameEffect",
+                            "max_active": 400,
+                            "spread_pos":[0.00001, 0.00001, 0.00001],
+                            "particles": [
+                                {
+                                    "id":"stamp_overlay_pool",
                                     "count": [1, 1]
                                 }
                             ]

@@ -5,6 +5,7 @@ import {VegetationTile} from "../../3d/three/terrain/vegetation/VegetationTile.j
 import {DynamicTile} from "../../game/gameworld/DynamicTile.js";
 import {WorldBox} from "../../game/gameworld/WorldBox.js";
 import {Plant} from "../../3d/three/terrain/vegetation/Plant.js";
+import {VisualTile } from "../../game/visuals/VisualTile.js";
 
 let pools = {}
 
@@ -15,7 +16,7 @@ function initPools() {
     registerPool(DynamicTile);
     registerPool(WorldBox);
     registerPool(Plant);
-
+    registerPool(VisualTile);
 }
 
 function registerPool(DataObj) {

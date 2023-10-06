@@ -101,8 +101,19 @@
                         {
                             "particle_id": "stamp_additive_pool",
                             "spawner_id": "additive_stamps_8x8",
-                            "size_min": 45,
-                            "size_max": 45,
+                            "size_min": 110,
+                            "size_max": 110,
+                            "attack_time": 0.2,
+                            "release_time": 0.2,
+                            "color_min": [-0.5, 1, -0.3, 0.5],
+                            "color_max": [-0.5, 1, -0.3, 0.5],
+                            "sprite": [0, 2, 1, 0]
+                        },
+                        {
+                            "particle_id": "stamp_overlay_pool",
+                            "spawner_id": "overlay_stamps_8x8",
+                            "size_min": 110,
+                            "size_max": 110,
                             "attack_time": 0.2,
                             "release_time": 0.2,
                             "color_min": [-0.5, 1, -0.3, 0.5],

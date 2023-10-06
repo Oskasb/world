@@ -3,14 +3,17 @@ import {Object3D} from "../../../libs/three/core/Object3D.js";
 import * as CombatFxOptions from "../combat/feedback/CombatFxOptions.js";
 import * as CombatFxUtils from "../combat/feedback/CombatFxUtils.js";
 import {GridTile} from "../gamescenarios/GridTile.js";
-import {poolReturn} from "../../application/utils/PoolUtils.js";
+import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
 import {borrowBox, cubeTestVisibility} from "../../3d/ModelUtils.js";
 
 let up = new Vector3(0, 1, 0)
 let tempVec = new Vector3();
 let tempObj = new Object3D();
+let index = 0;
 class DynamicTile {
     constructor() {
+        index ++;
+    //    console.log("tiles: ", index)
         this.offset = 0;
     }
 
@@ -66,8 +69,12 @@ class DynamicTile {
             this.tileEffect = efct;
         }.bind(this);
 
+        this.visualTile = null;
         if (!this.hideTile) {
-            EffectAPI.buildEffectClassByConfigId('additive_stamps_8x8', 'effect_character_indicator',  effectCb)
+            this.visualTile = poolFetch('VisualTile');
+            this.visualTile.visualizeDynamicTile(this);
+       //     EffectAPI.buildEffectClassByConfigId('overlay_stamps_8x8', 'stamp_overlay_pool',  effectCb)
+       //     EffectAPI.buildEffectClassByConfigId('additive_stamps_8x8', 'stamp_additive_pool',  effectCb)
         }
 
     }
@@ -85,106 +92,26 @@ class DynamicTile {
         let height = ThreeAPI.terrainAt(this.obj3d.position, this.groundNormal);
         this.obj3d.position.y = height + 0.01;
 
-        if (this.hideTile) {
-            return;
+        if (this.visualTile) {
+            this.visualTile.dynamicTileUpdated(this)
         }
 
-
-        tempObj.lookAt(up);
-        let pos = this.obj3d.position;
-        let slope = 0;
-        let spriteX = this.defaultSprite[0];
-        let spriteY = this.defaultSprite[1];
-        let r = 0;
-        let g = 0.2;
-        let b = 0;
-        let a = 0.3;
-
-        this.walkable = false;
-        this.blocking = false;
-        if (height < 0.1) {
-            this.obj3d.position.y = 0.1;
-            spriteX = 6;
-            spriteY = 5;
-            r = 0.1;
-            g = 0.1;
-            b = 1.0;
-            a = 1;
-        } else {
-            this.obj3d.position.y = height + 0.01;
-
-            ThreeAPI.groundAt(pos, this.groundData)
-
-            slope = this.groundNormal.angleTo(up);
-
-            if (slope > 0.65) {
-                spriteX = 6;
-                spriteY = 2;
-                r = 0.2;
-                g = 0;
-                b = 0;
-                a = 1;
-                tempObj.lookAt(this.groundNormal);
-            } else {
-                this.walkable = true;
-                tempObj.rotateX(Math.sin(this.groundNormal.z) * 0.5);
-                tempObj.rotateY(Math.sin(this.groundNormal.x) * 0.5);
-                this.obj3d.position.y += 0.05 + 0.55 * slope;
-
-                if (this.groundData.y > 0.2) {
-                    r = 0.05;
-                    g = 0.1;
-                    b = 0;
-                }
-                if (this.groundData.y > 0.32) {
-                    r = 0.15;
-                    g = 0.12;
-                    b = 0;
-                    spriteX = 6;
-                    spriteY = 3;
-
-                }
-                if (this.groundData.y > 0.52) {
-                    spriteX = 6;
-                    spriteY = 4;
-                    r = 1.0;
-                    g = 0.0;
-                    b = 0.0;
-                    a = 0.6;
-                    this.walkable = false;
-                    this.blocking = true;
-                }
-
-                if (this.groundData.z > 0.05) {
-                    r = 0.0;
-                    g = 0.05;
-                    b = 0.4;
-                }
-            }
-        }
-
-        this.rgba.r = r;
-        this.rgba.g = g;
-        this.rgba.b = b;
-        this.rgba.a = a;
-
-        this.groundSprite[0] = spriteX;
-        this.groundSprite[1] = spriteY;
-
-        this.tileEffect.setEffectSpriteXY(this.groundSprite[0], this.groundSprite[1]);
-        this.tileEffect.setEffectColorRGBA(CombatFxUtils.setRgba(r, g, b, a))
-        this.tileEffect.setEffectPosition(pos)
-        this.tileEffect.setEffectQuaternion(tempObj.quaternion);
     }
 
     indicatePath = function() {
     //    this.tileEffect.setEffectSpriteXY(7, 1);
-        this.tileEffect.setEffectColorRGBA(CombatFxUtils.setRgba(this.rgba.r*4, this.rgba.g*4, this.rgba.b*4, this.rgba.a*4))
+        if (this.visualTile) {
+            let rgba = this.visualTile.rgba;
+            this.visualTile.setTileColor(CombatFxUtils.setRgba(rgba.r*2, rgba.g*2, rgba.b*2, rgba.a*2))
+        }
+    //    this.tileEffect.setEffectColorRGBA(CombatFxUtils.setRgba(this.rgba.r*4, this.rgba.g*4, this.rgba.b*4, this.rgba.a*4))
     }
 
     clearPathIndication = function() {
-    //    this.tileEffect.setEffectSpriteXY(this.groundSprite[0], this.groundSprite[1]);
-        this.tileEffect.setEffectColorRGBA(CombatFxUtils.setRgba(this.rgba.r, this.rgba.g, this.rgba.b, this.rgba.a))
+        if (this.visualTile) {
+            let rgba = this.visualTile.rgba;
+            this.visualTile.setTileColor(CombatFxUtils.setRgba(rgba.r, rgba.g, rgba.b, rgba.a))
+        }
     }
 
     getPos = function() {
@@ -207,8 +134,10 @@ class DynamicTile {
     }
 
     removeTile = function () {
-        if (this.tileEffect) {
-            this.tileEffect.recoverEffectOfClass();
+        if (this.visualTile) {
+            this.visualTile.recoverVisualTile();
+            poolReturn(this.visualTile);
+            this.visualTile = null;
         }
         poolReturn(this);
     }

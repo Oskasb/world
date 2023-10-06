@@ -80,7 +80,7 @@ let determinePlantConfig = function(patch, plant, min, max, seed, retries) {
 
     if (!config) {
 
-        if (retries > 3) {
+        if (retries > 1) {
 
 
             return patch.plantsConfig.plants["rock_small"];
