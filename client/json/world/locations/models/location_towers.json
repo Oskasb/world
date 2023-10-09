@@ -1,0 +1,143 @@
+[{
+  "WORLD_LOCATIONS":{
+    "LOCATION_MODELS":[
+      {
+        "id": "model_stone_tower_overlook",
+        "data": [
+          {
+            "data_key":"model_data",
+            "config": {
+              "assets": [
+                {
+                  "boxes": [
+                    {
+                      "sprite": "rock",
+                      "pos": [0, 0.0, 0],
+                      "rot": [0, 0, 0.0],
+                      "scale": [0.05, 0.01, 0.05],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [0, 3, 0],
+                      "rot": [0, 0, 0.0],
+                      "scale": [0.04, 0.05, 0.04],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+
+                    {
+                      "sprite": "rock",
+                      "pos": [3.5, -2.0, 0],
+                      "rot": [0, 0, 0.0],
+                      "scale": [0.02, 0.05, 0.03],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [3, 3, 0],
+                      "rot": [0, 0, 0.0],
+                      "scale": [0.02, 0.05, 0.02],
+                      "on_ground": false,
+                      "visibility": 3
+                    },                    {
+                      "sprite": "rock",
+                      "pos": [-3.5, -2.0, 0],
+                      "rot": [0, 0, 0.0],
+                      "scale": [0.02, 0.05, 0.03],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [-3, 3, 0],
+                      "rot": [0, 0, 0.0],
+                      "scale": [0.02, 0.05, 0.02],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+
+                    {
+                      "sprite": "rock",
+                      "pos": [0, -2.0, 3.5],
+                      "rot": [0, 0, 0.0],
+                      "scale": [0.02, 0.05, 0.03],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [0, 3, 3],
+                      "rot": [0, 0, 0.0],
+                      "scale": [0.02, 0.05, 0.02],
+                      "on_ground": false,
+                      "visibility": 3
+                    },                    {
+                      "sprite": "rock",
+                      "pos": [0, -2.0, -3.5],
+                      "rot": [0, 0, 0.0],
+                      "scale": [0.02, 0.05, 0.03],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [0, 3, -3],
+                      "rot": [0, 0, 0.0],
+                      "scale": [0.02, 0.05, 0.02],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+
+                    {
+                      "sprite": "rock",
+                      "pos": [0, 5.75, 0],
+                      "rot": [0, 0, 0.0],
+                      "scale": [0.05, 0.005, 0.05],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [0, 5.75, -3.5],
+                      "rot": [0, 0, 0.0],
+                      "scale": [0.03, 0.005, 0.02],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [0, 5.75, 3.5],
+                      "rot": [0, 0, 0.0],
+                      "scale": [0.03, 0.005, 0.02],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [3.5, 5.75, 0],
+                      "rot": [0, 0, 0.0],
+                      "scale": [0.02, 0.005, 0.03],
+                      "on_ground": false,
+                      "visibility": 3
+                    },
+                    {
+                      "sprite": "rock",
+                      "pos": [-3.5, 5.75, 0],
+                      "rot": [0, 0, 0.0],
+                      "scale": [0.02, 0.005, 0.03],
+                      "on_ground": false,
+                      "visibility": 3
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  }
+}]

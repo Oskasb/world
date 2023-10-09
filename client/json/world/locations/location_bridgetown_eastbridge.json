@@ -1,0 +1,42 @@
+[{
+  "WORLD_LOCATIONS":{
+    "MODELS":[
+      {
+        "id": "bridgetown_eastbridge",
+        "data": [
+          {
+            "data_key":"location_data",
+            "config": {
+              "models":[
+                {
+                  "model": "model_stone_bridge_mid_tower",
+                  "pos": [-632.5, 0.0, 549],
+                  "rot": [0, 1.57, 0],
+                  "scale": [1.0, 1.0, 1.0],
+                  "on_ground": true,
+                  "visibility": 2
+                },
+                {
+                  "model": "model_stone_bridge_12m",
+                  "pos": [-655.0, 0.0, 549],
+                  "rot": [0, 1.57, 0],
+                  "scale": [1.6, 1.6, 1.6],
+                  "on_ground": true,
+                  "visibility": 2
+                },
+                {
+                  "model": "model_stone_bridge_12m",
+                  "pos": [-610.0, 0.0, 549],
+                  "rot": [0, -1.57, 0],
+                  "scale": [1.6, 1.6, 1.6],
+                  "on_ground": true,
+                  "visibility": 2
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  }
+}]
