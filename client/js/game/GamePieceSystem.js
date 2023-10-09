@@ -1,6 +1,6 @@
 import { configDataList } from "../application/utils/ConfigUtils.js";
 import { VisualGamePiece } from "./visuals/VisualGamePiece.js";
-import { GameActor } from "./visuals/GameActor.js";
+import { GameActor } from "./actor/GameActor.js";
 
 let visualConfigs = {};
 let actorConfigs = {};
