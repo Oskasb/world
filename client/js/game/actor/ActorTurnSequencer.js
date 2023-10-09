@@ -1,4 +1,4 @@
-import {turnClose, turnInit, turnMove} from "./TurnStateUtils.js";
+import {turnClose, turnInit, turnMove, cancelTurnProcess} from "./TurnStateUtils.js";
 
 
 let turnStateKeys = {
@@ -60,6 +60,10 @@ class ActorTurnSequencer {
         turnStateMap[this.currentTurnStateKey](this.actor, this.turnIndex, this.call.turnInitEnded)
     }
 
+    exitSequence() {
+        MATH.emptyArray(this.turnEncBallbacks);
+        cancelTurnProcess()
+    }
 
 }
 

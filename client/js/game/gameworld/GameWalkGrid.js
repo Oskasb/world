@@ -13,7 +13,7 @@ let centerTileIndexY = 0;
 class GameWalkGrid {
     constructor() {
         this.dynamicPath = new DynamicPath();
-        this.dynamicGrid = null;
+        this.dynamicGrid = new DynamicGrid();
         this.dynamicWalker = new DynamicWalker();
         this.isActive = false;
 
@@ -65,10 +65,11 @@ class GameWalkGrid {
 
         this.hostObj3d.copy(walkOriginObj3d);
 
+        if (this.isActive) {
             this.deactivateWalkGrid();
-        this.dynamicGrid = poolFetch('DynamicGrid');
+        }
 
-                 console.log("Activate Walk Grid", this.hostObj3d.position)
+            console.log("Activate Walk Grid", this.hostObj3d.position)
             if (this.dataId !== "grid_walk_world") {
                 this.configData.parseConfig("grid_walk_world", this.call.configUpdate)
                 this.dataId = "grid_walk_world";
@@ -160,7 +161,7 @@ class GameWalkGrid {
     }
 
     deactivateWalkGrid() {
-     //   console.log("Deactivate Walk Grid:", this)
+        console.log("Deactivate Walk Grid:", this)
 
         let activePath = this.getActiveTilePath();
 
@@ -171,11 +172,7 @@ class GameWalkGrid {
             activePath.pathingUpdateCallbacks.pop()
         }
 
-        if (this.dynamicGrid) {
-            this.dynamicGrid.deactivateDynamicGrid();
-            this.dynamicGrid = poolReturn(this.dynamicGrid);
-            this.dynamicGrid = null;
-        }
+        this.dynamicGrid.deactivateDynamicGrid();
 
         GameAPI.unregisterGameUpdateCallback(this.call.updateWalkGrid);
         this.isActive = false;

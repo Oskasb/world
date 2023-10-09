@@ -97,8 +97,17 @@ function updateActorClose(tpf) {
         GameAPI.registerGameUpdateCallback(updateActorClose)
     }
 
+    function cancelTurnProcess() {
+        GameAPI.unregisterGameUpdateCallback(updateActorInit)
+        GameAPI.unregisterGameUpdateCallback(updateActorClose)
+        initTime = 0;
+        initActor = null;
+        initCompletedCB = null;
+    }
+
 export {
     turnInit,
     turnMove,
-    turnClose
+    turnClose,
+    cancelTurnProcess
 }

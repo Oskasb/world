@@ -7,7 +7,6 @@ class EncounterTurnSequencer {
         this.actors = [];
         this.activeActor = null;
         this.turnIndex = 0;
-
         this.turnTime = 0;
 
         let turnEnded = function(actorObj3d) {
@@ -38,6 +37,16 @@ class EncounterTurnSequencer {
             this.activeActor = actor;
             actor.getActorTurnSequencer().startActorTurn(this.call.turnEnded, this.turnIndex);
         }
+    }
+
+    closeTurnSequencer() {
+        this.turnActorIndex = 0;
+        MATH.emptyArray(this.actors);
+        this.activeActor.getActorTurnSequencer().exitSequence();
+        this.activeActor = null;
+        this.turnIndex = 0;
+        this.turnTime = 0;
+
     }
 
 }

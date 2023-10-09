@@ -6,7 +6,7 @@ import {DynamicTile} from "../../game/gameworld/DynamicTile.js";
 import {WorldBox} from "../../game/gameworld/WorldBox.js";
 import {Plant} from "../../3d/three/terrain/vegetation/Plant.js";
 import {VisualTile } from "../../game/visuals/VisualTile.js";
-import { ActorTurnSequencer } from "../../game/actor/ActorTurnSequencer.js";
+
 
 let pools = {}
 
@@ -18,7 +18,7 @@ function initPools() {
     registerPool(WorldBox);
     registerPool(Plant);
     registerPool(VisualTile);
-    registerPool(ActorTurnSequencer);
+
 }
 
 function registerPool(DataObj) {
@@ -46,6 +46,9 @@ function poolFetch(dataKey) {
     pools[dataKey].getFromExpandingPool(fetcher)
     let entry = fetched;
     fetched = null;
+    if (!entry) {
+        console.log("fetcher() is giving nothing... fix!")
+    }
     return entry;
 }
 

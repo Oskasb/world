@@ -2,6 +2,7 @@ import {Object3D} from "../../../libs/three/core/Object3D.js";
 import { GameWalkGrid } from "../gameworld/GameWalkGrid.js";
 import { Vector3 } from "../../../libs/three/math/Vector3.js";
 import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
+import { ActorTurnSequencer } from "./ActorTurnSequencer.js";
 
 
 let tempVec = new Vector3();
@@ -15,7 +16,7 @@ class GameActor {
 
         this.gameWalkGrid = new GameWalkGrid();
 
-        this.actorTurnSequencer = poolFetch('ActorTurnSequencer')
+        this.actorTurnSequencer = new ActorTurnSequencer()
         this.actorTurnSequencer.setGameActor(this);
 
         let setAsSelection = function () {
@@ -97,8 +98,6 @@ class GameActor {
     deactivateGameActor() {
         if (this.activated === true) {
             this.visualGamePiece.removeVisualGamePiece();
-            poolReturn(this.actorTurnSequencer)
-            this.actorTurnSequencer = null;
             GameAPI.unregisterGameUpdateCallback(this.call.updateGameActor);
             this.activated = false;
         } else {

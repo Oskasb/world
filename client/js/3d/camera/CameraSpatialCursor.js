@@ -122,9 +122,11 @@ let updateActorTurnMovement = function() {
     let selectedActor = GameAPI.getGamePieceSystem().getSelectedGameActor();
     let actorPos = selectedActor.getPos();
 
-    calcVec.copy(focusObj3d.position);
+    calcVec.set(0, 0, 1)
+    calcVec.applyQuaternion(focusObj3d.quaternion);
+    calcVec.add(focusObj3d.position);
     calcVec.sub(actorPos);
-    lerpFactor = tpf*1.5 + Math.clamp( tpf * 2 * (5 / calcVec.length()), 0, tpf*2);
+    lerpFactor = tpf*2.5 + Math.clamp( tpf * 2 * (5 / calcVec.length()), 0, tpf*2);
 
     calcVec.multiplyScalar(0.8);
     tempVec3.addVectors(actorPos, calcVec);

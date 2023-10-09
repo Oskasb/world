@@ -28,9 +28,6 @@ let loadActor = function(event) {
 
         gameWalkGrid.setTargetPosition(event.tile.getPos())
 
-
-
-    //
     } else if (event.pos) {
         actor.getPos().copy(event.pos);
     } else {

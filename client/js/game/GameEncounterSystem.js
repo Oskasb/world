@@ -68,7 +68,6 @@ class GameEncounterSystem {
         let encounterGrid = new EncounterGrid();
         activeEncounterGrid = encounterGrid;
         encounterGrid.setCameraHomePos(event.cam_pos)
-        if (event.pos) {
 
             let gridReady = function(grid) {
                 dynamicEncounter = new DynamicEncounter()
@@ -77,7 +76,7 @@ class GameEncounterSystem {
                     if (event.spawn) {
                         dynamicEncounter.processSpawnEvent(event.spawn)
                     } else {
-                        dynamicEncounter.addEncounterActors(8)
+                        console.log("encounter event requires spawn data")
                     }
 
                     let actors = dynamicEncounter.getEncounterActors();
@@ -90,18 +89,7 @@ class GameEncounterSystem {
 
             encounterGrid.initEncounterGrid(event['grid_id'], event.pos, gridReady )
 
-        } else {
-            let selectedActor = GameAPI.getGamePieceSystem().getSelectedGameActor();
-            let pos = ThreeAPI.getCameraCursor().getPos();
-            let forward = ThreeAPI.getCameraCursor().getForward();
-            if (selectedActor) {
-                pos = selectedActor.getPos();
-                forward = selectedActor.getForward();
-            }
 
-            encounterGrid.initEncounterGrid(event['grid_id'], pos, gridLoaded , forward)
-
-        }
 
         GameAPI.registerGameUpdateCallback(this.call.updateEncounterSystem)
 
@@ -117,6 +105,9 @@ class GameEncounterSystem {
             activeEncounterGrid.removeEncounterGrid()
             activeEncounterGrid = null;
         }
+
+        encounterTurnSequencer.closeTurnSequencer();
+
         GameAPI.unregisterGameUpdateCallback(this.call.updateEncounterSystem)
         GameAPI.call.spawnWorldEncounters();
     }

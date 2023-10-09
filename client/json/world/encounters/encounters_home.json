@@ -14,7 +14,41 @@
                   "grid_id": "grid_15x15",
                   "host_id": "bandit_basic",
                   "indicator_id": "battle_indicator",
-                  "trigger_radius": 7
+                  "trigger_radius": 7,
+                  "spawn": {
+                    "actors": [
+                      {
+                        "actor": "ACTOR_FIGHTER",
+                        "rot": [0, 1.2, 0],
+                        "on_ground": true,
+                        "tile": [5, 5]
+                      },
+                      {
+                        "actor": "ACTOR_FIGHTER",
+                        "rot": [0, 1.2, 0],
+                        "on_ground": true,
+                        "tile": [9, 4]
+                      },
+                      {
+                        "actor": "ACTOR_FIGHTER",
+                        "rot": [0, 3.2, 0],
+                        "on_ground": true,
+                        "tile": [10, 6]
+                      },
+                      {
+                        "actor": "ACTOR_FIGHTER",
+                        "rot": [0, 1.2, 0],
+                        "on_ground": true,
+                        "tile": [5, 8]
+                      },
+                      {
+                        "actor": "ACTOR_FIGHTER",
+                        "rot": [0, 3.2, 0],
+                        "on_ground": true,
+                        "tile": [12, 3]
+                      }
+                    ]
+                  }
                 },
                 {
                   "pos": [-879, 2, 521],
@@ -52,7 +86,29 @@
                   "grid_id": "grid_15x15",
                   "host_id": "bandit_basic",
                   "indicator_id": "battle_indicator",
-                  "trigger_radius": 7
+                  "trigger_radius": 7,
+                  "spawn": {
+                    "actors": [
+                      {
+                        "actor": "ACTOR_FIGHTER",
+                        "rot": [0, 1.2, 0],
+                        "on_ground": true,
+                        "tile": [5, 5]
+                      },
+                      {
+                        "actor": "ACTOR_FIGHTER",
+                        "rot": [0, 1.2, 0],
+                        "on_ground": true,
+                        "tile": [9, 4]
+                      },
+                      {
+                        "actor": "ACTOR_FIGHTER",
+                        "rot": [0, 3.2, 0],
+                        "on_ground": true,
+                        "tile": [10, 6]
+                      }
+                    ]
+                  }
                 },
                 {
                   "pos": [-857, 2, 532],
@@ -60,7 +116,29 @@
                   "grid_id": "grid_15x15",
                   "host_id": "bandit_basic",
                   "indicator_id": "battle_indicator",
-                  "trigger_radius": 7
+                  "trigger_radius": 7,
+                  "spawn": {
+                    "actors": [
+                      {
+                        "actor": "ACTOR_FIGHTER",
+                        "rot": [0, 1.2, 0],
+                        "on_ground": true,
+                        "tile": [5, 5]
+                      },
+                      {
+                        "actor": "ACTOR_FIGHTER",
+                        "rot": [0, 1.2, 0],
+                        "on_ground": true,
+                        "tile": [9, 4]
+                      },
+                      {
+                        "actor": "ACTOR_FIGHTER",
+                        "rot": [0, 3.2, 0],
+                        "on_ground": true,
+                        "tile": [10, 6]
+                      }
+                    ]
+                  }
                 },
                 {
                   "pos": [-908, 2, 535],
@@ -68,7 +146,29 @@
                   "grid_id": "grid_15x15",
                   "host_id": "bandit_basic",
                   "indicator_id": "battle_indicator",
-                  "trigger_radius": 7
+                  "trigger_radius": 7,
+                  "spawn": {
+                    "actors": [
+                      {
+                        "actor": "ACTOR_FIGHTER",
+                        "rot": [0, 1.2, 0],
+                        "on_ground": true,
+                        "tile": [5, 5]
+                      },
+                      {
+                        "actor": "ACTOR_FIGHTER",
+                        "rot": [0, 1.2, 0],
+                        "on_ground": true,
+                        "tile": [9, 4]
+                      },
+                      {
+                        "actor": "ACTOR_FIGHTER",
+                        "rot": [0, 3.2, 0],
+                        "on_ground": true,
+                        "tile": [10, 6]
+                      }
+                    ]
+                  }
                 }
               ]
             }

@@ -9,7 +9,7 @@ let tempObj = new Object3D()
 class VisualTile {
     constructor() {
         index++
-        console.log("VisualTiles: ", index)
+    //    console.log("VisualTiles: ", index)
         this.effects = [];
     }
 

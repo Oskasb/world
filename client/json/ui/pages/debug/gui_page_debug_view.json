@@ -142,23 +142,6 @@
                   }
                 },
                 {
-                  "widget_id":"button_game_battle",
-                  "widget_class":"GuiExpandingContainer",
-                  "widget_config_id":"button_big_blue",
-                  "options":{
-                    "text":"BATTLE",
-                    "container_id":"page_debug_bottom_right",
-                    "offset_x": -0.05,
-                    "offset_y": 0.16,
-                    "dispatch":{
-                      "event":"GAME_MODE_BATTLE",
-                      "value":{
-                        "grid_id":"grid_flat_32x12"
-                      }
-                    }
-                  }
-                },
-                {
                   "widget_id":"button_visual_fighter",
                   "widget_class":"GuiExpandingContainer",
                   "widget_config_id":"button_big_blue",
@@ -287,7 +270,6 @@
                     }
                   }
                 },
-
                 {
                   "widget_id":"button_debug_param_more_wide",
                   "widget_class":"GuiExpandingContainer",
@@ -303,64 +285,6 @@
                         "params": {
                           "brush_size": 1
                         }
-                      }
-                    }
-                  }
-                },
-
-                {
-                  "widget_id":"button_view_models",
-                  "widget_class":"GuiExpandingContainer",
-                  "widget_config_id":"button_big_blue",
-                  "options":{
-                    "text":"MODELS",
-                    "container_id":"button_container_models",
-                    "offset_x": 0.08,
-                    "offset_y": -0.13,
-                    "dispatch":{
-                      "event":"TOGGLE_GUI_PAGE",
-                      "value":{
-                        "page_id":"page_debug_view_models",
-                        "parent_page_id":"page_debug_view",
-                        "parent_container_id": "button_container_models"
-                      }
-                    }
-                  }
-                },
-                {
-                  "widget_id":"button_view_pools",
-                  "widget_class":"GuiExpandingContainer",
-                  "widget_config_id":"button_big_blue",
-                  "options":{
-                    "text":"POOLS",
-                    "container_id":"button_container_pools",
-                    "offset_x": 0.21,
-                    "offset_y": -0.13,
-                    "dispatch":{
-                      "event":"TOGGLE_GUI_PAGE",
-                      "value":{
-                        "page_id":"page_debug_view_pools",
-                        "parent_page_id":"page_debug_view",
-                        "parent_container_id": "button_container_pools"
-                      }
-                    }
-                  }
-                },
-                {
-                  "widget_id":"button_view_pools",
-                  "widget_class":"GuiExpandingContainer",
-                  "widget_config_id":"button_big_blue",
-                  "options":{
-                    "text":"BUFFERS",
-                    "container_id":"button_container_buffers",
-                    "offset_x": 0.34,
-                    "offset_y": -0.13,
-                    "dispatch":{
-                      "event":"TOGGLE_GUI_PAGE",
-                      "value":{
-                        "page_id":"page_debug_view_buffers",
-                        "parent_page_id":"page_debug_view",
-                        "parent_container_id": "button_container_buffers"
                       }
                     }
                   }
