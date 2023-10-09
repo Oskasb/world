@@ -5,6 +5,7 @@ import { EncounterIndicator } from "../visuals/EncounterIndicator.js";
 import {parseConfigDataKey} from "../../application/utils/ConfigUtils.js";
 
 let tempVec = new Vector3()
+let calcVec = new Vector3()
 
 let radiusEvent = {
 
@@ -63,7 +64,7 @@ function checkTriggerPlayer(encounter) {
             if (encounter.timeInsideTrigger === 0) {
                 selectedActor.getGameWalkGrid().setTargetPosition(encounter.getPos())
                 selectedActor.getGameWalkGrid().cancelActivePath()
-                evt.dispatch(ENUMS.Event.SET_CAMERA_MODE, {mode:'activate_encounter', pos:encounter.getPos()})
+                evt.dispatch(ENUMS.Event.SET_CAMERA_MODE, {mode:'activate_encounter', pos:encounter.getPos(), camPos:encounter.getTriggeredCameraHome()})
             //    selectedActor.getGameWalkGrid().buildGridPath(selectedActor.getPos(), selectedActor.getPos());
             //    selectedActor.getGameWalkGrid().applySelectedPath()
                 console.log("Activate Encounter Triggered Transition")
@@ -74,6 +75,7 @@ function checkTriggerPlayer(encounter) {
                 encounterEvent.pos = encounter.getPos();
                 encounterEvent.grid_id = encounter.config.grid_id;
                 encounterEvent.spawn = encounter.config.spawn;
+                encounterEvent.cam_pos = encounter.getTriggeredCameraHome();
                 evt.dispatch(ENUMS.Event.GAME_MODE_BATTLE, encounterEvent)
             }
         } else {
@@ -87,6 +89,7 @@ class WorldEncounter {
 
         this.timeInsideTrigger = 0;
         this.config = config;
+        this.camHomePos = new Vector3();
         this.obj3d = new Object3D();
         MATH.vec3FromArray(this.obj3d.position, this.config.pos)
         this.obj3d.position.y = ThreeAPI.terrainAt(this.obj3d.position);
@@ -150,6 +153,24 @@ class WorldEncounter {
 
     getPos() {
         return this.obj3d.position;
+    }
+
+    getTriggeredCameraHome() {
+        let selectedActor = GameAPI.getGamePieceSystem().getSelectedGameActor();
+        let actorPos = selectedActor.getPos();
+        calcVec.copy(this.getPos());
+        calcVec.sub(actorPos);
+
+        if (Math.abs(calcVec.x) < Math.abs(calcVec.z)) {
+            calcVec.x = 0;
+        } else {
+            calcVec.z = 0;
+        }
+
+        calcVec.multiplyScalar(-2.6);
+        this.camHomePos.addVectors(this.getPos(), calcVec);
+        this.camHomePos.y += calcVec.length()*1.1;
+        return this.camHomePos;
     }
 
     getTriggerRGBA() {

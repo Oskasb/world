@@ -49,6 +49,10 @@ class GameActor {
         return this.gameWalkGrid.getGridMovementObj3d().quaternion;
     }
 
+    getObj3d() {
+        return this.gameWalkGrid.getGridMovementObj3d();
+    }
+
     inspectTilePath(tilePath) {
         if (tilePath.pathTiles.length > 1) {
             tempVec.copy(tilePath.getEndTile().getPos());
@@ -92,12 +96,17 @@ class GameActor {
 
     }
 
-    moveActorOnGridTo(pos, onMoveEnded) {
+    activateWalkGrid() {
         let gameWalkGrid = this.getGameWalkGrid()
         gameWalkGrid.activateWalkGrid(this.actorObj3d)
         gameWalkGrid.call.updateWalkGrid()
+    }
+
+    moveActorOnGridTo(pos, onMoveEnded) {
+        let gameWalkGrid = this.getGameWalkGrid()
         gameWalkGrid.buildGridPath(pos, this.getPos())
         gameWalkGrid.applySelectedPath(null, onMoveEnded )
+        this.inspectTilePath(gameWalkGrid.getActiveTilePath())
     }
 
     getPointAtDistanceAhead(distance) {
@@ -111,6 +120,17 @@ class GameActor {
         tempVec.set(0, 0, 1);
         tempVec.applyQuaternion(this.actorObj3d.quaternion);
         return tempVec;
+    }
+
+    getActorGridMovementTargetPosition() {
+        let tiles = GameAPI.call.getActiveEncounter().getRandomWalkableTiles(2);
+
+        if (tiles[0] === this.gameWalkGrid.getTileAtPosition(this.getPos())) {
+            return tiles[1].getPos()
+        } else {
+            return tiles[0].getPos()
+        }
+
     }
 
     updateGameActor = function() {

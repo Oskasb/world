@@ -12,7 +12,7 @@
                 "tile_size" : 0.8,
                 "tile_range" : 7,
                 "tile_spacing" : 5,
-                "max_plants":100,
+                "max_plants":120,
                 "plants":[
                   "leafy_small",
                   "grass_low_1_dead",
@@ -33,7 +33,7 @@
                 "tile_size" : 0.8,
                 "tile_range" : 7,
                 "tile_spacing" : 8,
-                "max_plants":80,
+                "max_plants":95,
                 "plants":[
                   "grass_tall_sparse_1",
                   "grass_tall_sparse_2",

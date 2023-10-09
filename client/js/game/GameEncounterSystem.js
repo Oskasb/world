@@ -67,7 +67,7 @@ class GameEncounterSystem {
 
         let encounterGrid = new EncounterGrid();
         activeEncounterGrid = encounterGrid;
-
+        encounterGrid.setCameraHomePos(event.cam_pos)
         if (event.pos) {
 
             let gridReady = function(grid) {

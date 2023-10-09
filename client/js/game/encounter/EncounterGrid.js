@@ -3,26 +3,31 @@ import * as ScenarioUtils from "../gameworld/ScenarioUtils.js";
 import {Vector3} from "../../../libs/three/math/Vector3.js";
 import {filterForWalkableTiles} from "../gameworld/ScenarioUtils.js";
 
-let initPos = new Vector3();
 let forward = new Vector3();
+let tempVec = new Vector3()
+let camHome = new Vector3()
+
+let walkableTiles = [];
 
 let store = [];
 
 class EncounterGrid {
     constructor() {
+        this.center = new Vector3();
         this.gridTiles = [];
         this.instances = [];
         this.minXYZ = new Vector3();
         this.maxXYZ = new Vector3();
+        this.camHomePos = new Vector3();
         this.configData = new ConfigData("GRID", "ENCOUNTER_GRIDS",  'grid_main_data', 'data_key', 'config')
     }
 
     getPos() {
-        return initPos;
+        return this.center;
     }
 
     initEncounterGrid(gridId, pos, gridLoaded, forwardVec) {
-        initPos.copy(pos);
+        this.center.copy(pos);
         if (forwardVec) {
             forward.copy(forwardVec);
         } else {
@@ -40,7 +45,7 @@ class EncounterGrid {
                 //    onReady(this);
                 }, 0);
             }
-            this.applyGridConfig(config, initPos, forward);
+            this.applyGridConfig(config, this.center, forward);
             gridLoaded(this);
         }.bind(this)
 
@@ -77,15 +82,22 @@ class EncounterGrid {
             console.log("Not enought tiles", tiles)
         }
 
-        let walkableTiles = [];
+        MATH.emptyArray(walkableTiles)
 
         for (let i = 0; i < count; i++) {
             let tile = MATH.getRandomArrayEntry(tiles);
-            MATH.quickSplice(tiles, tile)
+            MATH.splice(tiles, tile)
             walkableTiles.push(tile);
         }
         return walkableTiles;
 
+    }
+
+    setCameraHomePos(pos) {
+        this.camHomePos.copy(pos);
+    }
+    getEncounterCameraHomePosition() {
+        return this.camHomePos;
     }
 
     getTileAtPosition(posVec3) {

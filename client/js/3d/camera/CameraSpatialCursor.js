@@ -30,6 +30,9 @@ let lerpFactor = 0.01;
 let pointerActive = false;
 let tilePath = null;
 
+let focusObj3d = null;
+let camHomePos = null;
+
 let navPoint = {
     time:0.8,
     pos: [0, 5, -14],
@@ -49,6 +52,7 @@ let camModes = {
     worldDisplay:'world_display',
     worldViewer:'world_viewer',
     activateEncounter:'activate_encounter',
+    actorTurnMovement:'actor_turn_movement',
     deactivateEncounter:'deactivate_encounter',
     gameCombat:'game_combat',
     gameTravel:'game_travel'
@@ -56,6 +60,10 @@ let camModes = {
 
 let applyCamNavPoint = function(lookAtVec, camPosVec, time, camCallback) {
 
+}
+
+let setFocusObj3d = function(obj3d) {
+    focusObj3d = obj3d;
 }
 
 let debugDrawCursor = function() {
@@ -106,10 +114,26 @@ let updateEncounterActivate = function() {
     calcVec.multiplyScalar(0.8);
     tempVec3.addVectors(actorPos, calcVec);
     camLookAtVec.lerp(tempVec3, lerpFactor);
-    calcVec.multiplyScalar(-1.1);
+
+    camPosVec.lerp(camHomePos, lerpFactor*2)
+}
+
+let updateActorTurnMovement = function() {
+    let selectedActor = GameAPI.getGamePieceSystem().getSelectedGameActor();
+    let actorPos = selectedActor.getPos();
+
+    calcVec.copy(focusObj3d.position);
+    calcVec.sub(actorPos);
+    lerpFactor = tpf*1.5 + Math.clamp( tpf * 2 * (5 / calcVec.length()), 0, tpf*2);
+
+    calcVec.multiplyScalar(0.8);
     tempVec3.addVectors(actorPos, calcVec);
-    tempVec3.y += calcVec.length()*2;
-    camPosVec.lerp(tempVec3, lerpFactor*2)
+    camLookAtVec.lerp(tempVec3, lerpFactor);
+    cursorObj3d.position.copy(camLookAtVec);
+ //   calcVec.multiplyScalar(-1.1);
+ //   tempVec3.addVectors(actorPos, calcVec);
+ //   tempVec3.y += calcVec.length()*2;
+    camPosVec.lerp(camHomePos, lerpFactor*2)
 }
 
 let updateWorldLook = function() {
@@ -218,13 +242,18 @@ class CameraSpatialCursor {
         let setCamMode = function(evt) {
             let selectedMode = evt.mode;
 
-            if (selectedMode === camParams.mode) {
-                selectedMode = camModes.worldDisplay;
-            }
-
             if (evt.pos) {
                 viewTargetPos.copy(evt.pos);
                 lookAroundPoint.copy(evt.pos);
+            }
+
+            if (evt.obj3d) {
+                setFocusObj3d(evt.obj3d)
+                camLookAtVec.copy(evt.obj3d.position)
+            }
+
+            if (evt.camPos) {
+                camHomePos = evt.camPos;
             }
 
             updateWorldLook()
@@ -306,7 +335,8 @@ class CameraSpatialCursor {
         this.call = {
             setCamMode:setCamMode,
             activePointerUpdate:activePointerUpdate,
-            setNavPoint:setNavPoint
+            setNavPoint:setNavPoint,
+            setFocusObj3d:setFocusObj3d
         }
 
     }
@@ -381,6 +411,8 @@ class CameraSpatialCursor {
         //    cursorObj3d.position.copy(camLookAtVec)
         } else if (camParams.mode === camModes.activateEncounter) {
             updateEncounterActivate();
+        } else if (camParams.mode === camModes.actorTurnMovement) {
+            updateActorTurnMovement();
         } else {
             CursorUtils.drawInputCursorState(cursorObj3d, dragToVec3, camTargetPos, cursorForward, cursorTravelVec)
             camPosVec.lerp(camTargetPos, tpf ) // + lerpFactor * 2)
