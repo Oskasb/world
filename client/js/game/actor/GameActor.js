@@ -112,11 +112,16 @@ class GameActor {
         gameWalkGrid.call.updateWalkGrid()
     }
 
+    prepareTilePath(toPos) {
+        let gameWalkGrid = this.getGameWalkGrid()
+        gameWalkGrid.buildGridPath(toPos, this.getPos())
+        this.inspectTilePath(gameWalkGrid.getActiveTilePath())
+    }
+
     moveActorOnGridTo(pos, onMoveEnded) {
         let gameWalkGrid = this.getGameWalkGrid()
         gameWalkGrid.buildGridPath(pos, this.getPos())
         gameWalkGrid.applySelectedPath(null, onMoveEnded )
-        this.inspectTilePath(gameWalkGrid.getActiveTilePath())
     }
 
     getPointAtDistanceAhead(distance) {

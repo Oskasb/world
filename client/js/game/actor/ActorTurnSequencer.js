@@ -1,14 +1,16 @@
-import {turnClose, turnInit, turnMove, cancelTurnProcess} from "./TurnStateUtils.js";
+import {turnClose, turnInit, turnMove, cancelTurnProcess, turnTileSelect} from "./TurnStateUtils.js";
 
 
 let turnStateKeys = {
     turn_init:'turn_init',
+    turn_tile_select:'turn_tile_select',
     turn_move:'turn_move',
     turn_close:'turn_close'
 }
 
 let turnStateMap = {}
 turnStateMap[turnStateKeys.turn_init] = turnInit;
+turnStateMap[turnStateKeys.turn_tile_select] = turnTileSelect;
 turnStateMap[turnStateKeys.turn_move] = turnMove;
 turnStateMap[turnStateKeys.turn_close] = turnClose;
 
@@ -23,6 +25,11 @@ class ActorTurnSequencer {
         this.currentTurnStateKey = null;
 
         let turnInitEnded = function() {
+            this.currentTurnStateKey = turnStateKeys.turn_tile_select
+            turnStateMap[this.currentTurnStateKey](this.actor, this.turnIndex, this.call.tileSelectEnded)
+        }.bind(this)
+
+        let tileSelectEnded = function() {
             this.currentTurnStateKey = turnStateKeys.turn_move
             turnStateMap[this.currentTurnStateKey](this.actor, this.turnIndex, this.call.movementEnded)
         }.bind(this)
@@ -39,6 +46,7 @@ class ActorTurnSequencer {
 
         this.call = {
             turnInitEnded:turnInitEnded,
+            tileSelectEnded:tileSelectEnded,
             movementEnded:movementEnded,
             turnCloseEnded:turnCloseEnded
         }
