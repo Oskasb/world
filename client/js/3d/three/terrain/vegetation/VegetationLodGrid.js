@@ -33,7 +33,7 @@ class VegetationLodGrid {
 
 
     processLodVisibility(lodCenter) {
-        if (this.lastLodCenter.distanceToSquared(lodCenter) > 0.5) {
+        if (this.lastLodCenter.distanceToSquared(lodCenter) > 0.0) {
             let tiles = this.vegetationTiles;
             for (let i = 0; i < tiles.length; i++) {
                 tiles[i].processTileVisibility(this.maxDistance, lodCenter)
@@ -64,6 +64,7 @@ class VegetationLodGrid {
                 if (tile.isVisible) {
                     patch.setVegTile(tile, this.plantsConfig, this.plantList, this.maxPlants);
                 } else {
+                    tile.nearness = 0;
                     MATH.splice(this.vegetationPatches, patch);
                     patch.recoverVegetationPatch();
                     poolReturn(patch)

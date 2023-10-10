@@ -167,7 +167,7 @@ class WorldEncounter {
             calcVec.z = 0;
         }
 
-        calcVec.multiplyScalar(-2.6);
+        calcVec.multiplyScalar(-3.3);
         this.camHomePos.addVectors(this.getPos(), calcVec);
         this.camHomePos.y += calcVec.length()*1.1;
         return this.camHomePos;

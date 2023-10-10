@@ -30,7 +30,7 @@ let tempObj = new Object3D();
 let tempVec = new Vector3();
 class Plant {
     constructor() {
-    //    console.log(index)
+        console.log(index)
         index++;
         this.startTime =0;
         this.obj3d = new Object3D();
@@ -127,7 +127,7 @@ class Plant {
         this.isActive = false;
 
         this.callbacks.getInstance().originalAsset.disableAssetInstance(this.callbacks.getInstance());
-        endTime = client.getFrame().systemTime;
+        endTime = client.getFrame().systemTime-1;
 
         this.geoInstance.setAttribXYZW('lifecycle', this.startTime, attackTime, endTime+decayTime, decayTime)
         this.callbacks.setInstance(null);
@@ -170,7 +170,7 @@ class Plant {
         this.bufferElement.setColorRGBA(this.colorRgba);
 */
 
-        this.startTime = client.getFrame().systemTime;
+        this.startTime = client.getFrame().systemTime -0.02;
         endTime = this.startTime + 9999999;
 
         this.geoInstance.setAttribXYZW('lifecycle', this.startTime, attackTime - nearness*attackTime, endTime, decayTime)

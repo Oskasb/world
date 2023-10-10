@@ -29,7 +29,7 @@ class VegetationTile {
         let lodDistance = pos.distanceTo(lodCenter)
         let rgba = dynamicGridTile.rgba
         let tileSize = dynamicGridTile.spacing
-        let farness = MATH.calcFraction(0, maxDistance, lodDistance * 2.0)
+        let farness = MATH.calcFraction(0, maxDistance - tileSize*2, lodDistance * 2.0 -tileSize*2)
         let nearness = MATH.clamp(1-farness, 0, 1);
         let isVisible = cubeTestVisibility(pos,  tileSize * nearness)
         let borrowedBox = borrowBox();
