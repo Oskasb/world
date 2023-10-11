@@ -4,9 +4,12 @@ import {
     updateActorInit,
     updateActorTargetSelect,
     updateActorAttackTarget,
+    updateActorApplyAttack,
     updateActorTileSelect,
     setSequencer
 } from "./TurnStateUpdateFunctions.js";
+
+let nullTurn = -1
 
 function turnInit(actor, turnIndex) {
     let sequencer = actor.actorTurnSequencer
@@ -16,35 +19,45 @@ function turnInit(actor, turnIndex) {
 
 function turnTargetSelect(actor, turnIndex) {
     let sequencer = actor.actorTurnSequencer
-    if (turnIndex === 0) {
+    if (turnIndex === nullTurn) {
         sequencer.call.stateTransition()
         return;
     }
-        setSequencer(sequencer)
-        GameAPI.registerGameUpdateCallback(updateActorTargetSelect)
+    GameAPI.registerGameUpdateCallback(updateActorTargetSelect)
 
 }
 
 function turnAttackTarget(actor, turnIndex) {
     let sequencer = actor.actorTurnSequencer
 
-    if (turnIndex === 0) {
+    if (turnIndex === nullTurn) {
+        sequencer.call.stateTransition()
+        return;
+    }
+    GameAPI.registerGameUpdateCallback(updateActorAttackTarget)
+}
+
+function turnApplyAttack(actor, turnIndex) {
+
+    let sequencer = actor.actorTurnSequencer
+
+    if (turnIndex === nullTurn) {
         sequencer.call.stateTransition()
         return;
     }
 
-    setSequencer(sequencer)
-    GameAPI.registerGameUpdateCallback(updateActorAttackTarget)
+    GameAPI.registerGameUpdateCallback(updateActorApplyAttack)
+
 }
+
 
 function turnTileSelect(actor, turnIndex) {
     let sequencer = actor.actorTurnSequencer
-    setSequencer(sequencer)
     actor.activateWalkGrid();
     let camHome = GameAPI.call.getActiveEncounter().getEncounterCameraHomePosition()
     sequencer.focusAtObj3d.position.copy(actor.getObj3d().position)
     evt.dispatch(ENUMS.Event.SET_CAMERA_MODE, {mode:'actor_turn_movement', obj3d:sequencer.focusAtObj3d, camPos:camHome})
-    if (turnIndex === 0) {
+    if (turnIndex === nullTurn) {
         //    targetPos = actor.getGameWalkGrid().getTargetPosition()
     } else {
         let targetPos = actor.getActorGridMovementTargetPosition()
@@ -55,7 +68,6 @@ function turnTileSelect(actor, turnIndex) {
 
 function turnMove(actor, turnIndex) {
     let sequencer = actor.actorTurnSequencer
-    setSequencer(sequencer)
     let camHome = GameAPI.call.getActiveEncounter().getEncounterCameraHomePosition()
     //    evt.dispatch(ENUMS.Event.SET_CAMERA_MODE, {mode:'actor_turn_movement', obj3d:actor.getObj3d(), camPos:camHome})
     let targetPos = actor.getGameWalkGrid().getTargetPosition()
@@ -63,8 +75,7 @@ function turnMove(actor, turnIndex) {
 }
 
 function turnClose(actor, turnIndex) {
-    let sequencer = actor.actorTurnSequencer
-    setSequencer(sequencer)
+   // let sequencer = actor.actorTurnSequencer
     GameAPI.registerGameUpdateCallback(updateActorClose)
 }
 
@@ -85,6 +96,7 @@ export {
     turnInit,
     turnTargetSelect,
     turnAttackTarget,
+    turnApplyAttack,
     turnTileSelect,
     turnMove,
     turnClose,

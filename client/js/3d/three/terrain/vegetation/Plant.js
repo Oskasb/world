@@ -30,7 +30,7 @@ let tempObj = new Object3D();
 let tempVec = new Vector3();
 class Plant {
     constructor() {
-        console.log(index)
+    //    console.log(index)
         index++;
         this.startTime =0;
         this.obj3d = new Object3D();

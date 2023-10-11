@@ -244,12 +244,12 @@ function setupOptsMagicMissile(efct, fromPos, gamePiece, index, onArriveCB, getP
     return options;
 }
 
-function setupOptsFireMissile(efct, fromPos, gamePiece, index, onArriveCB, getPosFunc) {
+function setupOptsFireMissile(efct, fromPos, actor, index, onArriveCB, getPosFunc) {
     let distance = MATH.distanceBetween(fromPos, getPosFunc());
     let tempObj = ThreeAPI.tempObj;
     tempObj.position.copy(fromPos);
-    let size = gamePiece.getStatusByKey('size');
-    tempVec3.copy(gamePiece.getPos());
+    let size = 1 // gamePiece.getStatusByKey('size') || 1;
+    tempVec3.copy(actor.getPos());
     let startSize = 1.2;
     let endSize = 1.3 + Math.random()*0.5
     let time = CombatFxUtils.setupLifecycle(efct, 0.22*(index+1) + 0.2*distance + 0.1, 0.3, 0.3);
@@ -261,7 +261,7 @@ function setupOptsFireMissile(efct, fromPos, gamePiece, index, onArriveCB, getPo
     let options = defaultOptions();
     options.fromPos = fromPos;
     options.fromQuat = tempObj.quaternion;
-    options.toPos = gamePiece.getPos();
+    options.toPos = actor.getPos();
     options.toQuat = tempObj.quaternion;
     options.fromSize = startSize;
     options.toSize = endSize;

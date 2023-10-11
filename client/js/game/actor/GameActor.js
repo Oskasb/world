@@ -36,10 +36,15 @@ class GameActor {
             GameAPI.registerGameUpdateCallback(updateGameActor);
         }.bind(this);
 
+        let getActorPos = function() {
+            return this.actorObj3d.position;
+        }.bind(this);
+
         this.call = {
             onActive:onActive,
             setAsSelection:setAsSelection,
-            updateGameActor:updateGameActor
+            updateGameActor:updateGameActor,
+            getActorPos:getActorPos
         }
     }
 
@@ -63,6 +68,8 @@ class GameActor {
     getPos() {
         return this.gameWalkGrid.getGridMovementObj3d().position;
     }
+
+
 
     getQuat() {
         return this.gameWalkGrid.getGridMovementObj3d().quaternion;
