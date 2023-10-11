@@ -6,13 +6,6 @@ let encounterTurnSequencer = null;
 let activeEncounterGrid = null;
 let dynamicEncounter = null;
 
-let gridLoaded = function(grid) {
-    console.log("gridLoaded", grid)
-    dynamicEncounter = new DynamicEncounter()
-    dynamicEncounter.setEncounterGrid(grid);
-    dynamicEncounter.addEncounterActors(8)
-}
-
 let testPosIsWithin = function(pos, min, max) {
     if (min.x <= pos.x && max.x >= pos.x) {
         if (min.z <= pos.z && max.z >= pos.z) {
@@ -24,6 +17,10 @@ let testPosIsWithin = function(pos, min, max) {
 
 let getActiveEncounterGrid = function() {
     return activeEncounterGrid;
+}
+
+let getActiveDynamicEncounter = function() {
+    return dynamicEncounter;
 }
 
 class GameEncounterSystem {
@@ -51,9 +48,14 @@ class GameEncounterSystem {
 
         this.call = {
             updateEncounterSystem:updateEncounterSystem,
-            getActiveEncounterGrid:getActiveEncounterGrid
+            getActiveEncounterGrid:getActiveEncounterGrid,
+            getActiveDynamicEncounter:getActiveDynamicEncounter
         }
 
+    }
+
+    getEncounterTurnSequencer() {
+        return encounterTurnSequencer;
     }
 
     activateEncounter(event) {

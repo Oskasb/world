@@ -55,6 +55,8 @@ class DynamicEncounter {
         }
     }
 
+
+
     removeEncounterActors() {
         while (encounterActors.length) {
 

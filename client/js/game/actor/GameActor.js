@@ -1,7 +1,7 @@
 import {Object3D} from "../../../libs/three/core/Object3D.js";
 import { GameWalkGrid } from "../gameworld/GameWalkGrid.js";
 import { Vector3 } from "../../../libs/three/math/Vector3.js";
-import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
+import { poolFetch, poolReturn } from "../../application/utils/PoolUtils.js";
 import { ActorTurnSequencer } from "./ActorTurnSequencer.js";
 
 
@@ -40,6 +40,15 @@ class GameActor {
             onActive:onActive,
             setAsSelection:setAsSelection,
             updateGameActor:updateGameActor
+        }
+    }
+
+    isPlayerActor() {
+        let playerActor = GameAPI.getGamePieceSystem().getSelectedGameActor()
+        if (this === playerActor) {
+            return true;
+        } else {
+            return false
         }
     }
 
@@ -148,14 +157,19 @@ class GameActor {
 
     }
 
+    turnTowardsPos(posVec) {
+        tempVec.copy(posVec);
+        tempVec.y = this.actorObj3d.position.y
+        this.actorObj3d.lookAt(tempVec)
+    }
+
     updateGameActor = function() {
-        tempVec.copy(this.getPos());
-        if (MATH.distanceBetween(tempVec, this.actorObj3d.position) > 0.001) {
-            this.actorObj3d.position.y = tempVec.y;
-            this.actorObj3d.lookAt(tempVec)
+
+        if (MATH.distanceBetween(this.getPos(), this.actorObj3d.position) > 0.001) {
+            this.turnTowardsPos(this.getPos())
         }
 
-        this.actorObj3d.position.copy(tempVec)
+        this.actorObj3d.position.copy(this.getPos())
 
         let isLeaping = this.gameWalkGrid.dynamicWalker.isLeaping;
         if (isLeaping) {

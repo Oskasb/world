@@ -40,6 +40,10 @@ class GameAPI {
             return gameEncounterSystem.call.getActiveEncounterGrid();
         }
 
+        let getDynamicEncounter = function() {
+            return gameEncounterSystem.call.getActiveDynamicEncounter();
+        }
+
         let spawnWorldEncounters = function() {
             this.worldModels.activateEncounters();
         }.bind(this);
@@ -79,11 +83,17 @@ class GameAPI {
 
         }
 
+        let getGameEncounterSystem = function() {
+            return gameEncounterSystem;
+        }
+
         this.call = {
+            getGameEncounterSystem:getGameEncounterSystem,
             activateWalkGrid:activateWalkGrid,
             activateBattleMode:activateBattleMode,
             spawnWorldEncounters:spawnWorldEncounters,
             getActiveEncounter:getActiveEncounter,
+            getDynamicEncounter:getDynamicEncounter,
             travelToPos:travelToPos,
             editGround:editGround,
             editParameters:editParameters

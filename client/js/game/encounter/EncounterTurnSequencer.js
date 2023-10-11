@@ -31,6 +31,18 @@ class EncounterTurnSequencer {
         this.actors.push(actor);
     }
 
+    getOpposingActors(actor, actorList) {
+        let isPlayer = actor.isPlayerActor();
+
+        for (let i = 0; i < this.actors.length; i++) {
+            let encActor = this.actors[i];
+            if (encActor.isPlayerActor() !== isPlayer) {
+                actorList.push(encActor);
+            }
+        }
+
+    }
+
     updateTurnSequencer() {
         let actor = this.actors[this.turnActorIndex];
         if (this.activeActor !== actor) {
