@@ -350,7 +350,7 @@ function setupOptsFireBallHit(efct, actor) {
     ThreeAPI.tempVec3.y = Math.abs(ThreeAPI.tempVec3.y);
 
     ThreeAPI.tempVec3.add(tempObj.position)
-    let time = CombatFxUtils.setupLifecycle(efct, MATH.randomBetween(0.1, 0.5), 0.2, 0.8);
+    let time = CombatFxUtils.setupLifecycle(efct, MATH.randomBetween(0.1, 0.35), 0.2, 0.8);
     tempVec3.set(size, size, size);
     MATH.randomVector(tempVec3);
     tempVec3.multiplyScalar(size)

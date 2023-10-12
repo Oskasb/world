@@ -13,12 +13,12 @@ function fireBall(actor) {
     let effectCb = function(efct) {
         efct.activateEffectFromConfigId()
         let options = CombatFxOptions.setupOptsFireBallHit(efct, actor)
-        efct.setEffectColorRGBA(CombatFxUtils.setRgba(0.4, 0.3, 0.1, 0.2))
+        efct.setEffectColorRGBA(CombatFxUtils.setRgba(0.24, 0.13, 0.02, 0.1))
         efct.setEffectSpriteXY(3, 4);
         efct.activateSpatialTransition(options)
     }
 
-    for (let i = 0; i < 8; i++) {
+    for (let i = 0; i < 4; i++) {
         EffectAPI.buildEffectClassByConfigId('additive_particles_8x8', 'particle_additive_pool',  effectCb)
     }
 
@@ -26,7 +26,7 @@ function fireBall(actor) {
         efct.activateEffectFromConfigId()
         let options = CombatFxOptions.setupOptsShockwave(efct, actor.getVisualGamePiece().getCenterMass(), 0.1, 6, 0.3)
         efct.setEffectSpriteXY(0, 0);
-        efct.setEffectColorRGBA(CombatFxUtils.setRgba(0.5, 0.4, 0.3, 0.2))
+        efct.setEffectColorRGBA(CombatFxUtils.setRgba(0.24, 0.13, 0.02, 0.1))
         efct.activateSpatialTransition(options)
     }
 
@@ -34,9 +34,9 @@ function fireBall(actor) {
 
     let implosionCb = function(efct) {
         efct.activateEffectFromConfigId()
-        let options = CombatFxOptions.setupOptsShockwave(efct, actor.getVisualGamePiece().getCenterMass(), 8, 3, 0.22)
+        let options = CombatFxOptions.setupOptsShockwave(efct, actor.getVisualGamePiece().getCenterMass(), 5, 2, 0.22)
         efct.setEffectSpriteXY(1, 1);
-        efct.setEffectColorRGBA(CombatFxUtils.setRgba(0.72, 0.57, 0.481, 0.2))
+        efct.setEffectColorRGBA(CombatFxUtils.setRgba(0.24, 0.13, 0.02, 0.1))
         efct.activateSpatialTransition(options)
     }
 
@@ -48,7 +48,7 @@ function magicHit(actor) {
     let effectCb = function(efct) {
         efct.activateEffectFromConfigId()
         let options = CombatFxOptions.setupOptsMagicHit(efct, actor)
-        efct.setEffectColorRGBA(CombatFxUtils.setRgba(0.4, 0.7, 0.9, 0.9))
+        efct.setEffectColorRGBA(CombatFxUtils.setRgba(0.24, 0.37, 0.59, 0.59))
         efct.setEffectSpriteXY(4, 3);
         efct.activateSpatialTransition(options)
     }
@@ -68,7 +68,7 @@ function freezeHit(actor) {
         efct.activateEffectFromConfigId()
         let options = CombatFxOptions.setupOptsMagicHit(efct, actor)
         efct.setEffectSpriteXY(5, 2);
-        efct.setEffectColorRGBA(CombatFxUtils.setRgba(0.2, 0.2, 0.99, 0.99))
+        efct.setEffectColorRGBA(CombatFxUtils.setRgba(0.12, 0.12, 0.59, 0.29))
         efct.activateSpatialTransition(options)
     }
 
@@ -80,7 +80,7 @@ function freezeHit(actor) {
         efct.activateEffectFromConfigId()
         let options = CombatFxOptions.setupOptsShockwave(efct, actor.getVisualGamePiece().getCenterMass(), 0.1, 12, 0.3)
         efct.setEffectSpriteXY(0, 0);
-        efct.setEffectColorRGBA(CombatFxUtils.setRgba(0.22, 0.22, 0.99, 0.9))
+        efct.setEffectColorRGBA(CombatFxUtils.setRgba(0.12, 0.12, 0.59, 0.13))
         efct.activateSpatialTransition(options)
     }
 
@@ -93,7 +93,7 @@ function healHit(actor) {
     let effectCb = function(efct) {
         efct.activateEffectFromConfigId()
         let options = CombatFxOptions.setupOptsMagicHit(efct, actor)
-        efct.setEffectColorRGBA(CombatFxUtils.setRgba(-0.3, 0.9, -0.3, 0.5))
+        efct.setEffectColorRGBA(CombatFxUtils.setRgba(-0.3, 0.9, -0.3, 0.25))
         efct.setEffectSpriteXY(4, 3);
         efct.activateSpatialTransition(options)
     }
@@ -106,7 +106,7 @@ function healHit(actor) {
         efct.activateEffectFromConfigId()
         let options = CombatFxOptions.setupOptsShockwave(efct, actor.getVisualGamePiece().getCenterMass(), 4, 0, 0.22)
         efct.setEffectSpriteXY(0, 0);
-        efct.setEffectColorRGBA(CombatFxUtils.setRgba(-0.12, 0.57, -0.181, 0.39))
+        efct.setEffectColorRGBA(CombatFxUtils.setRgba(-0.12, 0.57, -0.181, 0.29))
         efct.activateSpatialTransition(options)
     }
 
