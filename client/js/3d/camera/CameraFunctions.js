@@ -26,7 +26,8 @@ function viewTargetSelection(sequencer, candidates) {
     evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:tempVec2, color:'WHITE', size:0.25})
     sequencer.focusAtObj3d.position.copy(tempVec2);
     // indicateTurnClose(actor, seqTime)
-
+    sequencer.focusAtObj3d.position.y -=0.5;
+    
     camTargetPos.copy(tempVec);
     camTargetPos.y = 0;
     camTargetPos.normalize()
@@ -38,27 +39,43 @@ function viewTargetSelection(sequencer, candidates) {
 //    tempVec.multiplyScalar(0.5);
     camTargetPos.y +=6;
 
-    camTargetPos.add(actor.getPos())
-    camTargetPos.y += Math.sin(seqTime * Math.PI)*3
+    calcShouldCamPosition(actor, 12-8*seqTime, camTargetPos);
     camTargetPos.lerp(camHome,1-MATH.curveSigmoid(seqTime));
     camTargetPos.y += Math.sin(seqTime * Math.PI)*5
     // camTargetPos.add(tempVec)
 
     if (seqTime === 0) {
-        evt.dispatch(ENUMS.Event.SET_CAMERA_MODE, {mode:'actor_turn_movement', obj3d:sequencer.focusAtObj3d, camPos:camTargetPos})
-    }
 
-    if (seqTime > 1) {
-        camTargetPos.copy(tempVec);
-        camTargetPos.y = 0;
-        camTargetPos.normalize()
-        camTargetPos.multiplyScalar(-2);
-        camTargetPos.y +=2.5;
-        camTargetPos.add(actor.getPos())
+        evt.dispatch(ENUMS.Event.SET_CAMERA_MODE, {mode:'actor_turn_movement', obj3d:sequencer.focusAtObj3d, camPos:camTargetPos})
     }
 
 }
 
+let calcShouldCamPosition = function(actor, distance, storeVec) {
+    storeVec.set(0.1, 0.3, -0.6);
+    storeVec.normalize();
+    storeVec.multiplyScalar(distance);
+    storeVec.applyQuaternion(actor.getVisualGamePiece().getQuat())
+    storeVec.add(actor.getVisualGamePiece().getCenterMass())
+}
+
+function viewPrecastAction(sequencer, target) {
+
+    let seqTime = sequencer.getSequenceTime()
+    let actor = sequencer.getGameActor()
+    calcShouldCamPosition(actor, 4-2*seqTime, camTargetPos);
+
+    if (seqTime === 0) {
+        sequencer.focusAtObj3d.position.copy(target.getVisualGamePiece().getPos())
+        sequencer.focusAtObj3d.position.y -=0.5;
+
+        evt.dispatch(ENUMS.Event.SET_CAMERA_MODE, {mode:'actor_turn_movement', obj3d:sequencer.focusAtObj3d, camPos:camTargetPos})
+    }
+
+
+}
+
 export {
-    viewTargetSelection
+    viewTargetSelection,
+    viewPrecastAction
 }

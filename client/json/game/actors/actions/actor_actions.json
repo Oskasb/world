@@ -7,10 +7,10 @@
           "visual_action": "VISUAL_FIREBALL",
           "sequencing": {
             "selected":{"time": 0.5},
-            "precast":{"time": 0.45},
-            "active":{"time": 0.2},
-            "apply":{"time": 0.25},
-            "post_hit":{"time": 0.15}
+            "precast":{"time": 0.25},
+            "active":{"time": 0.1},
+            "apply":{"time": 0.1},
+            "post_hit":{"time": 0.35}
           }
         }
       },
@@ -36,7 +36,7 @@
             "precast":{"time": 0.35},
             "active":{"time": 0.3},
             "apply":{"time": 0.04},
-            "post_hit":{"time": 0.35}
+            "post_hit":{"time": 0.25}
           }
         }
       },
@@ -46,9 +46,9 @@
           "visual_action": "VISUAL_HEAL_BOLT",
           "sequencing": {
             "selected":{"time": 0.5},
-            "precast":{"time": 0.45},
-            "active":{"time": 0.2},
-            "apply":{"time": 0.25},
+            "precast":{"time": 0.55},
+            "active":{"time": 0.4},
+            "apply":{"time": 0.15},
             "post_hit":{"time": 0.15}
           }
         }

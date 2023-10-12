@@ -1,7 +1,7 @@
 import {indicateTurnClose, indicateTurnInit} from "./TurnStateFeedback.js";
 import {Vector3} from "../../../libs/three/math/Vector3.js";
 import {TargetSelector} from "./TargetSelector.js";
-import {viewTargetSelection} from "../../3d/camera/CameraFunctions.js";
+import {viewTargetSelection, viewPrecastAction} from "../../3d/camera/CameraFunctions.js";
 import {ActionSelector} from "./ActionSelector.js";
 
 
@@ -82,8 +82,13 @@ function updateActorSelectAttack(tpf) {
         getSequencer().selectedAttack = attackSelector.selectActorAction(actor, availableActions)
     }
 
+
+
     let attack = getSequencer().selectedAttack;
     let holdTime = attack.getStepDuration('selected')
+
+    let target = getSequencer().getTargetActor();
+    viewPrecastAction(getSequencer(), target)
 
     if (seqTime > holdTime) {
 
@@ -107,6 +112,8 @@ function updateActorApplyAttack(tpf) {
 
     let attack = getSequencer().selectedAttack;
     let holdTime = attack.getStepDuration('precast')
+
+
 
     if (seqTime > holdTime) {
 

@@ -12,7 +12,7 @@ function catchOnFire(actor) {
         efct.activateSpatialTransition(options)
     }
 
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 2; i++) {
         EffectAPI.buildEffectClassByConfigId('additive_particles_8x8', 'particle_additive_pool',  effectCb)
     }
 }
@@ -25,7 +25,7 @@ function residualMagic(actor) {
         efct.activateSpatialTransition(options)
     }
 
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 2; i++) {
         EffectAPI.buildEffectClassByConfigId('additive_particles_8x8', 'residual_magic_damage_effect',  effectCb)
     }
 }
@@ -40,7 +40,7 @@ function residualHeal(actor) {
         efct.activateSpatialTransition(options)
     }
 
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 3; i++) {
         EffectAPI.buildEffectClassByConfigId('additive_particles_8x8', 'particle_additive_pool',  effectCb)
     }
 }
@@ -54,7 +54,7 @@ function residualFrost(actor) {
         efct.activateSpatialTransition(options)
     }
 
-    for (let i = 0; i < 12; i++) {
+    for (let i = 0; i < 4; i++) {
         EffectAPI.buildEffectClassByConfigId('additive_particles_8x8', 'particle_additive_pool',  effectCb)
     }
 

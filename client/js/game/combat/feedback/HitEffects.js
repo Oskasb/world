@@ -53,7 +53,7 @@ function magicHit(actor) {
         efct.activateSpatialTransition(options)
     }
 
-    for (let i = 0; i < 12; i++) {
+    for (let i = 0; i < 4; i++) {
         EffectAPI.buildEffectClassByConfigId('additive_particles_8x8', 'particle_additive_pool',  effectCb)
     }
 
@@ -72,7 +72,7 @@ function freezeHit(actor) {
         efct.activateSpatialTransition(options)
     }
 
-    for (let i = 0; i < 12; i++) {
+    for (let i = 0; i < 5; i++) {
         EffectAPI.buildEffectClassByConfigId('additive_particles_8x8', 'particle_additive_pool',  effectCb)
     }
 

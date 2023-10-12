@@ -104,6 +104,10 @@ class VisualGamePiece {
         return this.getSpatial().getPos()
     }
 
+    getQuat() {
+        return this.getSpatial().getQuat()
+    }
+
     disablePieceAnimations() {
         this.getSpatial().call.setStopped();
     }
