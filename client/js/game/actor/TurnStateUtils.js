@@ -1,11 +1,12 @@
 
 import {
-    updateActorClose,
     updateActorInit,
-    updateActorTargetSelect,
-    updateActorAttackTarget,
-    updateActorApplyAttack,
     updateActorTileSelect,
+    updateActorTargetSelect,
+    updateActorEvaluateTarget,
+    updateActorSelectAttack,
+    updateActorApplyAttack,
+    updateActorClose,
     setSequencer
 } from "./TurnStateUpdateFunctions.js";
 
@@ -27,14 +28,24 @@ function turnTargetSelect(actor, turnIndex) {
 
 }
 
-function turnAttackTarget(actor, turnIndex) {
+function turnEvaluateTarget(actor, turnIndex) {
     let sequencer = actor.actorTurnSequencer
 
     if (turnIndex === nullTurn) {
         sequencer.call.stateTransition()
         return;
     }
-    GameAPI.registerGameUpdateCallback(updateActorAttackTarget)
+    GameAPI.registerGameUpdateCallback(updateActorEvaluateTarget)
+}
+
+function turnSelectAttack(actor, turnIndex) {
+    let sequencer = actor.actorTurnSequencer
+
+    if (turnIndex === nullTurn) {
+        sequencer.call.stateTransition()
+        return;
+    }
+    GameAPI.registerGameUpdateCallback(updateActorSelectAttack)
 }
 
 function turnApplyAttack(actor, turnIndex) {
@@ -95,7 +106,8 @@ function turnClosed(actor, turnIndex, onCompletedCB) {
 export {
     turnInit,
     turnTargetSelect,
-    turnAttackTarget,
+    turnEvaluateTarget,
+    turnSelectAttack,
     turnApplyAttack,
     turnTileSelect,
     turnMove,

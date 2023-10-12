@@ -51,19 +51,41 @@ function updateActorTargetSelect(tpf) {
 }
 
 
-function updateActorAttackTarget(tpf) {
+function updateActorEvaluateTarget(tpf) {
 
     let actor = getSequencer().getGameActor()
     let seqTime = getSequencer().getSequenceTime()
-
-
 
     actor.turnTowardsPos(getSequencer().getTargetActor().getPos())
 
     evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:actor.getPos(), to:getSequencer().getTargetActor().getPos(), color:'WHITE'});
 
     if (seqTime > 1) {
-        GameAPI.unregisterGameUpdateCallback(updateActorAttackTarget)
+        GameAPI.unregisterGameUpdateCallback(updateActorEvaluateTarget)
+        getSequencer().call.stateTransition()
+        tpf = 0;
+    }
+
+    getSequencer().advanceSequenceTime(tpf * 0.75);
+}
+
+function updateActorSelectAttack(tpf) {
+
+    let actor = getSequencer().getGameActor()
+    let seqTime = getSequencer().getSequenceTime()
+
+    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:actor.getPos(), to:getSequencer().getTargetActor().getPos(), color:'RED'});
+
+    if (seqTime === 0) {
+        getSequencer().selectedAttack = attackSelector.selectActorAttack(actor)
+    }
+
+
+
+    if (seqTime > 1) {
+        let attack = getSequencer().selectedAttack;
+        attack.call.advanceState();
+        GameAPI.unregisterGameUpdateCallback(updateActorSelectAttack)
         getSequencer().call.stateTransition()
         tpf = 0;
     }
@@ -79,16 +101,15 @@ function updateActorApplyAttack(tpf) {
     let seqTime = getSequencer().getSequenceTime()
 
 
+    let attack = getSequencer().selectedAttack;
 
     indicateTurnInit(actor, seqTime)
 
     if (seqTime > 1) {
 
         GameAPI.unregisterGameUpdateCallback(updateActorApplyAttack)
-        console.log(target);
 
-        let attack = attackSelector.selectActorAttack(actor, target)
-        attack.activateAttack(getSequencer().call.stateTransition)
+        attack.activateAttack(target, getSequencer().call.stateTransition)
         tpf = 0;
     }
 
@@ -135,7 +156,8 @@ export {
     setSequencer,
     updateActorInit,
     updateActorTargetSelect,
-    updateActorAttackTarget,
+    updateActorEvaluateTarget,
+    updateActorSelectAttack,
     updateActorApplyAttack,
     updateActorTileSelect,
     updateActorClose

@@ -1,11 +1,11 @@
 import * as CombatFxUtils from "./CombatFxUtils.js";
 import * as CombatFxOptions from "./CombatFxOptions.js";
 
-function catchOnFire(gamePiece) {
+function catchOnFire(actor) {
 
     let effectCb = function(efct) {
         efct.activateEffectFromConfigId()
-        let options = CombatFxOptions.setupOptsBoneLingering(efct, gamePiece);
+        let options = CombatFxOptions.setupOptsBoneLingering(efct, actor);
         efct.setEffectSpriteXY(3, 4);
         efct.setEffectColorRGBA(CombatFxUtils.setRgba(0.8, 0.7, 0.4, 0.8))
 
@@ -17,11 +17,11 @@ function catchOnFire(gamePiece) {
     }
 }
 
-function residualMagic(gamePiece) {
+function residualMagic(actor) {
 
     let effectCb = function(efct) {
         efct.activateEffectFromConfigId()
-        let options = CombatFxOptions.setupOptsBoneLingering(efct, gamePiece);
+        let options = CombatFxOptions.setupOptsBoneLingering(efct, actor);
         efct.activateSpatialTransition(options)
     }
 
@@ -30,11 +30,11 @@ function residualMagic(gamePiece) {
     }
 }
 
-function residualHeal(gamePiece) {
+function residualHeal(actor) {
 
     let effectCb = function(efct) {
         efct.activateEffectFromConfigId()
-        let options = CombatFxOptions.setupOptsBoneLingering(efct, gamePiece);
+        let options = CombatFxOptions.setupOptsBoneLingering(efct, actor);
         efct.setEffectSpriteXY(2, 7);
         efct.setEffectColorRGBA(CombatFxUtils.setRgba(-0.2, 0.7, -0.2, 0.4))
         efct.activateSpatialTransition(options)
@@ -44,11 +44,11 @@ function residualHeal(gamePiece) {
         EffectAPI.buildEffectClassByConfigId('additive_particles_8x8', 'particle_additive_pool',  effectCb)
     }
 }
-function residualFrost(gamePiece) {
+function residualFrost(actor) {
 
     let effectCb = function(efct) {
         efct.activateEffectFromConfigId()
-        let options = CombatFxOptions.setupOptsBoneLingering(efct, gamePiece);
+        let options = CombatFxOptions.setupOptsBoneLingering(efct, actor);
         efct.setEffectSpriteXY(5, 2);
         efct.setEffectColorRGBA(CombatFxUtils.setRgba(0.5, 0.5, 0.99, 0.99))
         efct.activateSpatialTransition(options)

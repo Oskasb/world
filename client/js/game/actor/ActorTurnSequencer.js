@@ -1,4 +1,4 @@
-import {turnClose, turnInit, turnMove, cancelTurnProcess, turnTileSelect, turnTargetSelect, turnAttackTarget, turnApplyAttack, turnClosed} from "./TurnStateUtils.js";
+import {turnClose, turnInit, turnMove, cancelTurnProcess, turnTileSelect, turnTargetSelect, turnEvaluateTarget, turnSelectAttack, turnApplyAttack, turnClosed} from "./TurnStateUtils.js";
 import {Object3D} from "../../../libs/three/core/Object3D.js";
 
 let turnStateKeys = {
@@ -6,7 +6,8 @@ let turnStateKeys = {
     turn_tile_select:'turn_tile_select',
     turn_move:'turn_move',
     turn_target_select:'turn_target_select',
-    turn_attack_target:'turn_attack_target',
+    turn_evaluate_target:'turn_attack_target',
+    turn_select_attack:'turn_select_attack',
     turn_apply_attack:'turn_apply_attack',
     turn_close:'turn_close',
     turn_closed:'turn_closed'
@@ -18,9 +19,10 @@ turnStateMap[turnStateKeys.turn_tile_select] = {enter: turnTileSelect, exitTo:tu
 
 turnStateMap[turnStateKeys.turn_move] = {enter: turnMove, exitTo:turnStateKeys.turn_target_select};
 
-turnStateMap[turnStateKeys.turn_target_select] = {enter: turnTargetSelect, exitTo:turnStateKeys.turn_attack_target};
+turnStateMap[turnStateKeys.turn_target_select] = {enter: turnTargetSelect, exitTo:turnStateKeys.turn_evaluate_target};
 
-turnStateMap[turnStateKeys.turn_attack_target] = {enter: turnAttackTarget, exitTo:turnStateKeys.turn_apply_attack};
+turnStateMap[turnStateKeys.turn_evaluate_target] = {enter: turnEvaluateTarget, exitTo:turnStateKeys.turn_select_attack};
+turnStateMap[turnStateKeys.turn_select_attack] = {enter: turnSelectAttack, exitTo:turnStateKeys.turn_apply_attack};
 turnStateMap[turnStateKeys.turn_apply_attack] = {enter: turnApplyAttack, exitTo:turnStateKeys.turn_close};
 
 turnStateMap[turnStateKeys.turn_close] = {enter: turnClose, exitTo:turnStateKeys.turn_closed};
@@ -38,6 +40,7 @@ class ActorTurnSequencer {
     constructor() {
 
         this.actor = null;
+        this.selectedAttack = null;
         this.targetActor = null;
         this.turnTime = 0;
         this.turnIndex = 0;

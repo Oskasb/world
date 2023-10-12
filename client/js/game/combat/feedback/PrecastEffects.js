@@ -1,8 +1,8 @@
 import * as CombatFxUtils from "./CombatFxUtils.js";
 import * as CombatFxOptions from "./CombatFxOptions.js";
 
-function handsOnFire(gamePiece, obj3d) {
-    let size = gamePiece.getStatusByKey('size');
+function handsOnFire(actor, obj3d) {
+    let size = actor.getStatus('hand_size');
     let particleFxCb = function(efct) {
         efct.activateEffectFromConfigId()
         let options = CombatFxOptions.setupOptsPowerHands(efct, obj3d, size);
@@ -25,8 +25,8 @@ function handsOnFire(gamePiece, obj3d) {
 
 }
 
-function handsOfFrost(gamePiece, obj3d) {
-    let size = gamePiece.getStatusByKey('size');
+function handsOfFrost(actor, obj3d) {
+    let size = actor.getStatus('hand_size');
     let particleFxCb = function(efct) {
         efct.activateEffectFromConfigId()
         let options = CombatFxOptions.setupOptsPowerHands(efct, obj3d, size);
@@ -49,14 +49,14 @@ function handsOfFrost(gamePiece, obj3d) {
 
 }
 
-function magicPowerHands(gamePiece, obj3d) {
-    let size = gamePiece.getStatusByKey('size');
+function magicPowerHands(actor, obj3d) {
+    let size = actor.getStatus('hand_size');
     let effectCb = function(efct) {
         efct.activateEffectFromConfigId()
         let options = CombatFxOptions.setupOptsPowerHands(efct, obj3d, size);
 
         efct.setEffectSpriteXY(3, 3);
-        efct.setEffectColorRGBA(CombatFxUtils.setRgba(0.6, 0.5, 0.9, 0.9))
+        efct.setEffectColorRGBA(CombatFxUtils.setRgba(0.2, 0.3, 0.4, 0.3))
         efct.activateSpatialTransition(options)
     }
 
@@ -67,15 +67,15 @@ function magicPowerHands(gamePiece, obj3d) {
 
         let options = CombatFxOptions.setupOptsPowerCore(efct, obj3d, size);
         efct.setEffectSpriteXY(4, 0);
-        efct.setEffectColorRGBA(CombatFxUtils.setRgba(0.32, 0.77, 0.99, 0.99))
+        efct.setEffectColorRGBA(CombatFxUtils.setRgba(0.2, 0.3, 0.4, 0.3))
         efct.activateSpatialTransition(options)
     }
 
     EffectAPI.buildEffectClassByConfigId('additive_particles_8x8', 'stamp_additive_pool',  shockwaveCb)
 }
 
-function healPowerHands(gamePiece, obj3d) {
-    let size = gamePiece.getStatusByKey('size');
+function healPowerHands(actor, obj3d) {
+    let size = actor.getStatus('hand_size');
     let effectCb = function(efct) {
         efct.activateEffectFromConfigId()
         let options = CombatFxOptions.setupOptsFriendlyHands(efct, obj3d, size);

@@ -3,12 +3,13 @@ import { GameWalkGrid } from "../gameworld/GameWalkGrid.js";
 import { Vector3 } from "../../../libs/three/math/Vector3.js";
 import { poolFetch, poolReturn } from "../../application/utils/PoolUtils.js";
 import { ActorTurnSequencer } from "./ActorTurnSequencer.js";
-
+import {ActorStatus} from "./ActorStatus.js";
 
 let tempVec = new Vector3();
 
 class GameActor {
     constructor(config) {
+        this.actorStatus = new ActorStatus();
         this.activated = false;
         this.actorObj3d = new Object3D();
         this.config = config;
@@ -65,6 +66,18 @@ class GameActor {
         return this.actorTurnSequencer;
     };
 
+    getVisualJointWorldTransform(jointKey, storeObj3d) {
+        this.getVisualGamePiece().getModel().getJointKeyWorldTransform(jointKey, storeObj3d);
+    }
+
+    setStatusKey(key, status) {
+        return this.actorStatus.setStatusKey(key, status);
+    }
+
+    getStatus(key) {
+        return this.actorStatus.getStatusByKey(key);
+    }
+
     getPos() {
         return this.gameWalkGrid.getGridMovementObj3d().position;
     }
@@ -90,6 +103,14 @@ class GameActor {
     setVisualGamePiece(visualGamePiece) {
         visualGamePiece.setVisualPieceActor(this);
         this.visualGamePiece = visualGamePiece;
+        let visualConfig = visualGamePiece.config;
+
+        if (visualConfig.status) {
+            for (let key in visualConfig.status) {
+                this.setStatusKey(key, visualConfig.status[key])
+            }
+        }
+
     }
 
     getVisualGamePiece() {

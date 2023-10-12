@@ -3,10 +3,8 @@ import { Vector3 } from "../../../libs/three/math/Vector3.js";
 import { Object3D } from "../../../libs/three/core/Object3D.js";
 
 let tempVec = new Vector3();
-
+let tempObj3d = new Object3D()
 let visualIndex = 0;
-
-
 
 class VisualGamePiece {
     constructor(config) {
@@ -115,7 +113,7 @@ class VisualGamePiece {
         this.getSpatial().call.setStopped();
     }
 
-    showVisualGamePiece = function() {
+    showVisualGamePiece() {
 
         if (this.getSpatial().geometryInstance) {
             tempVec.set(1, 1, 1);
@@ -150,6 +148,42 @@ class VisualGamePiece {
 
     setBodyState = function(state) {
         this.bodyState = state;
+    }
+
+
+    getCenterMass() {
+        tempVec.copy(this.getPos());
+        tempVec.y += this.actor.getStatus('height') * 0.7;
+        return tempVec;
+    }
+
+    getAboveHead(above) {
+        tempVec.copy(this.getPos());
+        tempVec.y += this.actor.getStatus('height') + above;
+        return tempVec;
+    }
+
+    getRandomJointId() {
+        let jointMap = this.instance.getJointMap();
+        return MATH.getRandomObjectEntry(jointMap)
+    }
+
+    getRandomBone() {
+        let map = this.instance.getBoneMap();
+        return MATH.getRandomObjectEntry(map)
+    }
+
+    getBoneWorldPosition(bone) {
+        this.instance.updateBoneWorldTransform(bone, tempObj3d)
+        return tempObj3d.position;
+    }
+
+    getJointWorldPosition(boneName) {
+        if (boneName === 'root_node') {
+            return this.getCenterMass();
+        }
+        this.instance.getBoneWorldTransform(boneName, tempObj3d)
+        return tempObj3d.position;
     }
 
     updateAnimatedGamePiece(tpf, gameTime) {

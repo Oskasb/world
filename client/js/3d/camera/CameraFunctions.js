@@ -53,7 +53,7 @@ function viewTargetSelection(sequencer, candidates) {
         camTargetPos.y = 0;
         camTargetPos.normalize()
         camTargetPos.multiplyScalar(-2);
-        camTargetPos.y +=3;
+        camTargetPos.y +=2.5;
         camTargetPos.add(actor.getPos())
     }
 

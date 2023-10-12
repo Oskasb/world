@@ -7,7 +7,12 @@
           "model_asset":"animated_fighter_male",
           "skeleton_rig":"FIGHTER_RIG",
           "scale": [1.0, 1.0, 1.0],
-          "rot": [0, 0, 0]
+          "rot": [0, 0, 0],
+          "status": {
+            "height": 1.8,
+            "size": 1.2,
+            "hand_size": 0.4
+          }
         }
       },
       {
