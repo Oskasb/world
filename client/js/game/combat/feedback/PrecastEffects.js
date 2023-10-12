@@ -71,7 +71,7 @@ function magicPowerHands(actor, obj3d) {
         efct.activateSpatialTransition(options)
     }
 
-    EffectAPI.buildEffectClassByConfigId('additive_particles_8x8', 'stamp_additive_pool',  shockwaveCb)
+    EffectAPI.buildEffectClassByConfigId('additive_particles_8x8', 'particle_additive_pool',  shockwaveCb)
 }
 
 function healPowerHands(actor, obj3d) {
@@ -95,7 +95,7 @@ function healPowerHands(actor, obj3d) {
         efct.activateSpatialTransition(options)
     }
 
-    EffectAPI.buildEffectClassByConfigId('additive_particles_8x8', 'stamp_additive_pool',  shockwaveCb)
+    EffectAPI.buildEffectClassByConfigId('additive_particles_8x8', 'particle_additive_pool',  shockwaveCb)
 }
 
 export {

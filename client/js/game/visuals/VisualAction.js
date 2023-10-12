@@ -1,9 +1,20 @@
 import {effectCalls} from "../combat/feedback/CombatEffects.js";
 import {Vector3} from "../../../libs/three/math/Vector3.js";
 import {Object3D} from "../../../libs/three/core/Object3D.js";
+import {configDataList} from "../../application/utils/ConfigUtils.js";
 
 let tempVec = new Vector3();
 let tempObj3D = new Object3D();
+
+let config = {};
+let configUpdated = function(cfg) {
+    config = cfg;
+    console.log("VisualActionConfig: ", config);
+}
+
+setTimeout(function() {
+    configDataList("GAME_VISUALS", "ACTIONS", configUpdated)
+}, 2000)
 
 let visualConfigDefaults = {
     "fx_selected":"combat_effect_hands_magic_power",
@@ -21,11 +32,12 @@ let fxKeys = [
     "fx_post_hit"
 ]
 
-class VisualAttack {
+class VisualAction {
     constructor() {
+
         this.sourcePos = new Vector3();
         this.targetPos = new Vector3();
-        this.actorAttack = null;
+        this.actorAction = null;
         this.progress = 0;
         this.config = visualConfigDefaults;
         this.rightHandObj3d = new Object3D();
@@ -76,30 +88,30 @@ class VisualAttack {
 
     }
 
-    setActorAttack(actorAttack, visualConfig) {
-        this.actorAttack = actorAttack;
-        this.config = visualConfig || visualConfigDefaults;
+    setActorAction(actorAction, visualActionKey) {
+        this.actorAction = actorAction;
+        this.config = config[visualActionKey]['effects'] || visualConfigDefaults;
     }
 
     getActor() {
-        return this.actorAttack.actor;
+        return this.actorAction.actor;
     }
 
     getTarget() {
-        return this.actorAttack.target;
+        return this.actorAction.target;
     }
 
 
 
-    visualizeAttack(actorAttack) {
+    visualizeAttack(actorAction) {
         this.progress = 0;
-        this.sourcePos.copy(actorAttack.actor.getPos())
+        this.sourcePos.copy(actorAction.actor.getPos())
         this.sourcePos.y +=1.5;
 
         let tPos = this.targetPos;
 
         let getTargetPos = function() {
-            tPos.copy(actorAttack.target.call.getActorPos())
+            tPos.copy(actorAction.target.call.getActorPos())
             tPos.y +=1.5;
             return tPos;
         }
@@ -108,13 +120,14 @@ class VisualAttack {
 
         let onMissileArrive = function(gameEffect) {
             console.log("Missile Arrive", gameEffect)
-            actorAttack.call.advanceState();
+            actorAction.call.advanceState();
         }
-        actorAttack.call.advanceState();
-        effectCalls()['combat_effect_fire_missile'](this.sourcePos, actorAttack.actor, 0, onMissileArrive, getTargetPos, this.call.fxCallback)
+        actorAction.call.advanceState();
+        let fxKey = this.config['fx_active']
+        effectCalls()[fxKey](this.sourcePos, actorAction.actor, 0, onMissileArrive, getTargetPos, this.call.fxCallback)
     }
 
 
 }
 
-export {VisualAttack}
+export {VisualAction}

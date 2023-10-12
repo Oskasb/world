@@ -92,6 +92,8 @@
       "/threedata/assets/sprites/particle_sprites_8x8.json"  ,
       "/game/visuals/characters.json"                        ,
       "/game/visuals/items.json"                             ,
+      "/game/visuals/visual_actions.json"                    ,
+      "/game/actors/actions/actor_actions.json"                    ,
 
       "/game/visuals/items_armor_default.json"                        ,
       "/game/visuals/items_armor_green.json"                        ,

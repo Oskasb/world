@@ -1,4 +1,6 @@
 import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
+import {configDataList} from "../../application/utils/ConfigUtils.js";
+
 
 let visualConfig = {
     "fx_selected":"combat_effect_hands_magic_power",
@@ -7,6 +9,19 @@ let visualConfig = {
     "fx_apply":"combat_effect_fireball",
     "fx_post_hit":"damage_effect_catch_on_fire"
 }
+
+let config = {};
+let configUpdated = function(cfg) {
+    config = cfg;
+    console.log("ActorActionConfig: ", config);
+}
+
+
+setTimeout(function() {
+    configDataList("GAME_ACTORS", "ACTIONS", configUpdated)
+}, 2000)
+
+
 
 let attackStateKeys = [
     'attack_selected',
@@ -36,17 +51,19 @@ let activateAttackStateTransition = function(attack) {
 }
 
 
-class ActorAttack {
+class ActorAction {
     constructor() {
+
         this.stepProgress = 0;
         this.actor = null;
         this.target = null;
-        this.visualAttack = null;
+        this.visualAction = null;
         this.attackStateIndex = 0;
         this.onCompletedCallbacks = [];
+        this.actionKey = null;
 
         this.updateFunc = function () {
-            console.log("No Update func for ActorAttack Yet...")
+            console.log("No Update func for ActorAction Yet...")
         };
 
         let advanceState = function() {
@@ -54,26 +71,28 @@ class ActorAttack {
         }.bind(this)
 
         let updateSelected = function(tpf) {
-            this.visualAttack.call.updateSelected(tpf);
+            this.visualAction.call.updateSelected(tpf);
         }.bind(this)
 
         let updatePrecast = function(tpf) {
-            this.visualAttack.call.updatePrecast(tpf);
+            this.visualAction.call.updatePrecast(tpf);
         }.bind(this)
 
         let updateActive = function(tpf) {
-            this.visualAttack.call.updateActive(tpf);
+            this.visualAction.call.updateActive(tpf);
         }.bind(this)
 
         let updateApplyHit = function(tpf) {
-            this.visualAttack.call.updateApplyHit(tpf);
-            activateAttackStateTransition(this);
+            this.visualAction.call.updateApplyHit(tpf);
+            if (this.stepProgress > this.getStepDuration('apply')) {
+                activateAttackStateTransition(this);
+            }
 
         }.bind(this)
 
         let updatePostHit = function(tpf) {
-            this.visualAttack.call.updatePostHit(tpf);
-            if (this.stepProgress > 1) {
+            this.visualAction.call.updatePostHit(tpf);
+            if (this.stepProgress > this.getStepDuration('post_hit')) {
                 activateAttackStateTransition(this);
             }
         }.bind(this)
@@ -105,11 +124,29 @@ class ActorAttack {
 
     }
 
-    initAttack(actor) {
+    getStepDuration(step) {
+        if (typeof this.sequencing[step] === 'object') {
+            return this.sequencing[step].time || 1;
+        } else {
+            return 1;
+        }
+
+    }
+
+    readActionConfig(key) {
+        return config[this.actionKey][key];
+    }
+
+    initAttack(actor, actionKey) {
         this.actor = actor;
+        this.actionKey = actionKey;
         this.attackStateIndex = 0;
-        this.visualAttack = poolFetch('VisualAttack')
-        this.visualAttack.setActorAttack(this, visualConfig);
+        this.visualAction = poolFetch('VisualAction')
+
+        let visualActionKey = this.readActionConfig('visual_action')
+        this.sequencing = this.readActionConfig('sequencing')
+
+        this.visualAction.setActorAction(this, visualActionKey);
         this.call.advanceState();
         GameAPI.registerGameUpdateCallback(this.call.updateAttack);
     }
@@ -121,7 +158,7 @@ class ActorAttack {
     activateAttack(target, onCompletedCB) {
         this.target = target;
         this.onCompletedCallbacks.push(onCompletedCB)
-        this.visualAttack.visualizeAttack(this);
+        this.visualAction.visualizeAttack(this);
     }
 
     updateActiveAttack(progress) {
@@ -134,10 +171,10 @@ class ActorAttack {
         this.target = null;
         GameAPI.unregisterGameUpdateCallback(this.call.updateAttack);
         MATH.callAndClearAll(this.onCompletedCallbacks);
-        poolReturn(this.visualAttack);
+        poolReturn(this.visualAction);
         poolReturn(this)
     }
 
 }
 
-export { ActorAttack }
+export { ActorAction }

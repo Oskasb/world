@@ -47,12 +47,17 @@ function setupOptsPowerHands(efct, obj3d, size) {
     let options = defaultOptions();
 
     let tempObj = ThreeAPI.tempObj;
+    tempObj.scale.set(1, 1, 1);
     tempObj.position.copy(obj3d.position);
 
     //    tempObj.position.y += size*0.3
     ThreeAPI.tempVec3.copy(obj3d.scale)
     ThreeAPI.tempVec3.multiplyScalar(size*0.1);
-    tempObj.lookAt(ThreeAPI.getCamera().position);
+
+    tempObj.quaternion.set(0, 0, 0, 1);
+//    tempObj.lookAt(ThreeAPI.getCamera().position)
+
+
     MATH.spreadVector(tempObj.position, ThreeAPI.tempVec3)
     efct.quat.copy(tempObj.quaternion);
 
@@ -90,8 +95,10 @@ function setupOptsPowerHands(efct, obj3d, size) {
 
 function setupOptsPowerCore(efct, obj3d, size) {
     let tempObj = ThreeAPI.tempObj;
+    tempObj.scale.set(1, 1, 1);
     tempObj.position.copy(obj3d.position);
-    tempObj.lookAt(ThreeAPI.getCamera().position);
+    tempObj.quaternion.set(0, 0, 0, 1);
+//    tempObj.lookAt(ThreeAPI.getCamera().position)
 
     let startSize = size*0.6;
     let endSize = size*0.8 + Math.random()*size*0.2
@@ -117,9 +124,11 @@ function setupOptsFriendlyHands(efct, obj3d, size) {
 
     let options = defaultOptions();
     let tempObj = ThreeAPI.tempObj;
+    tempObj.scale.set(1, 1, 1);
     tempObj.position.copy(obj3d.position);
 
-    tempObj.lookAt(ThreeAPI.getCamera().position);
+    tempObj.quaternion.set(0, 0, 0, 1);
+//    tempObj.lookAt(ThreeAPI.getCamera().position)
 
     tempObj.rotateZ(Math.random()*MATH.TWO_PI)
 
@@ -151,14 +160,15 @@ function setupOptsFriendlyHands(efct, obj3d, size) {
 function setupOptsFriendlyCore(efct, obj3d, size) {
 
     let tempObj = ThreeAPI.tempObj;
-
+    tempObj.scale.set(1, 1, 1);
     MATH.randomVector(ThreeAPI.tempVec3);
     ThreeAPI.tempVec3.multiplyScalar(0.4)
     ThreeAPI.tempVec3.y = Math.abs(ThreeAPI.tempVec3.y);
 
     ThreeAPI.tempVec3.add(obj3d.position)
     tempObj.position.copy(obj3d.position)
-    tempObj.lookAt(ThreeAPI.getCamera().position);
+    tempObj.quaternion.set(0, 0, 0, 1);
+//    tempObj.lookAt(ThreeAPI.getCamera().position)
 
     let startSize = MATH.randomBetween(0.3, 0.5)*size
     let endSize = MATH.randomBetween(0.4, 0.6)*size
@@ -184,9 +194,10 @@ function setupOptsDirectMissile(efct, fromPos, actor, index, onArriveCB, getPosF
 
     let distance = MATH.distanceBetween(fromPos, getPosFunc());
     let tempObj = ThreeAPI.tempObj;
+    tempObj.scale.set(1, 1, 1);
     tempObj.position.copy(fromPos);
     let size = actor.getStatus('size');
-    tempObj.lookAt(ThreeAPI.getCamera().position);
+    tempObj.quaternion.set(0, 0, 0, 1);
     tempVec3.copy(actor.getPos());
     let startSize = 0.4;
     let endSize = 0.3 + Math.random()*0.2;
@@ -216,9 +227,10 @@ function setupOptsMagicMissile(efct, fromPos, actor, index, onArriveCB, getPosFu
 
     let distance = MATH.distanceBetween(fromPos, getPosFunc());
     let tempObj = ThreeAPI.tempObj;
+    tempObj.scale.set(1, 1, 1);
     tempObj.position.copy(fromPos);
     let size = actor.getStatus('size');
-    tempObj.lookAt(ThreeAPI.getCamera().position);
+    tempObj.quaternion.set(0, 0, 0, 1);
     tempVec3.copy(actor.getPos());
     let startSize = 0.6;
     let endSize = 0.3 + Math.random()*0.8;
@@ -247,6 +259,9 @@ function setupOptsMagicMissile(efct, fromPos, actor, index, onArriveCB, getPosFu
 function setupOptsFireMissile(efct, fromPos, actor, index, onArriveCB, getPosFunc) {
     let distance = MATH.distanceBetween(fromPos, getPosFunc());
     let tempObj = ThreeAPI.tempObj;
+    tempObj.scale.set(1, 1, 1);
+    tempObj.quaternion.set(0, 0, 0, 1);
+
     tempObj.position.copy(fromPos);
     let size = 1 // gamePiece.getStatusByKey('size') || 1;
     tempVec3.copy(actor.getPos());
@@ -277,7 +292,7 @@ function setupOptsFireMissile(efct, fromPos, actor, index, onArriveCB, getPosFun
 function setupOptsFriendlyMissile(efct, fromPos, actor, index, onArriveCB, getPosFunc) {
     let distance = MATH.distanceBetween(fromPos, getPosFunc());
     let tempObj = ThreeAPI.tempObj;
-
+    tempObj.scale.set(1, 1, 1);
     let bone = actor.getVisualGamePiece().getRandomBone();
 
     let bonePos = function() {
@@ -288,7 +303,7 @@ function setupOptsFriendlyMissile(efct, fromPos, actor, index, onArriveCB, getPo
     tempObj.position.copy(actor.getVisualGamePiece().getBoneWorldPosition(bone));
 
     let size = actor.getStatus('size');
-    tempObj.lookAt(ThreeAPI.getCamera().position);
+    tempObj.quaternion.set(0, 0, 0, 1);
     tempVec3.copy(actor.getPos());
 
     let startSize = 0.6;
@@ -319,11 +334,12 @@ function setupOptsFriendlyMissile(efct, fromPos, actor, index, onArriveCB, getPo
 function setupOptsFireBallHit(efct, actor) {
 
     let tempObj = ThreeAPI.tempObj;
+    tempObj.scale.set(1, 1, 1);
     tempObj.position.copy(actor.getPos());
     let size = actor.getStatus('size');
     tempObj.position.y += size*0.8
     ThreeAPI.tempVec3.set(size*0.2, size*0.75, size*0.2)
-    tempObj.lookAt(ThreeAPI.getCamera().position);
+    tempObj.quaternion.set(0, 0, 0, 1);
     MATH.spreadVector(tempObj.position, ThreeAPI.tempVec3)
     efct.quat.copy(tempObj.quaternion);
 
@@ -355,6 +371,7 @@ function setupOptsFireBallHit(efct, actor) {
 
 function setupOptsShockwave(efct, posVec3, fromSize, toSize, duration) {
     let tempObj = ThreeAPI.tempObj;
+    tempObj.scale.set(1, 1, 1);
     tempObj.position.copy(posVec3);
     tempVec3.copy(posVec3);
     tempVec3.y += 10000;
@@ -379,8 +396,9 @@ function setupOptsShockwave(efct, posVec3, fromSize, toSize, duration) {
 function setupOptsMagicHit(efct, actor) {
     let size = actor.getStatus('size');
     let tempObj = ThreeAPI.tempObj;
+    tempObj.scale.set(1, 1, 1);
     tempObj.position.copy(actor.getVisualGamePiece().getCenterMass());
-    tempObj.lookAt(ThreeAPI.getCamera().position);
+    tempObj.quaternion.set(0, 0, 0, 1);
     efct.quat.copy(tempObj.quaternion);
 
     let bone = actor.getVisualGamePiece().getRandomBone();
@@ -420,6 +438,7 @@ function setupOptsMagicHit(efct, actor) {
 
 function setupOptsBoneLingering(efct, actor) {
     let tempObj = ThreeAPI.tempObj;
+    tempObj.scale.set(1, 1, 1);
     let bone = actor.getVisualGamePiece().getRandomBone();
 
     let bonePos = function() {
@@ -427,7 +446,8 @@ function setupOptsBoneLingering(efct, actor) {
     }
 
     tempObj.position.copy(actor.getVisualGamePiece().getBoneWorldPosition(bone));
-    tempObj.lookAt(ThreeAPI.getCamera().position)
+    tempObj.quaternion.set(0, 0, 0, 1);
+//    tempObj.lookAt(ThreeAPI.getCamera().position)
     let size = actor.getStatus('size');
 
 
@@ -454,6 +474,7 @@ function setupOptsBoneLingering(efct, actor) {
 
 function setupOptsBoneToGround(efct, actor) {
     let tempObj = ThreeAPI.tempObj;
+    tempObj.scale.set(1, 1, 1);
     let bone = actor.getVisualGamePiece().getRandomBone();
 
     let bonePos = function() {
@@ -506,10 +527,11 @@ function setupOptsBoneToGround(efct, actor) {
 
 function setupOptsSprayUpwards(efct, actor, applies) {
     let tempObj = ThreeAPI.tempObj;
+    tempObj.scale.set(1, 1, 1);
     tempObj.position.copy(actor.getVisualGamePiece().getCenterMass());
     let size = actor.getStatus('size');
     tempObj.position.y += size*0.5
-    tempObj.lookAt(ThreeAPI.getCamera().position);
+    tempObj.quaternion.set(0, 0, 0, 1);
 
     efct.quat.copy(tempObj.quaternion);
     tempVec3.copy(actor.getPos());
@@ -539,7 +561,7 @@ function setupOptsSprayUpwards(efct, actor, applies) {
 }
 function setupOptsFlames(efct, actor, applies) {
     let tempObj = ThreeAPI.tempObj;
-
+    tempObj.scale.set(1, 1, 1);
     let bone = actor.getVisualGamePiece().getRandomBone();
 
     let bonePos = function() {
@@ -549,7 +571,7 @@ function setupOptsFlames(efct, actor, applies) {
     tempObj.position.copy(bonePos());
     let size = actor.getStatus('size');
     tempObj.position.y += size*0.5
-    tempObj.lookAt(ThreeAPI.getCamera().position);
+    tempObj.quaternion.set(0, 0, 0, 1);
     efct.quat.copy(tempObj.quaternion);
     MATH.randomVector(tempVec3);
     tempVec3.multiplyScalar(MATH.randomBetween(0.2, 0.6)*size);
@@ -578,6 +600,7 @@ function setupOptsFlames(efct, actor, applies) {
 function setupOptsSproutFromGround(efct, posVec3, size) {
 
     let tempObj = ThreeAPI.tempObj;
+    tempObj.scale.set(1, 1, 1);
     tempObj.position.copy(posVec3);
 
     tempObj.position.y = -0.2

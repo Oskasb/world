@@ -2,11 +2,11 @@ import {indicateTurnClose, indicateTurnInit} from "./TurnStateFeedback.js";
 import {Vector3} from "../../../libs/three/math/Vector3.js";
 import {TargetSelector} from "./TargetSelector.js";
 import {viewTargetSelection} from "../../3d/camera/CameraFunctions.js";
-import {AttackSelector} from "./AttackSelector.js";
+import {ActionSelector} from "./ActionSelector.js";
 
 
 let targetSelector = new TargetSelector();
-let attackSelector = new AttackSelector();
+let attackSelector = new ActionSelector();
 
 let tempVec = new Vector3();
 let actorTurnSequencer = null;
@@ -69,6 +69,8 @@ function updateActorEvaluateTarget(tpf) {
     getSequencer().advanceSequenceTime(tpf * 0.75);
 }
 
+let availableActions = ["ACTION_FIREBALL", "ACTION_MAGIC_MISSILE", "ACTION_FREEZE_BOLT", "ACTION_HEAL_BOLT"]
+
 function updateActorSelectAttack(tpf) {
 
     let actor = getSequencer().getGameActor()
@@ -77,20 +79,21 @@ function updateActorSelectAttack(tpf) {
     evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:actor.getPos(), to:getSequencer().getTargetActor().getPos(), color:'RED'});
 
     if (seqTime === 0) {
-        getSequencer().selectedAttack = attackSelector.selectActorAttack(actor)
+        getSequencer().selectedAttack = attackSelector.selectActorAction(actor, availableActions)
     }
 
+    let attack = getSequencer().selectedAttack;
+    let holdTime = attack.getStepDuration('selected')
 
+    if (seqTime > holdTime) {
 
-    if (seqTime > 1) {
-        let attack = getSequencer().selectedAttack;
         attack.call.advanceState();
         GameAPI.unregisterGameUpdateCallback(updateActorSelectAttack)
         getSequencer().call.stateTransition()
         tpf = 0;
     }
 
-    getSequencer().advanceSequenceTime(tpf * 0.75);
+    getSequencer().advanceSequenceTime(tpf);
 }
 
 
@@ -100,12 +103,12 @@ function updateActorApplyAttack(tpf) {
     let target = getSequencer().getTargetActor();
     let seqTime = getSequencer().getSequenceTime()
 
-
-    let attack = getSequencer().selectedAttack;
-
     indicateTurnInit(actor, seqTime)
 
-    if (seqTime > 1) {
+    let attack = getSequencer().selectedAttack;
+    let holdTime = attack.getStepDuration('precast')
+
+    if (seqTime > holdTime) {
 
         GameAPI.unregisterGameUpdateCallback(updateActorApplyAttack)
 

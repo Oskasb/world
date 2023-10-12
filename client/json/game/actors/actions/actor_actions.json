@@ -1,0 +1,58 @@
+[{
+  "GAME_ACTORS":{
+    "ACTIONS":[
+      {
+        "id":"ACTION_FIREBALL",
+        "data":{
+          "visual_action": "VISUAL_FIREBALL",
+          "sequencing": {
+            "selected":{"time": 0.5},
+            "precast":{"time": 0.45},
+            "active":{"time": 0.2},
+            "apply":{"time": 0.25},
+            "post_hit":{"time": 0.15}
+          }
+        }
+      },
+      {
+        "id":"ACTION_MAGIC_MISSILE",
+        "data":{
+          "visual_action": "VISUAL_MAGIC_MISSILE",
+          "sequencing": {
+            "selected":{"time": 0.5},
+            "precast":{"time": 0.45},
+            "active":{"time": 0.2},
+            "apply":{"time": 0.25},
+            "post_hit":{"time": 0.15}
+          }
+        }
+      },
+      {
+        "id":"ACTION_FREEZE_BOLT",
+        "data":{
+          "visual_action": "VISUAL_FREEZE_BOLT",
+          "sequencing": {
+            "selected":{"time": 0.5},
+            "precast":{"time": 0.35},
+            "active":{"time": 0.3},
+            "apply":{"time": 0.04},
+            "post_hit":{"time": 0.35}
+          }
+        }
+      },
+      {
+        "id":"ACTION_HEAL_BOLT",
+        "data":{
+          "visual_action": "VISUAL_HEAL_BOLT",
+          "sequencing": {
+            "selected":{"time": 0.5},
+            "precast":{"time": 0.45},
+            "active":{"time": 0.2},
+            "apply":{"time": 0.25},
+            "post_hit":{"time": 0.15}
+          }
+        }
+      }
+    ]
+  }
+}]
