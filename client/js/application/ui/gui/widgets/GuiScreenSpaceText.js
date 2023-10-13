@@ -25,7 +25,7 @@ class GuiScreenSpaceText {
             textElement.recoverTextElement();
         }.bind(this)
 
-        let updateProgress = function(tpf, time) {
+        let updateProgress = function(tpf) {
             this.time += tpf;
             textProgress = MATH.calcFraction(0, duration, this.time);
             positionFunction(this, textProgress);
@@ -110,11 +110,11 @@ class GuiScreenSpaceText {
     };
 
     activateScreenSpaceText = function() {
-        GuiAPI.addGuiUpdateCallback(this.callbacks.updateProgress);
+        ThreeAPI.addPrerenderCallback(this.callbacks.updateProgress);
     };
 
     deactivateScreenSpaceText = function() {
-        GuiAPI.removeGuiUpdateCallback(this.callbacks.updateProgress);
+        ThreeAPI.unregisterPrerenderCallback(this.callbacks.updateProgress);
     };
 
 

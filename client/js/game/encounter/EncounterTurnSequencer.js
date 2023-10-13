@@ -32,6 +32,7 @@ class EncounterTurnSequencer {
     }
 
     addEncounterActor(actor) {
+        actor.setStatusKey('hp', actor.getStatus('maxHP'))
         this.actors.push(actor);
     }
 

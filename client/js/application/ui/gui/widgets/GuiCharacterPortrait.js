@@ -12,7 +12,7 @@ class GuiCharacterPortrait {
             this.container = this.portraitContainer;
             this.guiWidget = button.guiWidget;
             this.portraitStatusGui.initPortraitStatusGui(actor, button);
-            GuiAPI.addGuiUpdateCallback(this.portraitStatusGui.callbacks.updateCharStatGui)
+            ThreeAPI.addPrerenderCallback(this.portraitStatusGui.callbacks.updateCharStatGui)
             onReady(this)
         }.bind(this)
 
@@ -74,7 +74,7 @@ class GuiCharacterPortrait {
     }
 
     closeCharacterPortrait() {
-        GuiAPI.removeGuiUpdateCallback(this.portraitStatusGui.callbacks.updateCharStatGui)
+        ThreeAPI.unregisterPrerenderCallback(this.portraitStatusGui.callbacks.updateCharStatGui)
         this.guiWidget.recoverGuiWidget()
     }
 

@@ -19,8 +19,8 @@ class PortraitStatusGui {
         this.tempVec3b = new THREE.Vector3();
         this.attackPointElements = [];
         this.actionPointElements = [];
-        let updateCharStatGui = function() {
-              this.updateCharacterStatElement();
+        let updateCharStatGui = function(tpf) {
+              this.updateCharacterStatElement(tpf);
         }.bind(this);
 
         this.callbacks = {
@@ -211,7 +211,7 @@ class PortraitStatusGui {
         }
     }
 
-    updateCharacterStatElement() {
+    updateCharacterStatElement(tpf) {
         this.portraitMinXY.copy(this.container.guiWidget.guiSurface.minXY)
         this.portraitMaxXY.copy(this.container.guiWidget.guiSurface.maxXY)
         this.potraitCenter.copy(this.container.guiWidget.guiSurface.centerXY);
