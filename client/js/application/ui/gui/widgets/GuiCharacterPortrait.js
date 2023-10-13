@@ -54,6 +54,10 @@ class GuiCharacterPortrait {
 
             evt.dispatch(ENUMS.Event.BUILD_GUI_ELEMENT, contopts)
 
+        this.call = {
+            isActive:isActive
+        }
+
     }
 
     updatePortraitInteractiveState() {

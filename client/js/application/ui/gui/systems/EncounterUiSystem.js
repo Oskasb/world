@@ -8,12 +8,14 @@ let encounterTurnSequencer = null;
 let actors = null;
 let portraits = []
 
+let selectedActor = null;
+
 function debugDrawActorIndex(actor, index) {
     actor.setStatusKey('hp', Math.ceil(Math.random() * actor.getStatus('maxHP')))
    // actor.actorText.pieceTextPrint(""+index)
 }
 let testActive = function(actor) {
-    if (actor.getStatus('has_turn')) {
+    if (actor.getStatus('is_selected')) {
         return true;
     } else {
         return false;
@@ -21,6 +23,11 @@ let testActive = function(actor) {
 }
 
 let onActivate = function(actor) {
+    if (selectedActor) {
+        selectedActor.setStatusKey('is_selected', false)
+    }
+    selectedActor = actor;
+    actor.setStatusKey('is_selected', true)
     console.log("Button Pressed, onActivate:", actor)
 }
 

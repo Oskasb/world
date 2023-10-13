@@ -40,6 +40,7 @@ class GuiSurface {
 
         updateInterativeState = function() {
             this.interactiveElement.applyActiveState();
+            // this.applyStateFeedback()
         };
 
         setFeedbackConfigId = function(feedbackConfigId) {
