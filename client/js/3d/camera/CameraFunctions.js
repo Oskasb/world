@@ -102,7 +102,7 @@ function viewPrecastAction(sequencer, target) {
 
     if (actor.isPlayerActor()) {
         calcShouldCamPosition(actor, 3, tempVec);
-        tempVec2.copy(target.getPos())
+        tempVec2.copy(target.getVisualGamePiece().getCenterMass())
 
     } else {
         let distance = MATH.distanceBetween(actor.getPos(), target.getPos())
