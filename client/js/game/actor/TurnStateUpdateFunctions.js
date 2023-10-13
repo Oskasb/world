@@ -43,6 +43,7 @@ function updateActorTargetSelect(tpf) {
     if (seqTime > 1) {
         let targetActor = targetSelector.selectActorEncounterTarget(actor, candidates)
         getSequencer().setTargetActor(targetActor);
+        targetActor.actorText.say('I am target')
         GameAPI.unregisterGameUpdateCallback(updateActorTargetSelect)
         getSequencer().call.stateTransition()
         tpf = 0;

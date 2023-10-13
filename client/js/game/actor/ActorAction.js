@@ -45,6 +45,7 @@ let activateAttackStateTransition = function(attack) {
     attack.stepProgress = 0;
     let stateIndex = attack.attackStateIndex;
     let stateKey = attackStateKeys[stateIndex]
+//    attack.actor.actorText.say(stateKey)
     let funcName = attackStateMap[stateKey].updateFunc
     attack.updateFunc = attack.call[funcName];
     attack.attackStateIndex++;
@@ -147,6 +148,7 @@ class ActorAction {
         this.sequencing = this.readActionConfig('sequencing')
 
         this.visualAction.setActorAction(this, visualActionKey);
+        actor.actorText.say(actionKey)
         this.call.advanceState();
         GameAPI.registerGameUpdateCallback(this.call.updateAttack);
     }

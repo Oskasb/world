@@ -157,13 +157,18 @@ if(typeof(MATH) === "undefined") {
         }
     };
 
-	var all;
 	MATH.callAll = function(array, arg1, arg2, arg3, arg4, arg5) {
-		for (all = 0; all < array.length; all++) {
+		for (let all = 0; all < array.length; all++) {
 			array[all](arg1, arg2, arg3, arg4, arg5);
 		}
 	};
 
+
+	MATH.forAll = function(array, func, arg1, arg2, arg3, arg4, arg5) {
+		for (let all = 0; all < array.length; all++) {
+			func(array[all], arg1, arg2, arg3, arg4, arg5);
+		}
+	};
 
 	MATH.callAndClearAll = function(array, arg1, arg2, arg3, arg4, arg5) {
 		while(array.length) {

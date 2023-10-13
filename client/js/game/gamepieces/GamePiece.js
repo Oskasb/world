@@ -9,7 +9,7 @@ import { MovementPath } from "../piece_functions/MovementPath.js";
 import { PieceState } from "./PieceState.js";
 import { PieceAbilitySystem } from "./PieceAbilitySystem.js";
 import { PieceInfoGui } from "../../application/ui/gui/game/PieceInfoGui.js";
-import { PieceText } from "../../application/ui/gui/game/PieceText.js";
+import { ActorText } from "../../application/ui/gui/game/ActorText.js";
 import { CompanionSystem } from "../companion/CompanionSystem.js";
 import * as PieceEffects from "./feedback/PieceEffects.js";
 
@@ -32,7 +32,7 @@ class GamePiece {
 
         this.combatSystem = new CombatSystem(this);
         this.threatDetector = new ThreatDetector(this);
-        this.pieceText = new PieceText(this);
+        this.pieceText = new ActorText(this);
         this.pieceAnimator = new PieceAnimator();
         this.pieceAttacher = new PieceAttacher();
         this.modelInstance = null;

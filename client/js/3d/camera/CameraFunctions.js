@@ -80,7 +80,7 @@ function viewTargetSelection(sequencer, candidates) {
 }
 
 let calcAttackCamPosition = function(actor, distance, storeVec) {
-    storeVec.set(side * 0.5, 0.4, -0.2);
+    storeVec.set(side * 0.5, 0.4, -0.5);
     storeVec.normalize();
     storeVec.multiplyScalar(distance);
     storeVec.applyQuaternion(actor.getVisualGamePiece().getQuat())
@@ -106,9 +106,9 @@ function viewPrecastAction(sequencer, target) {
 
     } else {
         let distance = MATH.distanceBetween(actor.getPos(), target.getPos())
-        calcAttackCamPosition(actor, distance * 2 + 4, tempVec);
+        calcAttackCamPosition(actor, distance * 2 + 6, tempVec);
         tempVec2.subVectors(target.getPos(), actor.getPos())
-        tempVec2.multiplyScalar(0.4);
+        tempVec2.multiplyScalar(0.5);
         tempVec2.add(actor.getPos())
     }
 

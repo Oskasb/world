@@ -2,19 +2,27 @@ import { GuiScreenSpaceText } from "../widgets/GuiScreenSpaceText.js";
 import { Vector3 } from "../../../../../libs/three/math/Vector3.js";
 let tempVec1 = new Vector3();
 let tempVec2 = new Vector3();
-class PieceText {
-    constructor(gamePiece) {
-        this.gamePiece = gamePiece;
+let tempVec3 = new Vector3()
+class ActorText {
+    constructor(actor) {
+        this.actor = actor;
 
         let txtOrigin = new Vector3();
 
         let getTextOrigin = function() {
-            ThreeAPI.tempVec3.copy(gamePiece.getAboveHead(0.15));
-            ThreeAPI.toScreenPosition(ThreeAPI.tempVec3, txtOrigin)
+            tempVec3.copy(actor.getVisualGamePiece().getAboveHead(0.15));
+            ThreeAPI.toScreenPosition(tempVec3, txtOrigin)
             GuiAPI.applyAspectToScreenPosition(txtOrigin, txtOrigin);
             return txtOrigin;
         }
 
+        let getSayTextPosition = function(progress, offsetVec3) {
+            let pos = getTextOrigin();
+            //      pos.x += MATH.curveSqrt(progress) *offsetVec3.x - offsetVec3.x*0.5;
+            pos.y += progress*(Math.cos(progress*1.5)) * offsetVec3.y;
+            pos.z = 0 // MATH.curveQuad(progress) * offsetVec3.z;
+            return pos;
+        }
         let getDamageTextPosition = function(progress, offsetVec3) {
             let pos = getTextOrigin();
             pos.x += MATH.curveSqrt(progress) *offsetVec3.x - offsetVec3.x*0.3;
@@ -33,6 +41,7 @@ class PieceText {
 
         this.call = {
             getTextOrigin:getTextOrigin,
+            getSayTextPosition:getSayTextPosition,
             getDamageTextPosition:getDamageTextPosition,
             getHealTextPosition:getHealTextPosition
         }
@@ -46,6 +55,24 @@ class PieceText {
             tPosOffset: new Vector3(0.04, 0.06, 1.7)
         };
 
+        let confSay = {
+            sprite_font: "sprite_font_debug",
+            feedback: "feedback_text_red",
+            rgba:  {r:1.2, g:1.2, b:-0.3, a:1},
+            lutColor:ENUMS.ColorCurve.warmFire,
+            textLayout: {"x": 0.5, "y": 0.5, "fontsize": 6},
+            tPosOffset: new Vector3(0.04, 0.08, 1.7)
+        };
+
+        let confYell = {
+            sprite_font: "sprite_font_debug",
+            feedback: "feedback_text_red",
+            rgba:  {r:1.0, g:0.55, b:-0.9, a:1},
+            lutColor:ENUMS.ColorCurve.warmFire,
+            textLayout: {"x": 0.5, "y": 0.5, "fontsize": 8},
+            tPosOffset: new Vector3(0.04, 0.05, 1.7)
+        };
+
         let confHeal = {
             sprite_font: "sprite_font_debug",
             feedback: "feedback_text_red",
@@ -57,8 +84,8 @@ class PieceText {
 
         this.messageMap = {};
 
-        this.messageMap[ENUMS.Message.SAY]                      = {getPos:this.call.getTextOrigin, config:conf};
-        this.messageMap[ENUMS.Message.YELL]                     = {getPos:this.call.getTextOrigin, config:conf};
+        this.messageMap[ENUMS.Message.SAY]                      = {getPos:this.call.getSayTextPosition, config:confSay};
+        this.messageMap[ENUMS.Message.YELL]                     = {getPos:this.call.getSayTextPosition, config:confYell};
         this.messageMap[ENUMS.Message.WHISPER]                  = {getPos:this.call.getTextOrigin, config:conf};
         this.messageMap[ENUMS.Message.DAMAGE_NORMAL_TAKEN]      = {getPos:this.call.getDamageTextPosition, config:conf};
         this.messageMap[ENUMS.Message.DAMAGE_NORMAL_DONE]       = {getPos:this.call.getDamageTextPosition, config:conf};
@@ -72,7 +99,10 @@ class PieceText {
 
     pieceTextPrint(string, messageType, duration) {
         let messageMap = this.messageMap;
-        messageType = messageType || ENUMS.Message.DAMAGE_NORMAL_TAKEN;
+
+        if (typeof (messageType) === 'undefined') {
+            messageType = ENUMS.Message.DAMAGE_NORMAL_TAKEN;
+        }
 
         let conf = messageMap[messageType].config;
         let rgba = conf.rgba || {r:1, g:0.3, b:0.1, a:1}
@@ -100,23 +130,26 @@ class PieceText {
 
         let screenSpaceText = new GuiScreenSpaceText()
 
-
-
         screenSpaceText.initScreenSpaceText(onReady, conf, duration);
 
-        MATH.randomVector(ThreeAPI.tempVec3);
-        ThreeAPI.tempVec3.multiply(conf.tPosOffset);
-        ThreeAPI.tempVec3.x = Math.sin(GameAPI.getGameTime() * 9+Math.random()*0.6 + this.gamePiece.pieceIndex)*conf.tPosOffset.x;
-        ThreeAPI.tempVec3.y = conf.tPosOffset.y+Math.abs(Math.cos(GameAPI.getGameTime()*48 + this.gamePiece.pieceIndex)*conf.tPosOffset.y);
-        ThreeAPI.tempVec3.z = 0 // Math.cos(GameAPI.getGameTime())*conf.tPosOffset.z;
-        screenSpaceText.setTransitionTargetPositionOffset(ThreeAPI.tempVec3);
+        MATH.randomVector(tempVec3);
+        tempVec3.multiply(conf.tPosOffset);
+        tempVec3.x = Math.sin(GameAPI.getGameTime() * 9+Math.random()*0.6 + this.actor.index)*conf.tPosOffset.x;
+        tempVec3.y = conf.tPosOffset.y+Math.abs(Math.cos(GameAPI.getGameTime()*48 + this.actor.index)*conf.tPosOffset.y);
+        tempVec3.z = 0 // Math.cos(GameAPI.getGameTime())*conf.tPosOffset.z;
+        screenSpaceText.setTransitionTargetPositionOffset(tempVec3);
     }
 
-    updatePieceTexts(tpf, gameTime) {
-
+    say(string) {
+        this.pieceTextPrint(string, ENUMS.Message.SAY, 4)
     }
+
+    yell(string) {
+        this.pieceTextPrint(string, ENUMS.Message.YELL, 4)
+    }
+
 }
 
 
 
-export {PieceText}
+export {ActorText}

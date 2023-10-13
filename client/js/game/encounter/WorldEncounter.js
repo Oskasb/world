@@ -7,6 +7,7 @@ import {parseConfigDataKey} from "../../application/utils/ConfigUtils.js";
 let tempVec = new Vector3()
 let calcVec = new Vector3()
 
+
 let radiusEvent = {
 
 }
@@ -51,6 +52,8 @@ let indicateTriggerTime = function(actor, encounter) {
 function checkTriggerPlayer(encounter) {
 
     let selectedActor = GameAPI.getGamePieceSystem().getSelectedGameActor();
+    let hostActor = encounter.visualEncounterHost.call.getActor();
+    if (!hostActor) return;
 
     if (selectedActor) {
         let radius = encounter.config.trigger_radius;
@@ -58,10 +61,22 @@ function checkTriggerPlayer(encounter) {
 
         if (distance < radius * 2) {
             indicateTriggerRadius(encounter);
+
+            if (encounter.timeInsideProximity === 0) {
+                hostActor.actorText.say("Get closer if you dare")
+            }
+
+            encounter.timeInsideProximity += GameAPI.getFrame().tpf
+        } else {
+            encounter.timeInsideProximity = 0;
         }
 
         if (distance < radius) {
             if (encounter.timeInsideTrigger === 0) {
+
+
+                hostActor.actorText.yell("This is it")
+
                 selectedActor.getGameWalkGrid().setTargetPosition(encounter.getPos())
                 selectedActor.getGameWalkGrid().cancelActivePath()
                 evt.dispatch(ENUMS.Event.SET_CAMERA_MODE, {mode:'activate_encounter', pos:encounter.getPos(), camPos:encounter.getTriggeredCameraHome()})
@@ -88,6 +103,7 @@ class WorldEncounter {
     constructor(config, onReady) {
 
         this.timeInsideTrigger = 0;
+        this.timeInsideProximity = 0;
         this.config = config;
         this.camHomePos = new Vector3();
         this.obj3d = new Object3D();

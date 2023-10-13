@@ -4,11 +4,16 @@ import { Vector3 } from "../../../libs/three/math/Vector3.js";
 import { poolFetch, poolReturn } from "../../application/utils/PoolUtils.js";
 import { ActorTurnSequencer } from "./ActorTurnSequencer.js";
 import {ActorStatus} from "./ActorStatus.js";
+import { ActorText } from "../../application/ui/gui/game/ActorText.js";
 
+let index = 0;
 let tempVec = new Vector3();
 
 class GameActor {
     constructor(config) {
+        this.index = index;
+        index++;
+        this.actorText = new ActorText(this);
         this.actorStatus = new ActorStatus();
         this.activated = false;
         this.actorObj3d = new Object3D();

@@ -1,7 +1,9 @@
 import { EncounterGrid } from "./encounter/EncounterGrid.js";
 import { DynamicEncounter } from "./encounter/DynamicEncounter.js";
 import {EncounterTurnSequencer} from "./encounter/EncounterTurnSequencer.js";
+import {EncounterUiSystem} from "../application/ui/gui/systems/EncounterUiSystem.js";
 
+let encounterUiSystem = new EncounterUiSystem();
 let encounterTurnSequencer = null;
 let activeEncounterGrid = null;
 let dynamicEncounter = null;
@@ -75,6 +77,7 @@ class GameEncounterSystem {
                 dynamicEncounter = new DynamicEncounter()
                 dynamicEncounter.setEncounterGrid(grid);
 
+
                     if (event.spawn) {
                         dynamicEncounter.processSpawnEvent(event.spawn)
                     } else {
@@ -87,6 +90,8 @@ class GameEncounterSystem {
                     }
                 //let selectedActor = GameAPI.getGamePieceSystem().getSelectedGameActor();
                 encounterTurnSequencer.addEncounterActor(GameAPI.getGamePieceSystem().getSelectedGameActor());
+                encounterUiSystem.setEncounterSequencer(encounterTurnSequencer)
+
             }
 
             encounterGrid.initEncounterGrid(event['grid_id'], event.pos, gridReady )
@@ -109,7 +114,7 @@ class GameEncounterSystem {
         }
 
         encounterTurnSequencer.closeTurnSequencer();
-
+        encounterUiSystem.closeEncounterUi()
         GameAPI.unregisterGameUpdateCallback(this.call.updateEncounterSystem)
         GameAPI.call.spawnWorldEncounters();
     }

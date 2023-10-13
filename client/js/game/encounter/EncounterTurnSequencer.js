@@ -27,6 +27,10 @@ class EncounterTurnSequencer {
 
     }
 
+    getSequencerActors() {
+        return this.actors;
+    }
+
     addEncounterActor(actor) {
         this.actors.push(actor);
     }
@@ -40,7 +44,6 @@ class EncounterTurnSequencer {
                 actorList.push(encActor);
             }
         }
-
     }
 
     updateTurnSequencer() {
