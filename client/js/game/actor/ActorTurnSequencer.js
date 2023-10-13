@@ -86,11 +86,11 @@ class ActorTurnSequencer {
         activateStateTransition(this)
     }
 
-    advanceSequenceTime(timeProgress) {
+    advanceSequenceProgress(timeProgress) {
         this.stepProgress += timeProgress;
     }
 
-    getSequenceTime() {
+    getSequenceProgress() {
         return this.stepProgress;
     }
 

@@ -65,9 +65,6 @@ function turnApplyAttack(actor, turnIndex) {
 function turnTileSelect(actor, turnIndex) {
     let sequencer = actor.actorTurnSequencer
     actor.activateWalkGrid();
-    let camHome = GameAPI.call.getActiveEncounter().getEncounterCameraHomePosition()
-    sequencer.focusAtObj3d.position.copy(actor.getObj3d().position)
-    evt.dispatch(ENUMS.Event.SET_CAMERA_MODE, {mode:'actor_turn_movement', obj3d:sequencer.focusAtObj3d, camPos:camHome})
     if (turnIndex === nullTurn) {
         //    targetPos = actor.getGameWalkGrid().getTargetPosition()
     } else {
@@ -79,8 +76,6 @@ function turnTileSelect(actor, turnIndex) {
 
 function turnMove(actor, turnIndex) {
     let sequencer = actor.actorTurnSequencer
-    let camHome = GameAPI.call.getActiveEncounter().getEncounterCameraHomePosition()
-    //    evt.dispatch(ENUMS.Event.SET_CAMERA_MODE, {mode:'actor_turn_movement', obj3d:actor.getObj3d(), camPos:camHome})
     let targetPos = actor.getGameWalkGrid().getTargetPosition()
     actor.moveActorOnGridTo(targetPos, sequencer.call.stateTransition)
 }

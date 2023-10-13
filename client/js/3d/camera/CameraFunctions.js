@@ -4,20 +4,62 @@ let tempVec = new Vector3();
 let tempVec2 = new Vector3();
 let camTargetPos = new Vector3();
 
-function viewTargetSelection(sequencer, candidates) {
-    let actor = sequencer.getGameActor()
-    let seqTime = sequencer.getSequenceTime()
+let side = 1;
+let leftOrRight = [1, -1]
 
-    tempVec2.set(0, 0, 0)
-    for (let i = 0; i < candidates.length; i++) {
-        tempVec.copy(candidates[i].getPos())
-        evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:actor.getPos(), to:tempVec, color:'YELLOW'});
-        tempVec.sub(actor.getPos());
-        tempVec2.add(tempVec);
+function viewTileSelect(sequencer) {
+    let actor = sequencer.getGameActor()
+    let seqTime = sequencer.getSequenceProgress()
+
+    let camHome = GameAPI.call.getActiveEncounter().getEncounterCameraHomePosition()
+    camTargetPos.copy(camHome)
+
+    if (seqTime === 0) {
+        side = MATH.getRandomArrayEntry(leftOrRight)
+        evt.dispatch(ENUMS.Event.SET_CAMERA_MODE, {mode:'actor_turn_movement', obj3d:sequencer.focusAtObj3d, camPos:camTargetPos})
     }
 
-    tempVec2.multiplyScalar((seqTime*0.95+0.05) / candidates.length);
+    tempVec.subVectors(actor.getGameWalkGrid().getTargetPosition() , actor.getPos() )
+
+    tempVec.multiplyScalar(seqTime);
+    let distance = tempVec.length();
+    camTargetPos.y += distance;
+    tempVec2.copy(tempVec)
+    tempVec.add(actor.getPos())
+
+    actor.prepareTilePath(tempVec)
+
+    tempVec2.multiplyScalar(0.5);
+    tempVec2.add(actor.getPos())
+    sequencer.focusAtObj3d.position.copy(tempVec2)
+
+}
+
+function viewTargetSelection(sequencer, candidates) {
+    let actor = sequencer.getGameActor()
+    let seqTime = sequencer.getSequenceProgress()
+
+    tempVec2.set(0, 0, 0)
+    let biggestDistance = MATH.distanceBetween(actor.getPos(), candidates[0].getPos());
+    let distance = 0;
+    for (let i = 0; i < candidates.length; i++) {
+        tempVec.copy(candidates[i].getPos())
+
+        evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:actor.getPos(), to:tempVec, color:'YELLOW'});
+        tempVec.sub(actor.getPos());
+        distance = tempVec.length();
+
+        if (biggestDistance < distance) {
+            biggestDistance = distance;
+        }
+
+        tempVec2.add(tempVec);
+    }
+    distance = biggestDistance;
+
     tempVec.copy(tempVec2);
+
+    tempVec2.multiplyScalar((seqTime*0.45+0.05) / candidates.length);
     tempVec2.add(actor.getPos());
 
     actor.turnTowardsPos(tempVec2)
@@ -25,34 +67,28 @@ function viewTargetSelection(sequencer, candidates) {
     evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:actor.getPos(), to:tempVec2, color:'WHITE'});
     evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:tempVec2, color:'WHITE', size:0.25})
     sequencer.focusAtObj3d.position.copy(tempVec2);
-    // indicateTurnClose(actor, seqTime)
     sequencer.focusAtObj3d.position.y -=0.5;
-    
-    camTargetPos.copy(tempVec);
-    camTargetPos.y = 0;
-    camTargetPos.normalize()
-    camTargetPos.multiplyScalar(-7);
+
 
     let camHome = GameAPI.call.getActiveEncounter().getEncounterCameraHomePosition()
-//    tempVec.copy(camHome);
-//    tempVec.sub(actor.getPos());
-//    tempVec.multiplyScalar(0.5);
-    camTargetPos.y +=6;
 
-    calcShouldCamPosition(actor, 12-8*seqTime, camTargetPos);
+    calcAttackCamPosition(actor, distance*2 + 4, camTargetPos);
     camTargetPos.lerp(camHome,1-MATH.curveSigmoid(seqTime));
-    camTargetPos.y += Math.sin(seqTime * Math.PI)*5
-    // camTargetPos.add(tempVec)
+   // camTargetPos.y += Math.sin(seqTime * Math.PI*0.5)*5
 
-    if (seqTime === 0) {
-
-        evt.dispatch(ENUMS.Event.SET_CAMERA_MODE, {mode:'actor_turn_movement', obj3d:sequencer.focusAtObj3d, camPos:camTargetPos})
-    }
 
 }
 
+let calcAttackCamPosition = function(actor, distance, storeVec) {
+    storeVec.set(side * 0.5, 0.4, -0.2);
+    storeVec.normalize();
+    storeVec.multiplyScalar(distance);
+    storeVec.applyQuaternion(actor.getVisualGamePiece().getQuat())
+    storeVec.add(actor.getVisualGamePiece().getCenterMass())
+}
+
 let calcShouldCamPosition = function(actor, distance, storeVec) {
-    storeVec.set(0.1, 0.3, -0.6);
+    storeVec.set(side * 0.12, 0.3, -0.6);
     storeVec.normalize();
     storeVec.multiplyScalar(distance);
     storeVec.applyQuaternion(actor.getVisualGamePiece().getQuat())
@@ -61,21 +97,28 @@ let calcShouldCamPosition = function(actor, distance, storeVec) {
 
 function viewPrecastAction(sequencer, target) {
 
-    let seqTime = sequencer.getSequenceTime()
+    let seqTime = sequencer.getSequenceProgress()
     let actor = sequencer.getGameActor()
-    calcShouldCamPosition(actor, 4-2*seqTime, camTargetPos);
 
-    if (seqTime === 0) {
-        sequencer.focusAtObj3d.position.copy(target.getVisualGamePiece().getPos())
-        sequencer.focusAtObj3d.position.y -=0.5;
+    if (actor.isPlayerActor()) {
+        calcShouldCamPosition(actor, 3, tempVec);
+        tempVec2.copy(target.getPos())
 
-        evt.dispatch(ENUMS.Event.SET_CAMERA_MODE, {mode:'actor_turn_movement', obj3d:sequencer.focusAtObj3d, camPos:camTargetPos})
+    } else {
+        let distance = MATH.distanceBetween(actor.getPos(), target.getPos())
+        calcAttackCamPosition(actor, distance * 2 + 4, tempVec);
+        tempVec2.subVectors(target.getPos(), actor.getPos())
+        tempVec2.multiplyScalar(0.4);
+        tempVec2.add(actor.getPos())
     }
 
+    sequencer.focusAtObj3d.position.lerp(tempVec2, seqTime)
+    camTargetPos.lerp(tempVec, seqTime)
 
 }
 
 export {
+    viewTileSelect,
     viewTargetSelection,
     viewPrecastAction
 }

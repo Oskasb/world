@@ -1,7 +1,7 @@
 import {indicateTurnClose, indicateTurnInit} from "./TurnStateFeedback.js";
 import {Vector3} from "../../../libs/three/math/Vector3.js";
 import {TargetSelector} from "./TargetSelector.js";
-import {viewTargetSelection, viewPrecastAction} from "../../3d/camera/CameraFunctions.js";
+import {viewTargetSelection, viewPrecastAction, viewTileSelect} from "../../3d/camera/CameraFunctions.js";
 import {ActionSelector} from "./ActionSelector.js";
 
 
@@ -9,6 +9,7 @@ let targetSelector = new TargetSelector();
 let attackSelector = new ActionSelector();
 
 let tempVec = new Vector3();
+let tempVec2 = new Vector3();
 let actorTurnSequencer = null;
 function setSequencer(sequencer) {
     actorTurnSequencer = sequencer;
@@ -20,7 +21,7 @@ function getSequencer() {
 
 function updateActorInit(tpf) {
     let actor = getSequencer().getGameActor()
-    let seqTime = getSequencer().getSequenceTime()
+    let seqTime = getSequencer().getSequenceProgress()
     indicateTurnInit(actor, seqTime)
 
     if (seqTime > 1) {
@@ -28,13 +29,13 @@ function updateActorInit(tpf) {
         getSequencer().call.stateTransition()
         tpf = 0;
     }
-    getSequencer().advanceSequenceTime(tpf*2);
+    getSequencer().advanceSequenceProgress(tpf*2);
 }
 
 function updateActorTargetSelect(tpf) {
 
     let actor = getSequencer().getGameActor()
-    let seqTime = getSequencer().getSequenceTime()
+    let seqTime = getSequencer().getSequenceProgress()
     let candidates = targetSelector.getActorEncounterTargetCandidates(actor)
 
     viewTargetSelection(getSequencer(), candidates)
@@ -42,31 +43,31 @@ function updateActorTargetSelect(tpf) {
     if (seqTime > 1) {
         let targetActor = targetSelector.selectActorEncounterTarget(actor, candidates)
         getSequencer().setTargetActor(targetActor);
-        getSequencer().focusAtObj3d.position.copy(targetActor.getPos());
         GameAPI.unregisterGameUpdateCallback(updateActorTargetSelect)
         getSequencer().call.stateTransition()
         tpf = 0;
     }
-    getSequencer().advanceSequenceTime(tpf*0.7);
+    getSequencer().advanceSequenceProgress(tpf*0.7);
 }
 
 
 function updateActorEvaluateTarget(tpf) {
 
     let actor = getSequencer().getGameActor()
-    let seqTime = getSequencer().getSequenceTime()
+    let seqTime = getSequencer().getSequenceProgress()
 
     actor.turnTowardsPos(getSequencer().getTargetActor().getPos())
 
     evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:actor.getPos(), to:getSequencer().getTargetActor().getPos(), color:'WHITE'});
-
+    let target = getSequencer().getTargetActor();
+    viewPrecastAction(getSequencer(), target)
     if (seqTime > 1) {
         GameAPI.unregisterGameUpdateCallback(updateActorEvaluateTarget)
         getSequencer().call.stateTransition()
         tpf = 0;
     }
 
-    getSequencer().advanceSequenceTime(tpf * 0.75);
+    getSequencer().advanceSequenceProgress(tpf * 0.75);
 }
 
 let availableActions = ["ACTION_FIREBALL", "ACTION_MAGIC_MISSILE", "ACTION_FREEZE_BOLT", "ACTION_HEAL_BOLT"]
@@ -74,7 +75,7 @@ let availableActions = ["ACTION_FIREBALL", "ACTION_MAGIC_MISSILE", "ACTION_FREEZ
 function updateActorSelectAttack(tpf) {
 
     let actor = getSequencer().getGameActor()
-    let seqTime = getSequencer().getSequenceTime()
+    let seqTime = getSequencer().getSequenceProgress()
 
     evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:actor.getPos(), to:getSequencer().getTargetActor().getPos(), color:'RED'});
 
@@ -98,7 +99,7 @@ function updateActorSelectAttack(tpf) {
         tpf = 0;
     }
 
-    getSequencer().advanceSequenceTime(tpf);
+    getSequencer().advanceSequenceProgress(tpf);
 }
 
 
@@ -106,7 +107,7 @@ function updateActorApplyAttack(tpf) {
 
     let actor = getSequencer().getGameActor()
     let target = getSequencer().getTargetActor();
-    let seqTime = getSequencer().getSequenceTime()
+    let seqTime = getSequencer().getSequenceProgress()
 
     indicateTurnInit(actor, seqTime)
 
@@ -123,34 +124,27 @@ function updateActorApplyAttack(tpf) {
         tpf = 0;
     }
 
-    getSequencer().advanceSequenceTime(tpf * 1.5);
+    getSequencer().advanceSequenceProgress(tpf * 1.5);
 
 }
 
 function updateActorTileSelect(tpf) {
 //    indicateTurnClose(initActor, initTime)
     let actor = getSequencer().getGameActor()
-    let seqTime = getSequencer().getSequenceTime()
-
-    tempVec.subVectors(actor.getGameWalkGrid().getTargetPosition() , actor.getPos() )
-
-    tempVec.multiplyScalar(seqTime);
-    tempVec.add(actor.getPos())
-
-    actor.prepareTilePath(tempVec)
-    getSequencer().focusAtObj3d.position.copy(tempVec)
+    let seqTime = getSequencer().getSequenceProgress()
+    viewTileSelect(getSequencer());
 
     if (seqTime > 1) {
         GameAPI.unregisterGameUpdateCallback(updateActorTileSelect)
         getSequencer().call.stateTransition()
         tpf = 0;
     }
-    getSequencer().advanceSequenceTime(tpf);
+    getSequencer().advanceSequenceProgress(tpf);
 }
 
 function updateActorClose(tpf) {
     let actor = getSequencer().getGameActor()
-    let seqTime = getSequencer().getSequenceTime()
+    let seqTime = getSequencer().getSequenceProgress()
     indicateTurnClose(actor, seqTime)
 
     if (seqTime > 1) {
@@ -159,7 +153,7 @@ function updateActorClose(tpf) {
         tpf = 0;
     }
 
-    getSequencer().advanceSequenceTime(tpf*1.2);
+    getSequencer().advanceSequenceProgress(tpf*1.2);
 }
 
 export {
