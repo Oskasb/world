@@ -11,7 +11,11 @@
           "status": {
             "height": 1.8,
             "size": 1.2,
-            "hand_size": 0.4
+            "hand_size": 0.4,
+            "icon_key": "face_4",
+            "dead": false,
+            "name": "Fighter",
+            "maxHP": 10
           }
         }
       },

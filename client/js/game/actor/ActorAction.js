@@ -148,7 +148,7 @@ class ActorAction {
         this.sequencing = this.readActionConfig('sequencing')
 
         this.visualAction.setActorAction(this, visualActionKey);
-        actor.actorText.say(actionKey)
+        actor.actorText.yell(actionKey)
         this.call.advanceState();
         GameAPI.registerGameUpdateCallback(this.call.updateAttack);
     }

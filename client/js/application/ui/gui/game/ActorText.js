@@ -58,7 +58,7 @@ class ActorText {
         let confSay = {
             sprite_font: "sprite_font_debug",
             feedback: "feedback_text_red",
-            rgba:  {r:1.2, g:1.2, b:-0.3, a:1},
+            rgba:  {r:1.0, g:1.0, b:0.5, a:1},
             lutColor:ENUMS.ColorCurve.warmFire,
             textLayout: {"x": 0.5, "y": 0.5, "fontsize": 6},
             tPosOffset: new Vector3(0.04, 0.08, 1.7)
@@ -67,7 +67,7 @@ class ActorText {
         let confYell = {
             sprite_font: "sprite_font_debug",
             feedback: "feedback_text_red",
-            rgba:  {r:1.0, g:0.55, b:-0.9, a:1},
+            rgba:  {r:1.0, g:0.95, b:0.75, a:1},
             lutColor:ENUMS.ColorCurve.warmFire,
             textLayout: {"x": 0.5, "y": 0.5, "fontsize": 8},
             tPosOffset: new Vector3(0.04, 0.05, 1.7)

@@ -60,6 +60,7 @@ class ActorTurnSequencer {
     }
 
     setGameActor(actor) {
+        actor.setStatusKey('has_turn', false)
         this.actor = actor;
         MATH.emptyArray(this.turnEncBallbacks);
     }

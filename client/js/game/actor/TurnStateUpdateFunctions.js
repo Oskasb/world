@@ -32,6 +32,10 @@ function updateActorInit(tpf) {
     getSequencer().advanceSequenceProgress(tpf*2);
 }
 
+let say = function(actor, message) {
+    actor.actorText.say(message)
+}
+
 function updateActorTargetSelect(tpf) {
 
     let actor = getSequencer().getGameActor()
@@ -40,10 +44,14 @@ function updateActorTargetSelect(tpf) {
 
     viewTargetSelection(getSequencer(), candidates)
 
+    if (seqTime === 0) {
+        MATH.forAll(candidates, say, "maybe me")
+    }
+
     if (seqTime > 1) {
         let targetActor = targetSelector.selectActorEncounterTarget(actor, candidates)
         getSequencer().setTargetActor(targetActor);
-        targetActor.actorText.say('I am target')
+        targetActor.actorText.yell('I am target')
         GameAPI.unregisterGameUpdateCallback(updateActorTargetSelect)
         getSequencer().call.stateTransition()
         tpf = 0;

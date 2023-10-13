@@ -1,27 +1,27 @@
 import { PortraitStatusGui } from "../game/PortraitStatusGui.js";
 
 
-
 class GuiCharacterPortrait {
-    constructor(gamePiece, layoutConfId, onActivate, testActive, x, y, onReady) {
+    constructor(actor, layoutConfId, onActivate, testActive, x, y, onReady) {
         this.portraitContainer;
         this.portraitStatusGui = new PortraitStatusGui();
-        this.gamePiece = gamePiece;
+        this.actor = actor;
         let buttonReady = function(button) {
-            button.guiWidget.setWidgetIconKey(gamePiece.getStatusByKey('icon_key'))
+            button.guiWidget.setWidgetIconKey(actor.getStatus('icon_key'))
             this.button = button;
             this.container = this.portraitContainer;
             this.guiWidget = button.guiWidget;
-            this.portraitStatusGui.initPortraitStatusGui(gamePiece, button);
+            this.portraitStatusGui.initPortraitStatusGui(actor, button);
+            GuiAPI.addGuiUpdateCallback(this.portraitStatusGui.callbacks.updateCharStatGui)
             onReady(this)
         }.bind(this)
 
         let activate = function() {
-            onActivate(gamePiece);
+            onActivate(actor);
         }
 
         let isActive = function() {
-            return testActive(gamePiece)
+            return testActive(actor)
         }
 
 
@@ -36,7 +36,7 @@ class GuiCharacterPortrait {
                 testActive: isActive,
                 interactive: true,
                 set_parent:element.guiWidget,
-                text: gamePiece.getStatusByKey('name'),
+                text: actor.getStatus('name'),
             };
 
             evt.dispatch(ENUMS.Event.BUILD_GUI_ELEMENT, opts)
@@ -63,14 +63,19 @@ class GuiCharacterPortrait {
     updateCharacterPortrait(tpf, gameTime) {
         if (this.portraitStatusGui) {
             this.portraitStatusGui.updateCharacterStatElement();
-            if (this.gamePiece.isDead) {
+            if (this.actor.getStatus('dead')) {
                 let iconKey = 'dead'
                 this.button.guiWidget.setWidgetIconKey(iconKey)
             } else {
-                let iconKey = this.gamePiece.getStatusByKey('icon_key')
+                let iconKey = this.actor.getStatus('icon_key')
                 this.button.guiWidget.setWidgetIconKey(iconKey)
             }
         }
+    }
+
+    closeCharacterPortrait() {
+        GuiAPI.removeGuiUpdateCallback(this.portraitStatusGui.callbacks.updateCharStatGui)
+        this.guiWidget.recoverGuiWidget()
     }
 
 }

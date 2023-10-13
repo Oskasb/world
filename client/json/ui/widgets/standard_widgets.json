@@ -30,6 +30,7 @@
                 "feedback": "feedback_surface_hp_bar_container"
               }
             },
+
             {
               "id":"progress_indicator_portrait_hp",
               "layout":"layout_portrait_hp_container",
@@ -211,6 +212,38 @@
               }
             },
             {
+              "id":"widget_companion_sequencer_button",
+              "layout":"layout_sequencer_portrait_button",
+              "text": {
+                "sprite_font": "sprite_font_button_big",
+                "feedback": "feedback_text_action_button"
+              },
+              "icon": {
+                "icon_config": "button_sequencer_icon_config",
+                "feedback": "feedback_button_icon"
+              },
+              "surface": {
+                "nineslice": "nineslice_surface_sequencer_button",
+                "feedback": "feedback_icon_button"
+              }
+            },
+            {
+              "id":"widget_hostile_sequencer_button",
+              "layout":"layout_sequencer_portrait_button",
+              "text": {
+                "sprite_font": "sprite_font_button_big",
+                "feedback": "feedback_text_action_button"
+              },
+              "icon": {
+                "icon_config": "button_sequencer_icon_config",
+                "feedback": "feedback_button_icon"
+              },
+              "surface": {
+                "nineslice": "nineslice_surface_sequencer_button",
+                "feedback": "feedback_opponent_icon_button"
+              }
+            },
+            {
               "id":"widget_companion_portrait_button",
               "layout":"layout_companion_portrait_button",
               "text": {
@@ -224,6 +257,22 @@
               "surface": {
                 "nineslice": "nineslice_surface_portrait_button",
                 "feedback": "feedback_icon_button"
+              }
+            },
+            {
+              "id":"widget_hostile_portrait_button",
+              "layout":"layout_companion_portrait_button",
+              "text": {
+                "sprite_font": "sprite_font_button_big",
+                "feedback": "feedback_text_action_button"
+              },
+              "icon": {
+                "icon_config": "button_icon_config",
+                "feedback": "feedback_button_icon"
+              },
+              "surface": {
+                "nineslice": "nineslice_surface_portrait_button",
+                "feedback": "feedback_opponent_icon_button"
               }
             },
             {

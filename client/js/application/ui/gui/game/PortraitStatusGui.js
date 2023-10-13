@@ -1,4 +1,4 @@
-let portraitGuiWidget;
+
 class PortraitStatusGui {
     constructor() {
         this.colorMap = {
@@ -28,8 +28,8 @@ class PortraitStatusGui {
         }
     }
 
-    initPortraitStatusGui(gamePiece, portraitWidget) {
-        this.gamePiece = gamePiece;
+    initPortraitStatusGui(actor, portraitWidget) {
+        this.actor = actor;
         this.container = portraitWidget;
         this.activatePortraitStatusGui();
     }
@@ -67,6 +67,8 @@ class PortraitStatusGui {
 
 
     activatePortraitStatusGui() {
+
+        console.log("activatePortraitStatusGui")
 
         let onHpReady = function(element) {
             this.hpProgressElement = element;
@@ -251,19 +253,19 @@ class PortraitStatusGui {
         ThreeAPI.tempVec3b.x = this.potraitCenter.x
         this.attacksContainer.guiWidget.setPosition( ThreeAPI.tempVec3b)
 
-        let maxHP =  this.gamePiece.getStatusByKey('maxHP');
-        let hp =  this.gamePiece.getStatusByKey('hp')
+        let maxHP =  this.actor.getStatus('maxHP');
+        let hp =  this.actor.getStatus('hp')
         this.hpProgressElement.setProgress(0, maxHP, hp)
     //    this.tempVec3b.y-=0.002
     //    this.swingProgressElement.guiWidget.setPosition(this.tempVec3b)
-        this.swingProgressElement.setProgress(0, 1, MATH.curveQuad(Math.sin( this.gamePiece.getStatusByKey('atkProg') * Math.PI)))
+        this.swingProgressElement.setProgress(0, 1, MATH.curveQuad(Math.sin( this.actor.getStatus('atkProg') * Math.PI)))
     //    this.tempVec3b.y-=0.004
    //     this.attacksContainer.guiWidget.setPosition(this.tempVec3b)
-        this.updateAttackPointElements(this.gamePiece.getStatusByKey('turnAttacks'), this.gamePiece.getStatusByKey('attack'), this.gamePiece.getStatusByKey('atkProg'))
+        this.updateAttackPointElements(this.actor.getStatus('turnAttacks'), this.actor.getStatus('attack'), this.actor.getStatus('atkProg'))
 
    //     this.tempVec3b.y += 0.014
     //    this.actionPointContainer.guiWidget.setPosition(this.tempVec3b)
-        this.updateActionPointElements(this.gamePiece.getStatusByKey('maxAPs'), this.gamePiece.getStatusByKey('actPts'), this.gamePiece.getStatusByKey('activeAPs'))
+        this.updateActionPointElements(this.actor.getStatus('maxAPs'), this.actor.getStatus('actPts'), this.actor.getStatus('activeAPs'))
     }
 
 }

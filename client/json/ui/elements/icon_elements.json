@@ -17,6 +17,15 @@
               }
             },
             {
+              "id":"button_sequencer_icon_config",
+              "config": {
+                "innersize": { "x":0.9,  "y":0.9, "z": 0},
+                "offset":    { "x":0.5,  "y":0.5, "z": 0},
+                "atlas_key": "GUI_16x16",
+                "stretch": true
+              }
+            },
+            {
               "id":"button_icon_config",
               "config": {
                 "innersize": { "x":0.85,  "y":0.85, "z": 0},
@@ -75,8 +84,8 @@
             {
               "id":"progress_vertical_hp_bar",
               "config": {
-                "innersize": { "x":0.96, "y":1.0, "z": 0},
-                "offset":    { "x":0.5, "y":0.13, "z": 0},
+                "innersize": { "x":1.28, "y":1.35, "z": 0},
+                "offset":    { "x":0.5, "y": 0.5, "z": 0},
                 "atlas_key": "GUI_16x16",
                 "stretch": true,
                 "progress": {"axis": "up", "alts": ["up", "down", "left", "right"]}
