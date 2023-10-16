@@ -1,5 +1,5 @@
 import { PortraitStatusGui } from "../game/PortraitStatusGui.js";
-
+import {GuiButtonFrame} from "./GuiButtonFrame.js";
 
 class GuiCharacterPortrait {
     constructor(actor, layoutConfId, onActivate, testActive, x, y, onReady) {
@@ -11,6 +11,7 @@ class GuiCharacterPortrait {
             this.button = button;
             this.container = this.portraitContainer;
             this.guiWidget = button.guiWidget;
+            this.buttonFrame = new GuiButtonFrame(this.guiWidget);
             this.portraitStatusGui.initPortraitStatusGui(actor, button);
             ThreeAPI.addPrerenderCallback(this.portraitStatusGui.callbacks.updateCharStatGui)
             onReady(this)
@@ -60,11 +61,26 @@ class GuiCharacterPortrait {
 
     }
 
-    updatePortraitInteractiveState() {
+    updatePortraitInteractiveState(turnIndex) {
+        if (this.actor.getStatus('has_turn')) {
+            this.buttonFrame.setFrameState('turn_active');
+        } else {
+            let doneTurn = this.actor.getStatus('turn_done')
+            if (doneTurn === turnIndex) {
+                this.buttonFrame.setFrameState('turn_done');
+            } else {
+                this.buttonFrame.setFrameState('turn_await');
+            }
+
+
+        }
+
         this.guiWidget.getWidgetSurface().updateInterativeState();
     }
 
-    updateCharacterPortrait(tpf, gameTime) {
+    updateCharacterPortrait(tpf, turnIndex) {
+        this.updatePortraitInteractiveState(turnIndex)
+        this.buttonFrame.updateButtonFrame(tpf);
         if (this.portraitStatusGui) {
             this.portraitStatusGui.updateCharacterStatElement();
             if (this.actor.getStatus('dead')) {

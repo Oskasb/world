@@ -69,6 +69,15 @@
               }
             },
             {
+              "id":"layout_button_state_progress_frame",
+              "config": {
+                "text":   {"x":0.73, "y":0.2, "fontsize": 6},
+                "anchor": {"x":0.0, "y":0.0, "z":  0.0},
+                "offset": {"center":true},
+                "size":   {"x":0.062, "y":0.062,"z":  0.0}
+              }
+            },
+            {
               "id":"layout_progress_action_button",
               "config": {
                 "text":   {"x":0.73, "y":0.2, "fontsize": 6},

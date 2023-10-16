@@ -276,6 +276,18 @@
               }
             },
             {
+              "id":"widget_button_state_progress_frame",
+              "layout":"layout_button_state_progress_frame",
+              "icon": {
+                "icon_config": "progress_vertical_actionbutton",
+                "feedback": "feedback_icon_action_progress"
+              },
+              "surface": {
+                "nineslice": "nineslice_surface_action_button",
+                "feedback": "feedback_surface_container"
+              }
+            },
+            {
               "id":"widget_action_button_progress",
               "layout":"layout_progress_action_button",
               "icon": {

@@ -23,12 +23,19 @@ let testActive = function(actor) {
 }
 
 let onActivate = function(actor) {
+    console.log("Button Pressed, onActivate:", actor)
+
     if (selectedActor) {
+        selectedActor.actorText.say('Unselected')
         selectedActor.setStatusKey('is_selected', false)
+    }
+    if (actor === selectedActor) {
+        selectedActor = null;
+        return;
     }
     selectedActor = actor;
     actor.setStatusKey('is_selected', true)
-    console.log("Button Pressed, onActivate:", actor)
+    actor.actorText.say('Selected')
 }
 
 let onReady = function(portrait) {
@@ -62,10 +69,12 @@ let updateDynamicEncounterUiSystem = function(tpf, time) {
     actors = encounterTurnSequencer.getSequencerActors();
    MATH.forAll(actors, renderEncounterActorUi, tpf, time)
 
+    let currentTurnIndex = encounterTurnSequencer.turnIndex;
+
     for (let i = 0; i < portraits.length; i++) {
         let portrait = portraits[i]
         if (portrait) {
-            portrait.updatePortraitInteractiveState()
+            portrait.updateCharacterPortrait(tpf, currentTurnIndex)
         }
     }
 
@@ -78,7 +87,7 @@ class EncounterUiSystem {
 
     setEncounterSequencer(sequencer) {
         encounterTurnSequencer = sequencer;
-        GuiAPI.addGuiUpdateCallback(updateDynamicEncounterUiSystem)
+        ThreeAPI.addPrerenderCallback(updateDynamicEncounterUiSystem)
     }
 
     closeEncounterUi() {
@@ -89,8 +98,7 @@ class EncounterUiSystem {
                 portrait.closeCharacterPortrait()
             }
         }
-
-        GuiAPI.removeGuiUpdateCallback(updateDynamicEncounterUiSystem)
+        ThreeAPI.unregisterPrerenderCallback(updateDynamicEncounterUiSystem)
     }
 
 
