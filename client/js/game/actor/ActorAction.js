@@ -138,17 +138,18 @@ class ActorAction {
         return config[this.actionKey][key];
     }
 
-    initAttack(actor, actionKey) {
-        this.actor = actor;
+    setActionKey(actionKey) {
         this.actionKey = actionKey;
-        this.attackStateIndex = 0;
         this.visualAction = poolFetch('VisualAction')
-
         let visualActionKey = this.readActionConfig('visual_action')
-        this.sequencing = this.readActionConfig('sequencing')
-
         this.visualAction.setActorAction(this, visualActionKey);
-        actor.actorText.yell(actionKey)
+    }
+
+    initAction(actor) {
+        this.actor = actor;
+        this.attackStateIndex = 0;
+        this.sequencing = this.readActionConfig('sequencing')
+        actor.actorText.yell(this.visualAction.name)
         this.call.advanceState();
         GameAPI.registerGameUpdateCallback(this.call.updateAttack);
     }
@@ -173,6 +174,10 @@ class ActorAction {
         this.target = null;
         GameAPI.unregisterGameUpdateCallback(this.call.updateAttack);
         MATH.callAndClearAll(this.onCompletedCallbacks);
+        this.recoverAttack();
+    }
+
+    recoverAttack() {
         poolReturn(this.visualAction);
         poolReturn(this)
     }

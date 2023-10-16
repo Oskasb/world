@@ -4,6 +4,8 @@
       {
         "id":"VISUAL_FIREBALL",
         "data":{
+          "name": "Burn",
+          "icon_key": "fire_ball",
           "effects": {
             "fx_selected":"combat_effect_hands_magic_power",
             "fx_precast":"combat_effect_hands_fire",
@@ -16,6 +18,8 @@
       {
         "id":"VISUAL_MAGIC_MISSILE",
         "data":{
+          "name": "Blast",
+          "icon_key": "magic_missile",
           "effects": {
             "fx_selected":"combat_effect_hands_magic_power",
             "fx_precast":"combat_effect_hands_magic_power",
@@ -28,6 +32,8 @@
       {
         "id":"VISUAL_FREEZE_BOLT",
         "data":{
+          "name": "Freeze",
+          "icon_key": "frostball",
           "effects": {
             "fx_selected":"combat_effect_hands_magic_power",
             "fx_precast":"combat_effect_hands_frost",
@@ -40,6 +46,8 @@
       {
         "id":"VISUAL_HEAL_BOLT",
         "data":{
+          "name": "Heal",
+          "icon_key": "heal_icon",
           "effects": {
             "fx_selected":"combat_effect_hands_magic_power",
             "fx_precast":"combat_effect_hands_heal_power",

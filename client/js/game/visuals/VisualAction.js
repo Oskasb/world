@@ -17,6 +17,7 @@ setTimeout(function() {
 }, 2000)
 
 let visualConfigDefaults = {
+    "icon_key":"magic_missile",
     "fx_selected":"combat_effect_hands_magic_power",
     "fx_precast":"combat_effect_hands_fire",
     "fx_active":"combat_effect_fire_missile",
@@ -90,6 +91,8 @@ class VisualAction {
 
     setActorAction(actorAction, visualActionKey) {
         this.actorAction = actorAction;
+        this.name = config[visualActionKey]['name'] || 'NYI'
+        this.iconKey = config[visualActionKey]['icon_key'] || 'magic_missile'
         this.config = config[visualActionKey]['effects'] || visualConfigDefaults;
     }
 

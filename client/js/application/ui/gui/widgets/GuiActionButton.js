@@ -76,7 +76,7 @@ class GuiActionButton {
         this.progressWidget.initGuiWidget(null, progressReady);
         this.progressWidget.setWidgetIconKey(this.progressIcon);
 
-        widget.attachToAnchor('bottom_right');
+        //widget.attachToAnchor('bottom_center');
 
     };
 
@@ -100,7 +100,7 @@ class GuiActionButton {
             this.progressWidget.initGuiWidget(null, progressReady);
             this.progressWidget.setWidgetIconKey(this.progressIcon);
 
-            widget.attachToAnchor('bottom_right');
+       //     widget.attachToAnchor('bottom_right');
 
             onReady(widget)
 

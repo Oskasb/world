@@ -16,6 +16,16 @@ class PlayerParty {
         this.actors.push(actor);
     }
 
+    getPartySelection() {
+        for (let i = 0; i < this.actors.length; i++) {
+            let actor = this.actors[i];
+            if (actor.getStatus('party_selected')) {
+                return actor;
+            }
+        }
+        return null;
+    }
+
     selectPartyActor(actor) {
         GameAPI.getGamePieceSystem().setSelectedGameActor(actor);
     }

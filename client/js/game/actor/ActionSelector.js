@@ -4,11 +4,14 @@ class ActionSelector {
     constructor() {
     }
 
-    selectActorAction(actor, availableActions) {
-        let attack = poolFetch('ActorAction');
-        let actionKey = MATH.getRandomArrayEntry(availableActions);
-        attack.initAttack(actor, actionKey);
-        return attack;
+    selectActorAction(actor) {
+        let actions = actor.getStatus('actions')
+    //    console.log(actions)
+        let action = poolFetch('ActorAction');
+        let actionKey = MATH.getRandomArrayEntry(actions);
+        action.setActionKey(actionKey);
+        action.initAction(actor);
+        return action;
     }
 
 

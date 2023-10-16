@@ -33,7 +33,7 @@ class GuiCharacterPortrait {
                 widgetClass:'GuiSimpleButton',
                 widgetCallback:buttonReady,
                 configId: layoutConfId,
-                onActivate:activate,
+                onActivate: activate,
                 testActive: isActive,
                 interactive: true,
                 set_parent:element.guiWidget,

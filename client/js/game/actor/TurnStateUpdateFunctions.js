@@ -89,7 +89,8 @@ function updateActorSelectAttack(tpf) {
     evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:actor.getPos(), to:getSequencer().getTargetActor().getPos(), color:'RED'});
 
     if (seqTime === 0) {
-        getSequencer().selectedAttack = attackSelector.selectActorAction(actor, availableActions)
+
+        getSequencer().selectedAttack = attackSelector.selectActorAction(actor)
     }
 
 

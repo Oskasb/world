@@ -15,7 +15,8 @@
             "icon_key": "face_4",
             "dead": false,
             "name": "Fighter",
-            "maxHP": 10
+            "maxHP": 10,
+            "actions": ["ACTION_FIREBALL", "ACTION_MAGIC_MISSILE", "ACTION_FREEZE_BOLT", "ACTION_HEAL_BOLT"]
           }
         }
       },

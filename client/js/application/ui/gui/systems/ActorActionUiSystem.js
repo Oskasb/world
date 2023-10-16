@@ -1,12 +1,15 @@
 import {GuiCharacterPortrait} from "../widgets/GuiCharacterPortrait.js";
+import { GuiActorActionButton } from "../widgets/GuiActorActionButton.js";
+import {GuiActionButton} from "../widgets/GuiActionButton.js";
+
 
 let playerPortraitLayoutId = 'widget_actor_action_portrait_button'
 let actor = null;
-
+let actionButtons = [];
 let portrait = null;
 
 let testActive = function(actor) {
-    if (actor.getStatus('party_selected')) {
+    if (actor.getStatus('has_turn')) {
         return true;
     } else {
         return false;
@@ -23,27 +26,67 @@ let onReady = function(portrait) {
   //  portrait.guiWidget.attachToAnchor('center');
 }
 
+let onActionButtonReady = function(widget) {
+
+
+};
+
+let onActionActivate = function(action) {
+    console.log("onActionActivate:", action)
+}
+
+let actionTestActive = function(action) {
+//    console.log("actionTestActive:", action)
+}
+let addActionButton = function(actionId) {
+    let actionButton = new GuiActorActionButton(actionId, 'widget_companion_sequencer_button', onActionActivate, actionTestActive, -0.07+actionButtons.length*0.064, -0.33, onActionButtonReady);
+  //  actionButton.initActionButton('widget_action_button', onActionButtonReady);
+    actionButtons.push(actionButton);
+}
 
 let setupActionUi = function() {
-    portrait = new GuiCharacterPortrait(actor, playerPortraitLayoutId, onActivate, testActive, -0.13, -0.3, onReady, 'widget_actor_action_portrait_frame', 'progress_indicator_action_portrait_hp')
+    portrait = new GuiCharacterPortrait(actor, playerPortraitLayoutId, onActivate, testActive, -0.16, -0.3, onReady, 'widget_actor_action_portrait_frame', 'progress_indicator_action_portrait_hp')
+    let actions = actor.getStatus('actions');
+
+    for (let i = 0; i < actions.length; i++) {
+        addActionButton(actions[i]);
+    }
+
 }
 
 let clearActionUi = function() {
-    portrait.closeCharacterPortrait()
+    if (portrait) {
+        portrait.closeCharacterPortrait()
+    }
+    portrait = null;
+
+    while (actionButtons.length) {
+        actionButtons.pop().removeGuiWidget();
+    }
+
 }
 
 let updateActiveActorUi = function(tpf) {
 
-    let activeActor = GameAPI.getGamePieceSystem().getSelectedGameActor();
+    let activeActor = GameAPI.getGamePieceSystem().getPlayerParty().getPartySelection();
+
     if (actor !== activeActor) {
         if (actor) {
             clearActionUi()
         }
         actor = activeActor;
-        setupActionUi()
+        if (activeActor) {
+            setupActionUi()
+        }
     }
+
+
     if (portrait) {
-        portrait.updateCharacterPortrait(tpf)
+        if (!actor) {
+            clearActionUi();
+        } else {
+            portrait.updateCharacterPortrait(tpf)
+        }
     }
 }
 
