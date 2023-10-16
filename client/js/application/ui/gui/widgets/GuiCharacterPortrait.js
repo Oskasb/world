@@ -2,16 +2,16 @@ import { PortraitStatusGui } from "../game/PortraitStatusGui.js";
 import {GuiButtonFrame} from "./GuiButtonFrame.js";
 
 class GuiCharacterPortrait {
-    constructor(actor, layoutConfId, onActivate, testActive, x, y, onReady) {
+    constructor(actor, layoutConfId, onActivate, testActive, x, y, onReady, frameWidgetId, hpProgressId) {
         this.portraitContainer;
-        this.portraitStatusGui = new PortraitStatusGui();
+        this.portraitStatusGui = new PortraitStatusGui(hpProgressId);
         this.actor = actor;
         let buttonReady = function(button) {
             button.guiWidget.setWidgetIconKey(actor.getStatus('icon_key'))
             this.button = button;
             this.container = this.portraitContainer;
             this.guiWidget = button.guiWidget;
-            this.buttonFrame = new GuiButtonFrame(this.guiWidget);
+            this.buttonFrame = new GuiButtonFrame(this.guiWidget, frameWidgetId);
             this.portraitStatusGui.initPortraitStatusGui(actor, button);
             ThreeAPI.addPrerenderCallback(this.portraitStatusGui.callbacks.updateCharStatGui)
             onReady(this)

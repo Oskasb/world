@@ -1,6 +1,9 @@
 
 class PortraitStatusGui {
-    constructor() {
+    constructor(hpProgressId) {
+
+        this.hpProgressId = hpProgressId || 'progress_indicator_portrait_hp'
+
         this.colorMap = {
             on:{"r": 0.11, "g": 0.75, "b": 0.75, "a": 0.99},
             active:{"r": 0.99, "g": 0.93, "b": 0.39, "a": 0.99},
@@ -86,7 +89,7 @@ class PortraitStatusGui {
             this.actionPointContainer = element;
         }.bind(this)
 
-        this.addProgressElement( 'progress_indicator_portrait_hp',  onHpReady)
+        this.addProgressElement( this.hpProgressId,  onHpReady)
         this.addProgressElement( 'progress_indicator_portrait_swing',  onSwingReady)
         this.addPointContainer('widget_attack_point_container',  onAttacksContainerReady )
         this.addPointContainer('widget_attack_point_container',  onAPContainerReady )

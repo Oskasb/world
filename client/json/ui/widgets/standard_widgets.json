@@ -32,6 +32,18 @@
             },
 
             {
+              "id":"progress_indicator_action_portrait_hp",
+              "layout":"layout_indicator_action_portrait_hp",
+              "icon": {
+                "icon_config": "progress_vertical_action_portrait_hp",
+                "feedback": "feedback_icon_portrait_hp_progress"
+              },
+              "surface": {
+                "nineslice": "nineslice_surface_portrait_hp_container",
+                "feedback": "feedback_surface_anchor"
+              }
+            },
+            {
               "id":"progress_indicator_portrait_hp",
               "layout":"layout_portrait_hp_container",
               "icon": {
@@ -244,6 +256,22 @@
               }
             },
             {
+              "id":"widget_actor_action_portrait_button",
+              "layout":"layout_actor_action_portrait_button",
+              "text": {
+                "sprite_font": "sprite_font_button_big",
+                "feedback": "feedback_text_action_button"
+              },
+              "icon": {
+                "icon_config": "button_actor_action_portrait_button",
+                "feedback": "feedback_button_icon"
+              },
+              "surface": {
+                "nineslice": "nineslice_actor_action_portrait_button",
+                "feedback": "feedback_icon_button"
+              }
+            },
+            {
               "id":"widget_hostile_sequencer_button",
               "layout":"layout_sequencer_portrait_button",
               "text": {
@@ -300,6 +328,18 @@
               },
               "surface": {
                 "nineslice": "nineslice_surface_action_button",
+                "feedback": "feedback_surface_container"
+              }
+            },
+            {
+              "id":"widget_actor_action_portrait_frame",
+              "layout":"layout_actor_action_portrait_frame",
+              "icon": {
+                "icon_config": "progress_vertical_selected_actor",
+                "feedback": "feedback_icon_action_progress"
+              },
+              "surface": {
+                "nineslice": "nineslice_actor_action_portrait_frame",
                 "feedback": "feedback_surface_container"
               }
             },

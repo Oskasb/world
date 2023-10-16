@@ -16,7 +16,7 @@ let colorMap = {
     unavailable:{"r": 0.3, "g": 0.5, "b": 0.3,  "a": 0.99}
 }
 class GuiButtonFrame {
-    constructor(parentGuiWidget, widgetId) {
+    constructor(parentGuiWidget, frameWidgetId) {
 
         this.frameTime = 0;
         this.frameState = 'unavailable';
@@ -30,7 +30,7 @@ class GuiButtonFrame {
             parentGuiWidget.addChild(widget);
         }
 
-        this.guiWidget = new GuiWidget(widgetId || 'widget_button_state_progress_frame')
+        this.guiWidget = new GuiWidget(frameWidgetId || 'widget_button_state_progress_frame')
         this.guiWidget.initGuiWidget(null, widgetReady);
 
     }

@@ -29,6 +29,28 @@
               }
             },
             {
+              "id":"nineslice_actor_action_portrait_frame",
+              "config": {
+                "padding": { "x":0.0, "y":0.0},
+                "image": {
+                  "layer": "UI_ELEMENTS_BACK",
+                  "atlas_key": "GUI_16x16",
+                  "border_thickness": {"x": 0.35, "y": 0.35}
+                }
+              }
+            },
+            {
+              "id":"nineslice_actor_action_portrait_button",
+              "config": {
+                "padding": { "x":-0.0, "y":-0.0},
+                "image": {
+                  "layer": "UI_ELEMENTS_BACK",
+                  "atlas_key": "GUI_16x16",
+                  "border_thickness": {"x": 0.45, "y": 0.45}
+                }
+              }
+            },
+            {
               "id":"nineslice_surface_sequencer_button",
               "config": {
                 "padding": { "x":0.0, "y":0.0},

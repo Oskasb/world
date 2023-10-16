@@ -17,6 +17,15 @@
               }
             },
             {
+              "id":"button_actor_action_portrait_button",
+              "config": {
+                "innersize": { "x":0.9,  "y":0.9, "z": 0},
+                "offset":    { "x":0.5,  "y":0.5, "z": 0},
+                "atlas_key": "GUI_16x16",
+                "stretch": true
+              }
+            },
+            {
               "id":"button_sequencer_icon_config",
               "config": {
                 "innersize": { "x":0.9,  "y":0.9, "z": 0},
@@ -82,6 +91,16 @@
               }
             },
             {
+              "id":"progress_vertical_action_portrait_hp",
+              "config": {
+                "innersize": { "x":1.01, "y":1.02, "z": 0},
+                "offset":    { "x":0.5, "y": 0.5, "z": 0},
+                "atlas_key": "GUI_16x16",
+                "stretch": true,
+                "progress": {"axis": "up", "alts": ["up", "down", "left", "right"]}
+              }
+            },
+            {
               "id":"progress_vertical_hp_bar",
               "config": {
                 "innersize": { "x":1.28, "y":1.35, "z": 0},
@@ -128,6 +147,16 @@
                 "offset":    { "x":0.5, "y":0.5, "z": 0},
                 "atlas_key": "GUI_16x16",
                 "stretch": true,
+                "progress": {"axis": "up", "alts": ["up", "down", "left", "right"]}
+              }
+            },
+            {
+              "id":"progress_vertical_selected_actor",
+              "config": {
+                "innersize": { "x":0.4, "y":0.4, "z": 0},
+                "offset":    { "x":0.5, "y":0.5, "z": 0},
+                "atlas_key": "GUI_16x16",
+                "stretch": false,
                 "progress": {"axis": "up", "alts": ["up", "down", "left", "right"]}
               }
             }

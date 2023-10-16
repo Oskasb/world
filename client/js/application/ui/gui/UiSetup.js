@@ -4,8 +4,10 @@ import { GuiButtonSystem } from "./systems/GuiButtonSystem.js";
 import { GuiAnchors } from "./widgets/GuiAnchors.js";
 import { UiTestSetup } from "./UiTestSetup.js";
 import { PartyUiSystem } from "./systems/PartyUiSystem.js";
+import { ActorActionUiSystem} from "./systems/ActorActionUiSystem.js";
 
 let partyUiSystem = new PartyUiSystem()
+let actorActionUpSystem = new ActorActionUiSystem();
 
 class UiSetup {
     constructor() {
@@ -40,6 +42,7 @@ class UiSetup {
             GuiAPI.getGuiDebug().setupDebugControlContainer2();
             GuiAPI.debugView.initDebugView();
             partyUiSystem.activatePartyUiSystem();
+            actorActionUpSystem.activateActorActionUiSystem()
         };
 
     }
