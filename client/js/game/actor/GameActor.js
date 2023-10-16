@@ -46,7 +46,16 @@ class GameActor {
             return this.actorObj3d.position;
         }.bind(this);
 
+        this.turnEndCallbacks = [];
+
+        let turnEnd = function() {
+            while (this.turnEndCallbacks.length) {
+                this.turnEndCallbacks.pop()(this);
+            }
+        }.bind(this)
+
         this.call = {
+            turnEnd:turnEnd,
             onActive:onActive,
             setAsSelection:setAsSelection,
             updateGameActor:updateGameActor,
@@ -56,6 +65,14 @@ class GameActor {
 
     isPlayerActor() {
         return GameAPI.getGamePieceSystem().isPlayerPartyActor(this)
+    }
+
+    startPlayerTurn(turnEndedCB, turnIndex) {
+        this.turnEndCallbacks.push(turnEndedCB);
+        this.setStatusKey('has_turn', true);
+        this.setStatusKey('party_selected', true);
+        this.setStatusKey('turn_done', turnIndex)
+        evt.dispatch(ENUMS.Event.SET_CAMERA_MODE, {mode:'game_travel'})
     }
 
     getGameWalkGrid() {

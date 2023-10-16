@@ -36,6 +36,12 @@ let onActivate = function(actor) {
     selectedActor = actor;
     actor.setStatusKey('sequencer_selected', true)
     actor.actorText.say('Sequencer Selected')
+    let partyActor = GameAPI.getGamePieceSystem().getPlayerParty().getPartySelection()
+
+    if (partyActor) {
+        partyActor.setStatusKey('selected_target', selectedActor);
+    }
+
 }
 
 let fitTimeout = null;

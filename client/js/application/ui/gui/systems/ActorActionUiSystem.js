@@ -31,9 +31,24 @@ let onActionButtonReady = function(widget) {
 
 };
 
+let activatedAction = null;
+
 let onActionActivate = function(action) {
     console.log("onActionActivate:", action)
+    let selectedTarget = actor.getStatus('selected_target')
+    action.initAction(actor);
+    activatedAction = action;
+    action.call.advanceState();
+    if (selectedTarget) {
+        setTimeout(function() {
+           action.activateAttack(selectedTarget, action.actor.call.turnEnd)
+        }, 1000)
+    } else {
+        actor.actorText.say('Pick a target')
+    }
 }
+
+
 
 let actionTestActive = function(action) {
 //    console.log("actionTestActive:", action)

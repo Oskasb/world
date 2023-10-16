@@ -44,7 +44,9 @@ attackStateMap[attackStateKeys[5]] = {updateFunc:'updateAttackCompleted'}
 let activateAttackStateTransition = function(attack) {
     attack.stepProgress = 0;
     let stateIndex = attack.attackStateIndex;
+    console.log("stateIndex", stateIndex)
     let stateKey = attackStateKeys[stateIndex]
+
 //    attack.actor.actorText.say(stateKey)
     let funcName = attackStateMap[stateKey].updateFunc
     attack.updateFunc = attack.call[funcName];
@@ -154,18 +156,10 @@ class ActorAction {
         GameAPI.registerGameUpdateCallback(this.call.updateAttack);
     }
 
-    getTargetPos() {
-        return this.target.visualGamePiece.getPos()
-    }
-
     activateAttack(target, onCompletedCB) {
         this.target = target;
         this.onCompletedCallbacks.push(onCompletedCB)
         this.visualAction.visualizeAttack(this);
-    }
-
-    updateActiveAttack(progress) {
-
     }
 
     attackCompleted() {

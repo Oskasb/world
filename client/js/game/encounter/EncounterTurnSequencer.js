@@ -51,7 +51,12 @@ class EncounterTurnSequencer {
         let actor = this.actors[this.turnActorIndex];
         if (this.activeActor !== actor) {
             this.activeActor = actor;
-            actor.getActorTurnSequencer().startActorTurn(this.call.turnEnded, this.turnIndex);
+            if (actor.isPlayerActor()) {
+                actor.startPlayerTurn(this.call.turnEnded, this.turnIndex)
+            } else {
+                actor.getActorTurnSequencer().startActorTurn(this.call.turnEnded, this.turnIndex);
+            }
+
         }
     }
 
