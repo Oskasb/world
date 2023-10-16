@@ -5,6 +5,8 @@ class GuiAnchors {
 
         this.anchors = {
             center:{x:0, y:0},
+            top_q_left:{x:-0.4, y:0.4},
+            top_q_right:{x:0.4, y:0.4},
             top_left:{x:-0.5, y:0.5},
             top_right:{x:0.5, y:0.5},
             bottom_left:{x:-0.5, y:-0.5},

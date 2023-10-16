@@ -228,6 +228,22 @@
               }
             },
             {
+              "id":"widget_party_portrait_actor_button",
+              "layout":"layout_party_portrait_actor_button",
+              "text": {
+                "sprite_font": "sprite_font_button_big",
+                "feedback": "feedback_text_action_button"
+              },
+              "icon": {
+                "icon_config": "button_sequencer_icon_config",
+                "feedback": "feedback_button_icon"
+              },
+              "surface": {
+                "nineslice": "nineslice_surface_sequencer_button",
+                "feedback": "feedback_icon_button"
+              }
+            },
+            {
               "id":"widget_hostile_sequencer_button",
               "layout":"layout_sequencer_portrait_button",
               "text": {
@@ -445,6 +461,22 @@
               "surface": {
                 "nineslice": "nineslice_surface_debug",
                 "feedback": "feedback_surface_container"
+              }
+            },
+            {
+              "id":"widget_encounter_sequencer_expanding_container",
+              "layout":"layout_encounter_sequencer_expanding_container",
+              "surface": {
+                "nineslice": "nineslice_surface_debug",
+                "feedback": "feedback_surface_anchor"
+              }
+            },
+            {
+              "id":"widget_party_portrait_expanding_container",
+              "layout":"layout_party_portrait_expanding_container",
+              "surface": {
+                "nineslice": "nineslice_surface_debug",
+                "feedback": "feedback_surface_anchor"
               }
             },
             {

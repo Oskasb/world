@@ -43,17 +43,17 @@ class GuiCharacterPortrait {
             evt.dispatch(ENUMS.Event.BUILD_GUI_ELEMENT, opts)
         }.bind(this);
 
-            let contopts = GuiAPI.buildWidgetOptions(
-                {
-                    widgetClass:'GuiExpandingContainer',
-                    widgetCallback:anchorReady,
-                    offset_x:  x,
-                    offset_y:  y,
-                    configId:'widget_gui_anchor'
-                }
-            );
+        let contopts = GuiAPI.buildWidgetOptions(
+            {
+                widgetClass:'GuiExpandingContainer',
+                widgetCallback:anchorReady,
+                offset_x:  x,
+                offset_y:  y,
+                configId:'widget_gui_anchor'
+            }
+        );
 
-            evt.dispatch(ENUMS.Event.BUILD_GUI_ELEMENT, contopts)
+        evt.dispatch(ENUMS.Event.BUILD_GUI_ELEMENT, contopts)
 
         this.call = {
             isActive:isActive
@@ -62,24 +62,27 @@ class GuiCharacterPortrait {
     }
 
     updatePortraitInteractiveState(turnIndex) {
-        if (this.actor.getStatus('has_turn')) {
-            this.buttonFrame.setFrameState('turn_active');
-        } else {
-            let doneTurn = this.actor.getStatus('turn_done')
-            if (doneTurn === turnIndex) {
-                this.buttonFrame.setFrameState('turn_done');
+        if (typeof (turnIndex) !== 'undefined') {
+            if (this.actor.getStatus('has_turn')) {
+                this.buttonFrame.setFrameState('turn_active');
             } else {
-                this.buttonFrame.setFrameState('turn_await');
+                let doneTurn = this.actor.getStatus('turn_done')
+                if (doneTurn === turnIndex) {
+                    this.buttonFrame.setFrameState('turn_done');
+                } else {
+                    this.buttonFrame.setFrameState('turn_await');
+                }
             }
-
-
         }
 
         this.guiWidget.getWidgetSurface().updateInterativeState();
     }
 
     updateCharacterPortrait(tpf, turnIndex) {
+
         this.updatePortraitInteractiveState(turnIndex)
+
+
         this.buttonFrame.updateButtonFrame(tpf);
         if (this.portraitStatusGui) {
             this.portraitStatusGui.updateCharacterStatElement();

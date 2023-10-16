@@ -1,6 +1,7 @@
 import { configDataList } from "../application/utils/ConfigUtils.js";
 import { VisualGamePiece } from "./visuals/VisualGamePiece.js";
 import { GameActor } from "./actor/GameActor.js";
+import { PlayerParty } from "./Player/PlayerParty.js";
 
 let visualConfigs = {};
 let actorConfigs = {};
@@ -15,7 +16,7 @@ let loadActor = function(event) {
     actor.setVisualGamePiece(visualPiece);
 
 
-  //  console.log("loadActor:", actor)
+    //  console.log("loadActor:", actor)
 
     if (event.tile) {
         actor.activateGameActor();
@@ -31,8 +32,7 @@ let loadActor = function(event) {
     } else if (event.pos) {
         actor.getPos().copy(event.pos);
     } else {
-        actor.activateGameActor();
-        GameAPI.getGamePieceSystem().setSelectedGameActor(actor);
+        GameAPI.getGamePieceSystem().addActorToPlayerPArty(actor);
     }
 
     if (event.callback) {
@@ -45,6 +45,7 @@ let loadActor = function(event) {
 class GamePieceSystem {
     constructor() {
 
+        this.playerParty = new PlayerParty();
         this.selectedActor = null;
 
     }
@@ -52,14 +53,14 @@ class GamePieceSystem {
     initGamePieceSystem = function() {
         let onData = function(data) {
             visualConfigs = data;
-    //        console.log("visualConfigs", visualConfigs)
+            //        console.log("visualConfigs", visualConfigs)
         }
 
         configDataList("GAME","VISUALS", onData)
 
         let onActorsData = function(data) {
             actorConfigs = data;
-    //        console.log("actorConfigs", actorConfigs)
+            //        console.log("actorConfigs", actorConfigs)
         }
 
         configDataList("GAME","ACTORS", onActorsData)
@@ -68,13 +69,35 @@ class GamePieceSystem {
 
     }
 
+    getPlayerParty() {
+        return this.playerParty;
+    }
+
+    addActorToPlayerPArty(actor) {
+        this.playerParty.addPartyActor(actor);
+    }
+
     setSelectedGameActor = function(gameActor) {
         console.log("Set Selected Actor: ", gameActor);
-        gameActor.actorObj3d.position.copy(ThreeAPI.getCameraCursor().getCursorObj3d().position);
-        gameActor.getGameWalkGrid().setGridMovementObj3d(gameActor.actorObj3d)
+
+        if (gameActor.getStatus('has_position') === true) {
+            ThreeAPI.getCameraCursor().getCursorObj3d().position.copy( gameActor.actorObj3d.position)
+        } else {
+            gameActor.actorObj3d.position.copy(ThreeAPI.getCameraCursor().getCursorObj3d().position);
+            gameActor.getGameWalkGrid().setGridMovementObj3d(gameActor.actorObj3d)
+        }
+
+        gameActor.setStatusKey('has_position', true)
         evt.dispatch(ENUMS.Event.SET_CAMERA_MODE, {mode:'game_travel'})
         gameActor.call.setAsSelection();
         this.selectedActor = gameActor;
+    }
+
+    isPlayerPartyActor(actor) {
+        let partyActors = this.playerParty.getPartyActors();
+        if (partyActors.indexOf(actor) !== -1) {
+            return true;
+        }
     }
 
     getSelectedGameActor = function() {

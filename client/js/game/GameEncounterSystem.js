@@ -3,7 +3,7 @@ import { DynamicEncounter } from "./encounter/DynamicEncounter.js";
 import {EncounterTurnSequencer} from "./encounter/EncounterTurnSequencer.js";
 import {EncounterUiSystem} from "../application/ui/gui/systems/EncounterUiSystem.js";
 
-let encounterUiSystem = new EncounterUiSystem();
+let encounterUiSystem;
 let encounterTurnSequencer = null;
 let activeEncounterGrid = null;
 let dynamicEncounter = null;
@@ -27,12 +27,12 @@ let getActiveDynamicEncounter = function() {
 
 class GameEncounterSystem {
     constructor() {
-
+        encounterUiSystem = new EncounterUiSystem();
         encounterTurnSequencer = new EncounterTurnSequencer();
+
         let updateEncounterSystem = function() {
 
             let selectedActor = GameAPI.getGamePieceSystem().getSelectedGameActor();
-
             let min = activeEncounterGrid.minXYZ;
             let max = activeEncounterGrid.maxXYZ;
             evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:min, max:max, color:'GREEN'})
@@ -44,7 +44,6 @@ class GameEncounterSystem {
             } else {
                 this.deactivateActiveEncounter()
             }
-
 
         }.bind(this);
 
@@ -77,7 +76,6 @@ class GameEncounterSystem {
                 dynamicEncounter = new DynamicEncounter()
                 dynamicEncounter.setEncounterGrid(grid);
 
-
                     if (event.spawn) {
                         dynamicEncounter.processSpawnEvent(event.spawn)
                     } else {
@@ -89,14 +87,20 @@ class GameEncounterSystem {
                         encounterTurnSequencer.addEncounterActor(actors[i]);
                     }
                 //let selectedActor = GameAPI.getGamePieceSystem().getSelectedGameActor();
-                encounterTurnSequencer.addEncounterActor(GameAPI.getGamePieceSystem().getSelectedGameActor());
+                let playerParty = GameAPI.getGamePieceSystem().getPlayerParty();
+                    let partyActors = playerParty.getPartyActors();
+                    for (let i = 0; i < partyActors.length; i++) {
+                        let pActor = partyActors[i];
+                        let startTile = encounterGrid.getTileAtPosition(pActor.getPos());
+                        pActor.getPos().copy(startTile.getPos());
+                        encounterTurnSequencer.addEncounterActor(pActor);
+                    }
+
                 encounterUiSystem.setEncounterSequencer(encounterTurnSequencer)
 
             }
 
             encounterGrid.initEncounterGrid(event['grid_id'], event.pos, gridReady )
-
-
 
         GameAPI.registerGameUpdateCallback(this.call.updateEncounterSystem)
 
@@ -118,8 +122,6 @@ class GameEncounterSystem {
         GameAPI.unregisterGameUpdateCallback(this.call.updateEncounterSystem)
         GameAPI.call.spawnWorldEncounters();
     }
-
-
 
 }
 

@@ -3,6 +3,9 @@ import { TextSystem } from "./systems/TextSystem.js";
 import { GuiButtonSystem } from "./systems/GuiButtonSystem.js";
 import { GuiAnchors } from "./widgets/GuiAnchors.js";
 import { UiTestSetup } from "./UiTestSetup.js";
+import { PartyUiSystem } from "./systems/PartyUiSystem.js";
+
+let partyUiSystem = new PartyUiSystem()
 
 class UiSetup {
     constructor() {
@@ -20,6 +23,7 @@ class UiSetup {
 
             let textSysCb = function() {
                 callback('textSysCb loaded');
+
             };
             let inputReady = function() {
 
@@ -35,6 +39,7 @@ class UiSetup {
             GuiAPI.getGuiDebug().setupDebugControlContainer();
             GuiAPI.getGuiDebug().setupDebugControlContainer2();
             GuiAPI.debugView.initDebugView();
+            partyUiSystem.activatePartyUiSystem();
         };
 
     }

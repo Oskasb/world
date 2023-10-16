@@ -51,6 +51,15 @@
               }
             },
             {
+              "id":"layout_party_portrait_actor_button",
+              "config": {
+                "text":   {"x":0.17, "y": 1.21, "fontsize": 6},
+                "anchor": {"x":0.0, "y":0.0, "z":  0.0},
+                "offset": {"x":0.0, "y":0.0, "z":  0.0},
+                "size":   {"x":0.06, "y":0.06,"z":  0.0}
+              }
+            },
+            {
               "id":"layout_sequencer_portrait_button",
               "config": {
                 "text":   {"x":0.17, "y": 1.21, "fontsize": 6},
@@ -274,6 +283,24 @@
                 "anchor": {"x":0.5, "y":0.0, "z":  0.0},
                 "offset": {"x":5.5, "y":0.0, "z":  0.0},
                 "size":   {"x":"auto", "y":"auto", "z":  0.0, "cols": 2, "pad": 0.005, "gridx": 1, "gridy":-1}
+              }
+            },
+            {
+              "id":"layout_encounter_sequencer_expanding_container",
+              "config": {
+                "text":   {"x":1.0, "y":0.0, "fontsize": 8},
+                "anchor": {"x": 0.0001, "y": 0.0001, "z":  0.0},
+                "offset": {"x": -6.0001, "y": 0.0001, "z":  0.0},
+                "size":   {"x":"auto", "y":"auto", "z":  0.0, "cols": 6, "pad": 0.005, "gridx": 1, "gridy":-1}
+              }
+            },
+            {
+              "id":"layout_party_portrait_expanding_container",
+              "config": {
+                "text":   {"x":1.0, "y":0.0, "fontsize": 8},
+                "anchor": {"x":0.001, "y":0.001, "z":  0.0},
+                "offset": {"x":2.5, "y":-11.0, "z":  0.0},
+                "size":   {"x":"auto", "y":"auto", "z":  0.0, "cols": 1, "pad": 0.008, "gridx": 1, "gridy":1}
               }
             },
             {

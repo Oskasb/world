@@ -55,12 +55,7 @@ class GameActor {
     }
 
     isPlayerActor() {
-        let playerActor = GameAPI.getGamePieceSystem().getSelectedGameActor()
-        if (this === playerActor) {
-            return true;
-        } else {
-            return false
-        }
+        return GameAPI.getGamePieceSystem().isPlayerPartyActor(this)
     }
 
     getGameWalkGrid() {
