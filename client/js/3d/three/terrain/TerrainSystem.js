@@ -47,7 +47,7 @@ class TerrainSystem {
     testReady = function() {
         if (this.sysReady) {
             console.log("Terrain data ready")
-        //    threeTerrain.buildGroundShadeTexture();
+            threeTerrain.buildGroundShadeTexture();
             activateTerrainSystem();
             vegetationSystem.activateVegetationSystem(threeTerrain.call.getLodCenter())
         }

@@ -70,12 +70,6 @@
                         "rot": [0, 1.2, 0],
                         "on_ground": true,
                         "tile": [9, 4]
-                      },
-                      {
-                        "actor": "ACTOR_FIGHTER",
-                        "rot": [0, 3.2, 0],
-                        "on_ground": true,
-                        "tile": [10, 6]
                       }
                     ]
                   }

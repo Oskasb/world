@@ -19,6 +19,14 @@ let parameters = {
     dig_strength: 2,
 }
 
+function getPartySelection() {
+    return gamePieceSystem.getPlayerParty().getPartySelection();
+}
+
+function getSequencerSelection() {
+    return gameEncounterSystem.getEncounterTurnSequencer().getSequencerSelection()
+}
+
 class GameAPI {
     constructor() {
         this.activePlayerCharacter = null;
@@ -96,7 +104,9 @@ class GameAPI {
             getDynamicEncounter:getDynamicEncounter,
             travelToPos:travelToPos,
             editGround:editGround,
-            editParameters:editParameters
+            editParameters:editParameters,
+            getSequencerSelection:getSequencerSelection,
+            getPartySelection:getPartySelection
         }
 
     }

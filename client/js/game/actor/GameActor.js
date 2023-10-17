@@ -52,6 +52,8 @@ class GameActor {
             while (this.turnEndCallbacks.length) {
                 this.turnEndCallbacks.pop()(this);
             }
+            this.setStatusKey('has_turn', false);
+            this.setStatusKey('party_selected', false);
         }.bind(this)
 
         this.call = {
@@ -68,6 +70,7 @@ class GameActor {
     }
 
     startPlayerTurn(turnEndedCB, turnIndex) {
+        GameAPI.getGamePieceSystem().setSelectedGameActor(this);
         this.turnEndCallbacks.push(turnEndedCB);
         this.setStatusKey('has_turn', true);
         this.setStatusKey('party_selected', true);

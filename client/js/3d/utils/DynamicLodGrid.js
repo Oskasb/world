@@ -39,13 +39,13 @@ class DynamicLodGrid {
     }
 
     updateDynamicLodGrid(lodCenter) {
-        if (this.lastLodCenter.distanceToSquared(lodCenter) > 0.01) {
+    //    if (this.lastLodCenter.distanceToSquared(lodCenter) > 0.01) {
             let centerTile = this.dynamicGrid.getTileAtPosition(lodCenter);
             this.dynamicGrid.updateDynamicGrid(centerTile.tileX, centerTile.tileZ)
             this.processLodVisibility(lodCenter)
             this.lastLodCenter.copy(lodCenter);
             return true;
-        }
+    //    }
 
     }
 

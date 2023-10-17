@@ -32,16 +32,19 @@ let onActionButtonReady = function(widget) {
 };
 
 let activatedAction = null;
+let selectedTarget = null;
 
 let onActionActivate = function(action) {
     console.log("onActionActivate:", action)
-    let selectedTarget = actor.getStatus('selected_target')
+    selectedTarget = actor.getStatus('selected_target')
     action.initAction(actor);
     activatedAction = action;
-    action.call.advanceState();
     if (selectedTarget) {
+        action.call.advanceState();
         setTimeout(function() {
            action.activateAttack(selectedTarget, action.actor.call.turnEnd)
+            activatedAction = null;
+            selectedTarget = null;
         }, 1000)
     } else {
         actor.actorText.say('Pick a target')
@@ -61,24 +64,30 @@ let addActionButton = function(actionId) {
 
 let setupActionUi = function() {
     portrait = new GuiCharacterPortrait(actor, playerPortraitLayoutId, onActivate, testActive, -0.16, -0.3, onReady, 'widget_actor_action_portrait_frame', 'progress_indicator_action_portrait_hp')
-    let actions = actor.getStatus('actions');
+}
 
+let setupActionButtons = function() {
+    let actions = actor.getStatus('actions');
     for (let i = 0; i < actions.length; i++) {
         addActionButton(actions[i]);
     }
-
 }
+
+let removeActionButtons = function() {
+    while (actionButtons.length) {
+        actionButtons.pop().removeGuiWidget();
+    }
+    activatedAction = null;
+    selectedTarget = null;
+}
+
 
 let clearActionUi = function() {
     if (portrait) {
         portrait.closeCharacterPortrait()
     }
     portrait = null;
-
-    while (actionButtons.length) {
-        actionButtons.pop().removeGuiWidget();
-    }
-
+    removeActionButtons();
 }
 
 let updateActiveActorUi = function(tpf) {
@@ -101,8 +110,32 @@ let updateActiveActorUi = function(tpf) {
             clearActionUi();
         } else {
             portrait.updateCharacterPortrait(tpf)
+
+            if (actor.getStatus('has_turn')) {
+                if (actionButtons.length === 0) {
+                    setupActionButtons();
+                }
+            }
+
         }
     }
+
+
+
+    if (activatedAction) {
+        if (!selectedTarget) {
+            selectedTarget = actor.getStatus('selected_target')
+            if (selectedTarget) {
+                action.call.advanceState();
+                setTimeout(function() {
+                    action.activateAttack(selectedTarget, action.actor.call.turnEnd)
+                    activatedAction = null;
+                    selectedTarget = null;
+                }, 1000)
+            }
+        }
+    }
+
 }
 
 class ActorActionUiSystem {

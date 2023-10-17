@@ -3,6 +3,7 @@ import { Vector3 } from "../../../libs/three/math/Vector3.js";
 import { Object3D } from "../../../libs/three/core/Object3D.js";
 import * as CursorUtils from "./CursorUtils.js";
 import {processLookCursorInput, processTileSelectionCursorInput} from "./CursorUtils.js";
+import {viewEncounterSelection} from "./CameraFunctions.js";
 
 
 let calcVec = new Vector3()
@@ -131,6 +132,7 @@ let updateActorTurnMovement = function() {
     calcVec.multiplyScalar(0.8);
     tempVec3.addVectors(actorPos, calcVec);
     camLookAtVec.lerp(tempVec3, lerpFactor);
+
     cursorObj3d.position.copy(camLookAtVec);
  //   calcVec.multiplyScalar(-1.1);
  //   tempVec3.addVectors(actorPos, calcVec);
@@ -416,8 +418,9 @@ class CameraSpatialCursor {
         } else if (camParams.mode === camModes.actorTurnMovement) {
             updateActorTurnMovement();
         } else {
+            viewEncounterSelection(camTargetPos, camLookAtVec, tpf)
             CursorUtils.drawInputCursorState(cursorObj3d, dragToVec3, camTargetPos, cursorForward, cursorTravelVec)
-            camPosVec.lerp(camTargetPos, tpf ) // + lerpFactor * 2)
+            camPosVec.lerp(camTargetPos, tpf * 4 ) // + lerpFactor * 2)
         }
 
         updateCursorFrame();
