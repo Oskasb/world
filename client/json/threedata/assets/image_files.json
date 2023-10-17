@@ -2,6 +2,8 @@
   {
     "ASSETS": {
       "FILES_IMAGES":[
+        {"id": "img_ground_tiles16x16"   , "config": { "url":"./client/assets/images/textures/tiles/ground16x16.png"   }},
+        {"id": "img_ground_tiles16x16nm"   , "config": { "url":"./client/assets/images/textures/tiles/ground16x16nm.png"   }},
         {"id": "img_ground_tiles8x8"     , "config": { "url":"./client/assets/images/textures/tiles/ground8x8.png"   }},
         {"id": "img_ground_tiles8x8nm"   , "config": { "url":"./client/assets/images/textures/tiles/ground8x8nm.png" }},
         {"id": "img_box_tiles8x8"        , "config": { "url":"./client/assets/images/textures/tiles/boxtiles8x8.png" }},

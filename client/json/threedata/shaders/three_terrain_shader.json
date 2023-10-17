@@ -160,7 +160,7 @@
 
 
           "vec4 sprite = vec4(0.0, 8.0, 1.0, 1.0);",
-          "vec2 tileScale = 1.0/tx0tiles;",
+          "vec2 tileScale = 0.5/tx0tiles;",
           "tileScale.y /= sprite.z;",
           "vec2 scaledUv = tileUv*tileScale;",
           "scaledUv.y /= sprite.z;",
@@ -169,7 +169,7 @@
           "float sampleBlue = terrainMapSample.b;",
           "float sampleGreen = terrainMapSample.g;",
 
-          "float waterRow = 7.0;",
+          "float waterRow = 15.0;",
           "float depthScale = 0.98;",
           "float modFactor = 0.05;",
 
@@ -359,6 +359,9 @@
           "vec4 terrainMapSample = texture2D( terrainmap, terrainSampler);",
           "vec4 heightMapSample = texture2D( heightmap, terrainSampler);",
 
+          "int gIndex = int(min(heightMapSample.g*50.0, 4.0));",
+          "float biomeIndex = float(gIndex);",
+
           "float twoPi = 6.2831;",
           "float slope = cos(vNormal.y*1.571)*1.35;",
 
@@ -367,7 +370,7 @@
           "slope = slope * 0.998 + 0.08*slope*sin(vPosition.x * twoPi*1.0)   + 0.14*slope*cos(vPosition.z * twoPi*0.5);",
 
           "vec4 sprite = vec4(0.0, 8.0, 1.0, 1.0);",
-          "vec2 tileScale = 1.0/tx0tiles;",
+          "vec2 tileScale = 0.5/tx0tiles;",
           "tileScale.y /= sprite.z;",
 
 
@@ -384,9 +387,11 @@
           "float sampleBlue = terrainMapSample.b;",
           "float sampleGreen = terrainMapSample.g;",
 
-          "float rockRow = 1.0;",
+          "float biomeOffset =  biomeIndex*3.0;",
+
+          "float rockRow = 1.0 + biomeOffset;",
           "float slopeScale = 0.98;",
-          "float natureRow = 2.0;",
+          "float natureRow = 2.0 + biomeOffset;",
           "float natureStep = 0.06;",
 
           "float scatter = (cos(vPosition.z*113.0) + sin(vPosition.x*113.0))*0.002 + (cos(vPosition.z*25.0) + sin(vPosition.x*25.0))*0.002;",
@@ -421,7 +426,7 @@
           "txColorBase = mix( txColorBase, natureColor,  natureMix);",
           "txNmBase = mix( txNmBase, natureNormal,  natureMix);",
 
-          "float civRow = 3.0;",
+          "float civRow = 3.0 + biomeOffset;",
           "float civStep = 0.07;",
 
           "tile01 = vec2(min(floor((sampleBlue+scatter*8.0) * 10.0), 7.0), civRow);",
