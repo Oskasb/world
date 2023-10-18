@@ -9,6 +9,7 @@
         "GUI_INSTANCING_STANDARD",
         "GEOMETRY_INSTANCING_STANDARD",
         "TERRAIN_INSTANCING",
+        "TERRAIN_BIG",
         "TERRAIN_SHADER",
         "OCEAN_INSTANCING",
         "INSTANCING_GPU_TRAIL",
@@ -910,6 +911,20 @@
           {
             "source": "TERRAIN_SHADER",
             "chunk": "fragmentOceanInstancing"
+          }
+        ]
+      },
+      "TERRAIN_BIG": {
+        "vertex": [
+          {
+            "source": "TERRAIN_SHADER",
+            "chunk": "vertexBigTerrain"
+          }
+        ],
+        "fragment": [
+          {
+            "source": "TERRAIN_SHADER",
+            "chunk": "fragmentBigTerrain"
           }
         ]
       },

@@ -26,6 +26,20 @@
             }
           }
         },
+        {"id": "model_settings_big_terrain" ,
+          "config": {
+            "instancing": {
+              "instances": 1,
+              "attributes": ["offset", "vertexColor", "scale3d", "orientation", "sprite", "texelRowSelect", "lifecycle"],
+              "cameraspace": false
+            },
+            "transform": {
+              "pos":   [0, 0, 0],
+              "rot":   [0, 0, 0],
+              "scale": [1, 1, 1]
+            }
+          }
+        },
         {"id": "model_settings_terrain" ,
           "config": {
             "instancing": {

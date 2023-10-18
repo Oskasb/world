@@ -144,6 +144,18 @@
           }
         },
         {
+          "id":"material_big_terrain",
+          "config":{
+            "settings": "mat_settings_terrain_big",
+            "textures":[
+              {"key":"terrainmap"     , "id":"tx_terrainmap_world_01"  },
+              {"key":"heightmap"      , "id":"tx_heightmap_world_01"   },
+              {"key":"tx0"            , "id":"tx_ground_tiles16x16"      },
+              {"key":"tx0nm"          , "id":"tx_ground_tiles16x16nm"    }
+            ]
+          }
+        },
+        {
           "id":"material_instanced_terrain",
           "config":{
             "settings": "mat_settings_terrain_instanced",

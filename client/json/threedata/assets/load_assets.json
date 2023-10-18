@@ -112,6 +112,7 @@
       "/threedata/assets/sprites/particle_sprites_8x8.json"
     ],
     "LOAD_MODELS":[
+      "asset_big_loader",
       "asset_ocean_16",
       "asset_grid_32",
       "asset_grid_16",

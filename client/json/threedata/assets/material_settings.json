@@ -103,7 +103,32 @@
             }
           }
         },
+        {
+          "id": "mat_settings_terrain_big"  ,
+          "config": {
+            "shader": "RawShaderMaterial",
+            "properties": {
+              "program": "TERRAIN_BIG",
+              "blending": "NoBlending",
+              "global_uniforms":{
+                "fogDensity": { "value": 0.00025 },
+                "fogColor": { "value": {"r":1, "g":1, "b":1}},
+                "ambientLightColor": { "value": {"r":1, "g":1, "b":1}},
+                "sunLightColor": { "value": {"r":1, "g":1, "b":1}},
+                "sunLightDirection": { "value": {"x":1, "y":1, "z":1}}
+              },
+              "texture_uniforms": [
 
+                {"key":"terrainmap",  "tiles":[0,   0]},
+                {"key":"heightmap",   "tiles":[0,   0]},
+                {"key":"tx0",         "tiles":[16,   16]},
+                {"key":"tx0nm",       "tiles":[16,   16]}
+              ],
+              "settings": {
+              }
+            }
+          }
+        },
         {
           "id": "mat_settings_terrain_instanced"  ,
           "config": {
@@ -122,8 +147,8 @@
 
                 {"key":"terrainmap",  "tiles":[0,   0]},
                 {"key":"heightmap",   "tiles":[0,   0]},
-                {"key":"tx0",         "tiles":[8,   8]},
-                {"key":"tx0nm",       "tiles":[8,   8]}
+                {"key":"tx0",         "tiles":[16,   16]},
+                {"key":"tx0nm",       "tiles":[16,   16]}
               ],
               "settings": {
               }

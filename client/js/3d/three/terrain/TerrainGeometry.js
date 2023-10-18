@@ -381,7 +381,7 @@ class TerrainGeometry{
                 client.dynamicMain.requestAssetInstance(this.gridMeshAssetIds[lodLevel], addSceneInstance)
             }
         }
-        this.applyLodLevelChange()
+
 
     }
 
@@ -460,14 +460,18 @@ class TerrainGeometry{
             hideGround = true;
         }
 
-        if (lodLevel === -1) {
-            this.detachGeometryInstance();
-            this.isVisible = false;
-        } else {
-            this.attachGeometryInstance(null, lodLevel, hideGround, hideOcean)
-            this.isVisible = true;
-        }
+        if (lodLevel !== this.levelOfDetail) {
 
+
+            if (lodLevel === -1) {
+                this.detachGeometryInstance();
+                this.isVisible = false;
+            } else {
+                this.attachGeometryInstance(null, lodLevel, hideGround, hideOcean)
+                this.isVisible = true;
+            }
+            this.applyLodLevelChange()
+        }
 
         this.updateFrame = frame;
     }

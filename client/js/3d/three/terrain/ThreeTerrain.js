@@ -3,6 +3,7 @@ import {TerrainMaterial} from "./TerrainMaterial.js";
 import {Vector3} from "../../../../libs/three/math/Vector3.js";
 import {Object3D} from "../../../../libs/three/core/Object3D.js";
 import {TerrainGeometry} from "./TerrainGeometry.js";
+import { TerrainBigGeometry} from "./TerrainBigGeometry.js";
 import {DynamicLodGrid} from "../../utils/DynamicLodGrid.js";
 import * as TerrainFunctions from "./TerrainFunctions.js";
 import * as CursorUtils from "../../camera/CursorUtils.js";
@@ -27,6 +28,9 @@ let updateFrame = 0;
 let visibleGeoTiles = [];
 let postVisibleGeoTiles = [];
 let dynamicLodGrid = null;
+
+let terrainBigGeometry = new TerrainBigGeometry();
+
 let transformModel = function(trf, model) {
     model.position.x = trf.pos[0];
     model.position.y = trf.pos[1];
@@ -343,6 +347,7 @@ class ThreeTerrain {
 
         };
 
+        terrainBigGeometry.initBigTerrainGeometry(lodCenter);
         dynamicLodGrid = new DynamicLodGrid();
         dynamicLodGrid.activateLodGrid({lod_levels: 4, tile_range:22, tile_spacing:16, hide_tiles:true, center_offset:true, debug:false})
 
