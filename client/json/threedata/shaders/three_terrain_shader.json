@@ -169,7 +169,7 @@
           "float sampleBlue = terrainMapSample.b;",
           "float sampleGreen = terrainMapSample.g;",
 
-          "float waterRow = 15.0;",
+          "float waterRow = 16.0;",
           "float depthScale = 0.98;",
           "float modFactor = 0.05;",
 
@@ -359,7 +359,7 @@
           "vec4 terrainMapSample = texture2D( terrainmap, terrainSampler);",
           "vec4 heightMapSample = texture2D( heightmap, terrainSampler);",
 
-          "int gIndex = int(min(heightMapSample.g*50.0, 4.0));",
+          "int gIndex = int(min(terrainMapSample.r*8.0, 4.0));",
           "float biomeIndex = float(gIndex);",
 
           "float twoPi = 6.2831;",
@@ -375,11 +375,11 @@
 
 
           "float tileCount = 16.0;",
-          "float tileXuv = max(0.001, min(vUv.x*1.0, 0.9999)) * tileCount;",
-          "float tileYuv = max(0.001, min(vUv.y*1.0, 0.9999)) * tileCount;",
-          "float uvX = (tileXuv * 1.0 - floor(tileXuv * 1.0)*0.9999) * 1.0;",
-          "float uvY = (tileYuv * 1.0 - floor(tileYuv * 1.0)*0.9999) * 1.0;",
-          "vec2 tileUv = vec2(0.005 + uvX*0.990, 0.005 + uvY*0.990);",
+          "float tileXuv = max(0.001, min(vUv.x*1.0, 0.999)) * tileCount;",
+          "float tileYuv = max(0.001, min(vUv.y*1.0, 0.999)) * tileCount;",
+          "float uvX = (tileXuv * 1.0 - floor(tileXuv * 1.0005)*0.99995) * 1.0;",
+          "float uvY = (tileYuv * 1.0 - floor(tileYuv * 1.0005)*0.99995) * 1.0;",
+          "vec2 tileUv = vec2(0.007 + uvX*0.988, 0.007 + uvY*0.988);",
           "vec2 scaledUv = tileUv*tileScale * 1.0;",
           "scaledUv.y /= sprite.z;",
 
