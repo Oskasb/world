@@ -163,7 +163,7 @@ class ThreeEnvironment {
             }
 
             if (config[key].density) {
-                this.applyFog(this.world[key], config[key].density * this.elevationFactor);
+                this.applyFog(this.world[key], config[key].density * this.elevationFactor * 0.8);
             //    renderer.setClearColor(fogColor)
             }
         }
@@ -321,7 +321,7 @@ class ThreeEnvironment {
         this.currentElevation = this.camera.position.y;
 
         if (this.currentElevation > 0) {
-            this.elevationFactor = MATH.curveCube( MATH.airDensityAtAlt(this.currentElevation) );
+            this.elevationFactor = MATH.curveCube( MATH.airDensityAtAlt(this.currentElevation*1) );
         } else {
         //    this.updateUnderwater();
         //    return;

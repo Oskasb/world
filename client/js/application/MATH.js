@@ -235,7 +235,7 @@ if(typeof(MATH) === "undefined") {
     };
 
     MATH.airDensityAtAlt = function(alt) {
-        return MATH.valueFromCurve(alt, MATH.curves.densityByAlt) * 1.22;
+        return MATH.valueFromCurve(alt, MATH.curves.densityByAlt) * 1.0;
     };
 
     MATH.curves = {
@@ -264,7 +264,7 @@ if(typeof(MATH) === "undefined") {
 		"growShrink":   [[0, 1], [0.5,0], [1, -2]],
 		"shrink":   	[[0, -0.3], [0.3, -1]],
         "machByAlt":    [[0, 1], [12200, 0.867], [12200, 0.867], [20000, 0.867], [32000, 0.88]],
-        "densityByAlt": [[0, 1], [95, 0.75], [200, 0.52], [16000, 0.1], [20000, 0.05], [40000, 0.025], [80000, 0.01], [120000, 0]]
+        "densityByAlt": [[0, 1.5], [25, 1.0], [100, 0.62], [16000, 0.1], [20000, 0.05], [40000, 0.025], [80000, 0.01], [120000, 0]]
 	};
 
 

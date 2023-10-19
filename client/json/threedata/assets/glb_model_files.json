@@ -101,6 +101,7 @@
         {"id": "file_hat_pointy_white","config": { "url": "./client/assets/models/items_rigid/clothes/head/hat_pointy_white"         }},
 
 
+        {"id": "file_grid_256",      "config": { "url": "./client/assets/models/shapes/grid_256"                                  }},
         {"id": "file_grid_127",      "config": { "url": "./client/assets/models/shapes/grid_127"                                  }},
 
         {"id": "file_grid_63",       "config": { "url": "./client/assets/models/shapes/grid_63"                                  }},

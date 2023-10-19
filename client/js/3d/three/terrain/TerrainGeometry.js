@@ -333,6 +333,7 @@ class TerrainGeometry{
             this.levelOfDetail = lodLevel;
             this.instance = instance;
             instance.stationary = true;
+
             if (debugWorld === null) {
                 const geometry = new THREE.PlaneGeometry( 1, 1 );
                 debugWorld = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial());
@@ -353,6 +354,7 @@ class TerrainGeometry{
             ThreeAPI.tempVec4.w = 1;
             instance.setAttributev4('sprite', ThreeAPI.tempVec4)
             ThreeAPI.getScene().remove(instance.spatial.obj3d)
+            instance.decommissionInstancedModel()
             if (typeof (geoReady) === 'function') {
                 geoReady();
             }
@@ -378,7 +380,8 @@ class TerrainGeometry{
             }
 
             if (!hideGround) {
-                client.dynamicMain.requestAssetInstance(this.gridMeshAssetIds[lodLevel], addSceneInstance)
+                //     addSceneInstance(true)
+              client.dynamicMain.requestAssetInstance(this.gridMeshAssetIds[lodLevel], addSceneInstance)
             }
         }
 
@@ -518,7 +521,7 @@ class TerrainGeometry{
                     this.updateMinMax = false
                 };
 
-                let hideGround = false;
+                let hideGround = true;
                 let hideOcean = false;
 
                 if (this.minY > 0) {
