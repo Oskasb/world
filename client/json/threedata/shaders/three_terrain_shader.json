@@ -278,7 +278,7 @@
           "center.y = floor(offset.z);",
           "vec4 quat = orientation.xyzw;",
 
-          "float upscaleGain = 2.0;",
+          "float upscaleGain = 1.6;",
 
           "upscale.x = max(abs(position.x * upscaleGain), 1.0);",
           "upscale.y = max(abs(position.z * upscaleGain), 1.0);",
@@ -290,8 +290,6 @@
           "terrainPosition.y = 0.0;",
           "terrainPosition.z = position.z*tileFactor*upscale.y;",
           "vUv = uv;",
-
-          "tileScale = vec2(1.0, 1.0);",
 
           "tileOffset = vec2(0.0, 0.0);",
 
@@ -323,9 +321,9 @@
           "vec3 biTangent = triPoint1 - triPoint0;",
           "vNormal = normalize(cross(tangent, biTangent));",
 
-          "vPosition.x = upscale.x * floor(vPosition.x * 10.0/16.0*2.0*txw)*0.5*shift;",
+          "vPosition.x = floor(upscale.x * vPosition.x * 10.0/16.0*2.0*txw)*0.5*shift;",
           "vPosition.y = -2.9 + sample.x * scale3d.y * 1.0 *  10.0/20.0;",
-          "vPosition.z = upscale.y * floor(vPosition.z *  10.0/16.0*2.0*txw)*0.5*shift;"  ,
+          "vPosition.z = floor(upscale.y * vPosition.z *  10.0/16.0*2.0*txw)*0.5*shift;"  ,
 
 
           "faceNormal = vNormal + 2.0 * cross( orientation.xyz, cross( orientation.xyz, vNormal ) + orientation.w * vNormal );",
@@ -391,16 +389,17 @@
 
           "vec4 sprite = vec4(0.0, 8.0, 1.0, 1.0);",
           "vec2 tileScale = 1.0/tx0tiles;",
-          "tileScale.y /= sprite.z;",
+
+
 
           "float tileCount = tx0tiles.x*8.0;",
-          "float tileXuv = max(0.001, min(vUv.x*1.0, 0.999)) * tileCount*upscale.x;",
-          "float tileYuv = max(0.001, min(vUv.y*1.0, 0.999)) * tileCount*upscale.y;",
-          "float uvX = (tileXuv * 1.0 - floor(tileXuv * 1.0005)*0.99995) * 1.0;",
-          "float uvY = (tileYuv * 1.0 - floor(tileYuv * 1.0005)*0.99995) * 1.0;",
+          "float tileXuv = (max(0.001, min(vUv.x*1.0, 0.999)) * tileCount ) * (1.0 + upscale.x*0.0);",
+          "float tileYuv = (max(0.001, min(vUv.y*1.0, 0.999)) * tileCount ) * (1.0 + upscale.y*0.0);",
+          "float uvX = ((tileXuv * 1.0 - floor(tileXuv * 1.0005)*0.99995)) * 1.0;",
+          "float uvY = ((tileYuv * 1.0 - floor(tileYuv * 1.0005)*0.99995)) * 1.0;",
           "float pixelShrink = 0.03;",
           "vec2 tileUv = vec2(pixelShrink + uvX*(1.0-pixelShrink*2.0), pixelShrink + uvY*(1.0-pixelShrink*2.0));",
-          "vec2 scaledUv = tileUv*tileScale * 1.0;",
+          "vec2 scaledUv = tileUv*tileScale;",
           "scaledUv.y /= sprite.z;",
 
           "float sampleBlue = terrainMapSample.b;",
@@ -413,7 +412,7 @@
           "float natureRow = 2.0 + biomeOffset;",
           "float natureStep = 0.06;",
 
-          "float scatter = (cos(vPosition.z*113.0) + sin(vPosition.x*113.0))*0.002 + (cos(vPosition.z*25.0) + sin(vPosition.x*25.0))*0.002;",
+          "float scatter = 0.0;",
 
           "vec2 tile01 = vec2(min(floor((sampleGreen+scatter) * 10.0), 7.0), natureRow);",
           "vec2 tile01Offset = vec2(tile01.x * tileScale.x, (tile01.y-sprite.w) * tileScale.y / sprite.z);",
