@@ -137,7 +137,7 @@ class TerrainBigGeometry {
     //    return;
         // "asset_big_loader"
 
-        client.dynamicMain.requestAssetInstance("asset_grid_256", materialModel)
+        client.dynamicMain.requestAssetInstance("asset_ground_big", materialModel)
 
         lodCenter = lodC;
 

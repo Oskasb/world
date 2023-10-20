@@ -266,11 +266,13 @@
           "varying vec2 upscale;",
           "void main(){",
 
-          "vPosition = position*scale3d;",
+          "vPosition = position*scale3d*1.0;",
+
+          "vPosition = vPosition*4.0;",
 
           "float txw = heightmaptiles.z;",
           "float txPointOffset = 1.0/txw;",
-          "float tileFactor = 1.0/16.0;",
+          "float tileFactor = 4.0/16.0;",
 
           "float shift = txPointOffset * 1.0;",
           "float shiftSubOne = 1.0/(txw-1.0);",
@@ -278,7 +280,7 @@
           "center.y = floor(offset.z);",
           "vec4 quat = orientation.xyzw;",
 
-          "float upscaleGain = 1.6;",
+          "float upscaleGain = 1.0;",
 
           "upscale.x = max(abs(position.x * upscaleGain), 1.0);",
           "upscale.y = max(abs(position.z * upscaleGain), 1.0);",
@@ -286,10 +288,13 @@
           "upscale.x = upscale.x*upscale.x*upscale.x;",
           "upscale.y = upscale.y*upscale.y*upscale.y;",
 
-          "terrainPosition.x = position.x*tileFactor*upscale.x;",
+          "upscale.x = 1.0;",
+          "upscale.y = 1.0;",
+
+          "terrainPosition.x = position.x*tileFactor;",
           "terrainPosition.y = 0.0;",
-          "terrainPosition.z = position.z*tileFactor*upscale.y;",
-          "vUv = uv;",
+          "terrainPosition.z = position.z*tileFactor;",
+          "vUv = uv*1.0;",
 
           "tileOffset = vec2(0.0, 0.0);",
 
@@ -321,9 +326,9 @@
           "vec3 biTangent = triPoint1 - triPoint0;",
           "vNormal = normalize(cross(tangent, biTangent));",
 
-          "vPosition.x = floor(upscale.x * vPosition.x * 10.0/16.0*2.0*txw)*0.5*shift;",
+          "vPosition.x = (vPosition.x * 10.0/16.0*2.0*txw)*0.5*shift;",
           "vPosition.y = -2.9 + sample.x * scale3d.y * 1.0 *  10.0/20.0;",
-          "vPosition.z = floor(upscale.y * vPosition.z *  10.0/16.0*2.0*txw)*0.5*shift;"  ,
+          "vPosition.z = (vPosition.z *  10.0/16.0*2.0*txw)*0.5*shift;"  ,
 
 
           "faceNormal = vNormal + 2.0 * cross( orientation.xyz, cross( orientation.xyz, vNormal ) + orientation.w * vNormal );",
@@ -391,13 +396,14 @@
           "vec2 tileScale = 1.0/tx0tiles;",
 
 
+          "vec2 upscaledUv = vec2((vUv.x*1.0)*upscale.x, (vUv.y*1.0)*upscale.y);",
 
-          "float tileCount = tx0tiles.x*8.0;",
-          "float tileXuv = (max(0.001, min(vUv.x*1.0, 0.999)) * tileCount ) * (1.0 + upscale.x*0.0);",
-          "float tileYuv = (max(0.001, min(vUv.y*1.0, 0.999)) * tileCount ) * (1.0 + upscale.y*0.0);",
+          "float tileCount = tx0tiles.x*16.0;",
+          "float tileXuv = (max(0.001, min(vUv.x, 0.999)) * tileCount );",
+          "float tileYuv = (max(0.001, min(vUv.y, 0.999)) * tileCount );",
           "float uvX = ((tileXuv * 1.0 - floor(tileXuv * 1.0005)*0.99995)) * 1.0;",
           "float uvY = ((tileYuv * 1.0 - floor(tileYuv * 1.0005)*0.99995)) * 1.0;",
-          "float pixelShrink = 0.03;",
+          "float pixelShrink = 0.05;",
           "vec2 tileUv = vec2(pixelShrink + uvX*(1.0-pixelShrink*2.0), pixelShrink + uvY*(1.0-pixelShrink*2.0));",
           "vec2 scaledUv = tileUv*tileScale;",
           "scaledUv.y /= sprite.z;",
