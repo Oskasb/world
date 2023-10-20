@@ -14,6 +14,7 @@ let terrainList = {};
 let terrainIndex = {};
 let terrainGeometries = [];
 let lodCenter = new Vector3();
+let terrainCenter = new Vector3();
 let calcVec = new Vector3();
 let posVec = new Vector3();
 let normVec = new Vector3();
@@ -153,24 +154,28 @@ let getThreeTerrainByPosition = function(pos) {
     }
 };
 
-let getThreeTerrainHeightAt = function(terrainGeo, pos, normalStore, groundData) {
-    if (!terrainGeo) {
+let getThreeTerrainHeightAt = function(pos, normalStore, groundData) {
+    if (!terrainBigGeometry.getHeightmapData()) {
         if (normalStore) {
             normalStore.set(0, 1, 0);
         }
         return pos.y
     }
 
-    return TerrainFunctions.getHeightAt(pos, terrainGeo.getHeightmapData(), terrainGeo.tx_width, terrainGeo.tx_width - 1, normalStore, terrainScale, terrainOrigin, groundData);
+    let params = terrainBigGeometry.getTerrainParams()
+
+    return TerrainFunctions.getHeightAt(pos, terrainBigGeometry.getHeightmapData(), params.tx_width, params.tx_width - 1, normalStore, terrainScale, terrainOrigin, groundData);
 };
 
-let getThreeTerrainDataAt = function(terrainGeo, pos, dataStore) {
-    return TerrainFunctions.getGroundDataAt(pos, terrainGeo.getGroundData(), terrainGeo.groundTxWidth, terrainGeo.groundTxWidth - 1, dataStore);
+let getThreeTerrainDataAt = function(pos, dataStore) {
+    let params = terrainBigGeometry.getTerrainParams()
+    return TerrainFunctions.getGroundDataAt(pos, terrainBigGeometry.getGroundData(), params.groundTxWidth, params.groundTxWidth - 1, dataStore);
 }
 
-let shadeThreeTerrainDataAt = function(terrainGeo, pos, size, channelIndex, operation, intensity) {
-    TerrainFunctions.shadeGroundCanvasAt(pos, terrainGeo.getHeightmapCanvas(), terrainGeo.tx_width, terrainGeo.tx_width - 1, size, channelIndex, operation, intensity);
-    terrainGeo.updateHeightmapCanvasTexture();
+let shadeThreeTerrainDataAt = function(pos, size, channelIndex, operation, intensity) {
+    let params = terrainBigGeometry.getTerrainParams()
+    TerrainFunctions.shadeGroundCanvasAt(pos, terrainBigGeometry.getHeightmapCanvas(), params.tx_width, params.tx_width - 1, size, channelIndex, operation, intensity);
+    terrainBigGeometry.updateHeightmapCanvasTexture();
 }
 
 let constructGeometries = function(heightMapData, transform, groundConfig, sectionInfoCfg) {
@@ -252,15 +257,15 @@ let frameGridExtentsChecks = [0, 0, 0, 0];
 
 
 let getHeightAndNormal = function(pos, normal, groundData) {
-    return getThreeTerrainHeightAt(geoBeneathPlayer, pos, normal, groundData)
+    return getThreeTerrainHeightAt(pos, normal, groundData)
 }
 
 let getTerrainData = function(pos, dataStore) {
-    return getThreeTerrainDataAt(geoBeneathPlayer, pos, dataStore)
+    return getThreeTerrainDataAt(pos, dataStore)
 }
 
 let shadeTerrainDataCanvas = function(pos, size, channelIndex, operation, intensity) {
-    shadeThreeTerrainDataAt(geoBeneathPlayer, pos, size, channelIndex, operation, intensity)
+    shadeThreeTerrainDataAt(pos, size, channelIndex, operation, intensity)
 }
 
 
@@ -343,11 +348,12 @@ class ThreeTerrain {
             //    console.log("terrainListLoaded", data, terrainMaterial, terrainMaterial.getMaterialById(terrainId));
             gridConfig = data['grid']
             constructGeometries(data['height_map'], data['transform'], data['ground'], data['section_info']);
+            terrainBigGeometry.initBigTerrainGeometry(terrainCenter, data['height_map'], data['transform'], data['ground'], data['section_info']);
             matLoadedCB();
 
         };
 
-        terrainBigGeometry.initBigTerrainGeometry(lodCenter);
+
         dynamicLodGrid = new DynamicLodGrid();
         dynamicLodGrid.activateLodGrid({lod_levels: 4, tile_range:22, tile_spacing:16, hide_tiles:true, center_offset:true, debug:false})
 
@@ -400,7 +406,7 @@ class ThreeTerrain {
 
     //    scrubTerrainForError();
 
-        CursorUtils.processTerrainLodCenter(lodCenter)
+        CursorUtils.processTerrainLodCenter(lodCenter, terrainCenter)
     //    if (GameAPI.gameMain.getPlayerCharacter()) {
 
             let playerGeo = getTerrainGeoAtPos(lodCenter);

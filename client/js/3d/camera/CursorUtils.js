@@ -135,12 +135,20 @@ function drawInputCursorState(cursorObj3d, dragToVec3, camTargetPos, cursorForwa
     evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:calcVec, to:tempVec3, color:'YELLOW'});
 }
 
-function processTerrainLodCenter(calcVec) {
+function processTerrainLodCenter(calcVec, terrainCenter) {
     let cursorPos = ThreeAPI.getCameraCursor().getPos();
 
     calcVec.subVectors(cursorPos , ThreeAPI.getCamera().position );
+    terrainCenter.copy(calcVec)
+
+    terrainCenter.multiplyScalar(1.1)
+    terrainCenter.add(cursorPos)
+
     calcVec.multiplyScalar(-0.3);
     calcVec.add(cursorPos);
+
+
+
     calcVec.y = ThreeAPI.terrainAt(calcVec);
 
     evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:calcVec, color:'WHITE', size:0.2})

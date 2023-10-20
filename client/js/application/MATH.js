@@ -264,7 +264,7 @@ if(typeof(MATH) === "undefined") {
 		"growShrink":   [[0, 1], [0.5,0], [1, -2]],
 		"shrink":   	[[0, -0.3], [0.3, -1]],
         "machByAlt":    [[0, 1], [12200, 0.867], [12200, 0.867], [20000, 0.867], [32000, 0.88]],
-        "densityByAlt": [[0, 1.6], [25, 1.4], [100, 0.95], [16000, 0.3], [20000, 0.05], [40000, 0.025], [80000, 0.01], [120000, 0]]
+        "densityByAlt": [[0, 1.6], [25, 1.2], [100, 0.95], [16000, 0.3], [20000, 0.05], [40000, 0.025], [80000, 0.01], [120000, 0]]
 	};
 
 
@@ -599,9 +599,11 @@ if(typeof(MATH) === "undefined") {
     };
 
 	MATH.vec3FromArray = function(vec3, array) {
+		if (!vec3) vec3 = new THREE.Vector3();
 		vec3.x = array[0];
 		vec3.y = array[1];
 		vec3.z = array[2];
+		return vec3;
 	}
 
 	MATH.rotXYZFromArray = function(obj3d, rot) {

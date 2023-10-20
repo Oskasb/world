@@ -2,6 +2,7 @@ import {PlaneGeometry} from "../../../../libs/three/geometries/PlaneGeometry.js"
 import {Mesh} from "../../../../libs/three/objects/Mesh.js";
 import {MeshBasicMaterial} from "../../../../libs/three/materials/MeshBasicMaterial.js";
 import {DoubleSide} from "../../../../libs/three/constants.js";
+import {Vector3} from "../../../../libs/three/math/Vector3.js";
 
 let bigWorld = null;
 let lodCenter = null;
@@ -21,6 +22,8 @@ let maxLodLevel = 6;
 let terrainContext = null;
 let heightmapContext = null;
 let terrainUpdate = false;
+
+let terrainParams = {}
 
 let globalUpdateFrame = 0;
 let setupHeightmapData = function(originalModelMat) {
@@ -98,8 +101,16 @@ let setupHeightmapData = function(originalModelMat) {
     //  console.log(terrainMaterial, [heightmap], [terrainmap])
 }
 
+
 let updateBigGeo = function(tpf) {
     bigWorld.getSpatial().setPosXYZ(Math.floor(lodCenter.x), 0.0, Math.floor(lodCenter.z));
+
+    if (terrainUpdate) {
+        terrainMaterial.heightmap.needsUpdate = true;
+        heightmap = heightmapContext.getImageData(0, 0, width, height).data;
+        terrainUpdate = false;
+    }
+
 }
 
 let materialModel = function(model) {
@@ -132,10 +143,69 @@ class TerrainBigGeometry {
     }
 
 
+    getHeightmapData() {
+        return heightmap;
+    }
 
-    initBigTerrainGeometry(lodC) {
+    getHeightmapCanvas() {
+        return heightmapContext;
+    }
+
+    getGroundData() {
+        if (groundUpdate) {
+            //    terrainmap = terrainContext.getImageData(0, 0, terrainWidth, terrainHeight).data;
+            groundUpdate = false;
+        }
+        return terrainmap;
+    }
+
+    updateGroundCanvasTexture() {
+        //    console.log(terrainMaterial)
+        terrainMaterial.uniforms.terrainmap.value = terrainMaterial.terrainmap;
+        terrainMaterial.terrainmap.needsUpdate = true;
+        terrainMaterial.uniforms.terrainmap.needsUpdate = true;
+        terrainMaterial.uniformsNeedUpdate = true;
+        terrainMaterial.needsUpdate = true;
+        groundUpdate = true;
+    }
+
+    updateHeightmapCanvasTexture() {
+        //    if (MATH.isEvenNumber(GameAPI.getFrame().frame * 0.25)) {
+        terrainUpdate = true;
+        //    }
+    }
+
+
+    getTerrainParams() {
+        return terrainParams;
+    }
+
+    initBigTerrainGeometry(lodC, heightMapData, transform) {
     //    return;
         // "asset_big_loader"
+
+        let dims = heightMapData['dimensions'];
+        // gridMeshAssetId = dims['grid_mesh'];
+        let txWidth = dims['tx_width'];
+        let groundTxWidth = dims['ground_tx_width'];
+        let mesh_segments = dims['mesh_segments'];
+        let tiles = (txWidth / (mesh_segments+1));
+        console.log("Constructs Big Terrain", txWidth, mesh_segments, tiles);
+
+        let terrainOrigin = MATH.vec3FromArray(null, transform['pos']);
+
+        let terrainScale = MATH.vec3FromArray(null, transform['scale']);
+
+        let segmentScale = new Vector3();
+        segmentScale.copy(terrainScale);
+        segmentScale.multiplyScalar(1/tiles);
+        segmentScale.y = terrainScale.y * 0.02;
+        let geometrySize = segmentScale.x
+        let vertsPerSegAxis = txWidth/tiles;
+
+        terrainParams.tx_width = txWidth;
+        terrainParams.groundTxWidth = groundTxWidth;
+        terrainParams.tiles = tiles;
 
         client.dynamicMain.requestAssetInstance("asset_ground_big", materialModel)
 
