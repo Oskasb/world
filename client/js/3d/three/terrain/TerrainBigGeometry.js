@@ -117,7 +117,7 @@ let materialModel = function(model) {
     originalMat = model.originalModel.material.mat
     setupHeightmapData(originalMat)
     bigWorld = model;
-    console.log("materialModel", originalMat)
+    console.log("big world model:", model)
 /*
     let plane = new PlaneGeometry(256, 256, 256, 256)
 

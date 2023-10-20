@@ -57,7 +57,7 @@ class InstanceBuffer {
         mesh.userData.ninequad = ninequad;
         //    mesh.scale.set(1, 1, 1);
 
-        mesh.geometry.drawRange.count = 300000;
+        mesh.geometry.drawRange.count = indices.length*1.0;
 
         mesh.needsUpdate = true;
         this.mesh = mesh;
