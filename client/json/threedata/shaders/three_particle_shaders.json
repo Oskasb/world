@@ -12,6 +12,7 @@
         "TERRAIN_BIG",
         "TERRAIN_SHADER",
         "OCEAN_INSTANCING",
+        "OCEAN_BIG",
         "INSTANCING_GPU_TRAIL",
         "INSTANCING_GPU_SPATIAL",
         "INSTANCING_GPU_GEOMETRY",
@@ -911,6 +912,20 @@
           {
             "source": "TERRAIN_SHADER",
             "chunk": "fragmentOceanInstancing"
+          }
+        ]
+      },
+      "OCEAN_BIG": {
+        "vertex": [
+          {
+            "source": "TERRAIN_SHADER",
+            "chunk": "vertexBigOcean"
+          }
+        ],
+        "fragment": [
+          {
+            "source": "TERRAIN_SHADER",
+            "chunk": "fragmentBigOcean"
           }
         ]
       },

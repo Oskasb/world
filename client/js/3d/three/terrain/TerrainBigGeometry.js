@@ -5,6 +5,7 @@ import {DoubleSide} from "../../../../libs/three/constants.js";
 import {Vector3} from "../../../../libs/three/math/Vector3.js";
 
 let bigWorld = null;
+let bigOcean = null;
 let lodCenter = null;
 let originalMat = null;
 
@@ -92,6 +93,21 @@ let setupHeightmapData = function(originalModelMat) {
     terrainMaterial.uniforms.heightmaptiles.value.z = 2048;
     terrainMaterial.needsUpdate = true;
 
+
+    oceanMaterial.terrainmap = terrainMapCanvasTx;
+    oceanMaterial.uniforms.terrainmap.value = terrainMapCanvasTx;
+    oceanMaterial.heightmap = heightMapCanvasTx;
+    oceanMaterial.uniforms.heightmap.value = heightMapCanvasTx;
+    oceanMaterial.heightmap.needsUpdate = true;
+    oceanMaterial.uniforms.needsUpdate = true;
+    oceanMaterial.uniformsNeedUpdate = true;
+    oceanMaterial.needsUpdate = true;
+
+    oceanMaterial.uniforms.heightmaptiles.value.x = 1;
+    oceanMaterial.uniforms.heightmaptiles.value.y = 1;
+    oceanMaterial.uniforms.heightmaptiles.value.z = 2048;
+    oceanMaterial.needsUpdate = true;
+
     /*
         setTimeout(function() {
             terrainmap = terrainContext.getImageData(0, 0, terrainWidth, terrainHeight).data;
@@ -104,7 +120,7 @@ let setupHeightmapData = function(originalModelMat) {
 
 let updateBigGeo = function(tpf) {
     bigWorld.getSpatial().setPosXYZ(Math.floor(lodCenter.x), 0.0, Math.floor(lodCenter.z));
-
+    bigOcean.getSpatial().setPosXYZ(Math.floor(lodCenter.x), -3.0, Math.floor(lodCenter.z));
     if (terrainUpdate) {
         terrainMaterial.heightmap.needsUpdate = true;
         heightmap = heightmapContext.getImageData(0, 0, width, height).data;
@@ -114,24 +130,16 @@ let updateBigGeo = function(tpf) {
 }
 
 let materialModel = function(model) {
-    originalMat = model.originalModel.material.mat
+    originalMat = model.originalModel.material.mat;
     setupHeightmapData(originalMat)
     bigWorld = model;
     console.log("big world model:", model)
-/*
-    let plane = new PlaneGeometry(256, 256, 256, 256)
 
-    bigWorld = new Mesh(plane, new MeshBasicMaterial());
-    bigWorld.rotateX(MATH.HALF_PI);
-    //    bigWorld.scale.multiplyScalar(this.tx_width);
-    bigWorld.material.opacity = 0.4;
-    bigWorld.material.side = DoubleSide;
-    bigWorld.material.transparent = true;
-    bigWorld.material.depthTest = false;
-    bigWorld.material.depthWrite = false;
-    ThreeAPI.addToScene(bigWorld)
+}
 
- */
+let oceanModel = function(model) {
+    oceanMaterial = model.originalModel.material.mat;
+    bigOcean = model;
 }
 
 class TerrainBigGeometry {
@@ -183,7 +191,7 @@ class TerrainBigGeometry {
     initBigTerrainGeometry(lodC, heightMapData, transform) {
     //    return;
         // "asset_big_loader"
-
+        lodCenter = lodC;
         let dims = heightMapData['dimensions'];
         // gridMeshAssetId = dims['grid_mesh'];
         let txWidth = dims['tx_width'];
@@ -207,11 +215,19 @@ class TerrainBigGeometry {
         terrainParams.groundTxWidth = groundTxWidth;
         terrainParams.tiles = tiles;
 
-        client.dynamicMain.requestAssetInstance("asset_ground_big", materialModel)
+        let updateBigGeo = this.call.updateBigGeo;
+        let groundCB = function(model) {
+            materialModel(model)
+            ThreeAPI.addPrerenderCallback(updateBigGeo)
+        }
 
-        lodCenter = lodC;
+        let oceanCB = function(model) {
+            oceanModel(model)
+            client.dynamicMain.requestAssetInstance("asset_ground_big", groundCB)
+        }
 
-        ThreeAPI.addPrerenderCallback(this.call.updateBigGeo)
+        client.dynamicMain.requestAssetInstance("asset_ocean_big", oceanCB)
+
     }
 
 

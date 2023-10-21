@@ -69,6 +69,7 @@
         {"id": "asset_grid_1",      "config": { "model": "file_grid_1",      "material": "material_instanced_terrain",      "settings": "model_settings_terrain_1"  }},
 
         {"id": "asset_ground_big",   "config": { "model": "file_ground_big",     "material": "material_big_terrain",      "settings": "model_settings_big_terrain"  }},
+        {"id": "asset_ocean_big",    "config": { "model": "file_ground_big",     "material": "material_big_ocean",      "settings": "model_settings_big_terrain"  }},
 
         {"id": "asset_box",         "config": { "model": "file_box",         "material": "material_instancing_tileset",      "settings": "model_settings_tileset"  }},
 
