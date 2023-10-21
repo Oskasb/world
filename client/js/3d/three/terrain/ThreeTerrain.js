@@ -7,6 +7,7 @@ import { TerrainBigGeometry} from "./TerrainBigGeometry.js";
 import {DynamicLodGrid} from "../../utils/DynamicLodGrid.js";
 import * as TerrainFunctions from "./TerrainFunctions.js";
 import * as CursorUtils from "../../camera/CursorUtils.js";
+import {poolReturn} from "../../../application/utils/PoolUtils.js";
 
 let scrubIndex = 0;
 
@@ -415,11 +416,16 @@ class ThreeTerrain {
                 geoBeneathPlayer = playerGeo;
             }
 
-            let update = dynamicLodGrid.updateDynamicLodGrid(lodCenter);
+            let releasedPoints = dynamicLodGrid.updateDynamicLodGrid(lodCenter);
 
-if (update) {
-    drawTilesByLodGrid(updateFrame)
-}
+            while (releasedPoints.length) {
+                let pointVec3 = releasedPoints.pop()
+                let geo = getTerrainGeoAtPos(pointVec3);
+                geo.updateVisibility(-1, -1)
+                poolReturn(pointVec3);
+            }
+
+            drawTilesByLodGrid(updateFrame)
 
 
 
