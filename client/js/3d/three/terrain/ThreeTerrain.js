@@ -180,7 +180,6 @@ let shadeThreeTerrainDataAt = function(pos, size, channelIndex, operation, inten
 
 let constructGeometries = function(heightMapData, transform, groundConfig, sectionInfoCfg) {
     let dims = heightMapData['dimensions'];
-    gridMeshAssetId = dims['grid_mesh'];
     let txWidth = dims['tx_width'];
     let groundTxWidth = dims['ground_tx_width'];
     let mesh_segments = dims['mesh_segments'];
@@ -212,12 +211,12 @@ let constructGeometries = function(heightMapData, transform, groundConfig, secti
             obj3d.position.add(terrainOrigin);
             obj3d.scale.copy(segmentScale);
             obj3d.scale.multiplyScalar(0.005);
-            let geo = new TerrainGeometry(obj3d, geometrySize, i , j, gridMeshAssetId, vertsPerSegAxis, tiles, txWidth, groundTxWidth, groundConfig, sectionInfoCfg);
+            let geo = new TerrainGeometry(obj3d, geometrySize, i , j, vertsPerSegAxis, tiles, txWidth, groundTxWidth, groundConfig, sectionInfoCfg);
             terrainGeometries[i][j] = geo;
         }
     }
     geoBeneathPlayer = terrainGeometries[2][2];
-    geoBeneathPlayer.call.initTerrainMaterials();
+   // geoBeneathPlayer.call.initTerrainMaterials();
 
 };
 
