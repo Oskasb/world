@@ -311,13 +311,16 @@
 
 
 
-          "float waveX = sin(vPosition.x*4.0 + systemTime*0.60);",
-          "float waveY = cos(vPosition.z*4.0 + systemTime*0.55);",
+
 
           "vPosition.x += center.x -0.5;",
           "vPosition.z += center.y -0.5;",
 
+          "float waveX = sin(vPosition.x*4.0 + systemTime*0.80);",
+          "float waveY = cos(vPosition.z*4.0 + systemTime*0.80);",
           "vPosition.y = (waveX*waveY+waveY*waveX)*0.05;",
+          "vPosition.x += waveX*0.2 +sin(systemTime*0.3+vPosition.x*0.15)*0.75;",
+          "vPosition.z += waveY*0.2 +cos(systemTime*0.3+vPosition.z*0.15)*0.75;",
 
           "float intensity = abs(sunLightDirection.y);",
           "sunDir = sunLightColor * intensity * (0.3+intensity*intensity*0.3);",
