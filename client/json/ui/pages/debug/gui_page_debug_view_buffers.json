@@ -28,17 +28,17 @@
                       "samplers": [
                         {
                           "key": "sysKeys",
-                          "digits": 1
+                          "digits": 0
                         },
                         {
                           "key": "sysBuffs",
-                          "digits": 1
+                          "digits": 0
                         },{
                           "key": "mats",
-                          "digits": 1
+                          "digits": 0
                         },{
                           "key": "iCount",
-                          "digits": 1
+                          "digits": 0
                         }
                       ]
                     }
