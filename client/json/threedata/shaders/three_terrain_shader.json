@@ -260,6 +260,7 @@
           "varying float fogDepth;",
           "varying float vFragDepth;",
           "varying vec3 vPosition;",
+          "varying vec3 vNormal;",
           "varying vec2 tileScale;",
           "varying vec3 terrainPosition;",
           "varying float heightSample;",
@@ -316,11 +317,18 @@
           "vPosition.x += center.x -0.5;",
           "vPosition.z += center.y -0.5;",
 
-          "float waveX = sin(vPosition.x*4.0 + systemTime*0.80);",
-          "float waveY = cos(vPosition.z*4.0 + systemTime*0.80);",
+          "float waveX = sin(vPosition.x*2.0 + systemTime*0.80);",
+          "float waveY = cos(vPosition.z*2.0 + systemTime*0.80);",
           "vPosition.y = (waveX*waveY+waveY*waveX)*0.05;",
-          "vPosition.x += waveX*0.2 +sin(systemTime*0.3+vPosition.x*0.15)*0.75;",
-          "vPosition.z += waveY*0.2 +cos(systemTime*0.3+vPosition.z*0.15)*0.75;",
+          "vNormal.y = 40.0+vPosition.y;",
+          "vNormal.x = waveX*0.15 +sin(systemTime*0.23+vPosition.x*0.25);",
+          "vNormal.z = waveY*0.15 +cos(systemTime*0.23+vPosition.z*0.25);",
+          "vPosition.x += vNormal.x*0.5;",
+          "vPosition.z += vNormal.z*0.5;",
+
+          "vNormal.x += sin(systemTime*0.25+vPosition.x*0.25)+waveX*0.5;",
+          "vNormal.z += cos(systemTime*0.25+vPosition.z*0.25)+waveY*0.5;",
+          "vNormal = normalize(vNormal);",
 
           "float intensity = abs(sunLightDirection.y);",
           "sunDir = sunLightColor * intensity * (0.3+intensity*intensity*0.3);",
@@ -360,6 +368,7 @@
           "varying float vFragDepth;",
           "varying vec4 vColor;",
           "varying vec3 vPosition;",
+          "varying vec3 vNormal;",
           "varying vec2 tileScale;",
           "varying vec3 terrainPosition;",
           "varying vec2 scaledVPos;",
@@ -380,38 +389,25 @@
           "vec2 tileUv = vec2(pixelShrink + uvX*(1.0-pixelShrink*2.0), pixelShrink + uvY*(1.0-pixelShrink*2.0));",
           "vec2 scaledUv = tileUv*tileScale;",
 
-          "vec4 terrainMapSample = texture2D( terrainmap, scaledVPos);",
 
           "float twoPi = 6.2831;",
-          "float depth = min(max(heightSample*(35.0/(maxHeight-minHeight)+vPosition.y*vPosition.y*2.0), 0.0), 1.0);",
+          "float depth = min(max(heightSample*(35.0/(maxHeight-minHeight)+vPosition.y*2.0), 0.0), 1.0);",
 
-          "float waveX = sin(systemTime*(0.25));",
+          "float waveX = sin(systemTime*0.25);",
           "float waveY = cos(systemTime*0.25);",
 
           "float mod = sin((fragPos.x+systemTime*1.2+waveX)*0.25 + waveX*0.2 )*0.1 + cos((fragPos.z+ systemTime*1.2+waveY)*0.25+ waveY*0.2 )*0.1 +0.3;",
           "float mod2 = waveX*sin(systemTime*0.2+fragPos.x*0.25)*0.15 + waveY*cos(systemTime*0.2+fragPos.z*0.25)*0.15 + 0.3;",
-          "depth = min(max(depth*((mod + mod2)*1.5+vPosition.y*vPosition.y*20.0), 0.0), 1.0);",
+          "depth = min(max(depth*((mod + mod2)*2.0+vPosition.y*1.4), 0.0), 1.0);",
 
-
-          "vec4 sprite = vec4(0.0, 8.0, 1.0, 1.0);",
-
-          "float smoothFactor  = 0.0;",
-          "float sampleBlue = terrainMapSample.b;",
-          "float sampleGreen = terrainMapSample.g;",
 
           "float waterRow = 16.0;",
-          "float depthScale = 0.98;",
+          "float depthScale = 0.9998;",
           "float modFactor = 0.05;",
 
+          "vec2 tileDepthMod = vec2(min(floor(max((depth), 0.0) * 7.0), 7.0), waterRow);",
 
-          "float scatter = (cos(scaledUv.x*13.0) + sin(scaledUv.y*13.0))*0.002 + (cos(scaledUv.y*25.0) + sin(scaledUv.x*25.0))*0.002;",
-
-
-
-          "vec2 tileDepthMod = vec2(min(floor(max((depth -0.001) +scatter*0.75*(sin((systemTime)*(1.2))+0.5) +scatter*mod, 0.01) * 10.0), 7.0), waterRow);",
-
-
-          "vec2 tileDepthModOffset = vec2(tileDepthMod.x *tileScale.x, (tileDepthMod.y-sprite.w) * tileScale.y / sprite.z);",
+          "vec2 tileDepthModOffset = vec2(tileDepthMod.x *tileScale.x, (tileDepthMod.y-1.0) * tileScale.y);",
           "vec2 tileDepthModUv = vec2(scaledUv + tileDepthModOffset);",
           "vec4 txColorDepthMod01 = texture2D( tx0, tileDepthModUv);",
           "vec4 txNmDepthMod01 = texture2D( tx0nm, tileDepthModUv);",
@@ -437,7 +433,6 @@
           "baseColor.g = baseColor.g*depth + depth*depth*(0.3+vPosition.y);",
           "baseColor.b = baseColor.b*depth + depth*depth*(0.3+vPosition.y);",
 
-          "vec3 vNormal = vec3(0.0, 1.0, 0.0);",
           "float normalFactor = dot(cameraToFrag, vNormal);",
 
           "float reflectionFactor =  0.0 + max(0.0, 1.0 - txColor.r*3.5) * cos(normalFactor*6.10*normalFactor) * 0.55;",

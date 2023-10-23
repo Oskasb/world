@@ -1141,7 +1141,7 @@
           "vUv.y *= sprite.z;",
 
 
-          "float motionTime = systemTime+offset.x*200.0+offset.y*100.0;",
+          "float motionTime = systemTime+offset.x*100.0+offset.z*100.0;",
 
 
 
