@@ -78,10 +78,12 @@ class TerrainElementModel {
 
     clearLodLevel(lodLevel) {
         let lodInstances = this.lodLevelInstances[lodLevel];
-        while (lodInstances.length) {
-       //     console.log("Clear lod level. ", lodLevel)
-            let model = lodInstances.pop();
-            model.decommissionInstancedModel();
+        if (lodInstances) {
+            while (lodInstances.length) {
+                //     console.log("Clear lod level. ", lodLevel)
+                let model = lodInstances.pop();
+                model.decommissionInstancedModel();
+            }
         }
     }
 

@@ -533,16 +533,20 @@ class GuiWidget {
         };
 
         numberToDigits = function(current, digits, min) {
-            if (typeof(digits)==='number') {
-                this.progString = parseFloat((current).toFixed(digits)).toString().replace(/\.([0-9])$/, ".$"+digits)
-                if (this.progString.length < digits + min) {
-                    this.progString += '.';
-                    for (let i = 0; i < digits; i++) {
-                        this.progString+= '0';
+            if (typeof(digits) === 'number') {
+                if (digits === 0) {
+                    this.progString = ''+Math.round(current);
+                } else {
+                    this.progString = parseFloat((current).toFixed(digits)).toString().replace(/\.([0-9])$/, ".$"+digits)
+                    if (this.progString.length < digits + min) {
+                        this.progString += '.';
+                        for (let i = 0; i < digits; i++) {
+                            this.progString+= '0';
+                        }
                     }
                 }
             } else {
-                this.progString = ''+digits;
+                this.progString = ''+current;
             }
 
             return this.progString;
@@ -551,7 +555,7 @@ class GuiWidget {
         indicateProgress = function(min, max, current, digits) {
 
             if (this.text) {
-                this.setFirstSTringText(this.numberToDigits(current, digits, 1))
+                this.setFirstSTringText(this.numberToDigits(current, digits, 0))
             }
 
             if (this.icon) {

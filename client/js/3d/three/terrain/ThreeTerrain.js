@@ -366,7 +366,11 @@ class ThreeTerrain {
 
 
 
-    buildGroundShadeTexture() {
+    buildGroundShadeTexture(progressCB) {
+        let prog = {}
+        prog.done = 0;
+        prog.progress = 0;
+        prog.all = terrainGeometries.length* terrainGeometries[0].length
         for (let i = 0; i < terrainGeometries.length; i++) {
             for (let j = 0; j < terrainGeometries[i].length; j++) {
                 let geo = terrainGeometries[i][j];
@@ -374,6 +378,9 @@ class ThreeTerrain {
                 geo.terrainElementModels.applyLevelOfDetail(1, geo.terrainSectionInfo);
                 geo.terrainSectionInfo.applyLodLevel(-1, 6)
                 geo.terrainElementModels.applyLevelOfDetail(-1, geo.terrainSectionInfo);
+                prog.done++;
+                prog.progress = MATH.calcFraction(0, prog.all, prog.done)
+                progressCB(prog);
             }
         }
     }

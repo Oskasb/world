@@ -49,14 +49,14 @@ class GuiStatsPanel {
 
         }
         let addStatSampler = function(key, callback, unit, digits) {
-            return {key:key,   callback:callback || cb, unit:unit || '', digits:digits || 2}
+            return {key:key,   callback:callback || cb, unit:unit || '', digits:digits}
         }
 
 
         let samplers = this.options['track_config']['samplers']
         for (let i= 0; i <  samplers.length; i++) {
      //       console.log("Add Track stats", samplers[i]);
-            this.addTrackStatFunction(addStatSampler(samplers[i].key, '', '', samplers[i].digits));
+            this.addTrackStatFunction(addStatSampler(samplers[i].key, '',samplers[i].unit || '', samplers[i].digits));
         }
 
         ThreeAPI.addPostrenderCallback(this.callbacks.updateTrackedStats)
@@ -133,7 +133,7 @@ class GuiStatsPanel {
 
         let sampler = this.statWidgets[key].keyWidget.statSampler;
 
-        let valueString = this.setupValueString(value, sampler.unit || '', sampler.digits || 2);
+        let valueString = this.setupValueString(value, sampler.unit || '', sampler.digits);
         this.statWidgets[key].keyWidget.setFirstSTringText(key);
         this.statWidgets[key].valueWidget.setFirstSTringText(valueString)
     };

@@ -33,39 +33,39 @@
                         },
                         {
                           "key": "fps",
-                          "digits": 1
+                          "digits": 0
                         },
                         {
                           "key": "frame",
-                          "digits": 1
+                          "digits": 0
                         },
                         {
                           "key": "txCount",
-                          "digits": 1
+                          "digits": 0
                         },
                         {
                           "key": "geoCount",
-                          "digits": 1
+                          "digits": 0
                         },
                         {
                           "key": "tris",
-                          "digits": 1
+                          "digits": 0
                         },
                         {
                           "key": "lines",
-                          "digits": 1
+                          "digits": 0
                         },
                         {
                           "key": "shaders",
-                          "digits": 1
+                          "digits": 0
                         },
                         {
                           "key": "calls",
-                          "digits": 1
+                          "digits": 0
                         },
                         {
                           "key": "scnObjs",
-                          "digits": 1
+                          "digits": 0
                         }
                       ]
                     }

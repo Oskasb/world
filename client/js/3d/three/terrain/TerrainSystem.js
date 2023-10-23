@@ -46,8 +46,15 @@ class TerrainSystem {
 
     testReady = function() {
         if (this.sysReady) {
+
+            let shadeProgCB = function(prog) {
+                if (Math.random()<0.01) {
+                    console.log(prog.progress)
+                }
+            }
+
             console.log("Terrain data ready")
-            threeTerrain.buildGroundShadeTexture();
+            threeTerrain.buildGroundShadeTexture(shadeProgCB);
             console.log("Terrain Ground Shade Done")
             activateTerrainSystem();
             vegetationSystem.activateVegetationSystem(threeTerrain.call.getLodCenter())
