@@ -7,7 +7,8 @@ let system = {
 }
 
 let updateSystemDebug = function() {
-    system.tpf = GameAPI.getFrame().tpf;
+    system.tpf = GameAPI.getFrame().tpf * 1000;
+    system.fps = 1/GameAPI.getFrame().tpf
     let renderer = cache['SYSTEM']['RENDERER'];
     let scene = cache['SYSTEM']['SCENE'];
 

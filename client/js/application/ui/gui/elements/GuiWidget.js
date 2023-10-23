@@ -533,7 +533,7 @@ class GuiWidget {
         };
 
         numberToDigits = function(current, digits, min) {
-            if (digits) {
+            if (typeof(digits)==='number') {
                 this.progString = parseFloat((current).toFixed(digits)).toString().replace(/\.([0-9])$/, ".$"+digits)
                 if (this.progString.length < digits + min) {
                     this.progString += '.';
