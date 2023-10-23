@@ -1,8 +1,41 @@
 import * as DebugUtils from "./DebugUtils.js";
 import {DebugLines} from "./lines/DebugLines.js";
 
+let cache = {};
+let system = {
+    tpf:0
+}
+
+let updateSystemDebug = function() {
+    system.tpf = GameAPI.getFrame().tpf;
+    let renderer = cache['SYSTEM']['RENDERER'];
+    let scene = cache['SYSTEM']['SCENE'];
+
+    system.geoCount = renderer.info.memory.geometries;
+    system.txCount = renderer.info.memory.textures;
+    system.shaders = renderer.info.programs.length;
+    system.calls = renderer.info.render.calls;
+    system.tris = renderer.info.render.triangles;
+    system.lines = renderer.info.render.lines;
+    system.frame = renderer.info.render.frame;
+    system.points = renderer.info.render.points;
+
+    system.scnObjs = scene.children.length;
+
+}
+
 class DebugView {
     constructor() {
+
+        if (!cache['DEBUG']) {
+            cache = PipelineAPI.getCachedConfigs();
+            cache.DEBUG = {};
+        }
+
+        if (!cache['DEBUG']['SYSTEM']) {
+            cache.DEBUG.SYSTEM = system;
+        }
+
         this.debugLines = new DebugLines()
         this.inspecting = {};
         this.isActive = false;
@@ -71,8 +104,10 @@ class DebugView {
         this.isActive = !this.isActive;
         if (!this.isActive) {
             this.deactivateDebugView()
+            ThreeAPI.unregisterPostrenderCallback(updateSystemDebug)
             return;
         }
+        ThreeAPI.addPostrenderCallback(updateSystemDebug)
         this.page = GuiAPI.activatePage('page_debug_view');
         this.containers = this.page.containers;
 

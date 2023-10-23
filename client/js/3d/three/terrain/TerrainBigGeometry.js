@@ -94,8 +94,6 @@ let setupHeightmapData = function(originalModelMat) {
     terrainMaterial.needsUpdate = true;
 
 
-    oceanMaterial.terrainmap = terrainMapCanvasTx;
-    oceanMaterial.uniforms.terrainmap.value = terrainMapCanvasTx;
     oceanMaterial.heightmap = heightMapCanvasTx;
     oceanMaterial.uniforms.heightmap.value = heightMapCanvasTx;
     oceanMaterial.heightmap.needsUpdate = true;

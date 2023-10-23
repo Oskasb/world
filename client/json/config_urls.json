@@ -61,6 +61,7 @@
       "/ui/pages/debug/gui_page_debug_view_buffers.json"     ,
       "/ui/pages/debug/gui_page_debug_view_models.json"      ,
       "/ui/pages/debug/gui_page_debug_view_pools.json"       ,
+      "/ui/pages/debug/gui_page_debug_view_system.json"      ,
       "/ui/pages/gui_page_victory.json"                      ,
       "/ui/pages/gui_page_dungeon.json"                      ,
       "/ui/pages/gui_page_garden.json"                       ,

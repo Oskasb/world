@@ -1,4 +1,4 @@
-
+let cache = {};
 let poolList = [];
 let poolKeys = [];
 let track = null;
@@ -29,8 +29,8 @@ class ExpandingPool {
 
         pools.push(this);
 
-        let cache = PipelineAPI.getCachedConfigs();
         if (!cache['DEBUG']) {
+            cache = PipelineAPI.getCachedConfigs();
             cache.DEBUG = {};
         }
         if (!cache['DEBUG']['POOLS']) {

@@ -3,33 +3,33 @@
     "UI": {
       "PAGES":[
         {
-          "id": "page_debug_view_pools",
+          "id": "page_debug_view_system",
           "data": [
             {
               "containers":[
                 {
-                  "widget_id":"page_pools_container",
+                  "widget_id":"page_system_container",
                   "widget_class":"GuiExpandingContainer",
                   "widget_config_id":"widget_hidden_container",
                   "options": {
                     "offset_x": 0.18,
-                    "offset_y": -0.13
+                    "offset_y": -0.23
                   }
                 },
                 {
-                  "widget_id": "container_pool_stats",
+                  "widget_id": "container_system_stats",
                   "widget_class": "GuiStatsPanel",
                   "widget_config_id":"widget_stats_container",
                   "options": {
                     "container_id": "page_pools_container",
                     "offset_x": 0.0,
                     "offset_y": -0.0,
-                    "track_config": {"category": "DEBUG","key": "POOLS",
+                    "track_config": {"category": "DEBUG","key": "SYSTEM",
                       "samplers": [
 
                         {
-                          "key": "pools",
-                          "digits": 1
+                          "key": "tpf",
+                          "digits": 2
                         },
                         {
                           "key": "added",

@@ -69,7 +69,7 @@
                   }
                 },
                 {
-                  "widget_id": "button_container_models",
+                  "widget_id": "button_container_system",
                   "widget_class": "GuiExpandingContainer",
                   "widget_config_id": "widget_gui_anchor",
                   "options": {
@@ -95,6 +95,25 @@
               ],
               "buttons":[
                 {
+                  "widget_id":"button_view_system",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"button_big_blue",
+                  "options":{
+                    "text":"SYSTEM",
+                    "container_id":"page_debug_bottom_left",
+                    "offset_x": 0.05,
+                    "offset_y": 0.08,
+                    "dispatch":{
+                      "event":"TOGGLE_GUI_PAGE",
+                      "value":{
+                        "page_id":"page_debug_view_system",
+                        "parent_page_id":"page_debug_view",
+                        "parent_container_id": "button_container_system"
+                      }
+                    }
+                  }
+                },
+                {
                   "widget_id":"button_view_pools",
                   "widget_class":"GuiExpandingContainer",
                   "widget_config_id":"button_big_blue",
@@ -109,6 +128,25 @@
                         "page_id":"page_debug_view_pools",
                         "parent_page_id":"page_debug_view",
                         "parent_container_id": "button_container_pools"
+                      }
+                    }
+                  }
+                },
+                {
+                  "widget_id":"button_view_buffers",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"button_big_blue",
+                  "options":{
+                    "text":"BUFFERS",
+                    "container_id":"page_debug_bottom_left",
+                    "offset_x": 0.28,
+                    "offset_y": 0.012,
+                    "dispatch":{
+                      "event":"TOGGLE_GUI_PAGE",
+                      "value":{
+                        "page_id":"page_debug_view_buffers",
+                        "parent_page_id":"page_debug_view",
+                        "parent_container_id": "button_container_buffers"
                       }
                     }
                   }

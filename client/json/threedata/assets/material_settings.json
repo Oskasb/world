@@ -171,7 +171,6 @@
               },
               "texture_uniforms": [
 
-                {"key":"terrainmap",  "tiles":[0,   0]},
                 {"key":"heightmap",   "tiles":[0,   0]},
                 {"key":"tx0",         "tiles":[16,   16]},
                 {"key":"tx0nm",       "tiles":[16,   16]},

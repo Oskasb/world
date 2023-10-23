@@ -226,7 +226,6 @@
 
           "precision highp float;",
           "uniform sampler2D heightmap;",
-          "uniform sampler2D terrainmap;",
           "uniform mat4 modelViewMatrix;",
           "uniform mat4 projectionMatrix;",
           "uniform float systemTime;",
@@ -356,7 +355,6 @@
           "uniform vec3 sunLightDirection;",
           "uniform vec3 fogColor;",
           "uniform float fogDensity;",
-          "uniform sampler2D terrainmap;",
           "uniform sampler2D tx0;",
           "uniform sampler2D tx0nm;",
           "uniform sampler2D tx1;",
@@ -603,8 +601,6 @@
 
           "int gIndex = int(min(terrainMapSample.r*8.0, 4.0));",
           "float biomeIndex = float(gIndex);",
-
-          "float twoPi = 6.2831;",
 
           "float shift = 1.0/2048.0;",
 

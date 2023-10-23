@@ -160,7 +160,6 @@
           "config":{
             "settings": "mat_settings_ocean_big",
             "textures":[
-              {"key":"terrainmap"     , "id":"tx_terrainmap_world_01"  },
               {"key":"envMap"         , "id":"ref_sphere"              } ,
               {"key":"heightmap"      , "id":"tx_heightmap_world_01"   },
               {"key":"tx0"            , "id":"tx_ground_tiles16x16"      },
