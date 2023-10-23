@@ -158,7 +158,7 @@ class GuiActionButton {
         if (!action.getActionIsActive()) {
             this.progressWidget.setFirstSTringText(null);
             this.guiWidget.enableWidgetInteraction();
-            GuiAPI.removeGuiUpdateCallback(this.callbacks.updateProgress);
+            ThreeAPI.unregisterPostrenderCallback(this.callbacks.updateProgress);
         }
 
     };
@@ -172,7 +172,7 @@ class GuiActionButton {
 
     actionButtonTriggerUiUpdate = function() {
 
-        GuiAPI.addGuiUpdateCallback(this.callbacks.updateProgress);
+        ThreeAPI.addPostrenderCallback(this.callbacks.updateProgress);
         this.guiWidget.disableWidgetInteraction();
 
     };
@@ -206,7 +206,7 @@ class GuiActionButton {
     removeGuiWidget = function() {
         this.guiWidget.recoverGuiWidget();
         this.progressWidget.recoverGuiWidget();
-        GuiAPI.removeGuiUpdateCallback(this.callbacks.updateProgress);
+        ThreeAPI.unregisterPostrenderCallback(this.callbacks.updateProgress);
 
         if (this.actionSlot) {
             this.actionSlot.removeActionPointUpdateCallback(this.callbacks.updateSufficientActionPoints);

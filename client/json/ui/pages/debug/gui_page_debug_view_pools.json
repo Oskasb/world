@@ -31,11 +31,18 @@
                           "digits": 1
                         },
                         {
-                          "key": "shifts",
+                          "key": "active",
                           "digits": 1
                         },
                         {
-                          "key": "pushes",
+                          "key": "big"
+                        },
+                        {
+                          "key": "bigSize",
+                          "digits": 1
+                        },
+                        {
+                          "key": "passive",
                           "digits": 1
                         },
                         {

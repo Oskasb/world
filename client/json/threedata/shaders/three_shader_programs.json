@@ -1074,29 +1074,27 @@
           "attribute vec2 uv;",
           "attribute vec4 sprite;",
           "attribute vec4 vertexColor;",
-          "attribute vec4 texelRowSelect;",
           "attribute vec4 lifecycle;",
 
           "uniform vec2 tiles;",
-          "varying vec2 tileOffset;",
-          "varying vec4 vColor;",
-          "varying vec2 vUv;",
 
           "uniform vec3 ambientLightColor;",
           "uniform vec3 sunLightColor;",
-
           "uniform vec3 sunLightDirection;",
-          "varying vec3 sunDir;",
-
           "uniform vec3 fogColor;",
           "uniform float fogDensity;",
-          "varying float fogDepth;",
-          "varying float vFragDepth;",
           "uniform float systemTime;",
           "uniform float alphaTest;",
-          "varying float reveal;",
-          "void main(){",
 
+
+          "varying vec2 vUv;",
+          "varying vec3 sunDir;",
+          "varying float fogDepth;",
+          "varying float vFragDepth;",
+          "varying vec4 vColor;",
+          "varying float reveal;",
+
+          "void main(){",
 
           "float startTime = lifecycle.x;",
           "float endTime = lifecycle.z;",
@@ -1131,7 +1129,7 @@
 
           "vec2 tileScale = 1.0/tiles;",
 
-          "tileOffset = vec2(sprite.x * tileScale.x, (sprite.y-sprite.w) * tileScale.y / sprite.z);",
+          "vec2 tileOffset = vec2(sprite.x * tileScale.x, (sprite.y-sprite.w) * tileScale.y / sprite.z);",
           "tileScale.y /= sprite.z;",
           "vec2 scaledUv = uv*tileScale;",
           "scaledUv.y /= sprite.z;",

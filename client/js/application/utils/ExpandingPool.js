@@ -1,6 +1,33 @@
 
+let poolList = [];
+let poolKeys = [];
+let track = null;
+let biggestPool = 0;
+let pools = []
+
+let trackPool = function(expandingPool) {
+    let size = expandingPool.poolEntryCount()
+    track.passive += size;
+    if (size > biggestPool) {
+        biggestPool = size;
+        track.big = expandingPool.dataKey;
+        track.bigSize = size;
+    }
+}
+
+let updatePoolTracking = function() {
+    track.passive = 0;
+    biggestPool = 0;
+    for (let i = 0; i < pools.length; i++) {
+        trackPool(pools[i])
+    }
+    track.active = track.added - track.passive;
+}
+
 class ExpandingPool {
     constructor(dataKey, createFunc) {
+
+        pools.push(this);
 
         let cache = PipelineAPI.getCachedConfigs();
         if (!cache['DEBUG']) {
@@ -9,20 +36,34 @@ class ExpandingPool {
         if (!cache['DEBUG']['POOLS']) {
             cache.DEBUG.POOLS = {
                 added:0,
-                shifts:0,
-                pushes:0,
                 pools: 0,
-                poolKeys:[]
+                passive: 0,
+                active: 0,
+                big: dataKey,
+                bigSize: 0,
+                poolKeys:poolKeys,
+                poolList:poolList
             };
+            setTimeout(function() {
+                ThreeAPI.addPrerenderCallback(updatePoolTracking)
+            }, 5000);
+
         }
 
         this.dataKey = dataKey;
-        this.track = cache.DEBUG.POOLS
-        this.track.pools++
-        this.track.poolKeys.push(dataKey)
+        track = cache.DEBUG.POOLS
+        track.pools++
+        poolKeys.push(dataKey)
         this.pool = [];
+        poolList.push(this.pool)
+
+        this.count = {
+            added:0
+        }
+
         this.generatePoolEntry = function(callback) {
-            this.track.added++
+            track.added++
+            this.count.added++
             createFunc(dataKey, callback)
         }.bind(this);
 
@@ -33,20 +74,16 @@ class ExpandingPool {
     };
 
     pushEP = function(entry) {
-        this.track.shifts--;
-        this.track.pushes++
         return this.pool.push(entry);
     };
 
     shiftEP = function() {
-        this.track.shifts++;
-        this.track.pushes--
         return this.pool.shift()
     };
 
     getFromExpandingPool = function(callback) {
 
-        if (this.poolEntryCount() > 1) {
+        if (this.poolEntryCount() !== 0) {
             callback(this.shiftEP());
         } else {
             this.generatePoolEntry(callback)
@@ -60,8 +97,8 @@ class ExpandingPool {
         } else {
             console.log("Entry already in pool, no good!", entry)
         }
-
     };
+
 
 }
 

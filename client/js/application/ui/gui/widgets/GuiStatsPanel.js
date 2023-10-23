@@ -27,9 +27,9 @@ class GuiStatsPanel {
         let updateTrackedStats = function() {
             for (let i = 0; i < this.samplers.length; i++) {
                 let sampler = this.samplers[i].key
-            //    console.log("trackValues", trackValues);
-                let value = trackValues.gamePiece.getStatusByKey(sampler);
-                this.updateStat(this.samplers[i].key, value);
+        //    console.log("trackValues", trackValues);
+                //      let value = trackValues.gamePiece.getStatusByKey(sampler);
+                this.updateStat(this.samplers[i].key, trackValues[sampler]);
             }
         }.bind(this);
 
@@ -59,7 +59,7 @@ class GuiStatsPanel {
             this.addTrackStatFunction(addStatSampler(samplers[i].key, '', '', samplers[i].digits));
         }
 
-        GuiAPI.addGuiUpdateCallback(this.callbacks.updateTrackedStats)
+        ThreeAPI.addPostrenderCallback(this.callbacks.updateTrackedStats)
 
     };
 
@@ -69,7 +69,7 @@ class GuiStatsPanel {
     removeGuiWidget = function() {
         this.guiWidget.guiStatsPanel = null;
     //    console.log("Remove Stats Panel")
-        GuiAPI.removeGuiUpdateCallback(this.callbacks.updateTrackedStats);
+        ThreeAPI.unregisterPostrenderCallback(this.callbacks.updateTrackedStats);
         this.guiWidget.removeChildren();
         this.guiWidget.recoverGuiWidget();
     };
@@ -121,7 +121,10 @@ class GuiStatsPanel {
 
     setupValueString = function(value, unit, digits) {
 
-        let valueString = this.guiWidget.numberToDigits(value, digits, 0);
+        let valueString = value;
+        if (typeof (value) === 'number') {
+            valueString = this.guiWidget.numberToDigits(value, digits, 0);
+        }
 
         return valueString+unit;
     };

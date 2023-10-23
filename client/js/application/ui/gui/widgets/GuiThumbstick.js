@@ -86,9 +86,9 @@ class GuiThumbstick {
     handleThumbstickPressStart = function(inputIndex, guiWidget) {
         this.activeInputIndex = inputIndex;
         console.log("Thumbstick press start", inputIndex);
-        GuiAPI.removeGuiUpdateCallback(this.callbacks.onStickReleasedUpdate);
+        ThreeAPI.unregisterPostrenderCallback(this.callbacks.onStickReleasedUpdate);
         GuiAPI.addInputUpdateCallback(this.callbacks.onStickInputUpdate);
-        GuiAPI.addGuiUpdateCallback(this.callbacks.notifyInputUpdated);
+        ThreeAPI.addPostrenderCallback(this.callbacks.notifyInputUpdated);
     };
 
     handleThumbstickInputUpdated = function(input, buffer) {
@@ -102,7 +102,7 @@ class GuiThumbstick {
         if (!pressActive) {
 
             GuiAPI.removeInputUpdateCallback(this.callbacks.onStickInputUpdate);
-            GuiAPI.addGuiUpdateCallback(this.callbacks.onStickReleasedUpdate);
+            ThreeAPI.addPostrenderCallback(this.callbacks.onStickReleasedUpdate);
             this.releaseTime = 0;
 
         } else {
@@ -132,8 +132,8 @@ class GuiThumbstick {
 
         if (this.offset.lengthSq() < 0.0000001) {
             this.offset.set(0, 0, 0);
-            GuiAPI.removeGuiUpdateCallback(this.callbacks.onStickReleasedUpdate);
-            GuiAPI.removeGuiUpdateCallback(this.callbacks.notifyInputUpdated);
+            ThreeAPI.unregisterPostrenderCallback(this.callbacks.onStickReleasedUpdate);
+            ThreeAPI.unregisterPostrenderCallback(this.callbacks.notifyInputUpdated);
         }
 
         this.applyPositionOffset();

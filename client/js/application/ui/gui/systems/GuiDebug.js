@@ -164,7 +164,7 @@ class GuiDebug {
                 }
             };
             widget.checkActive = checkActive;
-            GuiAPI.addGuiUpdateCallback(checkActive);
+            ThreeAPI.addPostrenderCallback(checkActive);
             if (buttonStore) {
                 buttonStore.push(widget);
             }
@@ -207,7 +207,7 @@ class GuiDebug {
     removeDebugAnimations = function() {
         while (this.debugButtons.length) {
             var w = this.debugButtons.pop();
-            GuiAPI.removeGuiUpdateCallback(w.checkActive);
+            ThreeAPI.unregisterPostrenderCallback(w.checkActive);
             w.removeGuiWidget();
         }
         this.debugControlContainer.fitContainerChildren();

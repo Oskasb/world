@@ -414,7 +414,7 @@ class ThreeEnvironment {
         if (threeEnv.enabled) return;
         threeEnv.enabled = true;
         threeEnv.scene.add( threeEnv.sky.mesh );
-        ThreeAPI.getReflectionScene().add(threeEnv.sky.meshClone);
+    //    ThreeAPI.getReflectionScene().add(threeEnv.sky.meshClone);
     };
 
     getEnvConfigs = function() {

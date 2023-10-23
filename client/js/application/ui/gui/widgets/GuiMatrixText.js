@@ -74,11 +74,11 @@ class GuiMatrixText {
 
         activateScreenSpaceText = function() {
             this.time = 0;
-            GuiAPI.addGuiUpdateCallback(this.callbacks.updateProgress);
+            ThreeAPI.addPrerenderCallback(this.callbacks.updateProgress);
         };
 
         deactivateScreenSpaceText = function() {
-            GuiAPI.removeGuiUpdateCallback(this.callbacks.updateProgress);
+            ThreeAPI.unregisterPrerenderCallback(this.callbacks.updateProgress);
         };
 
         removeGuiWidget = function() {

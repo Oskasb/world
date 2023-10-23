@@ -51,7 +51,7 @@ class GuiTextBox {
 
         deactivateTextBox = function() {
             this.activated = false;
-            GuiAPI.removeGuiUpdateCallback(this.callbacks.updateProgress);
+            ThreeAPI.unregisterPostrenderCallback(this.callbacks.updateProgress);
         };
 
         removeGuiWidget = function() {

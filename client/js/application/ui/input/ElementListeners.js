@@ -24,7 +24,7 @@ class ElementListeners {
             } else {
                 console.log("Cancel Long Press due to drag distance")
                 progInputState.longPressProgress = 0
-                GuiAPI.removeGuiUpdateCallback(updateLongPressProgress)
+                ThreeAPI.unregisterPostrenderCallback(updateLongPressProgress)
             }
         }
 

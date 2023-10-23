@@ -47,7 +47,7 @@ class GuiProgressBar {
                     )
             }.bind(this);
 
-            GuiAPI.addGuiUpdateCallback(this.callbacks.updateProgress)
+            ThreeAPI.addPostrenderCallback(this.callbacks.updateProgress)
         }
 
         let progressEvent = options['progress_event'];
@@ -86,7 +86,7 @@ class GuiProgressBar {
     };
 
     deactivateProgressBar = function() {
-        GuiAPI.removeGuiUpdateCallback(this.callbacks.updateProgress)
+        ThreeAPI.unregisterPostrenderCallback(this.callbacks.updateProgress)
         evt.removeListener(this.progressEvent, this.callbacks.updateProgress, evt)
     };
 

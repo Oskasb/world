@@ -13,7 +13,7 @@ let radiusEvent = {
 }
 let indicateTriggerRadius = function(encounter) {
     let radius = encounter.config.trigger_radius
-    radiusEvent.heads = Math.ceil(MATH.curveSqrt(radius));
+    radiusEvent.heads = Math.ceil(MATH.curveSqrt(radius))+2;
     radiusEvent.speed = MATH.curveSqrt(radius)
     radiusEvent.radius = radius;
     radiusEvent.pos = encounter.getPos();

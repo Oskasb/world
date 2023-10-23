@@ -29,7 +29,7 @@ function setupOptsSprayUpwards(efct, pos, applies) {
 
     let fromSize = size*0.3+Math.random()*0.4;
     let toSize = size*0.1+Math.random()*size*0.2
-    let time = 0.15+Math.random()*0.15
+    let time = 0.25+Math.random()*0.35
 
     let options = CombatFxOptions.defaultOptions();
     options.fromPos = tempObj.position;
@@ -50,7 +50,7 @@ let drawTriggerHead = function(head, heads, radius, triggerCycle, center, rgba, 
     let offset = MATH.TWO_PI / (heads/head)
     let cycle = offset + triggerCycle
 
-    calcVec.set(Math.sin(cycle), 0, Math.cos(cycle));
+    calcVec.set(Math.sin(cycle + cycle*head*0.1), 0, Math.cos(cycle + cycle*head*0.1));
     calcVec.multiplyScalar(radius);
     calcVec.add(center);
     calcVec.y = ThreeAPI.terrainAt(calcVec) +elevation;

@@ -113,16 +113,21 @@ class ThreeSetup {
         return store;
     };
 
-    addPrerenderCallback = function(callback) {
-        this.prerenderCallbacks.push(callback);
-    };
-
     activateScreenspaceReflections(renderer, scene, camera) {
         new SsrFx(renderer, scene, camera)
     }
 
+    addPrerenderCallback = function(callback) {
+        if (this.prerenderCallbacks.indexOf(callback) === -1) {
+            this.prerenderCallbacks.push(callback);
+        }
+    };
+
     removePrerenderCallback = function(callback) {
-        this.prerenderCallbacks.splice(prerenderCallbacks.lastIndexOf(callback, 1));
+        if (this.prerenderCallbacks.indexOf(callback) !== -1) {
+            this.prerenderCallbacks.splice(this.prerenderCallbacks.indexOf(callback, 1));
+        }
+
     };
 
     addPostrenderCallback = function(callback) {
@@ -132,7 +137,9 @@ class ThreeSetup {
     };
 
     removePostrenderCallback = function(callback) {
-        this.postrenderCallbacks.splice(this.postrenderCallbacks.lastIndexOf(callback, 1));
+        if (this.postrenderCallbacks.indexOf(callback) !== -1) {
+            this.postrenderCallbacks.splice(this.postrenderCallbacks.indexOf(callback, 1));
+        }
     };
 
     pointIsVisible = function(vec3) {

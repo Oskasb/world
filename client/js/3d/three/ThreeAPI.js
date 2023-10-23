@@ -122,6 +122,9 @@ class ThreeAPI {
         this.threeSetup.addPostrenderCallback(callback);
     };
 
+    unregisterPostrenderCallback = function(callback) {
+        this.threeSetup.removePostrenderCallback(callback);
+    };
     loadThreeModels = function(TAPI) {
         this.threeModelLoader.loadData();
     };

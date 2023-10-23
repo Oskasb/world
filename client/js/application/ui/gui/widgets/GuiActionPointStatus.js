@@ -92,7 +92,7 @@ define([
         GuiActionPointStatus.prototype.removeGuiWidget = function() {
             this.guiWidget.recoverGuiWidget();
         //    this.actionPointStatus.recoverActionPointStatus();
-            GuiAPI.removeGuiUpdateCallback(this.callbacks.updateActionPointStatus);
+            ThreeAPI.unregisterPostrenderCallback(this.callbacks.updateActionPointStatus);
 
             while (this.guiActionPoints.length) {
                 this.guiActionPoints.pop().removeGuiWidget();
@@ -221,7 +221,7 @@ define([
 
         GuiActionPointStatus.prototype.setActionPointStatus = function(aps) {
             this.actionPointStatus = aps;
-            GuiAPI.addGuiUpdateCallback(this.callbacks.updateActionPointStatus);
+            ThreeAPI.addPostrenderCallback(this.callbacks.updateActionPointStatus);
             aps.addRemoveActionPointStatusCallback(this.callbacks.removeActionPointStatus)
         };
 
