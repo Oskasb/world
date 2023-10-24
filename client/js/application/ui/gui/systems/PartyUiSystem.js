@@ -7,7 +7,6 @@ let container = null;
 let actors = null;
 let playerParty = null;
 let portraits = []
-let selectedActor = null;
 
 function debugDrawActorIndex(actor, index) {
     actor.setStatusKey(ENUMS.ActorStatus.HP, Math.ceil(Math.random() * actor.getStatus(ENUMS.ActorStatus.MAX_HP)))
@@ -24,9 +23,11 @@ let testActive = function(actor) {
 let onActivate = function(actor) {
     console.log("Button Pressed, onActivate:", actor)
 
+    let selectedActor = GameAPI.getGamePieceSystem().playerParty.getPartySelection();
+
     if (selectedActor) {
         selectedActor.actorText.say('Unselected')
-        selectedActor.setStatusKey('party_selected', false)
+        selectedActor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, false)
     }
     if (actor === selectedActor) {
         selectedActor = null;
@@ -34,8 +35,8 @@ let onActivate = function(actor) {
     } else {
         playerParty.selectPartyActor(actor);
     }
-    selectedActor = actor;
-    actor.setStatusKey('party_selected', true)
+
+    actor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, true)
     actor.actorText.say('Party Selected')
 }
 

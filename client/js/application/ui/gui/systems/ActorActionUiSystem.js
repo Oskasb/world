@@ -66,8 +66,8 @@ let setupActionUi = function() {
     portrait = new GuiCharacterPortrait(actor, playerPortraitLayoutId, onActivate, testActive, -0.16, -0.3, onReady, 'widget_actor_action_portrait_frame', 'progress_indicator_action_portrait_hp')
 }
 
-let setupActionButtons = function() {
-    let actions = actor.getStatus(ENUMS.ActorStatus.ACTIONS);
+let setupActionButtons = function(actorStatusKey) {
+    let actions = actor.getStatus(ENUMS.ActorStatus[actorStatusKey]);
     for (let i = 0; i < actions.length; i++) {
         addActionButton(actions[i]);
     }
@@ -111,11 +111,18 @@ let updateActiveActorUi = function(tpf) {
         } else {
             portrait.updateCharacterPortrait(tpf)
 
-            if (actor.getStatus(ENUMS.ActorStatus.HAS_TURN)) {
+            if (actor.getStatus(ENUMS.ActorStatus.IN_COMBAT)) {
+                if (actor.getStatus(ENUMS.ActorStatus.HAS_TURN)) {
+                    if (actionButtons.length === 0) {
+                        setupActionButtons(ENUMS.ActorStatus.ACTIONS);
+                    }
+                }
+            } else {
                 if (actionButtons.length === 0) {
-                    setupActionButtons();
+                    setupActionButtons(ENUMS.ActorStatus.TRAVEL);
                 }
             }
+
 
         }
     }

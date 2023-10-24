@@ -94,6 +94,7 @@ if(typeof(ENUMS) === "undefined"){
     ENUMS.ActorStatus = {
         ACTIONS:'ACTIONS',
         DEAD:'DEAD',
+        IN_COMBAT:'IN_COMBAT',
         HAND_SIZE:'HAND_SIZE',
         HAS_POSITION:'HAS_POSITION',
         HAS_TURN:'HAS_TURN',

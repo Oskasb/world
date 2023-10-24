@@ -33,6 +33,7 @@ class EncounterTurnSequencer {
 
     addEncounterActor(actor) {
         actor.setStatusKey(ENUMS.ActorStatus.HP, actor.getStatus(ENUMS.ActorStatus.MAX_HP))
+        actor.setStatusKey(ENUMS.ActorStatus.IN_COMBAT, true);
         this.actors.push(actor);
     }
 
@@ -72,7 +73,11 @@ class EncounterTurnSequencer {
 
     closeTurnSequencer() {
         this.turnActorIndex = 0;
-        MATH.emptyArray(this.actors);
+        while(this.actors.length) {
+            let actor = this.actors.pop();
+            actor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, false);
+            actor.setStatusKey(ENUMS.ActorStatus.IN_COMBAT, false);
+        }
         this.activeActor.getActorTurnSequencer().exitSequence();
         this.activeActor = null;
         this.turnIndex = 0;

@@ -9,7 +9,6 @@
           "scale": [1.0, 1.0, 1.0],
           "rot": [0, 0, 0],
           "status": {
-
             "ACTIONS": ["ACTION_FIREBALL", "ACTION_MAGIC_MISSILE", "ACTION_FREEZE_BOLT", "ACTION_HEAL_BOLT"],
             "TRAVEL":  ["ACTION_TRAVEL_WALK", "ACTION_TRAVEL_FLY"],
             "HEIGHT": 1.8,
@@ -18,7 +17,8 @@
             "ICON_KEY": "face_4",
             "DEAD": false,
             "NAME": "Fighter",
-            "MAX_HP": 10
+            "MAX_HP": 10,
+            "IN_COMBAT": false
           }
         }
       },

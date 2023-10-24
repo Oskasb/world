@@ -79,6 +79,8 @@ function checkTriggerPlayer(encounter) {
 
                 selectedActor.getGameWalkGrid().setTargetPosition(encounter.getPos())
                 selectedActor.getGameWalkGrid().cancelActivePath()
+                selectedActor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, false);
+
                 evt.dispatch(ENUMS.Event.SET_CAMERA_MODE, {mode:'activate_encounter', pos:encounter.getPos(), camPos:encounter.getTriggeredCameraHome()})
             //    selectedActor.getGameWalkGrid().buildGridPath(selectedActor.getPos(), selectedActor.getPos());
             //    selectedActor.getGameWalkGrid().applySelectedPath()

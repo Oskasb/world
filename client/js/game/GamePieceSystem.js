@@ -81,6 +81,7 @@ class GamePieceSystem {
     setSelectedGameActor = function(gameActor) {
         console.log("Set Selected Actor: ", gameActor);
 
+
         if (gameActor.getStatus(ENUMS.ActorStatus.HAS_POSITION) === true) {
             ThreeAPI.getCameraCursor().getCursorObj3d().position.copy( gameActor.actorObj3d.position)
         } else {
