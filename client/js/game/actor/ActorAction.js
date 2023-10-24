@@ -149,17 +149,33 @@ class ActorAction {
 
     initAction(actor) {
         this.actor = actor;
-        this.attackStateIndex = 0;
-        this.sequencing = this.readActionConfig('sequencing')
+
+        let status = this.readActionConfig('status')
+
+        if (typeof(status) === 'object') {
+            for (let key in status) {
+                actor.setStatusKey(ENUMS.ActorStatus[key], status[key])
+            }
+        }
         actor.actorText.yell(this.visualAction.name)
-        this.call.advanceState();
-        GameAPI.registerGameUpdateCallback(this.call.updateAttack);
+
+        this.sequencing = this.readActionConfig('sequencing')
+        if (typeof(this.sequencing) === 'object') {
+            this.attackStateIndex = 0;
+            this.call.advanceState();
+            GameAPI.registerGameUpdateCallback(this.call.updateAttack);
+        }
+
     }
 
     activateAttack(target, onCompletedCB) {
-        this.target = target;
-        this.onCompletedCallbacks.push(onCompletedCB)
-        this.visualAction.visualizeAttack(this);
+
+        if (typeof(this.sequencing) === 'object') {
+            this.target = target;
+            this.onCompletedCallbacks.push(onCompletedCB)
+            this.visualAction.visualizeAttack(this);
+        }
+
     }
 
     attackCompleted() {

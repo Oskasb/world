@@ -3,8 +3,9 @@ import { GameWalkGrid } from "../gameworld/GameWalkGrid.js";
 import { Vector3 } from "../../../libs/three/math/Vector3.js";
 import { poolFetch, poolReturn } from "../../application/utils/PoolUtils.js";
 import { ActorTurnSequencer } from "./ActorTurnSequencer.js";
-import {ActorStatus} from "./ActorStatus.js";
+import { ActorStatus } from "./ActorStatus.js";
 import { ActorText } from "../../application/ui/gui/game/ActorText.js";
+import { TravelMode } from "./TravelMode.js";
 
 let index = 0;
 let tempVec = new Vector3();
@@ -15,6 +16,7 @@ class GameActor {
         index++;
         this.actorText = new ActorText(this);
         this.actorStatus = new ActorStatus();
+        this.travelMode = new TravelMode();
         this.activated = false;
         this.actorObj3d = new Object3D();
         this.config = config;
@@ -212,6 +214,8 @@ class GameActor {
     }
 
     updateGameActor = function() {
+
+        this.travelMode.updateTravelMode(this);
 
         if (MATH.distanceBetween(this.getPos(), this.actorObj3d.position) > 0.001) {
             this.turnTowardsPos(this.getPos())

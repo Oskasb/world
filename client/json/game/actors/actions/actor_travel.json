@@ -5,12 +5,8 @@
         "id":"ACTION_TRAVEL_WALK",
         "data":{
           "visual_action": "VISUAL_TRAVEL_WALK",
-          "sequencing": {
-            "selected":{"time": 0.5},
-            "precast":{"time": 0.25},
-            "active":{"time": 0.1},
-            "apply":{"time": 0.1},
-            "post_hit":{"time": 0.35}
+          "status": {
+            "TRAVEL_MODE": "TRAVEL_MODE_WALK"
           }
         }
       },
@@ -18,12 +14,8 @@
         "id":"ACTION_TRAVEL_FLY",
         "data":{
           "visual_action": "VISUAL_TRAVEL_FLY",
-          "sequencing": {
-            "selected":{"time": 0.5},
-            "precast":{"time": 0.45},
-            "active":{"time": 0.2},
-            "apply":{"time": 0.25},
-            "post_hit":{"time": 0.15}
+          "status": {
+            "TRAVEL_MODE": "TRAVEL_MODE_FLY"
           }
         }
       }
