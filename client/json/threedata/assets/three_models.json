@@ -126,11 +126,11 @@
         {"id": "asset_hat_pointy_white", "config": { "model": "file_hat_pointy_white", "material": "mat_instancing_standard",  "settings": "model_settings_items"  }},
 
 
-        {"id": "asset_house_small",  "config": { "model": "file_house_small",   "material": "mat_instancing_basic",     "settings": "model_settings_items" }},
-        {"id": "asset_town_house",   "config": { "model": "file_town_house",    "material": "mat_instancing_basic",     "settings": "model_settings_items" }},
-        {"id": "asset_mansion_roof", "config": { "model": "file_mansion_roof",  "material": "mat_instancing_basic",     "settings": "model_settings_items" }},
-        {"id": "asset_mansion_main", "config": { "model": "file_mansion_main",  "material": "mat_instancing_basic",     "settings": "model_settings_items" }},
-        {"id": "asset_house_t",      "config": { "model": "file_house_t",       "material": "mat_instancing_basic",     "settings": "model_settings_items" }},
+        {"id": "asset_house_small",  "config": { "model": "file_house_small",   "material": "mat_instancing_basic",     "settings": "model_settings_instancing_50" }},
+        {"id": "asset_town_house",   "config": { "model": "file_town_house",    "material": "mat_instancing_basic",     "settings": "model_settings_instancing_10" }},
+        {"id": "asset_mansion_roof", "config": { "model": "file_mansion_roof",  "material": "mat_instancing_basic",     "settings": "model_settings_instancing_5" }},
+        {"id": "asset_mansion_main", "config": { "model": "file_mansion_main",  "material": "mat_instancing_basic",     "settings": "model_settings_instancing_5" }},
+        {"id": "asset_house_t",      "config": { "model": "file_house_t",       "material": "mat_instancing_basic",     "settings": "model_settings_instancing_15" }},
 
 
         {"id": "asset_katana_green", "config": { "model": "file_ninjablade",        "material": "mat_instancing_green",  "settings": "model_settings_items" }},
@@ -141,10 +141,10 @@
         {"id": "asset_hatchet_nice",  "config": { "model": "file_hatchet_nice",     "material": "mat_instancing_standard",  "settings": "model_settings_items" }},
 
         {"id": "asset_tree_1",      "config": { "model": "file_tree_1" ,      "material": "mat_instancing_basic",     "settings": "model_settings_instancing_250"     }},
-        {"id": "asset_tree_2",      "config": { "model": "file_tree_2" ,      "material": "mat_instancing_basic",     "settings": "model_settings_instancing_250"     }},
+        {"id": "asset_tree_2",      "config": { "model": "file_tree_2" ,      "material": "mat_instancing_basic",     "settings": "model_settings_instancing_150"     }},
         {"id": "asset_tree_3",      "config": { "model": "file_tree_3" ,      "material": "mat_instancing_basic",     "settings": "model_settings_instancing_100"     }},
-        {"id": "asset_tree_4",      "config": { "model": "file_tree_4" ,      "material": "mat_instancing_basic",     "settings": "model_settings_instancing_100"     }},
-        {"id": "asset_tree_5",      "config": { "model": "file_tree_5_big" ,  "material": "mat_instancing_basic",     "settings": "model_settings_instancing_100"     }}
+        {"id": "asset_tree_4",      "config": { "model": "file_tree_4" ,      "material": "mat_instancing_basic",     "settings": "model_settings_instancing_50"     }},
+        {"id": "asset_tree_5",      "config": { "model": "file_tree_5_big" ,  "material": "mat_instancing_basic",     "settings": "model_settings_instancing_50"     }}
       ]
     }
   }

@@ -11,6 +11,7 @@ import {VisualAction} from "../../game/visuals/VisualAction.js";
 import {Vector3} from "../../../libs/three/math/Vector3.js";
 
 let pools = {}
+let stats = {};
 
 function initPools() {
     registerPool(DynamicGrid);
@@ -60,9 +61,18 @@ function poolReturn(entry) {
     pools[entry.constructor.name].returnToExpandingPool(entry)
 }
 
+function poolStats(dataKey, store) {
+    if (!store) store = stats;
+    let expPool = pools[dataKey]
+    store.size = expPool.poolEntryCount();
+    store.added = expPool.count.added;
+    store.active = expPool.count.active
+}
+
 export {
     initPools,
     registerPool,
     poolFetch,
-    poolReturn
+    poolReturn,
+    poolStats
 }

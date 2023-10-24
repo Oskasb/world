@@ -8,7 +8,10 @@ let system = {
     tpf:0
 }
 
+let debugStatsEvent = {};
+
 let updateSystemDebug = function() {
+    evt.dispatch(ENUMS.Event.COLLECT_DEBUG_STATS, debugStatsEvent)
     system.tpf = GameAPI.getFrame().tpf * 1000;
     system.fps = 1/GameAPI.getFrame().tpf
     let renderer = cache['SYSTEM']['RENDERER'];
@@ -40,14 +43,13 @@ class DebugView {
 
         if (!cache['DEBUG']) {
             cache = PipelineAPI.getCachedConfigs();
-            cache.DEBUG = {};
+            if (!cache['DEBUG']) {
+                cache.DEBUG = {};
+            }
         }
 
         if (!cache['DEBUG']['SYSTEM']) {
             cache.DEBUG.SYSTEM = system;
-            if (performance) {
-                console.log(performance)
-            }
         }
 
         this.debugLines = new DebugLines()

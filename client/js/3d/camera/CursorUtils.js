@@ -144,7 +144,7 @@ function processTerrainLodCenter(calcVec, terrainCenter) {
     terrainCenter.multiplyScalar(0.5)
     terrainCenter.add(cursorPos)
 
-    calcVec.multiplyScalar(-0.3);
+    calcVec.multiplyScalar(-0.5);
     calcVec.add(cursorPos);
 
 

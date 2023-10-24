@@ -5,12 +5,24 @@ import {VegetationPatch} from "./VegetationPatch.js";
 import {poolFetch, poolReturn, registerPool} from "../../../../application/utils/PoolUtils.js";
 import {Vector3} from "../../../../../libs/three/math/Vector3.js";
 
+
 class VegetationLodGrid {
     constructor() {
         this.dynamicGrid = poolFetch( 'DynamicGrid')
         this.vegetationTiles = [];
         this.vegetationPatches = [];
         this.lastLodCenter = new Vector3();
+
+        let hideTile = function(tile) {
+            let patch = this.getPatchByPosition(tile.getPos());
+            MATH.splice(this.vegetationPatches, patch);
+            patch.recoverVegetationPatch();
+        }.bind(this)
+
+        this.call = {
+            hideTile:hideTile
+        }
+
     }
 
 
@@ -36,7 +48,7 @@ class VegetationLodGrid {
         if (this.lastLodCenter.distanceToSquared(lodCenter) > 0.0) {
             let tiles = this.vegetationTiles;
             for (let i = 0; i < tiles.length; i++) {
-                tiles[i].processTileVisibility(this.maxDistance, lodCenter)
+                tiles[i].processTileVisibility(this.maxDistance, lodCenter, this.call.hideTile)
             }
             this.lastLodCenter.copy(lodCenter);
         }
@@ -67,7 +79,7 @@ class VegetationLodGrid {
                     tile.nearness = 0;
                     MATH.splice(this.vegetationPatches, patch);
                     patch.recoverVegetationPatch();
-                    poolReturn(patch)
+
                 }
         }
 

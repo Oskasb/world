@@ -155,7 +155,7 @@
         {"id": "model_settings_vegetation" ,
           "config": {
             "instancing": {
-              "instances": 4500,
+              "instances": 2500,
               "attributes": ["offset", "vertexColor", "scale3d", "orientation", "sprite", "texelRowSelect", "lifecycle"],
               "cameraspace": false
             },
@@ -211,7 +211,7 @@
         {"id": "model_settings_items" ,
           "config": {
             "instancing": {
-              "instances": 30,
+              "instances": 20,
               "attributes": ["offset", "vertexColor", "scale3d", "orientation"],
               "cameraspace": false
             },
@@ -225,7 +225,7 @@
         {"id": "model_settings_items_blender" ,
           "config": {
             "instancing": {
-              "instances": 30,
+              "instances": 20,
               "attributes": ["offset", "vertexColor", "scale3d", "orientation"],
               "cameraspace": false
             },
@@ -240,6 +240,20 @@
           "config": {
             "instancing": {
               "instances": 250,
+              "attributes": ["offset", "vertexColor", "scale3d", "orientation"],
+              "cameraspace": false
+            },
+            "transform": {
+              "pos":   [0, 0, 0],
+              "rot":   [0, 0, 0],
+              "scale": [1, 1, 1]
+            }
+          }
+        },
+        {"id": "model_settings_instancing_150" ,
+          "config": {
+            "instancing": {
+              "instances": 150,
               "attributes": ["offset", "vertexColor", "scale3d", "orientation"],
               "cameraspace": false
             },
@@ -282,6 +296,48 @@
           "config": {
             "instancing": {
               "instances": 25,
+              "attributes": ["offset", "vertexColor", "scale3d", "orientation"],
+              "cameraspace": false
+            },
+            "transform": {
+              "pos":   [0, 0, 0],
+              "rot":   [0, 0, 0],
+              "scale": [1, 1, 1]
+            }
+          }
+        },
+        {"id": "model_settings_instancing_15" ,
+          "config": {
+            "instancing": {
+              "instances": 15,
+              "attributes": ["offset", "vertexColor", "scale3d", "orientation"],
+              "cameraspace": false
+            },
+            "transform": {
+              "pos":   [0, 0, 0],
+              "rot":   [0, 0, 0],
+              "scale": [1, 1, 1]
+            }
+          }
+        },
+        {"id": "model_settings_instancing_10" ,
+          "config": {
+            "instancing": {
+              "instances": 10,
+              "attributes": ["offset", "vertexColor", "scale3d", "orientation"],
+              "cameraspace": false
+            },
+            "transform": {
+              "pos":   [0, 0, 0],
+              "rot":   [0, 0, 0],
+              "scale": [1, 1, 1]
+            }
+          }
+        },
+        {"id": "model_settings_instancing_5" ,
+          "config": {
+            "instancing": {
+              "instances": 5,
               "attributes": ["offset", "vertexColor", "scale3d", "orientation"],
               "cameraspace": false
             },

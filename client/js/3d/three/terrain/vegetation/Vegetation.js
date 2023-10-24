@@ -3,13 +3,77 @@ import {Instantiator} from "../../instancer/Instantiator.js";
 import {Plant} from "./Plant.js";
 import {ConfigData} from "../../../../application/utils/ConfigData.js";
 import {VegetationLodGrid } from "./VegetationLodGrid.js";
+import {poolStats} from "../../../../application/utils/PoolUtils.js";
 
 let count = 0;
+let cache = {};
+let debugStats = {
+    procTime: 0,
+    ptchCnt : 0,
+    visPtcs: 0,
+    ptchPlnts : 0,
+    plntDlta: 0,
+    plntPool: 0,
+    poolAdds: 0,
+    poolActs: 0
+};
+
+let plantActive = 0;
+let preUpdateTime = 0;
+let postUpdateTime = 0;
+let poolStatsStore = {};
+
+
+let setupDebug = function(vegetation) {
+
+    let collectDebugStats = function() {
+
+        poolStats('Plant', poolStatsStore)
+        debugStats.procTime = (postUpdateTime - preUpdateTime)*1000;
+        debugStats.plntPool = poolStatsStore.size;
+        debugStats.poolAdds = poolStatsStore.added;
+        debugStats.poolActs = poolStatsStore.active;
+        debugStats.ptchCnt = 0;
+        debugStats.visPtcs = 0;
+        debugStats.ptchPlnts = 0;
+        for (let i = 0; i < vegetation.vegetationLodGrids.length; i++) {
+            let grid = vegetation.vegetationLodGrids[i];
+            let patches = grid.vegetationPatches;
+            debugStats.ptchCnt += patches.length;
+            for (let j = 0; j < patches.length; j++)  {
+                let patch = patches[j];
+                debugStats.ptchPlnts+=patch.plants.length;
+                if (patch.vegetationTile.isVisible) {
+                    debugStats.visPtcs++;
+                }
+            }
+        }
+
+        debugStats.plntDlta = plantActive - debugStats.plants;
+        if (!cache['DEBUG']) {
+            cache = PipelineAPI.getCachedConfigs();
+            if (!cache['DEBUG']) {
+                cache.DEBUG = {};
+            }
+        }
+
+        if (!cache['DEBUG']['VEGETATION']) {
+            cache.DEBUG.VEGETATION = debugStats;
+        }
+
+        debugStats.grids = vegetation.vegetationLodGrids.length;
+        debugStats.plants = plantActive;
+    }
+
+    evt.on(ENUMS.Event.COLLECT_DEBUG_STATS, collectDebugStats)
+}
 
 class Vegetation {
     constructor() {
 
         count++;
+
+
 
         this.init = 0;
         this.areaGrids = [];
@@ -51,7 +115,12 @@ class Vegetation {
             setupLodGrids:setupLodGrids,
             populateSector:populateSector,
             depopulateSector:depopulateSector,
-            getPlantConfigs:getPlantConfigs}
+            getPlantConfigs:getPlantConfigs
+        }
+
+
+
+
     };
 
     initVegetation(vegReadyCB) {
@@ -99,6 +168,8 @@ class Vegetation {
 
         plantsData.fetchData(dataId);
 
+        setupDebug(this);
+
     };
 
     applyConfig(config) {
@@ -145,6 +216,7 @@ class Vegetation {
     createPlant(assetId, cb) {
 
         let getPlant = function(key, plant) {
+            plantActive++;
             cb(plant);
         }.bind(this);
 
@@ -158,6 +230,7 @@ class Vegetation {
     };
 
     deactivateVegetationPlant(plant) {
+        plantActive--;
         this.instantiator.recoverBufferElement(plant.poolKey, plant.getPlantElement());
         plant.bufferElement = null;
     };
@@ -174,12 +247,13 @@ class Vegetation {
     };
 
     updateVegetation(lodCenter) {
-
+        preUpdateTime = performance.now();
         for (let i = 0; i < this.vegetationLodGrids.length; i++) {
             this.vegetationLodGrids[i].updateVegLodGrid(lodCenter)
         }
 
         this.instantiator.updateInstantiatorBuffers();
+        postUpdateTime = performance.now();
     };
 
     resetVegetationGrids = function() {

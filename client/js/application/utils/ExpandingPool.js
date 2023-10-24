@@ -31,7 +31,9 @@ class ExpandingPool {
 
         if (!cache['DEBUG']) {
             cache = PipelineAPI.getCachedConfigs();
-            cache.DEBUG = {};
+            if (!cache['DEBUG']) {
+                cache.DEBUG = {};
+            }
         }
         if (!cache['DEBUG']['POOLS']) {
             cache.DEBUG.POOLS = {
@@ -58,12 +60,14 @@ class ExpandingPool {
         poolList.push(this.pool)
 
         this.count = {
-            added:0
+            added:0,
+            active:0
         }
 
         this.generatePoolEntry = function(callback) {
             track.added++
             this.count.added++
+            this.count.active = this.count.added - this.poolEntryCount();
             createFunc(dataKey, callback)
         }.bind(this);
 
@@ -74,10 +78,12 @@ class ExpandingPool {
     };
 
     pushEP = function(entry) {
+        this.count.active = this.count.added - this.poolEntryCount();
         return this.pool.push(entry);
     };
 
     shiftEP = function() {
+        this.count.active = this.count.added - this.poolEntryCount();
         return this.pool.shift()
     };
 

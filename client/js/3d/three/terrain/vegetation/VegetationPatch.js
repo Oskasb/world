@@ -161,14 +161,13 @@ class VegetationPatch {
             this.recoverVegetationPatch()
         }
 
-
-
     //    debugDrawPatch(this);
 
     }
 
     recoverVegetationPatch() {
         removePlantsFromPatch(this, 0)
+        poolReturn(this)
     }
 
 
