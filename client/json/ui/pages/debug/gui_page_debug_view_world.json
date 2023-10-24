@@ -46,6 +46,10 @@
                         {
                           "key": "tModels",
                           "digits": 0
+                        },
+                        {
+                          "key": "lodInfos",
+                          "digits": 0
                         }
                       ]
                     }

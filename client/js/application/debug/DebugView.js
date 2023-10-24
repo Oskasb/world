@@ -33,7 +33,7 @@ let setupDebug = function() {
             evt.dispatch(ENUMS.Event.DEBUG_TEXT, {value: vendor})
             evt.dispatch(ENUMS.Event.DEBUG_TEXT, {value: glRenderer})
         }, 100)
-        
+
     }
     console.log(vendor, glRenderer);
 }
