@@ -157,13 +157,13 @@ class VisualGamePiece {
 
     getCenterMass() {
         tempVec.copy(this.getPos());
-        tempVec.y += this.actor.getStatus('height') * 0.7;
+        tempVec.y += this.actor.getStatus(ENUMS.ActorStatus.HEIGHT) * 0.7;
         return tempVec;
     }
 
     getAboveHead(above) {
         tempVec.copy(this.getPos());
-        tempVec.y += this.actor.getStatus('height') + above;
+        tempVec.y += this.actor.getStatus(ENUMS.ActorStatus.HEIGHT) + above;
         return tempVec;
     }
 

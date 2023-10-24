@@ -2,7 +2,7 @@ import * as CombatFxUtils from "./CombatFxUtils.js";
 import * as CombatFxOptions from "./CombatFxOptions.js";
 
 function handsOnFire(actor, obj3d) {
-    let size = actor.getStatus('hand_size');
+    let size = actor.getStatus(ENUMS.ActorStatus.HAND_SIZE);
     let particleFxCb = function(efct) {
         efct.activateEffectFromConfigId()
         let options = CombatFxOptions.setupOptsPowerHands(efct, obj3d, size);
@@ -26,7 +26,7 @@ function handsOnFire(actor, obj3d) {
 }
 
 function handsOfFrost(actor, obj3d) {
-    let size = actor.getStatus('hand_size');
+    let size = actor.getStatus(ENUMS.ActorStatus.HAND_SIZE);
     let particleFxCb = function(efct) {
         efct.activateEffectFromConfigId()
         let options = CombatFxOptions.setupOptsPowerHands(efct, obj3d, size);
@@ -50,7 +50,7 @@ function handsOfFrost(actor, obj3d) {
 }
 
 function magicPowerHands(actor, obj3d) {
-    let size = actor.getStatus('hand_size');
+    let size = actor.getStatus(ENUMS.ActorStatus.HAND_SIZE);
     let effectCb = function(efct) {
         efct.activateEffectFromConfigId()
         let options = CombatFxOptions.setupOptsPowerHands(efct, obj3d, size);
@@ -75,7 +75,7 @@ function magicPowerHands(actor, obj3d) {
 }
 
 function healPowerHands(actor, obj3d) {
-    let size = actor.getStatus('hand_size');
+    let size = actor.getStatus(ENUMS.ActorStatus.HAND_SIZE);
     let effectCb = function(efct) {
         efct.activateEffectFromConfigId()
         let options = CombatFxOptions.setupOptsFriendlyHands(efct, obj3d, size);

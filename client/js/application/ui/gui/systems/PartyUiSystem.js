@@ -10,11 +10,11 @@ let portraits = []
 let selectedActor = null;
 
 function debugDrawActorIndex(actor, index) {
-    actor.setStatusKey('hp', Math.ceil(Math.random() * actor.getStatus('maxHP')))
+    actor.setStatusKey(ENUMS.ActorStatus.HP, Math.ceil(Math.random() * actor.getStatus(ENUMS.ActorStatus.MAX_HP)))
    // actor.actorText.pieceTextPrint(""+index)
 }
 let testActive = function(actor) {
-    if (actor.getStatus('party_selected')) {
+    if (actor.getStatus(ENUMS.ActorStatus.PARTY_SELECTED)) {
         return true;
     } else {
         return false;
@@ -42,7 +42,7 @@ let onActivate = function(actor) {
 let onReady = function(portrait) {
     console.log("onReady", portrait)
     container.addChildWidgetToContainer(portrait.guiWidget)
-    portrait.actor.setStatusKey('party_selected', false)
+    portrait.actor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, false)
     setTimeout(function() {
         container.fitContainerChildren()
     },0)
@@ -53,7 +53,7 @@ function addActorPortrait(actor) {
 }
 
 function renderPartyActorUi(actor, tpf, time) {
-    if (actor.getStatus('has_turn')) {
+    if (actor.getStatus(ENUMS.ActorStatus.HAS_TURN)) {
     //    debugDrawActorIndex(actor, actors.indexOf(actor))
     }
 

@@ -52,8 +52,8 @@ class GameActor {
             while (this.turnEndCallbacks.length) {
                 this.turnEndCallbacks.pop()(this);
             }
-            this.setStatusKey('has_turn', false);
-            this.setStatusKey('party_selected', false);
+            this.setStatusKey(ENUMS.ActorStatus.HAS_TURN, false);
+            this.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, false);
         }.bind(this)
 
         this.call = {
@@ -72,9 +72,9 @@ class GameActor {
     startPlayerTurn(turnEndedCB, turnIndex) {
         GameAPI.getGamePieceSystem().setSelectedGameActor(this);
         this.turnEndCallbacks.push(turnEndedCB);
-        this.setStatusKey('has_turn', true);
-        this.setStatusKey('party_selected', true);
-        this.setStatusKey('turn_done', turnIndex)
+        this.setStatusKey(ENUMS.ActorStatus.HAS_TURN, true);
+        this.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, true);
+        this.setStatusKey(ENUMS.ActorStatus.TURN_DONE, turnIndex)
         evt.dispatch(ENUMS.Event.SET_CAMERA_MODE, {mode:'game_travel'})
     }
 

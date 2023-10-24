@@ -12,11 +12,6 @@ class DynamicMain {
 
         evt.on(ENUMS.Event.REQUEST_ASSET_INSTANCE, requestInstance);
 
-        this.instanceEvt = [
-            ENUMS.Args.POINTER,             0,
-            ENUMS.Args.INSTANCE_POINTER,    0
-        ];
-
         this.instancePointer = ENUMS.Numbers.INSTANCE_PTR_0;
 
     };

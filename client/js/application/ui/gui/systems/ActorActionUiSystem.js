@@ -9,7 +9,7 @@ let actionButtons = [];
 let portrait = null;
 
 let testActive = function(actor) {
-    if (actor.getStatus('has_turn')) {
+    if (actor.getStatus(ENUMS.ActorStatus.HAS_TURN)) {
         return true;
     } else {
         return false;
@@ -36,7 +36,7 @@ let selectedTarget = null;
 
 let onActionActivate = function(action) {
     console.log("onActionActivate:", action)
-    selectedTarget = actor.getStatus('selected_target')
+    selectedTarget = actor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET)
     action.initAction(actor);
     activatedAction = action;
     if (selectedTarget) {
@@ -67,7 +67,7 @@ let setupActionUi = function() {
 }
 
 let setupActionButtons = function() {
-    let actions = actor.getStatus('actions');
+    let actions = actor.getStatus(ENUMS.ActorStatus.ACTIONS);
     for (let i = 0; i < actions.length; i++) {
         addActionButton(actions[i]);
     }
@@ -111,7 +111,7 @@ let updateActiveActorUi = function(tpf) {
         } else {
             portrait.updateCharacterPortrait(tpf)
 
-            if (actor.getStatus('has_turn')) {
+            if (actor.getStatus(ENUMS.ActorStatus.HAS_TURN)) {
                 if (actionButtons.length === 0) {
                     setupActionButtons();
                 }
@@ -124,7 +124,7 @@ let updateActiveActorUi = function(tpf) {
 
     if (activatedAction) {
         if (!selectedTarget) {
-            selectedTarget = actor.getStatus('selected_target')
+            selectedTarget = actor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET)
             if (selectedTarget) {
                 action.call.advanceState();
                 setTimeout(function() {

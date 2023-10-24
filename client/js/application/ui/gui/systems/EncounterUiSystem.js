@@ -11,11 +11,11 @@ let container = null;
 let selectedActor = null;
 
 function debugDrawActorIndex(actor, index) {
-    actor.setStatusKey('hp', Math.ceil(Math.random() * actor.getStatus('maxHP')))
+    actor.setStatusKey(ENUMS.ActorStatus.HP, Math.ceil(Math.random() * actor.getStatus(ENUMS.ActorStatus.MAX_HP)))
    // actor.actorText.pieceTextPrint(""+index)
 }
 let testActive = function(actor) {
-    if (actor.getStatus('sequencer_selected')) {
+    if (actor.getStatus(ENUMS.ActorStatus.SEQUENCER_SELECTED)) {
         return true;
     } else {
         return false;
@@ -27,19 +27,19 @@ let onActivate = function(actor) {
 
     if (selectedActor) {
         selectedActor.actorText.say('Unselected')
-        selectedActor.setStatusKey('sequencer_selected', false)
+        selectedActor.setStatusKey(ENUMS.ActorStatus.SEQUENCER_SELECTED, false)
     }
     if (actor === selectedActor) {
         selectedActor = null;
         return;
     }
     selectedActor = actor;
-    actor.setStatusKey('sequencer_selected', true)
+    actor.setStatusKey(ENUMS.ActorStatus.SEQUENCER_SELECTED, true)
     actor.actorText.say('Sequencer Selected')
     let partyActor = GameAPI.getGamePieceSystem().getPlayerParty().getPartySelection()
 
     if (partyActor) {
-        partyActor.setStatusKey('selected_target', selectedActor);
+        partyActor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, selectedActor);
     }
 
 }
@@ -48,7 +48,7 @@ let fitTimeout = null;
 
 let onReady = function(portrait) {
     console.log("onReady", portrait)
-    portrait.actor.setStatusKey('sequencer_selected', false)
+    portrait.actor.setStatusKey(ENUMS.ActorStatus.SEQUENCER_SELECTED, false)
     container.addChildWidgetToContainer(portrait.guiWidget)
 
     clearTimeout(fitTimeout);
@@ -69,7 +69,7 @@ function addActorPortrait(actor) {
 }
 
 function renderEncounterActorUi(actor, tpf, time) {
-    if (actor.getStatus('has_turn')) {
+    if (actor.getStatus(ENUMS.ActorStatus.HAS_TURN)) {
     //    debugDrawActorIndex(actor, actors.indexOf(actor))
     }
 

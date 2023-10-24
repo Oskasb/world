@@ -6,8 +6,8 @@ let faces = ['face_1', 'face_2', 'face_3', 'face_5', 'face_6', 'face_7', 'face_8
 
 function spawnActor(actorConfig, tile) {
     let actorLoaded = function(actor) {
-        actor.setStatusKey('name', 'Bandit '+actor.index);
-        actor.setStatusKey('icon_key', MATH.getRandomArrayEntry(faces));
+        actor.setStatusKey(ENUMS.ActorStatus.NAME, 'Bandit '+actor.index);
+        actor.setStatusKey(ENUMS.ActorStatus.ICON_KEY, MATH.getRandomArrayEntry(faces));
         encounterActors.push(actor);
     }
 

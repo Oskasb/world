@@ -5,7 +5,7 @@ class ActionSelector {
     }
 
     selectActorAction(actor) {
-        let actions = actor.getStatus('actions')
+        let actions = actor.getStatus(ENUMS.ActorStatus.ACTIONS)
     //    console.log(actions)
         let action = poolFetch('ActorAction');
         let actionKey = MATH.getRandomArrayEntry(actions);

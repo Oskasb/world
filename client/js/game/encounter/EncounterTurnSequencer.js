@@ -32,14 +32,14 @@ class EncounterTurnSequencer {
     }
 
     addEncounterActor(actor) {
-        actor.setStatusKey('hp', actor.getStatus('maxHP'))
+        actor.setStatusKey(ENUMS.ActorStatus.HP, actor.getStatus(ENUMS.ActorStatus.MAX_HP))
         this.actors.push(actor);
     }
 
     getSequencerSelection() {
         for (let i = 0; i < this.actors.length; i++) {
             let actor = this.actors[i];
-            if (actor.getStatus('sequencer_selected')) {
+            if (actor.getStatus(ENUMS.ActorStatus.SEQUENCER_SELECTED)) {
                 return actor;
             }
         }

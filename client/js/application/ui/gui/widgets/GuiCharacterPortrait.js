@@ -7,7 +7,7 @@ class GuiCharacterPortrait {
         this.portraitStatusGui = new PortraitStatusGui(hpProgressId);
         this.actor = actor;
         let buttonReady = function(button) {
-            button.guiWidget.setWidgetIconKey(actor.getStatus('icon_key'))
+            button.guiWidget.setWidgetIconKey(actor.getStatus(ENUMS.ActorStatus.ICON_KEY))
             this.button = button;
             this.container = this.portraitContainer;
             this.guiWidget = button.guiWidget;
@@ -37,7 +37,7 @@ class GuiCharacterPortrait {
                 testActive: isActive,
                 interactive: true,
                 set_parent:element.guiWidget,
-                text: actor.getStatus('name'),
+                text: actor.getStatus(ENUMS.ActorStatus.NAME),
             };
 
             evt.dispatch(ENUMS.Event.BUILD_GUI_ELEMENT, opts)
@@ -63,10 +63,10 @@ class GuiCharacterPortrait {
 
     updatePortraitInteractiveState(turnIndex) {
         if (typeof (turnIndex) !== 'undefined') {
-            if (this.actor.getStatus('has_turn')) {
+            if (this.actor.getStatus(ENUMS.ActorStatus.HAS_TURN)) {
                 this.buttonFrame.setFrameState('turn_active');
             } else {
-                let doneTurn = this.actor.getStatus('turn_done')
+                let doneTurn = this.actor.getStatus(ENUMS.ActorStatus.TURN_DONE)
                 if (doneTurn === turnIndex) {
                     this.buttonFrame.setFrameState('turn_done');
                 } else {
@@ -86,11 +86,11 @@ class GuiCharacterPortrait {
         this.buttonFrame.updateButtonFrame(tpf);
         if (this.portraitStatusGui) {
             this.portraitStatusGui.updateCharacterStatElement();
-            if (this.actor.getStatus('dead')) {
+            if (this.actor.getStatus(ENUMS.ActorStatus.DEAD)) {
                 let iconKey = 'dead'
                 this.button.guiWidget.setWidgetIconKey(iconKey)
             } else {
-                let iconKey = this.actor.getStatus('icon_key')
+                let iconKey = this.actor.getStatus(ENUMS.ActorStatus.ICON_KEY)
                 this.button.guiWidget.setWidgetIconKey(iconKey)
             }
         }

@@ -60,8 +60,8 @@ class ActorTurnSequencer {
     }
 
     setGameActor(actor) {
-        actor.setStatusKey('has_turn', false)
-        actor.setStatusKey('turn_done', -1)
+        actor.setStatusKey(ENUMS.ActorStatus.HAS_TURN, false)
+        actor.setStatusKey(ENUMS.ActorStatus.TURN_DONE, -1)
         this.actor = actor;
         MATH.emptyArray(this.turnEncBallbacks);
     }
@@ -82,7 +82,7 @@ class ActorTurnSequencer {
         this.turnEncBallbacks.push(turnEndCallback);
         this.turnTime = 0;
         this.turnIndex = turnIndex;
-        this.actor.setStatusKey('turn_done', this.turnIndex)
+        this.actor.setStatusKey(ENUMS.ActorStatus.TURN_DONE, this.turnIndex)
         this.exitTo = turnStateKeys.turn_init
         let camHome = GameAPI.call.getActiveEncounter().getEncounterCameraHomePosition()
         evt.dispatch(ENUMS.Event.SET_CAMERA_MODE, {mode:'actor_turn_movement', obj3d:this.actor.getObj3d(), camPos:camHome})

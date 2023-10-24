@@ -13,7 +13,7 @@ import {
 let nullTurn = -1
 
 function turnInit(actor, turnIndex) {
-    actor.setStatusKey('has_turn', true)
+    actor.setStatusKey(ENUMS.ActorStatus.HAS_TURN, true)
     let sequencer = actor.actorTurnSequencer
     setSequencer(sequencer)
     actor.actorText.say('My turn '+turnIndex)
@@ -102,7 +102,7 @@ function cancelTurnProcess() {
 
 function turnClosed(actor, turnIndex, onCompletedCB) {
     actor.actorText.say('Turn closed '+turnIndex)
-    actor.setStatusKey('has_turn', false)
+    actor.setStatusKey(ENUMS.ActorStatus.HAS_TURN, false)
     let sequencer = actor.actorTurnSequencer
     setSequencer(sequencer)
     MATH.callAndClearAll(sequencer.turnEncBallbacks, actor);

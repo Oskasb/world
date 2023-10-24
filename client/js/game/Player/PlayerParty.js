@@ -8,7 +8,7 @@ class PlayerParty {
     addPartyActor(actor) {
 
         actor.activateGameActor();
-        actor.setStatusKey('hp', actor.getStatus('maxHP'))
+        actor.setStatusKey(ENUMS.ActorStatus.HP, actor.getStatus(ENUMS.ActorStatus.MAX_HP))
         if (this.actors.length === 0) {
             this.selectPartyActor(actor);
         }
@@ -19,7 +19,7 @@ class PlayerParty {
     getPartySelection() {
         for (let i = 0; i < this.actors.length; i++) {
             let actor = this.actors[i];
-            if (actor.getStatus('party_selected')) {
+            if (actor.getStatus(ENUMS.ActorStatus.PARTY_SELECTED)) {
                 return actor;
             }
         }
@@ -27,6 +27,11 @@ class PlayerParty {
     }
 
     selectPartyActor(actor) {
+        let current = this.getPartySelection();
+        if (current) {
+            current.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, false);
+        }
+        actor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, true);
         GameAPI.getGamePieceSystem().setSelectedGameActor(actor);
     }
 

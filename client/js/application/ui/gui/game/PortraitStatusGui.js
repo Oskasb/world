@@ -256,19 +256,19 @@ class PortraitStatusGui {
         ThreeAPI.tempVec3b.x = this.potraitCenter.x
         this.attacksContainer.guiWidget.setPosition( ThreeAPI.tempVec3b)
 
-        let maxHP =  this.actor.getStatus('maxHP');
-        let hp =  this.actor.getStatus('hp')
+        let maxHP =  this.actor.getStatus(ENUMS.ActorStatus.MAX_HP);
+        let hp =  this.actor.getStatus(ENUMS.ActorStatus.HP)
         this.hpProgressElement.setProgress(0, maxHP, hp)
     //    this.tempVec3b.y-=0.002
     //    this.swingProgressElement.guiWidget.setPosition(this.tempVec3b)
-        this.swingProgressElement.setProgress(0, 1, MATH.curveQuad(Math.sin( this.actor.getStatus('atkProg') * Math.PI)))
+     //   this.swingProgressElement.setProgress(0, 1, MATH.curveQuad(Math.sin( this.actor.getStatus('atkProg') * Math.PI)))
     //    this.tempVec3b.y-=0.004
    //     this.attacksContainer.guiWidget.setPosition(this.tempVec3b)
-        this.updateAttackPointElements(this.actor.getStatus('turnAttacks'), this.actor.getStatus('attack'), this.actor.getStatus('atkProg'))
+    //    this.updateAttackPointElements(this.actor.getStatus('turnAttacks'), this.actor.getStatus('attack'), this.actor.getStatus('atkProg'))
 
    //     this.tempVec3b.y += 0.014
     //    this.actionPointContainer.guiWidget.setPosition(this.tempVec3b)
-        this.updateActionPointElements(this.actor.getStatus('maxAPs'), this.actor.getStatus('actPts'), this.actor.getStatus('activeAPs'))
+    //    this.updateActionPointElements(this.actor.getStatus('maxAPs'), this.actor.getStatus('actPts'), this.actor.getStatus('activeAPs'))
     }
 
 }

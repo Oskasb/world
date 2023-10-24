@@ -32,7 +32,8 @@ let loadActor = function(event) {
     } else if (event.pos) {
         actor.getPos().copy(event.pos);
     } else {
-        GameAPI.getGamePieceSystem().addActorToPlayerPArty(actor);
+        GameAPI.getGamePieceSystem().addActorToPlayerParty(actor);
+        GameAPI.getGamePieceSystem().playerParty.selectPartyActor(actor)
     }
 
     if (event.callback) {
@@ -73,21 +74,21 @@ class GamePieceSystem {
         return this.playerParty;
     }
 
-    addActorToPlayerPArty(actor) {
+    addActorToPlayerParty(actor) {
         this.playerParty.addPartyActor(actor);
     }
 
     setSelectedGameActor = function(gameActor) {
         console.log("Set Selected Actor: ", gameActor);
 
-        if (gameActor.getStatus('has_position') === true) {
+        if (gameActor.getStatus(ENUMS.ActorStatus.HAS_POSITION) === true) {
             ThreeAPI.getCameraCursor().getCursorObj3d().position.copy( gameActor.actorObj3d.position)
         } else {
             gameActor.actorObj3d.position.copy(ThreeAPI.getCameraCursor().getCursorObj3d().position);
             gameActor.getGameWalkGrid().setGridMovementObj3d(gameActor.actorObj3d)
         }
 
-        gameActor.setStatusKey('has_position', true)
+        gameActor.setStatusKey(ENUMS.ActorStatus.HAS_POSITION, true)
         evt.dispatch(ENUMS.Event.SET_CAMERA_MODE, {mode:'game_travel'})
         gameActor.call.setAsSelection();
         this.selectedActor = gameActor;
