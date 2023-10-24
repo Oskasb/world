@@ -15,7 +15,8 @@ let debugStats = {
     gameCBs:0,
     procTime: 0,
     boxes: 0,
-    models: 0
+    models: 0,
+    tModels: 0
 };
 
 
@@ -24,6 +25,7 @@ let setupDebug = function(gameApi) {
     let gameMain = gameApi.gameMain
 
     let worldModels = gameApi.worldModels;
+    let threeTerrain = ThreeAPI.getTerrainSystem().getTerrain();
 
     if (!cache['DEBUG']) {
         cache = PipelineAPI.getCachedConfigs();
@@ -42,6 +44,23 @@ let setupDebug = function(gameApi) {
         debugStats.procTime = (gameMain.frameEnd - gameMain.frameStart) * 1000;
         debugStats.model = worldModels.getWorldModelCount();
         debugStats.boxes = worldModels.getWorldBoxCount()
+
+
+        debugStats.tModels = 0;
+        let terrainGeos = threeTerrain.call.getTerrainGeos();
+        for (let i = 0; i < terrainGeos.length; i++) {
+            for (let j = 0; j < terrainGeos[i].length; j++) {
+                let geo = terrainGeos[i][j];
+                let geoModels = geo.terrainElementModels;
+                let lodLevels = geoModels.lodLevelInstances;
+                for (let k = 0; k < lodLevels.length; k++) {
+                    debugStats.tModels += lodLevels[k].length;
+                }
+
+            }
+        }
+
+
     }
 
     evt.on(ENUMS.Event.COLLECT_DEBUG_STATS, collectDebugStats)

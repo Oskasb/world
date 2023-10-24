@@ -40,9 +40,9 @@ class ThreeSetup {
 
         //    if (tpf < 0.03) return;
 
-        this.idle = (performance.now() / 1000) - this.renderEnd;
-
-        PipelineAPI.setCategoryKeyValue('STATUS', 'TIME_ANIM_IDLE', this.idle);
+        this.idle = (performance.now()) - this.renderEnd;
+        this.prenderStart = performance.now();
+    //    PipelineAPI.setCategoryKeyValue('STATUS', 'TIME_ANIM_IDLE', this.idle);
 
         this.lastTime = time;
 
@@ -60,10 +60,11 @@ class ThreeSetup {
     };
 
     callRender = function(scn, cam) {
-    //    this.renderStart = performance.now()/1000;
+        this.renderStart = performance.now();
         this.renderer.render(scn, cam);
-     //   this.renderEnd = performance.now()/1000;
+        this.renderEnd = performance.now();
         this.callPostrender();
+        this.postRenderEnd = performance.now();
     };
 
     callPostrender = function() {

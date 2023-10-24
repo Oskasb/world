@@ -47,6 +47,36 @@
                           "unit": "ms"
                         },
                         {
+                          "key": "cpuLoad",
+                          "digits": 0,
+                          "unit": "%"
+                        },
+                        {
+                          "key": "active",
+                          "digits": 0,
+                          "unit": "ns"
+                        },
+                        {
+                          "key": "idle",
+                          "digits": 0,
+                          "unit": "ns"
+                        },
+                        {
+                          "key": "preRdr",
+                          "digits": 0,
+                          "unit": "ns"
+                        },
+                        {
+                          "key": "render",
+                          "digits": 0,
+                          "unit": "ns"
+                        },
+                        {
+                          "key": "postRdr",
+                          "digits": 0,
+                          "unit": "ns"
+                        },
+                        {
                           "key": "fps",
                           "digits": 0
                         },

@@ -341,10 +341,15 @@ function shadeGeoTile(geo, prog, progressCB) {
     },0)
 }
 
+function getTerrainGeos() {
+    return terrainGeometries;
+}
+
 class ThreeTerrain {
     constructor() {
 
         this.call = {
+            getTerrainGeos:getTerrainGeos,
             getLodCenter:getLodCenter,
             getHeightAndNormal:getHeightAndNormal,
             getTerrainData:getTerrainData,
@@ -446,9 +451,6 @@ class ThreeTerrain {
             }
 
             drawTilesByLodGrid(updateFrame)
-
-
-
     }
 }
 

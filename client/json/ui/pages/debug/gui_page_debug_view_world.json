@@ -42,6 +42,10 @@
                         {
                           "key": "boxes",
                           "digits": 0
+                        },
+                        {
+                          "key": "tModels",
+                          "digits": 0
                         }
                       ]
                     }

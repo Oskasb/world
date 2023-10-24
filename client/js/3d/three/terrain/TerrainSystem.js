@@ -44,6 +44,10 @@ class TerrainSystem {
         threeTerrain.loadData(callback);
     };
 
+    getTerrain() {
+        return threeTerrain;
+    }
+
     testReady = function() {
         if (this.sysReady) {
 
