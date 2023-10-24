@@ -48,16 +48,26 @@ class TerrainSystem {
         if (this.sysReady) {
 
             let shadeProgCB = function(prog) {
-                if (Math.random()<0.01) {
-                    console.log(prog.progress)
+
+                if (prog.remaining === 0) {
+                    console.log("Terrain Ground Shade Done")
+                    evt.dispatch(ENUMS.Event.NOTIFY_LOAD_PROGRESS, prog)
+                    activateTerrainSystem();
+                    vegetationSystem.activateVegetationSystem(threeTerrain.call.getLodCenter())
+                    setTimeout(function() {
+                        evt.dispatch(ENUMS.Event.NOTIFY_LOAD_COMPLETED, {})
+                    }, 500)
+
+                } else if (prog.done % 500 === 0) {
+                    evt.dispatch(ENUMS.Event.NOTIFY_LOAD_PROGRESS, prog)
+                    //console.log(prog.progress)
                 }
             }
 
+            evt.dispatch(ENUMS.Event.NOTIFY_LOAD_PROGRESS, {msg:"Ground Shade"})
             console.log("Terrain data ready")
             threeTerrain.buildGroundShadeTexture(shadeProgCB);
-            console.log("Terrain Ground Shade Done")
-            activateTerrainSystem();
-            vegetationSystem.activateVegetationSystem(threeTerrain.call.getLodCenter())
+
         }
     }
 

@@ -1,6 +1,8 @@
 import { DomLoadScreen } from '../ui/dom/DomLoadScreen.js';
 import { AssetLoader } from './AssetLoader.js';
 
+let notifyProgress;
+
 class DataLoader {
     constructor() {
         this.loadStates= {
@@ -15,6 +17,25 @@ class DataLoader {
         this.loadProgress = new DomLoadScreen();
         this.assetLoader = new AssetLoader();
 
+        notifyProgress = function(progress, msg, channel) {
+            if (progress) {
+                this.loadProgress.setProgress(progress);
+            }
+            if (msg) {
+                this.loadProgress.logMessage(msg, null, channel);
+            }
+        }.bind(this)
+
+        let progEvt = function(evt) {
+            notifyProgress(evt.progress, evt.msg, evt.channel)
+        }
+
+        let loadCompleted = function(evt) {
+            this.loadProgress.removeProgress();
+        }.bind(this);
+
+        evt.on(ENUMS.Event.NOTIFY_LOAD_PROGRESS, progEvt)
+        evt.on(ENUMS.Event.NOTIFY_LOAD_COMPLETED, loadCompleted)
     }
 
     loadDataAsset = function(assetType, assetId, callback) {
@@ -47,7 +68,8 @@ class DataLoader {
 
             let loadStateChange = function(state) {
                 //    console.log('loadStateChange', state)
-                    if (state === _this.getStates().IMAGES) {
+                notifyProgress(null, 'Load State: '+state);
+                if (state === _this.getStates().IMAGES) {
 
                 }
 
@@ -63,16 +85,19 @@ class DataLoader {
             let done = false;
             function pipelineCallback(started, remaining, loaded, files) {
             //     console.log("SRL", _this.loadState, started, remaining, loaded, [files]);
-                if (done) return;
+                if (done) {
+                    notifyProgress(loaded / started, 'Pipeline done');
+                    return;
+                }
                 PipelineAPI.setCategoryKeyValue("STATUS", "FILE_CACHE", loaded);
 
-                loadScreen.setProgress(loaded / started);
+                notifyProgress(loaded / started);
 
                 if (_this.loadState === loadStates.THREEDATA && remaining === 0) {
                     //    console.log( "loadThreeData:", _this.loadState, started, remaining, loaded, [files]);
                     //   loadState = loadStates.COMPLETED;
-
-                       loadStateChange(loadStates.COMPLETED);
+                    notifyProgress(null, 'THREEDATA Done');
+                    loadStateChange(loadStates.COMPLETED);
 
                 }
 
@@ -87,12 +112,16 @@ class DataLoader {
                 //        console.log("requestAsset returns: ", asset)
                         assetCount--
                         remaining--
+                        notifyProgress(null, asset.id, 'pipeline_message');
                         if (!assetCount) {
                             _this.loadState = loadStates.COMPLETED;
                             remaining--
-
+                            notifyProgress(null, 'Assets Done');
                             setTimeout(function() {
-                                if (done) return;
+                                if (done) {
+                                    notifyProgress(null, 'Assets Done', 'pipeline_message');
+                                    return;
+                                }
                                 loadStateChange(_this.loadState);
                             }, 20)
 
@@ -109,10 +138,15 @@ class DataLoader {
                     };
 
                     let filesCallback = function(src, data) {
-                        if (done) return;
+                        if (done) {
+                            notifyProgress(null, 'Files Done');
+                            return;
+                        }
+                        notifyProgress(null, src, 'pipeline_message');
                     //    console.log("Preload Files: ", data);
                         let loadCB = function(msg) {
                         //    console.log("Preload Asset: ", msg)
+                            notifyProgress(null, msg);
                             assetCount--
                             remaining--
                         };
@@ -142,6 +176,7 @@ class DataLoader {
                     ThreeAPI.initThreeLoaders(_this.assetLoader);
                 //    ThreeAPI.loadThreeData();
                     let apiReadyCB = function(msg) {
+                        notifyProgress(null, 'Fx: '+msg);
                      //   console.log('initEffectAPI', msg)
                     }
                     EffectAPI.initEffectAPI(apiReadyCB)
@@ -156,6 +191,7 @@ class DataLoader {
 
             let onPipelineInitCallback = function(configCache) {
                 console.log("CONFIGS:", configCache.configs)
+                notifyProgress(null, 'Init Loading');
             };
 
             PipelineAPI.dataPipelineSetup(dataPipelineSetup.jsonRegUrl, dataPipelineSetup, onPipelineInitCallback, onErrorCallback);
@@ -165,12 +201,12 @@ class DataLoader {
         };
 
         notifyCompleted = function() {
-            this.loadProgress.removeProgress();
 
             let pollUrls = PipelineAPI.getCachedConfigs()['ASSETS']['POLL_INDEX'];
             PipelineAPI.prunePollUrlsExceptFor(pollUrls)
 
             let apiReadyCB = function(msg) {
+                notifyProgress(null, 'GUI: '+msg);
         //        console.log(msg)
             }
             GuiAPI.initGuiApi(apiReadyCB)

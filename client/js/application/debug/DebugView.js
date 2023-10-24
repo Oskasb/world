@@ -2,6 +2,8 @@ import * as DebugUtils from "./DebugUtils.js";
 import {DebugLines} from "./lines/DebugLines.js";
 
 let cache = {};
+let mem = null;
+let bytesPerMb = 1048576;
 let system = {
     tpf:0
 }
@@ -23,6 +25,14 @@ let updateSystemDebug = function() {
 
     system.scnObjs = scene.children.length;
 
+    if (performance) {
+        let mem = performance.memory;
+        system.heapTot = mem.totalJSHeapSize / bytesPerMb;
+        system.heapUsed = mem.usedJSHeapSize / bytesPerMb;
+        system.memSpent = MATH.calcFraction(0, mem.jsHeapSizeLimit, mem.totalJSHeapSize) * 100;
+
+    }
+
 }
 
 class DebugView {
@@ -35,6 +45,9 @@ class DebugView {
 
         if (!cache['DEBUG']['SYSTEM']) {
             cache.DEBUG.SYSTEM = system;
+            if (performance) {
+                console.log(performance)
+            }
         }
 
         this.debugLines = new DebugLines()

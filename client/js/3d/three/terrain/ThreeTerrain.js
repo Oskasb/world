@@ -322,6 +322,25 @@ function getTerrainScale() {
     return terrainScale;
 }
 
+let delayedShade = function(geo, prog, progressCB) {
+    geo.terrainSectionInfo.applyLodLevel(1, 6)
+    geo.terrainElementModels.applyLevelOfDetail(1, geo.terrainSectionInfo);
+    geo.terrainSectionInfo.applyLodLevel(-1, 6)
+    geo.terrainElementModels.applyLevelOfDetail(-1, geo.terrainSectionInfo);
+    prog.done++;
+    prog.progress = MATH.calcFraction(0, prog.all, prog.done)
+    prog.remaining = prog.all - prog.done;
+    prog.msg = "Shade Tile: "+prog.done;
+
+    progressCB(prog);
+}
+
+function shadeGeoTile(geo, prog, progressCB) {
+    setTimeout(function() {
+        delayedShade(geo, prog, progressCB)
+    },0)
+}
+
 class ThreeTerrain {
     constructor() {
 
@@ -364,23 +383,17 @@ class ThreeTerrain {
     };
 
 
-
-
     buildGroundShadeTexture(progressCB) {
         let prog = {}
         prog.done = 0;
         prog.progress = 0;
         prog.all = terrainGeometries.length* terrainGeometries[0].length
+        prog.msg = prog.all;
+        prog.channel = 'pipeline_message';
         for (let i = 0; i < terrainGeometries.length; i++) {
             for (let j = 0; j < terrainGeometries[i].length; j++) {
                 let geo = terrainGeometries[i][j];
-                geo.terrainSectionInfo.applyLodLevel(1, 6)
-                geo.terrainElementModels.applyLevelOfDetail(1, geo.terrainSectionInfo);
-                geo.terrainSectionInfo.applyLodLevel(-1, 6)
-                geo.terrainElementModels.applyLevelOfDetail(-1, geo.terrainSectionInfo);
-                prog.done++;
-                prog.progress = MATH.calcFraction(0, prog.all, prog.done)
-                progressCB(prog);
+                shadeGeoTile(geo, prog, progressCB);
             }
         }
     }

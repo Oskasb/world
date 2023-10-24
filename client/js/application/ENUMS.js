@@ -83,7 +83,9 @@ if(typeof(ENUMS) === "undefined"){
         SPAWN_EFFECT:               64,
         INDICATE_RADIUS:            65,
         EDIT_GROUND:                66,
-        EDIT_PARAMETERS:            67
+        EDIT_PARAMETERS:            67,
+        NOTIFY_LOAD_PROGRESS:       68,
+        NOTIFY_LOAD_COMPLETED:      69
     };
 
     ENUMS.Args = {

@@ -27,6 +27,21 @@
                     "track_config": {"category": "DEBUG","key": "SYSTEM",
                       "samplers": [
                         {
+                          "key": "heapTot",
+                          "digits": 0,
+                          "unit": "MB"
+                        },
+                        {
+                          "key": "heapUsed",
+                          "digits": 0,
+                          "unit": "MB"
+                        },
+                        {
+                          "key": "memSpent",
+                          "digits": 0,
+                          "unit": "%"
+                        },
+                        {
                           "key": "tpf",
                           "digits": 0,
                           "unit": "ms"

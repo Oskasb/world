@@ -180,7 +180,7 @@ class DomLoadScreen {
         logMessage = function(msg, color, channel) {
             if (!color) color = '#f04';
 
-            if (channel == 'pipeline_message') {
+            if (channel === 'pipeline_message') {
                 this.pipeTexts.push("<span style='color:"+color+"'>"+ msg +"</span>");
                 this.renderPipeLog()
             } else {
@@ -224,7 +224,7 @@ class DomLoadScreen {
 
                 setTimeout(function() {
                     DomUtils.removeElement(_this.root);
-                }, 500);
+                }, 300);
 
                 DomUtils.removeElement(_this.pipeMessage);
                 DomUtils.removeElement(_this.progMessage);

@@ -71,10 +71,11 @@ class GuiAPI {
         let reqs = 0;
         let loads = 0;
 
-        let loadCb = function() {
+        let loadCb = function(msg) {
             loads++
+            evt.dispatch(ENUMS.Event.NOTIFY_LOAD_PROGRESS, {msg:msg, channel:'pipeline_message'})
             if (loads === reqs) {
-
+                onReadyCB('loaded: '+loads);
             }
         };
 
@@ -97,9 +98,8 @@ class GuiAPI {
         loadUiConfig("FEEDBACK", "TEXT");
         loadUiConfig("SPRITE_FONT", "FONT_16x16");
 
-
         this.guiPageSystem.initGuiPageSystem();
-        onReadyCB('initGuiApi done loads: '+loads);
+
     };
 
     activatePage(pageId, callback) {
