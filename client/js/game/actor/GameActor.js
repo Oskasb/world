@@ -224,8 +224,17 @@ class GameActor {
             this.visualGamePiece.setMoveState('STAND_COMBAT')
             this.visualGamePiece.setBodyState('DISENGAGING')
         } else {
-            this.visualGamePiece.setMoveState('MOVE')
-            this.visualGamePiece.setBodyState('IDLE_HANDS')
+            if (this.getStatus(ENUMS.ActorStatus.IN_COMBAT)) {
+                this.visualGamePiece.setMoveState('MOVE_COMBAT')
+                this.visualGamePiece.setStandState('STAND_COMBAT')
+                this.visualGamePiece.setBodyState('ENGAGING')
+            } else {
+                this.visualGamePiece.setMoveState('MOVE')
+                this.visualGamePiece.setStandState('IDLE_LEGS')
+                this.visualGamePiece.setBodyState('IDLE_HANDS')
+            }
+
+
         }
 
     }

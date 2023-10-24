@@ -14,6 +14,7 @@ class VisualGamePiece {
 
         this.moveState = 'MOVE';
         this.bodyState = 'IDLE_HANDS';
+        this.standState = 'IDLE_LEGS';
 
         this.assetId = config['model_asset'];
         this.config = config;
@@ -154,6 +155,9 @@ class VisualGamePiece {
         this.bodyState = state;
     }
 
+    setStandState = function(state) {
+        this.standState = state;
+    }
 
     getCenterMass() {
         tempVec.copy(this.getPos());
@@ -202,7 +206,7 @@ class VisualGamePiece {
         //    console.log(action);
             action.timeScale = frameVelocity * 0.33;
         } else {
-            this.animateActionState('IDLE_LEGS')
+            this.animateActionState(this.standState)
         }
         this.animateActionState(this.bodyState)
 
