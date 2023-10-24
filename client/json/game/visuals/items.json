@@ -2,6 +2,12 @@
   "GAME":{
     "VISUALS":[
       {
+        "id": "J35_DRAKEN",
+        "data": {
+          "model_asset":"asset_j35draken"
+        }
+      },
+      {
         "id":"BARB_BREASTPLATE",
         "data":{
           "model_asset":"skinned_barb_bp"

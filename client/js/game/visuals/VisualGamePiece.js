@@ -16,6 +16,8 @@ class VisualGamePiece {
         this.bodyState = 'IDLE_HANDS';
         this.standState = 'IDLE_LEGS';
 
+        this.addedAssets = [];
+
         this.assetId = config['model_asset'];
         this.config = config;
         this.visualPieceObj3d = new Object3D();
@@ -52,6 +54,10 @@ class VisualGamePiece {
         }
 
         ModelUtils.setupVisualModel(this, this.assetId, this.config, pieceReady);
+    }
+
+    addModelAsset(assetId) {
+
     }
 
     setPieceAnimator = function(pieceAnimator) {
