@@ -7,7 +7,45 @@ import { GameCamera } from "../3d/camera/GameCamera.js";
 import { WorldModels } from "./gameworld/WorldModels.js";
 import { GamePieceSystem } from "./GamePieceSystem.js";
 import { GameEncounterSystem } from "./GameEncounterSystem.js";
-import {VisualEffectSystem } from "./visuals/VisualEffectSystem.js";
+import { VisualEffectSystem } from "./visuals/VisualEffectSystem.js";
+
+
+let cache = {};
+let debugStats = {
+    gameCBs:0,
+    procTime: 0,
+    boxes: 0,
+    models: 0
+};
+
+
+let setupDebug = function(gameApi) {
+
+    let gameMain = gameApi.gameMain
+
+    let worldModels = gameApi.worldModels;
+
+    if (!cache['DEBUG']) {
+        cache = PipelineAPI.getCachedConfigs();
+        if (!cache['DEBUG']) {
+            cache.DEBUG = {};
+        }
+    }
+
+    if (!cache['DEBUG']['WORLD']) {
+        cache.DEBUG.WORLD = debugStats;
+    }
+
+    let collectDebugStats = function() {
+
+        debugStats.gameCBs = gameMain.onUpdateCallbacks.length;
+        debugStats.procTime = (gameMain.frameEnd - gameMain.frameStart) * 1000;
+        debugStats.model = worldModels.getWorldModelCount();
+        debugStats.boxes = worldModels.getWorldBoxCount()
+    }
+
+    evt.on(ENUMS.Event.COLLECT_DEBUG_STATS, collectDebugStats)
+}
 
 let gamePieceSystem = new GamePieceSystem();
 let gameEncounterSystem = new GameEncounterSystem()
@@ -115,6 +153,7 @@ class GameAPI {
     initGameMain() {
         gamePieceSystem.initGamePieceSystem()
         this.gameMain.initGameMain();
+
     }
 
     getGamePieceSystem() {
@@ -123,6 +162,7 @@ class GameAPI {
 
     initGameWorldModels() {
         this.worldModels = new WorldModels();
+        setupDebug(this);
     }
 
     getWorldModelHeightAtPos(posVec3, boxHeight) {

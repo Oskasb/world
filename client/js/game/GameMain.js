@@ -215,6 +215,7 @@ class GameMain {
     updateMainGameTurn(frame) {
 
 
+
         this.turnStatus.pauseRemaining -= frame.tpf;
         let pProg = this.turnStatus.pauseRemaining / this.turnStatus.autoPause;
         this.turnStatus.pauseProgress = MATH.clamp(pProg, 0, 1);
@@ -246,6 +247,9 @@ class GameMain {
             MATH.callAll(this.onTurnCallbacks, this.turnStatus)
 
         }
+
+
+
     }
 
 
@@ -273,6 +277,8 @@ class GameMain {
 
     updateGameMain(frame) {
 
+        this.frameStart = performance.now();
+
         this.updateMainGameTurn(frame);
         this.gameTime = this.turnStatus.totalTime;
 
@@ -284,6 +290,7 @@ class GameMain {
             this.onUpdateCallbacks[i](frame.tpf, this.gameTime)
         }
 
+        this.frameEnd = performance.now();
     }
 
 }

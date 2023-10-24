@@ -104,6 +104,14 @@ class WorldModels {
 
     };
 
+    getWorldModelCount() {
+        return worldModels.length;
+    }
+
+    getWorldBoxCount() {
+        return worldBoxes.length;
+    }
+
     unregisterWorldBox(box) {
         MATH.splice(worldBoxes, box);
     };

@@ -156,14 +156,14 @@ class TerrainGeometry{
         this.updateMinMax = true;
 
         let box3min = new Vector3();
-        box3min.x = this.posX - this.size*0.5;
+        box3min.x = this.posX - this.size*0.75;
         box3min.y = 0;
-        box3min.z = this.posZ - this.size*0.5;
+        box3min.z = this.posZ - this.size*0.75;
         let box3Max = new Vector3();
 
-        box3Max.x = this.posX + this.size*0.5;
+        box3Max.x = this.posX + this.size*0.75;
         box3Max.y = 60;
-        box3Max.z = this.posZ + this.size*0.5;
+        box3Max.z = this.posZ + this.size*0.75;
 
         this.boundingBox = new Box3(box3min, box3Max);
 

@@ -235,7 +235,7 @@ if(typeof(MATH) === "undefined") {
     };
 
     MATH.airDensityAtAlt = function(alt) {
-        return MATH.valueFromCurve(alt, MATH.curves.densityByAlt) * 1.0;
+        return MATH.valueFromCurve(alt, MATH.curves.densityByAlt) * 1.1;
     };
 
     MATH.curves = {

@@ -374,7 +374,7 @@ class ThreeTerrain {
 
 
         dynamicLodGrid = new DynamicLodGrid();
-        dynamicLodGrid.activateLodGrid({lod_levels: 4, tile_range:22, tile_spacing:16, hide_tiles:true, center_offset:true, debug:false})
+        dynamicLodGrid.activateLodGrid({lod_levels: 4, tile_range:18, tile_spacing:16, hide_tiles:true, center_offset:true, debug:false})
 
         let configData = new ConfigData("ASSETS", "TERRAIN", "terrain_config", 'data_key', 'config')
         configData.addUpdateCallback(terrainListLoaded);
@@ -436,7 +436,7 @@ class ThreeTerrain {
                 geoBeneathPlayer = playerGeo;
             }
 
-            let releasedPoints = dynamicLodGrid.updateDynamicLodGrid(lodCenter);
+            let releasedPoints = dynamicLodGrid.updateDynamicLodGrid(terrainCenter);
 
             while (releasedPoints.length) {
                 let pointVec3 = releasedPoints.pop()

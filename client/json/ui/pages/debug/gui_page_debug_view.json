@@ -114,6 +114,25 @@
                   }
                 },
                 {
+                  "widget_id":"button_view_world",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"button_big_blue",
+                  "options":{
+                    "text":"WORLD",
+                    "container_id":"page_debug_bottom_left",
+                    "offset_x": 0.15,
+                    "offset_y": 0.05,
+                    "dispatch":{
+                      "event":"TOGGLE_GUI_PAGE",
+                      "value":{
+                        "page_id":"page_debug_view_world",
+                        "parent_page_id":"page_debug_view",
+                        "parent_container_id": "button_container_system"
+                      }
+                    }
+                  }
+                },
+                {
                   "widget_id":"button_view_pools",
                   "widget_class":"GuiExpandingContainer",
                   "widget_config_id":"button_big_blue",
