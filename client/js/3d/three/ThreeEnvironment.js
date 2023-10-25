@@ -154,6 +154,10 @@ class ThreeEnvironment {
 
                 if (key === 'fog') {
                     this.fogColor.setRGB(config[key].color[0],config[key].color[1],config[key].color[2]);
+                    this.world[key].fog.color.r = this.fogColor.r*0.5;
+                    this.world[key].fog.color.g = this.fogColor.g*0.5;
+                    this.world[key].fog.color.b = this.fogColor.b*0.5;
+                    this.world[key].fog.density = this.world[key].density;
                 }
 
                 if (key === 'ambient') {
@@ -525,7 +529,9 @@ class ThreeEnvironment {
                     //    scene.fog = {density:0, near:1, far: 100000}; // new THREE.Fog( 100, 10000000);
                 //    scene.fog = new THREE.Fog( 100, 10000000);
                 //        world[key] = scene.fog;
-                    _this.world[key] = {density:0, near:1, far: 100000}
+                    let fog = new THREE.FogExp2(0x000000, 0.1);
+                    scene.fog = fog;
+                    _this.world[key] = {density:0, near:1, far: 100000, fog:fog}
                     //    ThreeAPI.getReflectionScene().add(world[key]);
                 } else {
                     _this.world[key] = new THREE.DirectionalLight(0x000000);

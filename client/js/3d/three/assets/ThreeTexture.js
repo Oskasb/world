@@ -70,8 +70,8 @@ let blendCanvasCtxToTexture = function(ctx, texture) {
     texture.ctx.globalCompositeOperation = 'copy';
        texture.ctx.drawImage(originalBitmap, 0, 0, originalBitmap.width, originalBitmap.height)
     texture.ctx.globalCompositeOperation = 'mix';
- //   texture.ctx.fillStyle = "rgba("+255*Math.random()+", "+255*Math.random()+", 0, 1)";
- //   texture.ctx.fillRect(0, 0, originalBitmap.width, originalBitmap.height)
+    texture.ctx.fillStyle = "rgba("+255*Math.random()+", "+255*Math.random()+", 0, 1)";
+    texture.ctx.fillRect(0, 0, originalBitmap.width, originalBitmap.height)
    texture.ctx.drawImage(ctx.canvas, originalBitmap.width, originalBitmap.height, 0, 0)
 
     texture.needsUpdate = true;
@@ -92,6 +92,7 @@ class ThreeTexture {
 
 
                 let canvas = document.createElement("canvas");
+                let tx = _this.texture;
 
                 console.log("Canvas asset: ", asset)
                     canvas.id = id+'_canvas';
@@ -105,9 +106,11 @@ class ThreeTexture {
                 _this.texture.ctx = canvas.getContext('2d')
                 _this.texture.ctx.drawImage( asset.bitmap, 0, 0, canvas.width, canvas.height );
 
-                let tx = _this.texture;
+
+                _this.texture.mapping = THREE.EquirectangularReflectionMapping;
+                ThreeAPI.getScene().environemt = _this.texture;
                 let applySkyGradient = function(ctx) {
-                    blendCanvasCtxToTexture(ctx, tx)
+                    blendCanvasCtxToTexture(ctx, _this.texture)
                 }
 
                 evt.on(ENUMS.Event.SKY_GRADIENT_UPDATE, applySkyGradient)

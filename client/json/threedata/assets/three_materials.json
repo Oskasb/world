@@ -8,7 +8,6 @@
             "settings": "mat_settings_standard_opaque",
             "textures":[
               {"key":"map"           , "id":"atlas_2k_diff"   } ,
-              {"key":"envMap"        , "id":"ref_sphere"      } ,
               {"key":"metalnessMap"  , "id":"atlas_2k_metalness"   } ,
               {"key":"roughnessMap"  , "id":"atlas_2k_roughness"   } ,
               {"key":"normalMap"     , "id":"atlas_2k_norm"   }
@@ -22,7 +21,6 @@
             "textures":[
               {"key":"map"           , "id":"atlas_2k_diff"   },
               {"key":"specularMap"   , "id":"atlas_2k_spec"   },
-              {"key":"envMap"        , "id":"ref_sphere"      },
               {"key":"normalMap"     , "id":"atlas_2k_norm"   }
             ]
           }
@@ -34,7 +32,6 @@
             "textures":[
               {"key":"map"           , "id":"atlas_2k_diff"   },
               {"key":"specularMap"   , "id":"atlas_2k_spec"   },
-              {"key":"envMap"        , "id":"ref_sphere"      },
               {"key":"normalMap"     , "id":"atlas_2k_norm"   }
             ]
           }
