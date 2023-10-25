@@ -475,11 +475,12 @@ class ThreeEnvironment {
 
         let tx = ThreeAPI.newCanvasTexture(canvas);
         let mat = ThreeAPI.buildCanvasMaterial(tx);
+        mat.fog = false;
         mat.side = THREE.BackSide;
 
         //    mat.depthWrite = false;
 
-        let skyGeo = new THREE.SphereGeometry(500, 36, 9 );
+        let skyGeo = new THREE.SphereGeometry(900, 36, 9 );
         let skyMesh = new THREE.Mesh( skyGeo, mat);
 
         let uniforms = {

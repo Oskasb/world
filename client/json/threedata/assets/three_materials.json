@@ -9,6 +9,7 @@
             "textures":[
               {"key":"map"           , "id":"atlas_2k_diff"   } ,
               {"key":"metalnessMap"  , "id":"atlas_2k_metalness"   } ,
+              {"key":"envMap"        , "id":"ref_sphere"      } ,
               {"key":"roughnessMap"  , "id":"atlas_2k_roughness"   } ,
               {"key":"normalMap"     , "id":"atlas_2k_norm"   }
             ]
@@ -20,6 +21,7 @@
             "settings": "mat_settings_phong_opaque",
             "textures":[
               {"key":"map"           , "id":"atlas_2k_diff"   },
+              {"key":"envMap"        , "id":"ref_sphere"      } ,
               {"key":"specularMap"   , "id":"atlas_2k_spec"   },
               {"key":"normalMap"     , "id":"atlas_2k_norm"   }
             ]

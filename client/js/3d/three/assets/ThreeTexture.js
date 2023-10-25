@@ -70,8 +70,8 @@ let blendCanvasCtxToTexture = function(ctx, texture) {
     texture.ctx.globalCompositeOperation = 'copy';
        texture.ctx.drawImage(originalBitmap, 0, 0, originalBitmap.width, originalBitmap.height)
     texture.ctx.globalCompositeOperation = 'mix';
-    texture.ctx.fillStyle = "rgba("+255*Math.random()+", "+255*Math.random()+", 0, 1)";
-    texture.ctx.fillRect(0, 0, originalBitmap.width, originalBitmap.height)
+ //   texture.ctx.fillStyle = "rgba("+255*Math.random()+", "+255*Math.random()+", 0, 1)";
+ //   texture.ctx.fillRect(0, 0, originalBitmap.width, originalBitmap.height)
    texture.ctx.drawImage(ctx.canvas, originalBitmap.width, originalBitmap.height, 0, 0)
 
     texture.needsUpdate = true;
