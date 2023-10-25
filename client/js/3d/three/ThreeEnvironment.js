@@ -251,7 +251,7 @@ class ThreeEnvironment {
 
     updateUnderwater = function() {
 
-        uniforms = this.sky.uniforms;
+        let uniforms = this.sky.uniforms;
         uniforms.turbidity.value = 13;
         uniforms.rayleigh.value = 2.3;
         uniforms.luminance.value = 1.1;
@@ -276,7 +276,7 @@ class ThreeEnvironment {
         applyColor(world.sun, uwSunColor);
         applyColor(world.ambient, uwAmbColor);
         world.fog.density = 0.009;
-        transitionProgress = 0;
+        let transitionProgress = 0;
         //    updateDynamigAmbient(uWambientColor);
 
         if (sky.ctx) {
@@ -308,24 +308,25 @@ class ThreeEnvironment {
 
     tick = function(tpf) {
 
+        let camPos = ThreeAPI.getCamera().position
 
         if (!this.sky) return;
         //    console.log("Tick Env")
 
         // waterFx.tickWaterEffect(tpf);
-        this.sky.mesh.position.copy(ThreeAPI.getCamera().position);
+        this.sky.mesh.position.copy(camPos);
         let fraction = this.calcTransitionProgress(tpf * 1.0);
 
         //    t+=evt.args(e).tpf
         //    fraction = fraction;
-        this.currentElevation = this.camera.position.y;
+        this.currentElevation = camPos.y;
 
         if (this.currentElevation > 0) {
             this.elevationFactor = MATH.curveCube( MATH.airDensityAtAlt(this.currentElevation*1) );
         } else {
         //    this.updateUnderwater();
         //    return;
-            this.elevationFactor = 0;
+            this.elevationFactor = 20;
         }
 
         //      elevationFactor =  MATH.airDensityAtAlt(currentElevation) ;
@@ -338,19 +339,15 @@ class ThreeEnvironment {
             return;
         }
 */
+        let useSky = this.currentSkyConfig;
         if (fraction > 1.01) {
-                    return;
+
+        } else {
+            useSky = this.interpolateSky(this.currentSkyConfig, this.skyList[this.currentEnvId], fraction);
+            this.interpolateEnv(this.currentEnvConfig, this.envList[this.currentEnvId], fraction);
+            this.applySkyConfig();
+            //   }
         }
-
-        let useSky = this.interpolateSky(this.currentSkyConfig, this.skyList[this.currentEnvId], fraction);
-
-        this.interpolateEnv(this.currentEnvConfig, this.envList[this.currentEnvId], fraction);
-
-        //   if (fraction <= 1) {
-        this.applyEnvironment();
-        this.applySkyConfig();
-        //   }
-
         this.theta = Math.PI * ( useSky.inclination - 0.5 );
         this.phi = 2 * Math.PI * ( useSky.azimuth - 0.5 );
 
@@ -398,6 +395,9 @@ class ThreeEnvironment {
         if (this.sky.ctx) {
             this.setCanvasColor(this.sky.ctx, this.sky.tx);
         }
+        this.applyEnvironment();
+        //   if (fraction <= 1) {
+
 
         //   applyFromBuffer(envBuffer);
     };

@@ -131,10 +131,10 @@ class DebugView {
         console.log("Debug View Models ", event, this.inspecting[insKey], inspecting);
 
             if (inspecting) {
-                ThreeAPI.addPrerenderCallback(this.callbacks.inspectFrameUpdate);
+                ThreeAPI.addPostrenderCallback(this.callbacks.inspectFrameUpdate);
             } else {
                 this.debugLines.clearDebugLines();
-                ThreeAPI.unregisterPrerenderCallback(this.callbacks.inspectFrameUpdate);
+                ThreeAPI.unregisterPostrenderCallback(this.callbacks.inspectFrameUpdate);
             }
             
     }

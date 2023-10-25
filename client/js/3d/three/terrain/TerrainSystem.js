@@ -29,7 +29,7 @@ let gridPosZ = function() {
 };
 
 let activateTerrainSystem = function() {
-    ThreeAPI.addPrerenderCallback(threeTerrain.updateThreeTerrainGeometry)
+    ThreeAPI.addPostrenderCallback(threeTerrain.updateThreeTerrainGeometry)
     client.terrainReady();
 }
 

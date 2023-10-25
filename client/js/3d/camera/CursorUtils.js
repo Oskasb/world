@@ -140,17 +140,17 @@ function processTerrainLodCenter(calcVec, terrainCenter) {
 
     calcVec.subVectors(cursorPos , ThreeAPI.getCamera().position );
     terrainCenter.copy(calcVec)
-
-    terrainCenter.multiplyScalar(0.8)
+    terrainCenter.normalize()
+    terrainCenter.multiplyScalar(20.0)
+    calcVec.multiplyScalar(-0.4);
+    terrainCenter.sub(calcVec)
     terrainCenter.add(cursorPos)
 
-    calcVec.multiplyScalar(-0.4);
     calcVec.add(cursorPos);
 
-
-
     calcVec.y = ThreeAPI.terrainAt(calcVec);
-
+    terrainCenter.y = calcVec.y;
+    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:terrainCenter, color:'YELLOW', size:0.2})
     evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:calcVec, color:'WHITE', size:0.2})
     //   evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:calcVec, color:color, size:0.3})
     ThreeAPI.groundAt(cursorPos, color);
