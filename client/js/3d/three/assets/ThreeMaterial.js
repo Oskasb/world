@@ -1,5 +1,20 @@
 import {PipelineObject} from '../../../application/load/PipelineObject.js';
 
+let blendCanvasCtxToTexture = function(ctx, texture) {
+
+    let originalBitmap = texture.originalBitmap;
+
+    texture.ctx.globalCompositeOperation = 'copy';
+    texture.ctx.drawImage(originalBitmap, 0, 0, originalBitmap.width, originalBitmap.height)
+    texture.ctx.globalCompositeOperation = 'lighter';
+    texture.ctx.fillStyle = "rgba("+255*Math.random()+", "+255*Math.random()+", 0, 1)";
+    texture.ctx.fillRect(0, 0, originalBitmap.width, originalBitmap.height)
+    texture.ctx.drawImage(ctx.canvas, originalBitmap.width, originalBitmap.height, 0, 0)
+
+    texture.needsUpdate = true;
+    console.log("blendCanvasCtxToTexture", ctx, texture)
+}
+
 class ThreeMaterial {
     constructor(id, config, callback) {
 
@@ -9,12 +24,12 @@ class ThreeMaterial {
         this.textures = {};
         this.mat = null;
         let _this = this;
-        this.getAssetMaterial = function() {
-            return _this.mat;
-        }.bind(this);
+        let material;
+
         let matReady = function(mat) {
             _this.mat = mat;
             mat.name = _this.id;
+            material = mat;
         //   console.log(mat.name)
         //      console.log("Material Ready", this);
 
@@ -35,7 +50,7 @@ class ThreeMaterial {
             //  console.log("Material Ready", this);
 
             if (mat['envMap']) {
-            //    console.log("EquirectangularReflectionMapping ", mat['envMap'])
+                console.log("EquirectangularReflectionMapping ", id, mat['envMap'], mat)
                 mat['envMap'].mapping = THREE.EquirectangularReflectionMapping;
             }
 
@@ -56,6 +71,13 @@ class ThreeMaterial {
 
         this.setupTextureMap(config, txReady);
 
+    };
+
+    getAssetMaterial = function() {
+        if (!this.mat) {
+            console.log("No Material Yet...", this);
+        }
+        return this.mat;
     };
 
     setupTextureMap = function(config, cb) {

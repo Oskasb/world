@@ -62,6 +62,23 @@ function buildCubeMap( image ) {
 
 }
 
+let blendCanvasCtxToTexture = function(ctx, texture) {
+
+    // let addImage = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);
+    let originalBitmap = texture.originalBitmap;
+
+    texture.ctx.globalCompositeOperation = 'copy';
+       texture.ctx.drawImage(originalBitmap, 0, 0, originalBitmap.width, originalBitmap.height)
+    texture.ctx.globalCompositeOperation = 'mix';
+ //   texture.ctx.fillStyle = "rgba("+255*Math.random()+", "+255*Math.random()+", 0, 1)";
+ //   texture.ctx.fillRect(0, 0, originalBitmap.width, originalBitmap.height)
+   texture.ctx.drawImage(ctx.canvas, originalBitmap.width, originalBitmap.height, 0, 0)
+
+    texture.needsUpdate = true;
+ //   mat.needsUpdate = true;
+ //   console.log("blendCanvasCtxToTexture", ctx, texture)
+}
+
 class ThreeTexture {
     constructor(id, config, callback) {
 
@@ -71,11 +88,36 @@ class ThreeTexture {
 
         let imgLoaded = function(asset) {
 
-            _this.texture = new THREE.CanvasTexture( asset.bitmap);
+            if (_this.config.settings.retain_canvas) {
+
+
+                let canvas = document.createElement("canvas");
+
+                console.log("Canvas asset: ", asset)
+                    canvas.id = id+'_canvas';
+                    canvas.width  = asset.bitmap.width;
+                    canvas.height = asset.bitmap.height;
+                    canvas.dataReady = true;
+
+                _this.texture = ThreeAPI.newCanvasTexture(canvas);
+                _this.texture.originalBitmap = asset.bitmap;
+                _this.texture.canvas = canvas;
+                _this.texture.ctx = canvas.getContext('2d')
+                _this.texture.ctx.drawImage( asset.bitmap, 0, 0, canvas.width, canvas.height );
+
+                let tx = _this.texture;
+                let applySkyGradient = function(ctx) {
+                    blendCanvasCtxToTexture(ctx, tx)
+                }
+
+                evt.on(ENUMS.Event.SKY_GRADIENT_UPDATE, applySkyGradient)
+            //    _this.texture = new THREE.CanvasTexture( asset.bitmap);
+            } else {
+                _this.texture = new THREE.CanvasTexture( asset.bitmap);
+            }
 
             _this.texture.isTexture = true;
             _this.applyTxSettings(_this.texture, _this.config.settings);
-
             _this.texture.sourceUrl = asset.url;
             _this.texture.generateMipmaps = false;
             _this.texture.needsUpdate = true;
@@ -112,6 +154,7 @@ class ThreeTexture {
         if (settings.data_rows)         tx.userData.data_rows       = settings.data_rows;
         if (settings.tiles_x)           tx.userData.tiles_x         = settings.tiles_x;
         if (settings.tiles_y)           tx.userData.tiles_y         = settings.tiles_y;
+        if (settings.retain_canvas)     tx.userData.retain_canvas   = settings.retain_canvas;
         tx.needsUpdate = true;
 
     };

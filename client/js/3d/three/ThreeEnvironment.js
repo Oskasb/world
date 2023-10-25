@@ -102,6 +102,7 @@ class ThreeEnvironment {
         grd.addColorStop(0.5, ThreeAPI.toRgb(fogColor[0], fogColor[1], fogColor[2]));
         ctx.fillStyle=grd;
         ctx.fillRect(0, 0, _this.ctxWidth, _this.ctxHeight);
+        evt.dispatch(ENUMS.Event.SKY_GRADIENT_UPDATE, ctx);
         tx.needsUpdate = true;
     };
 
@@ -346,6 +347,9 @@ class ThreeEnvironment {
             useSky = this.interpolateSky(this.currentSkyConfig, this.skyList[this.currentEnvId], fraction);
             this.interpolateEnv(this.currentEnvConfig, this.envList[this.currentEnvId], fraction);
             this.applySkyConfig();
+            if (this.sky.ctx) {
+                this.setCanvasColor(this.sky.ctx, this.sky.tx);
+            }
             //   }
         }
         this.theta = Math.PI * ( useSky.inclination - 0.5 );
@@ -392,9 +396,7 @@ class ThreeEnvironment {
         this.updateDynamigFog(sunInTheBack);
         this.updateDynamigAmbient(sunInTheBack);
 
-        if (this.sky.ctx) {
-            this.setCanvasColor(this.sky.ctx, this.sky.tx);
-        }
+
         this.applyEnvironment();
         //   if (fraction <= 1) {
 

@@ -86,7 +86,8 @@ if(typeof(ENUMS) === "undefined"){
         EDIT_PARAMETERS:            67,
         NOTIFY_LOAD_PROGRESS:       68,
         NOTIFY_LOAD_COMPLETED:      69,
-        COLLECT_DEBUG_STATS:        70
+        COLLECT_DEBUG_STATS:        70,
+        SKY_GRADIENT_UPDATE:        71
     };
 
 

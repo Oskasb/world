@@ -108,6 +108,7 @@
           "id": "tx_settings_environment"   ,
           "config":{
             "settings" : {
+              "retain_canvas": true,
               "combine": "AddOperation",
               "wrapS": "RepeatWrapping",
               "wrapT": "RepeatWrapping",
