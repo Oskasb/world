@@ -39,6 +39,30 @@ let setupDebug = function(gameApi) {
         cache.DEBUG.WORLD = debugStats;
     }
 
+
+    let getTerrainModelCount = function() {
+        let terrainGeos = threeTerrain.call.getTerrainGeos();
+        let geo = terrainGeos[0][0];
+        return geo.terrainElementModels.getModelCount();
+    }
+
+    let getTerrainInforsCount = function() {
+        let terrainGeos = threeTerrain.call.getTerrainGeos();
+        for (let i = 0; i < terrainGeos.length; i++) {
+            for (let j = 0; j < terrainGeos[i].length; j++) {
+                let geo = terrainGeos[i][j];
+                let sectionInfo = geo.terrainSectionInfo;
+                let infoLevels = sectionInfo.lodLevels;
+                for (let l in infoLevels) {
+                    if (infoLevels[l].length) {
+                        return infoLevels[l][0].getCount();
+                    }
+
+                }
+            }
+        }
+    }
+
     let collectDebugStats = function() {
 
         debugStats.gameCBs = gameMain.onUpdateCallbacks.length;
@@ -47,28 +71,10 @@ let setupDebug = function(gameApi) {
         debugStats.boxes = worldModels.getWorldBoxCount()
 
 
-        debugStats.tModels = 0;
-        debugStats.lodInfos = 0;
-        let terrainGeos = threeTerrain.call.getTerrainGeos();
-        for (let i = 0; i < terrainGeos.length; i++) {
-            for (let j = 0; j < terrainGeos[i].length; j++) {
-                let geo = terrainGeos[i][j];
-                let geoModels = geo.terrainElementModels;
-                let lodLevels = geoModels.lodLevelInstances;
+        debugStats.tModels = getTerrainModelCount();
+        debugStats.lodInfos = getTerrainInforsCount();
 
-                for (let k = 0; k < lodLevels.length; k++) {
-                    debugStats.tModels += lodLevels[k].length;
-                }
-                let sectionInfo = geo.terrainSectionInfo;
-                let infoLevels = sectionInfo.lodLevels;
-                for (let l in infoLevels) {
-                    if (infoLevels[l].length) {
-                        debugStats.lodInfos += infoLevels[l].length;
-                    }
 
-                }
-            }
-        }
 
 
     }

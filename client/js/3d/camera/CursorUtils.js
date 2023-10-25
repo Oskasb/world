@@ -141,7 +141,7 @@ function processTerrainLodCenter(calcVec, terrainCenter) {
     calcVec.subVectors(cursorPos , ThreeAPI.getCamera().position );
     terrainCenter.copy(calcVec)
 
-    terrainCenter.multiplyScalar(0.5)
+    terrainCenter.multiplyScalar(0.8)
     terrainCenter.add(cursorPos)
 
     calcVec.multiplyScalar(-0.4);

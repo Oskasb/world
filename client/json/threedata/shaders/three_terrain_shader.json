@@ -389,14 +389,14 @@
 
 
           "float twoPi = 6.2831;",
-          "float depth = min(max(heightSample*(35.0/(maxHeight-minHeight)+vPosition.y*2.0), 0.0), 1.0);",
+          "float depth = min(max(heightSample*(35.0/(maxHeight-minHeight)+vPosition.y*5.0), 0.0), 1.0);",
 
           "float waveX = sin(systemTime*0.25);",
           "float waveY = cos(systemTime*0.25);",
 
           "float mod = sin((fragPos.x+systemTime*1.2+waveX)*0.25 + waveX*0.2 )*0.1 + cos((fragPos.z+ systemTime*1.2+waveY)*0.25+ waveY*0.2 )*0.1 +0.3;",
           "float mod2 = waveX*sin(systemTime*0.2+fragPos.x*0.25)*0.15 + waveY*cos(systemTime*0.2+fragPos.z*0.25)*0.15 + 0.3;",
-          "depth = min(max(depth*((mod + mod2)*2.0+vPosition.y*1.4), 0.0), 1.0);",
+          "depth = min(max(depth*((mod + mod2)*2.0-vPosition.y*vPosition.y), 0.0), 1.0);",
 
 
           "float waterRow = 16.0;",

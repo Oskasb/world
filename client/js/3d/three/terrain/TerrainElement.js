@@ -2,13 +2,20 @@ import {Object3D} from "../../../../libs/three/core/Object3D.js";
 import {Vector3} from "../../../../libs/three/math/Vector3.js";
 
 let calcVec = new Vector3();
+let index = 0;
 
 class TerrainElement {
     constructor(lodLevel) {
+        index++;
+        this.index = index;
         this.lodLevel = lodLevel;
         this.obj3d = new Object3D();
         this.groundData = {x:0, y:0, z:0, w:0};
         this.hasShade = false;
+    }
+
+    getCount() {
+        return index;
     }
 
     setTerrainElementPosition(posVec3) {
@@ -40,11 +47,17 @@ class TerrainElement {
 
     setupElementModel(assetId, callback, shade) {
 
+        let shadeCompleted = ThreeAPI.checkShadeCompleted()
+        if (shadeCompleted) {
+            this.hasShade = true;
+        }
+
         if (this.hasShade === false) {
             if (typeof (shade) === 'number') {
                 ThreeAPI.shadeGroundAt(this.obj3d.position, shade*this.obj3d.scale.x)
             }
             this.hasShade = true;
+            return;
         }
 
         let addInstance = function(instance) {

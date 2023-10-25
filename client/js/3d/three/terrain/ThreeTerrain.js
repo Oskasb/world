@@ -8,6 +8,7 @@ import {DynamicLodGrid} from "../../utils/DynamicLodGrid.js";
 import * as TerrainFunctions from "./TerrainFunctions.js";
 import * as CursorUtils from "../../camera/CursorUtils.js";
 import {poolReturn} from "../../../application/utils/PoolUtils.js";
+import { ImageLoader } from "../../../../libs/three/loaders/ImageLoader.js";
 
 let scrubIndex = 0;
 
@@ -30,7 +31,7 @@ let updateFrame = 0;
 let visibleGeoTiles = [];
 let postVisibleGeoTiles = [];
 let dynamicLodGrid = null;
-
+let shadeCompleted = false;
 let terrainBigGeometry = new TerrainBigGeometry();
 
 let transformModel = function(trf, model) {
@@ -387,7 +388,58 @@ class ThreeTerrain {
 
     };
 
+    shadeIsCompleted() {
+        return shadeCompleted;
+    }
 
+    setGroundShadeFromImage(image) {
+        let context = terrainBigGeometry.getHeightmapCanvas()
+        context.globalCompositeOperation = "copy";
+        console.log(image)
+        context.drawImage(image, 0, 0, context.canvas.width, context.canvas.height);
+        shadeCompleted = true;
+        terrainBigGeometry.updateHeightmapCanvasTexture()
+    }
+
+    saveGroundShadeTexture() {
+        let context = terrainBigGeometry.getHeightmapCanvas()
+        console.log("CTX: ", context.canvas)
+   //     let png = context.canvas.toDataURL( 'image/png' );
+   //     window.open(png);
+
+        function download() {
+            let link = document.createElement('a');
+            link.download = 'ground_shade_tx.png';
+            link.href = context.canvas.toDataURL( 'image/png' )
+            link.click();
+        }
+
+        download();
+
+    //    console.log("shade tx png:", [png]);
+    }
+
+    fetchGroundShadeTexture(txCallback) {
+
+        let imageLoader = new ImageLoader();
+
+        let url = './client/assets/images/textures/generated/ground_shade_tx.png'
+        let onLoad = function(img, data) {
+            txCallback(img)
+        }
+
+        let onProgress = function(prog) {
+            console.log('onProgress: ',prog)
+        }
+
+        let onError = function(err) {
+            console.log('onError: ', err)
+            txCallback(false)
+        }
+
+        imageLoader.load(url, onLoad, onProgress, onError)
+
+    }
     buildGroundShadeTexture(progressCB) {
         let prog = {}
         prog.done = 0;
@@ -402,6 +454,7 @@ class ThreeTerrain {
             }
         }
     }
+
 
     getThreeHeightAt = function(pos, normalStore) {
 
@@ -419,8 +472,6 @@ class ThreeTerrain {
         }
 
     };
-
-
 
 
     updateThreeTerrainGeometry = function() {

@@ -15,8 +15,10 @@ class VegetationLodGrid {
 
         let hideTile = function(tile) {
             let patch = this.getPatchByPosition(tile.getPos());
-            MATH.splice(this.vegetationPatches, patch);
-            patch.recoverVegetationPatch();
+            if (this.vegetationPatches.indexOf(patch) !== -1) {
+                MATH.splice(this.vegetationPatches, patch);
+                patch.recoverVegetationPatch();
+            }
         }.bind(this)
 
         this.call = {
@@ -77,9 +79,10 @@ class VegetationLodGrid {
                     patch.setVegTile(tile, this.plantsConfig, this.plantList, this.maxPlants);
                 } else {
                     tile.nearness = 0;
-                    MATH.splice(this.vegetationPatches, patch);
-                    patch.recoverVegetationPatch();
-
+                    if (this.vegetationPatches.indexOf(patch) !== -1) {
+                        MATH.splice(this.vegetationPatches, patch);
+                        patch.recoverVegetationPatch();
+                    }
                 }
         }
 
@@ -104,7 +107,6 @@ class VegetationLodGrid {
         while (this.vegetationPatches.length) {
             let patch = this.vegetationPatches.pop();
             patch.recoverVegetationPatch();
-            poolReturn(patch)
         }
 
         while (this.vegetationTiles.length) {

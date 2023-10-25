@@ -246,6 +246,10 @@ class ThreeAPI {
         terrainSystem.shadeTerrainGround(pos, size, 2, "lighter", 0.8)
     }
 
+    checkShadeCompleted() {
+        return terrainSystem.getTerrain().shadeIsCompleted();
+    }
+
     digIntoGroundAt = function(pos, size, elevationChange) {
         let groundHeight = this.terrainAt(this.getCameraCursor().getPos(), null, groundHeightData)
         let heightFraction = elevationChange / terrainSystem.getTerrainHeight()

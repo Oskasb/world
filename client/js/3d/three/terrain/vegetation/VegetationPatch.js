@@ -157,8 +157,6 @@ class VegetationPatch {
             if (this.plants.length > plantCount) {
                 removePlantsFromPatch(this, plantCount)
             }
-        } else {
-            this.recoverVegetationPatch()
         }
 
     //    debugDrawPatch(this);

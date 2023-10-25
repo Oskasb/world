@@ -51,26 +51,43 @@ class TerrainSystem {
     testReady = function() {
         if (this.sysReady) {
 
+            let shadeCompleted = function() {
+                activateTerrainSystem();
+                vegetationSystem.activateVegetationSystem(threeTerrain.call.getLodCenter())
+
+                setTimeout(function() {
+                    evt.dispatch(ENUMS.Event.NOTIFY_LOAD_COMPLETED, {})
+                }, 500)
+            }
+
             let shadeProgCB = function(prog) {
 
                 if (prog.remaining === 0) {
-                    console.log("Terrain Ground Shade Done")
                     evt.dispatch(ENUMS.Event.NOTIFY_LOAD_PROGRESS, prog)
-                    activateTerrainSystem();
-                    vegetationSystem.activateVegetationSystem(threeTerrain.call.getLodCenter())
-                    setTimeout(function() {
-                        evt.dispatch(ENUMS.Event.NOTIFY_LOAD_COMPLETED, {})
-                    }, 500)
-
-                } else if (prog.done % 500 === 0) {
+                    threeTerrain.saveGroundShadeTexture();
+                    console.log("Terrain Ground Shade Done")
+                    shadeCompleted();
+                } else if (prog.done % 20 === 0) {
                     evt.dispatch(ENUMS.Event.NOTIFY_LOAD_PROGRESS, prog)
                     //console.log(prog.progress)
                 }
             }
 
-            evt.dispatch(ENUMS.Event.NOTIFY_LOAD_PROGRESS, {msg:"Ground Shade"})
-            console.log("Terrain data ready")
-            threeTerrain.buildGroundShadeTexture(shadeProgCB);
+
+            let txCallback = function(image) {
+                if (image) {
+                    evt.dispatch(ENUMS.Event.NOTIFY_LOAD_PROGRESS, {msg:"Ground Shade Loaded"})
+                    threeTerrain.setGroundShadeFromImage(image);
+                    shadeCompleted();
+                } else {
+                    evt.dispatch(ENUMS.Event.NOTIFY_LOAD_PROGRESS, {msg:"Generate Ground Shade"})
+                    threeTerrain.buildGroundShadeTexture(shadeProgCB);
+                }
+            }
+
+            threeTerrain.fetchGroundShadeTexture(txCallback)
+
+
 
         }
     }

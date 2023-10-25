@@ -2,9 +2,13 @@ import {ConfigData} from "../../../application/utils/ConfigData.js";
 import {Object3D} from "../../../../libs/three/core/Object3D.js";
 
 let tempObj = new Object3D();
+let index = 0;
+let modelCount = 0;
 
 class TerrainElementModel {
     constructor(terrainGeo) {
+        this.index = index;
+        index++;
         this.terrainGeometry = terrainGeo;
         this.levelOfDetail = 7;
         this.lodMap = null;
@@ -12,6 +16,14 @@ class TerrainElementModel {
         this.minY = 9999;
         this.maxY = -9999;
     //    this.instances = [];
+    }
+
+    getCount() {
+        return index;
+    }
+
+    getModelCount() {
+        return modelCount;
     }
 
     loadData = function(terrainTreesId) {
@@ -58,6 +70,7 @@ class TerrainElementModel {
         }
    //     console.log("Populate lod level. ", lodLevel)
         let addLodInstance = function(instance) {
+            modelCount++
             lodInstances.push(instance);
         }.bind(this);
 
@@ -81,6 +94,7 @@ class TerrainElementModel {
         if (lodInstances) {
             while (lodInstances.length) {
                 //     console.log("Clear lod level. ", lodLevel)
+                modelCount--;
                 let model = lodInstances.pop();
                 model.decommissionInstancedModel();
             }

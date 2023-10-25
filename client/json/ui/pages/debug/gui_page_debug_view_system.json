@@ -111,6 +111,10 @@
                         {
                           "key": "scnObjs",
                           "digits": 0
+                        },
+                        {
+                          "key": "camY",
+                          "digits": 2
                         }
                       ]
                     }

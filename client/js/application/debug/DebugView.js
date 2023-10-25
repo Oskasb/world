@@ -65,7 +65,7 @@ let updateSystemDebug = function() {
     system.points = renderer.info.render.points;
 
     system.scnObjs = scene.children.length;
-
+    system.camY = ThreeAPI.getCamera().position.y;
     if (performance) {
         let mem = performance.memory;
         system.heapTot = mem.totalJSHeapSize / bytesPerMb;
