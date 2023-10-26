@@ -248,8 +248,9 @@ class Vegetation {
 
     updateVegetation(lodCenter) {
         preUpdateTime = performance.now();
+        let frame = GameAPI.getFrame().frame;
         for (let i = 0; i < this.vegetationLodGrids.length; i++) {
-            this.vegetationLodGrids[i].updateVegLodGrid(lodCenter)
+            this.vegetationLodGrids[i].updateVegLodGrid(lodCenter, frame)
         }
 
         this.instantiator.updateInstantiatorBuffers();

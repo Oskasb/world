@@ -91,7 +91,6 @@ class DynamicTile {
         this.obj3d.position.z = indexY*this.spacing + this.offset;
         let height = ThreeAPI.terrainAt(this.obj3d.position, this.groundNormal);
         this.obj3d.position.y = height + 0.01;
-
         if (this.visualTile) {
             this.visualTile.dynamicTileUpdated(this)
         }

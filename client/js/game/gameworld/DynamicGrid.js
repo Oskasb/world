@@ -16,6 +16,8 @@ let updateTileIndices = function(dynamicGrid, dynamicGridTiles) {
         for (let j = 0; j < dynamicGridTiles[i].length; j++) {
             let dynamicTile = dynamicGridTiles[i][j];
             dynamicTile.setTileIndex(dynamicGrid.centerTileIndexX + i -half, dynamicGrid.centerTileIndexY + j-half, i, j)
+        //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos: dynamicTile.obj3d.position, color:'WHITE', size:1.2})
+        //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ThreeAPI.getCameraCursor().getPos(), to:dynamicTile.obj3d.position, color:'WHITE', drawFrames:20});
         }
     }
 }

@@ -13,8 +13,8 @@ class VegetationLodGrid {
         this.vegetationPatches = [];
         this.lastLodCenter = new Vector3();
 
-        let hideTile = function(tile) {
-            let patch = this.getPatchByPosition(tile.getPos());
+        let hideTile = function(tile, frame) {
+            let patch = this.getPatchByTile(tile);
             if (this.vegetationPatches.indexOf(patch) !== -1) {
                 MATH.splice(this.vegetationPatches, patch);
                 patch.recoverVegetationPatch();
@@ -46,35 +46,40 @@ class VegetationLodGrid {
     }
 
 
-    processLodVisibility(lodCenter) {
+    processLodVisibility(lodCenter, frame) {
         if (this.lastLodCenter.distanceToSquared(lodCenter) > 0.0) {
             let tiles = this.vegetationTiles;
             for (let i = 0; i < tiles.length; i++) {
-                tiles[i].processTileVisibility(this.maxDistance, lodCenter, this.call.hideTile)
+                tiles[i].processTileVisibility(this.maxDistance, lodCenter, this.call.hideTile, frame)
             }
             this.lastLodCenter.copy(lodCenter);
         }
     }
 
-    getPatchByPosition(pos) {
+    getPatchByTile(tile) {
         let patch = null;
         for (let i = 0; i < this.vegetationPatches.length; i++) {
             patch = this.vegetationPatches[i];
-            if (patch.position.x === pos.x && patch.position.z === pos.z) {
-
+            if (patch.vegetationTile  === tile) {
+                evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos: tile.getPos(), color:'WHITE', size:1.2})
                 return patch;
             }
         }
+        evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos: tile.getPos(), color:'RED', size:1.2})
+        return this.requestNewPatchForTile(tile)
+    }
 
-        patch = poolFetch('VegetationPatch')
+    requestNewPatchForTile(tile) {
+        let patch = poolFetch('VegetationPatch')
+        patch.setVegTile(tile);
         this.vegetationPatches.push(patch)
         return patch;
     }
 
     refitPatches(tiles) {
         for (let i = 0; i < tiles.length; i++) {
-                let tile = tiles[i];
-            let patch = this.getPatchByPosition(tile.getPos());
+            let tile = tiles[i];
+            let patch = this.getPatchByTile(tile);
                 if (tile.isVisible) {
                     patch.setVegTile(tile, this.plantsConfig, this.plantList, this.maxPlants);
                 } else {
@@ -88,10 +93,10 @@ class VegetationLodGrid {
 
     }
 
-    updateVegLodGrid(lodCenter) {
+    updateVegLodGrid(lodCenter, frame) {
         let centerTile = this.dynamicGrid.getTileAtPosition(lodCenter);
         this.dynamicGrid.updateDynamicGrid(centerTile.tileX, centerTile.tileZ)
-        this.processLodVisibility(lodCenter)
+        this.processLodVisibility(lodCenter, frame)
     //    if (this.dynamicGrid.updated) {
             this.refitPatches(this.vegetationTiles);
 

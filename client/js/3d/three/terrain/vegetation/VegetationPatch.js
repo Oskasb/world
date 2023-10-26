@@ -85,7 +85,7 @@ let determinePlantConfig = function(patch, plant, min, max, seed, retries) {
 
             return patch.plantsConfig.plants["rock_small"];
         }
-    //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ThreeAPI.getCameraCursor().getPos(), to:tempPos, color:'BLACK'});
+        //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ThreeAPI.getCameraCursor().getPos(), to:tempPos, color:'BLACK'});
         return determinePlantConfig(patch, plant, min, max, seed+retries, retries)
     }
     return config;
@@ -130,6 +130,7 @@ class VegetationPatch {
     constructor() {
         this.index = index;
         index++
+        this.updateFrame = 0;
         this.plants = [];
         this.position = new Vector3();
     }
@@ -159,12 +160,16 @@ class VegetationPatch {
             }
         }
 
-    //    debugDrawPatch(this);
+            debugDrawPatch(this);
 
     }
 
-    recoverVegetationPatch() {
+    clearVegPatch() {
         removePlantsFromPatch(this, 0)
+    }
+
+    recoverVegetationPatch() {
+        this.clearVegPatch()
         poolReturn(this)
     }
 

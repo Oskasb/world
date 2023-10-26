@@ -23,7 +23,7 @@ class VegetationTile {
         return this.dynamicGridTile.getTileExtents(minStore, maxStore);
     }
 
-    processTileVisibility(maxDistance, lodCenter, updateCB) {
+    processTileVisibility(maxDistance, lodCenter, updateCB, frame) {
         let dynamicGridTile = this.dynamicGridTile;
         let pos = dynamicGridTile.getPos()
         let lodDistance = pos.distanceTo(lodCenter)
@@ -40,26 +40,18 @@ class VegetationTile {
         if (isVisible) {
             if (nearness > 0) {
                 this.isVisible = true;
-            //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:borrowedBox.min, max:borrowedBox.max, color:'CYAN'})
+        //        evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:borrowedBox.min, max:borrowedBox.max, color:'CYAN'})
             } else {
-         //       evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:borrowedBox.min, max:borrowedBox.max, color:'BLACK'})
+                //       evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:borrowedBox.min, max:borrowedBox.max, color:'BLACK'})
 
             }
         } else {
+        //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:borrowedBox.min, max:borrowedBox.max, color:'BLACK'})
             nearness = 0;
         }
 
-        if (isVisible === wasVisible && nearness === this.nearness) {
-
-        } else {
-
-        }
-
-        if (!isVisible && wasVisible) {
-            updateCB(this)
-        }
-
         this.nearness = nearness;
+        updateCB(this, frame)
     }
 
 }

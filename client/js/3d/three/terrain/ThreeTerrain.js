@@ -300,7 +300,7 @@ let drawTilesByLodGrid = function(frame) {
         while (hideTiles.length) {
             let geo = hideTiles.pop();
             geo.updateVisibility(-1,  -1)
-            evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:terrainCenter, to:geo.getOrigin(), color:'CYAN', duration:20});
+            evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:terrainCenter, to:geo.getOrigin(), color:'CYAN', drawFrames:20});
             MATH.splice(visibleGeoTiles, geo)
         }
 
