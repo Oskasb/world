@@ -142,7 +142,7 @@ class DynamicTile {
         poolReturn(this);
     }
 
-    processDynamicTileVisibility = function(maxDistance, lodLevels, lodCenter, releasedPoints) {
+    processDynamicTileVisibility = function(maxDistance, lodLevels, lodCenter, releasedPoints, tileUpdateCallback) {
         let dynamicGridTile = this;
         let pos = this.getPos()
         let lodDistance = pos.distanceTo(lodCenter)
@@ -185,7 +185,7 @@ class DynamicTile {
                 releasedPoints.push(releasedPoint);
             }
         }
-
+        tileUpdateCallback(this)
     }
 
     debugDrawTilePosition(size, color) {

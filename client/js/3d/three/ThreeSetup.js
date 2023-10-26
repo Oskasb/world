@@ -1,5 +1,7 @@
 // import { SsrFx } from "./fx/SsrFx.js";
 
+
+
 class ThreeSetup {
 
     constructor() {
@@ -15,6 +17,7 @@ class ThreeSetup {
 
         this.prerenderCallbacks = [];
         this.postrenderCallbacks = [];
+        this.onClearCallbacks = [];
         this.tpf = 0;
         this.lastTime = 0;
         this.idle = 0;
@@ -30,6 +33,12 @@ class ThreeSetup {
         this.frustum = new THREE.Frustum();
         this.frustumMatrix = new THREE.Matrix4();
 
+    }
+
+    callClear = function() {
+        for (let i = 0; i < this.onClearCallbacks.length; i++) {
+            this.onClearCallbacks[i]();
+        }
     }
 
     callPrerender = function(frame) {
@@ -48,9 +57,11 @@ class ThreeSetup {
 
         this.avgTfp = this.tpf // *0.3 + this.avgTfp*0.7;
 
+
         for (let i = 0; i < this.prerenderCallbacks.length; i++) {
             this.prerenderCallbacks[i](this.avgTfp);
         }
+
 
         if (this.camera) {
             this.callRender(this.scene, this.camera);
@@ -59,15 +70,19 @@ class ThreeSetup {
 
     };
 
+
     callRender = function(scn, cam) {
+
         this.renderStart = performance.now();
         this.renderer.render(scn, cam);
         this.renderEnd = performance.now();
+        this.callClear();
         this.callPostrender();
         this.postRenderEnd = performance.now();
     };
 
     callPostrender = function() {
+
 
     //    PipelineAPI.setCategoryKeyValue('STATUS', 'TIME_ANIM_RENDER', this.renderEnd - this.renderStart);
         for (let i = 0; i < this.postrenderCallbacks.length; i++) {
@@ -140,6 +155,20 @@ class ThreeSetup {
     removePostrenderCallback = function(callback) {
         if (this.postrenderCallbacks.indexOf(callback) !== -1) {
             this.postrenderCallbacks.splice(this.postrenderCallbacks.indexOf(callback, 1));
+        }
+    };
+
+    addOnClearCallback = function(callback) {
+
+        if (this.onClearCallbacks.indexOf(callback) === -1) {
+            this.onClearCallbacks.push(callback);
+        }
+
+    }
+
+    removeOnClearCallback = function(callback) {
+        if (this.onClearCallbacks.indexOf(callback) !== -1) {
+            this.onClearCallbacks.splice(this.onClearCallbacks.indexOf(callback, 1));
         }
     };
 

@@ -525,8 +525,11 @@ class ThreeAPI {
 
 
     requestFrameRender = function(frame) {
+    //
         cameraSpatialCursor.updateSpatialCursor();
+    //    this.threeSetup.callClear();
         this.threeSetup.callPrerender(frame);
+
     };
 
 }

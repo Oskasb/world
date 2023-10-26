@@ -98,7 +98,7 @@ class DebugView {
         }.bind(this);
 
         let inspectFrameUpdate = function() {
-            this.debugLines.updateDebugLines();
+        //    this.debugLines.updateDebugLines();
             this.renderInspectionFrame();
         }.bind(this);
 

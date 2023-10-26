@@ -135,23 +135,23 @@ function drawInputCursorState(cursorObj3d, dragToVec3, camTargetPos, cursorForwa
     evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:calcVec, to:tempVec3, color:'YELLOW'});
 }
 
-function processTerrainLodCenter(calcVec, terrainCenter) {
+function processTerrainLodCenter(lodCenter, terrainCenter) {
     let cursorPos = ThreeAPI.getCameraCursor().getPos();
 
-    calcVec.subVectors(cursorPos , ThreeAPI.getCamera().position );
-    terrainCenter.copy(calcVec)
+    lodCenter.subVectors(cursorPos , ThreeAPI.getCamera().position );
+    terrainCenter.copy(lodCenter)
     terrainCenter.normalize()
     terrainCenter.multiplyScalar(20.0)
-    calcVec.multiplyScalar(-0.4);
-    terrainCenter.sub(calcVec)
+    lodCenter.multiplyScalar(-0.3);
+    terrainCenter.sub(lodCenter)
     terrainCenter.add(cursorPos)
 
-    calcVec.add(cursorPos);
+    lodCenter.add(cursorPos);
 
-    calcVec.y = ThreeAPI.terrainAt(calcVec);
-    terrainCenter.y = calcVec.y;
+    lodCenter.y = ThreeAPI.terrainAt(lodCenter);
+    terrainCenter.y = lodCenter.y;
     evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:terrainCenter, color:'YELLOW', size:0.2})
-    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:calcVec, color:'WHITE', size:0.2})
+    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:lodCenter, color:'WHITE', size:0.2})
     //   evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:calcVec, color:color, size:0.3})
     ThreeAPI.groundAt(cursorPos, color);
     evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:cursorPos, color:'WHITE', size:0.15})

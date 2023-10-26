@@ -6,10 +6,14 @@ class LodTest {
 
     lodTestModel(model, lodLevel, visibility, showCallback, hideCallback) {
         if (lodLevel !== -1 && lodLevel < visibility) {
-            showCallback(model)
+            if (model.isVisible === false) {
+                showCallback(model)
+            }
             model.isVisible = true;
         } else {
-            hideCallback(model)
+            if (model.isVisible === true) {
+                hideCallback(model)
+            }
             model.isVisible = false;
         }
     }

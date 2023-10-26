@@ -23,7 +23,6 @@ let normVec = new Vector3();
 let terrainMaterial;
 let gridMeshAssetId = 'thisLoadsFromConfig';
 let gridConfig = {};
-let geoBeneathPlayer = null;
 let activeTerrainGeometries = [];
 let terrainScale = new Vector3();
 let terrainOrigin = new Vector3();
@@ -217,8 +216,7 @@ let constructGeometries = function(heightMapData, transform, groundConfig, secti
             terrainGeometries[i][j] = geo;
         }
     }
-    geoBeneathPlayer = terrainGeometries[2][2];
-   // geoBeneathPlayer.call.initTerrainMaterials();
+
 
 };
 
@@ -283,33 +281,55 @@ let removeLodUpdateCB = function(callback) {
     }
 }
 
+let hideTiles = [];
 
 let drawTilesByLodGrid = function(frame) {
 
-    let tiles = dynamicLodGrid.getTiles();
-    for (let i = 0; i < tiles.length; i++) {
-        for (let j = 0; j < tiles[i].length;j++) {
-            let tile = tiles[i][j];
-            let geo = getTerrainGeoAtPos(tile.getPos());
-        //    if (geo.levelOfDetail !== tile.lodLevel) {
-        //    if (tile.lodLevel !== -1) {
-                geo.updateVisibility(tile.lodLevel, frame)
-        //    }
-
-        //    }
-        }
-    }
-    if (Math.random() < 0.01) {
-        for (let i = 0; i < terrainGeometries.length; i++) {
-            for (let j = 0; j < terrainGeometries[i].length;j++) {
-                let geo = terrainGeometries[i][j];
-                if (geo.updateFrame !== frame) {
-                    if (geo.levelOfDetail !== -1) {
-                        console.log("not hidden tile found")
-                        geo.updateVisibility(-1,  frame)
+   // if (frame%5 === 0) {
+        for (let i = 0; i < visibleGeoTiles.length; i++) {
+        //    for (let j = 0; j < terrainGeometries[i].length;j++) {
+                let geo = visibleGeoTiles[i];
+               if (geo.updateFrame !== frame) {
+            //        if (geo.levelOfDetail === -1) {
+                        hideTiles.push(geo);
                     }
-                }
+          //      }
+          //  }
+    //    }
+    }
+        while (hideTiles.length) {
+            let geo = hideTiles.pop();
+            geo.updateVisibility(-1,  -1)
+            evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:terrainCenter, to:geo.getOrigin(), color:'CYAN', duration:20});
+            MATH.splice(visibleGeoTiles, geo)
+        }
+
+
+        return;
+    for (let i = 0; i < terrainGeometries.length; i++) {
+        for (let j = 0; j < terrainGeometries[i].length;j++) {
+        let geo = terrainGeometries[i][j];
+        if (geo.updateFrame !== frame) {
+            if (geo.levelOfDetail !== -1) {
+                console.log("not hidden tile found")
+                geo.updateVisibility(-1,  frame)
+                hideTiles.push(geo);
+            //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:terrainCenter, to:geo.getOrigin(), color:'YELLOW', drawFrames:20});
             }
+            //      }
+        }
+            }
+    }
+
+}
+
+function tileUpdateCB(tile) {
+    let geo = getTerrainGeoAtPos(tile.getPos());
+  //  if (geo.levelOfDetail !== tile.lodLevel) {
+    geo.updateVisibility(tile.lodLevel,  updateFrame)
+    if (tile.lodLevel !== -1) {
+        if (visibleGeoTiles.indexOf(geo) === -1) {
+            visibleGeoTiles.push(geo);
         }
     }
 
@@ -482,17 +502,10 @@ class ThreeTerrain {
 
     //    scrubTerrainForError();
 
+
         CursorUtils.processTerrainLodCenter(lodCenter, terrainCenter)
-    //    if (GameAPI.gameMain.getPlayerCharacter()) {
 
-            let playerGeo = getTerrainGeoAtPos(lodCenter);
-
-            if (playerGeo !== geoBeneathPlayer) {
-            //    activateTerrainGeos(playerGeo.gridX, playerGeo.gridY, gridConfig.range)
-                geoBeneathPlayer = playerGeo;
-            }
-
-            let releasedPoints = dynamicLodGrid.updateDynamicLodGrid(terrainCenter);
+            let releasedPoints = dynamicLodGrid.updateDynamicLodGrid(terrainCenter, tileUpdateCB);
 
             while (releasedPoints.length) {
                 let pointVec3 = releasedPoints.pop()

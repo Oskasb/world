@@ -22,7 +22,7 @@ class ElementListeners {
                 progInputState.longPressProgress = MATH.clamp(lpProg, 0, 1)
             //    console.log(progInputState.longPressProgress)
             } else {
-                console.log("Cancel Long Press due to drag distance")
+            //    console.log("Cancel Long Press due to drag distance")
                 progInputState.longPressProgress = 0
                 ThreeAPI.unregisterPostrenderCallback(updateLongPressProgress)
             }

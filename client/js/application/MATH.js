@@ -79,10 +79,11 @@ if(typeof(MATH) === "undefined") {
 
 	MATH.splice = function(array, removeEntry) {
 		let idx = array.indexOf(removeEntry)
-		array.splice(idx, 1)
 		if (idx === -1) {
 			return false;
 		}
+		array.splice(idx, 1)
+
 		return removeEntry
 	};
 

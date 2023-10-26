@@ -124,9 +124,15 @@ class WorldEncounter {
             lastLod = lodLevel;
         //    console.log(lodLevel)
             if (lodLevel !== -1 && lodLevel <= config['visibility']) {
-                this.showWorldEncounter()
+                if (this.isVisible === false) {
+                    this.showWorldEncounter()
+                }
+                this.isVisible = true
             } else {
-                this.removeWorldEncounter()
+                if (this.isVisible === true) {
+                    this.removeWorldEncounter()
+                }
+                this.isVisible = false
             }
 
         }.bind(this)
@@ -211,7 +217,6 @@ class WorldEncounter {
             console.log("ALREADY VISIBLE showWorldEncounter", this)
             return;
         }
-
 
         this.encounterIndicator.showIndicator();
         this.visualEncounterHost.showEncounterHost();
