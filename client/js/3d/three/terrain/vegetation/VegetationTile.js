@@ -7,7 +7,8 @@ class VegetationTile {
         this.index = index;
         index++
         this.dynamicGridTile = null;
-        this.isVisible = false;
+        this.isVisible = -1;
+        this.nearness = 1;
     }
 
     setDynamicTile(dynamicGridTile) {
@@ -24,34 +25,25 @@ class VegetationTile {
     }
 
     processTileVisibility(maxDistance, lodCenter, updateCB, frame) {
-        let dynamicGridTile = this.dynamicGridTile;
-        let pos = dynamicGridTile.getPos()
-        let lodDistance = pos.distanceTo(lodCenter)
-        let rgba = dynamicGridTile.rgba
-        let tileSize = dynamicGridTile.spacing
-        let farness = MATH.calcFraction(-0.3, maxDistance - tileSize*2, lodDistance * 2.0 -tileSize*2)
-        let nearness = MATH.clamp(1-farness, 0, 1);
-        let isVisible = cubeTestVisibility(pos,  tileSize)
-        let borrowedBox = borrowBox();
 
-        let wasVisible = this.isVisible;
-        this.isVisible = false;
+            let wasVisible = this.isVisible;
+            let dynamicGridTile = this.dynamicGridTile;
+            let pos = dynamicGridTile.getPos()
+            let spacing = dynamicGridTile.spacing;
 
-        if (isVisible) {
-            if (nearness > 0) {
-                this.isVisible = true;
-        //        evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:borrowedBox.min, max:borrowedBox.max, color:'CYAN'})
-            } else {
-                //       evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:borrowedBox.min, max:borrowedBox.max, color:'BLACK'})
+            this.isVisible = cubeTestVisibility(pos,  spacing)
 
+            if (this.isVisible === -1) {
+                let borrowedBox = borrowBox();
+                borrowedBox.min.y = pos.y;
+                borrowedBox.max.y = pos.y;
+                evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:borrowedBox.min, max:borrowedBox.max, color:'BLUE'})
+                evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:pos, to:borrowedBox.max, color:'BLUE'});
             }
-        } else {
-        //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:borrowedBox.min, max:borrowedBox.max, color:'BLACK'})
-            nearness = 0;
-        }
 
-        this.nearness = nearness;
-        updateCB(this, frame)
+    //    if (wasVisible !== this.isVisible) {
+            updateCB(this, frame)
+    //    }
     }
 
 }

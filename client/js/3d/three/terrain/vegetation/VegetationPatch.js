@@ -1,5 +1,5 @@
 import {Vector3} from "../../../../../libs/three/math/Vector3.js";
-import {borrowBox} from "../../../ModelUtils.js";
+import {borrowBox, cubeTestVisibility} from "../../../ModelUtils.js";
 import {poolFetch, poolReturn} from "../../../../application/utils/PoolUtils.js";
 
 let index = 0;
@@ -14,8 +14,8 @@ let tempPos = new Vector3(1, 1, 1)
 let candidates = [];
 
 function debugDrawPatch(patch) {
-    let nearness = patch.vegetationTile.nearness;
-    tempVec.set(nearness, nearness, nearness)
+    let nearness = patch.nearness;
+        tempVec.set(nearness, nearness, nearness)
     let borrowedBox = borrowBox();
     borrowedBox.min.copy(patch.position).sub(tempVec);
     borrowedBox.max.copy(patch.position).add(tempVec);
@@ -112,7 +112,7 @@ function addPlantsToPatch(patch, plantCount) {
         MATH.rgbaToXYZW(rgba, plant.vertexColor)
 
         let rotZ = MATH.sillyRandom(seed+5) * MATH.TWO_PI;
-        plant.plantActivate("asset_vegQuad", config, tempPos, rotZ, size, vegTile.nearness)
+        plant.plantActivate("asset_vegQuad", config, tempPos, rotZ, size, patch.nearness)
         plants.push(plant);
     }
 }
@@ -131,8 +131,10 @@ class VegetationPatch {
         this.index = index;
         index++
         this.updateFrame = 0;
+        this.nearness = 0;
         this.plants = [];
         this.position = new Vector3();
+        this.vegetationTile = null;
     }
 
     setVegTile(vegTile, plantsConfig,  plantsList, maxPlants) {
@@ -142,14 +144,52 @@ class VegetationPatch {
         this.plantsList = plantsList;
         this.position.copy(vegTile.getPos())
 
+    //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ThreeAPI.getCameraCursor().getPos(), to:this.position, color:'YELLOW', drawFrames:10});
     }
 
-    applyGridVisibility() {
+    processPatchVisibility() {
+        if (!this.vegetationTile) {
+            this.isVisible = false;
+            return;
+        }
 
-        if (this.vegetationTile.isVisible) {
-            let nearness = this.vegetationTile.nearness;
+        let wasVisible = this.isVisible;
+        let dynamicGridTile = this.vegetationTile.dynamicGridTile;
+        let pos = this.position
+        let spacing = dynamicGridTile.spacing;
 
-            let plantCount = Math.ceil(nearness*this.maxPlants);
+        this.isVisible = cubeTestVisibility(pos,  spacing)
+
+        if (this.isVisible === -1) {
+            let borrowedBox = borrowBox();
+            borrowedBox.min.y = pos.y+0.2;
+            borrowedBox.max.y = pos.y+0.4;
+            evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:borrowedBox.min, max:borrowedBox.max, color:'YELLOW'})
+            evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:pos, to:borrowedBox.min, color:'YELLOW'});
+        }
+
+        //    if (wasVisible !== this.isVisible) {
+    //    updateCB(this, frame)
+        //    }
+    }
+
+    processPatchNearness(maxDistance, lodCenter, updateCB, frame) {
+        let pos = this.position
+        tempVec.copy(lodCenter);
+        tempVec.y = pos.y;
+        let lodDistance = pos.distanceTo(tempVec)
+
+        let tileSize = this.vegetationTile.dynamicGridTile.spacing
+        let farness = MATH.calcFraction(0, maxDistance - tileSize*2, lodDistance * 2.0 -tileSize*2)
+        this.nearness = MATH.clamp(MATH.curveSigmoid(2-farness*2), 0, 1);
+    //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ThreeAPI.getCameraCursor().getPos(), to:pos, color:'RED', drawFrames:6});
+        this.vegetationTile.nearness = this.nearness;
+
+    }
+
+    applyGridVisibility(nearness) {
+
+        let plantCount = Math.ceil(nearness*this.maxPlants);
 
             if (this.plants.length < plantCount) {
                 addPlantsToPatch(this, plantCount)
@@ -158,17 +198,20 @@ class VegetationPatch {
             if (this.plants.length > plantCount) {
                 removePlantsFromPatch(this, plantCount)
             }
-        }
 
-            debugDrawPatch(this);
+    //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ThreeAPI.getCameraCursor().getPos(), to:this.position, color:'GREEN', drawFrames:2});
+     //       debugDrawPatch(this);
 
     }
 
     clearVegPatch() {
+        this.vegetationTile = null;
         removePlantsFromPatch(this, 0)
     }
 
     recoverVegetationPatch() {
+
+        this.vegetationTile = null;
         this.clearVegPatch()
         poolReturn(this)
     }

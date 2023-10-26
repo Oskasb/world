@@ -43,7 +43,7 @@ let setupDebug = function(vegetation) {
             for (let j = 0; j < patches.length; j++)  {
                 let patch = patches[j];
                 debugStats.ptchPlnts+=patch.plants.length;
-                if (patch.vegetationTile.isVisible) {
+                if (patch.nearness > 0) {
                     debugStats.visPtcs++;
                 }
             }
