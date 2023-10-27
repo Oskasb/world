@@ -51,7 +51,7 @@ let updateSystemDebug = function() {
 
     system.preRdr = (setup.renderStart - setup.prenderStart)*1000;
     system.render = (setup.renderEnd - setup.renderStart)*1000;
-    system.postRdr = (setup.renderEnd - setup.renderStart)*1000;
+    system.postRdr = (setup.postRenderTime)*1000;
     system.active = system.preRdr+system.render+system.postRdr
     system.cpuLoad = MATH.calcFraction(0, system.active+system.idle, system.active) * 100;
 

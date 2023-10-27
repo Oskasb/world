@@ -78,7 +78,7 @@ class ThreeSetup {
         this.renderEnd = performance.now();
         this.callClear();
         this.callPostrender();
-        this.postRenderEnd = performance.now();
+        this.postRenderTime = performance.now() - this.renderEnd;
     };
 
     callPostrender = function() {

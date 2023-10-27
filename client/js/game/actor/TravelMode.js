@@ -7,6 +7,9 @@ let stickToActor = function() {
 }
 
 function activateTravelMode(actr, mode) {
+    if (!actr.isPlayerActor()) {
+        return;
+    }
     console.log("activate TravelMode: ", mode, actor);
 
     actor = actr;

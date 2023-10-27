@@ -8,7 +8,6 @@ class DynamicLodGrid {
         this.lastLodCenter = new Vector3();
         this.dynamicGrid = poolFetch( 'DynamicGrid')
         this.lodElements = [];
-        this.releasedPoints = [];
     }
 
 
@@ -26,14 +25,13 @@ class DynamicLodGrid {
         for (let i = 0; i < tiles.length; i++) {
             for (let j = 0; j < tiles[i].length;j++) {
                 let tile = tiles[i][j];
-                tile.processDynamicTileVisibility(this.maxDistance, this.lodLevels, lodCenter, this.releasedPoints, tileUpdateCallback)
+                tile.processDynamicTileVisibility(this.maxDistance, this.lodLevels, lodCenter,  tileUpdateCallback)
                 if (this.debug) {
                 //    tile.debugDrawTilePosition(2, 'RED');
                 }
 
             }
         }
-        return this.releasedPoints;
     }
 
     getTiles = function() {

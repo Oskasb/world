@@ -300,7 +300,7 @@ let drawTilesByLodGrid = function(frame) {
         while (hideTiles.length) {
             let geo = hideTiles.pop();
             geo.updateVisibility(-1,  -1)
-            evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:terrainCenter, to:geo.getOrigin(), color:'CYAN', drawFrames:20});
+        //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:terrainCenter, to:geo.getOrigin(), color:'CYAN', drawFrames:20});
             MATH.splice(visibleGeoTiles, geo)
         }
 
@@ -505,14 +505,7 @@ class ThreeTerrain {
 
         CursorUtils.processTerrainLodCenter(lodCenter, terrainCenter)
 
-            let releasedPoints = dynamicLodGrid.updateDynamicLodGrid(terrainCenter, tileUpdateCB);
-
-            while (releasedPoints.length) {
-                let pointVec3 = releasedPoints.pop()
-                let geo = getTerrainGeoAtPos(pointVec3);
-                geo.updateVisibility(-1, -1)
-                poolReturn(pointVec3);
-            }
+            dynamicLodGrid.updateDynamicLodGrid(terrainCenter, tileUpdateCB);
 
             drawTilesByLodGrid(updateFrame)
     }

@@ -49,6 +49,13 @@
                         {
                           "key": "passive",
                           "digits": 1
+                        },
+                        {
+                          "key": "addId"
+                        },
+                        {
+                          "key": "mostAdd",
+                          "digits": 1
                         }
                       ]
                     }

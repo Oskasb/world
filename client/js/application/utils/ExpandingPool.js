@@ -4,20 +4,28 @@ let poolKeys = [];
 let track = null;
 let biggestPool = 0;
 let pools = []
-
+let mostAdded = 0;
 let trackPool = function(expandingPool) {
     let size = expandingPool.poolEntryCount()
+
     track.passive += size;
     if (size > biggestPool) {
         biggestPool = size;
         track.big = expandingPool.dataKey;
         track.bigSize = size;
     }
+
+    if (mostAdded < expandingPool.count.added) {
+        mostAdded = expandingPool.count.added;
+        track.mostAdd = mostAdded;
+        track.addId =  expandingPool.dataKey;
+    }
 }
 
 let updatePoolTracking = function() {
     track.passive = 0;
     biggestPool = 0;
+    mostAdded = 0;
     for (let i = 0; i < pools.length; i++) {
         trackPool(pools[i])
     }
@@ -44,7 +52,9 @@ class ExpandingPool {
                 big: dataKey,
                 bigSize: 0,
                 poolKeys:poolKeys,
-                poolList:poolList
+                poolList:poolList,
+                addId:'_',
+                mostAdd:0
             };
             setTimeout(function() {
                 ThreeAPI.addPrerenderCallback(updatePoolTracking)
