@@ -13,7 +13,6 @@
           "foot_margin": 0.2,
           "foot_force":  0.1,
           "foot_reach": 0.33,
-
           "sphere_radius": 0.5,
           "sphere_mass": 100
         }

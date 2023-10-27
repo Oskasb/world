@@ -45,7 +45,7 @@ class VisualGamePiece {
 
         let pieceReady = function(visualPiece) {
             visualPiece.showVisualGamePiece();
-
+            ThreeAPI.addPrerenderCallback(visualPiece.call.updateVisualGamePiece);
             if (visualPiece.pieceAnimator) {
                 visualPiece.enablePieceAnimations();
                 visualPiece.animateActionState('IDLE_HANDS')
@@ -124,6 +124,18 @@ class VisualGamePiece {
         this.getSpatial().call.setStopped();
     }
 
+
+    hideVisualGamePiece() {
+        if (this.getSpatial().geometryInstance) {
+            tempVec.set(0, 0, 0);
+            this.getSpatial().geometryInstance.setScale(tempVec);
+
+        } else {
+            ThreeAPI.hideModel(this.getSpatial().obj3d)
+            this.disablePieceAnimations()
+        }
+    //    ThreeAPI.unregisterPrerenderCallback(this.call.updateVisualGamePiece);
+    }
     showVisualGamePiece() {
 
         if (this.getSpatial().geometryInstance) {
@@ -135,7 +147,7 @@ class VisualGamePiece {
             this.enablePieceAnimations()
         }
 
-        ThreeAPI.addPrerenderCallback(this.call.updateVisualGamePiece);
+
 
     };
 

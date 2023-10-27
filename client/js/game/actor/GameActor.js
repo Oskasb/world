@@ -4,6 +4,7 @@ import { Vector3 } from "../../../libs/three/math/Vector3.js";
 import { poolFetch, poolReturn } from "../../application/utils/PoolUtils.js";
 import { ActorTurnSequencer } from "./ActorTurnSequencer.js";
 import { ActorStatus } from "./ActorStatus.js";
+import { ControlState} from "../piece_functions/ControlState.js";
 import { ActorText } from "../../application/ui/gui/game/ActorText.js";
 import { TravelMode } from "./TravelMode.js";
 
@@ -16,6 +17,7 @@ class GameActor {
         index++;
         this.actorText = new ActorText(this);
         this.actorStatus = new ActorStatus();
+        this.controlState = new ControlState();
         this.travelMode = new TravelMode();
         this.activated = false;
         this.actorObj3d = new Object3D();
@@ -100,6 +102,14 @@ class GameActor {
         return this.actorStatus.getStatusByKey(key);
     }
 
+    setControlKey(key, status) {
+        return this.controlState.setControlByKey(key, status);
+    }
+
+    getControl(key) {
+        return this.controlState.getControlByKey(key);
+    }
+
     getPos() {
         return this.gameWalkGrid.getGridMovementObj3d().position;
     }
@@ -140,7 +150,11 @@ class GameActor {
     }
 
     showGameActor() {
-        this.visualGamePiece.attachModelAsset();
+        this.visualGamePiece.showVisualGamePiece();
+    }
+
+    hideGameActor() {
+        this.visualGamePiece.hideVisualGamePiece();
     }
 
     activateGameActor() {

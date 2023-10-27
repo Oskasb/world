@@ -270,6 +270,8 @@
           "varying vec3 fragPos;",
           "varying vec2 scaledVPos;",
           "varying vec2 center;",
+          "varying vec3 waveSmall;",
+          "varying vec3 waveBig;",
           "void main(){",
 
           "vPosition = position;",
@@ -318,15 +320,22 @@
 
           "float waveX = sin(vPosition.x*2.0 + systemTime*0.80);",
           "float waveY = cos(vPosition.z*2.0 + systemTime*0.80);",
-          "vPosition.y = (waveX*waveY+waveY*waveX)*0.05;",
-          "vNormal.y = 40.0+vPosition.y;",
-          "vNormal.x = waveX*0.15 +sin(systemTime*0.23+vPosition.x*0.25);",
-          "vNormal.z = waveY*0.15 +cos(systemTime*0.23+vPosition.z*0.25);",
-          "vPosition.x += vNormal.x*0.5;",
-          "vPosition.z += vNormal.z*0.5;",
+          "float waveZ1 = sin(systemTime*0.25+vPosition.x*0.5+vPosition.z*0.002);",
+          "float waveZ2 = cos(systemTime*0.50+(vPosition.z*2.0-waveZ1*1.0+vPosition.x*0.025)*0.5-waveZ1*1.3);",
+          "waveSmall.x = waveX;",
+          "waveSmall.z = waveY;",
+          "waveSmall.y = waveX*waveY+waveY*waveX;",
+          "waveBig.x = waveZ1;",
+          "waveBig.z = waveZ2;",
+          "waveBig.y = waveZ1 + waveZ2;",
+          "vPosition.y = waveSmall.y*0.04 + waveBig.y*0.03;",
 
-          "vNormal.x += sin(systemTime*0.25+vPosition.x*0.25)+waveX*0.5;",
-          "vNormal.z += cos(systemTime*0.25+vPosition.z*0.25)+waveY*0.5;",
+          "vNormal.y = 12.0-vPosition.y;",
+          "vNormal.x = waveX*0.25 +waveZ1*0.2;",
+          "vNormal.z = waveY*0.25 +waveZ2*0.2;",
+          "vPosition.x += vNormal.x*0.25;",
+          "vPosition.z += vNormal.z*0.25;",
+
           "vNormal = normalize(vNormal);",
 
           "float intensity = abs(sunLightDirection.y);",
@@ -374,6 +383,8 @@
           "varying float minHeight;",
           "varying float maxHeight;",
           "varying vec3 fragPos;",
+          "varying vec3 waveSmall;",
+          "varying vec3 waveBig;",
           "void main(){",
 
           "vec2 tileScale = 1.0/tx0tiles;",
@@ -389,14 +400,14 @@
 
 
           "float twoPi = 6.2831;",
-          "float depth = min(max(heightSample*(35.0/(maxHeight-minHeight)+vPosition.y*5.0), 0.0), 1.0);",
+          "float depth = min(max(heightSample*(35.0/(maxHeight-minHeight)+vPosition.y*25.0), 0.0), 1.0);",
 
           "float waveX = sin(systemTime*0.25);",
           "float waveY = cos(systemTime*0.25);",
 
           "float mod = sin((fragPos.x+systemTime*1.2+waveX)*0.25 + waveX*0.2 )*0.1 + cos((fragPos.z+ systemTime*1.2+waveY)*0.25+ waveY*0.2 )*0.1 +0.3;",
           "float mod2 = waveX*sin(systemTime*0.2+fragPos.x*0.25)*0.15 + waveY*cos(systemTime*0.2+fragPos.z*0.25)*0.15 + 0.3;",
-          "depth = min(max(depth*((mod + mod2)*2.0-vPosition.y*vPosition.y), 0.0), 1.0);",
+          "depth = min(max(depth*((mod + mod2)*2.0+vPosition.y*vPosition.y*10.0), 0.0), 1.0);",
 
 
           "float waterRow = 16.0;",
@@ -632,10 +643,10 @@
           "float slope = cos(vNormal.y*1.571)*1.35;",
 
 
-          "slope = slope * 0.998 + 0.03*slope*sin(scaledVPos.x * 1500.0)  + 0.03*slope*cos(scaledVPos.y * 1500.0);",
-          "slope = slope * 0.998 + 0.03*slope*sin(scaledVPos.y * 242.0)  + 0.03*slope*cos(scaledVPos.x * 242.0);",
+          "slope = slope * 0.998 + 0.03*slope*sin(scaledVPos.x * 200.0)  + 0.03*slope*cos(scaledVPos.y * 200.0);",
+          "slope = slope * 0.998 + 0.03*slope*sin(scaledVPos.y * 742.0)  + 0.03*slope*cos(scaledVPos.x * 742.0);",
 
-          "float scatter = (cos(scaledUv.x*713.0) + sin(scaledUv.y*713.0))*0.0021;",
+          "float scatter = (cos(scaledUv.x*313.0) + sin(scaledUv.y*313.0))*0.0015;",
 
           "vec2 tile01 = vec2(min(floor((sampleGreen+scatter) * 10.0), 7.0), natureRow);",
           "vec2 tile01Offset = vec2(tile01.x * tileScale.x, (tile01.y-1.0) * tileScale.y);",

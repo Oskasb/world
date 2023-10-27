@@ -387,7 +387,7 @@ class UiTestSetup {
                 };
 
                 this.thumbstick = new GuiThumbstick();
-                this.thumbstick.initThumbstick('widget_thumbstick', onReady);
+                this.thumbstick.initGuiWidget('widget_thumbstick', onReady);
 
             } else {
                 if (this.thumbstick) {

@@ -1,0 +1,26 @@
+[{
+  "GAME_ACTORS":{
+    "TRAVEL_MODES":[
+      {
+        "id":"TRAVEL_MODE_WALK",
+        "data":{
+          "inputs": [
+
+          ]
+        }
+      },
+      {
+        "id":"TRAVEL_MODE_FLY",
+        "data":{
+          "inputs": [
+            {"class_name": "GuiThumbstick", "widget_config": "widget_thumbstick", "on_update":"pitchYawInput" }
+          ],
+          "controls": [
+            {"onUpdate": "applyPitchControl", "control_key":"input_pitch" },
+            {"onUpdate": "applyYawControl", "control_key":"input_yaw" }
+          ]
+        }
+      }
+    ]
+  }
+}]

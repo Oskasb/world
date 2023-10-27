@@ -12,6 +12,8 @@ class GuiThumbstick {
         this.origin = new THREE.Vector3();
         this.offset = new THREE.Vector3();
 
+        this.applyValues = [];
+
         this.releaseTime = 0;
         this.releaseProgress = 0;
         this.releaseDuration = 0.25;
@@ -29,8 +31,8 @@ class GuiThumbstick {
             this.handleThumbstickPressStart(index, widget)
         }.bind(this);
 
-        let onStickInputUpdate = function(input, buffer) {
-            this.handleThumbstickInputUpdated(input, buffer)
+        let onStickInputUpdate = function(input, pointerState) {
+            this.handleThumbstickInputUpdated(input, pointerState)
         }.bind(this);
 
         let onStickReleasedUpdate = function(tpf, time) {
@@ -39,7 +41,7 @@ class GuiThumbstick {
 
 
         let notifyInputUpdated = function() {
-            this.notifyInputUpdated(this.inputAngle, this.inputDistance)
+            this.notifyInputUpdated(this.applyValues)
         }.bind(this);
 
         this.callbacks = {
@@ -52,10 +54,10 @@ class GuiThumbstick {
     };
 
 
-    initThumbstick = function(widgetConfig, onReady) {
+    initGuiWidget = function(widgetConfig, onReady) {
 
         let widgetRdy = function(widget) {
-            widget.attachToAnchor('bottom_left');
+            widget.attachToAnchor('bottom_right');
             widget.setWidgetIconKey('directional_arrows');
             widget.addOnPressStartCallback(this.callbacks.onPressStart);
             widget.enableWidgetInteraction();
@@ -75,46 +77,42 @@ class GuiThumbstick {
 
     applyPositionOffset = function() {
 
-        let camDir = MainWorldAPI.getWorldSimulation().getWorldCameraDirection();
-
-        this.inputAngle = MATH.addAngles(MATH.vectorXYToAngleAxisZ(this.offset), camDir);
-        this.inputDistance = this.offset.length() / this.maxRange;
+    //    this.inputAngle = MATH.vectorXYToAngleAxisZ(this.offset);
+    //    this.inputDistance = this.offset.length() / this.maxRange;
         this.guiWidget.offsetWidgetPosition(this.offset);
 
     };
 
     handleThumbstickPressStart = function(inputIndex, guiWidget) {
         this.activeInputIndex = inputIndex;
-        console.log("Thumbstick press start", inputIndex);
+        console.log("Thumbstick press start", inputIndex, guiWidget);
         ThreeAPI.unregisterPostrenderCallback(this.callbacks.onStickReleasedUpdate);
         GuiAPI.addInputUpdateCallback(this.callbacks.onStickInputUpdate);
         ThreeAPI.addPostrenderCallback(this.callbacks.notifyInputUpdated);
     };
 
-    handleThumbstickInputUpdated = function(input, buffer) {
-
-        let pressActive = GuiAPI.readInputBufferValue(input, buffer, ENUMS.InputState.ACTION_0);
-
-        if (this.guiWidget.getWidgetSurface().getSurfaceInteractiveState() === ENUMS.ElementState.NONE) {
-            //        return;
-        }
+    handleThumbstickInputUpdated = function(input, pointerState) {
+        console.log("handleThumbstickInputUpdated", input, pointerState)
+        let pressActive = pointerState.action[0] // GuiAPI.readInputBufferValue(input, pointerState, ENUMS.InputState.ACTION_0);
 
         if (!pressActive) {
-
+            this.applyValues[0] =0;
+            this.applyValues[1] =0;
             GuiAPI.removeInputUpdateCallback(this.callbacks.onStickInputUpdate);
             ThreeAPI.addPostrenderCallback(this.callbacks.onStickReleasedUpdate);
             this.releaseTime = 0;
 
         } else {
-            this.offset.x = GuiAPI.readInputBufferValue(input, buffer, ENUMS.InputState.DRAG_DISTANCE_X);
-            this.offset.y = GuiAPI.readInputBufferValue(input, buffer, ENUMS.InputState.DRAG_DISTANCE_Y);
+            this.offset.x = pointerState.dragDistance[0]*0.001;
+            this.offset.y = -pointerState.dragDistance[1]*0.001;
 
             let length = this.offset.length();
             if (length > this.maxRange) {
                 this.offset.normalize();
                 this.offset.multiplyScalar(this.maxRange);
             }
-
+            this.applyValues[0] = MATH.clamp(this.offset.x *1.6 / this.maxRange, -1, 1);
+            this.applyValues[1] = MATH.clamp(this.offset.y *1.6 / this.maxRange, -1, 1);
         }
 
         this.applyPositionOffset();
@@ -144,10 +142,10 @@ class GuiThumbstick {
         this.applyInputCallbacks.push(applyInputUpdate)
     };
 
-    notifyInputUpdated = function(ang, dist) {
+    notifyInputUpdated = function(values) {
 
         for (let i = 0; i < this.applyInputCallbacks.length; i++) {
-            this.applyInputCallbacks[i](ang, dist);
+            this.applyInputCallbacks[i](values);
         }
     };
 

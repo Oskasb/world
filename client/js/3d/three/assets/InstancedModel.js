@@ -117,14 +117,14 @@ class InstancedModel {
             if (node.type === 'Mesh') {
                 node.material = material;
                 node.needsUpdate = true;
-                console.log("Mesh applyModelMaterial", node, _this, clone)
+            //    console.log("Mesh applyModelMaterial", node, _this, clone)
             }
             if (node.type === 'SkinnedMesh') {
                 _this.skinNode = node;
                 node.material = material;
                 material.skinning = true;
                 node.needsUpdate = true;
-                console.log("SkinnedMesh applyModelMaterial", node, _this, clone)
+            //    console.log("SkinnedMesh applyModelMaterial", node, _this, clone)
             }
             for (let i = 0; i < node.children.length; i++) {
                 applyMaterial(node.children[i]);

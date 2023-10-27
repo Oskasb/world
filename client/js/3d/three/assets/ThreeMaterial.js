@@ -50,7 +50,7 @@ class ThreeMaterial {
             //  console.log("Material Ready", this);
 
             if (mat['envMap']) {
-                console.log("EquirectangularReflectionMapping ", id, mat['envMap'], mat)
+            //    console.log("EquirectangularReflectionMapping ", id, mat['envMap'], mat)
                 mat['envMap'].mapping = THREE.EquirectangularReflectionMapping;
             }
 

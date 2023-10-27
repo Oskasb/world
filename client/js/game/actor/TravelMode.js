@@ -1,25 +1,56 @@
+import {configDataList} from "../../application/utils/ConfigUtils.js";
+import {PlayerMovementInputs} from "../Player/PlayerMovementInputs.js";
 
 let draken;
 let actor;
+let playerMovementControls = null;
+let config = {};
+let travelMode = null;
+let configUpdated = function(cfg) {
+    config = cfg;
+    if (playerMovementControls) {
+        playerMovementControls.deactivatePlayerMovementControls();
+        playerMovementControls.applyInputSamplingConfig(config[travelMode]);
+        playerMovementControls.activatePlayerMovementControls()
+    }
+    console.log("Travel Mode Configs: ", config);
+}
+
+setTimeout(function() {
+    configDataList("GAME_ACTORS", "TRAVEL_MODES", configUpdated)
+}, 2000)
 
 let stickToActor = function() {
     draken.getSpatial().stickToObj3D(actor.actorObj3d);
 }
 
 function activateTravelMode(actr, mode) {
+    travelMode = mode;
     if (!actr.isPlayerActor()) {
         return;
     }
+
+    if (!playerMovementControls) {
+        playerMovementControls = new PlayerMovementInputs();
+    } else {
+        playerMovementControls.deactivatePlayerMovementControls();
+    }
+
     console.log("activate TravelMode: ", mode, actor);
 
     actor = actr;
     
     if (draken) {
         GameAPI.unregisterGameUpdateCallback(stickToActor)
+        actor.showGameActor()
     }
 
+    playerMovementControls.applyInputSamplingConfig(config[mode], actor);
+    playerMovementControls.activatePlayerMovementControls()
     if (mode === ENUMS.TravelMode.TRAVEL_MODE_FLY) {
         evt.dispatch(ENUMS.Event.SET_CAMERA_MODE, {mode:'world_viewer'})
+
+        actor.hideGameActor()
 
         if (draken) {
             GameAPI.registerGameUpdateCallback(stickToActor)

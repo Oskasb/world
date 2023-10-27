@@ -12,6 +12,7 @@
       "TEXTURES"
     ],
     "POLL_INDEX":[
+      "/game/actors/travel/travel_modes.json"                ,
       "/game/actors/actions/actor_actions.json"              ,
       "/game/visuals/visual_actions.json"                    ,
       "/game/visuals/visual_travel.json"                     ,
