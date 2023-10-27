@@ -37,7 +37,7 @@ class ThreeSetup {
 
     callClear = function() {
         for (let i = 0; i < this.onClearCallbacks.length; i++) {
-            this.onClearCallbacks[i]();
+            this.onClearCallbacks[i](this.tpf);
         }
     }
 

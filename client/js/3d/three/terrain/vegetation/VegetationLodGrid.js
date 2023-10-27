@@ -32,12 +32,12 @@ function fitPatchToLodTile(freePatches, vegPatches, lodTile) {
         patch = freePatches.pop();
         if (!patch) {
             console.log("No free Patch...")
+            return;
         }
         patch.setPatchPosition(pos)
     }
-
-    return patch;
-
+    patch.updateFrame = updateFrame;
+    patch.applyGridVisibility(lodTile);
 }
 
 class VegetationLodGrid {
@@ -49,9 +49,8 @@ class VegetationLodGrid {
         let updateVisibility = function(lodTile) {
         //    lodTile.debug = true;
             if (lodTile.isVisible === true) {
-               let patch = fitPatchToLodTile(this.freePatches, this.vegetationPatches, lodTile);
-               patch.updateFrame = updateFrame;
-               patch.applyGridVisibility(lodTile);
+               fitPatchToLodTile(this.freePatches, this.vegetationPatches, lodTile);
+
             }
 
         }.bind(this)

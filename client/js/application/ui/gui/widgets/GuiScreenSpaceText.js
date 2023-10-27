@@ -110,11 +110,11 @@ class GuiScreenSpaceText {
     };
 
     activateScreenSpaceText = function() {
-        ThreeAPI.addPostrenderCallback(this.callbacks.updateProgress);
+        ThreeAPI.getSetup().addPrerenderCallback(this.callbacks.updateProgress);
     };
 
     deactivateScreenSpaceText = function() {
-        ThreeAPI.unregisterPostrenderCallback(this.callbacks.updateProgress);
+        ThreeAPI.getSetup().removePrerenderCallback(this.callbacks.updateProgress);
     };
 
 
