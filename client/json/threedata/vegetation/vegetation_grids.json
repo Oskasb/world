@@ -10,7 +10,7 @@
                 "hide_tiles": true,
                 "elevation" : 0.1,
                 "tile_size" : 0.8,
-                "tile_range" : 9,
+                "tile_range" : 7,
                 "tile_spacing" : 4,
                 "max_plants":65,
                 "plants":[
@@ -36,7 +36,7 @@
                 "tile_size" : 0.8,
                 "tile_range" : 7,
                 "tile_spacing" : 5,
-                "max_plants":25,
+                "max_plants":45,
                 "plants":[
                   "leafy_small",
                   "grass_low_1_dead",
@@ -58,7 +58,7 @@
                 "tile_size" : 0.8,
                 "tile_range" : 7,
                 "tile_spacing" : 7,
-                "max_plants":22,
+                "max_plants":32,
                 "plants":[
                   "grass_tall_sparse_1",
                   "grass_tall_sparse_2",
@@ -77,7 +77,7 @@
                 "tile_size" : 0.8,
                 "tile_range" : 7,
                 "tile_spacing" : 11,
-                "max_plants":12,
+                "max_plants":10,
                 "plants":[
                   "flower_1_red",
                   "flower_1_yellow",
@@ -97,7 +97,7 @@
                 "tile_size" : 0.8,
                 "tile_range" : 5,
                 "tile_spacing" : 23,
-                "max_plants":16,
+                "max_plants":10,
                 "plants":[
                   "grass_tall_sparse_1",
                   "grass_tall_sparse_2",
@@ -113,8 +113,8 @@
                 "elevation" : 0.1,
                 "tile_size" : 0.9,
                 "tile_range" : 5,
-                "tile_spacing" : 37,
-                "max_plants":12,
+                "tile_spacing" : 41,
+                "max_plants":10,
                 "plants":[
                   "grass_tall_sparse_1",
                   "grass_tall_sparse_2",

@@ -56,7 +56,10 @@ class TerrainSystem {
                 vegetationSystem.activateVegetationSystem(threeTerrain.call.getLodCenter())
 
                 setTimeout(function() {
-                    evt.dispatch(ENUMS.Event.SET_CAMERA_MODE, {mode:'world_display'})
+                    setTimeout(function() {
+                        evt.dispatch(ENUMS.Event.SET_CAMERA_MODE, {mode:'world_display'})
+                    }, 500)
+
                     evt.dispatch(ENUMS.Event.NOTIFY_LOAD_COMPLETED, {})
                 }, 500)
             }
