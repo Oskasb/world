@@ -41,6 +41,8 @@ class GuiThumbstick {
 
 
         let notifyInputUpdated = function() {
+            this.applyValues[0] = MATH.clamp(this.offset.x *1.6 / this.maxRange, -1, 1);
+            this.applyValues[1] = MATH.clamp(this.offset.y *1.6 / this.maxRange, -1, 1);
             this.notifyInputUpdated(this.applyValues)
         }.bind(this);
 
@@ -96,8 +98,7 @@ class GuiThumbstick {
         let pressActive = pointerState.action[0] // GuiAPI.readInputBufferValue(input, pointerState, ENUMS.InputState.ACTION_0);
 
         if (!pressActive) {
-            this.applyValues[0] =0;
-            this.applyValues[1] =0;
+
             GuiAPI.removeInputUpdateCallback(this.callbacks.onStickInputUpdate);
             ThreeAPI.addPostrenderCallback(this.callbacks.onStickReleasedUpdate);
             this.releaseTime = 0;
@@ -111,8 +112,7 @@ class GuiThumbstick {
                 this.offset.normalize();
                 this.offset.multiplyScalar(this.maxRange);
             }
-            this.applyValues[0] = MATH.clamp(this.offset.x *1.6 / this.maxRange, -1, 1);
-            this.applyValues[1] = MATH.clamp(this.offset.y *1.6 / this.maxRange, -1, 1);
+
         }
 
         this.applyPositionOffset();
