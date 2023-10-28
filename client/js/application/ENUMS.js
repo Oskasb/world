@@ -113,6 +113,13 @@ if(typeof(ENUMS) === "undefined"){
         SELECTED_TARGET:'SELECTED_TARGET'
     };
 
+    ENUMS.Controls = {
+        CONTROL_PITCH:'CONTROL_PITCH',
+        CONTROL_ROLL:'CONTROL_ROLL',
+        CONTROL_YAW:'CONTROL_YAW',
+        CONTROL_THROTTLE:'CONTROL_THROTTLE'
+    }
+
     ENUMS.TravelMode = {
         TRAVEL_MODE_BATTLE:'TRAVEL_MODE_BATTLE',
         TRAVEL_MODE_WALK:'TRAVEL_MODE_WALK',

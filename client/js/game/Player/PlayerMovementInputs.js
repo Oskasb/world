@@ -1,14 +1,9 @@
 import {GuiThumbstick} from "../../application/ui/gui/widgets/GuiThumbstick.js";
-import {pitchYawInput} from "../piece_functions/InputFunctions.js";
-
 
 let classNames = {
     'GuiThumbstick':GuiThumbstick
 }
 
-let updateFunctions = {
-    "pitchYawInput":pitchYawInput
-}
 
 class PlayerMovementInputs {
     constructor() {
@@ -19,9 +14,11 @@ class PlayerMovementInputs {
     attachInputWidget(inputConfig, actor) {
 
         let widgets = this.inputWidgets;
-
+        let controls = inputConfig['controls'];
         let onUpdate = function(values) {
-            updateFunctions[inputConfig['on_update']](values, actor)
+            for (let i = 0; i < values.length; i++) {
+                actor.setControlKey(controls[i], values[i])
+            }
         }
 
         let widgetReadyCB = function(guiWidget) {

@@ -3,7 +3,11 @@ class ControlState {
         this.values = {};
     }
 
-    setControlByKey(key, values) {
+    getValues() {
+        return this.values;
+    }
+
+    setControlByKey(key, value) {
         this.values[key] = value;
     }
 

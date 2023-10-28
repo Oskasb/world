@@ -1,5 +1,8 @@
 import {configDataList} from "../../application/utils/ConfigUtils.js";
 import {PlayerMovementInputs} from "../Player/PlayerMovementInputs.js";
+import {ControlFunctions} from "../piece_functions/ControlFunctions.js";
+
+let controlFunctions = new ControlFunctions();
 
 let draken;
 let actor;
@@ -78,6 +81,14 @@ function activateTravelMode(actr, mode) {
 
 }
 
+
+function applyActorControls(actor) {
+    let controlKeys = ENUMS.Controls;
+    for (let key in controlKeys) {
+        controlFunctions[key](actor.getControl(key), actor)
+    }
+}
+
 class TravelMode {
     constructor() {
         this.mode = null;
@@ -89,8 +100,8 @@ class TravelMode {
             this.mode = mode;
             activateTravelMode(actor, mode);
         }
+        applyActorControls(actor);
     }
-
 }
 
 export { TravelMode }
