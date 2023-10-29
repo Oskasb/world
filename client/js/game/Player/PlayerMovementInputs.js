@@ -1,7 +1,9 @@
 import {GuiThumbstick} from "../../application/ui/gui/widgets/GuiThumbstick.js";
+import {GuiAxisSlider} from "../../application/ui/gui/widgets/GuiAxisSlider.js";
 
 let classNames = {
-    'GuiThumbstick':GuiThumbstick
+    'GuiThumbstick':GuiThumbstick,
+    'GuiAxisSlider':GuiAxisSlider
 }
 
 
@@ -21,18 +23,26 @@ class PlayerMovementInputs {
             }
         }
 
-        let widgetReadyCB = function(guiWidget) {
-            console.log("WidgetReady:", guiWidget);
-            guiWidget.addInputUpdateCallback(onUpdate)
-            widgets.push(guiWidget)
+        let widgetReadyCB = function(inputWidget) {
+            console.log("WidgetReady:", inputWidget);
+        //    inputWidget.guiWidget.applyWidgetOptions(inputConfig['options'])
+            inputWidget.addInputUpdateCallback(onUpdate)
+            widgets.push(inputWidget)
         }
 
-        let widget = new classNames[inputConfig['class_name']]()
+        let widget = new classNames[inputConfig['class_name']](inputConfig['options'])
         widget.initGuiWidget(inputConfig['widget_config'], widgetReadyCB)
     }
 
     applyInputSamplingConfig(config, actor) {
         console.log('applyInputSamplingConfig', config)
+
+        let cameraMode = config['camera_mode']
+        if (cameraMode) {
+            evt.dispatch(ENUMS.Event.SET_CAMERA_MODE, {mode:cameraMode})
+        }
+
+
         let inputs = config['inputs']
         if (inputs) {
             for (let i = 0; i < inputs.length; i++) {

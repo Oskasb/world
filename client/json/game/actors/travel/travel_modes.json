@@ -12,8 +12,30 @@
       {
         "id":"TRAVEL_MODE_FLY",
         "data":{
+          "camera_mode": "game_vehicle",
           "inputs": [
-            {"class_name": "GuiThumbstick", "widget_config": "widget_thumbstick", "controls":["CONTROL_ROLL","CONTROL_PITCH"]}
+            {"class_name": "GuiAxisSlider",
+              "widget_config": "widget_thumbstick",
+              "controls":["CONTROL_ROLL","CONTROL_PITCH"],
+              "options":{
+                "anchor": "stick_bottom_right",
+                "icon": "directional_arrows",
+                "axis": [1, 1],
+                "release": [1, 1],
+                "range": [0.08, 0.08]
+              }
+            },
+            {"class_name": "GuiAxisSlider",
+              "widget_config": "widget_thumbstick",
+              "controls":["CONTROL_YAW","CONTROL_THROTTLE"],
+              "options":{
+                "anchor": "stick_bottom_left",
+                "icon": "directional_arrows",
+                "axis": [-1, 1],
+                "release": [0, 0],
+                "range": [0.08, 0.08]
+              }
+            }
           ]
         }
       }

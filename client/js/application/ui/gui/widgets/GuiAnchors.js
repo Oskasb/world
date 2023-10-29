@@ -11,6 +11,8 @@ class GuiAnchors {
             top_right:{x:0.5, y:0.5},
             bottom_left:{x:-0.5, y:-0.5},
             bottom_right:{x:0.5, y:-0.5},
+            stick_bottom_left: {x:-0.34, y: -0.34},
+            stick_bottom_right:{x: 0.34, y: -0.34},
             top_center:{x:0, y:0.5},
             bottom_center:{x:0, y:-0.5},
             mid_right:{x:0.5, y:0},

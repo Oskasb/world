@@ -24,6 +24,8 @@ class GameActor {
         this.config = config;
         this.visualGamePiece = null;
 
+        this.velocity = new Vector3()
+
         this.gameWalkGrid = new GameWalkGrid();
 
         this.actorTurnSequencer = new ActorTurnSequencer()
@@ -115,6 +117,9 @@ class GameActor {
     }
 
 
+    setVelocity(vec3) {
+        this.velocity.copy(vec3);
+    }
 
     getQuat() {
         return this.gameWalkGrid.getGridMovementObj3d().quaternion;
@@ -231,8 +236,16 @@ class GameActor {
 
         this.travelMode.updateTravelMode(this);
 
-        if (MATH.distanceBetween(this.getPos(), this.actorObj3d.position) > 0.001) {
-            this.turnTowardsPos(this.getPos())
+        this.getPos().add(this.velocity);
+
+        if (this.velocity.length() < 0.001) {
+            if (MATH.distanceBetween(this.getPos(), this.actorObj3d.position) > 0.001) {
+                this.turnTowardsPos(this.getPos())
+            }
+        } else {
+            ThreeAPI.getCameraCursor().getPos().copy(this.getPos())
+            this.visualGamePiece.getSpatial().stickToObj3D(this.actorObj3d)
+        //    this.turnTowardsPos(this.velocity)
         }
 
         this.actorObj3d.position.copy(this.getPos())

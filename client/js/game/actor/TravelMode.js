@@ -51,7 +51,7 @@ function activateTravelMode(actr, mode) {
     playerMovementControls.applyInputSamplingConfig(config[mode], actor);
     playerMovementControls.activatePlayerMovementControls()
     if (mode === ENUMS.TravelMode.TRAVEL_MODE_FLY) {
-        evt.dispatch(ENUMS.Event.SET_CAMERA_MODE, {mode:'world_viewer'})
+    //    evt.dispatch(ENUMS.Event.SET_CAMERA_MODE, {mode:'world_viewer'})
 
         actor.hideGameActor()
 

@@ -1,14 +1,17 @@
 import { GuiWidget} from "../elements/GuiWidget.js";
 
-class GuiThumbstick {
+class GuiAxisSlider {
     constructor(options) {
 
         this.options = {
-            anchor: "stick_bottom_left",
-            icon: "directional_arrows"
+            "anchor": "stick_bottom_right",
+            "icon": "directional_arrows",
+            "axis": [1, 1],
+            "release": [1, 1],
+            "range": [0.08, 0.08]
         };
-
         for (let key in options) {
+            console.log("Apply Options")
             this.options[key] = options[key];
             console.log("Apply Options", options)
         }
@@ -22,26 +25,28 @@ class GuiThumbstick {
         this.releaseTime = 0;
         this.releaseProgress = 0;
         this.releaseDuration = 0.25;
-
         this.maxRange = 0.08;
 
-        this.inputAngle = 0;
-        this.inputDistance = 0;
-
-        this.activeInputIndex = null;
+        this.inputIndex = null;
 
         this.applyInputCallbacks = [];
 
         let onPressStart = function(index, widget) {
+            this.inputIndex = index;
             this.onPressStart(index, widget)
         }.bind(this);
 
         let onInputUpdate = function(input, pointerState) {
-            this.onInputUpdated(input, pointerState)
+            console.log(pointerState)
+            if (pointerState.index === this.inputIndex) {
+                this.onInputUpdated(input, pointerState)
+            }
         }.bind(this);
 
         let onReleasedUpdate = function(tpf, time) {
-            this.onReleasedUpdate(tpf, time)
+        //    if (pointerState.inputIndex === this.inputIndex) {
+                this.onReleasedUpdate(tpf, time)
+        //    }
         }.bind(this);
 
         let notifyInputUpdated = function() {
@@ -57,7 +62,6 @@ class GuiThumbstick {
 
     };
 
-
     initGuiWidget = function(widgetConfig, onReady) {
 
         let widgetRdy = function(widget) {
@@ -72,7 +76,6 @@ class GuiThumbstick {
 
     };
 
-
     applyPositionOffset = function() {
 
     //    this.inputAngle = MATH.vectorXYToAngleAxisZ(this.offset);
@@ -82,15 +85,14 @@ class GuiThumbstick {
     };
 
     onPressStart = function(inputIndex, guiWidget) {
-        this.activeInputIndex = inputIndex;
-        console.log("Thumbstick press start", inputIndex, guiWidget);
+        console.log("SLider press start", inputIndex, guiWidget);
         ThreeAPI.unregisterPostrenderCallback(this.callbacks.onReleasedUpdate);
         GuiAPI.addInputUpdateCallback(this.callbacks.onInputUpdate);
         ThreeAPI.addPostrenderCallback(this.callbacks.notifyInputUpdated);
     };
 
     onInputUpdated = function(input, pointerState) {
-        console.log("handleThumbstickInputUpdated", input, pointerState)
+    //    console.log("handleSliderInputUpdated", input, pointerState)
         let pressActive = pointerState.action[0] // GuiAPI.readInputBufferValue(input, pointerState, ENUMS.InputState.ACTION_0);
 
         if (!pressActive) {
@@ -100,15 +102,11 @@ class GuiThumbstick {
             this.releaseTime = 0;
 
         } else {
-            this.offset.x = pointerState.dragDistance[0]*0.001;
-            this.offset.y = -pointerState.dragDistance[1]*0.001;
+            this.offset.x = pointerState.dragDistance[0]*0.001 * Math.abs(this.options.axis[0]);
+            this.offset.y = -pointerState.dragDistance[1]*0.001 * Math.abs(this.options.axis[1]);
 
-            let length = this.offset.length();
-            if (length > this.maxRange) {
-                this.offset.normalize();
-                this.offset.multiplyScalar(this.maxRange);
-            }
-
+            this.offset.x = MATH.clamp(this.offset.x, -this.options.range[0], this.options.range[0])
+            this.offset.y = MATH.clamp(this.offset.y, -this.options.range[1], this.options.range[1])
         }
 
         this.applyPositionOffset();
@@ -118,24 +116,38 @@ class GuiThumbstick {
     onReleasedUpdate = function(tpf, time) {
         this.releaseTime += tpf;
 
-        this.releaseProgress = MATH.curveSqrt(1 - MATH.calcFraction(-this.releaseDuration, this.releaseDuration, this.releaseTime-this.releaseDuration));
+        let releaseX = this.options.release[0];
+        let releaseY = this.options.release[1]
 
-        this.offset.multiplyScalar(this.releaseProgress);
+        if (releaseX || releaseY) {
+            let releaseProgress = this.releaseTime-this.releaseDuration;
+            let releaseFraction = 1 - MATH.calcFraction(-this.releaseDuration, this.releaseDuration, releaseProgress)
+            let releaseFactor = MATH.curveSqrt(releaseFraction);
 
-        //    this.offset.multiplyScalar(this.releaseProgress);
+            if (releaseX) {
+                this.offset.x *= releaseX * releaseFactor;
+            }
+            if (releaseY) {
+                this.offset.y *= releaseY * releaseFactor;
+            }
 
-        if (this.offset.lengthSq() < 0.0000001) {
-            this.offset.set(0, 0, 0);
+            if (this.offset.lengthSq() < 0.0000001) {
+                this.offset.set(0, 0, 0);
+                ThreeAPI.unregisterPostrenderCallback(this.callbacks.onReleasedUpdate);
+                ThreeAPI.unregisterPostrenderCallback(this.callbacks.notifyInputUpdated);
+            }
+
+            this.applyPositionOffset();
+        } else {
             ThreeAPI.unregisterPostrenderCallback(this.callbacks.onReleasedUpdate);
             ThreeAPI.unregisterPostrenderCallback(this.callbacks.notifyInputUpdated);
         }
 
-        this.applyPositionOffset();
     };
 
     notifyInputUpdated = function() {
-        this.applyValues[0] = MATH.clamp(this.offset.x *1.6 / this.maxRange, -1, 1);
-        this.applyValues[1] = MATH.clamp(this.offset.y *1.6 / this.maxRange, -1, 1);
+        this.applyValues[0] = MATH.clamp(this.options.axis[0] * this.offset.x *1.2 / this.options.range[0], -1, 1);
+        this.applyValues[1] = MATH.clamp(this.options.axis[1] * this.offset.y *1.2 / this.options.range[1], -1, 1);
         for (let i = 0; i < this.applyInputCallbacks.length; i++) {
             this.applyInputCallbacks[i](this.applyValues);
         }
@@ -154,4 +166,4 @@ class GuiThumbstick {
 
 
 }
-export { GuiThumbstick }
+export { GuiAxisSlider }

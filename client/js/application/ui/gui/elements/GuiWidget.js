@@ -205,6 +205,15 @@ class GuiWidget {
                 this.offsetPosition.y = options.offset_y;
             }
 
+            if (options['pos_x']) {
+                this.originalPosition.x = options['pos_x'];
+                this.pos.x = options['pos_x'];
+            }
+
+            if (options['pos_y']) {
+                this.originalPosition.y = options['pos_y'];
+                this.pos.y = options['pos_y'];
+            }
 
             if (options.text) {
                 this.printWidgetText(options.text);
@@ -222,7 +231,7 @@ class GuiWidget {
                 options.container.addChildWidgetToContainer(this);
             }
 
-            if (options.set_parent !== null) {
+            if (options.set_parent) {
         //        console.log("Set Parent")
                 options.set_parent.addChild(this);
             }

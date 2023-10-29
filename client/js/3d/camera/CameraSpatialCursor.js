@@ -56,7 +56,8 @@ let camModes = {
     actorTurnMovement:'actor_turn_movement',
     deactivateEncounter:'deactivate_encounter',
     gameCombat:'game_combat',
-    gameTravel:'game_travel'
+    gameTravel:'game_travel',
+    gameVehicle:'game_vehicle'
 }
 
 let applyCamNavPoint = function(lookAtVec, camPosVec, time, camCallback) {
@@ -417,6 +418,11 @@ class CameraSpatialCursor {
             updateEncounterActivate();
         } else if (camParams.mode === camModes.actorTurnMovement) {
             updateActorTurnMovement();
+        } else if (camParams.mode === camModes.gameVehicle) {
+            camLookAtVec.copy(cursorObj3d.position)
+            camPosVec.lerp(camLookAtVec, tpf * 0.2 ) // + lerpFactor * 2)
+            camPosVec.y = camLookAtVec.y+8;
+        //    updateActorTurnMovement();
         } else {
             viewEncounterSelection(camTargetPos, camLookAtVec, tpf)
             CursorUtils.drawInputCursorState(cursorObj3d, dragToVec3, camTargetPos, cursorForward, cursorTravelVec)
