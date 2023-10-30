@@ -275,9 +275,28 @@
           "varying float elevationFactor;",
           "void main(){",
 
-          "elevationFactor = 1.0 + floor(cameraPosition.y * 0.02);",
-          "vPosition.x = position.x * elevationFactor;",
-          "vPosition.z = position.z * elevationFactor;",
+          "elevationFactor = 1.0 + floor(cameraPosition.y * 0.03);",
+
+          "float distScaleX = floor(abs(position.x-0.5)*0.02);",
+          "distScaleX += floor(abs(position.x-0.5)*0.018)*2.0;",
+          "distScaleX += floor(abs(position.x-0.5)*0.016)*4.0;",
+          "distScaleX += floor(abs(position.x-0.5)*0.015)*8.0;",
+          "distScaleX += floor(abs(position.x-0.5)*0.014)*16.0;",
+          "distScaleX += floor(abs(position.x-0.5)*0.013)*32.0;",
+          "distScaleX += floor(abs(position.x-0.5)*0.012)*64.0;",
+          "distScaleX += floor(abs(position.x-0.5)*0.011)*128.0;",
+
+          "float distScaleZ = floor(abs(position.z-0.5)*0.02);",
+          "distScaleZ += floor(abs(position.z-0.5)*0.018)*2.0;",
+          "distScaleZ += floor(abs(position.z-0.5)*0.016)*4.0;",
+          "distScaleZ += floor(abs(position.z-0.5)*0.015)*8.0;",
+          "distScaleZ += floor(abs(position.z-0.5)*0.014)*16.0;",
+          "distScaleZ += floor(abs(position.z-0.5)*0.013)*32.0;",
+          "distScaleZ += floor(abs(position.z-0.5)*0.012)*64.0;",
+          "distScaleZ += floor(abs(position.z-0.5)*0.011)*128.0;",
+
+          "vPosition.x = (position.x + sign(position.x) * distScaleX)*elevationFactor;",
+          "vPosition.z = (position.z + sign(position.z) * distScaleZ)*elevationFactor;",
 
           "float txw = heightmaptiles.z;",
           "float txPointOffset = 1.0/(txw+1.0);",
@@ -509,16 +528,46 @@
           "varying vec2 scaledVPos;",
           "varying vec2 center;",
           "varying float elevationFactor;",
+          "varying float distScaleX;",
+          "varying float distScaleZ;",
           "void main(){",
 
-          "elevationFactor = 1.0 + floor(cameraPosition.y * 0.02);",
+          "elevationFactor = 1.0+floor(cameraPosition.y * 0.02);",
 
-          "vPosition.x = position.x * elevationFactor;",
-          "vPosition.z = position.z * elevationFactor;",
+          "float dirX = sign(position.x);",
+          "float dirZ = sign(position.z);",
+
+          "distScaleX = floor(abs(position.x-0.5*dirX)*0.011);",
+          "distScaleX += floor(abs(position.x-0.5*dirX)*0.010);",
+          "distScaleX += floor(abs(position.x-0.5*dirX)*0.0099)*1.0;",
+          "distScaleX += floor(abs(position.x-0.5*dirX)*0.0098)*2.0;",
+          "distScaleX += floor(abs(position.x-0.5*dirX)*0.0096)*4.0;",
+          "distScaleX += floor(abs(position.x-0.5*dirX)*0.0094)*8.0;",
+          "distScaleX += floor(abs(position.x-0.5*dirX)*0.0092)*16.0;",
+          "distScaleX += floor(abs(position.x-0.5*dirX)*0.009)*32.0;",
+          "distScaleX += floor(abs(position.x-0.5*dirX)*0.0088)*64.0;",
+          "distScaleX += floor(abs(position.x-0.5*dirX)*0.0086)*124.0;",
+
+
+          "distScaleZ = floor(abs(position.z-0.5*dirZ)*0.011);",
+          "distScaleZ += floor(abs(position.z-0.5*dirZ)*0.010);",
+          "distScaleZ += floor(abs(position.z-0.5*dirZ)*0.0099)*1.0;",
+          "distScaleZ += floor(abs(position.z-0.5*dirZ)*0.0098)*2.0;",
+          "distScaleZ += floor(abs(position.z-0.5*dirZ)*0.0096)*4.0;",
+          "distScaleZ += floor(abs(position.z-0.5*dirZ)*0.0094)*8.0;",
+          "distScaleZ += floor(abs(position.z-0.5*dirZ)*0.0092)*16.0;",
+          "distScaleZ += floor(abs(position.z-0.5*dirZ)*0.009)*32.0;",
+          "distScaleZ += floor(abs(position.z-0.5*dirZ)*0.0088)*64.0;",
+          "distScaleZ += floor(abs(position.z-0.5*dirZ)*0.0086)*124.0;",
 
           "float txw = heightmaptiles.z;",
           "float txPointOffset = 1.0/(txw+1.0);",
-          "float tileFactor =elevationFactor* 2.0/(txw);",
+          "float tileFactorX = 2.0/(txw);",
+          "float tileFactorZ = 2.0/(txw);",
+
+          "vPosition.x = (position.x + dirX * distScaleX)*elevationFactor;",
+          "vPosition.z = (position.z + dirZ * distScaleZ)*elevationFactor;",
+
 
           "float shift = txPointOffset * 1.0;",
           "float shiftSubOne = 1.0/(txw-1.0);",
@@ -529,9 +578,9 @@
 
 
 
-          "terrainPosition.x = position.x*tileFactor;",
+          "terrainPosition.x = vPosition.x*tileFactorX;",
           "terrainPosition.y = 0.0;",
-          "terrainPosition.z = position.z*tileFactor;",
+          "terrainPosition.z = vPosition.z*tileFactorZ;",
 
 
           "tileOffset = vec2(0.0, 0.0);",
@@ -564,8 +613,8 @@
           "vec3 biTangent = triPoint1 - triPoint0;",
           "vNormal = normalize(cross(tangent, biTangent));",
 
-          "vUv.x = mod((position.x/256.0)+0.5, 1.0);",
-          "vUv.y = mod((position.z/256.0)+0.5, 1.0);",
+          "vUv.x = mod((vPosition.x/256.0)+0.5, 1.0);",
+          "vUv.y = mod((vPosition.z/256.0)+0.5, 1.0);",
 
           "vPosition.y = -3.0 + sample.x * scale3d.y * 1.0 *  10.0/20.0;",
 
@@ -616,6 +665,8 @@
           "varying vec3 terrainPosition;",
           "varying vec2 scaledVPos;",
           "varying float elevationFactor;",
+          "varying float distScaleX;",
+          "varying float distScaleZ;",
           "void main(){",
 
           "vec2 terrainSampler = scaledVPos;",
