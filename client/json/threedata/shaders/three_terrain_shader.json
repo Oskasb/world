@@ -272,17 +272,21 @@
           "varying vec2 center;",
           "varying vec3 waveSmall;",
           "varying vec3 waveBig;",
+          "varying float elevationFactor;",
           "void main(){",
 
-          "vPosition = position;",
+          "elevationFactor = 1.0 + floor(cameraPosition.y * 0.02);",
+          "vPosition.x = position.x * elevationFactor;",
+          "vPosition.z = position.z * elevationFactor;",
+
           "float txw = heightmaptiles.z;",
           "float txPointOffset = 1.0/(txw+1.0);",
-          "float tileFactor = 2.0/(txw);",
+          "float tileFactor = elevationFactor*2.0/(txw);",
 
           "float shift = txPointOffset * 1.0;",
           "float shiftSubOne = 1.0/(txw-1.0);",
-          "center.x = floor(offset.x);",
-          "center.y = floor(offset.z);",
+          "center.x = floor(offset.x / elevationFactor) * elevationFactor;",
+          "center.y = floor(offset.z / elevationFactor) * elevationFactor;",
 
           "minHeight = -3.0;",
           "maxHeight = 0.0;",
@@ -385,13 +389,15 @@
           "varying vec3 fragPos;",
           "varying vec3 waveSmall;",
           "varying vec3 waveBig;",
+          "varying float elevationFactor;",
           "void main(){",
 
           "vec2 tileScale = 1.0/tx0tiles;",
           "float tileCount = tx0tiles.x*16.0;",
 
-          "float tileXuv = max(0.001, min(vUv.x*1.0, 0.9999)) * tileCount;",
-          "float tileYuv = max(0.001, min(vUv.y*1.0, 0.9999)) * tileCount;",
+
+          "float tileXuv = (max(0.001, min(mod(vUv.x*elevationFactor, 1.0), 0.999)) * tileCount);",
+          "float tileYuv = (max(0.001, min(mod(vUv.y*elevationFactor, 1.0), 0.999)) * tileCount);",
           "float uvX = ((tileXuv * 1.0 - floor(tileXuv * 1.0005)*0.99995)) * 1.0;",
           "float uvY = ((tileYuv * 1.0 - floor(tileYuv * 1.0005)*0.99995)) * 1.0;",
           "float pixelShrink = 0.07;",
@@ -450,8 +456,9 @@
 
           "gl_FragColor = baseColor + reflectionColor;",
 
-          "float fogFactor = min(fogDensity * fogDepth*0.56, 0.8);",
-          "fogFactor += min(fogDensity * fogDepth*1.56, 0.2);",
+          "float forElevClear = min(fogDensity*0.15, cameraPosition.y*0.0005);",
+          "float fogFactor = min((fogDensity-forElevClear) * fogDepth*0.56, 0.8);",
+          "fogFactor += min(fogDensity * fogDepth*1.56, (0.2));",
           "gl_FragColor.rgb = mix(gl_FragColor.rgb, fogColor,  fogFactor );",
 
           "}",
@@ -488,7 +495,7 @@
 
           "uniform vec3 sunLightDirection;",
           "varying vec3 sunDir;",
-
+          "uniform vec3 cameraPosition;",
           "uniform vec3 fogColor;",
           "uniform float fogDensity;",
           "varying float fogDepth;",
@@ -501,18 +508,22 @@
           "varying vec3 terrainPosition;",
           "varying vec2 scaledVPos;",
           "varying vec2 center;",
+          "varying float elevationFactor;",
           "void main(){",
 
-          "vPosition = position;",
+          "elevationFactor = 1.0 + floor(cameraPosition.y * 0.02);",
+
+          "vPosition.x = position.x * elevationFactor;",
+          "vPosition.z = position.z * elevationFactor;",
 
           "float txw = heightmaptiles.z;",
           "float txPointOffset = 1.0/(txw+1.0);",
-          "float tileFactor = 2.0/(txw);",
+          "float tileFactor =elevationFactor* 2.0/(txw);",
 
           "float shift = txPointOffset * 1.0;",
           "float shiftSubOne = 1.0/(txw-1.0);",
-          "center.x = floor(offset.x);",
-          "center.y = floor(offset.z);",
+          "center.x = floor(offset.x / elevationFactor) * elevationFactor;",
+          "center.y = floor(offset.z / elevationFactor) * elevationFactor;",
 
           "vec4 quat = orientation.xyzw;",
 
@@ -604,6 +615,7 @@
           "varying vec2 tileScale;",
           "varying vec3 terrainPosition;",
           "varying vec2 scaledVPos;",
+          "varying float elevationFactor;",
           "void main(){",
 
           "vec2 terrainSampler = scaledVPos;",
@@ -621,8 +633,8 @@
           "vec2 tileScale = 1.0/tx0tiles;",
           "float tileCount = tx0tiles.x*16.0;",
 
-          "float tileXuv = (max(0.001, min(vUv.x, 0.999)) * tileCount );",
-          "float tileYuv = (max(0.001, min(vUv.y, 0.999)) * tileCount );",
+          "float tileXuv = (max(0.001, min(mod(vUv.x*elevationFactor, 1.0), 0.999)) * tileCount);",
+          "float tileYuv = (max(0.001, min(mod(vUv.y*elevationFactor, 1.0), 0.999)) * tileCount);",
           "float uvX = ((tileXuv * 1.0 - floor(tileXuv * 1.0005)*0.99995)) * 1.0;",
           "float uvY = ((tileYuv * 1.0 - floor(tileYuv * 1.0005)*0.99995)) * 1.0;",
           "float pixelShrink = 0.07;",

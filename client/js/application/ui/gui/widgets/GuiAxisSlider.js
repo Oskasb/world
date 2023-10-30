@@ -77,9 +77,7 @@ class GuiAxisSlider {
             "range": [0.08, 0.08]
         };
         for (let key in options) {
-            console.log("Apply Options")
             this.options[key] = options[key];
-            console.log("Apply Options", options)
         }
 
         this.pos = new THREE.Vector3();
@@ -100,8 +98,6 @@ class GuiAxisSlider {
 
         let pressStart = function(index, guiPointer) {
             guiAxisSlider.activeGuiPointer = guiPointer;
-        //    guiAxisSlider.interactiveSurface = guiPointer.getWidgetSurface().getInteractiveElement();
-        //    console.log("guiPointer", guiPointer, guiAxisSlider.interactiveSurface)
             if (guiAxisSlider.inputIndex === -1) {
                 guiAxisSlider.inputIndex = index;
                 onPressStart(guiAxisSlider, guiPointer)
@@ -110,7 +106,6 @@ class GuiAxisSlider {
 
         let inputUpdate = function(index, pointerState) {
             if (guiAxisSlider.activeGuiPointer === pointerState.guiPointer) {
-                console.log(index, pointerState)
                 if (pointerState.action[0]) {
                     onInputUpdated(guiAxisSlider, pointerState)
                 } else {
