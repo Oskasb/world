@@ -5,22 +5,33 @@ class ControlFunctions {
     }
     CONTROL_PITCH(value, actor) {
         let tpf = GameAPI.getFrame().tpf;
-        actor.actorObj3d.rotateX(value*tpf)
+       let pitch = actor.getStatus('STATUS_PITCH') * (1.0-tpf*5);
+        actor.actorObj3d.rotateX(pitch)
+        actor.setStatusKey('STATUS_PITCH', pitch + value*tpf)
     }
     CONTROL_ROLL(value, actor) {
         let tpf = GameAPI.getFrame().tpf;
-        actor.actorObj3d.rotateZ(value*tpf)
+        let roll = actor.getStatus('STATUS_ROLL') * (1.0-tpf*5);
+        actor.actorObj3d.rotateZ(roll)
+        actor.setStatusKey('STATUS_ROLL', roll + value*tpf)
     }
 
     CONTROL_YAW(value, actor) {
         let tpf = GameAPI.getFrame().tpf;
-        actor.actorObj3d.rotateY(value*tpf)
+        let yaw = actor.getStatus('STATUS_YAW') * (1.0-tpf*5);
+        actor.actorObj3d.rotateY(yaw)
+        actor.setStatusKey('STATUS_YAW', yaw + value*tpf)
     }
 
     CONTROL_THROTTLE(value, actor) {
-        let forward = actor.getForward();
-        forward.multiplyScalar(value);
-        actor.setVelocity(forward)
+
+        let tpf = GameAPI.getFrame().tpf;
+        let forward = actor.getStatus('STATUS_FORWARD') * (1.0-tpf*0.1);
+        actor.setStatusKey('STATUS_FORWARD', MATH.clamp(forward + value*tpf, -1.0, 1.0))
+
+        let forwardVec = actor.getForward();
+        forwardVec.multiplyScalar(forward);
+        actor.setVelocity(forwardVec)
     }
 }
 

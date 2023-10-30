@@ -5,7 +5,7 @@ class ActorStatus {
 
     getStatusByKey(key) {
         if (typeof (this.statusMap[key]) === 'undefined') {
-            this.statusMap[key] = 1;
+            this.statusMap[key] = 0;
         }
         return this.statusMap[key]
     }
