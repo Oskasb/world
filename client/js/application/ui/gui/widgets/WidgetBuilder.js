@@ -3,7 +3,6 @@ import { GuiStatsPanel } from "./GuiStatsPanel.js";
 import { GuiActionButton } from "./GuiActionButton.js";
 import { GuiSimpleButton } from "./GuiSimpleButton.js";
 import { GuiExpandingContainer } from "./GuiExpandingContainer.js";
-import { GuiThumbstick } from "./GuiThumbstick.js";
 import { GuiTextBox } from "./GuiTextBox.js";
 import { GuiScreenSpaceText } from "./GuiScreenSpaceText.js";
 import { GuiProgressBar } from "./GuiProgressBar.js";
@@ -17,7 +16,6 @@ class WidgetBuilder {
                 GuiActionButton         : GuiActionButton                    ,
                 GuiSimpleButton         : GuiSimpleButton                    ,
                 GuiExpandingContainer   : GuiExpandingContainer              ,
-                GuiThumbstick           : GuiThumbstick                      ,
                 GuiTextBox              : GuiTextBox                         ,
                 GuiScreenSpaceText      : GuiScreenSpaceText                 ,
                 GuiProgressBar          : GuiProgressBar                     ,

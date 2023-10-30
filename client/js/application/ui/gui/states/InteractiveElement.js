@@ -44,13 +44,13 @@ class InteractiveElement {
             MATH.splice(this.hoverIndices, inputIndex);
         };
 
-        notifyPointerPress = function(inputIndex) {
+        notifyPointerPress = function(inputIndex, guiPointer) {
         //    GuiAPI.printDebugText("INTERACTIVE ELEM - PRESS START");
             this.pressActive = true;
             if (this.pressIndices.indexOf(inputIndex) === -1) {
                 this.pressIndices.push(inputIndex);
                 if (this.pressIndices.length === 1) {
-                    this.onPressStart(inputIndex)
+                    this.onPressStart(inputIndex, guiPointer)
                 }
             }
         };
@@ -98,8 +98,8 @@ class InteractiveElement {
         //    GuiAPI.printDebugText("INTERACTIVE ELEMENT STATE: " + ENUMS.getKey('ElementState', this.state));
         };
 
-        onPressStart = function(inputIndex) {
-            this.getSurfaceElement().triggerPressStart(inputIndex);
+        onPressStart = function(inputIndex, guiPointer) {
+            this.getSurfaceElement().triggerPressStart(inputIndex, guiPointer);
             this.applyPressState();
          //   GuiAPI.printDebugText("INTERACTIVE ELEMENT STATE: " + ENUMS.getKey('ElementState', this.state));
         };

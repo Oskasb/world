@@ -1,8 +1,6 @@
-import {GuiThumbstick} from "../../application/ui/gui/widgets/GuiThumbstick.js";
 import {GuiAxisSlider} from "../../application/ui/gui/widgets/GuiAxisSlider.js";
 
 let classNames = {
-    'GuiThumbstick':GuiThumbstick,
     'GuiAxisSlider':GuiAxisSlider
 }
 

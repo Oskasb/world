@@ -39,9 +39,9 @@ class GuiWidget {
                 this.notifyElementActivate(inputIndex);
             }.bind(this);
 
-        let onElementPressStart = function(inputIndex) {
+        let onElementPressStart = function(guiPointer) {
         //    GuiAPI.printDebugText("GUI WIDGET - PRESS START");
-                this.notifyElementPressStart(inputIndex);
+                this.notifyElementPressStart(guiPointer.inputIndex);
             }.bind(this);
 
         let testWidgetIsActive = function() {

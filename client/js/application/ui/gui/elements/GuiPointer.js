@@ -8,6 +8,7 @@ class GuiPointer {
             this.pos = new THREE.Vector3(0, 0, 0);
             this.scale = new THREE.Vector3(1, 1, 1);
             this.interactiveElement = null;
+            this.inputState = inputState;
             this.inputIndex = inputState.index;
             this.worldSpaceIndicator = null;
             this.worldSpaceTarget = null;
@@ -20,6 +21,7 @@ class GuiPointer {
             this.setupPointerElement( this.configId);
             this.setInputIndex(this.inputIndex);
 
+            this.onPointerUpdateCallbacks = [];
 
             let getLongPressProgress = function() {
                 return inputState.longPressProgress;
@@ -115,6 +117,7 @@ class GuiPointer {
         setPointerPosition = function(vec3) {
             this.pos.copy(vec3);
             this.guiPointerWidget.setElementPosition(this.pos);
+            this.notifyPointerUpdate()
         };
 
         setPointerHovering(bool) {
@@ -136,6 +139,11 @@ class GuiPointer {
             this.guiPointerWidget.showPointerWidgetReleased();
         }
 
+
+        notifyPointerUpdate() {
+            MATH.callAll( this.onPointerUpdateCallbacks, this)
+        }
+
         releasePointer = function() {
         //    GuiAPI.printDebugText("RELEASE")
             this.isSeeking = false;
@@ -144,7 +152,7 @@ class GuiPointer {
 
             GuiAPI.releaseWorldSpacePointer(this);
             this.deactivatePointerWidget();
-
+            this.notifyPointerUpdate()
         };
 
 

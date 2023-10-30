@@ -117,7 +117,7 @@ class InputSystem {
                         guiPointer.pointerPressWorldStart();
                     } else {
                         // pressing and interactive element;
-                        interactiveElem.notifyPointerPress(inputIndex);
+                        interactiveElem.notifyPointerPress(inputIndex, guiPointer);
                     //    guiPointer.setPointerInteractiveElement(interactiveElem);
                         guiPointer.pointerPressElementStart(interactiveElem);
                         // no more state handling this frame...

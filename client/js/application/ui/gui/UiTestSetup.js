@@ -2,7 +2,6 @@ import {GuiStatsPanel} from "./widgets/GuiStatsPanel.js";
 import {GuiActionButton} from "./widgets/GuiActionButton.js";
 import {GuiSimpleButton} from "./widgets/GuiSimpleButton.js";
 import {GuiExpandingContainer} from "./widgets/GuiExpandingContainer.js";
-import {GuiThumbstick} from "./widgets/GuiThumbstick.js";
 import {GuiTextBox} from "./widgets/GuiTextBox.js";
 import {GuiMatrixText} from "./widgets/GuiMatrixText.js";
 import {GuiProgressBar} from "./widgets/GuiProgressBar.js";

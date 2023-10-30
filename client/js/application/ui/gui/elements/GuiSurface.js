@@ -9,6 +9,8 @@ class GuiSurface {
             this.maxXY = new THREE.Vector3();
             this.anchor = new THREE.Vector3();
             this.active = false;
+            this.inputIndex = -1;
+            this.guiPointer = null;
             this.onUpdateCallbacks = [];
             this.onActivateCallbacks = [];
             this.onPressStartCallbacks = [];
@@ -65,11 +67,12 @@ class GuiSurface {
             this.onActivateCallbacks.push(cb);
         };
 
-        triggerPressStart = function(inputIndex) {
-
+        triggerPressStart = function(inputIndex, guiPointer) {
+            this.inputIndex = inputIndex;
+            this.guiPointer = guiPointer;
             for (let i = 0; i < this.onPressStartCallbacks.length; i++) {
           //      console.log("Press activated")
-                this.onPressStartCallbacks[i](inputIndex);
+                this.onPressStartCallbacks[i](inputIndex, guiPointer);
             }
 
         };
@@ -246,8 +249,8 @@ class GuiSurface {
         };
 
         notifyStateUpdated = function() {
-            for (var i = 0; i < this.onUpdateCallbacks.length; i++) {
-                this.onUpdateCallbacks[i]();
+            for (let i = 0; i < this.onUpdateCallbacks.length; i++) {
+                this.onUpdateCallbacks[i](this.inputIndex, this.guiPointer);
             }
         };
 
