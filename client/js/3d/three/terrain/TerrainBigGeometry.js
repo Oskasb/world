@@ -116,9 +116,14 @@ let setupHeightmapData = function(originalModelMat) {
 }
 
 
+let bigWorldOuter = null;
+
 let updateBigGeo = function(tpf) {
-    bigWorld.getSpatial().setPosXYZ(Math.floor(lodCenter.x), 0.0, Math.floor(lodCenter.z));
-    bigOcean.getSpatial().setPosXYZ(Math.floor(lodCenter.x), -3.0, Math.floor(lodCenter.z));
+    let posX = Math.floor(lodCenter.x)
+    let posZ = Math.floor(lodCenter.z)
+    bigWorld.getSpatial().setPosXYZ(posX, 0.0, posZ);
+    bigOcean.getSpatial().setPosXYZ(posX, -3.0, posZ);
+    bigWorldOuter.getSpatial().setPosXYZ(posX, 0.0, posZ);
     if (terrainUpdate) {
         terrainMaterial.heightmap.needsUpdate = true;
         heightmap = heightmapContext.getImageData(0, 0, width, height).data;
@@ -214,9 +219,17 @@ class TerrainBigGeometry {
         terrainParams.tiles = tiles;
 
         let updateBigGeo = this.call.updateBigGeo;
+
+        let bigGround = function(model) {
+            bigWorldOuter = model;
+            bigWorldOuter.setAttributev4('texelRowSelect',{x:1, y:1, z:1, w:4})
+            ThreeAPI.addPrerenderCallback(updateBigGeo)
+        }
+
         let groundCB = function(model) {
             materialModel(model)
-            ThreeAPI.addPrerenderCallback(updateBigGeo)
+            model.setAttributev4('texelRowSelect',{x:1, y:1, z:1, w:1})
+            client.dynamicMain.requestAssetInstance("asset_ground_big_outer", bigGround)
         }
 
         let oceanCB = function(model) {
