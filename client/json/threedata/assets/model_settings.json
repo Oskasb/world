@@ -36,7 +36,21 @@
             "transform": {
               "pos":   [0, 0, 0],
               "rot":   [0, 0, 0],
-              "scale": [1, 50, 1]
+              "scale": [1, 100, 1]
+            }
+          }
+        },
+        {"id": "model_settings_big_terrain_outer" ,
+          "config": {
+            "instancing": {
+              "instances": 10,
+              "attributes": ["offset", "vertexColor", "scale3d", "orientation", "sprite", "texelRowSelect", "lifecycle"],
+              "cameraspace": false
+            },
+            "transform": {
+              "pos":   [0, 0, 0],
+              "rot":   [0, 0, 0],
+              "scale": [1, 100, 1]
             }
           }
         },

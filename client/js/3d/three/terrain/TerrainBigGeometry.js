@@ -26,6 +26,8 @@ let terrainUpdate = false;
 
 let terrainParams = {}
 
+let groundInstances = [];
+
 let globalUpdateFrame = 0;
 let setupHeightmapData = function(originalModelMat) {
     terrainMaterial = originalModelMat;
@@ -121,9 +123,11 @@ let bigWorldOuter = null;
 let updateBigGeo = function(tpf) {
     let posX = Math.floor(lodCenter.x)
     let posZ = Math.floor(lodCenter.z)
-    bigWorld.getSpatial().setPosXYZ(posX, 0.0, posZ);
     bigOcean.getSpatial().setPosXYZ(posX, -3.0, posZ);
-    bigWorldOuter.getSpatial().setPosXYZ(posX, 0.0, posZ);
+    for (let i = 0; i < groundInstances.length; i++) {
+        groundInstances[i].getSpatial().setPosXYZ(posX, 0.0, posZ);
+    }
+
     if (terrainUpdate) {
         terrainMaterial.heightmap.needsUpdate = true;
         heightmap = heightmapContext.getImageData(0, 0, width, height).data;
@@ -222,14 +226,18 @@ class TerrainBigGeometry {
 
         let bigGround = function(model) {
             bigWorldOuter = model;
-            bigWorldOuter.setAttributev4('texelRowSelect',{x:1, y:1, z:1, w:4})
-            ThreeAPI.addPrerenderCallback(updateBigGeo)
+            bigWorldOuter.setAttributev4('texelRowSelect',{x:1, y:1, z:groundInstances.length, w:groundInstances.length*2})
+            groundInstances.push(model);
         }
 
         let groundCB = function(model) {
+            groundInstances.push(model);
             materialModel(model)
             model.setAttributev4('texelRowSelect',{x:1, y:1, z:1, w:1})
-            client.dynamicMain.requestAssetInstance("asset_ground_big_outer", bigGround)
+            ThreeAPI.addPrerenderCallback(updateBigGeo)
+            for (let i = 0; i < 8; i++) {
+                client.dynamicMain.requestAssetInstance("asset_ground_big_outer", bigGround)
+            }
         }
 
         let oceanCB = function(model) {
