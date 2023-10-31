@@ -401,7 +401,7 @@ class ThreeTerrain {
 
 
         dynamicLodGrid = new DynamicLodGrid();
-        dynamicLodGrid.activateLodGrid({lod_levels: 4, tile_range:18, tile_spacing:16, hide_tiles:true, center_offset:true, debug:false})
+        dynamicLodGrid.activateLodGrid({lod_levels: 5, tile_range:24, tile_spacing:16, hide_tiles:true, center_offset:true, debug:false})
 
         let configData = new ConfigData("ASSETS", "TERRAIN", "terrain_config", 'data_key', 'config')
         configData.addUpdateCallback(terrainListLoaded);

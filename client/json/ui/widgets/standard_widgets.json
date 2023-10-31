@@ -432,6 +432,18 @@
               }
             },
             {
+              "id":"widget_axis_feedback",
+              "layout":"layout_thumbstick",
+              "icon": {
+                "icon_config": "feedback_axis_icon",
+                "feedback": "feedback_axis_icon"
+              },
+              "surface": {
+                "nineslice": "nineslice_surface_axis_feedback",
+                "feedback": "feedback_surface_thumbstick"
+              }
+            },
+            {
               "id":"scene_page_header_text_box",
               "layout":"layout_page_header_text_box",
               "text": {

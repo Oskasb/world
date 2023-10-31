@@ -80,6 +80,14 @@
             "tiles":[[11, 0]]
           },
           {
+            "id":"horizontal_arrows",
+            "tiles":[[12, 0]]
+          },
+          {
+            "id":"vertical_arrows",
+            "tiles":[[13, 0]]
+          },
+          {
             "id":"button_rounded",
             "tiles":[[11, 1]]
           },

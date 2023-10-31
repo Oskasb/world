@@ -613,6 +613,10 @@ if(typeof(MATH) === "undefined") {
 		obj3d.rotateZ(rot[2]);
 	}
 
+	MATH.vectorYZToAngleAxisX = function(vec) {
+		return Math.atan2(vec.y, vec.z);
+	};
+
 	MATH.vectorXZToAngleAxisY = function(vec) {
 		return Math.atan2(vec.x, vec.z);
 	};
@@ -625,9 +629,7 @@ if(typeof(MATH) === "undefined") {
         return Math.atan2(toVec.y-fromVec.y, toVec.x-fromVec.x) // + Math.PI*0.5;
     };
 
-	MATH.vectorYZToAngleAxisX = function(vec) {
-		return Math.atan2(vec.getY(), vec.getZ()) + Math.PI;
-	};
+
 	
 	
 	MATH.applyNormalVectorToPitch = function(normalVec, upVec) {
@@ -668,17 +670,17 @@ if(typeof(MATH) === "undefined") {
 
     MATH.pitchFromQuaternion = function(q) {
         mag = Math.sqrt(q.w*q.w + q.x*q.x);
-        return 2*Math.acos(q.x / mag);
+        return 2*Math.acos(q.x / mag)-Math.PI;
     };
 
     MATH.yawFromQuaternion = function(q) {
         mag = Math.sqrt(q.w*q.w + q.y*q.y);
-        return 2*Math.acos(q.y / mag);
+        return 2*Math.acos(q.y / mag)-Math.PI;
     };
 
     MATH.rollFromQuaternion = function(q) {
         mag = Math.sqrt(q.w*q.w + q.z*q.z);
-        return -(2*Math.acos(q.z / mag)-Math.PI);
+        return (2*Math.acos(q.z / mag)-Math.PI);
     };
 
 

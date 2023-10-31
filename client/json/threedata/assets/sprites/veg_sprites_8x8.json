@@ -64,31 +64,6 @@
             "tiles":[[9, 0]]
           },
           {
-            "id":"pad_rounded_pressed",
-            "tiles":[[10, 0]]
-          },
-          {
-            "id":"directional_arrows",
-            "tiles":[[11, 0]]
-          },
-          {
-            "id":"button_rounded",
-            "tiles":[[11, 1]]
-          },
-          {
-            "id":"button_rounded_pressed",
-            "tiles":[[11, 2]]
-          },
-
-          {
-            "id":"button_fat_progress",
-            "tiles":[[12, 1]]
-          },
-          {
-            "id":"button_fat_progress_pressed",
-            "tiles":[[13, 1]]
-          },
-          {
             "id":"button_sharp",
             "tiles":[[12, 2]]
           },

@@ -27,13 +27,104 @@
             },
             {"class_name": "GuiAxisSlider",
               "widget_config": "widget_thumbstick",
-              "controls":["CONTROL_YAW","CONTROL_THROTTLE"],
+              "controls":[null,"CONTROL_THROTTLE"],
               "options":{
                 "anchor": "stick_bottom_left",
-                "icon": "directional_arrows",
-                "axis": [-1, 1],
+                "icon": "vertical_arrows",
+                "axis": [0, 1],
                 "release": [1, 1],
                 "range": [0.08, 0.08]
+              }
+            },
+            {"class_name": "GuiAxisSlider",
+              "widget_config": "widget_thumbstick",
+              "controls":["CONTROL_YAW",null],
+              "options":{
+                "anchor": "bottom_center",
+                "icon": "horizontal_arrows",
+                "axis": [-1, 0],
+                "release": [1, 1],
+                "range": [0.08, 0.08],
+                "offsets": [0, 0.03]
+              }
+            }
+          ],
+          "feedback": [
+            {"class_name": "GuiAxisFeedback",
+              "widget_config": "widget_axis_feedback",
+              "status":[null, "STATUS_FORWARD"],
+              "options":{
+                "anchor": "stick_bottom_left",
+                "icon": "vertical_arrows",
+                "axis": [0, 1],
+                "range": [0.08, 0.08],
+                "offsets": [-0.05, -0.03]
+              }
+            },
+            {"class_name": "GuiAxisFeedback",
+              "widget_config": "widget_axis_feedback",
+              "status":["STATUS_YAW", null],
+              "options":{
+                "anchor": "bottom_center",
+                "icon": "horizontal_arrows",
+                "axis": [-1, 0],
+                "range": [0.08, 0.08],
+                "offsets": [0, 0.08]
+              }
+            },
+            {"class_name": "GuiAxisFeedback",
+              "widget_config": "widget_axis_feedback",
+              "status":[null, "STATUS_PITCH"],
+              "options":{
+                "anchor": "stick_bottom_right",
+                "icon": "vertical_arrows",
+                "axis": [0, 1],
+                "range": [0.04, 0.04],
+                "offsets": [0.02, 0.12]
+              }
+            },
+            {"class_name": "GuiAxisFeedback",
+              "widget_config": "widget_axis_feedback",
+              "status":["STATUS_ROLL", null],
+              "options":{
+                "anchor": "stick_bottom_right",
+                "icon": "horizontal_arrows",
+                "axis": [1, 0],
+                "range": [0.04, 0.04],
+                "offsets": [0.02, 0.12]
+              }
+            },
+            {"class_name": "GuiAxisFeedback",
+              "widget_config": "widget_axis_feedback",
+              "status":[null, "STATUS_ANGLE_PITCH"],
+              "options":{
+                "anchor": "center",
+                "icon": "vertical_arrows",
+                "axis": [0, 1],
+                "range": [0.05, 0.05],
+                "offsets": [0.0, 0.2]
+              }
+            },
+            {"class_name": "GuiAxisFeedback",
+              "widget_config": "widget_axis_feedback",
+              "status":["STATUS_ANGLE_ROLL", null],
+              "options":{
+                "anchor": "center",
+                "icon": "horizontal_arrows",
+                "axis": [1, 0],
+                "range": [0.05, 0.05],
+                "offsets": [0.0, 0.2]
+              }
+            },
+            {"class_name": "GuiAxisFeedback",
+              "widget_config": "widget_axis_feedback",
+              "status":["STATUS_ANGLE_YAW", null],
+              "options":{
+                "anchor": "top_center",
+                "icon": "horizontal_arrows",
+                "axis": [1, 0],
+                "range": [0.05, 0.1],
+                "offsets": [0.0, -0.05]
               }
             }
           ]

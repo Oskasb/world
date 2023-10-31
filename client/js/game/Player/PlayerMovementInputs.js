@@ -1,7 +1,9 @@
 import {GuiAxisSlider} from "../../application/ui/gui/widgets/GuiAxisSlider.js";
+import { GuiAxisFeedback } from "../../application/ui/gui/widgets/GuiAxisFeedback.js";
 
 let classNames = {
-    'GuiAxisSlider':GuiAxisSlider
+    'GuiAxisSlider':GuiAxisSlider,
+    'GuiAxisFeedback':GuiAxisFeedback
 }
 
 
@@ -17,7 +19,9 @@ class PlayerMovementInputs {
         let controls = inputConfig['controls'];
         let onUpdate = function(values) {
             for (let i = 0; i < values.length; i++) {
-                actor.setControlKey(controls[i], values[i])
+                if (controls[i]) {
+                    actor.setControlKey(controls[i], values[i])
+                }
             }
         }
 
@@ -30,6 +34,29 @@ class PlayerMovementInputs {
 
         let widget = new classNames[inputConfig['class_name']](inputConfig['options'])
         widget.initGuiWidget(inputConfig['widget_config'], widgetReadyCB)
+    }
+
+    attachFeedbackWidget(feedbackConfig, actor) {
+        let widgets = this.inputWidgets;
+        let status = feedbackConfig['status'];
+        let onUpdate = function(feedbackWidget) {
+            for (let i = 0; i < status.length; i++) {
+                if (status[i]) {
+                    let value = actor.getStatus(status[i])
+                    feedbackWidget.updateFeedbackValue(i, value)
+                }
+            }
+        }
+
+        let widgetReadyCB = function(inputWidget) {
+            console.log("WidgetReady:", inputWidget);
+            //    inputWidget.guiWidget.applyWidgetOptions(inputConfig['options'])
+            inputWidget.addUpdateCallback(onUpdate)
+            widgets.push(inputWidget)
+        }
+
+        let widget = new classNames[feedbackConfig['class_name']](feedbackConfig['options'])
+        widget.initGuiWidget(feedbackConfig['widget_config'], widgetReadyCB)
     }
 
     applyInputSamplingConfig(config, actor) {
@@ -47,6 +74,15 @@ class PlayerMovementInputs {
                 this.attachInputWidget(inputs[i], actor)
             }
         }
+
+        let feedback = config['feedback']
+
+        if (feedback) {
+            for (let i = 0; i < feedback.length; i++) {
+                this.attachFeedbackWidget(feedback[i], actor)
+            }
+        }
+
     }
 
 
