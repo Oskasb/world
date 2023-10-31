@@ -344,7 +344,7 @@ let fillRgba = [0, 0, 0, 0];
 
 let shadeGroundCanvasAt = function(pos, canvasContext, terrainSize, segments, size, channelIndex, operation, intensity) {
 
-    let blobs = 8;
+    let blobs = 12;
     let blobShade = 255 / blobs
 
     fillRgba[0] = 0;
@@ -372,8 +372,8 @@ let shadeGroundCanvasAt = function(pos, canvasContext, terrainSize, segments, si
     canvasContext.globalCompositeOperation = operation;
 
     for (let i = 0; i < blobs; i++) {
-        size = size * MATH.curveCube((blobs-i) / blobs)
-        fillShade(canvasContext, tx-size, tz-size, size*2+1, size*2+1, size);
+        size = size * MATH.curveQuad((blobs-i) / blobs)
+        fillShade(canvasContext, tx-size -0.5, tz-size, size*2+1, size*2+1, size);
     }
 
 }

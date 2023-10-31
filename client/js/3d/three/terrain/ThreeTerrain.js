@@ -184,6 +184,7 @@ let constructGeometries = function(heightMapData, transform, groundConfig, secti
     let txWidth = dims['tx_width'];
     let groundTxWidth = dims['ground_tx_width'];
     let mesh_segments = dims['mesh_segments'];
+    let lodTiles = dims['lod_tiles'];
     let tiles = (txWidth / (mesh_segments+1));
     console.log("Constructs HM Geos", gridMeshAssetId, txWidth, mesh_segments, tiles);
 

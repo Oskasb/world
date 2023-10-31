@@ -18,6 +18,7 @@ class TerrainSectionInfo {
     setupLodLevelGrid(lodLevel, grid) {
         let groundElements = [];
         this.lodLevels[lodLevel] = groundElements;
+
         this.terrainGeometry.getExtentsMinMax(this.minExtents, this.maxExtents);
         this.minExtents.y = this.minY;
         this.maxExtents.y = this.maxY;
@@ -30,8 +31,8 @@ class TerrainSectionInfo {
             for (let j = 0; j < yElems; j++) {
                 let yFrac = MATH.calcFraction(0, yElems, j);
                 let seed = i+j+this.minExtents.x+this.minExtents.z
-                calcVec.x = this.minExtents.x + xFrac*size + 2*MATH.sillyRandom(seed)*xElems/size;
-                calcVec.z = this.minExtents.z + yFrac*size + 2*MATH.sillyRandom(seed+1)*yElems/size;
+                calcVec.x = this.minExtents.x + xFrac*size + 1*MATH.sillyRandom(seed)*size/xElems;
+                calcVec.z = this.minExtents.z + yFrac*size + 1*MATH.sillyRandom(seed+1)*size/yElems;
                 let terrainElement = new TerrainElement(lodLevel);
                 let posY = terrainElement.setTerrainElementPosition(calcVec);
                 groundElements.push(terrainElement);

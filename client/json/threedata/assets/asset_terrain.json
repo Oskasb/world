@@ -14,12 +14,12 @@
                 },
                 "section_info": {
                   "lod_levels": [
-                    {"grid": [6, 6]},
-                    {"grid": [4, 4]},
                     {"grid": [3, 3]},
-                    {"grid": [2, 2]},
-                    {"grid": [2, 2]},
-                    {"grid": [1, 1]}
+                    {"grid": [3, 2]},
+                    {"grid": [2, 3]},
+                    {"grid": [3, 1]},
+                    {"grid": [3, 2]},
+                    {"grid": [2, 1]}
                   ]
                 },
                 "ground": {
@@ -30,7 +30,8 @@
                     "tx_width":2048,
                     "ground_tx_width":4096,
                     "grid_mesh":[],
-                    "mesh_segments":15
+                    "mesh_segments":15,
+                    "lod_tiles": 22
                   }
                 },
                 "textures": [
