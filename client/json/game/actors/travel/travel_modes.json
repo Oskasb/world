@@ -6,6 +6,60 @@
         "data":{
           "inputs": [
 
+          ],
+          "feedback": [
+            {"class_name": "GuiAxisFeedback",
+              "widget_config": "widget_axis_feedback",
+              "status":["STATUS_ANGLE_WEST", null],
+              "options":{
+                "anchor": "bottom_center",
+                "icon": "horizon_indicator",
+                "axis": [1, 0],
+                "range": [0.1, 0.1],
+                "offsets": [0, 0.01],
+                "text": "W",
+                "color_curves": ["radialFade", null]
+              }
+            },
+            {"class_name": "GuiAxisFeedback",
+              "widget_config": "widget_axis_feedback",
+              "status":["STATUS_ANGLE_SOUTH", null],
+              "options":{
+                "anchor": "bottom_center",
+                "icon": "horizon_indicator",
+                "axis": [1, 0],
+                "range": [0.1, 0.1],
+                "offsets": [0, 0.01],
+                "text": "S",
+                "color_curves": ["radialFade", null]
+              }
+            },
+            {"class_name": "GuiAxisFeedback",
+              "widget_config": "widget_axis_feedback",
+              "status":["STATUS_ANGLE_EAST", null],
+              "options":{
+                "anchor": "bottom_center",
+                "icon": "horizon_indicator",
+                "axis": [1, 0],
+                "range": [0.1, 0.1],
+                "offsets": [0, 0.01],
+                "text": "E",
+                "color_curves": ["radialFade", null]
+              }
+            },
+            {"class_name": "GuiAxisFeedback",
+              "widget_config": "widget_axis_feedback",
+              "status":["STATUS_ANGLE_NORTH", null],
+              "options":{
+                "anchor": "bottom_center",
+                "icon": "horizon_indicator",
+                "axis": [1, 0],
+                "range": [0.1, 0.1],
+                "offsets": [0, 0.01],
+                "text": "N",
+                "color_curves": ["radialFade", null]
+              }
+            }
           ]
         }
       },
@@ -115,7 +169,8 @@
                 "axis": [1, 0],
                 "range": [0.12, 0.1],
                 "offsets": [0, -0.12],
-                "text": "W"
+                "text": "W",
+                "color_curves": ["radialFade", null]
               }
             },
             {"class_name": "GuiAxisFeedback",
@@ -127,7 +182,8 @@
                 "axis": [1, 0],
                 "range": [0.12, 0.1],
                 "offsets": [0, -0.12],
-                "text": "S"
+                "text": "S",
+                "color_curves": ["radialFade", null]
               }
             },
             {"class_name": "GuiAxisFeedback",
@@ -139,7 +195,8 @@
                 "axis": [1, 0],
                 "range": [0.12, 0.1],
                 "offsets": [0, -0.12],
-                "text": "E"
+                "text": "E",
+                "color_curves": ["radialFade", null]
               }
             },
             {"class_name": "GuiAxisFeedback",
@@ -151,7 +208,8 @@
                 "axis": [1, 0],
                 "range": [0.12, 0.1],
                 "offsets": [0, -0.12],
-                "text": "N"
+                "text": "N",
+                "color_curves": ["radialFade", null]
               }
             },
             {"class_name": "GuiAxisFeedback",
@@ -162,7 +220,8 @@
                 "icon": "climb_line",
                 "axis": [0, 1],
                 "range": [0, 0.2],
-                "offsets": [0, -0.12]
+                "offsets": [0, -0.12],
+                "color_curves": [null, "halfUnitFade"]
               }
             },
             {"class_name": "GuiAxisFeedback",
@@ -173,7 +232,8 @@
                 "icon": "climb_line",
                 "axis": [0, 1],
                 "range": [0, 0.2],
-                "offsets": [0, -0.12]
+                "offsets": [0, -0.12],
+                "color_curves": [null, "halfUnitFade"]
               }
             },
             {"class_name": "GuiAxisFeedback",
@@ -184,7 +244,8 @@
                 "icon": "climb_line",
                 "axis": [0, 1],
                 "range": [0, 0.2],
-                "offsets": [0, -0.12]
+                "offsets": [0, -0.12],
+                "color_curves": [null, "halfUnitFade"]
               }
             },
             {"class_name": "GuiAxisFeedback",
@@ -195,7 +256,8 @@
                 "icon": "climb_line",
                 "axis": [0, 1],
                 "range": [0, 0.2],
-                "offsets": [0, -0.12]
+                "offsets": [0, -0.12],
+                "color_curves": [null, "halfUnitFade"]
               }
             },
             {"class_name": "GuiAxisFeedback",
@@ -206,7 +268,8 @@
                 "icon": "climb_line",
                 "axis": [0, 1],
                 "range": [0, 0.2],
-                "offsets": [0, -0.12]
+                "offsets": [0, -0.12],
+                "color_curves": [null, "halfUnitFade"]
               }
             },
             {"class_name": "GuiAxisFeedback",
