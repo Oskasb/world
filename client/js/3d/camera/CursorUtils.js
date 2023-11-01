@@ -1,10 +1,12 @@
 import {Vector3} from "../../../libs/three/math/Vector3.js";
+import {Object3D} from "../../../libs/three/core/Object3D.js";
 
 let calcVec = new Vector3()
 let tempVec1 = new Vector3()
 let tempVec2 = new Vector3()
 let tempVec3 = new Vector3();
 let dragDirection = new Vector3();
+let tempObj = new Object3D()
 let color = {}
 
 function processLookCursorInput(cursorObj3d, dragToVec3, camTargetPos, cursorForward, cursorTravelVec) {
@@ -29,6 +31,19 @@ function processLookCursorInput(cursorObj3d, dragToVec3, camTargetPos, cursorFor
 
     camTargetPos.y = cursorObj3d.position.y + camTargetPos.distanceTo(cursorObj3d.position) * 0.5 + 0.55 +inputForce * 0.0005;
     return inputAngle;
+}
+
+function processOrbitCursorInput(cursorObj3d, dragToVec3, camTargetPos, cursorForward, pointerDragVector) {
+    camTargetPos.lerp(ThreeAPI.getCamera().position, 0.1);
+    tempObj.position.copy(ThreeAPI.getCamera().position);
+    let distance = MATH.distanceBetween(tempObj.position, cursorObj3d.position)
+    tempObj.lookAt(cursorObj3d.position);
+    tempVec1.set(pointerDragVector.x*1, pointerDragVector.z*1, 0);
+    tempVec1.applyQuaternion(tempObj.quaternion);
+    tempVec1.multiplyScalar(distance*0.1);
+  //  tempVec1.add(camTargetPos);
+    camTargetPos.add(tempVec1)
+
 }
 
 function processTileSelectionCursorInput(tilePath, cursorObj3d, camLookAtVec, dragToVec3, camTargetPos, cursorForward, cursorTravelVec) {
@@ -165,5 +180,6 @@ export {
     processTileSelectionCursorInput,
     processTilePathingCamera,
     processLookCursorInput,
+    processOrbitCursorInput,
     drawInputCursorState
 }

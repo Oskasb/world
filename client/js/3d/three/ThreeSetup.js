@@ -241,9 +241,12 @@ class ThreeSetup {
         this.camera.position.z = pz;
     };
 
+    setCameraUp = function(vec3) {
+        this.camera.up.copy(vec3);
+    }
+
     setCameraLookAt = function(x, y, z) {
         this.lookAt.set(x, y, z);
-        this.camera.up.set(0, 1, 0);
         this.camera.lookAt(this.lookAt)
     };
 
