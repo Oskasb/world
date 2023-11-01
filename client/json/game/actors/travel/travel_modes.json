@@ -96,35 +96,62 @@
             },
             {"class_name": "GuiAxisFeedback",
               "widget_config": "widget_axis_feedback",
-              "status":[null, "STATUS_ANGLE_PITCH"],
-              "options":{
-                "anchor": "center",
-                "icon": "vertical_arrows",
-                "axis": [0, 1],
-                "range": [0.05, 0.05],
-                "offsets": [0.0, 0.2]
-              }
-            },
-            {"class_name": "GuiAxisFeedback",
-              "widget_config": "widget_axis_feedback",
-              "status":["STATUS_ANGLE_ROLL", null],
-              "options":{
-                "anchor": "center",
-                "icon": "horizontal_arrows",
-                "axis": [1, 0],
-                "range": [0.05, 0.05],
-                "offsets": [0.0, 0.2]
-              }
-            },
-            {"class_name": "GuiAxisFeedback",
-              "widget_config": "widget_axis_feedback",
-              "status":["STATUS_ANGLE_YAW", null],
+              "status":["STATUS_ANGLE_ROLL", "STATUS_ANGLE_PITCH"],
               "options":{
                 "anchor": "top_center",
-                "icon": "horizontal_arrows",
+                "icon": "roll_indicator",
+                "axis": [1, 1],
+                "rotation": [-1, 0],
+                "range": [0.0, 0.03],
+                "offsets": [0.0, -0.12]
+              }
+            },
+            {"class_name": "GuiAxisFeedback",
+              "widget_config": "widget_axis_feedback",
+              "status":["STATUS_ANGLE_WEST", null],
+              "options":{
+                "anchor": "top_center",
+                "icon": "horizon_indicator",
                 "axis": [1, 0],
-                "range": [0.05, 0.1],
-                "offsets": [0.0, -0.05]
+                "range": [0.08, 0.1],
+                "offsets": [0, -0.12],
+                "text": "W"
+              }
+            },
+            {"class_name": "GuiAxisFeedback",
+              "widget_config": "widget_axis_feedback",
+              "status":["STATUS_ANGLE_SOUTH", null],
+              "options":{
+                "anchor": "top_center",
+                "icon": "horizon_indicator",
+                "axis": [1, 0],
+                "range": [0.08, 0.1],
+                "offsets": [0, -0.12],
+                "text": "S"
+              }
+            },
+            {"class_name": "GuiAxisFeedback",
+              "widget_config": "widget_axis_feedback",
+              "status":["STATUS_ANGLE_EAST", null],
+              "options":{
+                "anchor": "top_center",
+                "icon": "horizon_indicator",
+                "axis": [1, 0],
+                "range": [0.08, 0.1],
+                "offsets": [0, -0.12],
+                "text": "E"
+              }
+            },
+            {"class_name": "GuiAxisFeedback",
+              "widget_config": "widget_axis_feedback",
+              "status":["STATUS_ANGLE_NORTH", null],
+              "options":{
+                "anchor": "top_center",
+                "icon": "horizon_indicator",
+                "axis": [1, 0],
+                "range": [0.08, 0.1],
+                "offsets": [0, -0.12],
+                "text": "N"
               }
             }
           ]

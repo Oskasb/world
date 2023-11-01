@@ -35,10 +35,18 @@ class ControlFunctions {
         let tpf = GameAPI.getFrame().tpf;
         let forwardVec = actor.getForward();
         let yawAngle = MATH.vectorXZToAngleAxisY(forwardVec)
-        yawAngle = MATH.compassAttitudeFromQuaternion(actor.actorObj3d.quaternion)
+        yawAngle = MATH.eulerFromQuaternion(actor.actorObj3d.quaternion).y;
         let yaw = actor.getStatus(ENUMS.ActorStatus.STATUS_YAW) * (1.0-tpf*2);
         actor.actorObj3d.rotateY(MATH.curveQuad(yaw)*0.2)
         actor.setStatusKey(ENUMS.ActorStatus.STATUS_ANGLE_YAW, yawAngle)
+
+        let compassHeading = yawAngle
+
+        actor.setStatusKey(ENUMS.ActorStatus.STATUS_ANGLE_NORTH, MATH.angleInsideCircle(compassHeading -Math.PI))
+        actor.setStatusKey(ENUMS.ActorStatus.STATUS_ANGLE_EAST, MATH.angleInsideCircle(compassHeading - MATH.HALF_PI))
+        actor.setStatusKey(ENUMS.ActorStatus.STATUS_ANGLE_SOUTH, MATH.angleInsideCircle(compassHeading))
+        actor.setStatusKey(ENUMS.ActorStatus.STATUS_ANGLE_WEST, MATH.angleInsideCircle(compassHeading + MATH.HALF_PI))
+
         actor.setStatusKey(ENUMS.ActorStatus.STATUS_YAW, yaw + value*tpf)
     }
 

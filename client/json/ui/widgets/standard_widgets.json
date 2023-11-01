@@ -438,6 +438,10 @@
                 "icon_config": "feedback_axis_icon",
                 "feedback": "feedback_axis_icon"
               },
+              "text": {
+                "sprite_font": "sprite_font_main_text",
+                "feedback": "feedback_text_action_button"
+              },
               "surface": {
                 "nineslice": "nineslice_surface_axis_feedback",
                 "feedback": "feedback_surface_thumbstick"

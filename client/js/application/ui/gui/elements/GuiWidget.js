@@ -438,6 +438,17 @@ class GuiWidget {
             this.applyWidgetPosition();
         };
 
+
+        setWidgetRotation = function(angle) {
+            let tempObj = ThreeAPI.tempObj;
+            tempObj.quaternion.set(0, 0, 0, 1);
+            tempObj.rotateZ(angle);
+            this.guiSurface.bufferElement.setQuat(tempObj.quaternion)
+            if (this.icon) {
+                this.icon.bufferElement.setQuat(tempObj.quaternion)
+            }
+        }
+
         applyWidgetPosition = function() {
         //    GuiAPI.debugDrawGuiPosition(this.originalPosition.x, this.originalPosition.y);
                 this.elementStateProcessor.applyElementLayout(this);

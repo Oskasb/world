@@ -88,6 +88,14 @@
             "tiles":[[13, 0]]
           },
           {
+            "id":"roll_indicator",
+            "tiles":[[14, 0]]
+          },
+          {
+            "id":"horizon_indicator",
+            "tiles":[[15, 0]]
+          },
+          {
             "id":"button_rounded",
             "tiles":[[11, 1]]
           },

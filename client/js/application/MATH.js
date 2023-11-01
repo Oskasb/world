@@ -691,35 +691,27 @@ if(typeof(MATH) === "undefined") {
 		if (!calcVec) calcVec = new THREE.Vector3();
         calcVec.set(0, 0, 1);
         calcVec.applyQuaternion(q);
-        // calcVec.y = 0;
-        // calcVec.normalize();
         return calcVec.y * Math.PI // Math.atan2(calcVec.x, calcVec.y);
-
-        return Math.atan2(2*q.x*q.w - 2*q.y*q.z, 1 - 2*q.x*q.x - 2*q.z*q.z);
     };
 
     MATH.compassAttitudeFromQuaternion = function(q) {
 		if (!calcVec) calcVec = new THREE.Vector3();
         calcVec.set(0, 0, 1);
         calcVec.applyQuaternion(q);
-        // calcVec.y = 0;
-        // calcVec.normalize();
-        return this.vectorXZToAngleAxisY(calcVec)
-
-        return Math.atan2(2*q.x*q.w - 2*q.y*q.z, 1 - 2*q.x*q.x - 2*q.z*q.z);
+		return this.vectorXZToAngleAxisY(calcVec)
     };
 
-	let rollCalcObj = null;
+	let euler = null;
 
     MATH.rollAttitudeFromQuaternion = function(q) {
-		if (!calcVec) calcVec = new THREE.Vector3();
-		if (!rollCalcObj) rollCalcObj = new THREE.Object3D();
-		calcVec.set(0, 1, 0);
-		calcVec.applyQuaternion(q);
-		rollCalcObj.lookAt(calcVec)
-		//	rollCalcObj.rotateY(-this.HALF_PI);
-		return rollCalcObj.rotation.x
+		let rotation = this.eulerFromQuaternion(q, "YXZ");
+		return rotation.z
     };
+
+	MATH.eulerFromQuaternion = function(q, order) {
+		if (!euler) euler = new THREE.Euler()
+		return euler.setFromQuaternion(q, order);
+	}
 
 
 })(MATH);
