@@ -102,7 +102,7 @@ class GuiAxisFeedback {
             "range": [0.08, 0.08],
             "rotation": [0, 0],
             "offsets": [0, 0],
-            "color_rgba": {r:0.1, g:0.9, b:0.3, a:0.7},
+            "color_rgba": {r:0.1, g:0.9, b:0.3, a:0.5},
             "value_text": [null, null],
             "color_curves": [null, null],
             "curve_colors": [[1, 1, 1, 1], [1, 1, 1, 1]]

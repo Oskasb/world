@@ -14,8 +14,8 @@ class ControlFunctions {
     CONTROL_PITCH(value, actor) {
         let tpf = GameAPI.getFrame().tpf;
         let pitchAngle = MATH.horizonAttitudeFromQuaternion(actor.actorObj3d.quaternion)
-        let pitch = actor.getStatus(ENUMS.ActorStatus.STATUS_PITCH) * (1.0-tpf*3);
-        actor.actorObj3d.rotateX(MATH.curveQuad(pitch)*0.2)
+        let pitch = actor.getStatus(ENUMS.ActorStatus.STATUS_PITCH) * (1.0-tpf*1.8);
+        actor.actorObj3d.rotateX(MATH.curveQuad(pitch)*0.14)
 
         actor.setStatusKey(ENUMS.ActorStatus.STATUS_ANGLE_PITCH, pitchAngle)
         actor.setStatusKey(ENUMS.ActorStatus.STATUS_PITCH, pitch + value*tpf)
@@ -24,8 +24,8 @@ class ControlFunctions {
         let tpf = GameAPI.getFrame().tpf;
 
         let rollAngle = MATH.rollAttitudeFromQuaternion(actor.actorObj3d.quaternion);
-        let roll = actor.getStatus(ENUMS.ActorStatus.STATUS_ROLL) * (1.0-tpf*2) * (1.0 );
-        actor.actorObj3d.rotateZ(MATH.curveQuad(roll)*0.4)
+        let roll = actor.getStatus(ENUMS.ActorStatus.STATUS_ROLL) * (1.0-tpf*1.2) * (1.0 );
+        actor.actorObj3d.rotateZ(MATH.curveQuad(roll)*0.25)
 
         actor.setStatusKey(ENUMS.ActorStatus.STATUS_ANGLE_ROLL, rollAngle)
         actor.setStatusKey(ENUMS.ActorStatus.STATUS_ROLL, roll + value*tpf)
@@ -37,7 +37,7 @@ class ControlFunctions {
         let yawAngle = MATH.vectorXZToAngleAxisY(forwardVec)
         yawAngle = MATH.eulerFromQuaternion(actor.actorObj3d.quaternion).y;
         let yaw = actor.getStatus(ENUMS.ActorStatus.STATUS_YAW) * (1.0-tpf*2);
-        actor.actorObj3d.rotateY(MATH.curveQuad(yaw)*0.2)
+        actor.actorObj3d.rotateY(MATH.curveQuad(yaw)*0.12)
         actor.setStatusKey(ENUMS.ActorStatus.STATUS_ANGLE_YAW, yawAngle)
 
         let compassHeading = yawAngle
