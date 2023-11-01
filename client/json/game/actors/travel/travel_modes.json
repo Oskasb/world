@@ -281,7 +281,10 @@
                 "axis": [1, 1],
                 "range": [0, 0.15],
                 "offsets": [-0.08, -0.09],
-                "value_text": [0, null]
+                "value_text": [0, null],
+                "color_rgba": {"r":1.0, "g":1.0, "b":-0.99, "a":1.0},
+                "curve_colors": [[1, 1, 1, 1], [0.75, -0.75, 0, 0]],
+                "color_curves": [null, "unitFlip"]
               }
             }
           ]
