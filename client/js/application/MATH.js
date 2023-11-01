@@ -98,6 +98,7 @@ if(typeof(MATH) === "undefined") {
 	}
 
 
+
 	MATH.gridXYfromCountAndIndex = function(count, index, store) {
         store.y = Math.floor(index / Math.sqrt(count)) - Math.sqrt(count)*0.5;
         store.x = index % Math.round(Math.sqrt(count)) - Math.sqrt(count)*0.5;
@@ -678,14 +679,16 @@ if(typeof(MATH) === "undefined") {
         return 2*Math.acos(q.y / mag)-Math.PI;
     };
 
+
+
     MATH.rollFromQuaternion = function(q) {
         mag = Math.sqrt(q.w*q.w + q.z*q.z);
         return (2*Math.acos(q.z / mag)-Math.PI);
     };
 
-
+	let calcVec = null;
     MATH.horizonAttitudeFromQuaternion = function(q) {
-
+		if (!calcVec) calcVec = new THREE.Vector3();
         calcVec.set(0, 0, 1);
         calcVec.applyQuaternion(q);
         // calcVec.y = 0;
@@ -696,19 +699,26 @@ if(typeof(MATH) === "undefined") {
     };
 
     MATH.compassAttitudeFromQuaternion = function(q) {
-
+		if (!calcVec) calcVec = new THREE.Vector3();
         calcVec.set(0, 0, 1);
         calcVec.applyQuaternion(q);
         // calcVec.y = 0;
         // calcVec.normalize();
-        return calcVec.y * Math.PI // Math.atan2(calcVec.x, calcVec.y);
+        return this.vectorXZToAngleAxisY(calcVec)
 
         return Math.atan2(2*q.x*q.w - 2*q.y*q.z, 1 - 2*q.x*q.x - 2*q.z*q.z);
     };
 
+	let rollCalcObj = null;
+
     MATH.rollAttitudeFromQuaternion = function(q) {
-        var mag = Math.sqrt(q.w*q.w + q.z*q.z);
-        return 2*Math.acos(-q.z / mag) - Math.PI;
+		if (!calcVec) calcVec = new THREE.Vector3();
+		if (!rollCalcObj) rollCalcObj = new THREE.Object3D();
+		calcVec.set(0, 1, 0);
+		calcVec.applyQuaternion(q);
+		rollCalcObj.lookAt(calcVec)
+		//	rollCalcObj.rotateY(-this.HALF_PI);
+		return rollCalcObj.rotation.x
     };
 
 

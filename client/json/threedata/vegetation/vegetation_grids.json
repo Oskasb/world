@@ -76,7 +76,7 @@
                 "elevation" : 0.1,
                 "tile_size" : 0.8,
                 "tile_range" : 7,
-                "tile_spacing" : 11,
+                "tile_spacing" : 15,
                 "max_plants":10,
                 "plants":[
                   "flower_1_red",
@@ -96,8 +96,8 @@
                 "elevation" : 0.1,
                 "tile_size" : 0.8,
                 "tile_range" : 5,
-                "tile_spacing" : 23,
-                "max_plants":10,
+                "tile_spacing" : 31,
+                "max_plants":18,
                 "plants":[
                   "grass_tall_sparse_1",
                   "grass_tall_sparse_2",
@@ -113,8 +113,8 @@
                 "elevation" : 0.1,
                 "tile_size" : 0.9,
                 "tile_range" : 5,
-                "tile_spacing" : 41,
-                "max_plants":10,
+                "tile_spacing" : 51,
+                "max_plants":20,
                 "plants":[
                   "grass_tall_sparse_1",
                   "grass_tall_sparse_2",

@@ -737,7 +737,7 @@
           "txColor = mix(txColor, civColor,  civMix);",
           "txNmBase = mix(txNmBase, civNormal,  civMix);",
 
-          "float waterline = min(1.0 - min((vPosition.y*2.0-slope*2.0) * 2.0, 1.0), 1.0);",
+          "float waterline = min(1.0 - min(((vPosition.y+scatter*52.0)*2.0-slope*2.0*scatter*121.0) * 2.0, 1.0), 1.0);",
           "txColor = txColor - txColor*waterline*0.65 ;",
 
           "float shadowing = 1.0 - heightMapSample.b*0.55;",
