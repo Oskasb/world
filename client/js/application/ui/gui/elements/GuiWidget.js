@@ -355,6 +355,8 @@ class GuiWidget {
             this.text.drawTextString(GuiAPI.getTextSysKey(), string, this.callbacks.onStringReady);
         };
 
+
+
         notifyElementActivate = function(inputIndex) {
 
             for (let i = 0; i < this.callbacks.onActivate.length; i++) {

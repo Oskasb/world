@@ -172,6 +172,15 @@
               }
             },
             {
+              "id":"feedback_hud_text",
+              "config": {
+                "NONE": {
+                  "color_rgba": {"r": 0.49, "g": 0.99, "b": 0.49, "a": 0.75},
+                  "lut_color": "lut_dk"
+                }
+              }
+            },
+            {
               "id":"feedback_info_text",
               "config": {
 

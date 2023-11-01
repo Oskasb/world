@@ -59,6 +59,16 @@ class ControlFunctions {
         let forwardVec = actor.getForward();
         forwardVec.multiplyScalar(forward);
         actor.setVelocity(forwardVec)
+
+        let elevation = actor.getPos().y;
+        let range = 40;
+        actor.setStatusKey(ENUMS.ActorStatus.STATUS_CLIMB_0, MATH.wrapValue(range, elevation+range*0.4)/range)
+        actor.setStatusKey(ENUMS.ActorStatus.STATUS_CLIMB_1, MATH.wrapValue(range, elevation+range*0.2)/range)
+        actor.setStatusKey(ENUMS.ActorStatus.STATUS_CLIMB_2, MATH.wrapValue(range,       elevation)/range)
+        actor.setStatusKey(ENUMS.ActorStatus.STATUS_CLIMB_3, MATH.wrapValue(range, elevation-range*0.2)/range)
+        actor.setStatusKey(ENUMS.ActorStatus.STATUS_CLIMB_4, MATH.wrapValue(range, elevation-range*0.4)/range)
+        actor.setStatusKey(ENUMS.ActorStatus.STATUS_CLIMB_RATE, forwardVec.y);
+        actor.setStatusKey(ENUMS.ActorStatus.STATUS_ELEVATION, elevation);
     }
 }
 

@@ -440,7 +440,7 @@
               },
               "text": {
                 "sprite_font": "sprite_font_main_text",
-                "feedback": "feedback_text_action_button"
+                "feedback": "feedback_hud_text"
               },
               "surface": {
                 "nineslice": "nineslice_surface_axis_feedback",

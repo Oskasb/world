@@ -17,7 +17,7 @@
             {
               "id":"layout_thumbstick",
               "config": {
-                "text":   {"x":0.5, "y": 0.5, "fontsize": 12},
+                "text":   {"x":0.5, "y": 0.5, "fontsize": 9},
                 "anchor": {"x":0.0, "y":0.0, "z":  0.0},
                 "offset": {"x":0.0, "y":0.0, "z":  0.0},
                 "size":   {"x":0.1, "y":0.1,"z":  0.0}

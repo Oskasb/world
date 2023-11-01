@@ -92,8 +92,16 @@
             "tiles":[[14, 0]]
           },
           {
+            "id":"climb_rate_indicator",
+            "tiles":[[14, 1]]
+          },
+          {
             "id":"horizon_indicator",
             "tiles":[[15, 0]]
+          },
+          {
+            "id":"climb_line",
+            "tiles":[[15, 1]]
           },
           {
             "id":"button_rounded",

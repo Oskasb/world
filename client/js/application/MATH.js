@@ -562,6 +562,32 @@ if(typeof(MATH) === "undefined") {
 		return angle;
 	};
 
+	let progString = ''
+	MATH.numberToDigits = function(current, digits, min) {
+		progString = ''
+		if (typeof(digits) === 'number') {
+			if (digits === 0) {
+				progString += Math.round(current);
+			} else {
+				progString += parseFloat((current).toFixed(digits)).toString().replace(/\.([0-9])$/, ".$"+digits)
+				if (progString.length < digits + min) {
+					progString += '.';
+					for (let i = 0; i < digits; i++) {
+						progString+= '0';
+					}
+				}
+			}
+		} else {
+			progString = ''+current;
+		}
+
+		return progString;
+	};
+
+	MATH.wrapValue = function(wrapRange, value) {
+		return (wrapRange+value) % wrapRange - wrapRange*0.5;
+	};
+
 	MATH.subAngles = function(a, b) {
 		return Math.atan2(Math.sin(a-b), Math.cos(a-b));
 	};

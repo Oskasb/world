@@ -6,6 +6,11 @@ let applyPositionOffset = function(guiAxisSlider) {
         guiAxisSlider.guiWidget.setWidgetRotation(guiAxisSlider.rotation)
     }
 
+    if (guiAxisSlider.valueText) {
+        guiAxisSlider.guiWidget.text.maxRows = 1;
+        guiAxisSlider.guiWidget.printWidgetText(guiAxisSlider.valueText)
+    }
+
 };
 
 let onFrameUpdate = function(guiAxisSlider, tpf, time) {
@@ -20,6 +25,17 @@ let onFrameUpdate = function(guiAxisSlider, tpf, time) {
     guiAxisSlider.offset.x = options.offsets[0] + xValue*options.range[0];
     guiAxisSlider.offset.y = options.offsets[1] + yValue*options.range[1]
     guiAxisSlider.rotation = xValue*options.rotation[0] + yValue*options.rotation[1]
+
+    let text = "";
+
+    if (options.value_text[0] !== null) {
+        text += MATH.numberToDigits(xValue, options.value_text[0], options.value_text[0])
+    }
+
+    if (options.value_text[1] !== null) {
+        text += MATH.numberToDigits(yValue, options.value_text[1], options.value_text[1])
+    }
+    guiAxisSlider.valueText = text;
     applyPositionOffset(guiAxisSlider);
 
 };
@@ -34,7 +50,8 @@ class GuiAxisFeedback {
             "release": [1, 1],
             "range": [0.08, 0.08],
             "rotation": [0, 0],
-            "offsets": [0, 0]
+            "offsets": [0, 0],
+            "value_text": [null, null]
         };
         for (let key in options) {
             this.options[key] = options[key];
@@ -45,6 +62,8 @@ class GuiAxisFeedback {
         this.offset = new THREE.Vector3();
 
         this.rotation = 0;
+
+        this.valueText = "";
 
         this.feedbackValues = [0, 0];
         this.onUpdateCallbacks = [];

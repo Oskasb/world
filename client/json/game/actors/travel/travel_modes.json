@@ -113,7 +113,7 @@
                 "anchor": "top_center",
                 "icon": "horizon_indicator",
                 "axis": [1, 0],
-                "range": [0.08, 0.1],
+                "range": [0.12, 0.1],
                 "offsets": [0, -0.12],
                 "text": "W"
               }
@@ -125,7 +125,7 @@
                 "anchor": "top_center",
                 "icon": "horizon_indicator",
                 "axis": [1, 0],
-                "range": [0.08, 0.1],
+                "range": [0.12, 0.1],
                 "offsets": [0, -0.12],
                 "text": "S"
               }
@@ -137,7 +137,7 @@
                 "anchor": "top_center",
                 "icon": "horizon_indicator",
                 "axis": [1, 0],
-                "range": [0.08, 0.1],
+                "range": [0.12, 0.1],
                 "offsets": [0, -0.12],
                 "text": "E"
               }
@@ -149,9 +149,76 @@
                 "anchor": "top_center",
                 "icon": "horizon_indicator",
                 "axis": [1, 0],
-                "range": [0.08, 0.1],
+                "range": [0.12, 0.1],
                 "offsets": [0, -0.12],
                 "text": "N"
+              }
+            },
+            {"class_name": "GuiAxisFeedback",
+              "widget_config": "widget_axis_feedback",
+              "status":[null,"STATUS_CLIMB_0"],
+              "options":{
+                "anchor": "top_center",
+                "icon": "climb_line",
+                "axis": [0, 1],
+                "range": [0, 0.2],
+                "offsets": [0, -0.12]
+              }
+            },
+            {"class_name": "GuiAxisFeedback",
+              "widget_config": "widget_axis_feedback",
+              "status":[null,"STATUS_CLIMB_1"],
+              "options":{
+                "anchor": "top_center",
+                "icon": "climb_line",
+                "axis": [0, 1],
+                "range": [0, 0.2],
+                "offsets": [0, -0.12]
+              }
+            },
+            {"class_name": "GuiAxisFeedback",
+              "widget_config": "widget_axis_feedback",
+              "status":[null,"STATUS_CLIMB_2"],
+              "options":{
+                "anchor": "top_center",
+                "icon": "climb_line",
+                "axis": [0, 1],
+                "range": [0, 0.2],
+                "offsets": [0, -0.12]
+              }
+            },
+            {"class_name": "GuiAxisFeedback",
+              "widget_config": "widget_axis_feedback",
+              "status":[null,"STATUS_CLIMB_3"],
+              "options":{
+                "anchor": "top_center",
+                "icon": "climb_line",
+                "axis": [0, 1],
+                "range": [0, 0.2],
+                "offsets": [0, -0.12]
+              }
+            },
+            {"class_name": "GuiAxisFeedback",
+              "widget_config": "widget_axis_feedback",
+              "status":[null,"STATUS_CLIMB_4"],
+              "options":{
+                "anchor": "top_center",
+                "icon": "climb_line",
+                "axis": [0, 1],
+                "range": [0, 0.2],
+                "offsets": [0, -0.12]
+              }
+            },
+            {"class_name": "GuiAxisFeedback",
+              "widget_config": "widget_axis_feedback",
+              "status":["STATUS_ELEVATION","STATUS_CLIMB_RATE"],
+              "options":{
+                "anchor": "top_center",
+                "icon": "climb_rate_indicator",
+                "axis": [1, 1],
+                "range": [0, 0.15],
+                "offsets": [-0.08, -0.09],
+                "value_text": [0, null]
               }
             }
           ]
