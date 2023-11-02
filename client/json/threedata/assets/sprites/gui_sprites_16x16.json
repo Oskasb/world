@@ -92,8 +92,32 @@
             "tiles":[[14, 0]]
           },
           {
-            "id":"climb_rate_indicator",
+            "id":"altitude_indicator",
             "tiles":[[14, 1]]
+          },
+          {
+            "id":"climb_rate_indicator",
+            "tiles":[[14, 5]]
+          },
+          {
+            "id":"speed_indicator",
+            "tiles":[[14, 3]]
+          },
+          {
+            "id":"control_roll_indicator",
+            "tiles":[[14, 2]]
+          },
+          {
+            "id":"control_yaw_indicator",
+            "tiles":[[15, 2]]
+          },
+          {
+            "id":"control_throttle_indicator",
+            "tiles":[[14, 4]]
+          },
+          {
+            "id":"zero_line_indicator",
+            "tiles":[[15, 3]]
           },
           {
             "id":"horizon_indicator",

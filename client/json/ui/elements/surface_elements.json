@@ -208,7 +208,7 @@
             {
               "id":"nineslice_surface_axis_feedback",
               "config": {
-                "padding": { "x":-0.00001, "y":-0.00001},
+                "padding": { "x":0.00001, "y":0.00001},
                 "image": {
                   "layer": "UI_ELEMENTS_MAIN",
                   "atlas_key": "GUI_16x16",

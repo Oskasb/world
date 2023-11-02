@@ -139,10 +139,11 @@ if(typeof(ENUMS) === "undefined"){
     };
 
     ENUMS.Controls = {
+        SAMPLE_STATUS:'SAMPLE_STATUS',
         CONTROL_PITCH:'CONTROL_PITCH',
         CONTROL_ROLL:'CONTROL_ROLL',
         CONTROL_YAW:'CONTROL_YAW',
-        CONTROL_THROTTLE:'CONTROL_THROTTLE'
+        CONTROL_SPEED:'CONTROL_SPEED',
     }
 
     ENUMS.TravelMode = {

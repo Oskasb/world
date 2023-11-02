@@ -13,10 +13,10 @@
                   ],
                   [
                     {"y_min": 0.5 ,"y_max": 0.75 , "asset":"asset_tree_1", "shade": 5},
-                    {"y_min": 0.6  ,"y_max": 0.85 , "asset":"asset_tree_2", "shade": 6}
+                    {"y_min": 0.6  ,"y_max": 0.95 , "asset":"asset_tree_2", "shade": 6}
                   ],
                   [
-                    {"y_min": 0.7 ,"y_max": 0.85  , "asset":"asset_tree_3", "shade": 7},
+                    {"y_min": 0.7 ,"y_max": 1.85  , "asset":"asset_tree_3", "shade": 7},
                     {"y_min": 0.8  ,"y_max": 1.1  , "asset":"asset_tree_4", "shade": 10}
                   ],
                   [

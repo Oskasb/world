@@ -507,6 +507,15 @@
               }
             },
             {
+              "id":"feedback_surface_axis",
+              "config": {
+                "NONE": {
+                  "color_rgba": {"r": 0.1, "g": 0.3, "b": 0.55, "a": 0.6},
+                  "sprite": "inverted_corners"
+                }
+              }
+            },
+            {
               "id":"feedback_surface_thumbstick",
               "config": {
                 "NONE": {

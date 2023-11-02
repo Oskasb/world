@@ -444,7 +444,7 @@
               },
               "surface": {
                 "nineslice": "nineslice_surface_axis_feedback",
-                "feedback": "feedback_surface_thumbstick"
+                "feedback": "feedback_surface_axis"
               }
             },
             {

@@ -209,7 +209,7 @@ class GuiSurface {
         //    console.log("scale x y", this.scale.x, this.scale.y)
         //    console.log("sprite w z", this.sprite.w, this.sprite.z)
             if (isNaN(this.sprite.z)) {
-        //        console.log("NaN sprite z", this)
+                console.log("NaN sprite z", this)
             } else {
                 this.bufferElement.setSprite(this.sprite);
                 this.bufferElement.setScaleVec3(this.scale);

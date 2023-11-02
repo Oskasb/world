@@ -29,13 +29,15 @@ let applyPositionOffset = function(guiAxisSlider) {
             text.setTextColor(rgba)
         }
 
+
+
         let icon = guiWidget.icon;
         if (icon) {
             icon.setGuiIconColorRGBA(rgba)
+        //    let sprite = {x:2, y:2, z:icon.sprite.z, w:icon.sprite.w}
+        //    surface.getBufferElement().setSprite(sprite)
         }
 
-        let surface = guiWidget.guiSurface;
-        surface.getBufferElement().setColorRGBA(rgba)
 
     }
 
@@ -144,6 +146,10 @@ class GuiAxisFeedback {
     initGuiWidget = function(widgetConfig, onReady) {
         let widgetRdy = function(widget) {
             widget.applyWidgetOptions(this.options)
+
+            let surface = widget.guiSurface;
+            surface.getBufferElement().setColorRGBA(this.rgba)
+
             onReady(this)
         }.bind(this);
         this.guiWidget = new GuiWidget(widgetConfig);
