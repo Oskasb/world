@@ -27,7 +27,7 @@ class ThreeSetup {
         this.vector = new THREE.Vector3();
         this.tempObj = new THREE.Object3D();
 
-        this.avgTfp = 0.1;
+        this.avgTpf = 0.1;
 
         this.sphere = new THREE.Sphere();
         this.frustum = new THREE.Frustum();
@@ -55,11 +55,10 @@ class ThreeSetup {
 
         this.lastTime = time;
 
-        this.avgTfp = this.tpf // *0.3 + this.avgTfp*0.7;
-
+        this.avgTpf = this.tpf*0.2 + this.avgTpf*0.8;
 
         for (let i = 0; i < this.prerenderCallbacks.length; i++) {
-            this.prerenderCallbacks[i](this.avgTfp);
+            this.prerenderCallbacks[i](this.avgTpf);
         }
 
 
@@ -86,7 +85,7 @@ class ThreeSetup {
 
     //    PipelineAPI.setCategoryKeyValue('STATUS', 'TIME_ANIM_RENDER', this.renderEnd - this.renderStart);
         for (let i = 0; i < this.postrenderCallbacks.length; i++) {
-            this.postrenderCallbacks[i](this.avgTfp);
+            this.postrenderCallbacks[i](this.avgTpf);
         }
 
     };

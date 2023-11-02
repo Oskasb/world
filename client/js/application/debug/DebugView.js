@@ -44,6 +44,7 @@ let updateSystemDebug = function() {
 
     evt.dispatch(ENUMS.Event.COLLECT_DEBUG_STATS, debugStatsEvent)
     system.tpf = GameAPI.getFrame().tpf * 1000;
+    system.avgTpf = setup.avgTpf * 1000;
     system.fps = 1/GameAPI.getFrame().tpf
 
 

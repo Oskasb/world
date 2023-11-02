@@ -20,12 +20,12 @@ class DynamicLodGrid {
     }
 
 
-    processLodVisibility(lodCenter, tileUpdateCallback) {
+    processLodVisibility(lodCenter, tileUpdateCallback, coarseness) {
         let tiles = this.dynamicGrid.dynamicGridTiles;
         for (let i = 0; i < tiles.length; i++) {
             for (let j = 0; j < tiles[i].length;j++) {
                 let tile = tiles[i][j];
-                tile.processDynamicTileVisibility(this.maxDistance, this.lodLevels, lodCenter,  tileUpdateCallback)
+                tile.processDynamicTileVisibility(this.maxDistance, this.lodLevels, lodCenter,  tileUpdateCallback, coarseness)
                 if (this.debug) {
                 //    tile.debugDrawTilePosition(2, 'RED');
                 }
@@ -38,14 +38,14 @@ class DynamicLodGrid {
         return this.dynamicGrid.dynamicGridTiles;
     }
 
-    updateDynamicLodGrid(lodCenter, tileUpdateCallback) {
+    updateDynamicLodGrid(lodCenter, tileUpdateCallback, coarseness) {
     //    if (this.lastLodCenter.distanceToSquared(lodCenter) > 0.01) {
 
             let centerTile = this.dynamicGrid.getTileAtPosition(lodCenter);
             this.dynamicGrid.updateDynamicGrid(centerTile.tileX, centerTile.tileZ)
             this.lastLodCenter.copy(lodCenter);
-            let releases = this.processLodVisibility(this.lastLodCenter, tileUpdateCallback)
-            return releases
+            this.processLodVisibility(this.lastLodCenter, tileUpdateCallback, coarseness)
+
 
     //    }
 

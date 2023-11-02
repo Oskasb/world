@@ -19,8 +19,8 @@ class TerrainElement {
     }
 
     setTerrainElementPosition(posVec3) {
-        let seed = Math.floor(posVec3.x+posVec3.z);
-        let scale = MATH.sillyRandomBetween(0.2, 1, seed);
+        let seed = Math.floor(posVec3.x+posVec3.z*0.01);
+        let scale = MATH.sillyRandomBetween(0.3, 1.2, seed);
         let rotZ = scale*1000;
         posVec3.y = ThreeAPI.terrainAt(posVec3, calcVec);
         this.obj3d.rotateZ(rotZ);

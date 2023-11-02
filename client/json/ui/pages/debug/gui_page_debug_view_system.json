@@ -47,6 +47,11 @@
                           "unit": "ms"
                         },
                         {
+                          "key": "avgTpf",
+                          "digits": 2,
+                          "unit": "ms"
+                        },
+                        {
                           "key": "cpuLoad",
                           "digits": 0,
                           "unit": "%"

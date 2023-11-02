@@ -12,8 +12,9 @@ let tempObj = new Object3D();
 let index = 0;
 class DynamicTile {
     constructor() {
+        this.index = index;
         index ++;
-    //    console.log("tiles: ", index)
+        this.step = 0;
         this.offset = 0;
     }
 
@@ -141,7 +142,16 @@ class DynamicTile {
         poolReturn(this);
     }
 
-    processDynamicTileVisibility = function(maxDistance, lodLevels, lodCenter,  tileUpdateCallback) {
+    processDynamicTileVisibility = function(maxDistance, lodLevels, lodCenter,  tileUpdateCallback, coarseness) {
+
+        if (coarseness) {
+            this.step++;
+            if ((this.index+this.step) % coarseness !== 1) {
+                tileUpdateCallback(this)
+                return;
+            }
+        }
+
         let dynamicGridTile = this;
         let pos = this.getPos()
         let lodDistance = pos.distanceTo(lodCenter)

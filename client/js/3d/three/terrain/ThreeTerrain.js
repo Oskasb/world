@@ -33,6 +33,9 @@ let dynamicLodGrid = null;
 let shadeCompleted = false;
 let terrainBigGeometry = new TerrainBigGeometry();
 
+let tempVec1 = new Vector3();
+let tempVec2 = new Vector3()
+
 let transformModel = function(trf, model) {
     model.position.x = trf.pos[0];
     model.position.y = trf.pos[1];
@@ -237,6 +240,26 @@ let getTerrainGeoAtPos = function(posVec3) {
 }
 
 
+
+let getTerrainGeosAtTile = function(tile, storeList) {
+
+    tile.getTileExtents(tempVec1, tempVec2);
+
+    for (let i = 0; i < terrainGeometries.length; i++) {
+        let row = terrainGeometries[i][0];
+        let geoCenterX = row.posX + row.size*0.5
+        if (geoCenterX > tempVec1.x && geoCenterX < tempVec2.x) {
+            for (let j = 0; j < terrainGeometries[i].length; j++) {
+                let geo = terrainGeometries[i][j];
+                let geoCenterZ = geo.posZ + geo.size*0.5
+                if (geoCenterZ > tempVec1.z && geoCenterZ < tempVec2.z) {
+                    storeList.push(geo);
+                }
+            }
+        }
+    }
+}
+
 let color = {};
 let debugDrawNearby = function(index) {
     calcVec.set(0.5 * Math.sin(GameAPI.getGameTime()), 0 , 0.5 * Math.cos(GameAPI.getGameTime()));
@@ -324,16 +347,19 @@ let drawTilesByLodGrid = function(frame) {
 
 }
 
+let updateLodList = [];
+
 function tileUpdateCB(tile) {
-    let geo = getTerrainGeoAtPos(tile.getPos());
-  //  if (geo.levelOfDetail !== tile.lodLevel) {
-    geo.updateVisibility(tile.lodLevel,  updateFrame)
-    if (tile.lodLevel !== -1) {
-        if (visibleGeoTiles.indexOf(geo) === -1) {
-            visibleGeoTiles.push(geo);
+    getTerrainGeosAtTile(tile, updateLodList)
+    while (updateLodList.length) {
+        let geo = updateLodList.pop();
+        geo.updateVisibility(tile.lodLevel,  updateFrame)
+        if (tile.lodLevel !== -1) {
+            if (visibleGeoTiles.indexOf(geo) === -1) {
+                visibleGeoTiles.push(geo);
+            }
         }
     }
-
 }
 
 function getLodCenter() {
@@ -401,7 +427,7 @@ class ThreeTerrain {
 
 
         dynamicLodGrid = new DynamicLodGrid();
-        dynamicLodGrid.activateLodGrid({lod_levels: 5, tile_range:24, tile_spacing:16, hide_tiles:true, center_offset:true, debug:false})
+        dynamicLodGrid.activateLodGrid({lod_levels: 6, tile_range:14, tile_spacing:80, hide_tiles:true, center_offset:true, debug:false})
 
         let configData = new ConfigData("ASSETS", "TERRAIN", "terrain_config", 'data_key', 'config')
         configData.addUpdateCallback(terrainListLoaded);
@@ -506,7 +532,7 @@ class ThreeTerrain {
 
         CursorUtils.processTerrainLodCenter(lodCenter, terrainCenter)
 
-            dynamicLodGrid.updateDynamicLodGrid(terrainCenter, tileUpdateCB);
+            dynamicLodGrid.updateDynamicLodGrid(terrainCenter, tileUpdateCB, 0);
 
             drawTilesByLodGrid(updateFrame)
     }
