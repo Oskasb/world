@@ -722,7 +722,7 @@ if(typeof(MATH) === "undefined") {
 		if (!calcVec) calcVec = new THREE.Vector3();
         calcVec.set(0, 0, 1);
         calcVec.applyQuaternion(q);
-        return calcVec.y * Math.PI // Math.atan2(calcVec.x, calcVec.y);
+        return -calcVec.y * Math.PI // Math.atan2(calcVec.x, calcVec.y);
     };
 
     MATH.compassAttitudeFromQuaternion = function(q) {
