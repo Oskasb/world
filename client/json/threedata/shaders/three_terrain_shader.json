@@ -275,18 +275,20 @@
           "varying float elevationFactor;",
           "void main(){",
 
-          "elevationFactor = 1.0 + floor(cameraPosition.y * 0.05);",
+          "vec3 scalePos = position*1.0;",
 
-          "float distX = abs(position.x-0.5);",
-          "float distZ = abs(position.z-0.5);",
+          "elevationFactor = 1.0 + floor(cameraPosition.y * 0.1);",
+
+          "float distX = abs(scalePos.x-0.5);",
+          "float distZ = abs(scalePos.z-0.5);",
 
           "float distScaleX = floor(distX*0.011)*128.0;",
           "float distScaleZ = floor(distZ*0.011)*128.0;",
 
           "elevationFactor += distScaleX + distScaleZ;",
 
-          "vPosition.x = (position.x + sign(position.x) * distScaleX)*elevationFactor;",
-          "vPosition.z = (position.z + sign(position.z) * distScaleZ)*elevationFactor;",
+          "vPosition.x = (scalePos.x + sign(scalePos.x) * distScaleX)*elevationFactor;",
+          "vPosition.z = (scalePos.z + sign(scalePos.z) * distScaleZ)*elevationFactor;",
 
           "float txw = heightmaptiles.z;",
           "float txPointOffset = 1.0/(txw+1.0);",
@@ -302,11 +304,9 @@
 
           "vec4 quat = orientation.xyzw;",
 
-          "terrainPosition.x = position.x*tileFactor;",
+          "terrainPosition.x = scalePos.x*tileFactor;",
           "terrainPosition.y = 0.0;",
-          "terrainPosition.z = position.z*tileFactor;",
-
-
+          "terrainPosition.z = scalePos.z*tileFactor;",
 
           "scaledVPos.x =  ((center.x*(1.0-shift)) * shiftSubOne+shift*0.0  + (terrainPosition.x ) * 0.5 + 0.5);",
           "scaledVPos.y =  ((center.y*(1.0-shift)) * shiftSubOne+shift*0.0  + (terrainPosition.z ) * 0.5 + 0.5);",
@@ -314,29 +314,15 @@
           "scaledVPos.x = floor(scaledVPos.x*2.0*(txw))*0.5*shift;",
           "scaledVPos.y = floor(scaledVPos.y*2.0*(txw))*0.5*shift;",
 
-          "heightSampler.x = scaledVPos.x;",
-          "heightSampler.y = scaledVPos.y;",
 
-          "vec4 sample = texture2D( heightmap, heightSampler);",
-
-          "float distManhattan = max((distX+distZ-70.0)*elevationFactor, 0.0);",
-
-          "float nearness = 1.0 / (max(distManhattan*0.1, 1.0));",
-
-          "heightSample = sample.r*nearness;",
-
-          "vUv.x = mod((position.x/256.0)+0.5, 1.0);",
-          "vUv.y = mod((position.z/256.0)+0.5, 1.0);",
-
-
-
-
+          "vUv.x = mod((scalePos.x/256.0)+0.5, 1.0);",
+          "vUv.y = mod((scalePos.z/256.0)+0.5, 1.0);",
 
           "vPosition.x += center.x -0.5;",
           "vPosition.z += center.y -0.5;",
 
-          "float waveX = sin(vPosition.x*2.0 + systemTime*0.80);",
-          "float waveY = cos(vPosition.z*2.0 + systemTime*0.80);",
+          "float waveX = sin(vPosition.x*2.0 + systemTime*0.80) / elevationFactor;",
+          "float waveY = cos(vPosition.z*2.0 + systemTime*0.80) / elevationFactor;",
           "float waveZ1 = sin(systemTime*0.25+vPosition.x*0.5+vPosition.z*0.002);",
           "float waveZ2 = cos(systemTime*0.50+(vPosition.z*2.0-waveZ1*1.0+vPosition.x*0.025)*0.5-waveZ1*1.3);",
           "waveSmall.x = waveX;",
@@ -376,6 +362,7 @@
 
         "fragmentBigOcean":[
           "precision highp float;",
+          "uniform sampler2D heightmap;",
           "uniform float systemTime;",
           "uniform vec3 cameraPosition;",
           "uniform vec3 sunLightDirection;",
@@ -418,15 +405,19 @@
           "vec2 scaledUv = tileUv*tileScale;",
 
 
+          "vec4 sample = texture2D( heightmap, scaledVPos);",
+
+          "float height = sample.r;",
+
           "float twoPi = 6.2831;",
-          "float depth = min(max(heightSample*(80.0/(maxHeight-minHeight)+vPosition.y*25.0), 0.0), 1.0);",
+          "float depth = min(max(height*(80.0/(maxHeight-minHeight)), 0.0), 1.0);",
 
           "float waveX = sin(systemTime*0.25);",
           "float waveY = cos(systemTime*0.25);",
 
           "float mod = sin((fragPos.x+systemTime*1.2+waveX)*0.25 + waveX*0.2 )*0.1 + cos((fragPos.z+ systemTime*1.2+waveY)*0.25+ waveY*0.2 )*0.1 +0.3;",
           "float mod2 = waveX*sin(systemTime*0.2+fragPos.x*0.25)*0.15 + waveY*cos(systemTime*0.2+fragPos.z*0.25)*0.15 + 0.3;",
-          "depth = min(max(depth*((mod + mod2)*2.0+vPosition.y*vPosition.y*10.0), 0.0), 1.0);",
+          "depth = min(max(depth*((mod + mod2)*2.0), 0.0), 1.0);",
 
 
           "float waterRow = 16.0;",
@@ -438,7 +429,7 @@
           "vec2 tileDepthModOffset = vec2(tileDepthMod.x *tileScale.x, (tileDepthMod.y-1.0) * tileScale.y);",
           "vec2 tileDepthModUv = vec2(scaledUv + tileDepthModOffset);",
           "vec4 txColorDepthMod01 = texture2D( tx0, tileDepthModUv);",
-          "vec4 txNmDepthMod01 = texture2D( tx0nm, tileDepthModUv);",
+          "vec4 txNmDepthMod01 = texture2D( tx0nm, tileDepthModUv*1.0);",
           "vec4 txColorBase = txColorDepthMod01;",
           "vec4 txNmBase =  txNmDepthMod01;",
 
@@ -504,76 +495,47 @@
 
           "uniform vec3 heightmaptiles;",
 
-          "varying vec4 vColor;",
           "varying vec2 vUv;",
           "varying vec2 heightSampler;",
-
           "uniform vec3 ambientLightColor;",
           "uniform vec3 sunLightColor;",
-
           "uniform vec3 sunLightDirection;",
-          "varying vec3 sunDir;",
           "uniform vec3 cameraPosition;",
           "uniform vec3 fogColor;",
           "uniform float fogDensity;",
           "varying float fogDepth;",
           "varying float vFragDepth;",
           "varying vec3 vPosition;",
-          "varying vec3 vNormal;",
-          "varying vec3 faceNormal;",
           "varying vec2 tileOffset;",
           "varying vec2 tileScale;",
           "varying vec3 terrainPosition;",
           "varying vec2 scaledVPos;",
           "varying vec2 center;",
           "varying float elevationFactor;",
-          "varying float distScaleX;",
-          "varying float distScaleZ;",
           "void main(){",
 
-          "float elementScale = texelRowSelect.w;",
+          "float elementScale = texelRowSelect.w*1.0;",
           "float outerness =  texelRowSelect.z;",
 
-          "elevationFactor = (1.0+floor(cameraPosition.y * 0.002))*outerness;",
-
-          "float dirX = sign(position.x);",
-          "float dirZ = sign(position.z);",
-
-          "distScaleX = floor(abs(position.x-0.5*dirX)*0.0011);",
-          "distScaleX += floor(abs(position.x-0.5*dirX)*0.0010);",
-          "distScaleX += floor(abs(position.x-0.5*dirX)*0.00099)*1.0;",
-          "distScaleX += floor(abs(position.x-0.5*dirX)*0.00098)*2.0;",
-          "distScaleX += floor(abs(position.x-0.5*dirX)*0.00096)*4.0;",
-
-
-          "distScaleZ = floor(abs(position.z-0.5*dirZ)*0.0011);",
-          "distScaleZ += floor(abs(position.z-0.5*dirZ)*0.0010);",
-          "distScaleZ += floor(abs(position.z-0.5*dirZ)*0.00099)*1.0;",
-          "distScaleZ += floor(abs(position.z-0.5*dirZ)*0.00098)*2.0;",
-          "distScaleZ += floor(abs(position.z-0.5*dirZ)*0.00096)*4.0;",
+          "elevationFactor = (1.0+floor(cameraPosition.y * 0.0001))*outerness;",
 
           "float txw = heightmaptiles.z;",
           "float txPointOffset = 1.0/(txw+1.0);",
           "float tileFactorX = 2.0/(txw);",
           "float tileFactorZ = 2.0/(txw);",
 
-          "vPosition.x = (position.x + dirX * distScaleX)*elevationFactor;",
-          "vPosition.z = (position.z + dirZ * distScaleZ)*elevationFactor;",
-
+          "vPosition.x = (position.x )*elevationFactor;",
+          "vPosition.z = (position.z )*elevationFactor;",
 
           "float shift = txPointOffset * 1.0;",
           "float shiftSubOne = 1.0/(txw-1.0);",
           "center.x = floor(offset.x / (elevationFactor*elementScale)) * elevationFactor*elementScale;",
           "center.y = floor(offset.z / (elevationFactor*elementScale)) * elevationFactor*elementScale;",
-
           "vec4 quat = orientation.xyzw;",
-
-
 
           "terrainPosition.x = vPosition.x*tileFactorX;",
           "terrainPosition.y = 0.0;",
           "terrainPosition.z = vPosition.z*tileFactorZ;",
-
 
           "tileOffset = vec2(0.0, 0.0);",
 
@@ -588,43 +550,13 @@
 
           "vec4 sample = texture2D( heightmap, heightSampler);",
 
-          "vec2 normalSamplerP0 = vec2(heightSampler.x +shift*0.5 , heightSampler.y +shift*0.5);",
-          "vec4 normalSampleP0 = texture2D( heightmap, normalSamplerP0);",
-
-          "vec2 normalSamplerP1 = vec2(normalSamplerP0.x - shift*1.0, normalSamplerP0.y);",
-          "vec4 normalSampleP1 = texture2D( heightmap, normalSamplerP1);",
-
-          "vec2 normalSamplerP2 = vec2(normalSamplerP0.x, normalSamplerP0.y - shift*1.0);",
-          "vec4 normalSampleP2 = texture2D( heightmap, normalSamplerP2);",
-
-          "vec3 triPoint0 = vec3( normalSamplerP0.x, normalSampleP0.x/scale3d.y, normalSamplerP0.y);",
-          "vec3 triPoint1 = vec3( normalSamplerP1.x, normalSampleP1.x/scale3d.y, normalSamplerP1.y);",
-          "vec3 triPoint2 = vec3( normalSamplerP2.x, normalSampleP2.x/scale3d.y, normalSamplerP2.y);",
-
-          "vec3 tangent = triPoint2 - triPoint0;",
-          "vec3 biTangent = triPoint1 - triPoint0;",
-          "vNormal = normalize(cross(tangent, biTangent));",
-
-          "vUv.x = mod((vPosition.x/256.0)+0.5, 1.0);",
-          "vUv.y = mod((vPosition.z/256.0)+0.5, 1.0);",
+          "vUv.x = mod((vPosition.x/outerness/256.0)+0.5, 1.0);",
+          "vUv.y = mod((vPosition.z/outerness/256.0)+0.5, 1.0);",
 
           "vPosition.y = -3.0 + sample.x * scale3d.y;",
-
           "vPosition.x += center.x -0.5;",
           "vPosition.z += center.y -0.5;",
 
-
-          "faceNormal = vNormal + 2.0 * cross( orientation.xyz, cross( orientation.xyz, vNormal ) + orientation.w * vNormal );",
-
-          "float intensity = max( -0.25 + dot(faceNormal, sunLightDirection ) * 1.0, 0.0);",
-          "sunDir = sunLightColor * intensity;",
-
-          "float ambIntensity = 0.75;",
-
-          "vColor.r = sunDir.r + ambientLightColor.r * ambIntensity ;",
-          "vColor.g = sunDir.g + ambientLightColor.g * ambIntensity;",
-          "vColor.b = sunDir.b + ambientLightColor.b * ambIntensity;",
-          "vColor.a = 1.0;",
 
           "gl_Position = projectionMatrix * modelViewMatrix * vec4( vPosition, 1.0 );",
           "fogDepth = gl_Position.z*1.0;",
@@ -636,6 +568,8 @@
           "precision highp float;",
 
           "uniform vec3 sunLightDirection;",
+          "uniform vec3 ambientLightColor;",
+          "uniform vec3 sunLightColor;",
           "uniform vec3 fogColor;",
           "uniform float fogDensity;",
           "uniform sampler2D terrainmap;",
@@ -645,20 +579,14 @@
           "uniform sampler2D tx1;",
           "uniform vec2 tx0tiles;",
           "varying vec2 vUv;",
-          "varying vec3 sunDir;",
           "varying float fogDepth;",
           "varying float vFragDepth;",
-          "varying vec4 vColor;",
           "varying vec3 vPosition;",
-          "varying vec3 vNormal;",
-          "varying vec3 faceNormal;",
           "varying vec2 tileOffset;",
           "varying vec2 tileScale;",
           "varying vec3 terrainPosition;",
           "varying vec2 scaledVPos;",
           "varying float elevationFactor;",
-          "varying float distScaleX;",
-          "varying float distScaleZ;",
           "void main(){",
 
           "vec2 terrainSampler = scaledVPos;",
@@ -668,9 +596,36 @@
           "int gIndex = int(min(terrainMapSample.r*8.0, 4.0));",
           "float biomeIndex = float(gIndex);",
 
-          "float shift = 1.0/2048.0;",
+          "float shift = 0.75/2048.0;",
 
+          "vec2 normalSamplerP0 = vec2(terrainSampler.x +shift*0.5 , terrainSampler.y +shift*0.5);",
+          "vec4 normalSampleP0 = texture2D( heightmap, normalSamplerP0);",
 
+          "vec2 normalSamplerP1 = vec2(normalSamplerP0.x - shift*1.0, normalSamplerP0.y);",
+          "vec4 normalSampleP1 = texture2D( heightmap, normalSamplerP1);",
+
+          "vec2 normalSamplerP2 = vec2(normalSamplerP0.x, normalSamplerP0.y - shift*1.0);",
+          "vec4 normalSampleP2 = texture2D( heightmap, normalSamplerP2);",
+
+          "vec3 triPoint0 = vec3( normalSamplerP0.x, normalSampleP0.x*0.01, normalSamplerP0.y);",
+          "vec3 triPoint1 = vec3( normalSamplerP1.x, normalSampleP1.x*0.01, normalSamplerP1.y);",
+          "vec3 triPoint2 = vec3( normalSamplerP2.x, normalSampleP2.x*0.01, normalSamplerP2.y);",
+
+          "vec3 tangent = triPoint2 - triPoint0;",
+          "vec3 biTangent = triPoint1 - triPoint0;",
+          "vec3 fragNormal = normalize(cross(tangent, biTangent));",
+
+          "float sunIntensity = max( -0.25 + dot(fragNormal, sunLightDirection ) * 1.0, 0.0);",
+          "vec3 sunFragDir = sunLightColor * sunIntensity;",
+
+          "float ambIntensity = 0.75;",
+
+          "vec4 fragLight = vec4(0.0, 0.0, 0.0, 0.0);",
+
+          "fragLight.r = sunFragDir.r + ambientLightColor.r * ambIntensity ;",
+          "fragLight.g = sunFragDir.g + ambientLightColor.g * ambIntensity;",
+          "fragLight.b = sunFragDir.b + ambientLightColor.b * ambIntensity;",
+          "fragLight.a = 1.0;",
 
 
           "vec2 tileScale = 1.0/tx0tiles;",
@@ -695,8 +650,7 @@
           "float natureRow = 2.0 + biomeOffset;",
           "float natureStep = 0.03;",
 
-          "float slope = cos(vNormal.y*1.571)*3.14;",
-
+          "float slope = cos(fragNormal.y*1.571)*3.14;",
 
           "slope = slope * 0.998 + 0.03*slope*sin(scaledVPos.x * 200.0)  + 0.03*slope*cos(scaledVPos.y * 200.0);",
           "slope = slope * 0.998 + 0.03*slope*sin(scaledVPos.y * 742.0)  + 0.03*slope*cos(scaledVPos.x * 742.0);",
@@ -741,9 +695,9 @@
           "txColor = txColor - txColor*waterline*0.65 ;",
 
           "float shadowing = 1.0 - heightMapSample.b*0.55;",
-          "vec4 lightColor = vec4(sunDir, 1.0) * shadowing;",
+          "vec4 lightColor = vec4(sunFragDir, 1.0) * shadowing;",
           "float intensity = max( 0.01 + dot(txNmBase.rgb, sunLightDirection ) * 0.99, 0.0) * shadowing;",
-          "gl_FragColor = (shadowing * vColor * txColor * (intensity*0.25 + 0.75) + txColor * lightColor*intensity*2.0) * shadowing;",
+          "gl_FragColor = (shadowing * fragLight * txColor * (intensity*0.25 + 0.75) + txColor * lightColor*intensity*2.0) * shadowing;",
           "float fogFactor = min(fogDensity * fogDepth, 1.0);",
           "gl_FragColor.rgb = mix(gl_FragColor.rgb, fogColor,  fogFactor );",
 
@@ -800,7 +754,6 @@
           "uniform vec3 sunLightColor;",
 
           "uniform vec3 sunLightDirection;",
-          "varying vec3 sunDir;",
 
           "uniform vec3 fogColor;",
           "uniform float fogDensity;",
