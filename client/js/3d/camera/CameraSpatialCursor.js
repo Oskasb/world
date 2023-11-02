@@ -431,7 +431,7 @@ class CameraSpatialCursor {
     }
 
     updateSpatialCursor = function() {
-        let tpf = GameAPI.getFrame().tpf
+        let tpf = GameAPI.getFrame().avgTpf
 
         tempVec3.set(0, 1, 0);
         ThreeAPI.getCamera().up.lerp(tempVec3, tpf);

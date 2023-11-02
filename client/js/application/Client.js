@@ -110,7 +110,7 @@ class Client {
         function triggerFrame() {
             frame.frame ++;
             frame.tpf = clock.getDelta();
-
+            frame.avgTpf = ThreeAPI.getSetup().avgTpf;
             frame.elapsedTime = clock.elapsedTime;
 
 
