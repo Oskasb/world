@@ -4,10 +4,15 @@
       {
         "id":"TRAVEL_MODE_WALK",
         "data":{
+          "status": {
+            "ACTOR_SPEED": 2,
+            "ACTOR_YAW_RATE": 8,
+            "STATUS_FORWARD": 0
+          },
           "inputs": [
             {"class_name": "GuiAxisSlider",
               "widget_config": "widget_thumbstick",
-              "controls":["CONTROL_YAW","CONTROL_SPEED"],
+              "controls":["CONTROL_TILE_Z","CONTROL_TILE_X"],
               "options":{
                 "anchor": "stick_bottom_right",
                 "icon": "directional_arrows",
@@ -85,6 +90,11 @@
         "id":"TRAVEL_MODE_FLY",
         "data":{
           "camera_mode": "game_vehicle",
+          "status": {
+            "ACTOR_SPEED": 40,
+            "ACTOR_YAW_RATE": 4,
+            "STATUS_FORWARD": 0
+          },
           "inputs": [
             {"class_name": "GuiAxisSlider",
               "widget_config": "widget_thumbstick",

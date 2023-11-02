@@ -83,6 +83,14 @@ class PlayerMovementInputs {
             }
         }
 
+        let status = config['status']
+
+        if (status) {
+            for (let key in status) {
+                actor.setStatusKey(ENUMS.ActorStatus[key], status[key])
+            }
+        }
+
     }
 
 

@@ -135,7 +135,9 @@ if(typeof(ENUMS) === "undefined"){
         STATUS_CLIMB_4:'STATUS_CLIMB_4',
 
         STATUS_FORWARD:'STATUS_FORWARD',
-        STATUS_SPEED:'STATUS_SPEED'
+        STATUS_SPEED:'STATUS_SPEED',
+        ACTOR_SPEED:'ACTOR_SPEED',
+        ACTOR_YAW_RATE:'ACTOR_YAW_RATE'
     };
 
     ENUMS.Controls = {
@@ -144,6 +146,8 @@ if(typeof(ENUMS) === "undefined"){
         CONTROL_ROLL:'CONTROL_ROLL',
         CONTROL_YAW:'CONTROL_YAW',
         CONTROL_SPEED:'CONTROL_SPEED',
+        CONTROL_TILE_X:'CONTROL_TILE_X',
+        CONTROL_TILE_Z:'CONTROL_TILE_Z'
     }
 
     ENUMS.TravelMode = {

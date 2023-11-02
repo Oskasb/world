@@ -590,7 +590,7 @@ if(typeof(MATH) === "undefined") {
 	};
 
 	MATH.wrapValue = function(wrapRange, value) {
-		return MATH.clamp((wrapRange+value) % wrapRange - wrapRange*0.5, -wrapRange*0.5, wrapRange*0.5);
+		return MATH.clamp((wrapRange+value) % wrapRange, 0, wrapRange)-wrapRange*0.5;
 	};
 
 	MATH.subAngles = function(a, b) {
