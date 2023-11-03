@@ -96,7 +96,7 @@ class ControlFunctions {
                 actor.activateWalkGrid()
             } else {
                 let tileSelector = walkGrid.gridTileSelector;
-                tileSelector.getObj3D().position.x = tileSelector.getPos().x + value;
+                tileSelector.moveAlongX(value);
 
             }
         } else {
@@ -112,7 +112,7 @@ class ControlFunctions {
                 actor.activateWalkGrid()
             } else {
                 let tileSelector = walkGrid.gridTileSelector;
-                tileSelector.getObj3D().position.z = tileSelector.getPos().z + value;
+                tileSelector.moveAlongZ(value);
             }
         }
     }

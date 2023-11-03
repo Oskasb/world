@@ -12,11 +12,11 @@
           "inputs": [
             {"class_name": "GuiAxisSlider",
               "widget_config": "widget_thumbstick",
-              "controls":["CONTROL_TILE_Z","CONTROL_TILE_X"],
+              "controls":["CONTROL_TILE_X","CONTROL_TILE_Z"],
               "options":{
                 "anchor": "stick_bottom_right",
                 "icon": "directional_arrows",
-                "axis": [1, 1],
+                "axis": [-1, 1],
                 "release": [1, 1],
                 "range": [0.08, 0.08]
               }

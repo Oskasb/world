@@ -90,8 +90,8 @@
                         {
                             "particle_id": "stamp_normal_pool",
                             "spawner_id": "normal_stamps_8x8",
-                            "size_min": 45,
-                            "size_max": 45,
+                            "size_min": 110,
+                            "size_max": 110,
                             "attack_time": 0.2,
                             "release_time": 0.2,
                             "color_min": [-0.5, 1, -0.3, 0.5],

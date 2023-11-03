@@ -6,7 +6,7 @@ let cfgDefault = {
     "sprite": [3, 5],
     "height": 2.6,
     "rgba": [1, 0.1, 0.9, 1],
-    "size": 3
+    "size": 1
 }
 
 let attachEncounterFx = function(indicator) {
