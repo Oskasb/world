@@ -50,7 +50,7 @@ class GridTileSelector {
 
         let updateTileSelector = function() {
 
-            if (this.moveVec3.lengthSq() < 0.000001) {
+            if (this.moveVec3.lengthSq() < 0.01) {
                 return;
             }
 
