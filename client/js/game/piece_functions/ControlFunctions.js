@@ -95,33 +95,24 @@ class ControlFunctions {
             if (!walkGrid.isActive) {
                 actor.activateWalkGrid()
             } else {
-                let cursorPos = ThreeAPI.getCameraCursor().getCursorObj3d().position;
-                calcVec.set(0, 0, value);
-                calcVec.applyQuaternion(actor.actorObj3d.quaternion);
-                cursorPos.add(calcVec);
-                actor.prepareTilePath(cursorPos);
-                actor.moveActorOnGridTo(cursorPos, pathCompletedCallback)
+                let tileSelector = walkGrid.gridTileSelector;
+                tileSelector.getObj3D().position.x = tileSelector.getPos().x + value;
+
             }
         } else {
             if (walkGrid.isActive) {
-            //    let cursorPos = ThreeAPI.getCameraCursor().getCursorObj3d().position;
-            //    actor.prepareTilePath(cursorPos);
 
-            //    walkGrid.deactivateWalkGrid()
             }
         }
     }
     CONTROL_TILE_Z(value, actor) {
+        let walkGrid = actor.getGameWalkGrid();
         if (value !== 0) {
-            let walkGrid = actor.getGameWalkGrid();
             if (!walkGrid.isActive) {
-
+                actor.activateWalkGrid()
             } else {
-                let cursorPos = ThreeAPI.getCameraCursor().getCursorObj3d().position;
-                calcVec.set(value, 0, 0);
-                calcVec.applyQuaternion(actor.actorObj3d.quaternion);
-                cursorPos.add(calcVec);
-                // actor.prepareTilePath(cursorPos);
+                let tileSelector = walkGrid.gridTileSelector;
+                tileSelector.getObj3D().position.z = tileSelector.getPos().z + value;
             }
         }
     }

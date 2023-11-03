@@ -5,6 +5,7 @@ import { DynamicGrid} from "./DynamicGrid.js";
 import { DynamicPath } from "./DynamicPath.js";
 import { DynamicWalker} from "./DynamicWalker.js";
 import * as ScenarioUtils from "./ScenarioUtils.js";
+import { GridTileSelector } from "../piece_functions/GridTileSelector.js";
 import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
 
 let centerTileIndexX = 0;
@@ -15,6 +16,7 @@ class GameWalkGrid {
         this.dynamicPath = new DynamicPath();
         this.dynamicGrid = new DynamicGrid();
         this.dynamicWalker = new DynamicWalker();
+        this.gridTileSelector = new GridTileSelector();
         this.isActive = false;
 
         this.dataId = null;
@@ -67,7 +69,12 @@ class GameWalkGrid {
 
         if (this.isActive) {
             this.deactivateWalkGrid();
+        } else {
+            this.gridTileSelector.setPos(this.hostObj3d.position);
+            this.gridTileSelector.activateGridTileSelector()
         }
+
+
 
             console.log("Activate Walk Grid", this.hostObj3d.position)
             if (this.dataId !== "grid_walk_world") {
@@ -162,7 +169,7 @@ class GameWalkGrid {
 
     deactivateWalkGrid() {
         console.log("Deactivate Walk Grid:", this)
-
+        this.gridTileSelector.deactivateGridTileSelector()
         let activePath = this.getActiveTilePath();
 
         while (activePath.pathCompetedCallbacks.length) {
