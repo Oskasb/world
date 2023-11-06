@@ -49,9 +49,14 @@ class GameWalkGrid {
             this.updateWalkGrid();
         }.bind(this);
 
+        let deactivate = function() {
+            this.deactivateWalkGrid();
+        }.bind(this);
+
         this.call = {
             configUpdate:configUpdate,
-            updateWalkGrid:updateWalkGrid
+            updateWalkGrid:updateWalkGrid,
+            deactivate:deactivate
         }
     }
 
@@ -73,8 +78,6 @@ class GameWalkGrid {
             this.gridTileSelector.setPos(this.hostObj3d.position);
             this.gridTileSelector.activateGridTileSelector()
         }
-
-
 
             console.log("Activate Walk Grid", this.hostObj3d.position)
             if (this.dataId !== "grid_walk_world") {
@@ -158,6 +161,8 @@ class GameWalkGrid {
     getGridMovementObj3d = function() {
         return this.moveObj3d;
     }
+
+
 
     updateWalkGrid = function() {
         let origin = this.hostObj3d.position; // ThreeAPI.getCameraCursor().getPos();

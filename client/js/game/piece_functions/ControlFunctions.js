@@ -88,32 +88,30 @@ class ControlFunctions {
     }
 
 
-
     CONTROL_TILE_X(value, actor) {
-        let walkGrid = actor.getGameWalkGrid();
         if (value !== 0) {
-            if (!walkGrid.isActive) {
-                actor.activateWalkGrid()
-            } else {
+            if (actor.getStatus(ENUMS.ActorStatus.SELECTING_DESTINATION)) {
+                let walkGrid = actor.getGameWalkGrid();
                 let tileSelector = walkGrid.gridTileSelector;
                 tileSelector.moveAlongX(value);
-
-            }
-        } else {
-            if (walkGrid.isActive) {
-
             }
         }
     }
     CONTROL_TILE_Z(value, actor) {
-        let walkGrid = actor.getGameWalkGrid();
         if (value !== 0) {
-            if (!walkGrid.isActive) {
-                actor.activateWalkGrid()
-            } else {
+            if (actor.getStatus(ENUMS.ActorStatus.SELECTING_DESTINATION)) {
+                let walkGrid = actor.getGameWalkGrid();
                 let tileSelector = walkGrid.gridTileSelector;
                 tileSelector.moveAlongZ(value);
             }
+        }
+    }
+
+    CONTROL_MOVE_ACTION(value, actor) {
+        if (value === 1) {
+            actor.actorMovement.tileSelectionActive(actor);
+        } else if (value === 2){
+            actor.actorMovement.tileSelectionCompleted(actor);
         }
     }
 

@@ -6,17 +6,16 @@ let classNames = {
     'GuiAxisFeedback':GuiAxisFeedback
 }
 
-
 class PlayerMovementInputs {
     constructor() {
         this.inputWidgets = [];
     }
 
-
     attachInputWidget(inputConfig, actor) {
 
         let widgets = this.inputWidgets;
         let controls = inputConfig['controls'];
+        let on_active = inputConfig['on_active'] || [];
         let onUpdate = function(values) {
             for (let i = 0; i < values.length; i++) {
                 if (controls[i]) {
@@ -25,10 +24,17 @@ class PlayerMovementInputs {
             }
         }
 
+        let onActivate = function(bool) {
+            for (let i = 0; i < on_active.length; i++) {
+                actor.setControlKey(on_active[i], bool)
+            }
+        }
+
         let widgetReadyCB = function(inputWidget) {
             console.log("WidgetReady:", inputWidget);
         //    inputWidget.guiWidget.applyWidgetOptions(inputConfig['options'])
             inputWidget.addInputUpdateCallback(onUpdate)
+            inputWidget.addOnActivateCallback(onActivate)
             widgets.push(inputWidget)
         }
 

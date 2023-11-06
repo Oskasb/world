@@ -46,11 +46,12 @@ class GridTileSelector {
         this.initPos = new Vector3();
         this.moveVec3 = new Vector3();
         this.framePos = new Vector3();
+        this.translation = new Vector3();
         this.effects = [];
 
         let updateTileSelector = function() {
 
-            if (this.moveVec3.lengthSq() < 0.01) {
+            if (!this.hasValue()) {
                 return;
             }
 
@@ -60,7 +61,10 @@ class GridTileSelector {
             this.obj3d.lookAt(this.moveVec3);
             this.obj3d.rotateX(-MATH.HALF_PI);
             this.framePos.addVectors(this.initPos, this.moveVec3);
-
+            this.framePos.y = ThreeAPI.terrainAt(this.framePos)+0.2
+            this.moveVec3.y = this.framePos.y - this.initPos.y;
+            this.translation.copy(this.framePos);
+            this.translation.sub(this.initPos);
             for (let i = 0; i < this.effects.length; i++) {
                 let effect = this.effects[i]
                 effect.setEffectPosition(this.framePos)
@@ -75,8 +79,17 @@ class GridTileSelector {
 
     }
 
+    hasValue() {
+        if (this.moveVec3.lengthSq() * 0.1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     setPos(posVec) {
         this.initPos.copy(posVec);
+        this.initPos.y = ThreeAPI.terrainAt(this.initPos)+0.2
     }
 
     getPos() {
@@ -84,7 +97,6 @@ class GridTileSelector {
     }
 
     moveAlongX(value) {
-        console.log("moveAlongX", value)
         this.moveVec3.x = value * 10;
     }
 
@@ -99,7 +111,6 @@ class GridTileSelector {
     addEffect(effect) {
         this.effects.push(effect);
     }
-
 
 
     activateGridTileSelector() {

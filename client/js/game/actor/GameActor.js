@@ -6,6 +6,7 @@ import { ActorTurnSequencer } from "./ActorTurnSequencer.js";
 import { ActorStatus } from "./ActorStatus.js";
 import { ControlState} from "../piece_functions/ControlState.js";
 import { ActorText } from "../../application/ui/gui/game/ActorText.js";
+import { ActorMovement } from "./ActorMovement.js";
 import { TravelMode } from "./TravelMode.js";
 
 let index = 0;
@@ -19,6 +20,7 @@ class GameActor {
         this.actorStatus = new ActorStatus();
         this.controlState = new ControlState();
         this.travelMode = new TravelMode();
+        this.actorMovement = new ActorMovement();
         this.activated = false;
         this.actorObj3d = new Object3D();
         this.config = config;

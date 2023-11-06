@@ -10,7 +10,18 @@ let applyPositionOffset = function(guiAxisSlider) {
 };
 
 let onPressStart = function(guiAxisSlider, guiPointer) {
+    let options = guiAxisSlider.options;
     console.log("SLider press start", guiPointer);
+    for (let i = 0; i < guiAxisSlider.onActivateCallbacks.length; i++) {
+        guiAxisSlider.onActivateCallbacks[i](1);
+    }
+};
+
+let onPressActivate = function(guiAxisSlider) {
+    console.log("SLider press activate", guiAxisSlider);
+    for (let i = 0; i < guiAxisSlider.onActivateCallbacks.length; i++) {
+        guiAxisSlider.onActivateCallbacks[i](2);
+    }
 };
 
 let onSurfaceRelease = function(guiAxisSlider) {
@@ -101,6 +112,7 @@ class GuiAxisSlider {
         this.inputIndex = -1;
         this.pressActive = false;
         this.applyInputCallbacks = [];
+        this.onActivateCallbacks = [];
         this.activeGuiPointer = null;
 
         let guiAxisSlider = this;
@@ -113,6 +125,13 @@ class GuiAxisSlider {
             }
         };
 
+        let onActivate = function(index) {
+            if ( guiAxisSlider.inputIndex === index) {
+                onPressActivate(guiAxisSlider)
+            }
+
+        }
+
         let inputUpdate = function(index, pointerState) {
             if (guiAxisSlider.activeGuiPointer === pointerState.guiPointer) {
                 if (pointerState.action[0]) {
@@ -123,12 +142,15 @@ class GuiAxisSlider {
             }
         };
 
+
+
         let frameUpdate = function(tpf, time) {
             onFrameUpdate(guiAxisSlider, tpf, time)
         };
 
         this.callbacks = {
             onPressStart:pressStart,
+            onActivate:onActivate,
             onInputUpdate:inputUpdate,
             onFrameUpdate:frameUpdate
         }
@@ -138,6 +160,7 @@ class GuiAxisSlider {
         let widgetRdy = function(widget) {
             widget.applyWidgetOptions(this.options)
             widget.getWidgetSurface().addOnPressStartCallback(this.callbacks.onPressStart);
+            widget.getWidgetSurface().addOnActivateCallback(this.callbacks.onActivate);
             widget.enableWidgetInteraction();
             onReady(this)
         }.bind(this);
@@ -151,10 +174,15 @@ class GuiAxisSlider {
         this.applyInputCallbacks.push(applyInputUpdate)
     };
 
+    addOnActivateCallback = function(onActivateCB) {
+        this.onActivateCallbacks.push(onActivateCB)
+    };
+
     removeGuiWidget = function() {
         ThreeAPI.unregisterPrerenderCallback(this.callbacks.onFrameUpdate);
         GuiAPI.removeInputUpdateCallback(this.callbacks.onInputUpdate);
         MATH.emptyArray(this.applyInputCallbacks);
+        MATH.emptyArray(this.onActivateCallbacks);
         this.guiWidget.recoverGuiWidget()
     };
 

@@ -13,6 +13,7 @@
             {"class_name": "GuiAxisSlider",
               "widget_config": "widget_thumbstick",
               "controls":["CONTROL_TILE_X","CONTROL_TILE_Z"],
+              "on_active": ["CONTROL_MOVE_ACTION"],
               "options":{
                 "anchor": "stick_bottom_right",
                 "icon": "directional_arrows",
