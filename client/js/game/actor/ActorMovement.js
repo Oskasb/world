@@ -25,11 +25,13 @@ class ActorMovement {
             if (tileSelector.hasValue()) {
                 console.log("MOVE ACTION - deactivate")
                 actor.prepareTilePath(tileSelector.getPos());
-                actor.moveActorOnGridTo(tileSelector.getPos(), walkGrid.call.deactivate)
+            //    actor.moveActorOnGridTo(tileSelector.getPos(), walkGrid.call.deactivate)
+                walkGrid.applySelectedPath(ThreeAPI.getCameraCursor().call.updatePathingCamera, ThreeAPI.getCameraCursor().call.pathCompletedCallback)
             }
+
             tileSelector.moveAlongX(0);
             tileSelector.moveAlongZ(0);
-        }
+              }
     }
 
 }

@@ -94,26 +94,28 @@ function processTileSelectionCursorInput(tilePath, cursorObj3d, camLookAtVec, dr
 function processTilePathingCamera(tilePath, cursorObj3d, camLookAtVec, camTargetPos, walkForward) {
     tempVec3.copy(cursorObj3d.position);
     let endPos = tilePath.getEndTile().getPos()
-    tempVec1.subVectors(endPos, tempVec3 );
+    tempVec1.subVectors(endPos, cursorObj3d.position );
     let inputForce = tempVec1.length();
 
     calcVec.copy(tempVec1);
 
     calcVec.multiplyScalar( -0.7);
-    calcVec.add(tempVec3);
-    camTargetPos.copy(calcVec);
+    calcVec.add(cursorObj3d.position);
+    camTargetPos.copy(cursorObj3d.position);
     calcVec.copy(walkForward)
-    calcVec.multiplyScalar(1.2)
+    calcVec.multiplyScalar(2.5)
+    camLookAtVec.copy(cursorObj3d.position);
+    camLookAtVec.add(calcVec);
     camTargetPos.sub(calcVec);
 
-    camTargetPos.y = tempVec3.y + camTargetPos.distanceTo(tempVec3) * 0.25 + 0.9 +inputForce * 0.2;
+    camTargetPos.y = cursorObj3d.position.y + 2;
 
     tempVec1.multiplyScalar(0.5);
-    camLookAtVec.copy(tempVec3);
-    camLookAtVec.add(tempVec1);
+
+
 
     camTargetPos.y += inputForce*0.7;
-    camLookAtVec.y += 1.1 - inputForce*0.3;
+    camLookAtVec.y += 2;
 
     return inputForce;
 }

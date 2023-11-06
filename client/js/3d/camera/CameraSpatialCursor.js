@@ -218,11 +218,30 @@ let updateWalkCamera = function(activeTilePath) {
 
 }
 
-let updateTileSelectorActive = function(tileSelector) {
-    calcVec.copy(camLookAtVec)
-    camLookAtVec.lerp(tileSelector.getPos(), tpf * 4);
-    calcVec.sub(camLookAtVec);
-    camPosVec.sub(calcVec)
+let updateTileSelectorActive = function(actor, tileSelector) {
+
+    let targetDistance = 8;
+    let targetElevation = 4;
+    tempVec3.set(0, 0, -targetDistance);
+    tempVec3.applyQuaternion(cursorObj3d.quaternion);
+    tempVec3.add(cursorObj3d.position);
+    cursorObj3d.position.copy(actor.getPos());
+    calcVec.copy(tileSelector.translation);
+    calcVec.multiplyScalar(0.5);
+    cursorObj3d.position.add(calcVec);
+    let distance = tileSelector.translation.length();
+    tempVec3.y += targetElevation + distance * 1.5
+    MATH.lerpClamped(camPosVec, tempVec3, tpf*distance, 0.05, 0.5);
+
+    if (tileSelector.hasValue()) {
+
+        calcVec.copy(camLookAtVec)
+        MATH.lerpClamped(camLookAtVec, cursorObj3d.position, tpf*distance, 0.05, 0.5);
+        cursorObj3d.position.copy(camLookAtVec);
+        calcVec.sub(camLookAtVec);
+        camPosVec.sub(calcVec)
+    }
+
 }
 
 
@@ -242,7 +261,7 @@ let pathCompletedCallback = function(movedObj3d) {
 let updatePathingCamera = function(tilePath, movedObj3d) {
 
     walkForward.set(0, 0, 1);
-    walkForward.applyQuaternion(cursorObj3d.quaternion);
+    walkForward.applyQuaternion(movedObj3d.quaternion);
     cursorObj3d.position.copy(movedObj3d.position)
     let inputForce = CursorUtils.processTilePathingCamera(tilePath, movedObj3d, calcVec, tempVec3, walkForward)
 
@@ -255,7 +274,7 @@ let updatePathingCamera = function(tilePath, movedObj3d) {
     if (tilePath) {
         if (tilePath.pathTiles.length > 1) {
             camLookAtVec.lerp(calcVec, tpf*7);
-            camTargetPos.lerp(tempVec3, tpf*2);
+            camTargetPos.lerp(tempVec3, tpf*7);
         }
     }
 
@@ -390,7 +409,10 @@ class CameraSpatialCursor {
             setCamMode:setCamMode,
             activePointerUpdate:activePointerUpdate,
             setNavPoint:setNavPoint,
-            setFocusObj3d:setFocusObj3d
+            setFocusObj3d:setFocusObj3d,
+            updatePathingCamera:updatePathingCamera,
+            pathCompletedCallback:pathCompletedCallback
+
         }
 
     }
@@ -475,17 +497,17 @@ class CameraSpatialCursor {
     //    cursorTravelVec.add(cursorForward)
 
         let tileSelector;
-        let isTileSelecting;
+        let isTileSelecting = false;
         if (selectedActor) {
             let walkGrid = selectedActor.getGameWalkGrid();
-            if (walkGrid.isActive) {
+            if (selectedActor.getStatus(ENUMS.ActorStatus.SELECTING_DESTINATION) === 1) {
                 tileSelector = walkGrid.gridTileSelector;
-                isTileSelecting = tileSelector.hasValue()
+                isTileSelecting = true;
             }
         }
 
         if (isTileSelecting) {
-            updateTileSelectorActive(tileSelector);
+            updateTileSelectorActive(selectedActor, tileSelector);
         } else {
             if (camParams.mode === camModes.worldDisplay) {
                 updateWorldDisplay();

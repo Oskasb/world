@@ -625,6 +625,10 @@ if(typeof(MATH) === "undefined") {
 		return calcVec1.length();
 	}
 
+	MATH.lerpClamped = function(targetVec3, towardsVec3, alpha, min, max) {
+		targetVec3.lerp(towardsVec3, this.clamp(alpha, min || -1, max || 1))
+	}
+
     MATH.expandVector = function(vec, expand) {
         vec.x += expand*Math.sign(vec.x);
         vec.y += expand*Math.sign(vec.y);

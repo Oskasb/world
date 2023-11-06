@@ -126,15 +126,14 @@ class GameWalkGrid {
                 activePath.pathCompetedCallbacks.push(onCompletedCB)
             }
 
-    if (onUpdateCB) {
-        activePath.pathingUpdateCallbacks.push(onUpdateCB);
-    }
+        if (onUpdateCB) {
+            activePath.pathingUpdateCallbacks.push(onUpdateCB);
+        }
 
             this.walkObj3dAlongPath(this.moveObj3d)
         } else {
             this.deactivateWalkGrid();
         }
-
 
     }
 
