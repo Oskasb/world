@@ -173,7 +173,7 @@ class Plant {
         this.startTime = client.getFrame().systemTime -0.02;
         endTime = this.startTime + 9999999;
 
-        this.geoInstance.setAttribXYZW('lifecycle', this.startTime, attackTime - nearness*attackTime, endTime, decayTime)
+        this.geoInstance.setAttribXYZW('lifecycle', this.startTime, attackTime - MATH.curveSqrt(nearness)*attackTime, endTime, decayTime)
 
     };
 

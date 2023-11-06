@@ -338,11 +338,11 @@
           "waveBig.y = waveZ1 + waveZ2;",
           "vPosition.y = (waveSmall.y*0.06 + waveBig.y*0.07)*elevationInfluence;",
 
-          "waveNormal.y = 1.0 + waveSmall.y*0.25*elevationInfluence + waveBig.y*0.25*elevationInfluence;",
-          "waveNormal.x = (waveSmall.x*0.05 +waveZ1*0.01)*elevationInfluence;",
-          "waveNormal.z = (waveSmall.z*0.05 +waveZ2*0.01)*elevationInfluence;",
-          "vPosition.x += waveNormal.x*2.5;",
-          "vPosition.z += waveNormal.z*2.5;",
+          "waveNormal.y = 1.0 + waveSmall.y*0.15*elevationInfluence + waveBig.y*0.15*elevationInfluence;",
+          "waveNormal.x = (waveSmall.x*0.05 +waveZ1*0.05)*elevationInfluence;",
+          "waveNormal.z = (waveSmall.z*0.05 +waveZ2*0.05)*elevationInfluence;",
+          "vPosition.x += waveNormal.x*4.5;",
+          "vPosition.z += waveNormal.z*4.5;",
 
           "waveNormal = normalize(waveNormal);",
 
