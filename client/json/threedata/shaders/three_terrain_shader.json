@@ -279,9 +279,14 @@
 
           "vec3 scalePos = position*1.0;",
 
-          "float elevationScale = 0.1;",
+          "float elementScale = texelRowSelect.w*1.0;",
+          "float outerness =  texelRowSelect.z;",
 
-          "elevationFactor = 1.0 + floor(cameraPosition.y * elevationScale);",
+          "elevationFactor = 1.0+outerness;",
+
+          "float elevationScale = 0.05;",
+
+          "elevationFactor = 1.0 + floor(cameraPosition.y * elevationScale) + outerness;",
 
           "float elevationInfluence = 1.0 * max(0.0, 1.0 - ((cameraPosition.y) * elevationScale*0.3));",
 
@@ -535,7 +540,7 @@
           "float elementScale = texelRowSelect.w*1.0;",
           "float outerness =  texelRowSelect.z;",
 
-          "elevationFactor = (1.0+floor(cameraPosition.y * 0.0001))*outerness;",
+          "elevationFactor = 1.0+outerness;",
 
           "float txw = heightmaptiles.z;",
           "float txPointOffset = 1.0/(txw+1.0);",

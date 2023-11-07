@@ -27,6 +27,7 @@ let terrainUpdate = false;
 let terrainParams = {}
 
 let groundInstances = [];
+let oceanInstances = [];
 
 let globalUpdateFrame = 0;
 let setupHeightmapData = function(originalModelMat) {
@@ -120,12 +121,34 @@ let setupHeightmapData = function(originalModelMat) {
 
 let bigWorldOuter = null;
 
+//  bigWorldOuter.setAttributev4('texelRowSelect',{x:1, y:1, z:groundInstances.length, w:groundInstances.length*2})
+
+let centerSize = 100;
+let lodLayers = 4;
+let gridOffsets = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]]
+
 let updateBigGeo = function(tpf) {
     let posX = Math.floor(lodCenter.x)
     let posZ = Math.floor(lodCenter.z)
-    bigOcean.getSpatial().setPosXYZ(posX, -3.0, posZ);
-    for (let i = 0; i < groundInstances.length; i++) {
-        groundInstances[i].getSpatial().setPosXYZ(posX, 0.0, posZ);
+//    bigOcean.getSpatial().setPosXYZ(posX, -3.0, posZ);
+    oceanInstances[0].getSpatial().setPosXYZ(posX, -3.0, posZ);
+    groundInstances[0].getSpatial().setPosXYZ(posX, 0.0, posZ);
+    let index = 1;
+    for (let l = 0; l < lodLayers; l++) {
+        let lodLayer = l;
+
+        for (let i = 0; i < gridOffsets.length; i++) {
+            let lodScale = lodLayer*lodLayer+1;
+        //    let tileIndex = index+lodLayer*
+            let ground = groundInstances[index]
+            let ocean = oceanInstances[index]
+            ocean.getSpatial().setPosXYZ(posX + centerSize*gridOffsets[i][0]*lodScale, -3.0, posZ + centerSize*gridOffsets[i][1]*lodScale);
+            ground.getSpatial().setPosXYZ(posX + centerSize*gridOffsets[i][0]*lodScale, 0.0, posZ + centerSize*gridOffsets[i][1]*lodScale);
+
+            ocean.setAttributev4('texelRowSelect',{x:1, y:1, z:lodScale, w:lodScale*2})
+            ground.setAttributev4('texelRowSelect',{x:1, y:1, z:lodScale, w:lodScale*2})
+            index++
+        }
     }
 
     if (terrainUpdate) {
@@ -146,7 +169,6 @@ let materialModel = function(model) {
 
 let oceanModel = function(model) {
     oceanMaterial = model.originalModel.material.mat;
-    bigOcean = model;
 }
 
 class TerrainBigGeometry {
@@ -224,28 +246,28 @@ class TerrainBigGeometry {
 
         let updateBigGeo = this.call.updateBigGeo;
 
-        let bigGround = function(model) {
-            bigWorldOuter = model;
-            bigWorldOuter.setAttributev4('texelRowSelect',{x:1, y:1, z:groundInstances.length, w:groundInstances.length*2})
-            groundInstances.push(model);
-        }
-
         let groundCB = function(model) {
-            groundInstances.push(model);
-            materialModel(model)
-            model.setAttributev4('texelRowSelect',{x:1, y:1, z:1, w:1})
-            ThreeAPI.addPrerenderCallback(updateBigGeo)
-            for (let i = 0; i < 8; i++) {
-                client.dynamicMain.requestAssetInstance("asset_ground_big_outer", bigGround)
+            if (groundInstances.length === 0) {
+                materialModel(model)
+                ThreeAPI.addPrerenderCallback(updateBigGeo)
             }
+            groundInstances.push(model);
+            model.setAttributev4('texelRowSelect',{x:1, y:1, z:1, w:1})
         }
 
         let oceanCB = function(model) {
-            oceanModel(model)
+            if (oceanInstances.length === 0) {
+                oceanModel(model)
+            }
+            oceanInstances.push(model);
             client.dynamicMain.requestAssetInstance("asset_ground_big", groundCB)
         }
 
         client.dynamicMain.requestAssetInstance("asset_ocean_big", oceanCB)
+
+        for (let i = 0; i < 8*lodLayers; i++) {
+            client.dynamicMain.requestAssetInstance("asset_ocean_big", oceanCB)
+        }
 
     }
 
