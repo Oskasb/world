@@ -104,6 +104,8 @@
         {"id": "file_ground_big",      "config": { "url": "./client/assets/models/shapes/ground_big_stretch"                              }},
         {"id": "file_ground_big_outer",      "config": { "url": "./client/assets/models/shapes/ground_big_stretch_outer"           }},
         {"id": "file_unit_grid_102",      "config": { "url": "./client/assets/models/shapes/unit_grid_102"                         }},
+        {"id": "file_unit_grid_82",      "config": { "url": "./client/assets/models/shapes/unit_grid_82"                         }},
+        {"id": "file_unit_grid_52",      "config": { "url": "./client/assets/models/shapes/unit_grid_52"                         }},
         {"id": "file_grid_256",      "config": { "url": "./client/assets/models/shapes/grid_256"                                   }},
         {"id": "file_grid_127",      "config": { "url": "./client/assets/models/shapes/grid_127"                                   }},
 

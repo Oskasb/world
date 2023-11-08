@@ -393,10 +393,15 @@ function getTerrainGeos() {
     return terrainGeometries;
 }
 
+function getTerrainBigGeo() {
+    return terrainBigGeometry;
+}
+
 class ThreeTerrain {
     constructor() {
 
         this.call = {
+            getTerrainBigGeo:getTerrainBigGeo,
             getTerrainGeos:getTerrainGeos,
             getLodCenter:getLodCenter,
             getHeightAndNormal:getHeightAndNormal,
@@ -420,7 +425,7 @@ class ThreeTerrain {
             //    console.log("terrainListLoaded", data, terrainMaterial, terrainMaterial.getMaterialById(terrainId));
             gridConfig = data['grid']
             constructGeometries(data['height_map'], data['transform'], data['ground'], data['section_info']);
-            terrainBigGeometry.initBigTerrainGeometry(terrainCenter, data['height_map'], data['transform'], data['ground'], data['section_info']);
+            terrainBigGeometry.initBigTerrainGeometry(ThreeAPI.getCamera().position, data['height_map'], data['transform'], data['ground'], data['section_info']);
             matLoadedCB();
 
         };
@@ -532,7 +537,7 @@ class ThreeTerrain {
 
         CursorUtils.processTerrainLodCenter(lodCenter, terrainCenter)
 
-            dynamicLodGrid.updateDynamicLodGrid(terrainCenter, tileUpdateCB, 0);
+            dynamicLodGrid.updateDynamicLodGrid(terrainCenter, tileUpdateCB, 4);
 
             drawTilesByLodGrid(updateFrame)
     }

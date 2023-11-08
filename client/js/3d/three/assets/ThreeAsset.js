@@ -51,7 +51,6 @@ class ThreeAsset  {
             MATH.splice(instances , modelInstance);
         }
 
-        //     client.dynamicMain.instances.splice( client.dynamicMain.instances.indexOf(modelInstance), 1)
     };
 }
 

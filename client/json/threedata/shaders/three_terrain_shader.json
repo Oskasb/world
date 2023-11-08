@@ -284,7 +284,7 @@
 
           "elevationFactor = elementScale;",
 
-          "float elevationScale = 0.05;",
+          "float elevationScale = 0.02;",
           "float upscale = max(1.0, floor(cameraPosition.y * elevationScale));",
           "float elevationInfluence = 1.0 * max(0.0, 1.0 - ((cameraPosition.y) * elevationScale*0.3));",
 
@@ -306,8 +306,8 @@
 
           "float shift = txPointOffset * 1.0;",
           "float shiftSubOne = 1.0/(txw-1.0);",
-          "center.x = floor(upscale*offset.x / elevationFactor) * elevationFactor;",
-          "center.y = floor(upscale*offset.z / elevationFactor) * elevationFactor;",
+          "center.x = floor(offset.x / elevationFactor) * elevationFactor;",
+          "center.y = floor(offset.z / elevationFactor) * elevationFactor;",
           "minHeight = -3.0;",
           "maxHeight = 0.0;",
 

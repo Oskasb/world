@@ -66,6 +66,7 @@ let setupDebug = function(gameApi) {
     let collectDebugStats = function() {
 
         debugStats.gameCBs = gameMain.onUpdateCallbacks.length;
+        debugStats.visGeos = ThreeAPI.getTerrainSystem().getTerrain().call.getTerrainBigGeo().getVisibleCount();
         debugStats.procTime = (gameMain.frameEnd - gameMain.frameStart) * 1000;
         debugStats.model = worldModels.getWorldModelCount();
         debugStats.boxes = worldModels.getWorldBoxCount()

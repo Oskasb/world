@@ -135,7 +135,7 @@ class InstanceBuffer {
 
     setInstancedCount = function(count) {
         if (count) {
-        //    console.log("Set draw range: ", count);
+        //    console.log("Set draw range: ", count, [this]);
         }
         this.mesh.geometry.maxInstancedCount = count;
         this.mesh.geometry.needsUpdate = true;

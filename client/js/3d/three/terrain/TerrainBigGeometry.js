@@ -3,6 +3,7 @@ import {Mesh} from "../../../../libs/three/objects/Mesh.js";
 import {MeshBasicMaterial} from "../../../../libs/three/materials/MeshBasicMaterial.js";
 import {DoubleSide} from "../../../../libs/three/constants.js";
 import {Vector3} from "../../../../libs/three/math/Vector3.js";
+import {borrowBox, cubeTestVisibility, aaBoxTestVisibility} from "../../ModelUtils.js";
 
 let bigWorld = null;
 let bigOcean = null;
@@ -123,11 +124,88 @@ let bigWorldOuter = null;
 
 //  bigWorldOuter.setAttributev4('texelRowSelect',{x:1, y:1, z:groundInstances.length, w:groundInstances.length*2})
 
-let centerSize = 100;
-let lodLayers = 3;
+let centerSize = 50;
+let lodLayers = 4;
 let gridOffsets = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]]
 let layerScale = [1, 3, 9, 27, 81]
+let tempPoint = new Vector3();
 
+let activeGround = [];
+let activeOcean = [];
+let availableGround = [];
+let availableOcean = [];
+
+let addGroundSection = function(lodScale, x, z, index) {
+
+    if (activeGround[index]) {
+        console.log("Old not removed!")
+        return;
+    }
+
+    let groundCB = function(ground) {
+        activeGround[index] = ground;
+        positionSectionInstance(ground, lodScale, x, 0.0, z);
+    }
+
+    client.dynamicMain.requestAssetInstance("asset_ground_big", groundCB)
+
+}
+
+let addOceanSection = function(lodScale, x, z, index) {
+
+    if (activeOcean[index]) {
+        console.log("Old not removed!")
+        return;
+    }
+
+    let oceanCB = function(ocean) {
+        activeOcean[index] = ocean;
+        positionSectionInstance(ocean, lodScale, x, -3.0, z);
+    }
+
+    client.dynamicMain.requestAssetInstance("asset_ocean_big", oceanCB)
+
+}
+
+let attachSection = function(lodScale, x, z, index) {
+
+    if (availableGround.length === 0) {
+        addGroundSection(lodScale, x, z, index)
+    } else {
+        let ground = availableGround.pop();
+        activeGround[index] = ground;
+        positionSectionInstance(ground, lodScale, x, 0.0, z);
+    }
+
+    if (availableOcean.length === 0) {
+        addOceanSection(lodScale, x, z, index)
+    } else {
+        let ocean = availableOcean.pop();
+        activeOcean[index] = ocean;
+        positionSectionInstance(ocean, lodScale, x, -3.0, z);
+    }
+
+}
+
+let positionSectionInstance = function(instance, lodScale, x, y, z) {
+    instance.getSpatial().setPosXYZ(x, y, z);
+    instance.setAttributev4('texelRowSelect',{x:1, y:1, z:lodScale, w:lodScale})
+}
+
+let detachSection = function(index) {
+//    availableGround.push(activeGround[index])
+//    availableOcean.push(activeOcean[index])
+    activeGround[index].decommissionInstancedModel()
+    activeOcean[index].decommissionInstancedModel()
+
+    positionSectionInstance(activeGround[index], 0, 9880, 4 + 2*index, 530)
+    positionSectionInstance(activeOcean[index],  0, 9890, 4 + 2*index, 530)
+    activeGround[index] = null;
+    activeOcean[index] = null;
+}
+
+let visibilityList = [];
+let visibleCount = 0;
 let updateBigGeo = function(tpf) {
     let posX = Math.floor(lodCenter.x)
     let posZ = Math.floor(lodCenter.z)
@@ -135,19 +213,37 @@ let updateBigGeo = function(tpf) {
     oceanInstances[0].getSpatial().setPosXYZ(posX, -3.0, posZ);
     groundInstances[0].getSpatial().setPosXYZ(posX, 0.0, posZ);
     let index = 1;
+    visibleCount = 0;
     for (let l = 0; l < lodLayers; l++) {
         let lodLayer = l;
 
         for (let i = 0; i < gridOffsets.length; i++) {
             let lodScale = layerScale[lodLayer]
         //    let tileIndex = index+lodLayer*
-            let ground = groundInstances[index]
-            let ocean = oceanInstances[index]
-            ocean.getSpatial().setPosXYZ(posX + centerSize*gridOffsets[i][0]*lodScale, -3.0, posZ + centerSize*gridOffsets[i][1]*lodScale);
-            ground.getSpatial().setPosXYZ(posX + centerSize*gridOffsets[i][0]*lodScale, 0.0, posZ + centerSize*gridOffsets[i][1]*lodScale);
 
-            ocean.setAttributev4('texelRowSelect',{x:1, y:1, z:lodScale, w:lodScale})
-            ground.setAttributev4('texelRowSelect',{x:1, y:1, z:lodScale, w:lodScale})
+            tempPoint.set(posX + centerSize*gridOffsets[i][0]*lodScale, 0.0, posZ + centerSize*gridOffsets[i][1]*lodScale)
+        //    let visible = ThreeAPI.testPosIsVisible(tempPoint);
+
+            let visible = aaBoxTestVisibility(tempPoint, centerSize*lodScale, 100, centerSize*lodScale)
+        //    let borrowedBox = borrowBox();
+        //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:borrowedBox.min, max:borrowedBox.max, color:'CYAN'})
+
+            if (!visible) {
+                if (visibilityList[index] === true) {
+                    detachSection(index);
+                    visibilityList[index] = false
+                }
+            } else {
+                visibleCount++
+                if (visibilityList[index] !== true) {
+                    attachSection(lodScale, tempPoint.x, tempPoint.z, index)
+                    visibilityList[index] = true;
+                } else {
+                    positionSectionInstance(activeGround[index], lodScale, tempPoint.x, 0.0, tempPoint.z);
+                    positionSectionInstance(activeOcean[index], lodScale, tempPoint.x, -3.0, tempPoint.z);
+                }
+            }
+
             index++
         }
     }
@@ -180,6 +276,9 @@ class TerrainBigGeometry {
 
     }
 
+    getVisibleCount() {
+        return visibleCount;
+    }
 
     getHeightmapData() {
         return heightmap;
@@ -267,10 +366,6 @@ class TerrainBigGeometry {
         }
 
         client.dynamicMain.requestAssetInstance("asset_ocean_big", oceanCB)
-
-        for (let i = 0; i < 8*lodLayers; i++) {
-            client.dynamicMain.requestAssetInstance("asset_ocean_big", oceanCB)
-        }
 
     }
 

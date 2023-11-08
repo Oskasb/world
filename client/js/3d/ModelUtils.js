@@ -159,6 +159,18 @@ function cubeTestVisibility(center, size) {
     return ThreeAPI.testBoxIsVisible(tempBox);
 }
 
+function aaBoxTestVisibility(center, sizeX, sizeY, sizeZ) {
+    tempBox.min.x = center.x - sizeX*0.5;
+    tempBox.min.y = center.y - sizeY*0.5;
+    tempBox.min.z = center.z - sizeZ*0.5;
+
+    tempBox.max.x = center.x + sizeX*0.5;
+    tempBox.max.y = center.y + sizeY*0.5;
+    tempBox.max.z = center.z + sizeZ*0.5;
+
+    return ThreeAPI.testBoxIsVisible(tempBox);
+}
+
 function borrowBox() {
     return tempBox;
 }
@@ -166,6 +178,7 @@ function borrowBox() {
 export {
     borrowBox,
     cubeTestVisibility,
+    aaBoxTestVisibility,
     setupVisualModel,
     buildAssetInstance,
     attachSkeletonRig,

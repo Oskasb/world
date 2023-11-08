@@ -152,9 +152,18 @@ class ThreeModel {
 
     };
 
+
+    isGeometryInstance = function() {
+        if (this.geometryInstancingSettings()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     recoverModelClone = function(spatial) {
 
-        if (this.geometryInstancingSettings()) {
+        if (this.isGeometryInstance()) {
             spatial.setPosXYZ(20+this.modelNr*5, - 5000, 3000);
         //    spatial.setScaleXYZ(0.0, 0.0, 0.0);
 

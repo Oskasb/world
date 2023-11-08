@@ -150,8 +150,6 @@ class InstancingBuffers {
             }
         };
 
-
-
         updateGuiBuffer = function() {
 
             let releasedIndices = this.getBookState(ENUMS.IndexState.INDEX_RELEASING);

@@ -32,6 +32,10 @@
                           "unit": "ns"
                         },
                         {
+                          "key": "visGeos",
+                          "digits": 0
+                        },
+                        {
                           "key": "gameCBs",
                           "digits": 0
                         },
