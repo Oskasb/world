@@ -124,8 +124,9 @@ let bigWorldOuter = null;
 //  bigWorldOuter.setAttributev4('texelRowSelect',{x:1, y:1, z:groundInstances.length, w:groundInstances.length*2})
 
 let centerSize = 100;
-let lodLayers = 4;
+let lodLayers = 3;
 let gridOffsets = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]]
+let layerScale = [1, 3, 9, 27, 81]
 
 let updateBigGeo = function(tpf) {
     let posX = Math.floor(lodCenter.x)
@@ -138,15 +139,15 @@ let updateBigGeo = function(tpf) {
         let lodLayer = l;
 
         for (let i = 0; i < gridOffsets.length; i++) {
-            let lodScale = lodLayer*lodLayer+1;
+            let lodScale = layerScale[lodLayer]
         //    let tileIndex = index+lodLayer*
             let ground = groundInstances[index]
             let ocean = oceanInstances[index]
             ocean.getSpatial().setPosXYZ(posX + centerSize*gridOffsets[i][0]*lodScale, -3.0, posZ + centerSize*gridOffsets[i][1]*lodScale);
             ground.getSpatial().setPosXYZ(posX + centerSize*gridOffsets[i][0]*lodScale, 0.0, posZ + centerSize*gridOffsets[i][1]*lodScale);
 
-            ocean.setAttributev4('texelRowSelect',{x:1, y:1, z:lodScale, w:lodScale*2})
-            ground.setAttributev4('texelRowSelect',{x:1, y:1, z:lodScale, w:lodScale*2})
+            ocean.setAttributev4('texelRowSelect',{x:1, y:1, z:lodScale, w:lodScale})
+            ground.setAttributev4('texelRowSelect',{x:1, y:1, z:lodScale, w:lodScale})
             index++
         }
     }
@@ -250,14 +251,16 @@ class TerrainBigGeometry {
             if (groundInstances.length === 0) {
                 materialModel(model)
                 ThreeAPI.addPrerenderCallback(updateBigGeo)
+                model.setAttributev4('texelRowSelect',{x:1, y:1, z:1, w:1})
             }
             groundInstances.push(model);
-            model.setAttributev4('texelRowSelect',{x:1, y:1, z:1, w:1})
+
         }
 
         let oceanCB = function(model) {
             if (oceanInstances.length === 0) {
                 oceanModel(model)
+                model.setAttributev4('texelRowSelect',{x:1, y:1, z:1, w:1})
             }
             oceanInstances.push(model);
             client.dynamicMain.requestAssetInstance("asset_ground_big", groundCB)

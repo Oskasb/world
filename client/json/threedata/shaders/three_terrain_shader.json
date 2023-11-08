@@ -279,16 +279,15 @@
 
           "vec3 scalePos = position*1.0;",
 
-          "float elementScale = texelRowSelect.w*1.0;",
+          "float elementScale = texelRowSelect.w;",
           "float outerness =  texelRowSelect.z;",
 
-          "elevationFactor = 1.0+outerness;",
+          "elevationFactor = elementScale;",
 
           "float elevationScale = 0.05;",
-
-          "elevationFactor = 1.0 + floor(cameraPosition.y * elevationScale) + outerness;",
-
+          "float upscale = max(1.0, floor(cameraPosition.y * elevationScale));",
           "float elevationInfluence = 1.0 * max(0.0, 1.0 - ((cameraPosition.y) * elevationScale*0.3));",
+
 
           "float distX = abs(scalePos.x-0.5);",
           "float distZ = abs(scalePos.z-0.5);",
@@ -296,10 +295,10 @@
           "distScaleX = floor(distX*0.011)*128.0;",
           "distScaleZ = floor(distZ*0.011)*128.0;",
 
-          "elevationFactor += distScaleX + distScaleZ;",
+          "elevationFactor *= upscale;",
 
-          "vPosition.x = (scalePos.x + sign(scalePos.x) * distScaleX)*elevationFactor;",
-          "vPosition.z = (scalePos.z + sign(scalePos.z) * distScaleZ)*elevationFactor;",
+          "vPosition.x = scalePos.x*elevationFactor;",
+          "vPosition.z = scalePos.z*elevationFactor;",
 
           "float txw = heightmaptiles.z;",
           "float txPointOffset = 1.0/(txw+1.0);",
@@ -307,8 +306,8 @@
 
           "float shift = txPointOffset * 1.0;",
           "float shiftSubOne = 1.0/(txw-1.0);",
-          "center.x = floor(offset.x / elevationFactor) * elevationFactor;",
-          "center.y = floor(offset.z / elevationFactor) * elevationFactor;",
+          "center.x = floor(upscale*offset.x / elevationFactor) * elevationFactor;",
+          "center.y = floor(upscale*offset.z / elevationFactor) * elevationFactor;",
           "minHeight = -3.0;",
           "maxHeight = 0.0;",
 
@@ -540,7 +539,7 @@
           "float elementScale = texelRowSelect.w*1.0;",
           "float outerness =  texelRowSelect.z;",
 
-          "elevationFactor = 1.0+outerness;",
+          "elevationFactor = elementScale;",
 
           "float txw = heightmaptiles.z;",
           "float txPointOffset = 1.0/(txw+1.0);",
@@ -552,8 +551,8 @@
 
           "float shift = txPointOffset * 1.0;",
           "float shiftSubOne = 1.0/(txw-1.0);",
-          "center.x = floor(offset.x / (elevationFactor*elementScale)) * elevationFactor*elementScale;",
-          "center.y = floor(offset.z / (elevationFactor*elementScale)) * elevationFactor*elementScale;",
+          "center.x = floor(0.5 + offset.x / elementScale) * elementScale;",
+          "center.y = floor(0.5 + offset.z / elementScale) * elementScale;",
           "vec4 quat = orientation.xyzw;",
 
           "terrainPosition.x = vPosition.x*tileFactorX;",
