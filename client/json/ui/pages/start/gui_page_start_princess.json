@@ -14,6 +14,28 @@
                   "options": {
                     "anchor":"center"
                   }
+                },
+                {
+                  "widget_id":"top_bar_header",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"scene_page_header_text_box",
+                  "options":{
+                    "text":"FREEZING PRINCESS",
+                    "anchor":"center",
+                    "offset_x": 0.0,
+                    "offset_y": 0.15
+                  }
+                },
+                {
+                  "widget_id":"text_box_home",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"main_text_box",
+                  "options":{
+                    "anchor":"center",
+                    "offset_x":0.0,
+                    "offset_y":-0.15,
+                    "text":"You feel cold but you do have a warm horse."
+                  }
                 }
               ],
               "buttons":[
@@ -22,15 +44,14 @@
                   "widget_class":"GuiExpandingContainer",
                   "widget_config_id":"button_big_blue",
                   "options":{
-                    "text":"PRINCESS",
+                    "text":"BEGIN",
                     "container_id":"page_start_center",
-                    "offset_x": -0,
-                    "offset_y": 0,
+                    "offset_x": 0.14,
+                    "offset_y": -0.4,
                     "dispatch":{
                       "event":"SELECT_ADVENTURER",
                       "value":{
-                        "pos":[-924, 5, 606],
-                        "actor_id":"ACTOR_FIGHTER"
+                        "activate_selection":true
                       }
                     }
                   }
