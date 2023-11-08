@@ -30,7 +30,7 @@
                       "event":"SELECT_ADVENTURER",
                       "value":{
                         "pos":[-924, 5, 606],
-                        "actor_id":"ACTOR_FIGHTER",
+                        "actor_id":"ACTOR_FIGHTER"
                       }
                     }
                   }
