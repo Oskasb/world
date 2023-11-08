@@ -221,7 +221,7 @@ let updateWalkCamera = function(activeTilePath) {
 let updateTileSelectorActive = function(actor, tileSelector) {
 
     let targetDistance = 8;
-    let targetElevation = 4;
+    let targetElevation = 2;
     tempVec3.set(0, 0, -targetDistance);
     tempVec3.applyQuaternion(cursorObj3d.quaternion);
     tempVec3.add(cursorObj3d.position);
@@ -229,8 +229,9 @@ let updateTileSelectorActive = function(actor, tileSelector) {
     calcVec.copy(tileSelector.translation);
     calcVec.multiplyScalar(0.5);
     cursorObj3d.position.add(calcVec);
-    let distance = tileSelector.translation.length();
-    tempVec3.y += targetElevation + distance * 1.5
+    let distance = MATH.clamp(tileSelector.translation.length(), 1, 20);
+    tempVec3.y += targetElevation + distance * 2
+    cursorObj3d.position.y += 2 / distance;
     MATH.lerpClamped(camPosVec, tempVec3, tpf*distance, 0.05, 0.5);
 
     if (tileSelector.hasValue()) {
@@ -529,7 +530,7 @@ class CameraSpatialCursor {
                 camLookAtVec.copy(cursorObj3d.position)
                 let forward = selectedActor.getForward();
                 let distance = MATH.clamp(MATH.distanceBetween(cursorObj3d.position, ThreeAPI.camera.position), 6, 20)
-                forward.multiplyScalar(2 + MATH.curveSqrt(distance*0.5 + selectedActor.getStatus(ENUMS.ActorStatus.STATUS_SPEED)*4))
+                forward.multiplyScalar(2 + MATH.curveSqrt(distance * 0.5 + selectedActor.getStatus(ENUMS.ActorStatus.STATUS_SPEED) * 4))
                 camLookAtVec.add(forward);
                 cursorObj3d.lookAt(ThreeAPI.camera.position)
                 camTargetPos.copy(cursorObj3d.position)
@@ -537,8 +538,8 @@ class CameraSpatialCursor {
                 tempVec3.applyQuaternion(ThreeAPI.camera.quaternion);
 
                 camTargetPos.add(tempVec3)
-                camTargetPos.y += (distance*(4-tempVec3.y)*(tpf+Math.abs(selectedActor.getStatus(ENUMS.ActorStatus.STATUS_CLIMB_RATE))));
-                camPosVec.lerp(camTargetPos, tpf * 1 ) // + lerpFactor * 2)
+                camTargetPos.y += (distance * (4 - tempVec3.y) * (tpf + Math.abs(selectedActor.getStatus(ENUMS.ActorStatus.STATUS_CLIMB_RATE))));
+                camPosVec.lerp(camTargetPos, tpf * 1) // + lerpFactor * 2)
 
                 // + lerpFactor * 2)
                 //    camPosVec.y = camLookAtVec.y+8;
@@ -546,10 +547,24 @@ class CameraSpatialCursor {
 
                 tempVec3.set(0, 1, 0);
                 tempVec3.applyQuaternion(actorQuat);
-                ThreeAPI.getCamera().up.lerp(tempVec3, tpf - 0.2*tpf*Math.abs(selectedActor.getControl(ENUMS.Controls.CONTROL_ROLL)));
+                ThreeAPI.getCamera().up.lerp(tempVec3, tpf - 0.2 * tpf * Math.abs(selectedActor.getControl(ENUMS.Controls.CONTROL_ROLL)));
                 //let camQuat = ThreeAPI.getCamera().quaternion;
                 //camQuat.slerp(actorQuat, 0.5);
                 //    updateActorTurnMovement();
+            } else if (camParams.mode === camModes.gameTravel) {
+            //    camPosVec.lerp(camTargetPos, tpf * 4 ) // + lerpFactor * 2)
+
+                let forward = selectedActor.getForward();
+                let distance = MATH.clamp(MATH.distanceBetween(selectedActor.actorObj3d.position, ThreeAPI.camera.position), 2, 6)
+                forward.multiplyScalar(3 + selectedActor.getStatus(ENUMS.ActorStatus.STATUS_SPEED)*10)
+                tempVec3.addVectors(forward, selectedActor.actorObj3d.position);
+                cursorObj3d.position.lerp(tempVec3, tpf*4)
+                camLookAtVec.lerp(cursorObj3d.position, tpf*2.5);
+                forward.multiplyScalar(-(1+distance*0.3));
+                tempVec3.addVectors(forward, selectedActor.actorObj3d.position);
+                tempVec3.y += 1 + distance;
+                camTargetPos.copy(tempVec3)
+                camPosVec.lerp(camTargetPos, tpf * 2) // + lerpFactor * 2)
             } else {
                 viewEncounterSelection(camTargetPos, camLookAtVec, tpf)
                 CursorUtils.drawInputCursorState(cursorObj3d, dragToVec3, camTargetPos, cursorForward, cursorTravelVec)
