@@ -88,7 +88,7 @@ let calcAttackCamPosition = function(actor, distance, storeVec) {
 }
 
 let calcShouldCamPosition = function(actor, distance, storeVec) {
-    storeVec.set(side * 0.12, 0.3, -0.6);
+    storeVec.set(side * 0.15, 0.5, -0.5);
     storeVec.normalize();
     storeVec.multiplyScalar(distance);
     storeVec.applyQuaternion(actor.getVisualGamePiece().getQuat())
@@ -128,7 +128,9 @@ function viewPrecastAction(sequencer, target) {
 function viewEncounterSelection(camTPos, camLookAt, tpf) {
     let sequencerSelection = GameAPI.call.getSequencerSelection()
     if (sequencerSelection) {
-        camLookAt.lerp(sequencerSelection.getPos(), tpf*8);
+        tempVec.copy(sequencerSelection.getPos())
+        tempVec.y -= 1;
+        camLookAt.lerp(tempVec, tpf*4);
     }
 
     let partySelection = GameAPI.call.getPartySelection()
@@ -143,7 +145,7 @@ function viewEncounterSelection(camTPos, camLookAt, tpf) {
         calcShouldCamPosition(partySelection, 6, tempVec)
     //    tempVec.add(partySelection.getPos())
 
-        camTPos.lerp(tempVec, tpf*4);
+        camTPos.lerp(tempVec, tpf*8);
     }
 }
 

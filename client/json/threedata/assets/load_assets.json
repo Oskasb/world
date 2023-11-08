@@ -12,6 +12,11 @@
       "TEXTURES"
     ],
     "POLL_INDEX":[
+      "/ui/pages/start/gui_page_start.json"                  ,
+      "/ui/pages/start/gui_page_start_princess.json"                  ,
+      "/ui/pages/start/gui_page_start_alien.json"                  ,
+      "/ui/pages/start/gui_page_start_farmer.json"                  ,
+      "/ui/pages/start/gui_page_start_pirate.json"                  ,
       "/game/actors/travel/travel_modes.json"                ,
       "/game/actors/actions/actor_actions.json"              ,
       "/game/visuals/visual_actions.json"                    ,

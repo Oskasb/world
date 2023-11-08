@@ -1,0 +1,45 @@
+[
+  {
+    "UI": {
+      "PAGES":[
+        {
+          "id": "page_start_princess",
+          "data": [
+            {
+              "containers":[
+                {
+                  "widget_id":"page_start_center",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"widget_hidden_container",
+                  "options": {
+                    "anchor":"center"
+                  }
+                }
+              ],
+              "buttons":[
+                {
+                  "widget_id":"start_button",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"button_big_blue",
+                  "options":{
+                    "text":"PRINCESS",
+                    "container_id":"page_start_center",
+                    "offset_x": -0,
+                    "offset_y": 0,
+                    "dispatch":{
+                      "event":"SELECT_ADVENTURER",
+                      "value":{
+                        "pos":[-924, 5, 606],
+                        "actor_id":"ACTOR_FIGHTER",
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+]

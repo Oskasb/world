@@ -1,0 +1,103 @@
+[
+  {
+    "UI": {
+      "PAGES":[
+        {
+          "id": "page_start",
+          "data": [
+            {
+              "containers":[
+                {
+                  "widget_id":"page_start_center",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"widget_hidden_container",
+                  "options": {
+                    "anchor":"center"
+                  }
+                }
+              ],
+              "buttons":[
+                {
+                  "widget_id":"start_button_1",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"button_big_blue",
+                  "options":{
+                    "text":"FARMER",
+                    "container_id":"page_start_center",
+                    "offset_x": -0.18,
+                    "offset_y": 0.2,
+                    "dispatch":{
+                      "event":"SELECT_ADVENTURER",
+                      "value":{
+                        "pos":[-893, 4, 519],
+                        "actor_id":"ACTOR_FIGHTER",
+                        "page_id": "page_start_farmer"
+                      }
+                    }
+                  }
+                },
+                {
+                  "widget_id":"start_button_2",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"button_big_blue",
+                  "options":{
+                    "text":"PRINCESS",
+                    "container_id":"page_start_center",
+                    "offset_x": -0.06,
+                    "offset_y": 0.2,
+                    "dispatch":{
+                      "event":"SELECT_ADVENTURER",
+                      "value":{
+                        "pos":[-924, 5, 606],
+                        "actor_id":"ACTOR_FIGHTER",
+                        "page_id": "page_start_princess"
+                      }
+                    }
+                  }
+                },
+                {
+                  "widget_id":"start_button_3",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"button_big_blue",
+                  "options":{
+                    "text":"PIRATE",
+                    "container_id":"page_start_center",
+                    "offset_x": 0.06,
+                    "offset_y": 0.2,
+                    "dispatch":{
+                      "event":"SELECT_ADVENTURER",
+                      "value":{
+                        "pos":[-985, 7, 689],
+                        "actor_id":"ACTOR_FIGHTER",
+                        "page_id": "page_start_pirate"
+                      }
+                    }
+                  }
+                },
+                {
+                  "widget_id":"start_button_4",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"button_big_blue",
+                  "options":{
+                    "text":"ALIEN",
+                    "container_id":"page_start_center",
+                    "offset_x": 0.18,
+                    "offset_y": 0.2,
+                    "dispatch":{
+                      "event":"SELECT_ADVENTURER",
+                      "value":{
+                        "pos":[-973, 6, 705],
+                        "actor_id":"ACTOR_FIGHTER",
+                        "page_id": "page_start_alien"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+]

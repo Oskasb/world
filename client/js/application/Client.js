@@ -89,9 +89,8 @@ class Client {
                 client.setup.initDefaultUi();
                 GameAPI.initGameMain();
                 ThreeAPI.initThreeTerrain();
+                client.page = GuiAPI.activatePage('page_start');
                 }, 10)
-
-
         };
 
         client.setup.initUiSetup(callback);
@@ -103,6 +102,7 @@ class Client {
         this.evt.on(ENUMS.Event.GAME_MODE_BATTLE,    GameAPI.call.activateBattleMode)
         this.evt.on(ENUMS.Event.EDIT_GROUND,        GameAPI.call.editGround)
         this.evt.on(ENUMS.Event.EDIT_PARAMETERS,    GameAPI.call.editParameters)
+        this.evt.on(ENUMS.Event.SELECT_ADVENTURER,    GameAPI.call.selectAdventurer)
         const clock = new THREE.Clock(true);
 
 

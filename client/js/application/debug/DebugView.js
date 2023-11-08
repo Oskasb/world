@@ -164,6 +164,11 @@ class DebugView {
         }
         setupDebug();
         ThreeAPI.addPostrenderCallback(updateSystemDebug)
+        if (client.page) {
+            GuiAPI.closePage(client.page)
+            client.page = null;
+        }
+
         this.page = GuiAPI.activatePage('page_debug_view');
         this.containers = this.page.containers;
 

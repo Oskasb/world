@@ -8,7 +8,7 @@ import { WorldModels } from "./gameworld/WorldModels.js";
 import { GamePieceSystem } from "./GamePieceSystem.js";
 import { GameEncounterSystem } from "./GameEncounterSystem.js";
 import { VisualEffectSystem } from "./visuals/VisualEffectSystem.js";
-
+import { GameAdventureSystem } from "./gamescenarios/GameAdventureSystem.js";
 
 let cache = {};
 let debugStats = {
@@ -104,6 +104,7 @@ function getSequencerSelection() {
 class GameAPI {
     constructor() {
         this.activePlayerCharacter = null;
+        this.gameAdventureSystem = new GameAdventureSystem();
         this.characterComposer = new CharacterComposer();
         this.gameWorldPointer = new GameWorldPointer();
         this.gameMain = new GameMain();
@@ -169,6 +170,11 @@ class GameAPI {
             return gameEncounterSystem;
         }
 
+        let selectAdventurer = function(event) {
+            console.log("Select Adventurer:", event);
+            this.gameAdventureSystem.selectAdventure(event);
+        }.bind(this);
+
         this.call = {
             getGameEncounterSystem:getGameEncounterSystem,
             activateWalkGrid:activateWalkGrid,
@@ -180,7 +186,8 @@ class GameAPI {
             editGround:editGround,
             editParameters:editParameters,
             getSequencerSelection:getSequencerSelection,
-            getPartySelection:getPartySelection
+            getPartySelection:getPartySelection,
+            selectAdventurer:selectAdventurer
         }
 
     }

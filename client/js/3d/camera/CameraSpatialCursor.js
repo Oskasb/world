@@ -90,14 +90,14 @@ let updateCursorFrame = function() {
 
 let updateWorldDisplay = function() {
 
-    lookAtMod.x = Math.sin(GameAPI.getGameTime()*0.15)*11
-    lookAtMod.z = Math.cos(GameAPI.getGameTime()*0.15)*11
+    lookAtMod.x = Math.sin(GameAPI.getGameTime()*0.15)*zoomDistance*0.5
+    lookAtMod.z = Math.cos(GameAPI.getGameTime()*0.15)*zoomDistance*0.5
     lookAtMod.y = 0 // ThreeAPI.terrainAt(cursorObj3d.position)+2
     camPosVec.copy(lookAroundPoint);
     camLookAtVec.copy(lookAroundPoint);
-    camParams.offsetPos[0] = Math.sin(GameAPI.getGameTime()*0.15)*55
-    camParams.offsetPos[1] = 35 + Math.sin(GameAPI.getGameTime()*0.4)*12 + cursorObj3d.position.y
-    camParams.offsetPos[2] = Math.cos(GameAPI.getGameTime()*0.18)*55
+    camParams.offsetPos[0] = Math.sin(GameAPI.getGameTime()*0.15)*zoomDistance*5
+    camParams.offsetPos[1] = 3*zoomDistance + Math.sin(GameAPI.getGameTime()*0.4)*zoomDistance + cursorObj3d.position.y
+    camParams.offsetPos[2] = Math.cos(GameAPI.getGameTime()*0.18)*zoomDistance*5
 
     camPosVec.x = lookAroundPoint.x + camParams.offsetPos[0]
     camPosVec.y = lookAroundPoint.y + camParams.offsetPos[1]
@@ -431,8 +431,16 @@ class CameraSpatialCursor {
         cursorObj3d.position.copy(vec3);
     }
 
+    setZoomDistance(value) {
+        zoomDistance = value;
+    }
+
     getCursorObj3d = function() {
         return cursorObj3d
+    }
+
+    getLookAroundPoint = function() {
+        return lookAroundPoint;
     }
 
     getPos = function() {
@@ -510,13 +518,18 @@ class CameraSpatialCursor {
             let walkGrid = selectedActor.getGameWalkGrid();
             if (selectedActor.getStatus(ENUMS.ActorStatus.SELECTING_DESTINATION) === 1) {
                 tileSelector = walkGrid.gridTileSelector;
-                isTileSelecting = true;
+                isTileSelecting = tileSelector.hasValue();
+        //        selectedActor.actorText.say("Selecting Tiles")
             }
         }
 
         if (isTileSelecting) {
             updateTileSelectorActive(selectedActor, tileSelector);
         } else {
+            if (selectedActor) {
+        //        selectedActor.actorText.say(camParams.mode)
+            }
+
             if (camParams.mode === camModes.worldDisplay) {
                 updateWorldDisplay();
                 camLookAtVec.copy(cursorObj3d.position)
@@ -554,17 +567,23 @@ class CameraSpatialCursor {
             } else if (camParams.mode === camModes.gameTravel) {
             //    camPosVec.lerp(camTargetPos, tpf * 4 ) // + lerpFactor * 2)
 
-                let forward = selectedActor.getForward();
-                let distance = MATH.clamp(MATH.distanceBetween(selectedActor.actorObj3d.position, ThreeAPI.camera.position), 2, 6)
-                forward.multiplyScalar(3 + selectedActor.getStatus(ENUMS.ActorStatus.STATUS_SPEED)*10)
-                tempVec3.addVectors(forward, selectedActor.actorObj3d.position);
-                cursorObj3d.position.lerp(tempVec3, tpf*4)
-                camLookAtVec.lerp(cursorObj3d.position, tpf*2.5);
-                forward.multiplyScalar(-(1+distance*0.3));
-                tempVec3.addVectors(forward, selectedActor.actorObj3d.position);
-                tempVec3.y += 1 + distance;
-                camTargetPos.copy(tempVec3)
-                camPosVec.lerp(camTargetPos, tpf * 2) // + lerpFactor * 2)
+                if (selectedActor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET)) {
+                    viewEncounterSelection(camTargetPos, camLookAtVec, tpf)
+                    camPosVec.lerp(camTargetPos, tpf * 8 )
+                } else {
+                    let forward = selectedActor.getForward();
+                    let distance = MATH.clamp(MATH.distanceBetween(selectedActor.actorObj3d.position, ThreeAPI.camera.position), 2, 6)
+                    forward.multiplyScalar(3 + selectedActor.getStatus(ENUMS.ActorStatus.STATUS_SPEED)*10)
+                    tempVec3.addVectors(forward, selectedActor.actorObj3d.position);
+                    cursorObj3d.position.lerp(tempVec3, tpf*4)
+                    camLookAtVec.lerp(cursorObj3d.position, tpf*2.5);
+                    forward.multiplyScalar(-(1+distance*0.3));
+                    tempVec3.addVectors(forward, selectedActor.actorObj3d.position);
+                    tempVec3.y += 1 + distance;
+                    camTargetPos.copy(tempVec3)
+                    camPosVec.lerp(camTargetPos, tpf * 2) // + lerpFactor * 2)
+                }
+
             } else {
                 viewEncounterSelection(camTargetPos, camLookAtVec, tpf)
                 CursorUtils.drawInputCursorState(cursorObj3d, dragToVec3, camTargetPos, cursorForward, cursorTravelVec)
