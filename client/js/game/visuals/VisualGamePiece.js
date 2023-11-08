@@ -221,6 +221,10 @@ class VisualGamePiece {
 
         if (frameVelocity) {
             let action = this.animateActionState(this.moveState)
+            if (!action) {
+                console.log("No action to update",this);
+                return;
+            }
         //    console.log(action);
             action.timeScale = frameVelocity * 0.33;
         } else {

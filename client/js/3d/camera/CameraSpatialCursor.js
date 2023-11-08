@@ -376,16 +376,23 @@ class CameraSpatialCursor {
                 cursorObj3d.position.copy(selectedActor.actorObj3d.position);
 
                 if (isFirstPressFrame) {
-                    gameWalkGrid.activateWalkGrid(selectedActor.actorObj3d)
+                    selectedActor.setControlKey(ENUMS.Controls.CONTROL_MOVE_ACTION, 1)
+
+                //    gameWalkGrid.activateWalkGrid(selectedActor.actorObj3d)
                 } else if (released) {
-                    navPoint.time = 2;
-                    gameWalkGrid.applySelectedPath(updatePathingCamera, pathCompletedCallback)
-                    dragToVec3.copy(selectedActor.getVisualGamePiece().getSpatial().getPos())
+                    selectedActor.setControlKey(ENUMS.Controls.CONTROL_MOVE_ACTION, 2)
+                    selectedActor.setControlKey(ENUMS.Controls.CONTROL_TILE_X, 0)
+                    selectedActor.setControlKey(ENUMS.Controls.CONTROL_TILE_Z, 0)
                 } else {
-                    let selectedPath = gameWalkGrid.buildGridPath(dragToVec3, selectedActor.getVisualGamePiece().getSpatial().getPos())
-                    selectedActor.inspectTilePath(selectedPath)
+
+                    let tileSelector = gameWalkGrid.gridTileSelector;
+                    selectedActor.setControlKey(ENUMS.Controls.CONTROL_TILE_X, pointerDragVector.x*0.02)
+                    selectedActor.setControlKey(ENUMS.Controls.CONTROL_TILE_Z, pointerDragVector.z*0.02)
+
+                //    let selectedPath = gameWalkGrid.buildGridPath(dragToVec3, selectedActor.getVisualGamePiece().getSpatial().getPos())
+                //    selectedActor.inspectTilePath(selectedPath)
                 }
-                updateWalkCamera(gameWalkGrid.getActiveTilePath());
+            //    updateWalkCamera(gameWalkGrid.getActiveTilePath());
             }
 
             if (camParams.mode === camModes.gameVehicle) {

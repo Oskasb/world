@@ -15,6 +15,7 @@ let onPressStart = function(guiAxisSlider, guiPointer) {
     for (let i = 0; i < guiAxisSlider.onActivateCallbacks.length; i++) {
         guiAxisSlider.onActivateCallbacks[i](1);
     }
+    notifyInputUpdated(guiAxisSlider)
 };
 
 let onPressActivate = function(guiAxisSlider) {
@@ -22,6 +23,7 @@ let onPressActivate = function(guiAxisSlider) {
     for (let i = 0; i < guiAxisSlider.onActivateCallbacks.length; i++) {
         guiAxisSlider.onActivateCallbacks[i](2);
     }
+    notifyInputUpdated(guiAxisSlider)
 };
 
 let onSurfaceRelease = function(guiAxisSlider) {
@@ -36,8 +38,8 @@ let onInputUpdated = function(guiAxisSlider, pointerState) {
     //    console.log("handleSliderInputUpdated", input, pointerState)
     let options = guiAxisSlider.options
     guiAxisSlider.pressActive  = pointerState.action[0] // GuiAPI.readInputBufferValue(input, pointerState, ENUMS.InputState.ACTION_0);
-    guiAxisSlider.offset.x = pointerState.dragDistance[0]*0.001 * Math.abs(options.axis[0]);
-    guiAxisSlider.offset.y = -pointerState.dragDistance[1]*0.001 * Math.abs(options.axis[1]);
+    guiAxisSlider.offset.x = pointerState.dragDistance[0]*0.00055 * Math.abs(options.axis[0]);
+    guiAxisSlider.offset.y = -pointerState.dragDistance[1]*0.00055 * Math.abs(options.axis[1]);
     guiAxisSlider.offset.x = MATH.clamp(guiAxisSlider.offset.x, -options.range[0], options.range[0])
     guiAxisSlider.offset.y = MATH.clamp(guiAxisSlider.offset.y, -options.range[1], options.range[1])
 
@@ -56,6 +58,11 @@ let onFrameUpdate = function(guiAxisSlider, tpf, time) {
 
     if (!guiAxisSlider.pressActive) {
         let options = guiAxisSlider.options
+
+        if (guiAxisSlider.releaseTime === 0) {
+            onPressActivate(guiAxisSlider)
+        }
+
         guiAxisSlider.releaseTime += tpf;
 
         let releaseX = guiAxisSlider.options.release[0];
@@ -66,22 +73,28 @@ let onFrameUpdate = function(guiAxisSlider, tpf, time) {
             let releaseFraction = 1 - MATH.calcFraction(-guiAxisSlider.releaseDuration, guiAxisSlider.releaseDuration, releaseProgress)
             let releaseFactor = MATH.curveSqrt(releaseFraction);
 
-            if (releaseX) {
-                guiAxisSlider.offset.x *= releaseX * releaseFactor;
+            if (guiAxisSlider.offset.lengthSq() !== 0) {
+                if (guiAxisSlider.offset.lengthSq() < 0.0001) {
+                    guiAxisSlider.offset.set(0, 0, 0);
+                } else {
+                    if (releaseX) {
+                        guiAxisSlider.offset.x *= releaseX * releaseFactor;
+                    }
+                    if (releaseY) {
+                        guiAxisSlider.offset.y *= releaseY * releaseFactor;
+                    }
+                }
+                notifyInputUpdated(guiAxisSlider)
             }
-            if (releaseY) {
-                guiAxisSlider.offset.y *= releaseY * releaseFactor;
-            }
+        } else {
 
-            if (guiAxisSlider.offset.lengthSq() < 0.0000001) {
-                guiAxisSlider.offset.set(0, 0, 0);
-            }
         }
 
+    } else {
+        notifyInputUpdated(guiAxisSlider)
     }
 
     applyPositionOffset(guiAxisSlider);
-    notifyInputUpdated(guiAxisSlider)
 
 };
 
