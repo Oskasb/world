@@ -2,6 +2,8 @@
   {
     "ASSETS": {
       "FILES_GLB": [
+        {"id": "file_svigg",             "config": { "url": "./client/assets/models/vehicles/svigg"                                 }},
+        {"id": "file_oomba",             "config": { "url": "./client/assets/models/vehicles/oomba"                                 }},
         {"id": "file_j35draken",             "config": { "url": "./client/assets/models/vehicles/draken"                                 }},
         {"id": "file_pilot_bind",         "config": { "url": "./client/assets/models/characters/pilot/pilot_bind"                     }},
         {"id": "file_pilot_run" ,         "config": { "url": "./client/assets/models/characters/pilot/movement/run"                   }},
