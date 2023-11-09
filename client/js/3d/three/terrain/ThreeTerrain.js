@@ -400,6 +400,7 @@ function getTerrainBigGeo() {
 class ThreeTerrain {
     constructor() {
 
+
         this.call = {
             getTerrainBigGeo:getTerrainBigGeo,
             getTerrainGeos:getTerrainGeos,
@@ -418,6 +419,9 @@ class ThreeTerrain {
         let terrainId = 'main_world'
         terrainMaterial = new TerrainMaterial(ThreeAPI);
 
+        dynamicLodGrid = new DynamicLodGrid();
+
+
         let terrainListLoaded = function(data) {
             console.log("TERRAINS", data);
             terrainList[terrainId] = data;
@@ -426,13 +430,10 @@ class ThreeTerrain {
             gridConfig = data['grid']
             constructGeometries(data['height_map'], data['transform'], data['ground'], data['section_info']);
             terrainBigGeometry.initBigTerrainGeometry(ThreeAPI.getCamera().position, data['height_map'], data['transform'], data['ground'], data['section_info']);
+            dynamicLodGrid.activateLodGrid({lodLevels:data['section_info']['lod_levels'].length, tile_range:gridConfig['tile_range'], tile_spacing:gridConfig['tile_spacing'], hide_tiles:true, center_offset:true, debug:false})
             matLoadedCB();
+        }
 
-        };
-
-
-        dynamicLodGrid = new DynamicLodGrid();
-        dynamicLodGrid.activateLodGrid({lod_levels: 6, tile_range:14, tile_spacing:80, hide_tiles:true, center_offset:true, debug:false})
 
         let configData = new ConfigData("ASSETS", "TERRAIN", "terrain_config", 'data_key', 'config')
         configData.addUpdateCallback(terrainListLoaded);
@@ -534,12 +535,21 @@ class ThreeTerrain {
 
     //    scrubTerrainForError();
 
+        let terrainId = 'main_world'
+
+        let dimensions = terrainList[terrainId]["height_map"]["dimensions"]
+
+        let maxDistFromZero = dimensions['tx_width'] * 0.5 - 50;
+
 
         CursorUtils.processTerrainLodCenter(lodCenter, terrainCenter)
 
-            dynamicLodGrid.updateDynamicLodGrid(terrainCenter, tileUpdateCB, 4);
+        MATH.clampVectorXZ(lodCenter, -maxDistFromZero, maxDistFromZero, -maxDistFromZero, maxDistFromZero)
+        MATH.clampVectorXZ(terrainCenter, -maxDistFromZero, maxDistFromZero, -maxDistFromZero, maxDistFromZero)
 
-            drawTilesByLodGrid(updateFrame)
+        dynamicLodGrid.updateDynamicLodGrid(terrainCenter, tileUpdateCB, 0);
+
+        drawTilesByLodGrid(updateFrame)
     }
 }
 

@@ -21,9 +21,9 @@
                   "widget_config_id":"scene_page_header_text_box",
                   "options":{
                     "text":"FREEZING PRINCESS",
-                    "anchor":"center",
+                    "anchor":"top_center",
                     "offset_x": 0.0,
-                    "offset_y": 0.15
+                    "offset_y": -0.03
                   }
                 },
                 {
@@ -31,10 +31,21 @@
                   "widget_class":"GuiExpandingContainer",
                   "widget_config_id":"main_text_box",
                   "options":{
-                    "anchor":"center",
+                    "anchor":"top_center",
                     "offset_x":0.0,
-                    "offset_y":-0.15,
-                    "text":"You feel cold but you do have a warm horse."
+                    "offset_y":-0.06,
+                    "text":"A life of privilege. Dreams of adventure."
+                  }
+                },
+                {
+                  "widget_id":"text_box_details",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"debug_text_box",
+                  "options":{
+                    "anchor":"center",
+                    "offset_x":-0.2,
+                    "offset_y":-0.2,
+                    "text":["Adventurous Princess", " ","Begins with a nice horse to ride and has", "access to frost magic."]
                   }
                 }
               ],
@@ -47,7 +58,7 @@
                     "text":"BEGIN",
                     "container_id":"page_start_center",
                     "offset_x": 0.14,
-                    "offset_y": -0.4,
+                    "offset_y": -0.35,
                     "dispatch":{
                       "event":"SELECT_ADVENTURER",
                       "value":{

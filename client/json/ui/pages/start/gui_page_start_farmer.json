@@ -21,9 +21,9 @@
                   "widget_config_id":"scene_page_header_text_box",
                   "options":{
                     "text":"STRUGGLING FARMER",
-                    "anchor":"center",
+                    "anchor":"top_center",
                     "offset_x": 0.0,
-                    "offset_y": 0.15
+                    "offset_y": -0.03
                   }
                 },
                 {
@@ -31,10 +31,21 @@
                   "widget_class":"GuiExpandingContainer",
                   "widget_config_id":"main_text_box",
                   "options":{
-                    "anchor":"center",
+                    "anchor":"top_center",
                     "offset_x":0.0,
-                    "offset_y":-0.15,
-                    "text":"This crop is failing and bandits are here."
+                    "offset_y":-0.06,
+                    "text":"Trouble. A failing crop. Bandits. You name it."
+                  }
+                },
+                {
+                  "widget_id":"text_box_details",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"debug_text_box",
+                  "options":{
+                    "anchor":"center",
+                    "offset_x":-0.2,
+                    "offset_y":-0.2,
+                    "text":["Living off the Land", "","Has a nice little farm cottage to call home and", "a healthy strong physique which comes in handy when", "dealing with crops and unwanted guests."]
                   }
                 }
               ],
@@ -47,7 +58,7 @@
                     "text":"BEGIN",
                     "container_id":"page_start_center",
                     "offset_x": 0.14,
-                    "offset_y": -0.4,
+                    "offset_y": -0.35,
                     "dispatch":{
                       "event":"SELECT_ADVENTURER",
                       "value":{

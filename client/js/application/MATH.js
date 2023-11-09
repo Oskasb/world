@@ -695,6 +695,11 @@ if(typeof(MATH) === "undefined") {
         return value < min ? min : value > max ? max : value;
     };
 
+	MATH.clampVectorXZ = function(vector3, minX, maxX, minZ, maxZ) {
+		vector3.x = this.clamp(vector3.x, minX, maxX);
+		vector3.z = this.clamp(vector3.z, minZ, maxZ);
+	}
+
 	MATH.expand = function(value, min, max) {
 		if (value > min && value < max) {
 			return min;

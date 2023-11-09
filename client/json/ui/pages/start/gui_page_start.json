@@ -25,7 +25,7 @@
                     "text":"FARMER",
                     "container_id":"page_start_center",
                     "offset_x": -0.18,
-                    "offset_y": 0.2,
+                    "offset_y": -0.25,
                     "dispatch":{
                       "event":"SELECT_ADVENTURER",
                       "value":{
@@ -44,11 +44,11 @@
                     "text":"PRINCESS",
                     "container_id":"page_start_center",
                     "offset_x": -0.06,
-                    "offset_y": 0.2,
+                    "offset_y": -0.25,
                     "dispatch":{
                       "event":"SELECT_ADVENTURER",
                       "value":{
-                        "pos":[-924, 5, 606],
+                        "pos":[-906, 5, 582],
                         "actor_id":"ACTOR_FIGHTER",
                         "page_id": "page_start_princess"
                       }
@@ -63,7 +63,7 @@
                     "text":"PIRATE",
                     "container_id":"page_start_center",
                     "offset_x": 0.06,
-                    "offset_y": 0.2,
+                    "offset_y": -0.25,
                     "dispatch":{
                       "event":"SELECT_ADVENTURER",
                       "value":{
@@ -82,11 +82,11 @@
                     "text":"ALIEN",
                     "container_id":"page_start_center",
                     "offset_x": 0.18,
-                    "offset_y": 0.2,
+                    "offset_y": -0.25,
                     "dispatch":{
                       "event":"SELECT_ADVENTURER",
                       "value":{
-                        "pos":[-973, 6, 705],
+                        "pos":[-964, 7.2, 709],
                         "actor_id":"ACTOR_FIGHTER",
                         "page_id": "page_start_alien"
                       }

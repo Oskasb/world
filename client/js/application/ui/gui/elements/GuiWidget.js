@@ -216,7 +216,13 @@ class GuiWidget {
             }
 
             if (options.text) {
-                this.printWidgetText(options.text);
+                if (typeof (options.text) === 'string') {
+                    this.printWidgetText(options.text);
+                } else if (options.text.length) {
+                    for (let i=0; i < options.text.length; i++) {
+                        this.printWidgetText(options.text[i]);
+                    }
+                }
             }
 
             if (options.icon) {

@@ -93,18 +93,25 @@ let updateWorldDisplay = function() {
     lookAtMod.x = Math.sin(GameAPI.getGameTime()*0.15)*zoomDistance*0.5
     lookAtMod.z = Math.cos(GameAPI.getGameTime()*0.15)*zoomDistance*0.5
     lookAtMod.y = 0 // ThreeAPI.terrainAt(cursorObj3d.position)+2
-    camPosVec.copy(lookAroundPoint);
-    camLookAtVec.copy(lookAroundPoint);
+//    camPosVec.copy(lookAroundPoint);
+//    camLookAtVec.copy(lookAroundPoint);
+    cursorObj3d.position.copy(lookAroundPoint);
+//    cursorObj3d.position.y = ThreeAPI.terrainAt(lookAroundPoint);
     camParams.offsetPos[0] = Math.sin(GameAPI.getGameTime()*0.15)*zoomDistance*5
     camParams.offsetPos[1] = 3*zoomDistance + Math.sin(GameAPI.getGameTime()*0.4)*zoomDistance + cursorObj3d.position.y
     camParams.offsetPos[2] = Math.cos(GameAPI.getGameTime()*0.18)*zoomDistance*5
 
-    camPosVec.x = lookAroundPoint.x + camParams.offsetPos[0]
-    camPosVec.y = lookAroundPoint.y + camParams.offsetPos[1]
-    camPosVec.z = lookAroundPoint.z + camParams.offsetPos[2]
-    camLookAtVec.x = lookAroundPoint.x + camParams.offsetLookAt[0]
-    camLookAtVec.y = lookAroundPoint.y + camParams.offsetLookAt[1]
-    camLookAtVec.z = lookAroundPoint.z + camParams.offsetLookAt[2]
+
+    tempVec3.x = lookAroundPoint.x + camParams.offsetPos[0]
+    tempVec3.y = lookAroundPoint.y + camParams.offsetPos[1]
+    tempVec3.z = lookAroundPoint.z + camParams.offsetPos[2]
+    camTargetPos.lerp(tempVec3, 0.01)
+    camPosVec.lerp(tempVec3, 0.02)
+
+    tempVec3.y = ThreeAPI.terrainAt(tempVec3);
+    tempVec3.x = lookAroundPoint.x + camParams.offsetLookAt[0]
+    tempVec3.z = lookAroundPoint.z + camParams.offsetLookAt[2]
+    camLookAtVec.lerp(tempVec3, 0.05)
     dragToVec3.copy( cursorObj3d.position)
 }
 
@@ -287,6 +294,7 @@ let updatePathingCamera = function(tilePath, movedObj3d) {
 class CameraSpatialCursor {
     constructor() {
         cursorObj3d.position.copy(lookAroundPoint);
+        camPosVec.copy(lookAroundPoint);
         camParams.mode = camModes.worldDisplay;
 
         let setCamMode = function(evt) {
@@ -532,7 +540,7 @@ class CameraSpatialCursor {
 
             if (camParams.mode === camModes.worldDisplay) {
                 updateWorldDisplay();
-                camLookAtVec.copy(cursorObj3d.position)
+            //    camLookAtVec.copy(cursorObj3d.position)
                 //    cursorObj3d.position.copy(camLookAtVec)
             } else if (camParams.mode === camModes.activateEncounter) {
                 updateEncounterActivate();
