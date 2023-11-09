@@ -1,0 +1,43 @@
+[{
+  "WORLD_LOCATIONS":{
+    "LOCATION_MODELS":[
+      {
+        "id": "model_props_crash_site",
+        "data": [
+          {
+            "data_key":"model_data",
+            "config": {
+              "assets": [
+                {
+                  "boxes": [
+                    {
+                      "sprite": "creative_crate",
+                      "pos": [-1.8, 0.5, -1.3],
+                      "rot": [0, 0.5, 0],
+                      "scale": [0.008, 0.008, 0.008],
+                      "visibility": 1
+                    },
+                    {
+                      "sprite": "creative_crate",
+                      "pos": [1.8, 0.45, 2.4],
+                      "rot": [0, 1.2, 0],
+                      "scale": [0.009, 0.009, 0.009],
+                      "visibility": 1
+                    },
+                    {
+                      "sprite": "creative_crate",
+                      "pos": [0.7, 0.5, -1.7],
+                      "rot": [0, 1, 0],
+                      "scale": [0.005, 0.005, 0.005],
+                      "visibility": 1
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  }
+}]

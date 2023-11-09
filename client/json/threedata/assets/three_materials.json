@@ -33,6 +33,7 @@
             "settings": "mat_settings_phong_instancing",
             "textures":[
               {"key":"map"           , "id":"atlas_2k_diff"   },
+              {"key":"envMap"        , "id":"ref_sphere"      } ,
               {"key":"specularMap"   , "id":"atlas_2k_spec"   },
               {"key":"normalMap"     , "id":"atlas_2k_norm"   }
             ]

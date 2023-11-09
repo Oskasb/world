@@ -88,6 +88,28 @@
         ]
       },
       {
+        "id": "model_svigg",
+        "data": [
+          {
+            "data_key":"model_data",
+            "config": {
+              "assets": [
+                {
+                  "asset": "asset_svigg",
+                  "pos": [0, 0.8, 0],
+                  "rot": [0, 0, 0],
+                  "scale": [0.01, 0.01, 0.01],
+                  "visibility": 3,
+                  "boxes": [
+
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
         "id": "model_tree_1",
         "data": [
           {

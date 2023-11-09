@@ -1,0 +1,50 @@
+[{
+  "WORLD_LOCATIONS":{
+    "MODELS":[
+      {
+        "id": "alien_crash_site",
+        "data": [
+          {
+            "data_key":"location_data",
+            "config": {
+              "models": [
+                {
+                  "model": "model_svigg",
+                  "pos":[-965, 5.8, 712],
+                  "rot": [0.2, 0.23, -0.28],
+                  "scale": [0.5, 0.5, 0.5],
+                  "on_ground": true,
+                  "visibility": 3
+                },
+                {
+                  "model": "model_tree_2",
+                  "pos":[-952, 7.2, 716],
+                  "rot": [0, 0.3, 0],
+                  "scale": [0.5, 0.5, 0.5],
+                  "on_ground": true,
+                  "visibility": 3
+                },
+                {
+                  "model": "model_tree_1",
+                  "pos":[-972, 7.2, 703],
+                  "rot": [0, 2, 0],
+                  "scale": [0.7, 0.8, 0.75],
+                  "on_ground": true,
+                  "visibility": 3
+                },
+                {
+                  "model": "model_props_crash_site",
+                  "pos":[-964, 7.2, 709],
+                  "rot": [0, 0, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": true,
+                  "visibility": 3
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  }
+}]
