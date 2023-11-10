@@ -1,6 +1,7 @@
 import {ConfigData} from "../application/utils/ConfigData.js";
 import {PieceAnimator} from "../game/gamepieces/PieceAnimator.js";
 import {PieceActionSystem} from "../game/gamepieces/PieceActionSystem.js";
+import {PieceAttacher} from "../game/gamepieces/PieceAttacher.js";
 import {Vector3} from "../../libs/three/math/Vector3.js";
 import {Object3D} from "../../libs/three/core/Object3D.js";
 import {Box3} from "../../libs/three/math/Box3.js";
@@ -41,6 +42,7 @@ function attachSkeletonRig(visualPiece, rigId, pieceReady) {
 
     visualPiece.setPieceAnimator(new PieceAnimator());
     visualPiece.setPieceActionSystem( new PieceActionSystem());
+    visualPiece.setPieceAttacher(new PieceAttacher())
 
     let assetInstance = visualPiece.instance;
     let skellRig = rigId
@@ -65,12 +67,10 @@ function attachSkeletonRig(visualPiece, rigId, pieceReady) {
             scaleVec.set(size, size, size);
             visualPiece.pieceAnimator.setupAnimations(assetInstance.originalModel, scaleVec);
 
-            //    gamePiece.pieceAttachments = gamePiece.pieceAttacher.initPieceAttacher(gamePiece, skeletonData.data);
 
             let onSkelRigData = function (skelConfig) {
-   //             console.log("SkelRig", skelConfig, skeletonData);
                 visualPiece.animStateMap = visualPiece.pieceAnimator.initPieceAnimator(skeletonData);
-   //             console.log(visualPiece.animStateMap)
+                visualPiece.pieceAttachments = visualPiece.pieceAttacher.initPieceAttacher(visualPiece, skeletonData.data);
                 visualPiece.pieceActionSystem.initPieceActionSystem(visualPiece, skeletonData.data);
                 pieceReady(visualPiece)
             }
@@ -91,6 +91,11 @@ function setupVisualModel(visualPiece, assetId, config, pieceReady) {
 
         let addModel = function(instance) {
             visualPiece.setModel(instance);
+
+            if (config['base_size']) {
+                console.log("setupVisualModel Set base size: ", config)
+                instance.getSpatial().setBaseSize(config['base_size']);
+            }
 
    //         instance.spatial.setPosVec3(ThreeAPI.getCameraCursor().getPos())
    //         console.log("Visual Game Piece:",visualPiece);
@@ -161,11 +166,11 @@ function cubeTestVisibility(center, size) {
 
 function aaBoxTestVisibility(center, sizeX, sizeY, sizeZ) {
     tempBox.min.x = center.x - sizeX*0.5;
-    tempBox.min.y = center.y - sizeY*0.5;
+    tempBox.min.y = center.y - sizeX*0.5;
     tempBox.min.z = center.z - sizeZ*0.5;
 
     tempBox.max.x = center.x + sizeX*0.5;
-    tempBox.max.y = center.y + sizeY*0.5;
+    tempBox.max.y = center.y + sizeY;
     tempBox.max.z = center.z + sizeZ*0.5;
 
     return ThreeAPI.testBoxIsVisible(tempBox);

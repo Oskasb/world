@@ -15,7 +15,10 @@
             {"slot_id": "SLOT_SKIRT"     ,"joint": "SKIN"   },
             {"slot_id": "SLOT_FEET"      ,"joint": "SKIN"   },
             {"slot_id": "SLOT_HAND_R"    ,"joint": "GRIP_R" },
-            {"slot_id": "SLOT_HAND_L"    ,"joint": "GRIP_L" }
+            {"slot_id": "SLOT_HAND_L"    ,"joint": "GRIP_L" },
+            {"slot_id": "SLOT_BACK"      ,"joint": "SPINE_1"},
+            {"slot_id": "SLOT_WRIST_L"   ,"joint": "FOREARM_L"},
+            {"slot_id": "SLOT_WRIST_R"   ,"joint": "FOREARM_R"}
           ]
         }
       },

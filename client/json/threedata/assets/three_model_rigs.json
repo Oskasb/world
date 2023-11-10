@@ -8,7 +8,7 @@
           "config":{
             "joints": [
               {"key": "SKIN"          , "bone_name": "root_node"         },
-              {"key": "GRIP_L"        , "bone_name": "grip_l"           },
+              {"key": "GRIP_L"        , "bone_name": "grip_l"            },
               {"key": "GRIP_R"        , "bone_name": "grip_r"            },
               {"key": "PROP_1"        , "bone_name": "Bip001_Prop1"      },
               {"key": "PROP_2"        , "bone_name": "Bip001_Prop2"      },
@@ -18,7 +18,19 @@
               {"key": "HAND_L"        , "bone_name": "Bip001_L_Hand"     },
               {"key": "HAND_R"        , "bone_name": "Bip001_R_Hand"     },
               {"key": "FOOT_L"        , "bone_name": "Bip001_L_Foot"     },
-              {"key": "FOOT_R"        , "bone_name": "Bip001_R_Foot"     }
+              {"key": "FOOT_R"        , "bone_name": "Bip001_R_Foot"     },
+              {"key": "SPINE_0"       , "bone_name": "Bip001_Spine"      },
+              {"key": "SPINE_1"       , "bone_name": "Bip001_Spine1"     },
+              {"key": "SPINE_2"       , "bone_name": "Bip001_Spine2"     },
+              {"key": "UPPER_ARM_R"   , "bone_name": "Bip001_R_UpperArm" },
+              {"key": "UPPER_ARM_L"   , "bone_name": "Bip001_L_UpperArm" },
+              {"key": "FOREARM_R"     , "bone_name": "Bip001_R_Forearm"  },
+              {"key": "FOREARM_L"     , "bone_name": "Bip001_L_Forearm"  },
+              {"key": "CLAVICLE_R"    , "bone_name": "Bip001_R_Clavicle" },
+              {"key": "CLAVICLE_L"    , "bone_name": "Bip001_L_Clavicle" },
+              {"key": "NECK"          , "bone_name": "Bip001_Neck"       },
+              {"key": "CALF_R"        , "bone_name": "Bip001_R_Calf"     },
+              {"key": "CALF_L"        , "bone_name": "Bip001_L_Calf"     }
             ],
             "animations":[
               {"key":"FALL"           , "id":"file_barb_fall"           } ,

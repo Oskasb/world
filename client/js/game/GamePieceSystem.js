@@ -2,9 +2,31 @@ import { configDataList } from "../application/utils/ConfigUtils.js";
 import { VisualGamePiece } from "./visuals/VisualGamePiece.js";
 import { GameActor } from "./actor/GameActor.js";
 import { PlayerParty } from "./Player/PlayerParty.js";
+import { Item } from "./gamepieces/Item.js";
+
 
 let visualConfigs = {};
 let actorConfigs = {};
+
+
+let loadItem = function(event) {
+
+    let visualConfig = visualConfigs[event['id']];
+
+    let visualPiece = new VisualGamePiece(visualConfig);
+    let item = new Item(visualPiece)
+
+    let visualReadyCB = function(visualGP) {
+
+        if (event.pos) {
+            item.getPos().copy(event.pos);
+        }
+
+        event.callback(item)
+    }
+
+    visualPiece.attachModelAsset(visualReadyCB);
+}
 
 let loadActor = function(event) {
     let actorConfig = actorConfigs[event.id]
@@ -67,7 +89,7 @@ class GamePieceSystem {
         configDataList("GAME","ACTORS", onActorsData)
 
         evt.on(ENUMS.Event.LOAD_ACTOR, loadActor)
-
+        evt.on(ENUMS.Event.LOAD_ITEM,  loadItem)
     }
 
     getPlayerParty() {

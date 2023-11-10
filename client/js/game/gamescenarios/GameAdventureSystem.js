@@ -18,6 +18,20 @@ class GameAdventureSystem {
             GuiAPI.closePage(this.page);
             GuiAPI.closePage(client.page)
             client.page = null;
+            let loadItems = event['load_items']
+
+            let itemCallback = function(item) {
+                item.getSpatial().setPosXYZ(spatialTransition.targetPos.x, spatialTransition.targetPos.y+1, spatialTransition.targetPos.z)
+                console.log("Item Loaded; ", item)
+
+            }
+
+            if (loadItems) {
+                while (loadItems.length) {
+                    evt.dispatch(ENUMS.Event.LOAD_ITEM, {id: loadItems.pop(), callback:itemCallback})
+                }
+            }
+
             return;
         }
 

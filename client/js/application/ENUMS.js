@@ -88,7 +88,8 @@ if(typeof(ENUMS) === "undefined"){
         NOTIFY_LOAD_COMPLETED:      69,
         COLLECT_DEBUG_STATS:        70,
         SKY_GRADIENT_UPDATE:        71,
-        SELECT_ADVENTURER:          72
+        SELECT_ADVENTURER:          72,
+        LOAD_ITEM:                  73
     };
 
 
@@ -237,7 +238,21 @@ if(typeof(ENUMS) === "undefined"){
         GRIP_R:             9,
         FOOT_L:             10,
         FOOT_R:             11,
-        SKIN_SCALED:        12
+        SKIN_SCALED:        12,
+        SPINE_0:          13,
+        SPINE_1:          14,
+        SPINE_2:          15,
+        UPPER_ARM_R:      16,
+        UPPER_ARM_L:      17,
+        FOREARM_R:        18,
+        FOREARM_L:        19,
+        CLAVICLE_R:       20,
+        CLAVICLE_L:       21,
+        NECK:             22,
+        CALF_R:           23,
+        CALF_L:           24,
+        NEW_1:            25,
+        NEW_2:            26
     };
 
     ENUMS.BufferType = {

@@ -91,7 +91,7 @@ class DynamicTile {
         this.obj3d.position.x = indexX*this.spacing + this.offset
         this.obj3d.position.z = indexY*this.spacing + this.offset;
         let height = ThreeAPI.terrainAt(this.obj3d.position, this.groundNormal);
-        this.obj3d.position.y = height+this.spacing;
+        this.obj3d.position.y = height+0.05;
         if (this.visualTile) {
             this.visualTile.dynamicTileUpdated(this)
         }
@@ -158,7 +158,7 @@ class DynamicTile {
         let rgba = this.rgba
         let tileSize = this.spacing*1.1
 
-        let isVisible = aaBoxTestVisibility(pos,  tileSize, tileSize*4, tileSize)
+        let isVisible = aaBoxTestVisibility(pos,  tileSize, tileSize*2, tileSize)
         let borrowedBox = borrowBox();
         let farness = MATH.calcFraction(0, maxDistance, lodDistance * 2.0)  //MATH.clamp( (camDist / maxDistance) * 1.0, 0, 1)
         let nearness = 1-farness;

@@ -24,6 +24,28 @@
         }
       },
       {
+        "id":"VISUAL_ALIEN",
+        "data":{
+          "model_asset":"animated_fighter_male",
+          "skeleton_rig":"FIGHTER_RIG",
+          "scale": [1.0, 1.0, 1.0],
+          "rot": [0, 0, 0],
+          "status": {
+            "ACTIONS": ["ACTION_MAGIC_MISSILE", "ACTION_HEAL_BOLT"],
+            "TRAVEL":  ["ACTION_TRAVEL_WALK", "ACTION_TRAVEL_FLY"],
+            "HEIGHT": 1.8,
+            "SIZE": 1.2,
+            "HAND_SIZE": 0.4,
+            "ICON_KEY": "face_9",
+            "DEAD": false,
+            "NAME": "Alien",
+            "MAX_HP": 10,
+            "IN_COMBAT": false,
+            "TRAVEL_MODE": "TRAVEL_MODE_WALK"
+          }
+        }
+      },
+      {
         "id":"VISUAL_BARBARIAN",
         "data":{
           "model_asset":"animated_barbarian",

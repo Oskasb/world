@@ -9,6 +9,13 @@
         }
       },
       {
+        "id":"ACTOR_ALIEN",
+        "data":{
+          "visual_id": "VISUAL_ALIEN",
+          "equip_slots": "SLOTS_FIGHTER"
+        }
+      },
+      {
         "id":"ACTOR_BARB",
         "data":{
           "visual_id": "VISUAL_BARBARIAN",

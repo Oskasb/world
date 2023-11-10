@@ -8,14 +8,14 @@ class CharacterInventory {
         this.pieces.push(piece);
         GuiAPI.printDebugText("Inventory Items: "+this.pieces.length)
         GameAPI.takePieceFromWorld(piece);
-    //    console.log("Add inv item ", this.pieces);
+    //    console.log("Add inv item ", this.items);
     }
 
     getInventoryItemByItemId(itemId) {
         if (!this.pieces.length) return;
 
         if (itemId === 'random') {
-            //    console.log(this.pieces)
+            //    console.log(this.items)
             return this.pieces[Math.floor(Math.random()*this.pieces.length)]
         } else {
             console.log("Figure this out...")

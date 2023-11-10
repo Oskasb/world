@@ -7,8 +7,8 @@ class PieceAttacher {
         this.attachedWorldEntities = [];
     };
 
-    initPieceAttacher = function (piece, rigData) {
-        this.gamePiece = piece;
+    initPieceAttacher = function (visualGamePiece, rigData) {
+        this.visualGamePiece = visualGamePiece;
         return this.setupPieceAttachments(rigData)
     };
 
@@ -16,12 +16,12 @@ class PieceAttacher {
 
         let joints = rigData['joints'];
 
-        this.gamePiece.jointData = joints;
+        this.visualGamePiece.jointData = joints;
 
     //    let jointMap = this.gamePiece.modelInstance.originalModel.jointMap;
 
         for (let key in joints) {
-            this.pieceAttachments[key] = new PieceAttachment(key, joints[key], this.gamePiece.pieceAnimator.attachmentJoints[key]);
+            this.pieceAttachments[key] = new PieceAttachment(key, joints[key], this.visualGamePiece.pieceAnimator.attachmentJoints[key]);
         }
         return this.pieceAttachments;
     };
@@ -29,8 +29,7 @@ class PieceAttacher {
     attachSpatialToJoint = function (spatial, jointKey) {
         this.attachedWorldEntities.push(spatial);
         let pieceAttachment = this.getAttachmentJoint(jointKey)
-        let attachmentJoint = pieceAttachment.setAttachedSpatial(spatial, this.gamePiece.modelInstance);
-
+        let attachmentJoint = pieceAttachment.setAttachedSpatial(spatial, this.visualGamePiece.getModel());
         this.activeJoints.push(attachmentJoint);
     };
 
@@ -39,6 +38,11 @@ class PieceAttacher {
     }
 
     getAttachmentJoint = function (key) {
+
+        if (!this.pieceAttachments[key]) {
+            console.log("No Joint for key", key, this.pieceAttachments)
+        }
+
         return this.pieceAttachments[key].getDynamicJoint();
     };
 

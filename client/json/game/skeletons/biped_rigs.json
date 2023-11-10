@@ -12,12 +12,23 @@
             "PROP_3":   { "offset": [0, 0, 0], "rot": [0, 0, 0], "scale": [1, 1, 1]},
             "HAND_L":   { "offset": [0, 0, 0], "rot": [0, 1.57, 3.14], "scale": [1, 1, 1]},
             "HAND_R":   { "offset": [0, 0, 0], "rot": [0, 0, 1.57], "scale": [1, 1, 1]},
-
-            "PELVIS":   { "offset": [0, 0, 0], "rot": [0, 1.57, 3.14], "scale": [1, 1, 1]},
+            "PELVIS":   { "offset": [0, 0, 0], "rot": [0, 1.57, 3.14],  "scale": [1, 1, 1]},
             "GRIP_R":   { "offset": [0, 0, 0], "rot": [-1.57, 0, 3.14], "scale": [1, 1, 1]},
             "GRIP_L":   { "offset": [0, 0, 0], "rot": [-1.57, 0, 3.14], "scale": [1, 1, 1]},
             "FOOT_R":   { "offset": [0, 0, 0], "rot": [-1.57, 0, 3.14], "scale": [1, 1, 1]},
-            "FOOT_L":   { "offset": [0, 0, 0], "rot": [-1.57, 0, 3.14], "scale": [1, 1, 1]}
+            "FOOT_L":   { "offset": [0, 0, 0], "rot": [-1.57, 0, 3.14], "scale": [1, 1, 1]},
+            "SPINE_0":  { "offset": [0, 0, 0], "rot": [0, 1.57, 3.14],  "scale": [1, 1, 1]},
+            "SPINE_1":  { "offset": [0, 0, 0], "rot": [0, 1.57, 3.14],  "scale": [1, 1, 1]},
+            "SPINE_2":  { "offset": [0, 0, 0], "rot": [0, 1.57, 3.14],  "scale": [1, 1, 1]},
+            "UPPER_ARM_R":  { "offset": [0, 0, 0], "rot": [0, 1.57, 3.14],  "scale": [1, 1, 1]},
+            "UPPER_ARM_L":  { "offset": [0, 0, 0], "rot": [0, 1.57, 3.14],  "scale": [1, 1, 1]},
+            "FOREARM_R":  { "offset": [0, 0, 0], "rot": [0, 1.57, 3.14],  "scale": [1, 1, 1]},
+            "FOREARM_L":  { "offset": [0, 0, 0], "rot": [0, 1.57, 3.14],  "scale": [1, 1, 1]},
+            "CLAVICLE_R":  { "offset": [0, 0, 0], "rot": [0, 1.57, 3.14],  "scale": [1, 1, 1]},
+            "CLAVICLE_L":  { "offset": [0, 0, 0], "rot": [0, 1.57, 3.14],  "scale": [1, 1, 1]},
+            "NECK":  { "offset": [0, 0, 0], "rot": [0, 1.57, 3.14],  "scale": [1, 1, 1]},
+            "CALF_R":  { "offset": [0, 0, 0], "rot": [0, 1.57, 3.14],  "scale": [1, 1, 1]},
+            "CALF_L":  { "offset": [0, 0, 0], "rot": [0, 1.57, 3.14],  "scale": [1, 1, 1]}
           },
           "animations": {
             "IDLE":           {"time_scale": 0.4,  "weight": 1, "fade": 0.25,  "channel": 0, "loop": 1 ,"clamp": 1, "sync": 0},

@@ -8,6 +8,7 @@ import { ControlState} from "../piece_functions/ControlState.js";
 import { ActorText } from "../../application/ui/gui/game/ActorText.js";
 import { ActorMovement } from "./ActorMovement.js";
 import { TravelMode } from "./TravelMode.js";
+import { ActorEquipment } from "./ActorEquipment.js";
 
 let index = 0;
 let tempVec = new Vector3();
@@ -24,6 +25,7 @@ class GameActor {
         this.activated = false;
         this.actorObj3d = new Object3D();
         this.config = config;
+        this.actorEquipment = new ActorEquipment()
         this.visualGamePiece = null;
 
         this.velocity = new Vector3()
@@ -46,6 +48,7 @@ class GameActor {
                 console.log("Pre Deactivated happened, fix callback chain..")
                 return;
             }
+            this.actorEquipment.activateActorEquipment(this, this.config['equip_slots'])
             this.activated = true;
             GameAPI.registerGameUpdateCallback(updateGameActor);
         }.bind(this);

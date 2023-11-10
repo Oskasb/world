@@ -87,7 +87,7 @@
                       "event":"SELECT_ADVENTURER",
                       "value":{
                         "pos":[-964, 7.2, 709],
-                        "actor_id":"ACTOR_FIGHTER",
+                        "actor_id":"ACTOR_ALIEN",
                         "page_id": "page_start_alien"
                       }
                     }

@@ -3,6 +3,8 @@
   {
     "ASSETS": {
       "MODELS": [
+
+        {"id": "asset_jetpack",     "config":{"model": "file_jetpack",       "material": "mat_instancing_standard", "settings": "model_settings_instancing_5" }},
         {"id": "asset_oomba",       "config":{"model": "file_oomba",       "material": "mat_instancing_standard", "settings": "model_settings_instancing_5" }},
         {"id": "asset_svigg",       "config":{"model": "file_svigg",       "material": "mat_instancing_standard", "settings": "model_settings_instancing_5" }},
         {"id": "asset_f14",         "config":{"model": "file_jf14",             "rig": "rig_j35draken", "material": "material_opaque", "settings": "model_settings_default" }},

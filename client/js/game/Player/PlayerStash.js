@@ -25,14 +25,14 @@ class PlayerStash {
 
     addPieceToStash(piece) {
         this.pieces.push(piece);
-     //   console.log("Stash pieces ", this.pieces)
+     //   console.log("Stash items ", this.items)
     }
 
     getStashedItemByItemId(itemId) {
         if (!this.pieces.length) return;
 
         if (itemId === 'random') {
-        //    console.log(this.pieces)
+        //    console.log(this.items)
             return this.pieces[Math.floor(Math.random()*this.pieces.length)]
         } else {
             console.log("Figure this out...")

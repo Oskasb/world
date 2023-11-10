@@ -17,6 +17,7 @@ class VisualGamePiece {
         this.standState = 'IDLE_LEGS';
 
         this.addedAssets = [];
+        this.obj3d = new Object3D();
 
         this.assetId = config['model_asset'];
         this.config = config;
@@ -158,11 +159,12 @@ class VisualGamePiece {
     };
 
     setVisualPieceActor = function(actor) {
+        this.obj3d = actor.actorObj3d
         this.actor = actor;
     }
 
     getModelObj3d() {
-        return this.actor.actorObj3d;
+        return this.obj3d;
     }
 
     setMoveState = function(state) {

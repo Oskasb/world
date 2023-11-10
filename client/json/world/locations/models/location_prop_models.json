@@ -8,7 +8,15 @@
             "data_key":"model_data",
             "config": {
               "assets": [
+
                 {
+
+                  "asset": "asset_jetpack",
+                  "pos": [-1, 0.2, -2],
+                  "rot": [-1.57, 0, 0],
+                  "scale": [0.01, 0.01, 0.01],
+                  "visibility": 3,
+
                   "boxes": [
                     {
                       "sprite": "creative_crate",
