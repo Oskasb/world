@@ -1,0 +1,39 @@
+<se.spaced.shared.model.xmo.XmoRoot>
+	<name>The player model</name>
+
+	<size>
+		<double>0.4</double>
+		<double>0.5</double>
+		<double>0.4</double>
+	</size>
+  
+	<extendedMeshObjects>
+	
+
+	
+  		<se.spaced.shared.model.xmo.ExtendedMeshObject>
+			<xmoMaterialFile>materials/default_holed.material</xmoMaterialFile>
+			<colladaFile>props/gear/head/helmets/plated/plated_main.DAE</colladaFile>
+			<textureFile>textures/players/gear/gear.png</textureFile>
+			<position>
+				<double>0.0</double>
+				<double>0.0</double>
+				<double>0.0</double>
+			</position>
+			<rotation>
+				<double>0.0</double>
+				<double>0.0</double>
+				<double>0.0</double>
+				<double>1.0</double>
+			</rotation>
+			<scale>
+				<double>1.0</double>
+				<double>1.0</double>
+				<double>1.0</double>
+			</scale>
+		</se.spaced.shared.model.xmo.ExtendedMeshObject>
+		
+		
+	
+	</extendedMeshObjects>
+</se.spaced.shared.model.xmo.XmoRoot>

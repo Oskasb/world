@@ -1,0 +1,20 @@
+<AnimationMapping>
+  <stateToFilenameMap>
+    <entry>
+      <AnimationState>WALK</AnimationState>
+      <string>/props/mobs/borgpig/animations/borgpig_walk.DAE</string>
+    </entry>
+    <entry>
+      <AnimationState>IDLE</AnimationState>
+      <string>/props/mobs/borgpig/animations/borgpig_idle.DAE</string>
+    </entry>
+    <entry>
+      <AnimationState>DEAD</AnimationState>
+      <string>/props/mobs/borgpig/animations/borgpig_dead.DAE</string>
+    </entry>
+        <entry>
+          <AnimationState>COMBAT_DEFAULT_ATTACK</AnimationState>
+          <string>/props/mobs/borgpig/animations/borgpig_attack.DAE</string>
+        </entry>
+  </stateToFilenameMap>
+</AnimationMapping>

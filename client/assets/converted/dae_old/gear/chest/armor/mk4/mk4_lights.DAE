@@ -1,0 +1,1900 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.0">
+  <asset>
+    <contributor>
+      <author></author>
+      <authoring_tool>FBX COLLADA exporter</authoring_tool>
+      <comments></comments>
+    </contributor>
+    <created>2010-07-11T11:15:20Z</created>
+    <modified>2010-07-11T11:15:20Z</modified>
+    <revision></revision>
+    <title></title>
+    <subject></subject>
+    <keywords></keywords>
+    <unit meter="1.000000"/>
+    <up_axis>Y_UP</up_axis>
+  </asset>
+  <library_images>
+    <image id="Map__3-image" name="Map__3">
+      <init_from>file://C:\Spaced\newclient\resources\textures\players\gear\gear_tn.png</init_from>
+    </image>
+    <image id="Map__6-image" name="Map__6">
+      <init_from>file://C:\Spaced\newclient\resources\textures\players\gear\gear_tn.png</init_from>
+    </image>
+  </library_images>
+  <library_materials>
+    <material id="gear_tn_light" name="gear_tn_light">
+      <instance_effect url="#gear_tn_light-fx"/>
+    </material>
+  </library_materials>
+  <library_effects>
+    <effect id="gear_tn_light-fx" name="gear_tn_light">
+      <profile_COMMON>
+        <technique sid="standard">
+          <phong>
+            <emission>
+              <color sid="emission">0.000000  0.000000 0.000000 1.000000</color>
+            </emission>
+            <ambient>
+              <color sid="ambient">0.588235  0.588235 0.588235 1.000000</color>
+            </ambient>
+            <diffuse>
+              <texture texture="Map__3-image" texcoord="CHANNEL0">
+                <extra>
+                  <technique profile="MAYA">
+                    <wrapU sid="wrapU0">TRUE</wrapU>
+                    <wrapV sid="wrapV0">TRUE</wrapV>
+                    <blend_mode>ADD</blend_mode>
+                  </technique>
+                </extra>
+              </texture>
+            </diffuse>
+            <specular>
+              <color sid="specular">0.000000  0.000000 0.000000 1.000000</color>
+            </specular>
+            <shininess>
+              <float sid="shininess">2.000000</float>
+            </shininess>
+            <reflective>
+              <color sid="reflective">0.000000  0.000000 0.000000 1.000000</color>
+            </reflective>
+            <reflectivity>
+              <float sid="reflectivity">1.000000</float>
+            </reflectivity>
+            <transparent>
+              <texture texture="Map__6-image" texcoord="CHANNEL0">
+                <extra>
+                  <technique profile="MAYA">
+                    <wrapU sid="wrapU0">TRUE</wrapU>
+                    <wrapV sid="wrapV0">TRUE</wrapV>
+                    <blend_mode>ADD</blend_mode>
+                  </technique>
+                </extra>
+              </texture>
+            </transparent>
+            <transparency>
+              <float sid="transparency">0.000000</float>
+            </transparency>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+  </library_effects>
+  <library_geometries>
+    <geometry id="Plane02-lib" name="Plane02Mesh">
+      <mesh>
+        <source id="Plane02-lib-Position">
+          <float_array id="Plane02-lib-Position-array" count="177">
+-0.048766 -0.047847 -0.007623
+0.000000 -0.047847 -0.000000
+0.046803 -0.047847 -0.007623
+-0.048766 -0.005747 -0.014603
+0.000000 -0.005747 -0.012975
+0.046803 -0.005747 -0.014603
+-0.048766 0.032483 -0.035215
+0.000000 0.032483 -0.030474
+0.046803 0.032483 -0.035215
+-0.244376 0.139463 -0.179418
+-0.272485 0.144546 -0.169093
+-0.300594 0.158785 -0.169093
+-0.328703 0.158785 -0.169093
+-0.356812 0.136012 -0.179418
+-0.232254 0.153701 -0.200596
+-0.279213 0.159869 -0.199249
+-0.304877 0.167848 -0.192223
+-0.331216 0.158349 -0.199987
+-0.368934 0.143601 -0.200596
+-0.232254 0.153701 -0.221774
+-0.272040 0.171149 -0.218624
+-0.297966 0.186224 -0.219025
+-0.339093 0.162267 -0.219457
+-0.368934 0.146041 -0.221774
+-0.232254 0.149601 -0.242952
+-0.283096 0.173353 -0.234562
+-0.304129 0.171102 -0.244006
+-0.328897 0.165070 -0.234937
+-0.368934 0.147486 -0.242952
+-0.244376 0.144338 -0.264130
+-0.272485 0.148598 -0.276759
+-0.300594 0.147464 -0.276759
+-0.328703 0.144694 -0.276759
+-0.356812 0.138553 -0.264130
+0.245706 0.139463 -0.179418
+0.273816 0.144546 -0.169093
+0.301925 0.158785 -0.169093
+0.330034 0.158785 -0.169093
+0.358143 0.136012 -0.179418
+0.233585 0.153701 -0.200596
+0.280544 0.159869 -0.199249
+0.306208 0.167848 -0.192223
+0.332547 0.158349 -0.199987
+0.370265 0.143601 -0.200596
+0.233585 0.153701 -0.221774
+0.273371 0.171149 -0.218624
+0.299297 0.186224 -0.219025
+0.340424 0.162267 -0.219457
+0.370265 0.146041 -0.221774
+0.233585 0.149601 -0.242952
+0.284427 0.173353 -0.234562
+0.305460 0.171102 -0.244006
+0.330228 0.165070 -0.234937
+0.370265 0.147486 -0.242952
+0.245706 0.144338 -0.264130
+0.273816 0.148598 -0.276759
+0.301925 0.147464 -0.276759
+0.330034 0.144694 -0.276759
+0.358143 0.138553 -0.264130
+</float_array>
+          <technique_common>
+            <accessor source="#Plane02-lib-Position-array" count="59" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Plane02-lib-Normal0">
+          <float_array id="Plane02-lib-Normal0-array" count="648">
+-0.047344 0.310024 0.949549
+-0.086851 0.224007 0.970710
+-0.007841 0.348423 0.937304
+-0.027771 0.264091 0.964098
+-0.007841 0.348423 0.937304
+-0.086851 0.224007 0.970710
+-0.007841 0.348423 0.937304
+-0.027771 0.264091 0.964098
+0.065323 0.354186 0.932891
+0.158649 0.161478 0.974041
+0.065323 0.354186 0.932891
+-0.027771 0.264091 0.964098
+-0.085269 0.472860 0.877002
+-0.047344 0.310024 0.949549
+0.018058 0.429774 0.902756
+-0.007841 0.348423 0.937304
+0.018058 0.429774 0.902756
+-0.047344 0.310024 0.949549
+0.018058 0.429774 0.902756
+-0.007841 0.348423 0.937304
+0.059143 0.446882 0.892636
+0.065323 0.354186 0.932891
+0.059143 0.446882 0.892636
+-0.007841 0.348423 0.937304
+0.250670 0.898253 0.360980
+0.295969 0.816687 0.495403
+0.192648 0.832966 0.518704
+0.342390 0.871996 0.349846
+0.192648 0.832966 0.518704
+0.295969 0.816687 0.495403
+0.295969 0.816687 0.495403
+-0.070797 0.885558 0.459102
+0.342390 0.871996 0.349846
+0.172042 0.955395 0.240048
+0.342390 0.871996 0.349846
+-0.070797 0.885558 0.459102
+-0.070797 0.885558 0.459102
+-0.364180 0.907657 0.208642
+0.172042 0.955395 0.240048
+-0.217275 0.972146 0.087881
+0.172042 0.955395 0.240048
+-0.364180 0.907657 0.208642
+-0.364180 0.907657 0.208642
+-0.450460 0.868605 0.206424
+-0.217275 0.972146 0.087881
+-0.636911 0.534107 0.555945
+-0.217275 0.972146 0.087881
+-0.450460 0.868605 0.206424
+0.397956 0.912910 -0.090698
+0.351976 0.922299 0.159618
+0.250670 0.898253 0.360980
+0.295969 0.816687 0.495403
+0.250670 0.898253 0.360980
+0.351976 0.922299 0.159618
+0.351976 0.922299 0.159618
+0.064908 0.997452 0.029621
+0.295969 0.816687 0.495403
+-0.070797 0.885558 0.459102
+0.295969 0.816687 0.495403
+0.064908 0.997452 0.029621
+0.064908 0.997452 0.029621
+-0.460030 0.875794 0.146139
+-0.070797 0.885558 0.459102
+-0.364180 0.907657 0.208642
+-0.070797 0.885558 0.459102
+-0.460030 0.875794 0.146139
+-0.460030 0.875794 0.146139
+-0.441076 0.889424 0.119899
+-0.364180 0.907657 0.208642
+-0.450460 0.868605 0.206424
+-0.364180 0.907657 0.208642
+-0.441076 0.889424 0.119899
+0.360132 0.885368 -0.293987
+0.056136 0.992093 -0.112250
+0.397956 0.912910 -0.090698
+0.351976 0.922299 0.159618
+0.397956 0.912910 -0.090698
+0.056136 0.992093 -0.112250
+0.056136 0.992093 -0.112250
+-0.073141 0.866901 -0.493085
+0.351976 0.922299 0.159618
+0.064908 0.997452 0.029621
+0.351976 0.922299 0.159618
+-0.073141 0.866901 -0.493085
+-0.073141 0.866901 -0.493085
+-0.397854 0.867570 -0.298386
+0.064908 0.997452 0.029621
+-0.460030 0.875794 0.146139
+0.064908 0.997452 0.029621
+-0.397854 0.867570 -0.298386
+-0.397854 0.867570 -0.298386
+-0.371879 0.893066 -0.253256
+-0.460030 0.875794 0.146139
+-0.441076 0.889424 0.119899
+-0.460030 0.875794 0.146139
+-0.371879 0.893066 -0.253256
+0.307327 0.867357 -0.391461
+0.154024 0.870505 -0.467438
+0.360132 0.885368 -0.293987
+0.056136 0.992093 -0.112250
+0.360132 0.885368 -0.293987
+0.154024 0.870505 -0.467438
+0.154024 0.870505 -0.467438
+-0.028884 0.828741 -0.558886
+0.056136 0.992093 -0.112250
+-0.073141 0.866901 -0.493085
+0.056136 0.992093 -0.112250
+-0.028884 0.828741 -0.558886
+-0.028884 0.828741 -0.558886
+-0.268356 0.836547 -0.477675
+-0.073141 0.866901 -0.493085
+-0.397854 0.867570 -0.298386
+-0.073141 0.866901 -0.493085
+-0.268356 0.836547 -0.477675
+-0.268356 0.836547 -0.477675
+-0.316078 0.832889 -0.454303
+-0.397854 0.867570 -0.298386
+-0.371879 0.893066 -0.253256
+-0.397854 0.867570 -0.298386
+-0.316078 0.832889 -0.454303
+-0.250670 0.898253 0.360980
+-0.192648 0.832966 0.518704
+-0.295969 0.816687 0.495403
+-0.342390 0.871996 0.349846
+-0.295969 0.816687 0.495403
+-0.192648 0.832966 0.518704
+-0.295969 0.816687 0.495403
+-0.342390 0.871996 0.349846
+0.070797 0.885558 0.459102
+-0.172042 0.955395 0.240048
+0.070797 0.885558 0.459102
+-0.342390 0.871996 0.349846
+0.070797 0.885558 0.459102
+-0.172042 0.955395 0.240048
+0.364180 0.907657 0.208642
+0.217275 0.972146 0.087881
+0.364180 0.907657 0.208642
+-0.172042 0.955395 0.240048
+0.364180 0.907657 0.208642
+0.217275 0.972146 0.087881
+0.450460 0.868605 0.206424
+0.636911 0.534107 0.555945
+0.450460 0.868605 0.206424
+0.217275 0.972146 0.087881
+-0.397956 0.912910 -0.090698
+-0.250670 0.898253 0.360980
+-0.351976 0.922299 0.159618
+-0.295969 0.816687 0.495403
+-0.351976 0.922299 0.159618
+-0.250670 0.898253 0.360980
+-0.351976 0.922299 0.159618
+-0.295969 0.816687 0.495403
+-0.064908 0.997452 0.029621
+0.070797 0.885558 0.459102
+-0.064908 0.997452 0.029621
+-0.295969 0.816687 0.495403
+-0.064908 0.997452 0.029621
+0.070797 0.885558 0.459102
+0.460030 0.875794 0.146139
+0.364180 0.907657 0.208642
+0.460030 0.875794 0.146139
+0.070797 0.885558 0.459102
+0.460030 0.875794 0.146139
+0.364180 0.907657 0.208642
+0.441076 0.889424 0.119899
+0.450460 0.868605 0.206424
+0.441076 0.889424 0.119899
+0.364180 0.907657 0.208642
+-0.360132 0.885368 -0.293987
+-0.397956 0.912910 -0.090698
+-0.056136 0.992093 -0.112250
+-0.351976 0.922299 0.159618
+-0.056136 0.992093 -0.112250
+-0.397956 0.912910 -0.090698
+-0.056136 0.992093 -0.112250
+-0.351976 0.922299 0.159618
+0.073141 0.866901 -0.493085
+-0.064908 0.997452 0.029621
+0.073141 0.866901 -0.493085
+-0.351976 0.922299 0.159618
+0.073141 0.866901 -0.493085
+-0.064908 0.997452 0.029621
+0.397854 0.867570 -0.298386
+0.460030 0.875794 0.146139
+0.397854 0.867570 -0.298386
+-0.064908 0.997452 0.029621
+0.397854 0.867570 -0.298386
+0.460030 0.875794 0.146139
+0.371879 0.893066 -0.253256
+0.441076 0.889424 0.119899
+0.371879 0.893066 -0.253256
+0.460030 0.875794 0.146139
+-0.307327 0.867357 -0.391461
+-0.360132 0.885368 -0.293987
+-0.154024 0.870505 -0.467438
+-0.056136 0.992093 -0.112250
+-0.154024 0.870505 -0.467438
+-0.360132 0.885368 -0.293987
+-0.154024 0.870505 -0.467438
+-0.056136 0.992093 -0.112250
+0.028884 0.828741 -0.558886
+0.073141 0.866901 -0.493085
+0.028884 0.828741 -0.558886
+-0.056136 0.992093 -0.112250
+0.028884 0.828741 -0.558886
+0.073141 0.866901 -0.493085
+0.268356 0.836547 -0.477675
+0.397854 0.867570 -0.298386
+0.268356 0.836547 -0.477675
+0.073141 0.866901 -0.493085
+0.268356 0.836547 -0.477675
+0.397854 0.867570 -0.298386
+0.316078 0.832889 -0.454303
+0.371879 0.893066 -0.253256
+0.316078 0.832889 -0.454303
+0.397854 0.867570 -0.298386
+</float_array>
+          <technique_common>
+            <accessor source="#Plane02-lib-Normal0-array" count="216" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Plane02-lib-UV0">
+          <float_array id="Plane02-lib-UV0-array" count="118">
+0.884505 0.094461
+0.939592 0.094461
+0.994678 0.094461
+0.884505 0.141011
+0.939592 0.141011
+0.994678 0.141011
+0.884505 0.181011
+0.939592 0.181011
+0.994678 0.181011
+0.916864 0.093849
+0.910194 0.085130
+0.906921 0.057344
+0.909118 0.029303
+0.912822 0.016338
+0.926013 0.099670
+0.928383 0.082629
+0.922420 0.057336
+0.927407 0.032004
+0.924261 0.010840
+0.949804 0.101872
+0.949485 0.087324
+0.948883 0.056100
+0.948281 0.024876
+0.947925 0.006421
+0.970439 0.098069
+0.967938 0.080782
+0.971699 0.055035
+0.966685 0.031590
+0.968393 0.009726
+0.982800 0.093040
+0.988633 0.083080
+0.990213 0.054594
+0.987262 0.027740
+0.981884 0.016005
+0.916864 0.093849
+0.910194 0.085130
+0.906921 0.057344
+0.909118 0.029303
+0.912822 0.016338
+0.926013 0.099670
+0.928383 0.082629
+0.922420 0.057336
+0.927407 0.032004
+0.924261 0.010840
+0.949804 0.101872
+0.949485 0.087324
+0.948883 0.056100
+0.948281 0.024876
+0.947925 0.006421
+0.970439 0.098069
+0.967938 0.080782
+0.971699 0.055035
+0.966685 0.031590
+0.968393 0.009726
+0.982800 0.093040
+0.988633 0.083080
+0.990213 0.054594
+0.987262 0.027740
+0.981884 0.016005
+</float_array>
+          <technique_common>
+            <accessor source="#Plane02-lib-UV0-array" count="59" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="Plane02-lib-Vertex">
+          <input semantic="POSITION" source="#Plane02-lib-Position"/>
+        </vertices>
+        <polygons material="gear_tn_light" count="72">
+          <input semantic="VERTEX" offset="0" source="#Plane02-lib-Vertex"/>
+          <input semantic="NORMAL" offset="1" source="#Plane02-lib-Normal0"/>
+          <input semantic="TEXCOORD" offset="2" set="0" source="#Plane02-lib-UV0"/>
+          <p>3 0 3 0 1 0 4 2 4</p>
+          <p>1 3 1 4 4 4 0 5 0</p>
+          <p>4 6 4 1 7 1 5 8 5</p>
+          <p>2 9 2 5 10 5 1 11 1</p>
+          <p>6 12 6 3 13 3 7 14 7</p>
+          <p>4 15 4 7 16 7 3 17 3</p>
+          <p>7 18 7 4 19 4 8 20 8</p>
+          <p>5 21 5 8 22 8 4 23 4</p>
+          <p>14 24 14 15 25 15 9 26 9</p>
+          <p>10 27 10 9 28 9 15 29 15</p>
+          <p>15 30 15 16 31 16 10 32 10</p>
+          <p>11 33 11 10 34 10 16 35 16</p>
+          <p>16 36 16 17 37 17 11 38 11</p>
+          <p>12 39 12 11 40 11 17 41 17</p>
+          <p>17 42 17 18 43 18 12 44 12</p>
+          <p>13 45 13 12 46 12 18 47 18</p>
+          <p>19 48 19 20 49 20 14 50 14</p>
+          <p>15 51 15 14 52 14 20 53 20</p>
+          <p>20 54 20 21 55 21 15 56 15</p>
+          <p>16 57 16 15 58 15 21 59 21</p>
+          <p>21 60 21 22 61 22 16 62 16</p>
+          <p>17 63 17 16 64 16 22 65 22</p>
+          <p>22 66 22 23 67 23 17 68 17</p>
+          <p>18 69 18 17 70 17 23 71 23</p>
+          <p>24 72 24 25 73 25 19 74 19</p>
+          <p>20 75 20 19 76 19 25 77 25</p>
+          <p>25 78 25 26 79 26 20 80 20</p>
+          <p>21 81 21 20 82 20 26 83 26</p>
+          <p>26 84 26 27 85 27 21 86 21</p>
+          <p>22 87 22 21 88 21 27 89 27</p>
+          <p>27 90 27 28 91 28 22 92 22</p>
+          <p>23 93 23 22 94 22 28 95 28</p>
+          <p>29 96 29 30 97 30 24 98 24</p>
+          <p>25 99 25 24 100 24 30 101 30</p>
+          <p>30 102 30 31 103 31 25 104 25</p>
+          <p>26 105 26 25 106 25 31 107 31</p>
+          <p>31 108 31 32 109 32 26 110 26</p>
+          <p>27 111 27 26 112 26 32 113 32</p>
+          <p>32 114 32 33 115 33 27 116 27</p>
+          <p>28 117 28 27 118 27 33 119 33</p>
+          <p>39 120 39 34 121 34 40 122 40</p>
+          <p>35 123 35 40 124 40 34 125 34</p>
+          <p>40 126 40 35 127 35 41 128 41</p>
+          <p>36 129 36 41 130 41 35 131 35</p>
+          <p>41 132 41 36 133 36 42 134 42</p>
+          <p>37 135 37 42 136 42 36 137 36</p>
+          <p>42 138 42 37 139 37 43 140 43</p>
+          <p>38 141 38 43 142 43 37 143 37</p>
+          <p>44 144 44 39 145 39 45 146 45</p>
+          <p>40 147 40 45 148 45 39 149 39</p>
+          <p>45 150 45 40 151 40 46 152 46</p>
+          <p>41 153 41 46 154 46 40 155 40</p>
+          <p>46 156 46 41 157 41 47 158 47</p>
+          <p>42 159 42 47 160 47 41 161 41</p>
+          <p>47 162 47 42 163 42 48 164 48</p>
+          <p>43 165 43 48 166 48 42 167 42</p>
+          <p>49 168 49 44 169 44 50 170 50</p>
+          <p>45 171 45 50 172 50 44 173 44</p>
+          <p>50 174 50 45 175 45 51 176 51</p>
+          <p>46 177 46 51 178 51 45 179 45</p>
+          <p>51 180 51 46 181 46 52 182 52</p>
+          <p>47 183 47 52 184 52 46 185 46</p>
+          <p>52 186 52 47 187 47 53 188 53</p>
+          <p>48 189 48 53 190 53 47 191 47</p>
+          <p>54 192 54 49 193 49 55 194 55</p>
+          <p>50 195 50 55 196 55 49 197 49</p>
+          <p>55 198 55 50 199 50 56 200 56</p>
+          <p>51 201 51 56 202 56 50 203 50</p>
+          <p>56 204 56 51 205 51 57 206 57</p>
+          <p>52 207 52 57 208 57 51 209 51</p>
+          <p>57 210 57 52 211 52 58 212 58</p>
+          <p>53 213 53 58 214 58 52 215 52</p>
+        </polygons>
+      </mesh>
+    </geometry>
+  </library_geometries>
+  <library_controllers>
+    <controller id="Plane02Controller">
+      <skin source="#Plane02-lib">
+        <bind_shape_matrix>1.000000 -0.000000 0.000000 0.000046 0.000000 1.000000 -0.000000 1.378586 0.000000 0.000000 1.000000 0.195585 0.000000 0.000000 0.000000 1.000000
+</bind_shape_matrix>
+        <source id="Plane02Controller-Joints">
+          <Name_array id="Plane02Controller-Joints-array" count="3">
+ Bip01_Spine1 Bip01_R_UpperArm Bip01_L_UpperArm</Name_array>
+          <technique_common>
+            <accessor source="#Plane02Controller-Joints-array" count="3">
+              <param type="name"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Plane02Controller-Matrices">
+          <float_array id="Plane02Controller-Matrices-array" count="48">
+
+-0.000000 0.992783 -0.119925 -1.214110 -0.000002 0.119925 0.992783 -0.121396 1.000000 0.000000 0.000002 -0.000000 0.000000 0.000000 0.000000 1.000000
+-0.999054 -0.042969 0.006651 -0.136356 -0.010935 0.100241 -0.994903 -0.188359 0.042083 -0.994035 -0.100616 1.392143 0.000000 0.000000 0.000000 1.000000
+0.999054 -0.042969 0.006648 -0.136356 0.010932 0.100241 -0.994903 -0.188359 0.042083 0.994035 0.100616 -1.392143 0.000000 0.000000 0.000000 1.000000</float_array>
+          <technique_common>
+            <accessor source="#Plane02Controller-Matrices-array" count="3" stride="16">
+              <param type="float4x4"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Plane02Controller-Weights">
+          <float_array id="Plane02Controller-Weights-array" count="60">
+
+1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
+1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
+1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
+1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000</float_array>
+          <technique_common>
+            <accessor source="#Plane02Controller-Weights-array" count="60">
+              <param type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <joints>
+          <input semantic="JOINT" source="#Plane02Controller-Joints"/>
+          <input semantic="INV_BIND_MATRIX" source="#Plane02Controller-Matrices"/>
+        </joints>
+        <vertex_weights count="59">
+          <input semantic="JOINT" offset="0" source="#Plane02Controller-Joints"/>
+          <input semantic="WEIGHT" offset="1" source="#Plane02Controller-Weights"/>
+          <vcount>1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1</vcount>
+          <v>0 1 0 2 0 3 0 4 0 5 0 6 0 7 0 8 0 9 1 10 1 11 1 12 1 13 1 14 1 15 1 16 1 17 1 18 1 19 1 20 1 21 1 22 1 23 1 24 1 25 1 26 1 27 1 28 1 29 1 30 1 31 1 32 1 33 1 34 2 35 2 36 2 37 2 38 2 39 2 40 2 41 2 42 2 43 2 44 2 45 2 46 2 47 2 48 2 49 2 50 2 51 2 52 2 53 2 54 2 55 2 56 2 57 2 58 2 59</v>
+        </vertex_weights>
+      </skin>
+    </controller>
+  </library_controllers>
+  <library_animations>
+    <animation id="Bip01-anim" name="Bip01">
+      <animation>
+        <source id="Bip01-Matrix-animation-input">
+          <float_array id="Bip01-Matrix-animation-input-array" count="2">
+
+0.000000 0.033333</float_array>
+          <technique_common>
+            <accessor source="#Bip01-Matrix-animation-input-array" count="2">
+              <param name="TIME" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Bip01-Matrix-animation-output-transform">
+          <float_array id="Bip01-Matrix-animation-output-transform-array" count="32">
+
+0.000000 0.000000 -1.000000 -0.900000 -0.000000 1.000000 0.000000 0.000000 1.000000 -0.000000 0.000000 0.037619 0.000000 0.000000 0.000000 1.000000
+0.000000 0.000000 -1.000000 -0.900000 -0.000000 1.000000 0.000000 0.000000 1.000000 -0.000000 0.000000 0.037619 0.000000 0.000000 0.000000 1.000000</float_array>
+          <technique_common>
+            <accessor source="#Bip01-Matrix-animation-output-transform-array" count="2" stride="16">
+              <param type="float4x4"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Bip01-Interpolations">
+          <Name_array id="Bip01-Interpolations-array" count="2">
+ LINEAR LINEAR</Name_array>
+          <technique_common>
+            <accessor source="#Bip01-Interpolations-array" count="2">
+              <param type="name"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <sampler id="Bip01-Matrix-animation-transform">
+          <input semantic="INPUT" source="#Bip01-Matrix-animation-input"/>
+          <input semantic="OUTPUT" source="#Bip01-Matrix-animation-output-transform"/>
+          <input semantic="INTERPOLATION" source="#Bip01-Interpolations"/>
+        </sampler>
+        <channel source="#Bip01-Matrix-animation-transform" target="Bip01/matrix"/>
+      </animation>
+    </animation>
+    <animation id="Bip01_Pelvis-anim" name="Bip01_Pelvis">
+      <animation>
+        <source id="Bip01_Pelvis-Matrix-animation-input">
+          <float_array id="Bip01_Pelvis-Matrix-animation-input-array" count="2">
+
+0.000000 0.033333</float_array>
+          <technique_common>
+            <accessor source="#Bip01_Pelvis-Matrix-animation-input-array" count="2">
+              <param name="TIME" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Bip01_Pelvis-Matrix-animation-output-transform">
+          <float_array id="Bip01_Pelvis-Matrix-animation-output-transform-array" count="32">
+
+-0.000000 1.000000 -0.000001 -0.035611 -0.000000 0.000001 1.000000 0.000000 1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 1.000000
+-0.000000 1.000000 -0.000001 -0.035611 -0.000000 0.000001 1.000000 0.000000 1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 1.000000</float_array>
+          <technique_common>
+            <accessor source="#Bip01_Pelvis-Matrix-animation-output-transform-array" count="2" stride="16">
+              <param type="float4x4"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Bip01_Pelvis-Interpolations">
+          <Name_array id="Bip01_Pelvis-Interpolations-array" count="2">
+ LINEAR LINEAR</Name_array>
+          <technique_common>
+            <accessor source="#Bip01_Pelvis-Interpolations-array" count="2">
+              <param type="name"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <sampler id="Bip01_Pelvis-Matrix-animation-transform">
+          <input semantic="INPUT" source="#Bip01_Pelvis-Matrix-animation-input"/>
+          <input semantic="OUTPUT" source="#Bip01_Pelvis-Matrix-animation-output-transform"/>
+          <input semantic="INTERPOLATION" source="#Bip01_Pelvis-Interpolations"/>
+        </sampler>
+        <channel source="#Bip01_Pelvis-Matrix-animation-transform" target="Bip01_Pelvis/matrix"/>
+      </animation>
+    </animation>
+    <animation id="Bip01_Spine-anim" name="Bip01_Spine">
+      <animation>
+        <source id="Bip01_Spine-Matrix-animation-input">
+          <float_array id="Bip01_Spine-Matrix-animation-input-array" count="2">
+
+0.000000 0.033333</float_array>
+          <technique_common>
+            <accessor source="#Bip01_Spine-Matrix-animation-input-array" count="2">
+              <param name="TIME" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Bip01_Spine-Matrix-animation-output-transform">
+          <float_array id="Bip01_Spine-Matrix-animation-output-transform-array" count="32">
+
+0.992783 0.119925 -0.000001 0.098590 -0.119925 0.992783 0.000004 -0.000176 0.000002 -0.000004 1.000000 0.000000 0.000000 0.000000 0.000000 1.000000
+0.992783 0.119925 -0.000001 0.098590 -0.119925 0.992783 0.000004 -0.000176 0.000002 -0.000004 1.000000 0.000000 0.000000 0.000000 0.000000 1.000000</float_array>
+          <technique_common>
+            <accessor source="#Bip01_Spine-Matrix-animation-output-transform-array" count="2" stride="16">
+              <param type="float4x4"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Bip01_Spine-Interpolations">
+          <Name_array id="Bip01_Spine-Interpolations-array" count="2">
+ LINEAR LINEAR</Name_array>
+          <technique_common>
+            <accessor source="#Bip01_Spine-Interpolations-array" count="2">
+              <param type="name"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <sampler id="Bip01_Spine-Matrix-animation-transform">
+          <input semantic="INPUT" source="#Bip01_Spine-Matrix-animation-input"/>
+          <input semantic="OUTPUT" source="#Bip01_Spine-Matrix-animation-output-transform"/>
+          <input semantic="INTERPOLATION" source="#Bip01_Spine-Interpolations"/>
+        </sampler>
+        <channel source="#Bip01_Spine-Matrix-animation-transform" target="Bip01_Spine/matrix"/>
+      </animation>
+    </animation>
+    <animation id="Bip01_Spine1-anim" name="Bip01_Spine1">
+      <animation>
+        <source id="Bip01_Spine1-Matrix-animation-input">
+          <float_array id="Bip01_Spine1-Matrix-animation-input-array" count="2">
+
+0.000000 0.033333</float_array>
+          <technique_common>
+            <accessor source="#Bip01_Spine1-Matrix-animation-input-array" count="2">
+              <param name="TIME" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Bip01_Spine1-Matrix-animation-output-transform">
+          <float_array id="Bip01_Spine1-Matrix-animation-output-transform-array" count="32">
+
+1.000000 -0.000000 0.000000 0.222947 -0.000000 1.000000 0.000000 -0.000178 0.000000 -0.000000 1.000000 -0.000000 0.000000 0.000000 0.000000 1.000000
+1.000000 -0.000000 0.000000 0.222947 -0.000000 1.000000 0.000000 -0.000178 0.000000 -0.000000 1.000000 -0.000000 0.000000 0.000000 0.000000 1.000000</float_array>
+          <technique_common>
+            <accessor source="#Bip01_Spine1-Matrix-animation-output-transform-array" count="2" stride="16">
+              <param type="float4x4"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Bip01_Spine1-Interpolations">
+          <Name_array id="Bip01_Spine1-Interpolations-array" count="2">
+ LINEAR LINEAR</Name_array>
+          <technique_common>
+            <accessor source="#Bip01_Spine1-Interpolations-array" count="2">
+              <param type="name"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <sampler id="Bip01_Spine1-Matrix-animation-transform">
+          <input semantic="INPUT" source="#Bip01_Spine1-Matrix-animation-input"/>
+          <input semantic="OUTPUT" source="#Bip01_Spine1-Matrix-animation-output-transform"/>
+          <input semantic="INTERPOLATION" source="#Bip01_Spine1-Interpolations"/>
+        </sampler>
+        <channel source="#Bip01_Spine1-Matrix-animation-transform" target="Bip01_Spine1/matrix"/>
+      </animation>
+    </animation>
+    <animation id="Bip01_Neck-anim" name="Bip01_Neck">
+      <animation>
+        <source id="Bip01_Neck-Matrix-animation-input">
+          <float_array id="Bip01_Neck-Matrix-animation-input-array" count="2">
+
+0.000000 0.033333</float_array>
+          <technique_common>
+            <accessor source="#Bip01_Neck-Matrix-animation-input-array" count="2">
+              <param name="TIME" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Bip01_Neck-Matrix-animation-output-transform">
+          <float_array id="Bip01_Neck-Matrix-animation-output-transform-array" count="32">
+
+0.965926 -0.258819 -0.000001 0.222970 0.258819 0.965926 -0.000000 -0.000087 0.000001 -0.000000 1.000000 -0.000000 0.000000 0.000000 0.000000 1.000000
+0.965926 -0.258819 -0.000001 0.222970 0.258819 0.965926 -0.000000 -0.000087 0.000001 -0.000000 1.000000 -0.000000 0.000000 0.000000 0.000000 1.000000</float_array>
+          <technique_common>
+            <accessor source="#Bip01_Neck-Matrix-animation-output-transform-array" count="2" stride="16">
+              <param type="float4x4"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Bip01_Neck-Interpolations">
+          <Name_array id="Bip01_Neck-Interpolations-array" count="2">
+ LINEAR LINEAR</Name_array>
+          <technique_common>
+            <accessor source="#Bip01_Neck-Interpolations-array" count="2">
+              <param type="name"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <sampler id="Bip01_Neck-Matrix-animation-transform">
+          <input semantic="INPUT" source="#Bip01_Neck-Matrix-animation-input"/>
+          <input semantic="OUTPUT" source="#Bip01_Neck-Matrix-animation-output-transform"/>
+          <input semantic="INTERPOLATION" source="#Bip01_Neck-Interpolations"/>
+        </sampler>
+        <channel source="#Bip01_Neck-Matrix-animation-transform" target="Bip01_Neck/matrix"/>
+      </animation>
+    </animation>
+    <animation id="Bip01_L_Clavicle-anim" name="Bip01_L_Clavicle">
+      <animation>
+        <source id="Bip01_L_Clavicle-Matrix-animation-input">
+          <float_array id="Bip01_L_Clavicle-Matrix-animation-input-array" count="2">
+
+0.000000 0.033333</float_array>
+          <technique_common>
+            <accessor source="#Bip01_L_Clavicle-Matrix-animation-input-array" count="2">
+              <param name="TIME" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Bip01_L_Clavicle-Matrix-animation-output-transform">
+          <float_array id="Bip01_L_Clavicle-Matrix-animation-output-transform-array" count="32">
+
+-0.249947 -0.259588 0.932813 -0.000000 0.067184 -0.965719 -0.250743 0.000089 0.965926 -0.000003 0.258818 0.030012 0.000000 0.000000 0.000000 1.000000
+-0.249947 -0.259588 0.932813 -0.000000 0.067184 -0.965719 -0.250743 0.000089 0.965926 -0.000003 0.258818 0.030012 0.000000 0.000000 0.000000 1.000000</float_array>
+          <technique_common>
+            <accessor source="#Bip01_L_Clavicle-Matrix-animation-output-transform-array" count="2" stride="16">
+              <param type="float4x4"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Bip01_L_Clavicle-Interpolations">
+          <Name_array id="Bip01_L_Clavicle-Interpolations-array" count="2">
+ LINEAR LINEAR</Name_array>
+          <technique_common>
+            <accessor source="#Bip01_L_Clavicle-Interpolations-array" count="2">
+              <param type="name"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <sampler id="Bip01_L_Clavicle-Matrix-animation-transform">
+          <input semantic="INPUT" source="#Bip01_L_Clavicle-Matrix-animation-input"/>
+          <input semantic="OUTPUT" source="#Bip01_L_Clavicle-Matrix-animation-output-transform"/>
+          <input semantic="INTERPOLATION" source="#Bip01_L_Clavicle-Interpolations"/>
+        </sampler>
+        <channel source="#Bip01_L_Clavicle-Matrix-animation-transform" target="Bip01_L_Clavicle/matrix"/>
+      </animation>
+    </animation>
+    <animation id="Bip01_L_UpperArm-anim" name="Bip01_L_UpperArm">
+      <animation>
+        <source id="Bip01_L_UpperArm-Matrix-animation-input">
+          <float_array id="Bip01_L_UpperArm-Matrix-animation-input-array" count="2">
+
+0.000000 0.033333</float_array>
+          <technique_common>
+            <accessor source="#Bip01_L_UpperArm-Matrix-animation-input-array" count="2">
+              <param name="TIME" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Bip01_L_UpperArm-Matrix-animation-output-transform">
+          <float_array id="Bip01_L_UpperArm-Matrix-animation-output-transform-array" count="32">
+
+0.976260 -0.046278 -0.211601 0.172746 -0.001414 0.975527 -0.219875 0.000000 0.216598 0.214954 0.952302 0.000000 0.000000 0.000000 0.000000 1.000000
+0.976260 -0.046278 -0.211601 0.172746 -0.001414 0.975527 -0.219875 0.000000 0.216598 0.214954 0.952302 0.000000 0.000000 0.000000 0.000000 1.000000</float_array>
+          <technique_common>
+            <accessor source="#Bip01_L_UpperArm-Matrix-animation-output-transform-array" count="2" stride="16">
+              <param type="float4x4"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Bip01_L_UpperArm-Interpolations">
+          <Name_array id="Bip01_L_UpperArm-Interpolations-array" count="2">
+ LINEAR LINEAR</Name_array>
+          <technique_common>
+            <accessor source="#Bip01_L_UpperArm-Interpolations-array" count="2">
+              <param type="name"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <sampler id="Bip01_L_UpperArm-Matrix-animation-transform">
+          <input semantic="INPUT" source="#Bip01_L_UpperArm-Matrix-animation-input"/>
+          <input semantic="OUTPUT" source="#Bip01_L_UpperArm-Matrix-animation-output-transform"/>
+          <input semantic="INTERPOLATION" source="#Bip01_L_UpperArm-Interpolations"/>
+        </sampler>
+        <channel source="#Bip01_L_UpperArm-Matrix-animation-transform" target="Bip01_L_UpperArm/matrix"/>
+      </animation>
+    </animation>
+    <animation id="Bip01_L_Forearm-anim" name="Bip01_L_Forearm">
+      <animation>
+        <source id="Bip01_L_Forearm-Matrix-animation-input">
+          <float_array id="Bip01_L_Forearm-Matrix-animation-input-array" count="2">
+
+0.000000 0.033333</float_array>
+          <technique_common>
+            <accessor source="#Bip01_L_Forearm-Matrix-animation-input-array" count="2">
+              <param name="TIME" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Bip01_L_Forearm-Matrix-animation-output-transform">
+          <float_array id="Bip01_L_Forearm-Matrix-animation-output-transform-array" count="32">
+
+0.999887 0.015002 -0.000000 0.257246 -0.015002 0.999888 -0.000000 -0.000000 0.000000 -0.000000 1.000000 0.000000 0.000000 0.000000 0.000000 1.000000
+0.999887 0.015002 -0.000000 0.257246 -0.015002 0.999888 -0.000000 -0.000000 0.000000 -0.000000 1.000000 0.000000 0.000000 0.000000 0.000000 1.000000</float_array>
+          <technique_common>
+            <accessor source="#Bip01_L_Forearm-Matrix-animation-output-transform-array" count="2" stride="16">
+              <param type="float4x4"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Bip01_L_Forearm-Interpolations">
+          <Name_array id="Bip01_L_Forearm-Interpolations-array" count="2">
+ LINEAR LINEAR</Name_array>
+          <technique_common>
+            <accessor source="#Bip01_L_Forearm-Interpolations-array" count="2">
+              <param type="name"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <sampler id="Bip01_L_Forearm-Matrix-animation-transform">
+          <input semantic="INPUT" source="#Bip01_L_Forearm-Matrix-animation-input"/>
+          <input semantic="OUTPUT" source="#Bip01_L_Forearm-Matrix-animation-output-transform"/>
+          <input semantic="INTERPOLATION" source="#Bip01_L_Forearm-Interpolations"/>
+        </sampler>
+        <channel source="#Bip01_L_Forearm-Matrix-animation-transform" target="Bip01_L_Forearm/matrix"/>
+      </animation>
+    </animation>
+    <animation id="Bip01_L_Hand-anim" name="Bip01_L_Hand">
+      <animation>
+        <source id="Bip01_L_Hand-Matrix-animation-input">
+          <float_array id="Bip01_L_Hand-Matrix-animation-input-array" count="2">
+
+0.000000 0.033333</float_array>
+          <technique_common>
+            <accessor source="#Bip01_L_Hand-Matrix-animation-input-array" count="2">
+              <param name="TIME" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Bip01_L_Hand-Matrix-animation-output-transform">
+          <float_array id="Bip01_L_Hand-Matrix-animation-output-transform-array" count="32">
+
+1.000000 -0.000000 -0.000000 0.277125 0.000000 0.000796 1.000000 -0.000000 0.000000 -1.000000 0.000796 -0.000000 0.000000 0.000000 0.000000 1.000000
+1.000000 -0.000000 -0.000000 0.277125 0.000000 0.000796 1.000000 -0.000000 0.000000 -1.000000 0.000796 -0.000000 0.000000 0.000000 0.000000 1.000000</float_array>
+          <technique_common>
+            <accessor source="#Bip01_L_Hand-Matrix-animation-output-transform-array" count="2" stride="16">
+              <param type="float4x4"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Bip01_L_Hand-Interpolations">
+          <Name_array id="Bip01_L_Hand-Interpolations-array" count="2">
+ LINEAR LINEAR</Name_array>
+          <technique_common>
+            <accessor source="#Bip01_L_Hand-Interpolations-array" count="2">
+              <param type="name"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <sampler id="Bip01_L_Hand-Matrix-animation-transform">
+          <input semantic="INPUT" source="#Bip01_L_Hand-Matrix-animation-input"/>
+          <input semantic="OUTPUT" source="#Bip01_L_Hand-Matrix-animation-output-transform"/>
+          <input semantic="INTERPOLATION" source="#Bip01_L_Hand-Interpolations"/>
+        </sampler>
+        <channel source="#Bip01_L_Hand-Matrix-animation-transform" target="Bip01_L_Hand/matrix"/>
+      </animation>
+    </animation>
+    <animation id="Bip01_L_Finger0-anim" name="Bip01_L_Finger0">
+      <animation>
+        <source id="Bip01_L_Finger0-Matrix-animation-input">
+          <float_array id="Bip01_L_Finger0-Matrix-animation-input-array" count="2">
+
+0.000000 0.033333</float_array>
+          <technique_common>
+            <accessor source="#Bip01_L_Finger0-Matrix-animation-input-array" count="2">
+              <param name="TIME" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Bip01_L_Finger0-Matrix-animation-output-transform">
+          <float_array id="Bip01_L_Finger0-Matrix-animation-output-transform-array" count="32">
+
+0.717762 0.395979 0.572729 0.043229 0.036310 0.800140 -0.598713 -0.000036 -0.695341 0.450530 0.559932 -0.045120 0.000000 0.000000 0.000000 1.000000
+0.717762 0.395979 0.572729 0.043229 0.036310 0.800140 -0.598713 -0.000036 -0.695341 0.450530 0.559932 -0.045120 0.000000 0.000000 0.000000 1.000000</float_array>
+          <technique_common>
+            <accessor source="#Bip01_L_Finger0-Matrix-animation-output-transform-array" count="2" stride="16">
+              <param type="float4x4"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Bip01_L_Finger0-Interpolations">
+          <Name_array id="Bip01_L_Finger0-Interpolations-array" count="2">
+ LINEAR LINEAR</Name_array>
+          <technique_common>
+            <accessor source="#Bip01_L_Finger0-Interpolations-array" count="2">
+              <param type="name"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <sampler id="Bip01_L_Finger0-Matrix-animation-transform">
+          <input semantic="INPUT" source="#Bip01_L_Finger0-Matrix-animation-input"/>
+          <input semantic="OUTPUT" source="#Bip01_L_Finger0-Matrix-animation-output-transform"/>
+          <input semantic="INTERPOLATION" source="#Bip01_L_Finger0-Interpolations"/>
+        </sampler>
+        <channel source="#Bip01_L_Finger0-Matrix-animation-transform" target="Bip01_L_Finger0/matrix"/>
+      </animation>
+    </animation>
+    <animation id="Bip01_L_Finger01-anim" name="Bip01_L_Finger01">
+      <animation>
+        <source id="Bip01_L_Finger01-Matrix-animation-input">
+          <float_array id="Bip01_L_Finger01-Matrix-animation-input-array" count="2">
+
+0.000000 0.033333</float_array>
+          <technique_common>
+            <accessor source="#Bip01_L_Finger01-Matrix-animation-input-array" count="2">
+              <param name="TIME" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Bip01_L_Finger01-Matrix-animation-output-transform">
+          <float_array id="Bip01_L_Finger01-Matrix-animation-output-transform-array" count="32">
+
+0.948906 -0.288189 -0.128549 0.044908 0.255251 0.940500 -0.224289 -0.000000 0.185539 0.180017 0.966007 0.000000 0.000000 0.000000 0.000000 1.000000
+0.948906 -0.288189 -0.128549 0.044908 0.255251 0.940500 -0.224289 -0.000000 0.185539 0.180017 0.966007 0.000000 0.000000 0.000000 0.000000 1.000000</float_array>
+          <technique_common>
+            <accessor source="#Bip01_L_Finger01-Matrix-animation-output-transform-array" count="2" stride="16">
+              <param type="float4x4"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Bip01_L_Finger01-Interpolations">
+          <Name_array id="Bip01_L_Finger01-Interpolations-array" count="2">
+ LINEAR LINEAR</Name_array>
+          <technique_common>
+            <accessor source="#Bip01_L_Finger01-Interpolations-array" count="2">
+              <param type="name"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <sampler id="Bip01_L_Finger01-Matrix-animation-transform">
+          <input semantic="INPUT" source="#Bip01_L_Finger01-Matrix-animation-input"/>
+          <input semantic="OUTPUT" source="#Bip01_L_Finger01-Matrix-animation-output-transform"/>
+          <input semantic="INTERPOLATION" source="#Bip01_L_Finger01-Interpolations"/>
+        </sampler>
+        <channel source="#Bip01_L_Finger01-Matrix-animation-transform" target="Bip01_L_Finger01/matrix"/>
+      </animation>
+    </animation>
+    <animation id="Bip01_L_Finger1-anim" name="Bip01_L_Finger1">
+      <animation>
+        <source id="Bip01_L_Finger1-Matrix-animation-input">
+          <float_array id="Bip01_L_Finger1-Matrix-animation-input-array" count="2">
+
+0.000000 0.033333</float_array>
+          <technique_common>
+            <accessor source="#Bip01_L_Finger1-Matrix-animation-input-array" count="2">
+              <param name="TIME" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Bip01_L_Finger1-Matrix-animation-output-transform">
+          <float_array id="Bip01_L_Finger1-Matrix-animation-output-transform-array" count="32">
+
+0.996195 0.087156 -0.000000 0.061755 -0.087156 0.996194 0.000796 0.000000 0.000069 -0.000793 1.000000 0.000000 0.000000 0.000000 0.000000 1.000000
+0.996195 0.087156 -0.000000 0.061755 -0.087156 0.996194 0.000796 0.000000 0.000069 -0.000793 1.000000 0.000000 0.000000 0.000000 0.000000 1.000000</float_array>
+          <technique_common>
+            <accessor source="#Bip01_L_Finger1-Matrix-animation-output-transform-array" count="2" stride="16">
+              <param type="float4x4"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Bip01_L_Finger1-Interpolations">
+          <Name_array id="Bip01_L_Finger1-Interpolations-array" count="2">
+ LINEAR LINEAR</Name_array>
+          <technique_common>
+            <accessor source="#Bip01_L_Finger1-Interpolations-array" count="2">
+              <param type="name"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <sampler id="Bip01_L_Finger1-Matrix-animation-transform">
+          <input semantic="INPUT" source="#Bip01_L_Finger1-Matrix-animation-input"/>
+          <input semantic="OUTPUT" source="#Bip01_L_Finger1-Matrix-animation-output-transform"/>
+          <input semantic="INTERPOLATION" source="#Bip01_L_Finger1-Interpolations"/>
+        </sampler>
+        <channel source="#Bip01_L_Finger1-Matrix-animation-transform" target="Bip01_L_Finger1/matrix"/>
+      </animation>
+    </animation>
+    <animation id="Bip01_L_Finger11-anim" name="Bip01_L_Finger11">
+      <animation>
+        <source id="Bip01_L_Finger11-Matrix-animation-input">
+          <float_array id="Bip01_L_Finger11-Matrix-animation-input-array" count="2">
+
+0.000000 0.033333</float_array>
+          <technique_common>
+            <accessor source="#Bip01_L_Finger11-Matrix-animation-input-array" count="2">
+              <param name="TIME" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Bip01_L_Finger11-Matrix-animation-output-transform">
+          <float_array id="Bip01_L_Finger11-Matrix-animation-output-transform-array" count="32">
+
+0.996113 -0.088086 -0.000000 0.073021 0.088086 0.996113 0.000000 -0.000000 0.000000 -0.000000 1.000000 0.000000 0.000000 0.000000 0.000000 1.000000
+0.996113 -0.088086 -0.000000 0.073021 0.088086 0.996113 0.000000 -0.000000 0.000000 -0.000000 1.000000 0.000000 0.000000 0.000000 0.000000 1.000000</float_array>
+          <technique_common>
+            <accessor source="#Bip01_L_Finger11-Matrix-animation-output-transform-array" count="2" stride="16">
+              <param type="float4x4"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Bip01_L_Finger11-Interpolations">
+          <Name_array id="Bip01_L_Finger11-Interpolations-array" count="2">
+ LINEAR LINEAR</Name_array>
+          <technique_common>
+            <accessor source="#Bip01_L_Finger11-Interpolations-array" count="2">
+              <param type="name"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <sampler id="Bip01_L_Finger11-Matrix-animation-transform">
+          <input semantic="INPUT" source="#Bip01_L_Finger11-Matrix-animation-input"/>
+          <input semantic="OUTPUT" source="#Bip01_L_Finger11-Matrix-animation-output-transform"/>
+          <input semantic="INTERPOLATION" source="#Bip01_L_Finger11-Interpolations"/>
+        </sampler>
+        <channel source="#Bip01_L_Finger11-Matrix-animation-transform" target="Bip01_L_Finger11/matrix"/>
+      </animation>
+    </animation>
+    <animation id="Bip01_R_Clavicle-anim" name="Bip01_R_Clavicle">
+      <animation>
+        <source id="Bip01_R_Clavicle-Matrix-animation-input">
+          <float_array id="Bip01_R_Clavicle-Matrix-animation-input-array" count="2">
+
+0.000000 0.033333</float_array>
+          <technique_common>
+            <accessor source="#Bip01_R_Clavicle-Matrix-animation-input-array" count="2">
+              <param name="TIME" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Bip01_R_Clavicle-Matrix-animation-output-transform">
+          <float_array id="Bip01_R_Clavicle-Matrix-animation-output-transform-array" count="32">
+
+-0.249947 -0.259588 -0.932813 -0.000000 0.067189 -0.965719 0.250742 0.000090 -0.965926 -0.000003 0.258820 -0.030012 0.000000 0.000000 0.000000 1.000000
+-0.249947 -0.259588 -0.932813 -0.000000 0.067189 -0.965719 0.250742 0.000090 -0.965926 -0.000003 0.258820 -0.030012 0.000000 0.000000 0.000000 1.000000</float_array>
+          <technique_common>
+            <accessor source="#Bip01_R_Clavicle-Matrix-animation-output-transform-array" count="2" stride="16">
+              <param type="float4x4"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Bip01_R_Clavicle-Interpolations">
+          <Name_array id="Bip01_R_Clavicle-Interpolations-array" count="2">
+ LINEAR LINEAR</Name_array>
+          <technique_common>
+            <accessor source="#Bip01_R_Clavicle-Interpolations-array" count="2">
+              <param type="name"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <sampler id="Bip01_R_Clavicle-Matrix-animation-transform">
+          <input semantic="INPUT" source="#Bip01_R_Clavicle-Matrix-animation-input"/>
+          <input semantic="OUTPUT" source="#Bip01_R_Clavicle-Matrix-animation-output-transform"/>
+          <input semantic="INTERPOLATION" source="#Bip01_R_Clavicle-Interpolations"/>
+        </sampler>
+        <channel source="#Bip01_R_Clavicle-Matrix-animation-transform" target="Bip01_R_Clavicle/matrix"/>
+      </animation>
+    </animation>
+    <animation id="Bip01_R_UpperArm-anim" name="Bip01_R_UpperArm">
+      <animation>
+        <source id="Bip01_R_UpperArm-Matrix-animation-input">
+          <float_array id="Bip01_R_UpperArm-Matrix-animation-input-array" count="2">
+
+0.000000 0.033333</float_array>
+          <technique_common>
+            <accessor source="#Bip01_R_UpperArm-Matrix-animation-input-array" count="2">
+              <param name="TIME" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Bip01_R_UpperArm-Matrix-animation-output-transform">
+          <float_array id="Bip01_R_UpperArm-Matrix-animation-output-transform-array" count="32">
+
+0.976260 -0.046278 0.211601 0.172746 -0.001414 0.975527 0.219875 0.000000 -0.216598 -0.214954 0.952303 0.000000 0.000000 0.000000 0.000000 1.000000
+0.976260 -0.046278 0.211601 0.172746 -0.001414 0.975527 0.219875 0.000000 -0.216598 -0.214954 0.952303 0.000000 0.000000 0.000000 0.000000 1.000000</float_array>
+          <technique_common>
+            <accessor source="#Bip01_R_UpperArm-Matrix-animation-output-transform-array" count="2" stride="16">
+              <param type="float4x4"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Bip01_R_UpperArm-Interpolations">
+          <Name_array id="Bip01_R_UpperArm-Interpolations-array" count="2">
+ LINEAR LINEAR</Name_array>
+          <technique_common>
+            <accessor source="#Bip01_R_UpperArm-Interpolations-array" count="2">
+              <param type="name"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <sampler id="Bip01_R_UpperArm-Matrix-animation-transform">
+          <input semantic="INPUT" source="#Bip01_R_UpperArm-Matrix-animation-input"/>
+          <input semantic="OUTPUT" source="#Bip01_R_UpperArm-Matrix-animation-output-transform"/>
+          <input semantic="INTERPOLATION" source="#Bip01_R_UpperArm-Interpolations"/>
+        </sampler>
+        <channel source="#Bip01_R_UpperArm-Matrix-animation-transform" target="Bip01_R_UpperArm/matrix"/>
+      </animation>
+    </animation>
+    <animation id="Bip01_R_Forearm-anim" name="Bip01_R_Forearm">
+      <animation>
+        <source id="Bip01_R_Forearm-Matrix-animation-input">
+          <float_array id="Bip01_R_Forearm-Matrix-animation-input-array" count="2">
+
+0.000000 0.033333</float_array>
+          <technique_common>
+            <accessor source="#Bip01_R_Forearm-Matrix-animation-input-array" count="2">
+              <param name="TIME" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Bip01_R_Forearm-Matrix-animation-output-transform">
+          <float_array id="Bip01_R_Forearm-Matrix-animation-output-transform-array" count="32">
+
+0.999887 0.015002 0.000000 0.257246 -0.015002 0.999887 0.000000 0.000000 -0.000000 0.000000 1.000000 -0.000000 0.000000 0.000000 0.000000 1.000000
+0.999887 0.015002 0.000000 0.257246 -0.015002 0.999887 0.000000 0.000000 -0.000000 0.000000 1.000000 -0.000000 0.000000 0.000000 0.000000 1.000000</float_array>
+          <technique_common>
+            <accessor source="#Bip01_R_Forearm-Matrix-animation-output-transform-array" count="2" stride="16">
+              <param type="float4x4"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Bip01_R_Forearm-Interpolations">
+          <Name_array id="Bip01_R_Forearm-Interpolations-array" count="2">
+ LINEAR LINEAR</Name_array>
+          <technique_common>
+            <accessor source="#Bip01_R_Forearm-Interpolations-array" count="2">
+              <param type="name"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <sampler id="Bip01_R_Forearm-Matrix-animation-transform">
+          <input semantic="INPUT" source="#Bip01_R_Forearm-Matrix-animation-input"/>
+          <input semantic="OUTPUT" source="#Bip01_R_Forearm-Matrix-animation-output-transform"/>
+          <input semantic="INTERPOLATION" source="#Bip01_R_Forearm-Interpolations"/>
+        </sampler>
+        <channel source="#Bip01_R_Forearm-Matrix-animation-transform" target="Bip01_R_Forearm/matrix"/>
+      </animation>
+    </animation>
+    <animation id="Bip01_R_Hand-anim" name="Bip01_R_Hand">
+      <animation>
+        <source id="Bip01_R_Hand-Matrix-animation-input">
+          <float_array id="Bip01_R_Hand-Matrix-animation-input-array" count="2">
+
+0.000000 0.033333</float_array>
+          <technique_common>
+            <accessor source="#Bip01_R_Hand-Matrix-animation-input-array" count="2">
+              <param name="TIME" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Bip01_R_Hand-Matrix-animation-output-transform">
+          <float_array id="Bip01_R_Hand-Matrix-animation-output-transform-array" count="32">
+
+1.000000 0.000000 -0.000000 0.277125 0.000000 0.000796 -1.000000 -0.000000 0.000000 1.000000 0.000796 0.000000 0.000000 0.000000 0.000000 1.000000
+1.000000 0.000000 -0.000000 0.277125 0.000000 0.000796 -1.000000 -0.000000 0.000000 1.000000 0.000796 0.000000 0.000000 0.000000 0.000000 1.000000</float_array>
+          <technique_common>
+            <accessor source="#Bip01_R_Hand-Matrix-animation-output-transform-array" count="2" stride="16">
+              <param type="float4x4"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Bip01_R_Hand-Interpolations">
+          <Name_array id="Bip01_R_Hand-Interpolations-array" count="2">
+ LINEAR LINEAR</Name_array>
+          <technique_common>
+            <accessor source="#Bip01_R_Hand-Interpolations-array" count="2">
+              <param type="name"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <sampler id="Bip01_R_Hand-Matrix-animation-transform">
+          <input semantic="INPUT" source="#Bip01_R_Hand-Matrix-animation-input"/>
+          <input semantic="OUTPUT" source="#Bip01_R_Hand-Matrix-animation-output-transform"/>
+          <input semantic="INTERPOLATION" source="#Bip01_R_Hand-Interpolations"/>
+        </sampler>
+        <channel source="#Bip01_R_Hand-Matrix-animation-transform" target="Bip01_R_Hand/matrix"/>
+      </animation>
+    </animation>
+    <animation id="Bip01_R_Finger0-anim" name="Bip01_R_Finger0">
+      <animation>
+        <source id="Bip01_R_Finger0-Matrix-animation-input">
+          <float_array id="Bip01_R_Finger0-Matrix-animation-input-array" count="2">
+
+0.000000 0.033333</float_array>
+          <technique_common>
+            <accessor source="#Bip01_R_Finger0-Matrix-animation-input-array" count="2">
+              <param name="TIME" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Bip01_R_Finger0-Matrix-animation-output-transform">
+          <float_array id="Bip01_R_Finger0-Matrix-animation-output-transform-array" count="32">
+
+0.717763 0.395979 -0.572728 0.043229 0.036310 0.800140 0.598713 -0.000036 0.695341 -0.450530 0.559932 0.045120 0.000000 0.000000 0.000000 1.000000
+0.717763 0.395979 -0.572728 0.043229 0.036310 0.800140 0.598713 -0.000036 0.695341 -0.450530 0.559932 0.045120 0.000000 0.000000 0.000000 1.000000</float_array>
+          <technique_common>
+            <accessor source="#Bip01_R_Finger0-Matrix-animation-output-transform-array" count="2" stride="16">
+              <param type="float4x4"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Bip01_R_Finger0-Interpolations">
+          <Name_array id="Bip01_R_Finger0-Interpolations-array" count="2">
+ LINEAR LINEAR</Name_array>
+          <technique_common>
+            <accessor source="#Bip01_R_Finger0-Interpolations-array" count="2">
+              <param type="name"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <sampler id="Bip01_R_Finger0-Matrix-animation-transform">
+          <input semantic="INPUT" source="#Bip01_R_Finger0-Matrix-animation-input"/>
+          <input semantic="OUTPUT" source="#Bip01_R_Finger0-Matrix-animation-output-transform"/>
+          <input semantic="INTERPOLATION" source="#Bip01_R_Finger0-Interpolations"/>
+        </sampler>
+        <channel source="#Bip01_R_Finger0-Matrix-animation-transform" target="Bip01_R_Finger0/matrix"/>
+      </animation>
+    </animation>
+    <animation id="Bip01_R_Finger01-anim" name="Bip01_R_Finger01">
+      <animation>
+        <source id="Bip01_R_Finger01-Matrix-animation-input">
+          <float_array id="Bip01_R_Finger01-Matrix-animation-input-array" count="2">
+
+0.000000 0.033333</float_array>
+          <technique_common>
+            <accessor source="#Bip01_R_Finger01-Matrix-animation-input-array" count="2">
+              <param name="TIME" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Bip01_R_Finger01-Matrix-animation-output-transform">
+          <float_array id="Bip01_R_Finger01-Matrix-animation-output-transform-array" count="32">
+
+0.948906 -0.288189 0.128549 0.044908 0.255251 0.940500 0.224289 0.000000 -0.185539 -0.180017 0.966007 0.000000 0.000000 0.000000 0.000000 1.000000
+0.948906 -0.288189 0.128549 0.044908 0.255251 0.940500 0.224289 0.000000 -0.185539 -0.180017 0.966007 0.000000 0.000000 0.000000 0.000000 1.000000</float_array>
+          <technique_common>
+            <accessor source="#Bip01_R_Finger01-Matrix-animation-output-transform-array" count="2" stride="16">
+              <param type="float4x4"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Bip01_R_Finger01-Interpolations">
+          <Name_array id="Bip01_R_Finger01-Interpolations-array" count="2">
+ LINEAR LINEAR</Name_array>
+          <technique_common>
+            <accessor source="#Bip01_R_Finger01-Interpolations-array" count="2">
+              <param type="name"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <sampler id="Bip01_R_Finger01-Matrix-animation-transform">
+          <input semantic="INPUT" source="#Bip01_R_Finger01-Matrix-animation-input"/>
+          <input semantic="OUTPUT" source="#Bip01_R_Finger01-Matrix-animation-output-transform"/>
+          <input semantic="INTERPOLATION" source="#Bip01_R_Finger01-Interpolations"/>
+        </sampler>
+        <channel source="#Bip01_R_Finger01-Matrix-animation-transform" target="Bip01_R_Finger01/matrix"/>
+      </animation>
+    </animation>
+    <animation id="Bip01_R_Finger1-anim" name="Bip01_R_Finger1">
+      <animation>
+        <source id="Bip01_R_Finger1-Matrix-animation-input">
+          <float_array id="Bip01_R_Finger1-Matrix-animation-input-array" count="2">
+
+0.000000 0.033333</float_array>
+          <technique_common>
+            <accessor source="#Bip01_R_Finger1-Matrix-animation-input-array" count="2">
+              <param name="TIME" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Bip01_R_Finger1-Matrix-animation-output-transform">
+          <float_array id="Bip01_R_Finger1-Matrix-animation-output-transform-array" count="32">
+
+0.996195 0.087156 0.000000 0.061755 -0.087156 0.996194 -0.000796 0.000000 -0.000069 0.000793 1.000000 -0.000000 0.000000 0.000000 0.000000 1.000000
+0.996195 0.087156 0.000000 0.061755 -0.087156 0.996194 -0.000796 0.000000 -0.000069 0.000793 1.000000 -0.000000 0.000000 0.000000 0.000000 1.000000</float_array>
+          <technique_common>
+            <accessor source="#Bip01_R_Finger1-Matrix-animation-output-transform-array" count="2" stride="16">
+              <param type="float4x4"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Bip01_R_Finger1-Interpolations">
+          <Name_array id="Bip01_R_Finger1-Interpolations-array" count="2">
+ LINEAR LINEAR</Name_array>
+          <technique_common>
+            <accessor source="#Bip01_R_Finger1-Interpolations-array" count="2">
+              <param type="name"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <sampler id="Bip01_R_Finger1-Matrix-animation-transform">
+          <input semantic="INPUT" source="#Bip01_R_Finger1-Matrix-animation-input"/>
+          <input semantic="OUTPUT" source="#Bip01_R_Finger1-Matrix-animation-output-transform"/>
+          <input semantic="INTERPOLATION" source="#Bip01_R_Finger1-Interpolations"/>
+        </sampler>
+        <channel source="#Bip01_R_Finger1-Matrix-animation-transform" target="Bip01_R_Finger1/matrix"/>
+      </animation>
+    </animation>
+    <animation id="Bip01_R_Finger11-anim" name="Bip01_R_Finger11">
+      <animation>
+        <source id="Bip01_R_Finger11-Matrix-animation-input">
+          <float_array id="Bip01_R_Finger11-Matrix-animation-input-array" count="2">
+
+0.000000 0.033333</float_array>
+          <technique_common>
+            <accessor source="#Bip01_R_Finger11-Matrix-animation-input-array" count="2">
+              <param name="TIME" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Bip01_R_Finger11-Matrix-animation-output-transform">
+          <float_array id="Bip01_R_Finger11-Matrix-animation-output-transform-array" count="32">
+
+0.996113 -0.088086 0.000000 0.073021 0.088086 0.996113 0.000000 -0.000000 -0.000000 -0.000000 1.000000 -0.000000 0.000000 0.000000 0.000000 1.000000
+0.996113 -0.088086 0.000000 0.073021 0.088086 0.996113 0.000000 -0.000000 -0.000000 -0.000000 1.000000 -0.000000 0.000000 0.000000 0.000000 1.000000</float_array>
+          <technique_common>
+            <accessor source="#Bip01_R_Finger11-Matrix-animation-output-transform-array" count="2" stride="16">
+              <param type="float4x4"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Bip01_R_Finger11-Interpolations">
+          <Name_array id="Bip01_R_Finger11-Interpolations-array" count="2">
+ LINEAR LINEAR</Name_array>
+          <technique_common>
+            <accessor source="#Bip01_R_Finger11-Interpolations-array" count="2">
+              <param type="name"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <sampler id="Bip01_R_Finger11-Matrix-animation-transform">
+          <input semantic="INPUT" source="#Bip01_R_Finger11-Matrix-animation-input"/>
+          <input semantic="OUTPUT" source="#Bip01_R_Finger11-Matrix-animation-output-transform"/>
+          <input semantic="INTERPOLATION" source="#Bip01_R_Finger11-Interpolations"/>
+        </sampler>
+        <channel source="#Bip01_R_Finger11-Matrix-animation-transform" target="Bip01_R_Finger11/matrix"/>
+      </animation>
+    </animation>
+    <animation id="Bip01_Head-anim" name="Bip01_Head">
+      <animation>
+        <source id="Bip01_Head-Matrix-animation-input">
+          <float_array id="Bip01_Head-Matrix-animation-input-array" count="2">
+
+0.000000 0.033333</float_array>
+          <technique_common>
+            <accessor source="#Bip01_Head-Matrix-animation-input-array" count="2">
+              <param name="TIME" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Bip01_Head-Matrix-animation-output-transform">
+          <float_array id="Bip01_Head-Matrix-animation-output-transform-array" count="32">
+
+0.999457 -0.032940 -0.000000 0.112497 0.032940 0.999457 -0.000000 0.000000 0.000000 -0.000000 1.000000 -0.000000 0.000000 0.000000 0.000000 1.000000
+0.999457 -0.032940 -0.000000 0.112497 0.032940 0.999457 -0.000000 0.000000 0.000000 -0.000000 1.000000 -0.000000 0.000000 0.000000 0.000000 1.000000</float_array>
+          <technique_common>
+            <accessor source="#Bip01_Head-Matrix-animation-output-transform-array" count="2" stride="16">
+              <param type="float4x4"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Bip01_Head-Interpolations">
+          <Name_array id="Bip01_Head-Interpolations-array" count="2">
+ LINEAR LINEAR</Name_array>
+          <technique_common>
+            <accessor source="#Bip01_Head-Interpolations-array" count="2">
+              <param type="name"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <sampler id="Bip01_Head-Matrix-animation-transform">
+          <input semantic="INPUT" source="#Bip01_Head-Matrix-animation-input"/>
+          <input semantic="OUTPUT" source="#Bip01_Head-Matrix-animation-output-transform"/>
+          <input semantic="INTERPOLATION" source="#Bip01_Head-Interpolations"/>
+        </sampler>
+        <channel source="#Bip01_Head-Matrix-animation-transform" target="Bip01_Head/matrix"/>
+      </animation>
+    </animation>
+    <animation id="Bip01_L_Thigh-anim" name="Bip01_L_Thigh">
+      <animation>
+        <source id="Bip01_L_Thigh-Matrix-animation-input">
+          <float_array id="Bip01_L_Thigh-Matrix-animation-input-array" count="2">
+
+0.000000 0.033333</float_array>
+          <technique_common>
+            <accessor source="#Bip01_L_Thigh-Matrix-animation-input-array" count="2">
+              <param name="TIME" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Bip01_L_Thigh-Matrix-animation-output-transform">
+          <float_array id="Bip01_L_Thigh-Matrix-animation-output-transform-array" count="32">
+
+-0.986327 -0.164798 -0.000000 -0.097899 -0.164798 0.986327 0.000003 -0.011649 -0.000000 0.000003 -1.000000 0.129738 0.000000 0.000000 0.000000 1.000000
+-0.986327 -0.164798 -0.000000 -0.097899 -0.164798 0.986327 0.000003 -0.011649 -0.000000 0.000003 -1.000000 0.129738 0.000000 0.000000 0.000000 1.000000</float_array>
+          <technique_common>
+            <accessor source="#Bip01_L_Thigh-Matrix-animation-output-transform-array" count="2" stride="16">
+              <param type="float4x4"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Bip01_L_Thigh-Interpolations">
+          <Name_array id="Bip01_L_Thigh-Interpolations-array" count="2">
+ LINEAR LINEAR</Name_array>
+          <technique_common>
+            <accessor source="#Bip01_L_Thigh-Interpolations-array" count="2">
+              <param type="name"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <sampler id="Bip01_L_Thigh-Matrix-animation-transform">
+          <input semantic="INPUT" source="#Bip01_L_Thigh-Matrix-animation-input"/>
+          <input semantic="OUTPUT" source="#Bip01_L_Thigh-Matrix-animation-output-transform"/>
+          <input semantic="INTERPOLATION" source="#Bip01_L_Thigh-Interpolations"/>
+        </sampler>
+        <channel source="#Bip01_L_Thigh-Matrix-animation-transform" target="Bip01_L_Thigh/matrix"/>
+      </animation>
+    </animation>
+    <animation id="Bip01_L_Calf-anim" name="Bip01_L_Calf">
+      <animation>
+        <source id="Bip01_L_Calf-Matrix-animation-input">
+          <float_array id="Bip01_L_Calf-Matrix-animation-input-array" count="2">
+
+0.000000 0.033333</float_array>
+          <technique_common>
+            <accessor source="#Bip01_L_Calf-Matrix-animation-input-array" count="2">
+              <param name="TIME" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Bip01_L_Calf-Matrix-animation-output-transform">
+          <float_array id="Bip01_L_Calf-Matrix-animation-output-transform-array" count="32">
+
+0.981880 0.189501 -0.000000 0.423505 -0.189501 0.981881 -0.000000 -0.000000 0.000000 -0.000000 1.000000 -0.000000 0.000000 0.000000 0.000000 1.000000
+0.981880 0.189501 -0.000000 0.423505 -0.189501 0.981881 -0.000000 -0.000000 0.000000 -0.000000 1.000000 -0.000000 0.000000 0.000000 0.000000 1.000000</float_array>
+          <technique_common>
+            <accessor source="#Bip01_L_Calf-Matrix-animation-output-transform-array" count="2" stride="16">
+              <param type="float4x4"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Bip01_L_Calf-Interpolations">
+          <Name_array id="Bip01_L_Calf-Interpolations-array" count="2">
+ LINEAR LINEAR</Name_array>
+          <technique_common>
+            <accessor source="#Bip01_L_Calf-Interpolations-array" count="2">
+              <param type="name"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <sampler id="Bip01_L_Calf-Matrix-animation-transform">
+          <input semantic="INPUT" source="#Bip01_L_Calf-Matrix-animation-input"/>
+          <input semantic="OUTPUT" source="#Bip01_L_Calf-Matrix-animation-output-transform"/>
+          <input semantic="INTERPOLATION" source="#Bip01_L_Calf-Interpolations"/>
+        </sampler>
+        <channel source="#Bip01_L_Calf-Matrix-animation-transform" target="Bip01_L_Calf/matrix"/>
+      </animation>
+    </animation>
+    <animation id="Bip01_L_Foot-anim" name="Bip01_L_Foot">
+      <animation>
+        <source id="Bip01_L_Foot-Matrix-animation-input">
+          <float_array id="Bip01_L_Foot-Matrix-animation-input-array" count="2">
+
+0.000000 0.033333</float_array>
+          <technique_common>
+            <accessor source="#Bip01_L_Foot-Matrix-animation-input-array" count="2">
+              <param name="TIME" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Bip01_L_Foot-Matrix-animation-output-transform">
+          <float_array id="Bip01_L_Foot-Matrix-animation-output-transform-array" count="32">
+
+0.972283 -0.233809 -0.000000 0.378997 0.233809 0.972283 -0.000000 -0.000000 0.000000 -0.000000 1.000000 0.000000 0.000000 0.000000 0.000000 1.000000
+0.972283 -0.233809 -0.000000 0.378997 0.233809 0.972283 -0.000000 -0.000000 0.000000 -0.000000 1.000000 0.000000 0.000000 0.000000 0.000000 1.000000</float_array>
+          <technique_common>
+            <accessor source="#Bip01_L_Foot-Matrix-animation-output-transform-array" count="2" stride="16">
+              <param type="float4x4"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Bip01_L_Foot-Interpolations">
+          <Name_array id="Bip01_L_Foot-Interpolations-array" count="2">
+ LINEAR LINEAR</Name_array>
+          <technique_common>
+            <accessor source="#Bip01_L_Foot-Interpolations-array" count="2">
+              <param type="name"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <sampler id="Bip01_L_Foot-Matrix-animation-transform">
+          <input semantic="INPUT" source="#Bip01_L_Foot-Matrix-animation-input"/>
+          <input semantic="OUTPUT" source="#Bip01_L_Foot-Matrix-animation-output-transform"/>
+          <input semantic="INTERPOLATION" source="#Bip01_L_Foot-Interpolations"/>
+        </sampler>
+        <channel source="#Bip01_L_Foot-Matrix-animation-transform" target="Bip01_L_Foot/matrix"/>
+      </animation>
+    </animation>
+    <animation id="Bip01_L_Toe0-anim" name="Bip01_L_Toe0">
+      <animation>
+        <source id="Bip01_L_Toe0-Matrix-animation-input">
+          <float_array id="Bip01_L_Toe0-Matrix-animation-input-array" count="2">
+
+0.000000 0.033333</float_array>
+          <technique_common>
+            <accessor source="#Bip01_L_Toe0-Matrix-animation-input-array" count="2">
+              <param name="TIME" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Bip01_L_Toe0-Matrix-animation-output-transform">
+          <float_array id="Bip01_L_Toe0-Matrix-animation-output-transform-array" count="32">
+
+0.000000 -1.000000 -0.000000 0.098611 1.000000 0.000000 0.000000 0.135325 -0.000000 -0.000000 1.000000 0.000000 0.000000 0.000000 0.000000 1.000000
+0.000000 -1.000000 -0.000000 0.098611 1.000000 0.000000 0.000000 0.135325 -0.000000 -0.000000 1.000000 0.000000 0.000000 0.000000 0.000000 1.000000</float_array>
+          <technique_common>
+            <accessor source="#Bip01_L_Toe0-Matrix-animation-output-transform-array" count="2" stride="16">
+              <param type="float4x4"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Bip01_L_Toe0-Interpolations">
+          <Name_array id="Bip01_L_Toe0-Interpolations-array" count="2">
+ LINEAR LINEAR</Name_array>
+          <technique_common>
+            <accessor source="#Bip01_L_Toe0-Interpolations-array" count="2">
+              <param type="name"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <sampler id="Bip01_L_Toe0-Matrix-animation-transform">
+          <input semantic="INPUT" source="#Bip01_L_Toe0-Matrix-animation-input"/>
+          <input semantic="OUTPUT" source="#Bip01_L_Toe0-Matrix-animation-output-transform"/>
+          <input semantic="INTERPOLATION" source="#Bip01_L_Toe0-Interpolations"/>
+        </sampler>
+        <channel source="#Bip01_L_Toe0-Matrix-animation-transform" target="Bip01_L_Toe0/matrix"/>
+      </animation>
+    </animation>
+    <animation id="Bip01_R_Thigh-anim" name="Bip01_R_Thigh">
+      <animation>
+        <source id="Bip01_R_Thigh-Matrix-animation-input">
+          <float_array id="Bip01_R_Thigh-Matrix-animation-input-array" count="2">
+
+0.000000 0.033333</float_array>
+          <technique_common>
+            <accessor source="#Bip01_R_Thigh-Matrix-animation-input-array" count="2">
+              <param name="TIME" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Bip01_R_Thigh-Matrix-animation-output-transform">
+          <float_array id="Bip01_R_Thigh-Matrix-animation-output-transform-array" count="32">
+
+-0.986327 -0.164798 -0.000000 -0.097899 -0.164798 0.986327 0.000003 -0.011648 -0.000000 0.000003 -1.000000 -0.129738 0.000000 0.000000 0.000000 1.000000
+-0.986327 -0.164798 -0.000000 -0.097899 -0.164798 0.986327 0.000003 -0.011648 -0.000000 0.000003 -1.000000 -0.129738 0.000000 0.000000 0.000000 1.000000</float_array>
+          <technique_common>
+            <accessor source="#Bip01_R_Thigh-Matrix-animation-output-transform-array" count="2" stride="16">
+              <param type="float4x4"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Bip01_R_Thigh-Interpolations">
+          <Name_array id="Bip01_R_Thigh-Interpolations-array" count="2">
+ LINEAR LINEAR</Name_array>
+          <technique_common>
+            <accessor source="#Bip01_R_Thigh-Interpolations-array" count="2">
+              <param type="name"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <sampler id="Bip01_R_Thigh-Matrix-animation-transform">
+          <input semantic="INPUT" source="#Bip01_R_Thigh-Matrix-animation-input"/>
+          <input semantic="OUTPUT" source="#Bip01_R_Thigh-Matrix-animation-output-transform"/>
+          <input semantic="INTERPOLATION" source="#Bip01_R_Thigh-Interpolations"/>
+        </sampler>
+        <channel source="#Bip01_R_Thigh-Matrix-animation-transform" target="Bip01_R_Thigh/matrix"/>
+      </animation>
+    </animation>
+    <animation id="Bip01_R_Calf-anim" name="Bip01_R_Calf">
+      <animation>
+        <source id="Bip01_R_Calf-Matrix-animation-input">
+          <float_array id="Bip01_R_Calf-Matrix-animation-input-array" count="2">
+
+0.000000 0.033333</float_array>
+          <technique_common>
+            <accessor source="#Bip01_R_Calf-Matrix-animation-input-array" count="2">
+              <param name="TIME" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Bip01_R_Calf-Matrix-animation-output-transform">
+          <float_array id="Bip01_R_Calf-Matrix-animation-output-transform-array" count="32">
+
+0.981880 0.189501 -0.000000 0.423505 -0.189501 0.981881 -0.000000 0.000000 0.000000 -0.000000 1.000000 -0.000000 0.000000 0.000000 0.000000 1.000000
+0.981880 0.189501 -0.000000 0.423505 -0.189501 0.981881 -0.000000 0.000000 0.000000 -0.000000 1.000000 -0.000000 0.000000 0.000000 0.000000 1.000000</float_array>
+          <technique_common>
+            <accessor source="#Bip01_R_Calf-Matrix-animation-output-transform-array" count="2" stride="16">
+              <param type="float4x4"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Bip01_R_Calf-Interpolations">
+          <Name_array id="Bip01_R_Calf-Interpolations-array" count="2">
+ LINEAR LINEAR</Name_array>
+          <technique_common>
+            <accessor source="#Bip01_R_Calf-Interpolations-array" count="2">
+              <param type="name"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <sampler id="Bip01_R_Calf-Matrix-animation-transform">
+          <input semantic="INPUT" source="#Bip01_R_Calf-Matrix-animation-input"/>
+          <input semantic="OUTPUT" source="#Bip01_R_Calf-Matrix-animation-output-transform"/>
+          <input semantic="INTERPOLATION" source="#Bip01_R_Calf-Interpolations"/>
+        </sampler>
+        <channel source="#Bip01_R_Calf-Matrix-animation-transform" target="Bip01_R_Calf/matrix"/>
+      </animation>
+    </animation>
+    <animation id="Bip01_R_Foot-anim" name="Bip01_R_Foot">
+      <animation>
+        <source id="Bip01_R_Foot-Matrix-animation-input">
+          <float_array id="Bip01_R_Foot-Matrix-animation-input-array" count="2">
+
+0.000000 0.033333</float_array>
+          <technique_common>
+            <accessor source="#Bip01_R_Foot-Matrix-animation-input-array" count="2">
+              <param name="TIME" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Bip01_R_Foot-Matrix-animation-output-transform">
+          <float_array id="Bip01_R_Foot-Matrix-animation-output-transform-array" count="32">
+
+0.972283 -0.233809 -0.000000 0.378997 0.233809 0.972283 -0.000000 0.000000 0.000000 -0.000000 1.000000 0.000000 0.000000 0.000000 0.000000 1.000000
+0.972283 -0.233809 -0.000000 0.378997 0.233809 0.972283 -0.000000 0.000000 0.000000 -0.000000 1.000000 0.000000 0.000000 0.000000 0.000000 1.000000</float_array>
+          <technique_common>
+            <accessor source="#Bip01_R_Foot-Matrix-animation-output-transform-array" count="2" stride="16">
+              <param type="float4x4"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Bip01_R_Foot-Interpolations">
+          <Name_array id="Bip01_R_Foot-Interpolations-array" count="2">
+ LINEAR LINEAR</Name_array>
+          <technique_common>
+            <accessor source="#Bip01_R_Foot-Interpolations-array" count="2">
+              <param type="name"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <sampler id="Bip01_R_Foot-Matrix-animation-transform">
+          <input semantic="INPUT" source="#Bip01_R_Foot-Matrix-animation-input"/>
+          <input semantic="OUTPUT" source="#Bip01_R_Foot-Matrix-animation-output-transform"/>
+          <input semantic="INTERPOLATION" source="#Bip01_R_Foot-Interpolations"/>
+        </sampler>
+        <channel source="#Bip01_R_Foot-Matrix-animation-transform" target="Bip01_R_Foot/matrix"/>
+      </animation>
+    </animation>
+    <animation id="Bip01_R_Toe0-anim" name="Bip01_R_Toe0">
+      <animation>
+        <source id="Bip01_R_Toe0-Matrix-animation-input">
+          <float_array id="Bip01_R_Toe0-Matrix-animation-input-array" count="2">
+
+0.000000 0.033333</float_array>
+          <technique_common>
+            <accessor source="#Bip01_R_Toe0-Matrix-animation-input-array" count="2">
+              <param name="TIME" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Bip01_R_Toe0-Matrix-animation-output-transform">
+          <float_array id="Bip01_R_Toe0-Matrix-animation-output-transform-array" count="32">
+
+0.000000 -1.000000 -0.000000 0.098611 1.000000 0.000000 0.000000 0.135325 -0.000000 -0.000000 1.000000 0.000000 0.000000 0.000000 0.000000 1.000000
+0.000000 -1.000000 -0.000000 0.098611 1.000000 0.000000 0.000000 0.135325 -0.000000 -0.000000 1.000000 0.000000 0.000000 0.000000 0.000000 1.000000</float_array>
+          <technique_common>
+            <accessor source="#Bip01_R_Toe0-Matrix-animation-output-transform-array" count="2" stride="16">
+              <param type="float4x4"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Bip01_R_Toe0-Interpolations">
+          <Name_array id="Bip01_R_Toe0-Interpolations-array" count="2">
+ LINEAR LINEAR</Name_array>
+          <technique_common>
+            <accessor source="#Bip01_R_Toe0-Interpolations-array" count="2">
+              <param type="name"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <sampler id="Bip01_R_Toe0-Matrix-animation-transform">
+          <input semantic="INPUT" source="#Bip01_R_Toe0-Matrix-animation-input"/>
+          <input semantic="OUTPUT" source="#Bip01_R_Toe0-Matrix-animation-output-transform"/>
+          <input semantic="INTERPOLATION" source="#Bip01_R_Toe0-Interpolations"/>
+        </sampler>
+        <channel source="#Bip01_R_Toe0-Matrix-animation-transform" target="Bip01_R_Toe0/matrix"/>
+      </animation>
+    </animation>
+  </library_animations>
+  <library_visual_scenes>
+    <visual_scene id="RootNode" name="RootNode">
+      <node id="Root_Node" name="Root_Node" type="JOINT">
+        <matrix sid="matrix">0.000000 1.000000 0.000000 0.000000 -1.000000 0.000000 -0.000000 0.000000 -0.000000 -0.000000 1.000000 -0.000000 0.000000 0.000000 0.000000 1.000000</matrix>
+        <node id="Bip01" name="Bip01" type="JOINT">
+          <matrix sid="matrix">0.000000 0.000000 -1.000000 -0.900000 -0.000000 1.000000 0.000000 0.000000 1.000000 -0.000000 0.000000 0.037619 0.000000 0.000000 0.000000 1.000000</matrix>
+          <node id="Bip01_Pelvis" name="Bip01_Pelvis" type="JOINT">
+            <matrix sid="matrix">-0.000000 1.000000 -0.000001 -0.035611 -0.000000 0.000001 1.000000 0.000000 1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 1.000000</matrix>
+            <node id="Bip01_Spine" name="Bip01_Spine" type="JOINT">
+              <matrix sid="matrix">0.992783 0.119925 -0.000001 0.098590 -0.119925 0.992783 0.000004 -0.000176 0.000002 -0.000004 1.000000 0.000000 0.000000 0.000000 0.000000 1.000000</matrix>
+              <node id="Bip01_Spine1" name="Bip01_Spine1" type="JOINT">
+                <matrix sid="matrix">1.000000 -0.000000 0.000000 0.222947 -0.000000 1.000000 0.000000 -0.000178 0.000000 -0.000000 1.000000 -0.000000 0.000000 0.000000 0.000000 1.000000</matrix>
+                <node id="Bip01_Neck" name="Bip01_Neck" type="JOINT">
+                  <matrix sid="matrix">0.965926 -0.258819 -0.000001 0.222970 0.258819 0.965926 -0.000000 -0.000087 0.000001 -0.000000 1.000000 -0.000000 0.000000 0.000000 0.000000 1.000000</matrix>
+                  <node id="Bip01_L_Clavicle" name="Bip01_L_Clavicle" type="JOINT">
+                    <matrix sid="matrix">-0.249947 -0.259588 0.932813 -0.000000 0.067184 -0.965719 -0.250743 0.000089 0.965926 -0.000003 0.258818 0.030012 0.000000 0.000000 0.000000 1.000000</matrix>
+                    <node id="Bip01_L_UpperArm" name="Bip01_L_UpperArm" type="JOINT">
+                      <matrix sid="matrix">0.976260 -0.046278 -0.211601 0.172746 -0.001414 0.975527 -0.219875 0.000000 0.216598 0.214954 0.952302 0.000000 0.000000 0.000000 0.000000 1.000000</matrix>
+                      <node id="Bip01_L_Forearm" name="Bip01_L_Forearm" type="JOINT">
+                        <matrix sid="matrix">0.999887 0.015002 -0.000000 0.257246 -0.015002 0.999888 -0.000000 0.000000 0.000000 -0.000000 1.000000 0.000000 0.000000 0.000000 0.000000 1.000000</matrix>
+                        <node id="Bip01_L_Hand" name="Bip01_L_Hand" type="JOINT">
+                          <matrix sid="matrix">1.000000 -0.000000 -0.000000 0.277125 0.000000 0.000796 1.000000 -0.000000 0.000000 -1.000000 0.000796 -0.000000 0.000000 0.000000 0.000000 1.000000</matrix>
+                          <node id="Bip01_L_Finger0" name="Bip01_L_Finger0" type="JOINT">
+                            <matrix sid="matrix">0.717762 0.395979 0.572729 0.043229 0.036310 0.800140 -0.598713 -0.000036 -0.695341 0.450530 0.559932 -0.045120 0.000000 0.000000 0.000000 1.000000</matrix>
+                            <node id="Bip01_L_Finger01" name="Bip01_L_Finger01" type="JOINT">
+                              <matrix sid="matrix">0.948906 -0.288189 -0.128549 0.044908 0.255251 0.940500 -0.224289 -0.000000 0.185539 0.180017 0.966007 0.000000 0.000000 0.000000 0.000000 1.000000</matrix>
+                            </node>
+                          </node>
+                          <node id="Bip01_L_Finger1" name="Bip01_L_Finger1" type="JOINT">
+                            <matrix sid="matrix">0.996195 0.087156 -0.000000 0.061755 -0.087156 0.996194 0.000796 0.000000 0.000069 -0.000793 1.000000 0.000000 0.000000 0.000000 0.000000 1.000000</matrix>
+                            <node id="Bip01_L_Finger11" name="Bip01_L_Finger11" type="JOINT">
+                              <matrix sid="matrix">0.996113 -0.088086 -0.000000 0.073021 0.088086 0.996113 0.000000 -0.000000 0.000000 -0.000000 1.000000 0.000000 0.000000 0.000000 0.000000 1.000000</matrix>
+                            </node>
+                          </node>
+                        </node>
+                      </node>
+                    </node>
+                  </node>
+                  <node id="Bip01_R_Clavicle" name="Bip01_R_Clavicle" type="JOINT">
+                    <matrix sid="matrix">-0.249947 -0.259588 -0.932813 -0.000000 0.067189 -0.965719 0.250742 0.000090 -0.965926 -0.000003 0.258820 -0.030012 0.000000 0.000000 0.000000 1.000000</matrix>
+                    <node id="Bip01_R_UpperArm" name="Bip01_R_UpperArm" type="JOINT">
+                      <matrix sid="matrix">0.976260 -0.046278 0.211601 0.172746 -0.001414 0.975527 0.219875 0.000000 -0.216598 -0.214954 0.952303 0.000000 0.000000 0.000000 0.000000 1.000000</matrix>
+                      <node id="Bip01_R_Forearm" name="Bip01_R_Forearm" type="JOINT">
+                        <matrix sid="matrix">0.999887 0.015002 0.000000 0.257246 -0.015002 0.999887 0.000000 0.000000 -0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 0.000000 1.000000</matrix>
+                        <node id="Bip01_R_Hand" name="Bip01_R_Hand" type="JOINT">
+                          <matrix sid="matrix">1.000000 0.000000 -0.000000 0.277125 0.000000 0.000796 -1.000000 -0.000000 0.000000 1.000000 0.000796 0.000000 0.000000 0.000000 0.000000 1.000000</matrix>
+                          <node id="Bip01_R_Finger0" name="Bip01_R_Finger0" type="JOINT">
+                            <matrix sid="matrix">0.717763 0.395979 -0.572728 0.043229 0.036310 0.800140 0.598713 -0.000036 0.695341 -0.450530 0.559932 0.045120 0.000000 0.000000 0.000000 1.000000</matrix>
+                            <node id="Bip01_R_Finger01" name="Bip01_R_Finger01" type="JOINT">
+                              <matrix sid="matrix">0.948906 -0.288189 0.128549 0.044908 0.255251 0.940500 0.224289 0.000000 -0.185539 -0.180017 0.966007 -0.000000 0.000000 0.000000 0.000000 1.000000</matrix>
+                            </node>
+                          </node>
+                          <node id="Bip01_R_Finger1" name="Bip01_R_Finger1" type="JOINT">
+                            <matrix sid="matrix">0.996195 0.087156 0.000000 0.061755 -0.087156 0.996194 -0.000796 -0.000000 -0.000069 0.000793 1.000000 -0.000000 0.000000 0.000000 0.000000 1.000000</matrix>
+                            <node id="Bip01_R_Finger11" name="Bip01_R_Finger11" type="JOINT">
+                              <matrix sid="matrix">0.996113 -0.088086 0.000000 0.073021 0.088086 0.996113 0.000000 -0.000000 -0.000000 -0.000000 1.000000 -0.000000 0.000000 0.000000 0.000000 1.000000</matrix>
+                            </node>
+                          </node>
+                        </node>
+                      </node>
+                    </node>
+                  </node>
+                  <node id="Bip01_Head" name="Bip01_Head" type="JOINT">
+                    <matrix sid="matrix">0.999457 -0.032940 -0.000000 0.112497 0.032940 0.999457 -0.000000 0.000000 0.000000 -0.000000 1.000000 -0.000000 0.000000 0.000000 0.000000 1.000000</matrix>
+                  </node>
+                </node>
+              </node>
+              <node id="Bip01_L_Thigh" name="Bip01_L_Thigh" type="JOINT">
+                <matrix sid="matrix">-0.986327 -0.164798 -0.000000 -0.097899 -0.164798 0.986327 0.000003 -0.011649 -0.000000 0.000003 -1.000000 0.129738 0.000000 0.000000 0.000000 1.000000</matrix>
+                <node id="Bip01_L_Calf" name="Bip01_L_Calf" type="JOINT">
+                  <matrix sid="matrix">0.981880 0.189501 -0.000000 0.423505 -0.189501 0.981881 -0.000000 0.000000 0.000000 -0.000000 1.000000 -0.000000 0.000000 0.000000 0.000000 1.000000</matrix>
+                  <node id="Bip01_L_Foot" name="Bip01_L_Foot" type="JOINT">
+                    <matrix sid="matrix">0.972283 -0.233809 -0.000000 0.378997 0.233809 0.972283 -0.000000 -0.000000 0.000000 -0.000000 1.000000 0.000000 0.000000 0.000000 0.000000 1.000000</matrix>
+                    <node id="Bip01_L_Toe0" name="Bip01_L_Toe0" type="JOINT">
+                      <matrix sid="matrix">0.000000 -1.000000 -0.000000 0.098611 1.000000 0.000000 0.000000 0.135325 -0.000000 -0.000000 1.000000 0.000000 0.000000 0.000000 0.000000 1.000000</matrix>
+                    </node>
+                  </node>
+                </node>
+              </node>
+              <node id="Bip01_R_Thigh" name="Bip01_R_Thigh" type="JOINT">
+                <matrix sid="matrix">-0.986327 -0.164798 -0.000000 -0.097899 -0.164798 0.986327 0.000003 -0.011648 -0.000000 0.000003 -1.000000 -0.129738 0.000000 0.000000 0.000000 1.000000</matrix>
+                <node id="Bip01_R_Calf" name="Bip01_R_Calf" type="JOINT">
+                  <matrix sid="matrix">0.981880 0.189501 -0.000000 0.423505 -0.189501 0.981881 -0.000000 0.000000 0.000000 -0.000000 1.000000 -0.000000 0.000000 0.000000 0.000000 1.000000</matrix>
+                  <node id="Bip01_R_Foot" name="Bip01_R_Foot" type="JOINT">
+                    <matrix sid="matrix">0.972283 -0.233809 -0.000000 0.378997 0.233809 0.972283 -0.000000 0.000000 0.000000 -0.000000 1.000000 0.000000 0.000000 0.000000 0.000000 1.000000</matrix>
+                    <node id="Bip01_R_Toe0" name="Bip01_R_Toe0" type="JOINT">
+                      <matrix sid="matrix">0.000000 -1.000000 -0.000000 0.098611 1.000000 0.000000 0.000000 0.135325 -0.000000 -0.000000 1.000000 0.000000 0.000000 0.000000 0.000000 1.000000</matrix>
+                    </node>
+                  </node>
+                </node>
+              </node>
+            </node>
+          </node>
+        </node>
+      </node>
+      <node id="Plane02" name="Plane02">
+        <instance_controller url="#Plane02Controller">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="gear_tn_light" target="#gear_tn_light"/>
+            </technique_common>
+          </bind_material>
+        </instance_controller>
+      </node>
+    </visual_scene>
+  </library_visual_scenes>
+  <scene>
+    <instance_visual_scene url="#RootNode"/>
+  </scene>
+</COLLADA>
+

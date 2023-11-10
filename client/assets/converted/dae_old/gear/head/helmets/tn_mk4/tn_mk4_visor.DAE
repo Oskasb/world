@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.0">
+  <asset>
+    <contributor>
+      <author></author>
+      <authoring_tool>FBX COLLADA exporter</authoring_tool>
+      <comments></comments>
+    </contributor>
+    <created>2010-04-30T20:22:26Z</created>
+    <modified>2010-04-30T20:22:26Z</modified>
+    <revision></revision>
+    <title></title>
+    <subject></subject>
+    <keywords></keywords>
+    <unit meter="1.000000"/>
+    <up_axis>Y_UP</up_axis>
+  </asset>
+  <library_images>
+    <image id="Map__3-image" name="Map__3">
+      <init_from>file://D:\Projects\Spaced\sghub\newclient\resources\textures\players\gear\gear_tn.png</init_from>
+    </image>
+  </library_images>
+  <library_materials>
+    <material id="gear_tn" name="gear_tn">
+      <instance_effect url="#gear_tn-fx"/>
+    </material>
+  </library_materials>
+  <library_effects>
+    <effect id="gear_tn-fx" name="gear_tn">
+      <profile_COMMON>
+        <technique sid="standard">
+          <phong>
+            <emission>
+              <color sid="emission">0.000000  0.000000 0.000000 1.000000</color>
+            </emission>
+            <ambient>
+              <color sid="ambient">0.588235  0.588235 0.588235 1.000000</color>
+            </ambient>
+            <diffuse>
+              <texture texture="Map__3-image" texcoord="CHANNEL0">
+                <extra>
+                  <technique profile="MAYA">
+                    <wrapU sid="wrapU0">TRUE</wrapU>
+                    <wrapV sid="wrapV0">TRUE</wrapV>
+                    <blend_mode>ADD</blend_mode>
+                  </technique>
+                </extra>
+              </texture>
+            </diffuse>
+            <specular>
+              <color sid="specular">0.000000  0.000000 0.000000 1.000000</color>
+            </specular>
+            <shininess>
+              <float sid="shininess">2.000000</float>
+            </shininess>
+            <reflective>
+              <color sid="reflective">0.000000  0.000000 0.000000 1.000000</color>
+            </reflective>
+            <reflectivity>
+              <float sid="reflectivity">1.000000</float>
+            </reflectivity>
+            <transparent>
+              <color sid="transparent">1.000000  1.000000 1.000000 1.000000</color>
+            </transparent>
+            <transparency>
+              <float sid="transparency">0.000000</float>
+            </transparency>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+  </library_effects>
+  <library_geometries>
+    <geometry id="visor-lib" name="visorMesh">
+      <mesh>
+        <source id="visor-lib-Position">
+          <float_array id="visor-lib-Position-array" count="30">
+0.091343 -0.493152 0.307437
+0.125433 -0.461942 0.271447
+0.081088 -0.416972 0.352480
+0.125967 -0.401669 0.316302
+0.048211 -0.543407 0.322988
+0.036601 -0.420811 0.359085
+-0.004627 -0.502796 0.309324
+-0.048341 -0.479863 0.269688
+-0.007984 -0.425923 0.354231
+-0.054750 -0.414213 0.322135
+</float_array>
+          <technique_common>
+            <accessor source="#visor-lib-Position-array" count="10" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="visor-lib-Normal0">
+          <float_array id="visor-lib-Normal0-array" count="72">
+0.406147 -0.423963 0.809506
+0.595709 -0.300812 0.744743
+0.721017 -0.331830 0.608296
+0.812645 -0.352530 0.464038
+0.721017 -0.331830 0.608296
+0.595709 -0.300812 0.744743
+0.406147 -0.423963 0.809506
+0.060801 -0.428741 0.901379
+0.595709 -0.300812 0.744743
+0.046800 -0.278059 0.959423
+0.595709 -0.300812 0.744743
+0.060801 -0.428741 0.901379
+-0.305517 -0.490208 0.816306
+-0.637098 -0.450903 0.625134
+-0.506048 -0.403932 0.762072
+-0.714261 -0.478080 0.511146
+-0.506048 -0.403932 0.762072
+-0.637098 -0.450903 0.625134
+-0.305517 -0.490208 0.816306
+-0.506048 -0.403932 0.762072
+0.060801 -0.428741 0.901379
+0.046800 -0.278059 0.959423
+0.060801 -0.428741 0.901379
+-0.506048 -0.403932 0.762072
+</float_array>
+          <technique_common>
+            <accessor source="#visor-lib-Normal0-array" count="24" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="visor-lib-UV0">
+          <float_array id="visor-lib-UV0-array" count="20">
+0.824988 0.415475
+0.822714 0.316789
+0.776035 0.409894
+0.784255 0.329079
+0.877333 0.420404
+0.879917 0.277718
+0.929790 0.419171
+0.978882 0.417048
+0.935633 0.320772
+0.973598 0.335757
+</float_array>
+          <technique_common>
+            <accessor source="#visor-lib-UV0-array" count="10" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="visor-lib-Vertex">
+          <input semantic="POSITION" source="#visor-lib-Position"/>
+        </vertices>
+        <polygons material="gear_tn" count="8">
+          <input semantic="VERTEX" offset="0" source="#visor-lib-Vertex"/>
+          <input semantic="NORMAL" offset="1" source="#visor-lib-Normal0"/>
+          <input semantic="TEXCOORD" offset="2" set="0" source="#visor-lib-UV0"/>
+          <p>2 0 0 0 1 1 3 2 2</p>
+          <p>1 3 3 3 4 2 0 5 1</p>
+          <p>2 6 0 5 7 4 0 8 1</p>
+          <p>4 9 5 0 10 1 5 11 4</p>
+          <p>8 12 6 9 13 7 6 14 8</p>
+          <p>7 15 9 6 16 8 9 17 7</p>
+          <p>8 18 6 6 19 8 5 20 4</p>
+          <p>4 21 5 5 22 4 6 23 8</p>
+        </polygons>
+      </mesh>
+    </geometry>
+  </library_geometries>
+  <library_visual_scenes>
+    <visual_scene id="RootNode" name="RootNode">
+      <node id="visor" name="visor">
+        <translate sid="translate">-0.005672 0.091050 0.125295</translate>
+        <rotate sid="jointOrientX">1 0 0 -90.000000</rotate>
+        <rotate sid="rotateZ">0 0 1 -3.853074</rotate>
+        <rotate sid="rotateY">0 1 0 5.848458</rotate>
+        <rotate sid="rotateX">1 0 0 61.896647</rotate>
+        <node id="visor-Pivot" name="visor-Pivot">
+          <translate>-0.035608 0.472538 -0.314387</translate>
+          <rotate>0.000000 0.000000 0.000000 0.000000</rotate>
+          <instance_geometry url="#visor-lib">
+            <bind_material>
+              <technique_common>
+                <instance_material symbol="gear_tn" target="#gear_tn"/>
+              </technique_common>
+            </bind_material>
+          </instance_geometry>
+        </node>
+      </node>
+    </visual_scene>
+  </library_visual_scenes>
+  <scene>
+    <instance_visual_scene url="#RootNode"/>
+  </scene>
+</COLLADA>
+

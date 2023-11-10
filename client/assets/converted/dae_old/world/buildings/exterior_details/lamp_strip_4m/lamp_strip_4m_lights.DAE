@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.0">
+  <asset>
+    <contributor>
+      <author></author>
+      <authoring_tool>FBX COLLADA exporter</authoring_tool>
+      <comments></comments>
+    </contributor>
+    <created>2010-07-06T14:12:28Z</created>
+    <modified>2010-07-06T14:12:28Z</modified>
+    <revision></revision>
+    <title></title>
+    <subject></subject>
+    <keywords></keywords>
+    <unit meter="1.000000"/>
+    <up_axis>Y_UP</up_axis>
+  </asset>
+  <library_images>
+    <image id="Map__3-image" name="Map__3">
+      <init_from>file://C:\Spaced\newclient\resources\textures\props\buildings\glass_lights.png</init_from>
+    </image>
+    <image id="Map__11-image" name="Map__11">
+      <init_from>file://C:\Spaced\newclient\resources\textures\props\buildings\glass_lights.png</init_from>
+    </image>
+  </library_images>
+  <library_materials>
+    <material id="glass_lights" name="glass_lights">
+      <instance_effect url="#glass_lights-fx"/>
+    </material>
+  </library_materials>
+  <library_effects>
+    <effect id="glass_lights-fx" name="glass_lights">
+      <profile_COMMON>
+        <technique sid="standard">
+          <phong>
+            <emission>
+              <color sid="emission">0.000000  0.000000 0.000000 1.000000</color>
+            </emission>
+            <ambient>
+              <color sid="ambient">0.588235  0.588235 0.588235 1.000000</color>
+            </ambient>
+            <diffuse>
+              <texture texture="Map__3-image" texcoord="CHANNEL0">
+                <extra>
+                  <technique profile="MAYA">
+                    <wrapU sid="wrapU0">TRUE</wrapU>
+                    <wrapV sid="wrapV0">TRUE</wrapV>
+                    <blend_mode>ADD</blend_mode>
+                  </technique>
+                </extra>
+              </texture>
+            </diffuse>
+            <specular>
+              <color sid="specular">0.000000  0.000000 0.000000 1.000000</color>
+            </specular>
+            <shininess>
+              <float sid="shininess">2.000000</float>
+            </shininess>
+            <reflective>
+              <color sid="reflective">0.000000  0.000000 0.000000 1.000000</color>
+            </reflective>
+            <reflectivity>
+              <float sid="reflectivity">1.000000</float>
+            </reflectivity>
+            <transparent>
+              <texture texture="Map__11-image" texcoord="CHANNEL0">
+                <extra>
+                  <technique profile="MAYA">
+                    <wrapU sid="wrapU0">TRUE</wrapU>
+                    <wrapV sid="wrapV0">TRUE</wrapV>
+                    <blend_mode>ADD</blend_mode>
+                  </technique>
+                </extra>
+              </texture>
+            </transparent>
+            <transparency>
+              <float sid="transparency">0.000000</float>
+            </transparency>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+  </library_effects>
+  <library_geometries>
+    <geometry id="Cylinder18-lib" name="Cylinder18Mesh">
+      <mesh>
+        <source id="Cylinder18-lib-Position">
+          <float_array id="Cylinder18-lib-Position-array" count="48">
+0.333832 -0.000000 -0.057712
+-4.555272 -0.000000 -0.057712
+-4.388356 -0.289107 -0.057712
+0.166916 -0.289107 -0.057712
+0.614223 0.000000 0.256004
+-4.835664 -0.000000 0.256004
+-4.528552 -0.531933 0.256004
+0.307112 -0.531933 0.256004
+0.510235 -0.000000 0.076496
+-4.731675 -0.000000 0.076496
+-4.476558 -0.441876 0.076496
+0.255117 -0.441876 0.076496
+4.447078 0.000000 -2.874792
+-9.001117 -0.000000 -2.874792
+-5.788047 -3.842947 -2.874792
+1.234009 -3.842947 -2.874792
+</float_array>
+          <technique_common>
+            <accessor source="#Cylinder18-lib-Position-array" count="16" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Cylinder18-lib-Normal0">
+          <float_array id="Cylinder18-lib-Normal0-array" count="108">
+-0.745596 0.000000 -0.666398
+-0.372798 -0.645705 -0.666398
+-0.372798 -0.645705 -0.666398
+-0.372798 -0.645705 -0.666398
+-0.745596 -0.000000 -0.666398
+-0.745596 0.000000 -0.666398
+-0.372798 -0.645705 -0.666398
+0.372798 -0.645705 -0.666398
+0.372798 -0.645705 -0.666398
+0.372798 -0.645705 -0.666398
+-0.372798 -0.645705 -0.666398
+-0.372798 -0.645705 -0.666398
+0.372798 -0.645705 -0.666398
+0.745596 -0.000000 -0.666398
+0.745596 0.000000 -0.666398
+0.745596 0.000000 -0.666398
+0.372798 -0.645705 -0.666398
+0.372798 -0.645705 -0.666398
+0.000690 -0.008788 0.999961
+0.007187 0.016463 0.999839
+0.003490 -0.000000 0.999994
+0.003490 -0.000000 0.999994
+0.000000 0.018451 0.999830
+0.000690 -0.008788 0.999961
+-0.018451 -0.000000 0.999830
+0.019012 -0.034962 0.999208
+0.007187 0.016463 0.999839
+0.007187 0.016463 0.999839
+0.000690 -0.008788 0.999961
+-0.018451 -0.000000 0.999830
+-0.018451 0.000000 0.999830
+0.007534 -0.000000 0.999972
+0.019012 -0.034962 0.999208
+0.019012 -0.034962 0.999208
+-0.018451 -0.000000 0.999830
+-0.018451 0.000000 0.999830
+</float_array>
+          <technique_common>
+            <accessor source="#Cylinder18-lib-Normal0-array" count="36" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Cylinder18-lib-UV0">
+          <float_array id="Cylinder18-lib-UV0-array" count="76">
+0.749943 0.895700
+0.672609 0.993745
+0.672609 0.993745
+0.672719 0.993745
+0.672719 0.993745
+0.672719 0.993745
+0.672351 0.895503
+0.749938 0.993584
+0.672609 0.993745
+0.749706 0.895605
+0.672351 0.895503
+0.749938 0.993584
+0.749706 0.895605
+0.672351 0.895503
+0.749938 0.993584
+0.749706 0.895605
+0.672461 0.895598
+0.750174 0.993584
+0.749943 0.895700
+0.672461 0.895598
+0.750174 0.993584
+0.749943 0.895700
+0.672461 0.895598
+0.750174 0.993584
+0.719331 0.889762
+0.712323 0.996571
+0.714300 0.889762
+0.717353 0.996571
+0.723543 0.889762
+0.721566 0.996571
+0.728574 0.889762
+0.726597 0.996571
+0.720838 0.889000
+0.718861 0.995809
+0.714311 0.889762
+0.712334 0.996571
+0.719341 0.889762
+0.717364 0.996571
+</float_array>
+          <technique_common>
+            <accessor source="#Cylinder18-lib-UV0-array" count="38" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Cylinder18-lib-VertexColors0">
+          <float_array id="Cylinder18-lib-VertexColors0-array" count="64">
+1.000000 1.000000 1.000000 1.000000
+1.000000 1.000000 1.000000 1.000000
+1.000000 1.000000 1.000000 1.000000
+1.000000 1.000000 1.000000 1.000000
+1.000000 1.000000 1.000000 1.000000
+1.000000 1.000000 1.000000 1.000000
+1.000000 1.000000 1.000000 1.000000
+1.000000 1.000000 1.000000 1.000000
+1.000000 1.000000 1.000000 1.000000
+1.000000 1.000000 1.000000 1.000000
+1.000000 1.000000 1.000000 1.000000
+1.000000 1.000000 1.000000 1.000000
+1.000000 1.000000 1.000000 1.000000
+1.000000 1.000000 1.000000 1.000000
+1.000000 1.000000 1.000000 1.000000
+1.000000 1.000000 1.000000 1.000000
+</float_array>
+          <technique_common>
+            <accessor source="#Cylinder18-lib-VertexColors0-array" count="16" stride="4">
+              <param name="R" type="double"/>
+              <param name="G" type="double"/>
+              <param name="B" type="double"/>
+              <param name="A" type="double"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="Cylinder18-lib-Vertex">
+          <input semantic="POSITION" source="#Cylinder18-lib-Position"/>
+        </vertices>
+        <polygons material="glass_lights" count="12">
+          <input semantic="VERTEX" offset="0" source="#Cylinder18-lib-Vertex"/>
+          <input semantic="NORMAL" offset="1" source="#Cylinder18-lib-Normal0"/>
+          <input semantic="TEXCOORD" offset="2" set="0" source="#Cylinder18-lib-UV0"/>
+          <input semantic="COLOR" offset="3" set="0" source="#Cylinder18-lib-VertexColors0"/>
+          <p>1 0 16 1 2 1 18 2 6 2 17 6</p>
+          <p>6 3 17 6 5 4 3 5 1 5 16 1</p>
+          <p>2 6 19 2 3 7 21 3 7 8 20 7</p>
+          <p>7 9 20 7 6 10 4 6 2 11 19 2</p>
+          <p>3 12 22 3 0 13 0 0 4 14 23 4</p>
+          <p>4 15 23 4 7 16 5 7 3 17 22 3</p>
+          <p>14 18 32 14 10 19 33 10 9 20 31 9</p>
+          <p>9 21 31 9 13 22 30 13 14 23 32 14</p>
+          <p>15 24 34 15 11 25 35 11 10 26 33 10</p>
+          <p>10 27 33 10 14 28 32 14 15 29 34 15</p>
+          <p>12 30 36 12 8 31 37 8 11 32 35 11</p>
+          <p>11 33 35 11 15 34 34 15 12 35 36 12</p>
+        </polygons>
+      </mesh>
+    </geometry>
+  </library_geometries>
+  <library_visual_scenes>
+    <visual_scene id="RootNode" name="RootNode">
+      <node id="Cylinder18" name="Cylinder18">
+        <matrix sid="matrix">1.582092 0.000000 0.000000 3.431173 0.000000 0.000000 1.000000 -0.171248 0.000000 -1.582092 0.000000 -0.097649 0.000000 0.000000 0.000000 1.000000</matrix>
+        <instance_geometry url="#Cylinder18-lib">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="glass_lights" target="#glass_lights"/>
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
+      </node>
+    </visual_scene>
+  </library_visual_scenes>
+  <scene>
+    <instance_visual_scene url="#RootNode"/>
+  </scene>
+</COLLADA>
+

@@ -1,0 +1,57 @@
+<se.spaced.shared.model.xmo.XmoRoot>
+  <name>New XmoGroup</name>
+  <size>
+    <double>1.0</double>
+    <double>1.0</double>
+    <double>1.0</double>
+  </size>
+  <extendedMeshObjects/>
+  <containerNodes>
+    <se.spaced.shared.model.xmo.XmoContainerNode>
+      <position>
+        <double>0.0</double>
+        <double>0.0</double>
+        <double>0.0</double>
+      </position>
+      <rotation>
+        <double>0.0</double>
+        <double>0.0</double>
+        <double>0.0</double>
+        <double>1.0</double>
+      </rotation>
+      <scale>
+        <double>1.0</double>
+        <double>1.0</double>
+        <double>1.0</double>
+      </scale>
+      <extendedMeshObjects>
+
+    <se.spaced.shared.model.xmo.ExtendedMeshObject>
+		<xmoMaterialFile>materials/emissive.material</xmoMaterialFile> 	
+          <colladaFile>props/world/signs/functions/guard_tower/guard_tower_plain.DAE</colladaFile>
+		  <textureFile>textures/props/signs/signs_1024.png</textureFile>	
+          <position>
+            <double>0.0</double>
+            <double>0.0</double>
+            <double>0.0</double>
+          </position>
+          <rotation>
+            <double>0.0</double>
+            <double>0.0</double>
+            <double>0.0</double>
+            <double>1.0</double>
+          </rotation>
+          <scale>
+            <double>1.0</double>
+            <double>1.0</double>
+            <double>1.0</double>
+          </scale>
+
+        </se.spaced.shared.model.xmo.ExtendedMeshObject>
+
+	
+        </extendedMeshObjects>
+      <containerNodes/>
+    </se.spaced.shared.model.xmo.XmoContainerNode>
+  </containerNodes>
+</se.spaced.shared.model.xmo.XmoRoot>

@@ -1,0 +1,16 @@
+<AnimationMapping>
+  <stateToFilenameMap>
+    <entry>
+      <AnimationState>WALK</AnimationState>
+      <string>props/vehicles/walking/small_walker/animations/stomper_idle.DAE</string>
+    </entry>
+    <entry>
+      <AnimationState>IDLE</AnimationState>
+      <string>props/vehicles/walking/small_walker/animations/stomper_idle.DAE</string>
+    </entry>
+    <entry>
+      <AnimationState>DEAD</AnimationState>
+      <string>props/vehicles/walking/small_walker/animations/stomper_idle.DAE</string>
+    </entry>
+  </stateToFilenameMap>
+</AnimationMapping>

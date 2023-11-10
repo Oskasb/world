@@ -1,0 +1,103 @@
+<se.spaced.shared.model.xmo.XmoRoot>
+	<name>The player model</name>
+
+	<size>
+		<double>0.4</double>
+		<double>0.5</double>
+		<double>0.4</double>
+	</size>
+  
+	<extendedMeshObjects>
+	
+
+	
+  		<se.spaced.shared.model.xmo.ExtendedMeshObject>
+			<xmoMaterialFile>materials/default.material</xmoMaterialFile>
+			<colladaFile>props/vehicles/flying/small/disc-4/disc-4.DAE</colladaFile>
+			<textureFile>textures/props/vehicles/ships_1024.png</textureFile>
+			<position>
+				<double>0.0</double>
+				<double>0.0</double>
+				<double>0.0</double>
+			</position>
+			<rotation>
+				<double>0.0</double>
+				<double>0.0</double>
+				<double>0.0</double>
+				<double>1.0</double>
+			</rotation>
+			<scale>
+				<double>1.0</double>
+				<double>1.0</double>
+				<double>1.0</double>
+			</scale>
+		</se.spaced.shared.model.xmo.ExtendedMeshObject>
+  		<se.spaced.shared.model.xmo.ExtendedMeshObject>
+			<xmoMaterialFile>materials/glass.material</xmoMaterialFile>
+			<colladaFile>props/vehicles/flying/small/disc-4/disc-4_glass.DAE</colladaFile>
+			<textureFile>textures/props/buildings/glass_lights.png</textureFile>
+			<position>
+				<double>0.0</double>
+				<double>0.0</double>
+				<double>0.0</double>
+			</position>
+			<rotation>
+				<double>0.0</double>
+				<double>0.0</double>
+				<double>0.0</double>
+				<double>1.0</double>
+			</rotation>
+			<scale>
+				<double>1.0</double>
+				<double>1.0</double>
+				<double>1.0</double>
+			</scale>
+		</se.spaced.shared.model.xmo.ExtendedMeshObject>	
+  		<se.spaced.shared.model.xmo.ExtendedMeshObject>
+			<xmoMaterialFile>materials/add_cullback.material</xmoMaterialFile>
+			<colladaFile>props/vehicles/flying/small/disc-4/disc-4_glass.DAE</colladaFile>
+			<textureFile>textures/props/buildings/glass_lights.png</textureFile>
+			<position>
+				<double>0.0</double>
+				<double>0.0</double>
+				<double>0.0</double>
+			</position>
+			<rotation>
+				<double>0.0</double>
+				<double>0.0</double>
+				<double>0.0</double>
+				<double>1.0</double>
+			</rotation>
+			<scale>
+				<double>1.0</double>
+				<double>1.0</double>
+				<double>1.0</double>
+			</scale>
+		</se.spaced.shared.model.xmo.ExtendedMeshObject>		
+		
+  		<se.spaced.shared.model.xmo.ExtendedMeshObject>
+			<xmoMaterialFile>materials/add.material</xmoMaterialFile>
+			<colladaFile>props/vehicles/flying/small/disc-4/disc-4_add.DAE</colladaFile>
+			<textureFile>textures/props/buildings/glass_lights.png</textureFile>
+			<position>
+				<double>0.0</double>
+				<double>0.0</double>
+				<double>0.0</double>
+			</position>
+			<rotation>
+				<double>0.0</double>
+				<double>0.0</double>
+				<double>0.0</double>
+				<double>1.0</double>
+			</rotation>
+			<scale>
+				<double>1.0</double>
+				<double>1.0</double>
+				<double>1.0</double>
+			</scale>
+		</se.spaced.shared.model.xmo.ExtendedMeshObject>			
+		
+		
+	
+	</extendedMeshObjects>
+</se.spaced.shared.model.xmo.XmoRoot>

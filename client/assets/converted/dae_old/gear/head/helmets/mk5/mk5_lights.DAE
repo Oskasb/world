@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.0">
+  <asset>
+    <contributor>
+      <author></author>
+      <authoring_tool>FBX COLLADA exporter</authoring_tool>
+      <comments></comments>
+    </contributor>
+    <created>2010-05-15T21:38:58Z</created>
+    <modified>2010-05-15T21:38:58Z</modified>
+    <revision></revision>
+    <title></title>
+    <subject></subject>
+    <keywords></keywords>
+    <unit meter="1.000000"/>
+    <up_axis>Y_UP</up_axis>
+  </asset>
+  <library_images>
+    <image id="Map__3-image" name="Map__3">
+      <init_from>file://C:\Spaced\newclient\resources\textures\players\gear\gear_tn_red.png</init_from>
+    </image>
+  </library_images>
+  <library_materials>
+    <material id="mkred" name="mkred">
+      <instance_effect url="#mkred-fx"/>
+    </material>
+  </library_materials>
+  <library_effects>
+    <effect id="mkred-fx" name="mkred">
+      <profile_COMMON>
+        <technique sid="standard">
+          <phong>
+            <emission>
+              <color sid="emission">0.000000  0.000000 0.000000 1.000000</color>
+            </emission>
+            <ambient>
+              <color sid="ambient">0.588235  0.588235 0.588235 1.000000</color>
+            </ambient>
+            <diffuse>
+              <texture texture="Map__3-image" texcoord="CHANNEL0">
+                <extra>
+                  <technique profile="MAYA">
+                    <wrapU sid="wrapU0">TRUE</wrapU>
+                    <wrapV sid="wrapV0">TRUE</wrapV>
+                    <blend_mode>ADD</blend_mode>
+                  </technique>
+                </extra>
+              </texture>
+            </diffuse>
+            <specular>
+              <color sid="specular">0.000000  0.000000 0.000000 1.000000</color>
+            </specular>
+            <shininess>
+              <float sid="shininess">2.000000</float>
+            </shininess>
+            <reflective>
+              <color sid="reflective">0.000000  0.000000 0.000000 1.000000</color>
+            </reflective>
+            <reflectivity>
+              <float sid="reflectivity">1.000000</float>
+            </reflectivity>
+            <transparent>
+              <color sid="transparent">1.000000  1.000000 1.000000 1.000000</color>
+            </transparent>
+            <transparency>
+              <float sid="transparency">0.000000</float>
+            </transparency>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+  </library_effects>
+  <library_geometries>
+    <geometry id="Object01-lib" name="Object01Mesh">
+      <mesh>
+        <source id="Object01-lib-Position">
+          <float_array id="Object01-lib-Position-array" count="30">
+-0.000008 -0.125138 -0.033267
+-0.000005 -0.134783 -0.001772
+-0.030829 -0.119426 -0.052357
+-0.032443 -0.130565 0.003292
+-0.074278 -0.101433 -0.034278
+-0.068682 -0.109469 0.019483
+0.030812 -0.119426 -0.052357
+0.032433 -0.130565 0.003292
+0.083238 -0.101433 -0.034278
+0.068672 -0.109469 0.019483
+</float_array>
+          <technique_common>
+            <accessor source="#Object01-lib-Position-array" count="10" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Object01-lib-Normal0">
+          <float_array id="Object01-lib-Normal0-array" count="72">
+-0.000006 -0.973141 -0.230208
+0.000011 -0.956165 -0.292827
+-0.333556 -0.925180 -0.181061
+-0.333556 -0.925180 -0.181061
+-0.275065 -0.941159 -0.196362
+-0.000006 -0.973141 -0.230208
+-0.525614 -0.847670 -0.072009
+-0.478936 -0.866804 -0.138822
+-0.333556 -0.925180 -0.181061
+-0.478936 -0.866804 -0.138822
+-0.275065 -0.941159 -0.196362
+-0.333556 -0.925180 -0.181061
+-0.000006 -0.973141 -0.230208
+0.373877 -0.902618 -0.213301
+0.000011 -0.956165 -0.292827
+0.373877 -0.902618 -0.213301
+-0.000006 -0.973141 -0.230208
+0.273676 -0.950279 -0.148565
+0.273676 -0.950279 -0.148565
+0.446144 -0.887918 -0.112058
+0.373877 -0.902618 -0.213301
+0.446144 -0.887918 -0.112058
+0.273676 -0.950279 -0.148565
+0.339174 -0.939471 -0.048539
+</float_array>
+          <technique_common>
+            <accessor source="#Object01-lib-Normal0-array" count="24" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Object01-lib-UV0">
+          <float_array id="Object01-lib-UV0-array" count="20">
+0.901972 0.463290
+0.902023 0.491077
+0.866716 0.494597
+0.868451 0.446478
+0.827077 0.504570
+0.821007 0.458538
+0.937221 0.494579
+0.935440 0.446461
+0.976350 0.504533
+0.992189 0.458495
+</float_array>
+          <technique_common>
+            <accessor source="#Object01-lib-UV0-array" count="10" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="Object01-lib-Vertex">
+          <input semantic="POSITION" source="#Object01-lib-Position"/>
+        </vertices>
+        <polygons material="mkred" count="8">
+          <input semantic="VERTEX" offset="0" source="#Object01-lib-Vertex"/>
+          <input semantic="NORMAL" offset="1" source="#Object01-lib-Normal0"/>
+          <input semantic="TEXCOORD" offset="2" set="0" source="#Object01-lib-UV0"/>
+          <p>0 0 0 1 1 1 3 2 2</p>
+          <p>3 3 2 2 4 3 0 5 0</p>
+          <p>5 6 4 4 7 5 3 8 2</p>
+          <p>4 9 5 2 10 3 3 11 2</p>
+          <p>0 12 0 7 13 6 1 14 1</p>
+          <p>7 15 6 0 16 0 6 17 7</p>
+          <p>6 18 7 9 19 8 7 20 6</p>
+          <p>9 21 8 6 22 7 8 23 9</p>
+        </polygons>
+      </mesh>
+    </geometry>
+  </library_geometries>
+  <library_visual_scenes>
+    <visual_scene id="RootNode" name="RootNode">
+      <node id="Object01" name="Object01">
+        <translate sid="translate">0.000000 0.120858 0.008798</translate>
+        <rotate sid="jointOrientX">1 0 0 -90.000000</rotate>
+        <rotate sid="rotateX">1 0 0 -7.495668</rotate>
+        <scale sid="scale">1.029025 1.029025 1.029025</scale>
+        <instance_geometry url="#Object01-lib">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="mkred" target="#mkred"/>
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
+      </node>
+    </visual_scene>
+  </library_visual_scenes>
+  <scene>
+    <instance_visual_scene url="#RootNode"/>
+  </scene>
+</COLLADA>
+

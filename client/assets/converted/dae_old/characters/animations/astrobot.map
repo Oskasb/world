@@ -1,0 +1,16 @@
+<AnimationMapping>
+  <stateToFilenameMap>
+    <entry>
+      <AnimationState>WALK</AnimationState>
+      <string>/props/mobs/astrobot/animations/astrobot_forward.DAE</string>
+    </entry>
+    <entry>
+      <AnimationState>IDLE</AnimationState>
+      <string>/props/mobs/astrobot/animations/astrobot_idle.DAE</string>
+    </entry>
+    <entry>
+      <AnimationState>DEAD</AnimationState>
+      <string>/props/mobs/astrobot/animations/astrobot_dead.DAE</string>
+    </entry>
+  </stateToFilenameMap>
+</AnimationMapping>

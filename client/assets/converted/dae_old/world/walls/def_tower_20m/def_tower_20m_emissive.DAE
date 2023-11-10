@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.0">
+  <asset>
+    <contributor>
+      <author></author>
+      <authoring_tool>FBX COLLADA exporter</authoring_tool>
+      <comments></comments>
+    </contributor>
+    <created>2010-07-06T17:36:02Z</created>
+    <modified>2010-07-06T17:36:02Z</modified>
+    <revision></revision>
+    <title></title>
+    <subject></subject>
+    <keywords></keywords>
+    <unit meter="1.000000"/>
+    <up_axis>Y_UP</up_axis>
+  </asset>
+  <library_images>
+    <image id="Map__3-image" name="Map__3">
+      <init_from>file://C:\Spaced\newclient\resources\textures\props\buildings\glass_lights.png</init_from>
+    </image>
+    <image id="Map__11-image" name="Map__11">
+      <init_from>file://C:\Spaced\newclient\resources\textures\props\buildings\glass_lights.png</init_from>
+    </image>
+  </library_images>
+  <library_materials>
+    <material id="glass_lights" name="glass_lights">
+      <instance_effect url="#glass_lights-fx"/>
+    </material>
+  </library_materials>
+  <library_effects>
+    <effect id="glass_lights-fx" name="glass_lights">
+      <profile_COMMON>
+        <technique sid="standard">
+          <phong>
+            <emission>
+              <color sid="emission">0.000000  0.000000 0.000000 1.000000</color>
+            </emission>
+            <ambient>
+              <color sid="ambient">0.588235  0.588235 0.588235 1.000000</color>
+            </ambient>
+            <diffuse>
+              <texture texture="Map__3-image" texcoord="CHANNEL0">
+                <extra>
+                  <technique profile="MAYA">
+                    <wrapU sid="wrapU0">TRUE</wrapU>
+                    <wrapV sid="wrapV0">TRUE</wrapV>
+                    <blend_mode>ADD</blend_mode>
+                  </technique>
+                </extra>
+              </texture>
+            </diffuse>
+            <specular>
+              <color sid="specular">0.000000  0.000000 0.000000 1.000000</color>
+            </specular>
+            <shininess>
+              <float sid="shininess">2.000000</float>
+            </shininess>
+            <reflective>
+              <color sid="reflective">0.000000  0.000000 0.000000 1.000000</color>
+            </reflective>
+            <reflectivity>
+              <float sid="reflectivity">1.000000</float>
+            </reflectivity>
+            <transparent>
+              <texture texture="Map__11-image" texcoord="CHANNEL0">
+                <extra>
+                  <technique profile="MAYA">
+                    <wrapU sid="wrapU0">TRUE</wrapU>
+                    <wrapV sid="wrapV0">TRUE</wrapV>
+                    <blend_mode>ADD</blend_mode>
+                  </technique>
+                </extra>
+              </texture>
+            </transparent>
+            <transparency>
+              <float sid="transparency">0.000000</float>
+            </transparency>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+  </library_effects>
+  <library_geometries>
+    <geometry id="Cylinder21-lib" name="Cylinder21Mesh">
+      <mesh>
+        <source id="Cylinder21-lib-Position">
+          <float_array id="Cylinder21-lib-Position-array" count="72">
+0.423331 -0.000000 0.000000
+-5.845439 -0.000000 0.000000
+-5.633774 -0.366615 0.000000
+0.211665 -0.366615 0.000000
+0.635118 0.000000 0.236393
+-6.057227 -0.000000 0.236393
+-5.739668 -0.550028 0.236393
+0.317559 -0.550028 0.236393
+-5.829657 7.373392 0.000000
+0.439113 7.373391 0.000000
+0.227448 7.740006 0.000000
+-5.617991 7.740007 0.000000
+-6.041444 7.373392 0.236393
+0.650900 7.373391 0.236393
+0.333342 7.923419 0.236393
+-5.723885 7.923420 0.236393
+-6.373271 0.562030 0.000000
+-6.373270 6.830800 0.000000
+-6.739885 6.619135 0.000000
+-6.739886 0.773695 0.000000
+-6.373271 0.350243 0.236393
+-6.373270 7.042587 0.236393
+-6.923298 6.725028 0.236393
+-6.923299 0.667802 0.236393
+</float_array>
+          <technique_common>
+            <accessor source="#Cylinder21-lib-Position-array" count="24" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Cylinder21-lib-Normal0">
+          <float_array id="Cylinder21-lib-Normal0-array" count="162">
+-0.684227 -0.395038 -0.613008
+-0.372403 -0.645021 -0.667281
+-0.684227 -0.395038 -0.613008
+-0.684227 -0.395038 -0.613008
+-0.372403 -0.645021 -0.667281
+-0.372403 -0.645021 -0.667281
+-0.372403 -0.645021 -0.667281
+0.372403 -0.645021 -0.667281
+-0.372403 -0.645021 -0.667281
+-0.372403 -0.645021 -0.667281
+0.372403 -0.645021 -0.667281
+0.372403 -0.645021 -0.667281
+0.372403 -0.645021 -0.667281
+0.684227 -0.395039 -0.613007
+0.372403 -0.645021 -0.667281
+0.372403 -0.645021 -0.667281
+0.684227 -0.395039 -0.613007
+0.684227 -0.395039 -0.613007
+0.684227 0.395038 -0.613008
+0.372403 0.645021 -0.667281
+0.684227 0.395038 -0.613008
+0.684227 0.395038 -0.613008
+0.372403 0.645021 -0.667281
+0.372403 0.645021 -0.667281
+0.372403 0.645021 -0.667281
+-0.372404 0.645021 -0.667280
+0.372403 0.645021 -0.667281
+0.372403 0.645021 -0.667281
+-0.372403 0.645022 -0.667280
+-0.372404 0.645021 -0.667280
+-0.372403 0.645022 -0.667280
+-0.684227 0.395039 -0.613007
+-0.372404 0.645021 -0.667280
+-0.372403 0.645022 -0.667280
+-0.684227 0.395039 -0.613007
+-0.684227 0.395039 -0.613007
+-0.395039 0.684227 -0.613007
+-0.645022 0.372403 -0.667280
+-0.395039 0.684227 -0.613007
+-0.395039 0.684227 -0.613007
+-0.645022 0.372404 -0.667280
+-0.645022 0.372403 -0.667280
+-0.645022 0.372404 -0.667280
+-0.645022 -0.372404 -0.667280
+-0.645022 0.372403 -0.667280
+-0.645022 0.372404 -0.667280
+-0.645022 -0.372403 -0.667280
+-0.645022 -0.372404 -0.667280
+-0.645022 -0.372403 -0.667280
+-0.395039 -0.684227 -0.613007
+-0.645022 -0.372404 -0.667280
+-0.645022 -0.372403 -0.667280
+-0.395039 -0.684227 -0.613007
+-0.395039 -0.684227 -0.613007
+</float_array>
+          <technique_common>
+            <accessor source="#Cylinder21-lib-Normal0-array" count="54" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Cylinder21-lib-UV0">
+          <float_array id="Cylinder21-lib-UV0-array" count="114">
+0.640197 0.952331
+0.653096 0.952331
+0.661696 0.952331
+0.618698 0.952331
+0.627297 0.952331
+0.635897 0.952331
+0.644496 0.952331
+0.653096 0.984184
+0.661696 0.984184
+0.618698 0.984184
+0.627297 0.984184
+0.635897 0.984184
+0.644496 0.984184
+0.640197 0.984184
+0.610098 0.952331
+0.610098 0.952331
+0.610098 0.984184
+0.610098 0.952331
+0.610098 0.984184
+0.640197 0.952331
+0.653096 0.952331
+0.661696 0.952331
+0.618698 0.952331
+0.627297 0.952331
+0.635897 0.952331
+0.644496 0.952331
+0.653096 0.984184
+0.661696 0.984184
+0.618698 0.984184
+0.627297 0.984184
+0.635897 0.984184
+0.644496 0.984184
+0.640197 0.984184
+0.610098 0.952331
+0.610098 0.952331
+0.610098 0.984184
+0.610098 0.952331
+0.610098 0.984184
+0.640197 0.952331
+0.653096 0.952331
+0.661696 0.952331
+0.618698 0.952331
+0.627297 0.952331
+0.635897 0.952331
+0.644496 0.952331
+0.653096 0.984184
+0.661696 0.984184
+0.618698 0.984184
+0.627297 0.984184
+0.635897 0.984184
+0.644496 0.984184
+0.640197 0.984184
+0.610098 0.952331
+0.610098 0.952331
+0.610098 0.984184
+0.610098 0.952331
+0.610098 0.984184
+</float_array>
+          <technique_common>
+            <accessor source="#Cylinder21-lib-UV0-array" count="57" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="Cylinder21-lib-Vertex">
+          <input semantic="POSITION" source="#Cylinder21-lib-Position"/>
+        </vertices>
+        <polygons material="glass_lights" count="18">
+          <input semantic="VERTEX" offset="0" source="#Cylinder21-lib-Vertex"/>
+          <input semantic="NORMAL" offset="1" source="#Cylinder21-lib-Normal0"/>
+          <input semantic="TEXCOORD" offset="2" set="0" source="#Cylinder21-lib-UV0"/>
+          <p>1 0 4 6 1 11 5 2 10</p>
+          <p>1 3 4 2 4 5 6 5 11</p>
+          <p>2 6 5 7 7 12 6 8 11</p>
+          <p>2 9 5 3 10 6 7 11 12</p>
+          <p>3 12 6 4 13 7 7 14 12</p>
+          <p>3 15 6 0 16 1 4 17 7</p>
+          <p>9 18 23 14 19 30 13 20 29</p>
+          <p>9 21 23 10 22 24 14 23 30</p>
+          <p>10 24 24 15 25 31 14 26 30</p>
+          <p>10 27 24 11 28 25 15 29 31</p>
+          <p>11 30 25 12 31 26 15 32 31</p>
+          <p>11 33 25 8 34 20 12 35 26</p>
+          <p>17 36 42 22 37 49 21 38 48</p>
+          <p>17 39 42 18 40 43 22 41 49</p>
+          <p>18 42 43 23 43 50 22 44 49</p>
+          <p>18 45 43 19 46 44 23 47 50</p>
+          <p>19 48 44 20 49 45 23 50 50</p>
+          <p>19 51 44 16 52 39 20 53 45</p>
+        </polygons>
+      </mesh>
+    </geometry>
+  </library_geometries>
+  <library_visual_scenes>
+    <visual_scene id="RootNode" name="RootNode">
+      <node id="Cylinder21" name="Cylinder21">
+        <matrix sid="matrix">-1.232200 0.000000 -0.000000 -3.336796 -0.000000 -0.000000 1.232200 17.542915 0.000000 1.232200 0.000000 -4.550251 0.000000 0.000000 0.000000 1.000000</matrix>
+        <instance_geometry url="#Cylinder21-lib">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="glass_lights" target="#glass_lights"/>
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
+      </node>
+    </visual_scene>
+  </library_visual_scenes>
+  <scene>
+    <instance_visual_scene url="#RootNode"/>
+  </scene>
+</COLLADA>
+
