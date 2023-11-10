@@ -544,8 +544,8 @@ class ThreeTerrain {
 
         CursorUtils.processTerrainLodCenter(lodCenter, terrainCenter)
 
-        MATH.clampVectorXZ(lodCenter, -maxDistFromZero, maxDistFromZero, -maxDistFromZero, maxDistFromZero)
-        MATH.clampVectorXZ(terrainCenter, -maxDistFromZero, maxDistFromZero, -maxDistFromZero, maxDistFromZero)
+     //   MATH.clampVectorXZ(lodCenter, -maxDistFromZero, maxDistFromZero, -maxDistFromZero, maxDistFromZero)
+      //  MATH.clampVectorXZ(terrainCenter, -maxDistFromZero, maxDistFromZero, -maxDistFromZero, maxDistFromZero)
 
         dynamicLodGrid.updateDynamicLodGrid(terrainCenter, tileUpdateCB, 0);
 

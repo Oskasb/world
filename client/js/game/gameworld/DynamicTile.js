@@ -4,7 +4,7 @@ import * as CombatFxOptions from "../combat/feedback/CombatFxOptions.js";
 import * as CombatFxUtils from "../combat/feedback/CombatFxUtils.js";
 import {GridTile} from "../gamescenarios/GridTile.js";
 import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
-import {borrowBox, cubeTestVisibility} from "../../3d/ModelUtils.js";
+import {aaBoxTestVisibility, borrowBox, cubeTestVisibility} from "../../3d/ModelUtils.js";
 
 let up = new Vector3(0, 1, 0)
 let tempVec = new Vector3();
@@ -91,7 +91,7 @@ class DynamicTile {
         this.obj3d.position.x = indexX*this.spacing + this.offset
         this.obj3d.position.z = indexY*this.spacing + this.offset;
         let height = ThreeAPI.terrainAt(this.obj3d.position, this.groundNormal);
-        this.obj3d.position.y = height + 0.01;
+        this.obj3d.position.y = height+this.spacing;
         if (this.visualTile) {
             this.visualTile.dynamicTileUpdated(this)
         }
@@ -156,8 +156,9 @@ class DynamicTile {
         let pos = this.getPos()
         let lodDistance = pos.distanceTo(lodCenter)
         let rgba = this.rgba
-        let tileSize = this.spacing
-        let isVisible = cubeTestVisibility(pos,  tileSize * 1)
+        let tileSize = this.spacing*1.1
+
+        let isVisible = aaBoxTestVisibility(pos,  tileSize, tileSize*4, tileSize)
         let borrowedBox = borrowBox();
         let farness = MATH.calcFraction(0, maxDistance, lodDistance * 2.0)  //MATH.clamp( (camDist / maxDistance) * 1.0, 0, 1)
         let nearness = 1-farness;
@@ -181,7 +182,7 @@ class DynamicTile {
                 }
             } else {
                 if (this.debug) {
-                    this.debugDrawTilePosition(nearness*nearness*tileSize*0.5, 'BLACK')
+                    this.debugDrawTilePosition(nearness*nearness*tileSize, 'BLACK')
                     evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:borrowedBox.min, max:borrowedBox.max, color:'BLACK'})
                 }
 
