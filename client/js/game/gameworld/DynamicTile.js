@@ -142,7 +142,7 @@ class DynamicTile {
         poolReturn(this);
     }
 
-    processDynamicTileVisibility = function(maxDistance, lodLevels, lodCenter,  tileUpdateCallback, coarseness) {
+    processDynamicTileVisibility = function(maxDistance, lodLevels, lodCenter,  tileUpdateCallback, coarseness, margin) {
 
         if (coarseness) {
             this.step++;
@@ -156,7 +156,7 @@ class DynamicTile {
         let pos = this.getPos()
         let lodDistance = pos.distanceTo(lodCenter)
         let rgba = this.rgba
-        let tileSize = this.spacing*1.1
+        let tileSize = this.spacing*margin || 1;
 
         let isVisible = aaBoxTestVisibility(pos,  tileSize, tileSize*2, tileSize)
         let borrowedBox = borrowBox();

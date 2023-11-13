@@ -39,6 +39,7 @@ class LocationModel {
         this.config = config;
         this.lodLevel = config.visibility;
         this.boxes = [];
+        this.isVisible = false;
 
         inheritAsParent(this.obj3d, parentObj3d);
         inheritConfigTransform(this.obj3d, this.config);

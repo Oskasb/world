@@ -234,9 +234,7 @@ class VisualGamePiece {
         }
         this.animateActionState(this.bodyState)
 
-
     }
-
     updateVisualGamePiece() {
         this.getSpatial().stickToObj3D(this.getModelObj3d());
     }

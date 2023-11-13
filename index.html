@@ -107,6 +107,14 @@
         e.preventDefault();
     },{passive: false});
     */
+
+    window.addEventListener("touchmove", function(event) {
+        let target = event.target;
+        if (target.id === "canvas_window") {
+            event.preventDefault();
+        }
+    });
+
         Element.prototype.remove = function() {
             this.parentElement.removeChild(this);
         };
