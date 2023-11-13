@@ -50,6 +50,10 @@ class InstanceSpatial{
                 applyInstanceBuffers();
             }.bind(this)
 
+            let getInstance = function() {
+                return geometryInstance;
+            }
+
             let applyInstanceBuffers = function() {
                 geometryInstance.applyObjPos();
                 geometryInstance.applyObjQuat();
@@ -67,6 +71,7 @@ class InstanceSpatial{
             this.call = {
                 applyInstanceBuffers:applyInstanceBuffers,
                 setInstance:setInstance,
+                getInstance:getInstance,
                 isInstanced:isInstanced,
                 setStopped:setStopped,
                 setPrePos:setPrePos,

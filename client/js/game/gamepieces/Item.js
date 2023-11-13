@@ -3,7 +3,28 @@ class Item {
     constructor(visualGamePiece, config) {
         this.config = config;
         this.visualGamePiece = visualGamePiece;
+
+        let addModifiers = {};
+
+        let addMods = config['status_add_modifiers']
+        if (addMods) {
+            for (let i = 0; i < addMods.length; i++) {
+                if (addModifiers[addMods[i].status]) {
+                    addModifiers[addMods[i].status].push(addMods[i].value)
+                } else {
+                    addModifiers[addMods[i].status] = [addMods[i].value];
+                }
+            }
+        }
+        let getAddModifiers = function() {
+            return addModifiers
+        }
+        this.call = {
+            getAddModifiers:getAddModifiers
+        }
+
     }
+
 
 
     getEquipSlotId() {

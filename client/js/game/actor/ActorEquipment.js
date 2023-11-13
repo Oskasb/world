@@ -5,16 +5,30 @@ class ActorEquipment {
     constructor() {
         this.items = [];
 
+        let equipmentAddModifiers = [];
+
+        let updateAddModifiers = function(items) {
+            MATH.emptyArray(equipmentAddModifiers)
+                for (let i = 0; i < items.length; i++) {
+                    let addModifiers = items[i].call.getAddModifiers();
+                    for (let key in addModifiers) {
+                        equipmentAddModifiers.push(addModifiers)
+                    }
+                }
+                console.log("Add modifiers:", equipmentAddModifiers)
+        }
 
         let equipActorItem = function(item) {
             console.log("EQUIP ITEM: ", item)
             this.items.push(item)
             //    this.applyItemStatusModifiers(item, 1);
             //    item.setEquippedToPiece(this.gamePiece)
+            updateAddModifiers(this.items)
+
             let itemSlot = this.getSlotForItem(item);
             let dynamicJoint = this.getJointForItemSlot(itemSlot);
             let slotId = item.getEquipSlotId();
-            let slot = MATH.getFromArrayByKeyValue(this.slots, 'slot_id', slotId);
+        //    let slot = MATH.getFromArrayByKeyValue(this.slots, 'slot_id', slotId);
 
             //    let oldItem = itemSlot.removeSlotitem();
             //    evt.dispatch(ENUMS.Event.UNEQUIP_ITEM, {item:oldItem, time:0.6});
@@ -31,9 +45,20 @@ class ActorEquipment {
 
         }.bind(this);
 
+        let getEquipmentStatusKey = function(key, store) {
+            for (let i = 0; i < equipmentAddModifiers.length; i++) {
+                let mod = equipmentAddModifiers[i];
+                if (mod[key]) {
+                    for (let j = 0; j < mod[key].length; j++) {
+                        store.push(mod[key][j]);
+                    }
+                }
+            }
+        }
 
         this.call = {
-            equipActorItem:equipActorItem
+            equipActorItem:equipActorItem,
+            getEquipmentStatusKey:getEquipmentStatusKey
         }
 
     }

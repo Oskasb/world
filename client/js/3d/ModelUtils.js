@@ -14,9 +14,7 @@ function buildAssetInstance(assetId, config, callback) {
 
     let addModelInstance = function(instance) {
         let obj3d = instance.spatial.obj3d
-    //    ThreeAPI.getScene().remove(obj3d)
-
-    //    instance.spatial.stickToObj3D(obj3d);
+        ThreeAPI.getScene().remove(obj3d)
 
         if (config['rot']) {
             obj3d.rotateX(config.rot[0]);
@@ -30,7 +28,11 @@ function buildAssetInstance(assetId, config, callback) {
 
         instance.spatial.stickToObj3D(obj3d);
 
-        callback(instance);
+        let postCall = function() {
+            callback(instance);
+        }
+        window.requestAnimationFrame(postCall);
+
     };
 
     client.dynamicMain.requestAssetInstance(assetId, addModelInstance)
@@ -87,14 +89,20 @@ function attachSkeletonRig(visualPiece, rigId, pieceReady) {
 
 }
 
-let postApply = function(baseSize, instance) {
+
+let postApply = function(baseSize, inst, visualPiece, pieceReady) {
     let apply = function() {
-        instance.getGeometryInstance().setBaseScale(baseSize);
-        instance.getSpatial().setScaleXYZ(1, 1, 1);
+        if (inst.getSpatial().call.isInstanced()) {
+            console.log("Set Base Scale: ", baseSize)
+            inst.getSpatial().setBaseSize(baseSize);
+            inst.getSpatial().call.getInstance().setBaseScale(baseSize);
+            inst.getSpatial().setScaleXYZ(1,1, 1);
+        }
+        pieceReady(visualPiece);
     }
-
-    window.requestAnimationFrame(apply)
-
+//    apply()
+      window.requestAnimationFrame(apply)
+//    setTimeout(apply, 1000)
 }
 
 function setupVisualModel(visualPiece, assetId, config, pieceReady) {
@@ -102,28 +110,6 @@ function setupVisualModel(visualPiece, assetId, config, pieceReady) {
         let addModel = function(instance) {
             visualPiece.setModel(instance);
 
-            if (config['base_size']) {
-
-                let postApply = function(baseSize, inst) {
-                    let apply = function() {
-                        inst.getGeometryInstance().setBaseScale(baseSize);
-                        inst.getSpatial().setScaleXYZ(1, 1, 1);
-                    }
-                    window.requestAnimationFrame(apply)
-                }
-
-                console.log("setupVisualModel Set base size: ", config, instance)
-                instance.getGeometryInstance().setBaseScale(config['base_size']);
-                instance.getSpatial().setScaleXYZ(1, 1, 1);
-                setTimeout(function() {
-                    postApply(config['base_size'], instance)
-                }, 100)
-
-
-            } else {
-            //    instance.geometryInstance.setBaseSize(1);
-            //    instance.getSpatial().setScaleXYZ(1,1, 1);
-            }
 
    //         instance.spatial.setPosVec3(ThreeAPI.getCameraCursor().getPos())
    //         console.log("Visual Game Piece:",visualPiece);
@@ -131,7 +117,8 @@ function setupVisualModel(visualPiece, assetId, config, pieceReady) {
             if (config['skeleton_rig'])   {
                 attachSkeletonRig(visualPiece, config['skeleton_rig'], pieceReady)
             } else {
-                pieceReady(visualPiece);
+                let size = config['base_size'] || 100;
+                postApply(size, instance,visualPiece, pieceReady)
             }
 
         }

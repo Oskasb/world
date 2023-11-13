@@ -5,7 +5,10 @@
         "id": "ITEM_JETPACK",
         "data": {
           "visual_id":"VISUAL_JETPACK",
-          "equip_slot": "SLOT_BACK"
+          "equip_slot": "SLOT_BACK",
+          "status_add_modifiers": [
+              {"status": "TRAVEL", "value":"ACTION_TRAVEL_FLY"}
+          ]
         }
       },
       {

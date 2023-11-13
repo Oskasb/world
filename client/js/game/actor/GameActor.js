@@ -12,6 +12,7 @@ import { ActorEquipment } from "./ActorEquipment.js";
 
 let index = 0;
 let tempVec = new Vector3();
+let tempStore = [];
 
 class GameActor {
     constructor(config) {
@@ -106,6 +107,18 @@ class GameActor {
     }
 
     getStatus(key) {
+        MATH.emptyArray(tempStore)
+        this.actorEquipment.call.getEquipmentStatusKey(key, tempStore);
+        if (tempStore.length) {
+
+            let status = this.actorStatus.getStatusByKey(key);
+            if (status.length) {
+                for (let i = 0; i < status.length; i++) {
+                    tempStore.push(status[i])
+                }
+            }
+            return tempStore;
+        }
         return this.actorStatus.getStatusByKey(key);
     }
 
