@@ -102,10 +102,12 @@
       "/threedata/assets/sprites/tile_sprites_8x8.json"      ,
       "/threedata/assets/sprites/particle_sprites_8x8.json"  ,
       "/game/visuals/characters.json"                        ,
-      "/game/visuals/items.json"                             ,
+      "/game/visuals/visual_items.json"                      ,
       "/game/visuals/visual_actions.json"                    ,
       "/game/actors/actions/actor_actions.json"              ,
       "/game/visuals/visual_travel.json"                     ,
+      "/game/items/items_utilities.json"                      ,
+
       "/game/actors/actions/actor_travel.json"               ,
       "/game/actors/travel/travel_modes.json"               ,
 

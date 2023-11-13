@@ -1,3 +1,6 @@
+import {Vector3} from "../../../../libs/three/math/Vector3.js";
+
+let tempVec = new Vector3()
 class AttachmentJoint {
     constructor(key, parentScale, dynamicBoneId) {
         this.key = key;
@@ -51,9 +54,12 @@ class AttachmentJoint {
             return;
         }
 
-        spatObj.position.add(this.obj3d.position);
+
         spatObj.scale.multiply(this.obj3d.scale);
         spatObj.quaternion.multiply(this.obj3d.quaternion);
+        tempVec.copy(this.obj3d.position);
+        tempVec.applyQuaternion( spatObj.quaternion)
+        spatObj.position.add(tempVec);
 
         if (isNaN(this.dynamicBone.obj3d.position.x)) {
             console.log("bad bone")
@@ -79,14 +85,14 @@ class AttachmentJoint {
     };
 
     applyJointOffsets = function(jointData) {
-        this.obj3d.position.x = jointData.offset[0];
-        this.obj3d.position.y = jointData.offset[1];
-        this.obj3d.position.z = jointData.offset[2];
-
         this.obj3d.quaternion.set(0, 0, 0, 1);
         this.obj3d.rotateX(jointData.rot[0]);
         this.obj3d.rotateY(jointData.rot[1]);
         this.obj3d.rotateZ(jointData.rot[2]);
+
+        this.obj3d.position.x = jointData.offset[0];
+        this.obj3d.position.y = jointData.offset[1];
+        this.obj3d.position.z = jointData.offset[2];
 
         this.obj3d.scale.x = jointData.scale[0];
         this.obj3d.scale.y = jointData.scale[1];

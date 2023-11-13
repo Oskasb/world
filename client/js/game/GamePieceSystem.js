@@ -7,19 +7,25 @@ import { Item } from "./gamepieces/Item.js";
 
 let visualConfigs = {};
 let actorConfigs = {};
-
+let itemConfigs = {};
 
 let loadItem = function(event) {
 
-    let visualConfig = visualConfigs[event['id']];
+    let itemConfig = itemConfigs[event['id']]
+
+    let visualConfig = visualConfigs[itemConfig['visual_id']];
 
     let visualPiece = new VisualGamePiece(visualConfig);
-    let item = new Item(visualPiece)
+    let item = new Item(visualPiece, itemConfig)
 
     let visualReadyCB = function(visualGP) {
 
+        console.log("Visual Piece: ", visualGP)
+    //    visualGP.obj3d = item.obj3d;
+
         if (event.pos) {
             item.getPos().copy(event.pos);
+            visualGP.getSpatial().call.applyInstanceBuffers()
         }
 
         event.callback(item)
@@ -87,6 +93,13 @@ class GamePieceSystem {
         }
 
         configDataList("GAME","ACTORS", onActorsData)
+
+        let onItemsData = function(data) {
+            itemConfigs = data;
+            //        console.log("actorConfigs", actorConfigs)
+        }
+
+        configDataList("GAME","ITEMS", onItemsData)
 
         evt.on(ENUMS.Event.LOAD_ACTOR, loadActor)
         evt.on(ENUMS.Event.LOAD_ITEM,  loadItem)

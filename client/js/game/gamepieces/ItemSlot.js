@@ -1,21 +1,21 @@
 class ItemSlot {
     constructor(slotId) {
         this.slotId = slotId;
-        this.itemPiece = null;
+        this.item = null;
     }
 
-    setSlotItemPiece(itemPiece) {
-        this.itemPiece = itemPiece;
+    setSlotItem(item) {
+        this.item = item;
     }
 
-    removeSlotItemPiece() {
-        let oldPiece = this.itemPiece;
-        this.itemPiece = null;
+    removeSlotItem() {
+        let oldPiece = this.item;
+        this.item = null;
         return oldPiece
     }
 
-    getSlotItemPiece() {
-        return this.itemPiece;
+    getSlotItem() {
+        return this.item;
     }
 
 }

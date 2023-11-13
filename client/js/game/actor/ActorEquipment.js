@@ -4,6 +4,38 @@ import { ItemSlot } from "../gamepieces/ItemSlot.js";
 class ActorEquipment {
     constructor() {
         this.items = [];
+
+
+        let equipActorItem = function(item) {
+            console.log("EQUIP ITEM: ", item)
+            this.items.push(item)
+            //    this.applyItemStatusModifiers(item, 1);
+            //    item.setEquippedToPiece(this.gamePiece)
+            let itemSlot = this.getSlotForItem(item);
+            let dynamicJoint = this.getJointForItemSlot(itemSlot);
+            let slotId = item.getEquipSlotId();
+            let slot = MATH.getFromArrayByKeyValue(this.slots, 'slot_id', slotId);
+
+            //    let oldItem = itemSlot.removeSlotitem();
+            //    evt.dispatch(ENUMS.Event.UNEQUIP_ITEM, {item:oldItem, time:0.6});
+            itemSlot.setSlotItem(item);
+            if (dynamicJoint.key === 'SKIN') {
+                item.modelInstance.obj3d.frusumCulled = false;
+                this.getModel().attachInstancedModel(item.modelInstance)
+                ThreeAPI.registerPrerenderCallback(item.callbacks.tickPieceEquippedItem);
+
+            } else {
+                dynamicJoint.registerAttachedSpatial(item.getSpatial());
+                ThreeAPI.registerPrerenderCallback(dynamicJoint.callbacks.updateAttachedSpatial);
+            }
+
+        }.bind(this);
+
+
+        this.call = {
+            equipActorItem:equipActorItem
+        }
+
     }
 
     activateActorEquipment(actor, equipSlotConfigId) {
@@ -35,48 +67,24 @@ class ActorEquipment {
         return this.actor.getVisualGamePiece().getModel();
     }
 
-    getSlotForItemPiece = function(item) {
+    getSlotForItem(item) {
         return this.itemSlots[item.getEquipSlotId()];
     };
 
-    getJointForItemPiece(item) {
-        return this.slotToJointMap[item.getEquipSlotId()]
+    getJointForItemSlot(itemSlot) {
+        return this.slotToJointMap[itemSlot.slotId]
     }
 
     applyItemStatusModifiers(item, multiplier) {
 
         let levelTables = item.getStatusByKey('levelTables');
         for (let key in levelTables) {
-            let value = item.getStatusByKey(key) * multiplier;
+    //        let value = item.getStatusByKey(key) * multiplier;
     //        console.log("Add equip mod ", key, value)
     //        this.gamePiece.applyEquipmentStatusModifier(key, value)
         }
     }
 
-    characterEquipItem(item) {
-        this.items.push(item)
-        this.applyItemStatusModifiers(item, 1);
-        item.setEquippedToPiece(this.gamePiece)
-
-        let dynamicJoint = this.getJointForitem(item);
-
-        let itemSlot = this.getSlotForitem(item);
-    //    let slot = MATH.getFromArrayByKeyValue(this.slots, 'slot_id', slotId);
-
-        let oldItem = itemSlot.removeSlotitem();
-        evt.dispatch(ENUMS.Event.UNEQUIP_ITEM, {item:oldItem, time:0.6});
-        itemSlot.setSlotitem(item);
-        if (dynamicJoint.key === 'SKIN') {
-            item.modelInstance.obj3d.frusumCulled = false;
-            this.getModel().attachInstancedModel(item.modelInstance)
-            ThreeAPI.registerPrerenderCallback(item.callbacks.tickPieceEquippedItem);
-
-        } else {
-            dynamicJoint.registerAttachedSpatial(item.getSpatial());
-            ThreeAPI.registerPrerenderCallback(dynamicJoint.callbacks.updateAttachedSpatial);
-        }
-
-    };
 
     getItemByItemId(itemId) {
         if (!this.items.length) return;
@@ -88,12 +96,12 @@ class ActorEquipment {
 
     }
 
-    detatchEquipItem = function(item) {
-        this.applyItemStatusModifiers(item, -1);
-        item.setEquippedToPiece(null)
-        let dynamicJoint = this.getJointForItemPiece(item);
-        let itemSlot = this.getSlotForItemPiece(item);
-        itemSlot.setSlotItemPiece(null);
+    detatchEquipItem(item) {
+    //    this.applyItemStatusModifiers(item, -1);
+    //    item.setEquippedToPiece(null)
+        let itemSlot = this.getSlotForitem(item);
+        let dynamicJoint = this.getJointForItemSlot(itemSlot);
+        itemSlot.setSlotItem(null);
         let slotId = item.getEquipSlotId();
         let slot = MATH.getFromArrayByKeyValue(this.slots, 'slot_id', slotId);
 
@@ -121,7 +129,7 @@ class ActorEquipment {
         return item
     }
 
-    removeAllItems = function() {
+    removeAllItems() {
         while (this.items.length) {
             let item = this.detatchEquipItem(this.items.pop());
             item.disbandGamePiece();

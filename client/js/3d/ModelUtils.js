@@ -87,14 +87,42 @@ function attachSkeletonRig(visualPiece, rigId, pieceReady) {
 
 }
 
+let postApply = function(baseSize, instance) {
+    let apply = function() {
+        instance.getGeometryInstance().setBaseScale(baseSize);
+        instance.getSpatial().setScaleXYZ(1, 1, 1);
+    }
+
+    window.requestAnimationFrame(apply)
+
+}
+
 function setupVisualModel(visualPiece, assetId, config, pieceReady) {
 
         let addModel = function(instance) {
             visualPiece.setModel(instance);
 
             if (config['base_size']) {
-                console.log("setupVisualModel Set base size: ", config)
-                instance.getSpatial().setBaseSize(config['base_size']);
+
+                let postApply = function(baseSize, inst) {
+                    let apply = function() {
+                        inst.getGeometryInstance().setBaseScale(baseSize);
+                        inst.getSpatial().setScaleXYZ(1, 1, 1);
+                    }
+                    window.requestAnimationFrame(apply)
+                }
+
+                console.log("setupVisualModel Set base size: ", config, instance)
+                instance.getGeometryInstance().setBaseScale(config['base_size']);
+                instance.getSpatial().setScaleXYZ(1, 1, 1);
+                setTimeout(function() {
+                    postApply(config['base_size'], instance)
+                }, 100)
+
+
+            } else {
+            //    instance.geometryInstance.setBaseSize(1);
+            //    instance.getSpatial().setScaleXYZ(1,1, 1);
             }
 
    //         instance.spatial.setPosVec3(ThreeAPI.getCameraCursor().getPos())

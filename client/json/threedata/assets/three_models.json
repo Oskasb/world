@@ -4,6 +4,7 @@
     "ASSETS": {
       "MODELS": [
 
+        {"id": "asset_wrist_computer",     "config":{"model": "file_wrist_computer",       "material": "mat_instancing_standard", "settings": "model_settings_instancing_5" }},
         {"id": "asset_jetpack",     "config":{"model": "file_jetpack",       "material": "mat_instancing_standard", "settings": "model_settings_instancing_5" }},
         {"id": "asset_oomba",       "config":{"model": "file_oomba",       "material": "mat_instancing_standard", "settings": "model_settings_instancing_5" }},
         {"id": "asset_svigg",       "config":{"model": "file_svigg",       "material": "mat_instancing_standard", "settings": "model_settings_instancing_5" }},

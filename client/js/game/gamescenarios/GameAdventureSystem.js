@@ -11,6 +11,8 @@ class GameAdventureSystem {
 
     selectAdventure(event) {
 
+        let actor = this.startActor;
+
         if (event['activate_selection'] === true) {
             GameAPI.getGamePieceSystem().addActorToPlayerParty(this.startActor);
             GameAPI.getGamePieceSystem().playerParty.selectPartyActor(this.startActor);
@@ -18,17 +20,18 @@ class GameAdventureSystem {
             GuiAPI.closePage(this.page);
             GuiAPI.closePage(client.page)
             client.page = null;
-            let loadItems = event['load_items']
+            let equippedItems = event['equipped_items']
+
 
             let itemCallback = function(item) {
-                item.getSpatial().setPosXYZ(spatialTransition.targetPos.x, spatialTransition.targetPos.y+1, spatialTransition.targetPos.z)
                 console.log("Item Loaded; ", item)
-
+                item.getSpatial().setScaleXYZ(1, 1, 1)
+                actor.equipItem(item);
             }
 
-            if (loadItems) {
-                while (loadItems.length) {
-                    evt.dispatch(ENUMS.Event.LOAD_ITEM, {id: loadItems.pop(), callback:itemCallback})
+            if (equippedItems) {
+                while (equippedItems.length) {
+                    evt.dispatch(ENUMS.Event.LOAD_ITEM, {id: equippedItems.pop(), pos: this.startActor.getPos(), callback:itemCallback})
                 }
             }
 

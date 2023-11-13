@@ -1,0 +1,44 @@
+[{
+  "GAME":{
+    "VISUALS":[
+      {
+        "id": "VISUAL_JETPACK",
+        "data": {
+          "model_asset":"asset_jetpack",
+          "base_size": 10
+        }
+      },
+      {
+        "id": "VISUAL_WRIST_COMPUTER",
+        "data": {
+          "model_asset":"asset_wrist_computer",
+          "base_size": 1
+        }
+      },
+      {
+        "id": "SVIGG",
+        "data": {
+          "model_asset":"asset_svigg"
+        }
+      },
+      {
+        "id": "J35_DRAKEN",
+        "data": {
+          "model_asset":"asset_j35draken"
+        }
+      },
+      {
+        "id":"BARB_BREASTPLATE",
+        "data":{
+          "model_asset":"skinned_barb_bp"
+        }
+      },
+      {
+        "id":"BARB_GREAVES",
+        "data":{
+          "model_asset":"skinned_barb_greaves"
+        }
+      }
+    ]
+  }
+}]

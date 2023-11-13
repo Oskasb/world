@@ -1,0 +1,44 @@
+[{
+  "GAME":{
+    "ITEMS":[
+      {
+        "id": "ITEM_JETPACK",
+        "data": {
+          "visual_id":"VISUAL_JETPACK",
+          "equip_slot": "SLOT_BACK"
+        }
+      },
+      {
+        "id": "ITEM_WRIST_COMPUTER",
+        "data": {
+          "visual_id":"VISUAL_WRIST_COMPUTER",
+          "equip_slot": "SLOT_WRIST_L"
+        }
+      },
+      {
+        "id": "SVIGG",
+        "data": {
+          "model_asset":"asset_svigg"
+        }
+      },
+      {
+        "id": "J35_DRAKEN",
+        "data": {
+          "model_asset":"asset_j35draken"
+        }
+      },
+      {
+        "id":"BARB_BREASTPLATE",
+        "data":{
+          "model_asset":"skinned_barb_bp"
+        }
+      },
+      {
+        "id":"BARB_GREAVES",
+        "data":{
+          "model_asset":"skinned_barb_greaves"
+        }
+      }
+    ]
+  }
+}]

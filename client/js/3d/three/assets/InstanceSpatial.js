@@ -14,6 +14,7 @@ let tempVec = new Vector3();
 class InstanceSpatial{
 
         constructor(obj3d) {
+            let geometryInstance = null;
             this.obj3d = obj3d;
             this.baseSize = 1;
             let frameMovement = new THREE.Vector3(0.0, 0.0, 0.0);
@@ -43,7 +44,30 @@ class InstanceSpatial{
                 frameMovement.set(0, 0, 0)
             }
 
+            let setInstance = function(geoInstance) {
+                geometryInstance = geoInstance;
+                this.geometryInstance = geoInstance;
+                applyInstanceBuffers();
+            }.bind(this)
+
+            let applyInstanceBuffers = function() {
+                geometryInstance.applyObjPos();
+                geometryInstance.applyObjQuat();
+                geometryInstance.applyObjScale();
+            }
+
+            let isInstanced = function() {
+                if (geometryInstance !== null) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+
             this.call = {
+                applyInstanceBuffers:applyInstanceBuffers,
+                setInstance:setInstance,
+                isInstanced:isInstanced,
                 setStopped:setStopped,
                 setPrePos:setPrePos,
                 setPostPos:setPostPos,
@@ -65,8 +89,8 @@ class InstanceSpatial{
             this.obj3d.position.x = x;
             this.obj3d.position.y = y;
             this.obj3d.position.z = z;
-            if (this.geometryInstance) {
-                this.geometryInstance.applyObjPos();
+            if (this.call.isInstanced()) {
+                this.call.applyInstanceBuffers();
             }
         };
 
@@ -79,8 +103,8 @@ class InstanceSpatial{
             obj3d.rotateX(x);
             obj3d.rotateY(y);
             obj3d.rotateZ(z)
-            if (this.geometryInstance) {
-                this.geometryInstance.applyObjQuat();
+            if (this.call.isInstanced()) {
+                this.call.applyInstanceBuffers();
             }
         };
         setQuatXYZW = function(x, y, z, w) {
@@ -88,8 +112,8 @@ class InstanceSpatial{
             this.obj3d.quaternion.y = y;
             this.obj3d.quaternion.z = z;
             this.obj3d.quaternion.w = w;
-            if (this.geometryInstance) {
-                this.geometryInstance.applyObjQuat();
+            if (this.call.isInstanced()) {
+                this.call.applyInstanceBuffers();
             }
         };
 
@@ -109,8 +133,8 @@ class InstanceSpatial{
             this.obj3d.scale.x = x*this.baseSize;
             this.obj3d.scale.y = y*this.baseSize;
             this.obj3d.scale.z = z*this.baseSize;
-            if (this.geometryInstance) {
-                this.geometryInstance.applyObjScale();
+            if (this.call.isInstanced()) {
+                this.call.applyInstanceBuffers();
             }
         };
 
@@ -118,8 +142,8 @@ class InstanceSpatial{
             this.call.setPrePos(this.obj3d.position);
             this.obj3d.position.copy(posVec3);
             this.call.setPostPos(posVec3)
-            if (this.geometryInstance) {
-                this.geometryInstance.applyObjPos();
+            if (this.call.isInstanced()) {
+                this.call.applyInstanceBuffers();
             }
         };
 
@@ -127,16 +151,14 @@ class InstanceSpatial{
             this.obj3d.rotateX(x);
             this.obj3d.rotateY(y);
             this.obj3d.rotateZ(z);
-            if (this.geometryInstance) {
-                this.geometryInstance.applyObjQuat();
+            if (this.call.isInstanced()) {
+                this.call.applyInstanceBuffers();
             }
         };
 
         applySpatialUpdateToBuffers() {
-            if (this.geometryInstance) {
-                this.geometryInstance.applyObjQuat();
-                this.geometryInstance.applyObjScale();
-                this.geometryInstance.applyObjPos();
+            if (this.call.isInstanced()) {
+                this.call.applyInstanceBuffers();
             }
         }
 
@@ -154,12 +176,8 @@ class InstanceSpatial{
         //    this.obj3d.position.copy(obj3d.position);
             this.obj3d.scale.copy(obj3d.scale);
             this.obj3d.quaternion.copy(obj3d.quaternion);
+            this.applySpatialUpdateToBuffers()
 
-            if (this.geometryInstance) {
-                this.geometryInstance.applyObjPos();
-                this.geometryInstance.applyObjQuat();
-                this.geometryInstance.applyObjScale();
-            }
         }
 
 
@@ -169,18 +187,14 @@ class InstanceSpatial{
 
         updateSpatialMatrix = function() {
 
-            if (!this.geometryInstance) {
+            if (!this.call.isInstanced()) {
                 this.obj3d.updateMatrixWorld();
             }
 
         };
 
         setGeometryInstance = function(geomIns) {
-            this.geometryInstance = geomIns;
-            this.geometryInstance.applyObjPos();
-            this.geometryInstance.applyObjQuat();
-            this.geometryInstance.applyObjScale();
-
+            this.call.setInstance(geomIns);
         };
 
     }

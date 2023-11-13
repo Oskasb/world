@@ -2,6 +2,7 @@
   {
     "ASSETS": {
       "FILES_GLB": [
+        {"id": "file_wrist_computer",      "config": { "url": "./client/assets/models/items_rigid/utilities/wrist_computer"     }},
         {"id": "file_jetpack",             "config": { "url": "./client/assets/models/items_rigid/utilities/jetpack"                      }},
         {"id": "file_svigg",             "config": { "url": "./client/assets/models/vehicles/svigg"                                 }},
         {"id": "file_oomba",             "config": { "url": "./client/assets/models/vehicles/oomba"                                 }},

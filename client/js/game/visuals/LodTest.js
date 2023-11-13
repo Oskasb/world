@@ -12,8 +12,8 @@ class LodTest {
         let aaBoxTestLocationModel = function() {
             let isVisible = aaBoxTestVisibility(position, size, size, size)
             if (isVisible) {
-                let borrowedBox = borrowBox();
-                evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:borrowedBox.min, max:borrowedBox.max, color:'YELLOW'})
+            //    let borrowedBox = borrowBox();
+            //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:borrowedBox.min, max:borrowedBox.max, color:'YELLOW'})
 
             } else {
                 isBoxTesting = false;

@@ -155,6 +155,10 @@ class GameActor {
 
     }
 
+    equipItem(item) {
+        this.actorEquipment.call.equipActorItem(item);
+    }
+
     getVisualGamePiece() {
         return this.visualGamePiece;
     }

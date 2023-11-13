@@ -1,15 +1,17 @@
 class Item {
 
-    constructor(visualGamePiece) {
+    constructor(visualGamePiece, config) {
+        this.config = config;
         this.visualGamePiece = visualGamePiece;
+    }
+
+
+    getEquipSlotId() {
+        return this.config['equip_slot']
     }
 
     getPos() {
         return this.visualGamePiece.getPos();
-    }
-
-    setBaseSize(x) {
-        this.visualGamePiece.getSpatial().setBaseSize(x);
     }
 
     getQuat() {

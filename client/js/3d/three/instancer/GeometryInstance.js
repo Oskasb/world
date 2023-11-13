@@ -14,6 +14,11 @@ class GeometryInstance {
         this.initBuffers()
     };
 
+    setBaseScale(scale) {
+        this.baseScale = scale;
+        this.setScale(1)
+    }
+
     setAttribXYZ = function (name, x, y, z) {
         this.instancingBuffers.setAttribXYZ(name, this.index, x, y, z)
     };

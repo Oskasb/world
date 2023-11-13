@@ -36,8 +36,15 @@ class VisualGamePiece {
 
         }.bind(this);
 
+            let setupModel = function(pieceReady) {
+
+
+                ModelUtils.setupVisualModel(this, this.assetId, this.config, pieceReady);
+            }.bind(this)
+
         this.call = {
-            updateVisualGamePiece:updateVisualGamePiece
+            updateVisualGamePiece:updateVisualGamePiece,
+            setupModel:setupModel
         }
 
     }
@@ -52,9 +59,10 @@ class VisualGamePiece {
                 visualPiece.animateActionState('IDLE_HANDS')
             }
             onReady(this)
-        }
+        }.bind(this)
 
-        ModelUtils.setupVisualModel(this, this.assetId, this.config, pieceReady);
+        this.call.setupModel(pieceReady)
+
     }
 
     addModelAsset(assetId) {
@@ -124,7 +132,6 @@ class VisualGamePiece {
         this.pieceAnimator.callbacks.resetAnimator();
         this.getSpatial().call.setStopped();
     }
-
 
     hideVisualGamePiece() {
         if (this.getSpatial().geometryInstance) {
@@ -216,7 +223,7 @@ class VisualGamePiece {
 
     updateAnimatedGamePiece(tpf, gameTime) {
         this.pieceAnimator.updatePieceAnimations(tpf, gameTime);
-    //    this.pieceAttacher.tickAttacher();
+        this.pieceAttacher.tickAttacher();
 
         this.getSpatial().call.getMovement(tempVec);
         let frameVelocity = tempVec.length() / tpf
