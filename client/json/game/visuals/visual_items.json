@@ -16,6 +16,316 @@
         }
       },
       {
+        "id": "VISUAL_HAT_BLUE",
+        "data": {
+          "model_asset":"asset_hat_cloth_blue"
+        }
+      },
+      {
+        "id": "VISUAL_HAT_RED",
+        "data": {
+          "model_asset":"asset_hat_cloth_red"
+        }
+      },
+      {
+        "id": "VISUAL_HAT_WHITE",
+        "data": {
+          "model_asset":"asset_hat_cloth_white"
+        }
+      },
+      {
+        "id": "VISUAL_HAT_YELLOW",
+        "data": {
+          "model_asset":"asset_hat_cloth_yellow"
+        }
+      },
+      {
+        "id": "VISUAL_HAT_LEATHER",
+        "data": {
+          "model_asset":"asset_hat_leather_brown"
+        }
+      },
+      {
+        "id": "VISUAL_HAT_POINTY_WHITE",
+        "data": {
+          "model_asset":"asset_hat_pointy_white"
+        }
+      },
+      {
+        "id": "VISUAL_KATANA",
+        "data": {
+          "model_asset":"asset_ninjablade"
+        }
+      },
+      {
+        "id": "VISUAL_KATANA_GREEN",
+        "data": {
+          "model_asset":"asset_katana_green"
+        }
+      },
+      {
+        "id": "VISUAL_AXE_SLICER",
+        "data": {
+          "model_asset":"asset_slicer_axe_2h"
+        }
+      },
+      {
+        "id": "VISUAL_SWORD_FANCY",
+        "data": {
+          "model_asset":"asset_sword_fancy"
+        }
+      },
+      {
+        "id": "VISUAL_EMERALD_BLADE",
+        "data": {
+          "model_asset":"asset_emerald_blade"
+        }
+      },
+      {
+        "id": "VISUAL_HATCHET",
+        "data": {
+          "model_asset":"asset_hatchet_nice"
+        }
+      },
+      {
+        "id": "VISUAL_HELMET_RED",
+        "data": {
+          "model_asset":"asset_helmet_red"
+        }
+      },
+      {
+        "id": "VISUAL_HELMET_VIKING_RED",
+        "data": {
+          "model_asset":"asset_helmetviking_red"
+        }
+      },
+      {
+        "id": "VISUAL_BELT_PLATE_RED",
+        "data": {
+          "model_asset":"asset_beltplate_red"
+        }
+      },
+      {
+        "id": "VISUAL_BELT_RED",
+        "data": {
+          "model_asset":"asset_belt_red"
+        }
+      },
+      {
+        "id": "VISUAL_HELMET_BRONZE",
+        "data": {
+          "model_asset":"asset_helmet_bronze"
+        }
+      },
+      {
+        "id": "VISUAL_HELMET_VIKING",
+        "data": {
+          "model_asset":"asset_helmetviking"
+        }
+      },
+      {
+        "id": "VISUAL_BELT_PLATE",
+        "data": {
+          "model_asset":"asset_beltplate"
+        }
+      },
+      {
+        "id": "VISUAL_BELT_BRONZE",
+        "data": {
+          "model_asset":"asset_belt_bronze"
+        }
+      },
+      {
+        "id": "VISUAL_SCALE_LEGS_PURPLE",
+        "data": {
+          "model_asset":"asset_scale_purple_legs"
+        }
+      },
+
+      {
+        "id": "VISUAL_SHIRT_SCALE_PURPLE",
+        "data": {
+          "model_asset":"asset_scale_purple_shirt"
+        }
+      },
+      {
+        "id": "VISUAL_LEGS_CHAIN_PURPLE",
+        "data": {
+          "model_asset":"asset_chain_legs_purple"
+        }
+      },
+      {
+        "id": "VISUAL_SHIRT_CHAIN_PURPLE",
+        "data": {
+          "model_asset":"asset_chain_shirt_purple"
+        }
+      },      {
+        "id": "VISUAL_GLOVES_SCALE_PURPLE",
+        "data": {
+          "model_asset":"asset_scale_purple_gloves"
+        }
+      },      {
+        "id": "VISUAL_BOOTS_SCALE_PURPLE",
+        "data": {
+          "model_asset":"asset_scale_purple_boots"
+        }
+      },      {
+        "id": "VISUAL_BP_PURPLE",
+        "data": {
+          "model_asset":"asset_purple_bp"
+        }
+      },      {
+        "id": "VISUAL_LEGS_PURPLE",
+        "data": {
+          "model_asset":"asset_purple_legs"
+        }
+      },      {
+        "id": "VISUAL_SHIRT_SCALE_RED",
+        "data": {
+          "model_asset":"asset_scale_shirt_red"
+        }
+      },      {
+        "id": "VISUAL_LEGS_SCALE_RED",
+        "data": {
+          "model_asset":"asset_scale_red_legs"
+        }
+      },      {
+        "id": "VISUAL_LEGS_CHAIN_RED",
+        "data": {
+          "model_asset":"asset_chain_legs_red"
+        }
+      },      {
+        "id": "VISUAL_SHIRT_CHAIN_RED",
+        "data": {
+          "model_asset":"asset_chain_shirt_red"
+        }
+      },      {
+        "id": "VISUAL_GLOVES_SCALE_RED",
+        "data": {
+          "model_asset":"asset_scale_red_gloves"
+        }
+      },      {
+        "id": "VISUAL_BOOTS_RED",
+        "data": {
+          "model_asset":"asset_scale_red_boots"
+        }
+      },      {
+        "id": "VISUAL_BP_RED",
+        "data": {
+          "model_asset":"asset_red_bp"
+        }
+      },      {
+        "id": "VISUAL_LEGS_RED",
+        "data": {
+          "model_asset":"asset_red_legs"
+        }
+      },      {
+        "id": "VISUAL_GLOVES_SCALE",
+        "data": {
+          "model_asset":"asset_scale_gloves"
+        }
+      },      {
+        "id": "VISUAL_BOOTS_SCALE",
+        "data": {
+          "model_asset":"asset_scale_boots"
+        }
+      },
+
+
+      {
+      "id": "VISUAL_BP_BRONZE",
+      "data": {
+        "model_asset":"asset_bronze_bp"
+      }
+      },
+
+      {
+        "id": "VISUAL_LEGS_BRONZE",
+        "data": {
+          "model_asset":"asset_bronze_legs"
+        }
+      },      {
+        "id": "VISUAL_LEGS_SCALE",
+        "data": {
+          "model_asset":"asset_scale_legs"
+        }
+      },      {
+        "id": "VISUAL_SHIRT_SCALE",
+        "data": {
+          "model_asset":"asset_scale_shirt"
+        }
+      },      {
+        "id": "VISUAL_LEGS_CHAIN",
+        "data": {
+          "model_asset":"asset_chain_legs"
+        }
+      },      {
+        "id": "VISUAL_SHIRT_CHAIN_GREEN",
+        "data": {
+          "model_asset":"asset_chain_shirt"
+        }
+      },
+      {
+        "id": "VISUAL_LEGS_SCALE_GREEN",
+        "data": {
+          "model_asset":"asset_scale_green_legs"
+        }
+      },
+
+      {
+        "id": "VISUAL_LEGS_CHAIN_GREEN",
+        "data": {
+          "model_asset":"asset_chain_legs_green"
+        }
+      },      {
+        "id": "VISUAL_SHIRT_CHAIN_GREEN",
+        "data": {
+          "model_asset":"asset_chain_shirt_green"
+        }
+      },      {
+        "id": "VISUAL_GLOVES_SCALE_GREEN",
+        "data": {
+          "model_asset":"asset_scale_green_gloves"
+        }
+      },      {
+        "id": "VISUAL_BOOTS_SCALE_GREEN",
+        "data": {
+          "model_asset":"asset_scale_green_boots"
+        }
+      },      {
+        "id": "VISUAL_BP_GREEN",
+        "data": {
+          "model_asset":"asset_green_bp"
+        }
+      },      {
+        "id": "VISUAL_LEGS_GREEN",
+        "data": {
+          "model_asset":"asset_green_legs"
+        }
+      },      {
+        "id": "VISUAL_HELMET_GREEN",
+        "data": {
+          "model_asset":"asset_helmet_green"
+        }
+      },      {
+        "id": "VISUAL_HELMET_VIKING_GREEN",
+        "data": {
+          "model_asset":"asset_helmetviking_green"
+        }
+      },      {
+        "id": "VISUAL_BELT_PLATE_GREEN",
+        "data": {
+          "model_asset":"asset_beltplate_green"
+        }
+      },      {
+        "id": "VISUAL_BELT_GREEN",
+        "data": {
+          "model_asset":"asset_belt_green"
+        }
+      },
+
+
+      {
         "id": "SVIGG",
         "data": {
           "model_asset":"asset_svigg"
