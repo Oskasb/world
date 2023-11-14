@@ -12,7 +12,7 @@
         "id": "VISUAL_WRIST_COMPUTER",
         "data": {
           "model_asset":"asset_wrist_computer",
-          "base_size": 1
+          "base_size": 10
         }
       },
       {
