@@ -192,10 +192,19 @@ class GameActor {
         //    this.actorEquipment.call.showEquipment()
     }
 
-    activateGameActor() {
+    activateGameActor(onActorReady) {
         if (!this.activated) {
         //    this.updateGameActor()
-            this.visualGamePiece.attachModelAsset(this.call.onActive);
+
+            let onReady = function() {
+                this.call.onActive()
+                if (typeof (onActorReady) === 'function') {
+                    onActorReady(this);
+                }
+                
+            }.bind(this)
+
+            this.visualGamePiece.attachModelAsset(onReady);
 
         } else {
             this.activated = true;
@@ -205,6 +214,7 @@ class GameActor {
 
     deactivateGameActor() {
         if (this.activated === true) {
+            this.actorEquipment.removeAllItems();
             this.visualGamePiece.removeVisualGamePiece();
             GameAPI.unregisterGameUpdateCallback(this.call.updateGameActor);
             this.activated = false;

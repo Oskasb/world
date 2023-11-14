@@ -49,7 +49,7 @@ class VisualGamePiece {
 
         let hideVisualPiece = function() {
             this.hidden = true;
-        //    this.getSpatial().setPosXYZ(0, 0, 0);
+            this.getSpatial().setPosXYZ(0, 0, 0);
         //    updateVisualGamePiece(0.1)
             ThreeAPI.unregisterPrerenderCallback(updateVisualGamePiece);
 
@@ -167,8 +167,6 @@ class VisualGamePiece {
 
     removeVisualGamePiece() {
         this.call.hideVisualPiece();
-     //   ThreeAPI.unregisterPrerenderCallback(this.call.updateVisualGamePiece);
-     //   this.disablePieceAnimations()
         this.getModel().decommissionInstancedModel();
     };
 

@@ -62,8 +62,7 @@
                     "dispatch":{
                       "event":"SELECT_ADVENTURER",
                       "value":{
-                        "activate_selection":true,
-                        "equipped_items": ["ITEM_HAT_WHITE", "ITEM_DRAKEN", "ITEM_SWORD_FANCY"]
+                        "activate_selection":true
                       }
                     }
                   }

@@ -62,8 +62,7 @@
                     "dispatch":{
                       "event":"SELECT_ADVENTURER",
                       "value":{
-                        "activate_selection":true,
-                        "equipped_items": ["ITEM_JETPACK", "ITEM_WRIST_COMPUTER"]
+                        "activate_selection":true
                       }
                     }
                   }

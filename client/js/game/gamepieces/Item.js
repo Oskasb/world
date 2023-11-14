@@ -61,6 +61,10 @@ class Item {
         return this.visualGamePiece
     }
 
+    disposeItem() {
+        this.visualGamePiece.removeVisualGamePiece();
+    }
+
 }
 
 export {Item}

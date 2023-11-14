@@ -29,20 +29,7 @@ class GameAdventureSystem {
             GuiAPI.closePage(this.page);
             GuiAPI.closePage(client.page)
             client.page = null;
-            let equippedItems = event['equipped_items']
 
-            let itemCallback = function(item) {
-
-                console.log("Item Loaded; ", item)
-                item.getSpatial().setScaleXYZ(1, 1, 1)
-                actor.equipItem(item);
-            }
-
-            if (equippedItems) {
-                while (equippedItems.length) {
-                    evt.dispatch(ENUMS.Event.LOAD_ITEM, {id: equippedItems.pop(), pos: this.startActor.getPos(), callback:itemCallback})
-                }
-            }
 
             return;
         }
@@ -59,7 +46,7 @@ class GameAdventureSystem {
             let deactivateActor = this.startActor;
             setTimeout(function() {
                 deactivateActor.deactivateGameActor();
-            }, 200)
+            }, 10)
         }
 
         if (this.page) {
@@ -70,7 +57,23 @@ class GameAdventureSystem {
         let _this = this;
 
         let actorLoaded = function(actor) {
-            actor.activateGameActor();
+
+            let itemCallback = function(item) {
+                item.getSpatial().setScaleXYZ(1, 1, 1)
+                actor.equipItem(item);
+            }
+            let onActorReady = function() {
+                let equippedItems = event['equipped_items']
+
+                if (equippedItems) {
+                    for (let i = 0; i < equippedItems.length; i++) {
+                        evt.dispatch(ENUMS.Event.LOAD_ITEM, {id: equippedItems[i], pos: actor.getPos(), callback:itemCallback})
+                    }
+                }
+            }
+
+            actor.activateGameActor(onActorReady);
+
             this.startActor = actor;
         }.bind(this);
 

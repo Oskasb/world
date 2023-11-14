@@ -31,7 +31,8 @@
                       "value":{
                         "pos":[-893, 4, 519],
                         "actor_id":"ACTOR_FARMER",
-                        "page_id": "page_start_farmer"
+                        "page_id": "page_start_farmer",
+                        "equipped_items": ["ITEM_HAT_LEATHER", "ITEM_SWORD_FANCY"]
                       }
                     }
                   }
@@ -50,7 +51,8 @@
                       "value":{
                         "pos":[-906, 5, 582],
                         "actor_id":"ACTOR_PRINCESS",
-                        "page_id": "page_start_princess"
+                        "page_id": "page_start_princess",
+                        "equipped_items": ["ITEM_HAT_WHITE", "ITEM_DRAKEN", "ITEM_SWORD_FANCY"]
                       }
                     }
                   }
@@ -69,7 +71,8 @@
                       "value":{
                         "pos":[-985, 7, 689],
                         "actor_id":"ACTOR_PIRATE",
-                        "page_id": "page_start_pirate"
+                        "page_id": "page_start_pirate",
+                        "equipped_items": ["ITEM_HAT_RED", "ITEM_SWORD_FANCY"]
                       }
                     }
                   }
@@ -88,7 +91,8 @@
                       "value":{
                         "pos":[-964, 7.2, 709],
                         "actor_id":"ACTOR_ALIEN",
-                        "page_id": "page_start_alien"
+                        "page_id": "page_start_alien",
+                        "equipped_items": ["ITEM_JETPACK", "ITEM_WRIST_COMPUTER"]
                       }
                     }
                   }

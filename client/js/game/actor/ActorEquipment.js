@@ -174,8 +174,8 @@ class ActorEquipment {
 
     removeAllItems() {
         while (this.items.length) {
-            let item = this.detatchEquipItem(this.items.pop());
-            item.disbandGamePiece();
+            let item = this.items.pop();
+            item.disposeItem()
         }
     }
 
