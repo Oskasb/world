@@ -10,7 +10,7 @@ class ActorMovement {
         let tileSelector = walkGrid.gridTileSelector;
         actor.setStatusKey(ENUMS.ActorStatus.SELECTING_DESTINATION, 1);
         if (!walkGrid.isActive) {
-            actor.activateWalkGrid()
+            actor.activateWalkGrid(1+ actor.getStatus(ENUMS.ActorStatus.ACTOR_SPEED) * 2 )
             console.log("MOVE ACTION - activate")
         } else {
             if (tileSelector.hasValue()) {
@@ -42,7 +42,7 @@ class ActorMovement {
         let tileSelector = walkGrid.gridTileSelector;
         actor.setStatusKey(ENUMS.ActorStatus.SELECTING_DESTINATION, 1);
         if (!walkGrid.isActive) {
-            actor.activateWalkGrid();
+            actor.activateWalkGrid(7);
             console.log("LEAP ACTION - activate")
         } else {
             if (tileSelector.hasValue()) {

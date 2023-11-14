@@ -210,9 +210,9 @@ class GameActor {
 
     }
 
-    activateWalkGrid() {
+    activateWalkGrid(tileRange) {
         let gameWalkGrid = this.getGameWalkGrid()
-        gameWalkGrid.activateWalkGrid(this.actorObj3d)
+        gameWalkGrid.activateWalkGrid(this.actorObj3d, tileRange)
         gameWalkGrid.call.updateWalkGrid()
     }
 

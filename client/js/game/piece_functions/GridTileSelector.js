@@ -97,11 +97,11 @@ class GridTileSelector {
     }
 
     moveAlongX(value) {
-        this.moveVec3.x = value * 10;
+        this.moveVec3.x = value;
     }
 
     moveAlongZ(value) {
-        this.moveVec3.z = value * 10;
+        this.moveVec3.z = value;
     }
 
     getObj3D() {

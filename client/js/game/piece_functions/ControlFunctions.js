@@ -93,7 +93,7 @@ class ControlFunctions {
             if (actor.getStatus(ENUMS.ActorStatus.SELECTING_DESTINATION)) {
                 let walkGrid = actor.getGameWalkGrid();
                 let tileSelector = walkGrid.gridTileSelector;
-                tileSelector.moveAlongX(value);
+                tileSelector.moveAlongX(value*actor.getStatus(ENUMS.ActorStatus.ACTOR_SPEED));
             }
         }
     }
@@ -103,7 +103,7 @@ class ControlFunctions {
             if (actor.getStatus(ENUMS.ActorStatus.SELECTING_DESTINATION)) {
                 let walkGrid = actor.getGameWalkGrid();
                 let tileSelector = walkGrid.gridTileSelector;
-                tileSelector.moveAlongZ(value);
+                tileSelector.moveAlongZ(value*actor.getStatus(ENUMS.ActorStatus.ACTOR_SPEED));
             }
         }
     }

@@ -45,14 +45,14 @@ class DynamicGrid {
         this.gridTiles = [];
     }
 
-    activateDynamicGrid = function(config) {
+    activateDynamicGrid = function(config, tileRange) {
         this.config = config;
 
         this.elevation =  config['elevation'] || 0;
         this.tileSpacing = config['tile_spacing'];
         this.tileSize =  config['tile_size'] || 1;
         this.stepHeight = config['step_height'] || 0;
-        this.tileRange =  config['tile_range'];
+        this.tileRange =  tileRange || 21;
         this.hideTiles = config['hide_tiles'] || false;
         this.centerOffset = config['center_offset'] || false;
         this.debug = config['debug'] || false;

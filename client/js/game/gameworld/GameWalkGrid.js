@@ -77,7 +77,7 @@ class GameWalkGrid {
         this.hostObj3d.position.copy(posVec);
     }
 
-    activateWalkGrid = function(walkOriginObj3d) {
+    activateWalkGrid = function(walkOriginObj3d, tileRange) {
 
         this.hostObj3d.copy(walkOriginObj3d);
 
@@ -96,7 +96,7 @@ class GameWalkGrid {
 
             this.isActive = true;
 
-            this.dynamicGrid.activateDynamicGrid(this.config['grid'])
+            this.dynamicGrid.activateDynamicGrid(this.config['grid'], tileRange)
             GameAPI.registerGameUpdateCallback(this.call.updateWalkGrid);
 
     }
