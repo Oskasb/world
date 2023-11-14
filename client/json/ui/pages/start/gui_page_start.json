@@ -30,7 +30,7 @@
                       "event":"SELECT_ADVENTURER",
                       "value":{
                         "pos":[-893, 4, 519],
-                        "actor_id":"ACTOR_FIGHTER",
+                        "actor_id":"ACTOR_FARMER",
                         "page_id": "page_start_farmer"
                       }
                     }
@@ -49,7 +49,7 @@
                       "event":"SELECT_ADVENTURER",
                       "value":{
                         "pos":[-906, 5, 582],
-                        "actor_id":"ACTOR_FIGHTER",
+                        "actor_id":"ACTOR_PRINCESS",
                         "page_id": "page_start_princess"
                       }
                     }
@@ -68,7 +68,7 @@
                       "event":"SELECT_ADVENTURER",
                       "value":{
                         "pos":[-985, 7, 689],
-                        "actor_id":"ACTOR_FIGHTER",
+                        "actor_id":"ACTOR_PIRATE",
                         "page_id": "page_start_pirate"
                       }
                     }

@@ -10,6 +10,36 @@
               {"status": "TRAVEL", "value":"ACTION_TRAVEL_FLY"}
           ]
         }
+      },
+      {
+        "id": "ITEM_HAT_WHITE",
+        "data": {
+          "visual_id":"VISUAL_HAT_WHITE",
+          "equip_slot": "SLOT_HEAD",
+          "status_add_modifiers": [
+            {"status": "TRAVEL", "value":"ACTION_TRAVEL_FLY"}
+          ]
+        }
+      },
+      {
+        "id": "ITEM_HAT_LEATHER",
+        "data": {
+          "visual_id":"VISUAL_HAT_LEATHER",
+          "equip_slot": "SLOT_HEAD",
+          "status_add_modifiers": [
+            {"status": "TRAVEL", "value":"ACTION_TRAVEL_FLY"}
+          ]
+        }
+      },
+      {
+        "id": "ITEM_HAT_RED",
+        "data": {
+          "visual_id":"VISUAL_HAT_RED",
+          "equip_slot": "SLOT_HEAD",
+          "status_add_modifiers": [
+            {"status": "TRAVEL", "value":"ACTION_TRAVEL_FLY"}
+          ]
+        }
       }
     ]
   }

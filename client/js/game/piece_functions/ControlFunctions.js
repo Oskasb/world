@@ -18,7 +18,7 @@ class ControlFunctions {
     constructor() {
     }
 
-    SAMPLE_STATUS(value, actor) {
+    SAMPLE_STATUS(actor) {
         let tpf = GameAPI.getFrame().avgTpf;
         let pitchAngle = MATH.horizonAttitudeFromQuaternion(actor.actorObj3d.quaternion)
         actor.setStatusKey(ENUMS.ActorStatus.STATUS_ANGLE_PITCH, pitchAngle)
@@ -83,10 +83,10 @@ class ControlFunctions {
 
     CONTROL_SPEED(value, actor) {
         let tpf = GameAPI.getFrame().avgTpf;
+        console.log("SPEED: ", value)
         let forward = actor.getStatus(ENUMS.ActorStatus.STATUS_FORWARD);
         actor.setStatusKey(ENUMS.ActorStatus.STATUS_FORWARD, MATH.clamp(forward + value*tpf, -1.0, 1.0))
     }
-
 
     CONTROL_TILE_X(value, actor) {
         if (value !== 0) {
@@ -97,6 +97,7 @@ class ControlFunctions {
             }
         }
     }
+
     CONTROL_TILE_Z(value, actor) {
         if (value !== 0) {
             if (actor.getStatus(ENUMS.ActorStatus.SELECTING_DESTINATION)) {
@@ -109,9 +110,21 @@ class ControlFunctions {
 
     CONTROL_MOVE_ACTION(value, actor) {
         if (value === 1) {
+            actor.setStatusKey(ENUMS.ActorStatus.STATUS_WALK_SELECTION, true)
             actor.actorMovement.tileSelectionActive(actor);
         } else if (value === 2){
+            actor.setStatusKey(ENUMS.ActorStatus.STATUS_WALK_SELECTION, false)
             actor.actorMovement.tileSelectionCompleted(actor);
+        }
+    }
+
+    CONTROL_LEAP_ACTION(value, actor) {
+        if (value === 1) {
+            actor.setStatusKey(ENUMS.ActorStatus.STATUS_LEAP_SELECTION, true)
+            actor.actorMovement.leapSelectionActive(actor);
+        } else if (value === 2){
+            actor.setStatusKey(ENUMS.ActorStatus.STATUS_LEAP_SELECTION, false)
+            actor.actorMovement.leapSelectionCompleted(actor);
         }
     }
 

@@ -6,16 +6,37 @@ let classNames = {
     'GuiAxisFeedback':GuiAxisFeedback
 }
 
+function attachInputSampler(controlKeys, inputSamplers) {
+
+    for (let i = 0; i < controlKeys.length; i++) {
+        let controlKey = controlKeys[i];
+        if (typeof (controlKey) === 'string') {
+            if (inputSamplers.indexOf(controlKey) === -1) {
+                inputSamplers.push(controlKey);
+            }
+        }
+    }
+}
+
 class PlayerMovementInputs {
     constructor() {
+        this.inputSamplers = [];
         this.inputWidgets = [];
+    }
+
+    getInputSamplers() {
+        return this.inputSamplers;
     }
 
     attachInputWidget(inputConfig, actor) {
 
         let widgets = this.inputWidgets;
-        let controls = inputConfig['controls'];
+        let controls = inputConfig['controls'] || [];
         let on_active = inputConfig['on_active'] || [];
+
+        attachInputSampler(controls, this.inputSamplers)
+        attachInputSampler(on_active, this.inputSamplers)
+
         let onUpdate = function(values) {
             for (let i = 0; i < values.length; i++) {
                 if (controls[i]) {
@@ -68,6 +89,8 @@ class PlayerMovementInputs {
     applyInputSamplingConfig(config, actor) {
         console.log('applyInputSamplingConfig', config)
 
+
+
         let cameraMode = config['camera_mode']
         if (cameraMode) {
             evt.dispatch(ENUMS.Event.SET_CAMERA_MODE, {mode:cameraMode})
@@ -109,6 +132,7 @@ class PlayerMovementInputs {
     }
 
     deactivatePlayerMovementControls() {
+        MATH.emptyArray(this.inputSamplers);
         while (this.inputWidgets.length) {
             this.inputWidgets.pop().removeGuiWidget();
         }

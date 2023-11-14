@@ -109,17 +109,21 @@ class GameActor {
     getStatus(key) {
         MATH.emptyArray(tempStore)
         this.actorEquipment.call.getEquipmentStatusKey(key, tempStore);
+        let status = this.actorStatus.getStatusByKey(key);
         if (tempStore.length) {
 
-            let status = this.actorStatus.getStatusByKey(key);
             if (status.length) {
                 for (let i = 0; i < status.length; i++) {
                     tempStore.push(status[i])
                 }
+                return tempStore;
+            } else if (typeof(status) === 'number') {
+                while (tempStore.length) {
+                    status+=tempStore.pop();
+                }
             }
-            return tempStore;
         }
-        return this.actorStatus.getStatusByKey(key);
+        return status;
     }
 
     setControlKey(key, status) {

@@ -8,6 +8,7 @@ import * as ScenarioUtils from "./ScenarioUtils.js";
 import { GridTileSelector } from "../piece_functions/GridTileSelector.js";
 import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
 
+
 let centerTileIndexX = 0;
 let centerTileIndexY = 0;
 
@@ -17,6 +18,10 @@ class GameWalkGrid {
         this.dynamicGrid = new DynamicGrid();
         this.dynamicWalker = new DynamicWalker();
         this.gridTileSelector = new GridTileSelector();
+
+        this.lastCenterX = null;
+        this.lastCenterY = null;
+
         this.isActive = false;
 
         this.dataId = null;
@@ -66,6 +71,10 @@ class GameWalkGrid {
 
     getTargetPosition() {
         return this.targetPosition;
+    }
+
+    updateGridCenter = function(posVec) {
+        this.hostObj3d.position.copy(posVec);
     }
 
     activateWalkGrid = function(walkOriginObj3d) {
@@ -168,7 +177,16 @@ class GameWalkGrid {
         let offset = 0 //this.config['grid']['tile_spacing'] * 0.5
         centerTileIndexX = Math.floor(origin.x + offset)
         centerTileIndexY = Math.floor(origin.z + offset)
-        this.dynamicGrid.updateDynamicGrid(centerTileIndexX, centerTileIndexY);
+
+        if (this.lastCenterX === centerTileIndexX && this.lastCenterY === centerTileIndexY) {
+
+        } else {
+            this.lastCenterX = centerTileIndexX;
+            this.lastCenterY = centerTileIndexY;
+            this.dynamicGrid.updateDynamicGrid(centerTileIndexX, centerTileIndexY);
+        }
+
+
     }
 
     deactivateWalkGrid() {

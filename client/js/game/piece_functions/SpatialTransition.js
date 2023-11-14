@@ -1,4 +1,5 @@
 import { Vector3 } from "../../../libs/three/math/Vector3.js";
+
 let tempVec3 = new Vector3();
 
 class SpatialTransition {
@@ -8,8 +9,8 @@ class SpatialTransition {
         this.elapsedTime = 0;
         this.targetTime = 1;
         this.moveVec3 = null;
-        this.startPos = new THREE.Vector3();
-        this.targetPos = new THREE.Vector3();
+        this.startPos = new Vector3();
+        this.targetPos = new Vector3();
 
         this.bounce = 0;
         this.curve = 'curveSigmoid'

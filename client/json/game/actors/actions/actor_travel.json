@@ -18,6 +18,15 @@
             "TRAVEL_MODE": "TRAVEL_MODE_FLY"
           }
         }
+      },
+      {
+        "id":"ACTION_TRAVEL_JETPACK",
+        "data":{
+          "visual_action": "VISUAL_TRAVEL_JETPACK",
+          "status": {
+            "TRAVEL_MODE": "TRAVEL_MODE_JETPACK"
+          }
+        }
       }
     ]
   }

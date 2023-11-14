@@ -106,7 +106,10 @@
       "/game/visuals/visual_actions.json"                    ,
       "/game/actors/actions/actor_actions.json"              ,
       "/game/visuals/visual_travel.json"                     ,
+      "/game/items/items_weapons.json"                      ,
+      "/game/items/items_armor.json"                      ,
       "/game/items/items_utilities.json"                      ,
+
 
       "/game/actors/actions/actor_travel.json"               ,
       "/game/actors/travel/travel_modes.json"               ,
