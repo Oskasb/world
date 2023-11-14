@@ -7,7 +7,7 @@
           "visual_id":"VISUAL_HAT_BLUE",
           "equip_slot": "SLOT_HEAD",
           "status_add_modifiers": [
-              {"status": "TRAVEL", "value":"ACTION_TRAVEL_FLY"}
+
           ]
         }
       },
@@ -17,7 +17,7 @@
           "visual_id":"VISUAL_HAT_WHITE",
           "equip_slot": "SLOT_HEAD",
           "status_add_modifiers": [
-            {"status": "TRAVEL", "value":"ACTION_TRAVEL_FLY"}
+
           ]
         }
       },
@@ -27,7 +27,7 @@
           "visual_id":"VISUAL_HAT_LEATHER",
           "equip_slot": "SLOT_HEAD",
           "status_add_modifiers": [
-            {"status": "TRAVEL", "value":"ACTION_TRAVEL_FLY"}
+
           ]
         }
       },
@@ -37,7 +37,7 @@
           "visual_id":"VISUAL_HAT_RED",
           "equip_slot": "SLOT_HEAD",
           "status_add_modifiers": [
-            {"status": "TRAVEL", "value":"ACTION_TRAVEL_FLY"}
+
           ]
         }
       }

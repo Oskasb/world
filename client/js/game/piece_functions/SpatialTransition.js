@@ -9,6 +9,7 @@ class SpatialTransition {
         this.elapsedTime = 0;
         this.targetTime = 1;
         this.moveVec3 = null;
+        this.frameDelta = new Vector3();
         this.startPos = new Vector3();
         this.targetPos = new Vector3();
 
@@ -36,9 +37,10 @@ class SpatialTransition {
         }
 
         this.onArriveCallbacks = [];
+        this.onFrameUpdateCallbacks = [];
     }
 
-    initSpatialTransition(moveVec3, target, overTime, callback, bounce, curve) {
+    initSpatialTransition(moveVec3, target, overTime, callback, bounce, curve, onFrameUpdateCB) {
         this.bounce = bounce || 0;
         this.curve = curve || 'curveSigmoid'
         this.moveVec3 = moveVec3;
@@ -59,6 +61,9 @@ class SpatialTransition {
         if (typeof(callback) === 'function') {
             this.onArriveCallbacks.push(callback);
         }
+        if (typeof(onFrameUpdateCB) === 'function') {
+            this.onFrameUpdateCallbacks.push(onFrameUpdateCB);
+        }
     }
 
     interpolatePosition(tpf) {
@@ -76,10 +81,13 @@ class SpatialTransition {
                 }
             }
 
+            MATH.callAll(this.onFrameUpdateCallbacks, this.moveVec3);
+
         } else {
             this.moveVec3.copy(this.targetPos);
             MATH.callAll(this.onArriveCallbacks, this.moveVec3);
             MATH.emptyArray(this.onArriveCallbacks);
+            MATH.emptyArray(this.onFrameUpdateCallbacks);
             ThreeAPI.unregisterPrerenderCallback(this.callbacks.onGameUpdate);
         }
     }

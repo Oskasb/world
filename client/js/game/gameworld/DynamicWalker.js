@@ -65,6 +65,44 @@ class DynamicWalker {
         evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:obj3d.position, color:'GREEN', size:0.5})
     }
 
+    attachFrameLeapEffect(obj3d) {
+
+            effectEvent.pos.copy(obj3d.position);
+            effectEvent.dir.set(0, 1, 0);
+            if (!this.isLeaping) {
+                effectEvent.fromSize = 5.2;
+                effectEvent.toSize = 0.5;
+                effectEvent.duration = 0.2;
+                effectEvent.rgba.r=0.1;
+                effectEvent.rgba.g=0.7;
+                effectEvent.rgba.b=0.3;
+                effectEvent.rgba.a=0.6;
+                evt.dispatch(ENUMS.Event.SPAWN_EFFECT, effectEvent)
+            }
+            effectEvent.rgba.r=0.1;
+            effectEvent.rgba.g=0.6;
+            effectEvent.rgba.b=0.1;
+            effectEvent.rgba.a=0.5;
+            effectEvent.fromSize = 0.2;
+            effectEvent.toSize = 1.0;
+            effectEvent.duration = 0.2;
+            evt.dispatch(ENUMS.Event.SPAWN_EFFECT, effectEvent)
+
+    }
+
+    attachFrameLeapTransitionFx(obj3d) {
+        effectEvent.pos.copy(obj3d.position);
+        effectEvent.dir.set(0, 1, 0);
+        effectEvent.fromSize = 1.2;
+        effectEvent.toSize = 5.5;
+        effectEvent.duration = 0.2;
+        effectEvent.rgba.r = 0.1;
+        effectEvent.rgba.g = 0.7;
+        effectEvent.rgba.b = 0.3;
+        effectEvent.rgba.a = 0.6;
+        evt.dispatch(ENUMS.Event.SPAWN_EFFECT, effectEvent)
+    }
+
     applyHeadingToLeapingGamePiece(obj3d, frameTravelDistance, from, to) {
     //    console.log(from, to);
         tempVec.copy(from);
@@ -92,42 +130,14 @@ class DynamicWalker {
         tempVec.copy(this.headingVector);
         let leaPMod = 1;
         if (frac > 0 && frac < 1) {
-            effectEvent.pos.copy(obj3d.position);
-            effectEvent.dir.set(0, 1, 0);
-            if (!this.isLeaping) {
-                effectEvent.fromSize = 5.2;
-                effectEvent.toSize = 0.5;
-                effectEvent.duration = 0.2;
-                effectEvent.rgba.r=0.1;
-                effectEvent.rgba.g=0.7;
-                effectEvent.rgba.b=0.3;
-                effectEvent.rgba.a=0.6;
 
-                evt.dispatch(ENUMS.Event.SPAWN_EFFECT, effectEvent)
-            }
-            effectEvent.rgba.r=0.1;
-            effectEvent.rgba.g=0.6;
-            effectEvent.rgba.b=0.1;
-            effectEvent.rgba.a=0.5;
-            effectEvent.fromSize = 0.2;
-            effectEvent.toSize = 1.0;
-            effectEvent.duration = 0.2;
-            evt.dispatch(ENUMS.Event.SPAWN_EFFECT, effectEvent)
-
+            this.attachFrameLeapEffect(obj3d)
             this.isLeaping = true;
             leaPMod = leapDistance * MATH.valueFromCurve(frac, MATH.curves["oneZeroOne"])*0.7 + 0.3*leapDistance;
         } else {
 
             if (this.isLeaping) {
-                effectEvent.fromSize = 1.2;
-                effectEvent.toSize = 5.5;
-                effectEvent.duration = 0.2;
-                effectEvent.rgba.r = 0.1;
-                effectEvent.rgba.g = 0.7;
-                effectEvent.rgba.b = 0.3;
-                effectEvent.rgba.a = 0.6;
-
-                evt.dispatch(ENUMS.Event.SPAWN_EFFECT, effectEvent)
+                this.attachFrameLeapTransitionFx(obj3d)
             }
 
             this.isLeaping = false;

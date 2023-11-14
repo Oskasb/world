@@ -181,11 +181,15 @@ class GameActor {
     }
 
     showGameActor() {
-        this.visualGamePiece.showVisualGamePiece();
+        this.visualGamePiece.call.showVisualPiece();
+        //    this.actorEquipment.call.hideEquipment()
+    //    this.actorEquipment.call.showEquipment()
     }
 
     hideGameActor() {
-        this.visualGamePiece.hideVisualGamePiece();
+        this.visualGamePiece.call.hideVisualPiece();
+    //    this.actorEquipment.call.hideEquipment()
+        //    this.actorEquipment.call.showEquipment()
     }
 
     activateGameActor() {

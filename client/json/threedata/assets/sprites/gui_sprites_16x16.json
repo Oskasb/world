@@ -397,6 +397,10 @@
           {
             "id":"icon_jetpack",
             "tiles":[[4, 10]]
+          },
+          {
+            "id":"icon_draken",
+            "tiles":[[5, 10]]
           }
         ]
       }

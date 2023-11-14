@@ -19,8 +19,8 @@
       {
         "id":"VISUAL_TRAVEL_FLY",
         "data":{
-          "name": "Fly",
-          "icon_key": "energy",
+          "name": "Dragon",
+          "icon_key": "icon_draken",
 
           "effects": {
             "fx_selected":"combat_effect_hands_magic_power",

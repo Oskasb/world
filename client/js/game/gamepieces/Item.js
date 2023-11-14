@@ -19,6 +19,9 @@ class Item {
         let getAddModifiers = function() {
             return addModifiers
         }
+
+
+
         this.call = {
             getAddModifiers:getAddModifiers
         }
@@ -26,6 +29,13 @@ class Item {
     }
 
 
+    show() {
+        this.visualGamePiece.call.showVisualPiece();
+    }
+
+    hide() {
+        this.visualGamePiece.call.hideVisualPiece();
+    }
 
     getEquipSlotId() {
         return this.config['equip_slot']

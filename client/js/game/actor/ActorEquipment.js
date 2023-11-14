@@ -56,8 +56,24 @@ class ActorEquipment {
             }
         }
 
+        let showEquipment = function() {
+            for (let i = 0; i < this.items.length; i++) {
+            //    console.log("Show item: ", i)
+                this.items[i].show()
+            }
+        }.bind(this)
+
+        let hideEquipment = function() {
+            for (let i = 0; i < this.items.length; i++) {
+             //   console.log("Hide item: ", i, this.items)
+                this.items[i].hide()
+            }
+        }.bind(this)
+
         this.call = {
             equipActorItem:equipActorItem,
+            showEquipment:showEquipment,
+            hideEquipment:hideEquipment,
             getEquipmentStatusKey:getEquipmentStatusKey
         }
 
@@ -87,6 +103,8 @@ class ActorEquipment {
 
         }
     }
+
+
 
     getModel() {
         return this.actor.getVisualGamePiece().getModel();

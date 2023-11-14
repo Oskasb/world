@@ -16,14 +16,18 @@ class VisualGamePiece {
         this.bodyState = 'IDLE_HANDS';
         this.standState = 'IDLE_LEGS';
 
+        this.hidden = false;
+
         this.addedAssets = [];
         this.obj3d = new Object3D();
 
         this.assetId = config['model_asset'];
         this.config = config;
+
         this.visualPieceObj3d = new Object3D();
 
             let updateVisualGamePiece = function(tpf) {
+
             this.updateVisualGamePiece(tpf);
 
             if (this.pieceAnimator) {
@@ -42,9 +46,41 @@ class VisualGamePiece {
                 ModelUtils.setupVisualModel(this, this.assetId, this.config, pieceReady);
             }.bind(this)
 
+
+        let hideVisualPiece = function() {
+            this.hidden = true;
+        //    this.getSpatial().setPosXYZ(0, 0, 0);
+        //    updateVisualGamePiece(0.1)
+            ThreeAPI.unregisterPrerenderCallback(updateVisualGamePiece);
+
+            if (this.getSpatial().call.isInstanced()) {
+                this.getSpatial().call.hideSpatial(true)
+            } else {
+                ThreeAPI.hideModel(this.getSpatial().obj3d)
+                this.disablePieceAnimations()
+
+            }
+
+        }.bind(this)
+
+        let showVisualPiece = function() {
+            this.hidden = false;
+            ThreeAPI.addPrerenderCallback(updateVisualGamePiece);
+
+            if (this.getSpatial().call.isInstanced()) {
+                this.getSpatial().call.hideSpatial(false)
+            } else {
+                ThreeAPI.showModel(this.getSpatial().obj3d)
+                this.enablePieceAnimations()
+            }
+
+        }.bind(this);
+
         this.call = {
             updateVisualGamePiece:updateVisualGamePiece,
-            setupModel:setupModel
+            setupModel:setupModel,
+            hideVisualPiece:hideVisualPiece,
+            showVisualPiece:showVisualPiece
         }
 
     }
@@ -52,17 +88,11 @@ class VisualGamePiece {
     attachModelAsset = function(onReady) {
 
         let pieceReady = function(visualPiece) {
-            visualPiece.showVisualGamePiece();
-            ThreeAPI.addPrerenderCallback(visualPiece.call.updateVisualGamePiece);
-            if (visualPiece.pieceAnimator) {
-                visualPiece.enablePieceAnimations();
-                visualPiece.animateActionState('IDLE_HANDS')
-            }
+            visualPiece.call.showVisualPiece();
             onReady(this)
         }.bind(this)
 
         this.call.setupModel(pieceReady)
-
     }
 
     addModelAsset(assetId) {
@@ -133,35 +163,12 @@ class VisualGamePiece {
         this.getSpatial().call.setStopped();
     }
 
-    hideVisualGamePiece() {
-        if (this.getSpatial().geometryInstance) {
-            tempVec.set(0, 0, 0);
-            this.getSpatial().geometryInstance.setScale(tempVec);
 
-        } else {
-            ThreeAPI.hideModel(this.getSpatial().obj3d)
-            this.disablePieceAnimations()
-        }
-    //    ThreeAPI.unregisterPrerenderCallback(this.call.updateVisualGamePiece);
-    }
-    showVisualGamePiece() {
-
-        if (this.getSpatial().geometryInstance) {
-            tempVec.set(1, 1, 1);
-            this.getSpatial().geometryInstance.setScale(tempVec);
-
-        } else {
-            ThreeAPI.showModel(this.getSpatial().obj3d)
-            this.enablePieceAnimations()
-        }
-
-
-
-    };
 
     removeVisualGamePiece() {
-        ThreeAPI.unregisterPrerenderCallback(this.call.updateVisualGamePiece);
-        this.disablePieceAnimations()
+        this.call.hideVisualPiece();
+     //   ThreeAPI.unregisterPrerenderCallback(this.call.updateVisualGamePiece);
+     //   this.disablePieceAnimations()
         this.getModel().decommissionInstancedModel();
     };
 
@@ -243,7 +250,12 @@ class VisualGamePiece {
 
     }
     updateVisualGamePiece() {
-        this.getSpatial().stickToObj3D(this.getModelObj3d());
+        if (this.hidden === false) {
+            this.getSpatial().stickToObj3D(this.getModelObj3d());
+        } else {
+            this.getSpatial().setPosXYZ(0, -100000,0)
+        }
+
     }
 
 }

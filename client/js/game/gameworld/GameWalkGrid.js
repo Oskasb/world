@@ -184,6 +184,7 @@ class GameWalkGrid {
             this.lastCenterX = centerTileIndexX;
             this.lastCenterY = centerTileIndexY;
             this.dynamicGrid.updateDynamicGrid(centerTileIndexX, centerTileIndexY);
+            return true;
         }
 
 

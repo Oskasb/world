@@ -551,7 +551,7 @@ class CameraSpatialCursor {
                 camLookAtVec.copy(cursorObj3d.position)
                 let forward = selectedActor.getForward();
                 let distance = MATH.clamp(MATH.distanceBetween(cursorObj3d.position, ThreeAPI.camera.position), 6, 20)
-                forward.multiplyScalar(2 + MATH.curveSqrt(distance * 0.5 + selectedActor.getStatus(ENUMS.ActorStatus.STATUS_SPEED) * 4))
+                forward.multiplyScalar(0.5 + MATH.curveSqrt(distance * 0.5 + selectedActor.getStatus(ENUMS.ActorStatus.STATUS_SPEED) * 4))
                 camLookAtVec.add(forward);
                 cursorObj3d.lookAt(ThreeAPI.camera.position)
                 camTargetPos.copy(cursorObj3d.position)
@@ -574,6 +574,8 @@ class CameraSpatialCursor {
                 //    updateActorTurnMovement();
             } else if (camParams.mode === camModes.gameTravel) {
             //    camPosVec.lerp(camTargetPos, tpf * 4 ) // + lerpFactor * 2)
+
+                if (!selectedActor) return;
 
                 if (selectedActor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET)) {
                     viewEncounterSelection(camTargetPos, camLookAtVec, tpf)

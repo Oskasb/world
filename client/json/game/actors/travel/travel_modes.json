@@ -2,10 +2,27 @@
   "GAME_ACTORS":{
     "TRAVEL_MODES":[
       {
+        "id":"TRAVEL_MODE_INACTIVE",
+        "data":{
+          "camera_mode": "game_travel",
+          "status": {
+
+          },
+          "inputs": [
+
+          ],
+          "feedback": [
+
+          ]
+        }
+      },
+      {
         "id":"TRAVEL_MODE_WALK",
         "data":{
+          "camera_mode": "game_travel",
           "status": {
-            "ACTOR_SPEED": 8,
+            "MOVEMENT_SPEED": 7,
+            "ACTOR_SPEED": 0,
             "ACTOR_YAW_RATE": 8,
             "STATUS_FORWARD": 0
           },
@@ -91,8 +108,10 @@
       {
         "id":"TRAVEL_MODE_JETPACK",
         "data":{
+          "camera_mode": "game_travel",
           "status": {
-            "ACTOR_SPEED": 24,
+            "MOVEMENT_SPEED": 24,
+            "ACTOR_SPEED": 0,
             "ACTOR_YAW_RATE": 8,
             "STATUS_FORWARD": 0
           },
@@ -121,6 +140,7 @@
         "data":{
           "camera_mode": "game_vehicle",
           "status": {
+            "MOVEMENT_SPEED": 0,
             "ACTOR_SPEED": 40,
             "ACTOR_YAW_RATE": 4,
             "STATUS_FORWARD": 0

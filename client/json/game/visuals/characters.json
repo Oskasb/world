@@ -41,7 +41,7 @@
             "NAME": "Farmer",
             "MAX_HP": 12,
             "IN_COMBAT": false,
-            "TRAVEL_MODE": "TRAVEL_MODE_WALK"
+            "TRAVEL_MODE": "TRAVEL_MODE_INACTIVE"
           }
         }
       },
@@ -63,7 +63,7 @@
             "NAME": "Princess",
             "MAX_HP": 11,
             "IN_COMBAT": false,
-            "TRAVEL_MODE": "TRAVEL_MODE_WALK"
+            "TRAVEL_MODE": "TRAVEL_MODE_INACTIVE"
           }
         }
       },
@@ -85,7 +85,7 @@
             "NAME": "Pirate",
             "MAX_HP": 10,
             "IN_COMBAT": false,
-            "TRAVEL_MODE": "TRAVEL_MODE_WALK"
+            "TRAVEL_MODE": "TRAVEL_MODE_INACTIVE"
           }
         }
       },
@@ -107,7 +107,7 @@
             "NAME": "Alien",
             "MAX_HP": 10,
             "IN_COMBAT": false,
-            "TRAVEL_MODE": "TRAVEL_MODE_WALK"
+            "TRAVEL_MODE": "TRAVEL_MODE_INACTIVE"
           }
         }
       },

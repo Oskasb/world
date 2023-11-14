@@ -8,7 +8,7 @@ let spatialTransition = new SpatialTransition()
 
 let draken;
 let actor;
-let playerMovementControls = null;
+let playerMovementControls;
 let config = {};
 let travelMode = null;
 let configUpdated = function(cfg) {
@@ -30,6 +30,7 @@ let stickToActor = function() {
 }
 
 function activateTravelMode(actr, mode, activateCB, deactivateCB) {
+
     travelMode = mode;
     if (!actr.isPlayerActor()) {
         return;
@@ -38,8 +39,10 @@ function activateTravelMode(actr, mode, activateCB, deactivateCB) {
     if (!playerMovementControls) {
         playerMovementControls = new PlayerMovementInputs();
     } else {
-        playerMovementControls.deactivatePlayerMovementControls();
+
     }
+
+    deactivateCB()
 
     console.log("activate TravelMode: ", mode, actor);
 
@@ -54,35 +57,38 @@ function activateTravelMode(actr, mode, activateCB, deactivateCB) {
 
     if (mode === ENUMS.TravelMode.TRAVEL_MODE_JETPACK) {
         //    evt.dispatch(ENUMS.Event.SET_CAMERA_MODE, {mode:'world_viewer'})
-
+        actor.getGameWalkGrid().dynamicWalker.attachFrameLeapTransitionFx(actor.actorObj3d)
         let isUp = function(pos) {
         //    evt.dispatch(ENUMS.Event.SET_CAMERA_MODE, {mode:'game_travel'})
-            playerMovementControls.applyInputSamplingConfig(config[mode], actor);
-            playerMovementControls.activatePlayerMovementControls()
-            activateCB()
+            actor.getGameWalkGrid().dynamicWalker.attachFrameLeapTransitionFx(actor.actorObj3d)
+            activateCB(config[mode], actor)
+        }
+
+        let onFrameUpdate = function(pos) {
+            actor.getGameWalkGrid().dynamicWalker.isLeaping = true;
+            actor.getGameWalkGrid().dynamicWalker.attachFrameLeapEffect(actor.actorObj3d)
         }
 
         spatialTransition.targetPos.copy(actor.getPos());
         spatialTransition.targetPos.y += 4;
         spatialTransition.targetPos.add(actor.getForward());
-        spatialTransition.initSpatialTransition(actor.getPos(), spatialTransition.targetPos, 1.3, isUp, 1)
+        spatialTransition.initSpatialTransition(actor.getPos(), spatialTransition.targetPos, 1.3, isUp, 1, null, onFrameUpdate)
         deactivateCB()
     }
 
     if (mode === ENUMS.TravelMode.TRAVEL_MODE_FLY) {
     //    evt.dispatch(ENUMS.Event.SET_CAMERA_MODE, {mode:'world_viewer'})
-        deactivateCB()
+
         actor.hideGameActor()
 
         if (draken) {
             GameAPI.registerGameUpdateCallback(stickToActor)
+            activateCB(config[mode], actor)
         } else {
             let addModelInstance = function(instance) {
                 draken = instance;
                 GameAPI.registerGameUpdateCallback(stickToActor)
-                playerMovementControls.applyInputSamplingConfig(config[mode], actor);
-                playerMovementControls.activatePlayerMovementControls()
-                activateCB()
+                activateCB(config[mode], actor)
             }
 
             client.dynamicMain.requestAssetInstance("asset_j35draken", addModelInstance)
@@ -92,17 +98,15 @@ function activateTravelMode(actr, mode, activateCB, deactivateCB) {
 
     if (mode === ENUMS.TravelMode.TRAVEL_MODE_WALK) {
         evt.dispatch(ENUMS.Event.SET_CAMERA_MODE, {mode:'game_travel'})
-        if (draken) {
-            GameAPI.unregisterGameUpdateCallback(stickToActor)
-        }
-        activateCB()
-        playerMovementControls.applyInputSamplingConfig(config[mode], actor);
-        playerMovementControls.activatePlayerMovementControls()
+        activateCB(config[mode], actor)
     }
 
     if (mode === ENUMS.TravelMode.TRAVEL_MODE_BATTLE) {
-        playerMovementControls.applyInputSamplingConfig(config[mode], actor);
-        playerMovementControls.activatePlayerMovementControls()
+    //    activateCB(config[mode], actor)
+    }
+
+    if (mode === ENUMS.TravelMode.TRAVEL_MODE_INACTIVE) {
+
     }
 
 }
@@ -123,11 +127,14 @@ class TravelMode {
 
         let active = false;
 
-        let activateControls = function() {
+        let activateControls = function(modeConfig, actor) {
+            playerMovementControls.applyInputSamplingConfig(modeConfig, actor);
+            playerMovementControls.activatePlayerMovementControls()
             active = true;
         }
 
         let deactivateControls = function() {
+            playerMovementControls.deactivatePlayerMovementControls();
             active = false;
         }
 

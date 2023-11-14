@@ -37,57 +37,12 @@ class DynamicPath {
     constructor() {
         this.tilePath = new TilePath();
         this.tempVec = new Vector3()
-        this.lineStepFromVec = new Vector3();
-
-        this.lineEvent = {
-            from:new Vector3(),
-            to: new Vector3(),
-            color:'CYAN'
-        }
     }
 
 
-
-    drawLineSegment(from, to, segment, segments, color, tile) {
-        tempVec.copy(to);
-        tempVec.sub(from);
-        let frac = MATH.calcFraction(0, segments, segment);
-
-
-
-        if (tile.requiresLeap) {
-            tempVec.y *= frac
-            tempVec.y += Math.sin(frac*Math.PI)
-        } else {
-            let heightFrac = MATH.curveSigmoid(frac);
-            tempVec.y *= MATH.curveQuad(heightFrac)
-        }
-
-
-        let travelFrac = frac // MATH.valueFromCurve(frac, MATH.curves["edgeStep"])
-        tempVec.x *= travelFrac;
-        tempVec.z *= travelFrac;
-
-        tempVec.add(from);
-       // tempVec.x = to.x;
-       // tempVec.z = to.z;
-        this.lineEvent.from.copy(this.lineStepFromVec)
-        this.lineEvent.to.copy(tempVec);
-        this.lineEvent.color = color || 'CYAN';
-        evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, this.lineEvent);
-        if (segment) {
-            visualPath.addVisualPathPoint(this.lineStepFromVec, tempVec, segment, tile, frac);
-        }
-        this.lineStepFromVec.copy(tempVec)
-
-    }
-
-    drawPathLine(from, to, color, tile) {
+    drawPathLine(from, to, color, rgba, requiresLeap) {
         let segments = 9;
-        this.lineStepFromVec.copy(from)
-        for (let i = 0; i < segments+1; i++) {
-            this.drawLineSegment(from, to, i, segments, color, tile)
-        }
+        visualPath.drawVisualPath(from, to, segments, color, rgba, requiresLeap)
     }
 
 
@@ -154,7 +109,7 @@ class DynamicPath {
                 } else {
                     tile.requiresLeap = false;
                 }
-                this.drawPathLine(this.tempVec, tile.getPos(), color, tile)
+                this.drawPathLine(this.tempVec, tile.getPos(), color, tile.rgba, tile.requiresLeap)
                 this.tempVec.copy(tile.getPos());
             } else {
                 leapOver = true;

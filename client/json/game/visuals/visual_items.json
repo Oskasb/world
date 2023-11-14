@@ -2,6 +2,13 @@
   "GAME":{
     "VISUALS":[
       {
+        "id": "VISUAL_DRAKEN",
+        "data": {
+          "model_asset":"asset_svigg",
+          "base_size": 0.1
+        }
+      },
+      {
         "id": "VISUAL_JETPACK",
         "data": {
           "model_asset":"asset_jetpack",

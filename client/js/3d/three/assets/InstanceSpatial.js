@@ -68,7 +68,17 @@ class InstanceSpatial{
                 }
             }
 
+            let hideSpatial = function(bool) {
+                if (bool) {
+                    geometryInstance.obj3d.position.y = -100000;
+                    geometryInstance.applyObjPos();
+                } else {
+
+                }
+            }
+
             this.call = {
+                hideSpatial:hideSpatial,
                 applyInstanceBuffers:applyInstanceBuffers,
                 setInstance:setInstance,
                 getInstance:getInstance,

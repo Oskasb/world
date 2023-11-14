@@ -93,7 +93,7 @@ class ControlFunctions {
             if (actor.getStatus(ENUMS.ActorStatus.SELECTING_DESTINATION)) {
                 let walkGrid = actor.getGameWalkGrid();
                 let tileSelector = walkGrid.gridTileSelector;
-                tileSelector.moveAlongX(value*actor.getStatus(ENUMS.ActorStatus.ACTOR_SPEED));
+                tileSelector.moveAlongX(value*actor.getStatus(ENUMS.ActorStatus.MOVEMENT_SPEED));
             }
         }
     }
@@ -103,27 +103,23 @@ class ControlFunctions {
             if (actor.getStatus(ENUMS.ActorStatus.SELECTING_DESTINATION)) {
                 let walkGrid = actor.getGameWalkGrid();
                 let tileSelector = walkGrid.gridTileSelector;
-                tileSelector.moveAlongZ(value*actor.getStatus(ENUMS.ActorStatus.ACTOR_SPEED));
+                tileSelector.moveAlongZ(value*actor.getStatus(ENUMS.ActorStatus.MOVEMENT_SPEED));
             }
         }
     }
 
     CONTROL_MOVE_ACTION(value, actor) {
         if (value === 1) {
-            actor.setStatusKey(ENUMS.ActorStatus.STATUS_WALK_SELECTION, true)
             actor.actorMovement.tileSelectionActive(actor);
         } else if (value === 2){
-            actor.setStatusKey(ENUMS.ActorStatus.STATUS_WALK_SELECTION, false)
             actor.actorMovement.tileSelectionCompleted(actor);
         }
     }
 
     CONTROL_LEAP_ACTION(value, actor) {
         if (value === 1) {
-            actor.setStatusKey(ENUMS.ActorStatus.STATUS_LEAP_SELECTION, true)
             actor.actorMovement.leapSelectionActive(actor);
         } else if (value === 2){
-            actor.setStatusKey(ENUMS.ActorStatus.STATUS_LEAP_SELECTION, false)
             actor.actorMovement.leapSelectionCompleted(actor);
         }
     }

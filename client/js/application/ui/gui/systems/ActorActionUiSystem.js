@@ -47,7 +47,7 @@ let onActionActivate = function(action) {
             selectedTarget = null;
         }, 1000)
     } else {
-        actor.actorText.say('Pick a target')
+    //    actor.actorText.say('Pick a target')
     }
 }
 

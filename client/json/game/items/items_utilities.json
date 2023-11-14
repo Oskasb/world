@@ -2,6 +2,16 @@
   "GAME":{
     "ITEMS":[
       {
+        "id": "ITEM_DRAKEN",
+        "data": {
+          "visual_id":"VISUAL_DRAKEN",
+          "equip_slot": "SLOT_HAND_L",
+          "status_add_modifiers": [
+            {"status": "TRAVEL", "value":"ACTION_TRAVEL_FLY"}
+          ]
+        }
+      },
+      {
         "id": "ITEM_JETPACK",
         "data": {
           "visual_id":"VISUAL_JETPACK",

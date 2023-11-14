@@ -95,6 +95,7 @@ if(typeof(ENUMS) === "undefined"){
 
     ENUMS.ActorStatus = {
         ACTIONS:'ACTIONS',
+        MOVEMENT_SPEED:'MOVEMENT_SPEED',
         DEAD:'DEAD',
         IN_COMBAT:'IN_COMBAT',
         HAND_SIZE:'HAND_SIZE',
@@ -159,6 +160,7 @@ if(typeof(ENUMS) === "undefined"){
     }
 
     ENUMS.TravelMode = {
+        TRAVEL_MODE_INACTIVE:'TRAVEL_MODE_INACTIVE',
         TRAVEL_MODE_BATTLE:'TRAVEL_MODE_BATTLE',
         TRAVEL_MODE_WALK:'TRAVEL_MODE_WALK',
         TRAVEL_MODE_FLY:'TRAVEL_MODE_FLY',

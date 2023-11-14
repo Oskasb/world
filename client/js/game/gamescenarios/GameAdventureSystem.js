@@ -14,16 +14,25 @@ class GameAdventureSystem {
         let actor = this.startActor;
 
         if (event['activate_selection'] === true) {
+        //    actor.activateWalkGrid(3);
+
+            setTimeout(function() {
+                actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_WALK)
+                actor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, true)
+        //        actor.getGameWalkGrid().deactivateWalkGrid();
+            }, 1000)
+
+
             GameAPI.getGamePieceSystem().addActorToPlayerParty(this.startActor);
             GameAPI.getGamePieceSystem().playerParty.selectPartyActor(this.startActor);
-            this.startActor.travelMode.mode = null;
+        //    this.startActor.travelMode.mode = null;
             GuiAPI.closePage(this.page);
             GuiAPI.closePage(client.page)
             client.page = null;
             let equippedItems = event['equipped_items']
 
-
             let itemCallback = function(item) {
+
                 console.log("Item Loaded; ", item)
                 item.getSpatial().setScaleXYZ(1, 1, 1)
                 actor.equipItem(item);
