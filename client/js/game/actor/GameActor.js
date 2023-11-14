@@ -201,7 +201,7 @@ class GameActor {
                 if (typeof (onActorReady) === 'function') {
                     onActorReady(this);
                 }
-                
+
             }.bind(this)
 
             this.visualGamePiece.attachModelAsset(onReady);

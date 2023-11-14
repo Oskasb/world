@@ -76,7 +76,22 @@ class VisualGamePiece {
 
         }.bind(this);
 
+            let instance = null;
+
+            let setInstance = function(inst) {
+                instance = inst;
+            }
+
+            let getInstance = function() {
+                if (!instance) {
+                    console.log("No instance!")
+                }
+                return instance;
+            }
+
         this.call = {
+            setInstance:setInstance,
+            getInstance:getInstance,
             updateVisualGamePiece:updateVisualGamePiece,
             setupModel:setupModel,
             hideVisualPiece:hideVisualPiece,
@@ -131,19 +146,21 @@ class VisualGamePiece {
     };
 
     applyPieceAnimationState(animName, duration, channel, weight) {
-        return this.instance.animator.applyAnimationState(animName, this.animStateMap, duration, channel, weight)
+        return this.call.getInstance().animator.applyAnimationState(animName, this.animStateMap, duration, channel, weight)
     }
 
     setModel(instance) {
-        this.instance = instance;
+        this.call.setInstance(instance);
+
     }
 
     getModel() {
-        return this.instance;
+        return this.call.getInstance();
     }
 
     getSpatial() {
-        return this.instance.getSpatial();
+
+        return this.call.getInstance().getSpatial();
     }
 
     getPos() {
@@ -204,17 +221,17 @@ class VisualGamePiece {
     }
 
     getRandomJointId() {
-        let jointMap = this.instance.getJointMap();
+        let jointMap = this.call.getInstance().getJointMap();
         return MATH.getRandomObjectEntry(jointMap)
     }
 
     getRandomBone() {
-        let map = this.instance.getBoneMap();
+        let map = this.call.getInstance().getBoneMap();
         return MATH.getRandomObjectEntry(map)
     }
 
     getBoneWorldPosition(bone) {
-        this.instance.updateBoneWorldTransform(bone, tempObj3d)
+        this.call.getInstance().updateBoneWorldTransform(bone, tempObj3d)
         return tempObj3d.position;
     }
 
@@ -222,7 +239,7 @@ class VisualGamePiece {
         if (boneName === 'root_node') {
             return this.getCenterMass();
         }
-        this.instance.getBoneWorldTransform(boneName, tempObj3d)
+        this.call.getInstance().getBoneWorldTransform(boneName, tempObj3d)
         return tempObj3d.position;
     }
 

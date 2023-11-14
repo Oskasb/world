@@ -89,7 +89,8 @@ if(typeof(ENUMS) === "undefined"){
         COLLECT_DEBUG_STATS:        70,
         SKY_GRADIENT_UPDATE:        71,
         SELECT_ADVENTURER:          72,
-        LOAD_ITEM:                  73
+        LOAD_ITEM:                  73,
+        LOAD_ADVENTURE_ENCOUNTERS:  74
     };
 
 

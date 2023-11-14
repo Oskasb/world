@@ -49,7 +49,11 @@ let deactivateWorldEncounters = function () {
     }
 }
 
-let activateWorldEncounters = function() {
+let activateEvent = {world_encounters:[]};
+
+let activateWorldEncounters = function(event) {
+    deactivateWorldEncounters();
+    activateEvent = event;
     let encountersData = function(encounters) {
         for (let i = 0; i < encounters.length;i++) {
             let onReady = function(encounter) {
@@ -70,21 +74,24 @@ let activateWorldEncounters = function() {
     }
 
     for (let i = 0; i < encounterConfigs.length;i++) {
-        locationData(encounterConfigs[i].data);
+        if (activateEvent.world_encounters.indexOf(encounterConfigs[i].id) !== -1) {
+            locationData(encounterConfigs[i].data);
+        }
     }
 }
 
 let initWorldEncounters = function(config) {
     //  console.log("World Models; ", config);
     encounterConfigs = config;
-    deactivateWorldEncounters();
-    activateWorldEncounters();
+    activateWorldEncounters(activateEvent);
 }
 
 class WorldModels {
     constructor() {
         this.configData =  new ConfigData("WORLD_LOCATIONS","MODELS", null, null, null, initWorldModels)
         this.configData =  new ConfigData("WORLD_ENCOUNTERS","ENCOUNTERS", null, null, null, initWorldEncounters)
+
+        evt.on(ENUMS.Event.LOAD_ADVENTURE_ENCOUNTERS, activateWorldEncounters)
     }
 
     deactivateEncounters() {
@@ -92,7 +99,7 @@ class WorldModels {
     }
 
     activateEncounters() {
-        activateWorldEncounters()
+        activateWorldEncounters(activateEvent)
     }
 
     registerWorldBox(box) {

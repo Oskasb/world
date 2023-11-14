@@ -43,20 +43,24 @@ let loadActor = function(event) {
     let visualPiece = new VisualGamePiece(visualConfig);
     actor.setVisualGamePiece(visualPiece);
 
-
-    //  console.log("loadActor:", actor)
-
     if (event.tile) {
-        actor.activateGameActor();
 
-        let gameWalkGrid = actor.getGameWalkGrid()
-        let activateEncounterGrid = GameAPI.call.getActiveEncounter();
+        let onReady = function(readyActor) {
+            console.log("On Ready: ", readyActor)
+            let gameWalkGrid = readyActor.getGameWalkGrid()
+            let activateEncounterGrid = GameAPI.call.getActiveEncounter();
 
-        actor.getPos().copy(activateEncounterGrid.getPos());
-        actor.actorObj3d.position.copy(actor.getPos())
+            readyActor.getPos().copy(activateEncounterGrid.getPos());
+            readyActor.actorObj3d.position.copy(readyActor.getPos())
+            gameWalkGrid.setTargetPosition(event.tile.getPos())
 
-        gameWalkGrid.setTargetPosition(event.tile.getPos())
+            if (event.callback) {
+                event.callback(readyActor);
+            }
+        }
 
+        actor.activateGameActor(onReady);
+        return;
     } else if (event.pos) {
         actor.getPos().copy(event.pos);
     } else {

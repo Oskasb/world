@@ -41,6 +41,9 @@ class GameAdventureSystem {
         ThreeAPI.getCameraCursor().setZoomDistance(3)
         let actorId = event['actor_id'];
         let pageId = event['page_id'];
+        let worldEncounters = event['world_encounters'];
+
+        evt.dispatch(ENUMS.Event.LOAD_ADVENTURE_ENCOUNTERS, {world_encounters:[]})
 
         if (this.startActor) {
             let deactivateActor = this.startActor;
@@ -63,6 +66,7 @@ class GameAdventureSystem {
                 actor.equipItem(item);
             }
             let onActorReady = function() {
+
                 let equippedItems = event['equipped_items']
 
                 if (equippedItems) {
@@ -80,11 +84,13 @@ class GameAdventureSystem {
         evt.dispatch(ENUMS.Event.LOAD_ACTOR,  {id: actorId, pos:spatialTransition.targetPos, callback:actorLoaded})
 
         let onArriveCB = function(atPos) {
+            evt.dispatch(ENUMS.Event.LOAD_ADVENTURE_ENCOUNTERS, {world_encounters:worldEncounters})
             setTimeout(function() {
                 if (_this.page) {
                     GuiAPI.closePage(_this.page)
                 }
                 _this.page = GuiAPI.activatePage(pageId);
+
             }, 200)
         }.bind(this)
 

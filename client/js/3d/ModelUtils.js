@@ -46,7 +46,7 @@ function attachSkeletonRig(visualPiece, rigId, pieceReady) {
     visualPiece.setPieceActionSystem( new PieceActionSystem());
     visualPiece.setPieceAttacher(new PieceAttacher())
 
-    let assetInstance = visualPiece.instance;
+    let assetInstance = visualPiece.call.getInstance();
     let skellRig = rigId
 
     let assetDataCB = function(assetsConfig) {
