@@ -1,0 +1,16 @@
+[{
+  "GAME":{
+    "ITEMS":[
+      {
+        "id": "ITEM_HAT_BLUE",
+        "data": {
+          "visual_id":"VISUAL_HAT_BLUE",
+          "equip_slot": "SLOT_HEAD",
+          "status_add_modifiers": [
+              {"status": "TRAVEL", "value":"ACTION_TRAVEL_FLY"}
+          ]
+        }
+      }
+    ]
+  }
+}]

@@ -1,0 +1,16 @@
+[{
+  "GAME":{
+    "ITEMS":[
+      {
+        "id": "ITEM_SWORD_FANCY",
+        "data": {
+          "visual_id":"VISUAL_SWORD_FANCY",
+          "equip_slot": "SLOT_HAND_R",
+          "status_add_modifiers": [
+              {"status": "TRAVEL", "value":"ACTION_TRAVEL_FLY"}
+          ]
+        }
+      }
+    ]
+  }
+}]
