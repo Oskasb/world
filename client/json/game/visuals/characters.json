@@ -19,7 +19,8 @@
             "NAME": "Fighter",
             "MAX_HP": 10,
             "IN_COMBAT": false,
-            "TRAVEL_MODE": "TRAVEL_MODE_WALK"
+            "TRAVEL_MODE": "TRAVEL_MODE_WALK",
+            "ALIGNMENT": "NEUTRAL"
           }
         }
       },

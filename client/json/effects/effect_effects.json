@@ -155,7 +155,7 @@
                         },
                         "effect_character_indicator":{
                             "effect_class": "GameEffect",
-                            "max_active": 1000,
+                            "max_active": 50,
                             "spread_pos":[0.00001, 0.00001, 0.00001],
                             "particles": [
                                 {

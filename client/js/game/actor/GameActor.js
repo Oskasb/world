@@ -1,4 +1,4 @@
-import {Object3D} from "../../../libs/three/core/Object3D.js";
+import { Object3D } from "../../../libs/three/core/Object3D.js";
 import { GameWalkGrid } from "../gameworld/GameWalkGrid.js";
 import { Vector3 } from "../../../libs/three/math/Vector3.js";
 import { poolFetch, poolReturn } from "../../application/utils/PoolUtils.js";
@@ -9,6 +9,7 @@ import { ActorText } from "../../application/ui/gui/game/ActorText.js";
 import { ActorMovement } from "./ActorMovement.js";
 import { TravelMode } from "./TravelMode.js";
 import { ActorEquipment } from "./ActorEquipment.js";
+import { ActorStatusProcessor } from "./ActorStatusProcessor.js";
 
 let index = 0;
 let tempVec = new Vector3();
@@ -18,6 +19,7 @@ class GameActor {
     constructor(config) {
         this.index = index;
         index++;
+        this.actorStatusProcessor = new ActorStatusProcessor();
         this.actorText = new ActorText(this);
         this.actorStatus = new ActorStatus();
         this.controlState = new ControlState();
@@ -218,6 +220,7 @@ class GameActor {
             this.visualGamePiece.removeVisualGamePiece();
             GameAPI.unregisterGameUpdateCallback(this.call.updateGameActor);
             this.activated = false;
+            this.actorStatusProcessor.clearActorStatus(this);
         } else {
             this.preDeactivated = true;
         }
@@ -307,6 +310,8 @@ class GameActor {
 
 
         }
+
+        this.actorStatusProcessor.processActorStatus(this);
 
     }
 

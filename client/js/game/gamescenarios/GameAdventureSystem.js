@@ -67,6 +67,12 @@ class GameAdventureSystem {
             }
             let onActorReady = function() {
 
+                let status = event['status']
+
+                for (let key in status) {
+                    actor.setStatusKey(key, status[key])
+                }
+
                 let equippedItems = event['equipped_items']
 
                 if (equippedItems) {

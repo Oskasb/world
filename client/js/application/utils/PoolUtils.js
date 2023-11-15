@@ -8,6 +8,7 @@ import {Plant} from "../../3d/three/terrain/vegetation/Plant.js";
 import {VisualTile } from "../../game/visuals/VisualTile.js";
 import {ActorAction} from "../../game/actor/ActorAction.js";
 import {VisualAction} from "../../game/visuals/VisualAction.js";
+import {VisualIndicator} from "../../game/visuals/VisualIndicator.js";
 import {Vector3} from "../../../libs/three/math/Vector3.js";
 
 let pools = {}
@@ -23,6 +24,7 @@ function initPools() {
     registerPool(VisualTile);
     registerPool(ActorAction);
     registerPool(VisualAction);
+    registerPool(VisualIndicator);
     registerPool(Vector3);
 }
 

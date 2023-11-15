@@ -9,6 +9,7 @@
             "config": {
               "actor": "ACTOR_FIGHTER",
               "rot": [0, 1.2, 0],
+              "ALIGNMENT": "HOSTILE",
               "indicator": {
                 "sprite": [3, 5],
                 "height": 2.6,

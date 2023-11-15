@@ -8,6 +8,7 @@ let loads = 0;
 
 function spawnActor(actorConfig, tile, encounterTurnSequencer, onReady) {
     let actorLoaded = function(actor) {
+        actor.setStatusKey(ENUMS.ActorStatus.ALIGNMENT, 'HOSTILE');
         actor.setStatusKey(ENUMS.ActorStatus.NAME, 'Bandit '+actor.index);
         actor.setStatusKey(ENUMS.ActorStatus.ICON_KEY, MATH.getRandomArrayEntry(faces));
         encounterActors.push(actor);
