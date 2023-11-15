@@ -72,22 +72,15 @@ class GameEncounterSystem {
         activeEncounterGrid = encounterGrid;
         encounterGrid.setCameraHomePos(event.cam_pos)
 
+        let updateEncounterSystem = this.call.updateEncounterSystem
+
             let gridReady = function(grid) {
                 dynamicEncounter = new DynamicEncounter()
                 dynamicEncounter.setEncounterGrid(grid);
 
-                    if (event.spawn) {
-                        dynamicEncounter.processSpawnEvent(event.spawn)
-                    } else {
-                        console.log("encounter event requires spawn data")
-                    }
 
-                    let actors = dynamicEncounter.getEncounterActors();
-                    for (let i = 0; i < actors.length; i++) {
-                        encounterTurnSequencer.addEncounterActor(actors[i]);
-                    }
-                //let selectedActor = GameAPI.getGamePieceSystem().getSelectedGameActor();
-                let playerParty = GameAPI.getGamePieceSystem().getPlayerParty();
+                let onSpawnDone = function() {
+                    let playerParty = GameAPI.getGamePieceSystem().getPlayerParty();
                     let partyActors = playerParty.getPartyActors();
                     for (let i = 0; i < partyActors.length; i++) {
                         let pActor = partyActors[i];
@@ -96,13 +89,20 @@ class GameEncounterSystem {
                         encounterTurnSequencer.addEncounterActor(pActor);
                     }
 
-                encounterUiSystem.setEncounterSequencer(encounterTurnSequencer)
+                    encounterUiSystem.setEncounterSequencer(encounterTurnSequencer)
+                    GameAPI.registerGameUpdateCallback(updateEncounterSystem)
+                }
+
+
+                    if (event.spawn) {
+                        dynamicEncounter.processSpawnEvent(event.spawn, encounterTurnSequencer, onSpawnDone)
+                    } else {
+                        console.log("encounter event requires spawn data")
+                    }
 
             }
 
             encounterGrid.initEncounterGrid(event['grid_id'], event.pos, gridReady )
-
-        GameAPI.registerGameUpdateCallback(this.call.updateEncounterSystem)
 
     }
 

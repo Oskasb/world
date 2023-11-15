@@ -615,7 +615,8 @@
           "vec4 terrainMapSample = texture2D( terrainmap, terrainSampler);",
           "vec4 heightMapSample = texture2D( heightmap, terrainSampler);",
 
-          "int gIndex = int(min(terrainMapSample.r*8.0, 4.0));",
+          "float biomeColumn = floor(terrainMapSample.r * 1.99);",
+          "int gIndex = int(min((terrainMapSample.r - (biomeColumn*0.5))*8.0, 4.0));",
           "float biomeIndex = float(gIndex);",
 
           "float shift = 0.75/2048.0;",
@@ -680,6 +681,7 @@
           "float scatter = (cos(scaledUv.x*313.0) + sin(scaledUv.y*313.0))*0.0015;",
 
           "vec2 tile01 = vec2(min(floor((sampleGreen+scatter) * 10.0), 7.0), natureRow);",
+          "tile01.x += biomeColumn*8.0;",
           "vec2 tile01Offset = vec2(tile01.x * tileScale.x, (tile01.y-1.0) * tileScale.y);",
 
           "vec2 tile01Uv = vec2(scaledUv + tile01Offset);",
@@ -689,6 +691,7 @@
           "float natureMix = min(max(-natureStep*0.25 + sampleGreen, 0.0)/natureStep*1.0, 1.0);",
 
           "vec2 tileSlopeMod = vec2(min(floor(max(sqrt(slope -0.01) +scatter*4.0, 0.01) * 10.0), 7.0), rockRow);",
+          "tileSlopeMod.x += biomeColumn*8.0;",
           "vec2 tileSlopeModOffset = vec2(tileSlopeMod.x * tileScale.x, (tileSlopeMod.y-1.0) * tileScale.y);",
 
           "vec2 tileSlopeModUv = vec2(scaledUv + tileSlopeModOffset);",
@@ -704,6 +707,7 @@
           "float civStep = 0.04;",
 
           "tile01 = vec2(min(floor((sampleBlue+scatter*8.0) * 10.0), 7.0), civRow);",
+          "tile01.x += biomeColumn*8.0;",
           "tile01Offset = vec2(tile01.x * tileScale.x, (tile01.y-1.0) * tileScale.y);",
           "tile01Uv = vec2(scaledUv + tile01Offset);",
           "vec4 civColor = texture2D(tx0, tile01Uv);",

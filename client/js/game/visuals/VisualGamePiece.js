@@ -16,7 +16,7 @@ class VisualGamePiece {
         this.bodyState = 'IDLE_HANDS';
         this.standState = 'IDLE_LEGS';
 
-        this.hidden = false;
+        this.hidden = true;
 
         this.addedAssets = [];
         this.obj3d = new Object3D();

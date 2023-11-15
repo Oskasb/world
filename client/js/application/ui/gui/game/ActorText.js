@@ -10,7 +10,13 @@ class ActorText {
         let txtOrigin = new Vector3();
 
         let getTextOrigin = function() {
-            tempVec3.copy(actor.getVisualGamePiece().getAboveHead(0.15));
+            if (actor.getVisualGamePiece().hidden === false) {
+                tempVec3.copy(actor.getVisualGamePiece().getAboveHead(0.15));
+            } else {
+                tempVec3.copy(actor.actorObj3d.position);
+                tempVec3.y += 2;
+            }
+
             ThreeAPI.toScreenPosition(tempVec3, txtOrigin)
             GuiAPI.applyAspectToScreenPosition(txtOrigin, txtOrigin);
             return txtOrigin;
