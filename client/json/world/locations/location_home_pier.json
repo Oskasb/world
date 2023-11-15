@@ -17,6 +17,22 @@
                   "visibility": 2
                 },
                 {
+                  "model": "model_rowboat",
+                  "pos": [-900.2, 0.1, 516.4],
+                  "on_ground": false,
+                  "rot": [0, -0.7, 0],
+                  "scale": [1, 1, 1],
+                  "visibility": 2
+                },
+                {
+                  "model": "model_rowboat",
+                  "pos": [-909.2, 0.1, 517.4],
+                  "on_ground": false,
+                  "rot": [0, -0, 0],
+                  "scale": [1, 1, 1],
+                  "visibility": 2
+                },
+                {
                   "model": "model_home_pier",
                   "pos": [-900, 0.0, 513],
                   "rot": [0, 0, 0],

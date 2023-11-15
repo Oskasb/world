@@ -5,6 +5,7 @@
       "MODELS": [
 
         {"id": "asset_wrist_computer",     "config":{"model": "file_wrist_computer",       "material": "mat_instancing_standard", "settings": "model_settings_instancing_5" }},
+        {"id": "asset_rowboat",     "config":{"model": "file_rowboat",       "material": "mat_instancing_basic", "settings": "model_settings_instancing_5" }},
         {"id": "asset_jetpack",     "config":{"model": "file_jetpack",       "material": "mat_instancing_standard", "settings": "model_settings_instancing_5" }},
         {"id": "asset_oomba",       "config":{"model": "file_oomba",       "material": "mat_instancing_standard", "settings": "model_settings_instancing_5" }},
         {"id": "asset_svigg",       "config":{"model": "file_svigg",       "material": "mat_instancing_standard", "settings": "model_settings_instancing_5" }},
@@ -20,6 +21,9 @@
         {"id": "skinned_barb_bp",       "config":{"model": "file_barb_item_bp", "material": "material_opaque",      "settings": "model_settings_default"}},
         {"id": "skinned_barb_greaves",  "config":{"model": "file_barb_item_greaves", "material": "material_opaque",  "settings": "model_settings_default"}},
 
+
+        {"id": "asset_rabbit", "config": { "model": "file_rabbit",  "material":        "mat_instancing_basic",  "settings": "model_settings_instancing_5" }},
+        {"id": "asset_horse",  "config": { "model": "file_horse",   "material":        "mat_instancing_basic",  "settings": "model_settings_instancing_5" }},
 
         {"id": "asset_belt_green", "config": { "model": "file_belt_bronze",  "material":        "mat_instancing_green",  "settings": "model_settings_items" }},
         {"id": "asset_beltplate_green",   "config": { "model": "file_beltplate",    "material": "mat_instancing_green",  "settings": "model_settings_items" }},

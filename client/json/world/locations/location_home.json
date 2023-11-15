@@ -17,6 +17,20 @@
                   "visibility": 3
                 },
                 {
+                  "model": "model_horse",
+                  "pos": [-905.7, 0.8, 584.6],
+                  "rot": [0, -2.53, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": true
+                },
+                {
+                  "model": "model_rabbit",
+                  "pos": [-908.7, 0.8, 583.2],
+                  "rot": [0, -2.53, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": true
+                },
+                {
                   "model": "model_fence_small",
                   "pos": [-885.1, 0.75, 525.8],
                   "rot": [0, 1.57, 0],

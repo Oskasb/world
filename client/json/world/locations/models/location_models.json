@@ -110,6 +110,72 @@
         ]
       },
       {
+        "id": "model_rabbit",
+        "data": [
+          {
+            "data_key":"model_data",
+            "config": {
+              "assets": [
+                {
+                  "asset": "asset_rabbit",
+                  "pos": [0, 0, 0],
+                  "rot": [0, 0, 0],
+                  "scale": [0.01, 0.01, 0.01],
+                  "visibility": 2,
+                  "boxes": [
+
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "model_horse",
+        "data": [
+          {
+            "data_key":"model_data",
+            "config": {
+              "assets": [
+                {
+                  "asset": "asset_horse",
+                  "pos": [0, 0, 0],
+                  "rot": [0, 0, 0],
+                  "scale": [0.01, 0.01, 0.01],
+                  "visibility": 2,
+                  "boxes": [
+
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "model_rowboat",
+        "data": [
+          {
+            "data_key":"model_data",
+            "config": {
+              "assets": [
+                {
+                  "asset": "asset_rowboat",
+                  "pos": [0, 0, 0],
+                  "rot": [0, 0, 0],
+                  "scale": [0.01, 0.01, 0.01],
+                  "visibility": 3,
+                  "boxes": [
+
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
         "id": "model_tree_1",
         "data": [
           {

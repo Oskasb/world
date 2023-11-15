@@ -4,6 +4,7 @@
       "FILES_GLB": [
         {"id": "file_wrist_computer",      "config": { "url": "./client/assets/models/items_rigid/utilities/wrist_computer"     }},
         {"id": "file_jetpack",             "config": { "url": "./client/assets/models/items_rigid/utilities/jetpack"                      }},
+        {"id": "file_rowboat",             "config": { "url": "./client/assets/models/vehicles/rowboat"                                 }},
         {"id": "file_svigg",             "config": { "url": "./client/assets/models/vehicles/svigg"                                 }},
         {"id": "file_oomba",             "config": { "url": "./client/assets/models/vehicles/oomba"                                 }},
         {"id": "file_f14",               "config": { "url": "./client/assets/models/vehicles/f14"                                   }},
@@ -12,6 +13,9 @@
         {"id": "file_pilot_bind",         "config": { "url": "./client/assets/models/characters/pilot/pilot_bind"                     }},
         {"id": "file_pilot_run" ,         "config": { "url": "./client/assets/models/characters/pilot/movement/run"                   }},
         {"id": "file_pilot_idle",         "config": { "url": "./client/assets/models/characters/pilot/idle/basic_idle"                }},
+
+        {"id": "file_horse",                     "config": { "url": "./client/assets/models/animals/horse"                }},
+        {"id": "file_rabbit",                     "config": { "url": "./client/assets/models/animals/rabbit"                }},
 
         {"id": "file_pilot_sit",                     "config": { "url": "./client/assets/models/characters/pilot/idle/sit"                }},
         {"id": "file_pilot_sleep",                    "config": { "url": "./client/assets/models/characters/pilot/idle/sleep"                }},
