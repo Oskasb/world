@@ -9,7 +9,7 @@ import {CameraSpatialCursor } from "../camera/CameraSpatialCursor.js";
 import {TerrainSystem} from "./terrain/TerrainSystem.js";
 
 
-let cameraSpatialCursor = new CameraSpatialCursor();
+let cameraSpatialCursor;
 let terrainSystem = new TerrainSystem();
 let tempVec = null;
 let groundHeightData = [0, 0, 0, 0];
@@ -68,6 +68,7 @@ class ThreeAPI {
     };
 
     initThreeScene = function(containerElement, pxRatio, antialias) {
+        //
         let store = {};
         store = this.threeSetup.initThreeRenderer(pxRatio, antialias, containerElement, store);
         this.scene = store.scene;
@@ -88,7 +89,7 @@ class ThreeAPI {
         this.threeSetup.addToScene(this.threeSetup.getCamera());
 
         this.shaderBuilder.loadShaderData(this.glContext);
-
+        cameraSpatialCursor = new CameraSpatialCursor();
     //    this.threeSetup.activateScreenspaceReflections(this.renderer, this.scene, this.threeSetup.getCamera())
 
     };

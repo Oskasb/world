@@ -1,13 +1,14 @@
 import { InteractiveElement } from "../states/InteractiveElement.js";
+import {Vector3} from "../../../../../libs/three/math/Vector3.js";
 
 class GuiSurface {
     constructor() {
             this.sprite = {x:7, y:0, z:1, w:1};
             this.scale  = {x:1.0, y:1.0, z:1.0};
-            this.centerXY = new THREE.Vector3();
-            this.minXY = new THREE.Vector3();
-            this.maxXY = new THREE.Vector3();
-            this.anchor = new THREE.Vector3();
+            this.centerXY = new Vector3();
+            this.minXY = new Vector3();
+            this.maxXY = new Vector3();
+            this.anchor = new Vector3();
             this.active = false;
             this.inputIndex = -1;
             this.guiPointer = null;

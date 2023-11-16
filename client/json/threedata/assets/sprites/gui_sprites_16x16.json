@@ -347,6 +347,34 @@
             "tiles":[[2, 6]]
           },
           {
+            "id":"CAM_ORBIT",
+            "tiles":[[1, 9]]
+          },
+          {
+            "id":"CAM_TARGET",
+            "tiles":[[2, 9]]
+          },
+          {
+            "id":"CAM_MOVE",
+            "tiles":[[3, 9]]
+          },
+          {
+            "id":"CAM_AHEAD",
+            "tiles":[[4, 9]]
+          },
+          {
+            "id":"CAM_SHOULDER",
+            "tiles":[[5, 9]]
+          },
+          {
+            "id":"CAM_SELECT",
+            "tiles":[[6, 9]]
+          },
+          {
+            "id":"CAM_AUTO",
+            "tiles":[[7, 9]]
+          },
+          {
             "id":"face_1",
             "tiles":[[0, 10]]
           },

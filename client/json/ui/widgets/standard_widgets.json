@@ -536,6 +536,14 @@
               }
             },
             {
+              "id":"widget_camera_status_expanding_container",
+              "layout":"layout_camera_status_expanding_container",
+              "surface": {
+                "nineslice": "nineslice_surface_debug",
+                "feedback": "feedback_surface_anchor"
+              }
+            },
+            {
               "id":"widget_piece_info_name_key",
               "layout":"layout_piece_info_name_key",
               "text": {

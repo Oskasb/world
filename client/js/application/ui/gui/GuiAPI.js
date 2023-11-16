@@ -6,6 +6,7 @@ import { GuiPageSystem } from "./systems/GuiPageSystem.js";
 import { DebugView } from "../../debug/DebugView.js";
 
 let guiTime = 0;
+
 class GuiAPI {
     constructor() {
         let inMenueFlag = false;

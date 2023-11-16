@@ -12,6 +12,7 @@ import { GameAPI } from "../../game/GameAPI.js";
 class Setup {
 
     constructor() {
+        //   window.GuiAPI = new GuiAPI()
         window.DomUtils = new DomUtils();
         this.dataLoader = new DataLoader();
         this.uiSetup = new UiSetup();
@@ -30,6 +31,7 @@ class Setup {
         window.EffectAPI = new EffectAPI();
 
         window.InstanceAPI = new InstanceAPI();
+
         window.ThreeAPI = new ThreeAPI();
         window.GuiAPI = new GuiAPI();
         window.GameAPI = new GameAPI();

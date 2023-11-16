@@ -2,6 +2,9 @@ import { ElementStateProcessor } from "../states/ElementStateProcessor.js";
 import { GuiSurface } from "./GuiSurface.js";
 import { GuiIcon } from "./GuiIcon.js";
 
+import {Vector3} from "../../../../../libs/three/math/Vector3.js";
+import {Quaternion} from "../../../../../libs/three/math/Quaternion.js";
+
 class GuiWidget {
     constructor(configId) {
         this.progString = '';
@@ -10,13 +13,13 @@ class GuiWidget {
     this.elementStateProcessor = new ElementStateProcessor();
             this.configId = configId;
 
-            this.tempVec = new THREE.Vector3();
-            this.pos  = new THREE.Vector3();
-            this.originalPosition = new THREE.Vector3();
-            this.offsetPosition = new THREE.Vector3();
-            this.size = new THREE.Vector3();
-            this.extents = new THREE.Vector3();
-            this.quat = new THREE.Quaternion();
+            this.tempVec = new Vector3();
+            this.pos  = new Vector3();
+            this.originalPosition = new Vector3();
+            this.offsetPosition = new Vector3();
+            this.size = new Vector3();
+            this.extents = new Vector3();
+            this.quat = new Quaternion();
 
             this.guiSurface = new GuiSurface();
             this.text       = null;

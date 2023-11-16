@@ -1,11 +1,13 @@
+import {Vector3} from "../../../../../libs/three/math/Vector3.js";
+
 class ElementStateProcessor {
 
     constructor() {
-        this.offset = new THREE.Vector3();
-        this.anchor = new THREE.Vector3();
-        this.widgetOrigin = new THREE.Vector3();
-        this.widgetExtents = new THREE.Vector3();
-        this.parentExtents = new THREE.Vector3();
+        this.offset = new Vector3();
+        this.anchor = new Vector3();
+        this.widgetOrigin = new Vector3();
+        this.widgetExtents = new Vector3();
+        this.parentExtents = new Vector3();
     };
 
     applyStateToTextElement = function(element, elementState) {

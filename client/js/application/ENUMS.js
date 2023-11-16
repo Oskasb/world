@@ -90,7 +90,8 @@ if(typeof(ENUMS) === "undefined"){
         SKY_GRADIENT_UPDATE:        71,
         SELECT_ADVENTURER:          72,
         LOAD_ITEM:                  73,
-        LOAD_ADVENTURE_ENCOUNTERS:  74
+        LOAD_ADVENTURE_ENCOUNTERS:  74,
+        SET_CAMERA_STATUS:          75
     };
 
 
@@ -159,6 +160,34 @@ if(typeof(ENUMS) === "undefined"){
         CONTROL_TILE_Z:'CONTROL_TILE_Z',
         CONTROL_MOVE_ACTION:'CONTROL_MOVE_ACTION',
         CONTROL_LEAP_ACTION:'CONTROL_LEAP_ACTION'
+    }
+
+    ENUMS.CameraModes = {
+        worldDisplay:'world_display',
+        worldViewer:'world_viewer',
+        activateEncounter:'activate_encounter',
+        actorTurnMovement:'actor_turn_movement',
+        deactivateEncounter:'deactivate_encounter',
+        gameCombat:'game_combat',
+        gameTravel:'game_travel',
+        gameVehicle:'game_vehicle'
+    }
+
+    ENUMS.CameraControls = {
+        CAM_AUTO:'CAM_AUTO',
+        CAM_ORBIT:'CAM_ORBIT',
+        CAM_TARGET:'CAM_TARGET',
+        CAM_MOVE:'CAM_MOVE',
+        CAM_AHEAD:'CAM_AHEAD',
+        CAM_SHOULDER:'CAM_SHOULDER',
+        CAM_SELECT:'CAM_SELECT'
+    }
+
+    ENUMS.CameraStatus = {
+        CAMERA_MODE:'CAMERA_MODE',
+        LOOK_AT:'LOOK_AT',
+        LOOK_FROM:'LOOK_FROM',
+        POINTER_ACTION:'POINTER_ACTION'
     }
 
     ENUMS.TravelMode = {

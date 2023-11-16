@@ -322,6 +322,15 @@
               }
             },
             {
+              "id":"layout_camera_status_expanding_container",
+              "config": {
+                "text":   {"x":1.0, "y":0.0, "fontsize": 8},
+                "anchor": {"x":0.001, "y":0.001, "z":  0.0},
+                "offset": {"x":-4.0, "y":4.0, "z":  0.0},
+                "size":   {"x":"auto", "y":"auto", "z":  0.0, "cols": 1, "pad": 0.008, "gridx": 1, "gridy":-1}
+              }
+            },
+            {
               "id":"layout_progress_action_points",
               "config": {
                 "text":   {"x":0.5, "y":0.15, "fontsize": 4},

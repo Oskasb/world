@@ -3,7 +3,11 @@ import { Vector3 } from "../../../libs/three/math/Vector3.js";
 import { Object3D } from "../../../libs/three/core/Object3D.js";
 import * as CursorUtils from "./CursorUtils.js";
 import {viewEncounterSelection} from "./CameraFunctions.js";
+import { CameraUiSystem } from "../../application/ui/gui/systems/CameraUiSystem.js";
 
+
+let cameraUiSystem;
+let cameraStatus = {}
 
 let calcVec = new Vector3()
 let tempVec3 = new Vector3();
@@ -50,16 +54,7 @@ let camParams = {
     offsetLookAt : [0, 0, 0]
 }
 
-let camModes = {
-    worldDisplay:'world_display',
-    worldViewer:'world_viewer',
-    activateEncounter:'activate_encounter',
-    actorTurnMovement:'actor_turn_movement',
-    deactivateEncounter:'deactivate_encounter',
-    gameCombat:'game_combat',
-    gameTravel:'game_travel',
-    gameVehicle:'game_vehicle'
-}
+let camModes = ENUMS.CameraModes;
 
 let applyCamNavPoint = function(lookAtVec, camPosVec, time, camCallback) {
 
@@ -297,13 +292,16 @@ let updatePathingCamera = function(tilePath, movedObj3d) {
 
 class CameraSpatialCursor {
     constructor() {
+
+        cameraUiSystem = new CameraUiSystem()
+
         cursorObj3d.position.copy(lookAroundPoint);
         camPosVec.copy(lookAroundPoint);
         camParams.mode = camModes.worldDisplay;
 
         let setCamMode = function(evt) {
             let selectedMode = evt.mode;
-
+            cameraUiSystem.setCameraMode(selectedMode, this);
             if (evt.pos) {
                 viewTargetPos.copy(evt.pos);
                 lookAroundPoint.copy(evt.pos);
@@ -421,19 +419,21 @@ class CameraSpatialCursor {
 
 
 
-        let setNavPoint = function(event) {
+
+        let setCameraStatus = function(event) {
 
         }
 
         this.call = {
             setCamMode:setCamMode,
             activePointerUpdate:activePointerUpdate,
-            setNavPoint:setNavPoint,
             setFocusObj3d:setFocusObj3d,
             updatePathingCamera:updatePathingCamera,
             pathCompletedCallback:pathCompletedCallback
 
         }
+
+        evt.on(ENUMS.Event.SET_CAMERA_STATUS, setCameraStatus)
 
     }
 
