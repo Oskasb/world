@@ -4,8 +4,10 @@ import { Object3D } from "../../../libs/three/core/Object3D.js";
 import * as CursorUtils from "./CursorUtils.js";
 import {viewEncounterSelection} from "./CameraFunctions.js";
 import { CameraUiSystem } from "../../application/ui/gui/systems/CameraUiSystem.js";
+import { CameraControls} from "./CameraControls.js";
 
 
+let cameraControls = new CameraControls()
 let cameraUiSystem;
 let cameraStatus = {}
 
@@ -74,44 +76,13 @@ let debugDrawCursor = function() {
 }
 
 let updateCursorFrame = function() {
-    camParams.pos[0] = camPosVec.x + posMod.x;
-    camParams.pos[1] = camPosVec.y + posMod.y;
-    camParams.pos[2] = camPosVec.z + posMod.z;
-    camParams.lookAt[0] = camLookAtVec.x + lookAtMod.x;
-    camParams.lookAt[1] = camLookAtVec.y + lookAtMod.y;
-    camParams.lookAt[2] = camLookAtVec.z + lookAtMod.z;
+    camParams.pos[0] = camPosVec.x // + posMod.x;
+    camParams.pos[1] = camPosVec.y // + posMod.y;
+    camParams.pos[2] = camPosVec.z // + posMod.z;
+    camParams.lookAt[0] = camLookAtVec.x // + lookAtMod.x;
+    camParams.lookAt[1] = camLookAtVec.y //+ lookAtMod.y;
+    camParams.lookAt[2] = camLookAtVec.z //+ lookAtMod.z;
     GameAPI.getGameCamera().updatePlayerCamera(camParams)
-}
-
-let updateWorldDisplay = function() {
-    let offsetFactor = MATH.curveQuad(zoomDistance*0.75)
-
-    lookAtMod.x = Math.sin(GameAPI.getGameTime()*0.15)*offsetFactor*0.2
-    lookAtMod.z = Math.cos(GameAPI.getGameTime()*0.15)*offsetFactor*0.2
-    lookAtMod.y = 0 // ThreeAPI.terrainAt(cursorObj3d.position)+2
-//    camPosVec.copy(lookAroundPoint);
-//    camLookAtVec.copy(lookAroundPoint);
-    //    lookAroundPoint.y = ThreeAPI.terrainAt(lookAroundPoint) ;
-    cursorObj3d.position.copy(lookAroundPoint);
-   cursorObj3d.position.y = ThreeAPI.terrainAt(lookAroundPoint);
-
-
-    camParams.offsetPos[0] = Math.sin(GameAPI.getGameTime()*0.15)*offsetFactor
-    camParams.offsetPos[1] = offsetFactor*0.4 + zoomDistance*0.3 + Math.sin(GameAPI.getGameTime()*0.4)*zoomDistance*0.25
-    camParams.offsetPos[2] = Math.cos(GameAPI.getGameTime()*0.18)*offsetFactor
-
-
-    tempVec3.x = lookAroundPoint.x + camParams.offsetPos[0]
-    tempVec3.y = lookAroundPoint.y + camParams.offsetPos[1]
-    tempVec3.z = lookAroundPoint.z + camParams.offsetPos[2]
-    camTargetPos.lerp(tempVec3, 0.01)
-    camPosVec.lerp(tempVec3, 0.02)
-
-    tempVec3.y = cursorObj3d.position.y + 1.5;
-    tempVec3.x = lookAroundPoint.x + camParams.offsetLookAt[0]
-    tempVec3.z = lookAroundPoint.z + camParams.offsetLookAt[2]
-    camLookAtVec.lerp(tempVec3, 0.05)
-    dragToVec3.copy( cursorObj3d.position)
 }
 
 let updateEncounterActivate = function() {
@@ -290,10 +261,16 @@ let updatePathingCamera = function(tilePath, movedObj3d) {
  //   camLookAtVec.copy(movedObj3d.position);
 }
 
+let cameraStatusEvent = {
+    status_key:'',
+    control_key:'',
+    activate:false
+}
+
 class CameraSpatialCursor {
     constructor() {
 
-        cameraUiSystem = new CameraUiSystem()
+        cameraUiSystem = new CameraUiSystem(cameraControls)
 
         cursorObj3d.position.copy(lookAroundPoint);
         camPosVec.copy(lookAroundPoint);
@@ -301,7 +278,18 @@ class CameraSpatialCursor {
 
         let setCamMode = function(evt) {
             let selectedMode = evt.mode;
-            cameraUiSystem.setCameraMode(selectedMode, this);
+            cameraUiSystem.initCameraUi();
+
+            if (selectedMode === camModes.worldDisplay) {
+                //    updateOrbitPointerCameraInput(pointer)
+
+                cameraStatusEvent['status_key'] =  ENUMS.CameraStatus.CAMERA_MODE
+                cameraStatusEvent['control_key'] = ENUMS.CameraControls.CAM_AUTO;
+                cameraStatusEvent['activate']= true;
+                window.evt.dispatch(ENUMS.Event.SET_CAMERA_STATUS, cameraStatusEvent)
+            }
+
+
             if (evt.pos) {
                 viewTargetPos.copy(evt.pos);
                 lookAroundPoint.copy(evt.pos);
@@ -335,11 +323,29 @@ class CameraSpatialCursor {
         let activePointerUpdate = function(pointer, isFirstPressFrame, released) {
             pointerActive = true;
             if (isFirstPressFrame) {
+
             //    ThreeAPI.copyCameraLookAt(cursorObj3d.position)
                 camPosVec.copy(ThreeAPI.getCamera().position);
                 dragToVec3.copy( cursorObj3d.position)
                 //cursorObj3d.position.copy(lookAroundPoint);
+                let statusKey = ENUMS.CameraStatus.POINTER_ACTION;
+                cameraStatusEvent['status_key'] = statusKey;
+                let controlStatus = cameraControls.getCameraControlStatus(statusKey);
+                cameraStatusEvent['control_key'] = controlStatus['controlKey'];
+                cameraStatusEvent['activate']= true;
+                evt.dispatch(ENUMS.Event.SET_CAMERA_STATUS, cameraStatusEvent)
+
             }
+
+            if (released) {
+                let statusKey = ENUMS.CameraStatus.POINTER_ACTION;
+                cameraStatusEvent['status_key'] = statusKey;
+                let controlStatus = cameraControls.getCameraControlStatus(statusKey);
+                cameraStatusEvent['control_key'] = controlStatus['controlKey'];
+                cameraStatusEvent['activate']= false;
+                evt.dispatch(ENUMS.Event.SET_CAMERA_STATUS, cameraStatusEvent)
+            }
+
             dragFromVec3.copy(cursorObj3d.position);
             pointerDragVector.x = -pointer.dragDistance[0] * 0.1;
             pointerDragVector.y = 0;
@@ -354,6 +360,7 @@ class CameraSpatialCursor {
 
             if (camParams.mode === camModes.worldDisplay) {
             //    updateOrbitPointerCameraInput(pointer)
+
             }
 
             if (camParams.mode === camModes.worldViewer) {
@@ -419,11 +426,6 @@ class CameraSpatialCursor {
 
 
 
-
-        let setCameraStatus = function(event) {
-
-        }
-
         this.call = {
             setCamMode:setCamMode,
             activePointerUpdate:activePointerUpdate,
@@ -433,7 +435,7 @@ class CameraSpatialCursor {
 
         }
 
-        evt.on(ENUMS.Event.SET_CAMERA_STATUS, setCameraStatus)
+        evt.on(ENUMS.Event.SET_CAMERA_STATUS, cameraControls.call.onCamStatusEvent)
 
     }
 
@@ -445,6 +447,10 @@ class CameraSpatialCursor {
 
     setZoomDistance(value) {
         zoomDistance = value;
+    }
+
+    getZoomDistance() {
+        return zoomDistance;
     }
 
     getCursorObj3d = function() {
@@ -499,6 +505,7 @@ class CameraSpatialCursor {
         return tempVec3;
     }
 
+
     updateSpatialCursor = function() {
         let tpf = GameAPI.getFrame().avgTpf
         let selectedActor = GameAPI.getGamePieceSystem().getSelectedGameActor();
@@ -524,6 +531,8 @@ class CameraSpatialCursor {
         cursorTravelVec.y = 0;
     //    cursorTravelVec.add(cursorForward)
 
+        cameraControls.applyCameraControls(tpf, pointerDragVector, dragToVec3, this, camLookAtVec, camPosVec)
+
         let tileSelector;
         let isTileSelecting = false;
         if (selectedActor) {
@@ -543,7 +552,7 @@ class CameraSpatialCursor {
             }
 
             if (camParams.mode === camModes.worldDisplay) {
-                updateWorldDisplay();
+
             //    camLookAtVec.copy(cursorObj3d.position)
                 //    cursorObj3d.position.copy(camLookAtVec)
             } else if (camParams.mode === camModes.activateEncounter) {

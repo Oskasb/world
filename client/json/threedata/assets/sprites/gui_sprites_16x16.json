@@ -375,6 +375,18 @@
             "tiles":[[7, 9]]
           },
           {
+            "id":"CAM_PARTY",
+            "tiles":[[8, 9]]
+          },
+          {
+            "id":"CAM_SEQUENCER",
+            "tiles":[[9, 9]]
+          },
+          {
+            "id":"CAM_ENCOUNTER",
+            "tiles":[[10, 9]]
+          },
+          {
             "id":"face_1",
             "tiles":[[0, 10]]
           },

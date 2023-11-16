@@ -7,6 +7,12 @@ class evt {
             this.setupEvent(eventKeys[key])
         }
 
+        this.camEvt = {
+            status_key:'',
+            control_key:'',
+            activate:false
+        }
+
     }
 
     listeners = [];
@@ -120,6 +126,8 @@ class evt {
 
         return this.evtStatus;
     };
+
+
 
 }
 

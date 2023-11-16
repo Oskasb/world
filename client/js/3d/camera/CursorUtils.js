@@ -33,17 +33,14 @@ function processLookCursorInput(cursorObj3d, dragToVec3, camTargetPos, cursorFor
     return inputAngle;
 }
 
-function processOrbitCursorInput(cursorObj3d, dragToVec3, camTargetPos, cursorForward, pointerDragVector) {
-    camTargetPos.lerp(ThreeAPI.getCamera().position, 0.1);
+function processOrbitCursorInput(cursorObj3d, dragToVec3, offsetPos, cursorForward, pointerDragVector) {
+
     tempObj.position.copy(ThreeAPI.getCamera().position);
     let distance = MATH.distanceBetween(tempObj.position, cursorObj3d.position)
     tempObj.lookAt(cursorObj3d.position);
-    tempVec1.set(pointerDragVector.x*1, pointerDragVector.z*1, 0);
-    tempVec1.applyQuaternion(tempObj.quaternion);
-    tempVec1.multiplyScalar(distance*0.1);
-  //  tempVec1.add(camTargetPos);
-    camTargetPos.add(tempVec1)
-
+    offsetPos.set(pointerDragVector.x*1, pointerDragVector.z*1, 0);
+    offsetPos.applyQuaternion(tempObj.quaternion);
+    offsetPos.multiplyScalar(distance*0.1);
 }
 
 function processTileSelectionCursorInput(tilePath, cursorObj3d, camLookAtVec, dragToVec3, camTargetPos, cursorForward, cursorTravelVec) {

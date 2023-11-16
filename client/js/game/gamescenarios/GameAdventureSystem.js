@@ -36,6 +36,11 @@ class GameAdventureSystem {
 
         let lookAroundPoint = ThreeAPI.getCameraCursor().getLookAroundPoint();
 
+        evt.camEvt.status_key = ENUMS.CameraStatus.CAMERA_MODE;
+        evt.camEvt.control_key = ENUMS.CameraControls.CAM_AUTO;
+        evt.camEvt.activate = true
+        evt.dispatch(ENUMS.Event.SET_CAMERA_STATUS, evt.camEvt)
+
         MATH.vec3FromArray(spatialTransition.targetPos, event.pos);
         spatialTransition.targetPos.y = ThreeAPI.terrainAt(spatialTransition.targetPos);
         ThreeAPI.getCameraCursor().setZoomDistance(3)
@@ -96,7 +101,10 @@ class GameAdventureSystem {
                     GuiAPI.closePage(_this.page)
                 }
                 _this.page = GuiAPI.activatePage(pageId);
-
+                evt.camEvt.status_key = ENUMS.CameraStatus.CAMERA_MODE;
+                evt.camEvt.control_key = ENUMS.CameraControls.CAM_ORBIT;
+                evt.camEvt.activate = true
+                evt.dispatch(ENUMS.Event.SET_CAMERA_STATUS, evt.camEvt)
             }, 200)
         }.bind(this)
 

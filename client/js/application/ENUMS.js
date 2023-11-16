@@ -180,7 +180,10 @@ if(typeof(ENUMS) === "undefined"){
         CAM_MOVE:'CAM_MOVE',
         CAM_AHEAD:'CAM_AHEAD',
         CAM_SHOULDER:'CAM_SHOULDER',
-        CAM_SELECT:'CAM_SELECT'
+        CAM_SELECT:'CAM_SELECT',
+        CAM_PARTY:'CAM_PARTY',
+        CAM_SEQUENCER:'CAM_SEQUENCER',
+        CAM_ENCOUNTER:'CAM_ENCOUNTER'
     }
 
     ENUMS.CameraStatus = {
