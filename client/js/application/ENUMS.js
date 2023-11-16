@@ -183,7 +183,8 @@ if(typeof(ENUMS) === "undefined"){
         CAM_SELECT:'CAM_SELECT',
         CAM_PARTY:'CAM_PARTY',
         CAM_SEQUENCER:'CAM_SEQUENCER',
-        CAM_ENCOUNTER:'CAM_ENCOUNTER'
+        CAM_ENCOUNTER:'CAM_ENCOUNTER',
+        CAM_TRANSLATE:'CAM_TRANSLATE',
     }
 
     ENUMS.CameraStatus = {

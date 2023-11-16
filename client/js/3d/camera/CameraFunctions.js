@@ -240,15 +240,16 @@ function CAM_AUTO() {
 
 function CAM_ORBIT() {
 
-    lerpFactor = tpf*2.5;
+    lerpFactor = tpf*2;
 
     if (pointerAction) {
-        notifyCameraStatus(ENUMS.CameraStatus.POINTER_ACTION, ENUMS.CameraControls.CAM_MOVE, true)
+        notifyCameraStatus(ENUMS.CameraStatus.POINTER_ACTION, ENUMS.CameraControls.CAM_TRANSLATE, true)
         CursorUtils.processOrbitCursorInput(cursorObj3d, dragToVec3, offsetPos, cameraCursor.getForward(), pointerDragVector)
+
         CursorUtils.drawInputCursorState(cursorObj3d, dragToVec3, camTargetPos, cameraCursor.getForward(), camLookAtVec)
     } else {
         offsetPos.set(0, 0, 0)
-        notifyCameraStatus(ENUMS.CameraStatus.POINTER_ACTION, ENUMS.CameraControls.CAM_MOVE, false)
+        notifyCameraStatus(ENUMS.CameraStatus.POINTER_ACTION, ENUMS.CameraControls.CAM_TRANSLATE, false)
     }
 
     if (modeActive) {
@@ -256,13 +257,18 @@ function CAM_ORBIT() {
         cameraTime+= tpf;
         tempVec.copy(cursorObj3d.position)
         tempVec.y += 1.3;
-        camLookAtVec.lerp(tempVec, lerpFactor*1.5)
+        camLookAtVec.lerp(tempVec, lerpFactor)
         tempVec2.copy(camLookAtVec);
-        tempVec.set(0, 0, zoomDistance);
+        tempVec.set(0, 0, 1);
         tempVec.applyQuaternion(ThreeAPI.getCamera().quaternion);
+        if (tempVec.y > 0.6) {
+            tempVec.y = 0.6;
+            tempVec.normalize();
+        }
+        tempVec.multiplyScalar(zoomDistance);
         tempVec.add(tempVec2);
         tempVec.add(offsetPos);
-        camPosVec.lerp(tempVec, lerpFactor*2.2)
+        camPosVec.lerp(tempVec, lerpFactor*1.2)
 
         tempVec3.set(0, 1, 0);
         ThreeAPI.getCamera().up.lerp(tempVec3, tpf*1.5);

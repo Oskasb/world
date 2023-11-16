@@ -43,7 +43,7 @@ class GameAdventureSystem {
 
         MATH.vec3FromArray(spatialTransition.targetPos, event.pos);
         spatialTransition.targetPos.y = ThreeAPI.terrainAt(spatialTransition.targetPos);
-        ThreeAPI.getCameraCursor().setZoomDistance(3)
+        ThreeAPI.getCameraCursor().setZoomDistance(5)
         let actorId = event['actor_id'];
         let pageId = event['page_id'];
         let worldEncounters = event['world_encounters'];

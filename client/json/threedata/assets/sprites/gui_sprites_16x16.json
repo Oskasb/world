@@ -387,6 +387,10 @@
             "tiles":[[10, 9]]
           },
           {
+            "id":"CAM_TRANSLATE",
+            "tiles":[[11, 9]]
+          },
+          {
             "id":"face_1",
             "tiles":[[0, 10]]
           },
