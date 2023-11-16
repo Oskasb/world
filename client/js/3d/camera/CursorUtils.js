@@ -40,15 +40,7 @@ function processOrbitCursorInput(cursorObj3d, dragToVec3, offsetPos, cursorForwa
     tempObj.lookAt(cursorObj3d.position);
     offsetPos.set(pointerDragVector.x*1, MATH.curveSigmoidMirrored(pointerDragVector.z*5)*5, 0);
     offsetPos.applyQuaternion(tempObj.quaternion);
-    tempVec2.copy(offsetPos);
-    tempVec2.normalize();
-    if (tempVec2.y > 0.7) {
-        tempVec2.y = 0.7;
-        tempVec2.normalize();
-    }
-    offsetPos.x *= Math.abs(tempVec2.x*distance*0.1);
-    offsetPos.y *= Math.abs(tempVec2.y*distance*0.1);
-    offsetPos.z *= Math.abs(tempVec2.z*distance*0.1);
+    offsetPos.multiplyScalar(distance*0.1)
 
 }
 

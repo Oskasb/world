@@ -5,7 +5,10 @@ let statusControls = {}
 let camModeParams = {}
 function setCameraStatusControl(statusKey, controlKey, activeBool) {
     statusControls[statusKey]['controlKey'] = ENUMS.CameraControls[controlKey]
-    statusControls[statusKey]['isActive']   = activeBool
+    if (activeBool !== null) {
+        statusControls[statusKey]['isActive']   = activeBool
+    }
+
 }
 
 function onCamStatusEvent(event) {

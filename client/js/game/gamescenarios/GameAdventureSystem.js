@@ -30,7 +30,10 @@ class GameAdventureSystem {
             GuiAPI.closePage(client.page)
             client.page = null;
 
-
+            evt.camEvt.status_key = ENUMS.CameraStatus.CAMERA_MODE;
+            evt.camEvt.control_key = ENUMS.CameraControls.CAM_AUTO;
+            evt.camEvt.activate = true
+            evt.dispatch(ENUMS.Event.SET_CAMERA_STATUS, evt.camEvt)
             return;
         }
 

@@ -1,5 +1,38 @@
 import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
 
+function processCameraStatus(actor) {
+    let travelMode = actor.getStatus(ENUMS.ActorStatus.TRAVEL_MODE);
+
+    let statusKey = ENUMS.CameraStatus.CAMERA_MODE;
+    let controlKey = ENUMS.CameraControls.CAM_AUTO;
+
+    if (travelMode === ENUMS.TravelMode.TRAVEL_MODE_FLY) {
+        controlKey = ENUMS.CameraControls.CAM_ORBIT;
+    }
+
+    if (travelMode === ENUMS.TravelMode.TRAVEL_MODE_INACTIVE) {
+        controlKey = ENUMS.CameraControls.CAM_AUTO;
+    }
+
+    if (travelMode === ENUMS.TravelMode.TRAVEL_MODE_WALK) {
+        controlKey = ENUMS.CameraControls.CAM_AHEAD;
+    }
+
+    if (travelMode === ENUMS.TravelMode.TRAVEL_MODE_JETPACK) {
+        controlKey = ENUMS.CameraControls.CAM_AUTO;
+    }
+
+    if (travelMode === ENUMS.TravelMode.TRAVEL_MODE_BATTLE) {
+        controlKey = ENUMS.CameraControls.CAM_AUTO;
+    }
+
+    evt.camEvt['status_key'] = statusKey;
+    evt.camEvt['control_key'] = controlKey;
+    evt.camEvt['activate'] = null;
+    evt.dispatch(ENUMS.Event.SET_CAMERA_STATUS, evt.camEvt)
+
+}
+
 class ActorStatusProcessor {
     constructor() {
         this.indicators = {};
@@ -65,7 +98,12 @@ class ActorStatusProcessor {
 
     }
 
+
+
     processActorStatus(actor) {
+        if (actor.isPlayerActor()) {
+            processCameraStatus(actor)
+        }
         this.indicateSelectionStatus(actor)
     }
 
