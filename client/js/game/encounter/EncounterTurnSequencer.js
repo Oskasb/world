@@ -75,6 +75,7 @@ class EncounterTurnSequencer {
         this.turnActorIndex = 0;
         while(this.actors.length) {
             let actor = this.actors.pop();
+            actor.setStatusKey(ENUMS.ActorStatus.SEQUENCER_SELECTED, false);
             actor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, false);
             actor.setStatusKey(ENUMS.ActorStatus.IN_COMBAT, false);
         }

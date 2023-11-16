@@ -55,7 +55,7 @@
                   "widget_class":"GuiExpandingContainer",
                   "widget_config_id":"button_big_blue",
                   "options":{
-                    "text":"BEGIN",
+                    "text":"PLAY",
                     "container_id":"page_start_center",
                     "offset_x": 0.14,
                     "offset_y": -0.35,

@@ -245,7 +245,6 @@ class VisualGamePiece {
 
     updateAnimatedGamePiece(tpf, gameTime) {
         this.pieceAnimator.updatePieceAnimations(tpf, gameTime);
-        this.pieceAttacher.tickAttacher();
 
         this.getSpatial().call.getMovement(tempVec);
         let frameVelocity = tempVec.length() / tpf

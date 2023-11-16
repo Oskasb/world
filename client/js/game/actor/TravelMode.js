@@ -71,7 +71,7 @@ function activateTravelMode(actr, mode, activateCB, deactivateCB) {
 
         spatialTransition.targetPos.copy(actor.getPos());
         spatialTransition.targetPos.y += 4;
-        spatialTransition.targetPos.add(actor.getForward());
+        spatialTransition.targetPos.add(actor.getForward().multiplyScalar(0.1));
         spatialTransition.initSpatialTransition(actor.getPos(), spatialTransition.targetPos, 1.3, isUp, 1, null, onFrameUpdate)
         deactivateCB()
     }

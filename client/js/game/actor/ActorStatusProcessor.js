@@ -25,10 +25,10 @@ class ActorStatusProcessor {
     }
 
 
-    processSelectionStatus(actor) {
+    indicateSelectionStatus(actor) {
 
         if (!this.indicators['actor']) {
-            this.attachIndicator('actor', actor)
+            this.attachIndicator('actor', actor, 0, 4)
         }
 
         if (actor.getStatus(ENUMS.ActorStatus.PARTY_SELECTED)) {
@@ -66,7 +66,7 @@ class ActorStatusProcessor {
     }
 
     processActorStatus(actor) {
-        this.processSelectionStatus(actor)
+        this.indicateSelectionStatus(actor)
     }
 
     clearActorStatus(actor) {

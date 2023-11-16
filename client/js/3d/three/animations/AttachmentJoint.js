@@ -67,7 +67,7 @@ class AttachmentJoint {
         }
 
         this.attachedSpatial.stickToDynamicJoint(this.dynamicBone);
-
+        evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos: this.attachedSpatial.obj3d.position, color:'GREEN', size:0.2})
         MATH.callAll(this.positionUpdateCallbacks, this.dynamicPosition)
 
     };

@@ -30,7 +30,7 @@ class ActorEquipment {
             let slotId = item.getEquipSlotId();
         //    let slot = MATH.getFromArrayByKeyValue(this.slots, 'slot_id', slotId);
 
-            //    let oldItem = itemSlot.removeSlotitem();
+            //        let oldItem = itemSlot.removeSlotitem();
             //    evt.dispatch(ENUMS.Event.UNEQUIP_ITEM, {item:oldItem, time:0.6});
             itemSlot.setSlotItem(item);
             if (dynamicJoint.key === 'SKIN') {
@@ -44,6 +44,29 @@ class ActorEquipment {
             }
 
         }.bind(this);
+
+
+        let unequipActorItem = function(item) {
+            if (this.items.indexOf(item) !== -1) {
+                MATH.splice(this.items, item);
+            }
+
+            updateAddModifiers(this.items)
+
+            let itemSlot = this.getSlotForItem(item);
+            let dynamicJoint = this.getJointForItemSlot(itemSlot);
+            let slotId = item.getEquipSlotId();
+            itemSlot.setSlotItem(null);
+            if (dynamicJoint.key === 'SKIN') {
+                this.getModel().detatchInstancedModel(item.modelInstance)
+                ThreeAPI.unregisterPrerenderCallback(item.callbacks.tickPieceEquippedItem);
+
+            } else {
+                dynamicJoint.detachAttachedEntity(item.getSpatial());
+                ThreeAPI.unregisterPrerenderCallback(dynamicJoint.callbacks.updateAttachedSpatial);
+            }
+
+        }.bind(this)
 
         let getEquipmentStatusKey = function(key, store) {
             for (let i = 0; i < equipmentAddModifiers.length; i++) {
@@ -72,6 +95,7 @@ class ActorEquipment {
 
         this.call = {
             equipActorItem:equipActorItem,
+            unequipActorItem:unequipActorItem,
             showEquipment:showEquipment,
             hideEquipment:hideEquipment,
             getEquipmentStatusKey:getEquipmentStatusKey
@@ -175,6 +199,7 @@ class ActorEquipment {
     removeAllItems() {
         while (this.items.length) {
             let item = this.items.pop();
+            this.call.unequipActorItem(item);
             item.disposeItem()
         }
     }

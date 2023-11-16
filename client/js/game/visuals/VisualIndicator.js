@@ -13,10 +13,10 @@ let defaults = {
 }
 
 let colorMap = {};
-colorMap['FRIENDLY']       = {r:0.05,   g:1,   b:0.1, a:0.5};
-colorMap['NEUTRAL']    = {r:1,   g:0.6, b:-0.4, a:0.5};
-colorMap['HOSTILE']       = {r:1,   g:-0.6,   b:-0.6,   a:0.8};
-colorMap['ITEM']       = {r:-0.3,   g:0.4, b:1,   a:0.8};
+colorMap['FRIENDLY']   = {r:0.01,  g:0.2,   b:0.01,  a:0.2};
+colorMap['NEUTRAL']    = {r:0.2,   g:0.2,   b:0.0,   a:0.2};
+colorMap['HOSTILE']    = {r:0.2,   g:0.01,  b:0.01,  a:0.2};
+colorMap['ITEM']       = {r:0,     g:0.1,  b:0.1,   a:0.2};
 
 class VisualIndicator {
     constructor() {
@@ -28,8 +28,6 @@ class VisualIndicator {
 
         this.indicators = [];
 
-
-
         let updateIndicator = function(tpf, time) {
             this.indicateSelectedTargetPiece(tpf, time, this.spin, this.scale, this.pulsate, this.rate)
         }.bind(this)
@@ -39,14 +37,6 @@ class VisualIndicator {
         }
     }
 
-    addPointerPieceCameraModifiers(posVec) {
-        tempVec3.copy(posVec);
-        tempVec3.sub(GameAPI.getMainCharPiece().getPos())
-        tempVec3.multiplyScalar(0.15);
-        GameAPI.getGameCamera().addLookAtModifierVec3(tempVec3);
-        tempVec3.multiplyScalar(0.55);
-        GameAPI.getGameCamera().addPositionModifierVec3(tempVec3);
-    }
 
     indicateActor(actor, alignment, spriteX, spriteY, spin, scale, pulsate, rate) {
 
@@ -76,7 +66,8 @@ class VisualIndicator {
             GameAPI.registerGameUpdateCallback(this.call.updateIndicator)
         }.bind(this);
 
-        EffectAPI.buildEffectClassByConfigId('additive_stamps_8x8', 'effect_character_indicator',  effectCb)
+        EffectAPI.buildEffectClassByConfigId('additive_stamps_8x8', 'stamp_additive_pool',  effectCb)
+        EffectAPI.buildEffectClassByConfigId('overlay_stamps_8x8', 'stamp_overlay_pool',  effectCb)
     }
 
     indicateSelectedTargetPiece(tpf, time, spinSpeed, scale, pulsate, rate) {

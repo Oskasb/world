@@ -62,7 +62,7 @@ class GameAdventureSystem {
         let actorLoaded = function(actor) {
 
             let itemCallback = function(item) {
-                item.getSpatial().setScaleXYZ(1, 1, 1)
+            //    item.getSpatial().setScaleXYZ(1, 1, 1)
                 actor.equipItem(item);
             }
             let onActorReady = function() {
@@ -102,7 +102,7 @@ class GameAdventureSystem {
 
         let distance = MATH.distanceBetween(spatialTransition.targetPos, lookAroundPoint);
 
-        spatialTransition.initSpatialTransition(lookAroundPoint, spatialTransition.targetPos, 1, onArriveCB, distance*0.5, 'curveSigmoid')
+        spatialTransition.initSpatialTransition(lookAroundPoint, spatialTransition.targetPos, 1, onArriveCB, 15+distance*0.25, 'curveSigmoid')
 
     }
 

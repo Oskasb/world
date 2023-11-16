@@ -19,10 +19,10 @@ let cursorTravelVec = new Vector3();
 let cursorForward = new Vector3();
 let walkForward = new Vector3();
 let viewTargetPos = new Vector3();
-let zoomDistance = 10;
+let zoomDistance = 15;
 let actorQuat = null;
 
-let lookAroundPoint = new Vector3(-885, 0, 530)
+let lookAroundPoint = new Vector3(-865, 0, 540)
 
 let posMod = new Vector3();
 let lookAtMod = new Vector3();
@@ -89,17 +89,21 @@ let updateCursorFrame = function() {
 }
 
 let updateWorldDisplay = function() {
+    let offsetFactor = MATH.curveQuad(zoomDistance*0.75)
 
-    lookAtMod.x = Math.sin(GameAPI.getGameTime()*0.15)*zoomDistance*0.5
-    lookAtMod.z = Math.cos(GameAPI.getGameTime()*0.15)*zoomDistance*0.5
+    lookAtMod.x = Math.sin(GameAPI.getGameTime()*0.15)*offsetFactor*0.2
+    lookAtMod.z = Math.cos(GameAPI.getGameTime()*0.15)*offsetFactor*0.2
     lookAtMod.y = 0 // ThreeAPI.terrainAt(cursorObj3d.position)+2
 //    camPosVec.copy(lookAroundPoint);
 //    camLookAtVec.copy(lookAroundPoint);
+    //    lookAroundPoint.y = ThreeAPI.terrainAt(lookAroundPoint) ;
     cursorObj3d.position.copy(lookAroundPoint);
-//    cursorObj3d.position.y = ThreeAPI.terrainAt(lookAroundPoint);
-    camParams.offsetPos[0] = Math.sin(GameAPI.getGameTime()*0.15)*zoomDistance*5
-    camParams.offsetPos[1] = 3*zoomDistance + Math.sin(GameAPI.getGameTime()*0.4)*zoomDistance + cursorObj3d.position.y
-    camParams.offsetPos[2] = Math.cos(GameAPI.getGameTime()*0.18)*zoomDistance*5
+   cursorObj3d.position.y = ThreeAPI.terrainAt(lookAroundPoint);
+
+
+    camParams.offsetPos[0] = Math.sin(GameAPI.getGameTime()*0.15)*offsetFactor
+    camParams.offsetPos[1] = offsetFactor*0.4 + zoomDistance*0.3 + Math.sin(GameAPI.getGameTime()*0.4)*zoomDistance*0.25
+    camParams.offsetPos[2] = Math.cos(GameAPI.getGameTime()*0.18)*offsetFactor
 
 
     tempVec3.x = lookAroundPoint.x + camParams.offsetPos[0]
@@ -108,7 +112,7 @@ let updateWorldDisplay = function() {
     camTargetPos.lerp(tempVec3, 0.01)
     camPosVec.lerp(tempVec3, 0.02)
 
-    tempVec3.y = ThreeAPI.terrainAt(tempVec3);
+    tempVec3.y = cursorObj3d.position.y + 1.5;
     tempVec3.x = lookAroundPoint.x + camParams.offsetLookAt[0]
     tempVec3.z = lookAroundPoint.z + camParams.offsetLookAt[2]
     camLookAtVec.lerp(tempVec3, 0.05)
