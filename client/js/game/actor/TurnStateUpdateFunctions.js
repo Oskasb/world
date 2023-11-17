@@ -65,7 +65,7 @@ function updateActorEvaluateTarget(tpf) {
     let actor = getSequencer().getGameActor()
     let seqTime = getSequencer().getSequenceProgress()
 
-    actor.turnTowardsPos(getSequencer().getTargetActor().getPos())
+    actor.turnTowardsPos(getSequencer().getTargetActor().getPos(), tpf)
 
     evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:actor.getPos(), to:getSequencer().getTargetActor().getPos(), color:'WHITE'});
     let target = getSequencer().getTargetActor();

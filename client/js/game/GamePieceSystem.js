@@ -3,6 +3,7 @@ import { VisualGamePiece } from "./visuals/VisualGamePiece.js";
 import { GameActor } from "./actor/GameActor.js";
 import { PlayerParty } from "./Player/PlayerParty.js";
 import { Item } from "./gamepieces/Item.js";
+import { ConfigData } from "../application/utils/ConfigData.js";
 
 
 let visualConfigs = {};
@@ -12,22 +13,20 @@ let itemConfigs = {};
 let loadItem = function(event) {
 
     let itemConfig = itemConfigs[event['id']]
-
     let visualConfig = visualConfigs[itemConfig['visual_id']];
-
     let visualPiece = new VisualGamePiece(visualConfig);
-    let item = new Item(visualPiece, itemConfig)
 
     let visualReadyCB = function(visualGP) {
 
         console.log("Visual Piece: ", visualGP)
     //    visualGP.obj3d = item.obj3d;
 
+    //
+        let item = new Item(event['id'], visualPiece, itemConfig)
         if (event.pos) {
             item.getPos().copy(event.pos);
-            visualGP.getSpatial().call.applyInstanceBuffers()
         }
-
+        visualGP.getSpatial().call.applyInstanceBuffers()
         event.callback(item)
     }
 
@@ -36,7 +35,7 @@ let loadItem = function(event) {
 
 let loadActor = function(event) {
     let actorConfig = actorConfigs[event.id]
-    let actor = new GameActor(actorConfig);
+    let actor = new GameActor(actorConfig, parsedEquipSlotData);
 
     let visualConfig = visualConfigs[actor.config['visual_id']];
 
@@ -75,15 +74,18 @@ let loadActor = function(event) {
 
 }
 
+let parsedEquipSlotData
 class GamePieceSystem {
     constructor() {
 
         this.playerParty = new PlayerParty();
         this.selectedActor = null;
 
+
     }
 
     initGamePieceSystem = function() {
+        parsedEquipSlotData = new ConfigData("GAME", "EQUIP_SLOTS").parseConfigData()
         let onData = function(data) {
             visualConfigs = data;
             //        console.log("visualConfigs", visualConfigs)

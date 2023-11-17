@@ -47,6 +47,7 @@ class GridTileSelector {
         this.moveVec3 = new Vector3();
         this.framePos = new Vector3();
         this.translation = new Vector3();
+        this.extendedDistance = 0;
         this.effects = [];
 
         let updateTileSelector = function() {
@@ -65,6 +66,7 @@ class GridTileSelector {
             this.moveVec3.y = this.framePos.y - this.initPos.y;
             this.translation.copy(this.framePos);
             this.translation.sub(this.initPos);
+            this.extendedDistance = this.translation.length();
             for (let i = 0; i < this.effects.length; i++) {
                 let effect = this.effects[i]
                 effect.setEffectPosition(this.framePos)

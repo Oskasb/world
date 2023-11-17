@@ -4,7 +4,9 @@ let statusList = [];
 let statusControls = {}
 let camModeParams = {}
 function setCameraStatusControl(statusKey, controlKey, activeBool) {
-    statusControls[statusKey]['controlKey'] = ENUMS.CameraControls[controlKey]
+    if (typeof (controlKey) === 'string') {
+        statusControls[statusKey]['controlKey'] = ENUMS.CameraControls[controlKey]
+    }
     if (activeBool !== null) {
         statusControls[statusKey]['isActive']   = activeBool
     }
@@ -46,7 +48,9 @@ class CameraControls {
         camModeParams.camPosVec = camPosVec;
         camModeParams.statusControls = statusControls;
         updateCamParams(camModeParams);
-        CAM_MODES[statusControls[ENUMS.CameraStatus.CAMERA_MODE]['controlKey']]();
+        if (statusControls[ENUMS.CameraStatus.CAMERA_MODE]['isActive']) {
+            CAM_MODES[statusControls[ENUMS.CameraStatus.CAMERA_MODE]['controlKey']]();
+        }
     }
 
 }

@@ -154,13 +154,13 @@ class DynamicTile {
 
         let dynamicGridTile = this;
         let pos = this.getPos()
-        let lodDistance = pos.distanceTo(lodCenter)
+        let lodDistance = pos.distanceTo(ThreeAPI.getCamera().position)
         let rgba = this.rgba
         let tileSize = this.spacing*margin || 1;
 
         let isVisible = aaBoxTestVisibility(pos,  tileSize, tileSize*2, tileSize)
         let borrowedBox = borrowBox();
-        let farness = MATH.calcFraction(0, maxDistance, lodDistance * 2.0)  //MATH.clamp( (camDist / maxDistance) * 1.0, 0, 1)
+        let farness = MATH.calcFraction(0, maxDistance, lodDistance * 1.5)  //MATH.clamp( (camDist / maxDistance) * 1.0, 0, 1)
         let nearness = 1-farness;
         let lodLevel = Math.floor(farness * (lodLevels));
         if (this.nearness > nearness) {

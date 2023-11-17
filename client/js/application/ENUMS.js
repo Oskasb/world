@@ -185,6 +185,9 @@ if(typeof(ENUMS) === "undefined"){
         CAM_SEQUENCER:'CAM_SEQUENCER',
         CAM_ENCOUNTER:'CAM_ENCOUNTER',
         CAM_TRANSLATE:'CAM_TRANSLATE',
+        CAM_GRID:'CAM_GRID',
+        CAM_HIGH:'CAM_HIGH',
+        CAM_LEVEL:'CAM_LEVEL'
     }
 
     ENUMS.CameraStatus = {

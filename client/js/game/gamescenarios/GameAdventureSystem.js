@@ -1,4 +1,5 @@
 import { SpatialTransition } from "../piece_functions/SpatialTransition.js";
+import {notifyCameraStatus} from "../../3d/camera/CameraFunctions.js";
 
 let spatialTransition
 
@@ -12,37 +13,31 @@ class GameAdventureSystem {
     selectAdventure(event) {
 
         let actor = this.startActor;
-
+        notifyCameraStatus(ENUMS.CameraStatus.CAMERA_MODE, ENUMS.CameraControls.CAM_AUTO, true)
+        notifyCameraStatus(ENUMS.CameraStatus.LOOK_AT, ENUMS.CameraControls.CAM_TARGET, true)
+        notifyCameraStatus(ENUMS.CameraStatus.LOOK_FROM, ENUMS.CameraControls.CAM_AUTO, true)
         if (event['activate_selection'] === true) {
-        //    actor.activateWalkGrid(3);
+            //    actor.activateWalkGrid(3);
 
             setTimeout(function() {
                 actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_WALK)
                 actor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, true)
-        //        actor.getGameWalkGrid().deactivateWalkGrid();
+                //        actor.getGameWalkGrid().deactivateWalkGrid();
             }, 1000)
 
 
             GameAPI.getGamePieceSystem().addActorToPlayerParty(this.startActor);
             GameAPI.getGamePieceSystem().playerParty.selectPartyActor(this.startActor);
-        //    this.startActor.travelMode.mode = null;
+            //    this.startActor.travelMode.mode = null;
             GuiAPI.closePage(this.page);
             GuiAPI.closePage(client.page)
             client.page = null;
 
-            evt.camEvt.status_key = ENUMS.CameraStatus.CAMERA_MODE;
-            evt.camEvt.control_key = ENUMS.CameraControls.CAM_AUTO;
-            evt.camEvt.activate = true
-            evt.dispatch(ENUMS.Event.SET_CAMERA_STATUS, evt.camEvt)
+
             return;
         }
 
         let lookAroundPoint = ThreeAPI.getCameraCursor().getLookAroundPoint();
-
-        evt.camEvt.status_key = ENUMS.CameraStatus.CAMERA_MODE;
-        evt.camEvt.control_key = ENUMS.CameraControls.CAM_AUTO;
-        evt.camEvt.activate = true
-        evt.dispatch(ENUMS.Event.SET_CAMERA_STATUS, evt.camEvt)
 
         MATH.vec3FromArray(spatialTransition.targetPos, event.pos);
         spatialTransition.targetPos.y = ThreeAPI.terrainAt(spatialTransition.targetPos);
@@ -69,10 +64,10 @@ class GameAdventureSystem {
 
         let actorLoaded = function(actor) {
 
-            let itemCallback = function(item) {
-            //    item.getSpatial().setScaleXYZ(1, 1, 1)
+            let equipCb = function(item) {
                 actor.equipItem(item);
             }
+
             let onActorReady = function() {
 
                 let status = event['status']
@@ -85,13 +80,12 @@ class GameAdventureSystem {
 
                 if (equippedItems) {
                     for (let i = 0; i < equippedItems.length; i++) {
-                        evt.dispatch(ENUMS.Event.LOAD_ITEM, {id: equippedItems[i], pos: actor.getPos(), callback:itemCallback})
+                        evt.dispatch(ENUMS.Event.LOAD_ITEM, {id: equippedItems[i], callback:equipCb})
                     }
                 }
             }
 
             actor.activateGameActor(onActorReady);
-
             this.startActor = actor;
         }.bind(this);
 
@@ -104,10 +98,7 @@ class GameAdventureSystem {
                     GuiAPI.closePage(_this.page)
                 }
                 _this.page = GuiAPI.activatePage(pageId);
-                evt.camEvt.status_key = ENUMS.CameraStatus.CAMERA_MODE;
-                evt.camEvt.control_key = ENUMS.CameraControls.CAM_ORBIT;
-                evt.camEvt.activate = true
-                evt.dispatch(ENUMS.Event.SET_CAMERA_STATUS, evt.camEvt)
+                notifyCameraStatus(ENUMS.CameraStatus.CAMERA_MODE, ENUMS.CameraControls.CAM_ORBIT, true)
             }, 200)
         }.bind(this)
 
@@ -116,6 +107,7 @@ class GameAdventureSystem {
         spatialTransition.initSpatialTransition(lookAroundPoint, spatialTransition.targetPos, 1, onArriveCB, 15+distance*0.25, 'curveSigmoid')
 
     }
+
 
 }
 

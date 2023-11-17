@@ -84,6 +84,7 @@ class DynamicMain {
     };
 
     requestAssetInstance = function(assetId, callback) {
+        let assets = this.assets;
 
         let instanceReady = function(modelInstance) {
             this.instancePointer++;
@@ -93,14 +94,27 @@ class DynamicMain {
             callback(modelInstance);
         }.bind(this);
 
-        let asset = this.assets[assetId];
+        let asset = assets[assetId];
 
         if (asset) {
             asset.instantiateAsset(instanceReady);
         } else {
 
             let postLoadCB = function(loadedAsset) {
-                loadedAsset.instantiateAsset(instanceReady);
+
+                let warmup = function(modelInstance) {
+                    modelInstance.activateInstancedModel();
+                    modelInstance.decommissionInstancedModel()
+                    asset = assets[assetId];
+
+                    let instantiate = function() {
+                        asset.instantiateAsset(instanceReady);
+                    }
+                    window.requestAnimationFrame(instantiate)
+
+                }
+
+                loadedAsset.instantiateAsset(warmup);
             }
 
             this.requestAsset(assetId, postLoadCB)

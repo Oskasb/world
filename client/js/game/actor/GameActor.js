@@ -14,9 +14,10 @@ import { ActorStatusProcessor } from "./ActorStatusProcessor.js";
 let index = 0;
 let tempVec = new Vector3();
 let tempStore = [];
+let tempObj = new Object3D();
 
 class GameActor {
-    constructor(config) {
+    constructor(config, parsedEquipSlotData) {
         this.index = index;
         index++;
         this.actorStatusProcessor = new ActorStatusProcessor();
@@ -28,7 +29,7 @@ class GameActor {
         this.activated = false;
         this.actorObj3d = new Object3D();
         this.config = config;
-        this.actorEquipment = new ActorEquipment()
+        this.actorEquipment = new ActorEquipment(parsedEquipSlotData)
         this.visualGamePiece = null;
 
         this.velocity = new Vector3()
@@ -156,8 +157,7 @@ class GameActor {
     inspectTilePath(tilePath) {
         if (tilePath.pathTiles.length > 1) {
             tempVec.copy(tilePath.getEndTile().getPos());
-            tempVec.y = this.actorObj3d.position.y;
-            this.actorObj3d.lookAt(tempVec)
+            this.turnTowardsPos(tempVec)
         }
     };
 
@@ -176,6 +176,10 @@ class GameActor {
 
     equipItem(item) {
         this.actorEquipment.call.equipActorItem(item);
+    }
+
+    unequipItem(item) {
+        this.actorEquipment.call.unequipActorItem(item);
     }
 
     getVisualGamePiece() {
@@ -236,7 +240,6 @@ class GameActor {
     prepareTilePath(toPos) {
         let gameWalkGrid = this.getGameWalkGrid()
         gameWalkGrid.buildGridPath(toPos, this.getPos())
-        this.inspectTilePath(gameWalkGrid.getActiveTilePath())
     }
 
     moveActorOnGridTo(pos, onMoveEnded) {
@@ -269,10 +272,11 @@ class GameActor {
 
     }
 
-    turnTowardsPos(posVec) {
-        tempVec.copy(posVec);
-        tempVec.y = this.actorObj3d.position.y
-        this.actorObj3d.lookAt(tempVec)
+    turnTowardsPos(posVec, alpha) {
+        tempObj.position.copy(this.actorObj3d.position)
+        tempObj.position.y = posVec.y;
+        tempObj.lookAt(posVec);
+        this.actorObj3d.quaternion.slerp(tempObj.quaternion, alpha || 0.1)
     }
 
     updateGameActor = function() {
@@ -280,10 +284,11 @@ class GameActor {
         this.travelMode.updateTravelMode(this);
 
         this.getPos().add(this.velocity);
+        let speed = this.velocity.length()
 
-        if (this.velocity.length() < 0.001) {
+        if (speed < 0.001) {
             if (MATH.distanceBetween(this.getPos(), this.actorObj3d.position) > 0.001) {
-                this.turnTowardsPos(this.getPos())
+                this.turnTowardsPos(this.getPos(), MATH.clamp(speed*10, 0.05, 0.5));
             }
         } else {
             ThreeAPI.getCameraCursor().getPos().copy(this.getPos())

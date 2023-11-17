@@ -1,9 +1,15 @@
 import { ConfigData } from "../../application/utils/ConfigData.js";
 import { ItemSlot } from "../gamepieces/ItemSlot.js";
 
+let parsedConfigData;
+
 class ActorEquipment {
-    constructor() {
+    constructor(parsedEquipSlotData) {
         this.items = [];
+
+        if (!parsedConfigData) {
+            parsedConfigData = parsedEquipSlotData;
+        }
 
         let equipmentAddModifiers = [];
 
@@ -105,7 +111,7 @@ class ActorEquipment {
 
     activateActorEquipment(actor, equipSlotConfigId) {
         this.actor = actor;
-        this.slots = new ConfigData("GAME", "EQUIP_SLOTS").parseConfigData()[equipSlotConfigId].data.slots;
+        this.slots = parsedConfigData[equipSlotConfigId].data.slots;
         this.itemSlots = {};
         this.slotToJointMap = {};
 

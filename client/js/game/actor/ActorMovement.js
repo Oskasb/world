@@ -10,6 +10,19 @@ class ActorMovement {
     constructor() {
 
         this.spatialTransition = new SpatialTransition();
+
+         let pathingUpdate = function() {
+
+         }
+
+        let pathingCompleted = function() {
+console.log("Pathing Completed")
+        }
+
+        this.call = {
+            pathingUpdate:pathingUpdate,
+            pathingCompleted:pathingCompleted
+        }
     }
 
     tileSelectionActive(actor) {
@@ -22,6 +35,7 @@ class ActorMovement {
         } else {
             if (tileSelector.hasValue()) {
                 actor.prepareTilePath(tileSelector.getPos());
+                actor.turnTowardsPos(tileSelector.getPos())
             }
         }
     }
@@ -33,10 +47,11 @@ class ActorMovement {
             actor.setStatusKey(ENUMS.ActorStatus.SELECTING_DESTINATION, 0);
             let tileSelector = walkGrid.gridTileSelector;
             if (tileSelector.hasValue()) {
-                console.log("MOVE ACTION - deactivate")
+            //    console.log("MOVE ACTION - Complete")
+                actor.actorText.say("Path Selected")
                 actor.prepareTilePath(tileSelector.getPos());
             //    actor.moveActorOnGridTo(tileSelector.getPos(), walkGrid.call.deactivate)
-                walkGrid.applySelectedPath(ThreeAPI.getCameraCursor().call.updatePathingCamera, ThreeAPI.getCameraCursor().call.pathCompletedCallback)
+                walkGrid.applySelectedPath(this.call.pathingUpdate, this.call.pathingCompleted)
             }
 
             tileSelector.moveAlongX(0);

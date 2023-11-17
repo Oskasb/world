@@ -83,7 +83,6 @@ class ControlFunctions {
 
     CONTROL_SPEED(value, actor) {
         let tpf = GameAPI.getFrame().avgTpf;
-        console.log("SPEED: ", value)
         let forward = actor.getStatus(ENUMS.ActorStatus.STATUS_FORWARD);
         actor.setStatusKey(ENUMS.ActorStatus.STATUS_FORWARD, MATH.clamp(forward + value*tpf, -1.0, 1.0))
     }

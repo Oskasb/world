@@ -41,8 +41,6 @@ class VisualGamePiece {
         }.bind(this);
 
             let setupModel = function(pieceReady) {
-
-
                 ModelUtils.setupVisualModel(this, this.assetId, this.config, pieceReady);
             }.bind(this)
 
@@ -71,6 +69,7 @@ class VisualGamePiece {
                 this.getSpatial().call.hideSpatial(false)
             } else {
                 ThreeAPI.showModel(this.getSpatial().obj3d)
+                this.getSpatial().obj3d.frustumCulled = false;
                 this.enablePieceAnimations()
             }
 

@@ -1,6 +1,23 @@
 import {Vector3} from "../../../libs/three/math/Vector3.js";
 import * as CursorUtils from "./CursorUtils.js";
 
+let CAM_MODES = {
+    CAM_AUTO:CAM_AUTO,
+    CAM_ORBIT:CAM_ORBIT,
+    CAM_MOVE:CAM_MOVE,
+    CAM_SELECT:CAM_SELECT,
+    CAM_PARTY:CAM_PARTY,
+    CAM_SEQUENCER:CAM_SEQUENCER,
+    CAM_ENCOUNTER:CAM_ENCOUNTER,
+    CAM_GRID:CAM_GRID
+}
+
+let CAM_POINTS = {
+    CAM_AHEAD:CAM_AHEAD,
+    CAM_SHOULDER:CAM_SHOULDER,
+    CAM_TARGET:CAM_TARGET
+}
+
 let lerpFactor = 0.1;
 let tempVec = new Vector3();
 let tempVec2 = new Vector3();
@@ -22,12 +39,30 @@ let pointerDragVector;
 let modeActive;
 let lookAtActive;
 let lookFromActive;
+let isFirstPressFrame;
+let pointerReleased;
+let selectedActor;
+let pointerActive = false;
+let lookAtControlKey;
+let lookFromControlKey;
+let pointerControlKey
+let tileSelector;
+let isTileSelecting = false;
+
 function updateCamParams(camParams) {
     tpf = camParams.tpf;
-    pointerAction = statusActive(camParams, ENUMS.CameraStatus.POINTER_ACTION)
-    lookAtActive = statusActive(camParams, ENUMS.CameraStatus.LOOK_AT)
-    lookFromActive = statusActive(camParams, ENUMS.CameraStatus.LOOK_FROM)
-    modeActive = statusActive(camParams, ENUMS.CameraStatus.CAMERA_MODE)
+    selectedActor = GameAPI.getGamePieceSystem().getSelectedGameActor();
+    tileSelector = null;
+    isTileSelecting = false;
+
+    if (selectedActor) {
+        let walkGrid = selectedActor.getGameWalkGrid();
+        if (selectedActor.getStatus(ENUMS.ActorStatus.SELECTING_DESTINATION) === 1) {
+            tileSelector = walkGrid.gridTileSelector;
+            isTileSelecting = tileSelector.hasValue();
+        }
+    }
+
     lookAroundPoint = camParams.cameraCursor.getLookAroundPoint();
     cursorObj3d = camParams.cameraCursor.getCursorObj3d();
     cameraCursor =  camParams.cameraCursor
@@ -35,8 +70,52 @@ function updateCamParams(camParams) {
     camLookAtVec = camParams.camLookAtVec;
     pointerDragVector = camParams.pointerDragVector;
     dragToVec3 = camParams.dragToVec3;
-    zoomDistance = camParams.cameraCursor.getZoomDistance();
+
+    zoomDistance = cameraCursor.getZoomDistance();
+    isFirstPressFrame = cameraCursor.isFirstPressFrame;
+    pointerReleased= cameraCursor.pointerReleased;
+
+    pointerAction = statusActive(camParams, ENUMS.CameraStatus.POINTER_ACTION)
+    pointerControlKey  = statusControlKey(camParams, ENUMS.CameraStatus.POINTER_ACTION)
+    lookAtActive = statusActive(camParams, ENUMS.CameraStatus.LOOK_AT)
+    lookAtControlKey = statusControlKey(camParams, ENUMS.CameraStatus.LOOK_AT)
+    lookFromActive = statusActive(camParams, ENUMS.CameraStatus.LOOK_FROM)
+    lookFromControlKey = statusControlKey(camParams, ENUMS.CameraStatus.LOOK_FROM)
+   // console.log("Look From ", lookFromActive, lookFromControlKey);
+
+    modeActive = statusActive(camParams, ENUMS.CameraStatus.CAMERA_MODE)
+
 }
+
+function applyPointerMove() {
+    cursorObj3d.position.copy(selectedActor.actorObj3d.position);
+    let moveAction = selectedActor.getControl(ENUMS.Controls.CONTROL_MOVE_ACTION);
+
+    if (pointerAction) {
+        if (moveAction === 2) {
+            selectedActor.setControlKey(ENUMS.Controls.CONTROL_MOVE_ACTION, 1)
+        }
+        selectedActor.setControlKey(ENUMS.Controls.CONTROL_TILE_X, pointerDragVector.x * 0.02)
+        selectedActor.setControlKey(ENUMS.Controls.CONTROL_TILE_Z, pointerDragVector.z * 0.02)
+        pointerActive = true;
+    } else {
+        if (pointerActive === true) {
+            selectedActor.setControlKey(ENUMS.Controls.CONTROL_MOVE_ACTION, 2)
+            selectedActor.setControlKey(ENUMS.Controls.CONTROL_TILE_X, 0)
+            selectedActor.setControlKey(ENUMS.Controls.CONTROL_TILE_Z, 0)
+            pointerActive = false;
+        }
+    }
+}
+
+function lerpCameraPosition(towardsPos, alpha) {
+    camPosVec.lerp(towardsPos, alpha)
+}
+
+function lerpCameraLookAt(towardsPos, alpha) {
+    camLookAtVec.lerp(towardsPos, alpha)
+}
+
 
 function notifyCameraStatus(statusKey, controlKey, isActive) {
     evt.camEvt['status_key'] = ENUMS.CameraStatus[statusKey];
@@ -50,6 +129,10 @@ let leftOrRight = [1, -1]
 
 function statusActive(camModeParams, controlKey) {
     return camModeParams.statusControls[ENUMS.CameraStatus[controlKey]]['isActive']
+}
+
+function statusControlKey(camModeParams, controlKey) {
+    return camModeParams.statusControls[ENUMS.CameraStatus[controlKey]]['controlKey']
 }
 
 function viewTileSelect(sequencer) {
@@ -119,7 +202,7 @@ function viewTargetSelection(sequencer, candidates) {
 
     calcAttackCamPosition(actor, distance*2 + 4, camTargetPos);
     camTargetPos.lerp(camHome,1-MATH.curveSigmoid(seqTime));
-   // camTargetPos.y += Math.sin(seqTime * Math.PI*0.5)*5
+    // camTargetPos.y += Math.sin(seqTime * Math.PI*0.5)*5
 
 
 }
@@ -133,7 +216,7 @@ let calcAttackCamPosition = function(actor, distance, storeVec) {
 }
 
 let calcShouldCamPosition = function(actor, distance, storeVec) {
-    storeVec.set(side * 0.15, 0.5, -0.5);
+    storeVec.set(side * 0.19, 0.2, -0.5);
     storeVec.normalize();
     storeVec.multiplyScalar(distance);
     storeVec.applyQuaternion(actor.getVisualGamePiece().getQuat())
@@ -186,19 +269,16 @@ function viewEncounterSelection(camTPos, camLookAt, tpf) {
             camLookAt.lerp(tempVec, tpf);
         }
 
-        partySelection.turnTowardsPos(camLookAt)
+        partySelection.turnTowardsPos(camLookAt, tpf)
         calcShouldCamPosition(partySelection, 6, tempVec)
-    //    tempVec.add(partySelection.getPos())
+        //    tempVec.add(partySelection.getPos())
 
         camTPos.lerp(tempVec, tpf*8);
     }
 }
 
 
-
 function CAM_AUTO() {
-
-
 
     if (pointerAction) {
         notifyCameraStatus(ENUMS.CameraStatus.POINTER_ACTION, ENUMS.CameraControls.CAM_MOVE, true)
@@ -228,19 +308,19 @@ function CAM_AUTO() {
     offsetPos.z = Math.cos(cameraTime*0.18)*offsetFactor
 
     tempVec3.addVectors(lookAroundPoint, offsetPos)
-    camTargetPos.lerp(tempVec3, 0.01)
-    camPosVec.lerp(tempVec3, 0.02)
+//    camTargetPos.lerp(tempVec3, 0.01)
+
+    lerpCameraPosition(tempVec3, tpf*2)
 
     tempVec3.y = cursorObj3d.position.y + 1.5;
     tempVec3.x = lookAroundPoint.x
     tempVec3.z = lookAroundPoint.z
-    camLookAtVec.lerp(tempVec3, 0.05)
-
+    lerpCameraLookAt(tempVec3, tpf*4)
 }
 
 function CAM_ORBIT() {
 
-    lerpFactor = tpf*2;
+    lerpFactor = tpf*2.5;
 
     if (pointerAction) {
         notifyCameraStatus(ENUMS.CameraStatus.POINTER_ACTION, ENUMS.CameraControls.CAM_TRANSLATE, true)
@@ -257,7 +337,8 @@ function CAM_ORBIT() {
         cameraTime+= tpf;
         tempVec.copy(cursorObj3d.position)
         tempVec.y += 1.3;
-        camLookAtVec.lerp(tempVec, lerpFactor)
+
+        lerpCameraLookAt(tempVec, lerpFactor)
         tempVec2.copy(camLookAtVec);
         tempVec.set(0, 0, 1);
         tempVec.applyQuaternion(ThreeAPI.getCamera().quaternion);
@@ -268,15 +349,13 @@ function CAM_ORBIT() {
         tempVec.multiplyScalar(zoomDistance);
         tempVec.add(tempVec2);
         tempVec.add(offsetPos);
-        camPosVec.lerp(tempVec, lerpFactor*1.2)
+        lerpCameraPosition(tempVec, lerpFactor)
 
         tempVec3.set(0, 1, 0);
         ThreeAPI.getCamera().up.lerp(tempVec3, tpf*1.5);
     } else {
         notifyCameraStatus(ENUMS.CameraStatus.CAMERA_MODE, ENUMS.CameraControls.CAM_ORBIT, false)
     }
-
-
 
 }
 
@@ -286,14 +365,35 @@ function CAM_TARGET() {
 
 function CAM_MOVE() {
 
+    if (!selectedActor) {
+        return;
+    }
+
+    applyPointerMove()
+
+    if (lookAtActive) {
+        zoomDistance = 8;
+        lerpCameraLookAt(CAM_POINTS[lookAtControlKey](selectedActor), tpf*5);
+    }
+
+    if (lookFromActive) {
+        zoomDistance = 5;
+        lerpCameraPosition(CAM_POINTS[lookFromControlKey](selectedActor), tpf*5);
+    }
+
+
 }
 
-function CAM_AHEAD() {
-
+function CAM_AHEAD(actor) {
+    calcPositionAhead(actor, zoomDistance, tempVec);
+    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:tempVec, color:'RED', size:0.2})
+    return tempVec;
 }
 
-function CAM_SHOULDER() {
-
+function CAM_SHOULDER(actor) {
+    calcShouldCamPosition(actor, zoomDistance, tempVec);
+    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:tempVec, color:'PURPLE', size:0.2})
+    return tempVec;
 }
 
 function CAM_SELECT() {
@@ -312,25 +412,83 @@ function CAM_ENCOUNTER() {
 
 }
 
-let CAM_MODES = {
-    CAM_AUTO:CAM_AUTO,
-    CAM_ORBIT:CAM_ORBIT,
-    CAM_TARGET:CAM_TARGET,
-    CAM_MOVE:CAM_MOVE,
-    CAM_AHEAD:CAM_AHEAD,
-    CAM_SHOULDER:CAM_SHOULDER,
-    CAM_SELECT:CAM_SELECT,
-    CAM_PARTY:CAM_PARTY,
-    CAM_SEQUENCER:CAM_SEQUENCER,
-    CAM_ENCOUNTER:CAM_ENCOUNTER
+let updateTileSelectorActive = function(actor, tileSelector) {
+
+    let targetDistance = 8;
+    let targetElevation = 2;
+    tempVec3.set(0, 0, -targetDistance);
+    tempVec3.applyQuaternion(cursorObj3d.quaternion);
+    tempVec3.add(cursorObj3d.position);
+    cursorObj3d.position.copy(actor.getPos());
+    tempVec.copy(tileSelector.translation);
+    tempVec.multiplyScalar(0.5);
+    cursorObj3d.position.add(tempVec);
+    let distance = MATH.clamp(tileSelector.translation.length(), 1, 20);
+    tempVec3.y += targetElevation + distance * 2
+    cursorObj3d.position.y += 2 / distance;
+    MATH.lerpClamped(camPosVec, tempVec3, tpf*distance, 0.05, 0.5);
+
+    if (tileSelector.hasValue()) {
+
+        tempVec.copy(camLookAtVec)
+        MATH.lerpClamped(camLookAtVec, cursorObj3d.position, tpf*distance, 0.05, 0.5);
+        cursorObj3d.position.copy(camLookAtVec);
+        tempVec.sub(camLookAtVec);
+        camPosVec.sub(tempVec)
+    }
+
+}
+
+function CAM_GRID() {
+
+    if (!selectedActor) {
+        return;
+    }
+
+    applyPointerMove()
+
+    if (tileSelector) {
+    //    updateTileSelectorActive(selectedActor, tileSelector)
+    }
+
+    let distance = 1;
+
+        zoomDistance = 2;
+        if (tileSelector) {
+            distance += tileSelector.extendedDistance;
+            zoomDistance += distance*0.5;
+        }
+
+    tempVec3.set(0, 0, 1);
+    tempVec3.applyQuaternion(ThreeAPI.getCamera().quaternion);
+    tempVec3.y = 0;
+    tempVec3.normalize()
+    tempVec3.y = 1;
+    tempVec3.multiplyScalar(2);
+    tempVec2.copy(CAM_POINTS[lookAtControlKey](selectedActor))
+    tempVec.copy(tempVec2);
+    tempVec.x += tempVec3.x * (3 + distance*0.5);
+    tempVec.y += 6 + distance * 0.9;
+    tempVec.z += tempVec3.z * (3 + distance*0.5);
+
+    if (lookFromActive) {
+        lerpCameraPosition(tempVec, tpf*2);
+    }
+
+    if (lookAtActive) {
+        lerpCameraLookAt(tempVec2, tpf*2);
+    }
+
 }
 
 export {
+    notifyCameraStatus,
     updateCamParams,
     viewTileSelect,
     viewTargetSelection,
     viewPrecastAction,
     viewEncounterSelection,
-    CAM_MODES
+    CAM_MODES,
+    CAM_POINTS
 
 }

@@ -1,6 +1,7 @@
 class Item {
 
-    constructor(visualGamePiece, config) {
+    constructor(configId, visualGamePiece, config) {
+        this.configId = configId;
         this.config = config;
         this.visualGamePiece = visualGamePiece;
 
@@ -20,8 +21,6 @@ class Item {
             return addModifiers
         }
 
-
-
         this.call = {
             getAddModifiers:getAddModifiers
         }
@@ -35,6 +34,10 @@ class Item {
 
     hide() {
         this.visualGamePiece.call.hideVisualPiece();
+    }
+
+    getItemConfigId() {
+        return this.configId;
     }
 
     getEquipSlotId() {

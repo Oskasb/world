@@ -2,7 +2,7 @@
 import { Vector3 } from "../../../libs/three/math/Vector3.js";
 import { Object3D } from "../../../libs/three/core/Object3D.js";
 import * as CursorUtils from "./CursorUtils.js";
-import {viewEncounterSelection} from "./CameraFunctions.js";
+import {notifyCameraStatus, viewEncounterSelection} from "./CameraFunctions.js";
 import { CameraUiSystem } from "../../application/ui/gui/systems/CameraUiSystem.js";
 import { CameraControls} from "./CameraControls.js";
 
@@ -195,41 +195,6 @@ let updateWalkCamera = function(activeTilePath) {
 
 }
 
-let updateTileSelectorActive = function(actor, tileSelector) {
-
-    let targetDistance = 8;
-    let targetElevation = 2;
-    tempVec3.set(0, 0, -targetDistance);
-    tempVec3.applyQuaternion(cursorObj3d.quaternion);
-    tempVec3.add(cursorObj3d.position);
-    cursorObj3d.position.copy(actor.getPos());
-    calcVec.copy(tileSelector.translation);
-    calcVec.multiplyScalar(0.5);
-    cursorObj3d.position.add(calcVec);
-    let distance = MATH.clamp(tileSelector.translation.length(), 1, 20);
-    tempVec3.y += targetElevation + distance * 2
-    cursorObj3d.position.y += 2 / distance;
-    MATH.lerpClamped(camPosVec, tempVec3, tpf*distance, 0.05, 0.5);
-
-    if (tileSelector.hasValue()) {
-
-        calcVec.copy(camLookAtVec)
-        MATH.lerpClamped(camLookAtVec, cursorObj3d.position, tpf*distance, 0.05, 0.5);
-        cursorObj3d.position.copy(camLookAtVec);
-        calcVec.sub(camLookAtVec);
-        camPosVec.sub(calcVec)
-    }
-
-}
-
-
-let modeHistory = [];
-
-let camCB = function() {
-    cursorObj3d.position.x = navPoint.lookAt[0];
-    cursorObj3d.position.y = navPoint.lookAt[1];
-    cursorObj3d.position.z = navPoint.lookAt[2];
-}
 
 let pathCompletedCallback = function(movedObj3d) {
     cursorObj3d.position.copy(movedObj3d.position)
@@ -271,11 +236,14 @@ class CameraSpatialCursor {
     constructor() {
 
         cameraUiSystem = new CameraUiSystem(cameraControls)
-
         cursorObj3d.position.copy(lookAroundPoint);
         camPosVec.copy(lookAroundPoint);
         camParams.mode = camModes.worldDisplay;
 
+        let spatialCursor = this;
+        spatialCursor.pointer = null;
+        spatialCursor.isFirstPressFrame = false;
+        spatialCursor.pointerReleased = false;
         let setCamMode = function(evt) {
             let selectedMode = evt.mode;
             cameraUiSystem.initCameraUi();
@@ -319,31 +287,21 @@ class CameraSpatialCursor {
         }
 
 
-
         let activePointerUpdate = function(pointer, isFirstPressFrame, released) {
+            spatialCursor.pointer = pointer;
+            spatialCursor.isFirstPressFrame = isFirstPressFrame;
+            spatialCursor.pointerReleased = released;
             pointerActive = true;
-            if (isFirstPressFrame) {
 
-            //    ThreeAPI.copyCameraLookAt(cursorObj3d.position)
+            if (isFirstPressFrame) {
+                console.log("isFirstPressFrame", isFirstPressFrame)
+                notifyCameraStatus(ENUMS.CameraStatus.POINTER_ACTION, null, true)
                 camPosVec.copy(ThreeAPI.getCamera().position);
                 dragToVec3.copy( cursorObj3d.position)
-                //cursorObj3d.position.copy(lookAroundPoint);
-                let statusKey = ENUMS.CameraStatus.POINTER_ACTION;
-                cameraStatusEvent['status_key'] = statusKey;
-                let controlStatus = cameraControls.getCameraControlStatus(statusKey);
-                cameraStatusEvent['control_key'] = controlStatus['controlKey'];
-                cameraStatusEvent['activate']= true;
-                evt.dispatch(ENUMS.Event.SET_CAMERA_STATUS, cameraStatusEvent)
-
             }
 
             if (released) {
-                let statusKey = ENUMS.CameraStatus.POINTER_ACTION;
-                cameraStatusEvent['status_key'] = statusKey;
-                let controlStatus = cameraControls.getCameraControlStatus(statusKey);
-                cameraStatusEvent['control_key'] = controlStatus['controlKey'];
-                cameraStatusEvent['activate']= false;
-                evt.dispatch(ENUMS.Event.SET_CAMERA_STATUS, cameraStatusEvent)
+                notifyCameraStatus(ENUMS.CameraStatus.POINTER_ACTION, null, false)
             }
 
             dragFromVec3.copy(cursorObj3d.position);
@@ -357,20 +315,12 @@ class CameraSpatialCursor {
 
             let selectedActor = GameAPI.getGamePieceSystem().getSelectedGameActor();
 
-
-            if (camParams.mode === camModes.worldDisplay) {
-            //    updateOrbitPointerCameraInput(pointer)
-
-            }
-
             if (camParams.mode === camModes.worldViewer) {
                 if (released) {
                     lerpFactor = tpf;
                 } else {
 
                     updateWorldLook();
-
-
 
                     if (selectedActor) {
                         selectedActor.getPos().copy(cursorObj3d.position)
@@ -380,38 +330,6 @@ class CameraSpatialCursor {
                 }
             }
 
-            if (camParams.mode === camModes.gameTravel) {
-                navPoint.callback = null;
-
-                let selectedActor = GameAPI.getGamePieceSystem().getSelectedGameActor();
-
-                if (!selectedActor) {
-                    return;
-                }
-
-                let gameWalkGrid = selectedActor.getGameWalkGrid()
-
-                cursorObj3d.position.copy(selectedActor.actorObj3d.position);
-
-                if (isFirstPressFrame) {
-                    selectedActor.setControlKey(ENUMS.Controls.CONTROL_MOVE_ACTION, 1)
-
-                //    gameWalkGrid.activateWalkGrid(selectedActor.actorObj3d)
-                } else if (released) {
-                    selectedActor.setControlKey(ENUMS.Controls.CONTROL_MOVE_ACTION, 2)
-                    selectedActor.setControlKey(ENUMS.Controls.CONTROL_TILE_X, 0)
-                    selectedActor.setControlKey(ENUMS.Controls.CONTROL_TILE_Z, 0)
-                } else {
-
-                    let tileSelector = gameWalkGrid.gridTileSelector;
-                    selectedActor.setControlKey(ENUMS.Controls.CONTROL_TILE_X, pointerDragVector.x*0.02)
-                    selectedActor.setControlKey(ENUMS.Controls.CONTROL_TILE_Z, pointerDragVector.z*0.02)
-
-                //    let selectedPath = gameWalkGrid.buildGridPath(dragToVec3, selectedActor.getVisualGamePiece().getSpatial().getPos())
-                //    selectedActor.inspectTilePath(selectedPath)
-                }
-            //    updateWalkCamera(gameWalkGrid.getActiveTilePath());
-            }
 
             if (camParams.mode === camModes.gameVehicle) {
                 let selectedActor = GameAPI.getGamePieceSystem().getSelectedGameActor();
@@ -419,7 +337,7 @@ class CameraSpatialCursor {
                 if (selectedActor) {
                     cursorObj3d.position.copy(selectedActor.getPos())
                 }
-                updateOrbitPointerCameraInput(pointer)
+            //    updateOrbitPointerCameraInput(pointer)
             }
 
         }
@@ -545,7 +463,7 @@ class CameraSpatialCursor {
         }
 
         if (isTileSelecting) {
-            updateTileSelectorActive(selectedActor, tileSelector);
+        //    updateTileSelectorActive(selectedActor, tileSelector);
         } else {
             if (selectedActor) {
         //        selectedActor.actorText.say(camParams.mode)
@@ -588,24 +506,6 @@ class CameraSpatialCursor {
             } else if (camParams.mode === camModes.gameTravel) {
             //    camPosVec.lerp(camTargetPos, tpf * 4 ) // + lerpFactor * 2)
 
-                if (!selectedActor) return;
-
-                if (selectedActor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET)) {
-                    viewEncounterSelection(camTargetPos, camLookAtVec, tpf)
-                    camPosVec.lerp(camTargetPos, tpf * 8 )
-                } else {
-                    let forward = selectedActor.getForward();
-                    let distance = MATH.clamp(MATH.distanceBetween(selectedActor.actorObj3d.position, ThreeAPI.camera.position), 2, 6)
-                    forward.multiplyScalar(3 + selectedActor.getStatus(ENUMS.ActorStatus.STATUS_SPEED)*10)
-                    tempVec3.addVectors(forward, selectedActor.actorObj3d.position);
-                    cursorObj3d.position.lerp(tempVec3, tpf*4)
-                    camLookAtVec.lerp(cursorObj3d.position, tpf*2.5);
-                    forward.multiplyScalar(-(1+distance*0.3));
-                    tempVec3.addVectors(forward, selectedActor.actorObj3d.position);
-                    tempVec3.y += 1 + distance;
-                    camTargetPos.copy(tempVec3)
-                    camPosVec.lerp(camTargetPos, tpf * 2) // + lerpFactor * 2)
-                }
 
             } else {
                 viewEncounterSelection(camTargetPos, camLookAtVec, tpf)

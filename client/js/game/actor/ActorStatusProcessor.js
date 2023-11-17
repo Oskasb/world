@@ -1,10 +1,16 @@
 import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
+import {notifyCameraStatus} from "../../3d/camera/CameraFunctions.js";
 
 function processCameraStatus(actor) {
     let travelMode = actor.getStatus(ENUMS.ActorStatus.TRAVEL_MODE);
 
     let statusKey = ENUMS.CameraStatus.CAMERA_MODE;
     let controlKey = ENUMS.CameraControls.CAM_AUTO;
+
+    let partySelected = actor.getStatus(ENUMS.ActorStatus.PARTY_SELECTED);
+    let sequencerSelected = actor.getStatus(ENUMS.ActorStatus.SEQUENCER_SELECTED);
+    let hasTurn = actor.getStatus(ENUMS.ActorStatus.HAS_TURN);
+    let selectedTarget = actor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET);
 
     if (travelMode === ENUMS.TravelMode.TRAVEL_MODE_FLY) {
         controlKey = ENUMS.CameraControls.CAM_ORBIT;
@@ -15,7 +21,18 @@ function processCameraStatus(actor) {
     }
 
     if (travelMode === ENUMS.TravelMode.TRAVEL_MODE_WALK) {
-        controlKey = ENUMS.CameraControls.CAM_AHEAD;
+
+
+        if (partySelected) {
+            controlKey = ENUMS.CameraControls.CAM_MOVE;
+            notifyCameraStatus( ENUMS.CameraStatus.LOOK_AT, ENUMS.CameraControls.CAM_AHEAD, null)
+            notifyCameraStatus( ENUMS.CameraStatus.LOOK_FROM, ENUMS.CameraControls.CAM_SHOULDER, null)
+        } else {
+            controlKey = ENUMS.CameraControls.CAM_GRID;
+            notifyCameraStatus( ENUMS.CameraStatus.LOOK_AT, ENUMS.CameraControls.CAM_AHEAD, null)
+            notifyCameraStatus( ENUMS.CameraStatus.LOOK_FROM, ENUMS.CameraControls.CAM_HIGH, null)
+        }
+
     }
 
     if (travelMode === ENUMS.TravelMode.TRAVEL_MODE_JETPACK) {
@@ -26,10 +43,7 @@ function processCameraStatus(actor) {
         controlKey = ENUMS.CameraControls.CAM_AUTO;
     }
 
-    evt.camEvt['status_key'] = statusKey;
-    evt.camEvt['control_key'] = controlKey;
-    evt.camEvt['activate'] = null;
-    evt.dispatch(ENUMS.Event.SET_CAMERA_STATUS, evt.camEvt)
+    notifyCameraStatus( statusKey, controlKey, null)
 
 }
 
