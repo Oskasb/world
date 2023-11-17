@@ -41,7 +41,7 @@ function processOrbitCursorInput(cursorObj3d, dragToVec3, offsetPos, cursorForwa
     offsetPos.set(pointerDragVector.x*1, MATH.curveSigmoidMirrored(pointerDragVector.z*5)*5, 0);
     offsetPos.applyQuaternion(tempObj.quaternion);
     offsetPos.multiplyScalar(distance*0.1)
-
+    return distance;
 }
 
 function processTileSelectionCursorInput(tilePath, cursorObj3d, camLookAtVec, dragToVec3, camTargetPos, cursorForward, cursorTravelVec) {

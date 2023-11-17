@@ -80,8 +80,9 @@ function checkTriggerPlayer(encounter) {
                 selectedActor.getGameWalkGrid().setTargetPosition(encounter.getPos())
                 selectedActor.getGameWalkGrid().cancelActivePath()
                 selectedActor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, false);
-
-                evt.dispatch(ENUMS.Event.SET_CAMERA_MODE, {mode:'activate_encounter', pos:encounter.getPos(), camPos:encounter.getTriggeredCameraHome()})
+                selectedActor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_INACTIVE);
+                ThreeAPI.getCameraCursor().getLookAroundPoint().copy(encounter.getPos())
+            //    evt.dispatch(ENUMS.Event.SET_CAMERA_MODE, {mode:'activate_encounter', pos:encounter.getPos(), camPos:encounter.getTriggeredCameraHome()})
             //    selectedActor.getGameWalkGrid().buildGridPath(selectedActor.getPos(), selectedActor.getPos());
             //    selectedActor.getGameWalkGrid().applySelectedPath()
                 console.log("Activate Encounter Triggered Transition")
@@ -93,6 +94,7 @@ function checkTriggerPlayer(encounter) {
                 encounterEvent.grid_id = encounter.config.grid_id;
                 encounterEvent.spawn = encounter.config.spawn;
                 encounterEvent.cam_pos = encounter.getTriggeredCameraHome();
+                selectedActor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_BATTLE);
                 evt.dispatch(ENUMS.Event.GAME_MODE_BATTLE, encounterEvent)
             }
         } else {

@@ -154,7 +154,6 @@ class ThreeMaterial {
 
     };
 
-
     applyMaterialSettings = function(shader, props, cb) {
 
         if (this.mat !== null) {
@@ -228,8 +227,8 @@ class ThreeMaterial {
                     ].join( '\n' )
                 );
 
-                console.log(shader.vertexShader)
-                console.log("Make instanced: ", shader)
+            //    console.log(shader.vertexShader)
+                console.log("Make instanced: ", [shader])
             };
         }
 
@@ -237,7 +236,7 @@ class ThreeMaterial {
 
 
 
-        console.log("mat", mat)
+    //    console.log("mat", mat)
 
         cb(mat);
     };

@@ -35,7 +35,7 @@ console.log("Pathing Completed")
         } else {
             if (tileSelector.hasValue()) {
                 actor.prepareTilePath(tileSelector.getPos());
-                actor.turnTowardsPos(tileSelector.getPos())
+                actor.turnTowardsPos(tileSelector.getPos() , GameAPI.getFrame().avgTpf * tileSelector.extendedDistance * 0.3);
             }
         }
     }
@@ -98,7 +98,7 @@ console.log("Pathing Completed")
             actor.setStatusKey(ENUMS.ActorStatus.SELECTING_DESTINATION, 0);
             console.log("LEAP SELECTED")
 
-            actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_INACTIVE);
+            actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_LEAP);
             let tile = walkGrid.getTileAtPosition(tileSelector.getPos())
             let distance = MATH.distanceBetween(tile.getPos(), actor.getPos());
             actor.actorText.say("Leap")

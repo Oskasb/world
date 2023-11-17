@@ -4,7 +4,6 @@
       {
         "id":"TRAVEL_MODE_INACTIVE",
         "data":{
-          "camera_mode": "game_travel",
           "status": {
 
           },
@@ -17,9 +16,37 @@
         }
       },
       {
+        "id":"TRAVEL_MODE_BATTLE",
+        "data":{
+          "status": {
+            "MOVEMENT_SPEED": 7,
+            "ACTOR_SPEED": 0,
+            "ACTOR_YAW_RATE": 8,
+            "STATUS_FORWARD": 0
+          },
+          "inputs": [
+            {"class_name": "GuiAxisSlider",
+              "widget_config": "widget_thumbstick",
+              "controls":["CONTROL_TILE_X","CONTROL_TILE_Z"],
+              "on_active": ["CONTROL_MOVE_ACTION"],
+              "options":{
+                "anchor": "stick_bottom_right",
+                "icon": "directional_arrows",
+                "axis": [-1, 1],
+                "release": [1, 1],
+                "range": [0.1, 0.1],
+                "offsets": [-0.05, 0.05]
+              }
+            }
+          ],
+          "feedback": [
+
+          ]
+        }
+      },
+      {
         "id":"TRAVEL_MODE_WALK",
         "data":{
-          "camera_mode": "game_travel",
           "status": {
             "MOVEMENT_SPEED": 7,
             "ACTOR_SPEED": 0,
@@ -108,7 +135,6 @@
       {
         "id":"TRAVEL_MODE_JETPACK",
         "data":{
-          "camera_mode": "game_travel",
           "status": {
             "MOVEMENT_SPEED": 24,
             "ACTOR_SPEED": 0,

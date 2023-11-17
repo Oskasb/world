@@ -81,15 +81,9 @@ class GameMain {
             return gameWalkGrid;
         }.bind(this)
 
-        let activateGameBattleMode = function(event) {
-            console.log("Activate battle mode", event)
 
-        //    gameWalkGrid.deactivateWalkGrid(event)
-
-        };
 
         this.call = {
-            activateGameBattleMode:activateGameBattleMode,
             activateGameWalkGrid:activateGameWalkGrid,
             setActiveNavPointGroup:setActiveNavPointGroup,
             renderActiveNavPointGroup:renderActiveNavPointGroup

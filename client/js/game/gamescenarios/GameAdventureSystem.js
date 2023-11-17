@@ -14,8 +14,8 @@ class GameAdventureSystem {
 
         let actor = this.startActor;
         notifyCameraStatus(ENUMS.CameraStatus.CAMERA_MODE, ENUMS.CameraControls.CAM_AUTO, true)
-        notifyCameraStatus(ENUMS.CameraStatus.LOOK_AT, ENUMS.CameraControls.CAM_TARGET, true)
-        notifyCameraStatus(ENUMS.CameraStatus.LOOK_FROM, ENUMS.CameraControls.CAM_AUTO, true)
+        notifyCameraStatus(ENUMS.CameraStatus.LOOK_AT, ENUMS.CameraControls.CAM_TARGET, false)
+        notifyCameraStatus(ENUMS.CameraStatus.LOOK_FROM, ENUMS.CameraControls.CAM_HIGH, false)
         if (event['activate_selection'] === true) {
             //    actor.activateWalkGrid(3);
 
@@ -23,6 +23,12 @@ class GameAdventureSystem {
                 actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_WALK)
                 actor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, true)
                 //        actor.getGameWalkGrid().deactivateWalkGrid();
+
+                notifyCameraStatus(ENUMS.CameraStatus.CAMERA_MODE, ENUMS.CameraControls.CAM_MOVE, true)
+                notifyCameraStatus(ENUMS.CameraStatus.LOOK_AT, ENUMS.CameraControls.CAM_AHEAD, true)
+                notifyCameraStatus(ENUMS.CameraStatus.LOOK_FROM, ENUMS.CameraControls.CAM_PARTY, true)
+                notifyCameraStatus( ENUMS.CameraStatus.POINTER_ACTION, ENUMS.CameraControls.CAM_MOVE, null)
+
             }, 1000)
 
 
@@ -68,8 +74,8 @@ class GameAdventureSystem {
                 actor.equipItem(item);
             }
 
-            let onActorReady = function() {
 
+            let delayed = function() {
                 let status = event['status']
 
                 for (let key in status) {
@@ -83,6 +89,12 @@ class GameAdventureSystem {
                         evt.dispatch(ENUMS.Event.LOAD_ITEM, {id: equippedItems[i], callback:equipCb})
                     }
                 }
+
+
+            }
+
+            let onActorReady = function() {
+                setTimeout(delayed, 500);
             }
 
             actor.activateGameActor(onActorReady);
@@ -98,7 +110,7 @@ class GameAdventureSystem {
                     GuiAPI.closePage(_this.page)
                 }
                 _this.page = GuiAPI.activatePage(pageId);
-                notifyCameraStatus(ENUMS.CameraStatus.CAMERA_MODE, ENUMS.CameraControls.CAM_ORBIT, true)
+
             }, 200)
         }.bind(this)
 

@@ -14,6 +14,7 @@ let CAM_POINTS = {
     CAM_AHEAD:CAM_AHEAD,
     CAM_SHOULDER:CAM_SHOULDER,
     CAM_TARGET:CAM_TARGET,
+    CAM_HIGH:CAM_HIGH,
     CAM_PARTY:CAM_PARTY,
     CAM_SEQUENCER:CAM_SEQUENCER
 }
@@ -338,9 +339,11 @@ function CAM_ORBIT() {
 
     lerpFactor = tpf*2.5;
 
+    let distance = 5;
+
     if (pointerAction) {
         notifyCameraStatus(ENUMS.CameraStatus.POINTER_ACTION, ENUMS.CameraControls.CAM_TRANSLATE, true)
-        CursorUtils.processOrbitCursorInput(cursorObj3d, dragToVec3, offsetPos, cameraCursor.getForward(), pointerDragVector)
+        distance += CursorUtils.processOrbitCursorInput(cursorObj3d, dragToVec3, offsetPos, cameraCursor.getForward(), pointerDragVector)
 
         CursorUtils.drawInputCursorState(cursorObj3d, dragToVec3, camTargetPos, cameraCursor.getForward(), camLookAtVec)
     } else {
@@ -373,10 +376,26 @@ function CAM_ORBIT() {
         notifyCameraStatus(ENUMS.CameraStatus.CAMERA_MODE, ENUMS.CameraControls.CAM_ORBIT, false)
     }
 
+    if (lookAtActive) {
+        zoomDistance = 0.5 + distance*0.8;
+        lerpCameraLookAt(CAM_POINTS[lookAtControlKey](selectedActor), tpf*5);
+    }
+
+    if (lookFromActive) {
+        zoomDistance = 8 + distance*0.4;;
+        lerpCameraPosition(CAM_POINTS[lookFromControlKey](selectedActor), tpf*5);
+    }
+
+
 }
 
-function CAM_TARGET() {
-
+function CAM_TARGET(actor) {
+    let visualPiece = actor.getVisualGamePiece();
+    if (!visualPiece) {
+        return actor.getPos();
+    } else {
+        return visualPiece.getCenterMass();
+    }
 }
 
 
@@ -394,6 +413,12 @@ function CAM_SHOULDER(actor) {
 
 function CAM_SELECT() {
 
+}
+
+function CAM_HIGH(actor) {
+    calcPartyCenter(actor, zoomDistance, tempVec);
+    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:tempVec, color:'CYAN', size:0.2})
+    return tempVec;
 }
 
 function CAM_PARTY(actor) {

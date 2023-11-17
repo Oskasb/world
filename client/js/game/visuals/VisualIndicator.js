@@ -38,14 +38,13 @@ class VisualIndicator {
     }
 
 
-    indicateActor(actor, alignment, spriteX, spriteY, spin, scale, pulsate, rate) {
+    indicateActor(actor, spriteX, spriteY, spin, scale, pulsate, rate) {
 
         this.actor = actor;
         this.spin = spin || defaults.spin;
         this.scale = scale || defaults.scale;
         this.pulsate = pulsate || defaults.pulsate;
         this.rate = rate || defaults.rate;
-        this.alignment = alignment || defaults.alignment;
 
         let effectCb = function(efct) {
             this.indicators.push(efct);
@@ -75,7 +74,7 @@ class VisualIndicator {
         let actor = this.actor;
         for (let i = 0; i < this.indicators.length; i++) {
             let efct = this.indicators[i];
-            efct.setEffectColorRGBA(colorMap[this.alignment]);
+            efct.setEffectColorRGBA(colorMap[actor.getStatus(ENUMS.ActorStatus.ALIGNMENT) || 'NEUTRAL']);
             let size = actor.getStatus(ENUMS.ActorStatus.SIZE) || 0.5;
             if (scale) size*=scale;
             efct.scaleEffectSize(  size + pulsate*(Math.sin(time*rate)));

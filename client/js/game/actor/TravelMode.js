@@ -67,6 +67,7 @@ function activateTravelMode(actr, mode, activateCB, deactivateCB) {
         let onFrameUpdate = function(pos) {
             actor.getGameWalkGrid().dynamicWalker.isLeaping = true;
             actor.getGameWalkGrid().dynamicWalker.attachFrameLeapEffect(actor.actorObj3d)
+
         }
 
         spatialTransition.targetPos.copy(actor.getPos());
@@ -102,7 +103,7 @@ function activateTravelMode(actr, mode, activateCB, deactivateCB) {
     }
 
     if (mode === ENUMS.TravelMode.TRAVEL_MODE_BATTLE) {
-    //    activateCB(config[mode], actor)
+
     }
 
     if (mode === ENUMS.TravelMode.TRAVEL_MODE_INACTIVE) {
@@ -126,6 +127,7 @@ class TravelMode {
         this.mode = null;
 
         let active = false;
+        let hasTurn = false;
 
         let activateControls = function(modeConfig, actor) {
             playerMovementControls.applyInputSamplingConfig(modeConfig, actor);
@@ -142,10 +144,20 @@ class TravelMode {
             return active;
         }
 
+        let setActorTurn = function(bool) {
+            hasTurn = bool;
+        }
+
+        let getHasTurn = function() {
+            return hasTurn;
+        }
+
         this.call = {
             isActive:isActive,
             deactivateControls:deactivateControls,
-            activateControls:activateControls
+            activateControls:activateControls,
+            getHasTurn:getHasTurn,
+            setActorTurn:setActorTurn
         }
 
     }
@@ -155,6 +167,19 @@ class TravelMode {
         if (mode !== this.mode) {
             this.mode = mode;
             activateTravelMode(actor, mode, this.call.activateControls, this.call.deactivateControls);
+        }
+
+        if (mode === ENUMS.TravelMode.TRAVEL_MODE_BATTLE) {
+            if (actor.getStatus(ENUMS.ActorStatus.HAS_TURN) === true && this.call.getHasTurn() === false) {
+                this.call.setActorTurn(true)
+                this.call.activateControls(config[mode], actor)
+            }
+
+            if (actor.getStatus(ENUMS.ActorStatus.HAS_TURN) === false && this.call.getHasTurn() === true) {
+                this.call.setActorTurn(false)
+                this.call.deactivateControls()
+            }
+
         }
 
         if (this.call.isActive()) {

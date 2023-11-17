@@ -20,8 +20,13 @@ function processCameraStatus(actor) {
         controlKey = ENUMS.CameraControls.CAM_AUTO;
     }
 
-    if (travelMode === ENUMS.TravelMode.TRAVEL_MODE_WALK) {
+    if (travelMode === ENUMS.TravelMode.TRAVEL_MODE_LEAP) {
+        controlKey = ENUMS.CameraControls.CAM_MOVE;
+        notifyCameraStatus( ENUMS.CameraStatus.LOOK_AT, ENUMS.CameraControls.CAM_AHEAD, true)
+        notifyCameraStatus( ENUMS.CameraStatus.LOOK_FROM, ENUMS.CameraControls.CAM_PARTY, true)
+    }
 
+    if (travelMode === ENUMS.TravelMode.TRAVEL_MODE_WALK) {
 
         if (partySelected) {
             controlKey = ENUMS.CameraControls.CAM_MOVE;
@@ -32,15 +37,19 @@ function processCameraStatus(actor) {
             notifyCameraStatus( ENUMS.CameraStatus.LOOK_AT, ENUMS.CameraControls.CAM_AHEAD, null)
             notifyCameraStatus( ENUMS.CameraStatus.LOOK_FROM, ENUMS.CameraControls.CAM_HIGH, null)
         }
-
     }
 
     if (travelMode === ENUMS.TravelMode.TRAVEL_MODE_JETPACK) {
-        controlKey = ENUMS.CameraControls.CAM_AUTO;
+        controlKey = ENUMS.CameraControls.CAM_MOVE;
+        notifyCameraStatus( ENUMS.CameraStatus.LOOK_AT, ENUMS.CameraControls.CAM_AHEAD, true)
+        notifyCameraStatus( ENUMS.CameraStatus.LOOK_FROM, ENUMS.CameraControls.CAM_PARTY, true)
+        notifyCameraStatus( ENUMS.CameraStatus.POINTER_ACTION, ENUMS.CameraControls.CAM_MOVE, null)
     }
 
     if (travelMode === ENUMS.TravelMode.TRAVEL_MODE_BATTLE) {
-        controlKey = ENUMS.CameraControls.CAM_AUTO;
+        controlKey = ENUMS.CameraControls.CAM_ENCOUNTER;
+        notifyCameraStatus( ENUMS.CameraStatus.LOOK_AT, ENUMS.CameraControls.CAM_AHEAD, true)
+        notifyCameraStatus( ENUMS.CameraStatus.LOOK_FROM, ENUMS.CameraControls.CAM_HIGH, true)
     }
 
     notifyCameraStatus( statusKey, controlKey, null)
@@ -57,9 +66,8 @@ class ActorStatusProcessor {
     }
 
     attachIndicator(indicatorKey, actor, spriteX, spriteY, spin, scale, pulsate, rate) {
-        let alignment = actor.getStatus(ENUMS.ActorStatus.ALIGNMENT) || 'NEUTRAL'
         this.indicators[indicatorKey] = poolFetch('VisualIndicator');
-        this.indicators[indicatorKey].indicateActor(actor, alignment, spriteX, spriteY, spin, scale, pulsate, rate)
+        this.indicators[indicatorKey].indicateActor(actor, spriteX, spriteY, spin, scale, pulsate, rate)
     }
 
     detachIndicator(indicatorKey) {

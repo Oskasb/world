@@ -1,22 +1,8 @@
 import {Vector3} from "../../../libs/three/math/Vector3.js";
 import {Object3D} from "../../../libs/three/core/Object3D.js";
 
-let calcVec = new Vector3()
-let calcVec2 = new Vector3()
-let worldForward = new Vector3(0, 0, 1);
-let worldUp = new Vector3(0, 1, 0);
-let worldLeft = new Vector3(1, 0, 0);
-let tempObj = new Object3D();
-
-let pathCompletedCallback = function(movedObj3d) {
-    let cursorObj3d = ThreeAPI.getCameraCursor().getCursorObj3d()
-    cursorObj3d.position.copy(movedObj3d.position)
-    cursorObj3d.quaternion.copy(movedObj3d.quaternion)
-}
-
 class ControlFunctions {
-    constructor() {
-    }
+    constructor() {}
 
     SAMPLE_STATUS(actor) {
         let tpf = GameAPI.getFrame().avgTpf;
