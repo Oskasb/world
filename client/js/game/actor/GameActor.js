@@ -154,12 +154,6 @@ class GameActor {
         return this.gameWalkGrid.getGridMovementObj3d();
     }
 
-    inspectTilePath(tilePath) {
-        if (tilePath.pathTiles.length > 1) {
-            tempVec.copy(tilePath.getEndTile().getPos());
-            this.turnTowardsPos(tempVec)
-        }
-    };
 
     setVisualGamePiece(visualGamePiece) {
         visualGamePiece.setVisualPieceActor(this);

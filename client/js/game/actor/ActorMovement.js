@@ -34,8 +34,14 @@ console.log("Pathing Completed")
             console.log("MOVE ACTION - activate")
         } else {
             if (tileSelector.hasValue()) {
-                actor.prepareTilePath(tileSelector.getPos());
+                if (tileSelector.extendedDistance > 0.8) {
+                    actor.prepareTilePath(tileSelector.getPos());
+                } else {
+                    walkGrid.clearGridTilePath()
+                }
                 actor.turnTowardsPos(tileSelector.getPos() , GameAPI.getFrame().avgTpf * tileSelector.extendedDistance * 0.3);
+            } else {
+                walkGrid.clearGridTilePath()
             }
         }
     }
@@ -47,12 +53,19 @@ console.log("Pathing Completed")
             actor.setStatusKey(ENUMS.ActorStatus.SELECTING_DESTINATION, 0);
             let tileSelector = walkGrid.gridTileSelector;
             if (tileSelector.hasValue()) {
-            //    console.log("MOVE ACTION - Complete")
-                actor.actorText.say("Path Selected")
-                actor.prepareTilePath(tileSelector.getPos());
-            //    actor.moveActorOnGridTo(tileSelector.getPos(), walkGrid.call.deactivate)
-                walkGrid.applySelectedPath(this.call.pathingUpdate, this.call.pathingCompleted)
+                if (walkGrid.getActiveTilePath().getRemainingTiles() > 1) {
+                    console.log("MOVE ACTION - Complete, tiles: ", walkGrid.getActiveTilePath().getRemainingTiles())
+                    actor.actorText.say("Path Selected")
+                    actor.prepareTilePath(tileSelector.getPos());
+                    //    actor.moveActorOnGridTo(tileSelector.getPos(), walkGrid.call.deactivate)
+                    walkGrid.applySelectedPath(this.call.pathingUpdate, this.call.pathingCompleted)
+                } else {
+                    actor.actorText.say("No Path")
+                    walkGrid.clearGridTilePath()
+                    walkGrid.call.deactivate();
+                }
             }
+
 
             tileSelector.moveAlongX(0);
             tileSelector.moveAlongZ(0);
@@ -78,6 +91,9 @@ console.log("Pathing Completed")
                 console.log("LEAP ACTION - update")
 
                 walkGrid.updateGridCenter(tileSelector.getPos())
+                if (tileSelector.hasValue()) {
+                    actor.turnTowardsPos(tileSelector.getPos() , GameAPI.getFrame().avgTpf * tileSelector.extendedDistance * 0.1);
+                }
                 let tileUpdate = walkGrid.updateWalkGrid()
                 if (tileUpdate) {
                     visualPath.clearVisualPath();

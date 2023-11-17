@@ -110,7 +110,7 @@ class GameAdventureSystem {
                     GuiAPI.closePage(_this.page)
                 }
                 _this.page = GuiAPI.activatePage(pageId);
-
+                notifyCameraStatus(ENUMS.CameraStatus.CAMERA_MODE, ENUMS.CameraControls.CAM_ORBIT, true)
             }, 200)
         }.bind(this)
 

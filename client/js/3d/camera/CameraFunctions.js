@@ -376,16 +376,17 @@ function CAM_ORBIT() {
         notifyCameraStatus(ENUMS.CameraStatus.CAMERA_MODE, ENUMS.CameraControls.CAM_ORBIT, false)
     }
 
-    if (lookAtActive) {
-        zoomDistance = 0.5 + distance*0.8;
-        lerpCameraLookAt(CAM_POINTS[lookAtControlKey](selectedActor), tpf*5);
-    }
+    if (selectedActor) {
+        if (lookAtActive) {
+            zoomDistance = 0.5 + distance*0.8;
+            lerpCameraLookAt(CAM_POINTS[lookAtControlKey](selectedActor), tpf*5);
+        }
 
-    if (lookFromActive) {
-        zoomDistance = 8 + distance*0.4;;
-        lerpCameraPosition(CAM_POINTS[lookFromControlKey](selectedActor), tpf*5);
+        if (lookFromActive) {
+            zoomDistance = 8 + distance*0.4;;
+            lerpCameraPosition(CAM_POINTS[lookFromControlKey](selectedActor), tpf*5);
+        }
     }
-
 
 }
 

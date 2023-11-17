@@ -61,8 +61,6 @@ class TilePath {
     clearTilePath() {
         while(this.pathTiles.length) {
             let tile = this.pathTiles.pop();
-            tile.setTileStatus('FREE');
-            tile.indicateTileStatus(false);
         }
     }
 

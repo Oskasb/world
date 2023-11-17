@@ -114,6 +114,12 @@ class GameWalkGrid {
         return ScenarioUtils.getTileForPosition(gridTiles, posVec)
     }
 
+    clearGridTilePath() {
+        this.dynamicWalker.call.clearDynamicPath()
+        this.dynamicPath.clearPathVisuals();
+        this.dynamicPath.tilePath.clearTilePath()
+    }
+
     buildGridPath(to, from) {
         this.dynamicWalker.call.clearDynamicPath()
         let gridTiles = this.dynamicGrid.dynamicGridTiles
