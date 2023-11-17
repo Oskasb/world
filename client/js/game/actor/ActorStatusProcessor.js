@@ -26,7 +26,7 @@ function processCameraStatus(actor) {
         if (partySelected) {
             controlKey = ENUMS.CameraControls.CAM_MOVE;
             notifyCameraStatus( ENUMS.CameraStatus.LOOK_AT, ENUMS.CameraControls.CAM_AHEAD, null)
-            notifyCameraStatus( ENUMS.CameraStatus.LOOK_FROM, ENUMS.CameraControls.CAM_SHOULDER, null)
+            notifyCameraStatus( ENUMS.CameraStatus.LOOK_FROM, ENUMS.CameraControls.CAM_PARTY, null)
         } else {
             controlKey = ENUMS.CameraControls.CAM_GRID;
             notifyCameraStatus( ENUMS.CameraStatus.LOOK_AT, ENUMS.CameraControls.CAM_AHEAD, null)

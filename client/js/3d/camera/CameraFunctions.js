@@ -6,8 +6,6 @@ let CAM_MODES = {
     CAM_ORBIT:CAM_ORBIT,
     CAM_MOVE:CAM_MOVE,
     CAM_SELECT:CAM_SELECT,
-    CAM_PARTY:CAM_PARTY,
-    CAM_SEQUENCER:CAM_SEQUENCER,
     CAM_ENCOUNTER:CAM_ENCOUNTER,
     CAM_GRID:CAM_GRID
 }
@@ -15,7 +13,9 @@ let CAM_MODES = {
 let CAM_POINTS = {
     CAM_AHEAD:CAM_AHEAD,
     CAM_SHOULDER:CAM_SHOULDER,
-    CAM_TARGET:CAM_TARGET
+    CAM_TARGET:CAM_TARGET,
+    CAM_PARTY:CAM_PARTY,
+    CAM_SEQUENCER:CAM_SEQUENCER
 }
 
 let lerpFactor = 0.1;
@@ -106,6 +106,13 @@ function applyPointerMove() {
             pointerActive = false;
         }
     }
+
+    let distance = 0;
+
+    if (tileSelector) {
+        distance += tileSelector.extendedDistance;
+    }
+    return distance;
 }
 
 function lerpCameraPosition(towardsPos, alpha) {
@@ -216,7 +223,7 @@ let calcAttackCamPosition = function(actor, distance, storeVec) {
 }
 
 let calcShouldCamPosition = function(actor, distance, storeVec) {
-    storeVec.set(side * 0.19, 0.2, -0.5);
+    storeVec.set(side * 0.11, 0.2, -0.8);
     storeVec.normalize();
     storeVec.multiplyScalar(distance);
     storeVec.applyQuaternion(actor.getVisualGamePiece().getQuat())
@@ -230,6 +237,15 @@ let calcPositionAhead = function(actor, distance, storeVec) {
     storeVec.applyQuaternion(actor.getVisualGamePiece().getQuat())
     storeVec.add(actor.getVisualGamePiece().getCenterMass())
 }
+
+let calcPartyCenter = function(actor, distance, storeVec) {
+    storeVec.set(side * 0.06, 0.6, -0.5);
+    storeVec.normalize();
+    storeVec.multiplyScalar(distance);
+    storeVec.applyQuaternion(actor.getVisualGamePiece().getQuat())
+    storeVec.add(actor.getVisualGamePiece().getCenterMass())
+}
+
 
 function viewPrecastAction(sequencer, target) {
 
@@ -363,26 +379,6 @@ function CAM_TARGET() {
 
 }
 
-function CAM_MOVE() {
-
-    if (!selectedActor) {
-        return;
-    }
-
-    applyPointerMove()
-
-    if (lookAtActive) {
-        zoomDistance = 8;
-        lerpCameraLookAt(CAM_POINTS[lookAtControlKey](selectedActor), tpf*5);
-    }
-
-    if (lookFromActive) {
-        zoomDistance = 5;
-        lerpCameraPosition(CAM_POINTS[lookFromControlKey](selectedActor), tpf*5);
-    }
-
-
-}
 
 function CAM_AHEAD(actor) {
     calcPositionAhead(actor, zoomDistance, tempVec);
@@ -400,8 +396,10 @@ function CAM_SELECT() {
 
 }
 
-function CAM_PARTY() {
-
+function CAM_PARTY(actor) {
+    calcPartyCenter(actor, zoomDistance, tempVec);
+    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:tempVec, color:'CYAN', size:0.2})
+    return tempVec;
 }
 
 function CAM_SEQUENCER() {
@@ -412,30 +410,24 @@ function CAM_ENCOUNTER() {
 
 }
 
-let updateTileSelectorActive = function(actor, tileSelector) {
+function CAM_MOVE() {
 
-    let targetDistance = 8;
-    let targetElevation = 2;
-    tempVec3.set(0, 0, -targetDistance);
-    tempVec3.applyQuaternion(cursorObj3d.quaternion);
-    tempVec3.add(cursorObj3d.position);
-    cursorObj3d.position.copy(actor.getPos());
-    tempVec.copy(tileSelector.translation);
-    tempVec.multiplyScalar(0.5);
-    cursorObj3d.position.add(tempVec);
-    let distance = MATH.clamp(tileSelector.translation.length(), 1, 20);
-    tempVec3.y += targetElevation + distance * 2
-    cursorObj3d.position.y += 2 / distance;
-    MATH.lerpClamped(camPosVec, tempVec3, tpf*distance, 0.05, 0.5);
-
-    if (tileSelector.hasValue()) {
-
-        tempVec.copy(camLookAtVec)
-        MATH.lerpClamped(camLookAtVec, cursorObj3d.position, tpf*distance, 0.05, 0.5);
-        cursorObj3d.position.copy(camLookAtVec);
-        tempVec.sub(camLookAtVec);
-        camPosVec.sub(tempVec)
+    if (!selectedActor) {
+        return;
     }
+
+    let distance = applyPointerMove()
+
+    if (lookAtActive) {
+        zoomDistance = 0.5 + distance*0.8;
+        lerpCameraLookAt(CAM_POINTS[lookAtControlKey](selectedActor), tpf*5);
+    }
+
+    if (lookFromActive) {
+        zoomDistance = 8 + distance*0.4;;
+        lerpCameraPosition(CAM_POINTS[lookFromControlKey](selectedActor), tpf*5);
+    }
+
 
 }
 
@@ -445,19 +437,7 @@ function CAM_GRID() {
         return;
     }
 
-    applyPointerMove()
-
-    if (tileSelector) {
-    //    updateTileSelectorActive(selectedActor, tileSelector)
-    }
-
-    let distance = 1;
-
-        zoomDistance = 2;
-        if (tileSelector) {
-            distance += tileSelector.extendedDistance;
-            zoomDistance += distance*0.5;
-        }
+    let distance = applyPointerMove()
 
     tempVec3.set(0, 0, 1);
     tempVec3.applyQuaternion(ThreeAPI.getCamera().quaternion);
@@ -465,11 +445,12 @@ function CAM_GRID() {
     tempVec3.normalize()
     tempVec3.y = 1;
     tempVec3.multiplyScalar(2);
+    zoomDistance = 1 + distance;
     tempVec2.copy(CAM_POINTS[lookAtControlKey](selectedActor))
     tempVec.copy(tempVec2);
-    tempVec.x += tempVec3.x * (3 + distance*0.5);
-    tempVec.y += 6 + distance * 0.9;
-    tempVec.z += tempVec3.z * (3 + distance*0.5);
+    tempVec.x += tempVec3.x * (5 + distance*0.3);
+    tempVec.y += 8 + distance * 0.8;
+    tempVec.z += tempVec3.z * (5 + distance*0.3);
 
     if (lookFromActive) {
         lerpCameraPosition(tempVec, tpf*2);
