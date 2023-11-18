@@ -98,7 +98,6 @@ class Client {
         this.evt.on(ENUMS.Event.SET_CAMERA_MODE, ThreeAPI.getCameraCursor().call.setCamMode);
         this.evt.on(ENUMS.Event.SET_CAMERA_TARGET, GameAPI.getGameCamera().call.setCameraTargetPosInTime)
         this.evt.on(ENUMS.Event.TRAVEL_TO,         GameAPI.call.travelToPos)
-        this.evt.on(ENUMS.Event.GAME_MODE_WALK,    GameAPI.call.activateWalkGrid)
         this.evt.on(ENUMS.Event.GAME_MODE_BATTLE,    GameAPI.call.activateBattleMode)
         this.evt.on(ENUMS.Event.EDIT_GROUND,        GameAPI.call.editGround)
         this.evt.on(ENUMS.Event.EDIT_PARAMETERS,    GameAPI.call.editParameters)

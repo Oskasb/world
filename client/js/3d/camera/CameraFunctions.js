@@ -286,7 +286,7 @@ function viewEncounterSelection(camTPos, camLookAt, tpf) {
             camLookAt.lerp(tempVec, tpf);
         }
 
-        partySelection.turnTowardsPos(camLookAt, tpf)
+   //     partySelection.turnTowardsPos(camLookAt, tpf)
         calcShouldCamPosition(partySelection, 6, tempVec)
         //    tempVec.add(partySelection.getPos())
 

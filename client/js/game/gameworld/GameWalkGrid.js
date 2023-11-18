@@ -205,7 +205,10 @@ class GameWalkGrid {
 
     deactivateWalkGrid() {
         console.log("Deactivate Walk Grid:", this)
-        this.gridTileSelector.deactivateGridTileSelector()
+        if (this.gridTileSelector) {
+            this.gridTileSelector.deactivateGridTileSelector()
+        }
+
         let activePath = this.getActiveTilePath();
 
         while (activePath.pathCompetedCallbacks.length) {

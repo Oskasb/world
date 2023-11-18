@@ -35,6 +35,7 @@ console.log("Pathing Completed")
         }
 
         let tileSelector = walkGrid.gridTileSelector;
+
         actor.setStatusKey(ENUMS.ActorStatus.SELECTING_DESTINATION, 1);
         if (!walkGrid.isActive) {
             actor.activateWalkGrid(1+ actor.getStatus(ENUMS.ActorStatus.MOVEMENT_SPEED) * 2 )
@@ -50,19 +51,24 @@ console.log("Pathing Completed")
                         walkGrid.clearGridTilePath()
                     }
 
+                    actor.turnTowardsPos(tileSelector.getPos() , GameAPI.getFrame().avgTpf * tileSelector.extendedDistance * 0.3);
+
                     evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:actor.getPos(), color:'CYAN', size:0.5})
                     evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:actor.getPos(), to:tileSelector.getPos(), color:'CYAN'});
                     if (tileCount !== walkGrid.getActivePathTiles().length) {
-                        actor.actorText.say("Path length: "+walkGrid.getActivePathTiles().length)
+                    //    actor.actorText.say("Path length: "+walkGrid.getActivePathTiles().length)
                         tileCount = walkGrid.getActivePathTiles().length
                     }
 
-                actor.turnTowardsPos(tileSelector.getPos() , GameAPI.getFrame().avgTpf * tileSelector.extendedDistance * 0.3);
+            //    actor.turnTowardsPos(tileSelector.getPos() , GameAPI.getFrame().avgTpf * tileSelector.extendedDistance * 0.3);
             } else {
 
-                if (walkGrid.getActivePathTiles().length) {
+                if (walkGrid.getActivePathTiles().length > 1) {
                     actor.actorText.say("Cancel Active Path")
                     walkGrid.getActiveTilePath().cutTilePath();
+                } else if (walkGrid.getActivePathTiles().length === 1) {
+                    actor.actorText.say("Single Tile Path")
+                    walkGrid.getActiveTilePath().clearTilePath();
                 }
 
 
@@ -79,24 +85,25 @@ console.log("Pathing Completed")
             let tileSelector = walkGrid.gridTileSelector;
             if (walkGrid.getActivePathTiles().length > 1) {
                 console.log("MOVE ACTION - Complete, tiles: ", walkGrid.getActiveTilePath().getRemainingTiles())
-                actor.actorText.say("Path Selected")
+                actor.actorText.say("Move "+walkGrid.getActivePathTiles().length+" tiles")
 
                 actor.prepareTilePath(tileSelector.getPos());
                 //    actor.moveActorOnGridTo(tileSelector.getPos(), walkGrid.call.deactivate)
                 walkGrid.applySelectedPath(this.call.pathingUpdate, this.call.pathingCompleted)
+
             } else {
+
                     actor.actorText.say("No Path")
-                    //   actor.prepareTilePath(tileSelector.getPos());
-                    //    actor.moveActorOnGridTo(tileSelector.getPos(), walkGrid.call.deactivate)
-                    //   walkGrid.applySelectedPath(this.call.pathingUpdate, this.call.pathingCompleted)
+                    tileSelector.setPos(actor.actorObj3d.position);
                     walkGrid.clearGridTilePath()
-            //        walkGrid.call.deactivate();
+                    actor.setControlKey(ENUMS.ActorStatus.CONTROL_MOVE_ACTION, 0);
 
             }
-
-
             tileSelector.moveAlongX(0);
             tileSelector.moveAlongZ(0);
+
+        } else if (walkGrid.isActive) {
+        //    actor.actorText.say("No Input")
         }
     }
 

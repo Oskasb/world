@@ -33,6 +33,7 @@ class GameActor {
         this.visualGamePiece = null;
 
         this.velocity = new Vector3()
+        this.lookDirection = new Vector3()
 
         this.gameWalkGrid = new GameWalkGrid();
 
@@ -43,8 +44,8 @@ class GameActor {
 
         }.bind(this);
 
-        let updateGameActor = function() {
-            this.updateGameActor();
+        let updateGameActor = function(tpf) {
+            this.updateGameActor(tpf);
         }.bind(this);
 
         let onActive = function() {
@@ -267,14 +268,20 @@ class GameActor {
 
     }
 
-    turnTowardsPos(posVec, alpha) {
-        tempObj.position.copy(this.actorObj3d.position)
-        tempObj.position.y = posVec.y;
-        tempObj.lookAt(posVec);
+    turnTowardsPos(posVec) {
+
+        this.lookDirection.copy(posVec);
+        this.lookDirection.sub(this.actorObj3d.position);
+
+    }
+
+    applyHeading(direction, alpha) {
+        tempObj.position.set(0, direction.y, 0)
+        tempObj.lookAt(direction);
         this.actorObj3d.quaternion.slerp(tempObj.quaternion, alpha || 0.1)
     }
 
-    updateGameActor = function() {
+    updateGameActor = function(tpf) {
 
         this.travelMode.updateTravelMode(this);
 
@@ -291,8 +298,9 @@ class GameActor {
             this.setStatusKey(ENUMS.ActorStatus.FRAME_TRAVEL_DISTANCE, 0);
             ThreeAPI.getCameraCursor().getPos().copy(this.getPos())
             this.visualGamePiece.getSpatial().stickToObj3D(this.actorObj3d)
-        //    this.turnTowardsPos(this.velocity)
         }
+
+        this.applyHeading(this.lookDirection, this.getStatus(ENUMS.ActorStatus.ACTOR_YAW_RATE) * tpf);
 
         this.actorObj3d.position.copy(this.getPos())
 

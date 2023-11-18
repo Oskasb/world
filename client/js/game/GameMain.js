@@ -76,15 +76,8 @@ class GameMain {
 
         }.bind(this)
 
-        let activateGameWalkGrid = function(obj3d) {
-            gameWalkGrid.activateWalkGrid(obj3d)
-            return gameWalkGrid;
-        }.bind(this)
-
-
 
         this.call = {
-            activateGameWalkGrid:activateGameWalkGrid,
             setActiveNavPointGroup:setActiveNavPointGroup,
             renderActiveNavPointGroup:renderActiveNavPointGroup
         }

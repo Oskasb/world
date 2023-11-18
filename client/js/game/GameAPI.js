@@ -109,9 +109,7 @@ class GameAPI {
         this.gameWorldPointer = new GameWorldPointer();
         this.gameMain = new GameMain();
         let visualEffectSystem = new VisualEffectSystem()
-        let activateWalkGrid = function() {
-            let walkGrid = this.gameMain.call.activateGameWalkGrid(ThreeAPI.getCameraCursor().getCursorObj3d())
-        }.bind(this);
+
 
         let activateBattleMode = function(event) {
             gameEncounterSystem.activateEncounter(event);
@@ -176,7 +174,6 @@ class GameAPI {
 
         this.call = {
             getGameEncounterSystem:getGameEncounterSystem,
-            activateWalkGrid:activateWalkGrid,
             activateBattleMode:activateBattleMode,
             spawnWorldEncounters:spawnWorldEncounters,
             getActiveEncounter:getActiveEncounter,
