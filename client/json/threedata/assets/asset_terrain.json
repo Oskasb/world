@@ -10,7 +10,7 @@
               "data_key":"terrain_config",
               "config":{
                 "grid": {
-                  "hide_tiles": false,
+                  "hide_tiles": true,
                   "tile_range": 8,
                   "tile_spacing": 50
                 },

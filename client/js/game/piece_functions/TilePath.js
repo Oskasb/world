@@ -18,8 +18,14 @@ class TilePath {
 
     cutTilePath() {
         if (this.pathTiles.length > 1) {
-            this.pathTiles.length = 2;
+
             this.setEndTile(this.pathTiles[1])
+
+            while (this.pathTiles.length > 2) {
+                let tile = this.pathTiles.pop();
+                tile.clearPathIndication();
+            }
+
         }
     }
 

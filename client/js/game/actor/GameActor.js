@@ -138,6 +138,7 @@ class GameActor {
     }
 
     getPos() {
+        //    return this.actorObj3d.position;
         return this.gameWalkGrid.getGridMovementObj3d().position;
     }
 
@@ -281,10 +282,13 @@ class GameActor {
         let speed = this.velocity.length()
 
         if (speed < 0.001) {
-            if (MATH.distanceBetween(this.getPos(), this.actorObj3d.position) > 0.001) {
+            let frameTravelDistance = MATH.distanceBetween(this.getPos(), this.actorObj3d.position)
+            this.setStatusKey(ENUMS.ActorStatus.FRAME_TRAVEL_DISTANCE, frameTravelDistance);
+            if (frameTravelDistance > 0.001) {
                 this.turnTowardsPos(this.getPos(), MATH.clamp(speed*10, 0.05, 0.5));
             }
         } else {
+            this.setStatusKey(ENUMS.ActorStatus.FRAME_TRAVEL_DISTANCE, 0);
             ThreeAPI.getCameraCursor().getPos().copy(this.getPos())
             this.visualGamePiece.getSpatial().stickToObj3D(this.actorObj3d)
         //    this.turnTowardsPos(this.velocity)

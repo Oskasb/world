@@ -30,6 +30,10 @@ console.log("Pathing Completed")
     tileSelectionActive(actor) {
         let walkGrid = actor.getGameWalkGrid();
 
+        if ((actor.getStatus(ENUMS.ActorStatus.FRAME_TRAVEL_DISTANCE) !== 0) && MATH.valueIsBetween(walkGrid.getActivePathTiles().length, 1, 2)) {
+            return;
+        }
+
         let tileSelector = walkGrid.gridTileSelector;
         actor.setStatusKey(ENUMS.ActorStatus.SELECTING_DESTINATION, 1);
         if (!walkGrid.isActive) {
@@ -37,6 +41,7 @@ console.log("Pathing Completed")
             console.log("MOVE ACTION - activate")
             actor.actorText.say("Grid Activate")
         } else {
+
             if (tileSelector.hasValue()) {
 
                     if (tileSelector.extendedDistance > 0.8) {
@@ -53,6 +58,15 @@ console.log("Pathing Completed")
                     }
 
                 actor.turnTowardsPos(tileSelector.getPos() , GameAPI.getFrame().avgTpf * tileSelector.extendedDistance * 0.3);
+            } else {
+
+                if (walkGrid.getActivePathTiles().length) {
+                    actor.actorText.say("Cancel Active Path")
+                    walkGrid.getActiveTilePath().cutTilePath();
+                }
+
+
+
             }
         }
     }
