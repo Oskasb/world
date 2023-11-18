@@ -48,11 +48,14 @@ class DynamicPath {
 
     selectTilesBeneathPath(startTile, endTile, gridTiles) {
         visualPath.clearVisualPath();
-        while (this.tilePath.pathTiles.length) {
-            let clearTile =  this.tilePath.pathTiles.pop();
-            clearTile.clearPathIndication();
-        }
+        this.tilePath.clearTilePath()
 
+        if (startTile === endTile) {
+            this.tilePath.setEndTile(null);
+            this.tilePath.setStartTile(null);
+            console.log("Single Tile, no path");
+            return;
+        }
         let startX = startTile.gridI;
         let startZ = startTile.gridJ;
         let endX = endTile.gridI;

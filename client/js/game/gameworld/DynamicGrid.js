@@ -52,7 +52,7 @@ class DynamicGrid {
         this.tileSpacing = config['tile_spacing'];
         this.tileSize =  config['tile_size'] || 1;
         this.stepHeight = config['step_height'] || 0;
-        this.tileRange =  tileRange || 21;
+        this.tileRange =  tileRange || config['tile_range'] || 21;
         this.hideTiles = config['hide_tiles'] || false;
         this.centerOffset = config['center_offset'] || false;
         this.debug = config['debug'] || false;
@@ -100,7 +100,7 @@ class DynamicGrid {
         } else {
             this.updated = false;
         }
-
+        return this.updated
     }
 
 }

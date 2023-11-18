@@ -349,10 +349,20 @@ let drawTilesByLodGrid = function(frame) {
 
 let updateLodList = [];
 
-function tileUpdateCB(tile) {
-    getTerrainGeosAtTile(tile, updateLodList)
-    while (updateLodList.length) {
-        let geo = updateLodList.pop();
+
+function tileUpdateCB(tile, centerTileUpdated) {
+    if (!updateLodList[tile.index]) {
+        updateLodList[tile.index] = [];
+    }
+    let lodList = updateLodList[tile.index]
+
+    if (centerTileUpdated) {
+        MATH.emptyArray(lodList);
+        getTerrainGeosAtTile(tile, lodList)
+    }
+
+    for (let i = 0; i < lodList.length; i++) {
+        let geo = lodList[i];
         geo.updateVisibility(tile.lodLevel,  updateFrame)
         if (tile.lodLevel !== -1) {
             if (visibleGeoTiles.indexOf(geo) === -1) {
@@ -360,6 +370,7 @@ function tileUpdateCB(tile) {
             }
         }
     }
+
 }
 
 function getLodCenter() {
@@ -430,7 +441,7 @@ class ThreeTerrain {
             gridConfig = data['grid']
             constructGeometries(data['height_map'], data['transform'], data['ground'], data['section_info']);
             terrainBigGeometry.initBigTerrainGeometry(lodCenter, data['height_map'], data['transform'], data['ground'], data['section_info']);
-            dynamicLodGrid.activateLodGrid({lodLevels:data['section_info']['lod_levels'].length, tile_range:gridConfig['tile_range'], tile_spacing:gridConfig['tile_spacing'], hide_tiles:true, center_offset:true, debug:false})
+            dynamicLodGrid.activateLodGrid({lodLevels:data['section_info']['lod_levels'].length, tile_range:gridConfig['tile_range'], tile_spacing:gridConfig['tile_spacing'], hide_tiles:gridConfig['hide_tiles'], center_offset:true, debug:false})
             matLoadedCB();
         }
 

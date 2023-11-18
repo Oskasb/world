@@ -8,7 +8,6 @@ import * as ScenarioUtils from "./ScenarioUtils.js";
 import { GridTileSelector } from "../piece_functions/GridTileSelector.js";
 import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
 
-
 let centerTileIndexX = 0;
 let centerTileIndexY = 0;
 
@@ -65,6 +64,10 @@ class GameWalkGrid {
         }
     }
 
+    getActivePathTiles() {
+        return this.dynamicPath.tilePath.pathTiles
+    }
+
     setTargetPosition(posVec) {
         this.targetPosition.copy(posVec);
     }
@@ -115,8 +118,8 @@ class GameWalkGrid {
     }
 
     clearGridTilePath() {
-        this.dynamicWalker.call.clearDynamicPath()
         this.dynamicPath.clearPathVisuals();
+        this.dynamicWalker.call.clearDynamicPath()
         this.dynamicPath.tilePath.clearTilePath()
     }
 
@@ -124,11 +127,13 @@ class GameWalkGrid {
         this.dynamicWalker.call.clearDynamicPath()
         let gridTiles = this.dynamicGrid.dynamicGridTiles
         let fromTile = ScenarioUtils.getTileForPosition(gridTiles, from)
-
         let toTile = ScenarioUtils.getTileForPosition(gridTiles, to)
-        let tilePath = this.dynamicPath.selectTilesBeneathPath(fromTile, toTile, gridTiles);
 
-        return tilePath;
+            fromTile.getTileExtents(ThreeAPI.tempVec3, ThreeAPI.tempVec3b)
+            evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:ThreeAPI.tempVec3, max:ThreeAPI.tempVec3b, color:'YELLOW'})
+            toTile.getTileExtents(ThreeAPI.tempVec3, ThreeAPI.tempVec3b)
+            evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:ThreeAPI.tempVec3, max:ThreeAPI.tempVec3b, color:'YELLOW'})
+            this.dynamicPath.selectTilesBeneathPath(fromTile, toTile, gridTiles);
 
     }
 
@@ -147,6 +152,8 @@ class GameWalkGrid {
 
             this.walkObj3dAlongPath(this.moveObj3d)
         } else {
+            onCompletedCB();
+            this.clearGridTilePath()
             this.deactivateWalkGrid();
         }
 
@@ -202,9 +209,11 @@ class GameWalkGrid {
         let activePath = this.getActiveTilePath();
 
         while (activePath.pathCompetedCallbacks.length) {
+        //    console.log("pathCompetedCallbacks", activePath.pathCompetedCallbacks.length)
             activePath.pathCompetedCallbacks.pop()(this.moveObj3d)
         }
         while (activePath.pathingUpdateCallbacks.length) {
+        //    console.log("pathingUpdateCallbacks", activePath.pathingUpdateCallbacks.length)
             activePath.pathingUpdateCallbacks.pop()
         }
 

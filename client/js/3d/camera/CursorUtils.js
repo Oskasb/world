@@ -162,8 +162,8 @@ function processTerrainLodCenter(lodCenter, terrainCenter) {
     terrainCenter.sub(lodCenter)
     terrainCenter.add(cursorPos)
 
-    lodCenter.add(cursorPos);
-    lodCenter.y = 0 // ThreeAPI.terrainAt(lodCenter);
+    lodCenter.copy(camPos);
+   // lodCenter.y = ThreeAPI.terrainAt(lodCenter);
 
     terrainCenter.y = 0// lodCenter.y;
     evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:terrainCenter, color:'YELLOW', size:0.2})

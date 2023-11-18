@@ -152,10 +152,6 @@ class GameMain {
         this.onUpdateCallbacks.push(callback);
     }
 
-    generateDynamicPath(from, to) {
-        return gameWalkGrid.buildGridPath(from, to)
-    }
-
     applyDynamicPathToObj3d( obj3d) {
         return gameWalkGrid.walkAlongPath(obj3d)
     }

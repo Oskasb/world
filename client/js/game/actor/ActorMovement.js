@@ -6,6 +6,7 @@ let colorsRgba = {
 }
 
 let visualPath = new VisualPath()
+let tileCount = 0;
 class ActorMovement {
     constructor() {
 
@@ -25,23 +26,33 @@ console.log("Pathing Completed")
         }
     }
 
+
     tileSelectionActive(actor) {
         let walkGrid = actor.getGameWalkGrid();
+
         let tileSelector = walkGrid.gridTileSelector;
         actor.setStatusKey(ENUMS.ActorStatus.SELECTING_DESTINATION, 1);
         if (!walkGrid.isActive) {
             actor.activateWalkGrid(1+ actor.getStatus(ENUMS.ActorStatus.MOVEMENT_SPEED) * 2 )
             console.log("MOVE ACTION - activate")
+            actor.actorText.say("Grid Activate")
         } else {
             if (tileSelector.hasValue()) {
-                if (tileSelector.extendedDistance > 0.8) {
-                    actor.prepareTilePath(tileSelector.getPos());
-                } else {
-                    walkGrid.clearGridTilePath()
-                }
+
+                    if (tileSelector.extendedDistance > 0.8) {
+                        actor.prepareTilePath(tileSelector.getPos());
+                    } else {
+                        walkGrid.clearGridTilePath()
+                    }
+
+                    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:actor.getPos(), color:'CYAN', size:0.5})
+                    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:actor.getPos(), to:tileSelector.getPos(), color:'CYAN'});
+                    if (tileCount !== walkGrid.getActivePathTiles().length) {
+                        actor.actorText.say("Path length: "+walkGrid.getActivePathTiles().length)
+                        tileCount = walkGrid.getActivePathTiles().length
+                    }
+
                 actor.turnTowardsPos(tileSelector.getPos() , GameAPI.getFrame().avgTpf * tileSelector.extendedDistance * 0.3);
-            } else {
-                walkGrid.clearGridTilePath()
             }
         }
     }
@@ -49,21 +60,24 @@ console.log("Pathing Completed")
     tileSelectionCompleted(actor) {
         let walkGrid = actor.getGameWalkGrid();
         let tileSelector = walkGrid.gridTileSelector;
-        if (walkGrid.isActive) {
+        if (walkGrid.isActive && tileSelector.hasValue()) {
             actor.setStatusKey(ENUMS.ActorStatus.SELECTING_DESTINATION, 0);
             let tileSelector = walkGrid.gridTileSelector;
-            if (tileSelector.hasValue()) {
-                if (walkGrid.getActiveTilePath().getRemainingTiles() > 1) {
-                    console.log("MOVE ACTION - Complete, tiles: ", walkGrid.getActiveTilePath().getRemainingTiles())
-                    actor.actorText.say("Path Selected")
-                    actor.prepareTilePath(tileSelector.getPos());
-                    //    actor.moveActorOnGridTo(tileSelector.getPos(), walkGrid.call.deactivate)
-                    walkGrid.applySelectedPath(this.call.pathingUpdate, this.call.pathingCompleted)
-                } else {
+            if (walkGrid.getActivePathTiles().length > 1) {
+                console.log("MOVE ACTION - Complete, tiles: ", walkGrid.getActiveTilePath().getRemainingTiles())
+                actor.actorText.say("Path Selected")
+
+                actor.prepareTilePath(tileSelector.getPos());
+                //    actor.moveActorOnGridTo(tileSelector.getPos(), walkGrid.call.deactivate)
+                walkGrid.applySelectedPath(this.call.pathingUpdate, this.call.pathingCompleted)
+            } else {
                     actor.actorText.say("No Path")
+                    //   actor.prepareTilePath(tileSelector.getPos());
+                    //    actor.moveActorOnGridTo(tileSelector.getPos(), walkGrid.call.deactivate)
+                    //   walkGrid.applySelectedPath(this.call.pathingUpdate, this.call.pathingCompleted)
                     walkGrid.clearGridTilePath()
-                    walkGrid.call.deactivate();
-                }
+            //        walkGrid.call.deactivate();
+
             }
 
 

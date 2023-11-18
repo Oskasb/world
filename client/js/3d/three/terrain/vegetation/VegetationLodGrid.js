@@ -95,7 +95,7 @@ class VegetationLodGrid {
 
     updateVegLodGrid(lodCenter, frame) {
         updateFrame = frame;
-        this.dynamicLodGrid.updateDynamicLodGrid(lodCenter, this.call.updateVisibility)
+        this.dynamicLodGrid.updateDynamicLodGrid(lodCenter, this.call.updateVisibility, 0, 1)
         this.releaseHiddenTiles()
     }
 

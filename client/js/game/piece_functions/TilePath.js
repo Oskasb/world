@@ -60,7 +60,9 @@ class TilePath {
 
     clearTilePath() {
         while(this.pathTiles.length) {
+            console.log("Clearing Tiles: ", this.pathTiles.length)
             let tile = this.pathTiles.pop();
+            tile.clearPathIndication();
         }
     }
 

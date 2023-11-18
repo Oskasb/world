@@ -10,8 +10,9 @@
               "data_key":"terrain_config",
               "config":{
                 "grid": {
-                  "tile_range": 16,
-                  "tile_spacing": 60
+                  "hide_tiles": false,
+                  "tile_range": 8,
+                  "tile_spacing": 50
                 },
                 "section_info": {
                   "lod_levels": [

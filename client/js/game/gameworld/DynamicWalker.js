@@ -36,7 +36,7 @@ class DynamicWalker {
 
         let clearDynamicPath = function () {
             GameAPI.unregisterGameUpdateCallback(updateWalker);
-        }
+        }.bind(this)
 
         this.call = {
             updateWalker:updateWalker,

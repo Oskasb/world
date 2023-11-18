@@ -7,12 +7,12 @@
           "data": {
             "lod_levels_": [
               {
-                "hide_tiles": true,
+                "hide_tiles": false,
                 "elevation" : 0.1,
-                "tile_size" : 0.8,
-                "tile_range" : 7,
-                "tile_spacing" : 4,
-                "max_plants":65,
+                "tile_size" : 0.98,
+                "tile_range" : 9,
+                "tile_spacing" : 5,
+                "max_plants":60,
                 "plants":[
                   "leafy_small",
                   "grass_low_1_dead",
@@ -31,12 +31,13 @@
             ],
             "lod_levels": [
               {
+                "debug": false,
                 "hide_tiles": true,
                 "elevation" : 0.1,
                 "tile_size" : 0.8,
-                "tile_range" : 7,
+                "tile_range" : 9,
                 "tile_spacing" : 5,
-                "max_plants":45,
+                "max_plants":60,
                 "plants":[
                   "leafy_small",
                   "grass_low_1_dead",
@@ -57,8 +58,8 @@
                 "elevation" : 0.1,
                 "tile_size" : 0.8,
                 "tile_range" : 7,
-                "tile_spacing" : 7,
-                "max_plants":32,
+                "tile_spacing" : 13,
+                "max_plants":42,
                 "plants":[
                   "grass_tall_sparse_1",
                   "grass_tall_sparse_2",
@@ -75,9 +76,9 @@
                 "hide_tiles": true,
                 "elevation" : 0.1,
                 "tile_size" : 0.8,
-                "tile_range" : 7,
-                "tile_spacing" : 15,
-                "max_plants":10,
+                "tile_range" : 5,
+                "tile_spacing" : 25,
+                "max_plants":30,
                 "plants":[
                   "flower_1_red",
                   "flower_1_yellow",
@@ -97,7 +98,7 @@
                 "tile_size" : 0.8,
                 "tile_range" : 5,
                 "tile_spacing" : 31,
-                "max_plants":18,
+                "max_plants":28,
                 "plants":[
                   "grass_tall_sparse_1",
                   "grass_tall_sparse_2",

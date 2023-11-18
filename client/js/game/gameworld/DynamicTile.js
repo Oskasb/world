@@ -142,29 +142,30 @@ class DynamicTile {
         poolReturn(this);
     }
 
-    processDynamicTileVisibility = function(maxDistance, lodLevels, lodCenter,  tileUpdateCallback, coarseness, margin) {
+    processDynamicTileVisibility = function(maxDistance, lodLevels, lodCenter,  tileUpdateCallback, coarseness, margin, centerIsUpdated) {
 
-        if (coarseness) {
+        if (coarseness && centerIsUpdated === false) {
             this.step++;
             if ((this.index+this.step) % coarseness !== 1) {
-                tileUpdateCallback(this)
+                tileUpdateCallback(this, centerIsUpdated)
                 return;
             }
         }
 
         let dynamicGridTile = this;
         let pos = this.getPos()
-        let lodDistance = pos.distanceTo(ThreeAPI.getCamera().position)
+        //    let lodDistance = pos.distanceTo(ThreeAPI.getCamera().position)
+           let lodDistance = pos.distanceTo(lodCenter)
         let rgba = this.rgba
-        let tileSize = this.spacing*margin || 1;
+        let tileSize = this.spacing * (margin || 1);
 
         let isVisible = aaBoxTestVisibility(pos,  tileSize, tileSize*2, tileSize)
         let borrowedBox = borrowBox();
-        let farness = MATH.calcFraction(0, maxDistance, lodDistance * 1.5)  //MATH.clamp( (camDist / maxDistance) * 1.0, 0, 1)
-        let nearness = 1-farness;
+        let farness = MATH.calcFraction(0, maxDistance, lodDistance * 1.7)  //MATH.clamp( (camDist / maxDistance) * 1.0, 0, 1)
+        let nearness = MATH.clamp(1.5-(MATH.curveQuad(farness)*1.5), 0, 1);
         let lodLevel = Math.floor(farness * (lodLevels));
         if (this.nearness > nearness) {
-            this.nearness = 1-farness*0.5;
+            this.nearness *= 0.999;
         } else {
             this.nearness = nearness;
         }
@@ -181,6 +182,7 @@ class DynamicTile {
                     evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:borrowedBox.min, max:borrowedBox.max, color:color})
                 }
             } else {
+                this.nearness = 0;
                 if (this.debug) {
                     this.debugDrawTilePosition(nearness*nearness*tileSize, 'BLACK')
                     evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:borrowedBox.min, max:borrowedBox.max, color:'BLACK'})
@@ -190,7 +192,7 @@ class DynamicTile {
         } else {
             this.lodLevel = -1;
         }
-        tileUpdateCallback(this)
+        tileUpdateCallback(this, centerIsUpdated)
     }
 
     debugDrawTilePosition(size, color) {
