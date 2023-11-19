@@ -152,21 +152,29 @@ function drawInputCursorState(cursorObj3d, dragToVec3, camTargetPos, cursorForwa
 function processTerrainLodCenter(lodCenter, terrainCenter) {
     let cursorPos = ThreeAPI.getCameraCursor().getPos();
     let camPos =ThreeAPI.getCamera().position
-    let elevationFactor = camPos.y*0.02;
-    lodCenter.subVectors(cursorPos , camPos );
-    terrainCenter.copy(lodCenter)
-    terrainCenter.normalize()
-    terrainCenter.multiplyScalar(5.0*(1.0+elevationFactor*1))
-    lodCenter.multiplyScalar(-(0.5-elevationFactor*0.5));
-    terrainCenter.sub(lodCenter)
-    terrainCenter.add(cursorPos)
+    let elevationFactor = camPos.y*0.1;
+//    lodCenter.subVectors(cursorPos , camPos );
+    terrainCenter.set(0, 0, -(80+elevationFactor))
+    terrainCenter.applyQuaternion(ThreeAPI.getCamera().quaternion)
+//    terrainCenter.multiplyScalar(2.0*(1.0+elevationFactor*1))
+//    lodCenter.multiplyScalar(-(0.5-elevationFactor*0.5));
+//    terrainCenter.sub(lodCenter)
+    terrainCenter.add(camPos)
+    terrainCenter.y =  elevationFactor // camPos.y // ThreeAPI.terrainAt(terrainCenter);
 
     lodCenter.copy(camPos);
    // lodCenter.y = ThreeAPI.terrainAt(lodCenter);
 
-    terrainCenter.y = 0// lodCenter.y;
-    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:terrainCenter, color:'YELLOW', size:0.2})
-    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:lodCenter, color:'WHITE', size:0.2})
+    // terrainCenter.y = 0// lodCenter.y;
+    // evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:terrainCenter, color:'YELLOW', size:2.2})
+
+    tempVec3.copy(terrainCenter)
+    tempVec3.y = ThreeAPI.terrainAt(terrainCenter);
+    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:terrainCenter, color:'YELLOW', size:1.0})
+    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:terrainCenter, to:tempVec3, color:'YELLOW'});
+    // GuiAPI.printDebugText( tempVec3.x)
+    GuiAPI.printDebugText('x:'+MATH.decimalify(tempVec3.x, 10)+' y:'+MATH.decimalify(tempVec3.y, 10)+' z:'+MATH.decimalify(tempVec3.z, 10))
+    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:tempVec3, color:'YELLOW', size:1.0})
     //   evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:calcVec, color:color, size:0.3})
     ThreeAPI.groundAt(cursorPos, color);
     evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:cursorPos, color:'WHITE', size:0.15})

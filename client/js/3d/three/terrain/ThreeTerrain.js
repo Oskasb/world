@@ -440,7 +440,7 @@ class ThreeTerrain {
             //    console.log("terrainListLoaded", data, terrainMaterial, terrainMaterial.getMaterialById(terrainId));
             gridConfig = data['grid']
             constructGeometries(data['height_map'], data['transform'], data['ground'], data['section_info']);
-            terrainBigGeometry.initBigTerrainGeometry(lodCenter, data['height_map'], data['transform'], data['ground'], data['section_info']);
+            terrainBigGeometry.initBigTerrainGeometry(terrainCenter, data['height_map'], data['transform'], data['ground'], data['section_info']);
             dynamicLodGrid.activateLodGrid({lodLevels:data['section_info']['lod_levels'].length, tile_range:gridConfig['tile_range'], tile_spacing:gridConfig['tile_spacing'], hide_tiles:gridConfig['hide_tiles'], center_offset:true, debug:false})
             matLoadedCB();
         }
