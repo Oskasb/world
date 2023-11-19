@@ -136,6 +136,10 @@
         {"id": "file_cross3d",       "config": { "url": "./client/assets/models/shapes/cross3d"                                      }},
         {"id": "file_bullet",        "config": { "url": "./client/assets/models/shapes/bullet"                                       }},
 
+        {"id": "file_scraper_10",   "config": { "url": "./client/assets/models/buildings/scraper_10"                               }},
+        {"id": "file_scraper_17",   "config": { "url": "./client/assets/models/buildings/scraper_17"                               }},
+        {"id": "file_block_4",      "config": { "url": "./client/assets/models/buildings/block_4"                                      }},
+
         {"id": "file_house_small",   "config": { "url": "./client/assets/models/buildings/house_small"                               }},
         {"id": "file_town_house",    "config": { "url": "./client/assets/models/buildings/town_house"                               }},
         {"id": "file_mansion_roof",   "config": { "url": "./client/assets/models/buildings/mansion_roof"                               }},

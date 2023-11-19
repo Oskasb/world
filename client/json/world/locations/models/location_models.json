@@ -88,6 +88,72 @@
         ]
       },
       {
+        "id": "model_block_4",
+        "data": [
+          {
+            "data_key":"model_data",
+            "config": {
+              "assets": [
+                {
+                  "asset": "asset_block_4",
+                  "pos": [0, 0, 0],
+                  "rot": [-1.57, 0, 0],
+                  "scale": [0.005, 0.005, 0.005],
+                  "visibility": 4,
+                  "boxes": [
+
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "model_scraper_10",
+        "data": [
+          {
+            "data_key":"model_data",
+            "config": {
+              "assets": [
+                {
+                  "asset": "asset_scraper_10",
+                  "pos": [0, 0, 0],
+                  "rot": [-1.57, 0, 0],
+                  "scale": [0.005, 0.005, 0.005],
+                  "visibility": 4,
+                  "boxes": [
+
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "model_scraper_17",
+        "data": [
+          {
+            "data_key":"model_data",
+            "config": {
+              "assets": [
+                {
+                  "asset": "asset_scraper_17",
+                  "pos": [0, 0, 0],
+                  "rot": [-1.57, 0, 0],
+                  "scale": [0.005, 0.005, 0.005],
+                  "visibility": 4,
+                  "boxes": [
+
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
         "id": "model_svigg",
         "data": [
           {

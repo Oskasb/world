@@ -16,6 +16,9 @@
       "/world/locations/location_bridgetown_islet.json"       ,
       "/world/locations/location_bridgetown_main.json"       ,
       "/world/locations/location_bridgetown_walls.json"       ,
+
+      "/world/locations/location_southport_main.json"       ,
+
       "/world/locations/models/location_towers.json"         ,
       "/world/locations/models/location_prop_models.json"    ,
       "/world/locations/models/location_models.json"         ,
