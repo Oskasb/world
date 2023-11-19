@@ -14,6 +14,8 @@ function processCameraStatus(actor) {
 
     if (travelMode === ENUMS.TravelMode.TRAVEL_MODE_FLY) {
         controlKey = ENUMS.CameraControls.CAM_ORBIT;
+        notifyCameraStatus( ENUMS.CameraStatus.LOOK_AT, ENUMS.CameraControls.CAM_AHEAD, null)
+        notifyCameraStatus( ENUMS.CameraStatus.LOOK_FROM, ENUMS.CameraControls.CAM_SHOULDER, null)
     }
 
     if (travelMode === ENUMS.TravelMode.TRAVEL_MODE_INACTIVE) {

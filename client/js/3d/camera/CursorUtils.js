@@ -33,14 +33,13 @@ function processLookCursorInput(cursorObj3d, dragToVec3, camTargetPos, cursorFor
     return inputAngle;
 }
 
-function processOrbitCursorInput(cursorObj3d, dragToVec3, offsetPos, cursorForward, pointerDragVector) {
+function processOrbitCursorInput(cursorObj3d, dragToVec3, offsetPos, cursorForward, pointerDragVector, distance) {
 
     tempObj.position.copy(ThreeAPI.getCamera().position);
-    let distance = MATH.distanceBetween(tempObj.position, cursorObj3d.position)
     tempObj.lookAt(cursorObj3d.position);
-    offsetPos.set(pointerDragVector.x*1, MATH.curveSigmoidMirrored(pointerDragVector.z*5)*5, 0);
+    offsetPos.set(pointerDragVector.x*0.01, pointerDragVector.z*0.01, -distance);
     offsetPos.applyQuaternion(tempObj.quaternion);
-    offsetPos.multiplyScalar(distance*0.1)
+
     return distance;
 }
 

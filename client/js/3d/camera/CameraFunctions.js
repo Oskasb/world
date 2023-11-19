@@ -337,27 +337,66 @@ function CAM_AUTO() {
 
 function CAM_ORBIT() {
 
-    lerpFactor = tpf*2.5;
+    lerpFactor = tpf;
+    cameraTime+= tpf;
 
     let distance = 5;
+    zoomDistance = distance;
+    let actorSpeed = 0;
+    let actorQuat = cursorObj3d.quaternion
+
+    if (selectedActor) {
+
+        actorSpeed += selectedActor.getStatus(ENUMS.ActorStatus.STATUS_SPEED);
+
+        actorQuat = selectedActor.actorObj3d.quaternion;
+        let rollAlpha = tpf;
+        tempVec3.set(0, 1, 0);
+        tempVec3.applyQuaternion(actorQuat);
+
+        if (lookFromActive) {
+            zoomDistance = actorSpeed*0.5 + 8 + distance*0.4;;
+            lerpCameraPosition(CAM_POINTS[lookFromControlKey](selectedActor), tpf*2);
+            rollAlpha += 3 * tpf;
+        }
+
+        if (lookAtActive) {
+            zoomDistance += actorSpeed * 0.5 + distance*0.4;
+            lerpCameraLookAt(CAM_POINTS[lookAtControlKey](selectedActor), tpf*3);
+            rollAlpha += 0.5 * tpf;
+        }
+
+        ThreeAPI.getCamera().up.lerp(tempVec3, rollAlpha);
+    } else {
+        tempVec3.set(0, 1, 0);
+        ThreeAPI.getCamera().up.lerp(tempVec3, tpf);
+        camLookAtVec.copy(cursorObj3d.position)
+        camLookAtVec.y += 1.3;
+    }
+
 
     if (pointerAction) {
         notifyCameraStatus(ENUMS.CameraStatus.POINTER_ACTION, ENUMS.CameraControls.CAM_TRANSLATE, true)
-        distance += CursorUtils.processOrbitCursorInput(cursorObj3d, dragToVec3, offsetPos, cameraCursor.getForward(), pointerDragVector)
-
+        distance += CursorUtils.processOrbitCursorInput(cursorObj3d, dragToVec3, offsetPos, cameraCursor.getForward(), pointerDragVector, zoomDistance)
+        camPosVec.copy(cursorObj3d.position);
+        camPosVec.add(offsetPos);
         CursorUtils.drawInputCursorState(cursorObj3d, dragToVec3, camTargetPos, cameraCursor.getForward(), camLookAtVec)
+        tempVec.set(0, 1.3, 0)
+        tempVec.add(cursorObj3d.position)
+        lerpCameraLookAt(tempVec, 1)
+    //    lerpCameraPosition(offsetPos, 1)
+
+        return;
     } else {
+
         offsetPos.set(0, 0, 0)
         notifyCameraStatus(ENUMS.CameraStatus.POINTER_ACTION, ENUMS.CameraControls.CAM_TRANSLATE, false)
-    }
 
-    if (modeActive) {
-        notifyCameraStatus(ENUMS.CameraStatus.CAMERA_MODE, ENUMS.CameraControls.CAM_ORBIT, true)
-        cameraTime+= tpf;
-        tempVec.copy(cursorObj3d.position)
-        tempVec.y += 1.3;
+        tempVec.set(0, 1.3, actorSpeed)
+        tempVec.applyQuaternion(actorQuat);
+        tempVec.add(cursorObj3d.position)
 
-        lerpCameraLookAt(tempVec, lerpFactor)
+        lerpCameraLookAt(tempVec, lerpFactor * 3)
         tempVec2.copy(camLookAtVec);
         tempVec.set(0, 0, 1);
         tempVec.applyQuaternion(ThreeAPI.getCamera().quaternion);
@@ -370,22 +409,6 @@ function CAM_ORBIT() {
         tempVec.add(offsetPos);
         lerpCameraPosition(tempVec, lerpFactor)
 
-        tempVec3.set(0, 1, 0);
-        ThreeAPI.getCamera().up.lerp(tempVec3, tpf*1.5);
-    } else {
-        notifyCameraStatus(ENUMS.CameraStatus.CAMERA_MODE, ENUMS.CameraControls.CAM_ORBIT, false)
-    }
-
-    if (selectedActor) {
-        if (lookAtActive) {
-            zoomDistance = 0.5 + distance*0.8;
-            lerpCameraLookAt(CAM_POINTS[lookAtControlKey](selectedActor), tpf*5);
-        }
-
-        if (lookFromActive) {
-            zoomDistance = 8 + distance*0.4;;
-            lerpCameraPosition(CAM_POINTS[lookFromControlKey](selectedActor), tpf*5);
-        }
     }
 
 }

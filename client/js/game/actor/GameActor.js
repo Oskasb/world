@@ -271,12 +271,13 @@ class GameActor {
     turnTowardsPos(posVec) {
 
         this.lookDirection.copy(posVec);
+        this.lookDirection.y = this.actorObj3d.position.y;
         this.lookDirection.sub(this.actorObj3d.position);
 
     }
 
     applyHeading(direction, alpha) {
-        tempObj.position.set(0, direction.y, 0)
+        tempObj.position.set(0, 0, 0)
         tempObj.lookAt(direction);
         this.actorObj3d.quaternion.slerp(tempObj.quaternion, alpha || 0.1)
     }
@@ -289,18 +290,19 @@ class GameActor {
         let speed = this.velocity.length()
 
         if (speed < 0.001) {
+            this.setStatusKey(ENUMS.ActorStatus.FRAME_TRAVEL_DISTANCE, 0);
+            this.applyHeading(this.lookDirection, this.getStatus(ENUMS.ActorStatus.ACTOR_YAW_RATE) * tpf);
+        } else {
+
             let frameTravelDistance = MATH.distanceBetween(this.getPos(), this.actorObj3d.position)
             this.setStatusKey(ENUMS.ActorStatus.FRAME_TRAVEL_DISTANCE, frameTravelDistance);
             if (frameTravelDistance > 0.001) {
                 this.turnTowardsPos(this.getPos(), MATH.clamp(speed*10, 0.05, 0.5));
             }
-        } else {
-            this.setStatusKey(ENUMS.ActorStatus.FRAME_TRAVEL_DISTANCE, 0);
+
             ThreeAPI.getCameraCursor().getPos().copy(this.getPos())
             this.visualGamePiece.getSpatial().stickToObj3D(this.actorObj3d)
         }
-
-        this.applyHeading(this.lookDirection, this.getStatus(ENUMS.ActorStatus.ACTOR_YAW_RATE) * tpf);
 
         this.actorObj3d.position.copy(this.getPos())
 
