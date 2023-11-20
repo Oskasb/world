@@ -66,8 +66,8 @@
               "color": {"r": 1, "g": 1, "b": 1 },
               "settings": {
                 "roughness":1,
-                "metalness":1,
-                "envMapIntensity":1,
+                "metalness":2,
+                "envMapIntensity":2,
                 "aoMapIntensity":1
               }
             }
