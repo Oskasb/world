@@ -154,7 +154,7 @@ function processTerrainLodCenter(lodCenter, terrainCenter) {
     let camPos =ThreeAPI.getCamera().position
     let elevationFactor = camPos.y*0.1;
 //    lodCenter.subVectors(cursorPos , camPos );
-    terrainCenter.set(0, 0, -(80+elevationFactor))
+    terrainCenter.set(0, 0, -(40+elevationFactor))
     terrainCenter.applyQuaternion(ThreeAPI.getCamera().quaternion)
 //    terrainCenter.multiplyScalar(2.0*(1.0+elevationFactor*1))
 //    lodCenter.multiplyScalar(-(0.5-elevationFactor*0.5));

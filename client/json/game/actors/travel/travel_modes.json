@@ -21,7 +21,7 @@
           "status": {
             "MOVEMENT_SPEED": 7,
             "ACTOR_SPEED": 0,
-            "ACTOR_YAW_RATE": 4,
+            "ACTOR_YAW_RATE": 2,
             "STATUS_FORWARD": 0
           },
           "inputs": [
@@ -50,7 +50,7 @@
           "status": {
             "MOVEMENT_SPEED": 7,
             "ACTOR_SPEED": 0,
-            "ACTOR_YAW_RATE": 4,
+            "ACTOR_YAW_RATE": 2,
             "STATUS_FORWARD": 0
           },
           "inputs": [
@@ -138,7 +138,7 @@
           "status": {
             "MOVEMENT_SPEED": 24,
             "ACTOR_SPEED": 0,
-            "ACTOR_YAW_RATE": 4,
+            "ACTOR_YAW_RATE": 2,
             "STATUS_FORWARD": 0
           },
           "inputs": [

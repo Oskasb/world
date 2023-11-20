@@ -106,7 +106,8 @@ class ThreeTexture {
                 _this.texture.canvas = canvas;
                 _this.texture.ctx = canvas.getContext('2d')
                 _this.texture.ctx.drawImage( asset.bitmap, 0, 0, canvas.width, canvas.height );
-
+                _this.texture.flipY = true;
+                _this.texture.combine = THREE.AddOperation;
 
                 _this.texture.mapping = THREE.EquirectangularReflectionMapping;
                 ThreeAPI.getScene().environemt = _this.texture;
@@ -154,7 +155,7 @@ class ThreeTexture {
         if (settings.mapping)           tx.mapping                  = THREE[settings.mapping];
 
         if (settings.generateMipmaps)   tx.generateMipmaps          = settings.generateMipmaps;
-        if (settings.flipY)             tx.flipY                    = settings.flipY;
+        if (typeof (settings.flipY) === 'boolean')        tx.flipY                    = settings.flipY;
         if (settings.data_rows)         tx.userData.data_rows       = settings.data_rows;
         if (settings.tiles_x)           tx.userData.tiles_x         = settings.tiles_x;
         if (settings.tiles_y)           tx.userData.tiles_y         = settings.tiles_y;

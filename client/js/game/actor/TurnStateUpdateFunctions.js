@@ -50,6 +50,7 @@ function updateActorTargetSelect(tpf) {
 
     if (seqTime > 1) {
         let targetActor = targetSelector.selectActorEncounterTarget(actor, candidates)
+        actor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, targetActor)
         getSequencer().setTargetActor(targetActor);
         targetActor.actorText.yell('I am target')
         GameAPI.unregisterGameUpdateCallback(updateActorTargetSelect)
@@ -64,7 +65,6 @@ function updateActorEvaluateTarget(tpf) {
 
     let actor = getSequencer().getGameActor()
     let seqTime = getSequencer().getSequenceProgress()
-
     actor.turnTowardsPos(getSequencer().getTargetActor().getPos(), tpf)
 
     evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:actor.getPos(), to:getSequencer().getTargetActor().getPos(), color:'WHITE'});
@@ -142,7 +142,7 @@ function updateActorTileSelect(tpf) {
 //    indicateTurnClose(initActor, initTime)
     let actor = getSequencer().getGameActor()
     let seqTime = getSequencer().getSequenceProgress()
-    viewTileSelect(getSequencer());
+    viewTileSelect(getSequencer(), actor);
 
     if (seqTime > 1) {
         GameAPI.unregisterGameUpdateCallback(updateActorTileSelect)
@@ -156,6 +156,12 @@ function updateActorClose(tpf) {
     let actor = getSequencer().getGameActor()
     let seqTime = getSequencer().getSequenceProgress()
     indicateTurnClose(actor, seqTime)
+
+    if (actor.isPlayerActor()) {
+        
+    } else {
+        actor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, null)
+    }
 
     if (seqTime > 1) {
         GameAPI.unregisterGameUpdateCallback(updateActorClose)

@@ -178,7 +178,7 @@ class DynamicTile {
                 this.isVisible = true;
                 if (this.debug) {
                     let color = {x:MATH.sillyRandom(lodLevel), y:Math.sin(lodLevel*1.8), z:Math.cos(lodLevel), w:1}
-                    this.debugDrawTilePosition(nearness*nearness*tileSize*0.5, color)
+                //    this.debugDrawTilePosition(nearness*nearness*tileSize*0.5, color)
                     evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:borrowedBox.min, max:borrowedBox.max, color:color})
                 }
             } else {

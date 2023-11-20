@@ -49,9 +49,99 @@ function processCameraStatus(actor) {
     }
 
     if (travelMode === ENUMS.TravelMode.TRAVEL_MODE_BATTLE) {
-        controlKey = ENUMS.CameraControls.CAM_ENCOUNTER;
-        notifyCameraStatus( ENUMS.CameraStatus.LOOK_AT, ENUMS.CameraControls.CAM_AHEAD, true)
-        notifyCameraStatus( ENUMS.CameraStatus.LOOK_FROM, ENUMS.CameraControls.CAM_HIGH, true)
+
+        let turnActiveActor = GameAPI.call.getTurnActiveSequencerActor()
+        if (!turnActiveActor) {
+            return;
+        }
+        let selectedActor = turnActiveActor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET)
+        let moveControlActive = actor.getControl(ENUMS.Controls.CONTROL_MOVE_ACTION)
+        let partySelected = actor.getStatus(ENUMS.ActorStatus.PARTY_SELECTED)
+        if (turnActiveActor !== actor) {
+            if (turnActiveActor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET)) {
+                controlKey = ENUMS.CameraControls.CAM_ENCOUNTER;
+                notifyCameraStatus( ENUMS.CameraStatus.LOOK_AT, ENUMS.CameraControls.CAM_TARGET, null)
+                notifyCameraStatus( ENUMS.CameraStatus.LOOK_FROM, ENUMS.CameraControls.CAM_SHOULDER, null)
+            } else {
+                controlKey = ENUMS.CameraControls.CAM_GRID;
+                notifyCameraStatus( ENUMS.CameraStatus.LOOK_AT, ENUMS.CameraControls.CAM_AHEAD, null)
+                notifyCameraStatus( ENUMS.CameraStatus.LOOK_FROM, ENUMS.CameraControls.CAM_HIGH, null)
+            }
+
+        } else {
+
+            if (selectedActor) {
+                if (selectedActor !== turnActiveActor) {
+
+                    if (moveControlActive === 1) {
+                        actor.turnTowardsPos(selectedActor.getPos())
+                        controlKey = ENUMS.CameraControls.CAM_GRID;
+                        notifyCameraStatus( ENUMS.CameraStatus.LOOK_AT, ENUMS.CameraControls.CAM_TARGET, null)
+                        if (partySelected) {
+                            notifyCameraStatus( ENUMS.CameraStatus.LOOK_FROM, ENUMS.CameraControls.CAM_PARTY, null)
+                        } else {
+                            notifyCameraStatus( ENUMS.CameraStatus.LOOK_FROM, ENUMS.CameraControls.CAM_HIGH, null)
+                        }
+
+                    } else {
+                        actor.turnTowardsPos(selectedActor.getPos())
+                        controlKey = ENUMS.CameraControls.CAM_ENCOUNTER;
+
+                        if (partySelected) {
+                            notifyCameraStatus( ENUMS.CameraStatus.LOOK_AT, ENUMS.CameraControls.CAM_TARGET, null)
+                            notifyCameraStatus( ENUMS.CameraStatus.LOOK_FROM, ENUMS.CameraControls.CAM_SHOULDER, null)
+                        } else {
+                            notifyCameraStatus( ENUMS.CameraStatus.LOOK_AT, ENUMS.CameraControls.CAM_AHEAD, null)
+                            notifyCameraStatus( ENUMS.CameraStatus.LOOK_FROM, ENUMS.CameraControls.CAM_PARTY, null)
+                        }
+
+
+                    }
+
+                } else {
+
+                    if (partySelected) {
+                        controlKey = ENUMS.CameraControls.CAM_MOVE;
+                        notifyCameraStatus( ENUMS.CameraStatus.LOOK_AT, ENUMS.CameraControls.CAM_AHEAD, null)
+                        notifyCameraStatus( ENUMS.CameraStatus.LOOK_FROM, ENUMS.CameraControls.CAM_PARTY, null)
+                    } else {
+                        controlKey = ENUMS.CameraControls.CAM_GRID;
+                        notifyCameraStatus( ENUMS.CameraStatus.LOOK_AT, ENUMS.CameraControls.CAM_AHEAD, null)
+                        notifyCameraStatus( ENUMS.CameraStatus.LOOK_FROM, ENUMS.CameraControls.CAM_HIGH, null)
+                    }
+
+                }
+
+            } else {
+
+                let partySelected = actor.getStatus(ENUMS.ActorStatus.PARTY_SELECTED)
+                if (partySelected) {
+
+                    if (moveControlActive === 1) {
+                        controlKey = ENUMS.CameraControls.CAM_GRID;
+                        notifyCameraStatus( ENUMS.CameraStatus.LOOK_AT, ENUMS.CameraControls.CAM_AHEAD, null)
+                        notifyCameraStatus( ENUMS.CameraStatus.LOOK_FROM, ENUMS.CameraControls.CAM_PARTY, null)
+                    } else {
+                        controlKey = ENUMS.CameraControls.CAM_MOVE;
+                        notifyCameraStatus( ENUMS.CameraStatus.LOOK_AT, ENUMS.CameraControls.CAM_AHEAD, null)
+                        notifyCameraStatus( ENUMS.CameraStatus.LOOK_FROM, ENUMS.CameraControls.CAM_PARTY, null)
+                    }
+
+                } else {
+                    controlKey = ENUMS.CameraControls.CAM_GRID;
+                    if (selectedActor) {
+                        notifyCameraStatus( ENUMS.CameraStatus.LOOK_AT, ENUMS.CameraControls.CAM_TARGET, null)
+                    } else {
+                        notifyCameraStatus( ENUMS.CameraStatus.LOOK_AT, ENUMS.CameraControls.CAM_AHEAD, null)
+                    }
+
+                    notifyCameraStatus( ENUMS.CameraStatus.LOOK_FROM, ENUMS.CameraControls.CAM_HIGH, null)
+                }
+            }
+        }
+
+
+
     }
 
     notifyCameraStatus( statusKey, controlKey, null)

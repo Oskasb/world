@@ -164,7 +164,7 @@ function viewTileSelect(sequencer) {
     tempVec.add(actor.getPos())
 
     actor.prepareTilePath(tempVec)
-
+    actor.turnTowardsPos(tempVec);
     tempVec2.multiplyScalar(0.5);
     tempVec2.add(actor.getPos())
     sequencer.focusAtObj3d.position.copy(tempVec2)
@@ -457,6 +457,37 @@ function CAM_SEQUENCER() {
 
 function CAM_ENCOUNTER() {
 
+    let turnActiveActor = GameAPI.call.getTurnActiveSequencerActor()
+    if (!turnActiveActor) {
+        console.log("No turn Active Actor for CAM_ENCOUNTER")
+        return;
+    }
+    if (!selectedActor) {
+        return;
+    }
+
+    let distance = 6
+
+    let actorTarget = turnActiveActor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET);
+    if (actorTarget) {
+        zoomDistance = 5;
+    } else {
+        zoomDistance = 9;
+    }
+
+
+
+    if (lookAtActive) {
+        if (actorTarget) {
+            lerpCameraLookAt(CAM_POINTS[lookAtControlKey](actorTarget), tpf*2);
+        } else {
+            lerpCameraLookAt(CAM_POINTS[lookAtControlKey](turnActiveActor), tpf*1);
+        }
+    }
+
+    if (lookFromActive) {
+        lerpCameraPosition(CAM_POINTS[lookFromControlKey](turnActiveActor), tpf*4);
+    }
 }
 
 function CAM_MOVE() {
@@ -481,6 +512,11 @@ function CAM_MOVE() {
 }
 
 function CAM_GRID() {
+
+    let turnActiveActor = GameAPI.call.getTurnActiveSequencerActor()
+    if (turnActiveActor) {
+        selectedActor = turnActiveActor;
+    }
 
     if (!selectedActor) {
         return;

@@ -461,10 +461,10 @@
           "float intensity = max( 0.01 + dot(txNmBase.rgb, sunLightDirection ) * 0.99, 0.0);",
 
           "vec3 transposedFragPos = fragPos + fragNormal.xyz*45.0 + txNmBase.xyz*5.0;",
-          "transposedFragPos.y -= 15.0;",
+          "transposedFragPos.y += 5.0;",
 
           "vec3 cameraToFrag = normalize(transposedFragPos-cameraPosition);",
-
+          "cameraToFrag.y = cameraToFrag.y*0.5 + 0.5;",
           "vec4 reflectionColor = texture2D( envMap, cameraToFrag.xy);",
 
           "vec4 baseColor = vColor * txColor * (intensity*0.25 + 0.75) + txColor * lightColor*intensity*2.0;",

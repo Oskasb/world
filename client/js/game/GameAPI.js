@@ -101,6 +101,10 @@ function getSequencerSelection() {
     return gameEncounterSystem.getEncounterTurnSequencer().getSequencerSelection()
 }
 
+function getTurnActiveSequencerActor() {
+    return gameEncounterSystem.getEncounterTurnSequencer().getActiveSequencerActor()
+}
+
 class GameAPI {
     constructor() {
         this.activePlayerCharacter = null;
@@ -173,6 +177,7 @@ class GameAPI {
         }.bind(this);
 
         this.call = {
+            getTurnActiveSequencerActor:getTurnActiveSequencerActor,
             getGameEncounterSystem:getGameEncounterSystem,
             activateBattleMode:activateBattleMode,
             spawnWorldEncounters:spawnWorldEncounters,

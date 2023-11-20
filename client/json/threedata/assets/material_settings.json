@@ -8,6 +8,7 @@
             "shader":"MeshStandardMaterial",
             "properties": {
               "blending": "AdditiveBlending",
+              "combine": "AddOperation",
               "color": { "r": 0.8, "g": 0.8, "b": 0.8},
               "side": "FrontSide",
               "settings": {
@@ -46,10 +47,10 @@
               "blending": "NoBlending",
               "color": {"r": 1, "g": 1, "b": 1 },
               "specular": {"r": 1, "g": 1, "b": 1 },
-              "combine": "MixOperation",
+              "combine": "AddOperation",
               "settings": {
                 "reflectivity":1,
-                "shininess": 20
+                "shininess": 50
               }
             }
           }
@@ -59,8 +60,9 @@
           "config": {
             "shader": "MeshStandardMaterial",
             "properties": {
-              "instanced": true,
+              "defines": {"INSTANCED": ""},
               "blending": "NoBlending",
+              "combine": "AddOperation",
               "color": {"r": 1, "g": 1, "b": 1 },
               "settings": {
                 "roughness":1,
@@ -77,6 +79,7 @@
             "shader": "MeshStandardMaterial",
             "properties": {
               "blending": "NoBlending",
+              "combine": "AddOperation",
               "color": {"r": 1, "g": 1, "b": 1 },
               "settings": {
                 "roughness":1.0,

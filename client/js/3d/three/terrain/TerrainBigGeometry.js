@@ -225,8 +225,8 @@ let updateBigGeo = function(tpf) {
         //    let visible = ThreeAPI.testPosIsVisible(tempPoint);
 
             let visible = aaBoxTestVisibility(tempPoint, centerSize*lodScale, 100, centerSize*lodScale)
-        //    let borrowedBox = borrowBox();
-        //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:borrowedBox.min, max:borrowedBox.max, color:'CYAN'})
+            let borrowedBox = borrowBox();
+
 
             if (!visible) {
                 if (visibilityList[index] === true) {
@@ -234,6 +234,8 @@ let updateBigGeo = function(tpf) {
                     visibilityList[index] = false
                 }
             } else {
+            //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:borrowedBox.min, max:borrowedBox.max, color:'CYAN'})
+            //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:lodCenter, to:tempPoint, color:'GREEN'});
                 visibleCount++
                 if (visibilityList[index] !== true) {
                     attachSection(lodScale, tempPoint.x, tempPoint.z, index)

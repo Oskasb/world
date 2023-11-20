@@ -181,7 +181,7 @@ function cubeTestVisibility(center, size) {
 
 function aaBoxTestVisibility(center, sizeX, sizeY, sizeZ) {
     tempBox.min.x = center.x - sizeX*0.5;
-    tempBox.min.y = center.y - sizeX*0.5;
+    tempBox.min.y = center.y;
     tempBox.min.z = center.z - sizeZ*0.5;
 
     tempBox.max.x = center.x + sizeX*0.5;

@@ -24,15 +24,19 @@ let testActive = function(actor) {
 
 let onActivate = function(actor) {
     console.log("Button Pressed, onActivate:", actor)
+    let playerActor = GameAPI.getGamePieceSystem().getSelectedGameActor()
 
     if (selectedActor) {
         selectedActor.actorText.say('Unselected')
         selectedActor.setStatusKey(ENUMS.ActorStatus.SEQUENCER_SELECTED, false)
+        playerActor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, null)
     }
     if (actor === selectedActor) {
         selectedActor = null;
         return;
     }
+    playerActor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, actor)
+    playerActor.turnTowardsPos(actor.getPos());
     selectedActor = actor;
     actor.setStatusKey(ENUMS.ActorStatus.SEQUENCER_SELECTED, true)
     actor.actorText.say('Sequencer Selected')

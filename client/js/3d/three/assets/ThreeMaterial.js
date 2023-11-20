@@ -1,4 +1,5 @@
 import {PipelineObject} from '../../../application/load/PipelineObject.js';
+import {AddOperation, MixOperation, MultiplyOperation} from "../../../../libs/three/constants.js";
 
 let blendCanvasCtxToTexture = function(ctx, texture) {
 
@@ -185,7 +186,11 @@ class ThreeMaterial {
         }
 
         if (props.side) mat.side = THREE[props.side];
-        if (props.combine) mat.combine = THREE[props.combine];
+        if (props.combine) {
+            mat.combine = THREE[props.combine];
+        } else {
+            mat.combine = AddOperation;
+        }
         if (props.normalMapType) mat.normalMapType = THREE[props.normalMapType];
         if (props.depthTest) mat.depthTest = props.depthTest;
 

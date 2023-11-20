@@ -49,7 +49,11 @@ class ControlFunctions {
         let pitch = actor.getStatus(ENUMS.ActorStatus.STATUS_PITCH) * (1.0-tpf*1.8);
         let pitchAxis = actor.getStatus(ENUMS.ActorStatus.STATUS_ANGLE_PITCH);
         actor.actorObj3d.rotateX(MATH.curveQuad(pitch)*0.14)
-        actor.setStatusKey(ENUMS.ActorStatus.STATUS_PITCH, pitch + value*tpf - (0.25*pitchAxis*tpf*(1-Math.abs(value))))
+        let neutralize = 0;
+        if (!value) {
+            neutralize = (0.5*pitchAxis*tpf)
+        }
+        actor.setStatusKey(ENUMS.ActorStatus.STATUS_PITCH, pitch + value*tpf - neutralize)
     }
 
     CONTROL_ROLL(value, actor) {
@@ -57,7 +61,11 @@ class ControlFunctions {
         let roll = actor.getStatus(ENUMS.ActorStatus.STATUS_ROLL) * (1.0-tpf*1.2) * (1.0 );
         let rollAxis = actor.getStatus(ENUMS.ActorStatus.STATUS_ANGLE_ROLL);
         actor.actorObj3d.rotateZ(MATH.curveQuad(roll)*0.25)
-        actor.setStatusKey(ENUMS.ActorStatus.STATUS_ROLL, roll + value*tpf - (0.25*rollAxis*tpf*(1-Math.abs(value))))
+        let neutralize = 0;
+        if (!value) {
+            neutralize = (0.5*rollAxis*tpf)
+        }
+        actor.setStatusKey(ENUMS.ActorStatus.STATUS_ROLL, roll + value*tpf - neutralize)
     }
 
     CONTROL_YAW(value, actor) {
