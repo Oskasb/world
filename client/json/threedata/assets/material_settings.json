@@ -256,6 +256,10 @@
                 "sunLightDirection": { "value": {"x":1, "y":1, "z":1}}
               },
               "side": "DoubleSide",
+              "texture_uniforms": [
+                {"key":"emissiveMap",  "repeat":[1,   1]},
+                {"key":"normalMap",    "repeat":[1,   1]}
+              ],
               "settings": {
                 "alphaTest": 0.75
               }

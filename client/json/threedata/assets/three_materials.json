@@ -45,6 +45,7 @@
             "settings": "mat_settings_phong_instancing",
             "textures":[
               {"key":"map"           , "id":"atlas_2k_diff"   },
+              {"key":"emissiveMap"   , "id":"atlas_2k_emit"   } ,
               {"key":"envMap"        , "id":"ref_sphere"      } ,
               {"key":"specularMap"   , "id":"atlas_2k_spec"   },
               {"key":"normalMap"     , "id":"atlas_2k_norm"   }
@@ -57,6 +58,7 @@
             "settings": "mat_settings_standard_instancing",
             "textures":[
               {"key":"map"           , "id":"atlas_2k_diff"       } ,
+              {"key":"emissiveMap"   , "id":"atlas_2k_emit"       } ,
               {"key":"envMap"        , "id":"ref_sphere"          } ,
               {"key":"metalnessMap"  , "id":"atlas_2k_metalness"  } ,
               {"key":"roughnessMap"  , "id":"atlas_2k_roughness"  } ,
@@ -70,6 +72,7 @@
             "settings": "mat_settings_standard_opaque",
             "textures":[
               {"key":"map"           , "id":"atlas_2k_green"   } ,
+              {"key":"emissiveMap"   , "id":"atlas_2k_emit"       } ,
               {"key":"envMap"        , "id":"ref_sphere"      } ,
               {"key":"metalnessMap"  , "id":"atlas_2k_metalness"   } ,
               {"key":"roughnessMap"  , "id":"atlas_2k_roughness"   } ,
@@ -83,6 +86,7 @@
             "settings": "mat_settings_standard_instancing",
             "textures":[
               {"key":"map"           , "id":"atlas_2k_green"       } ,
+              {"key":"emissiveMap"   , "id":"atlas_2k_emit"       } ,
               {"key":"envMap"        , "id":"ref_sphere"          } ,
               {"key":"metalnessMap"  , "id":"atlas_2k_metalness"  } ,
               {"key":"roughnessMap"  , "id":"atlas_2k_roughness"  } ,
@@ -96,6 +100,7 @@
             "settings": "mat_settings_standard_opaque",
             "textures":[
               {"key":"map"           , "id":"atlas_2k_red"   } ,
+              {"key":"emissiveMap"   , "id":"atlas_2k_emit"       } ,
               {"key":"envMap"        , "id":"ref_sphere"      } ,
               {"key":"metalnessMap"  , "id":"atlas_2k_metalness"   } ,
               {"key":"roughnessMap"  , "id":"atlas_2k_roughness"   } ,
@@ -109,6 +114,7 @@
             "settings": "mat_settings_standard_instancing",
             "textures":[
               {"key":"map"           , "id":"atlas_2k_red"       } ,
+              {"key":"emissiveMap"   , "id":"atlas_2k_emit"       } ,
               {"key":"envMap"        , "id":"ref_sphere"          } ,
               {"key":"metalnessMap"  , "id":"atlas_2k_metalness"  } ,
               {"key":"roughnessMap"  , "id":"atlas_2k_roughness"  } ,
@@ -122,6 +128,7 @@
             "settings": "mat_settings_standard_opaque",
             "textures":[
               {"key":"map"           , "id":"atlas_2k_purple"       } ,
+              {"key":"emissiveMap"   , "id":"atlas_2k_emit"       } ,
               {"key":"envMap"        , "id":"ref_sphere"            } ,
               {"key":"metalnessMap"  , "id":"atlas_2k_metalness"   } ,
               {"key":"roughnessMap"  , "id":"atlas_2k_roughness"   } ,
@@ -135,6 +142,7 @@
             "settings": "mat_settings_standard_instancing",
             "textures":[
               {"key":"map"           , "id":"atlas_2k_purple"     } ,
+              {"key":"emissiveMap"   , "id":"atlas_2k_emit"       } ,
               {"key":"envMap"        , "id":"ref_sphere"          } ,
               {"key":"metalnessMap"  , "id":"atlas_2k_metalness"  } ,
               {"key":"roughnessMap"  , "id":"atlas_2k_roughness"  } ,
@@ -224,7 +232,9 @@
           "config":{
             "settings": "mat_settings_instancing_basic",
             "textures":[
-              {"key":"map"           , "id":"atlas_2k_diff"   }
+              {"key":"map"           , "id":"atlas_2k_diff"   },
+              {"key":"emissiveMap"   , "id":"atlas_2k_emit"   },
+              {"key":"normalMap"     , "id":"atlas_2k_norm"   }
             ]
           }
         },
@@ -233,7 +243,9 @@
           "config":{
             "settings": "mat_settings_instancing_basic",
             "textures":[
-              {"key":"map"           , "id":"atlas_2k_diff"   }
+              {"key":"map"           , "id":"atlas_2k_diff"   },
+              {"key":"emissiveMap"   , "id":"atlas_2k_emit"   },
+              {"key":"normalMap"     , "id":"atlas_2k_norm"   }
             ]
           }
         },

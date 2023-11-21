@@ -4,6 +4,7 @@
       "TEXTURES":[
 
         {"id": "atlas_2k_diff"      ,  "config": {  "img" : "img_atlas_2k_diff"       , "settings": "tx_settings_model_normal"    }} ,
+        {"id": "atlas_2k_emit"      ,  "config": {  "img" : "img_atlas_2k_emit"       , "settings": "tx_settings_model_normal"    }} ,
         {"id": "atlas_2k_green"     ,  "config": {  "img" : "img_atlas_2k_green"      , "settings": "tx_settings_model_normal"    }} ,
         {"id": "atlas_2k_red"       ,  "config": {  "img" : "img_atlas_2k_red"        , "settings": "tx_settings_model_normal"    }} ,
         {"id": "atlas_2k_purple"    ,  "config": {  "img" : "img_atlas_2k_purple"     , "settings": "tx_settings_model_normal"    }} ,
