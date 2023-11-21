@@ -29,7 +29,7 @@
         {"id": "model_settings_big_terrain" ,
           "config": {
             "instancing": {
-              "instances": 32,
+              "instances": 20,
               "attributes": ["offset", "vertexColor", "scale3d", "orientation", "sprite", "texelRowSelect", "lifecycle"],
               "cameraspace": false
             },
@@ -169,7 +169,7 @@
         {"id": "model_settings_vegetation" ,
           "config": {
             "instancing": {
-              "instances": 3500,
+              "instances": 1500,
               "attributes": ["offset", "vertexColor", "scale3d", "orientation", "sprite", "texelRowSelect", "lifecycle"],
               "cameraspace": false
             },
@@ -310,6 +310,20 @@
           "config": {
             "instancing": {
               "instances": 100,
+              "attributes": ["offset", "vertexColor", "scale3d", "orientation"],
+              "cameraspace": false
+            },
+            "transform": {
+              "pos":   [0, 0, 0],
+              "rot":   [0, 0, 0],
+              "scale": [1, 1, 1]
+            }
+          }
+        },
+        {"id": "model_settings_instancing_75" ,
+          "config": {
+            "instancing": {
+              "instances": 75,
               "attributes": ["offset", "vertexColor", "scale3d", "orientation"],
               "cameraspace": false
             },

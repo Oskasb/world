@@ -80,19 +80,26 @@ function activateTravelMode(actr, mode, activateCB, deactivateCB) {
     if (mode === ENUMS.TravelMode.TRAVEL_MODE_FLY) {
     //    evt.dispatch(ENUMS.Event.SET_CAMERA_MODE, {mode:'world_viewer'})
 
-        actor.hideGameActor()
+        ThreeAPI.getCameraCursor().setZoomDistance(5);
 
+        actor.hideGameActor()
+        actor.getPos().copy(ThreeAPI.getCameraCursor().getLookAroundPoint())
+        ThreeAPI.getCameraCursor().getPos().copy(actor.getPos())
+        actor.actorObj3d.position.copy(actor.getPos())
         if (draken) {
             GameAPI.registerGameUpdateCallback(stickToActor)
             activateCB(config[mode], actor)
         } else {
             let addModelInstance = function(instance) {
+
                 draken = instance;
                 GameAPI.registerGameUpdateCallback(stickToActor)
                 activateCB(config[mode], actor)
             }
 
-            client.dynamicMain.requestAssetInstance("asset_j35draken", addModelInstance)
+            //     client.dynamicMain.requestAssetInstance("asset_f14", addModelInstance)
+            //     client.dynamicMain.requestAssetInstance("asset_svigg", addModelInstance)
+             client.dynamicMain.requestAssetInstance("asset_j35draken", addModelInstance)
         }
 
     }

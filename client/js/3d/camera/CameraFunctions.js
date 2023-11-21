@@ -344,11 +344,11 @@ function CAM_ORBIT() {
     zoomDistance = distance;
     let actorSpeed = 0;
     let actorQuat = cursorObj3d.quaternion
-
+    offsetPos.set(0, 0, 0)
     if (selectedActor) {
-
-        actorSpeed += selectedActor.getStatus(ENUMS.ActorStatus.STATUS_SPEED);
-
+        cursorObj3d.position.copy(selectedActor.actorObj3d.position)
+        actorSpeed += selectedActor.getStatus(ENUMS.ActorStatus.STATUS_FORWARD);
+        camLookAtVec.copy(selectedActor.actorObj3d.position)
         actorQuat = selectedActor.actorObj3d.quaternion;
         let rollAlpha = tpf;
         tempVec3.set(0, 1, 0);
@@ -365,7 +365,7 @@ function CAM_ORBIT() {
             lerpCameraLookAt(CAM_POINTS[lookAtControlKey](selectedActor), tpf*3);
             rollAlpha += 0.5 * tpf;
         }
-
+        
         ThreeAPI.getCamera().up.lerp(tempVec3, rollAlpha);
     } else {
         tempVec3.set(0, 1, 0);
@@ -388,6 +388,8 @@ function CAM_ORBIT() {
 
         return;
     } else {
+
+
 
         offsetPos.set(0, 0, 0)
         notifyCameraStatus(ENUMS.CameraStatus.POINTER_ACTION, ENUMS.CameraControls.CAM_TRANSLATE, false)

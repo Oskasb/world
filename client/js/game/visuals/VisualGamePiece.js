@@ -47,11 +47,12 @@ class VisualGamePiece {
 
         let hideVisualPiece = function() {
             this.hidden = true;
-            this.getSpatial().setPosXYZ(0, 0, 0);
+
         //    updateVisualGamePiece(0.1)
             ThreeAPI.unregisterPrerenderCallback(updateVisualGamePiece);
 
             if (this.getSpatial().call.isInstanced()) {
+            //    this.getSpatial().setPosXYZ(0, 0, 0);
                 this.getSpatial().call.hideSpatial(true)
             } else {
                 ThreeAPI.hideModel(this.getSpatial().obj3d)

@@ -11,7 +11,7 @@
               "config":{
                 "grid": {
                   "hide_tiles": true,
-                  "tile_range": 12,
+                  "tile_range": 9,
                   "tile_spacing": 50
                 },
                 "section_info": {
@@ -33,7 +33,9 @@
                     "ground_tx_width":4096,
                     "grid_mesh":[],
                     "mesh_segments":15,
-                    "lod_tiles": 22
+                    "lod_tiles": 12,
+                    "lod_layers": 2,
+                    "ocean_layers": 4
                   }
                 },
                 "textures": [

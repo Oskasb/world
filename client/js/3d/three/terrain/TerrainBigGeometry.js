@@ -126,6 +126,7 @@ let bigWorldOuter = null;
 
 let centerSize = 50;
 let lodLayers = 4;
+let oceanLayers = 4;
 let gridOffsets = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]]
 let layerScale = [1, 3, 9, 27, 81]
 let tempPoint = new Vector3();
@@ -207,6 +208,7 @@ let detachSection = function(index) {
 let visibilityList = [];
 let visibleCount = 0;
 let updateBigGeo = function(tpf) {
+    let camY = ThreeAPI.getCamera().position.y;
     let posX = Math.floor(lodCenter.x)
     let posZ = Math.floor(lodCenter.z)
 //    bigOcean.getSpatial().setPosXYZ(posX, -3.0, posZ);
@@ -214,7 +216,10 @@ let updateBigGeo = function(tpf) {
     groundInstances[0].getSpatial().setPosXYZ(posX, 0.0, posZ);
     let index = 1;
     visibleCount = 0;
-    for (let l = 0; l < lodLayers; l++) {
+
+    let elevAdjustedLayers = Math.clamp(1 + Math.floor(MATH.curveSqrt(camY) / 3), 1, lodLayers+3)
+
+    for (let l = 0; l < elevAdjustedLayers; l++) {
         let lodLayer = l;
 
         for (let i = 0; i < gridOffsets.length; i++) {
@@ -328,23 +333,13 @@ class TerrainBigGeometry {
         let txWidth = dims['tx_width'];
         let groundTxWidth = dims['ground_tx_width'];
         let mesh_segments = dims['mesh_segments'];
-        let tiles = (txWidth / (mesh_segments+1));
-        console.log("Constructs Big Terrain", txWidth, mesh_segments, tiles);
+        lodLayers = dims['lod_layers'] || 4;
+        console.log("Constructs Big Terrain", txWidth, mesh_segments);
 
-        let terrainOrigin = MATH.vec3FromArray(null, transform['pos']);
-
-        let terrainScale = MATH.vec3FromArray(null, transform['scale']);
-
-        let segmentScale = new Vector3();
-        segmentScale.copy(terrainScale);
-        segmentScale.multiplyScalar(1/tiles);
-        segmentScale.y = terrainScale.y * 0.02;
-        let geometrySize = segmentScale.x
-        let vertsPerSegAxis = txWidth/tiles;
 
         terrainParams.tx_width = txWidth;
         terrainParams.groundTxWidth = groundTxWidth;
-        terrainParams.tiles = tiles;
+    //    terrainParams.tiles = tiles;
 
         let updateBigGeo = this.call.updateBigGeo;
 
