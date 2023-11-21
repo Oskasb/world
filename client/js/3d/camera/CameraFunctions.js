@@ -47,6 +47,7 @@ let pointerActive = false;
 let lookAtControlKey;
 let lookFromControlKey;
 let pointerControlKey
+let activePointer;
 let tileSelector;
 let isTileSelecting = false;
 
@@ -67,6 +68,7 @@ function updateCamParams(camParams) {
     lookAroundPoint = camParams.cameraCursor.getLookAroundPoint();
     cursorObj3d = camParams.cameraCursor.getCursorObj3d();
     cameraCursor =  camParams.cameraCursor
+    activePointer = cameraCursor.pointer;
     camPosVec = camParams.camPosVec;
     camLookAtVec = camParams.camLookAtVec;
     pointerDragVector = camParams.pointerDragVector;
@@ -89,30 +91,62 @@ function updateCamParams(camParams) {
 }
 
 function applyPointerMove() {
-    cursorObj3d.position.copy(selectedActor.actorObj3d.position);
-    let moveAction = selectedActor.getControl(ENUMS.Controls.CONTROL_MOVE_ACTION);
 
-    if (pointerAction) {
-        if (moveAction === 2) {
-            selectedActor.setControlKey(ENUMS.Controls.CONTROL_MOVE_ACTION, 1)
-        }
-        selectedActor.setControlKey(ENUMS.Controls.CONTROL_TILE_X, pointerDragVector.x * 0.02)
-        selectedActor.setControlKey(ENUMS.Controls.CONTROL_TILE_Z, pointerDragVector.z * 0.02)
-        pointerActive = true;
-    } else {
-        if (pointerActive === true) {
-            selectedActor.setControlKey(ENUMS.Controls.CONTROL_MOVE_ACTION, 2)
-            selectedActor.setControlKey(ENUMS.Controls.CONTROL_TILE_X, 0)
-            selectedActor.setControlKey(ENUMS.Controls.CONTROL_TILE_Z, 0)
-            pointerActive = false;
-        }
-    }
-
+    let walkGrid = selectedActor.getGameWalkGrid();
     let distance = 0;
 
-    if (tileSelector) {
-        distance += tileSelector.extendedDistance;
+    if (!walkGrid.isActive) {
+        selectedActor.activateWalkGrid(1+ selectedActor.getStatus(ENUMS.ActorStatus.MOVEMENT_SPEED) * 2 )
+        selectedActor.actorText.say("Grid Activate Camera")
+
+        tileSelector = walkGrid.gridTileSelector;
+        let pointerTile = walkGrid.getTileByScreenPosition(activePointer.pos)
+        
+        if (pointerTile) {
+            tileSelector.setPos(pointerTile.getPos())
+            tileSelector.moveVec3.z = 0.01;
+        }
+
+
+        //    console.log(activePointer.pos);
+
     }
+
+    let pointerTile = walkGrid.getTileByScreenPosition(activePointer.pos)
+
+    if (pointerTile) {
+        evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:selectedActor.getPos(), to:pointerTile.getPos(), color:'YELLOW'});
+        //    console.log(activePointer.pos);
+        tileSelector.moveVec3.copy(pointerTile.getPos())
+        tileSelector.moveVec3.sub(selectedActor.getPos())
+    }
+
+    if (tileSelector) {
+
+        cursorObj3d.position.copy(selectedActor.actorObj3d.position);
+        let moveAction = selectedActor.getControl(ENUMS.Controls.CONTROL_MOVE_ACTION);
+
+        if (pointerAction) {
+            if (moveAction === 2) {
+                selectedActor.setControlKey(ENUMS.Controls.CONTROL_MOVE_ACTION, 1)
+            }
+            selectedActor.setControlKey(ENUMS.Controls.CONTROL_TILE_X, pointerDragVector.x * 0.02)
+            selectedActor.setControlKey(ENUMS.Controls.CONTROL_TILE_Z, pointerDragVector.z * 0.02)
+            pointerActive = true;
+        } else {
+            if (pointerActive === true) {
+                selectedActor.setControlKey(ENUMS.Controls.CONTROL_MOVE_ACTION, 2)
+                selectedActor.setControlKey(ENUMS.Controls.CONTROL_TILE_X, 0)
+                selectedActor.setControlKey(ENUMS.Controls.CONTROL_TILE_Z, 0)
+                pointerActive = false;
+            }
+
+            distance += MATH.distanceBetween(tileSelector.getPos(), selectedActor.getPos());
+        }
+    } else {
+
+    }
+
     return distance;
 }
 
@@ -384,13 +418,7 @@ function CAM_ORBIT() {
         tempVec.set(0, 1.3, 0)
         tempVec.add(cursorObj3d.position)
         lerpCameraLookAt(tempVec, 1)
-    //    lerpCameraPosition(offsetPos, 1)
-
-        return;
     } else {
-
-
-
         offsetPos.set(0, 0, 0)
         notifyCameraStatus(ENUMS.CameraStatus.POINTER_ACTION, ENUMS.CameraControls.CAM_TRANSLATE, false)
 
@@ -498,7 +526,11 @@ function CAM_MOVE() {
         return;
     }
 
-    let distance = applyPointerMove()
+    let distance = 0;
+
+    if (pointerAction) {
+        distance = applyPointerMove();
+    }
 
     if (lookAtActive) {
         zoomDistance = 0.5 + distance*0.8;
@@ -524,7 +556,11 @@ function CAM_GRID() {
         return;
     }
 
-    let distance = applyPointerMove()
+    let distance = 0;
+
+    if (pointerAction) {
+        distance = applyPointerMove();
+    }
 
     tempVec3.set(0, 0, 1);
     tempVec3.applyQuaternion(ThreeAPI.getCamera().quaternion);

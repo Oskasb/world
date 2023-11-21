@@ -7,6 +7,7 @@ import { DynamicWalker} from "./DynamicWalker.js";
 import * as ScenarioUtils from "./ScenarioUtils.js";
 import { GridTileSelector } from "../piece_functions/GridTileSelector.js";
 import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
+import {getTileForScreenPosition} from "./ScenarioUtils.js";
 
 let centerTileIndexX = 0;
 let centerTileIndexY = 0;
@@ -62,6 +63,12 @@ class GameWalkGrid {
             updateWalkGrid:updateWalkGrid,
             deactivate:deactivate
         }
+
+        if (this.dataId !== "grid_walk_world") {
+            this.configData.parseConfig("grid_walk_world", this.call.configUpdate)
+            this.dataId = "grid_walk_world";
+        }
+
     }
 
     getActivePathTiles() {
@@ -80,7 +87,7 @@ class GameWalkGrid {
         this.hostObj3d.position.copy(posVec);
     }
 
-    activateWalkGrid = function(walkOriginObj3d, tileRange) {
+    activateWalkGrid = function(walkOriginObj3d, tileRange, onActiveCB) {
 
         this.hostObj3d.copy(walkOriginObj3d);
 
@@ -92,14 +99,16 @@ class GameWalkGrid {
         }
 
             console.log("Activate Walk Grid", this.hostObj3d.position)
+
             if (this.dataId !== "grid_walk_world") {
+                console.log("Update Walk Grid config")
                 this.configData.parseConfig("grid_walk_world", this.call.configUpdate)
                 this.dataId = "grid_walk_world";
             }
 
             this.isActive = true;
 
-            this.dynamicGrid.activateDynamicGrid(this.config['grid'], tileRange)
+            this.dynamicGrid.activateDynamicGrid(this.config['grid'], tileRange, onActiveCB)
             GameAPI.registerGameUpdateCallback(this.call.updateWalkGrid);
 
     }
@@ -115,6 +124,11 @@ class GameWalkGrid {
     getTileAtPosition(posVec) {
         let gridTiles = this.dynamicGrid.dynamicGridTiles
         return ScenarioUtils.getTileForPosition(gridTiles, posVec)
+    }
+
+    getTileByScreenPosition(posVec) {
+        let gridTiles = this.dynamicGrid.dynamicGridTiles
+        return ScenarioUtils.getTileForScreenPosition(gridTiles, posVec)
     }
 
     clearGridTilePath() {

@@ -45,7 +45,7 @@ class DynamicGrid {
         this.gridTiles = [];
     }
 
-    activateDynamicGrid = function(config, tileRange) {
+    activateDynamicGrid = function(config, tileRange, onActiveCB) {
         this.config = config;
 
         this.elevation =  config['elevation'] || 0;

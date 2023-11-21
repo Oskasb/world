@@ -367,6 +367,31 @@ function getTileForPosition(gridTiles, posVec3) {
     return selectedTile
 }
 
+
+function getTileForScreenPosition(gridTiles, posVec3) {
+    let selectedTile = null;
+    let nearestTileDist = MATH.bigSafeValue();
+
+    for (let i = 0; i < gridTiles.length; i++) {
+
+        for (let j = 0; j < gridTiles[i].length; j++) {
+            let tile = gridTiles[i][j];
+            ThreeAPI.toScreenPosition(tile.obj3d.position, tempVec1);
+            if (tempVec1.z === 0) {
+                tempVec2D.set(tempVec1.x - posVec3.x, tempVec1.y - posVec3.y);
+                let lengthSq = tempVec2D.lengthSq();
+                if (lengthSq < nearestTileDist) {
+                    selectedTile = tile;
+                    nearestTileDist = lengthSq;
+                }
+            }
+
+        }
+    }
+
+    return selectedTile
+}
+
 let walkCharToStart = function(charConf, character) {
     let charPiece = character.gamePiece;
     resetScenarioCharacterPiece(charPiece);
@@ -416,5 +441,6 @@ export {
     setupEncounterGrid,
     filterForWalkableTiles,
     getTileForPosition,
+    getTileForScreenPosition,
     buildScenarioCharacter
 }
