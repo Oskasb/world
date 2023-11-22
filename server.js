@@ -5,7 +5,7 @@
 const http = require('node:http');
 const fs = require('node:fs');
 const path = require('node:path');
-const port = 5001;
+const port = process.env.PORT || 5001;
 
 http.createServer(
     function (request, response)
