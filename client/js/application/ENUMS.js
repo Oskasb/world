@@ -91,7 +91,9 @@ if(typeof(ENUMS) === "undefined"){
         SELECT_ADVENTURER:          72,
         LOAD_ITEM:                  73,
         LOAD_ADVENTURE_ENCOUNTERS:  74,
-        SET_CAMERA_STATUS:          75
+        SET_CAMERA_STATUS:          75,
+        SEND_SOCKET_MESSAGE:        76,
+        ON_SOCKET_MESSAGE:          77
     };
 
 
@@ -206,6 +208,10 @@ if(typeof(ENUMS) === "undefined"){
         TRAVEL_MODE_LEAP:'TRAVEL_MODE_LEAP',
         TRAVEL_MODE_FLY:'TRAVEL_MODE_FLY',
         TRAVEL_MODE_JETPACK:'TRAVEL_MODE_JETPACK'
+    }
+
+    ENUMS.Send = {
+        CONNECTED:'CONNECTED'
     }
 
     ENUMS.Animations = {

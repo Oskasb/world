@@ -36,6 +36,15 @@ class Client {
         window.GameScreen = this.gameScreen;
         this.setup = new Setup();
         this.INPUT_STATE = null;
+        this.stamp = 0;
+    }
+
+    setStamp(stamp) {
+        this.stamp = stamp
+    }
+
+    getStamp() {
+        return this.stamp;
     }
 
     activateGui() {
@@ -112,6 +121,10 @@ class Client {
             frame.avgTpf = ThreeAPI.getSetup().avgTpf;
             frame.elapsedTime = clock.elapsedTime;
 
+
+            if (Math.random() < 0.005) {
+                client.evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, {"msg":"random ping"})
+            }
 
             ThreeAPI.updateCamera();
             GuiAPI.updateGui(frame.tpf, frame.elapsedTime);

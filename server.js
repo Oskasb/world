@@ -1,24 +1,31 @@
 // node servez C:\projects\rpg_combat\src
 
 // Use "lite-server" from packages for hot reload on js changes
+import {WebSocketServer} from "ws";
+import {createServer} from 'node:http'
+import {readFile} from 'node:fs'
+import {extname} from 'node:path'
+const ws = WebSocketServer.Server;
 
-const http = require('node:http');
-const fs = require('node:fs');
-const path = require('node:path');
-const port = process.env.PORT || 5001;
+const port = process.env.PORT || 8080;
+import {ServerMain} from "./Server/ServerMain.js";
+let serverMain = new ServerMain();
 
-http.createServer(
+let server = createServer(
+
     function (request, response)
     {
     console.log('request starting...');
 
-    var filePath = '.' + request.url;
+    //    import * as SERVER from "./Server/ServerMain.js";
+
+    let filePath = '.' + request.url;
     if (filePath == './')
         filePath = './index.html';
 
-    var extname = path.extname(filePath);
-    var contentType = 'text/html';
-    switch (extname) {
+        let ext = extname(filePath);
+        let contentType = 'text/html';
+    switch (ext) {
         case '.js':
             contentType = 'text/javascript';
             break;
@@ -39,10 +46,10 @@ http.createServer(
             break;
     }
 
-    fs.readFile(filePath, function(error, content) {
+    readFile(filePath, function(error, content) {
         if (error) {
             if(error.code == 'ENOENT'){
-                fs.readFile('./404.html', function(error, content) {
+                readFile('./404.html', function(error, content) {
                     response.writeHead(200, { 'Content-Type': contentType });
                     response.end(content, 'utf-8');
                 });
@@ -59,9 +66,13 @@ http.createServer(
             console.log('response - Content-Type:'+contentType);
         }
     });
-
 }
 
 ).listen(port);
-console.log('Server running at http://127.0.0.1:/'+port);
+
+let wss = new WebSocketServer({server: server});
+
+serverMain.initServerConnection(wss);
+
+console.log('Server running at port: '+port);
 
