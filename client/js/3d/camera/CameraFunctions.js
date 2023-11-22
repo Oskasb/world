@@ -92,62 +92,50 @@ function updateCamParams(camParams) {
 
 function applyPointerMove() {
 
+    if (!selectedActor) {
+        return;
+    }
+
     let walkGrid = selectedActor.getGameWalkGrid();
     let distance = 0;
+    tileSelector = walkGrid.gridTileSelector;
 
     if (!walkGrid.isActive) {
         selectedActor.activateWalkGrid(1+ selectedActor.getStatus(ENUMS.ActorStatus.MOVEMENT_SPEED) * 2 )
         selectedActor.actorText.say("Grid Activate Camera")
-
-        tileSelector = walkGrid.gridTileSelector;
         let pointerTile = walkGrid.getTileByScreenPosition(activePointer.pos)
-        
         if (pointerTile) {
-            tileSelector.setPos(pointerTile.getPos())
-            tileSelector.moveVec3.z = 0.01;
+            tileSelector.setPos(selectedActor.getPos())
         }
-
-
-        //    console.log(activePointer.pos);
-
     }
 
-    let pointerTile = walkGrid.getTileByScreenPosition(activePointer.pos)
 
+    let pointerTile = walkGrid.getTileByScreenPosition(activePointer.pos)
     if (pointerTile) {
         evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:selectedActor.getPos(), to:pointerTile.getPos(), color:'YELLOW'});
         //    console.log(activePointer.pos);
-        tileSelector.moveVec3.copy(pointerTile.getPos())
-        tileSelector.moveVec3.sub(selectedActor.getPos())
+        tileSelector.moveToPos(pointerTile.getPos())
     }
-
-    if (tileSelector) {
 
         cursorObj3d.position.copy(selectedActor.actorObj3d.position);
         let moveAction = selectedActor.getControl(ENUMS.Controls.CONTROL_MOVE_ACTION);
 
-        if (pointerAction) {
             if (moveAction === 2) {
                 selectedActor.setControlKey(ENUMS.Controls.CONTROL_MOVE_ACTION, 1)
             }
             selectedActor.setControlKey(ENUMS.Controls.CONTROL_TILE_X, pointerDragVector.x * 0.02)
-            selectedActor.setControlKey(ENUMS.Controls.CONTROL_TILE_Z, pointerDragVector.z * 0.02)
+            selectedActor.setControlKey(ENUMS.Controls.CONTROL_TILE_Z, pointerDragVector.z * 0.02 +0.01)
             pointerActive = true;
-        } else {
-            if (pointerActive === true) {
-                selectedActor.setControlKey(ENUMS.Controls.CONTROL_MOVE_ACTION, 2)
-                selectedActor.setControlKey(ENUMS.Controls.CONTROL_TILE_X, 0)
-                selectedActor.setControlKey(ENUMS.Controls.CONTROL_TILE_Z, 0)
-                pointerActive = false;
-            }
 
-            distance += MATH.distanceBetween(tileSelector.getPos(), selectedActor.getPos());
-        }
-    } else {
-
-    }
 
     return distance;
+}
+
+function applyPointerRelease() {
+    selectedActor.setControlKey(ENUMS.Controls.CONTROL_MOVE_ACTION, 2)
+    selectedActor.setControlKey(ENUMS.Controls.CONTROL_TILE_X, 0)
+    selectedActor.setControlKey(ENUMS.Controls.CONTROL_TILE_Z, 0)
+    pointerActive = false;
 }
 
 function lerpCameraPosition(towardsPos, alpha) {
@@ -530,6 +518,8 @@ function CAM_MOVE() {
 
     if (pointerAction) {
         distance = applyPointerMove();
+    } else if (pointerActive) {
+        applyPointerRelease()
     }
 
     if (lookAtActive) {
@@ -560,6 +550,8 @@ function CAM_GRID() {
 
     if (pointerAction) {
         distance = applyPointerMove();
+    } else if (pointerActive) {
+        applyPointerRelease()
     }
 
     tempVec3.set(0, 0, 1);
