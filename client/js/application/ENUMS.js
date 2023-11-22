@@ -98,6 +98,10 @@ if(typeof(ENUMS) === "undefined"){
 
 
     ENUMS.ActorStatus = {
+        CONFIG_ID:'CONFIG_ID',
+        CLIENT_STAMP:'CLIENT_STAMP',
+        ACTOR_INDEX:'ACTOR_INDEX',
+        EQUIPPED_ITEMS:'EQUIPPED_ITEMS',
         ALIGNMENT:'ALIGNMENT',
         ACTIONS:'ACTIONS',
         MOVEMENT_SPEED:'MOVEMENT_SPEED',
@@ -105,6 +109,13 @@ if(typeof(ENUMS) === "undefined"){
         IN_COMBAT:'IN_COMBAT',
         HAND_SIZE:'HAND_SIZE',
         HAS_POSITION:'HAS_POSITION',
+        POS_X:'POS_X',
+        POS_Y:'POS_Y',
+        POS_Z:'POS_Z',
+        QUAT_X:'QUAT_X',
+        QUAT_Y:'QUAT_Y',
+        QUAT_Z:'QUAT_Z',
+        QUAT_W:'QUAT_W',
         HAS_TURN:'HAS_TURN',
         HEIGHT:'HEIGHT',
         HP:'HP',

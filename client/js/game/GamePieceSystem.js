@@ -4,7 +4,7 @@ import { GameActor } from "./actor/GameActor.js";
 import { PlayerParty } from "./Player/PlayerParty.js";
 import { Item } from "./gamepieces/Item.js";
 import { ConfigData } from "../application/utils/ConfigData.js";
-
+import { RemoteClient } from "../Transport/io/RemoteClient.js";
 
 let visualConfigs = {};
 let actorConfigs = {};
@@ -71,8 +71,19 @@ let loadActor = function(event) {
         event.callback(actor);
     }
 
-
 }
+
+let remoteClients = {}
+
+let processConnectionMessage = function(event) {
+
+    if (!remoteClients[event.stamp]) {
+        remoteClients[event.stamp] = new RemoteClient(event.stamp);
+    }
+
+    remoteClients[event.stamp].processClientMessage(event.msg);
+}
+
 
 let parsedEquipSlotData
 class GamePieceSystem {
@@ -80,6 +91,9 @@ class GamePieceSystem {
 
         this.playerParty = new PlayerParty();
         this.selectedActor = null;
+
+
+
 
 
     }
@@ -109,6 +123,9 @@ class GamePieceSystem {
 
         evt.on(ENUMS.Event.LOAD_ACTOR, loadActor)
         evt.on(ENUMS.Event.LOAD_ITEM,  loadItem)
+
+
+        evt.on(ENUMS.Event.ON_SOCKET_MESSAGE,  processConnectionMessage)
     }
 
     getPlayerParty() {

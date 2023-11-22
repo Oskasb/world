@@ -1,6 +1,8 @@
+
 class ActorStatus {
     constructor() {
         this.statusMap = {}
+        this.statusMap[ENUMS.ActorStatus.EQUIPPED_ITEMS] = [];
     }
 
     getStatusByKey(key) {

@@ -16,10 +16,13 @@ let tempVec = new Vector3();
 let tempStore = [];
 let tempObj = new Object3D();
 
+let broadcastTimeout;
+let lastSendTime = 0;
 class GameActor {
     constructor(config, parsedEquipSlotData) {
         this.index = index;
         index++;
+
         this.actorStatusProcessor = new ActorStatusProcessor();
         this.actorText = new ActorText(this);
         this.actorStatus = new ActorStatus();
@@ -106,7 +109,21 @@ class GameActor {
         this.getVisualGamePiece().getModel().getJointKeyWorldTransform(jointKey, storeObj3d);
     }
 
+
     setStatusKey(key, status) {
+
+        if (this.isPlayerActor()) {
+            this.actorStatus.setStatusKey(ENUMS.ActorStatus.CLIENT_STAMP, client.getStamp());
+            this.actorStatus.setStatusKey(ENUMS.ActorStatus.ACTOR_INDEX, this.index);
+            let gameTime = GameAPI.getGameTime();
+            if (lastSendTime < gameTime -0.2) {
+                lastSendTime = gameTime;
+                let statusMap = this.actorStatus.statusMap;
+            //    console.log("Send status: ", lastSendTime , [statusMap]);
+                evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, statusMap)
+            }
+        }
+
         return this.actorStatus.setStatusKey(key, status);
     }
 
@@ -172,6 +189,8 @@ class GameActor {
 
     equipItem(item) {
         this.actorEquipment.call.equipActorItem(item);
+        let equippedList = this.getStatus(ENUMS.ActorStatus.EQUIPPED_ITEMS);
+        equippedList.push(item.configId);
     }
 
     unequipItem(item) {
@@ -259,27 +278,33 @@ class GameActor {
 
     getActorGridMovementTargetPosition() {
         let tiles = GameAPI.call.getActiveEncounter().getRandomWalkableTiles(2);
-
         if (tiles[0] === this.gameWalkGrid.getTileAtPosition(this.getPos())) {
             return tiles[1].getPos()
         } else {
             return tiles[0].getPos()
         }
-
     }
 
     turnTowardsPos(posVec) {
-
         this.lookDirection.copy(posVec);
         this.lookDirection.y = this.actorObj3d.position.y;
         this.lookDirection.sub(this.actorObj3d.position);
-
     }
 
     applyHeading(direction, alpha) {
         tempObj.position.set(0, 0, 0)
         tempObj.lookAt(direction);
         this.actorObj3d.quaternion.slerp(tempObj.quaternion, alpha || 0.1)
+    }
+
+    applySpatialStatus(pos, quat) {
+        this.setStatusKey(ENUMS.ActorStatus.POS_X, pos.x)
+        this.setStatusKey(ENUMS.ActorStatus.POS_Y, pos.y)
+        this.setStatusKey(ENUMS.ActorStatus.POS_Z, pos.z)
+        this.setStatusKey(ENUMS.ActorStatus.QUAT_X, quat.x)
+        this.setStatusKey(ENUMS.ActorStatus.QUAT_Y, quat.y)
+        this.setStatusKey(ENUMS.ActorStatus.QUAT_Z, quat.z)
+        this.setStatusKey(ENUMS.ActorStatus.QUAT_W, quat.w)
     }
 
     updateGameActor = function(tpf) {
@@ -305,6 +330,7 @@ class GameActor {
         }
 
         this.actorObj3d.position.copy(this.getPos())
+        this.applySpatialStatus(this.actorObj3d.position, this.actorObj3d.quaternion)
 
         let isLeaping = this.gameWalkGrid.dynamicWalker.isLeaping;
         if (isLeaping) {
