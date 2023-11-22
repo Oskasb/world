@@ -1,6 +1,14 @@
 {
+  "engines": {
+    "node": "20.x"
+  },
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test.js"
+  },
   "dependencies": {
-    "lite-server": "^2.6.1"
+    "express": "^4.15.2"
   },
   "scripts": {
     "dev": "lite-server"
