@@ -4,13 +4,9 @@
   },
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "test": "node test.js"
+    "start": "node server.js"
   },
   "dependencies": {
     "express": "^4.15.2"
-  },
-  "scripts": {
-    "dev": "lite-server"
   }
 }
