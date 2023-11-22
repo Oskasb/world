@@ -147,7 +147,7 @@ class DynamicTile {
 
     processDynamicTileVisibility = function(maxDistance, lodLevels, lodCenter,  tileUpdateCallback, coarseness, margin, centerIsUpdated) {
 
-        if (coarseness && centerIsUpdated === false) {
+        if (coarseness > 1 && centerIsUpdated === false) {
             this.step++;
             if ((this.index+this.step) % coarseness !== 1) {
                 tileUpdateCallback(this, centerIsUpdated)
@@ -159,19 +159,23 @@ class DynamicTile {
         let pos = this.getPos()
         //    let lodDistance = pos.distanceTo(ThreeAPI.getCamera().position)
            let lodDistance = pos.distanceTo(lodCenter)
+        if (lodDistance > maxDistance*0.4) {
+            lodDistance = maxDistance*0.4 + lodDistance * 0.15;
+        }
         let rgba = this.rgba
         let tileSize = this.spacing * (margin || 1);
 
         let isVisible = aaBoxTestVisibility(pos,  tileSize, tileSize*2, tileSize)
         let borrowedBox = borrowBox();
-        let farness = MATH.calcFraction(0, maxDistance, lodDistance * 1.7)  //MATH.clamp( (camDist / maxDistance) * 1.0, 0, 1)
-        let nearness = MATH.clamp(1.5-(MATH.curveQuad(farness)*1.5), 0, 1);
-        let lodLevel = Math.floor(farness * (lodLevels));
-        if (this.nearness > nearness) {
-            this.nearness *= 0.999;
-        } else {
-            this.nearness = nearness;
+        let farness = MATH.calcFraction(0, maxDistance, lodDistance * 1.5)  //MATH.clamp( (camDist / maxDistance) * 1.0, 0, 1)
+        if (farness > 1) {
+        //    console.log("Farness overrun", farness)
+            farness = 1;
         }
+
+        let nearness = MATH.decimalify(MATH.clamp(2-farness*(1.2+MATH.curveCube(farness)), 0, 1), 10);
+        let lodLevel = Math.floor(farness * (lodLevels));
+
 
         this.isVisible = false;
         this.lodLevel = lodLevel;
@@ -179,11 +183,22 @@ class DynamicTile {
 
             if (nearness > 0) {
                 this.isVisible = true;
+
                 if (this.debug) {
+                    if (MATH.decimalify(nearness, 10) !== MATH.decimalify(this.nearness, 10)) {
+                        this.text.say(nearness)
+                    }
                     let color = {x:MATH.sillyRandom(lodLevel), y:Math.sin(lodLevel*1.8), z:Math.cos(lodLevel), w:1}
-                //    this.debugDrawTilePosition(nearness*nearness*tileSize*0.5, color)
+                    //    this.debugDrawTilePosition(nearness*nearness*tileSize*0.5, color)
                     evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:borrowedBox.min, max:borrowedBox.max, color:color})
                 }
+
+                if (this.nearness > nearness) {
+                    this.nearness *= 0.99;
+                } else {
+                    this.nearness = MATH.decimalify(nearness, 10);
+                }
+
             } else {
                 this.nearness = 0;
                 if (this.debug) {

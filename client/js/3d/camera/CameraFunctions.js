@@ -77,9 +77,6 @@ function updateCamParams(camParams) {
         }
     }
 
-
-
-
     pointerAction = statusActive(camParams, ENUMS.CameraStatus.POINTER_ACTION)
     pointerControlKey  = statusControlKey(camParams, ENUMS.CameraStatus.POINTER_ACTION)
     lookAtActive = statusActive(camParams, ENUMS.CameraStatus.LOOK_AT)
@@ -122,11 +119,23 @@ function applyPointerMove() {
         if (pointerActive === false) {
             if (walkGrid.getActivePathTiles().length < 2) {
                 if (tileSelector) {
-                    tileSelector.text.say("Cancel Blocked")
+                //    walkGrid.clearGridTilePath();
+                    tileSelector.text.say("Clear Blocked")
+
+                    let pointerTile = walkGrid.getTileByScreenPosition(activePointer.pos)
+                    if (pointerTile) {
+                        selectedActor.prepareTilePath(pointerTile.getPos())
+                        tileSelector.setPos(selectedActor.getPos())
+                    } else {
+                        walkGrid.deactivateWalkGrid()
+                        return 0;
+                    }
                 }
+            } else {
+                walkGrid.cancelActivePath()
+                return 0;
             }
-            walkGrid.cancelActivePath()
-            return 0;
+
         }
 
     }
@@ -150,7 +159,7 @@ function applyPointerMove() {
             pointerActive = true;
 
 
-    return distance;
+    return tileSelector.extendedDistance;
 }
 
 function applyPointerRelease() {
@@ -160,12 +169,13 @@ function applyPointerRelease() {
         selectedActor.actorText.say("Path too short")
     //    walkGrid.clearGridTilePath();
     //    walkGrid.deactivateWalkGrid();
-    //    tileSelector.deactivateGridTileSelector()
-        tileSelector.setPos(selectedActor.actorObj3d.position);
-    //    walkGrid.clearGridTilePath()
+        tileSelector = walkGrid.gridTileSelector;
 
-        tileSelector.moveAlongX(0);
-        tileSelector.moveAlongZ(0);
+        if (tileSelector) {
+            tileSelector.setPos(selectedActor.actorObj3d.position);
+            tileSelector.moveAlongX(0);
+            tileSelector.moveAlongZ(0);
+        }
 
         selectedActor.setControlKey(ENUMS.Controls.CONTROL_MOVE_ACTION, 0)
     } else {
@@ -473,9 +483,13 @@ function CAM_ORBIT() {
 }
 
 function CAM_TARGET(actor) {
+    tempVec.copy(actor.getPos())
+    tempVec.y -= 0.5;
+    return tempVec;
     let visualPiece = actor.getVisualGamePiece();
     if (!visualPiece) {
         return actor.getPos();
+
     } else {
         return visualPiece.getCenterMass();
     }
@@ -524,27 +538,40 @@ function CAM_ENCOUNTER() {
     if (!selectedActor) {
         return;
     }
+    let distance = 0
+    if (turnActiveActor === selectedActor) {
+        if (pointerAction) {
+            applyPointerMove();
+            distance += tileSelector.extendedDistance;
+        } else if (pointerActive) {
+            applyPointerRelease()
+        }
+    }
 
-    let distance = 6
+
+
 
     let actorTarget = turnActiveActor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET);
     if (actorTarget) {
-        zoomDistance = 5;
+        zoomDistance = 5 + distance;
     } else {
-        zoomDistance = 9;
+        zoomDistance = 9 + distance;
     }
 
 
 
     if (lookAtActive) {
         if (actorTarget) {
+            zoomDistance = 1;
             lerpCameraLookAt(CAM_POINTS[lookAtControlKey](actorTarget), tpf*2);
+            zoomDistance = 5 + distance;
         } else {
             lerpCameraLookAt(CAM_POINTS[lookAtControlKey](turnActiveActor), tpf*1);
         }
     }
 
     if (lookFromActive) {
+    //    zoomDistance = 9 + distance;
         lerpCameraPosition(CAM_POINTS[lookFromControlKey](turnActiveActor), tpf*4);
     }
 }
@@ -558,19 +585,23 @@ function CAM_MOVE() {
     let distance = 0;
 
     if (pointerAction) {
-        distance = applyPointerMove();
+        applyPointerMove();
     } else if (pointerActive) {
         applyPointerRelease()
     }
 
+    if (isTileSelecting) {
+        distance = tileSelector.extendedDistance;
+    }
+
     if (lookAtActive) {
-        zoomDistance = 0.5 + distance*0.8;
-        lerpCameraLookAt(CAM_POINTS[lookAtControlKey](selectedActor), tpf*5);
+        zoomDistance = 3 + distance*0.8;
+        lerpCameraLookAt(CAM_POINTS[lookAtControlKey](selectedActor), tpf*3);
     }
 
     if (lookFromActive) {
-        zoomDistance = 8 + distance*0.4;;
-        lerpCameraPosition(CAM_POINTS[lookFromControlKey](selectedActor), tpf*5);
+        zoomDistance = 11 + distance*0.6;;
+        lerpCameraPosition(CAM_POINTS[lookFromControlKey](selectedActor), tpf*3);
     }
 
 
@@ -590,9 +621,14 @@ function CAM_GRID() {
     let distance = 0;
 
     if (pointerAction) {
-        distance = applyPointerMove();
+        applyPointerMove();
     } else if (pointerActive) {
         applyPointerRelease()
+    }
+
+
+    if (isTileSelecting) {
+        distance = tileSelector.extendedDistance;
     }
 
     tempVec3.set(0, 0, 1);
@@ -601,7 +637,7 @@ function CAM_GRID() {
     tempVec3.normalize()
     tempVec3.y = 1;
     tempVec3.multiplyScalar(2);
-    zoomDistance = 1 + distance;
+    zoomDistance = 1 + distance * 0.6;
     tempVec2.copy(CAM_POINTS[lookAtControlKey](selectedActor))
     tempVec.copy(tempVec2);
     tempVec.x += tempVec3.x * (5 + distance*0.3);

@@ -15,7 +15,7 @@
         {"id": "model_settings_tileset" ,
           "config": {
             "instancing": {
-              "instances": 1000,
+              "instances": 2000,
               "attributes": ["offset", "vertexColor", "scale3d", "orientation", "sprite"],
               "cameraspace": false
             },
@@ -29,7 +29,7 @@
         {"id": "model_settings_big_terrain" ,
           "config": {
             "instancing": {
-              "instances": 20,
+              "instances": 22,
               "attributes": ["offset", "vertexColor", "scale3d", "orientation", "sprite", "texelRowSelect", "lifecycle"],
               "cameraspace": false
             },
@@ -169,7 +169,7 @@
         {"id": "model_settings_vegetation" ,
           "config": {
             "instancing": {
-              "instances": 1500,
+              "instances": 3500,
               "attributes": ["offset", "vertexColor", "scale3d", "orientation", "sprite", "texelRowSelect", "lifecycle"],
               "cameraspace": false
             },

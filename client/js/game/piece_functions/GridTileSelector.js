@@ -89,8 +89,15 @@ class GridTileSelector {
 
             let tile = walkGrid.getTileAtPosition(this.framePos);
             if (tile !== selectedTile) {
-                selectedTile = tile;
-                selectedTile.text.say("x"+tile.tileX+" z:"+tile.tileZ)
+
+                if (tile === null) {
+                    selectedTile.text.say("no tile")
+
+                } else {
+                    selectedTile = tile;
+                    selectedTile.text.say("x"+tile.tileX+" z:"+tile.tileZ)
+                }
+
                 // selectedTile.text.say(""+tile.gridI+":"+tile.gridJ)
             }
 

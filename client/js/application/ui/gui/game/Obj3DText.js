@@ -17,10 +17,7 @@ class Obj3DText {
             ThreeAPI.toScreenPosition(pos, txtOrigin)
             if (txtOrigin.z === 0) {
                 GuiAPI.applyAspectToScreenPosition(txtOrigin, txtOrigin);
-            } else {
-                txtOrigin.set(0, 0, 0);
             }
-
             return txtOrigin;
         }
 
@@ -28,14 +25,12 @@ class Obj3DText {
             let pos = getTextOrigin();
             //      pos.x += MATH.curveSqrt(progress) *offsetVec3.x - offsetVec3.x*0.5;
             pos.y += progress*(Math.cos(progress*1.5)) * offsetVec3.y;
-            pos.z = 0 // MATH.curveQuad(progress) * offsetVec3.z;
             return pos;
         }
         let getDamageTextPosition = function(progress, offsetVec3) {
             let pos = getTextOrigin();
             pos.x += MATH.curveSqrt(progress) *offsetVec3.x - offsetVec3.x*0.3;
             pos.y += progress*(Math.cos(progress*2)) * offsetVec3.y + offsetVec3.y*0.05;
-            pos.z = 0 // MATH.curveQuad(progress) * offsetVec3.z;
             return pos;
         }
 
@@ -43,7 +38,6 @@ class Obj3DText {
             let pos = getTextOrigin();
             pos.x += MATH.curveSqrt(progress) *offsetVec3.x - offsetVec3.x*0.3;
             pos.y += progress*(Math.cos(progress*2.5)) * offsetVec3.y - 0.07;
-            pos.z = 0 // MATH.curveQuad(progress) * offsetVec3.z;
             return pos;
         }
 
@@ -140,6 +134,11 @@ class Obj3DText {
             ssTxt.activateScreenSpaceText();
             ssTxt.updateTextContent(string)
         }.bind(this);
+
+        let initPos = this.call.getTextOrigin()
+        if (initPos.y < 0) {
+            return;
+        }
 
         let screenSpaceText = new GuiScreenSpaceText()
 

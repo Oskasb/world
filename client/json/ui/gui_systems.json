@@ -9,7 +9,7 @@
             "config": {
               "sprite_atlas": "GUI_16x16",
               "mesh_asset":  "asset_nine_back",
-              "pool_size": 1000,
+              "pool_size": 3000,
               "render_order": 19
             }
           }
@@ -23,7 +23,7 @@
             "config": {
               "sprite_atlas": "GUI_16x16",
               "mesh_asset":  "asset_nineQuad",
-              "pool_size": 1000,
+              "pool_size": 3000,
               "render_order": 22
             }
           }
@@ -37,7 +37,7 @@
             "config": {
               "sprite_atlas": "FONT_16x16",
               "mesh_asset":  "asset_letterQuad",
-              "pool_size": 3000,
+              "pool_size": 5000,
               "render_order": 21
             }
           }
