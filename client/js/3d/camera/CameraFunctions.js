@@ -56,15 +56,6 @@ function updateCamParams(camParams) {
     selectedActor = GameAPI.getGamePieceSystem().getSelectedGameActor();
     tileSelector = null;
     isTileSelecting = false;
-
-    if (selectedActor) {
-        let walkGrid = selectedActor.getGameWalkGrid();
-        if (selectedActor.getStatus(ENUMS.ActorStatus.SELECTING_DESTINATION) === 1) {
-            tileSelector = walkGrid.gridTileSelector;
-            isTileSelecting = tileSelector.hasValue();
-        }
-    }
-
     lookAroundPoint = camParams.cameraCursor.getLookAroundPoint();
     cursorObj3d = camParams.cameraCursor.getCursorObj3d();
     cameraCursor =  camParams.cameraCursor
@@ -77,6 +68,17 @@ function updateCamParams(camParams) {
     zoomDistance = cameraCursor.getZoomDistance();
     isFirstPressFrame = cameraCursor.isFirstPressFrame;
     pointerReleased= cameraCursor.pointerReleased;
+
+    if (selectedActor) {
+        let walkGrid = selectedActor.getGameWalkGrid();
+        if (selectedActor.getStatus(ENUMS.ActorStatus.SELECTING_DESTINATION) === 1) {
+            tileSelector = walkGrid.gridTileSelector;
+            isTileSelecting = tileSelector.hasValue();
+        }
+    }
+
+
+
 
     pointerAction = statusActive(camParams, ENUMS.CameraStatus.POINTER_ACTION)
     pointerControlKey  = statusControlKey(camParams, ENUMS.CameraStatus.POINTER_ACTION)
@@ -100,13 +102,33 @@ function applyPointerMove() {
     let distance = 0;
     tileSelector = walkGrid.gridTileSelector;
 
+
+    if (isFirstPressFrame) {
+        if (walkGrid.isActive) {
+            walkGrid.deactivateWalkGrid()
+            selectedActor.actorText.say("Close Grid")
+            return;
+        }
+    }
+
     if (!walkGrid.isActive) {
         selectedActor.activateWalkGrid(1+ selectedActor.getStatus(ENUMS.ActorStatus.MOVEMENT_SPEED) * 2 )
-        selectedActor.actorText.say("Grid Activate Camera")
+        selectedActor.actorText.say("Grid Camera")
         let pointerTile = walkGrid.getTileByScreenPosition(activePointer.pos)
         if (pointerTile) {
             tileSelector.setPos(selectedActor.getPos())
         }
+    } else {
+        if (pointerActive === false) {
+            if (walkGrid.getActivePathTiles().length < 2) {
+                if (tileSelector) {
+                    tileSelector.text.say("Cancel Blocked")
+                }
+            }
+            walkGrid.cancelActivePath()
+            return 0;
+        }
+
     }
 
 
@@ -132,10 +154,29 @@ function applyPointerMove() {
 }
 
 function applyPointerRelease() {
-    selectedActor.setControlKey(ENUMS.Controls.CONTROL_MOVE_ACTION, 2)
+
+    let walkGrid = selectedActor.getGameWalkGrid();
+    if (walkGrid.getActivePathTiles().length < 2) {
+        selectedActor.actorText.say("Path too short")
+    //    walkGrid.clearGridTilePath();
+    //    walkGrid.deactivateWalkGrid();
+    //    tileSelector.deactivateGridTileSelector()
+        tileSelector.setPos(selectedActor.actorObj3d.position);
+    //    walkGrid.clearGridTilePath()
+
+        tileSelector.moveAlongX(0);
+        tileSelector.moveAlongZ(0);
+
+        selectedActor.setControlKey(ENUMS.Controls.CONTROL_MOVE_ACTION, 0)
+    } else {
+        selectedActor.setControlKey(ENUMS.Controls.CONTROL_MOVE_ACTION, 2)
+    }
+
+
     selectedActor.setControlKey(ENUMS.Controls.CONTROL_TILE_X, 0)
     selectedActor.setControlKey(ENUMS.Controls.CONTROL_TILE_Z, 0)
     pointerActive = false;
+
 }
 
 function lerpCameraPosition(towardsPos, alpha) {

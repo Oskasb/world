@@ -40,7 +40,7 @@ console.log("Pathing Completed")
         if (!walkGrid.isActive) {
             actor.activateWalkGrid(1+ actor.getStatus(ENUMS.ActorStatus.MOVEMENT_SPEED) * 2 )
             console.log("MOVE ACTION - activate")
-            actor.actorText.say("Grid Activate")
+            actor.actorText.say("Grid Stick")
         } else {
 
             if (tileSelector.hasValue()) {

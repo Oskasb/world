@@ -1,6 +1,7 @@
 import {Object3D} from "../../../libs/three/core/Object3D.js";
 import {Vector3} from "../../../libs/three/math/Vector3.js";
 import * as CombatFxUtils from "../combat/feedback/CombatFxUtils.js";
+import {Obj3DText} from "../../application/ui/gui/game/Obj3DText.js";
 
 
 let cfgDefault = {
@@ -48,12 +49,22 @@ class GridTileSelector {
         this.moveToVec3 = new Vector3();
         this.framePos = new Vector3();
         this.translation = new Vector3();
+        this.text = new Obj3DText(this.framePos);
         this.extendedDistance = 0;
         this.effects = [];
 
         this.useMoveTo = false;
 
+        let selectedTile = null;
+        let selectedActor = null;
+        let walkGrid = null;
+        let effect = null;
+
+
         let updateTileSelector = function() {
+
+            selectedActor = GameAPI.getGamePieceSystem().getSelectedGameActor();
+            walkGrid = selectedActor.getGameWalkGrid();
 
             if (!this.useMoveTo) {
                 let cursorObj = ThreeAPI.getCameraCursor().getCursorObj3d();
@@ -76,15 +87,28 @@ class GridTileSelector {
             }
             this.obj3d.rotateX(-MATH.HALF_PI);
 
+            let tile = walkGrid.getTileAtPosition(this.framePos);
+            if (tile !== selectedTile) {
+                selectedTile = tile;
+                selectedTile.text.say("x"+tile.tileX+" z:"+tile.tileZ)
+                // selectedTile.text.say(""+tile.gridI+":"+tile.gridJ)
+            }
+
+
             for (let i = 0; i < this.effects.length; i++) {
-                let effect = this.effects[i]
+                effect = this.effects[i]
                 effect.setEffectPosition(this.framePos)
                 effect.setEffectQuaternion(this.obj3d.quaternion)
             }
 
         }.bind(this)
 
+        let getSelectedTile = function() {
+            return selectedTile;
+        }
+
         this.call = {
+            getSelectedTile:getSelectedTile,
             updateTileSelector:updateTileSelector
         }
 
@@ -99,6 +123,7 @@ class GridTileSelector {
     }
 
     setPos(posVec) {
+        this.useMoveTo = false;
         this.initPos.copy(posVec);
         this.initPos.y = ThreeAPI.terrainAt(this.initPos)+0.2
         this.moveToVec3.copy(posVec)

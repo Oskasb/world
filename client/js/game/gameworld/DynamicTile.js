@@ -3,6 +3,7 @@ import {Object3D} from "../../../libs/three/core/Object3D.js";
 import * as CombatFxOptions from "../combat/feedback/CombatFxOptions.js";
 import * as CombatFxUtils from "../combat/feedback/CombatFxUtils.js";
 import {GridTile} from "../gamescenarios/GridTile.js";
+import {Obj3DText} from "../../application/ui/gui/game/Obj3DText.js";
 import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
 import {aaBoxTestVisibility, borrowBox, cubeTestVisibility} from "../../3d/ModelUtils.js";
 
@@ -14,6 +15,7 @@ class DynamicTile {
     constructor() {
         this.index = index;
         index ++;
+        this.text = new Obj3DText(up);
         this.step = 0;
         this.offset = 0;
     }
@@ -40,6 +42,7 @@ class DynamicTile {
         this.blocking = false;
 
         this.obj3d = new Object3D();
+        this.text.call.setPosVec(this.obj3d.position);
         this.obj3d.lookAt(up);
         this.tileX = 0;
         this.tileZ = 0;
