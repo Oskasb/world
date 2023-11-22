@@ -5,9 +5,11 @@
 const http = require('node:http');
 const fs = require('node:fs');
 const path = require('node:path');
-const port = 8080;
+const port = 5001;
 
-http.createServer(function (request, response) {
+http.createServer(
+    function (request, response)
+    {
     console.log('request starting...');
 
     var filePath = '.' + request.url;
@@ -58,5 +60,8 @@ http.createServer(function (request, response) {
         }
     });
 
-}).listen(port);
+}
+
+).listen(port);
 console.log('Server running at http://127.0.0.1:/'+port);
+
