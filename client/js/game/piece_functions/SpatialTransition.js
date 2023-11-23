@@ -70,6 +70,8 @@ class SpatialTransition {
         if (this.elapsedTime+tpf < this.targetTime) {
             let fraction = MATH.calcFraction(this.startTime, this.targetTime+tpf, this.elapsedTime+tpf);
             if (fraction > 1) fraction = 1;
+            tempVec3.copy(this.targetFunction());
+            tempVec3.sub(this.moveVec3);
             this.moveVec3.copy(this.targetFunction());
             MATH.interpolateVec3FromTo(this.startPos, this.targetPos, fraction, this.moveVec3, this.curve);
 
@@ -81,7 +83,7 @@ class SpatialTransition {
                 }
             }
 
-            MATH.callAll(this.onFrameUpdateCallbacks, this.moveVec3);
+            MATH.callAll(this.onFrameUpdateCallbacks, this.moveVec3, tempVec3);
 
         } else {
             this.moveVec3.copy(this.targetPos);

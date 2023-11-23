@@ -49,12 +49,14 @@ class RemoteClient {
         }
 
         // let spatialTransition = oldTransition;
-        function transitionUpdate(posVec) {
-
+        function transitionUpdate(posVec, velocityVec) {
+            actor.setVelocity(velocityVec);
+            actor.setStatusKey(ENUMS.ActorStatus.FRAME_TRAVEL_DISTANCE, 0.1);
         }
         function transitionEnded(posVec, transition) {
             poolReturn(transition);
             actor.call.setSpatialTransition(null)
+            actor.velocity.set(0, 0, 0);
         }
 
     //    if (!spatialTransition) {
