@@ -194,7 +194,7 @@ class DynamicTile {
                 }
 
                 if (this.nearness > nearness) {
-                    this.nearness *= 0.99;
+                    this.nearness *= 0.999;
                 } else {
                     this.nearness = MATH.decimalify(nearness, 10);
                 }

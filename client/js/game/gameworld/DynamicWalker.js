@@ -15,16 +15,17 @@ let effectEvent = {
 class DynamicWalker {
     constructor() {
 
-        this.isLeaping = false;
+        let actor;
 
         this.headingVector = new Vector3();
         this.walkPos = new Vector3()
 
         let updateWalker = function(tpf) {
-            this.processTilePathMovement(tpf);
+            this.processTilePathMovement(tpf, actor);
         }.bind(this)
 
         let walkDynamicPath = function(tilePath, walkGrid) {
+            actor = walkGrid.call.getActor();
             this.walkGrid = walkGrid;
             this.walkObj3d = walkGrid.getGridMovementObj3d();
             this.walkPos.copy(this.walkObj3d.position);
@@ -54,8 +55,8 @@ class DynamicWalker {
         this.headingVector.normalize();
     }
 
-    applyHeadingToGamePiece(obj3d, frameTravelDistance) {
-        this.isLeaping = false;
+    applyHeadingToGamePiece(actor, obj3d, frameTravelDistance) {
+        actor.setStatusKey(ENUMS.ActorStatus.IS_LEAPING, false)
         tempVec.copy(this.headingVector);
         tempVec.multiplyScalar(frameTravelDistance);
         tempVec.add(this.walkPos)
@@ -65,11 +66,11 @@ class DynamicWalker {
         evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:obj3d.position, color:'GREEN', size:0.5})
     }
 
-    attachFrameLeapEffect(obj3d) {
+    attachFrameLeapEffect(actor) {
 
-            effectEvent.pos.copy(obj3d.position);
+            effectEvent.pos.copy(actor.getPos());
             effectEvent.dir.set(0, 1, 0);
-            if (!this.isLeaping) {
+            if (actor.getStatus(ENUMS.ActorStatus.IS_LEAPING) === false) {
                 effectEvent.fromSize = 5.2;
                 effectEvent.toSize = 0.5;
                 effectEvent.duration = 0.2;
@@ -90,8 +91,8 @@ class DynamicWalker {
 
     }
 
-    attachFrameLeapTransitionFx(obj3d) {
-        effectEvent.pos.copy(obj3d.position);
+    attachFrameLeapTransitionFx(actor) {
+        effectEvent.pos.copy(actor.getPos());
         effectEvent.dir.set(0, 1, 0);
         effectEvent.fromSize = 1.2;
         effectEvent.toSize = 5.5;
@@ -103,8 +104,9 @@ class DynamicWalker {
         evt.dispatch(ENUMS.Event.SPAWN_EFFECT, effectEvent)
     }
 
-    applyHeadingToLeapingGamePiece(obj3d, frameTravelDistance, from, to) {
+    applyHeadingToLeapingGamePiece(actor, obj3d, frameTravelDistance, from, to) {
     //    console.log(from, to);
+
         tempVec.copy(from);
         tempVec.y = to.y;
 
@@ -130,17 +132,16 @@ class DynamicWalker {
         tempVec.copy(this.headingVector);
         let leaPMod = 1;
         if (frac > 0 && frac < 1) {
-
-            this.attachFrameLeapEffect(obj3d)
-            this.isLeaping = true;
+            this.attachFrameLeapEffect(actor)
+            actor.setStatusKey(ENUMS.ActorStatus.IS_LEAPING, true)
             leaPMod = leapDistance * MATH.valueFromCurve(frac, MATH.curves["oneZeroOne"])*0.7 + 0.3*leapDistance;
         } else {
 
-            if (this.isLeaping) {
-                this.attachFrameLeapTransitionFx(obj3d)
+            if (actor.getStatus(ENUMS.ActorStatus.IS_LEAPING)) {
+                this.attachFrameLeapTransitionFx(actor)
             }
 
-            this.isLeaping = false;
+            actor.setStatusKey(ENUMS.ActorStatus.IS_LEAPING, false)
         }
         tempVec.multiplyScalar(frameTravelDistance * leaPMod);
         tempVec.add(this.walkPos)
@@ -159,7 +160,7 @@ class DynamicWalker {
         evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:obj3d.position, color:'PURPLE', size:0.9})
     }
 
-    processTilePathMovement(tpf, gameTime) {
+    processTilePathMovement(tpf, actor) {
         this.walkPos.copy(this.walkObj3d.position)
         let currentPos = this.walkPos
         let pathTiles = this.tilePath.getTiles();
@@ -182,9 +183,9 @@ class DynamicWalker {
         frameTravelDistance = Math.min(pathRemainingDistance , frameTravelDistance)
 
         if (targetTile.requiresLeap) {
-            this.applyHeadingToLeapingGamePiece(this.walkObj3d, frameTravelDistance, pathTiles[0].getPos(), targetTile.getPos());
+            this.applyHeadingToLeapingGamePiece(actor, this.walkObj3d, frameTravelDistance, pathTiles[0].getPos(), targetTile.getPos());
         } else {
-            this.applyHeadingToGamePiece(this.walkObj3d, frameTravelDistance);
+            this.applyHeadingToGamePiece(actor, this.walkObj3d, frameTravelDistance);
         }
 
 

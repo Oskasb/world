@@ -1,10 +1,15 @@
 let equipQueue = []
 
+let index = 0;
+
 class RemoteClient {
     constructor(stamp) {
+        this.index = index;
+        index++
         this.stamp = stamp;
         this.actors = [];
         this.remoteIndex = [];
+        GuiAPI.screenText("Player Joined: "+this.index, ENUMS.Message.HINT, 4)
     }
 
 
@@ -64,6 +69,7 @@ class RemoteClient {
 
 
     processClientMessage(msg) {
+        GuiAPI.screenText(":"+this.index,  ENUMS.Message.SYSTEM, 0.5)
         let actors = this.actors;
         let remoteIndex = msg[ENUMS.ActorStatus.ACTOR_INDEX]
         if (typeof(remoteIndex) === 'number') {

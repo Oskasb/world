@@ -14,6 +14,7 @@ let centerTileIndexY = 0;
 
 class GameWalkGrid {
     constructor() {
+        let actor = null;
         this.dynamicPath = new DynamicPath();
         this.dynamicGrid = new DynamicGrid();
         this.dynamicWalker = new DynamicWalker();
@@ -51,16 +52,26 @@ class GameWalkGrid {
         }.bind(this)
 
         let updateWalkGrid = function() {
-            this.updateWalkGrid();
+            this.updateWalkGrid(actor);
         }.bind(this);
 
         let deactivate = function() {
             this.deactivateWalkGrid();
         }.bind(this);
 
+        let setActor = function(actr) {
+            actor = actr;
+        }
+
+        let getActor = function() {
+            return actor;
+        }
+
         this.call = {
             configUpdate:configUpdate,
             updateWalkGrid:updateWalkGrid,
+            setActor:setActor,
+            getActor:getActor,
             deactivate:deactivate
         }
 
@@ -87,9 +98,10 @@ class GameWalkGrid {
         this.hostObj3d.position.copy(posVec);
     }
 
-    activateWalkGrid = function(walkOriginObj3d, tileRange, onActiveCB) {
+    activateWalkGrid = function(actor, tileRange, onActiveCB) {
 
-        this.hostObj3d.copy(walkOriginObj3d);
+        this.call.setActor(actor)
+        this.hostObj3d.copy(actor.actorObj3d);
 
         if (this.isActive) {
             this.deactivateWalkGrid();

@@ -13,7 +13,9 @@ if(typeof(ENUMS) === "undefined"){
         DAMAGE_NORMAL_DONE:         4,
         DAMAGE_CRITICAL_TAKEN:      5,
         DAMAGE_CRITICAL_DONE:       6,
-        HEALING_GAINED:             7
+        HEALING_GAINED:             7,
+        HINT:                       8,
+        SYSTEM:                     9
     };
 
     ENUMS.Event = {
@@ -106,6 +108,7 @@ if(typeof(ENUMS) === "undefined"){
         ACTIONS:'ACTIONS',
         MOVEMENT_SPEED:'MOVEMENT_SPEED',
         DEAD:'DEAD',
+        IS_LEAPING:'IS_LEAPING',
         IN_COMBAT:'IN_COMBAT',
         HAND_SIZE:'HAND_SIZE',
         HAS_POSITION:'HAS_POSITION',

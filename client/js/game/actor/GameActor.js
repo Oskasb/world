@@ -248,7 +248,7 @@ class GameActor {
 
     activateWalkGrid(tileRange, onActiveCB) {
         let gameWalkGrid = this.getGameWalkGrid()
-        gameWalkGrid.activateWalkGrid(this.actorObj3d, tileRange, onActiveCB)
+        gameWalkGrid.activateWalkGrid(this, tileRange, onActiveCB)
         gameWalkGrid.call.updateWalkGrid()
     }
 
@@ -331,8 +331,8 @@ class GameActor {
 
         this.actorObj3d.position.copy(this.getPos())
         this.applySpatialStatus(this.actorObj3d.position, this.actorObj3d.quaternion)
-
-        let isLeaping = this.gameWalkGrid.dynamicWalker.isLeaping;
+    //    this.gameWalkGrid.dynamicWalker.isLeaping;
+        let isLeaping = this.getStatus(ENUMS.ActorStatus.IS_LEAPING)
         if (isLeaping) {
             this.visualGamePiece.setMoveState('STAND_COMBAT')
             this.visualGamePiece.setBodyState('DISENGAGING')

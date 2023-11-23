@@ -77,6 +77,10 @@ let remoteClients = {}
 
 let processConnectionMessage = function(event) {
 
+    if (event.stamp === client.getStamp()) {
+        return;
+    }
+    
     if (!remoteClients[event.stamp]) {
         remoteClients[event.stamp] = new RemoteClient(event.stamp);
     }
@@ -123,7 +127,6 @@ class GamePieceSystem {
 
         evt.on(ENUMS.Event.LOAD_ACTOR, loadActor)
         evt.on(ENUMS.Event.LOAD_ITEM,  loadItem)
-
 
         evt.on(ENUMS.Event.ON_SOCKET_MESSAGE,  processConnectionMessage)
     }

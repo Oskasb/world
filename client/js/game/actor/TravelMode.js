@@ -57,17 +57,16 @@ function activateTravelMode(actr, mode, activateCB, deactivateCB) {
 
     if (mode === ENUMS.TravelMode.TRAVEL_MODE_JETPACK) {
         //    evt.dispatch(ENUMS.Event.SET_CAMERA_MODE, {mode:'world_viewer'})
-        actor.getGameWalkGrid().dynamicWalker.attachFrameLeapTransitionFx(actor.actorObj3d)
+        actor.getGameWalkGrid().dynamicWalker.attachFrameLeapTransitionFx(actor)
         let isUp = function(pos) {
         //    evt.dispatch(ENUMS.Event.SET_CAMERA_MODE, {mode:'game_travel'})
-            actor.getGameWalkGrid().dynamicWalker.attachFrameLeapTransitionFx(actor.actorObj3d)
+            actor.getGameWalkGrid().dynamicWalker.attachFrameLeapTransitionFx(actor)
             activateCB(config[mode], actor)
         }
 
         let onFrameUpdate = function(pos) {
-            actor.getGameWalkGrid().dynamicWalker.isLeaping = true;
-            actor.getGameWalkGrid().dynamicWalker.attachFrameLeapEffect(actor.actorObj3d)
-
+            actor.setStatusKey(ENUMS.ActorStatus.IS_LEAPING, true)
+            actor.getGameWalkGrid().dynamicWalker.attachFrameLeapEffect(actor)
         }
 
         spatialTransition.targetPos.copy(actor.getPos());

@@ -110,14 +110,13 @@ console.log("Pathing Completed")
     leapSelectionActive(actor) {
         let walkGrid = actor.getGameWalkGrid();
         let tileSelector = walkGrid.gridTileSelector;
-        actor.getGameWalkGrid().dynamicWalker.isLeaping = true;
-        actor.getGameWalkGrid().dynamicWalker.attachFrameLeapEffect(actor.actorObj3d)
+        actor.setStatusKey(ENUMS.ActorStatus.IS_LEAPING, true)
+        actor.getGameWalkGrid().dynamicWalker.attachFrameLeapEffect(actor)
 
         actor.setStatusKey(ENUMS.ActorStatus.SELECTING_DESTINATION, 1);
 
         if (!walkGrid.isActive) {
             actor.activateWalkGrid(7);
-            walkGrid.dynamicWalker.isLeaping = true;
             console.log("LEAP ACTION - activate")
             actor.actorText.say("Destination")
         } else {
@@ -153,10 +152,11 @@ console.log("Pathing Completed")
             let tile = walkGrid.getTileAtPosition(tileSelector.getPos())
             let distance = MATH.distanceBetween(tile.getPos(), actor.getPos());
             actor.actorText.say("Leap")
-            walkGrid.dynamicWalker.attachFrameLeapTransitionFx(actor.actorObj3d)
+            walkGrid.dynamicWalker.attachFrameLeapTransitionFx(actor)
             let onArrive = function(pos) {
-                walkGrid.dynamicWalker.attachFrameLeapTransitionFx(actor.actorObj3d)
-                walkGrid.dynamicWalker.isLeaping = false;
+                walkGrid.dynamicWalker.attachFrameLeapTransitionFx(actor)
+           //     walkGrid.dynamicWalker.isLeaping = false;
+                actor.setStatusKey(ENUMS.ActorStatus.IS_LEAPING, false)
                 console.log("LEAP COMPLETED")
                 actor.actorText.say("Distance "+MATH.numberToDigits(distance, 1, 1)+"m")
                 walkGrid.updateGridCenter(pos);
@@ -166,8 +166,9 @@ console.log("Pathing Completed")
             let lastPos
 
             let onFrameUpdate = function(pos) {
-                walkGrid.dynamicWalker.isLeaping = true;
-                walkGrid.dynamicWalker.attachFrameLeapEffect(actor.actorObj3d)
+                // walkGrid.dynamicWalker.isLeaping = true;
+                actor.setStatusKey(ENUMS.ActorStatus.IS_LEAPING, true)
+                walkGrid.dynamicWalker.attachFrameLeapEffect(actor)
             }
 
             this.spatialTransition.initSpatialTransition(actor.getPos(), tile.getPos(), 1+distance*0.2, onArrive, distance*0.3, null, onFrameUpdate)

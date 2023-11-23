@@ -122,8 +122,10 @@ class Client {
             frame.elapsedTime = clock.elapsedTime;
 
 
-            if (Math.random() < 0.005) {
-                client.evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, {"msg":"random ping"})
+            if (Math.random() < 0.04) {
+            //    client.evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, {"msg":"random ping"})
+            //    GuiAPI.screenText('ping', ENUMS.Message.SYSTEM, 1);
+            //    GuiAPI.screenText('ping', ENUMS.Message.HINT, 2);
             }
 
             ThreeAPI.updateCamera();

@@ -1,3 +1,5 @@
+import {GuiAPI} from "../../application/ui/gui/GuiAPI.js";
+
 var socket;
 var frameStack = [];
 var messageCount = 0;
@@ -36,6 +38,7 @@ class Connection {
 		socket.responseCallbacks = {};
 
 		socket.onopen = function (event) {
+			window.GuiAPI.screenText('Connected')
 			connectedCallback(event);
 		};
 

@@ -4,6 +4,8 @@ import { Instantiator } from "../../../3d/three/instancer/Instantiator.js";
 import { GuiDebug } from "./systems/GuiDebug.js";
 import { GuiPageSystem } from "./systems/GuiPageSystem.js";
 import { DebugView } from "../../debug/DebugView.js";
+import { OnScreenText } from "./game/OnScreenText.js";
+
 
 let guiTime = 0;
 
@@ -19,6 +21,7 @@ class GuiAPI {
         this.worldSpacePointers = [];
 
         this.basicText;
+        this.onScreenText = new OnScreenText();
         this.txtSysKey = 'UI_TEXT_MAIN';
         this.guiUpdateCallbacks = [];
         this.inputUpdateCallbacks = [];
@@ -107,6 +110,9 @@ class GuiAPI {
         return this.guiPageSystem.activateGuiPage(pageId, callback)
     }
 
+    screenText(string, msgType, duration) {
+        this.onScreenText.screenTextPrint(string, msgType, duration)
+    }
 
     addUiSystem = function(sysKey, uiSysKey, assetId, poolSize, renderOrder) {
     //    console.log("addInstanceSystem", sysKey, uiSysKey, assetId, poolSize, renderOrder)

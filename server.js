@@ -61,7 +61,17 @@ let server = createServer(
             }
         }
         else {
-            response.writeHead(200, { 'Content-Type': contentType });
+
+            response.setHeader('Access-Control-Allow-Origin', '*');
+            response.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
+            response.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+            response.setHeader('Cross-origin-Embedder-Policy', 'require-corp');
+            response.setHeader('Cross-origin-Opener-Policy','same-origin');
+            response.setHeader('Access-Control-Max-Age', 60*60*24*30);
+            response.setHeader('Content-Type', contentType);
+
+
+            // response.writeHead(200, {                'Content-Type': contentType             });
             response.end(content, 'utf-8');
             console.log('response - Content-Type:'+contentType);
         }
