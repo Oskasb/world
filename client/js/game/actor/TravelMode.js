@@ -2,6 +2,8 @@ import {configDataList} from "../../application/utils/ConfigUtils.js";
 import {PlayerMovementInputs} from "../Player/PlayerMovementInputs.js";
 import {ControlFunctions} from "../piece_functions/ControlFunctions.js";
 import {SpatialTransition} from "../piece_functions/SpatialTransition.js";
+import {PathPoint} from "../gameworld/PathPoint.js";
+import {poolFetch} from "../../application/utils/PoolUtils.js";
 
 let controlFunctions = new ControlFunctions();
 let spatialTransition = new SpatialTransition()
@@ -27,6 +29,26 @@ setTimeout(function() {
 
 let stickToActor = function() {
     draken.getSpatial().stickToObj3D(actor.actorObj3d);
+}
+
+function registerPathPoints(actor) {
+    if (!actor.isPlayerActor()) {
+        return;
+    }
+    let walkGrid = actor.getGameWalkGrid();
+    let pathTiles = walkGrid.getActivePathTiles();
+
+    let pathPoints = actor.getStatus(ENUMS.ActorStatus.PATH_POINTS);
+
+    while (pathPoints.length) {
+        pathPoints.pop()
+    }
+
+    for (let i = 0; i < pathTiles.length; i++) {
+        let pathPoint = pathTiles[i].pathPoint;
+        pathPoints.push(pathPoint.point);
+    }
+
 }
 
 function activateTravelMode(actr, mode, activateCB, deactivateCB) {
@@ -169,6 +191,7 @@ class TravelMode {
     }
 
     updateTravelMode(actor) {
+        registerPathPoints(actor)
         let mode = actor.getStatus(ENUMS.ActorStatus.TRAVEL_MODE);
         if (mode !== this.mode) {
             this.mode = mode;

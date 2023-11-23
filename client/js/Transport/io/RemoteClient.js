@@ -1,6 +1,12 @@
+import {poolFetch} from "../../application/utils/PoolUtils.js";
+import {Vector3} from "../../../libs/three/math/Vector3.js";
+
 let equipQueue = []
 
 let index = 0;
+
+let tempVec = new Vector3()
+
 
 class RemoteClient {
     constructor(stamp) {
@@ -32,6 +38,9 @@ class RemoteClient {
         quat.z = actor.getStatus(ENUMS.ActorStatus.QUAT_Z);
         quat.w = actor.getStatus(ENUMS.ActorStatus.QUAT_W);
     }
+
+
+
 
     applyRemoteEquipment(actor) {
         let equippedList = actor.getStatus(ENUMS.ActorStatus.EQUIPPED_ITEMS);
@@ -69,10 +78,10 @@ class RemoteClient {
 
 
     processClientMessage(msg) {
-        GuiAPI.screenText(":"+this.index,  ENUMS.Message.SYSTEM, 0.5)
+        GuiAPI.screenText(""+this.index,  ENUMS.Message.SYSTEM, 0.2)
         let actors = this.actors;
         let remoteIndex = msg[ENUMS.ActorStatus.ACTOR_INDEX]
-        GuiAPI.screenText("Remote Index "+remoteIndex,  ENUMS.Message.HINT, 0.5)
+    //    GuiAPI.screenText("Remote Index "+remoteIndex,  ENUMS.Message.HINT, 0.5)
         if (typeof(remoteIndex) === 'number') {
             let actor = this.getActorByIndex(remoteIndex);
             if (!actor) {

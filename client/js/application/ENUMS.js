@@ -109,6 +109,7 @@ if(typeof(ENUMS) === "undefined"){
         MOVEMENT_SPEED:'MOVEMENT_SPEED',
         DEAD:'DEAD',
         IS_LEAPING:'IS_LEAPING',
+        PATH_POINTS:'PATH_POINTS',
         IN_COMBAT:'IN_COMBAT',
         HAND_SIZE:'HAND_SIZE',
         HAS_POSITION:'HAS_POSITION',

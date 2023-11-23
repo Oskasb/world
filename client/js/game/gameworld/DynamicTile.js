@@ -73,6 +73,8 @@ class DynamicTile {
             this.tileEffect = efct;
         }.bind(this);
 
+        this.pathPoint = poolFetch('PathPoint');
+
         this.visualTile = null;
         if (!this.hideTile) {
             this.visualTile = poolFetch('VisualTile');
@@ -90,11 +92,13 @@ class DynamicTile {
         this.gridI = gridI;
         this.gridJ = gridJ;
 
+
     //    this.gridTile.setTileXZ(indexX, indexY);
         this.obj3d.position.x = indexX*this.spacing + this.offset
         this.obj3d.position.z = indexY*this.spacing + this.offset;
         let height = ThreeAPI.terrainAt(this.obj3d.position, this.groundNormal);
         this.obj3d.position.y = height+0.05;
+        this.pathPoint.setPos(this.obj3d.position)
         if (this.visualTile) {
             this.visualTile.dynamicTileUpdated(this)
         }
@@ -142,6 +146,7 @@ class DynamicTile {
             poolReturn(this.visualTile);
             this.visualTile = null;
         }
+        poolReturn(this.pathPoint)
         poolReturn(this);
     }
 

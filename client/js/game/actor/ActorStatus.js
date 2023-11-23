@@ -3,6 +3,8 @@ class ActorStatus {
     constructor() {
         this.statusMap = {}
         this.statusMap[ENUMS.ActorStatus.EQUIPPED_ITEMS] = [];
+        this.statusMap[ENUMS.ActorStatus.PATH_POINTS] = [];
+        this.statusMap[ENUMS.ActorStatus.ACTIONS] = [];
     }
 
     getStatusByKey(key) {

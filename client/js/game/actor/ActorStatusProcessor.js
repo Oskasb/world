@@ -1,5 +1,9 @@
 import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
 import {notifyCameraStatus} from "../../3d/camera/CameraFunctions.js";
+import {Vector3} from "../../../libs/three/math/Vector3.js";
+
+let tempVec = new Vector3()
+let tempVec2 = new Vector3();
 
 function processCameraStatus(actor) {
     let travelMode = actor.getStatus(ENUMS.ActorStatus.TRAVEL_MODE);
@@ -170,6 +174,35 @@ function processCameraStatus(actor) {
 
 }
 
+function registerPathPoints(actor) {
+    let pathPoints = actor.getStatus(ENUMS.ActorStatus.PATH_POINTS);
+
+    MATH.emptyArray(pathPoints);
+
+    let walkGrid = actor.getGameWalkGrid();
+    let pathTiles = walkGrid.getActivePathTiles();
+
+    if (pathTiles.length > 1) {
+        for (let i = 0; i < pathTiles.length; i++) {
+            let pathPoint = pathTiles[i].pathPoint;
+            pathPoints[i] = pathPoint.point;
+        }
+    }
+}
+
+function updatePathPointVisuals(actor) {
+    let pathPoints = actor.getStatus(ENUMS.ActorStatus.PATH_POINTS);
+    tempVec.copy(actor.getPos());
+        for (let i = 0; i < pathPoints.length; i++) {
+            let pathPoint = pathPoints[i];
+            MATH.vec3FromArray(tempVec2, pathPoint)
+            evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:tempVec2, color:'WHITE', size:0.3});
+            evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:tempVec, to:tempVec2, color:'WHITE', drawFrames:4});
+            tempVec.copy(tempVec2);
+    }
+
+}
+
 class ActorStatusProcessor {
     constructor() {
         this.indicators = {};
@@ -239,8 +272,10 @@ class ActorStatusProcessor {
     processActorStatus(actor) {
         if (actor.isPlayerActor()) {
             processCameraStatus(actor)
+            registerPathPoints(actor)
         }
         this.indicateSelectionStatus(actor)
+        updatePathPointVisuals(actor);
     }
 
     clearActorStatus(actor) {

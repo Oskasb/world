@@ -1,3 +1,4 @@
+import {poolReturn} from "../../../utils/PoolUtils.js";
 
 class GuiScreenSpaceText {
     constructor(options) {
@@ -114,6 +115,12 @@ class GuiScreenSpaceText {
     };
 
     deactivateScreenSpaceText = function() {
+
+        if (this.poolFetched === true) {
+            poolReturn(this);
+            this.poolFetched = false
+        }
+
         ThreeAPI.getSetup().removePrerenderCallback(this.callbacks.updateProgress);
     };
 

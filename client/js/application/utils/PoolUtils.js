@@ -10,6 +10,8 @@ import {ActorAction} from "../../game/actor/ActorAction.js";
 import {VisualAction} from "../../game/visuals/VisualAction.js";
 import {VisualIndicator} from "../../game/visuals/VisualIndicator.js";
 import {Vector3} from "../../../libs/three/math/Vector3.js";
+import {GuiScreenSpaceText} from "../ui/gui/widgets/GuiScreenSpaceText.js";
+import {PathPoint} from "../../game/gameworld/PathPoint.js";
 
 let pools = {}
 let stats = {};
@@ -26,6 +28,8 @@ function initPools() {
     registerPool(VisualAction);
     registerPool(VisualIndicator);
     registerPool(Vector3);
+    registerPool(GuiScreenSpaceText);
+    registerPool(PathPoint);
 }
 
 function registerPool(DataObj) {
@@ -56,6 +60,7 @@ function poolFetch(dataKey) {
     if (!entry) {
         console.log("fetcher() is giving nothing... fix!")
     }
+    entry.poolFetched = true;
     return entry;
 }
 

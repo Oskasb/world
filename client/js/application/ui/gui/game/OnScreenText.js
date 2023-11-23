@@ -1,5 +1,6 @@
 import { GuiScreenSpaceText } from "../widgets/GuiScreenSpaceText.js";
 import { Vector3 } from "../../../../../libs/three/math/Vector3.js";
+import {poolFetch} from "../../../utils/PoolUtils.js";
 let tempVec1 = new Vector3();
 let tempVec2 = new Vector3();
 let tempVec3 = new Vector3()
@@ -184,7 +185,7 @@ class OnScreenText {
             return;
         }
 
-        let screenSpaceText = new GuiScreenSpaceText()
+        let screenSpaceText = poolFetch('GuiScreenSpaceText')
 
         screenSpaceText.initScreenSpaceText(onReady, conf, duration || 4);
 
