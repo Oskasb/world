@@ -30,9 +30,9 @@ class Setup {
             if (stamp === 0) {
                 stamp = MATH.decimalify(event.timeStamp*1000 + new Date().getTime(), 1);
                 client.setStamp(stamp);
-                let msg = {}
-                msg[ENUMS.Send.CONNECTED] = stamp;
-                client.evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, msg)
+            //    let msg = {}
+            //    msg[ENUMS.Send.CONNECTED] = stamp;
+            //    client.evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, msg)
             }
 
             evt.on(ENUMS.Event.SEND_SOCKET_MESSAGE, connection.call.sendMessage)

@@ -11,7 +11,7 @@ import { TravelMode } from "./TravelMode.js";
 import { ActorEquipment } from "./ActorEquipment.js";
 import { ActorStatusProcessor } from "./ActorStatusProcessor.js";
 
-let index = 0;
+let index = 1; // zero index get culled by connection
 let tempVec = new Vector3();
 let tempStore = [];
 let tempObj = new Object3D();

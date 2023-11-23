@@ -72,6 +72,7 @@ class RemoteClient {
         GuiAPI.screenText(":"+this.index,  ENUMS.Message.SYSTEM, 0.5)
         let actors = this.actors;
         let remoteIndex = msg[ENUMS.ActorStatus.ACTOR_INDEX]
+        GuiAPI.screenText("Remote Index "+remoteIndex,  ENUMS.Message.HINT, 0.5)
         if (typeof(remoteIndex) === 'number') {
             let actor = this.getActorByIndex(remoteIndex);
             if (!actor) {
@@ -84,6 +85,7 @@ class RemoteClient {
                 }
                 if (this.remoteIndex.indexOf(remoteIndex) === -1) {
                     this.remoteIndex.push(remoteIndex)
+                    ThreeAPI.tempVec3.copy(ThreeAPI.getCameraCursor().getPos())
                     evt.dispatch(ENUMS.Event.LOAD_ACTOR, {id:msg[ENUMS.ActorStatus.CONFIG_ID], pos:ThreeAPI.tempVec3, callback:onLoadedCB})
                 }
 
@@ -96,6 +98,8 @@ class RemoteClient {
                     this.applyRemoteEquipment(actor)
                 }
             }
+        } else {
+            GuiAPI.screenText("No Remote Target "+this.index,  ENUMS.Message.HINT, 2.5)
         }
 
 

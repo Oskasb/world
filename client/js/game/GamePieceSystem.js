@@ -6,6 +6,7 @@ import { Item } from "./gamepieces/Item.js";
 import { ConfigData } from "../application/utils/ConfigData.js";
 import { RemoteClient } from "../Transport/io/RemoteClient.js";
 
+
 let visualConfigs = {};
 let actorConfigs = {};
 let itemConfigs = {};
@@ -77,15 +78,26 @@ let remoteClients = {}
 
 let processConnectionMessage = function(event) {
 
+    if (!GameAPI.getGamePieceSystem().getSelectedGameActor()) {
+    //    return;
+    }
+
+    if (client.getStamp() === 0) {
+        GuiAPI.screenText("No connection stamp yet", ENUMS.Message.HINT, 4)
+        console.log("No connection stamp yet")
+        return;
+    }
+
     if (event.stamp === client.getStamp()) {
         return;
     }
-    
+
     if (!remoteClients[event.stamp]) {
         remoteClients[event.stamp] = new RemoteClient(event.stamp);
+    } else {
+        remoteClients[event.stamp].processClientMessage(event.msg);
     }
 
-    remoteClients[event.stamp].processClientMessage(event.msg);
 }
 
 
