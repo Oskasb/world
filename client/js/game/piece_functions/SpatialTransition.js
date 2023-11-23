@@ -68,7 +68,7 @@ class SpatialTransition {
 
     interpolatePosition(tpf) {
         if (this.elapsedTime+tpf < this.targetTime) {
-            let fraction = MATH.calcFraction(this.startTime, this.targetTime, this.elapsedTime);
+            let fraction = MATH.calcFraction(this.startTime, this.targetTime+tpf, this.elapsedTime+tpf);
             if (fraction > 1) fraction = 1;
             this.moveVec3.copy(this.targetFunction());
             MATH.interpolateVec3FromTo(this.startPos, this.targetPos, fraction, this.moveVec3, this.curve);
@@ -85,11 +85,18 @@ class SpatialTransition {
 
         } else {
             this.moveVec3.copy(this.targetPos);
-            MATH.callAll(this.onArriveCallbacks, this.moveVec3);
+            MATH.callAll(this.onArriveCallbacks, this.moveVec3, this);
             MATH.emptyArray(this.onArriveCallbacks);
             MATH.emptyArray(this.onFrameUpdateCallbacks);
             ThreeAPI.unregisterPrerenderCallback(this.callbacks.onGameUpdate);
         }
+    }
+
+    cancelSpatialTransition() {
+        MATH.callAll(this.onArriveCallbacks, this.moveVec3, this);
+        MATH.emptyArray(this.onArriveCallbacks);
+        MATH.emptyArray(this.onFrameUpdateCallbacks);
+        ThreeAPI.unregisterPrerenderCallback(this.callbacks.onGameUpdate);
     }
 
     applyFrameToMovement(tpf) {

@@ -75,12 +75,24 @@ class GameActor {
             this.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, false);
         }.bind(this)
 
+
+        let spatialTransition;
+        let setSpatialTransition = function(transition) {
+            spatialTransition = transition;
+        }
+
+        let getActiveSpatialTransition = function() {
+            return spatialTransition;
+        }
+
         this.call = {
             turnEnd:turnEnd,
             onActive:onActive,
             setAsSelection:setAsSelection,
             updateGameActor:updateGameActor,
-            getActorPos:getActorPos
+            getActorPos:getActorPos,
+            setSpatialTransition:setSpatialTransition,
+            getActiveSpatialTransition:getActiveSpatialTransition
         }
     }
 
@@ -116,11 +128,9 @@ class GameActor {
             this.actorStatus.setStatusKey(ENUMS.ActorStatus.CLIENT_STAMP, client.getStamp());
             this.actorStatus.setStatusKey(ENUMS.ActorStatus.ACTOR_INDEX, this.index);
             let gameTime = GameAPI.getGameTime();
-            if (lastSendTime < gameTime -0.2) {
+            if (lastSendTime < gameTime -0.05) {
+                this.actorStatus.broadcastStatus(gameTime);
                 lastSendTime = gameTime;
-                let statusMap = this.actorStatus.statusMap;
-            //    console.log("Send status: ", lastSendTime , [statusMap]);
-                evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, statusMap)
             }
         }
 
@@ -298,9 +308,10 @@ class GameActor {
     }
 
     applySpatialStatus(pos, quat) {
-        this.setStatusKey(ENUMS.ActorStatus.POS_X, pos.x)
-        this.setStatusKey(ENUMS.ActorStatus.POS_Y, pos.y)
-        this.setStatusKey(ENUMS.ActorStatus.POS_Z, pos.z)
+        this.setStatusKey(ENUMS.ActorStatus.POS_X, MATH.decimalify(pos.x, 10))
+        this.setStatusKey(ENUMS.ActorStatus.POS_Y, MATH.decimalify(pos.y, 10))
+        this.setStatusKey(ENUMS.ActorStatus.POS_Z, MATH.decimalify(pos.z, 10))
+   //     return;
         this.setStatusKey(ENUMS.ActorStatus.QUAT_X, quat.x)
         this.setStatusKey(ENUMS.ActorStatus.QUAT_Y, quat.y)
         this.setStatusKey(ENUMS.ActorStatus.QUAT_Z, quat.z)

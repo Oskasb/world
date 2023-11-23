@@ -166,7 +166,7 @@ class DynamicWalker {
         let pathTiles = this.tilePath.getTiles();
         let targetTile = this.tilePath.getEndTile();
 
-        let charSpeed = 4;
+        let charSpeed = actor.getStatus(ENUMS.ActorStatus.MOVEMENT_SPEED)
         let frameTravelDistance = charSpeed * tpf // GameAPI.getTurnStatus().turnTime
 
         if (pathTiles.length > 1) {

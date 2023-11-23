@@ -279,6 +279,11 @@ if(typeof(MATH) === "undefined") {
         return 1 / (1 + Math.exp(6 - t*12));
     };
 
+
+	MATH.curveLinear = function(t) {
+		return t;
+	};
+
     MATH.curveSigmoidMirrored = function(value) {
         return MATH.curveSigmoid(Math.abs(value)) * MATH.sign(value)
     };
@@ -753,5 +758,275 @@ if(typeof(MATH) === "undefined") {
 		return euler.setFromQuaternion(q, order);
 	}
 
+
+	MATH.copyArray = function(from, to) {
+		for (let i = 0; i < from.length; i++) {
+			let value = this.copyValues(from[i], to[i])
+			if (value !== null) {
+				to[i] = value;
+			}
+
+		}
+	}
+
+	MATH.copyValues = function(from, to) {
+		if (typeof (from.length) === 'number') {
+			if (typeof (to.length) !== 'number') {
+				to = []
+			}
+			this.copyArray(from, to)
+			return null;
+		} else {
+			return from;
+		}
+	}
+
+
+MATH.deepClone = function(source) {
+	const deepClone = obj => {
+		if (obj === null) return null;
+		let clone = Object.assign({}, obj);
+		Object.keys(clone).forEach(
+			key =>
+				(clone[key] =
+					typeof obj[key] === 'object' ? deepClone(obj[key]) : obj[key])
+		);
+		if (Array.isArray(obj)) {
+			clone.length = obj.length;
+			return Array.from(clone);
+		}
+		return clone;
+	};
+
+	return deepClone(source); // a !== b, a.obj !== b.obj
+}
+
+	MATH.stupidChecksumArray = function(arr) {
+
+		let sum = 0;
+
+		let addLevel = function(array) {
+			if (typeof (array) !== 'object') {
+				if (array.length) {
+					sum+=array.length
+				} else {
+					if (typeof (array) === 'number') {
+						sum += array;
+					}
+				}
+			} else {
+				for (let i = 0; i < array.length; i++) {
+					if (typeof (array[i].length) === 'number') {
+						sum+=array[i].length
+						if (typeof (array[i] === 'string')) {
+							sum += i;
+						} else {
+							addLevel(array[i])
+						}
+					} else {
+						if (typeof (array[i] === 'number')) {
+							sum += array[i];
+						}
+					}
+				}
+			}
+		}
+
+		addLevel(arr);
+
+		return sum;
+	}
+
+	MATH.compareArrays = function(arr1, arr2) {
+
+		if (arr1 === arr2) {
+
+			return true;
+		}
+		console.log("early equal... ", arr1, arr2)
+		// check the length
+
+		let loop8 = function(a, b) {
+			if(a.length !== b.length) {
+				return false;
+			} else {
+				let result = false;
+				// comparing each element of array
+				for (let i=0; i<a.length; i++) {
+					if (a[i] !== b[i]) {
+						return false;
+					} else {
+
+						result = false
+						if (!result) {
+							console.log("Still equal... ", arr1, arr2)
+							return false;
+						}
+					}
+				}
+				return result;
+			}
+		}
+		let loop7 = function(a, b) {
+			if(a.length !== b.length) {
+				return false;
+			} else {
+				let result = false;
+				// comparing each element of array
+				for (let i=0; i<a.length; i++) {
+					if (a[i] !== b[i]) {
+						return false;
+					} else {
+
+						result = loop8(a[i], b[i]);
+						if (!result) {
+							return false;
+						}
+					}
+				}
+				return result;
+			}
+		}
+
+		let loop6 = function(a, b) {
+			if(a.length !== b.length) {
+				return false;
+			} else {
+				let result = false;
+				// comparing each element of array
+				for (let i=0; i<a.length; i++) {
+					if (a[i] !== b[i]) {
+						return false;
+					} else {
+
+						result = loop7(a[i], b[i]);
+						if (!result) {
+							return false;
+						}
+					}
+				}
+				return result;
+			}
+		}
+		let loop5 = function(a, b) {
+			if (a === b) {
+				return true
+			}
+			if(a.length !== b.length) {
+				return false;
+			} else {
+				let result = false;
+				// comparing each element of array
+				for (let i=0; i<a.length; i++) {
+					if (a[i] !== b[i]) {
+						return false;
+					} else {
+
+						result  = loop6(a[i], b[i]);
+						if (!result) {
+							return false;
+						}
+					}
+				}
+				return result;
+			}
+		}
+
+		let loop4 = function(a, b) {
+
+			if (a === b) {
+				return true
+			}
+			if(a.length !== b.length) {
+				return false;
+			} else {
+				let result = false;
+				// comparing each element of array
+				for (let i=0; i<a.length; i++) {
+					if (a[i] !== b[i]) {
+						return false;
+					} else {
+
+						result = loop5(a[i], b[i]);
+						if (!result) {
+							return false;
+						}
+					}
+				}
+				return result;
+			}
+		}
+
+		let loop3 = function(a, b) {
+			if (a === b) {
+				return true
+			}
+			if(a.length !== b.length) {
+				return false;
+			} else {
+				let result = false;
+				// comparing each element of array
+				for (let i=0; i<a.length; i++) {
+					if (a[i] !== b[i]) {
+						return false;
+					} else {
+
+						result = loop4(a[i], b[i]);
+						if (!result) {
+							return false;
+						}
+					}
+				}
+				return result;
+			}
+		}
+
+		let loop2 = function(a, b) {
+			console.log("still not equal... ", arr1, arr2)
+			if (a === b) {
+				console.log("early equal... ", arr1, arr2)
+				return true
+			}
+			if(a.length !== b.length) {
+				return false;
+			} else {
+				let result = false;
+				// comparing each element of array
+				for (let i=0; i<a.length; i++) {
+					if (a[i] !== b[i]) {
+						return false;
+					} else {
+
+						result = loop3(a[i], b[i]);
+						if (!result) {
+							return false;
+						}
+					}
+				}
+				return result;
+			}
+		}
+
+
+		if(arr1.length !== arr2.length) {
+			return false;
+		} else {
+			let result = false;
+			// comparing each element of array
+			for (let i=0; i < arr1.length; i++) {
+				if (arr1[i] !== arr2[i]) {
+					console.log("early not equal... ", arr1[i], arr2[i])
+					return false;
+				} else {
+					console.log("loop2 not equal... ", arr1[i], arr2[i])
+					result = loop2(arr1[i], arr2[i]);
+					if (!result) {
+						return false;
+					}
+				}
+			}
+			return result;
+		}
+	}
 
 })(MATH);

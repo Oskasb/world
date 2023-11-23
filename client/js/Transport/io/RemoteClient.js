@@ -1,11 +1,25 @@
-import {poolFetch} from "../../application/utils/PoolUtils.js";
+import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
 import {Vector3} from "../../../libs/three/math/Vector3.js";
+
 
 let equipQueue = []
 
 let index = 0;
 
 let tempVec = new Vector3()
+function messageByKey(msg, key ) {
+    let keyIndex = msg.indexOf(key);
+    console.log(keyIndex, [msg], key)
+    if (keyIndex === -1) {
+        return null;
+    }
+    return msg[keyIndex+1];
+
+}
+
+
+
+
 
 
 class RemoteClient {
@@ -27,16 +41,56 @@ class RemoteClient {
         }
     }
 
-    applyRemoteSpatial(actor) {
-        let pos = actor.getPos()
-        pos.x = actor.getStatus(ENUMS.ActorStatus.POS_X);
-        pos.y = actor.getStatus(ENUMS.ActorStatus.POS_Y);
-        pos.z = actor.getStatus(ENUMS.ActorStatus.POS_Z);
+    applyRemoteSpatial(actor, timeDelta) {
+
+        let oldTransition = actor.call.getActiveSpatialTransition()
+        if (oldTransition) {
+            oldTransition.cancelSpatialTransition()
+        }
+
+        // let spatialTransition = oldTransition;
+        function transitionUpdate(posVec) {
+
+        }
+        function transitionEnded(posVec, transition) {
+            poolReturn(transition);
+            actor.call.setSpatialTransition(null)
+        }
+
+    //    if (!spatialTransition) {
+         let   spatialTransition =  poolFetch('SpatialTransition')
+    //    }
+
+    //    let pos = spatialTransition.targetPos
+        tempVec.x = actor.getStatus(ENUMS.ActorStatus.POS_X);
+        tempVec.y = actor.getStatus(ENUMS.ActorStatus.POS_Y);
+        tempVec.z = actor.getStatus(ENUMS.ActorStatus.POS_Z);
+
+    //    let positionDelta = MATH.distanceBetween(tempVec, pos)
+    //    if (positionDelta < 0.1) {
+    //        return;
+    //    }
+    //    pos.copy(tempVec);
+
+    //    let charSpeed = actor.getStatus(ENUMS.ActorStatus.MOVEMENT_SPEED)
+   //     let distance = MATH.distanceBetween(actor.getPos(), pos);
+        let updateTravelTime =  timeDelta-0.05 //  (distance*timeDelta / charSpeed)  // GameAPI.getTurnStatus().turnTime timeDelta //*2 //
+
+    //    if (!oldTransition) {
+            spatialTransition.initSpatialTransition(actor.getPos(), tempVec, updateTravelTime, transitionEnded, 0, 'curveLinear', transitionUpdate)
+            actor.call.setSpatialTransition(spatialTransition)
+    //    } else {
+    //        spatialTransition.targetTime += updateTravelTime;
+    //    }
+
+    //    return;
+
         let quat = actor.actorObj3d.quaternion;
         quat.x = actor.getStatus(ENUMS.ActorStatus.QUAT_X);
         quat.y = actor.getStatus(ENUMS.ActorStatus.QUAT_Y);
         quat.z = actor.getStatus(ENUMS.ActorStatus.QUAT_Z);
         quat.w = actor.getStatus(ENUMS.ActorStatus.QUAT_W);
+
     }
 
 
@@ -77,10 +131,21 @@ class RemoteClient {
     }
 
 
+
+
+
     processClientMessage(msg) {
+        let gameTime = GameAPI.getGameTime();
+
         GuiAPI.screenText(""+this.index,  ENUMS.Message.SYSTEM, 0.2)
         let actors = this.actors;
-        let remoteIndex = msg[ENUMS.ActorStatus.ACTOR_INDEX]
+        let remoteIndex = null
+        if (msg[0] === ENUMS.ActorStatus.ACTOR_INDEX) {
+            remoteIndex = msg[1];
+        } else {
+            console.log("Index for Actor missing ", msg);
+        }
+
     //    GuiAPI.screenText("Remote Index "+remoteIndex,  ENUMS.Message.HINT, 0.5)
         if (typeof(remoteIndex) === 'number') {
             let actor = this.getActorByIndex(remoteIndex);
@@ -92,20 +157,38 @@ class RemoteClient {
 
                     actr.activateGameActor(onReady)
                 }
+
+                let configId = messageByKey(msg, ENUMS.ActorStatus.CONFIG_ID)
+
+                if (configId === null) {
+                    console.log("No configId", msg);
+                    return;
+                }
+
                 if (this.remoteIndex.indexOf(remoteIndex) === -1) {
                     this.remoteIndex.push(remoteIndex)
                     ThreeAPI.tempVec3.copy(ThreeAPI.getCameraCursor().getPos())
-                    evt.dispatch(ENUMS.Event.LOAD_ACTOR, {id:msg[ENUMS.ActorStatus.CONFIG_ID], pos:ThreeAPI.tempVec3, callback:onLoadedCB})
+                    evt.dispatch(ENUMS.Event.LOAD_ACTOR, {id:configId, pos:ThreeAPI.tempVec3, callback:onLoadedCB})
                 }
 
 
             } else {
                 actor.actorText.say(remoteIndex)
-                for (let key in msg) {
-                    actor.setStatusKey(key, msg[key]);
-                    this.applyRemoteSpatial(actor);
-                    this.applyRemoteEquipment(actor)
+
+                for (let i = 2; i < msg.length; i++) {
+                    let key = msg[i];
+                    i++
+                    let status = msg[i]
+                    actor.setStatusKey(key, status);
                 }
+
+                let delta = gameTime - actor.getStatus(ENUMS.ActorStatus.LAST_UPDATE);
+                actor.setStatusKey(ENUMS.ActorStatus.UPDATE_DELTA, MATH.clamp(delta, 0, 2));
+                actor.setStatusKey(ENUMS.ActorStatus.LAST_UPDATE, gameTime);
+
+                this.applyRemoteSpatial(actor, delta);
+                this.applyRemoteEquipment(actor)
+
             }
         } else {
             GuiAPI.screenText("No Remote Target "+this.index,  ENUMS.Message.HINT, 2.5)

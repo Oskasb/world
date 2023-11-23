@@ -38,7 +38,7 @@ console.log("Pathing Completed")
 
         actor.setStatusKey(ENUMS.ActorStatus.SELECTING_DESTINATION, 1);
         if (!walkGrid.isActive) {
-            actor.activateWalkGrid(1+ actor.getStatus(ENUMS.ActorStatus.MOVEMENT_SPEED) * 2 )
+            actor.activateWalkGrid(1+ actor.getStatus(ENUMS.ActorStatus.MOVEMENT_SPEED) * 4 )
             console.log("MOVE ACTION - activate")
             actor.actorText.say("Grid Stick")
         } else {

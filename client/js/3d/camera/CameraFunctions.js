@@ -109,7 +109,7 @@ function applyPointerMove() {
     }
 
     if (!walkGrid.isActive) {
-        selectedActor.activateWalkGrid(1+ selectedActor.getStatus(ENUMS.ActorStatus.MOVEMENT_SPEED) * 2 )
+        selectedActor.activateWalkGrid(1+ selectedActor.getStatus(ENUMS.ActorStatus.MOVEMENT_SPEED) * 4 )
         selectedActor.actorText.say("Grid Camera")
         let pointerTile = walkGrid.getTileByScreenPosition(activePointer.pos)
         if (pointerTile) {

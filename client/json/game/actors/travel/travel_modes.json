@@ -19,7 +19,7 @@
         "id":"TRAVEL_MODE_BATTLE",
         "data":{
           "status": {
-            "MOVEMENT_SPEED": 7,
+            "MOVEMENT_SPEED": 4,
             "ACTOR_SPEED": 0,
             "ACTOR_YAW_RATE": 2,
             "STATUS_FORWARD": 0
@@ -48,7 +48,7 @@
         "id":"TRAVEL_MODE_WALK",
         "data":{
           "status": {
-            "MOVEMENT_SPEED": 7,
+            "MOVEMENT_SPEED": 4,
             "ACTOR_SPEED": 0,
             "ACTOR_YAW_RATE": 2,
             "STATUS_FORWARD": 0

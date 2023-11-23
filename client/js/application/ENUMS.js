@@ -101,6 +101,8 @@ if(typeof(ENUMS) === "undefined"){
 
     ENUMS.ActorStatus = {
         CONFIG_ID:'CONFIG_ID',
+        UPDATE_DELTA:'UPDATE_DELTA',
+        LAST_UPDATE:'LAST_UPDATE',
         CLIENT_STAMP:'CLIENT_STAMP',
         ACTOR_INDEX:'ACTOR_INDEX',
         EQUIPPED_ITEMS:'EQUIPPED_ITEMS',
