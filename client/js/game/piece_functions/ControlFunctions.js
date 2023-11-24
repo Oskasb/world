@@ -30,7 +30,6 @@ class ControlFunctions {
 
         actor.setStatusKey(ENUMS.ActorStatus.STATUS_SPEED, frameSpeed / tpf);
         let forwardVec = actor.getForward();
-    //    actor.lookDirection.copy(forwardVec);
         forwardVec.multiplyScalar(frameSpeed);
         actor.setSpatialVelocity(forwardVec)
 

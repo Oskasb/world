@@ -53,8 +53,8 @@ class DynamicPath {
 
 
         let tile = startTile;
-        tile.text.say(""+tile.gridI+":"+tile.gridJ)
-        GuiAPI.screenText(""+tile.gridI+":"+tile.gridJ, ENUMS.Message.HINT, 1)
+    //    tile.text.say(""+tile.gridI+":"+tile.gridJ)
+    //    GuiAPI.screenText(""+tile.gridI+":"+tile.gridJ, ENUMS.Message.HINT, 1)
 
         if (startTile === endTile) {
             this.tilePath.setEndTile(null);
@@ -127,7 +127,7 @@ class DynamicPath {
         }
         tile = this.tilePath.getTurnEndTile()
         if (tile) {
-            tile.text.say(""+tile.gridI+":"+tile.gridJ)
+        //    tile.text.say(""+tile.gridI+":"+tile.gridJ)
             this.tilePath.setEndTile(tile);
         } else {
             this.tilePath.length = 0;

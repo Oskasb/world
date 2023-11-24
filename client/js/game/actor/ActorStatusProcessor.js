@@ -86,7 +86,6 @@ function processCameraStatus(actor) {
                 if (selectedActor !== turnActiveActor) {
 
                     if (moveControlActive === 1) {
-                        actor.turnTowardsPos(selectedActor.getSpatialPosition())
                         controlKey = ENUMS.CameraControls.CAM_GRID;
                         notifyCameraStatus( ENUMS.CameraStatus.LOOK_AT, ENUMS.CameraControls.CAM_AHEAD, null)
                         if (partySelected) {
@@ -96,9 +95,7 @@ function processCameraStatus(actor) {
                         }
 
                     } else {
-                        actor.turnTowardsPos(selectedActor.getSpatialPosition())
                         controlKey = ENUMS.CameraControls.CAM_ENCOUNTER;
-
                         if (partySelected) {
                             notifyCameraStatus( ENUMS.CameraStatus.LOOK_AT, ENUMS.CameraControls.CAM_TARGET, null)
                             notifyCameraStatus( ENUMS.CameraStatus.LOOK_FROM, ENUMS.CameraControls.CAM_SHOULDER, null)

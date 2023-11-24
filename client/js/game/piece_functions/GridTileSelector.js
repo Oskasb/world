@@ -96,7 +96,7 @@ class GridTileSelector {
                 } else {
                     selectedTile = tile;
                     //   selectedTile.text.say("x"+tile.tileX+" z:"+tile.tileZ)
-                    selectedTile.text.say(""+tile.gridI+":"+tile.gridJ)
+                 //   selectedTile.text.say(""+tile.gridI+":"+tile.gridJ)
                 }
             }
 

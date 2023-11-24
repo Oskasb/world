@@ -313,11 +313,6 @@ class GameActor {
         this.lookDirection.sub(tempVec);
     }
 
-    lookInDirection(vec) {
-        this.lookDirection.copy(vec);
-        this.lookDirection.y = vec.y;
-    }
-
     applyHeading(direction, alpha) {
         tempObj.position.set(0, 0, 0)
         tempObj.lookAt(direction);
@@ -375,25 +370,30 @@ class GameActor {
 
             tempVec.copy(this.framePos);
             tempVec.sub(this.lastFramePos);
+
             let speed = tempVec.length();
             if (speed > 100) {
-                tempVec.set(0, 0, 0)
+                console.log("bad speed")
             }
 
             this.setSpatialVelocity(tempVec);
         //    console.log(tempVec.length())
         //    this.framePos.add(tempVec);
-            this.travelMode.updateTravelMode(this);
+
 
             if (speed < 0.001) {
                 this.setStatusKey(ENUMS.ActorStatus.FRAME_TRAVEL_DISTANCE, 0);
             } else {
                 this.setStatusKey(ENUMS.ActorStatus.FRAME_TRAVEL_DISTANCE, speed);
-                this.lookInDirection(tempVec);
+            //    tempVec.add(this.framePos);
+                // this.lookDirection.copy(tempVec);
+                this.getSpatialVelocity(this.lookDirection)
+                this.lookDirection.multiplyScalar(1)
+
             }
 
-            this.applyHeading(this.lookDirection, this.getStatus(ENUMS.ActorStatus.ACTOR_YAW_RATE) * tpf);
-
+           this.applyHeading(this.lookDirection, this.getStatus(ENUMS.ActorStatus.ACTOR_YAW_RATE) * tpf);
+            this.travelMode.updateTravelMode(this);
         } else {
 
             this.getSpatialQuaternion(tempQuat);
