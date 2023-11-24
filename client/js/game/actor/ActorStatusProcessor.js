@@ -16,7 +16,7 @@ function processCameraStatus(actor) {
     let partySelected = actor.getStatus(ENUMS.ActorStatus.PARTY_SELECTED);
     let sequencerSelected = actor.getStatus(ENUMS.ActorStatus.SEQUENCER_SELECTED);
     let hasTurn = actor.getStatus(ENUMS.ActorStatus.HAS_TURN);
-    let selectedTarget = actor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET);
+    let selectedTarget = GameAPI.getActorByIndex(actor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET))
 
     if (travelMode === ENUMS.TravelMode.TRAVEL_MODE_FLY) {
         controlKey = ENUMS.CameraControls.CAM_ORBIT;
@@ -66,7 +66,7 @@ function processCameraStatus(actor) {
         if (!turnActiveActor) {
             return;
         }
-        let selectedActor = turnActiveActor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET)
+        let selectedActor = GameAPI.getActorByIndex(turnActiveActor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET))
         let moveControlActive = actor.getControl(ENUMS.Controls.CONTROL_MOVE_ACTION)
         let partySelected = actor.getStatus(ENUMS.ActorStatus.PARTY_SELECTED)
         if (turnActiveActor !== actor) {

@@ -36,7 +36,7 @@ let selectedTarget = null;
 
 let onActionActivate = function(action) {
     console.log("onActionActivate:", action)
-    selectedTarget = actor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET)
+    selectedTarget = GameAPI.getActorByIndex(actor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET))
     action.initAction(actor);
     activatedAction = action;
     if (selectedTarget) {
@@ -131,7 +131,7 @@ let updateActiveActorUi = function(tpf) {
 
     if (activatedAction) {
         if (!selectedTarget) {
-            selectedTarget = actor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET)
+            selectedTarget = GameAPI.getActorByIndex(actor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET))
             if (selectedTarget) {
                 action.call.advanceState();
                 setTimeout(function() {

@@ -84,8 +84,6 @@ class ActorTurnSequencer {
         this.turnIndex = turnIndex;
         this.actor.setStatusKey(ENUMS.ActorStatus.TURN_DONE, this.turnIndex)
         this.exitTo = turnStateKeys.turn_init
-        let camHome = GameAPI.call.getActiveEncounter().getEncounterCameraHomePosition()
-        evt.dispatch(ENUMS.Event.SET_CAMERA_MODE, {mode:'actor_turn_movement', obj3d:this.actor.getObj3d(), camPos:camHome})
         activateStateTransition(this)
     }
 

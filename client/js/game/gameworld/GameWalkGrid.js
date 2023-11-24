@@ -151,8 +151,8 @@ class GameWalkGrid {
 
     buildGridPath(to, from) {
         this.setGridCenter(this.call.getActor().getSpatialPosition())
-        this.lastCenterX = -1;
-        this.call.updateWalkGrid();
+    //    this.lastCenterX = -1;
+    //    this.call.updateWalkGrid();
         this.dynamicWalker.call.clearDynamicPath()
         let gridTiles = this.dynamicGrid.dynamicGridTiles
         let fromTile = ScenarioUtils.getTileForPosition(gridTiles, from)
@@ -170,6 +170,8 @@ class GameWalkGrid {
         this.dynamicPath.clearPathVisuals();
         let activePath = this.getActiveTilePath();
 
+        console.log(activePath.pathTiles)
+
         if (activePath.pathTiles.length > 1) {
             if (onCompletedCB) {
                 activePath.pathCompetedCallbacks.push(onCompletedCB)
@@ -179,7 +181,7 @@ class GameWalkGrid {
             activePath.pathingUpdateCallbacks.push(onUpdateCB);
         }
 
-            this.walkObj3dAlongPath(this.moveObj3d)
+            this.walkObj3dAlongPath(this.getGridMovementObj3d())
         } else {
             onCompletedCB();
             this.clearGridTilePath()
@@ -193,7 +195,11 @@ class GameWalkGrid {
     }
 
     walkObj3dAlongPath(obj3d) {
-    //    console.log("Walk path", obj3d.position);
+
+        if (obj3d.position.length() === 0) {
+            console.log("Bad Walk path", obj3d.position);
+            return;
+        }
         this.setGridHostObj3d(obj3d);
         this.dynamicWalker.call.walkDynamicPath(this.getActiveTilePath(), this)
     }

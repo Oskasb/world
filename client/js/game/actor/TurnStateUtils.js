@@ -83,8 +83,13 @@ function turnTileSelect(actor, turnIndex) {
 function turnMove(actor, turnIndex) {
     let sequencer = actor.actorTurnSequencer
     let targetPos = actor.getGameWalkGrid().getTargetPosition()
-    actor.actorText.say('Moving')
-    actor.moveActorOnGridTo(targetPos, sequencer.call.stateTransition)
+    actor.actorText.say('Moving '+Math.round(targetPos.x)+' '+Math.round(targetPos.z))
+
+  //  let walkGrid = actor.getGameWalkGrid();
+   // actor.prepareTilePath(targetPos);
+    //    walkGrid.applySelectedPath(null, sequencer.call.stateTransition)
+
+   actor.moveActorOnGridTo(targetPos, sequencer.call.stateTransition)
 }
 
 function turnClose(actor, turnIndex) {

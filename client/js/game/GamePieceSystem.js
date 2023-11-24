@@ -34,10 +34,12 @@ let loadItem = function(event) {
     visualPiece.attachModelAsset(visualReadyCB);
 }
 
+let actors = [];
+
 let loadActor = function(event) {
     let actorConfig = actorConfigs[event.id]
     let actor = new GameActor(actorConfig, parsedEquipSlotData);
-
+    actors.push(actor);
     let visualConfig = visualConfigs[actor.config['visual_id']];
 
     let visualPiece = new VisualGamePiece(visualConfig);
@@ -106,11 +108,10 @@ class GamePieceSystem {
 
         this.playerParty = new PlayerParty();
         this.selectedActor = null;
+    }
 
-
-
-
-
+    getActors() {
+        return actors;
     }
 
     initGamePieceSystem = function() {

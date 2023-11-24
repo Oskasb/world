@@ -35,7 +35,7 @@ let onActivate = function(actor) {
         selectedActor = null;
         return;
     }
-    playerActor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, actor)
+    playerActor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, actor.index)
     playerActor.turnTowardsPos(actor.getSpatialPosition());
     selectedActor = actor;
     actor.setStatusKey(ENUMS.ActorStatus.SEQUENCER_SELECTED, true)
@@ -43,7 +43,7 @@ let onActivate = function(actor) {
     let partyActor = GameAPI.getGamePieceSystem().getPlayerParty().getPartySelection()
 
     if (partyActor) {
-        partyActor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, selectedActor);
+        partyActor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, selectedActor.index);
     }
 
 }

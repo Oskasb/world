@@ -170,7 +170,7 @@ class DynamicWalker {
 
         let charSpeed = actor.getStatus(ENUMS.ActorStatus.MOVEMENT_SPEED)
         let frameTravelDistance = charSpeed * tpf // GameAPI.getTurnStatus().turnTime
-
+        console.log(pathTiles)
         if (pathTiles.length > 1) {
             targetTile = pathTiles[1]
         } else {
@@ -179,6 +179,7 @@ class DynamicWalker {
                 targetTile = pathTiles[0]
             }
         }
+
 
         this.setMovementHeadingVector(currentPos, targetTile.getPos())
         let pathRemainingDistance = MATH.distanceBetween(currentPos, this.tilePath.getEndTile().getPos())

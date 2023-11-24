@@ -11,6 +11,7 @@
           "status": {
             "ACTIONS": ["ACTION_FIREBALL", "ACTION_MAGIC_MISSILE", "ACTION_FREEZE_BOLT", "ACTION_HEAL_BOLT"],
             "TRAVEL":  ["ACTION_TRAVEL_WALK", "ACTION_TRAVEL_FLY"],
+            "MOVEMENT_SPEED": 4,
             "HEIGHT": 1.8,
             "SIZE": 1.2,
             "HAND_SIZE": 0.4,
@@ -34,6 +35,7 @@
           "status": {
             "ACTIONS": ["ACTION_FIREBALL", "ACTION_HEAL_BOLT"],
             "TRAVEL":  ["ACTION_TRAVEL_WALK"],
+            "MOVEMENT_SPEED": 4,
             "HEIGHT": 1.8,
             "SIZE": 1.2,
             "HAND_SIZE": 0.4,
@@ -56,6 +58,7 @@
           "status": {
             "ACTIONS": ["ACTION_FIREBALL", "ACTION_HEAL_BOLT"],
             "TRAVEL":  ["ACTION_TRAVEL_WALK"],
+            "MOVEMENT_SPEED": 4,
             "HEIGHT": 1.8,
             "SIZE": 1.2,
             "HAND_SIZE": 0.4,
@@ -78,6 +81,7 @@
           "status": {
             "ACTIONS": ["ACTION_FIREBALL", "ACTION_HEAL_BOLT"],
             "TRAVEL":  ["ACTION_TRAVEL_WALK"],
+            "MOVEMENT_SPEED": 4,
             "HEIGHT": 1.8,
             "SIZE": 1.2,
             "HAND_SIZE": 0.4,
@@ -100,6 +104,7 @@
           "status": {
             "ACTIONS": ["ACTION_MAGIC_MISSILE", "ACTION_HEAL_BOLT"],
             "TRAVEL":  ["ACTION_TRAVEL_WALK"],
+            "MOVEMENT_SPEED": 4,
             "HEIGHT": 1.8,
             "SIZE": 1.2,
             "HAND_SIZE": 0.4,

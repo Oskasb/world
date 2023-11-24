@@ -553,7 +553,7 @@ function CAM_ENCOUNTER() {
 
 
 
-    let actorTarget = turnActiveActor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET);
+    let actorTarget = GameAPI.getActorByIndex(turnActiveActor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET))
     if (actorTarget) {
         zoomDistance = 5 + distance;
     } else {
