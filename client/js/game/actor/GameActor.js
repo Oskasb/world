@@ -1,6 +1,7 @@
 import { Object3D } from "../../../libs/three/core/Object3D.js";
 import { GameWalkGrid } from "../gameworld/GameWalkGrid.js";
 import { Vector3 } from "../../../libs/three/math/Vector3.js";
+import {Quaternion} from "../../../libs/three/math/Quaternion.js";
 import { poolFetch, poolReturn } from "../../application/utils/PoolUtils.js";
 import { ActorTurnSequencer } from "./ActorTurnSequencer.js";
 import { ActorStatus } from "./ActorStatus.js";
@@ -16,6 +17,7 @@ let tempVec = new Vector3();
 let tempStore = [];
 let tempObj = new Object3D();
 let tempObj2 = new Object3D();
+let tempQuat = new Quaternion();
 
 let broadcastTimeout;
 let lastSendTime = 0;
@@ -25,6 +27,8 @@ class GameActor {
         index++;
 
         this.framePos = new Vector3();
+        this.lastFramePos = new Vector3();
+
 
         this.actorStatusProcessor = new ActorStatusProcessor();
         this.actorText = new ActorText(this);
@@ -87,7 +91,19 @@ class GameActor {
             return spatialTransition;
         }
 
+        let remote = null;
+
+        function setRemote(rem) {
+            remote = rem;
+        }
+
+        function getRemote() {
+            return remote;
+        }
+
         this.call = {
+            setRemote:setRemote,
+            getRemote:getRemote,
             turnEnd:turnEnd,
             onActive:onActive,
             setAsSelection:setAsSelection,
@@ -130,7 +146,7 @@ class GameActor {
             this.actorStatus.setStatusKey(ENUMS.ActorStatus.CLIENT_STAMP, client.getStamp());
             this.actorStatus.setStatusKey(ENUMS.ActorStatus.ACTOR_INDEX, this.index);
             let gameTime = GameAPI.getGameTime();
-            if (lastSendTime < gameTime -0.05) {
+            if (lastSendTime < gameTime -0.2) {
                 this.actorStatus.broadcastStatus(gameTime);
                 lastSendTime = gameTime;
             }
@@ -297,6 +313,11 @@ class GameActor {
         this.lookDirection.sub(tempVec);
     }
 
+    lookInDirection(vec) {
+        this.lookDirection.copy(vec);
+        this.lookDirection.y = vec.y;
+    }
+
     applyHeading(direction, alpha) {
         tempObj.position.set(0, 0, 0)
         tempObj.lookAt(direction);
@@ -343,24 +364,54 @@ class GameActor {
 
     updateGameActor(tpf) {
 
-        this.travelMode.updateTravelMode(this);
-
-        this.getSpatialVelocity(tempVec);
+        let remote = this.call.getRemote()
         this.getSpatialPosition(this.framePos);
 
-        this.framePos.add(tempVec);
-        let speed = tempVec.length();
+        if (remote === null) {
 
-        if (speed < 0.001) {
-            this.setStatusKey(ENUMS.ActorStatus.FRAME_TRAVEL_DISTANCE, 0);
+            if (this.lastFramePos.length() === 0) {
+                this.lastFramePos.copy(this.framePos);
+            }
+
+            tempVec.copy(this.framePos);
+            tempVec.sub(this.lastFramePos);
+            let speed = tempVec.length();
+            if (speed > 100) {
+                tempVec.set(0, 0, 0)
+            }
+
+            this.setSpatialVelocity(tempVec);
+        //    console.log(tempVec.length())
+        //    this.framePos.add(tempVec);
+            this.travelMode.updateTravelMode(this);
+
+            if (speed < 0.001) {
+                this.setStatusKey(ENUMS.ActorStatus.FRAME_TRAVEL_DISTANCE, 0);
+            } else {
+                this.setStatusKey(ENUMS.ActorStatus.FRAME_TRAVEL_DISTANCE, speed);
+                this.lookInDirection(tempVec);
+            }
+
             this.applyHeading(this.lookDirection, this.getStatus(ENUMS.ActorStatus.ACTOR_YAW_RATE) * tpf);
+
         } else {
-            this.setStatusKey(ENUMS.ActorStatus.FRAME_TRAVEL_DISTANCE, speed);
-            this.turnTowardsPos(tempObj.position, MATH.clamp(speed*10, 0.05, 0.5));
+
+            this.getSpatialQuaternion(tempQuat);
+            let alpha = tpf / remote.timeDelta
+            tempQuat.slerp(remote.quat, alpha);
+            this.setSpatialQuaternion(tempQuat);
+
+            if (remote.vel.length() > 0.001) {
+                tempVec.copy(remote.vel);
+                tempVec.normalize();
+                tempVec.multiplyScalar(tpf * this.getStatus(ENUMS.ActorStatus.MOVEMENT_SPEED));
+                this.framePos.add(tempVec)
+            }
         }
 
-        this.setSpatialPosition(this.framePos);
         tempObj.position.copy(this.framePos);
+        this.setSpatialPosition(this.framePos);
+        this.lastFramePos.copy(this.framePos);
         this.getSpatialQuaternion(tempObj.quaternion);
         this.visualGamePiece.getSpatial().stickToObj3D(tempObj)
         this.actorStatusProcessor.processActorStatus(this);
