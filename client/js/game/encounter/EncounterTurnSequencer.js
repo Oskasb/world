@@ -9,7 +9,7 @@ class EncounterTurnSequencer {
         this.turnIndex = 0;
         this.turnTime = 0;
 
-        let turnEnded = function(actorObj3d) {
+        let turnEnded = function() {
             this.turnTime = 0;
             this.activeActor = null;
             this.turnActorIndex++

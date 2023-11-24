@@ -36,7 +36,7 @@ let onActivate = function(actor) {
         return;
     }
     playerActor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, actor)
-    playerActor.turnTowardsPos(actor.getPos());
+    playerActor.turnTowardsPos(actor.getSpatialPosition());
     selectedActor = actor;
     actor.setStatusKey(ENUMS.ActorStatus.SEQUENCER_SELECTED, true)
     actor.actorText.say('Sequencer Selected')

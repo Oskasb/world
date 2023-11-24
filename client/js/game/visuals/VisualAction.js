@@ -108,7 +108,7 @@ class VisualAction {
 
     visualizeAttack(actorAction) {
         this.progress = 0;
-        this.sourcePos.copy(actorAction.actor.getPos())
+        this.sourcePos.copy(actorAction.actor.getSpatialPosition())
         this.sourcePos.y +=1.5;
 
         let tPos = this.targetPos;

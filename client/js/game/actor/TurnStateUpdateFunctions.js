@@ -65,9 +65,9 @@ function updateActorEvaluateTarget(tpf) {
 
     let actor = getSequencer().getGameActor()
     let seqTime = getSequencer().getSequenceProgress()
-    actor.turnTowardsPos(getSequencer().getTargetActor().getPos(), tpf)
+    actor.turnTowardsPos(getSequencer().getTargetActor().getSpatialPosition(), tpf)
 
-    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:actor.getPos(), to:getSequencer().getTargetActor().getPos(), color:'WHITE'});
+    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:actor.getSpatialPosition(), to:getSequencer().getTargetActor().getSpatialPosition(), color:'WHITE'});
     let target = getSequencer().getTargetActor();
     viewPrecastAction(getSequencer(), target)
     if (seqTime > 1) {
@@ -86,7 +86,7 @@ function updateActorSelectAttack(tpf) {
     let actor = getSequencer().getGameActor()
     let seqTime = getSequencer().getSequenceProgress()
 
-    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:actor.getPos(), to:getSequencer().getTargetActor().getPos(), color:'RED'});
+    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:actor.getSpatialPosition(), to:getSequencer().getTargetActor().getSpatialPosition(), color:'RED'});
 
     if (seqTime === 0) {
 

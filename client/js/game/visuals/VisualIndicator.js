@@ -52,7 +52,7 @@ class VisualIndicator {
             tempObj.quaternion.set(0, 0, 0, 1);
             tempObj.lookAt(0, 1, 0);
             efct.setEffectQuaternion(tempObj.quaternion);
-            ThreeAPI.tempVec3.copy(actor.getPos());
+            ThreeAPI.tempVec3.copy(actor.getSpatialPosition());
             ThreeAPI.tempVec3.y+=0.03;
             efct.setEffectPosition(ThreeAPI.tempVec3)
             tempObj.lookAt(0, 1, 0);
@@ -78,7 +78,7 @@ class VisualIndicator {
             let size = actor.getStatus(ENUMS.ActorStatus.SIZE) || 0.5;
             if (scale) size*=scale;
             efct.scaleEffectSize(  size + pulsate*(Math.sin(time*rate)));
-            ThreeAPI.tempVec3.copy(actor.getPos());
+            ThreeAPI.tempVec3.copy(actor.getSpatialPosition());
             ThreeAPI.tempVec3.y+=0.03;
             efct.setEffectPosition(ThreeAPI.tempVec3)
 

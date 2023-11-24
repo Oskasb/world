@@ -136,7 +136,7 @@ class GameAPI {
             let selectedActor = gamePieceSystem.getSelectedGameActor();
 
             if (selectedActor) {
-                MATH.vec3FromArray(selectedActor.getPos(), event.pos)
+                MATH.vec3FromArray(selectedActor.getSpatialPosition(), event.pos)
             }
 
             MATH.vec3FromArray(ThreeAPI.getCameraCursor().getPos(), event.pos)

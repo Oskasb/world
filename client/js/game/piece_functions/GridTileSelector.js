@@ -85,6 +85,7 @@ class GridTileSelector {
             } else {
                 this.obj3d.lookAt(ThreeAPI.getCameraCursor().getForward());
             }
+
             this.obj3d.rotateX(-MATH.HALF_PI);
 
             let tile = walkGrid.getTileAtPosition(this.framePos);
@@ -92,15 +93,12 @@ class GridTileSelector {
 
                 if (tile === null) {
                     selectedTile.text.say("no tile")
-
                 } else {
                     selectedTile = tile;
-                    selectedTile.text.say("x"+tile.tileX+" z:"+tile.tileZ)
+                    //   selectedTile.text.say("x"+tile.tileX+" z:"+tile.tileZ)
+                    selectedTile.text.say(""+tile.gridI+":"+tile.gridJ)
                 }
-
-                // selectedTile.text.say(""+tile.gridI+":"+tile.gridJ)
             }
-
 
             for (let i = 0; i < this.effects.length; i++) {
                 effect = this.effects[i]

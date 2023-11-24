@@ -15,6 +15,7 @@ let index = 1; // zero index get culled by connection
 let tempVec = new Vector3();
 let tempStore = [];
 let tempObj = new Object3D();
+let tempObj2 = new Object3D();
 
 let broadcastTimeout;
 let lastSendTime = 0;
@@ -22,6 +23,8 @@ class GameActor {
     constructor(config, parsedEquipSlotData) {
         this.index = index;
         index++;
+
+        this.framePos = new Vector3();
 
         this.actorStatusProcessor = new ActorStatusProcessor();
         this.actorText = new ActorText(this);
@@ -35,7 +38,6 @@ class GameActor {
         this.actorEquipment = new ActorEquipment(parsedEquipSlotData)
         this.visualGamePiece = null;
 
-        this.velocity = new Vector3()
         this.lookDirection = new Vector3()
 
         this.gameWalkGrid = new GameWalkGrid();
@@ -62,7 +64,7 @@ class GameActor {
         }.bind(this);
 
         let getActorPos = function() {
-            return this.actorObj3d.position;
+            return this.getSpatialPosition();
         }.bind(this);
 
         this.turnEndCallbacks = [];
@@ -167,19 +169,18 @@ class GameActor {
 
     getPos() {
         //    return this.actorObj3d.position;
+        console.log("actor getPos()")
         return this.gameWalkGrid.getGridMovementObj3d().position;
     }
 
 
-    setVelocity(vec3) {
-        this.velocity.copy(vec3);
-    }
-
     getQuat() {
+        console.log("actor getQuat()")
         return this.gameWalkGrid.getGridMovementObj3d().quaternion;
     }
 
     getObj3d() {
+        console.log("actor getObj3d()")
         return this.gameWalkGrid.getGridMovementObj3d();
     }
 
@@ -264,31 +265,25 @@ class GameActor {
 
     prepareTilePath(toPos) {
         let gameWalkGrid = this.getGameWalkGrid()
-        gameWalkGrid.buildGridPath(toPos, this.getPos())
+        gameWalkGrid.buildGridPath(toPos, this.getSpatialPosition())
     }
 
     moveActorOnGridTo(pos, onMoveEnded) {
         let gameWalkGrid = this.getGameWalkGrid()
-        gameWalkGrid.buildGridPath(pos, this.getPos())
+        gameWalkGrid.buildGridPath(pos, this.getSpatialPosition())
         gameWalkGrid.applySelectedPath(null, onMoveEnded )
-    }
-
-    getPointAtDistanceAhead(distance) {
-        tempVec.set(0, 0, distance);
-        tempVec.applyQuaternion(this.actorObj3d.quaternion);
-        tempVec.add(this.actorObj3d.position);
-        return tempVec;
     }
 
     getForward() {
         tempVec.set(0, 0, 1);
-        tempVec.applyQuaternion(this.actorObj3d.quaternion);
+        this.getSpatialQuaternion(tempObj)
+        tempVec.applyQuaternion(tempObj);
         return tempVec;
     }
 
     getActorGridMovementTargetPosition() {
         let tiles = GameAPI.call.getActiveEncounter().getRandomWalkableTiles(2);
-        if (tiles[0] === this.gameWalkGrid.getTileAtPosition(this.getPos())) {
+        if (tiles[0] === this.gameWalkGrid.getTileAtPosition(this.getSpatialPosition())) {
             return tiles[1].getPos()
         } else {
             return tiles[0].getPos()
@@ -297,70 +292,77 @@ class GameActor {
 
     turnTowardsPos(posVec) {
         this.lookDirection.copy(posVec);
-        this.lookDirection.y = this.actorObj3d.position.y;
-        this.lookDirection.sub(this.actorObj3d.position);
+        this.getSpatialPosition(tempVec)
+        this.lookDirection.y = tempVec.y;
+        this.lookDirection.sub(tempVec);
     }
 
     applyHeading(direction, alpha) {
         tempObj.position.set(0, 0, 0)
         tempObj.lookAt(direction);
-        this.actorObj3d.quaternion.slerp(tempObj.quaternion, alpha || 0.1)
+        this.getSpatialQuaternion(tempObj2.quaternion)
+        tempObj2.quaternion.slerp(tempObj.quaternion, alpha || 0.1)
+        this.setSpatialQuaternion(tempObj2.quaternion);
     }
 
-    applySpatialStatus(pos, quat) {
-        this.setStatusKey(ENUMS.ActorStatus.POS_X, MATH.decimalify(pos.x, 10))
-        this.setStatusKey(ENUMS.ActorStatus.POS_Y, MATH.decimalify(pos.y, 10))
-        this.setStatusKey(ENUMS.ActorStatus.POS_Z, MATH.decimalify(pos.z, 10))
-   //     return;
-        this.setStatusKey(ENUMS.ActorStatus.QUAT_X, quat.x)
-        this.setStatusKey(ENUMS.ActorStatus.QUAT_Y, quat.y)
-        this.setStatusKey(ENUMS.ActorStatus.QUAT_Z, quat.z)
-        this.setStatusKey(ENUMS.ActorStatus.QUAT_W, quat.w)
+    setSpatialVelocity(velVec) {
+        MATH.testVec3ForNaN(velVec)
+        this.actorStatus.setStatusVelocity(velVec);
     }
 
-    updateGameActor = function(tpf) {
+    getSpatialVelocity(store) {
+        return this.actorStatus.getStatusVelocity(store);
+    }
+
+    setSpatialQuaternion(quat) {
+        this.actorObj3d.quaternion.copy(quat)
+        this.actorStatus.setStatusQuaternion(quat);
+    }
+
+    getSpatialQuaternion(store) {
+        return this.actorStatus.getStatusQuaternion(store);
+    }
+
+    setSpatialPosition(posVec) {
+        this.actorObj3d.position.copy(posVec)
+        this.actorStatus.setStatusPosition(posVec);
+    }
+
+    getSpatialPosition(store) {
+        return this.actorStatus.getStatusPosition(store);
+    }
+
+    setSpatialScale(scaleVec) {
+        this.actorStatus.setStatusScale(scaleVec);
+        this.actorObj3d.position.copy(scaleVec)
+    }
+
+    getSpatialScale(store) {
+        return this.actorStatus.getStatusScale(store);
+    }
+
+    updateGameActor(tpf) {
 
         this.travelMode.updateTravelMode(this);
 
-        this.getPos().add(this.velocity);
-        let speed = this.velocity.length()
+        this.getSpatialVelocity(tempVec);
+        this.getSpatialPosition(this.framePos);
+
+        this.framePos.add(tempVec);
+        let speed = tempVec.length();
 
         if (speed < 0.001) {
             this.setStatusKey(ENUMS.ActorStatus.FRAME_TRAVEL_DISTANCE, 0);
             this.applyHeading(this.lookDirection, this.getStatus(ENUMS.ActorStatus.ACTOR_YAW_RATE) * tpf);
         } else {
-
-            let frameTravelDistance = MATH.distanceBetween(this.getPos(), this.actorObj3d.position)
-            this.setStatusKey(ENUMS.ActorStatus.FRAME_TRAVEL_DISTANCE, frameTravelDistance);
-            if (frameTravelDistance > 0.001) {
-                this.turnTowardsPos(this.getPos(), MATH.clamp(speed*10, 0.05, 0.5));
-            }
-
-            ThreeAPI.getCameraCursor().getPos().copy(this.getPos())
-            this.visualGamePiece.getSpatial().stickToObj3D(this.actorObj3d)
+            this.setStatusKey(ENUMS.ActorStatus.FRAME_TRAVEL_DISTANCE, speed);
+            this.turnTowardsPos(tempObj.position, MATH.clamp(speed*10, 0.05, 0.5));
         }
 
-        this.actorObj3d.position.copy(this.getPos())
-        this.applySpatialStatus(this.actorObj3d.position, this.actorObj3d.quaternion)
-    //    this.gameWalkGrid.dynamicWalker.isLeaping;
-        let isLeaping = this.getStatus(ENUMS.ActorStatus.IS_LEAPING)
-        if (isLeaping) {
-            this.visualGamePiece.setMoveState('STAND_COMBAT')
-            this.visualGamePiece.setBodyState('DISENGAGING')
-        } else {
-            if (this.getStatus(ENUMS.ActorStatus.IN_COMBAT)) {
-                this.visualGamePiece.setMoveState('MOVE_COMBAT')
-                this.visualGamePiece.setStandState('STAND_COMBAT')
-                this.visualGamePiece.setBodyState('ENGAGING')
-            } else {
-                this.visualGamePiece.setMoveState('MOVE')
-                this.visualGamePiece.setStandState('IDLE_LEGS')
-                this.visualGamePiece.setBodyState('IDLE_HANDS')
-            }
-
-
-        }
-
+        this.setSpatialPosition(this.framePos);
+        tempObj.position.copy(this.framePos);
+        this.getSpatialQuaternion(tempObj.quaternion);
+        this.visualGamePiece.getSpatial().stickToObj3D(tempObj)
         this.actorStatusProcessor.processActorStatus(this);
 
     }

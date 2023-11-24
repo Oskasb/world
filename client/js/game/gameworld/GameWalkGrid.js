@@ -94,23 +94,26 @@ class GameWalkGrid {
         return this.targetPosition;
     }
 
-    updateGridCenter = function(posVec) {
+    setGridCenter(posVec) {
         this.hostObj3d.position.copy(posVec);
     }
 
-    activateWalkGrid = function(actor, tileRange, onActiveCB) {
+    getGridCenter() {
+        return this.hostObj3d.position;
+    }
+
+    activateWalkGrid(actor, tileRange, onActiveCB) {
 
         this.call.setActor(actor)
-        this.hostObj3d.copy(actor.actorObj3d);
+        this.setGridCenter(actor.getSpatialPosition())
+
 
         if (this.isActive) {
             this.deactivateWalkGrid();
         } else {
-            this.gridTileSelector.setPos(this.hostObj3d.position);
+            this.gridTileSelector.setPos(this.getGridCenter());
             this.gridTileSelector.activateGridTileSelector()
         }
-
-            console.log("Activate Walk Grid", this.hostObj3d.position)
 
             if (this.dataId !== "grid_walk_world") {
                 console.log("Update Walk Grid config")
@@ -119,14 +122,11 @@ class GameWalkGrid {
             }
 
             this.isActive = true;
-
+        //    actor.getSpatialPosition(this.dynamicGrid.gridCenterPos);
             this.dynamicGrid.activateDynamicGrid(this.config['grid'], tileRange, onActiveCB)
             GameAPI.registerGameUpdateCallback(this.call.updateWalkGrid);
+        //    actor.setSpatialPosition(this.dynamicGrid.gridCenterPos);
 
-    }
-
-    getGridOriginPos() {
-        return this.hostObj3d.position;
     }
 
     cancelActivePath() {
@@ -150,6 +150,9 @@ class GameWalkGrid {
     }
 
     buildGridPath(to, from) {
+        this.setGridCenter(this.call.getActor().getSpatialPosition())
+        this.lastCenterX = -1;
+        this.call.updateWalkGrid();
         this.dynamicWalker.call.clearDynamicPath()
         let gridTiles = this.dynamicGrid.dynamicGridTiles
         let fromTile = ScenarioUtils.getTileForPosition(gridTiles, from)
@@ -192,28 +195,26 @@ class GameWalkGrid {
     walkObj3dAlongPath(obj3d) {
     //    console.log("Walk path", obj3d.position);
         this.setGridHostObj3d(obj3d);
-        this.setGridMovementObj3d(obj3d);
         this.dynamicWalker.call.walkDynamicPath(this.getActiveTilePath(), this)
-
     }
 
     setGridHostObj3d = function(obj3d) {
         this.hostObj3d.copy(obj3d);
     }
 
-    setGridMovementObj3d = function(obj3d) {
-        this.moveObj3d.copy(obj3d);
+    setGridMovementActor = function(actor) {
+        actor.getSpatialPosition(this.moveObj3d.position);
     }
 
     getGridMovementObj3d = function() {
+        this.call.getActor().getSpatialPosition(this.moveObj3d.position)
         return this.moveObj3d;
     }
 
 
-
-    updateWalkGrid = function() {
-        let origin = this.hostObj3d.position; // ThreeAPI.getCameraCursor().getPos();
-        let offset = 0 //this.config['grid']['tile_spacing'] * 0.5
+    updateWalkGrid() {
+        let origin = this.getGridCenter(); // ThreeAPI.getCameraCursor().getPos();
+        let offset = 0.5 //this.config['grid']['tile_spacing'] * 0.5
         centerTileIndexX = Math.floor(origin.x + offset)
         centerTileIndexY = Math.floor(origin.z + offset)
 

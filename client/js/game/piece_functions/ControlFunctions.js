@@ -6,13 +6,14 @@ class ControlFunctions {
 
     SAMPLE_STATUS(actor) {
         let tpf = GameAPI.getFrame().avgTpf;
-        let pitchAngle = MATH.horizonAttitudeFromQuaternion(actor.actorObj3d.quaternion)
+        let actorQuat = actor.getSpatialQuaternion();
+        let pitchAngle = MATH.horizonAttitudeFromQuaternion(actorQuat)
         actor.setStatusKey(ENUMS.ActorStatus.STATUS_ANGLE_PITCH, pitchAngle)
 
-        let rollAngle = MATH.rollAttitudeFromQuaternion(actor.actorObj3d.quaternion);
+        let rollAngle = MATH.rollAttitudeFromQuaternion(actorQuat);
         actor.setStatusKey(ENUMS.ActorStatus.STATUS_ANGLE_ROLL, rollAngle)
 
-        let yawAngle = MATH.eulerFromQuaternion(actor.actorObj3d.quaternion).y;
+        let yawAngle = MATH.eulerFromQuaternion(actorQuat).y;
         actor.setStatusKey(ENUMS.ActorStatus.STATUS_ANGLE_YAW, yawAngle)
 
         let compassHeading = yawAngle
@@ -31,9 +32,9 @@ class ControlFunctions {
         let forwardVec = actor.getForward();
     //    actor.lookDirection.copy(forwardVec);
         forwardVec.multiplyScalar(frameSpeed);
-        actor.setVelocity(forwardVec)
+        actor.setSpatialVelocity(forwardVec)
 
-        let elevation = actor.getPos().y;
+        let elevation = actor.getSpatialPosition().y;
         let range = 50;
         actor.setStatusKey(ENUMS.ActorStatus.STATUS_CLIMB_0, MATH.wrapValue(range, elevation+range*0.5)/range)
         actor.setStatusKey(ENUMS.ActorStatus.STATUS_CLIMB_1, MATH.wrapValue(range, elevation+range*0.3)/range)

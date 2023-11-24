@@ -42,6 +42,10 @@ class DynamicLodGrid {
     //    if (this.lastLodCenter.distanceToSquared(lodCenter) > 0.01) {
 
             let centerTile = this.dynamicGrid.getTileAtPosition(lodCenter);
+            if (!centerTile) {
+                console.log("Bad tile", lodCenter)
+            }
+
             let updated = this.dynamicGrid.updateDynamicGrid(centerTile.tileX, centerTile.tileZ)
             this.lastLodCenter.copy(lodCenter);
             this.processLodVisibility(this.lastLodCenter, tileUpdateCallback, coarseness, margin, updated)

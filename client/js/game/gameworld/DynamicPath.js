@@ -50,10 +50,16 @@ class DynamicPath {
         visualPath.clearVisualPath();
         this.tilePath.clearTilePath()
 
+
+
+        let tile = startTile;
+        tile.text.say(""+tile.gridI+":"+tile.gridJ)
+        GuiAPI.screenText(""+tile.gridI+":"+tile.gridJ, ENUMS.Message.HINT, 1)
+
         if (startTile === endTile) {
             this.tilePath.setEndTile(null);
             this.tilePath.setStartTile(null);
-            console.log("Single Tile, no path");
+        //    console.log("Single Tile, no path");
             return;
         }
         let startX = startTile.gridI;
@@ -96,7 +102,7 @@ class DynamicPath {
             tileX = MATH.clamp(tileX, 0, gridTiles.length-1)
             tileZ = gridTiles[0].length - (startZ + stepZ +1);
             tileZ = MATH.clamp(tileZ, 0, gridTiles[0].length-1)
-            let tile = gridTiles[tileX][tileZ];
+            tile = gridTiles[tileX][tileZ];
             if (!tile) {
                 console.log("No tile")
             } else if (tile.blocking) {
@@ -112,14 +118,23 @@ class DynamicPath {
                 } else {
                     tile.requiresLeap = false;
                 }
+
                 this.drawPathLine(this.tempVec, tile.getPos(), color, tile.rgba, tile.requiresLeap)
                 this.tempVec.copy(tile.getPos());
             } else {
                 leapOver = true;
             }
         }
+        tile = this.tilePath.getTurnEndTile()
+        if (tile) {
+            tile.text.say(""+tile.gridI+":"+tile.gridJ)
+            this.tilePath.setEndTile(tile);
+        } else {
+            this.tilePath.length = 0;
+            this.tilePath.setEndTile(null);
+            this.tilePath.setStartTile(null);
+        }
 
-        this.tilePath.setEndTile(this.tilePath.getTurnEndTile());
         //    drawPathTiles(this.tilePath.getTiles())
 
         return this.tilePath

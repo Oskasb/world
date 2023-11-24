@@ -4,7 +4,6 @@ class Item {
         this.configId = configId;
         this.config = config;
         this.visualGamePiece = visualGamePiece;
-
         let addModifiers = {};
 
         let addMods = config['status_add_modifiers']

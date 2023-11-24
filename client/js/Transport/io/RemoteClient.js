@@ -50,13 +50,14 @@ class RemoteClient {
 
         // let spatialTransition = oldTransition;
         function transitionUpdate(posVec, velocityVec) {
-            actor.setVelocity(velocityVec);
+            actor.setSpatialVelocity(velocityVec);
             actor.setStatusKey(ENUMS.ActorStatus.FRAME_TRAVEL_DISTANCE, 0.1);
         }
         function transitionEnded(posVec, transition) {
             poolReturn(transition);
             actor.call.setSpatialTransition(null)
-            actor.velocity.set(0, 0, 0);
+            tempVec.set(0, 0, 0);
+            actor.setSpatialVelocity(tempVec);
         }
 
     //    if (!spatialTransition) {
@@ -79,7 +80,7 @@ class RemoteClient {
         let updateTravelTime =  timeDelta-0.05 //  (distance*timeDelta / charSpeed)  // GameAPI.getTurnStatus().turnTime timeDelta //*2 //
 
     //    if (!oldTransition) {
-            spatialTransition.initSpatialTransition(actor.getPos(), tempVec, updateTravelTime, transitionEnded, 0, 'curveLinear', transitionUpdate)
+            spatialTransition.initSpatialTransition(actor.getSpatialPosition(), tempVec, updateTravelTime, transitionEnded, 0, 'curveLinear', transitionUpdate)
             actor.call.setSpatialTransition(spatialTransition)
     //    } else {
     //        spatialTransition.targetTime += updateTravelTime;

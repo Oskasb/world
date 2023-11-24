@@ -198,7 +198,7 @@ function setupOptsDirectMissile(efct, fromPos, actor, index, onArriveCB, getPosF
     tempObj.position.copy(fromPos);
     let size = actor.getStatus(ENUMS.ActorStatus.SIZE);
     tempObj.quaternion.set(0, 0, 0, 1);
-    tempVec3.copy(actor.getPos());
+    tempVec3.copy(actor.getSpatialPosition());
     let startSize = 0.4;
     let endSize = 0.3 + Math.random()*0.2;
     let time = CombatFxUtils.setupLifecycle(efct, 0.02*(index+1) + 0.12*distance + 0.05, 0.1, 0.1);
@@ -210,7 +210,7 @@ function setupOptsDirectMissile(efct, fromPos, actor, index, onArriveCB, getPosF
     let options = defaultOptions();
     options.fromPos = fromPos;
     options.fromQuat = tempObj.quaternion;
-    options.toPos = actor.getPos();
+    options.toPos = actor.getSpatialPosition();
     options.toQuat = tempObj.quaternion;
     options.fromSize = startSize;
     options.toSize = endSize;
@@ -231,7 +231,7 @@ function setupOptsMagicMissile(efct, fromPos, actor, index, onArriveCB, getPosFu
     tempObj.position.copy(fromPos);
     let size = actor.getStatus(ENUMS.ActorStatus.SIZE);
     tempObj.quaternion.set(0, 0, 0, 1);
-    tempVec3.copy(actor.getPos());
+    tempVec3.copy(actor.getSpatialPosition());
     let startSize = 0.6;
     let endSize = 0.3 + Math.random()*0.8;
     let time = CombatFxUtils.setupLifecycle(efct, 0.12*(index+1) + 0.3*distance + 0.1, 0.3, 0.2);
@@ -243,7 +243,7 @@ function setupOptsMagicMissile(efct, fromPos, actor, index, onArriveCB, getPosFu
     let options = defaultOptions();
     options.fromPos = fromPos;
     options.fromQuat = tempObj.quaternion;
-    options.toPos = actor.getPos();
+    options.toPos = actor.getSpatialPosition();
     options.toQuat = tempObj.quaternion;
     options.fromSize = startSize;
     options.toSize = endSize;
@@ -264,7 +264,7 @@ function setupOptsFireMissile(efct, fromPos, actor, index, onArriveCB, getPosFun
 
     tempObj.position.copy(fromPos);
     let size = 1 // gamePiece.getStatusByKey('size') || 1;
-    tempVec3.copy(actor.getPos());
+    tempVec3.copy(actor.getSpatialPosition());
     let startSize = 1.2;
     let endSize = 1.3 + Math.random()*0.5
     let time = CombatFxUtils.setupLifecycle(efct, 0.22*(index+1) + 0.2*distance + 0.1, 0.3, 0.3);
@@ -276,7 +276,7 @@ function setupOptsFireMissile(efct, fromPos, actor, index, onArriveCB, getPosFun
     let options = defaultOptions();
     options.fromPos = fromPos;
     options.fromQuat = tempObj.quaternion;
-    options.toPos = actor.getPos();
+    options.toPos = actor.getSpatialPosition();
     options.toQuat = tempObj.quaternion;
     options.fromSize = startSize;
     options.toSize = endSize;
@@ -304,7 +304,7 @@ function setupOptsFriendlyMissile(efct, fromPos, actor, index, onArriveCB, getPo
 
     let size = actor.getStatus(ENUMS.ActorStatus.SIZE);
     tempObj.quaternion.set(0, 0, 0, 1);
-    tempVec3.copy(actor.getPos());
+    tempVec3.copy(actor.getSpatialPosition());
 
     let startSize = 0.6;
     let endSize = 0.3 + Math.random()*0.8;
@@ -317,7 +317,7 @@ function setupOptsFriendlyMissile(efct, fromPos, actor, index, onArriveCB, getPo
     let options = defaultOptions();
     options.fromPos = fromPos;
     options.fromQuat = tempObj.quaternion;
-    options.toPos = actor.getPos();
+    options.toPos = actor.getSpatialPosition();
     options.toQuat = tempObj.quaternion;
     options.fromSize = startSize;
     options.toSize = endSize;
@@ -335,7 +335,7 @@ function setupOptsFireBallHit(efct, actor) {
 
     let tempObj = ThreeAPI.tempObj;
     tempObj.scale.set(1, 1, 1);
-    tempObj.position.copy(actor.getPos());
+    tempObj.position.copy(actor.getSpatialPosition());
     let size = actor.getStatus(ENUMS.ActorStatus.SIZE);
     tempObj.position.y += size*0.8
     ThreeAPI.tempVec3.set(size*0.2, size*0.75, size*0.2)
@@ -490,7 +490,7 @@ function setupOptsBoneToGround(efct, actor) {
     tempObj.lookAt(ThreeAPI.getCamera().position);
     MATH.spreadVector(tempObj.position, ThreeAPI.tempVec3)
     efct.quat.copy(tempObj.quaternion);
-    tempVec3.copy(actor.getPos());
+    tempVec3.copy(actor.getSpatialPosition());
     tempVec3.y += 10000;
     tempObj.lookAt(tempVec3);
     tempObj.rotateZ(Math.random()*MATH.TWO_PI)
@@ -534,7 +534,7 @@ function setupOptsSprayUpwards(efct, actor, applies) {
     tempObj.quaternion.set(0, 0, 0, 1);
 
     efct.quat.copy(tempObj.quaternion);
-    tempVec3.copy(actor.getPos());
+    tempVec3.copy(actor.getSpatialPosition());
 
     tempVec3.y = tempObj.position.y + 0.2+Math.sqrt(applies*0.2);
 

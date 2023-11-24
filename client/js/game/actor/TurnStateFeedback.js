@@ -8,7 +8,7 @@ let indicateTurnInit = function(actor, timeProgress) {
     radiusEvent.heads = 1;
     radiusEvent.speed = 0.8 * MATH.curveQuad(timeProgress) + 0.25;
     radiusEvent.radius = radius;
-    radiusEvent.pos = actor.getPos()
+    radiusEvent.pos = actor.getSpatialPosition()
 
     if (actor === GameAPI.getGamePieceSystem().getSelectedGameActor()) {
         radiusEvent.rgba = green;
@@ -27,7 +27,7 @@ let indicateTurnClose = function(actor, timeProgress) {
     radiusEvent.heads = 1;
     radiusEvent.speed = 0.8 * MATH.curveQuad(1 - timeProgress) + 0.25;
     radiusEvent.radius = radius;
-    radiusEvent.pos = actor.getPos()
+    radiusEvent.pos = actor.getSpatialPosition()
 
     if (actor === GameAPI.getGamePieceSystem().getSelectedGameActor()) {
         radiusEvent.rgba = green;

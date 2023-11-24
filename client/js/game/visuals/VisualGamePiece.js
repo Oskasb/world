@@ -12,12 +12,9 @@ class VisualGamePiece {
         this.visualIndex = visualIndex;
         visualIndex ++;
 
-        this.moveState = 'MOVE';
-        this.bodyState = 'IDLE_HANDS';
-        this.standState = 'IDLE_LEGS';
+        let gamePiece // will be either item or actor... needs "getStatus()"
 
         this.hidden = true;
-
         this.addedAssets = [];
         this.obj3d = new Object3D();
 
@@ -89,7 +86,17 @@ class VisualGamePiece {
                 return instance;
             }
 
+            let getPiece = function() {
+                return gamePiece;
+            }.bind(this)
+
+        let setPiece = function(piece) {
+            gamePiece = piece;
+        }.bind(this)
+
         this.call = {
+            getPiece:getPiece,
+            setPiece:setPiece,
             setInstance:setInstance,
             getInstance:getInstance,
             updateVisualGamePiece:updateVisualGamePiece,
@@ -159,7 +166,6 @@ class VisualGamePiece {
     }
 
     getSpatial() {
-
         return this.call.getInstance().getSpatial();
     }
 
@@ -180,8 +186,6 @@ class VisualGamePiece {
         this.getSpatial().call.setStopped();
     }
 
-
-
     removeVisualGamePiece() {
         this.call.hideVisualPiece();
         this.getModel().decommissionInstancedModel();
@@ -189,34 +193,22 @@ class VisualGamePiece {
 
     setVisualPieceActor = function(actor) {
         this.obj3d = actor.actorObj3d
-        this.actor = actor;
+        this.call.setPiece(actor);
     }
 
     getModelObj3d() {
         return this.obj3d;
     }
 
-    setMoveState = function(state) {
-        this.moveState = state;
-    }
-
-    setBodyState = function(state) {
-        this.bodyState = state;
-    }
-
-    setStandState = function(state) {
-        this.standState = state;
-    }
-
     getCenterMass() {
         tempVec.copy(this.getPos());
-        tempVec.y += this.actor.getStatus(ENUMS.ActorStatus.HEIGHT) * 0.7;
+        tempVec.y += this.call.getPiece().getStatus(ENUMS.ActorStatus.HEIGHT) * 0.7;
         return tempVec;
     }
 
     getAboveHead(above) {
         tempVec.copy(this.getPos());
-        tempVec.y += this.actor.getStatus(ENUMS.ActorStatus.HEIGHT) + above;
+        tempVec.y += this.call.getPiece().getStatus(ENUMS.ActorStatus.HEIGHT) + above;
         return tempVec;
     }
 
@@ -250,7 +242,7 @@ class VisualGamePiece {
         let frameVelocity = tempVec.length() / tpf
 
         if (frameVelocity) {
-            let action = this.animateActionState(this.moveState)
+            let action = this.animateActionState(this.call.getPiece().getStatus(ENUMS.ActorStatus.MOVE_STATE))
             if (!action) {
                 console.log("No action to update",this);
                 return;
@@ -258,15 +250,25 @@ class VisualGamePiece {
         //    console.log(action);
             action.timeScale = frameVelocity * 0.33;
         } else {
-            this.animateActionState(this.standState)
+            this.animateActionState(this.call.getPiece().getStatus(ENUMS.ActorStatus.STAND_STATE))
         }
-        this.animateActionState(this.bodyState)
+        this.animateActionState(this.call.getPiece().getStatus(ENUMS.ActorStatus.BODY_STATE))
 
     }
 
     updateVisualGamePiece() {
         if (this.hidden === false) {
-            this.getSpatial().stickToObj3D(this.getModelObj3d());
+            let piece = this.call.getPiece()
+            if (piece) {
+                this.call.getPiece().getSpatialPosition(tempObj3d.position);
+                this.call.getPiece().getSpatialQuaternion(tempObj3d.quaternion);
+                this.call.getPiece().getSpatialScale(tempObj3d.scale);
+
+           //     console.log(tempObj3d.position)
+                this.getSpatial().stickToObj3D(tempObj3d);
+            } else {
+            //    console.log("No piece...") // items do otherwise
+            }
         } else {
             this.getSpatial().setPosXYZ(0, -100000,0)
         }

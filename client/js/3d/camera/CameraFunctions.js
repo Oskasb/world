@@ -113,7 +113,7 @@ function applyPointerMove() {
         selectedActor.actorText.say("Grid Camera")
         let pointerTile = walkGrid.getTileByScreenPosition(activePointer.pos)
         if (pointerTile) {
-            tileSelector.setPos(selectedActor.getPos())
+            tileSelector.setPos(selectedActor.getSpatialPosition())
         }
     } else {
         if (pointerActive === false) {
@@ -125,7 +125,7 @@ function applyPointerMove() {
                     let pointerTile = walkGrid.getTileByScreenPosition(activePointer.pos)
                     if (pointerTile) {
                         selectedActor.prepareTilePath(pointerTile.getPos())
-                        tileSelector.setPos(selectedActor.getPos())
+                        tileSelector.setPos(selectedActor.getSpatialPosition())
                     } else {
                         walkGrid.deactivateWalkGrid()
                         return 0;
@@ -143,12 +143,13 @@ function applyPointerMove() {
 
     let pointerTile = walkGrid.getTileByScreenPosition(activePointer.pos)
     if (pointerTile) {
-        evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:selectedActor.getPos(), to:pointerTile.getPos(), color:'YELLOW'});
+        evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:selectedActor.getSpatialPosition(), to:pointerTile.getPos(), color:'YELLOW'});
         //    console.log(activePointer.pos);
         tileSelector.moveToPos(pointerTile.getPos())
     }
 
-        cursorObj3d.position.copy(selectedActor.actorObj3d.position);
+    selectedActor.getSpatialPosition(cursorObj3d.position)
+
         let moveAction = selectedActor.getControl(ENUMS.Controls.CONTROL_MOVE_ACTION);
 
             if (moveAction === 2) {
@@ -172,7 +173,7 @@ function applyPointerRelease() {
         tileSelector = walkGrid.gridTileSelector;
 
         if (tileSelector) {
-            tileSelector.setPos(selectedActor.actorObj3d.position);
+            selectedActor.getSpatialPosition(tileSelector.getPos())
             tileSelector.moveAlongX(0);
             tileSelector.moveAlongZ(0);
         }
@@ -228,18 +229,18 @@ function viewTileSelect(sequencer) {
         evt.dispatch(ENUMS.Event.SET_CAMERA_MODE, {mode:'actor_turn_movement', obj3d:sequencer.focusAtObj3d, camPos:camTargetPos})
     }
 
-    tempVec.subVectors(actor.getGameWalkGrid().getTargetPosition() , actor.getPos() )
+    tempVec.subVectors(actor.getGameWalkGrid().getTargetPosition() , actor.getSpatialPosition() )
 
     tempVec.multiplyScalar(seqTime);
     let distance = tempVec.length();
     camTargetPos.y += distance;
     tempVec2.copy(tempVec)
-    tempVec.add(actor.getPos())
+    tempVec.add(actor.getSpatialPosition())
 
     actor.prepareTilePath(tempVec)
     actor.turnTowardsPos(tempVec);
     tempVec2.multiplyScalar(0.5);
-    tempVec2.add(actor.getPos())
+    tempVec2.add(actor.getSpatialPosition())
     sequencer.focusAtObj3d.position.copy(tempVec2)
 
 }
@@ -249,13 +250,13 @@ function viewTargetSelection(sequencer, candidates) {
     let seqTime = sequencer.getSequenceProgress()
 
     tempVec2.set(0, 0, 0)
-    let biggestDistance = MATH.distanceBetween(actor.getPos(), candidates[0].getPos());
+    let biggestDistance = MATH.distanceBetween(actor.getSpatialPosition(), candidates[0].getPos());
     let distance = 0;
     for (let i = 0; i < candidates.length; i++) {
         tempVec.copy(candidates[i].getPos())
 
-        evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:actor.getPos(), to:tempVec, color:'YELLOW'});
-        tempVec.sub(actor.getPos());
+        evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:actor.getSpatialPosition(), to:tempVec, color:'YELLOW'});
+        tempVec.sub(actor.getSpatialPosition());
         distance = tempVec.length();
 
         if (biggestDistance < distance) {
@@ -269,11 +270,11 @@ function viewTargetSelection(sequencer, candidates) {
     tempVec.copy(tempVec2);
 
     tempVec2.multiplyScalar((seqTime*0.45+0.05) / candidates.length);
-    tempVec2.add(actor.getPos());
+    tempVec2.add(actor.getSpatialPosition());
 
     actor.turnTowardsPos(tempVec2)
 
-    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:actor.getPos(), to:tempVec2, color:'WHITE'});
+    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:actor.getSpatialPosition(), to:tempVec2, color:'WHITE'});
     evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:tempVec2, color:'WHITE', size:0.25})
     sequencer.focusAtObj3d.position.copy(tempVec2);
     sequencer.focusAtObj3d.position.y -=0.5;
@@ -331,11 +332,11 @@ function viewPrecastAction(sequencer, target) {
         tempVec2.copy(target.getVisualGamePiece().getCenterMass())
 
     } else {
-        let distance = MATH.distanceBetween(actor.getPos(), target.getPos())
+        let distance = MATH.distanceBetween(actor.getSpatialPosition(), target.getSpatialPosition())
         calcAttackCamPosition(actor, distance * 2 + 6, tempVec);
-        tempVec2.subVectors(target.getPos(), actor.getPos())
+        tempVec2.subVectors(target.getSpatialPosition(), actor.getSpatialPosition())
         tempVec2.multiplyScalar(0.5);
-        tempVec2.add(actor.getPos())
+        tempVec2.add(actor.getSpatialPosition())
     }
 
     sequencer.focusAtObj3d.position.lerp(tempVec2, seqTime)
@@ -419,10 +420,11 @@ function CAM_ORBIT() {
     let actorQuat = cursorObj3d.quaternion
     offsetPos.set(0, 0, 0)
     if (selectedActor) {
-        cursorObj3d.position.copy(selectedActor.actorObj3d.position)
+
+        selectedActor.getSpatialPosition(cursorObj3d.position)
         actorSpeed += selectedActor.getStatus(ENUMS.ActorStatus.STATUS_FORWARD);
-        camLookAtVec.copy(selectedActor.actorObj3d.position)
-        actorQuat = selectedActor.actorObj3d.quaternion;
+        camLookAtVec.copy(cursorObj3d.position)
+        actorQuat = selectedActor.getSpatialQuaternion(cursorObj3d.quaternion);
         let rollAlpha = tpf;
         tempVec3.set(0, 1, 0);
         tempVec3.applyQuaternion(actorQuat);
@@ -483,12 +485,12 @@ function CAM_ORBIT() {
 }
 
 function CAM_TARGET(actor) {
-    tempVec.copy(actor.getPos())
+    tempVec.copy(actor.getSpatialPosition())
     tempVec.y -= 0.5;
     return tempVec;
     let visualPiece = actor.getVisualGamePiece();
     if (!visualPiece) {
-        return actor.getPos();
+        return actor.getSpatialPosition();
 
     } else {
         return visualPiece.getCenterMass();

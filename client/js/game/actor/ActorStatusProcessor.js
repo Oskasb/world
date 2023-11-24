@@ -6,6 +6,8 @@ let tempVec = new Vector3()
 let tempVec2 = new Vector3();
 
 function processCameraStatus(actor) {
+
+    actor.getSpatialPosition(ThreeAPI.getCameraCursor().getPos())
     let travelMode = actor.getStatus(ENUMS.ActorStatus.TRAVEL_MODE);
 
     let statusKey = ENUMS.CameraStatus.CAMERA_MODE;
@@ -84,7 +86,7 @@ function processCameraStatus(actor) {
                 if (selectedActor !== turnActiveActor) {
 
                     if (moveControlActive === 1) {
-                        actor.turnTowardsPos(selectedActor.getPos())
+                        actor.turnTowardsPos(selectedActor.getSpatialPosition())
                         controlKey = ENUMS.CameraControls.CAM_GRID;
                         notifyCameraStatus( ENUMS.CameraStatus.LOOK_AT, ENUMS.CameraControls.CAM_AHEAD, null)
                         if (partySelected) {
@@ -94,7 +96,7 @@ function processCameraStatus(actor) {
                         }
 
                     } else {
-                        actor.turnTowardsPos(selectedActor.getPos())
+                        actor.turnTowardsPos(selectedActor.getSpatialPosition())
                         controlKey = ENUMS.CameraControls.CAM_ENCOUNTER;
 
                         if (partySelected) {
@@ -192,13 +194,34 @@ function registerPathPoints(actor) {
 
 function updatePathPointVisuals(actor) {
     let pathPoints = actor.getStatus(ENUMS.ActorStatus.PATH_POINTS);
-    tempVec.copy(actor.getPos());
+    tempVec.copy(actor.getSpatialPosition());
         for (let i = 0; i < pathPoints.length; i++) {
             let pathPoint = pathPoints[i];
             MATH.vec3FromArray(tempVec2, pathPoint)
             evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:tempVec2, color:'WHITE', size:0.3});
             evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:tempVec, to:tempVec2, color:'WHITE', drawFrames:4});
             tempVec.copy(tempVec2);
+    }
+
+}
+
+
+function processAnimationState(actor) {
+
+    let isLeaping = actor.getStatus(ENUMS.ActorStatus.IS_LEAPING)
+    if (isLeaping) {
+        actor.setStatusKey(ENUMS.ActorStatus.MOVE_STATE, 'STAND_COMBAT')
+        actor.setStatusKey(ENUMS.ActorStatus.BODY_STATE, 'DISENGAGING')
+    } else {
+        if (actor.getStatus(ENUMS.ActorStatus.IN_COMBAT)) {
+            actor.setStatusKey(ENUMS.ActorStatus.MOVE_STATE, 'MOVE_COMBAT')
+            actor.setStatusKey(ENUMS.ActorStatus.STAND_STATE, 'STAND_COMBAT')
+            actor.setStatusKey(ENUMS.ActorStatus.BODY_STATE, 'ENGAGING')
+        } else {
+            actor.setStatusKey(ENUMS.ActorStatus.MOVE_STATE, 'MOVE')
+            actor.setStatusKey(ENUMS.ActorStatus.STAND_STATE, 'IDLE_LEGS')
+            actor.setStatusKey(ENUMS.ActorStatus.BODY_STATE, 'IDLE_HANDS')
+        }
     }
 
 }
@@ -269,12 +292,15 @@ class ActorStatusProcessor {
 
 
 
+
+
     processActorStatus(actor) {
         if (actor.isPlayerActor()) {
             processCameraStatus(actor)
             registerPathPoints(actor)
         }
-        this.indicateSelectionStatus(actor)
+        processAnimationState(actor);
+        this.indicateSelectionStatus(actor);
         updatePathPointVisuals(actor);
     }
 

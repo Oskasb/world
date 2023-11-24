@@ -28,7 +28,8 @@ class DynamicWalker {
             actor = walkGrid.call.getActor();
             this.walkGrid = walkGrid;
             this.walkObj3d = walkGrid.getGridMovementObj3d();
-            this.walkPos.copy(this.walkObj3d.position);
+            actor.getSpatialPosition(this.walkPos)
+        //    this.walkPos.copy(this.walkObj3d.position);
             this.tilePath = tilePath;
             this.walkObj3d.position.copy(tilePath.pathTiles[0].getPos())
             GameAPI.unregisterGameUpdateCallback(updateWalker);
@@ -68,7 +69,7 @@ class DynamicWalker {
 
     attachFrameLeapEffect(actor) {
 
-            effectEvent.pos.copy(actor.getPos());
+            effectEvent.pos.copy(actor.getSpatialPosition());
             effectEvent.dir.set(0, 1, 0);
             if (actor.getStatus(ENUMS.ActorStatus.IS_LEAPING) === false) {
                 effectEvent.fromSize = 5.2;
@@ -92,7 +93,7 @@ class DynamicWalker {
     }
 
     attachFrameLeapTransitionFx(actor) {
-        effectEvent.pos.copy(actor.getPos());
+        effectEvent.pos.copy(actor.getSpatialPosition());
         effectEvent.dir.set(0, 1, 0);
         effectEvent.fromSize = 1.2;
         effectEvent.toSize = 5.5;
@@ -163,6 +164,7 @@ class DynamicWalker {
     processTilePathMovement(tpf, actor) {
         this.walkPos.copy(this.walkObj3d.position)
         let currentPos = this.walkPos
+        actor.setSpatialPosition(currentPos);
         let pathTiles = this.tilePath.getTiles();
         let targetTile = this.tilePath.getEndTile();
 

@@ -151,7 +151,7 @@ function drawInputCursorState(cursorObj3d, dragToVec3, camTargetPos, cursorForwa
 
 function processTerrainLodCenter(lodCenter, terrainCenter) {
     let cursorPos = ThreeAPI.getCameraCursor().getPos();
-    let camPos =ThreeAPI.getCamera().position
+    let camPos = ThreeAPI.getCamera().position
     let elevationFactor = camPos.y*0.1;
 //    lodCenter.subVectors(cursorPos , camPos );
     terrainCenter.set(0, 0, -(40+elevationFactor))
@@ -164,6 +164,10 @@ function processTerrainLodCenter(lodCenter, terrainCenter) {
 
     lodCenter.copy(camPos);
    // lodCenter.y = ThreeAPI.terrainAt(lodCenter);
+
+    if (isNaN(lodCenter.x)) {
+        console.log("NAN", lodCenter)
+    }
 
     // terrainCenter.y = 0// lodCenter.y;
     // evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:terrainCenter, color:'YELLOW', size:2.2})

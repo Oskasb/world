@@ -50,8 +50,7 @@ let loadActor = function(event) {
             let gameWalkGrid = readyActor.getGameWalkGrid()
             let activateEncounterGrid = GameAPI.call.getActiveEncounter();
 
-            readyActor.getPos().copy(activateEncounterGrid.getPos());
-            readyActor.actorObj3d.position.copy(readyActor.getPos())
+            readyActor.setSpatialPosition(activateEncounterGrid.getPos());
             gameWalkGrid.setTargetPosition(event.tile.getPos())
 
             if (event.callback) {
@@ -62,7 +61,7 @@ let loadActor = function(event) {
         actor.activateGameActor(onReady);
         return;
     } else if (event.pos) {
-        actor.getPos().copy(event.pos);
+        actor.setSpatialPosition(event.pos);
     } else {
         GameAPI.getGamePieceSystem().addActorToPlayerParty(actor);
         GameAPI.getGamePieceSystem().playerParty.selectPartyActor(actor)
@@ -154,12 +153,11 @@ class GamePieceSystem {
     setSelectedGameActor = function(gameActor) {
         console.log("Set Selected Actor: ", gameActor);
 
-
         if (gameActor.getStatus(ENUMS.ActorStatus.HAS_POSITION) === true) {
-            ThreeAPI.getCameraCursor().getCursorObj3d().position.copy( gameActor.actorObj3d.position)
+            gameActor.getSpatialPosition(ThreeAPI.getCameraCursor().getCursorObj3d().position)
         } else {
-            gameActor.actorObj3d.position.copy(ThreeAPI.getCameraCursor().getCursorObj3d().position);
-            gameActor.getGameWalkGrid().setGridMovementObj3d(gameActor.actorObj3d)
+            gameActor.setSpatialPosition(ThreeAPI.getCameraCursor().getCursorObj3d().position)
+            gameActor.getGameWalkGrid().setGridMovementActor(gameActor)
         }
 
         gameActor.setStatusKey(ENUMS.ActorStatus.HAS_POSITION, true)

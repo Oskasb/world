@@ -79,7 +79,7 @@ let updateCursorFrame = function() {
 
 let updateActorTurnMovement = function() {
     let selectedActor = GameAPI.getGamePieceSystem().getSelectedGameActor();
-    let actorPos = selectedActor.getPos();
+    let actorPos = selectedActor.getSpatialPosition();
 
     calcVec.set(0, 0, 1)
     calcVec.applyQuaternion(focusObj3d.quaternion);
@@ -150,7 +150,7 @@ class CameraSpatialCursor {
             if (camParams.mode === camModes.gameVehicle) {
                 let selectedActor = GameAPI.getGamePieceSystem().getSelectedGameActor();
                 if (selectedActor) {
-                    cursorObj3d.position.copy(selectedActor.getPos())
+                    cursorObj3d.position.copy(selectedActor.getSpatialPosition())
                 }
             }
         }
@@ -188,6 +188,7 @@ class CameraSpatialCursor {
     }
 
     getPos = function() {
+
         return cursorObj3d.position;
     }
 

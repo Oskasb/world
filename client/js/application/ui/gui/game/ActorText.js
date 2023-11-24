@@ -14,7 +14,7 @@ class ActorText {
             if (actor.getVisualGamePiece().hidden === false) {
                 tempVec3.copy(actor.getVisualGamePiece().getAboveHead(0.15));
             } else {
-                tempVec3.copy(actor.actorObj3d.position);
+                actor.getSpatialPosition(tempVec3)
                 tempVec3.y += 2;
             }
 

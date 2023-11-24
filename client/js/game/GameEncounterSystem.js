@@ -37,7 +37,7 @@ class GameEncounterSystem {
             let max = activeEncounterGrid.maxXYZ;
             evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:min, max:max, color:'GREEN'})
 
-            let isWithin = testPosIsWithin(selectedActor.getPos(), min, max);
+            let isWithin = testPosIsWithin(selectedActor.getSpatialPosition(), min, max);
 
             if (isWithin) {
                 encounterTurnSequencer.updateTurnSequencer()
@@ -84,8 +84,8 @@ class GameEncounterSystem {
                     let partyActors = playerParty.getPartyActors();
                     for (let i = 0; i < partyActors.length; i++) {
                         let pActor = partyActors[i];
-                        let startTile = encounterGrid.getTileAtPosition(pActor.getPos());
-                        pActor.getPos().copy(startTile.getPos());
+                        let startTile = encounterGrid.getTileAtPosition(pActor.getSpatialPosition());
+                        pActor.setSpatialPosition(startTile.getPos());
                         encounterTurnSequencer.addEncounterActor(pActor);
                     }
 

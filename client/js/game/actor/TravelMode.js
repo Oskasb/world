@@ -91,10 +91,10 @@ function activateTravelMode(actr, mode, activateCB, deactivateCB) {
             actor.getGameWalkGrid().dynamicWalker.attachFrameLeapEffect(actor)
         }
 
-        spatialTransition.targetPos.copy(actor.getPos());
+        spatialTransition.targetPos.copy(actor.getSpatialPosition());
         spatialTransition.targetPos.y += 4;
         spatialTransition.targetPos.add(actor.getForward().multiplyScalar(0.1));
-        spatialTransition.initSpatialTransition(actor.getPos(), spatialTransition.targetPos, 1.3, isUp, 1, null, onFrameUpdate)
+        spatialTransition.initSpatialTransition(actor.getSpatialPosition(), spatialTransition.targetPos, 1.3, isUp, 1, null, onFrameUpdate)
         deactivateCB()
     }
 
@@ -104,9 +104,9 @@ function activateTravelMode(actr, mode, activateCB, deactivateCB) {
         ThreeAPI.getCameraCursor().setZoomDistance(5);
 
         actor.hideGameActor()
-        actor.getPos().copy(ThreeAPI.getCameraCursor().getLookAroundPoint())
-        ThreeAPI.getCameraCursor().getPos().copy(actor.getPos())
-        actor.actorObj3d.position.copy(actor.getPos())
+        actor.setSpatialPosition(ThreeAPI.getCameraCursor().getLookAroundPoint())
+        actor.getSpatialPosition(ThreeAPI.getCameraCursor().getPos())
+
         if (draken) {
             GameAPI.registerGameUpdateCallback(stickToActor)
             activateCB(config[mode], actor)
@@ -211,7 +211,7 @@ class TravelMode {
 
         }
 
-        if (this.call.isActive()) {
+        if (this.call.isActive()) { // should be only player actor
             applyActorControls(actor);
         }
 

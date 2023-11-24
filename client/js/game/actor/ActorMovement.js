@@ -53,8 +53,8 @@ console.log("Pathing Completed")
 
                     actor.turnTowardsPos(tileSelector.getPos() , GameAPI.getFrame().avgTpf * tileSelector.extendedDistance * 0.3);
 
-                    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:actor.getPos(), color:'CYAN', size:0.5})
-                    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:actor.getPos(), to:tileSelector.getPos(), color:'CYAN'});
+                    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:actor.getSpatialPosition(), color:'CYAN', size:0.5})
+                    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:actor.getSpatialPosition(), to:tileSelector.getPos(), color:'CYAN'});
                     if (tileCount !== walkGrid.getActivePathTiles().length) {
                     //    actor.actorText.say("Path length: "+walkGrid.getActivePathTiles().length)
                         tileCount = walkGrid.getActivePathTiles().length
@@ -94,7 +94,7 @@ console.log("Pathing Completed")
             } else {
 
                     actor.actorText.say("No Path")
-                    tileSelector.setPos(actor.actorObj3d.position);
+                    actor.getSpatialPosition(tileSelector.getPos())
                     walkGrid.clearGridTilePath()
                     actor.setControlKey(ENUMS.ActorStatus.CONTROL_MOVE_ACTION, 0);
 
@@ -124,7 +124,7 @@ console.log("Pathing Completed")
             if (tileSelector.hasValue()) {
                 console.log("LEAP ACTION - update")
 
-                walkGrid.updateGridCenter(tileSelector.getPos())
+                walkGrid.setGridCenter(tileSelector.getPos())
                 if (tileSelector.hasValue()) {
                     actor.turnTowardsPos(tileSelector.getPos() , GameAPI.getFrame().avgTpf * tileSelector.extendedDistance * 0.1);
                 }
@@ -132,8 +132,8 @@ console.log("Pathing Completed")
                 if (tileUpdate) {
                     visualPath.clearVisualPath();
                     let tile = walkGrid.getTileAtPosition(tileSelector.getPos())
-                    let distance = MATH.distanceBetween(tile.getPos(), actor.getPos());
-                    visualPath.drawVisualPath(actor.getPos(), tile.getPos(), distance*2, 'BLUE', colorsRgba['BLUE'], true)
+                    let distance = MATH.distanceBetween(tile.getPos(), actor.getSpatialPosition());
+                    visualPath.drawVisualPath(actor.getSpatialPosition(), tile.getPos(), distance*2, 'BLUE', colorsRgba['BLUE'], true)
                 }
             }
         }
@@ -150,7 +150,7 @@ console.log("Pathing Completed")
 
             actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_LEAP);
             let tile = walkGrid.getTileAtPosition(tileSelector.getPos())
-            let distance = MATH.distanceBetween(tile.getPos(), actor.getPos());
+            let distance = MATH.distanceBetween(tile.getPos(), actor.getSpatialPosition());
             actor.actorText.say("Leap")
             walkGrid.dynamicWalker.attachFrameLeapTransitionFx(actor)
             let onArrive = function(pos) {
@@ -159,7 +159,7 @@ console.log("Pathing Completed")
                 actor.setStatusKey(ENUMS.ActorStatus.IS_LEAPING, false)
                 console.log("LEAP COMPLETED")
                 actor.actorText.say("Distance "+MATH.numberToDigits(distance, 1, 1)+"m")
-                walkGrid.updateGridCenter(pos);
+                walkGrid.setGridCenter(actor.getSpatialPosition());
                 actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_WALK);
             }
 
@@ -171,7 +171,7 @@ console.log("Pathing Completed")
                 walkGrid.dynamicWalker.attachFrameLeapEffect(actor)
             }
 
-            this.spatialTransition.initSpatialTransition(actor.getPos(), tile.getPos(), 1+distance*0.2, onArrive, distance*0.3, null, onFrameUpdate)
+            this.spatialTransition.initSpatialTransition(actor.getSpatialPosition(), tile.getPos(), 1+distance*0.2, onArrive, distance*0.3, null, onFrameUpdate)
 
             tileSelector.moveAlongX(0);
             tileSelector.moveAlongZ(0);

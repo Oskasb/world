@@ -34,7 +34,7 @@ let indicateTriggerTime = function(actor, encounter) {
     radiusEvent.pos = tempVec
 
 
-    radiusEvent.pos.copy(actor.getPos());
+    radiusEvent.pos.copy(actor.getSpatialPosition());
     radiusEvent.rgba = green;
     radiusEvent.elevation = 2 - encounter.timeInsideTrigger * 2;
     evt.dispatch(ENUMS.Event.INDICATE_RADIUS, radiusEvent)
@@ -57,7 +57,7 @@ function checkTriggerPlayer(encounter) {
 
     if (selectedActor) {
         let radius = encounter.config.trigger_radius;
-        let distance = MATH.distanceBetween(selectedActor.getPos(), encounter.getPos())
+        let distance = MATH.distanceBetween(selectedActor.getSpatialPosition(), encounter.getPos())
 
         if (distance < radius * 2) {
             indicateTriggerRadius(encounter);
@@ -181,7 +181,7 @@ class WorldEncounter {
 
     getTriggeredCameraHome() {
         let selectedActor = GameAPI.getGamePieceSystem().getSelectedGameActor();
-        let actorPos = selectedActor.getPos();
+        let actorPos = selectedActor.getSpatialPosition();
         calcVec.copy(this.getPos());
         calcVec.sub(actorPos);
 
