@@ -31,7 +31,7 @@ class ControlFunctions {
         actor.setStatusKey(ENUMS.ActorStatus.STATUS_SPEED, frameSpeed / tpf);
         let forwardVec = actor.getForward();
         forwardVec.multiplyScalar(frameSpeed);
-        actor.setSpatialVelocity(forwardVec)
+    //    actor.setSpatialVelocity(forwardVec)
 
         let elevation = actor.getSpatialPosition().y;
         let range = 50;

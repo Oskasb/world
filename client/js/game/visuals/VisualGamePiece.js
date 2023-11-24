@@ -238,10 +238,13 @@ class VisualGamePiece {
     updateAnimatedGamePiece(tpf, gameTime) {
         this.pieceAnimator.updatePieceAnimations(tpf, gameTime);
 
-        this.getSpatial().call.getMovement(tempVec);
-        let frameVelocity = tempVec.length() / tpf
-
-        if (frameVelocity) {
+        this.call.getPiece().getSpatialVelocity(tempVec);
+    //    tempVec.normalize();
+    //    tempVec.multiplyScalar()
+    //    this.getSpatial().call.getMovement(tempVec);
+        let frameVelocity = 0;
+        if (tempVec.length() > 0.001) {
+            frameVelocity = this.call.getPiece().getStatus(ENUMS.ActorStatus.MOVEMENT_SPEED);
             let action = this.animateActionState(this.call.getPiece().getStatus(ENUMS.ActorStatus.MOVE_STATE))
             if (!action) {
                 console.log("No action to update",this);
