@@ -37,10 +37,12 @@ class RemoteClient {
     applyRemoteSpatial(actor, timeDelta) {
 
         let remote = actor.call.getRemote();
+        tempQuat.copy(remote.quat)
         actor.getSpatialVelocity(remote.vel);
         actor.getSpatialPosition(remote.pos);
         actor.getSpatialScale(remote.scale);
-        actor.getSpatialQuaternion(remote.quaternion);
+        actor.getSpatialQuaternion(remote.quat);
+        actor.setSpatialQuaternion(tempQuat);
         remote.timeDelta = timeDelta;
 
     }

@@ -388,7 +388,7 @@ class GameActor {
             //    tempVec.add(this.framePos);
                 // this.lookDirection.copy(tempVec);
                 this.getSpatialVelocity(this.lookDirection)
-                this.lookDirection.multiplyScalar(1)
+                this.lookDirection.y = 0;
 
             }
 
