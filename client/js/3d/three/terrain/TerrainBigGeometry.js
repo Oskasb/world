@@ -177,7 +177,7 @@ let attachSection = function(lodScale, x, z, index) {
         activeGround[index] = ground;
         positionSectionInstance(ground, lodScale, x, 0.0, z);
     }
-
+/*
     if (availableOcean.length === 0) {
         addOceanSection(lodScale, x, z, index)
     } else {
@@ -185,7 +185,7 @@ let attachSection = function(lodScale, x, z, index) {
         activeOcean[index] = ocean;
         positionSectionInstance(ocean, lodScale, x, -3.0, z);
     }
-
+*/
 }
 
 let positionSectionInstance = function(instance, lodScale, x, y, z) {
@@ -197,12 +197,12 @@ let detachSection = function(index) {
 //    availableGround.push(activeGround[index])
 //    availableOcean.push(activeOcean[index])
     activeGround[index].decommissionInstancedModel()
-    activeOcean[index].decommissionInstancedModel()
+  //  activeOcean[index].decommissionInstancedModel()
 
     positionSectionInstance(activeGround[index], 0, 9880, 4 + 2*index, 530)
-    positionSectionInstance(activeOcean[index],  0, 9890, 4 + 2*index, 530)
+  //  positionSectionInstance(activeOcean[index],  0, 9890, 4 + 2*index, 530)
     activeGround[index] = null;
-    activeOcean[index] = null;
+  //  activeOcean[index] = null;
 }
 
 let visibilityList = [];
@@ -212,12 +212,21 @@ let updateBigGeo = function(tpf) {
     let posX = Math.floor(lodCenter.x)
     let posZ = Math.floor(lodCenter.z)
 //    bigOcean.getSpatial().setPosXYZ(posX, -3.0, posZ);
-    oceanInstances[0].getSpatial().setPosXYZ(posX, -3.0, posZ);
+  //  oceanInstances[0].getSpatial().setPosXYZ(posX, -3.0, posZ);
+  //  oceanInstances[1].getSpatial().setPosXYZ(posX, -3.0, posZ);
+    for (let i = 0; i < oceanInstances.length; i++) {
+        if (i === 1) {
+            oceanInstances[i].getSpatial().setPosXYZ(posX, -3.0, posZ);
+        }
+
+    }
+
+
     groundInstances[0].getSpatial().setPosXYZ(posX, 0.0, posZ);
     let index = 1;
     visibleCount = 0;
 
-    let elevAdjustedLayers = Math.clamp(1 + Math.floor(MATH.curveSqrt(camY) / 3), 1, lodLayers+3)
+    let elevAdjustedLayers = Math.clamp(1 + Math.floor(MATH.curveSqrt(camY) / 3), 1, lodLayers)
 
     for (let l = 0; l < elevAdjustedLayers; l++) {
         let lodLayer = l;
@@ -247,7 +256,7 @@ let updateBigGeo = function(tpf) {
                     visibilityList[index] = true;
                 } else {
                     positionSectionInstance(activeGround[index], lodScale, tempPoint.x, 0.0, tempPoint.z);
-                    positionSectionInstance(activeOcean[index], lodScale, tempPoint.x, -3.0, tempPoint.z);
+                //    positionSectionInstance(activeOcean[index], lodScale, tempPoint.x, -3.0, tempPoint.z);
                 }
             }
 
@@ -333,7 +342,7 @@ class TerrainBigGeometry {
         let txWidth = dims['tx_width'];
         let groundTxWidth = dims['ground_tx_width'];
         let mesh_segments = dims['mesh_segments'];
-        lodLayers = dims['lod_layers'] || 4;
+        lodLayers = dims['lod_layers'] || 2;
         console.log("Constructs Big Terrain", txWidth, mesh_segments);
 
 
@@ -353,12 +362,19 @@ class TerrainBigGeometry {
 
         }
 
+
+        let oceanOuterCB = function(model)  {
+            model.setAttributev4('texelRowSelect',{x:1, y:1, z:1, w:1})
+            oceanInstances.push(model);
+        }
+
         let oceanCB = function(model) {
             if (oceanInstances.length === 0) {
                 oceanModel(model)
                 model.setAttributev4('texelRowSelect',{x:1, y:1, z:1, w:1})
             }
             oceanInstances.push(model);
+            client.dynamicMain.requestAssetInstance("asset_ocean_big_outer", oceanOuterCB)
             client.dynamicMain.requestAssetInstance("asset_ground_big", groundCB)
         }
 

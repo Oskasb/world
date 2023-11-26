@@ -291,9 +291,9 @@
 
           "float distX = abs(scalePos.x-0.5);",
           "float distZ = abs(scalePos.z-0.5);",
-
-          "distScaleX = floor(distX*0.011)*128.0;",
-          "distScaleZ = floor(distZ*0.011)*128.0;",
+          "float distInfluence = min(max((40.0 - (distX*distX+distZ*distZ) / 50.0 ), 0.0) ,1.0 );",
+          "distScaleX = floor(distX*0.0001)*128.0;",
+          "distScaleZ = floor(distZ*0.0001)*128.0;",
 
           "elevationFactor *= upscale;",
 
@@ -340,13 +340,13 @@
           "waveBig.x = waveZ1;",
           "waveBig.z = waveZ2;",
           "waveBig.y = waveZ1 + waveZ2;",
-          "vPosition.y = (waveSmall.y*0.06 + waveBig.y*0.07)*elevationInfluence;",
+          "vPosition.y = (waveSmall.y*0.06 + waveBig.y*0.07)* distInfluence;",
 
           "waveNormal.y = 1.0 + waveSmall.y*0.15*elevationInfluence + waveBig.y*0.15*elevationInfluence;",
           "waveNormal.x = (waveSmall.x*0.05 +waveZ1*0.05)*elevationInfluence;",
           "waveNormal.z = (waveSmall.z*0.05 +waveZ2*0.05)*elevationInfluence;",
-          "vPosition.x += waveNormal.x*4.5;",
-          "vPosition.z += waveNormal.z*4.5;",
+          "vPosition.x += waveNormal.x*4.5 * distInfluence;",
+          "vPosition.z += waveNormal.z*4.5 * distInfluence;",
 
           "waveNormal = normalize(waveNormal);",
 

@@ -85,8 +85,8 @@
 
         {"id": "asset_ground_big",   "config": { "model": "file_unit_grid_52", "material": "material_big_terrain",      "settings": "model_settings_big_terrain"  }},
 
-        {"id": "asset_ground_big_outer",   "config": { "model": "file_ground_big_outer",     "material": "material_big_terrain",      "settings": "model_settings_big_terrain_outer"  }},
-        {"id": "asset_ocean_big",    "config": { "model": "file_unit_grid_52", "material": "material_big_ocean",      "settings": "model_settings_big_terrain"  }},
+        {"id": "asset_ocean_big_outer",   "config": { "model": "file_ground_big_outer",     "material": "material_big_ocean",      "settings": "model_settings_ocean_tile"  }},
+        {"id": "asset_ocean_big",    "config": { "model": "file_unit_grid_52", "material": "material_big_ocean",      "settings": "model_settings_ocean_tile"  }},
 
         {"id": "asset_box",         "config": { "model": "file_box",         "material": "material_instancing_tileset",      "settings": "model_settings_tileset"  }},
 
