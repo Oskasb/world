@@ -38,8 +38,9 @@ function sendUpdatedOnly(statusMap) {
 }
 
 class ActorStatus {
-    constructor() {
+    constructor(actorId) {
         this.statusMap = {}
+        this.statusMap[ENUMS.ActorStatus.ACTOR_ID] = actorId;
         this.statusMap[ENUMS.ActorStatus.MOVE_STATE] = 'MOVE';
         this.statusMap[ENUMS.ActorStatus.STAND_STATE] = 'IDLE_HANDS';
         this.statusMap[ENUMS.ActorStatus.BODY_STATE] = 'IDLE_LEGS';

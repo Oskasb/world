@@ -18,12 +18,12 @@ function getStatusList() {
 
 let testActive = function(statusKey, buttonWidget) {
 
-    let actor = GameAPI.getActorByIndex(statusKey);
+    let actor = GameAPI.getActorById(statusKey);
 
     if (!actor) {
         console.log("Bad actor selection", statusKey)
         console.log("testActive", GameAPI.getGamePieceSystem().getActors(), actorButtons)
-
+        removeActorButton(buttonWidget)
     } else {
         let color = colorMapFx[actor.getStatus(ENUMS.ActorStatus.ALIGNMENT)] || colorMapFx['ITEM']
         buttonWidget.guiWidget.guiSurface.getBufferElement().setColorRGBA(color)
@@ -34,7 +34,6 @@ let testActive = function(statusKey, buttonWidget) {
         buttonWidget.setButtonFrameFeedbackConfig(frameFbConfId)
 
     }
-
 
 
     return false
@@ -54,7 +53,7 @@ let statusEvent = {
 
 let onActivate = function(statusKey) {
 
-    let actor = GameAPI.getActorByIndex(statusKey);
+    let actor = GameAPI.getActorById(statusKey);
 
     if (!actor) {
         console.log("Bad actor selection", statusKey)
@@ -80,13 +79,13 @@ let onReady = function(button) {
     console.log("onReady", button)
   //  portrait.actor.setStatusKey(ENUMS.ActorStatus.SEQUENCER_SELECTED, false)
   //  container.addChildWidgetToContainer(button.guiWidget)
-    let actor = GameAPI.getActorByIndex(button.statusKey)
+    let actor = GameAPI.getActorById(button.statusKey)
     button.setButtonIcon(actor.getStatus(ENUMS.ActorStatus.ICON_KEY))
 
 }
 
 function addActorButton(actor) {
-    let button = new GuiControlButton(actor.index, playerPortraitLayoutId, onActivate, testActive, 0, 0, onReady, frameLayoutId)
+    let button = new GuiControlButton(actor.id, playerPortraitLayoutId, onActivate, testActive, 0, 0, onReady, frameLayoutId)
     actorButtons.push(button)
 }
 
@@ -96,7 +95,7 @@ function getActorButton(actor) {
 
     for (let i = 0; i < actorButtons.length; i++) {
         let button = actorButtons[i];
-        if (button.statusKey === actor.index) {
+        if (button.statusKey === actor.id) {
             return button;
         }
     }
@@ -121,13 +120,18 @@ function renderWorldInteractUi() {
 
 }
 
+function removeActorButton(button) {
+
+    MATH.splice(actorButtons, button);
+    button.removeGuiWidget()
+}
+
 function removeActorFromInteraction(actor) {
     if (interactibleActors.indexOf(actor) !== -1) {
         MATH.splice(interactibleActors, actor);
         let button = getActorButton(actor);
         if (button) {
-            MATH.splice(actorButtons, button);
-            button.removeGuiWidget()
+            removeActorButton(button)
         }
     }
 }

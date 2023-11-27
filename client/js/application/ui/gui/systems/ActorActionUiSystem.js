@@ -18,7 +18,7 @@ let testActive = function(actor) {
 
 let onActivate = function(actor) {
     console.log("Button Pressed, onActivate:", actor)
-    actor.actorText.say('Yes Me')
+    actor.actorText.say('Me '+actor.index)
 }
 
 let onReady = function(portrait) {

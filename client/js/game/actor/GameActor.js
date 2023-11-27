@@ -25,12 +25,14 @@ class GameActor {
     constructor(index, config, parsedEquipSlotData) {
         this.index = index;
 
+        this.id = index+"_"+client.getStamp();
+
         this.framePos = new Vector3();
         this.lastFramePos = new Vector3();
 
         this.actorStatusProcessor = new ActorStatusProcessor();
         this.actorText = new ActorText(this);
-        this.actorStatus = new ActorStatus();
+        this.actorStatus = new ActorStatus(this.id);
         this.controlState = new ControlState();
         this.travelMode = new TravelMode();
         this.actorMovement = new ActorMovement();
@@ -268,7 +270,12 @@ class GameActor {
         } else {
             this.preDeactivated = true;
         }
+    }
 
+    removeGameActor() {
+        let actors = GameAPI.getGamePieceSystem().getActors();
+        MATH.splice(actors, this);
+        this.deactivateGameActor()
     }
 
     activateWalkGrid(tileRange, onActiveCB) {

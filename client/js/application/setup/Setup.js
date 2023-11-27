@@ -28,8 +28,10 @@ class Setup {
         let onConnected = function(event) {
             console.log("Connected Event:", event)
             if (stamp === 0) {
-                stamp = MATH.decimalify(event.timeStamp*1000 + new Date().getTime(), 1);
-                client.setStamp(stamp);
+                stamp = MATH.decimalify(event.timeStamp + new Date().getTime(), 1);
+                let result = 0;
+                result = Number(String(stamp).split('').reverse().join(''));
+                client.setStamp(result);
             //    let msg = {}
             //    msg[ENUMS.Send.CONNECTED] = stamp;
             //    client.evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, msg)

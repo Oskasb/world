@@ -57,7 +57,7 @@ class GameAdventureSystem {
         if (this.startActor) {
             let deactivateActor = this.startActor;
             setTimeout(function() {
-                deactivateActor.deactivateGameActor();
+                deactivateActor.removeGameActor();
             }, 10)
         }
 
