@@ -79,9 +79,11 @@ let determinePlantConfig = function(patch, plant, min, max, seed, retries) {
     let config = MATH.getSillyRandomArrayEntry(groundCandiates, seed)
 
     if (!config) {
-        evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ThreeAPI.getCameraCursor().getPos(), to:tempPos, color:'YELLOW', drawFrames:5});
+    //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ThreeAPI.getCameraCursor().getPos(), to:tempPos, color:'YELLOW', drawFrames:5});
 
-        if (retries > 1) {
+        if (retries > 3) {
+    //        evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ThreeAPI.getCameraCursor().getPos(), to:tempPos, color:'YELLOW', drawFrames:5});
+
             return patch.plantsConfig.plants["rock_small"];
         }
         return determinePlantConfig(patch, plant, min, max, seed+retries, retries)
