@@ -36,8 +36,7 @@ function fitPatchToLodTile(freePatches, vegPatches, lodTile) {
         }
         patch.setPatchPosition(pos)
     }
-    patch.updateFrame = updateFrame;
-    patch.applyGridVisibility(lodTile);
+    patch.applyGridVisibility(lodTile, updateFrame);
 }
 
 class VegetationLodGrid {

@@ -224,6 +224,22 @@
               }
             },
             {
+              "id":"widget_icon_button_tiny",
+              "layout":"layout_icon_button_tiny",
+              "text": {
+                "sprite_font": "sprite_font_button_big",
+                "feedback": "feedback_text_action_button"
+              },
+              "icon": {
+                "icon_config": "button_sequencer_icon_config",
+                "feedback": "feedback_button_icon"
+              },
+              "surface": {
+                "nineslice": "nineslice_surface_sequencer_button",
+                "feedback": "feedback_icon_button"
+              }
+            },
+            {
               "id":"widget_companion_sequencer_button",
               "layout":"layout_sequencer_portrait_button",
               "text": {
@@ -317,6 +333,18 @@
               "surface": {
                 "nineslice": "nineslice_surface_portrait_button",
                 "feedback": "feedback_opponent_icon_button"
+              }
+            },
+            {
+              "id":"widget_button_state_tiny_frame",
+              "layout":"layout_button_state_tiny_frame",
+              "icon": {
+                "icon_config": "progress_vertical_actionbutton",
+                "feedback": "feedback_icon_action_progress"
+              },
+              "surface": {
+                "nineslice": "nineslice_surface_action_button",
+                "feedback": "feedback_surface_container"
               }
             },
             {

@@ -79,23 +79,31 @@ let determinePlantConfig = function(patch, plant, min, max, seed, retries) {
     let config = MATH.getSillyRandomArrayEntry(groundCandiates, seed)
 
     if (!config) {
+        evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ThreeAPI.getCameraCursor().getPos(), to:tempPos, color:'YELLOW', drawFrames:5});
 
         if (retries > 1) {
-
-
             return patch.plantsConfig.plants["rock_small"];
         }
-        //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ThreeAPI.getCameraCursor().getPos(), to:tempPos, color:'BLACK'});
         return determinePlantConfig(patch, plant, min, max, seed+retries, retries)
     }
     return config;
 }
 
 function addPlantsToPatch(patch, plantCount, lodTile) {
+
+    if (patch.updateFrame === limitFrame) {
+        return;
+    }
+
     lodTile.getTileExtents(minExt, maxExt);
     let nearness = lodTile.nearness
     let plants = patch.plants;
     while (plants.length < plantCount) {
+
+        if (frameAdds === frameLimit) {
+            return;
+        }
+        frameAdds++;
         let seed = plants.length
         let plant = poolFetch('Plant');
         let config = determinePlantConfig(patch, plant, minExt, maxExt, seed, 1)
@@ -126,6 +134,11 @@ function removePlantsFromPatch(patch, plantCount) {
     }
 }
 
+let limitTestFrame = 0;
+let frameAdds = 0;
+let frameLimit = 30;
+let limitFrame = 0;
+
 class VegetationPatch {
     constructor() {
         this.index = index;
@@ -151,8 +164,14 @@ class VegetationPatch {
     //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ThreeAPI.getCameraCursor().getPos(), to:this.position, color:'YELLOW', drawFrames:10});
     }
 
-    applyGridVisibility(lodTile) {
+    applyGridVisibility(lodTile, updateFrame) {
+        if (limitTestFrame !== updateFrame) {
+            limitTestFrame = updateFrame;
+            frameAdds = 0;
+        }
 
+
+        this.updateFrame = updateFrame;
         let plantCount = Math.ceil(MATH.clamp(0.2 +(lodTile.nearness*1.2), 0, 1)*this.maxPlants);
 
             if (this.plants.length < plantCount) {

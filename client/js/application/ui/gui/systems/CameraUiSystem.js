@@ -1,7 +1,8 @@
 import {GuiExpandingContainer} from "../widgets/GuiExpandingContainer.js";
 import {GuiCameraControlButton} from "../widgets/GuiCameraControlButton.js";
 
-let playerPortraitLayoutId = 'widget_companion_sequencer_button'
+let playerPortraitLayoutId = 'widget_icon_button_tiny'
+let frameLayoutId = 'widget_button_state_tiny_frame'
 
 let buttons = []
 let container = null;
@@ -51,7 +52,7 @@ let onReady = function(button) {
 
 function addControlButton(statusKey) {
     let seqIndex = getStatusList().indexOf(statusKey);
-    buttons[seqIndex] = new GuiCameraControlButton(statusKey, playerPortraitLayoutId, onActivate, testActive, 0, 0, onReady)
+    buttons[seqIndex] = new GuiCameraControlButton(statusKey, playerPortraitLayoutId, onActivate, testActive, 0, 0, onReady, frameLayoutId)
 }
 
 function renderCameraControlUi(statusKey) {

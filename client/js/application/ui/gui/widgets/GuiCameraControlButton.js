@@ -10,7 +10,7 @@ labelMap[ENUMS.CameraStatus.POINTER_ACTION] = 'World';
 class GuiCameraControlButton {
     constructor(statusKey, layoutConfId, onActivate, testActive, x, y, onReady, frameWidgetId, hpProgressId) {
 
-        this.name = labelMap[statusKey];;
+        this.name = labelMap[statusKey];
         this.portraitContainer;
 
         let activate = function() {
