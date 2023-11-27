@@ -6,6 +6,7 @@ let CAM_MODES = {
     CAM_ORBIT:CAM_ORBIT,
     CAM_MOVE:CAM_MOVE,
     CAM_SELECT:CAM_SELECT,
+    CAM_POINT:CAM_POINT,
     CAM_ENCOUNTER:CAM_ENCOUNTER,
     CAM_GRID:CAM_GRID
 }
@@ -293,32 +294,36 @@ let calcAttackCamPosition = function(actor, distance, storeVec) {
     storeVec.set(side * 0.5, 0.4, -0.5);
     storeVec.normalize();
     storeVec.multiplyScalar(distance);
-    storeVec.applyQuaternion(actor.getVisualGamePiece().getQuat())
-    storeVec.add(actor.getVisualGamePiece().getCenterMass())
+    storeVec.applyQuaternion(actor.getSpatialQuaternion())
+    storeVec.add(actor.getSpatialPosition())
+    storeVec.y += actor.getStatus(ENUMS.ActorStatus.HEIGHT)*0.5
 }
 
 let calcShouldCamPosition = function(actor, distance, storeVec) {
     storeVec.set(side * 0.11, 0.2, -0.8);
     storeVec.normalize();
     storeVec.multiplyScalar(distance);
-    storeVec.applyQuaternion(actor.getVisualGamePiece().getQuat())
-    storeVec.add(actor.getVisualGamePiece().getCenterMass())
+    storeVec.applyQuaternion(actor.getSpatialQuaternion())
+    storeVec.add(actor.getSpatialPosition())
+    storeVec.y += actor.getStatus(ENUMS.ActorStatus.HEIGHT)*0.5
 }
 
 let calcPositionAhead = function(actor, distance, storeVec) {
     storeVec.set(0, 0, 1);
     storeVec.normalize();
     storeVec.multiplyScalar(distance);
-    storeVec.applyQuaternion(actor.getVisualGamePiece().getQuat())
-    storeVec.add(actor.getVisualGamePiece().getCenterMass())
+    storeVec.applyQuaternion(actor.getSpatialQuaternion())
+    storeVec.add(actor.getSpatialPosition())
+    storeVec.y += actor.getStatus(ENUMS.ActorStatus.HEIGHT)*0.5
 }
 
 let calcPartyCenter = function(actor, distance, storeVec) {
     storeVec.set(side * 0.06, 0.6, -0.5);
     storeVec.normalize();
     storeVec.multiplyScalar(distance);
-    storeVec.applyQuaternion(actor.getVisualGamePiece().getQuat())
-    storeVec.add(actor.getVisualGamePiece().getCenterMass())
+    storeVec.applyQuaternion(actor.getSpatialQuaternion())
+    storeVec.add(actor.getSpatialPosition())
+    storeVec.y += actor.getStatus(ENUMS.ActorStatus.HEIGHT)*0.5
 }
 
 
@@ -486,7 +491,7 @@ function CAM_ORBIT() {
 
 function CAM_TARGET(actor) {
     tempVec.copy(actor.getSpatialPosition())
-    tempVec.y -= 0.5;
+    tempVec.y += actor.getStatus(ENUMS.ActorStatus.HEIGHT)*0.5
     return tempVec;
     let visualPiece = actor.getVisualGamePiece();
     if (!visualPiece) {
@@ -512,6 +517,59 @@ function CAM_SHOULDER(actor) {
 
 function CAM_SELECT() {
 
+
+    let targetActor = GameAPI.getActorById(selectedActor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET))
+
+    if (!targetActor) {
+        targetActor = selectedActor;
+        selectedActor.turnTowardsPos(targetActor.getPos())
+    }
+
+    if (lookAtActive) {
+        zoomDistance = 3;
+        lerpCameraLookAt(CAM_POINTS[lookAtControlKey](targetActor), tpf*3);
+    }
+
+    if (lookFromActive) {
+        zoomDistance = 11;
+        lerpCameraPosition(CAM_POINTS[lookFromControlKey](selectedActor), tpf*3);
+    }
+
+}
+
+function CAM_POINT() {
+
+    let targetActor = GameAPI.getActorById(selectedActor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET))
+
+    if (!targetActor) {
+        targetActor = selectedActor;
+    }
+
+    if (lookAtActive) {
+        zoomDistance = 3;
+        selectedActor.turnTowardsPos(targetActor.getSpatialPosition())
+        lerpCameraLookAt(CAM_POINTS[lookAtControlKey](targetActor), tpf*3);
+    }
+
+    if (lookFromActive) {
+        zoomDistance = 11;
+        let aPos = selectedActor.getSpatialPosition();
+        let tPos = targetActor.getSpatialPosition();
+        let distance = MATH.distanceBetween(aPos, tPos) * 0.2;
+
+        if (isTileSelecting) {
+            distance += tileSelector.extendedDistance;
+        }
+
+        tempVec.copy(aPos);
+        tempVec.sub(tPos);
+        tempVec.normalize()
+        let actorHeight = selectedActor.getStatus(ENUMS.ActorStatus.HEIGHT)
+        tempVec.multiplyScalar(actorHeight + distance * 2.5 + 1);
+        tempVec.y =  actorHeight*2 + distance * 1.5;
+        tempVec.add(aPos);
+        lerpCameraPosition(tempVec, tpf*3);
+    }
 }
 
 function CAM_HIGH(actor) {
@@ -553,7 +611,7 @@ function CAM_ENCOUNTER() {
 
 
 
-    let actorTarget = GameAPI.getActorByIndex(turnActiveActor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET))
+    let actorTarget = GameAPI.getActorById(turnActiveActor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET))
     if (actorTarget) {
         zoomDistance = 5 + distance;
     } else {
@@ -584,6 +642,12 @@ function CAM_MOVE() {
         return;
     }
 
+    let targetActor = GameAPI.getActorById(selectedActor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET))
+
+    if (!targetActor) {
+        targetActor = selectedActor;
+    }
+
     let distance = 0;
 
     if (pointerAction) {
@@ -596,9 +660,11 @@ function CAM_MOVE() {
         distance = tileSelector.extendedDistance;
     }
 
+
+
     if (lookAtActive) {
         zoomDistance = 3 + distance*0.8;
-        lerpCameraLookAt(CAM_POINTS[lookAtControlKey](selectedActor), tpf*3);
+        lerpCameraLookAt(CAM_POINTS[lookAtControlKey](targetActor), tpf*3);
     }
 
     if (lookFromActive) {
@@ -620,6 +686,14 @@ function CAM_GRID() {
         return;
     }
 
+    let targetActor = GameAPI.getActorById(selectedActor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET))
+
+    if (!targetActor) {
+        targetActor = selectedActor;
+    }
+
+
+
     let distance = 0;
 
     if (pointerAction) {
@@ -640,7 +714,7 @@ function CAM_GRID() {
     tempVec3.y = 1;
     tempVec3.multiplyScalar(2);
     zoomDistance = 1 + distance * 0.6;
-    tempVec2.copy(CAM_POINTS[lookAtControlKey](selectedActor))
+    tempVec2.copy(CAM_POINTS[lookAtControlKey](targetActor))
     tempVec.copy(tempVec2);
     tempVec.x += tempVec3.x * (5 + distance*0.3);
     tempVec.y += 8 + distance * 0.8;

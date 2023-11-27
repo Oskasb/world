@@ -4,8 +4,6 @@ import {Quaternion} from "../../../libs/three/math/Quaternion.js";
 let lastBroadcast = {};
 let sendStatus = [];
 let lastFullSend = 0;
-let tempVec = new Vector3();
-let tempQuat = new Quaternion();
 
 function fullSend(statusMap) {
     for (let key in statusMap) {
@@ -39,6 +37,8 @@ function sendUpdatedOnly(statusMap) {
 
 class ActorStatus {
     constructor(actorId) {
+        this.tempVec = new Vector3();
+        this.tempQuat = new Quaternion();
         this.statusMap = {}
         this.statusMap[ENUMS.ActorStatus.ACTOR_ID] = actorId;
         this.statusMap[ENUMS.ActorStatus.MOVE_STATE] = 'MOVE';
@@ -114,7 +114,7 @@ class ActorStatus {
 
     getStatusVelocity(store) {
         if (!store) {
-            store = tempVec;
+            store = this.tempVec;
         }
         store.set(
             this.getStatusByKey(ENUMS.ActorStatus.VEL_X),
@@ -134,7 +134,7 @@ class ActorStatus {
 
     getStatusPosition(store) {
         if (!store) {
-            store = tempVec;
+            store = this.tempVec;
         }
         store.set(
             this.getStatusByKey(ENUMS.ActorStatus.POS_X),
@@ -154,7 +154,7 @@ class ActorStatus {
 
     getStatusScale(store) {
         if (!store) {
-            store = tempVec;
+            store = this.tempVec;
         }
         store.set(
             this.getStatusByKey(ENUMS.ActorStatus.SCALE_X),
@@ -175,7 +175,7 @@ class ActorStatus {
 
     getStatusQuaternion(store) {
         if (!store) {
-            store = tempQuat;
+            store = this.tempQuat;
         }
         store.x = this.getStatusByKey(ENUMS.ActorStatus.QUAT_X)
         store.y = this.getStatusByKey(ENUMS.ActorStatus.QUAT_Y)

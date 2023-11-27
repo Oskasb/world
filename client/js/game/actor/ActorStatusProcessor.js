@@ -16,7 +16,7 @@ function processCameraStatus(actor) {
     let partySelected = actor.getStatus(ENUMS.ActorStatus.PARTY_SELECTED);
     let sequencerSelected = actor.getStatus(ENUMS.ActorStatus.SEQUENCER_SELECTED);
     let hasTurn = actor.getStatus(ENUMS.ActorStatus.HAS_TURN);
-    let selectedTarget = GameAPI.getActorByIndex(actor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET))
+    let selectedTarget = GameAPI.getActorById(actor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET))
 
     if (travelMode === ENUMS.TravelMode.TRAVEL_MODE_FLY) {
         controlKey = ENUMS.CameraControls.CAM_ORBIT;
@@ -39,17 +39,37 @@ function processCameraStatus(actor) {
         if (partySelected) {
             if (moveControlActive === 1) {
                 controlKey = ENUMS.CameraControls.CAM_GRID;
-                notifyCameraStatus( ENUMS.CameraStatus.LOOK_AT, ENUMS.CameraControls.CAM_AHEAD, null)
-                notifyCameraStatus( ENUMS.CameraStatus.LOOK_FROM, ENUMS.CameraControls.CAM_HIGH, null)
+                if (selectedTarget) {
+                    controlKey = ENUMS.CameraControls.CAM_POINT;
+                    notifyCameraStatus( ENUMS.CameraStatus.LOOK_AT, ENUMS.CameraControls.CAM_TARGET, null)
+                    notifyCameraStatus( ENUMS.CameraStatus.LOOK_FROM, ENUMS.CameraControls.CAM_SHOULDER, null)
+                } else {
+                    notifyCameraStatus( ENUMS.CameraStatus.LOOK_AT, ENUMS.CameraControls.CAM_AHEAD, null)
+                    notifyCameraStatus( ENUMS.CameraStatus.LOOK_FROM, ENUMS.CameraControls.CAM_HIGH, null)
+                }
+
+
             } else {
                 controlKey = ENUMS.CameraControls.CAM_MOVE;
-                notifyCameraStatus( ENUMS.CameraStatus.LOOK_AT, ENUMS.CameraControls.CAM_AHEAD, null)
+                if (selectedTarget) {
+                    controlKey = ENUMS.CameraControls.CAM_POINT;
+                    notifyCameraStatus( ENUMS.CameraStatus.LOOK_AT, ENUMS.CameraControls.CAM_TARGET, null)
+                } else {
+                    notifyCameraStatus( ENUMS.CameraStatus.LOOK_AT, ENUMS.CameraControls.CAM_AHEAD, null)
+                }
                 notifyCameraStatus( ENUMS.CameraStatus.LOOK_FROM, ENUMS.CameraControls.CAM_PARTY, null)
             }
         } else {
             controlKey = ENUMS.CameraControls.CAM_GRID;
-            notifyCameraStatus( ENUMS.CameraStatus.LOOK_AT, ENUMS.CameraControls.CAM_AHEAD, null)
-            notifyCameraStatus( ENUMS.CameraStatus.LOOK_FROM, ENUMS.CameraControls.CAM_HIGH, null)
+            if (selectedTarget) {
+                controlKey = ENUMS.CameraControls.CAM_POINT;
+                notifyCameraStatus( ENUMS.CameraStatus.LOOK_AT, ENUMS.CameraControls.CAM_TARGET, null)
+                notifyCameraStatus( ENUMS.CameraStatus.LOOK_FROM, ENUMS.CameraControls.CAM_SHOULDER, null)
+            } else {
+                notifyCameraStatus( ENUMS.CameraStatus.LOOK_AT, ENUMS.CameraControls.CAM_AHEAD, null)
+                notifyCameraStatus( ENUMS.CameraStatus.LOOK_FROM, ENUMS.CameraControls.CAM_HIGH, null)
+            }
+
         }
     }
 
@@ -66,7 +86,7 @@ function processCameraStatus(actor) {
         if (!turnActiveActor) {
             return;
         }
-        let selectedActor = GameAPI.getActorByIndex(turnActiveActor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET))
+        let selectedActor = GameAPI.getActorById(turnActiveActor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET))
         let moveControlActive = actor.getControl(ENUMS.Controls.CONTROL_MOVE_ACTION)
         let partySelected = actor.getStatus(ENUMS.ActorStatus.PARTY_SELECTED)
         if (turnActiveActor !== actor) {

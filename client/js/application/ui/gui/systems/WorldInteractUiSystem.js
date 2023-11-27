@@ -12,10 +12,6 @@ let container = null;
 let activeStatuses = [];
 let cameraControls;
 
-function getStatusList() {
-    return cameraControls.getStatusList()
-}
-
 let testActive = function(statusKey, buttonWidget) {
 
     let actor = GameAPI.getActorById(statusKey);
@@ -28,21 +24,20 @@ let testActive = function(statusKey, buttonWidget) {
         let color = colorMapFx[actor.getStatus(ENUMS.ActorStatus.ALIGNMENT)] || colorMapFx['ITEM']
         buttonWidget.guiWidget.guiSurface.getBufferElement().setColorRGBA(color)
         buttonWidget.setIconRgba(color)
-
         let alignment = actor.getStatus(ENUMS.ActorStatus.ALIGNMENT) || 'ITEM';
         let frameFbConfId = frameFeedbackMap[alignment];
         buttonWidget.setButtonFrameFeedbackConfig(frameFbConfId)
 
+        let playerActor = GameAPI.getGamePieceSystem().selectedActor;
+
+        if (playerActor) {
+            let targetId = playerActor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET);
+            if (targetId === statusKey) {
+                return true;
+            }
+        }
+        return false;
     }
-
-
-    return false
-    let seqIndex = getStatusList().indexOf(statusKey);
-    let button = buttons[seqIndex];
-    let controlStatus = cameraControls.getCameraControlStatus(statusKey);
-    button.setButtonIcon(controlStatus['controlKey']);
-    return controlStatus['isActive'];
-
 }
 
 let statusEvent = {
@@ -58,19 +53,21 @@ let onActivate = function(statusKey) {
     if (!actor) {
         console.log("Bad actor selection", statusKey)
         console.log("onActivate", GameAPI.getGamePieceSystem().getActors(), actorButtons)
-
     } else {
         actor.actorText.say("Me "+statusKey);
     }
 
+    let playerActor = GameAPI.getGamePieceSystem().selectedActor;
 
-    return;
-    // console.log("Button Pressed, onActivate:", statusKey)
-    let controlStatus = cameraControls.getCameraControlStatus(statusKey);
-    statusEvent['status_key'] = statusKey;
-    statusEvent['control_key'] = controlStatus['controlKey'];
-    statusEvent['activate']= !controlStatus['isActive'];
-    evt.dispatch(ENUMS.Event.SET_CAMERA_STATUS, statusEvent)
+    if (playerActor) {
+        let targetId = playerActor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET);
+        if (targetId === statusKey) {
+            playerActor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, "");
+        } else {
+            playerActor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, statusKey);
+        }
+    }
+
 }
 
 let fitTimeout = null;
