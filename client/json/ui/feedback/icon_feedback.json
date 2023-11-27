@@ -205,6 +205,32 @@
               }
             },
             {
+              "id":"feedback_button_icon_grey",
+              "config": {
+                "NONE": {
+                  "color_rgba": {"r": 0.55, "g": 0.45, "b": 0.35, "a": 1.0}
+                },
+                "HOVER": {
+                  "color_rgba": {"r": 0.66, "g": 0.55, "b": 0.40, "a": 0.95}
+                },
+                "PRESS": {
+                  "color_rgba": {"r": 0.77, "g": 0.66, "b": 0.45, "a": 0.99}
+                },
+                "ACTIVE": {
+                  "color_rgba": {"r": 0.88, "g": 0.77, "b": 0.50, "a": 0.99}
+                },
+                "ACTIVE_HOVER": {
+                  "color_rgba": {"r": 0.99, "g": 0.88, "b": 0.55, "a": 0.99}
+                },
+                "ACTIVE_PRESS": {
+                  "color_rgba": {"r": 0.99, "g": 0.95, "b": 0.6, "a": 0.99}
+                },
+                "DISABLED": {
+                  "color_rgba": {"r": 0.5, "g": 0.5, "b": 0.5, "a": 1.0}
+                }
+              }
+            },
+            {
               "id":"feedback_icon_action",
               "config": {
                 "NONE": {

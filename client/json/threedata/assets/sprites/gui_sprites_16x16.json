@@ -220,7 +220,7 @@
           },
           {
             "id":"crosshair",
-            "tiles":[[2, 4]]
+            "tiles":[[8, 0]]
           },
           {
             "id":"fire",

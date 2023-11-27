@@ -1,4 +1,4 @@
-import {GuiExpandingContainer} from "../widgets/GuiExpandingContainer.js";
+import {GuiWidget} from "../elements/GuiWidget.js";
 import {GuiControlButton} from "../widgets/GuiControlButton.js";
 import {colorMapFx, frameFeedbackMap} from "../../../../game/visuals/Colors.js";
 
@@ -6,11 +6,32 @@ let playerPortraitLayoutId = 'widget_icon_button_tiny'
 let frameLayoutId = 'widget_button_state_tiny_frame'
 
 let interactibleActors = [];
+let hintedActors = [];
 let actorButtons = [];
+let actorHints = [];
 let buttons = []
 let container = null;
 let activeStatuses = [];
 let cameraControls;
+
+let maxButtonDistance = 20;
+let maxHintDistance = 100;
+
+let hintOptions = {
+    "icon": "pinpoint_crosshair"
+};
+
+
+function initHintWidget (onReady, actor) {
+    let widgetRdy = function(widget) {
+        widget.applyWidgetOptions(hintOptions)
+        let surface = widget.guiSurface;
+    //    surface.getBufferElement().setColorRGBA(this.rgba)
+        onReady(widget, actor)
+    }.bind(this);
+    let guiWidget = new GuiWidget('icon_actor_hint');
+    guiWidget.initGuiWidget(null, widgetRdy);
+};
 
 let testActive = function(statusKey, buttonWidget) {
 
@@ -86,7 +107,23 @@ function addActorButton(actor) {
     actorButtons.push(button)
 }
 
+function hintReady(widget, actor) {
+    widget.actor = actor;
+    actorHints.push(widget);
+}
 
+function addActorHint(actor) {
+    initHintWidget(hintReady, actor)
+}
+
+function getActorHint(actor) {
+    for (let i = 0; i < actorHints.length; i++) {
+        let hint = actorHints[i];
+        if (hint.actor === actor) {
+            return hint;
+        }
+    }
+}
 
 function getActorButton(actor) {
 
@@ -117,6 +154,26 @@ function renderWorldInteractUi() {
 
 }
 
+function renderWorldHintUi() {
+    for (let i = 0; i < hintedActors.length; i++) {
+        let actor = hintedActors[i];
+
+        let hint = getActorHint(actor);
+
+        if (!hint) {
+            console.log("No hint yet", actor)
+        } else {
+            let pos = actor.getSpatialPosition()
+            pos.y += actor.getStatus(ENUMS.ActorStatus.HEIGHT) + 0.7;
+            GuiAPI.worldPosToScreen(pos, ThreeAPI.tempVec3, 0.41, 0.0)
+            hint.offsetWidgetPosition(ThreeAPI.tempVec3);
+            let surface = hint.guiSurface;
+            let rgba = colorMapFx[actor.getStatus(ENUMS.ActorStatus.ALIGNMENT)]
+            surface.getBufferElement().setColorRGBA(rgba)
+        }
+    }
+}
+
 function removeActorButton(button) {
 
     MATH.splice(actorButtons, button);
@@ -133,20 +190,50 @@ function removeActorFromInteraction(actor) {
     }
 }
 
+function removeActorFromHint(actor) {
+    if (hintedActors.indexOf(actor) !== -1) {
+        MATH.splice(hintedActors, actor);
+        let hint = getActorHint(actor);
+        if (hint) {
+            MATH.splice(actorHints, hint);
+            hint.recoverGuiWidget()
+        }
+    }
+}
+
 function updateInteractiveActors() {
     let worldActors = GameAPI.getGamePieceSystem().getActors();
 
-    let count = 0;
+    let selectedActor = GameAPI.getGamePieceSystem().selectedActor;
+
+    if (!selectedActor) {
+        return;
+    }
+
+    let playerPos = selectedActor.getSpatialPosition();
 
     for (let i = 0; i < worldActors.length; i++) {
         let actor = worldActors[i];
         if (actor.isPlayerActor()) {
             removeActorFromInteraction(actor)
         } else {
-            count++
-            if (interactibleActors.indexOf(actor) === -1) {
-                interactibleActors.push(actor);
-                addActorButton(actor);
+            let distance = MATH.distanceBetween(playerPos, actor.getSpatialPosition())
+            if (distance < maxButtonDistance) {
+                if (interactibleActors.indexOf(actor) === -1) {
+                    interactibleActors.push(actor);
+                    addActorButton(actor);
+                    removeActorFromHint(actor)
+                }
+            } else {
+                removeActorFromInteraction(actor)
+                if (distance < maxHintDistance) {
+                    if (hintedActors.indexOf(actor) === -1) {
+                        hintedActors.push(actor);
+                        addActorHint(actor);
+                    }
+                } else {
+                    removeActorFromHint(actor)
+                }
             }
         }
     }
@@ -155,6 +242,7 @@ function updateInteractiveActors() {
 let updateWorldInteractUiSystem = function(tpf, time) {
     updateInteractiveActors()
     renderWorldInteractUi()
+    renderWorldHintUi()
 }
 
 class WorldInteractUiSystem {

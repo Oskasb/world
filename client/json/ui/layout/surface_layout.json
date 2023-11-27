@@ -33,6 +33,15 @@
               }
             },
             {
+              "id":"layout_icon_hint",
+              "config": {
+                "text":   {"x":0.5, "y": 0.15, "fontsize": 8},
+                "anchor": {"x":0.0, "y":0.0, "z":  0.0},
+                "offset": {"x":0.0, "y":0.0, "z":  0.0},
+                "size":   {"x":0.015, "y":0.015,"z":  0.0}
+              }
+            },
+            {
               "id":"layout_icon_button",
               "config": {
                 "text":   {"x":0.5, "y": 0.15, "fontsize": 8},
@@ -344,8 +353,8 @@
               "config": {
                 "text":   {"x":1.0, "y":0.0, "fontsize": 8},
                 "anchor": {"x":0.001, "y":0.001, "z":  0.0},
-                "offset": {"x":-2.0, "y":-2.0, "z":  0.0},
-                "size":   {"x":"auto", "y":"auto", "z":  0.0, "cols": 1, "pad": 0.008, "gridx": 1, "gridy":-1}
+                "offset": {"x":-3.3, "y":18.0, "z":  0.0},
+                "size":   {"x":"auto", "y":"auto", "z":  0.0, "cols": 1, "pad": 0.006, "gridx": 1, "gridy":-1}
               }
             },
             {
@@ -427,6 +436,15 @@
                 "anchor": {"x":0.0, "y":0.0, "z":  0.0},
                 "offset": {"x":0.0, "y":0.0,"z":  0.0},
                 "size":   {"x":"auto", "y":"auto", "z":  0.0, "cols": 10, "pad": 0.0002, "gridx": 0.6, "gridy":-1}
+              }
+            },
+            {
+              "id":"layout_actor_hint",
+              "config": {
+                "text":   {"x":1.0, "y":0.0, "fontsize": 8},
+                "anchor": {"x":-0.5, "y":0.5, "z":  0.0},
+                "offset": {"x":0.0, "y":0.0,"z":  0.0},
+                "size":   {"x":0.03, "y":0.03,"z":  0.0}
               }
             },
             {

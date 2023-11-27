@@ -111,6 +111,7 @@
                 "feedback": "feedback_surface_anchor"
               }
             },
+
             {
               "id":"icon_action_point",
               "layout":"layout_attack_point",
@@ -192,6 +193,18 @@
               }
             },
             {
+              "id":"icon_actor_hint",
+              "layout":"layout_icon_hint",
+              "icon": {
+                "icon_config": "button_icon_config",
+                "feedback": "feedback_button_icon"
+              },
+              "surface": {
+                "nineslice": "nineslice_surface_portrait_button",
+                "feedback": "feedback_icon_button"
+              }
+            },
+            {
               "id":"widget_icon_button",
               "layout":"layout_icon_button",
               "text": {
@@ -232,7 +245,7 @@
               },
               "icon": {
                 "icon_config": "button_sequencer_icon_config",
-                "feedback": "feedback_button_icon"
+                "feedback": "feedback_button_icon_grey"
               },
               "surface": {
                 "nineslice": "nineslice_surface_sequencer_button",
