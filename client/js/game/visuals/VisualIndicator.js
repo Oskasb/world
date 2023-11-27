@@ -1,5 +1,6 @@
 import { Object3D } from "../../../libs/three/core/Object3D.js";
 import { Vector3 } from "../../../libs/three/math/Vector3.js";
+import {colorMapFx} from "./Colors.js";
 
 let tempVec3 = new Vector3();
 let tempObj = new Object3D()
@@ -11,12 +12,6 @@ let defaults = {
     rate : 2,
     alignment: 'NEUTRAL'
 }
-
-let colorMap = {};
-colorMap['FRIENDLY']   = {r:0.01,  g:0.2,   b:0.01,  a:0.2};
-colorMap['NEUTRAL']    = {r:0.2,   g:0.2,   b:0.0,   a:0.2};
-colorMap['HOSTILE']    = {r:0.2,   g:0.01,  b:0.01,  a:0.2};
-colorMap['ITEM']       = {r:0,     g:0.1,  b:0.1,   a:0.2};
 
 class VisualIndicator {
     constructor() {
@@ -74,7 +69,7 @@ class VisualIndicator {
         let actor = this.actor;
         for (let i = 0; i < this.indicators.length; i++) {
             let efct = this.indicators[i];
-            efct.setEffectColorRGBA(colorMap[actor.getStatus(ENUMS.ActorStatus.ALIGNMENT) || 'NEUTRAL']);
+            efct.setEffectColorRGBA(colorMapFx[actor.getStatus(ENUMS.ActorStatus.ALIGNMENT) || 'NEUTRAL']);
             let size = actor.getStatus(ENUMS.ActorStatus.SIZE) || 0.5;
             if (scale) size*=scale;
             efct.scaleEffectSize(  size + pulsate*(Math.sin(time*rate)));

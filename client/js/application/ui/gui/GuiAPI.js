@@ -173,6 +173,7 @@ class GuiAPI {
         opts.container      = options.container || false;
         opts.set_parent     = options.set_parent || null;
         opts.icon           = options.icon || null
+        opts.fbConfigId     = options.fbConfigId || null
 
         return opts
     };

@@ -11,7 +11,6 @@ class GuiControlButton {
             this.name = labelMap[statusKey] || statusKey;
         }
 
-
         this.portraitContainer;
 
         let activate = function() {
@@ -19,8 +18,8 @@ class GuiControlButton {
         }
 
         let isActive = function() {
-            return testActive(statusKey)
-        }
+            return testActive(statusKey, this)
+        }.bind(this)
 
         let updateButtonState = function(tpf) {
             this.updateButtonState(tpf);
@@ -53,8 +52,9 @@ class GuiControlButton {
                 testActive: isActive,
                 interactive: true,
                 set_parent:element.guiWidget,
-                text: this.name,
+                text: this.name
             };
+
 
             evt.dispatch(ENUMS.Event.BUILD_GUI_ELEMENT, opts)
         }.bind(this);
@@ -73,11 +73,20 @@ class GuiControlButton {
 
     }
 
+    setButtonFrameFeedbackConfig(configId) {
+        //   this.guiWidget.guiSurface.setFeedbackConfigId('feedback_icon_button_friendly')
+        this.guiWidget.guiSurface.setFeedbackConfigId(configId || 'feedback_icon_button_item')
+    }
+
     setButtonIcon(iconKey) {
         if (this.iconKey !== iconKey) {
             this.iconKey = iconKey;
             this.guiWidget.setWidgetIconKey(this.iconKey)
         }
+    }
+
+    setIconRgba(rgba) {
+        this.guiWidget.icon.setGuiIconColorRGBA(rgba)
     }
 
     positionByWorld(posVec) {

@@ -202,7 +202,6 @@
                 "DISABLED": {
                   "color_rgba": {"r": 0.5, "g": 0.5, "b": 0.5, "a": 1.0}
                 }
-
               }
             },
             {
@@ -264,6 +263,87 @@
               "config": {
                 "NONE": {
                   "color_rgba": {"r": 0.95, "g": 0.2, "b": 0.3, "a": 1.0}
+                },
+                "HOVER": {
+                  "color_rgba": {"r": 0.99, "g": 0.45, "b": 0.6, "a": 1}
+                },
+                "PRESS": {
+                  "color_rgba": {"r": 0.77, "g": 0.15, "b": 0.12, "a": 1.0}
+                },
+                "ACTIVE": {
+                  "color_rgba": {"r": 0.99, "g": 0.82, "b": 0.51, "a": 1.0}
+                },
+                "ACTIVE_HOVER": {
+                  "color_rgba": {"r": 0.99, "g": 0.95, "b": 0.81, "a": 1.0}
+                },
+                "ACTIVE_PRESS": {
+                  "color_rgba": {"r": 0.85, "g": 0.75, "b": 0.21, "a": 1.0}
+                },
+                "DISABLED": {
+                  "color_rgba": {"r": 0.6, "g": 0.6, "b": 0.6, "a": 1.0}
+                }
+
+              }
+            },
+            {
+              "id":"feedback_icon_button_friendly",
+              "config": {
+                "NONE": {
+                  "color_rgba": {"r": 0.25, "g": 0.82, "b": 0.43, "a": 1.0}
+                },
+                "HOVER": {
+                  "color_rgba": {"r": 0.39, "g": 0.85, "b": 0.5, "a": 1}
+                },
+                "PRESS": {
+                  "color_rgba": {"r": 0.77, "g": 0.15, "b": 0.12, "a": 1.0}
+                },
+                "ACTIVE": {
+                  "color_rgba": {"r": 0.99, "g": 0.82, "b": 0.51, "a": 1.0}
+                },
+                "ACTIVE_HOVER": {
+                  "color_rgba": {"r": 0.99, "g": 0.95, "b": 0.81, "a": 1.0}
+                },
+                "ACTIVE_PRESS": {
+                  "color_rgba": {"r": 0.85, "g": 0.75, "b": 0.21, "a": 1.0}
+                },
+                "DISABLED": {
+                  "color_rgba": {"r": 0.6, "g": 0.6, "b": 0.6, "a": 1.0}
+                }
+
+              }
+            },
+            {
+              "id":"feedback_icon_button_neutral",
+              "config": {
+                "NONE": {
+                  "color_rgba": {"r": 0.85, "g": 0.72, "b": 0.1, "a": 1.0}
+                },
+                "HOVER": {
+                  "color_rgba": {"r": 0.99, "g": 0.45, "b": 0.6, "a": 1}
+                },
+                "PRESS": {
+                  "color_rgba": {"r": 0.77, "g": 0.15, "b": 0.12, "a": 1.0}
+                },
+                "ACTIVE": {
+                  "color_rgba": {"r": 0.99, "g": 0.82, "b": 0.51, "a": 1.0}
+                },
+                "ACTIVE_HOVER": {
+                  "color_rgba": {"r": 0.99, "g": 0.95, "b": 0.81, "a": 1.0}
+                },
+                "ACTIVE_PRESS": {
+                  "color_rgba": {"r": 0.85, "g": 0.75, "b": 0.21, "a": 1.0}
+                },
+                "DISABLED": {
+                  "color_rgba": {"r": 0.6, "g": 0.6, "b": 0.6, "a": 1.0}
+                }
+
+              }
+            },
+            {
+              "id":"feedback_icon_button_item",
+              "config": {
+                "NONE": {
+                  "color_rgba": {"r": 0.05, "g": 0.52, "b": 0.83, "a": 1.0}
                 },
                 "HOVER": {
                   "color_rgba": {"r": 0.99, "g": 0.45, "b": 0.6, "a": 1}

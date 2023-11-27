@@ -1,5 +1,6 @@
 import {GuiExpandingContainer} from "../widgets/GuiExpandingContainer.js";
 import {GuiControlButton} from "../widgets/GuiControlButton.js";
+import {colorMapFx, frameFeedbackMap} from "../../../../game/visuals/Colors.js";
 
 let playerPortraitLayoutId = 'widget_icon_button_tiny'
 let frameLayoutId = 'widget_button_state_tiny_frame'
@@ -15,7 +16,27 @@ function getStatusList() {
     return cameraControls.getStatusList()
 }
 
-let testActive = function(statusKey) {
+let testActive = function(statusKey, buttonWidget) {
+
+    let actor = GameAPI.getActorByIndex(statusKey);
+
+    if (!actor) {
+        console.log("Bad actor selection", statusKey)
+        console.log("testActive", GameAPI.getGamePieceSystem().getActors(), actorButtons)
+
+    } else {
+        let color = colorMapFx[actor.getStatus(ENUMS.ActorStatus.ALIGNMENT)] || colorMapFx['ITEM']
+        buttonWidget.guiWidget.guiSurface.getBufferElement().setColorRGBA(color)
+        buttonWidget.setIconRgba(color)
+
+        let alignment = actor.getStatus(ENUMS.ActorStatus.ALIGNMENT) || 'ITEM';
+        let frameFbConfId = frameFeedbackMap[alignment];
+        buttonWidget.setButtonFrameFeedbackConfig(frameFbConfId)
+
+    }
+
+
+
     return false
     let seqIndex = getStatusList().indexOf(statusKey);
     let button = buttons[seqIndex];
@@ -36,13 +57,13 @@ let onActivate = function(statusKey) {
     let actor = GameAPI.getActorByIndex(statusKey);
 
     if (!actor) {
-        console.log("Bad actor selection" )
-        console.log("onActivate", GameAPI.getGamePieceSystem().getActors())
+        console.log("Bad actor selection", statusKey)
+        console.log("onActivate", GameAPI.getGamePieceSystem().getActors(), actorButtons)
 
     } else {
         actor.actorText.say("Me "+statusKey);
     }
-    
+
 
     return;
     // console.log("Button Pressed, onActivate:", statusKey)
@@ -92,10 +113,23 @@ function renderWorldInteractUi() {
         if (!button) {
             console.log("No button yet", actor, actorButtons)
         } else {
-            button.positionByWorld(actor.getSpatialPosition())
+            let pos = actor.getSpatialPosition()
+            pos.y += actor.getStatus(ENUMS.ActorStatus.HEIGHT) + 0.7;
+            button.positionByWorld(pos)
         }
     }
 
+}
+
+function removeActorFromInteraction(actor) {
+    if (interactibleActors.indexOf(actor) !== -1) {
+        MATH.splice(interactibleActors, actor);
+        let button = getActorButton(actor);
+        if (button) {
+            MATH.splice(actorButtons, button);
+            button.removeGuiWidget()
+        }
+    }
 }
 
 function updateInteractiveActors() {
@@ -105,20 +139,25 @@ function updateInteractiveActors() {
 
     for (let i = 0; i < worldActors.length; i++) {
         let actor = worldActors[i];
-    //    if (!actor.isPlayerActor()) {
+        if (actor.isPlayerActor()) {
+            removeActorFromInteraction(actor)
+        } else {
             count++
             if (interactibleActors.indexOf(actor) === -1) {
                 interactibleActors.push(actor);
                 addActorButton(actor);
             }
-    //    }
+        }
     }
 
     if (interactibleActors.length !== count) {
         for (let i = 0; i < interactibleActors.length; i++) {
             if (worldActors.indexOf(interactibleActors[i]) === -1) {
-                interactibleActors.splice(i, 1);
+                let removeActor = interactibleActors.splice(i, 1);
                 i--
+                let button = getActorButton(removeActor);
+                MATH.splice(actorButtons, button);
+                button.removeGuiWidget()
             }
         }
     }

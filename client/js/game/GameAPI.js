@@ -197,8 +197,9 @@ class GameAPI {
     getActorByIndex(index) {
         let actors = gamePieceSystem.getActors();
         for (let i = 0; i < actors.length; i++) {
-            if (actors[i].index === index) {
-                return actors[i]
+            let actor = actors[i];
+            if (actor.index === index) {
+                return actor
             }
         }
     //    console.log("No actor by index; ", index, actors);

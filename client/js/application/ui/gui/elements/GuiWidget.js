@@ -245,6 +245,10 @@ class GuiWidget {
                 options.set_parent.addChild(this);
             }
 
+            if (options.fbConfigId) {
+                this.guiSurface.setFeedbackConfigId(options.fbConfigId);
+            }
+
 
             this.applyWidgetPosition();
 
@@ -267,6 +271,7 @@ class GuiWidget {
             };
 
             this.guiSurface.setFeedbackConfigId(surfaceConf.feedback);
+
             this.guiSurface.setupSurfaceElement( surfaceConf['nineslice'] , setupSurface);
 
         };
