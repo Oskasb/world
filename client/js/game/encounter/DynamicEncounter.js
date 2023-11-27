@@ -53,7 +53,7 @@ class DynamicEncounter {
         while (encounterActors.length) {
 
             let actor = encounterActors.pop();
-            actor.deactivateGameActor();
+            actor.removeGameActor();
         }
     }
 

@@ -9,7 +9,7 @@ import {WorldInteractUiSystem} from "./systems/WorldInteractUiSystem.js";
 
 let partyUiSystem = new PartyUiSystem()
 let actorActionUpSystem = new ActorActionUiSystem();
-let worldInteractUiSystem = new WorldInteractUiSystem()
+
 
 class UiSetup {
     constructor() {
@@ -24,8 +24,6 @@ class UiSetup {
             let buttonSystem = new GuiButtonSystem();
             buttonSystem.initGuiButtonSystem();
             GuiAPI.setButtonSystem(buttonSystem);
-
-            worldInteractUiSystem.initWorldInteractUi();
 
             let textSysCb = function() {
                 callback('textSysCb loaded');

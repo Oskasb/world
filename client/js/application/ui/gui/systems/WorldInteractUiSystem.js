@@ -150,18 +150,6 @@ function updateInteractiveActors() {
             }
         }
     }
-
-    if (interactibleActors.length !== count) {
-        for (let i = 0; i < interactibleActors.length; i++) {
-            if (worldActors.indexOf(interactibleActors[i]) === -1) {
-                let removeActor = interactibleActors.splice(i, 1);
-                i--
-                let button = getActorButton(removeActor);
-                MATH.splice(actorButtons, button);
-                button.removeGuiWidget()
-            }
-        }
-    }
 }
 
 let updateWorldInteractUiSystem = function(tpf, time) {
@@ -177,8 +165,9 @@ class WorldInteractUiSystem {
     }
 
     closeWorldInteractUi() {
-        while (buttons.length) {
-
+        interactibleActors.length = 0;
+        while (actorButtons.length) {
+            removeActorButton(actorButtons.pop())
         }
         ThreeAPI.unregisterPrerenderCallback(updateWorldInteractUiSystem)
     }

@@ -545,6 +545,12 @@ function CAM_POINT() {
         targetActor = selectedActor;
     }
 
+    if (pointerAction) {
+        applyPointerMove();
+    } else if (pointerActive) {
+        applyPointerRelease()
+    }
+
     if (lookAtActive) {
         zoomDistance = 3;
         selectedActor.turnTowardsPos(targetActor.getSpatialPosition())
@@ -614,6 +620,7 @@ function CAM_ENCOUNTER() {
     let actorTarget = GameAPI.getActorById(turnActiveActor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET))
     if (actorTarget) {
         zoomDistance = 5 + distance;
+        selectedActor.turnTowardsPos(actorTarget.getSpatialPosition())
     } else {
         zoomDistance = 9 + distance;
     }
@@ -631,7 +638,7 @@ function CAM_ENCOUNTER() {
     }
 
     if (lookFromActive) {
-    //    zoomDistance = 9 + distance;
+        zoomDistance = 7 + distance;
         lerpCameraPosition(CAM_POINTS[lookFromControlKey](turnActiveActor), tpf*4);
     }
 }
@@ -721,10 +728,36 @@ function CAM_GRID() {
     tempVec.z += tempVec3.z * (5 + distance*0.3);
 
     if (lookFromActive) {
-        lerpCameraPosition(tempVec, tpf*2);
+
+        if (targetActor === 2) {
+            let aPos = selectedActor.getSpatialPosition();
+            let tPos = targetActor.getSpatialPosition();
+            let distance = MATH.distanceBetween(aPos, tPos) * 0.2;
+
+            if (isTileSelecting) {
+                distance += tileSelector.extendedDistance;
+            }
+
+            tempVec.copy(aPos);
+            tempVec.sub(tPos);
+            tempVec.normalize()
+            let actorHeight = selectedActor.getStatus(ENUMS.ActorStatus.HEIGHT)
+            tempVec.multiplyScalar(actorHeight + distance * 2.5 + 1);
+            tempVec.y =  actorHeight*2 + distance * 1.5;
+            tempVec.add(aPos);
+            lerpCameraPosition(tempVec, tpf*3);
+        } else {
+            lerpCameraPosition(tempVec, tpf*2);
+        }
+
+
     }
 
     if (lookAtActive) {
+
+        //    zoomDistance = 9 + distance;
+
+
         lerpCameraLookAt(tempVec2, tpf*2);
     }
 

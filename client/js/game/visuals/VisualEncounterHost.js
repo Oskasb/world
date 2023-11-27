@@ -21,7 +21,7 @@ class VisualEncounterHost {
 
         let hide = function() {
             if (actor) {
-                actor.deactivateGameActor();
+                actor.removeGameActor();
             }
         }
 

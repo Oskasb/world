@@ -53,6 +53,12 @@ let activateEvent = {world_encounters:[]};
 
 let activateWorldEncounters = function(event) {
     deactivateWorldEncounters();
+    GuiAPI.getWorldInteractionUi().initWorldInteractUi();
+    let activeActor = GameAPI.getGamePieceSystem().selectedActor;
+    if (activeActor) {
+        activeActor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_WALK);
+    }
+
     activateEvent = event;
     let encountersData = function(encounters) {
         for (let i = 0; i < encounters.length;i++) {

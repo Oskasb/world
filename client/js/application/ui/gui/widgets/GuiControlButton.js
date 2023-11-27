@@ -90,7 +90,7 @@ class GuiControlButton {
     }
 
     positionByWorld(posVec) {
-        evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ThreeAPI.getCameraCursor().getPos(), to:posVec, color:'YELLOW'});
+    //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ThreeAPI.getCameraCursor().getPos(), to:posVec, color:'YELLOW'});
         GuiAPI.worldPosToScreen(posVec, ThreeAPI.tempVec3, 0.39, 0.0)
         this.setButtonScreenPosition(ThreeAPI.tempVec3);
     }
