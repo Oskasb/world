@@ -12,7 +12,7 @@ import { TravelMode } from "./TravelMode.js";
 import { ActorEquipment } from "./ActorEquipment.js";
 import { ActorStatusProcessor } from "./ActorStatusProcessor.js";
 
-let index = 1; // zero index get culled by connection
+// let index = 1; // zero index get culled by connection
 let tempVec = new Vector3();
 let tempStore = [];
 let tempObj = new Object3D();
@@ -22,13 +22,11 @@ let tempQuat = new Quaternion();
 let broadcastTimeout;
 let lastSendTime = 0;
 class GameActor {
-    constructor(config, parsedEquipSlotData) {
+    constructor(index, config, parsedEquipSlotData) {
         this.index = index;
-        index++;
 
         this.framePos = new Vector3();
         this.lastFramePos = new Vector3();
-
 
         this.actorStatusProcessor = new ActorStatusProcessor();
         this.actorText = new ActorText(this);
@@ -144,7 +142,6 @@ class GameActor {
 
         if (this.isPlayerActor()) {
             this.actorStatus.setStatusKey(ENUMS.ActorStatus.CLIENT_STAMP, client.getStamp());
-            this.actorStatus.setStatusKey(ENUMS.ActorStatus.ACTOR_INDEX, this.index);
             let gameTime = GameAPI.getGameTime();
             if (lastSendTime < gameTime -0.2) {
                 this.actorStatus.broadcastStatus(gameTime);
@@ -199,6 +196,7 @@ class GameActor {
         console.log("actor getObj3d()")
         return this.gameWalkGrid.getGridMovementObj3d();
     }
+
 
 
     setVisualGamePiece(visualGamePiece) {

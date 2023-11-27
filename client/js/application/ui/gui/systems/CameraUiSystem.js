@@ -1,5 +1,5 @@
 import {GuiExpandingContainer} from "../widgets/GuiExpandingContainer.js";
-import {GuiCameraControlButton} from "../widgets/GuiCameraControlButton.js";
+import {GuiControlButton} from "../widgets/GuiControlButton.js";
 
 let playerPortraitLayoutId = 'widget_icon_button_tiny'
 let frameLayoutId = 'widget_button_state_tiny_frame'
@@ -8,6 +8,13 @@ let buttons = []
 let container = null;
 let activeStatuses = [];
 let cameraControls;
+
+let labelMap = {}
+labelMap[ENUMS.CameraStatus.CAMERA_MODE] = 'Camera';
+labelMap[ENUMS.CameraStatus.LOOK_AT] = 'Focus';
+labelMap[ENUMS.CameraStatus.LOOK_FROM] = 'Source';
+labelMap[ENUMS.CameraStatus.POINTER_ACTION] = 'World';
+
 
 function getStatusList() {
     return cameraControls.getStatusList()
@@ -52,7 +59,7 @@ let onReady = function(button) {
 
 function addControlButton(statusKey) {
     let seqIndex = getStatusList().indexOf(statusKey);
-    buttons[seqIndex] = new GuiCameraControlButton(statusKey, playerPortraitLayoutId, onActivate, testActive, 0, 0, onReady, frameLayoutId)
+    buttons[seqIndex] = new GuiControlButton(statusKey, playerPortraitLayoutId, onActivate, testActive, 0, 0, onReady, frameLayoutId, labelMap)
 }
 
 function renderCameraControlUi(statusKey) {

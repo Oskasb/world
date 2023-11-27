@@ -81,7 +81,7 @@
               "id":"layout_icon_button_tiny",
               "config": {
                 "text":   {"x":0.17, "y": 1.21, "fontsize": 6},
-                "anchor": {"x":0.5, "y":0.5, "z":  0.0},
+                "anchor": {"x":0.0, "y":0.0, "z":  0.0},
                 "offset": {"x":0.0, "y":0.0, "z":  0.0},
                 "size":   {"x":0.04, "y":0.04,"z":  0.0}
               }

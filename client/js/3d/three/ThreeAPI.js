@@ -303,7 +303,7 @@ class ThreeAPI {
     };
 
     toScreenPosition = function(vec3, store) {
-        this.threeSetup.toScreenPosition(vec3, store);
+        return this.threeSetup.toScreenPosition(vec3, store);
     };
 
     testPosIsVisible = function(vec3) {

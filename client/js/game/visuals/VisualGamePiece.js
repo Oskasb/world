@@ -273,7 +273,7 @@ class VisualGamePiece {
             //    console.log("No piece...") // items do otherwise
             }
         } else {
-            this.getSpatial().setPosXYZ(0, -100000,0)
+        //    this.getSpatial().setPosXYZ(0, -100000,0)
         }
 
     }

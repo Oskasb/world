@@ -1,16 +1,17 @@
 import {GuiButtonFrame} from "./GuiButtonFrame.js";
 
-let labelMap = {}
-labelMap[ENUMS.CameraStatus.CAMERA_MODE] = 'Camera';
-labelMap[ENUMS.CameraStatus.LOOK_AT] = 'Focus';
-labelMap[ENUMS.CameraStatus.LOOK_FROM] = 'Source';
-labelMap[ENUMS.CameraStatus.POINTER_ACTION] = 'World';
+class GuiControlButton {
+    constructor(statusKey, layoutConfId, onActivate, testActive, x, y, onReady, frameWidgetId, labelMap) {
+
+        this.statusKey = statusKey;
+
+        if (!labelMap) {
+            this.name = statusKey;
+        } else {
+            this.name = labelMap[statusKey] || statusKey;
+        }
 
 
-class GuiCameraControlButton {
-    constructor(statusKey, layoutConfId, onActivate, testActive, x, y, onReady, frameWidgetId, hpProgressId) {
-
-        this.name = labelMap[statusKey];
         this.portraitContainer;
 
         let activate = function() {
@@ -79,6 +80,16 @@ class GuiCameraControlButton {
         }
     }
 
+    positionByWorld(posVec) {
+        evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ThreeAPI.getCameraCursor().getPos(), to:posVec, color:'YELLOW'});
+        GuiAPI.worldPosToScreen(posVec, ThreeAPI.tempVec3, 0.405, 0.0)
+        this.setButtonScreenPosition(ThreeAPI.tempVec3);
+    }
+
+    setButtonScreenPosition(screenPos) {
+        this.guiWidget.offsetWidgetPosition(screenPos)
+    }
+
     updateButtonState(tpf) {
 
         this.guiWidget.getWidgetSurface().updateInterativeState();
@@ -94,4 +105,4 @@ class GuiCameraControlButton {
 
 }
 
-export { GuiCameraControlButton }
+export { GuiControlButton }

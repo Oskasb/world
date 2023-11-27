@@ -6,7 +6,6 @@ import { GuiPageSystem } from "./systems/GuiPageSystem.js";
 import { DebugView } from "../../debug/DebugView.js";
 import { OnScreenText } from "./game/OnScreenText.js";
 
-
 let guiTime = 0;
 
 class GuiAPI {
@@ -122,6 +121,18 @@ class GuiAPI {
     getBufferElementByUiSysKey = function(uiSysKey) {
         return this.instantiator.getElementBufferByKey(uiSysKey);
     }
+
+    worldPosToScreen(posVec, store, max, distanceScale) {
+        let distance = MATH.distanceBetween(posVec, ThreeAPI.getCamera().position)
+        ThreeAPI.toScreenPosition(posVec, store);
+        store.z = -distance*distanceScale;
+        let distanceFactor = MATH.curveQuad(1-store.z);
+        store.multiplyScalar(distanceFactor)
+        MATH.clampVectorXY(store, -max*distanceFactor, max*distanceFactor, -max*distanceFactor, max*distanceFactor)
+        this.applyAspectToScreenPosition(store, store);
+        return store;
+    }
+
 
     buildBufferElement = function(uiSysKey, cb) {
         //    console.log("buildBufferElement", uiSysKey)

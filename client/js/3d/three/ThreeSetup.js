@@ -185,16 +185,13 @@ class ThreeSetup {
 
     toScreenPosition = function(vec3, store) {
 
+        if (!store) {
+            store = ThreeAPI.tempVec3;
+        }
+
         this.tempObj.position.copy(vec3);
 
-        if (!this.pointIsVisible(this.tempObj.position)) {
 
-            store.x = -1;
-            store.y = -1;
-            store.z = -100000;
-
-            return store;// Do something with the position...
-        }
 
         //    tempObj.updateMatrixWorld();
         this.tempObj.getWorldPosition(this.vector)
@@ -205,6 +202,9 @@ class ThreeSetup {
         store.y = this.vector.y * 0.5 * 0.83;
         store.z = this.vector.z * 0;
 
+        if (!this.pointIsVisible(this.tempObj.position)) {
+            store.z = -100000;
+        }
 
 
      //   GameScreen.fitView(store);

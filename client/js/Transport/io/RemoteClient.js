@@ -127,7 +127,7 @@ class RemoteClient {
                 }
 
             } else {
-                actor.actorText.say(remoteIndex)
+                actor.actorText.say(remoteIndex+' '+actor.index)
 
                 for (let i = 2; i < msg.length; i++) {
                     let key = msg[i];

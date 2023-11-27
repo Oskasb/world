@@ -35,10 +35,13 @@ let loadItem = function(event) {
 }
 
 let actors = [];
+let actorIndex = 1; // zero index get culled by connection
 
 let loadActor = function(event) {
     let actorConfig = actorConfigs[event.id]
-    let actor = new GameActor(actorConfig, parsedEquipSlotData);
+    let actor = new GameActor(actorIndex, actorConfig, parsedEquipSlotData);
+    actorIndex++;
+    actor.setStatusKey(ENUMS.ActorStatus.ACTOR_INDEX, actor.index);
     actors.push(actor);
     let visualConfig = visualConfigs[actor.config['visual_id']];
 
