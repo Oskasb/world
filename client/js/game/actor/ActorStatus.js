@@ -149,6 +149,7 @@ class ActorStatus {
         this.tempQuat = new Quaternion();
         this.statusMap = {}
         this.statusMap[ENUMS.ActorStatus.ACTOR_ID] = actorId;
+        this.statusMap[ENUMS.ActorStatus.IS_ACTIVE] = 0;
         this.statusMap[ENUMS.ActorStatus.ALIGNMENT] = 'NEUTRAL';
         this.statusMap[ENUMS.ActorStatus.MOVE_STATE] = 'MOVE';
         this.statusMap[ENUMS.ActorStatus.STAND_STATE] = 'IDLE_HANDS';

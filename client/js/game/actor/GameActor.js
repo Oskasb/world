@@ -241,6 +241,8 @@ class GameActor {
     }
 
     activateGameActor(onActorReady) {
+        this.setStatusKey(ENUMS.ActorStatus.IS_ACTIVE, 1);
+        this.setStatusKey(ENUMS.ActorStatus.EXISTS, 1);
         if (!this.activated) {
         //    this.updateGameActor()
 
@@ -261,6 +263,7 @@ class GameActor {
     }
 
     deactivateGameActor() {
+        this.setStatusKey(ENUMS.ActorStatus.IS_ACTIVE, 0);
         if (this.activated === true) {
             this.actorEquipment.removeAllItems();
             this.visualGamePiece.removeVisualGamePiece();
@@ -273,6 +276,7 @@ class GameActor {
     }
 
     removeGameActor() {
+        this.setStatusKey(ENUMS.ActorStatus.EXISTS, 0);
         let actors = GameAPI.getGamePieceSystem().getActors();
         MATH.splice(actors, this);
         this.deactivateGameActor()

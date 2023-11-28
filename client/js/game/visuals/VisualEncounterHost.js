@@ -3,6 +3,8 @@ class VisualEncounterHost {
 
         this.obj3d = obj3d;
 
+        this.config = null;
+
         let actor = null;
 
         let getActor = function() {
@@ -11,15 +13,24 @@ class VisualEncounterHost {
 
         let setActor = function(actr) {
             actor = actr;
+            actor.activateGameActor();
         }
 
         let show = function() {
             if (actor) {
                 actor.activateGameActor();
+            } else {
+                this.applyHostConfig(this.config, setActor);
+            }
+        }.bind(this)
+
+        let hide = function() {
+            if (actor) {
+                actor.deactivateGameActor();
             }
         }
 
-        let hide = function() {
+        let remove = function() {
             if (actor) {
                 actor.removeGameActor();
             }
@@ -29,7 +40,8 @@ class VisualEncounterHost {
             getActor:getActor,
             setActor:setActor,
             show:show,
-            hide:hide
+            hide:hide,
+            remove:remove
         }
 
     }
@@ -39,7 +51,7 @@ class VisualEncounterHost {
     }
 
     applyHostConfig(config, actorReady) {
-
+        this.config = config;
         let actorLoaded = function(actor) {
             MATH.rotateObj(actor.actorObj3d, config.rot)
             actor.setStatusKey(ENUMS.ActorStatus.ALIGNMENT, config['ALIGNMENT'] ,'HOSTILE');
@@ -59,6 +71,10 @@ class VisualEncounterHost {
 
     hideEncounterHost() {
         this.call.hide();
+    }
+
+    removeEncounterHost() {
+        this.call.remove();
     }
 
 }

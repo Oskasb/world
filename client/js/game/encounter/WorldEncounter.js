@@ -130,7 +130,7 @@ class WorldEncounter {
                 this.isVisible = true
             } else {
                 if (this.isVisible === true) {
-                    this.removeWorldEncounter()
+                    this.hideWorldEncounter()
                 }
                 this.isVisible = false
             }
@@ -224,15 +224,17 @@ class WorldEncounter {
         this.isVisible = true;
     }
 
-    removeWorldEncounter() {
-    //    console.log("removeWorldEncounter", lodLevel, this)
+    hideWorldEncounter() {
         if (this.isVisible) {
-
             this.encounterIndicator.hideIndicator();
-            this.visualEncounterHost.hideEncounterHost();
             GameAPI.unregisterGameUpdateCallback(this.call.onGameUpdate)
         }
+        this.visualEncounterHost.hideEncounterHost();
         this.isVisible = false;
+    }
+    removeWorldEncounter() {
+        this.hideWorldEncounter();
+        this.visualEncounterHost.removeEncounterHost();
     }
 
 

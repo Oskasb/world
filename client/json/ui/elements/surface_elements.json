@@ -183,6 +183,17 @@
               }
             },
             {
+              "id":"nineslice_surface_hint",
+              "config": {
+                "padding": { "x":0.00000001, "y":0.00000001},
+                "image": {
+                  "layer": "UI_ELEMENTS_BACK",
+                  "atlas_key": "GUI_16x16",
+                  "border_thickness": {"x": 0.1, "y": 0.1}
+                }
+              }
+            },
+            {
               "id":"nineslice_surface_main_text",
               "config": {
                 "padding": { "x":0.02, "y":0.015},

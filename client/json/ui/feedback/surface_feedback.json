@@ -117,6 +117,15 @@
               }
             },
             {
+              "id":"feedback_surface_hint",
+              "config": {
+                "NONE": {
+                  "color_rgba": {"r": 0.35, "g": 0.35, "b": 0.35, "a": 1.85},
+                  "sprite": "pinpoint_crosshair"
+                }
+              }
+            },
+            {
               "id":"feedback_surface_stat_elem",
               "config": {
                 "NONE": {

@@ -44,6 +44,15 @@
               }
             },
             {
+              "id":"icon_full_size",
+              "config": {
+                "innersize": { "x":1.0,  "y":1.0, "z": 0},
+                "offset":    { "x":0.5, "y":0.5, "z": 0},
+                "atlas_key": "GUI_16x16",
+                "stretch": false
+              }
+            },
+            {
               "id":"attack_point_icon",
               "config": {
                 "innersize": { "x":1.0,  "y":1.0, "z": 0},

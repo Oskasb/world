@@ -1,6 +1,6 @@
 import {GuiWidget} from "../elements/GuiWidget.js";
 import {GuiControlButton} from "../widgets/GuiControlButton.js";
-import {colorMapFx, frameFeedbackMap} from "../../../../game/visuals/Colors.js";
+import {colorMapFx, frameFeedbackMap, elementColorMap} from "../../../../game/visuals/Colors.js";
 
 let playerPortraitLayoutId = 'widget_icon_button_tiny'
 let frameLayoutId = 'widget_button_state_tiny_frame'
@@ -15,10 +15,11 @@ let activeStatuses = [];
 let cameraControls;
 
 let maxButtonDistance = 20;
-let maxHintDistance = 100;
+let maxHintDistance = 50;
 
 let hintOptions = {
-    "icon": "pinpoint_crosshair"
+    //   "icon": "text_background"
+  "icon": "pinpoint_crosshair"
 };
 
 
@@ -168,8 +169,10 @@ function renderWorldHintUi() {
             GuiAPI.worldPosToScreen(pos, ThreeAPI.tempVec3, 0.41, 0.0)
             hint.offsetWidgetPosition(ThreeAPI.tempVec3);
             let surface = hint.guiSurface;
-            let rgba = colorMapFx[actor.getStatus(ENUMS.ActorStatus.ALIGNMENT)]
+            let rgba = elementColorMap[actor.getStatus(ENUMS.ActorStatus.ALIGNMENT)]
             surface.getBufferElement().setColorRGBA(rgba)
+            hint.icon.setGuiIconColorRGBA(rgba)
+
         }
     }
 }
@@ -196,6 +199,7 @@ function removeActorFromHint(actor) {
         let hint = getActorHint(actor);
         if (hint) {
             MATH.splice(actorHints, hint);
+            hint.actor = null;
             hint.recoverGuiWidget()
         }
     }
@@ -214,27 +218,34 @@ function updateInteractiveActors() {
 
     for (let i = 0; i < worldActors.length; i++) {
         let actor = worldActors[i];
-        if (actor.isPlayerActor()) {
-            removeActorFromInteraction(actor)
-        } else {
-            let distance = MATH.distanceBetween(playerPos, actor.getSpatialPosition())
-            if (distance < maxButtonDistance) {
-                if (interactibleActors.indexOf(actor) === -1) {
-                    interactibleActors.push(actor);
-                    addActorButton(actor);
-                    removeActorFromHint(actor)
-                }
-            } else {
+
+        if (actor.getStatus(ENUMS.ActorStatus.EXISTS) === 1) {
+            if (actor.isPlayerActor()) {
                 removeActorFromInteraction(actor)
-                if (distance < maxHintDistance) {
-                    if (hintedActors.indexOf(actor) === -1) {
-                        hintedActors.push(actor);
-                        addActorHint(actor);
+                removeActorFromHint(actor)
+            } else {
+                let distance = MATH.distanceBetween(playerPos, actor.getSpatialPosition())
+                if (distance < maxButtonDistance) {
+                    if (interactibleActors.indexOf(actor) === -1) {
+                        interactibleActors.push(actor);
+                        addActorButton(actor);
+                        removeActorFromHint(actor)
                     }
                 } else {
-                    removeActorFromHint(actor)
+                    removeActorFromInteraction(actor)
+                    if (distance < maxHintDistance) {
+                        if (hintedActors.indexOf(actor) === -1) {
+                            hintedActors.push(actor);
+                            addActorHint(actor);
+                        }
+                    } else {
+                        removeActorFromHint(actor)
+                    }
                 }
             }
+        } else {
+            removeActorFromInteraction(actor)
+            removeActorFromHint(actor)
         }
     }
 }

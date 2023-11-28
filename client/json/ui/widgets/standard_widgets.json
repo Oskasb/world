@@ -196,12 +196,12 @@
               "id":"icon_actor_hint",
               "layout":"layout_icon_hint",
               "icon": {
-                "icon_config": "button_icon_config",
-                "feedback": "feedback_button_icon"
+                "icon_config": "icon_full_size",
+                "feedback": "feedback_button_icon_grey"
               },
               "surface": {
-                "nineslice": "nineslice_surface_portrait_button",
-                "feedback": "feedback_icon_button"
+                "nineslice": "nineslice_surface_hint",
+                "feedback": "feedback_surface_hint"
               }
             },
             {
