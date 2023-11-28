@@ -6,9 +6,11 @@ import { GuiPageSystem } from "./systems/GuiPageSystem.js";
 import { DebugView } from "../../debug/DebugView.js";
 import { OnScreenText } from "./game/OnScreenText.js";
 import {WorldInteractUiSystem} from "./systems/WorldInteractUiSystem.js";
+import {WorldEncounterUISystem} from "./systems/WorldEncounterUISystem.js";
 
 let guiTime = 0;
 let worldInteractUiSystem = new WorldInteractUiSystem()
+let worldEncounterUISystem = new WorldEncounterUISystem()
 class GuiAPI {
     constructor() {
         let inMenueFlag = false;
@@ -103,6 +105,7 @@ class GuiAPI {
         loadUiConfig("SPRITE_FONT", "FONT_16x16");
 
         this.guiPageSystem.initGuiPageSystem();
+        worldEncounterUISystem.initEncounterUiSystem();
     };
 
     getWorldInteractionUi() {

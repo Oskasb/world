@@ -205,6 +205,18 @@
               }
             },
             {
+              "id":"icon_actor_status_hint",
+              "layout":"layout_icon_hint",
+              "icon": {
+                "icon_config": "icon_full_size",
+                "feedback": "feedback_button_icon_grey"
+              },
+              "surface": {
+                "nineslice": "nineslice_surface_debug",
+                "feedback": "feedback_surface_debug"
+              }
+            },
+            {
               "id":"widget_icon_button",
               "layout":"layout_icon_button",
               "text": {

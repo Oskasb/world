@@ -14,6 +14,7 @@ import {GuiScreenSpaceText} from "../ui/gui/widgets/GuiScreenSpaceText.js";
 import {PathPoint} from "../../game/gameworld/PathPoint.js";
 import {SpatialTransition} from "../../game/piece_functions/SpatialTransition.js";
 import { VisualPointFX } from "../../game/visuals/VisualPointFX.js";
+import { WorldActorStatusUI } from "../ui/gui/systems/WorldActorStatusUI.js";
 
 let pools = {}
 let stats = {};
@@ -34,6 +35,7 @@ function initPools() {
     registerPool(PathPoint);
     registerPool(SpatialTransition);
     registerPool(VisualPointFX);
+    registerPool(WorldActorStatusUI);
 }
 
 function registerPool(DataObj) {

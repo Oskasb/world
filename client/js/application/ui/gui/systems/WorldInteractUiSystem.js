@@ -1,6 +1,7 @@
 import {GuiWidget} from "../elements/GuiWidget.js";
 import {GuiControlButton} from "../widgets/GuiControlButton.js";
 import {colorMapFx, frameFeedbackMap, elementColorMap} from "../../../../game/visuals/Colors.js";
+import {poolFetch} from "../../../utils/PoolUtils.js";
 
 let playerPortraitLayoutId = 'widget_icon_button_tiny'
 let frameLayoutId = 'widget_button_state_tiny_frame'
@@ -85,8 +86,18 @@ let onActivate = function(statusKey) {
         let targetId = playerActor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET);
         if (targetId === statusKey) {
             playerActor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, "");
+            playerActor.setStatusKey(ENUMS.ActorStatus.SELECTED_ENCOUNTER, "");
         } else {
             playerActor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, statusKey);
+
+            let worldEncounter = GameAPI.getWorldEncounterByHost(statusKey);
+            console.log(worldEncounter)
+            if (worldEncounter) {
+                playerActor.setStatusKey(ENUMS.ActorStatus.SELECTED_ENCOUNTER, worldEncounter.id);
+            } else {
+                playerActor.setStatusKey(ENUMS.ActorStatus.SELECTED_ENCOUNTER, "");
+            }
+
         }
     }
 
@@ -106,6 +117,9 @@ let onReady = function(button) {
 function addActorButton(actor) {
     let button = new GuiControlButton(actor.id, playerPortraitLayoutId, onActivate, testActive, 0, 0, onReady, frameLayoutId)
     actorButtons.push(button)
+    let statusUI = poolFetch('WorldActorStatusUI')
+    statusUI.activateWorldActorStatus(actor);
+    button.statusUi = statusUI;
 }
 
 function hintReady(widget, actor) {
@@ -178,14 +192,22 @@ function renderWorldHintUi() {
 }
 
 function removeActorButton(button) {
-
     MATH.splice(actorButtons, button);
     button.removeGuiWidget()
+    button.statusUi.deactivateWorldActorStatus();
+    button.statusUi = null;
 }
 
-function removeActorFromInteraction(actor) {
+function removeActorFromInteraction(actor, selectedActor) {
     if (interactibleActors.indexOf(actor) !== -1) {
         MATH.splice(interactibleActors, actor);
+
+        if (selectedActor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET) === actor.id) {
+            selectedActor.setStatusKey(ENUMS.ActorStatus.REQUEST_PARTY, "");
+            selectedActor.setStatusKey(ENUMS.ActorStatus.SELECTED_ENCOUNTER, "");
+            selectedActor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, "");
+        }
+
         let button = getActorButton(actor);
         if (button) {
             removeActorButton(button)
@@ -232,7 +254,7 @@ function updateInteractiveActors() {
                         removeActorFromHint(actor)
                     }
                 } else {
-                    removeActorFromInteraction(actor)
+                    removeActorFromInteraction(actor, selectedActor)
                     if (distance < maxHintDistance) {
                         if (hintedActors.indexOf(actor) === -1) {
                             hintedActors.push(actor);

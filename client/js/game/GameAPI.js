@@ -195,16 +195,12 @@ class GameAPI {
     }
 
 
-    getActorByIndex(index) {
-        let actors = gamePieceSystem.getActors();
-        for (let i = 0; i < actors.length; i++) {
-            let actor = actors[i];
-            if (actor.index === index) {
-                return actor
-            }
-        }
-    //    console.log("No actor by index; ", index, actors);
+    getWorldEncounterByHost(id) {
+        return this.worldModels.getEncounterByHostActorId(id);
+    }
 
+    getWorldEncounterByEncounterId(id) {
+        return this.worldModels.getEncounterById(id);
     }
 
     getActorById(actorId) {

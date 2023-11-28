@@ -108,6 +108,23 @@ class WorldModels {
         activateWorldEncounters(activateEvent)
     }
 
+    getEncounterByHostActorId(actorId) {
+        for (let i = 0; i < worldEncounters.length; i++) {
+            let hostActor = worldEncounters[i].getHostActor()
+            if (hostActor.id === actorId) {
+                return worldEncounters[i]
+            };
+        }
+    }
+
+    getEncounterById(id) {
+        for (let i = 0; i < worldEncounters.length; i++) {
+            if (id === worldEncounters[i].id) {
+                return worldEncounters[i]
+            }
+        }
+    }
+
     registerWorldBox(box) {
         if (worldBoxes.indexOf(box) === -1) {
             worldBoxes.push(box)

@@ -101,9 +101,12 @@ function checkTriggerPlayer(encounter) {
     }
 }
 
+let index = 0;
+
 class WorldEncounter {
     constructor(config, onReady) {
-
+        this.id = index+"_"+client.getStamp();
+        index++;
         this.timeInsideTrigger = 0;
         this.timeInsideProximity = 0;
         this.config = config;
@@ -177,6 +180,10 @@ class WorldEncounter {
 
     getPos() {
         return this.obj3d.position;
+    }
+
+    getHostActor() {
+        return this.visualEncounterHost.call.getActor();
     }
 
     getTriggeredCameraHome() {

@@ -172,6 +172,7 @@ class ActorStatus {
         this.statusMap[ENUMS.ActorStatus.QUAT_Z] = 0;
         this.statusMap[ENUMS.ActorStatus.QUAT_W] = 1;
         this.statusMap[ENUMS.ActorStatus.SELECTED_TARGET] = 0;
+        this.statusMap[ENUMS.ActorStatus.REQUEST_PARTY] = "";
 
     }
 

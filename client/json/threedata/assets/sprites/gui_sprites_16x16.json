@@ -19,6 +19,14 @@
             "tiles":[[0, 1]]
           },
           {
+            "id":"icon_fight",
+            "tiles":[[2, 4]]
+          },
+          {
+            "id":"icon_dagger",
+            "tiles":[[1, 6]]
+          },
+          {
             "id":"text_background",
             "tiles":[[1, 1]]
           },

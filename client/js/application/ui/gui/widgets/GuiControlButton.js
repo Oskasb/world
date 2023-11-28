@@ -8,7 +8,12 @@ class GuiControlButton {
         if (!labelMap) {
             this.name = ""+statusKey;
         } else {
-            this.name = labelMap[statusKey] || statusKey;
+            if (typeof (labelMap) === 'string') {
+                this.name = labelMap
+            } else {
+                this.name = labelMap[statusKey] || statusKey;
+            }
+
         }
 
         this.portraitContainer;
