@@ -305,7 +305,7 @@ let calcShouldCamPosition = function(actor, distance, storeVec) {
     storeVec.multiplyScalar(distance);
     storeVec.applyQuaternion(actor.getSpatialQuaternion())
     storeVec.add(actor.getSpatialPosition())
-    storeVec.y += actor.getStatus(ENUMS.ActorStatus.HEIGHT)*0.5
+    storeVec.y += actor.getStatus(ENUMS.ActorStatus.HEIGHT)*1.1
 }
 
 let calcPositionAhead = function(actor, distance, storeVec) {
@@ -638,7 +638,7 @@ function CAM_ENCOUNTER() {
     }
 
     if (lookFromActive) {
-        zoomDistance = 7 + distance;
+        zoomDistance = 3 + distance * 0;
         lerpCameraPosition(CAM_POINTS[lookFromControlKey](turnActiveActor), tpf*4);
     }
 }

@@ -33,7 +33,7 @@ let stickToActor = function() {
 
 function registerPathPoints(actor) {
     if (!actor.isPlayerActor()) {
-        return;
+    //    return;
     }
     let walkGrid = actor.getGameWalkGrid();
     let pathTiles = walkGrid.getActivePathTiles();

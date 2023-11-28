@@ -55,17 +55,19 @@ class VisualPathPoints {
             this.pathPointsFX.push(pointFx);
         }
 
-        let rgba = colorMapFx[actor.getStatus(ENUMS.ActorStatus.ALIGNMENT)]
+        // let rgba = colorMapFx[actor.getStatus(ENUMS.ActorStatus.ALIGNMENT)]
+
+        let rgba = colorMapFx['PATH_POINT']
 
         for (let i = 1; i < pathPoints.length; i++) {
             let pointFrom = pathPoints[i-1]
             fromVec.x = pointFrom[0];
-            fromVec.y = pointFrom[1];
+            fromVec.y = pointFrom[1] +0.3;
             fromVec.z = pointFrom[2];
 
             let point = pathPoints[i]
             toVec.x = point[0];
-            toVec.y = point[1];
+            toVec.y = point[1] +0.3;
             toVec.z = point[2];
             this.drawPathPoint(fromVec, toVec, rgba, i)
 

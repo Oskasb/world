@@ -145,7 +145,7 @@ class GameActor {
         if (this.isPlayerActor()) {
             this.actorStatus.setStatusKey(ENUMS.ActorStatus.CLIENT_STAMP, client.getStamp());
             let gameTime = GameAPI.getGameTime();
-            if (lastSendTime < gameTime -0.2) {
+            if (lastSendTime < gameTime -0.05) {
                 this.actorStatus.broadcastStatus(gameTime);
                 lastSendTime = gameTime;
             }
