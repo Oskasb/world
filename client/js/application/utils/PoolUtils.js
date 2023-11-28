@@ -13,6 +13,7 @@ import {Vector3} from "../../../libs/three/math/Vector3.js";
 import {GuiScreenSpaceText} from "../ui/gui/widgets/GuiScreenSpaceText.js";
 import {PathPoint} from "../../game/gameworld/PathPoint.js";
 import {SpatialTransition} from "../../game/piece_functions/SpatialTransition.js";
+import { VisualPointFX } from "../../game/visuals/VisualPointFX.js";
 
 let pools = {}
 let stats = {};
@@ -32,6 +33,7 @@ function initPools() {
     registerPool(GuiScreenSpaceText);
     registerPool(PathPoint);
     registerPool(SpatialTransition);
+    registerPool(VisualPointFX);
 }
 
 function registerPool(DataObj) {

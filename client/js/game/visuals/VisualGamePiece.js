@@ -1,6 +1,7 @@
 import * as ModelUtils from "../../3d/ModelUtils.js";
 import { Vector3 } from "../../../libs/three/math/Vector3.js";
 import { Object3D } from "../../../libs/three/core/Object3D.js";
+import { VisualPathPoints } from "./VisualPathPoints.js";
 
 let tempVec = new Vector3();
 let tempObj3d = new Object3D()
@@ -13,6 +14,8 @@ class VisualGamePiece {
         visualIndex ++;
 
         let gamePiece // will be either item or actor... needs "getStatus()"
+
+        this.visualPathPoints = new VisualPathPoints();
 
         this.hidden = true;
         this.addedAssets = [];

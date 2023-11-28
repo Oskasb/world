@@ -119,7 +119,7 @@ class DynamicPath {
                     tile.requiresLeap = false;
                 }
 
-                this.drawPathLine(this.tempVec, tile.getPos(), color, tile.rgba, tile.requiresLeap)
+            //    this.drawPathLine(this.tempVec, tile.getPos(), color, tile.rgba, tile.requiresLeap)
                 this.tempVec.copy(tile.getPos());
             } else {
                 leapOver = true;

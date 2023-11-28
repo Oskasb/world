@@ -129,12 +129,14 @@ console.log("Pathing Completed")
                     actor.turnTowardsPos(tileSelector.getPos() , GameAPI.getFrame().avgTpf * tileSelector.extendedDistance * 0.1);
                 }
                 let tileUpdate = walkGrid.updateWalkGrid()
+            /*
                 if (tileUpdate) {
                     visualPath.clearVisualPath();
                     let tile = walkGrid.getTileAtPosition(tileSelector.getPos())
                     let distance = MATH.distanceBetween(tile.getPos(), actor.getSpatialPosition());
                     visualPath.drawVisualPath(actor.getSpatialPosition(), tile.getPos(), distance*2, 'BLUE', colorsRgba['BLUE'], true)
                 }
+            */
             }
         }
     }

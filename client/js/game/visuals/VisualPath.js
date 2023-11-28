@@ -32,7 +32,7 @@ class VisualPath {
             efct.activateEffectFromConfigId(true)
 
             tempObj.position.copy(from);
-            tempObj.position.y = to.y;
+        //    tempObj.position.y = to.y;
             tempObj.lookAt(to);
 
             tempVec.set(0, 0, 0.1);

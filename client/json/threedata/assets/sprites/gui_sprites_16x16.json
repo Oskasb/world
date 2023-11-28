@@ -63,6 +63,10 @@
             "tiles":[[9, 1]]
           },
           {
+            "id":"arrow_ahead",
+            "tiles":[[8, 1]]
+          },
+          {
             "id":"button_full_pressed",
             "tiles":[[9, 2]]
           },
