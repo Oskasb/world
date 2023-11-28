@@ -60,28 +60,29 @@ let activateWorldEncounters = function(event) {
     }
 
     activateEvent = event;
-    let encountersData = function(encounters) {
+    let encountersData = function(encounters, index, listId) {
         for (let i = 0; i < encounters.length;i++) {
+            let encId = ""+listId+"_"+index*"_"+i;
             let onReady = function(encounter) {
                 worldEncounters.push(encounter);
                 encounter.activateWorldEncounter()
             }
-            new WorldEncounter(encounters[i], onReady)
+            new WorldEncounter(encId, encounters[i], onReady)
 
         }
     }
 
-    let locationData = function(data) {
+    let locationData = function(data, listId) {
         for (let i = 0; i < data.length;i++) {
             if (data[i].config['encounters']) {
-                encountersData(data[i].config.encounters);
+                encountersData(data[i].config.encounters, i, listId);
             }
         }
     }
 
     for (let i = 0; i < encounterConfigs.length;i++) {
         if (activateEvent.world_encounters.indexOf(encounterConfigs[i].id) !== -1) {
-            locationData(encounterConfigs[i].data);
+            locationData(encounterConfigs[i].data, encounterConfigs[i].id);
         }
     }
 }

@@ -101,12 +101,9 @@ function checkTriggerPlayer(encounter) {
     }
 }
 
-let index = 0;
-
 class WorldEncounter {
-    constructor(config, onReady) {
-        this.id = index+"_"+client.getStamp();
-        index++;
+    constructor(id, config, onReady) {
+        this.id = id
         this.timeInsideTrigger = 0;
         this.timeInsideProximity = 0;
         this.config = config;

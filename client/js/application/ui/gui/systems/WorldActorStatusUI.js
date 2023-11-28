@@ -6,15 +6,23 @@ let trackMap = {}
     trackMap[ENUMS.ActorStatus.SELECTED_ENCOUNTER] = 'icon_dagger'
     trackMap[ENUMS.ActorStatus.REQUEST_PARTY] = 'CAM_PARTY'
 
+let rgba = {
+    r:1,
+    g:1,
+    b:1,
+    a:1
+}
 
 
 function getWidgetByStatus(statusKey, statusWidgets) {
     return statusWidgets[statusKey]
 }
 
-function updateStatusTracker(statusKey, iconKey, actor, statusWidgets, index) {
+function updateStatusTracker(statusKey, iconKey, actor, statusWidgets, index, selectedActor) {
     let status = actor.getStatus(statusKey)
     let widget = getWidgetByStatus(statusKey, statusWidgets)
+
+    let gameTime = GameAPI.getGameTime();
 
     let widgetRdy = function(widgt) {
         widgt.setWidgetIconKey(iconKey);
@@ -35,6 +43,20 @@ function updateStatusTracker(statusKey, iconKey, actor, statusWidgets, index) {
             ThreeAPI.tempVec3.y -= 0.03;
             ThreeAPI.tempVec3.x += 0.012;
             ThreeAPI.tempVec3.x -= index * 0.026;
+            let baseRgba = elementColorMap['STATUS_HINT'];
+
+            if (selectedActor) {
+                let myStatus = selectedActor.getStatus(statusKey)
+                if (myStatus === status) {
+                    rgba.r = baseRgba.r * 0.7 + 0.5 * baseRgba.r * Math.sin(index+gameTime*6)
+                    rgba.g = baseRgba.g * 0.9 + 0.3 * baseRgba.g * Math.cos(index+gameTime*6)
+                    rgba.b = baseRgba.b * 0.7 + 0.5 * baseRgba.r * Math.sin(index+gameTime*3)
+                    rgba.a = baseRgba.a;
+                    widget.icon.setGuiIconColorRGBA(rgba)
+                } else {
+                    widget.icon.setGuiIconColorRGBA(baseRgba)
+                }
+            }
             widget.offsetWidgetPosition(ThreeAPI.tempVec3);
         }
     } else {
@@ -45,12 +67,12 @@ function updateStatusTracker(statusKey, iconKey, actor, statusWidgets, index) {
     }
 }
 
-function updateWorldActorStatus(actor, statusWidgets) {
+function updateWorldActorStatus(actor, statusWidgets, selectedActor) {
 
     let count = 0;
 
     for (let key in trackMap) {
-        updateStatusTracker(key, trackMap[key], actor, statusWidgets, count);
+        updateStatusTracker(key, trackMap[key], actor, statusWidgets, count, selectedActor);
         count++;
     }
 
@@ -68,7 +90,8 @@ class WorldActorStatusUI {
         }
 
         let update = function() {
-            updateWorldActorStatus(actor, statusWidgets);
+            let selectedActor = GameAPI.getGamePieceSystem().selectedActor;
+            updateWorldActorStatus(actor, statusWidgets, selectedActor);
         }
 
         let getWidgets = function() {
