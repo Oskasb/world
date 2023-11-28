@@ -107,6 +107,7 @@ class RemoteClient {
                         scale:new Vector3(),
                         vel:new Vector3(),
                         quat:new Quaternion(),
+                        lastSpatialTime:0,
                         timeDelta:2
                     }
                     actr.call.setRemote(remote)
@@ -129,19 +130,33 @@ class RemoteClient {
             } else {
                 actor.actorText.say(remoteIndex+' '+actor.index)
 
+                let hasSpatial = false;
+
                 for (let i = 2; i < msg.length; i++) {
                     let key = msg[i];
                     i++
                     let status = msg[i]
                     actor.setStatusKey(key, status);
+                    if (key === (ENUMS.ActorStatus.QUAT_Z || ENUMS.ActorStatus.POS_X || ENUMS.ActorStatus.VEL_X || ENUMS.ActorStatus.VEL_Z)) {
+                        hasSpatial = true;
+                    }
                 }
 
                 let delta = gameTime - actor.getStatus(ENUMS.ActorStatus.LAST_UPDATE);
+
                 actor.setStatusKey(ENUMS.ActorStatus.UPDATE_DELTA, MATH.clamp(delta, 0, 2));
                 actor.setStatusKey(ENUMS.ActorStatus.LAST_UPDATE, gameTime);
 
-                this.applyRemoteSpatial(actor, delta);
+                if (hasSpatial) {
+                    let spatialMaxDelta = actor.getStatus(ENUMS.ActorStatus.SPATIAL_DELTA);
+                    let spatialDelta = gameTime - actor.call.getRemote().lastSpatialTime
+                    this.applyRemoteSpatial(actor, MATH.clamp(spatialDelta, 0, 2));
+                    actor.call.getRemote().lastSpatialTime = gameTime;
+                }
+
                 this.applyRemoteEquipment(actor)
+
+            //    console.log(msg)
 
             }
         } else {

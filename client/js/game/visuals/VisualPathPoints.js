@@ -62,12 +62,12 @@ class VisualPathPoints {
         for (let i = 1; i < pathPoints.length; i++) {
             let pointFrom = pathPoints[i-1]
             fromVec.x = pointFrom[0];
-            fromVec.y = pointFrom[1] +0.3;
+            fromVec.y = pointFrom[1] +0.2;
             fromVec.z = pointFrom[2];
 
             let point = pathPoints[i]
             toVec.x = point[0];
-            toVec.y = point[1] +0.3;
+            toVec.y = point[1] +0.2;
             toVec.z = point[2];
             this.drawPathPoint(fromVec, toVec, rgba, i)
 

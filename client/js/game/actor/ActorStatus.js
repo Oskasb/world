@@ -4,18 +4,33 @@ import {Quaternion} from "../../../libs/three/math/Quaternion.js";
 let lastBroadcast = {};
 let sendStatus = [];
 let lastFullSend = 0;
+let lastDeltaSend = 0;
+
+
+let testSkip = function(key) {
+    if (spatialMap.indexOf(key) !== -1) {
+        return true;
+    }
+    if (skipMap.indexOf(key) !== -1) {
+        return true;
+    }
+    return false;
+}
 
 function fullSend(statusMap) {
     for (let key in statusMap) {
         if (key !== ENUMS.ActorStatus.ACTOR_INDEX)  {
-            sendStatus.push(key)
-            sendStatus.push(statusMap[key])
 
-            if (!lastBroadcast[key]) {
-                lastBroadcast[key] = [0];
+            if (testSkip(key) === false) {
+                sendStatus.push(key)
+                sendStatus.push(statusMap[key])
+
+                if (!lastBroadcast[key]) {
+                    lastBroadcast[key] = [0];
+                }
+
+                lastBroadcast[key][0] = MATH.stupidChecksumArray(statusMap[key])
             }
-
-            lastBroadcast[key][0] = MATH.stupidChecksumArray(statusMap[key])
         }
     }
 }
@@ -23,15 +38,108 @@ function fullSend(statusMap) {
 function sendUpdatedOnly(statusMap) {
 
     for (let key in statusMap) {
-        if (!lastBroadcast[key]) {
-            lastBroadcast[key] = [0];
-        }
+        if (testSkip(key) === false) {
+            if (!lastBroadcast[key]) {
+                lastBroadcast[key] = [0];
+            }
             let checksum = MATH.stupidChecksumArray(statusMap[key])
             if (checksum !== lastBroadcast[key][0]) {
                 lastBroadcast[key][0] = checksum;
                 sendStatus.push(key)
                 sendStatus.push(statusMap[key])
             }
+        }
+    }
+}
+
+let detailsMap = [
+    ENUMS.ActorStatus.PATH_POINTS,
+    ENUMS.ActorStatus.SELECTED_TARGET,
+    ENUMS.ActorStatus.ALIGNMENT,
+    ENUMS.ActorStatus.MOVE_STATE,
+    ENUMS.ActorStatus.BODY_STATE,
+    ENUMS.ActorStatus.ACTIONS
+];
+
+let spatialMap = [
+    ENUMS.ActorStatus.POS_X,
+    ENUMS.ActorStatus.POS_Y,
+    ENUMS.ActorStatus.POS_Z,
+    ENUMS.ActorStatus.VEL_X,
+    ENUMS.ActorStatus.VEL_Y,
+    ENUMS.ActorStatus.VEL_Z,
+    ENUMS.ActorStatus.QUAT_X,
+    ENUMS.ActorStatus.QUAT_Y,
+    ENUMS.ActorStatus.QUAT_Z,
+    ENUMS.ActorStatus.QUAT_W
+]
+
+let skipMap = [
+    ENUMS.ActorStatus.STATUS_PITCH,
+    ENUMS.ActorStatus.STATUS_ROLL,
+    ENUMS.ActorStatus.STATUS_YAW,
+    ENUMS.ActorStatus.STATUS_ANGLE_PITCH,
+    ENUMS.ActorStatus.STATUS_ANGLE_ROLL,
+    ENUMS.ActorStatus.STATUS_ANGLE_YAW,
+    ENUMS.ActorStatus.STATUS_ANGLE_NORTH,
+    ENUMS.ActorStatus.STATUS_ANGLE_EAST,
+    ENUMS.ActorStatus.STATUS_ANGLE_SOUTH,
+    ENUMS.ActorStatus.STATUS_ANGLE_WEST,
+    ENUMS.ActorStatus.STATUS_CLIMB_RATE,
+    ENUMS.ActorStatus.STATUS_ELEVATION,
+    ENUMS.ActorStatus.STATUS_CLIMB_0,
+    ENUMS.ActorStatus.STATUS_CLIMB_1,
+    ENUMS.ActorStatus.STATUS_CLIMB_2,
+    ENUMS.ActorStatus.STATUS_CLIMB_3,
+    ENUMS.ActorStatus.STATUS_CLIMB_4,
+    ENUMS.ActorStatus.STATUS_FORWARD,
+    ENUMS.ActorStatus.STATUS_SPEED,
+    ENUMS.ActorStatus.ACTOR_SPEED,
+    ENUMS.ActorStatus.ACTOR_YAW_RATE,
+    ENUMS.ActorStatus.SELECTING_DESTINATION,
+    ENUMS.ActorStatus.STATUS_INPUT_SAMPLERS,
+    ENUMS.ActorStatus.STATUS_WALK_SELECTION,
+    ENUMS.ActorStatus.STATUS_LEAP_SELECTION
+]
+
+function sendSpatial(statusMap) {
+
+    let updated = false;
+
+    for (let i = 0; i < spatialMap.length; i++) {
+        let key = spatialMap[i]
+        if (!lastBroadcast[key]) {
+            lastBroadcast[key] = [0];
+        }
+        let checksum = MATH.stupidChecksumArray(statusMap[key])
+        if (Math.abs(checksum - lastBroadcast[key][0]) > 0.05) {
+            updated = true;
+            lastBroadcast[key][0] = checksum;
+        }
+    }
+
+    if (updated) {
+        for (let i = 0; i < spatialMap.length; i++) {
+            let key = spatialMap[i]
+                sendStatus.push(key)
+                sendStatus.push(statusMap[key])
+        }
+    }
+}
+
+function sendDetails(statusMap) {
+
+    for (let i = 0; i < detailsMap.length; i++) {
+        let key = detailsMap[i]
+        if (!lastBroadcast[key]) {
+            lastBroadcast[key] = [0];
+        }
+        let checksum = MATH.stupidChecksumArray(statusMap[key])
+        if (checksum !== lastBroadcast[key][0]) {
+            lastBroadcast[key][0] = checksum;
+            sendStatus.push(key)
+            sendStatus.push(statusMap[key])
+        }
     }
 }
 
@@ -45,6 +153,7 @@ class ActorStatus {
         this.statusMap[ENUMS.ActorStatus.MOVE_STATE] = 'MOVE';
         this.statusMap[ENUMS.ActorStatus.STAND_STATE] = 'IDLE_HANDS';
         this.statusMap[ENUMS.ActorStatus.BODY_STATE] = 'IDLE_LEGS';
+        this.statusMap[ENUMS.ActorStatus.SPATIAL_DELTA] = 0.1;
         this.statusMap[ENUMS.ActorStatus.EQUIPPED_ITEMS] = [];
         this.statusMap[ENUMS.ActorStatus.PATH_POINTS] = [];
         this.statusMap[ENUMS.ActorStatus.ACTIONS] = [];
@@ -92,11 +201,18 @@ class ActorStatus {
         sendStatus.push(ENUMS.ActorStatus.ACTOR_INDEX)
         sendStatus.push(statusMap[ENUMS.ActorStatus.ACTOR_INDEX])
 
+        if (lastDeltaSend < gameTime - this.getStatusByKey(ENUMS.ActorStatus.SPATIAL_DELTA)) {
+            lastDeltaSend = gameTime;
+            sendSpatial(statusMap)
+        }
+
         if (lastFullSend < gameTime -2) {
             lastFullSend = gameTime;
             fullSend(statusMap)
         } else {
-          sendUpdatedOnly(statusMap)
+            sendDetails(statusMap);
+
+            sendUpdatedOnly(statusMap)
         }
 
         if (sendStatus.length > 2) {
