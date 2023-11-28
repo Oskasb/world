@@ -31,7 +31,7 @@ class GameAdventureSystem {
 
             }, 1000)
 
-
+            this.startActor.setStatusKey(ENUMS.ActorStatus.HP, this.startActor.getStatus(ENUMS.ActorStatus.MAX_HP))
             GameAPI.getGamePieceSystem().addActorToPlayerParty(this.startActor);
             GameAPI.getGamePieceSystem().playerParty.selectPartyActor(this.startActor);
             //    this.startActor.travelMode.mode = null;

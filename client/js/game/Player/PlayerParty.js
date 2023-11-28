@@ -7,11 +7,6 @@ class PlayerParty {
 
     addPartyActor(actor) {
 
-        actor.activateGameActor();
-        actor.setStatusKey(ENUMS.ActorStatus.HP, actor.getStatus(ENUMS.ActorStatus.MAX_HP))
-        if (this.actors.length === 0) {
-            this.selectPartyActor(actor);
-        }
 
         this.actors.push(actor);
     }
@@ -32,7 +27,15 @@ class PlayerParty {
             current.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, false);
         }
         actor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, true);
-        GameAPI.getGamePieceSystem().setSelectedGameActor(actor);
+
+        if (actor.call.getRemote()) {
+            let selectedActor = GameAPI.getGamePieceSystem().selectedActor;
+            selectedActor.actorText.say("Poke You")
+
+        } else {
+            GameAPI.getGamePieceSystem().setSelectedGameActor(actor);
+        }
+
     }
 
     getPartyActors() {
@@ -41,7 +44,6 @@ class PlayerParty {
 
     removePartyActor(actor) {
         MATH.splice(this.actors, actor);
-        actor.deactivateGameActor();
     }
 
 }

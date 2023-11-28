@@ -75,6 +75,7 @@ let spatialMap = [
 ]
 
 let skipMap = [
+    ENUMS.ActorStatus.PARTY_SELECTED,
     ENUMS.ActorStatus.STATUS_PITCH,
     ENUMS.ActorStatus.STATUS_ROLL,
     ENUMS.ActorStatus.STATUS_YAW,
@@ -173,7 +174,9 @@ class ActorStatus {
         this.statusMap[ENUMS.ActorStatus.QUAT_W] = 1;
         this.statusMap[ENUMS.ActorStatus.SELECTED_TARGET] = 0;
         this.statusMap[ENUMS.ActorStatus.REQUEST_PARTY] = "";
-
+        this.statusMap[ENUMS.ActorStatus.ACTIVATING_ENCOUNTER] = "";
+        this.statusMap[ENUMS.ActorStatus.ACTIVATED_ENCOUNTER]  = "";
+        this.statusMap[ENUMS.ActorStatus.PLAYER_PARTY]  = [];
     }
 
     getStatusByKey(key) {

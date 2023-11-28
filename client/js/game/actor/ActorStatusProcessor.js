@@ -50,6 +50,33 @@ function processAnimationState(actor) {
 
 }
 
+
+function processPartyStatus(actor) {
+    let partyStatus = actor.getStatus(ENUMS.ActorStatus.REQUEST_PARTY);
+    if (partyStatus) {
+        let worldActors = GameAPI.getGamePieceSystem().getActors();
+
+        for (let i = 0; i < worldActors.length; i++) {
+            let otherActor = worldActors[i];
+            if (otherActor !== actor) {
+                let compareStatus = otherActor.getStatus(ENUMS.ActorStatus.REQUEST_PARTY);
+                if (compareStatus === partyStatus) {
+                    let playerParty = actor.getStatus(ENUMS.ActorStatus.PLAYER_PARTY);
+                    if (playerParty.indexOf(otherActor.id) === -1) {
+                        if (playerParty.length === 0) {
+                            GuiAPI.screenText("Party Created")
+                        }
+                        otherActor.actorText.say("Joining")
+                        playerParty.push(otherActor.id);
+                        GameAPI.getGamePieceSystem().playerParty.addPartyActor(otherActor);
+                    }
+                }
+            }
+        }
+    }
+
+}
+
 class ActorStatusProcessor {
     constructor() {
         this.indicators = {};
@@ -121,7 +148,8 @@ class ActorStatusProcessor {
     processActorStatus(actor) {
         if (actor.isPlayerActor()) {
             cameraStatusProcessor.processCameraStatus(actor)
-            registerPathPoints(actor)
+            registerPathPoints(actor);
+            processPartyStatus(actor);
         }
         processAnimationState(actor);
         this.indicateSelectionStatus(actor);

@@ -202,11 +202,14 @@ function removeActorFromInteraction(actor, selectedActor) {
     if (interactibleActors.indexOf(actor) !== -1) {
         MATH.splice(interactibleActors, actor);
 
-        if (selectedActor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET) === actor.id) {
-            selectedActor.setStatusKey(ENUMS.ActorStatus.REQUEST_PARTY, "");
-            selectedActor.setStatusKey(ENUMS.ActorStatus.SELECTED_ENCOUNTER, "");
-            selectedActor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, "");
+        if (selectedActor) {
+            if (selectedActor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET) === actor.id) {
+                selectedActor.setStatusKey(ENUMS.ActorStatus.REQUEST_PARTY, "");
+                selectedActor.setStatusKey(ENUMS.ActorStatus.SELECTED_ENCOUNTER, "");
+                selectedActor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, "");
+            }
         }
+
 
         let button = getActorButton(actor);
         if (button) {
