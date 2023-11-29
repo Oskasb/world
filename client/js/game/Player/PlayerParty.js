@@ -32,25 +32,35 @@ class PlayerParty {
 
     selectPartyActor(actor) {
         let current = this.getPartySelection();
+
+        let remote = actor.call.getRemote();
+        let selectedActor = GameAPI.getGamePieceSystem().selectedActor;
+
         if (current) {
             current.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, false);
-            if (current.id === actor.id) {
+            if (current.call.getRemote()) {
+                actor.actorText.say("Drop Me")
+                selectedActor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, "");
+            }
+            if (current === actor) {
                 return;
             }
         }
+
+        if (actor === null) {
+            return;
+        }
+
         actor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, true);
 
-        if (actor.call.getRemote()) {
+        if (remote) {
             let selectedActor = GameAPI.getGamePieceSystem().selectedActor;
+            actor.actorText.say("Picked Me")
             selectedActor.actorText.say("Poke You")
-
+            selectedActor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, actor.id);
         } else {
-            if (actor === null) {
-                return;
-            }
             GameAPI.getGamePieceSystem().setSelectedGameActor(actor);
         }
-
     }
 
     getPartyActors() {
