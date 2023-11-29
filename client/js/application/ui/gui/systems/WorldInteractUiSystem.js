@@ -100,18 +100,13 @@ let onActivate = function(statusKey) {
 
         }
     }
-
 }
 
 let fitTimeout = null;
 
 let onReady = function(button) {
-    console.log("onReady", button)
-  //  portrait.actor.setStatusKey(ENUMS.ActorStatus.SEQUENCER_SELECTED, false)
-  //  container.addChildWidgetToContainer(button.guiWidget)
     let actor = GameAPI.getActorById(button.statusKey)
     button.setButtonIcon(actor.getStatus(ENUMS.ActorStatus.ICON_KEY))
-
 }
 
 function addActorButton(actor) {

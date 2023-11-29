@@ -282,8 +282,14 @@ class GameActor {
         }
     }
 
+    leavePlayerParty() {
+        let removedPartyActor = GameAPI.getGamePieceSystem().playerParty.removePartyActor(this)
+
+    }
+
     removeGameActor() {
         this.setStatusKey(ENUMS.ActorStatus.EXISTS, 0);
+        this.leavePlayerParty()
         let actors = GameAPI.getGamePieceSystem().getActors();
         MATH.splice(actors, this);
         this.deactivateGameActor()

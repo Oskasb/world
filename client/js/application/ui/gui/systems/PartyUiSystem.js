@@ -33,7 +33,7 @@ let testActive = function(actor) {
 }
 
 let onActivate = function(actor) {
-    console.log("Button Pressed, onActivate:", actor)
+    //console.log("Button Pressed, onActivate:", actor)
     playerParty.selectPartyActor(actor);
 }
 
@@ -79,13 +79,27 @@ class PartyUiSystem {
 
             for (let i = 0; i < portraits.length; i++) {
                 let portrait = portraits[i]
-                if (portrait) {
-                    portrait.updateCharacterPortrait(tpf)
-                    portrait.guiWidget.guiSurface.applyStateFeedback()
-                    if (portrait.statusUi) {
-                        portrait.statusUi.call.update();
+
+                if (actors.indexOf(portrait.actor) === -1) {
+                    if (portrait) {
+                        portrait.closeCharacterPortrait()
+                        if (portrait.statusUi) {
+                            portrait.statusUi.deactivateWorldActorStatus()
+                        }
+                        MATH.splice(portraits, portrait);
+                        i--;
+                    }
+                } else {
+                    if (portrait) {
+                        portrait.updateCharacterPortrait(tpf)
+                        portrait.guiWidget.guiSurface.applyStateFeedback()
+                        if (portrait.statusUi) {
+                            portrait.statusUi.call.update();
+                        }
                     }
                 }
+
+
             }
         }.bind(this)
 

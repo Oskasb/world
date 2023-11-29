@@ -68,7 +68,7 @@ class PlayerParty {
     }
 
     removePartyActor(actor) {
-        MATH.splice(this.actors, actor);
+        return MATH.splice(this.actors, actor);
     }
 
 }

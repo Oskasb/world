@@ -47,7 +47,6 @@ let onActivate = function(statusKey) {
 let fitTimeout = null;
 
 let onReady = function(button) {
-    console.log("onReady", button)
   //  portrait.actor.setStatusKey(ENUMS.ActorStatus.SEQUENCER_SELECTED, false)
     container.addChildWidgetToContainer(button.guiWidget)
     button.setButtonIcon('CAM_AUTO')
