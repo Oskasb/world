@@ -28,6 +28,11 @@ class DynamicEncounter {
         this.id = id;
         this.status = new EncounterStatus(id)
         this.isRemote = false;
+
+        this.call = {
+            getStatus:this.status.setStatusKey
+        }
+
     }
 
     setStatusKey(key, status) {

@@ -78,7 +78,7 @@ class GameAdventureSystem {
             let delayed = function() {
                 let status = event['status']
 
-                actor.setStatusKey(ENUMS.ActorStatus.CONFIG_ID, actorId)
+
                 for (let key in status) {
                     actor.setStatusKey(key, status[key])
                 }

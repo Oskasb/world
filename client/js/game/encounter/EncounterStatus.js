@@ -46,6 +46,15 @@ class EncounterStatus {
         this.statusMap[ENUMS.EncounterStatus.HAS_TURN_ACTOR] = "";
         this.statusMap[ENUMS.EncounterStatus.ACTIVATION_STATE] = ENUMS.ActivationState.INACTIVE;
 
+
+        let getStatus = function(key) {
+            return this.getStatusByKey(key);
+        }.bind(this)
+
+        this.call = {
+            getStatus:getStatus
+        }
+
     }
 
     getStatusByKey(key) {

@@ -8,6 +8,11 @@ function setStatusKey(key, status) {
     return getActiveEncounter().setStatusKey(key, status)
 }
 
+function getStatus(key) {
+    return getActiveEncounter().status.call.getStatus(key)
+}
+
+let statusActors = [];
 class EncounterTurnSequencer {
     constructor() {
         this.turnActorIndex = 0;
@@ -47,6 +52,13 @@ class EncounterTurnSequencer {
         actor.setStatusKey(ENUMS.ActorStatus.HP, actor.getStatus(ENUMS.ActorStatus.MAX_HP))
         actor.setStatusKey(ENUMS.ActorStatus.IN_COMBAT, true);
         this.actors.push(actor);
+
+        let statusActors = getStatus(ENUMS.EncounterStatus.ENCOUNTER_ACTORS);
+        MATH.emptyArray(statusActors);
+        for (let i = 0; i < this.actors.length; i++) {
+            statusActors.push(this.actors[i].id);
+        }
+        setStatusKey(ENUMS.EncounterStatus.ENCOUNTER_ACTORS, statusActors)
     }
 
     getSequencerSelection() {

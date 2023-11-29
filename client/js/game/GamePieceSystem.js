@@ -48,13 +48,13 @@ let loadActor = function(event) {
     let actorConfig = actorConfigs[event.id]
     let actor = new GameActor(actorIndex, actorConfig, parsedEquipSlotData);
     actorIndex++;
-    actor.setStatusKey(ENUMS.ActorStatus.ACTOR_INDEX, actor.index);
+   // actor.setStatusKey(ENUMS.ActorStatus.ACTOR_INDEX, actor.index);
     registerActor(actor);
     let visualConfig = visualConfigs[actor.config['visual_id']];
 
     let visualPiece = new VisualGamePiece(visualConfig);
     actor.setVisualGamePiece(visualPiece);
-
+    actor.setStatusKey(ENUMS.ActorStatus.CONFIG_ID, event.id)
     if (event.tile) {
 
         let onReady = function(readyActor) {

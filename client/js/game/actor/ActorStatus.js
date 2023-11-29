@@ -14,7 +14,7 @@ let testSkip = function(key) {
 
 function fullSend(status, statusMap) {
     for (let key in statusMap) {
-        if (key !== ENUMS.ActorStatus.ACTOR_INDEX)  {
+        if (key !== ENUMS.ActorStatus.ACTOR_ID)  {
 
             if (testSkip(key) === false) {
                 status.sendStatus.push(key)
@@ -215,24 +215,22 @@ class ActorStatus {
     }
 
     broadcastStatus(gameTime) {
-
-        let statusMap = this.statusMap;
         MATH.emptyArray(this.sendStatus);
-        this.sendStatus.push(ENUMS.ActorStatus.ACTOR_INDEX)
-        this.sendStatus.push(statusMap[ENUMS.ActorStatus.ACTOR_INDEX])
+        this.sendStatus.push(ENUMS.ActorStatus.ACTOR_ID)
+        this.sendStatus.push(this.statusMap[ENUMS.ActorStatus.ACTOR_ID])
 
         if (this.lastDeltaSend < gameTime - this.getStatusByKey(ENUMS.ActorStatus.SPATIAL_DELTA)) {
             this.lastDeltaSend = gameTime;
-            sendSpatial(this, statusMap)
+            sendSpatial(this, this.statusMap)
         }
 
         if (this.lastFullSend < gameTime -2) {
             this.lastFullSend = gameTime;
-            fullSend(this, statusMap)
+            fullSend(this, this.statusMap)
         } else {
-            sendDetails(this, statusMap);
+            sendDetails(this, this.statusMap);
 
-            sendUpdatedOnly(this, statusMap)
+            sendUpdatedOnly(this, this.statusMap)
         }
 
         if (this.sendStatus.length > 2) {

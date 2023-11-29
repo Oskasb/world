@@ -23,9 +23,9 @@ let broadcastTimeout;
 let lastSendTime = 0;
 class GameActor {
     constructor(index, config, parsedEquipSlotData) {
-        this.index = index;
 
         this.id = index+"_"+client.getStamp();
+        this.index = index;
 
         this.framePos = new Vector3();
         this.lastFramePos = new Vector3();
@@ -48,6 +48,7 @@ class GameActor {
 
         this.actorTurnSequencer = new ActorTurnSequencer()
 
+        this.lastSendTime = 0;
 
         let setAsSelection = function () {
 
@@ -148,12 +149,22 @@ class GameActor {
 
     setStatusKey(key, status) {
 
-        if (this.isPlayerActor()) {
+        let encounterHosted = false;
+        let dynEnc = GameAPI.call.getDynamicEncounter()
+        if (dynEnc) {
+            let encActors = dynEnc.status.call.getStatus(ENUMS.EncounterStatus.ENCOUNTER_ACTORS)
+            console.log("enc actors", encActors);
+            if (encActors.indexOf(this.id) !== -1) {
+                encounterHosted = true;
+            }
+        }
+
+        if (encounterHosted || this.isPlayerActor()) {
             this.actorStatus.setStatusKey(ENUMS.ActorStatus.CLIENT_STAMP, client.getStamp());
             let gameTime = GameAPI.getGameTime();
-            if (lastSendTime < gameTime -0.05) {
+            if (this.lastSendTime < gameTime -0.05) {
                 this.actorStatus.broadcastStatus(gameTime);
-                lastSendTime = gameTime;
+                this.lastSendTime = gameTime;
             }
         }
 

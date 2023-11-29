@@ -40,7 +40,17 @@ class RemoteClient {
 
     getActorByIndex(index) {
         for (let i = 0; i < this.actors.length; i++) {
-            if (this.actors[i].index = index) {
+            if (this.actors[i].index === index) {
+                return this.actors[i];
+            }
+        }
+    }
+
+    getActorById(id) {
+        for (let i = 0; i < this.actors.length; i++) {
+            let actor = this.actors[i];
+
+            if (actor.id === id) {
                 return this.actors[i];
             }
         }
@@ -109,31 +119,39 @@ class RemoteClient {
 
     }
 
+
+
     processClientMessage(msg) {
         let gameTime = GameAPI.getGameTime();
         let stamp = this.stamp;
         GuiAPI.screenText(""+this.index,  ENUMS.Message.SYSTEM, 0.2)
         let actors = this.actors;
-        let remoteIndex = null
-        if (msg[0] === ENUMS.ActorStatus.ACTOR_INDEX) {
-            remoteIndex = msg[1];
+        let remoteId = null
+        if (msg[0] === ENUMS.ActorStatus.ACTOR_ID) {
+       //     console.log("REMOTE INDEX: ", msg[1])
+            remoteId = msg[1];
+        //    GuiAPI.screenText("REQUEST REMOTE ACTOR "+ remoteId)
         } else if (msg[0] === ENUMS.EncounterStatus.ENCOUNTER_ID) {
             this.handleEncounterMessage(msg[1], msg);
+            return;
         } else {
             console.log("Index for Actor missing ", msg);
+            return;
         }
 
-    //    GuiAPI.screenText("Remote Index "+remoteIndex,  ENUMS.Message.HINT, 0.5)
-        if (typeof(remoteIndex) === 'number') {
-            let actor = this.getActorByIndex(remoteIndex);
+    //    GuiAPI.screenText("Remote Index "+remoteId,  ENUMS.Message.HINT, 0.5)
+        if (typeof(remoteId) === 'string') {
+            let actor = this.getActorById(remoteId);
             if (!actor) {
                 let onLoadedCB = function(actr) {
+                    console.log("Remote Actor Loaded", actr)
+                    actr.id = remoteId;
                     let onReady = function(readyActor) {
                        actors.push(readyActor);
                     }
                     let remote = {
                         stamp:stamp,
-                        remoteIndex:remoteIndex,
+                        remoteId:remoteId,
                         pos:new Vector3(),
                         scale:new Vector3(),
                         vel:new Vector3(),
@@ -147,19 +165,21 @@ class RemoteClient {
 
                 let configId = messageByKey(msg, ENUMS.ActorStatus.CONFIG_ID)
 
+
                 if (configId === null) {
                     console.log("No configId", msg);
                     return;
                 }
 
-                if (this.remoteIndex.indexOf(remoteIndex) === -1) {
-                    this.remoteIndex.push(remoteIndex)
+                if (this.remoteIndex.indexOf(remoteId) === -1) {
+                    GuiAPI.screenText("ADD REMOTE ACTOR "+ remoteId)
+                    this.remoteIndex.push(remoteId)
                     ThreeAPI.tempVec3.copy(ThreeAPI.getCameraCursor().getPos())
                     evt.dispatch(ENUMS.Event.LOAD_ACTOR, {id:configId, pos:ThreeAPI.tempVec3, callback:onLoadedCB})
                 }
 
             } else {
-                actor.actorText.say(remoteIndex+' '+actor.index)
+                actor.actorText.say(remoteId+' '+actor.index)
 
                 let hasSpatial = false;
 
@@ -192,6 +212,7 @@ class RemoteClient {
             }
         } else {
             GuiAPI.screenText("No Remote Target "+this.index,  ENUMS.Message.HINT, 2.5)
+            console.log("NO REMOTE: ", msg)
         }
 
         clearTimeout(this.closeTimeout);
