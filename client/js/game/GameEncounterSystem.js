@@ -109,6 +109,11 @@ class GameEncounterSystem {
 
     deactivateActiveEncounter() {
         if (dynamicEncounter) {
+
+        //    let statusActors = dynamicEncounter.getStatus(ENUMS.EncounterStatus.ENCOUNTER_ACTORS);
+        //    MATH.emptyArray(statusActors);
+        //    dynamicEncounter.setStatusKEy(ENUMS.EncounterStatus.ENCOUNTER_ACTORS, statusActors);
+            dynamicEncounter.setStatusKey(ENUMS.EncounterStatus.ACTIVATION_STATE, ENUMS.ActivationState.DEACTIVATING);
             dynamicEncounter.removeEncounterActors()
             dynamicEncounter = null;
         }

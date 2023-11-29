@@ -103,18 +103,34 @@ class RemoteClient {
     }
 
     handleEncounterMessage(encounterId, msg) {
-        console.log("Encounter Message; ", msg);
+    //    console.log("Encounter Message; ", msg);
 
         if (!this.encounter) {
             this.encounter = new DynamicEncounter(encounterId)
             this.encounter.isRemote = true;
         }
 
+        let statusPre = this.encounter.getStatus(ENUMS.EncounterStatus.ACTIVATION_STATE)
+
         for (let i = 2; i < msg.length; i++) {
             let key = msg[i];
             i++
             let status = msg[i]
             this.encounter.setStatusKey(key, status);
+        }
+
+        let activationState = this.encounter.getStatus(ENUMS.EncounterStatus.ACTIVATION_STATE)
+
+        if (activationState !== statusPre) {
+            GuiAPI.screenText("BATTLE "+activationState)
+            if (activationState === ENUMS.EncounterStatus.DEACTIVATING) {
+                let actorList = this.encounter.getStatus(ENUMS.EncounterStatus.ENCOUNTER_ACTORS)
+                for (let i = 0; i < actorList.length; i++) {
+                    let actor = this.getActorById(actorList[i])
+                    actor.removeGameActor()
+
+                }
+            }
         }
 
     }
@@ -172,7 +188,6 @@ class RemoteClient {
                 }
 
                 if (this.remoteIndex.indexOf(remoteId) === -1) {
-                    GuiAPI.screenText("ADD REMOTE ACTOR "+ remoteId)
                     this.remoteIndex.push(remoteId)
                     ThreeAPI.tempVec3.copy(ThreeAPI.getCameraCursor().getPos())
                     evt.dispatch(ENUMS.Event.LOAD_ACTOR, {id:configId, pos:ThreeAPI.tempVec3, callback:onLoadedCB})
@@ -183,6 +198,15 @@ class RemoteClient {
 
                 let hasSpatial = false;
 
+                let removeActor = function() {
+                    MATH.splice(this.actors, actor);
+                    MATH.splice(this.remoteIndex, actor.id);
+                    actor.call.remove()
+                }.bind(this);
+
+                clearTimeout(actor.closeTimeout);
+                actor.closeTimeout = setTimeout(removeActor, 6000);
+
                 for (let i = 2; i < msg.length; i++) {
                     let key = msg[i];
                     i++
@@ -191,7 +215,19 @@ class RemoteClient {
                     if (key === (ENUMS.ActorStatus.QUAT_Z || ENUMS.ActorStatus.POS_X || ENUMS.ActorStatus.VEL_X || ENUMS.ActorStatus.VEL_Z)) {
                         hasSpatial = true;
                     }
+
+                    if (key === ENUMS.ActorStatus.EXISTS) {
+                        if (status === 0) {
+                            clearTimeout(actor.closeTimeout);
+                            removeActor();
+                            return;
+                        }
+                    }
                 }
+
+
+
+
 
                 let delta = gameTime - actor.getStatus(ENUMS.ActorStatus.LAST_UPDATE);
 

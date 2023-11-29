@@ -102,9 +102,14 @@ class GameActor {
             return remote;
         }
 
+        let remove = function() {
+            this.removeGameActor();
+        }.bind(this);
+
         this.call = {
             setRemote:setRemote,
             getRemote:getRemote,
+            remove:remove,
             turnEnd:turnEnd,
             onActive:onActive,
             setAsSelection:setAsSelection,
@@ -146,14 +151,12 @@ class GameActor {
         this.getVisualGamePiece().getModel().getJointKeyWorldTransform(jointKey, storeObj3d);
     }
 
-
     setStatusKey(key, status) {
 
         let encounterHosted = false;
         let dynEnc = GameAPI.call.getDynamicEncounter()
         if (dynEnc) {
             let encActors = dynEnc.status.call.getStatus(ENUMS.EncounterStatus.ENCOUNTER_ACTORS)
-            console.log("enc actors", encActors);
             if (encActors.indexOf(this.id) !== -1) {
                 encounterHosted = true;
             }
