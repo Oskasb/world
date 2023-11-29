@@ -1,6 +1,7 @@
 import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
 import {Vector3} from "../../../libs/three/math/Vector3.js";
 import {Quaternion} from "../../../libs/three/math/Quaternion.js";
+import {DynamicEncounter} from "../../game/encounter/DynamicEncounter.js";
 
 let equipQueue = []
 let index = 0;
@@ -22,6 +23,7 @@ class RemoteClient {
         index++
         this.stamp = stamp;
         this.actors = [];
+        this.encounter = null;
         this.remoteIndex = [];
         this.closeTimeout = null;
         GuiAPI.screenText("Player Joined: "+this.index, ENUMS.Message.HINT, 4)
@@ -90,6 +92,23 @@ class RemoteClient {
         }
     }
 
+    handleEncounterMessage(encounterId, msg) {
+        console.log("Encounter Message; ", msg);
+
+        if (!this.encounter) {
+            this.encounter = new DynamicEncounter(encounterId)
+            this.encounter.isRemote = true;
+        }
+
+        for (let i = 2; i < msg.length; i++) {
+            let key = msg[i];
+            i++
+            let status = msg[i]
+            this.encounter.setStatusKey(key, status);
+        }
+
+    }
+
     processClientMessage(msg) {
         let gameTime = GameAPI.getGameTime();
         let stamp = this.stamp;
@@ -98,6 +117,8 @@ class RemoteClient {
         let remoteIndex = null
         if (msg[0] === ENUMS.ActorStatus.ACTOR_INDEX) {
             remoteIndex = msg[1];
+        } else if (msg[0] === ENUMS.EncounterStatus.ENCOUNTER_ID) {
+            this.handleEncounterMessage(msg[1], msg);
         } else {
             console.log("Index for Actor missing ", msg);
         }
@@ -174,7 +195,7 @@ class RemoteClient {
         }
 
         clearTimeout(this.closeTimeout);
-        this.closeTimeout = setTimeout(this.call.timeout, 5000);
+        this.closeTimeout = setTimeout(this.call.timeout, 8000);
 
     }
 

@@ -1,11 +1,6 @@
 import {Vector3} from "../../../libs/three/math/Vector3.js";
 import {Quaternion} from "../../../libs/three/math/Quaternion.js";
 
-let lastBroadcast = {};
-let sendStatus = [];
-let lastFullSend = 0;
-let lastDeltaSend = 0;
-
 
 let testSkip = function(key) {
     if (spatialMap.indexOf(key) !== -1) {
@@ -17,37 +12,37 @@ let testSkip = function(key) {
     return false;
 }
 
-function fullSend(statusMap) {
+function fullSend(status, statusMap) {
     for (let key in statusMap) {
         if (key !== ENUMS.ActorStatus.ACTOR_INDEX)  {
 
             if (testSkip(key) === false) {
-                sendStatus.push(key)
-                sendStatus.push(statusMap[key])
+                status.sendStatus.push(key)
+                status.sendStatus.push(statusMap[key])
 
-                if (!lastBroadcast[key]) {
-                    lastBroadcast[key] = [0];
+                if (!status.lastBroadcast[key]) {
+                    status.lastBroadcast[key] = [0];
                 }
 
-                lastBroadcast[key][0] = MATH.stupidChecksumArray(statusMap[key])
+                status.lastBroadcast[key][0] = MATH.stupidChecksumArray(statusMap[key])
             }
         }
     }
-    lastBroadcast[ENUMS.ActorStatus.QUAT_W][0] = lastBroadcast[ENUMS.ActorStatus.QUAT_W][0]+0.1;
+    status.lastBroadcast[ENUMS.ActorStatus.QUAT_W][0] = status.lastBroadcast[ENUMS.ActorStatus.QUAT_W][0]+0.1;
 }
 
-function sendUpdatedOnly(statusMap) {
+function sendUpdatedOnly(status, statusMap) {
 
     for (let key in statusMap) {
         if (testSkip(key) === false) {
-            if (!lastBroadcast[key]) {
-                lastBroadcast[key] = [0];
+            if (!status.lastBroadcast[key]) {
+                status.lastBroadcast[key] = [0];
             }
             let checksum = MATH.stupidChecksumArray(statusMap[key])
-            if (checksum !== lastBroadcast[key][0]) {
-                lastBroadcast[key][0] = checksum;
-                sendStatus.push(key)
-                sendStatus.push(statusMap[key])
+            if (checksum !== status.lastBroadcast[key][0]) {
+                status.lastBroadcast[key][0] = checksum;
+                status.sendStatus.push(key)
+                status.sendStatus.push(statusMap[key])
             }
         }
     }
@@ -114,49 +109,55 @@ let skipMap = [
     ENUMS.ActorStatus.QUAT_W
 ]
 
-function sendSpatial(statusMap) {
+function sendSpatial(status, statusMap) {
 
     let updated = false;
 
     for (let i = 0; i < spatialMap.length; i++) {
         let key = spatialMap[i]
-        if (!lastBroadcast[key]) {
-            lastBroadcast[key] = [0];
+        if (!status.lastBroadcast[key]) {
+            status.lastBroadcast[key] = [0];
         }
         let checksum = MATH.stupidChecksumArray(statusMap[key])
-        if (Math.abs(checksum - lastBroadcast[key][0]) > 0.05) {
+        if (Math.abs(checksum - status.lastBroadcast[key][0]) > 0.05) {
             updated = true;
-            lastBroadcast[key][0] = checksum;
+            status.lastBroadcast[key][0] = checksum;
         }
     }
 
     if (updated) {
         for (let i = 0; i < spatialMap.length; i++) {
             let key = spatialMap[i]
-                sendStatus.push(key)
-                sendStatus.push(statusMap[key])
+            status.sendStatus.push(key)
+            status.sendStatus.push(statusMap[key])
         }
     }
 }
 
-function sendDetails(statusMap) {
+function sendDetails(status, statusMap) {
 
     for (let i = 0; i < detailsMap.length; i++) {
         let key = detailsMap[i]
-        if (!lastBroadcast[key]) {
-            lastBroadcast[key] = [0];
+        if (!status.lastBroadcast[key]) {
+            status.lastBroadcast[key] = [0];
         }
         let checksum = MATH.stupidChecksumArray(statusMap[key])
-        if (checksum !== lastBroadcast[key][0]) {
-            lastBroadcast[key][0] = checksum;
-            sendStatus.push(key)
-            sendStatus.push(statusMap[key])
+        if (checksum !== status.lastBroadcast[key][0]) {
+            status.lastBroadcast[key][0] = checksum;
+            status.sendStatus.push(key)
+            status.sendStatus.push(statusMap[key])
         }
     }
 }
 
 class ActorStatus {
     constructor(actorId) {
+
+        this.lastBroadcast = {};
+        this.sendStatus = [];
+        this.lastFullSend = 0;
+        this.lastDeltaSend = 0;
+
         this.tempVec = new Vector3();
         this.tempQuat = new Quaternion();
         this.statusMap = {}
@@ -199,6 +200,9 @@ class ActorStatus {
     }
 
     setStatusKey(key, status) {
+
+
+
         if (typeof (this.statusMap[key]) === typeof (status)) {
             this.statusMap[key] = status;
         } else {
@@ -208,33 +212,32 @@ class ActorStatus {
                 console.log("changing type for status is bad", key, status)
             }
         }
-
     }
 
     broadcastStatus(gameTime) {
 
         let statusMap = this.statusMap;
-        MATH.emptyArray(sendStatus);
-        sendStatus.push(ENUMS.ActorStatus.ACTOR_INDEX)
-        sendStatus.push(statusMap[ENUMS.ActorStatus.ACTOR_INDEX])
+        MATH.emptyArray(this.sendStatus);
+        this.sendStatus.push(ENUMS.ActorStatus.ACTOR_INDEX)
+        this.sendStatus.push(statusMap[ENUMS.ActorStatus.ACTOR_INDEX])
 
-        if (lastDeltaSend < gameTime - this.getStatusByKey(ENUMS.ActorStatus.SPATIAL_DELTA)) {
-            lastDeltaSend = gameTime;
-            sendSpatial(statusMap)
+        if (this.lastDeltaSend < gameTime - this.getStatusByKey(ENUMS.ActorStatus.SPATIAL_DELTA)) {
+            this.lastDeltaSend = gameTime;
+            sendSpatial(this, statusMap)
         }
 
-        if (lastFullSend < gameTime -2) {
-            lastFullSend = gameTime;
-            fullSend(statusMap)
+        if (this.lastFullSend < gameTime -2) {
+            this.lastFullSend = gameTime;
+            fullSend(this, statusMap)
         } else {
-            sendDetails(statusMap);
+            sendDetails(this, statusMap);
 
-            sendUpdatedOnly(statusMap)
+            sendUpdatedOnly(this, statusMap)
         }
 
-        if (sendStatus.length > 2) {
+        if (this.sendStatus.length > 2) {
         //    console.log(sendStatus)
-            evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, sendStatus)
+            evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, this.sendStatus)
         }
 
     }

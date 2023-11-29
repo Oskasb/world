@@ -251,10 +251,10 @@ function viewTargetSelection(sequencer, candidates) {
     let seqTime = sequencer.getSequenceProgress()
 
     tempVec2.set(0, 0, 0)
-    let biggestDistance = MATH.distanceBetween(actor.getSpatialPosition(), candidates[0].getPos());
+    let biggestDistance = MATH.distanceBetween(actor.getSpatialPosition(), candidates[0].getSpatialPosition());
     let distance = 0;
     for (let i = 0; i < candidates.length; i++) {
-        tempVec.copy(candidates[i].getPos())
+        tempVec.copy(candidates[i].getSpatialPosition())
 
         evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:actor.getSpatialPosition(), to:tempVec, color:'YELLOW'});
         tempVec.sub(actor.getSpatialPosition());
@@ -522,7 +522,7 @@ function CAM_SELECT() {
 
     if (!targetActor) {
         targetActor = selectedActor;
-        selectedActor.turnTowardsPos(targetActor.getPos())
+        selectedActor.turnTowardsPos(targetActor.getSpatialPosition())
     }
 
     if (lookAtActive) {

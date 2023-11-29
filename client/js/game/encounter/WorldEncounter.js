@@ -52,12 +52,17 @@ let indicateTriggerTime = function(actor, encounter) {
 function checkTriggerPlayer(encounter) {
 
     let selectedActor = GameAPI.getGamePieceSystem().getSelectedGameActor();
+
+
+
     let hostActor = encounter.visualEncounterHost.call.getActor();
     if (!hostActor) return;
 
     if (selectedActor) {
         let radius = encounter.config.trigger_radius;
         let distance = MATH.distanceBetween(selectedActor.getSpatialPosition(), encounter.getPos())
+
+
 
         if (distance < radius * 2) {
             indicateTriggerRadius(encounter);
@@ -71,24 +76,34 @@ function checkTriggerPlayer(encounter) {
             encounter.timeInsideProximity = 0;
         }
 
+
+        let requestingActor = encounter.requestingActor;
+        if (requestingActor) {
+            distance = 0;
+        }
+
         if (distance < radius) {
+
             if (encounter.timeInsideTrigger === 0) {
-
-
-                hostActor.actorText.yell("This is it")
-
-                selectedActor.getGameWalkGrid().setTargetPosition(encounter.getPos())
-                selectedActor.getGameWalkGrid().cancelActivePath()
-                selectedActor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, false);
-                selectedActor.setStatusKey(ENUMS.ActorStatus.ACTIVATING_ENCOUNTER, encounter.id);
-                selectedActor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_INACTIVE);
-                ThreeAPI.getCameraCursor().getLookAroundPoint().copy(encounter.getPos())
-
-                console.log("Activate Encounter Triggered Transition")
+                    hostActor.actorText.yell("This is it")
+                    selectedActor.getGameWalkGrid().setTargetPosition(encounter.getPos())
+                    selectedActor.getGameWalkGrid().cancelActivePath()
+                    selectedActor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, false);
+                    selectedActor.setStatusKey(ENUMS.ActorStatus.ACTIVATING_ENCOUNTER, encounter.id);
+                    selectedActor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_INACTIVE);
+                    ThreeAPI.getCameraCursor().getLookAroundPoint().copy(encounter.getPos())
+                    console.log("Activate Encounter Triggered Transition")
             }
-            encounter.timeInsideTrigger += GameAPI.getFrame().tpf *0.5;
+            encounter.timeInsideTrigger += GameAPI.getFrame().tpf *0.25;
             indicateTriggerTime(selectedActor, encounter)
             if (encounter.timeInsideTrigger > 1) {
+
+            //    if (encounter.requestingActor) {
+                    console.log("Synch Encounter from remote")
+                    GuiAPI.screenText("SYNCHING", ENUMS.Message.HINT, 2);
+            //    } else {
+                encounterEvent.worldEncounterId = encounter.id;
+                encounterEvent.encounterId = client.getStamp()+encounter.id;
                 encounterEvent.pos = encounter.getPos();
                 encounterEvent.grid_id = encounter.config.grid_id;
                 encounterEvent.spawn = encounter.config.spawn;
@@ -109,6 +124,7 @@ class WorldEncounter {
         this.id = id
         this.timeInsideTrigger = 0;
         this.timeInsideProximity = 0;
+        this.requestingActor = null;
         this.config = config;
         this.camHomePos = new Vector3();
         this.obj3d = new Object3D();
@@ -178,8 +194,24 @@ class WorldEncounter {
 
     }
 
+    requestActivationBy(actor) {
+        this.requestingActor = actor;
+    }
+
+    getRequestingActor() {
+        return this.requestingActor;
+    }
+
     getPos() {
         return this.obj3d.position;
+    }
+
+    getPointInsideActivationRange(fromPos) {
+        calcVec.subVectors(fromPos , this.getPos());
+        calcVec.normalize();
+        calcVec.multiplyScalar(this.config.trigger_radius -1)
+        calcVec.add(this.getPos());
+        return calcVec;
     }
 
     getHostActor() {

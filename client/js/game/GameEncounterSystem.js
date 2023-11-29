@@ -75,9 +75,10 @@ class GameEncounterSystem {
         let updateEncounterSystem = this.call.updateEncounterSystem
 
             let gridReady = function(grid) {
-                dynamicEncounter = new DynamicEncounter()
+                dynamicEncounter = new DynamicEncounter(event.encounterId);
                 dynamicEncounter.setEncounterGrid(grid);
-
+                dynamicEncounter.setStatusKey(ENUMS.EncounterStatus.WORLD_ENCOUNTER_ID, event.worldEncounterId);
+                dynamicEncounter.setStatusKey(ENUMS.EncounterStatus.ACTIVATION_STATE, ENUMS.ActivationState.ACTIVATING);
 
                 let onSpawnDone = function() {
                     let playerParty = GameAPI.getGamePieceSystem().getPlayerParty();

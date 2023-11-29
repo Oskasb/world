@@ -7,7 +7,6 @@ let tempVec = new Vector3()
 let tempVec2 = new Vector3();
 let cameraStatusProcessor = new CameraStatusProcessor()
 
-
 function registerPathPoints(actor) {
     let pathPoints = actor.getStatus(ENUMS.ActorStatus.PATH_POINTS);
 
@@ -53,29 +52,75 @@ function processAnimationState(actor) {
 
 function processPartyStatus(actor) {
     let partyStatus = actor.getStatus(ENUMS.ActorStatus.REQUEST_PARTY);
+    let worldActors = GameAPI.getGamePieceSystem().getActors();
+    let playerParty = GameAPI.getGamePieceSystem().playerParty
     if (partyStatus) {
-        let worldActors = GameAPI.getGamePieceSystem().getActors();
-        let playerParty = GameAPI.getGamePieceSystem().playerParty
         for (let i = 0; i < worldActors.length; i++) {
             let otherActor = worldActors[i];
-
             if (otherActor !== actor && playerParty.isMember(otherActor) === false) {
                 let compareStatus = otherActor.getStatus(ENUMS.ActorStatus.REQUEST_PARTY);
                 if (compareStatus === partyStatus) {
+                    if (playerParty.actors.length === 1) {
+                        //         GuiAPI.screenText("Party Created")
+                    }
+                    otherActor.actorText.say("Joining")
+                    playerParty.addPartyActor(otherActor);
+                    GuiAPI.screenText("Party Size "+playerParty.actors.length)
+                }
+            }
+        }
+    }
 
-                        if (playerParty.actors.length === 1) {
-                   //         GuiAPI.screenText("Party Created")
+    for (let i = 0; i < playerParty.actors.length; i++) {
+        let otherActor = playerParty.actors[i];
+        if (otherActor !== actor && playerParty.isMember(otherActor) === true) {
+            if (otherActor !== actor) {
+                let activatingEncounterId = otherActor.getStatus(ENUMS.ActorStatus.ACTIVATING_ENCOUNTER);
+                if (activatingEncounterId) {
+                    let encounter = GameAPI.getWorldEncounterByEncounterId(activatingEncounterId);
+                    if (!encounter) {
+                        return;
+                    }
+                    if (encounter.getRequestingActor() !== actor) {
+
+                        GuiAPI.screenText("PARTY ENCOUNTER", ENUMS.Message.SAY, 3);
+
+                        let onCompleted = function(pos) {
+                            actor.setSpatialPosition(pos);
+                            transition.targetPos.set(0, 0, 0)
+                            actor.setSpatialVelocity(transition.targetPos);
+                            poolReturn(transition)
                         }
-                        otherActor.actorText.say("Joining")
-                        playerParty.addPartyActor(otherActor);
-                        GuiAPI.screenText("Party Size "+playerParty.actors.length)
 
+                        let onUpdate = function(pos, vel) {
+                            actor.setSpatialPosition(pos);
+                        //    actor.setSpatialVelocity(vel);
+                        }
+
+                        encounter.requestActivationBy(actor);
+                        let transition = poolFetch('SpatialTransition')
+                        transition.targetPos.copy(encounter.getPointInsideActivationRange(actor.getSpatialPosition()));
+                        transition.initSpatialTransition(actor.actorObj3d.position, transition.targetPos, 2, onCompleted, null, null, onUpdate)
                     }
                 }
             }
         }
+    }
+
+    if (playerParty.isMember(actor)) {
+
+
+
+    }
 
 }
+
+function processEncounterStatus(actor) {
+
+}
+
+
+
 
 class ActorStatusProcessor {
     constructor() {
@@ -140,9 +185,6 @@ class ActorStatusProcessor {
         }
 
     }
-
-
-
 
 
     processActorStatus(actor) {

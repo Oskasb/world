@@ -1,9 +1,8 @@
+import {EncounterStatus} from "./EncounterStatus.js";
 
 
 let encounterActors = []
-
 let faces = ['face_1', 'face_2', 'face_3', 'face_5', 'face_6', 'face_7', 'face_8']
-
 let loads = 0;
 
 function spawnActor(actorConfig, tile, encounterTurnSequencer, onReady) {
@@ -24,8 +23,26 @@ function spawnActor(actorConfig, tile, encounterTurnSequencer, onReady) {
 }
 
 class DynamicEncounter {
-    constructor() {
+    constructor(id) {
 
+        this.id = id;
+        this.status = new EncounterStatus(id)
+        this.isRemote = false;
+    }
+
+    setStatusKey(key, status) {
+        if (this.isRemote === false) {
+            this.status.setStatusKey(ENUMS.EncounterStatus.CLIENT_STAMP, client.getStamp());
+            let gameTime = GameAPI.getGameTime();
+            this.status.broadcastStatus(gameTime);
+        } else {
+            GuiAPI.screenText("GOT BATTLE DATA")
+        }
+        return this.status.setStatusKey(key, status);
+    }
+
+    getStatus(key) {
+        this.status.getStatusByKey(key);
     }
 
     setEncounterGrid(encounterGrid) {

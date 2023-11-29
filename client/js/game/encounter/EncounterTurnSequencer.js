@@ -1,5 +1,12 @@
 
 
+function getActiveEncounter() {
+    return GameAPI.call.getDynamicEncounter()
+}
+
+function setStatusKey(key, status) {
+    return getActiveEncounter().setStatusKey(key, status)
+}
 
 class EncounterTurnSequencer {
     constructor() {
@@ -8,6 +15,7 @@ class EncounterTurnSequencer {
         this.activeActor = null;
         this.turnIndex = 0;
         this.turnTime = 0;
+
 
         let turnEnded = function() {
             this.turnTime = 0;
@@ -70,6 +78,7 @@ class EncounterTurnSequencer {
                 actor.startPlayerTurn(this.call.turnEnded, this.turnIndex)
             } else {
                 actor.getActorTurnSequencer().startActorTurn(this.call.turnEnded, this.turnIndex);
+                setStatusKey(ENUMS.EncounterStatus.HAS_TURN_ACTOR, actor.id);
             }
 
         }
