@@ -23,27 +23,25 @@ function spawnActor(actorConfig, tile, encounterTurnSequencer, onReady) {
 }
 
 class DynamicEncounter {
-    constructor(id) {
+    constructor(id, worldEncId) {
 
         this.id = id;
-        this.status = new EncounterStatus(id)
+        this.status = new EncounterStatus(id, worldEncId)
         this.isRemote = false;
-
-        this.call = {
-            getStatus:this.status.setStatusKey
-        }
 
     }
 
     setStatusKey(key, status) {
+        let write = this.status.setStatusKey(key, status);
         if (this.isRemote === false) {
             this.status.setStatusKey(ENUMS.EncounterStatus.CLIENT_STAMP, client.getStamp());
             let gameTime = GameAPI.getGameTime();
             this.status.broadcastStatus(gameTime);
         } else {
-            GuiAPI.screenText("GOT BATTLE DATA")
+            console.log("Battle Data:", key, status);
+        //    GuiAPI.screenText("GOT BATTLE DATA")
         }
-        return this.status.setStatusKey(key, status);
+        return write
     }
 
     getStatus(key) {

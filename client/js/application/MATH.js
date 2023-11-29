@@ -811,6 +811,10 @@ MATH.deepClone = function(source) {
 		let sum = 0;
 
 		let addLevel = function(array) {
+			if (typeof (array) === 'undefined') {
+				sum += 0.1
+				return;
+			}
 			if (typeof (array) !== 'object') {
 				if (array.length) {
 					sum+=array.length

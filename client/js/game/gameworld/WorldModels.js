@@ -62,7 +62,7 @@ let activateWorldEncounters = function(event) {
     activateEvent = event;
     let encountersData = function(encounters, index, listId) {
         for (let i = 0; i < encounters.length;i++) {
-            let encId = ""+listId+"_"+index*"_"+i;
+            let encId = ""+listId+"_"+index+"_"+i;
             let onReady = function(encounter) {
                 worldEncounters.push(encounter);
                 encounter.activateWorldEncounter()

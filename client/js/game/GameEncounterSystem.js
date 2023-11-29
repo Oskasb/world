@@ -25,6 +25,16 @@ let getActiveDynamicEncounter = function() {
     return dynamicEncounter;
 }
 
+function initEncounter(id, worldEncId) {
+    dynamicEncounter = new DynamicEncounter(id, worldEncId);
+    dynamicEncounter.setStatusKey(ENUMS.EncounterStatus.ACTIVATION_STATE, ENUMS.ActivationState.ACTIVATING);
+}
+
+function activateGrid(gridId, updateCB) {
+
+}
+
+
 class GameEncounterSystem {
     constructor() {
         encounterUiSystem = new EncounterUiSystem();
@@ -62,49 +72,51 @@ class GameEncounterSystem {
     activateEncounter(event) {
 
         console.log("activateEncounter", event)
-
-        if (activeEncounterGrid) {
-            this.deactivateActiveEncounter()
-            return;
+        if (event.encounterId !== null) {
+            if (!dynamicEncounter) {
+                console.log("INIT DYN ENC, ", event.worldEncounterId);
+                initEncounter(event.encounterId, event.worldEncounterId)
+                activeEncounterGrid = new EncounterGrid();
+            }
+            if (dynamicEncounter.id !== event.encounterId) {
+                console.log("Wrong Encounter ID")
+                return;
+            }
         }
 
-        let encounterGrid = new EncounterGrid();
-        activeEncounterGrid = encounterGrid;
-        encounterGrid.setCameraHomePos(event.cam_pos)
+        let updateCB = this.call.updateEncounterSystem
 
-        let updateEncounterSystem = this.call.updateEncounterSystem
-
-            let gridReady = function(grid) {
-                dynamicEncounter = new DynamicEncounter(event.encounterId);
-                dynamicEncounter.setEncounterGrid(grid);
-                dynamicEncounter.setStatusKey(ENUMS.EncounterStatus.WORLD_ENCOUNTER_ID, event.worldEncounterId);
-                dynamicEncounter.setStatusKey(ENUMS.EncounterStatus.ACTIVATION_STATE, ENUMS.ActivationState.ACTIVATING);
-
-                let onSpawnDone = function() {
-                    let playerParty = GameAPI.getGamePieceSystem().getPlayerParty();
-                    let partyActors = playerParty.getPartyActors();
-                    for (let i = 0; i < partyActors.length; i++) {
-                        let pActor = partyActors[i];
-                        let startTile = encounterGrid.getTileAtPosition(pActor.getSpatialPosition());
-                        pActor.setSpatialPosition(startTile.getPos());
-                        encounterTurnSequencer.addEncounterActor(pActor);
-                    }
-
-                    encounterUiSystem.setEncounterSequencer(encounterTurnSequencer)
-                    GameAPI.registerGameUpdateCallback(updateEncounterSystem)
-                }
-
-
-                    if (event.spawn) {
-                        dynamicEncounter.processSpawnEvent(event.spawn, encounterTurnSequencer, onSpawnDone)
-                    } else {
-                        console.log("encounter event requires spawn data")
-                    }
-
+        let onSpawnDone = function() {
+            let playerParty = GameAPI.getGamePieceSystem().getPlayerParty();
+            let partyActors = playerParty.getPartyActors();
+            for (let i = 0; i < partyActors.length; i++) {
+                let pActor = partyActors[i];
+                let startTile = activeEncounterGrid.getTileAtPosition(pActor.getSpatialPosition());
+                pActor.setSpatialPosition(startTile.getPos());
+                encounterTurnSequencer.addEncounterActor(pActor);
             }
 
-            encounterGrid.initEncounterGrid(event['grid_id'], event.pos, gridReady )
+            encounterUiSystem.setEncounterSequencer(encounterTurnSequencer)
+            GameAPI.registerGameUpdateCallback(updateCB)
+            dynamicEncounter.setStatusKey(ENUMS.EncounterStatus.ACTIVATION_STATE, ENUMS.ActivationState.ACTIVE);
+        }
 
+        let gridReady = function(grid) {
+
+            GuiAPI.getWorldInteractionUi().closeWorldInteractUi();
+            GameAPI.worldModels.deactivateEncounters();
+            dynamicEncounter.setEncounterGrid(grid);
+
+            if (event.spawn) {
+                dynamicEncounter.processSpawnEvent(event.spawn, encounterTurnSequencer, onSpawnDone)
+            } else {
+                console.log("encounter event requires spawn data")
+            }
+        }
+
+        if (event.grid_id) {
+            activeEncounterGrid.initEncounterGrid(event['grid_id'], event.pos, gridReady )
+        }
     }
 
     deactivateActiveEncounter() {

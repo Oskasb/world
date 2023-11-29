@@ -155,6 +155,10 @@ function renderWorldInteractUi() {
 
         if (!button) {
             console.log("No button yet", actor, actorButtons)
+            if (actor.getStatus(ENUMS.ActorStatus.EXISTS) === 0) {
+                MATH.splice(interactibleActors, actor);
+                i--
+            }
         } else {
             let pos = actor.getSpatialPosition()
             pos.y += actor.getStatus(ENUMS.ActorStatus.HEIGHT) + 0.7;

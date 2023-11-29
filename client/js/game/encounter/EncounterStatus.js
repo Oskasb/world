@@ -39,20 +39,26 @@ function sendUpdatedOnly(statusMap) {
 }
 
 class EncounterStatus {
-    constructor(id) {
+    constructor(id, worldEncId) {
         this.statusMap = {}
         this.statusMap[ENUMS.EncounterStatus.ENCOUNTER_ID] = id;
+        this.statusMap[ENUMS.EncounterStatus.WORLD_ENCOUNTER_ID] = worldEncId;
         this.statusMap[ENUMS.EncounterStatus.ENCOUNTER_ACTORS] = [];
         this.statusMap[ENUMS.EncounterStatus.HAS_TURN_ACTOR] = "";
-        this.statusMap[ENUMS.EncounterStatus.ACTIVATION_STATE] = ENUMS.ActivationState.INACTIVE;
+        this.statusMap[ENUMS.EncounterStatus.ACTIVATION_STATE] = ENUMS.ActivationState.INIT;
 
 
         let getStatus = function(key) {
             return this.getStatusByKey(key);
         }.bind(this)
 
+        let setStatus = function(key, status) {
+            return this.setStatusKey(key, status);
+        }.bind(this)
+
         this.call = {
-            getStatus:getStatus
+            getStatus:getStatus,
+            setStatus:setStatus
         }
 
     }
@@ -83,7 +89,7 @@ class EncounterStatus {
         sendStatus.push(ENUMS.EncounterStatus.ENCOUNTER_ID)
         sendStatus.push(statusMap[ENUMS.EncounterStatus.ENCOUNTER_ID])
 
-        if (lastFullSend < gameTime -2) {
+        if (lastFullSend < gameTime -0.1) {
             lastFullSend = gameTime;
             fullSend(statusMap)
         } else {

@@ -153,6 +153,7 @@ class GameActor {
 
     setStatusKey(key, status) {
 
+        let write = this.actorStatus.setStatusKey(key, status);
         let encounterHosted = false;
         let dynEnc = GameAPI.call.getDynamicEncounter()
         if (dynEnc) {
@@ -171,7 +172,7 @@ class GameActor {
             }
         }
 
-        return this.actorStatus.setStatusKey(key, status);
+        return write
     }
 
     getStatus(key) {

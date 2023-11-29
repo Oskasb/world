@@ -102,6 +102,18 @@ class RemoteClient {
         }
     }
 
+    deactivateEncounter(status) {
+        GuiAPI.screenText(status+" BATTLE")
+        let actorList = this.encounter.status.call.getStatus(ENUMS.EncounterStatus.ENCOUNTER_ACTORS)
+    //    console.log("DEACTIVATING: ", actorList, this.actors)
+        for (let i = 0; i < actorList.length; i++) {
+            let actor = this.getActorById(actorList[i])
+            MATH.splice(this.actors, actor);
+            MATH.splice(this.remoteIndex, actor.id);
+            actor.call.remove()
+        }
+    }
+
     handleEncounterMessage(encounterId, msg) {
     //    console.log("Encounter Message; ", msg);
 
@@ -110,32 +122,27 @@ class RemoteClient {
             this.encounter.isRemote = true;
         }
 
-        let statusPre = this.encounter.getStatus(ENUMS.EncounterStatus.ACTIVATION_STATE)
+        let statusPre = this.encounter.status.call.getStatus(ENUMS.EncounterStatus.ACTIVATION_STATE)
 
         for (let i = 2; i < msg.length; i++) {
             let key = msg[i];
             i++
             let status = msg[i]
+            if (key === ENUMS.EncounterStatus.ACTIVATION_STATE) {
+                if (status === ENUMS.ActivationState.DEACTIVATING) {
+                    this.deactivateEncounter(status)
+                }
+            }
             this.encounter.setStatusKey(key, status);
         }
 
-        let activationState = this.encounter.getStatus(ENUMS.EncounterStatus.ACTIVATION_STATE)
+        let activationState = this.encounter.status.call.getStatus(ENUMS.EncounterStatus.ACTIVATION_STATE)
 
         if (activationState !== statusPre) {
-            GuiAPI.screenText("BATTLE "+activationState)
-            if (activationState === ENUMS.EncounterStatus.DEACTIVATING) {
-                let actorList = this.encounter.getStatus(ENUMS.EncounterStatus.ENCOUNTER_ACTORS)
-                for (let i = 0; i < actorList.length; i++) {
-                    let actor = this.getActorById(actorList[i])
-                    actor.removeGameActor()
-
-                }
-            }
+            console.log(statusPre, activationState)
+            GuiAPI.screenText(activationState + " BATTLE")
         }
-
     }
-
-
 
     processClientMessage(msg) {
         let gameTime = GameAPI.getGameTime();

@@ -93,8 +93,17 @@ function checkTriggerPlayer(encounter) {
                     selectedActor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_INACTIVE);
                     ThreeAPI.getCameraCursor().getLookAroundPoint().copy(encounter.getPos())
                     console.log("Activate Encounter Triggered Transition")
+
+                encounterEvent.worldEncounterId = encounter.id;
+                encounterEvent.encounterId = client.getStamp()+encounter.id;
+                encounterEvent.pos = null;
+                encounterEvent.grid_id = null;
+                encounterEvent.spawn = null;
+                encounterEvent.cam_pos = null;
+
+                evt.dispatch(ENUMS.Event.GAME_MODE_BATTLE, encounterEvent)
             }
-            encounter.timeInsideTrigger += GameAPI.getFrame().tpf *0.25;
+            encounter.timeInsideTrigger += GameAPI.getFrame().tpf *0.75;
             indicateTriggerTime(selectedActor, encounter)
             if (encounter.timeInsideTrigger > 1) {
 
@@ -102,8 +111,8 @@ function checkTriggerPlayer(encounter) {
                     console.log("Synch Encounter from remote")
                     GuiAPI.screenText("SYNCHING", ENUMS.Message.HINT, 2);
             //    } else {
-                encounterEvent.worldEncounterId = encounter.id;
-                encounterEvent.encounterId = client.getStamp()+encounter.id;
+                encounterEvent.worldEncounterId = null;
+                encounterEvent.encounterId = null;
                 encounterEvent.pos = encounter.getPos();
                 encounterEvent.grid_id = encounter.config.grid_id;
                 encounterEvent.spawn = encounter.config.spawn;

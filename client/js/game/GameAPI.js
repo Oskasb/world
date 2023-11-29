@@ -117,8 +117,6 @@ class GameAPI {
 
         let activateBattleMode = function(event) {
             gameEncounterSystem.activateEncounter(event);
-            GuiAPI.getWorldInteractionUi().closeWorldInteractUi();
-            this.worldModels.deactivateEncounters();
         }.bind(this);
 
         let getActiveEncounter = function() {

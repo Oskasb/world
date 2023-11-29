@@ -199,11 +199,13 @@ if(typeof(ENUMS) === "undefined"){
     }
 
     ENUMS.ActivationState = {
+        INIT:'INIT',
         INACTIVE:'INACTIVE',
         ACTIVATING:'ACTIVATING',
         ACTIVE:'ACTIVE',
         DEACTIVATING:'DEACTIVATING',
-        DEACTIVATED:'DEACTIVATED'
+        DEACTIVATED:'DEACTIVATED',
+        REMOVED:'REMOVED'
     }
 
     ENUMS.Controls = {
