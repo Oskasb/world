@@ -187,6 +187,7 @@ class ActorStatus {
         this.statusMap[ENUMS.ActorStatus.REQUEST_PARTY] = "";
         this.statusMap[ENUMS.ActorStatus.ACTIVATING_ENCOUNTER] = "";
         this.statusMap[ENUMS.ActorStatus.ACTIVATED_ENCOUNTER]  = "";
+        this.statusMap[ENUMS.ActorStatus.PARTY_SELECTED]  = false;
         this.statusMap[ENUMS.ActorStatus.PLAYER_PARTY]  = [];
     }
 

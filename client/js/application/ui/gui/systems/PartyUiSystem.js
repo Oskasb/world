@@ -36,37 +36,39 @@ let onActivate = function(actor) {
     console.log("Button Pressed, onActivate:", actor)
 
     let selectedActor = GameAPI.getGamePieceSystem().selectedActor;
-    let partySelection = GameAPI.getGamePieceSystem().playerParty.getPartySelection();
+
     let remote = actor.call.getRemote();
-    if (remote) {
-        actor.actorText.say("Poked Me")
-        /*
-        if (selectedActor) {
-            let currentTarget = selectedActor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET)
+    let currentTarget = selectedActor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET)
+    let deselectPartySelection = false;
+    let partySelection = GameAPI.getGamePieceSystem().playerParty.getPartySelection()
+    if (partySelection) {
+        partySelection.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, false)
+        partySelection.actorText.say('Unselected')
+        if (actor === partySelection) {
+            deselectPartySelection = true;
+        }
+    }
+
+    if (deselectPartySelection) {
+
+        actor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, false)
+        if (remote) {
             if (currentTarget === actor.id) {
+                actor.actorText.say("Released Me")
                 selectedActor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, "")
-            } else {
-                selectedActor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, actor.id)
             }
         }
-        return;
-
-         */
-    }
-
-    if (partySelection) {
-        partySelection.actorText.say('Unselected')
-        partySelection.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, false)
-    }
-    if (actor === partySelection) {
-        partySelection = null;
         playerParty.selectPartyActor(null);
-        return;
+
+    } else {
+        actor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, true)
+        if (remote) {
+            actor.actorText.say("Picked Me")
+            selectedActor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, actor.id)
+        }
+        playerParty.selectPartyActor(actor);
     }
 
-    playerParty.selectPartyActor(actor);
-    actor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, true)
-    actor.actorText.say('Party Selected')
 }
 
 let onReady = function(portrait) {
