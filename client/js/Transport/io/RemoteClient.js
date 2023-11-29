@@ -194,7 +194,7 @@ class RemoteClient {
                 }
 
             } else {
-                actor.actorText.say(remoteId+' '+actor.index)
+            //    actor.actorText.say(remoteId+' '+actor.index)
 
                 let hasSpatial = false;
 

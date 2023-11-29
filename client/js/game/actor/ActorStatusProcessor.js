@@ -65,7 +65,6 @@ function processPartyStatus(actor) {
                     }
                     otherActor.actorText.say("Joining")
                     playerParty.addPartyActor(otherActor);
-                    GuiAPI.screenText("Party Size "+playerParty.actors.length)
                 }
             }
         }
