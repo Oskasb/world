@@ -55,25 +55,25 @@ function processPartyStatus(actor) {
     let partyStatus = actor.getStatus(ENUMS.ActorStatus.REQUEST_PARTY);
     if (partyStatus) {
         let worldActors = GameAPI.getGamePieceSystem().getActors();
-
+        let playerParty = GameAPI.getGamePieceSystem().playerParty
         for (let i = 0; i < worldActors.length; i++) {
             let otherActor = worldActors[i];
-            if (otherActor !== actor) {
+
+            if (otherActor !== actor && playerParty.isMember(otherActor) === false) {
                 let compareStatus = otherActor.getStatus(ENUMS.ActorStatus.REQUEST_PARTY);
                 if (compareStatus === partyStatus) {
-                    let playerParty = actor.getStatus(ENUMS.ActorStatus.PLAYER_PARTY);
-                    if (playerParty.indexOf(otherActor.id) === -1) {
-                        if (playerParty.length === 0) {
-                            GuiAPI.screenText("Party Created")
+
+                        if (playerParty.actors.length === 1) {
+                   //         GuiAPI.screenText("Party Created")
                         }
                         otherActor.actorText.say("Joining")
-                        playerParty.push(otherActor.id);
-                        GameAPI.getGamePieceSystem().playerParty.addPartyActor(otherActor);
+                        playerParty.addPartyActor(otherActor);
+                        GuiAPI.screenText("Party Size "+playerParty.actors.length)
+
                     }
                 }
             }
         }
-    }
 
 }
 

@@ -160,7 +160,7 @@ function updateActorClose(tpf) {
     if (actor.isPlayerActor()) {
         
     } else {
-        actor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, null)
+        actor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, "")
     }
 
     if (seqTime > 1) {

@@ -1,5 +1,8 @@
 import {GuiExpandingContainer} from "../widgets/GuiExpandingContainer.js";
 import {GuiCharacterPortrait} from "../widgets/GuiCharacterPortrait.js";
+import {WorldActorStatusUI} from "./WorldActorStatusUI.js";
+import {frameFeedbackMap} from "../../../../game/visuals/Colors.js";
+
 
 let playerPortraitLayoutId = 'widget_party_portrait_actor_button'
 
@@ -7,6 +10,15 @@ let container = null;
 let actors = null;
 let playerParty = null;
 let portraits = []
+
+
+function getPortraitByActor(actor) {
+    for (let i = 0; i< portraits.length; i++) {
+        if (portraits[i].actor === actor) {
+            return portraits[i];
+        }
+    }
+}
 
 function debugDrawActorIndex(actor, index) {
     actor.setStatusKey(ENUMS.ActorStatus.HP, Math.ceil(Math.random() * actor.getStatus(ENUMS.ActorStatus.MAX_HP)))
@@ -23,19 +35,36 @@ let testActive = function(actor) {
 let onActivate = function(actor) {
     console.log("Button Pressed, onActivate:", actor)
 
-    let selectedActor = GameAPI.getGamePieceSystem().playerParty.getPartySelection();
-
-    if (selectedActor) {
-        selectedActor.actorText.say('Unselected')
-        selectedActor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, false)
-    }
-    if (actor === selectedActor) {
-        selectedActor = null;
+    let selectedActor = GameAPI.getGamePieceSystem().selectedActor;
+    let partySelection = GameAPI.getGamePieceSystem().playerParty.getPartySelection();
+    let remote = actor.call.getRemote();
+    if (remote) {
+        actor.actorText.say("Poked Me")
+        /*
+        if (selectedActor) {
+            let currentTarget = selectedActor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET)
+            if (currentTarget === actor.id) {
+                selectedActor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, "")
+            } else {
+                selectedActor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, actor.id)
+            }
+        }
         return;
-    } else {
-        playerParty.selectPartyActor(actor);
+
+         */
     }
 
+    if (partySelection) {
+        partySelection.actorText.say('Unselected')
+        partySelection.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, false)
+    }
+    if (actor === partySelection) {
+        partySelection = null;
+        playerParty.selectPartyActor(null);
+        return;
+    }
+
+    playerParty.selectPartyActor(actor);
     actor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, true)
     actor.actorText.say('Party Selected')
 }
@@ -44,13 +73,18 @@ let onReady = function(portrait) {
     console.log("onReady", portrait)
     container.addChildWidgetToContainer(portrait.guiWidget)
     portrait.actor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, false)
+    portrait.statusUi = new WorldActorStatusUI()
+    portrait.statusUi.activateWorldActorStatus(portrait.actor, portrait.guiWidget)
+
     setTimeout(function() {
         container.fitContainerChildren()
     },0)
 }
 function addActorPortrait(actor) {
     let seqIndex = actors.indexOf(actor);
-    portraits[actor.index] = new GuiCharacterPortrait(actor, playerPortraitLayoutId, onActivate, testActive, 0.0, 0.0, onReady)
+    let portrait = new GuiCharacterPortrait(actor, playerPortraitLayoutId, onActivate, testActive, 0.0, 0.0, onReady)
+    portraits.push(portrait)
+
 }
 
 function renderPartyActorUi(actor, tpf, time) {
@@ -58,7 +92,7 @@ function renderPartyActorUi(actor, tpf, time) {
     //    debugDrawActorIndex(actor, actors.indexOf(actor))
     }
 
-    if (!portraits[actor.index]) {
+    if (!getPortraitByActor(actor)) {
         addActorPortrait(actor);
     }
 
@@ -79,6 +113,10 @@ class PartyUiSystem {
                 let portrait = portraits[i]
                 if (portrait) {
                     portrait.updateCharacterPortrait(tpf)
+                    portrait.guiWidget.guiSurface.applyStateFeedback()
+                    if (portrait.statusUi) {
+                        portrait.statusUi.call.update();
+                    }
                 }
             }
         }.bind(this)
@@ -115,6 +153,9 @@ class PartyUiSystem {
             let portrait = portraits.pop()
             if (portrait) {
                 portrait.closeCharacterPortrait()
+                if (portrait.statusUi) {
+                    portrait.statusUi.deactivateWorldActorStatus()
+                }
             }
         }
         ThreeAPI.unregisterPrerenderCallback(this.call.updatePartyUiSystem)

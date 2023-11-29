@@ -6,9 +6,18 @@ class PlayerParty {
     }
 
     addPartyActor(actor) {
-
-
+        if (this.isMember(actor)) {
+            return;
+        }
         this.actors.push(actor);
+    }
+
+    isMember(actor) {
+        if (this.actors.indexOf(actor) !== -1) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     getPartySelection() {
@@ -25,6 +34,9 @@ class PlayerParty {
         let current = this.getPartySelection();
         if (current) {
             current.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, false);
+            if (current.id === actor.id) {
+                return;
+            }
         }
         actor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, true);
 
@@ -33,6 +45,9 @@ class PlayerParty {
             selectedActor.actorText.say("Poke You")
 
         } else {
+            if (actor === null) {
+                return;
+            }
             GameAPI.getGamePieceSystem().setSelectedGameActor(actor);
         }
 

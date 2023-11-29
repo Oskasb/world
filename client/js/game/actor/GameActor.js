@@ -47,7 +47,7 @@ class GameActor {
         this.gameWalkGrid = new GameWalkGrid();
 
         this.actorTurnSequencer = new ActorTurnSequencer()
-        this.actorTurnSequencer.setGameActor(this);
+
 
         let setAsSelection = function () {
 
@@ -115,16 +115,22 @@ class GameActor {
     }
 
     isPlayerActor() {
-        return GameAPI.getGamePieceSystem().isPlayerPartyActor(this)
+        if (this.call.getRemote() === null) {
+            return GameAPI.getGamePieceSystem().isPlayerPartyActor(this)
+        } else {
+            return false;
+        }
     }
 
     startPlayerTurn(turnEndedCB, turnIndex) {
-        GameAPI.getGamePieceSystem().setSelectedGameActor(this);
+        if (this.call.getRemote() === null) {
+            GameAPI.getGamePieceSystem().setSelectedGameActor(this);
+        }
         this.turnEndCallbacks.push(turnEndedCB);
         this.setStatusKey(ENUMS.ActorStatus.HAS_TURN, true);
         this.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, true);
         this.setStatusKey(ENUMS.ActorStatus.TURN_DONE, turnIndex)
-        evt.dispatch(ENUMS.Event.SET_CAMERA_MODE, {mode:'game_travel'})
+    //    evt.dispatch(ENUMS.Event.SET_CAMERA_MODE, {mode:'game_travel'})
     }
 
     getGameWalkGrid() {
@@ -243,6 +249,7 @@ class GameActor {
     activateGameActor(onActorReady) {
         this.setStatusKey(ENUMS.ActorStatus.IS_ACTIVE, 1);
         this.setStatusKey(ENUMS.ActorStatus.EXISTS, 1);
+        this.actorTurnSequencer.setGameActor(this);
         if (!this.activated) {
         //    this.updateGameActor()
 

@@ -29,7 +29,7 @@ let onActivate = function(actor) {
     if (selectedActor) {
         selectedActor.actorText.say('Unselected')
         selectedActor.setStatusKey(ENUMS.ActorStatus.SEQUENCER_SELECTED, false)
-        playerActor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, null)
+        playerActor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, "")
     }
     if (actor === selectedActor) {
         selectedActor = null;

@@ -1,5 +1,6 @@
 import { PortraitStatusGui } from "../game/PortraitStatusGui.js";
 import {GuiButtonFrame} from "./GuiButtonFrame.js";
+import {frameFeedbackMap} from "../../../../game/visuals/Colors.js";
 
 class GuiCharacterPortrait {
     constructor(actor, layoutConfId, onActivate, testActive, x, y, onReady, frameWidgetId, hpProgressId) {
@@ -11,6 +12,14 @@ class GuiCharacterPortrait {
             this.button = button;
             this.container = this.portraitContainer;
             this.guiWidget = button.guiWidget;
+
+            if (this.actor.call.getRemote()) {
+                let alignment = this.actor.getStatus(ENUMS.ActorStatus.ALIGNMENT) || 'ITEM';
+                let frameFbConfId = frameFeedbackMap[alignment];
+                this.button.guiWidget.guiSurface.setFeedbackConfigId(frameFbConfId || 'feedback_icon_button_item')
+                this.button.guiWidget.guiSurface.applyStateFeedback()
+            }
+
             this.buttonFrame = new GuiButtonFrame(this.guiWidget, frameWidgetId);
             this.portraitStatusGui.initPortraitStatusGui(actor, button);
             ThreeAPI.addPrerenderCallback(this.portraitStatusGui.callbacks.updateCharStatGui)
@@ -83,9 +92,14 @@ class GuiCharacterPortrait {
         this.updatePortraitInteractiveState(turnIndex)
 
 
+
         this.buttonFrame.updateButtonFrame(tpf);
         if (this.portraitStatusGui) {
             this.portraitStatusGui.updateCharacterStatElement();
+
+
+
+
             if (this.actor.getStatus(ENUMS.ActorStatus.DEAD)) {
                 let iconKey = 'dead'
                 this.button.guiWidget.setWidgetIconKey(iconKey)

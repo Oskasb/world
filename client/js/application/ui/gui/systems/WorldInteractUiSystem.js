@@ -118,7 +118,7 @@ function addActorButton(actor) {
     let button = new GuiControlButton(actor.id, playerPortraitLayoutId, onActivate, testActive, 0, 0, onReady, frameLayoutId)
     actorButtons.push(button)
     let statusUI = poolFetch('WorldActorStatusUI')
-    statusUI.activateWorldActorStatus(actor);
+    statusUI.activateWorldActorStatus(actor, button.guiWidget);
     button.statusUi = statusUI;
 }
 
@@ -164,6 +164,10 @@ function renderWorldInteractUi() {
             let pos = actor.getSpatialPosition()
             pos.y += actor.getStatus(ENUMS.ActorStatus.HEIGHT) + 0.7;
             button.positionByWorld(pos)
+            if (button.statusUi) {
+                button.statusUi.call.update()
+            }
+
         }
     }
 

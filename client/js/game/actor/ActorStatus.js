@@ -33,6 +33,7 @@ function fullSend(statusMap) {
             }
         }
     }
+    lastBroadcast[ENUMS.ActorStatus.QUAT_W][0] = lastBroadcast[ENUMS.ActorStatus.QUAT_W][0]+0.1;
 }
 
 function sendUpdatedOnly(statusMap) {
@@ -100,7 +101,17 @@ let skipMap = [
     ENUMS.ActorStatus.SELECTING_DESTINATION,
     ENUMS.ActorStatus.STATUS_INPUT_SAMPLERS,
     ENUMS.ActorStatus.STATUS_WALK_SELECTION,
-    ENUMS.ActorStatus.STATUS_LEAP_SELECTION
+    ENUMS.ActorStatus.STATUS_LEAP_SELECTION,
+    ENUMS.ActorStatus.POS_X,
+    ENUMS.ActorStatus.POS_Y,
+    ENUMS.ActorStatus.POS_Z,
+    ENUMS.ActorStatus.VEL_X,
+    ENUMS.ActorStatus.VEL_Y,
+    ENUMS.ActorStatus.VEL_Z,
+    ENUMS.ActorStatus.QUAT_X,
+    ENUMS.ActorStatus.QUAT_Y,
+    ENUMS.ActorStatus.QUAT_Z,
+    ENUMS.ActorStatus.QUAT_W
 ]
 
 function sendSpatial(statusMap) {
@@ -172,7 +183,7 @@ class ActorStatus {
         this.statusMap[ENUMS.ActorStatus.QUAT_y] = 0;
         this.statusMap[ENUMS.ActorStatus.QUAT_Z] = 0;
         this.statusMap[ENUMS.ActorStatus.QUAT_W] = 1;
-        this.statusMap[ENUMS.ActorStatus.SELECTED_TARGET] = 0;
+        this.statusMap[ENUMS.ActorStatus.SELECTED_TARGET] = "";
         this.statusMap[ENUMS.ActorStatus.REQUEST_PARTY] = "";
         this.statusMap[ENUMS.ActorStatus.ACTIVATING_ENCOUNTER] = "";
         this.statusMap[ENUMS.ActorStatus.ACTIVATED_ENCOUNTER]  = "";

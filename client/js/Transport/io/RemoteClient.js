@@ -23,7 +23,17 @@ class RemoteClient {
         this.stamp = stamp;
         this.actors = [];
         this.remoteIndex = [];
+        this.closeTimeout = null;
         GuiAPI.screenText("Player Joined: "+this.index, ENUMS.Message.HINT, 4)
+
+        let timeout = function() {
+            this.closeRemoteClient();
+        }.bind(this)
+
+        this.call = {
+            timeout:timeout
+        }
+
     }
 
     getActorByIndex(index) {
@@ -163,6 +173,17 @@ class RemoteClient {
             GuiAPI.screenText("No Remote Target "+this.index,  ENUMS.Message.HINT, 2.5)
         }
 
+        clearTimeout(this.closeTimeout);
+        this.closeTimeout = setTimeout(this.call.timeout, 5000);
+
+    }
+
+
+    closeRemoteClient() {
+        GuiAPI.screenText("Player Left: "+this.index, ENUMS.Message.HINT, 4)
+        while (this.actors.length) {
+            this.actors.pop().removeGameActor();
+        }
     }
 
     getStamp() {

@@ -11,6 +11,13 @@ let visualConfigs = {};
 let actorConfigs = {};
 let itemConfigs = {};
 
+
+let registerActor = function(actor) {
+    if (actors.indexOf(actor) === -1) {
+        actors.push(actor);
+    }
+}
+
 let loadItem = function(event) {
 
     let itemConfig = itemConfigs[event['id']]
@@ -42,7 +49,7 @@ let loadActor = function(event) {
     let actor = new GameActor(actorIndex, actorConfig, parsedEquipSlotData);
     actorIndex++;
     actor.setStatusKey(ENUMS.ActorStatus.ACTOR_INDEX, actor.index);
-    actors.push(actor);
+    registerActor(actor);
     let visualConfig = visualConfigs[actor.config['visual_id']];
 
     let visualPiece = new VisualGamePiece(visualConfig);
@@ -68,8 +75,8 @@ let loadActor = function(event) {
     } else if (event.pos) {
         actor.setSpatialPosition(event.pos);
     } else {
-        GameAPI.getGamePieceSystem().addActorToPlayerParty(actor);
-        GameAPI.getGamePieceSystem().playerParty.selectPartyActor(actor)
+     //   GameAPI.getGamePieceSystem().addActorToPlayerParty(actor);
+     //   GameAPI.getGamePieceSystem().playerParty.selectPartyActor(actor)
     }
 
     if (event.callback) {
@@ -115,6 +122,11 @@ class GamePieceSystem {
 
     getActors() {
         return actors;
+    }
+
+    timeoutRemoteClient(stamp) {
+        remoteClients[stamp].closeRemoteClient();
+        remoteClients[stamp] = null;
     }
 
     initGamePieceSystem = function() {
@@ -171,10 +183,7 @@ class GamePieceSystem {
     }
 
     isPlayerPartyActor(actor) {
-        let partyActors = this.playerParty.getPartyActors();
-        if (partyActors.indexOf(actor) !== -1) {
-            return true;
-        }
+        return this.playerParty.isMember(actor);
     }
 
     getSelectedGameActor = function() {
