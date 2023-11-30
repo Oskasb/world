@@ -11,6 +11,7 @@ import { ActorMovement } from "./ActorMovement.js";
 import { TravelMode } from "./TravelMode.js";
 import { ActorEquipment } from "./ActorEquipment.js";
 import { ActorStatusProcessor } from "./ActorStatusProcessor.js";
+import {StatusFeedback} from "../visuals/StatusFeedback.js";
 
 // let index = 1; // zero index get culled by connection
 let tempVec = new Vector3();
@@ -32,7 +33,8 @@ class GameActor {
 
         this.actorStatusProcessor = new ActorStatusProcessor();
         this.actorText = new ActorText(this);
-        this.actorStatus = new ActorStatus(this.id);
+        this.actorStatus = new ActorStatus(this);
+        this.statusFeedback = new StatusFeedback();
         this.controlState = new ControlState();
         this.travelMode = new TravelMode();
         this.actorMovement = new ActorMovement();
@@ -151,9 +153,7 @@ class GameActor {
         this.getVisualGamePiece().getModel().getJointKeyWorldTransform(jointKey, storeObj3d);
     }
 
-    setStatusKey(key, status) {
-
-        let write = this.actorStatus.setStatusKey(key, status);
+    checkBroadcast() {
         let encounterHosted = false;
         let dynEnc = GameAPI.call.getDynamicEncounter()
         if (dynEnc) {
@@ -164,15 +164,41 @@ class GameActor {
         }
 
         if (encounterHosted || this.isPlayerActor()) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    sendStatus(delay) {
+
+        if (this.checkBroadcast()) {
             this.actorStatus.setStatusKey(ENUMS.ActorStatus.CLIENT_STAMP, client.getStamp());
             let gameTime = GameAPI.getGameTime();
-            if (this.lastSendTime < gameTime -0.05) {
+            if (this.lastSendTime < gameTime -delay) {
                 this.actorStatus.broadcastStatus(gameTime);
                 this.lastSendTime = gameTime;
             }
         }
+    }
 
-        return write
+    setStatusKey(key, status) {
+
+        let currentStatus = this.actorStatus.getStatusByKey(key)
+
+        if (currentStatus !== status) {
+
+            this.statusFeedback.setStatusKey(key, status, this);
+            this.actorStatus.setStatusKey(key, status);
+            this.sendStatus(0.05)
+
+        }   else {
+
+            this.sendStatus(2)
+
+        }
+
     }
 
     getStatus(key) {
@@ -299,7 +325,6 @@ class GameActor {
 
     leavePlayerParty() {
         let removedPartyActor = GameAPI.getGamePieceSystem().playerParty.removePartyActor(this)
-
     }
 
     removeGameActor() {
@@ -358,6 +383,21 @@ class GameActor {
         this.setSpatialQuaternion(tempObj2.quaternion);
     }
 
+    setDestination(posVec) {
+        let destination = this.actorStatus.getStatusByKey(ENUMS.ActorStatus.SELECTED_DESTINATION);
+        MATH.vec3ToArray(posVec, destination);
+        this.actorStatus.setStatusKey(ENUMS.ActorStatus.SELECTED_DESTINATION, destination);
+    }
+
+    getDestination(storeVec) {
+        if (!storeVec) {
+            storeVec = tempVec;
+        }
+        let destination = this.actorStatus.getStatusByKey(ENUMS.ActorStatus.SELECTED_DESTINATION);
+        MATH.vec3FromArray(storeVec, destination);
+        return storeVec;
+    }
+
     setSpatialVelocity(velVec) {
         MATH.testVec3ForNaN(velVec)
         this.actorStatus.setStatusVelocity(velVec);
@@ -388,6 +428,12 @@ class GameActor {
     setSpatialScale(scaleVec) {
         this.actorStatus.setStatusScale(scaleVec);
         this.actorObj3d.position.copy(scaleVec)
+    }
+
+    getHeadPosition() {
+        let pos = this.getSpatialPosition()
+        pos.y += this.getStatus(ENUMS.ActorStatus.HEIGHT);
+        return pos;
     }
 
     getSpatialScale(store) {

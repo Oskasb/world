@@ -45,13 +45,19 @@ class GameEncounterSystem {
             let selectedActor = GameAPI.getGamePieceSystem().getSelectedGameActor();
             let min = activeEncounterGrid.minXYZ;
             let max = activeEncounterGrid.maxXYZ;
-            evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:min, max:max, color:'GREEN'})
+        //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:min, max:max, color:'GREEN'})
 
             let isWithin = testPosIsWithin(selectedActor.getSpatialPosition(), min, max);
 
             if (isWithin) {
                 encounterTurnSequencer.updateTurnSequencer()
             } else {
+                selectedActor.setStatusKey(ENUMS.ActorStatus.HAS_TURN, false);
+                selectedActor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, '');
+                selectedActor.setStatusKey(ENUMS.ActorStatus.SEQUENCER_SELECTED, false);
+                selectedActor.setStatusKey(ENUMS.ActorStatus.ACTIVATING_ENCOUNTER, '');
+                selectedActor.setStatusKey(ENUMS.ActorStatus.ACTIVATED_ENCOUNTER, '');
+                selectedActor.setStatusKey(ENUMS.ActorStatus.SELECTED_ENCOUNTER, '');
                 this.deactivateActiveEncounter()
             }
 

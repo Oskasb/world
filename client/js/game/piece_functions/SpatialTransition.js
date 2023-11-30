@@ -9,6 +9,7 @@ class SpatialTransition {
         this.elapsedTime = 0;
         this.targetTime = 1;
         this.moveVec3 = null;
+        this.fromVec3 = new Vector3();
         this.frameDelta = new Vector3();
         this.startPos = new Vector3();
         this.targetPos = new Vector3();
@@ -42,7 +43,7 @@ class SpatialTransition {
 
     initSpatialTransition(moveVec3, target, overTime, callback, bounce, curve, onFrameUpdateCB) {
         this.bounce = bounce || 0;
-        this.curve = curve || 'curveSigmoid'
+        this.curve = curve || 'curveSin'
         this.moveVec3 = moveVec3;
         if (typeof(target) === 'function') {
             this.targetFunction = target;

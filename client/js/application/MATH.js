@@ -279,9 +279,24 @@ if(typeof(MATH) === "undefined") {
         return 1 / (1 + Math.exp(6 - t*12));
     };
 
+	MATH.curveSigmoidInverted = function(t) {
+		return 1/this.curveSigmoid(t);
+	}
+
+	MATH.curveEdge = function(t) {
+		return this.curveSin(t) * 0.5 + t * 0.5;
+	};
 
 	MATH.curveLinear = function(t) {
 		return t;
+	};
+
+	MATH.curveSin = function(t) {
+		return Math.sin(t*MATH.HALF_PI);
+	};
+
+	MATH.curveCos = function(t) {
+		return 1-Math.cos(t*MATH.HALF_PI);
 	};
 
     MATH.curveSigmoidMirrored = function(value) {
@@ -296,6 +311,13 @@ if(typeof(MATH) === "undefined") {
         return value*value * MATH.sign(value)
     };
 
+	MATH.curveParabola = function(value) {
+		return this.curveQuad( (2 * (value -0.5)) )
+	}
+
+	MATH.curveParabolaInverted = function(value) {
+		return 1 - this.curveParabola(value);
+	}
 
     MATH.curveCube = function(value) {
         return value*value*value
@@ -640,6 +662,13 @@ if(typeof(MATH) === "undefined") {
         vec.z += expand*Math.sign(vec.z);
     };
 
+	MATH.vec3ToArray = function(vec3, array) {
+		vec3.x = array[0] = vec3.x;
+		vec3.y = array[1] = vec3.y;
+		vec3.z = array[2] = vec3.z;
+		return array;
+	}
+
 	MATH.vec3FromArray = function(vec3, array) {
 		if (!vec3) vec3 = new THREE.Vector3();
 		vec3.x = array[0];
@@ -846,196 +875,12 @@ MATH.deepClone = function(source) {
 		return sum;
 	}
 
-	MATH.compareArrays = function(arr1, arr2) {
-
-		if (arr1 === arr2) {
-
-			return true;
-		}
-		console.log("early equal... ", arr1, arr2)
-		// check the length
-
-		let loop8 = function(a, b) {
-			if(a.length !== b.length) {
-				return false;
-			} else {
-				let result = false;
-				// comparing each element of array
-				for (let i=0; i<a.length; i++) {
-					if (a[i] !== b[i]) {
-						return false;
-					} else {
-
-						result = false
-						if (!result) {
-							console.log("Still equal... ", arr1, arr2)
-							return false;
-						}
-					}
-				}
-				return result;
-			}
-		}
-		let loop7 = function(a, b) {
-			if(a.length !== b.length) {
-				return false;
-			} else {
-				let result = false;
-				// comparing each element of array
-				for (let i=0; i<a.length; i++) {
-					if (a[i] !== b[i]) {
-						return false;
-					} else {
-
-						result = loop8(a[i], b[i]);
-						if (!result) {
-							return false;
-						}
-					}
-				}
-				return result;
-			}
-		}
-
-		let loop6 = function(a, b) {
-			if(a.length !== b.length) {
-				return false;
-			} else {
-				let result = false;
-				// comparing each element of array
-				for (let i=0; i<a.length; i++) {
-					if (a[i] !== b[i]) {
-						return false;
-					} else {
-
-						result = loop7(a[i], b[i]);
-						if (!result) {
-							return false;
-						}
-					}
-				}
-				return result;
-			}
-		}
-		let loop5 = function(a, b) {
-			if (a === b) {
-				return true
-			}
-			if(a.length !== b.length) {
-				return false;
-			} else {
-				let result = false;
-				// comparing each element of array
-				for (let i=0; i<a.length; i++) {
-					if (a[i] !== b[i]) {
-						return false;
-					} else {
-
-						result  = loop6(a[i], b[i]);
-						if (!result) {
-							return false;
-						}
-					}
-				}
-				return result;
-			}
-		}
-
-		let loop4 = function(a, b) {
-
-			if (a === b) {
-				return true
-			}
-			if(a.length !== b.length) {
-				return false;
-			} else {
-				let result = false;
-				// comparing each element of array
-				for (let i=0; i<a.length; i++) {
-					if (a[i] !== b[i]) {
-						return false;
-					} else {
-
-						result = loop5(a[i], b[i]);
-						if (!result) {
-							return false;
-						}
-					}
-				}
-				return result;
-			}
-		}
-
-		let loop3 = function(a, b) {
-			if (a === b) {
-				return true
-			}
-			if(a.length !== b.length) {
-				return false;
-			} else {
-				let result = false;
-				// comparing each element of array
-				for (let i=0; i<a.length; i++) {
-					if (a[i] !== b[i]) {
-						return false;
-					} else {
-
-						result = loop4(a[i], b[i]);
-						if (!result) {
-							return false;
-						}
-					}
-				}
-				return result;
-			}
-		}
-
-		let loop2 = function(a, b) {
-			console.log("still not equal... ", arr1, arr2)
-			if (a === b) {
-				console.log("early equal... ", arr1, arr2)
-				return true
-			}
-			if(a.length !== b.length) {
-				return false;
-			} else {
-				let result = false;
-				// comparing each element of array
-				for (let i=0; i<a.length; i++) {
-					if (a[i] !== b[i]) {
-						return false;
-					} else {
-
-						result = loop3(a[i], b[i]);
-						if (!result) {
-							return false;
-						}
-					}
-				}
-				return result;
-			}
-		}
-
-
-		if(arr1.length !== arr2.length) {
-			return false;
-		} else {
-			let result = false;
-			// comparing each element of array
-			for (let i=0; i < arr1.length; i++) {
-				if (arr1[i] !== arr2[i]) {
-					console.log("early not equal... ", arr1[i], arr2[i])
-					return false;
-				} else {
-					console.log("loop2 not equal... ", arr1[i], arr2[i])
-					result = loop2(arr1[i], arr2[i]);
-					if (!result) {
-						return false;
-					}
-				}
-			}
-			return result;
-		}
+	MATH.copyRGBA = function(from, to) {
+		to.r = from.r;
+		to.g = from.g;
+		to.b = from.b;
+		to.a = from.a;
+		return to;
 	}
 
 	MATH.testVec3ForNaN = function(vec3) {

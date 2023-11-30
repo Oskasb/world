@@ -33,8 +33,8 @@
           "scale": [1.0, 1.0, 1.0],
           "rot": [0, 0, 0],
           "status": {
-            "ACTIONS": ["ACTION_FIREBALL", "ACTION_HEAL_BOLT"],
-            "TRAVEL":  ["ACTION_TRAVEL_WALK"],
+            "ACTIONS": ["ACTION_FIREBALL", "ACTION_HEAL_BOLT", "ACTION_MOVEMENT_LEAP"],
+            "TRAVEL":  ["ACTION_TRAVEL_WALK", "ACTION_TRAVEL_LEAP"],
             "MOVEMENT_SPEED": 4,
             "HEIGHT": 1.8,
             "SIZE": 1.2,

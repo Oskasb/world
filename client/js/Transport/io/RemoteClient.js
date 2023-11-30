@@ -69,6 +69,44 @@ class RemoteClient {
 
     }
 
+    applyRemoteAction(actor) {
+        let remote = actor.call.getRemote();
+        let lastActionKey = remote.remoteActionKey;
+        let newActionKey = actor.getStatus(ENUMS.ActorStatus.SELECTED_ACTION);
+
+        let statusKey = actor.getStatus(ENUMS.ActorStatus.ACTION_STATE_KEY);
+
+        if (statusKey !== 'attack_precast') {
+            return;
+        }
+
+        if (!newActionKey) {
+            remote.remoteActionKey = newActionKey;
+            return;
+        }
+
+            if (lastActionKey === newActionKey) {
+                console.log("SAME ACTION!")
+            } else {
+
+                    remote.remoteActionKey = newActionKey;
+                    let action = poolFetch('ActorAction');
+                    action.setActionKey(newActionKey);
+                    action.initAction(actor);
+                    let target = GameAPI.getActorById(actor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET))
+                    if (!target) {
+                        console.log("Action needs a target!")
+                        target = actor;
+                    }
+                    setTimeout(function() {
+                        action.activateAttack(target, action.call.closeAttack)
+                    }, 500)
+
+            }
+
+    }
+
+
     applyRemoteEquipment(actor) {
         let equippedList = actor.getStatus(ENUMS.ActorStatus.EQUIPPED_ITEMS);
         let actorItems = actor.actorEquipment.items;
@@ -179,6 +217,8 @@ class RemoteClient {
                         scale:new Vector3(),
                         vel:new Vector3(),
                         quat:new Quaternion(),
+                        remoteActionKey:'',
+                        action:null,
                         lastSpatialTime:0,
                         timeDelta:2
                     }
@@ -249,7 +289,7 @@ class RemoteClient {
                 }
 
                 this.applyRemoteEquipment(actor)
-
+                this.applyRemoteAction(actor);
             //    console.log(msg)
 
             }

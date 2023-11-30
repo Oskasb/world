@@ -13,8 +13,11 @@ import {Vector3} from "../../../libs/three/math/Vector3.js";
 import {GuiScreenSpaceText} from "../ui/gui/widgets/GuiScreenSpaceText.js";
 import {PathPoint} from "../../game/gameworld/PathPoint.js";
 import {SpatialTransition} from "../../game/piece_functions/SpatialTransition.js";
+
+import { VisualTrajectory } from "../../game/visuals/VisualTrajectory.js";
 import { VisualPointFX } from "../../game/visuals/VisualPointFX.js";
 import { WorldActorStatusUI } from "../ui/gui/systems/WorldActorStatusUI.js";
+import {VisualPulse} from "../../game/visuals/VisualPulse.js";
 
 let pools = {}
 let stats = {};
@@ -36,6 +39,8 @@ function initPools() {
     registerPool(SpatialTransition);
     registerPool(VisualPointFX);
     registerPool(WorldActorStatusUI);
+    registerPool(VisualTrajectory);
+    registerPool(VisualPulse);
 }
 
 function registerPool(DataObj) {

@@ -201,6 +201,9 @@ class ActorStatusProcessor {
         for (let key in this.indicators) {
             this.detachIndicator(key);
         }
+        let pathPoints = actor.getStatus(ENUMS.ActorStatus.PATH_POINTS);
+        MATH.emptyArray(pathPoints)
+        actor.getVisualGamePiece().visualPathPoints.updatePathPoints(actor, pathPoints)
     }
 
 }

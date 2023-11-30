@@ -131,13 +131,13 @@ function drawInputCursorState(cursorObj3d, dragToVec3, camTargetPos, cursorForwa
     let cursorPos = cursorObj3d.position
 
     GuiAPI.printDebugText('x:'+MATH.decimalify(cursorPos.x, 100)+' y:'+MATH.decimalify(cursorPos.y, 100)+' z:'+MATH.decimalify(cursorPos.z, 100))
-
+/*
     evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE,  {from:cursorPos, to:dragToVec3, color:'BLUE'});
     evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE,  {from:cursorPos, to:calcVec, color:'RED'});
     evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:dragToVec3, color:'CYAN', size:0.2})
     evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE,  {from:calcVec, to:camTargetPos, color:'RED'});
     evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:camTargetPos, color:'RED', size:0.3})
-
+*/
     tempVec3.copy(cursorForward);
     calcVec.copy(cursorPos);
     calcVec.y += 0.02;
@@ -174,16 +174,20 @@ function processTerrainLodCenter(lodCenter, terrainCenter) {
 
     tempVec3.copy(terrainCenter)
     tempVec3.y = ThreeAPI.terrainAt(terrainCenter);
+    /*
     evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:terrainCenter, color:'YELLOW', size:1.0})
     evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:terrainCenter, to:tempVec3, color:'YELLOW'});
+
+     */
     // GuiAPI.printDebugText( tempVec3.x)
     GuiAPI.printDebugText('x:'+MATH.decimalify(tempVec3.x, 10)+' y:'+MATH.decimalify(tempVec3.y, 10)+' z:'+MATH.decimalify(tempVec3.z, 10))
-    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:tempVec3, color:'YELLOW', size:1.0})
+  //  evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:tempVec3, color:'YELLOW', size:1.0})
     //   evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:calcVec, color:color, size:0.3})
+    /*
     ThreeAPI.groundAt(cursorPos, color);
     evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:cursorPos, color:'WHITE', size:0.15})
     evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:cursorPos, color:color, size:0.3})
-    
+    */
 }
 
 export {

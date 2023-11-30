@@ -15,7 +15,7 @@ let server = createServer(
 
     function (request, response)
     {
-    console.log('request starting...');
+ //   console.log('request starting...');
 
     //    import * as SERVER from "./Server/ServerMain.js";
 
@@ -73,7 +73,7 @@ let server = createServer(
 
             // response.writeHead(200, {                'Content-Type': contentType             });
             response.end(content, 'utf-8');
-            console.log('response - Content-Type:'+contentType);
+         //   console.log('response - Content-Type:'+contentType);
         }
     });
 }

@@ -98,6 +98,7 @@ class InstanceSpatial{
 
         getSpatialPosition = function(store) {
             store.copy(this.obj3d.position);
+            return store;
         };
 
         setPosXYZ = function(x, y, z) {

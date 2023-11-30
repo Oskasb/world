@@ -151,17 +151,17 @@ class GameWalkGrid {
 
     buildGridPath(to, from) {
         this.setGridCenter(this.call.getActor().getSpatialPosition())
-    //    this.lastCenterX = -1;
-    //    this.call.updateWalkGrid();
+        this.lastCenterX = -1; // needs to reset this after some moves... ugly!
+        this.call.updateWalkGrid();
         this.dynamicWalker.call.clearDynamicPath()
         let gridTiles = this.dynamicGrid.dynamicGridTiles
         let fromTile = ScenarioUtils.getTileForPosition(gridTiles, from)
         let toTile = ScenarioUtils.getTileForPosition(gridTiles, to)
 
-            fromTile.getTileExtents(ThreeAPI.tempVec3, ThreeAPI.tempVec3b)
-            evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:ThreeAPI.tempVec3, max:ThreeAPI.tempVec3b, color:'YELLOW'})
-            toTile.getTileExtents(ThreeAPI.tempVec3, ThreeAPI.tempVec3b)
-            evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:ThreeAPI.tempVec3, max:ThreeAPI.tempVec3b, color:'YELLOW'})
+         //   fromTile.getTileExtents(ThreeAPI.tempVec3, ThreeAPI.tempVec3b)
+         //   evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:ThreeAPI.tempVec3, max:ThreeAPI.tempVec3b, color:'YELLOW'})
+         //   toTile.getTileExtents(ThreeAPI.tempVec3, ThreeAPI.tempVec3b)
+         //   evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:ThreeAPI.tempVec3, max:ThreeAPI.tempVec3b, color:'YELLOW'})
             this.dynamicPath.selectTilesBeneathPath(fromTile, toTile, gridTiles);
 
     }

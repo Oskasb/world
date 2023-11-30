@@ -2,6 +2,15 @@
   "GAME_ACTORS":{
     "ACTIONS":[
       {
+        "id":"ACTION_TRAVEL_LEAP",
+        "data":{
+          "visual_action": "VISUAL_TRAVEL_LEAP",
+          "status": {
+            "TRAVEL_MODE": "TRAVEL_MODE_LEAP"
+          }
+        }
+      },
+      {
         "id":"ACTION_TRAVEL_WALK",
         "data":{
           "visual_action": "VISUAL_TRAVEL_WALK",

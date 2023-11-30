@@ -144,7 +144,7 @@ function applyPointerMove() {
 
     let pointerTile = walkGrid.getTileByScreenPosition(activePointer.pos)
     if (pointerTile) {
-        evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:selectedActor.getSpatialPosition(), to:pointerTile.getPos(), color:'YELLOW'});
+     //   evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:selectedActor.getSpatialPosition(), to:pointerTile.getPos(), color:'YELLOW'});
         //    console.log(activePointer.pos);
         tileSelector.moveToPos(pointerTile.getPos())
     }
@@ -256,7 +256,7 @@ function viewTargetSelection(sequencer, candidates) {
     for (let i = 0; i < candidates.length; i++) {
         tempVec.copy(candidates[i].getSpatialPosition())
 
-        evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:actor.getSpatialPosition(), to:tempVec, color:'YELLOW'});
+    //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:actor.getSpatialPosition(), to:tempVec, color:'YELLOW'});
         tempVec.sub(actor.getSpatialPosition());
         distance = tempVec.length();
 
@@ -275,8 +275,8 @@ function viewTargetSelection(sequencer, candidates) {
 
     actor.turnTowardsPos(tempVec2)
 
-    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:actor.getSpatialPosition(), to:tempVec2, color:'WHITE'});
-    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:tempVec2, color:'WHITE', size:0.25})
+//    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:actor.getSpatialPosition(), to:tempVec2, color:'WHITE'});
+ //   evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:tempVec2, color:'WHITE', size:0.25})
     sequencer.focusAtObj3d.position.copy(tempVec2);
     sequencer.focusAtObj3d.position.y -=0.5;
 
@@ -505,13 +505,13 @@ function CAM_TARGET(actor) {
 
 function CAM_AHEAD(actor) {
     calcPositionAhead(actor, zoomDistance, tempVec);
-    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:tempVec, color:'RED', size:0.2})
+ //   evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:tempVec, color:'RED', size:0.2})
     return tempVec;
 }
 
 function CAM_SHOULDER(actor) {
     calcShouldCamPosition(actor, zoomDistance, tempVec);
-    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:tempVec, color:'PURPLE', size:0.2})
+ //   evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:tempVec, color:'PURPLE', size:0.2})
     return tempVec;
 }
 
@@ -580,13 +580,13 @@ function CAM_POINT() {
 
 function CAM_HIGH(actor) {
     calcPartyCenter(actor, zoomDistance, tempVec);
-    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:tempVec, color:'CYAN', size:0.2})
+ //   evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:tempVec, color:'CYAN', size:0.2})
     return tempVec;
 }
 
 function CAM_PARTY(actor) {
     calcPartyCenter(actor, zoomDistance, tempVec);
-    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:tempVec, color:'CYAN', size:0.2})
+ //   evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:tempVec, color:'CYAN', size:0.2})
     return tempVec;
 }
 

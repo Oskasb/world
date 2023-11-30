@@ -114,12 +114,10 @@ class VisualAction {
         let tPos = this.targetPos;
 
         let getTargetPos = function() {
-            tPos.copy(actorAction.target.call.getActorPos())
+            actorAction.target.getSpatialPosition(tPos)
             tPos.y +=1.5;
             return tPos;
         }
-
-
 
         let onMissileArrive = function(gameEffect) {
             console.log("Missile Arrive", gameEffect)

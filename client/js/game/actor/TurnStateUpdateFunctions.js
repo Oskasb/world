@@ -86,7 +86,7 @@ function updateActorSelectAttack(tpf) {
     let actor = getSequencer().getGameActor()
     let seqTime = getSequencer().getSequenceProgress()
 
-    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:actor.getSpatialPosition(), to:getSequencer().getTargetActor().getSpatialPosition(), color:'RED'});
+ //   evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:actor.getSpatialPosition(), to:getSequencer().getTargetActor().getSpatialPosition(), color:'RED'});
 
     if (seqTime === 0) {
 

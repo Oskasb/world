@@ -54,7 +54,10 @@ let detailsMap = [
     ENUMS.ActorStatus.ALIGNMENT,
     ENUMS.ActorStatus.MOVE_STATE,
     ENUMS.ActorStatus.BODY_STATE,
-    ENUMS.ActorStatus.ACTIONS
+    ENUMS.ActorStatus.ACTIONS,
+    ENUMS.ActorStatus.SELECTED_DESTINATION,
+    ENUMS.ActorStatus.SELECTED_ACTION,
+    ENUMS.ActorStatus.ACTION_STATE_KEY
 ];
 
 let spatialMap = [
@@ -151,23 +154,25 @@ function sendDetails(status, statusMap) {
 }
 
 class ActorStatus {
-    constructor(actorId) {
+    constructor(actor) {
 
+        this.actor = actor;
         this.lastBroadcast = {};
         this.sendStatus = [];
         this.lastFullSend = 0;
         this.lastDeltaSend = 0;
+        this.spatialDelay = 0;
 
         this.tempVec = new Vector3();
         this.tempQuat = new Quaternion();
         this.statusMap = {}
-        this.statusMap[ENUMS.ActorStatus.ACTOR_ID] = actorId;
+        this.statusMap[ENUMS.ActorStatus.ACTOR_ID] = this.actor.id;
         this.statusMap[ENUMS.ActorStatus.IS_ACTIVE] = 0;
         this.statusMap[ENUMS.ActorStatus.ALIGNMENT] = 'NEUTRAL';
         this.statusMap[ENUMS.ActorStatus.MOVE_STATE] = 'MOVE';
         this.statusMap[ENUMS.ActorStatus.STAND_STATE] = 'IDLE_HANDS';
         this.statusMap[ENUMS.ActorStatus.BODY_STATE] = 'IDLE_LEGS';
-        this.statusMap[ENUMS.ActorStatus.SPATIAL_DELTA] = 0.1;
+        this.statusMap[ENUMS.ActorStatus.SPATIAL_DELTA] = 0.2;
         this.statusMap[ENUMS.ActorStatus.EQUIPPED_ITEMS] = [];
         this.statusMap[ENUMS.ActorStatus.PATH_POINTS] = [];
         this.statusMap[ENUMS.ActorStatus.ACTIONS] = [];
@@ -190,6 +195,10 @@ class ActorStatus {
         this.statusMap[ENUMS.ActorStatus.ACTIVATED_ENCOUNTER]  = "";
         this.statusMap[ENUMS.ActorStatus.PARTY_SELECTED]  = false;
         this.statusMap[ENUMS.ActorStatus.PLAYER_PARTY]  = [];
+        this.statusMap[ENUMS.ActorStatus.SELECTED_DESTINATION]  = [0, 0, 0];
+        this.statusMap[ENUMS.ActorStatus.SELECTED_ACTION] = "";
+        this.statusMap[ENUMS.ActorStatus.ACTION_STATE_KEY] = "";
+        this.statusMap[ENUMS.ActorStatus.ACTION_STEP_PROGRESS]  = 0;
     }
 
     getStatusByKey(key) {
@@ -214,18 +223,37 @@ class ActorStatus {
         }
     }
 
+    relaySpatial(delay) {
+
+        if (this.actor.checkBroadcast()) {
+
+            if (delay < this.spatialDelay) {
+                this.spatialDelay = delay;
+            }
+
+            let gameTime = GameAPI.getGameTime();
+            if (this.lastDeltaSend < gameTime - this.spatialDelay) {
+                this.spatialDelay = delay;
+                MATH.emptyArray(this.sendStatus);
+                this.sendStatus.push(ENUMS.ActorStatus.ACTOR_ID)
+                this.sendStatus.push(this.statusMap[ENUMS.ActorStatus.ACTOR_ID])
+                this.lastDeltaSend = gameTime;
+                sendSpatial(this, this.statusMap)
+                if (this.sendStatus.length > 2) {
+                    evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, this.sendStatus)
+                }
+            }
+        }
+    }
+
     broadcastStatus(gameTime) {
         MATH.emptyArray(this.sendStatus);
         this.sendStatus.push(ENUMS.ActorStatus.ACTOR_ID)
         this.sendStatus.push(this.statusMap[ENUMS.ActorStatus.ACTOR_ID])
 
-        if (this.lastDeltaSend < gameTime - this.getStatusByKey(ENUMS.ActorStatus.SPATIAL_DELTA)) {
-            this.lastDeltaSend = gameTime;
-            sendSpatial(this, this.statusMap)
-        }
-
         if (this.lastFullSend < gameTime -2) {
             this.lastFullSend = gameTime;
+            sendSpatial(this, this.statusMap)
             fullSend(this, this.statusMap)
         } else {
             sendDetails(this, this.statusMap);
@@ -242,9 +270,19 @@ class ActorStatus {
 
     setStatusVelocity(velVec) {
         MATH.testVec3ForNaN(velVec)
-        this.setStatusKey(ENUMS.ActorStatus.VEL_X, velVec.x)
-        this.setStatusKey(ENUMS.ActorStatus.VEL_Y, velVec.y)
-        this.setStatusKey(ENUMS.ActorStatus.VEL_Z, velVec.z)
+
+        let diff = this.getStatusVelocity().sub(velVec).lengthSq();
+        if (diff > 0.000001) {
+            this.setStatusKey(ENUMS.ActorStatus.VEL_X, velVec.x)
+            this.setStatusKey(ENUMS.ActorStatus.VEL_Y, velVec.y)
+            this.setStatusKey(ENUMS.ActorStatus.VEL_Z, velVec.z)
+            this.relaySpatial(0.05)
+        } else {
+            this.relaySpatial(0.2)
+        }
+
+
+
     }
 
     getStatusVelocity(store) {
@@ -262,9 +300,15 @@ class ActorStatus {
 
     setStatusPosition(posVec) {
         MATH.testVec3ForNaN(posVec)
-        this.setStatusKey(ENUMS.ActorStatus.POS_X, posVec.x)
-        this.setStatusKey(ENUMS.ActorStatus.POS_Y, posVec.y)
-        this.setStatusKey(ENUMS.ActorStatus.POS_Z, posVec.z)
+
+        let diff = this.getStatusPosition().sub(posVec).lengthSq();
+        if (diff > 0.000001) {
+            this.setStatusKey(ENUMS.ActorStatus.POS_X, posVec.x)
+            this.setStatusKey(ENUMS.ActorStatus.POS_Y, posVec.y)
+            this.setStatusKey(ENUMS.ActorStatus.POS_Z, posVec.z)
+            this.relaySpatial(this.getStatusByKey(ENUMS.ActorStatus.SPATIAL_DELTA))
+        }
+
     }
 
     getStatusPosition(store) {
@@ -306,6 +350,7 @@ class ActorStatus {
         this.setStatusKey(ENUMS.ActorStatus.QUAT_Y, quat.y)
         this.setStatusKey(ENUMS.ActorStatus.QUAT_Z, quat.z)
         this.setStatusKey(ENUMS.ActorStatus.QUAT_W, quat.w)
+
     }
 
     getStatusQuaternion(store) {

@@ -33,6 +33,12 @@ class CameraStatusProcessor {
             notifyCameraStatus( ENUMS.CameraStatus.LOOK_FROM, ENUMS.CameraControls.CAM_PARTY, true)
         }
 
+        if (travelMode === ENUMS.TravelMode.TRAVEL_MODE_PASSIVE) {
+            controlKey = ENUMS.CameraControls.CAM_MOVE;
+            notifyCameraStatus( ENUMS.CameraStatus.LOOK_AT, ENUMS.CameraControls.CAM_AHEAD, null)
+            notifyCameraStatus( ENUMS.CameraStatus.LOOK_FROM, ENUMS.CameraControls.CAM_SHOULDER, null)
+        }
+
         if (travelMode === ENUMS.TravelMode.TRAVEL_MODE_WALK) {
             let moveControlActive = actor.getControl(ENUMS.Controls.CONTROL_MOVE_ACTION)
             if (partySelected) {

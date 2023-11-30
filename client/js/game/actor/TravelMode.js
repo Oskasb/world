@@ -75,7 +75,16 @@ function activateTravelMode(actr, mode, activateCB, deactivateCB) {
         actor.showGameActor()
     }
 
+    if (mode === ENUMS.TravelMode.TRAVEL_MODE_PASSIVE) {
+        //    evt.dispatch(ENUMS.Event.SET_CAMERA_MODE, {mode:'game_travel'})
+        activateCB(config[mode], actor)
+    }
 
+    if (mode === ENUMS.TravelMode.TRAVEL_MODE_LEAP) {
+        //    evt.dispatch(ENUMS.Event.SET_CAMERA_MODE, {mode:'game_travel'})
+        actor.getGameWalkGrid().dynamicWalker.attachFrameLeapTransitionFx(actor)
+        activateCB(config[mode], actor)
+    }
 
     if (mode === ENUMS.TravelMode.TRAVEL_MODE_JETPACK) {
         //    evt.dispatch(ENUMS.Event.SET_CAMERA_MODE, {mode:'world_viewer'})
@@ -124,6 +133,8 @@ function activateTravelMode(actr, mode, activateCB, deactivateCB) {
         }
 
     }
+
+
 
     if (mode === ENUMS.TravelMode.TRAVEL_MODE_WALK) {
             //    evt.dispatch(ENUMS.Event.SET_CAMERA_MODE, {mode:'game_travel'})

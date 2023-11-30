@@ -21,19 +21,8 @@ class VisualPathPoints {
         tempObj.position.copy(from);
     //    tempObj.position.y = to.y;
         tempObj.lookAt(to);
-
         tempVec.set(0, 0, MATH.distanceBetween(from, to) * 0.5);
 
-        /*
-        let size = this.defaultSize
-        if (requiresLeap) {
-            efct.setEffectSpriteXY(this.leapSprite[0], this.leapSprite[1]);
-            size *= 0.3 + Math.sin(segmentFraction*Math.PI)*2
-        } else {
-            efct.setEffectSpriteXY(this.defaultSprite[0], this.defaultSprite[1]);
-            tempVec.x+=Math.sin(segment*1.4)*0.07
-        }
-*/
         tempVec.applyQuaternion(tempObj.quaternion);
         tempObj.rotateX(-MATH.HALF_PI)
         tempVec.add(from)

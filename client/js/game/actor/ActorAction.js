@@ -46,7 +46,8 @@ let activateAttackStateTransition = function(attack) {
     let stateIndex = attack.attackStateIndex;
     console.log("stateIndex", stateIndex)
     let stateKey = attackStateKeys[stateIndex]
-
+    attack.actor.setStatusKey(ENUMS.ActorStatus.ACTION_STATE_KEY, stateKey)
+    attack.actor.setStatusKey(ENUMS.ActorStatus.SELECTED_ACTION, attack.actionKey);
 //    attack.actor.actorText.say(stateKey)
     let funcName = attackStateMap[stateKey].updateFunc
     attack.updateFunc = attack.call[funcName];
@@ -165,25 +166,21 @@ class ActorAction {
             this.call.advanceState();
             GameAPI.registerGameUpdateCallback(this.call.updateAttack);
         }
-
     }
 
     activateAttack(target, onCompletedCB) {
-
         if (typeof(this.sequencing) === 'object') {
             this.target = target;
             this.onCompletedCallbacks.push(onCompletedCB)
             this.visualAction.visualizeAttack(this);
         }
-
     }
 
     attackCompleted() {
         console.log("attackCompleted", this)
-        this.actor = null;
-        this.target = null;
+        this.actor.setStatusKey(ENUMS.ActorStatus.SELECTED_ACTION, '');
         GameAPI.unregisterGameUpdateCallback(this.call.updateAttack);
-        MATH.callAndClearAll(this.onCompletedCallbacks);
+        MATH.callAndClearAll(this.onCompletedCallbacks, this.actor);
         this.recoverAttack();
     }
 
