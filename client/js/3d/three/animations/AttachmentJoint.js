@@ -6,8 +6,9 @@ class AttachmentJoint {
     constructor(key, parentScale, dynamicBoneId) {
         this.key = key;
         this.dynamicBoneId = dynamicBoneId;
-        if (parentScale > 10) {
+        if (parentScale.length() > 10) {
             console.log("Big bad parentScale")
+            parentScale.set(1, 1, 1);
         }
         this.parentScale = parentScale;
         this.obj3d = new Object3D();
@@ -117,11 +118,12 @@ class AttachmentJoint {
             console.log("Bad jointData Scale")
         }
 
-        this.obj3d.scale.multiply(this.parentScale);
-        if (this.parentScale > 10) {
-            console.log("Bad parent Scale")
-        }
 
+        if (this.parentScale.length() > 10) {
+            console.log("Bad parent Scale")
+            this.parentScale.set(1, 1, 1);
+        }
+        this.obj3d.scale.multiply(this.parentScale);
 
         this.obj3d.position.multiply(this.obj3d.scale)
     };
