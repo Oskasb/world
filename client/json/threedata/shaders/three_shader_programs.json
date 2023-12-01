@@ -705,30 +705,31 @@
           "vec4 emitColor = txColor * emitSum;",
           "vec4 normal = texture2D( normalMap, vUv);",
 
-          "vec3 fragNormal = faceNormal * 0.0 + normalize(faceNormal * normal.rgb)*1.1;",
+          "vec3 fragNormal = normalize(faceNormal * normal.rgb)*1.1;",
           "vec3 transposedFragPos = fragPos + fragNormal.xyz*1.0;",
           "vec3 cameraToFrag = normalize(transposedFragPos-cameraPosition);",
+          "vec3 surfaceAngle = cross(fragNormal, cameraToFrag);",
           "float angle = dot(cameraToFrag, fragNormal);",
           "float metalDirect = min(pow(abs(-angle), 4.0), 1.0);",
           "float fresnelFactor = abs(angle*2.0 * max(1.0-abs( pow(angle, 25.0)*1.0), 0.0));",
-          "float directFactor = min(pow(min(angle*angle*(metal*0.5 + smooth), 1.0), 100.0-(fresnelFactor*50.0)*(smooth*2.0)), 1.0);",
+          "float directFactor = min(pow(min(angle*angle*(metal*0.5 + smooth), 1.0), 55.0-(fresnelFactor*50.0)*(smooth*2.0)), 1.0);",
+          "directFactor =  max(abs(angle*(angle*5.0))-4.0, 0.0) *(metal*0.5 + smooth);",
           "float angleFactor = abs(fresnelFactor + directFactor) * 0.2 +0.2;",
 
-          "cameraToFrag.y = (cameraToFrag.y*(0.25 ) + (cameraToFrag.y*abs(angle)*0.15) -0.5);",
-          "cameraToFrag.x = -cameraToFrag.x*angle;",
+          "vec2 envUv = vec2(surfaceAngle.y * 0.5 +0.5, surfaceAngle.x * 0.4 + 0.5);",
 
-          "vec4 reflectionColor = texture2D( envMap, cameraToFrag.xy);",
-          "cameraToFrag.y = -cameraToFrag.y;",
-          "cameraToFrag.x = -cameraToFrag.x;",
+          "vec4 reflectionColor = texture2D( envMap, envUv);",
+          "envUv.x = -envUv.x;",
+          "envUv.y = -envUv.y;",
 
-          "vec4 directReflectColor = texture2D( envMap, cameraToFrag.xy);",
+          "vec4 directReflectColor = texture2D( envMap, envUv);",
           "vec3 metalReflection = normalize(txColor.rgb * directReflectColor.rgb) * metal * (0.31 + angleFactor*0.33 + (metalDirect-fresnelFactor*0.5)*0.6);",
 
 
           "float smoothnessFactor = smooth*smooth;",
-          "vec4 fresnelReflection = reflectionColor * smoothnessFactor * fresnelFactor * 2.5*smooth;",
-          "vec4 directReflection  = directReflectColor * smoothnessFactor * directFactor * 2.2*smooth;",
-          "vec4 surfaceReflection = directReflectColor * smoothnessFactor * angleFactor * 2.2*smooth;",
+          "vec4 fresnelReflection = reflectionColor * smoothnessFactor * fresnelFactor * 1.5*smooth;",
+          "vec4 directReflection  = directReflectColor * smoothnessFactor * directFactor * 1.2*smooth;",
+          "vec4 surfaceReflection = directReflectColor * smoothnessFactor * angleFactor * 1.2*smooth;",
           "vec4 finalReflection = vec4(metalReflection, 1.0) + directReflection + fresnelReflection + surfaceReflection;",
 
 
