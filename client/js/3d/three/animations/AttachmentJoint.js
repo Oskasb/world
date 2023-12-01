@@ -1,16 +1,20 @@
 import {Vector3} from "../../../../libs/three/math/Vector3.js";
+import {Object3D} from "../../../../libs/three/core/Object3D.js";
 
 let tempVec = new Vector3()
 class AttachmentJoint {
     constructor(key, parentScale, dynamicBoneId) {
         this.key = key;
         this.dynamicBoneId = dynamicBoneId;
+        if (parentScale > 10) {
+            console.log("Big bad parentScale")
+        }
         this.parentScale = parentScale;
-        this.obj3d = new THREE.Object3D();
+        this.obj3d = new Object3D();
 
         this.gamePiece = null;
 
-        this.dynamicPosition = new THREE.Vector3();
+        this.dynamicPosition = new Vector3();
 
         this.attachedSpatial = null;
 
@@ -37,11 +41,11 @@ class AttachmentJoint {
 
     };
 
-    getAttachEffectCallback = function() {
+    getAttachEffectCallback() {
         return this.callbacks.attachEffect;
     };
 
-    inheritJointDynamicPosition = function() {
+    inheritJointDynamicPosition() {
         this.dynamicBone.stickToBoneWorldMatrix();
 
         let spatObj = this.dynamicBone.obj3d;
@@ -54,8 +58,16 @@ class AttachmentJoint {
             return;
         }
 
+        //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos: dynamicJoint.obj3d.position, color:'GREEN', size:dynamicJoint.obj3d.scale.length()*0.2})
+        if (this.obj3d.scale.length() > 10) {
+            console.log("Bad joint found!", spatObj)
+            this.applyJointOffsets(this.jointData);
+            evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos: this.obj3d.position, color:'RED', size:1})
+        }
 
         spatObj.scale.multiply(this.obj3d.scale);
+
+
         spatObj.quaternion.multiply(this.obj3d.quaternion);
         tempVec.copy(this.obj3d.position);
         tempVec.applyQuaternion( spatObj.quaternion)
@@ -72,19 +84,20 @@ class AttachmentJoint {
 
     };
 
-    addPositionUpdateCallback = function(cb) {
+    addPositionUpdateCallback(cb) {
         this.positionUpdateCallbacks.push(cb)
     };
 
-    removePositionUpdateCallback = function(cb) {
+    removePositionUpdateCallback(cb) {
         MATH.splice(this.positionUpdateCallbacks, cb);
     };
 
-    getDynamicPosition = function(storeVec) {
+    getDynamicPosition(storeVec) {
         storeVec.copy(this.dynamicPosition);
     };
 
-    applyJointOffsets = function(jointData) {
+    applyJointOffsets(jointData) {
+        this.jointData = jointData;
         this.obj3d.quaternion.set(0, 0, 0, 1);
         this.obj3d.rotateX(jointData.rot[0]);
         this.obj3d.rotateY(jointData.rot[1]);
@@ -97,17 +110,26 @@ class AttachmentJoint {
         this.obj3d.scale.x = jointData.scale[0];
         this.obj3d.scale.y = jointData.scale[1];
         this.obj3d.scale.z = jointData.scale[2];
+        if (this.obj3d.scale.x > 10) {
+            console.log("Bad jointData Scale")
+        }
+
         this.obj3d.scale.multiply(this.parentScale);
+        if (this.parentScale > 10) {
+            console.log("Bad parent Scale")
+        }
+
+
         this.obj3d.position.multiply(this.obj3d.scale)
     };
 
-    detachAttachedEntity = function() {
+    detachAttachedEntity() {
         this.attachedSpatial.dynamicJoint = null;
         this.attachedSpatial = null;
         return this;
     };
 
-    getAttachedEntity = function() {
+    getAttachedEntity() {
         return this.attachedSpatial;
     };
 

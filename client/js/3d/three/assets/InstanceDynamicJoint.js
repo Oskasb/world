@@ -30,6 +30,7 @@ class InstanceDynamicJoint {
                 return;
             }
 
+
             this.tempVec1.copy(this.offsetObj3d.position);
 
             if (this.offsetObj3d.position.lengthSq()) {
@@ -42,12 +43,18 @@ class InstanceDynamicJoint {
             this.obj3d.scale.multiply(this.offsetObj3d.scale);
             this.obj3d.quaternion.multiply(this.offsetObj3d.quaternion);
 
+            if (this.obj3d.scale.length() > 10) {
+                console.log("Bad joint found!", spatObj)
+                evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos: this.obj3d.position, color:'RED', size:1})
+                this.obj3d.scale.set(1, 1, 1)
+            }
+
             if (isNaN(this.obj3d.position.x)) {
                 console.log("Bad dynJoint")
                 return;
             }
 
-       //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos: this.obj3d.position, color:'GREEN', size:0.1})
+        //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos: this.obj3d.position, color:'GREEN', size:this.obj3d.scale.length()*0.2})
         };
 
         updateSpatialFrame = function() {

@@ -65,10 +65,15 @@ class GameActor {
                 console.log("Pre Deactivated happened, fix callback chain..")
                 return;
             }
+            // skeleton not always ready here...
             this.actorEquipment.activateActorEquipment(this, this.config['equip_slots'])
             this.activated = true;
             GameAPI.registerGameUpdateCallback(updateGameActor);
         }.bind(this);
+
+        let onVisualAdded = function() {
+            // add equipment here after visual has loaded skeleton...
+        }.bind(this)
 
         let getActorPos = function() {
             return this.getSpatialPosition();
@@ -114,6 +119,7 @@ class GameActor {
             remove:remove,
             turnEnd:turnEnd,
             onActive:onActive,
+            onVisualAdded:onVisualAdded,
             setAsSelection:setAsSelection,
             updateGameActor:updateGameActor,
             getActorPos:getActorPos,
@@ -258,7 +264,7 @@ class GameActor {
                 this.setStatusKey(key, visualConfig.status[key])
             }
         }
-
+        this.call.onVisualAdded();
     }
 
     equipItem(item) {

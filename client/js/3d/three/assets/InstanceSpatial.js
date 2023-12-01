@@ -183,6 +183,10 @@ class InstanceSpatial{
         };
 
         stickToDynamicJoint = function(dynamicJoint) {
+            if (dynamicJoint.obj3d.scale.length() > 10) {
+                console.log("Bad joint found!", dynamicJoint)
+            }
+        //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos: dynamicJoint.obj3d.position, color:'GREEN', size:dynamicJoint.obj3d.scale.length()*0.2})
             this.stickToObj3D(dynamicJoint.obj3d);
         };
 
