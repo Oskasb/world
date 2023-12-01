@@ -9,6 +9,7 @@ import {Box3} from "../../libs/three/math/Box3.js";
 
 let tempBox = new Box3();
 let tempVec = new Vector3()
+let tempVec2 = new Vector3()
 let tempObj = new Object3D()
 function buildAssetInstance(assetId, config, callback) {
 
@@ -64,7 +65,7 @@ function attachSkeletonRig(visualPiece, rigId, pieceReady) {
 
             visualPiece.rigData = MATH.getFromArrayByKeyValue(config, 'id', rigDataKey);
 
-            let scaleVec = ThreeAPI.tempVec3;
+            let scaleVec = tempVec2;
             let size = 1 // gamePiece.getStatusByKey('size')
             scaleVec.set(size, size, size);
             visualPiece.pieceAnimator.setupAnimations(assetInstance.originalModel, scaleVec);
