@@ -233,8 +233,12 @@
             "settings": "mat_settings_instancing_basic",
             "textures":[
               {"key":"map"           , "id":"atlas_2k_diff"   },
-              {"key":"emissiveMap"   , "id":"atlas_2k_emit"   },
-              {"key":"normalMap"     , "id":"atlas_2k_norm"   }
+              {"key":"envMap"         , "id":"ref_sphere"     } ,
+              {"key":"emissiveMap"   , "id":"atlas_2k_emit"       },
+              {"key":"materialErm"   , "id":"atlas_2k_mat_erm"    },
+              {"key":"normalMap"     , "id":"atlas_2k_norm"       },
+              {"key":"metalnessMap"  , "id":"atlas_2k_metalness"  },
+              {"key":"roughnessMap"  , "id":"atlas_2k_roughness"  }
             ]
           }
         },

@@ -4,11 +4,11 @@
     "ASSETS": {
       "MODELS": [
 
-        {"id": "asset_wrist_computer",     "config":{"model": "file_wrist_computer",       "material": "mat_instancing_standard", "settings": "model_settings_items" }},
+        {"id": "asset_wrist_computer",     "config":{"model": "file_wrist_computer",       "material": "mat_instancing_basic", "settings": "model_settings_items" }},
         {"id": "asset_rowboat",     "config":{"model": "file_rowboat",       "material": "mat_instancing_basic", "settings": "model_settings_items" }},
-        {"id": "asset_jetpack",     "config":{"model": "file_jetpack",       "material": "mat_instancing_standard", "settings": "model_settings_items" }},
-        {"id": "asset_oomba",       "config":{"model": "file_oomba",       "material": "mat_instancing_standard", "settings": "model_settings_items" }},
-        {"id": "asset_svigg",       "config":{"model": "file_svigg",       "material": "mat_instancing_standard", "settings": "model_settings_instancing_5" }},
+        {"id": "asset_jetpack",     "config":{"model": "file_jetpack",       "material": "mat_instancing_basic", "settings": "model_settings_items" }},
+        {"id": "asset_oomba",       "config":{"model": "file_oomba",       "material": "mat_instancing_basic", "settings": "model_settings_items" }},
+        {"id": "asset_svigg",       "config":{"model": "file_svigg",       "material": "mat_instancing_basic", "settings": "model_settings_instancing_5" }},
         {"id": "asset_f14",         "config":{"model": "file_jf14",             "rig": "rig_j35draken", "material": "material_opaque", "settings": "model_settings_default" }},
 
         {"id": "asset_j35draken",       "config":{"model": "file_j35draken",    "rig": "rig_j35draken", "material": "material_opaque", "settings": "model_settings_default" }},
@@ -111,12 +111,12 @@
         {"id": "asset_bullet",      "config": { "model": "file_bullet" ,  "material": "mat_instancing_basic",       "settings": "model_settings_instancing_100"     }},
         {"id": "asset_cross3d",     "config": { "model": "file_cross3d",  "material": "material_instancing_ui",     "settings": "model_settings_ui"  }},
 
-        {"id": "asset_belt_bronze", "config": { "model": "file_belt_bronze",  "material": "mat_instancing_standard",  "settings": "model_settings_items" }},
+        {"id": "asset_belt_bronze", "config": { "model": "file_belt_bronze",  "material": "mat_instancing_basic",  "settings": "model_settings_items" }},
 
-        {"id": "asset_beltplate",   "config": { "model": "file_beltplate",    "material": "mat_instancing_standard",  "settings": "model_settings_items" }},
-        {"id": "asset_helmetviking","config": { "model": "file_helmetviking", "material": "mat_instancing_standard",  "settings": "model_settings_items" }},
-        {"id": "asset_helmet_bronze", "config": { "model": "file_helmet_bronze", "material": "mat_instancing_standard",  "settings": "model_settings_items"  }},
-        {"id": "asset_bracer_bronze", "config": { "model": "file_bracer_bronze", "material": "mat_instancing_standard",  "settings": "model_settings_items"  }},
+        {"id": "asset_beltplate",   "config": { "model": "file_beltplate",    "material": "mat_instancing_basic",  "settings": "model_settings_items" }},
+        {"id": "asset_helmetviking","config": { "model": "file_helmetviking", "material": "mat_instancing_basic",  "settings": "model_settings_items" }},
+        {"id": "asset_helmet_bronze", "config": { "model": "file_helmet_bronze", "material": "mat_instancing_basic",  "settings": "model_settings_items"  }},
+        {"id": "asset_bracer_bronze", "config": { "model": "file_bracer_bronze", "material": "mat_instancing_basic",  "settings": "model_settings_items"  }},
 
 
 
@@ -134,13 +134,13 @@
         {"id": "asset_bracer_purple", "config": { "model": "file_bracer_bronze", "material":     "mat_instancing_purple",  "settings": "model_settings_items"  }},
 
 
-        {"id": "asset_hat_cloth_white", "config": { "model": "file_hat_cloth_white", "material": "mat_instancing_standard",  "settings": "model_settings_items"  }},
-        {"id": "asset_hat_cloth_yellow", "config": { "model": "file_hat_cloth_yellow", "material": "mat_instancing_standard",  "settings": "model_settings_items"  }},
+        {"id": "asset_hat_cloth_white", "config": { "model": "file_hat_cloth_white", "material": "mat_instancing_basic",  "settings": "model_settings_items"  }},
+        {"id": "asset_hat_cloth_yellow", "config": { "model": "file_hat_cloth_yellow", "material": "mat_instancing_basic",  "settings": "model_settings_items"  }},
 
-        {"id": "asset_hat_cloth_blue", "config": { "model": "file_hat_cloth_blue", "material": "mat_instancing_standard",  "settings": "model_settings_items"  }},
-        {"id": "asset_hat_cloth_red", "config": { "model": "file_hat_cloth_red", "material": "mat_instancing_standard",  "settings": "model_settings_items"  }},
-        {"id": "asset_hat_leather_brown", "config": { "model": "file_hat_leather_brown", "material": "mat_instancing_standard",  "settings": "model_settings_items"  }},
-        {"id": "asset_hat_pointy_white", "config": { "model": "file_hat_pointy_white", "material": "mat_instancing_standard",  "settings": "model_settings_items"  }},
+        {"id": "asset_hat_cloth_blue", "config": { "model": "file_hat_cloth_blue", "material": "mat_instancing_basic",  "settings": "model_settings_items"  }},
+        {"id": "asset_hat_cloth_red", "config": { "model": "file_hat_cloth_red", "material": "mat_instancing_basic",  "settings": "model_settings_items"  }},
+        {"id": "asset_hat_leather_brown", "config": { "model": "file_hat_leather_brown", "material": "mat_instancing_basic",  "settings": "model_settings_items"  }},
+        {"id": "asset_hat_pointy_white", "config": { "model": "file_hat_pointy_white", "material": "mat_instancing_basic",  "settings": "model_settings_items"  }},
 
 
         {"id": "asset_house_small",  "config": { "model": "file_house_small",   "material": "mat_instancing_basic",     "settings": "model_settings_instancing_50" }},
@@ -149,17 +149,17 @@
         {"id": "asset_mansion_main", "config": { "model": "file_mansion_main",  "material": "mat_instancing_basic",     "settings": "model_settings_instancing_5" }},
         {"id": "asset_house_t",      "config": { "model": "file_house_t",       "material": "mat_instancing_basic",     "settings": "model_settings_instancing_15" }},
 
-        {"id": "asset_block_4",         "config": { "model": "file_block_4",        "material": "mat_instancing_standard",     "settings": "model_settings_instancing_5" }},
-        {"id": "asset_scraper_10",      "config": { "model": "file_scraper_10",     "material": "mat_instancing_standard",     "settings": "model_settings_instancing_5" }},
-        {"id": "asset_scraper_17",      "config": { "model": "file_scraper_17",     "material": "mat_instancing_standard",     "settings": "model_settings_instancing_5" }},
+        {"id": "asset_block_4",         "config": { "model": "file_block_4",        "material": "mat_instancing_basic",     "settings": "model_settings_instancing_5" }},
+        {"id": "asset_scraper_10",      "config": { "model": "file_scraper_10",     "material": "mat_instancing_basic",     "settings": "model_settings_instancing_5" }},
+        {"id": "asset_scraper_17",      "config": { "model": "file_scraper_17",     "material": "mat_instancing_basic",     "settings": "model_settings_instancing_5" }},
 
 
         {"id": "asset_katana_green", "config": { "model": "file_ninjablade",        "material": "mat_instancing_green",  "settings": "model_settings_items" }},
-        {"id": "asset_ninjablade",  "config": { "model": "file_ninjablade",         "material": "mat_instancing_standard",  "settings": "model_settings_items" }},
-        {"id": "asset_slicer_axe_2h",  "config": { "model": "file_slicer_axe_2h",   "material": "mat_instancing_standard",  "settings": "model_settings_items" }},
-        {"id": "asset_sword_fancy",  "config": { "model": "file_sword_fancy",       "material": "mat_instancing_standard",  "settings": "model_settings_items" }},
-        {"id": "asset_emerald_blade",  "config": { "model": "file_emerald_blade",   "material": "mat_instancing_standard",  "settings": "model_settings_items" }},
-        {"id": "asset_hatchet_nice",  "config": { "model": "file_hatchet_nice",     "material": "mat_instancing_standard",  "settings": "model_settings_items" }},
+        {"id": "asset_ninjablade",  "config": { "model": "file_ninjablade",         "material": "mat_instancing_basic",  "settings": "model_settings_items" }},
+        {"id": "asset_slicer_axe_2h",  "config": { "model": "file_slicer_axe_2h",   "material": "mat_instancing_basic",  "settings": "model_settings_items" }},
+        {"id": "asset_sword_fancy",  "config": { "model": "file_sword_fancy",       "material": "mat_instancing_basic",  "settings": "model_settings_items" }},
+        {"id": "asset_emerald_blade",  "config": { "model": "file_emerald_blade",   "material": "mat_instancing_basic",  "settings": "model_settings_items" }},
+        {"id": "asset_hatchet_nice",  "config": { "model": "file_hatchet_nice",     "material": "mat_instancing_basic",  "settings": "model_settings_items" }},
 
         {"id": "asset_tree_1",      "config": { "model": "file_tree_1" ,      "material": "mat_instancing_basic",     "settings": "model_settings_instancing_75"     }},
         {"id": "asset_tree_2",      "config": { "model": "file_tree_2" ,      "material": "mat_instancing_basic",     "settings": "model_settings_instancing_100"     }},

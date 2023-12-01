@@ -8,6 +8,7 @@
         {"id": "img_ground_tiles8x8nm"   , "config": { "url":"./client/assets/images/textures/tiles/ground8x8nm.png" }},
         {"id": "img_box_tiles8x8"        , "config": { "url":"./client/assets/images/textures/tiles/boxtiles8x8.png" }},
         {"id": "img_atlas_2k_diff"       , "config": { "url":"./client/assets/images/textures/atlas_2k_diff.png"     }},
+        {"id": "img_atlas_2k_mat_erm"    , "config": { "url":"./client/assets/images/textures/atlas_2k_emit_rough_metal.png" }},
         {"id": "img_atlas_2k_emit"       , "config": { "url":"./client/assets/images/textures/atlas_2k_emit.png"     }},
         {"id": "img_atlas_2k_red"        , "config": { "url":"./client/assets/images/textures/atlas_2k_red.png"      }},
         {"id": "img_atlas_2k_green"      , "config": { "url":"./client/assets/images/textures/atlas_2k_green.png"    }},

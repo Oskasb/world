@@ -257,8 +257,12 @@
               },
               "side": "DoubleSide",
               "texture_uniforms": [
+                {"key":"materialErm" , "repeat":[1,   1]},
                 {"key":"emissiveMap",  "repeat":[1,   1]},
-                {"key":"normalMap",    "repeat":[1,   1]}
+                {"key":"envMap",       "repeat":[1,   1]},
+                {"key":"normalMap",    "repeat":[1,   1]},
+                {"key":"metalnessMap", "repeat":[1,   1]},
+                {"key":"roughnessMap", "repeat":[1,   1]}
               ],
               "settings": {
                 "alphaTest": 0.75

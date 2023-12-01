@@ -30,8 +30,9 @@ class InstanceDynamicJoint {
                 return;
             }
 
+            this.tempVec1.copy(this.offsetObj3d.position);
+
             if (this.offsetObj3d.position.lengthSq()) {
-                this.tempVec1.copy(this.offsetObj3d.position);
                 this.tempVec1.applyQuaternion(this.obj3d.quaternion);
                 this.obj3d.position.add(this.tempVec1);
             }

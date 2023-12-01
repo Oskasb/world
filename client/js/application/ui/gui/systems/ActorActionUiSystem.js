@@ -133,9 +133,9 @@ let updateActiveActorUi = function(tpf) {
         if (!selectedTarget) {
             selectedTarget = GameAPI.getActorById(actor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET))
             if (selectedTarget) {
-                action.call.advanceState();
+                activatedAction.call.advanceState();
                 setTimeout(function() {
-                    action.activateAttack(selectedTarget, action.actor.call.turnEnd)
+                    activatedAction.activateAttack(selectedTarget, action.actor.call.turnEnd)
                     activatedAction = null;
                     selectedTarget = null;
                 }, 1000)
