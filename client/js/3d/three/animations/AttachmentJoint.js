@@ -61,7 +61,10 @@ class AttachmentJoint {
         //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos: dynamicJoint.obj3d.position, color:'GREEN', size:dynamicJoint.obj3d.scale.length()*0.2})
         if (this.obj3d.scale.length() > 10) {
             console.log("Bad joint found!", spatObj)
-            this.applyJointOffsets(this.jointData);
+            if (this.jointData) {
+                this.applyJointOffsets(this.jointData);
+            }
+
             evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos: this.obj3d.position, color:'RED', size:1})
         }
 
