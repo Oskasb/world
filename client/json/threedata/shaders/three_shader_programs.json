@@ -755,12 +755,9 @@
           "vec3 metalAmbient = combinedEnvLight * metal * (rough + 0.25*smooth);",
           "lightColor = specularLights+combinedEnvLight+metalAmbient;",
 
-          "vec4 lightSum = vec4(lightColor * diffuseColor * (1.0-(metal*0.9)) + lightColor*(1.0-(metal*0.9)), 1.0);",
-          "lightSum += emitColor;",
-          "lightSum += finalReflection;",
-          "gl_FragColor = (lightSum+vColor) * txColor * (1.0-(metal*0.6)) + txColor * lightSum*(1.0-(metal*0.6)) + emitColor + finalReflection;",
-
-          "gl_FragColor =  vec4(lightSum) ;",
+          "gl_FragColor = vec4(lightColor * diffuseColor * (1.0-(metal*0.9)) + lightColor*(1.0-(metal*0.9)), 1.0);",
+          "gl_FragColor += emitColor;",
+          "gl_FragColor += finalReflection;",
           "float fogFactor = min(fogDensity * fogDepth, 1.0) * (1.0-emitSum*0.2);",
           "gl_FragColor.rgb = mix(gl_FragColor.rgb, fogColor,  fogFactor );",
 
