@@ -755,7 +755,7 @@
           "vec3 metalAmbient = combinedEnvLight * metal * (rough + 0.25*smooth);",
           "lightColor = specularLights+combinedEnvLight+metalAmbient;",
 
-          "vec4 lightSum = vec4(lightColor * diffuseColor * (1.0-(metal*0.6)) + lightColor*(1.0-(metal*0.6)), 1.0);",
+          "vec4 lightSum = vec4(lightColor * diffuseColor * (1.0-(metal*0.9)) + lightColor*(1.0-(metal*0.9)), 1.0);",
           "lightSum += emitColor;",
           "lightSum += finalReflection;",
           "gl_FragColor = (lightSum+vColor) * txColor * (1.0-(metal*0.6)) + txColor * lightSum*(1.0-(metal*0.6)) + emitColor + finalReflection;",
