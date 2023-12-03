@@ -709,31 +709,34 @@
           "vec3 fragNormal = normalize(faceNormal * normal.rgb)*1.1;",
           "vec3 transposedFragPos = fragPos + fragNormal.xyz*1.0;",
           "vec3 cameraToFrag = normalize(transposedFragPos-cameraPosition);",
-          "vec3 surfaceAngle = cross(fragNormal, cameraToFrag);",
+          "vec3 surfaceAngle = normalize(fragNormal * cameraToFrag);",
           "vec3 cameraAngle = cross(surfaceAngle, cameraToFrag);",
+          "vec3 surfaceToCameraVec3 = cross(surfaceAngle, cameraAngle);",
           "float sunToCameraAngle = 0.5 +0.46*dot(cameraToFrag, sunLightDirection);",
           "float angle = min(max(0.55 +0.45*dot(cameraToFrag, fragNormal), 0.0), 1.0);",
-          "float metalDirect = pow(angle +0.0, 1.0 +smooth*1.0);",
+          "float metalDirect = pow(2.0 - angle, 1.0 +smooth*3.0);",
           "float fresnelIntensity = max(angle*(1.0 + smooth) - max(((angle-0.5)*(smooth*4.0 + rough*1.0) -0.0), 0.0), 0.0);",
           "float fresnelFactor =  pow(fresnelIntensity*(0.5 + smooth*0.5), rough + 10.0*smooth);",
           "float directFactor =   pow ( (1.0-angle*0.95) *(0.15 + smooth*0.85), rough*2.2 + 10.0*smooth);",
           "float angleFactor = abs(fresnelFactor + directFactor);",
-          "vec2 envUv = vec2(surfaceAngle.y * 0.5 +0.5, surfaceAngle.x * 0.4 + 0.5);",
+          "vec2 envUv = vec2(-surfaceToCameraVec3.x * 0.5 +0.5, surfaceToCameraVec3.y * 0.49 + 0.5);",
 
           "vec4 reflectionColor = texture2D( envMap, envUv);",
           "envUv.x = -envUv.x;",
           "envUv.y = -envUv.y;",
 
           "vec4 directReflectColor = texture2D( envMap, envUv);",
-          "vec3 metalReflection = ((vColor.rgb * sunLightColor.rgb * directReflectColor.rgb *0.5) + (normalize(txColor.rgb) * directReflectColor.rgb *0.5)) * ((metal + directFactor*0.5) + (1.0 + directFactor * 1.0 + (metalDirect-fresnelFactor*5.0)*1.0));",
+          "vec3 metalDirectReflection = vec3(directReflectColor.rgb) * txColor.rgb * metal * metalDirect;",
+
+          "vec3 metalReflection = metal * ((normalize(vColor.rgb) * reflectionColor.rgb *2.0*angle) + 2.0*((normalize(txColor.rgb) * (txColor.rgb))*1.0 * directReflectColor.rgb * (2.0-angle*2.0)));",
 
 
           "float smoothnessFactor = smooth*smooth + smooth*1.0;",
           "vec4 fresnelReflection = reflectionColor * smoothnessFactor * fresnelFactor;",
-          "vec4 directReflection  = vec4(metalReflection, 1.0) * smoothnessFactor * directFactor * (2.0 -(angle*(rough*2.0)));",
-          "vec4 surfaceReflection = directReflectColor * smoothnessFactor * angleFactor;",
-          "vec4 finalReflection = vec4(metalReflection, 1.0) + 0.5*(directReflection + fresnelReflection + surfaceReflection);",
-          "finalReflection = vec4(finalReflection.rgb, 1.0);",
+          "vec4 directReflection  = directReflectColor  * directFactor * (directFactor * (15.0 -(angle*(rough*10.0))));",
+          "vec4 surfaceReflection = directReflectColor * smoothnessFactor * ((metal *(1.0-angle)) * (1.0-angle) + (smooth * angle));",
+          "vec4 finalReflection = vec4(metalReflection, 1.0) + (1.0 - (metal * (0.0))) * (directReflection + surfaceReflection) + fresnelReflection;",
+          "finalReflection = vec4(reflectionColor.rgb, 1.0);",
 
 
           "float intensity = min(max( 0.5*rough + dot(fragNormal, sunLightDirection )*(0.5 + smooth), -0.0), 1.0);",
@@ -760,7 +763,7 @@
           "gl_FragColor += finalReflection;",
           "float fogFactor = min(fogDensity * fogDepth, 1.0) * (1.0-emitSum*0.2);",
           "gl_FragColor.rgb = mix(gl_FragColor.rgb, fogColor,  fogFactor );",
-          "gl_FragColor.rgb = vec3(gl_FragColor.rgb );",
+          "gl_FragColor.rgb = vec3( finalReflection.rgb);",
           "}",
           ""
 
