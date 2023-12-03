@@ -69,15 +69,15 @@ let blendCanvasCtxToTexture = function(ctx, texture) {
 
     texture.ctx.globalCompositeOperation = 'copy';
        texture.ctx.drawImage(originalBitmap, 0, 0, originalBitmap.width, originalBitmap.height)
-    texture.ctx.globalCompositeOperation = 'mix';
-    texture.ctx.globalCompositeOperation = 'copy';
+ //     texture.ctx.globalCompositeOperation = 'mix';
+       texture.ctx.globalCompositeOperation = 'lighten';
  //   texture.ctx.fillStyle = "rgba("+255*Math.random()+", "+255*Math.random()+", 0, 1)";
  //   texture.ctx.fillRect(0, 0, originalBitmap.width, originalBitmap.height)
  //  texture.ctx.drawImage(ctx.canvas, originalBitmap.width, originalBitmap.height, 0, 0)
  //   texture.ctx.save();
  //   texture.ctx.restore();
-//    texture.ctx.scale(1, -1);
-    texture.ctx.drawImage(ctx.canvas, 0, 0, originalBitmap.width , originalBitmap.height)
+ //   texture.ctx.scale(1, -1);
+       texture.ctx.drawImage(ctx.canvas, 0, 0, originalBitmap.width , originalBitmap.height)
 
     texture.needsUpdate = true;
  //   mat.needsUpdate = true;
@@ -110,7 +110,7 @@ class ThreeTexture {
                 _this.texture.canvas = canvas;
                 _this.texture.ctx = canvas.getContext('2d')
                 _this.texture.ctx.drawImage( asset.bitmap, 0, 0, canvas.width, canvas.height );
-                _this.texture.flipY = false;
+                _this.texture.flipY = true;
             //    _this.texture.ctx.save();
                 _this.texture.combine = THREE.AddOperation;
 
