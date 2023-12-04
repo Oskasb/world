@@ -199,6 +199,23 @@ class ActorStatus {
         this.statusMap[ENUMS.ActorStatus.SELECTED_ACTION] = "";
         this.statusMap[ENUMS.ActorStatus.ACTION_STATE_KEY] = "";
         this.statusMap[ENUMS.ActorStatus.ACTION_STEP_PROGRESS]  = 0;
+
+        let updateTO = null;
+
+        let send = function() {
+            evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, this.sendStatus)
+        }.bind(this);
+
+
+        let frameQueue = function() {
+            clearTimeout(updateTO)
+            updateTO = setTimeout(send, 0);
+        }.bind(this);
+
+        this.call = {
+            frameQueue:frameQueue
+        }
+
     }
 
     getStatusByKey(key) {
@@ -257,7 +274,6 @@ class ActorStatus {
             fullSend(this, this.statusMap)
         } else {
             sendDetails(this, this.statusMap);
-
             sendUpdatedOnly(this, this.statusMap)
         }
 

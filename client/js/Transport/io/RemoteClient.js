@@ -2,6 +2,7 @@ import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
 import {Vector3} from "../../../libs/three/math/Vector3.js";
 import {Quaternion} from "../../../libs/three/math/Quaternion.js";
 import {DynamicEncounter} from "../../game/encounter/DynamicEncounter.js";
+import {Remote} from "./Remote.js";
 
 let equipQueue = []
 let index = 0;
@@ -18,9 +19,11 @@ function messageByKey(msg, key ) {
 }
 
 let onRemoteClientActionDone = function(actingActor) {
-    actingActor.actorText('Action Done')
-    //    action.call.closeAttack()
+    console.log("Remote Action Done: ", actingActor)
+  //  actingActor.actorText.say('Action Done')
+    // action.call.closeAttack()
 }
+
 
 class RemoteClient {
     constructor(stamp) {
@@ -79,80 +82,68 @@ class RemoteClient {
         let lastActionKey = remote.remoteActionKey;
         let newActionKey = actor.getStatus(ENUMS.ActorStatus.SELECTED_ACTION);
 
-        if (!newActionKey) {
-            remote.remoteActionKey = '';
-       //     return;
-        }
-
         let statusKey = actor.getStatus(ENUMS.ActorStatus.ACTION_STATE_KEY);
 
-        let action = remote.action;
-
         if (statusKey === 'attack_completed') {
+            let action = remote.call.getAction();
             if (action) {
-                actor.actorText.say("Attack Done")
-            //    setTimeout(function() {
-                    action.call.closeAttack()
-            //    }, 500)
-                remote.action = null;
+
             }
-            return;
         }
 
         if (statusKey === 'attack_apply_hit') {
-            actor.actorText.say("Apply Hit")
-            action.target.actorText.say("Hit me")
-            action.call.updateApplyHit()
-            return;
+        //    actor.actorText.say("Apply Hit")
+            let action = remote.call.getAction();
+            action.call.updateApplyHit(0.05)
         }
 
         if (statusKey === 'attack_post_hit') {
-            action.target.actorText.say("Apply Post Hit")
-            return;
+            let action = remote.call.getAction();
+        //    console.log("POST HIT", [action], actor.id, action.targetId);
+        //    action.getTarget().actorText.say("Apply Post Hit")
+
+            let delayedClose = function() {
+                console.log("Delayed Close", [action]);
+                action.call.closeAttack()
+            }
+
+            setTimeout(delayedClose, 3000);
+
+        }
+
+        if (statusKey === 'attack_precast' || statusKey === 'attack_selected') {
+
+            if (lastActionKey === newActionKey) {
+        //        console.log("SAME ACTION!")
+            } else {
+                console.log("INIT REMOTE ACTION", statusKey, newActionKey)
+                remote.remoteActionKey = newActionKey;
+                let action = poolFetch('ActorAction');
+                remote.call.setAction(action);
+                action.setActionKey(newActionKey);
+                action.initAction(actor);
+            }
         }
 
         if (statusKey === 'attack_active') {
+            let action = remote.call.getAction();
 
-
-            let target = GameAPI.getActorById(actor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET))
-            if (!target) {
-                console.log("Action needs a target!")
-                target = actor;
+            let targetId = actor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET)
+            if (!targetId) {
+       //         console.log("Action needs a target!")
+                targetId = actor.id;
             }
 
-            if (action.onCompletedCallbacks.indexOf(onRemoteClientActionDone) !== -1) {
-                action.activateAttack(target, onRemoteClientActionDone)
+            if (action.onCompletedCallbacks.indexOf(onRemoteClientActionDone) === -1) {
+        //        console.log("ACTIVATE REMOTE ACTION", actor.id, targetId)
+                action.activateAttack(targetId, onRemoteClientActionDone)
+            } else {
+        //        console.log("Already Activated", action, actor)
             }
-          //  setTimeout(function() {
-
-          //  }, 900)
         }
 
-        if (statusKey === 'attack_precast') {
 
 
-
-
-
-            if (lastActionKey === newActionKey) {
-                console.log("SAME ACTION!")
-            } else {
-
-                    remote.remoteActionKey = newActionKey;
-                    let action = poolFetch('ActorAction');
-                    remote.action = action;
-                    action.setActionKey(newActionKey);
-                    action.initAction(actor);
-                    let target = GameAPI.getActorById(actor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET))
-                    if (!target) {
-                        console.log("Action needs a target!")
-                        target = actor;
-                    }
-
-
-
-            }
-    }
     }
 
 
@@ -192,7 +183,7 @@ class RemoteClient {
     deactivateEncounter(status) {
         GuiAPI.screenText(status+" BATTLE")
         let actorList = this.encounter.status.call.getStatus(ENUMS.EncounterStatus.ENCOUNTER_ACTORS)
-    //    console.log("DEACTIVATING: ", actorList, this.actors)
+        //    console.log("DEACTIVATING: ", actorList, this.actors)
         for (let i = 0; i < actorList.length; i++) {
             let actor = this.getActorById(actorList[i])
             MATH.splice(this.actors, actor);
@@ -202,7 +193,7 @@ class RemoteClient {
     }
 
     handleEncounterMessage(encounterId, msg) {
-    //    console.log("Encounter Message; ", msg);
+        //    console.log("Encounter Message; ", msg);
 
         if (!this.encounter) {
             this.encounter = new DynamicEncounter(encounterId)
@@ -238,9 +229,9 @@ class RemoteClient {
         let actors = this.actors;
         let remoteId = null
         if (msg[0] === ENUMS.ActorStatus.ACTOR_ID) {
-       //     console.log("REMOTE INDEX: ", msg[1])
+            //     console.log("REMOTE INDEX: ", msg[1])
             remoteId = msg[1];
-        //    GuiAPI.screenText("REQUEST REMOTE ACTOR "+ remoteId)
+            //    GuiAPI.screenText("REQUEST REMOTE ACTOR "+ remoteId)
         } else if (msg[0] === ENUMS.EncounterStatus.ENCOUNTER_ID) {
             this.handleEncounterMessage(msg[1], msg);
             return;
@@ -249,7 +240,7 @@ class RemoteClient {
             return;
         }
 
-    //    GuiAPI.screenText("Remote Index "+remoteId,  ENUMS.Message.HINT, 0.5)
+        //    GuiAPI.screenText("Remote Index "+remoteId,  ENUMS.Message.HINT, 0.5)
         if (typeof(remoteId) === 'string') {
             let actor = this.getActorById(remoteId);
             if (!actor) {
@@ -257,20 +248,9 @@ class RemoteClient {
                     console.log("Remote Actor Loaded", actr)
                     actr.id = remoteId;
                     let onReady = function(readyActor) {
-                       actors.push(readyActor);
+                        actors.push(readyActor);
                     }
-                    let remote = {
-                        stamp:stamp,
-                        remoteId:remoteId,
-                        pos:new Vector3(),
-                        scale:new Vector3(),
-                        vel:new Vector3(),
-                        quat:new Quaternion(),
-                        remoteActionKey:'',
-                        action:null,
-                        lastSpatialTime:0,
-                        timeDelta:2
-                    }
+                    let remote = new Remote(stamp, remoteId);
                     actr.call.setRemote(remote)
                     actr.activateGameActor(onReady)
                 }
@@ -290,7 +270,7 @@ class RemoteClient {
                 }
 
             } else {
-            //    actor.actorText.say(remoteId+' '+actor.index)
+                //    actor.actorText.say(remoteId+' '+actor.index)
 
                 let hasSpatial = false;
 
@@ -339,7 +319,7 @@ class RemoteClient {
 
                 this.applyRemoteEquipment(actor)
                 this.applyRemoteAction(actor);
-            //    console.log(msg)
+                //    console.log(msg)
 
             }
         } else {

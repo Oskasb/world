@@ -130,7 +130,7 @@ function updateActorApplyAttack(tpf) {
 
         GameAPI.unregisterGameUpdateCallback(updateActorApplyAttack)
 
-        attack.activateAttack(target, getSequencer().call.stateTransition)
+        attack.activateAttack(target.id, getSequencer().call.stateTransition)
         tpf = 0;
     }
 

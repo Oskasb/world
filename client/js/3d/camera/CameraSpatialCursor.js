@@ -25,10 +25,10 @@ let cursorTravelVec = new Vector3();
 let cursorForward = new Vector3();
 let walkForward = new Vector3();
 let viewTargetPos = new Vector3();
-let zoomDistance = 15;
+let zoomDistance = 5;
 let actorQuat = null;
 
-let lookAroundPoint = new Vector3(-865, 0, 540)
+let lookAroundPoint = new Vector3(-882, 0, 510)
 
 let posMod = new Vector3();
 let lookAtMod = new Vector3();
@@ -128,7 +128,7 @@ class CameraSpatialCursor {
             pointerActive = true;
 
             if (isFirstPressFrame) {
-                console.log("isFirstPressFrame", isFirstPressFrame)
+        //        console.log("isFirstPressFrame", isFirstPressFrame)
                 notifyCameraStatus(ENUMS.CameraStatus.POINTER_ACTION, null, true)
                 camPosVec.copy(ThreeAPI.getCamera().position);
                 dragToVec3.copy( cursorObj3d.position)

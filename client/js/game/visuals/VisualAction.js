@@ -101,7 +101,7 @@ class VisualAction {
     }
 
     getTarget() {
-        return this.actorAction.target;
+        return this.actorAction.getTarget();
     }
 
 
@@ -114,7 +114,7 @@ class VisualAction {
         let tPos = this.targetPos;
 
         let getTargetPos = function() {
-            actorAction.target.getSpatialPosition(tPos)
+            actorAction.getTarget().getSpatialPosition(tPos)
             tPos.y +=1.5;
             return tPos;
         }

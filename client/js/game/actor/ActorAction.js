@@ -46,8 +46,12 @@ let activateAttackStateTransition = function(attack) {
     let stateIndex = attack.attackStateIndex;
     console.log("stateIndex", stateIndex)
     let stateKey = attackStateKeys[stateIndex]
-    attack.actor.setStatusKey(ENUMS.ActorStatus.ACTION_STATE_KEY, stateKey)
-    attack.actor.setStatusKey(ENUMS.ActorStatus.SELECTED_ACTION, attack.actionKey);
+
+    if (!attack.actor.call.getRemote()) {
+        attack.actor.setStatusKey(ENUMS.ActorStatus.ACTION_STATE_KEY, stateKey)
+    }
+
+//    attack.actor.setStatusKey(ENUMS.ActorStatus.SELECTED_ACTION, attack.actionKey);
 //    attack.actor.actorText.say(stateKey)
     let funcName = attackStateMap[stateKey].updateFunc
     attack.updateFunc = attack.call[funcName];
@@ -60,7 +64,7 @@ class ActorAction {
 
         this.stepProgress = 0;
         this.actor = null;
-        this.target = null;
+        this.targetId = null;
         this.visualAction = null;
         this.attackStateIndex = 0;
         this.onCompletedCallbacks = [];
@@ -128,6 +132,11 @@ class ActorAction {
 
     }
 
+    getTarget() {
+        return GameAPI.getActorById(this.targetId);
+    }
+
+
     getStepDuration(step) {
         if (typeof this.sequencing[step] === 'object') {
             return this.sequencing[step].time || 1;
@@ -151,6 +160,13 @@ class ActorAction {
     initAction(actor) {
         this.actor = actor;
 
+        if (!actor.call.getRemote()) {
+            this.actor.setStatusKey(ENUMS.ActorStatus.ACTION_STATE_KEY, attackStateKeys[0])
+            this.actor.setStatusKey(ENUMS.ActorStatus.SELECTED_ACTION, this.actionKey);
+        }
+
+
+
         let status = this.readActionConfig('status')
 
         if (typeof(status) === 'object') {
@@ -168,9 +184,9 @@ class ActorAction {
         }
     }
 
-    activateAttack(target, onCompletedCB) {
+    activateAttack(targetId, onCompletedCB) {
         if (typeof(this.sequencing) === 'object') {
-            this.target = target;
+            this.targetId = targetId;
             this.onCompletedCallbacks.push(onCompletedCB)
             this.visualAction.visualizeAttack(this);
         }
@@ -180,7 +196,8 @@ class ActorAction {
         console.log("attackCompleted", this)
         this.actor.setStatusKey(ENUMS.ActorStatus.SELECTED_ACTION, '');
         GameAPI.unregisterGameUpdateCallback(this.call.updateAttack);
-        MATH.callAndClearAll(this.onCompletedCallbacks, this.actor);
+        MATH.callAll(this.onCompletedCallbacks, this.actor);
+        MATH.emptyArray(this.onCompletedCallbacks);
         this.recoverAttack();
     }
 

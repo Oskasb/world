@@ -42,7 +42,7 @@ let onActionActivate = function(action) {
     if (selectedTarget) {
         action.call.advanceState();
         setTimeout(function() {
-           action.activateAttack(selectedTarget, action.actor.call.turnEnd)
+           action.activateAttack(selectedTarget.id, action.actor.call.turnEnd)
             activatedAction = null;
             selectedTarget = null;
         }, 1000)
@@ -135,7 +135,7 @@ let updateActiveActorUi = function(tpf) {
             if (selectedTarget) {
                 activatedAction.call.advanceState();
                 setTimeout(function() {
-                    activatedAction.activateAttack(selectedTarget, action.actor.call.turnEnd)
+                    activatedAction.activateAttack(selectedTarget.id, action.actor.call.turnEnd)
                     activatedAction = null;
                     selectedTarget = null;
                 }, 1000)
