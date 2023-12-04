@@ -97,7 +97,12 @@ class CameraUiSystem {
     closeCameraUi() {
 
         while (buttons.length) {
+            buttons.pop().removeGuiWidget()
+        }
 
+        if (container) {
+            container = container.guiWidget.recoverGuiWidget()
+            container = null;
         }
 
         ThreeAPI.unregisterPrerenderCallback(updateCameraUiSystem)

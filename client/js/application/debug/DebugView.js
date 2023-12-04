@@ -158,7 +158,9 @@ class DebugView {
     activateDebugView = function() {
         this.isActive = !this.isActive;
         if (!this.isActive) {
+            ThreeAPI.getCameraCursor().getCameraUiSystem().closeCameraUi();
             this.deactivateDebugView()
+
             ThreeAPI.unregisterPostrenderCallback(updateSystemDebug)
             return;
         }
@@ -166,6 +168,7 @@ class DebugView {
         ThreeAPI.addPostrenderCallback(updateSystemDebug)
         if (client.page) {
             GuiAPI.closePage(client.page)
+            ThreeAPI.getCameraCursor().getCameraUiSystem().initCameraUi();
             client.page = null;
         }
 

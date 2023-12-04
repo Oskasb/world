@@ -216,7 +216,7 @@ let updateBigGeo = function(tpf) {
   //  oceanInstances[1].getSpatial().setPosXYZ(posX, -3.0, posZ);
     for (let i = 0; i < oceanInstances.length; i++) {
         if (i === 1) {
-            oceanInstances[i].getSpatial().setPosXYZ(posX, -3.0, posZ);
+            oceanInstances[i].getSpatial().setPosXYZ(posX, 0.0, posZ);
         }
 
     }

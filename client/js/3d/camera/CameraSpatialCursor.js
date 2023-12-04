@@ -115,7 +115,7 @@ class CameraSpatialCursor {
 
         let setCamMode = function(evt) {
             let selectedMode = evt.mode;
-            cameraUiSystem.initCameraUi();
+        //    cameraUiSystem.initCameraUi();
             if (selectedMode === camModes.worldDisplay) {
                 notifyCameraStatus(ENUMS.CameraStatus.CAMERA_MODE, ENUMS.CameraControls.CAM_AUTO, true)
             }
@@ -165,7 +165,9 @@ class CameraSpatialCursor {
 
     }
 
-
+    getCameraUiSystem = function() {
+        return cameraUiSystem;
+    }
 
     setCursorPosition = function(vec3) {
         cursorObj3d.position.copy(vec3);

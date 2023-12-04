@@ -137,7 +137,13 @@ console.log("Pathing Completed")
                 if (tileSelector.hasValue()) {
                     actor.turnTowardsPos(tileSelector.getPos() , GameAPI.getFrame().avgTpf * tileSelector.extendedDistance * 0.1);
                     let tile = walkGrid.getTileAtPosition(tileSelector.getPos());
-                    actor.setDestination(tile.getPos());
+                    if (tile.walkable === true) {
+                        actor.setDestination(tile.getPos());
+                    } else {
+                    //    actor.setStatusKey(ENUMS.ActorStatus.SELECTING_DESTINATION, 0);
+                        actor.setDestination(actor.getSpatialPosition(ThreeAPI.tempVec3));
+                    }
+
                 } else {
                     actor.setStatusKey(ENUMS.ActorStatus.SELECTING_DESTINATION, 0);
                     actor.setDestination(actor.getSpatialPosition(ThreeAPI.tempVec3));

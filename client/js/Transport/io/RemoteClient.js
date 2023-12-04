@@ -17,6 +17,11 @@ function messageByKey(msg, key ) {
     return msg[keyIndex+1];
 }
 
+let onRemoteClientActionDone = function(actingActor) {
+    actingActor.actorText('Action Done')
+    //    action.call.closeAttack()
+}
+
 class RemoteClient {
     constructor(stamp) {
         this.index = index;
@@ -74,16 +79,60 @@ class RemoteClient {
         let lastActionKey = remote.remoteActionKey;
         let newActionKey = actor.getStatus(ENUMS.ActorStatus.SELECTED_ACTION);
 
+        if (!newActionKey) {
+            remote.remoteActionKey = '';
+       //     return;
+        }
+
         let statusKey = actor.getStatus(ENUMS.ActorStatus.ACTION_STATE_KEY);
 
-        if (statusKey !== 'attack_precast') {
+        let action = remote.action;
+
+        if (statusKey === 'attack_completed') {
+            if (action) {
+                actor.actorText.say("Attack Done")
+            //    setTimeout(function() {
+                    action.call.closeAttack()
+            //    }, 500)
+                remote.action = null;
+            }
             return;
         }
 
-        if (!newActionKey) {
-            remote.remoteActionKey = newActionKey;
+        if (statusKey === 'attack_apply_hit') {
+            actor.actorText.say("Apply Hit")
+            action.target.actorText.say("Hit me")
+            action.call.updateApplyHit()
             return;
         }
+
+        if (statusKey === 'attack_post_hit') {
+            action.target.actorText.say("Apply Post Hit")
+            return;
+        }
+
+        if (statusKey === 'attack_active') {
+
+
+            let target = GameAPI.getActorById(actor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET))
+            if (!target) {
+                console.log("Action needs a target!")
+                target = actor;
+            }
+
+            if (action.onCompletedCallbacks.indexOf(onRemoteClientActionDone) !== -1) {
+                action.activateAttack(target, onRemoteClientActionDone)
+            }
+          //  setTimeout(function() {
+
+          //  }, 900)
+        }
+
+        if (statusKey === 'attack_precast') {
+
+
+
+
 
             if (lastActionKey === newActionKey) {
                 console.log("SAME ACTION!")
@@ -91,6 +140,7 @@ class RemoteClient {
 
                     remote.remoteActionKey = newActionKey;
                     let action = poolFetch('ActorAction');
+                    remote.action = action;
                     action.setActionKey(newActionKey);
                     action.initAction(actor);
                     let target = GameAPI.getActorById(actor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET))
@@ -98,12 +148,11 @@ class RemoteClient {
                         console.log("Action needs a target!")
                         target = actor;
                     }
-                    setTimeout(function() {
-                        action.activateAttack(target, action.call.closeAttack)
-                    }, 500)
+
+
 
             }
-
+    }
     }
 
 
