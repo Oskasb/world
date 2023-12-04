@@ -101,12 +101,25 @@ function getSequencerSelection() {
     return gameEncounterSystem.getEncounterTurnSequencer().getSequencerSelection()
 }
 
+let gameAPI;
 function getTurnActiveSequencerActor() {
-    return gameEncounterSystem.getEncounterTurnSequencer().getActiveSequencerActor()
+    let encounter = gameEncounterSystem.call.getActiveDynamicEncounter()
+    if (encounter) {
+        let hasTurnId = encounter.status.call.getStatus(ENUMS.EncounterStatus.HAS_TURN_ACTOR)
+        let actor = gameAPI.getActorById(hasTurnId)
+
+        if (!actor) {
+            console.log("No actor has turn....")
+        }
+
+        return actor;
+    }
+
 }
 
 class GameAPI {
     constructor() {
+        gameAPI = this;
         this.activePlayerCharacter = null;
         this.gameAdventureSystem = new GameAdventureSystem();
         this.characterComposer = new CharacterComposer();

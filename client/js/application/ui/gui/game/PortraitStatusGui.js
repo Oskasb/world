@@ -71,7 +71,7 @@ class PortraitStatusGui {
 
     activatePortraitStatusGui() {
 
-        console.log("activatePortraitStatusGui")
+    //    console.log("activatePortraitStatusGui")
 
         let onHpReady = function(element) {
             this.hpProgressElement = element;

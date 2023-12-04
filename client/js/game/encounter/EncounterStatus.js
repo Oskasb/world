@@ -42,9 +42,12 @@ class EncounterStatus {
     constructor(id, worldEncId) {
         this.statusMap = {}
         this.statusMap[ENUMS.EncounterStatus.ENCOUNTER_ID] = id;
+        this.statusMap[ENUMS.EncounterStatus.GRID_ID] = "";
+        this.statusMap[ENUMS.EncounterStatus.GRID_POS] = [0, 0, 0];
         this.statusMap[ENUMS.EncounterStatus.WORLD_ENCOUNTER_ID] = worldEncId;
         this.statusMap[ENUMS.EncounterStatus.ENCOUNTER_ACTORS] = [];
         this.statusMap[ENUMS.EncounterStatus.HAS_TURN_ACTOR] = "";
+        this.statusMap[ENUMS.EncounterStatus.TURN_INDEX] = 0;
         this.statusMap[ENUMS.EncounterStatus.ACTIVATION_STATE] = ENUMS.ActivationState.INIT;
 
 
@@ -85,20 +88,27 @@ class EncounterStatus {
     broadcastStatus(gameTime) {
 
         let statusMap = this.statusMap;
-        MATH.emptyArray(sendStatus);
-        sendStatus.push(ENUMS.EncounterStatus.ENCOUNTER_ID)
-        sendStatus.push(statusMap[ENUMS.EncounterStatus.ENCOUNTER_ID])
+        let encClientStamp = this.getStatusByKey(ENUMS.EncounterStatus.CLIENT_STAMP)
+        let playerClientStamp = client.getStamp();
 
-        if (lastFullSend < gameTime -0.1) {
-            lastFullSend = gameTime;
-            fullSend(statusMap)
+        if (encClientStamp === playerClientStamp) {
+            MATH.emptyArray(sendStatus);
+            sendStatus.push(ENUMS.EncounterStatus.ENCOUNTER_ID)
+            sendStatus.push(statusMap[ENUMS.EncounterStatus.ENCOUNTER_ID])
+
+            if (lastFullSend < gameTime -0.1) {
+                lastFullSend = gameTime;
+                fullSend(statusMap)
+            } else {
+                sendUpdatedOnly(statusMap)
+            }
+
+            if (sendStatus.length > 2) {
+                console.log("DYN ENC SEND: ", sendStatus)
+                evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, sendStatus)
+            }
         } else {
-            sendUpdatedOnly(statusMap)
-        }
-
-        if (sendStatus.length > 2) {
-            console.log("DYN ENC SEND: ", sendStatus)
-            evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, sendStatus)
+            console.log("No send others enc's", encClientStamp, playerClientStamp)
         }
     }
 }

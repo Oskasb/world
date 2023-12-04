@@ -89,6 +89,7 @@ function checkTriggerPlayer(encounter) {
                     selectedActor.getGameWalkGrid().setTargetPosition(encounter.getPos())
                     selectedActor.getGameWalkGrid().cancelActivePath()
                     selectedActor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, false);
+                    selectedActor.setStatusKey(ENUMS.ActorStatus.REQUEST_PARTY, '');
                     selectedActor.setStatusKey(ENUMS.ActorStatus.ACTIVATING_ENCOUNTER, encounter.id);
                     selectedActor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_INACTIVE);
                     ThreeAPI.getCameraCursor().getLookAroundPoint().copy(encounter.getPos())
@@ -117,10 +118,13 @@ function checkTriggerPlayer(encounter) {
                 encounterEvent.grid_id = encounter.config.grid_id;
                 encounterEvent.spawn = encounter.config.spawn;
                 encounterEvent.cam_pos = encounter.getTriggeredCameraHome();
+
                 selectedActor.setStatusKey(ENUMS.ActorStatus.ACTIVATING_ENCOUNTER, "");
                 selectedActor.setStatusKey(ENUMS.ActorStatus.ACTIVATED_ENCOUNTER, encounter.id);
                 selectedActor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_BATTLE);
+
                 evt.dispatch(ENUMS.Event.GAME_MODE_BATTLE, encounterEvent)
+
             }
         } else {
             encounter.timeInsideTrigger = 0;

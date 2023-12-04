@@ -181,7 +181,7 @@ class RemoteClient {
     }
 
     deactivateEncounter(status) {
-        GuiAPI.screenText(status+" BATTLE")
+    //    GuiAPI.screenText(status+" BATTLE")
         let actorList = this.encounter.status.call.getStatus(ENUMS.EncounterStatus.ENCOUNTER_ACTORS)
         //    console.log("DEACTIVATING: ", actorList, this.actors)
         for (let i = 0; i < actorList.length; i++) {
@@ -195,12 +195,15 @@ class RemoteClient {
     handleEncounterMessage(encounterId, msg) {
         //    console.log("Encounter Message; ", msg);
 
+
+
         if (!this.encounter) {
             this.encounter = new DynamicEncounter(encounterId)
             this.encounter.isRemote = true;
         }
 
         let statusPre = this.encounter.status.call.getStatus(ENUMS.EncounterStatus.ACTIVATION_STATE)
+
 
         for (let i = 2; i < msg.length; i++) {
             let key = msg[i];
@@ -217,8 +220,13 @@ class RemoteClient {
         let activationState = this.encounter.status.call.getStatus(ENUMS.EncounterStatus.ACTIVATION_STATE)
 
         if (activationState !== statusPre) {
+
+            if (activationState === ENUMS.ActivationState.ACTIVATING) {
+                GameAPI.call.getGameEncounterSystem().activateByRemote(this.encounter)
+            }
+
             console.log(statusPre, activationState)
-            GuiAPI.screenText(activationState + " BATTLE")
+        //    GuiAPI.screenText(activationState + " BATTLE")
         }
     }
 

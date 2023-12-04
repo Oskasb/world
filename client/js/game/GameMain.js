@@ -139,7 +139,7 @@ class GameMain {
 
     addGameUpdateCallback(callback) {
         if (this.onUpdateCallbacks.indexOf(callback) !== -1) {
-            console.log("updateCb already added...")
+        //    console.log("updateCb already added...")
             return;
         }
         this.onUpdateCallbacks.push(callback);
@@ -185,7 +185,7 @@ class GameMain {
 
     addGameTurnCallback(callback) {
         if (this.onTurnCallbacks.indexOf(callback) !== -1) {
-            console.log("updateCb already added...")
+        //    console.log("updateCb already added...")
             return;
         }
         this.onTurnCallbacks.push(callback);

@@ -94,7 +94,7 @@ function attachSkeletonRig(visualPiece, rigId, pieceReady) {
 let postApply = function(baseSize, inst, visualPiece, pieceReady) {
     let apply = function() {
         if (inst.getSpatial().call.isInstanced()) {
-            console.log("Set Base Scale: ", baseSize)
+        //    console.log("Set Base Scale: ", baseSize)
             inst.getSpatial().setBaseSize(baseSize);
             inst.getSpatial().call.getInstance().setBaseScale(baseSize);
             inst.getSpatial().setScaleXYZ(1,1, 1);

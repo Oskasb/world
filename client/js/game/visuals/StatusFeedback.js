@@ -20,7 +20,7 @@ class StatusFeedback {
                     this.feedbackMap[key] = null;
                     activate = true;
                 } else {
-                    console.log("EFFECT ON +++")
+                //    console.log("EFFECT ON +++")
                     activate = true;
                 }
 

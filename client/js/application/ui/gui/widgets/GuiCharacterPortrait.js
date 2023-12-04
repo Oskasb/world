@@ -13,13 +13,6 @@ class GuiCharacterPortrait {
             this.container = this.portraitContainer;
             this.guiWidget = button.guiWidget;
 
-            if (this.actor.call.getRemote()) {
-                let alignment = this.actor.getStatus(ENUMS.ActorStatus.ALIGNMENT) || 'ITEM';
-                let frameFbConfId = frameFeedbackMap[alignment];
-                this.button.guiWidget.guiSurface.setFeedbackConfigId(frameFbConfId || 'feedback_icon_button_item')
-                this.button.guiWidget.guiSurface.applyStateFeedback()
-            }
-
             this.buttonFrame = new GuiButtonFrame(this.guiWidget, frameWidgetId);
             this.portraitStatusGui.initPortraitStatusGui(actor, button);
             ThreeAPI.addPrerenderCallback(this.portraitStatusGui.callbacks.updateCharStatGui)
@@ -31,8 +24,16 @@ class GuiCharacterPortrait {
         }
 
         let isActive = function() {
+
+            if (this.actor.call.getRemote()) {
+                let alignment = this.actor.getStatus(ENUMS.ActorStatus.ALIGNMENT) || 'ITEM';
+                let frameFbConfId = frameFeedbackMap[alignment];
+                this.button.guiWidget.guiSurface.setFeedbackConfigId(frameFbConfId || 'feedback_icon_button_item')
+                this.button.guiWidget.guiSurface.applyStateFeedback()
+            }
+
             return testActive(actor)
-        }
+        }.bind(this)
 
 
         let anchorReady = function(element) {
@@ -90,15 +91,10 @@ class GuiCharacterPortrait {
     updateCharacterPortrait(tpf, turnIndex) {
 
         this.updatePortraitInteractiveState(turnIndex)
-
-
-
         this.buttonFrame.updateButtonFrame(tpf);
+
         if (this.portraitStatusGui) {
             this.portraitStatusGui.updateCharacterStatElement();
-
-
-
 
             if (this.actor.getStatus(ENUMS.ActorStatus.DEAD)) {
                 let iconKey = 'dead'

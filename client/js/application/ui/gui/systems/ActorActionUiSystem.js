@@ -17,12 +17,12 @@ let testActive = function(actor) {
 }
 
 let onActivate = function(actor) {
-    console.log("Button Pressed, onActivate:", actor)
+ //   console.log("Button Pressed, onActivate:", actor)
     actor.actorText.say('Me '+actor.index)
 }
 
 let onReady = function(portrait) {
-    console.log("onReady", portrait)
+  //  console.log("onReady", portrait)
   //  portrait.guiWidget.attachToAnchor('center');
 }
 
@@ -35,7 +35,20 @@ let activatedAction = null;
 let selectedTarget = null;
 
 let onActionActivate = function(action) {
-    console.log("onActionActivate:", action)
+
+    if (!action.actor) {
+        GuiAPI.screenText("Not your action")
+        console.log("NO ACTION");
+        return;
+    }
+
+    if (action.actor.call.getRemote()) {
+        GuiAPI.screenText("Not your action")
+        action.actor.actorText.say("Dont Touch")
+        return;
+    }
+
+ //   console.log("onActionActivate:", action)
     selectedTarget = GameAPI.getActorById(actor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET))
     action.initAction(actor);
     activatedAction = action;

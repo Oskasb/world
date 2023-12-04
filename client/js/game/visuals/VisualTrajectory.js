@@ -31,7 +31,6 @@ function drawPathPoints(from, to, distance, pathPoints) {
     let points = Math.floor(distance*1.5)
 
     while (pathPoints.length > points) {
-
         let pointFX = pathPoints.pop();
         pointFX.recoverPointFx();
         poolReturn(pointFX);
@@ -42,7 +41,6 @@ function drawPathPoints(from, to, distance, pathPoints) {
         pointFx.setupPointFX();
         pathPoints.push(pointFx);
     }
-    console.log(pathPoints)
 
     let rgba = colorMapFx['PATH_POINT']
 

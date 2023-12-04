@@ -130,10 +130,19 @@ class GameActor {
 
     isPlayerActor() {
         if (this.call.getRemote() === null) {
-            return GameAPI.getGamePieceSystem().isPlayerPartyActor(this)
-        } else {
-            return false;
+            let isParty = GameAPI.getGamePieceSystem().isPlayerPartyActor(this);
+            if (isParty) {
+                if (this.call.getRemote()) {
+                    return false;
+                }
+                return true;
+            }
         }
+        return false;
+    }
+
+    rollInitiative() {
+        this.setStatusKey(ENUMS.ActorStatus.SEQUENCER_INITIATIVE, Math.random())
     }
 
     startPlayerTurn(turnEndedCB, turnIndex) {
@@ -159,7 +168,22 @@ class GameActor {
         this.getVisualGamePiece().getModel().getJointKeyWorldTransform(jointKey, storeObj3d);
     }
 
-    checkBroadcast() {
+    checkBroadcast(actor) {
+
+        if (actor) {
+            if (actor.call.getRemote()) {
+                return false;
+            }
+
+            if (typeof(actor.getSTatus) === 'function') {
+                let clientStamp =client.getStamp();
+                let actorClientStamp = actor.getStatus(ENUMS.ActorStatus.CLIENT_STAMP)
+                if (clientStamp !== actorClientStamp) {
+                    return false;
+                }
+            }
+        }
+
         let encounterHosted = false;
         let dynEnc = GameAPI.call.getDynamicEncounter()
         if (dynEnc) {
@@ -179,7 +203,7 @@ class GameActor {
 
     sendStatus(delay) {
 
-        if (this.checkBroadcast()) {
+        if (this.checkBroadcast(this)) {
             this.actorStatus.setStatusKey(ENUMS.ActorStatus.CLIENT_STAMP, client.getStamp());
             let gameTime = GameAPI.getGameTime();
             if (this.lastSendTime < gameTime -delay) {

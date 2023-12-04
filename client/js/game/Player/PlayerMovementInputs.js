@@ -52,7 +52,7 @@ class PlayerMovementInputs {
         }
 
         let widgetReadyCB = function(inputWidget) {
-            console.log("WidgetReady:", inputWidget);
+        //    console.log("WidgetReady:", inputWidget);
         //    inputWidget.guiWidget.applyWidgetOptions(inputConfig['options'])
             inputWidget.addInputUpdateCallback(onUpdate)
             inputWidget.addOnActivateCallback(onActivate)
@@ -76,7 +76,7 @@ class PlayerMovementInputs {
         }
 
         let widgetReadyCB = function(inputWidget) {
-            console.log("WidgetReady:", inputWidget);
+        //    console.log("WidgetReady:", inputWidget);
             //    inputWidget.guiWidget.applyWidgetOptions(inputConfig['options'])
             inputWidget.addUpdateCallback(onUpdate)
             widgets.push(inputWidget)

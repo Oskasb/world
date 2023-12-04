@@ -87,10 +87,11 @@ class CameraStatusProcessor {
 
         if (travelMode === ENUMS.TravelMode.TRAVEL_MODE_BATTLE) {
 
-            let turnActiveActor = GameAPI.call.getTurnActiveSequencerActor()
-            if (!turnActiveActor) {
+            if (!actor.getStatus(ENUMS.ActorStatus.HAS_TURN)) {
                 return;
             }
+
+            let turnActiveActor = actor;
             let selectedActor = GameAPI.getActorById(turnActiveActor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET))
             let moveControlActive = actor.getControl(ENUMS.Controls.CONTROL_MOVE_ACTION)
             let partySelected = actor.getStatus(ENUMS.ActorStatus.PARTY_SELECTED)

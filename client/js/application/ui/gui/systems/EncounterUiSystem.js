@@ -5,7 +5,8 @@ let playerPortraitLayoutId = 'widget_companion_sequencer_button'
 let hostilePortraitLayoutId = 'widget_hostile_sequencer_button'
 
 let encounterTurnSequencer = null;
-let actors = null;
+let dynamicEncounter = null;
+let actors = [];
 let portraits = []
 let container = null;
 let selectedActor = null;
@@ -20,6 +21,10 @@ let testActive = function(actor) {
     } else {
         return false;
     }
+}
+
+function getStatus(key) {
+    return dynamicEncounter.status.call.getStatus(key);
 }
 
 let onActivate = function(actor) {
@@ -83,12 +88,41 @@ function renderEncounterActorUi(actor, tpf, time) {
 
 }
 
+function updateActorsByStatus() {
+    let actorList = getStatus(ENUMS.EncounterStatus.ENCOUNTER_ACTORS);
+    if (actorList.length !== actors.length) {
+        for (let i = 0; i < actors.length; i++) {
+            let id = actors[i].id;
+            if (actorList.indexOf(id) === -1) {
+                MATH.splice(actors, actors[i])
+                i--;
+            }
+        }
+        for (let i = 0; i < actorList.length; i++) {
+            let actor = GameAPI.getActorById(actorList[i]);
+                if (!actor) {
+                    GuiAPI.screenText("LOADING", ENUMS.Message.HINT, 1);
+                } else {
+                    if (actors.indexOf(actor) === -1) {
+                        actors.push(actor)
+                }
+            }
+        }
+    }
+}
+
 let updateDynamicEncounterUiSystem = function(tpf, time) {
-    actors = encounterTurnSequencer.getSequencerActors();
-   MATH.forAll(actors, renderEncounterActorUi, tpf, time)
 
-    let currentTurnIndex = encounterTurnSequencer.turnIndex;
+    if (!dynamicEncounter) {
+        console.log("Encounter missing")
+        return;
+    }
 
+        updateActorsByStatus()
+        let currentTurnIndex = getStatus(ENUMS.EncounterStatus.TURN_INDEX);
+        let hasTurnActorId = getStatus(ENUMS.EncounterStatus.HAS_TURN_ACTOR);
+
+    MATH.forAll(actors, renderEncounterActorUi, tpf, time)
     for (let i = 0; i < portraits.length; i++) {
         let portrait = portraits[i]
         if (portrait) {
@@ -97,13 +131,13 @@ let updateDynamicEncounterUiSystem = function(tpf, time) {
     }
 }
 
+
 class EncounterUiSystem {
     constructor() {
 
     }
 
-    setEncounterSequencer(sequencer) {
-
+    addContainer() {
         let containerReady = function(widget) {
             console.log(widget)
             //    container = widget;
@@ -114,13 +148,22 @@ class EncounterUiSystem {
             container = new GuiExpandingContainer()
             container.initExpandingContainer('widget_encounter_sequencer_expanding_container', containerReady)
         }
+    }
 
+    setEncounterSequencer(sequencer) {
+        this.addContainer()
         encounterTurnSequencer = sequencer;
         ThreeAPI.addPrerenderCallback(updateDynamicEncounterUiSystem)
     }
 
-    closeEncounterUi() {
+    setActiveEncounter(dynEncounter) {
+        this.addContainer()
+        dynamicEncounter = dynEncounter;
+        ThreeAPI.addPrerenderCallback(updateDynamicEncounterUiSystem)
+    }
 
+    closeEncounterUi() {
+        dynamicEncounter = null;
         while (portraits.length) {
             let portrait = portraits.pop()
             if (portrait) {

@@ -63,8 +63,11 @@ function processPartyStatus(actor) {
                     if (playerParty.actors.length === 1) {
                         //         GuiAPI.screenText("Party Created")
                     }
+                    console.log("JOIN PARTY: ", playerParty, actor.id)
                     otherActor.actorText.say("Joining")
-                    playerParty.addPartyActor(otherActor);
+                    if (playerParty.isMember(otherActor) === false) {
+                        playerParty.addPartyActor(otherActor);
+                    }
                 }
             }
         }
@@ -76,18 +79,28 @@ function processPartyStatus(actor) {
             if (otherActor !== actor) {
                 let activatingEncounterId = otherActor.getStatus(ENUMS.ActorStatus.ACTIVATING_ENCOUNTER);
                 if (activatingEncounterId) {
+
                     let encounter = GameAPI.getWorldEncounterByEncounterId(activatingEncounterId);
                     if (!encounter) {
                         return;
                     }
                     if (encounter.getRequestingActor() !== actor) {
-
                         GuiAPI.screenText("PARTY ENCOUNTER", ENUMS.Message.SAY, 3);
+                        actor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, false);
+                        actor.setStatusKey(ENUMS.ActorStatus.REQUEST_PARTY, '');
+                        actor.setStatusKey(ENUMS.ActorStatus.ACTIVATING_ENCOUNTER, '');
+                        actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_INACTIVE);
+                    //    actor.actorStatusProcessor.processActorStatus(actor);
 
                         let onCompleted = function(pos) {
                             actor.setSpatialPosition(pos);
                             transition.targetPos.set(0, 0, 0)
                             actor.setSpatialVelocity(transition.targetPos);
+                            actor.setStatusKey(ENUMS.ActorStatus.IN_COMBAT, true);
+                            actor.setStatusKey(ENUMS.ActorStatus.ACTIVATING_ENCOUNTER, "");
+                            actor.setStatusKey(ENUMS.ActorStatus.ACTIVATED_ENCOUNTER, encounter.id);
+                            actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_BATTLE);
+                            actor.actorStatusProcessor.processActorStatus(actor);
                             poolReturn(transition)
                         }
 
@@ -97,9 +110,12 @@ function processPartyStatus(actor) {
                         }
 
                         encounter.requestActivationBy(actor);
+                        GameAPI.worldModels.deactivateEncounters();
+
+
                         let transition = poolFetch('SpatialTransition')
                         transition.targetPos.copy(encounter.getPointInsideActivationRange(actor.getSpatialPosition()));
-                        transition.initSpatialTransition(actor.actorObj3d.position, transition.targetPos, 2, onCompleted, null, null, onUpdate)
+                        transition.initSpatialTransition(actor.actorObj3d.position, transition.targetPos, 2.2, onCompleted, null, null, onUpdate)
                     }
                 }
             }
@@ -107,8 +123,6 @@ function processPartyStatus(actor) {
     }
 
     if (playerParty.isMember(actor)) {
-
-
 
     }
 

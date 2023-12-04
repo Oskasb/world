@@ -10,6 +10,7 @@ function spawnActor(actorConfig, tile, encounterTurnSequencer, onReady) {
         actor.setStatusKey(ENUMS.ActorStatus.ALIGNMENT, 'HOSTILE');
         actor.setStatusKey(ENUMS.ActorStatus.NAME, 'Bandit '+actor.index);
         actor.setStatusKey(ENUMS.ActorStatus.ICON_KEY, MATH.getRandomArrayEntry(faces));
+        actor.rollInitiative()
         encounterActors.push(actor);
         encounterTurnSequencer.addEncounterActor(actor);
         loads--
@@ -71,7 +72,6 @@ class DynamicEncounter {
 
     removeEncounterActors() {
         while (encounterActors.length) {
-
             let actor = encounterActors.pop();
             actor.removeGameActor();
         }

@@ -30,6 +30,7 @@ class EncounterTurnSequencer {
             if (this.turnActorIndex === this.actors.length) {
                 this.turnActorIndex = 0;
                 this.turnIndex++
+                setStatusKey(ENUMS.EncounterStatus.TURN_INDEX, this.turnIndex)
             }
             console.log("turnEnded", this.turnActorIndex, this.turnIndex)
         }.bind(this)
@@ -86,11 +87,16 @@ class EncounterTurnSequencer {
         let actor = this.actors[this.turnActorIndex];
         if (this.activeActor !== actor) {
             this.activeActor = actor;
+            setStatusKey(ENUMS.EncounterStatus.HAS_TURN_ACTOR, actor.id);
+
             if (actor.isPlayerActor()) {
+                GuiAPI.screenText("Your Turn", ENUMS.Message.HINT)
                 actor.startPlayerTurn(this.call.turnEnded, this.turnIndex)
+            } else if (actor.call.getRemote()) {
+                GuiAPI.screenText("Other Payer Turn", ENUMS.Message.HINT)
             } else {
+                GuiAPI.screenText("Enemy Turn", ENUMS.Message.HINT)
                 actor.getActorTurnSequencer().startActorTurn(this.call.turnEnded, this.turnIndex);
-                setStatusKey(ENUMS.EncounterStatus.HAS_TURN_ACTOR, actor.id);
             }
 
         }
@@ -107,6 +113,7 @@ class EncounterTurnSequencer {
         this.activeActor.getActorTurnSequencer().exitSequence();
         this.activeActor = null;
         this.turnIndex = 0;
+        setStatusKey(ENUMS.EncounterStatus.TURN_INDEX, this.turnIndex)
         this.turnTime = 0;
 
     }
