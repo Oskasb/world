@@ -12,7 +12,7 @@ class GuiActorActionButton {
 
         let action = this.action;
         let activate = function() {
-            onActivate(action);
+            onActivate(action, actionId);
         }
 
         let isActive = function() {

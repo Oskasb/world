@@ -34,12 +34,14 @@ let onActionButtonReady = function(widget) {
 let activatedAction = null;
 let selectedTarget = null;
 
-let onActionActivate = function(action) {
+let onActionActivate = function(action, actionId) {
 
     if (!action.actor) {
-        GuiAPI.screenText("Not your action")
-        console.log("NO ACTION");
-        return;
+    //    GuiAPI.screenText("Not your action")
+        let playerActor = GameAPI.getGamePieceSystem().selectedActor;
+        action.actor = playerActor;
+        console.log("Force Player Action", actionId);
+    //    return;
     }
 
     if (action.actor.call.getRemote()) {
