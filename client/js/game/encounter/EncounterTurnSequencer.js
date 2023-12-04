@@ -51,7 +51,11 @@ class EncounterTurnSequencer {
 
     addEncounterActor(actor) {
         actor.setStatusKey(ENUMS.ActorStatus.HP, actor.getStatus(ENUMS.ActorStatus.MAX_HP))
+    //    actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_BATTLE);
         actor.setStatusKey(ENUMS.ActorStatus.IN_COMBAT, true);
+        if (actor === GameAPI.getGamePieceSystem().selectedActor) {
+        //    actor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, true);
+        }
         this.actors.push(actor);
 
         let statusActors = getStatus(ENUMS.EncounterStatus.ENCOUNTER_ACTORS);

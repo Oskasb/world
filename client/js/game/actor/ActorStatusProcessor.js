@@ -97,6 +97,7 @@ function processPartyStatus(actor) {
                             transition.targetPos.set(0, 0, 0)
                             actor.setSpatialVelocity(transition.targetPos);
                             actor.setStatusKey(ENUMS.ActorStatus.IN_COMBAT, true);
+                            actor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, true);
                             actor.setStatusKey(ENUMS.ActorStatus.ACTIVATING_ENCOUNTER, "");
                             actor.setStatusKey(ENUMS.ActorStatus.ACTIVATED_ENCOUNTER, encounter.id);
                             actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_BATTLE);

@@ -25,7 +25,7 @@ let cursorTravelVec = new Vector3();
 let cursorForward = new Vector3();
 let walkForward = new Vector3();
 let viewTargetPos = new Vector3();
-let zoomDistance = 5;
+let zoomDistance =9;
 let actorQuat = null;
 
 let lookAroundPoint = new Vector3(-882, 0, 510)
