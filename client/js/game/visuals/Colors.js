@@ -23,6 +23,15 @@ frameFeedbackMap['NEUTRAL']    = 'feedback_icon_button_neutral';
 frameFeedbackMap['HOSTILE']    = 'feedback_icon_button_hostile';
 frameFeedbackMap['ITEM']       = 'feedback_icon_button_item';
 
+frameFeedbackMap['UNAVAILABLE']   = 'feedback_icon_button_hostile';
+frameFeedbackMap['SELECTED']      = 'feedback_icon_button_neutral';
+frameFeedbackMap['AVAILABLE']     = 'feedback_icon_button_item';
+frameFeedbackMap['ACTIVATING']    = 'feedback_icon_button_friendly';
+frameFeedbackMap['ACTIVE']        = 'feedback_icon_button_friendly';
+frameFeedbackMap['ON_COOLDOWN']   = 'feedback_icon_button_friendly';
+frameFeedbackMap['ENABLED']       = 'feedback_icon_button_neutral';
+frameFeedbackMap['DISABLED']      = 'feedback_icon_button_hostile';
+
 export {
     colorMapFx,
     frameFeedbackMap,

@@ -52,6 +52,15 @@ transitionMap[ENUMS.ActionState.APPLY_HIT] = ENUMS.ActionState.POST_HIT
 transitionMap[ENUMS.ActionState.POST_HIT]  =  ENUMS.ActionState.COMPLETED
 transitionMap[ENUMS.ActionState.COMPLETED] = ENUMS.ActionState.DISABLED
 
+let buttonStateMap = []
+buttonStateMap[ENUMS.ActionState.DISABLED]  =  ENUMS.ButtonState.AVAILABLE;
+buttonStateMap[ENUMS.ActionState.SELECTED]  =  ENUMS.ButtonState.SELECTED;
+buttonStateMap[ENUMS.ActionState.PRECAST]   =  ENUMS.ButtonState.ACTIVATING
+buttonStateMap[ENUMS.ActionState.ACTIVE]    =  ENUMS.ButtonState.ACTIVE
+buttonStateMap[ENUMS.ActionState.APPLY_HIT] =  ENUMS.ButtonState.ACTIVE
+buttonStateMap[ENUMS.ActionState.POST_HIT]  =  ENUMS.ButtonState.ACTIVE
+buttonStateMap[ENUMS.ActionState.COMPLETED] =  ENUMS.ButtonState.DISABLED
+
 let index = 0;
 
 class ActorAction {
@@ -83,10 +92,15 @@ class ActorAction {
             }
 
             let newActionState = transitionMap[actionState];
+            let newButtonState = buttonStateMap[newActionState];
+            this.status.call.setStatusByKey(ENUMS.ActionStatus.BUTTON_STATE, newButtonState)
+
             let key = ENUMS.getKey('ActionState', newActionState);
             stepDuration = this.getStepDuration(key);
             console.log("New Action State", newActionState, "Key: ", key);
             this.status.call.setStatusByKey(ENUMS.ActionStatus.ACTION_STATE, newActionState)
+            this.status.call.setStatusByKey(ENUMS.ActionStatus.STEP_START_TIME, 0)
+            this.status.call.setStatusByKey(ENUMS.ActionStatus.STEP_END_TIME, stepDuration)
             let funcName = attackStateMap[newActionState].updateFunc
             this.call[funcName]();
 
@@ -112,7 +126,7 @@ class ActorAction {
             }
 
         }.bind(this);
-        
+
         let applyMissileHit = function() {
             applyHitConsequences()
             activateAttackStateTransition()

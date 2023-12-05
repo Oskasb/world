@@ -30,9 +30,17 @@ class Remote {
             return action;
         };
 
+        let getActionById = null;
+
+        let setGetActionFunction = function(call) {
+            getActionById = call;
+        }
+
         this.call = {
             setAction:setAction,
-            getAction:getAction
+            getAction:getAction,
+            setGetActionFunction:setGetActionFunction,
+            getActionById:getActionById
         }
 
     }

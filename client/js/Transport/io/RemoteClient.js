@@ -177,6 +177,13 @@ class RemoteClient {
                 }
                 action.setActionKey(actor, actionKey)
 
+                let getActionByKey = function(key) {
+                    if (key === actorKey) {
+                        return action;
+                    }
+                };
+
+                actor.call.getRemote().call.setGetActionFunction(getActionByKey);
             }
         }
 

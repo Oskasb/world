@@ -204,7 +204,6 @@ if(typeof(ENUMS) === "undefined"){
         ACTION_KEY:'ACTION_KEY',
         BUTTON_STATE:'BUTTON_STATE',
         ACTION_STATE:'ACTION_STATE',
-        STEP_CURRENT_TIME:'STEP_CURRENT_TIME',
         STEP_START_TIME:'STEP_START_TIME',
         STEP_END_TIME:'STEP_END_TIME',
         SELECTED:'SELECTED',
@@ -213,12 +212,13 @@ if(typeof(ENUMS) === "undefined"){
 
     ENUMS.ButtonState = {
         UNAVAILABLE:      1,
-        AVAILABLE:        2,
-        ACTIVATING:       3,
-        ACTIVE:           4,
-        ON_COOLDOWN:      5,
-        ENABLED:          6,
-        DISABLED:         7
+        SELECTED:         2,
+        AVAILABLE:        3,
+        ACTIVATING:       4,
+        ACTIVE:           5,
+        ON_COOLDOWN:      6,
+        ENABLED:          7,
+        DISABLED:         8
     };
 
     ENUMS.ActionState = {

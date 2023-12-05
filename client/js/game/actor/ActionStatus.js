@@ -7,11 +7,10 @@ class ActionStatus {
         this.statusMap[ENUMS.ActionStatus.ACTOR_ID] = "none";
         this.statusMap[ENUMS.ActionStatus.ACTION_ID] = "none";
         this.statusMap[ENUMS.ActionStatus.ACTION_KEY] = "none";
-        this.statusMap[ENUMS.ActionStatus.BUTTON_STATE] = 1;
+        this.statusMap[ENUMS.ActionStatus.BUTTON_STATE] = ENUMS.ButtonState.UNAVAILABLE;
         this.statusMap[ENUMS.ActionStatus.ACTION_STATE] = ENUMS.ActionState.DISABLED;
         this.statusMap[ENUMS.ActionStatus.SELECTED] = false;
         this.statusMap[ENUMS.ActionStatus.TARGET_ID] = "none";
-        this.statusMap[ENUMS.ActionStatus.STEP_CURRENT_TIME] = 0;
         this.statusMap[ENUMS.ActionStatus.STEP_START_TIME] = 0;
         this.statusMap[ENUMS.ActionStatus.STEP_END_TIME] = 0;
 
