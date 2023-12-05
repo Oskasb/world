@@ -82,7 +82,7 @@ function activateTravelMode(actr, mode, activateCB, deactivateCB) {
 
     if (mode === ENUMS.TravelMode.TRAVEL_MODE_LEAP) {
         //    evt.dispatch(ENUMS.Event.SET_CAMERA_MODE, {mode:'game_travel'})
-        actor.getGameWalkGrid().dynamicWalker.attachFrameLeapTransitionFx(actor)
+    //    actor.getGameWalkGrid().dynamicWalker.attachFrameLeapTransitionFx(actor)
         activateCB(config[mode], actor)
     }
 

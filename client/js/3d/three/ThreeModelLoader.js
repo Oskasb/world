@@ -101,7 +101,7 @@ class ThreeModelLoader {
 
             if (mesh.animations.length) {
                 clone.animations = mesh.animations;
-
+                clone.frustumCulled = false;
                 let skinnedMeshes = {};
 
                 mesh.traverse(function (node) {
@@ -114,6 +114,7 @@ class ThreeModelLoader {
                 let cloneSkinnedMeshes = {};
 
                 clone.traverse(function (node) {
+                    clone.frustumCulled = false;
                     if (node.isBone) {
                         cloneBones[node.name] = node;
                     }

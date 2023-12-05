@@ -16,6 +16,11 @@ class TargetSelector {
         return target;
     }
 
+    selectActorActionTargetId(actor, action) {
+        // if action is "helpful" select friendlies instead...
+        let opponentList = GameAPI.getGamePieceSystem().listCombatActorOpponents(actor);
+        return MATH.getRandomArrayEntry(opponentList);
+    }
 
 }
 

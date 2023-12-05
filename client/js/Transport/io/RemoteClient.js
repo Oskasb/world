@@ -321,7 +321,7 @@ class RemoteClient {
                 if (hasSpatial) {
                     let spatialMaxDelta = actor.getStatus(ENUMS.ActorStatus.SPATIAL_DELTA);
                     let spatialDelta = gameTime - actor.call.getRemote().lastSpatialTime
-                    this.applyRemoteSpatial(actor, MATH.clamp(spatialDelta, 0, 2));
+                    this.applyRemoteSpatial(actor, MATH.clamp(spatialDelta, 0.02, spatialMaxDelta));
                     actor.call.getRemote().lastSpatialTime = gameTime;
                 }
 

@@ -1,8 +1,8 @@
 import {GuiCharacterPortrait} from "../widgets/GuiCharacterPortrait.js";
 import { GuiActorActionButton } from "../widgets/GuiActorActionButton.js";
-import {GuiActionButton} from "../widgets/GuiActionButton.js";
+import { TargetSelector} from "../../../../game/actor/TargetSelector.js";
 
-
+let targetSelector = new TargetSelector();
 let playerPortraitLayoutId = 'widget_actor_action_portrait_button'
 let actor = null;
 let actionButtons = [];
@@ -36,31 +36,45 @@ let selectedTarget = null;
 
 let onActionActivate = function(action, actionId) {
 
-    if (!action.actor) {
-    //    GuiAPI.screenText("Not your action")
-        let playerActor = GameAPI.getGamePieceSystem().selectedActor;
-        action.actor = playerActor;
-        console.log("Force Player Action", actionId);
-    //    return;
-    }
-
-    if (action.actor.call.getRemote()) {
-        GuiAPI.screenText("Not your action")
-        action.actor.actorText.say("Dont Touch")
+    let actor = GameAPI.getGamePieceSystem().selectedActor;
+    if (actor.isPlayerActor()) {
+        let partySelected = GameAPI.getGamePieceSystem().getPlayerParty().getPartySelection();
+        if (partySelected !== actor) {
+            GuiAPI.screenText("Not party selected")
+            return;
+        }
+    } else {
+        GuiAPI.screenText("Not your button")
         return;
     }
 
+
+
  //   console.log("onActionActivate:", action)
-    selectedTarget = GameAPI.getActorById(actor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET))
+
     action.initAction(actor);
     activatedAction = action;
-    if (selectedTarget) {
+
+    let inCombat = actor.getStatus(ENUMS.ActorStatus.IN_COMBAT)
+
+    if (inCombat) {
+        let targetId = actor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET);
+        if (!targetId) {
+            targetId = targetSelector.selectActorActionTargetId(actor, action)
+        }
+        selectedTarget = GameAPI.getActorById(targetId);
         action.call.advanceState();
         setTimeout(function() {
-           action.activateAttack(selectedTarget.id, action.actor.call.turnEnd)
+            action.activateAttack(selectedTarget.id, action.actor.call.turnEnd)
             activatedAction = null;
             selectedTarget = null;
         }, 1000)
+    } else {
+        console.log("Non combat action", [action])
+    }
+
+    if (selectedTarget) {
+
     } else {
     //    actor.actorText.say('Pick a target')
     }
@@ -143,8 +157,10 @@ let updateActiveActorUi = function(tpf) {
     }
 
 
-
     if (activatedAction) {
+        console.log("Is this ever needed?")
+        activatedAction = null;
+        return;
         if (!selectedTarget) {
             selectedTarget = GameAPI.getActorById(actor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET))
             if (selectedTarget) {

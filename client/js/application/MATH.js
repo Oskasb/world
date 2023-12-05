@@ -889,6 +889,7 @@ MATH.deepClone = function(source) {
 			vec3.x = 0;
 			vec3.y = 0;
 			vec3.z = 0
+			return true;
 		}
 	}
 

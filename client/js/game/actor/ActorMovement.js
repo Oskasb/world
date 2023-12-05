@@ -127,6 +127,7 @@ console.log("Pathing Completed")
 
         if (!walkGrid.isActive) {
             actor.activateWalkGrid(5);
+            actor.setDestination(actor.getSpatialPosition(ThreeAPI.tempVec3));
     //        console.log("LEAP ACTION - activate")
     //        actor.actorText.say("Destination")
         } else {

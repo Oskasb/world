@@ -285,16 +285,19 @@ class ActorStatus {
     }
 
     setStatusVelocity(velVec) {
-        MATH.testVec3ForNaN(velVec)
+        if (MATH.testVec3ForNaN(velVec)) {
+            return;
+        }
 
         let diff = this.getStatusVelocity().sub(velVec).lengthSq();
-        if (diff > 0.000001) {
+
             this.setStatusKey(ENUMS.ActorStatus.VEL_X, velVec.x)
             this.setStatusKey(ENUMS.ActorStatus.VEL_Y, velVec.y)
             this.setStatusKey(ENUMS.ActorStatus.VEL_Z, velVec.z)
-            this.relaySpatial(0.05)
+        if (diff > 0.1) {
+            this.relaySpatial(0.02)
         } else {
-            this.relaySpatial(0.2)
+            this.relaySpatial(0.1)
         }
 
 
@@ -315,13 +318,16 @@ class ActorStatus {
     }
 
     setStatusPosition(posVec) {
-        MATH.testVec3ForNaN(posVec)
+        if (MATH.testVec3ForNaN(posVec)) {
+            return;
+        }
 
         let diff = this.getStatusPosition().sub(posVec).lengthSq();
-        if (diff > 0.000001) {
+
             this.setStatusKey(ENUMS.ActorStatus.POS_X, posVec.x)
             this.setStatusKey(ENUMS.ActorStatus.POS_Y, posVec.y)
             this.setStatusKey(ENUMS.ActorStatus.POS_Z, posVec.z)
+        if (diff > 0.1) {
             this.relaySpatial(this.getStatusByKey(ENUMS.ActorStatus.SPATIAL_DELTA))
         }
 
@@ -341,7 +347,10 @@ class ActorStatus {
     }
 
     setStatusScale(scaleVec) {
-        MATH.testVec3ForNaN(scaleVec)
+        if (MATH.testVec3ForNaN(scaleVec)) {
+            return;
+        }
+
         this.setStatusKey(ENUMS.ActorStatus.SCALE_X, scaleVec.x)
         this.setStatusKey(ENUMS.ActorStatus.SCALE_Y, scaleVec.y)
         this.setStatusKey(ENUMS.ActorStatus.SCALE_Z, scaleVec.z)
@@ -361,7 +370,10 @@ class ActorStatus {
     }
 
     setStatusQuaternion(quat) {
-        MATH.testVec3ForNaN(quat)
+        if (MATH.testVec3ForNaN(quat)) {
+            return;
+        }
+
         this.setStatusKey(ENUMS.ActorStatus.QUAT_X, quat.x)
         this.setStatusKey(ENUMS.ActorStatus.QUAT_Y, quat.y)
         this.setStatusKey(ENUMS.ActorStatus.QUAT_Z, quat.z)

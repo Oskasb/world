@@ -10,7 +10,11 @@ import { RemoteClient } from "../Transport/io/RemoteClient.js";
 let visualConfigs = {};
 let actorConfigs = {};
 let itemConfigs = {};
-
+let actors = [];
+let actorIndex = 1; // zero index get culled by connection
+let remoteClients = {}
+let opponentList = []; // temp list for fetching opponents
+let parsedEquipSlotData
 
 let registerActor = function(actor) {
     if (actors.indexOf(actor) === -1) {
@@ -41,8 +45,7 @@ let loadItem = function(event) {
     visualPiece.attachModelAsset(visualReadyCB);
 }
 
-let actors = [];
-let actorIndex = 1; // zero index get culled by connection
+
 
 let loadActor = function(event) {
     let actorConfig = actorConfigs[event.id]
@@ -85,7 +88,7 @@ let loadActor = function(event) {
 
 }
 
-let remoteClients = {}
+
 
 let processConnectionMessage = function(event) {
 
@@ -112,7 +115,6 @@ let processConnectionMessage = function(event) {
 }
 
 
-let parsedEquipSlotData
 class GamePieceSystem {
     constructor() {
 
@@ -164,6 +166,20 @@ class GamePieceSystem {
 
     addActorToPlayerParty(actor) {
         this.playerParty.addPartyActor(actor);
+    }
+
+    listCombatActorOpponents(actor) {
+        let alignment = actor.getStatusByKey(ENUMS.ActorStatus.ALIGNMENT);
+
+        MATH.emptyArray(opponentList);
+
+        for (let i = 0; i < actors.length; i++) {
+            let align =  actors[i].getStatusByKey(ENUMS.ActorStatus.ALIGNMENT);
+            if (align !== alignment) {
+                opponentList.push(actors[i].id)
+            }
+        }
+
     }
 
     setSelectedGameActor = function(gameActor) {
