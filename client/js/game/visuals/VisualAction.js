@@ -81,11 +81,16 @@ class VisualAction {
             effectCalls()[this.config[fxKeys[4]]](this.getTarget())
         }.bind(this)
 
+        let updateDisabled = function() {
+
+        }.bind(this)
+
         let fxCallback = function(efct) {
             missileEffect = efct;
         }
 
         this.update = {
+            updateDisabled:updateDisabled,
             updateSelected:updateSelected,
             updatePrecast:updatePrecast,
             updateActive:updateActive,
@@ -94,6 +99,7 @@ class VisualAction {
         }
 
         let stateMap = []
+        stateMap[ENUMS.ActionState.DISABLED] =  {updateFunc:'updateDisabled'}
         stateMap[ENUMS.ActionState.SELECTED] =  {updateFunc:'updateSelected'}
         stateMap[ENUMS.ActionState.PRECAST] =   {updateFunc:'updatePrecast'}
         stateMap[ENUMS.ActionState.ACTIVE] =    {updateFunc:'updateActive'}
@@ -126,7 +132,7 @@ class VisualAction {
     }
 
     getActor() {
-        return this.actorAction.actor;
+        return GameAPI.getActorById(this.actorAction.call.getStatus(ENUMS.ActionStatus.ACTOR_ID));
     }
 
     getTarget() {
@@ -139,16 +145,16 @@ class VisualAction {
         ThreeAPI.addPostrenderCallback(this.call.updateVisualAction)
     }
 
-    visualizeAttack(actorAction, onArriveCB) {
+    visualizeAttack(onArriveCB) {
         this.progress = 0;
-        this.sourcePos.copy(actorAction.actor.getSpatialPosition())
+        let actor = this.getActor();
+        this.sourcePos.copy(actor.getSpatialPosition())
         this.sourcePos.y +=1.5;
-        this.actorAction = actorAction;
 
         let tPos = this.targetPos;
 
         let getTargetPos = function() {
-            let target = actorAction.getTarget()
+            let target = this.getTarget()
             if (target) {
                 target.getSpatialPosition(tPos)
                 tPos.y +=1.5;
@@ -156,15 +162,17 @@ class VisualAction {
             } else {
                 return tPos;
             }
-        }
+        }.bind(this)
 
         let onMissileArrive = function(gameEffect) {
             console.log("Missile Arrive", gameEffect)
-            onArriveCB();
+            if (typeof (onArriveCB) === 'function' ) {
+                onArriveCB();
+            }
         }
     //    actorAction.call.advanceState();
         let fxKey = this.config['fx_active']
-        effectCalls()[fxKey](this.sourcePos, actorAction.actor, 0, onMissileArrive, getTargetPos, this.call.fxCallback)
+        effectCalls()[fxKey](this.sourcePos, actor, 0, onMissileArrive, getTargetPos, this.call.fxCallback)
 
     }
 

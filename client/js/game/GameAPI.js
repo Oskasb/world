@@ -9,6 +9,7 @@ import { GamePieceSystem } from "./GamePieceSystem.js";
 import { GameEncounterSystem } from "./GameEncounterSystem.js";
 import { VisualEffectSystem } from "./visuals/VisualEffectSystem.js";
 import { GameAdventureSystem } from "./gamescenarios/GameAdventureSystem.js";
+import {poolFetch, poolReturn} from "../application/utils/PoolUtils.js";
 
 let cache = {};
 let debugStats = {
@@ -228,6 +229,8 @@ class GameAPI {
 
 
     initGameMain() {
+        let init = poolFetch('ActorAction')
+        poolReturn(init);
         gamePieceSystem.initGamePieceSystem()
         this.gameMain.initGameMain();
 

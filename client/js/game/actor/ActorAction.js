@@ -66,6 +66,8 @@ class ActorAction {
         this.targetId = null;
         this.visualAction = null;
         this.onCompletedCallbacks = [];
+        this.initiated = false;
+
 
         let stepDuration = 0;
 
@@ -83,8 +85,8 @@ class ActorAction {
             let newActionState = transitionMap[actionState];
             let key = ENUMS.getKey('ActionState', newActionState);
             stepDuration = this.getStepDuration(key);
-            console.log("Step Duration", stepDuration, "Key: ", key);
-            this.status.call.setStatusByKey(ENUMS.ActionStatus.ACTION_STATE, transitionMap[actionState])
+            console.log("New Action State", newActionState, "Key: ", key);
+            this.status.call.setStatusByKey(ENUMS.ActionStatus.ACTION_STATE, newActionState)
             let funcName = attackStateMap[newActionState].updateFunc
             this.call[funcName]();
 
@@ -114,7 +116,7 @@ class ActorAction {
 
         let updateActive = function(tpf) {
             if (this.stepProgress === 0) {
-                this.visualAction.visualizeAttack(this, applyHitConsequences);
+                this.visualAction.visualizeAttack(applyHitConsequences);
             }
         }.bind(this)
 
@@ -142,6 +144,7 @@ class ActorAction {
         }.bind(this)
 
         let initStatus = function(actor, actionKey) {
+            this.initiated = true;
             this.status.call.initActionStatus(actor, actionKey, this)
         }.bind(this);
 
@@ -173,6 +176,11 @@ class ActorAction {
 
     readActionConfig(key) {
         let actionKey = this.call.getStatus(ENUMS.ActionStatus.ACTION_KEY)
+        if (!actionKey) {
+            console.log("Need actionKey here.. ", config, key)
+            return;
+        }
+
         return config[actionKey][key];
     }
 
@@ -218,9 +226,16 @@ class ActorAction {
 
     attackCompleted() {
         console.log("attackCompleted", this)
-        this.actor.setStatusKey(ENUMS.ActorStatus.SELECTED_ACTION, '');
+        this.initiated = false;
+
+        let actor = GameAPI.getActorById(this.call.getStatus(ENUMS.ActionStatus.ACTOR_ID))
+        actor.setStatusKey(ENUMS.ActorStatus.SELECTED_ACTION, '');
+
+        this.call.setStatusKey(ENUMS.ActionStatus.ACTOR_ID, "none")
+        this.call.setStatusKey(ENUMS.ActionStatus.ACTION_KEY, "none")
+
         GameAPI.unregisterGameUpdateCallback(this.call.updateAttack);
-        MATH.callAll(this.onCompletedCallbacks, this.actor);
+        MATH.callAll(this.onCompletedCallbacks, actor);
         MATH.emptyArray(this.onCompletedCallbacks);
         this.visualAction.closeVisualAction();
         this.recoverAttack();

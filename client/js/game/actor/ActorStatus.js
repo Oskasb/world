@@ -54,10 +54,18 @@ let detailsMap = [
     ENUMS.ActorStatus.ALIGNMENT,
     ENUMS.ActorStatus.MOVE_STATE,
     ENUMS.ActorStatus.BODY_STATE,
+    ENUMS.ActorStatus.IN_COMBAT,
     ENUMS.ActorStatus.ACTIONS,
     ENUMS.ActorStatus.SELECTED_DESTINATION,
     ENUMS.ActorStatus.SELECTED_ACTION,
-    ENUMS.ActorStatus.ACTION_STATE_KEY
+    ENUMS.ActorStatus.HAS_TURN,
+    ENUMS.ActorStatus.HAS_TURN_INDEX,
+    ENUMS.ActorStatus.TURN_DONE,
+    ENUMS.ActorStatus.SEQUENCER_INITIATIVE,
+    ENUMS.ActorStatus.SEQUENCER_SELECTED,
+    ENUMS.ActorStatus.SELECTED_TARGET,
+    ENUMS.ActorStatus.SELECTED_ENCOUNTER,
+    ENUMS.ActorStatus.REQUEST_PARTY
 ];
 
 let spatialMap = [
@@ -100,6 +108,9 @@ let skipMap = [
     ENUMS.ActorStatus.STATUS_INPUT_SAMPLERS,
     ENUMS.ActorStatus.STATUS_WALK_SELECTION,
     ENUMS.ActorStatus.STATUS_LEAP_SELECTION,
+    ENUMS.ActorStatus.ACTION_STATE_KEY,
+    ENUMS.ActorStatus.SELECTED_ACTION,
+    ENUMS.ActorStatus.ACTION_STEP_PROGRESS,
     ENUMS.ActorStatus.POS_X,
     ENUMS.ActorStatus.POS_Y,
     ENUMS.ActorStatus.POS_Z,

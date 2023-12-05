@@ -3,6 +3,7 @@ import {Vector3} from "../../../libs/three/math/Vector3.js";
 import {Quaternion} from "../../../libs/three/math/Quaternion.js";
 import {DynamicEncounter} from "../../game/encounter/DynamicEncounter.js";
 import {Remote} from "./Remote.js";
+import {ActorAction} from "../../game/actor/ActorAction.js";
 
 let equipQueue = []
 let index = 0;
@@ -31,6 +32,7 @@ class RemoteClient {
         index++
         this.stamp = stamp;
         this.actors = [];
+        this.actions = [];
         this.encounter = null;
         this.remoteIndex = [];
         this.closeTimeout = null;
@@ -64,6 +66,16 @@ class RemoteClient {
         }
     }
 
+    getActionById(id) {
+        for (let i = 0; i < this.actions.length; i++) {
+            let action = this.actions[i];
+
+            if (action.id === id) {
+                return this.actions[i];
+            }
+        }
+    }
+
     applyRemoteSpatial(actor, timeDelta) {
 
         let remote = actor.call.getRemote();
@@ -74,75 +86,6 @@ class RemoteClient {
         actor.getSpatialQuaternion(remote.quat);
         actor.setSpatialQuaternion(tempQuat);
         remote.timeDelta = timeDelta;
-
-    }
-
-    applyRemoteAction(actor) {
-        let remote = actor.call.getRemote();
-        let lastActionKey = remote.remoteActionKey;
-        let newActionKey = actor.getStatus(ENUMS.ActorStatus.SELECTED_ACTION);
-
-        let statusKey = actor.getStatus(ENUMS.ActorStatus.ACTION_STATE_KEY);
-
-        if (statusKey === ENUMS.ActionState.COMPLETED) {
-            let action = remote.call.getAction();
-            if (action) {
-
-            }
-        }
-
-        if (statusKey === ENUMS.ActionState.APPLY_HIT) {
-        //    actor.actorText.say("Apply Hit")
-            let action = remote.call.getAction();
-            action.call.updateApplyHit(0.05)
-        }
-
-        if (statusKey === ENUMS.ActionState.POST_HIT) {
-            let action = remote.call.getAction();
-        //    console.log("POST HIT", [action], actor.id, action.targetId);
-        //    action.getTarget().actorText.say("Apply Post Hit")
-
-            let delayedClose = function() {
-                console.log("Delayed Close", [action]);
-                action.call.closeAttack()
-            }
-
-            setTimeout(delayedClose, 3000);
-
-        }
-
-        if (statusKey === ENUMS.ActionState.PRECAST || statusKey === ENUMS.ActionState.SELECTED) {
-
-            if (lastActionKey === newActionKey) {
-        //        console.log("SAME ACTION!")
-            } else {
-                console.log("INIT REMOTE ACTION", statusKey, newActionKey)
-                remote.remoteActionKey = newActionKey;
-                let action = poolFetch('ActorAction');
-                remote.call.setAction(action);
-                action.setActionKey(actor, newActionKey);
-                action.initAction(actor);
-            }
-        }
-
-        if (statusKey === ENUMS.ActionState.ACTIVE) {
-            let action = remote.call.getAction();
-
-            let targetId = actor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET)
-            if (!targetId) {
-       //         console.log("Action needs a target!")
-                targetId = actor.id;
-            }
-
-            if (action.onCompletedCallbacks.indexOf(onRemoteClientActionDone) === -1) {
-        //        console.log("ACTIVATE REMOTE ACTION", actor.id, targetId)
-            //    action.activateAttack(targetId, onRemoteClientActionDone)
-            } else {
-        //        console.log("Already Activated", action, actor)
-            }
-        }
-
-
 
     }
 
@@ -190,6 +133,102 @@ class RemoteClient {
             MATH.splice(this.remoteIndex, actor.id);
             actor.call.remove()
         }
+    }
+
+    handleActionMessage(actionId, msg) {
+
+        if (actionId === "none") {
+            return;
+        }
+
+        let action = this.getActionById(actionId);
+        if (!action) {
+            action = poolFetch('ActorAction');
+            action.id = actionId;
+            console.log("Start new Action ", actionId)
+            this.actions.push(action);
+            action.isRemote = true;
+        }
+
+        for (let i = 0; i < msg.length; i++) {
+            let key = msg[i];
+            i++
+            let status = msg[i]
+            action.call.setStatusKey(key, status);
+        }
+
+        let actorKey = action.call.getStatus(ENUMS.ActionStatus.ACTOR_ID)
+        if (actorKey === "none" ) {
+            console.log("No Actor Key yet", msg);
+            return;
+        }
+
+        let actor = this.getActorById(actorKey);
+        if (!actor) {
+            console.log("No such actor... ", msg);
+            return;
+        } else {
+            if (action.initiated === false) {
+                let actionKey = action.call.getStatus(ENUMS.ActionStatus.ACTION_KEY);
+            //    action.call.initStatus(actor, actionKey)
+                if (actionKey === "none") {
+                    console.log("No key yet")
+                    return;
+                }
+                action.setActionKey(actor, actionKey)
+
+            }
+        }
+
+        let actionState = action.call.getStatus(ENUMS.ActionStatus.ACTION_STATE)
+
+        if (action.remoteState === actionState) {
+            return;
+        } else {
+            action.remoteState = actionState;
+        }
+
+        let actionStateKey = ENUMS.getKey('ActionState', actionState)
+
+        console.log("Remote Action State", actionStateKey ,actionState, msg);
+
+        if (actionState === 1) {
+        //    console.log("Status Map:", action.state.statusMap);
+        }
+
+        if (actionState === ENUMS.ActionState.SELECTED) {
+
+            action.call.updateActivate();
+            console.log("Remote Action State: SELECTED", actionState, action.status);
+        }
+
+        if (actionState === ENUMS.ActionState.PRECAST) {
+            console.log("Remote Action State: PRECAST", actionState, msg);
+        }
+
+        if (actionState === ENUMS.ActionState.ACTIVE) {
+            console.log("Remote Action State: ACTIVE", actionState, msg);
+            action.visualAction.visualizeAttack();
+
+        }
+
+        if (actionState === ENUMS.ActionState.APPLY_HIT) {
+
+        }
+
+        if (actionState === ENUMS.ActionState.POST_HIT) {
+
+        }
+
+        if (actionState === ENUMS.ActionState.COMPLETED) {
+            console.log("Remote Action State: COMPLETED", actionState, msg);
+            action.call.updateAttackCompleted();
+            action.call.setStatusKey(ENUMS.ActionStatus.ACTOR_ID, "none")
+            action.call.setStatusKey(ENUMS.ActionStatus.ACTION_KEY, "none")
+            action.isRemote = false;
+            MATH.splice(this.actions, action);
+        }
+
     }
 
     handleEncounterMessage(encounterId, msg) {
@@ -242,6 +281,9 @@ class RemoteClient {
             //    GuiAPI.screenText("REQUEST REMOTE ACTOR "+ remoteId)
         } else if (msg[0] === ENUMS.EncounterStatus.ENCOUNTER_ID) {
             this.handleEncounterMessage(msg[1], msg);
+            return;
+        } else if (msg[0] === ENUMS.ActionStatus.ACTION_ID) {
+            this.handleActionMessage(msg[1], msg);
             return;
         } else {
             console.log("Index for Actor missing ", msg);
@@ -326,7 +368,7 @@ class RemoteClient {
                 }
 
                 this.applyRemoteEquipment(actor)
-                this.applyRemoteAction(actor);
+            //    this.applyRemoteAction(actor);
                 //    console.log(msg)
 
             }

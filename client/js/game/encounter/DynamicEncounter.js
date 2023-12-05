@@ -39,7 +39,7 @@ class DynamicEncounter {
             let gameTime = GameAPI.getGameTime();
             this.status.broadcastStatus(gameTime);
         } else {
-            console.log("Battle Data:", key, status);
+        //    console.log("Battle Data:", key, status);
         //    GuiAPI.screenText("GOT BATTLE DATA")
         }
         return write

@@ -1,6 +1,21 @@
+import { SimpleSend } from "../../Transport/io/SimpleSend.js";
+
 class ActionStatus {
     constructor() {
+        let simpleSend = new SimpleSend();
         this.statusMap = {};
+        this.statusMap[ENUMS.ActionStatus.ACTOR_ID] = "none";
+        this.statusMap[ENUMS.ActionStatus.ACTION_ID] = "none";
+        this.statusMap[ENUMS.ActionStatus.ACTION_KEY] = "none";
+        this.statusMap[ENUMS.ActionStatus.BUTTON_STATE] = 1;
+        this.statusMap[ENUMS.ActionStatus.ACTION_STATE] = ENUMS.ActionState.DISABLED;
+        this.statusMap[ENUMS.ActionStatus.SELECTED] = false;
+        this.statusMap[ENUMS.ActionStatus.TARGET_ID] = "none";
+        this.statusMap[ENUMS.ActionStatus.STEP_CURRENT_TIME] = 0;
+        this.statusMap[ENUMS.ActionStatus.STEP_START_TIME] = 0;
+        this.statusMap[ENUMS.ActionStatus.STEP_END_TIME] = 0;
+
+
         this.isRemote = false;
         let setStatusByKey = function(key, status) {
 
@@ -14,6 +29,21 @@ class ActionStatus {
                     console.log("changing type for status is bad", key, status)
                 }
             }
+
+            let actor = GameAPI.getActorById(this.statusMap[ENUMS.ActionStatus.ACTOR_ID])
+            if (!actor) {
+                return;
+            }
+
+            if (!actor.call.getRemote()) {
+
+            if (this.statusMap[ENUMS.ActionStatus.ACTION_ID] === "none") {
+                    console.log("Missing ID", this.statusMap);
+                } else {
+                    simpleSend.call.broadcastStatus(ENUMS.ActionStatus.ACTION_ID, this.statusMap);
+                }
+            }
+
         }.bind(this);
 
         let getStatusByKey = function(key) {
@@ -24,13 +54,6 @@ class ActionStatus {
         }.bind(this);
 
         let initActionStatus = function(actor, actionKey, action) {
-
-            if (actor.call.getRemote()) {
-                this.isRemote = true;
-            } else {
-                this.isRemote = false;
-            }
-
             this.statusMap[ENUMS.ActionStatus.ACTOR_ID] = actor.id;
             this.statusMap[ENUMS.ActionStatus.ACTION_ID] = action.id;
             this.statusMap[ENUMS.ActionStatus.ACTION_KEY] = actionKey;
@@ -41,7 +64,7 @@ class ActionStatus {
             this.statusMap[ENUMS.ActionStatus.STEP_CURRENT_TIME] = 0;
             this.statusMap[ENUMS.ActionStatus.STEP_START_TIME] = 0;
             this.statusMap[ENUMS.ActionStatus.STEP_END_TIME] = 0;
-            console.log("INIT ACTION STATUS", this, actor, this.statusMap[ENUMS.ActionStatus.ACTION_STATE])
+        //    console.log("INIT ACTION STATUS", this, actor, this.statusMap[ENUMS.ActionStatus.ACTION_STATE])
 
         }.bind(this);
 

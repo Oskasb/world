@@ -212,23 +212,23 @@ if(typeof(ENUMS) === "undefined"){
     }
 
     ENUMS.ButtonState = {
-        UNAVAILABLE:      0,
-        AVAILABLE:        1,
-        ACTIVATING:       2,
-        ACTIVE:           3,
-        ON_COOLDOWN:      4,
-        ENABLED:          5,
-        DISABLED:         6
+        UNAVAILABLE:      1,
+        AVAILABLE:        2,
+        ACTIVATING:       3,
+        ACTIVE:           4,
+        ON_COOLDOWN:      5,
+        ENABLED:          6,
+        DISABLED:         7
     };
 
     ENUMS.ActionState = {
-        DISABLED:      0,
-        SELECTED:      1,
-        PRECAST:       2,
-        ACTIVE:        3,
-        APPLY_HIT:     4,
-        POST_HIT:      5,
-        COMPLETED:     6
+        DISABLED:      1,
+        SELECTED:      2,
+        PRECAST:       3,
+        ACTIVE:        4,
+        APPLY_HIT:     5,
+        POST_HIT:      6,
+        COMPLETED:     7
     };
 
     ENUMS.EncounterStatus = {
