@@ -602,6 +602,13 @@ function CAM_ENCOUNTER() {
         return;
     }
     if (!selectedActor) {
+        let partySelected = GameAPI.getGamePieceSystem().getPlayerParty().getPartySelection();
+        if (partySelected) {
+            selectedActor = partySelected;
+        } else {
+            selectedActor = GameAPI.getGamePieceSystem().selectedActor;
+        }
+
         return;
     }
     let distance = 0
