@@ -208,7 +208,7 @@ class RemoteClient {
 
         if (actionState === ENUMS.ActionState.ACTIVE) {
             console.log("Remote Action State: ACTIVE", actionState, msg);
-            action.visualAction.visualizeAttack();
+            action.visualAction.visualizeAttack(action.call.applyHitConsequences);
 
         }
 

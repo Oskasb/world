@@ -61,6 +61,12 @@ let onActionActivate = function(action, actionId) {
         let targetId = actor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET);
         if (!targetId) {
             targetId = targetSelector.selectActorActionTargetId(actor, action)
+            if (targetId) {
+                actor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, targetId);
+            } else {
+                targetId = actor.id;
+            }
+
         }
     //    selectedTarget = GameAPI.getActorById(targetId);
         action.setActionTargetId(targetId)

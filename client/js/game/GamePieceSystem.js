@@ -179,7 +179,7 @@ class GamePieceSystem {
                 opponentList.push(actors[i].id)
             }
         }
-
+        return opponentList;
     }
 
     setSelectedGameActor = function(gameActor) {

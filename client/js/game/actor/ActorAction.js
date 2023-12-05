@@ -111,12 +111,17 @@ class ActorAction {
                 target.setStatusKey(ENUMS.ActorStatus.HP, newHP)
             }
 
-            activateAttackStateTransition()
         }.bind(this);
+        
+        let applyMissileHit = function() {
+            applyHitConsequences()
+            activateAttackStateTransition()
+        }
+
 
         let updateActive = function(tpf) {
             if (this.stepProgress === 0) {
-                this.visualAction.visualizeAttack(applyHitConsequences);
+                this.visualAction.visualizeAttack(applyMissileHit);
             }
         }.bind(this)
 
@@ -149,6 +154,7 @@ class ActorAction {
         }.bind(this);
 
         this.call = {
+            applyHitConsequences:applyHitConsequences,
             updateActivate:updateActivate,
             updateProgress:updateProgress,
             updateActive:updateActive,
