@@ -6,11 +6,11 @@
         "data":{
           "visual_action": "VISUAL_FIREBALL",
           "sequencing": {
-            "selected":{"time": 0.5},
-            "precast":{"time": 0.25},
-            "active":{"time": 0.1},
-            "apply":{"time": 0.1},
-            "post_hit":{"time": 0.35}
+            "SELECTED": {"time": 0.5},
+            "PRECAST":  {"time": 0.45},
+            "ACTIVE":   {"time": 8},
+            "APPLY_HIT":{"time": 0.25},
+            "POST_HIT": {"time": 0.75}
           }
         }
       },
@@ -19,11 +19,11 @@
         "data":{
           "visual_action": "VISUAL_MAGIC_MISSILE",
           "sequencing": {
-            "selected":{"time": 0.5},
-            "precast":{"time": 0.45},
-            "active":{"time": 0.2},
-            "apply":{"time": 0.25},
-            "post_hit":{"time": 0.15}
+            "SELECTED":  {"time": 0.5},
+            "PRECAST":   {"time": 0.75},
+            "ACTIVE":    {"time": 8},
+            "APPLY_HIT": {"time": 0.25},
+            "POST_HIT":  {"time": 0.75}
           }
         }
       },
@@ -32,11 +32,11 @@
         "data":{
           "visual_action": "VISUAL_FREEZE_BOLT",
           "sequencing": {
-            "selected":{"time": 0.5},
-            "precast":{"time": 0.35},
-            "active":{"time": 0.3},
-            "apply":{"time": 0.04},
-            "post_hit":{"time": 0.25}
+            "SELECTED":  {"time": 0.25},
+            "PRECAST":   {"time": 0.65},
+            "ACTIVE":    {"time": 8},
+            "APPLY_HIT": {"time": 0.04},
+            "POST_HIT":  {"time": 0.75}
           }
         }
       },
@@ -45,11 +45,11 @@
         "data":{
           "visual_action": "VISUAL_HEAL_BOLT",
           "sequencing": {
-            "selected":{"time": 0.5},
-            "precast":{"time": 0.55},
-            "active":{"time": 0.4},
-            "apply":{"time": 0.15},
-            "post_hit":{"time": 0.15}
+            "SELECTED":  {"time": 0.35},
+            "PRECAST":   {"time": 0.85},
+            "ACTIVE":    {"time": 8},
+            "APPLY_HIT": {"time": 0.35},
+            "POST_HIT":  {"time": 0.75}
           }
         }
       }

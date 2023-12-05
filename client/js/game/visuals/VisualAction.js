@@ -45,31 +45,39 @@ class VisualAction {
         this.leftHandObj3d = new Object3D();
 
         let missileEffect = null;
+        let missileActive = false;
 
-        let updateSelected = function(tpf) {
+        let updateSelected = function() {
             this.getActor().getVisualJointWorldTransform('HAND_R', this.rightHandObj3d)
             this.getActor().getVisualJointWorldTransform('HAND_L', this.leftHandObj3d)
             effectCalls()[this.config[fxKeys[0]]](this.getActor(), this.rightHandObj3d)
             effectCalls()[this.config[fxKeys[0]]](this.getActor(), this.leftHandObj3d)
         }.bind(this)
 
-        let updatePrecast = function(tpf) {
+        let updatePrecast = function() {
             this.getActor().getVisualJointWorldTransform('HAND_R', this.rightHandObj3d)
             this.getActor().getVisualJointWorldTransform('HAND_L', this.leftHandObj3d)
             effectCalls()[this.config[fxKeys[1]]](this.getActor(), this.rightHandObj3d)
             effectCalls()[this.config[fxKeys[1]]](this.getActor(), this.leftHandObj3d)
         }.bind(this)
 
-        let updateActive = function(tpf) {
-            tempObj3D.position.copy(missileEffect.pos)
-            effectCalls()[this.config[fxKeys[1]]](this.getActor(), tempObj3D)
+        let updateActive = function() {
+            if (missileEffect !== null) {
+                if (missileActive === false) {
+                    tempObj3D.position.copy(missileEffect.pos)
+                    effectCalls()[this.config[fxKeys[1]]](this.getActor(), tempObj3D)
+                    missileActive = true;
+                }
+            }
         }.bind(this)
 
-        let updateApplyHit = function(tpf) {
+        let updateApplyHit = function() {
+            missileActive = false;
             effectCalls()[this.config[fxKeys[3]]](this.getTarget())
         }.bind(this)
 
-        let updatePostHit = function(tpf) {
+        let updatePostHit = function() {
+            missileEffect = null;
             effectCalls()[this.config[fxKeys[4]]](this.getTarget())
         }.bind(this)
 
@@ -77,14 +85,35 @@ class VisualAction {
             missileEffect = efct;
         }
 
-        this.call = {
-            fxCallback:fxCallback,
-
+        this.update = {
             updateSelected:updateSelected,
             updatePrecast:updatePrecast,
             updateActive:updateActive,
             updateApplyHit:updateApplyHit,
             updatePostHit:updatePostHit
+        }
+
+        let stateMap = []
+        stateMap[ENUMS.ActionState.SELECTED] =  {updateFunc:'updateSelected'}
+        stateMap[ENUMS.ActionState.PRECAST] =   {updateFunc:'updatePrecast'}
+        stateMap[ENUMS.ActionState.ACTIVE] =    {updateFunc:'updateActive'}
+        stateMap[ENUMS.ActionState.APPLY_HIT] = {updateFunc:'updateApplyHit'}
+        stateMap[ENUMS.ActionState.POST_HIT] =  {updateFunc:'updatePostHit'}
+        stateMap[ENUMS.ActionState.COMPLETED] = {updateFunc:'updateAttackCompleted'}
+
+        let updateVisualAction = function(tpf) {
+            let actionState = this.actorAction.call.getStatus(ENUMS.ActionStatus.ACTION_STATE);
+            if (stateMap[actionState]) {
+                this.update[stateMap[actionState].updateFunc]()
+            } else {
+                console.log("No Update Function for state", actionState);
+            }
+
+        }.bind(this);
+
+        this.call = {
+            fxCallback:fxCallback,
+            updateVisualAction:updateVisualAction
         }
 
     }
@@ -105,27 +134,42 @@ class VisualAction {
     }
 
 
+   activateVisualAction(actorAction) {
+       this.actorAction = actorAction;
+        ThreeAPI.addPostrenderCallback(this.call.updateVisualAction)
+    }
 
-    visualizeAttack(actorAction) {
+    visualizeAttack(actorAction, onArriveCB) {
         this.progress = 0;
         this.sourcePos.copy(actorAction.actor.getSpatialPosition())
         this.sourcePos.y +=1.5;
+        this.actorAction = actorAction;
 
         let tPos = this.targetPos;
 
         let getTargetPos = function() {
-            actorAction.getTarget().getSpatialPosition(tPos)
-            tPos.y +=1.5;
-            return tPos;
+            let target = actorAction.getTarget()
+            if (target) {
+                target.getSpatialPosition(tPos)
+                tPos.y +=1.5;
+                return tPos;
+            } else {
+                return tPos;
+            }
         }
 
         let onMissileArrive = function(gameEffect) {
             console.log("Missile Arrive", gameEffect)
-            actorAction.call.advanceState();
+            onArriveCB();
         }
-        actorAction.call.advanceState();
+    //    actorAction.call.advanceState();
         let fxKey = this.config['fx_active']
         effectCalls()[fxKey](this.sourcePos, actorAction.actor, 0, onMissileArrive, getTargetPos, this.call.fxCallback)
+
+    }
+
+    closeVisualAction() {
+        ThreeAPI.unregisterPostrenderCallback(this.call.updateVisualAction)
     }
 
 

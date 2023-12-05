@@ -99,11 +99,10 @@ function updateActorSelectAttack(tpf) {
     let holdTime = attack.getStepDuration('selected')
 
     let target = getSequencer().getTargetActor();
+    attack.setActionTargetId(target.id);
     viewPrecastAction(getSequencer(), target)
 
     if (seqTime > holdTime) {
-
-        attack.call.advanceState();
         GameAPI.unregisterGameUpdateCallback(updateActorSelectAttack)
         getSequencer().call.stateTransition()
         tpf = 0;
@@ -126,11 +125,11 @@ function updateActorApplyAttack(tpf) {
 
 
 
-    if (seqTime > holdTime) {
+    if (seqTime === 0) {
 
         GameAPI.unregisterGameUpdateCallback(updateActorApplyAttack)
 
-        attack.activateAttack(target.id, getSequencer().call.stateTransition)
+        attack.activateAttack(getSequencer().call.stateTransition)
         tpf = 0;
     }
 

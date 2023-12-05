@@ -101,6 +101,7 @@ function processPartyStatus(actor) {
                             actor.setStatusKey(ENUMS.ActorStatus.ACTIVATING_ENCOUNTER, "");
                             actor.setStatusKey(ENUMS.ActorStatus.ACTIVATED_ENCOUNTER, encounter.id);
                             actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_BATTLE);
+                            notifyCameraStatus(ENUMS.CameraStatus.CAMERA_MODE, ENUMS.CameraControls.CAM_ENCOUNTER, true);
                             actor.actorStatusProcessor.processActorStatus(actor);
                             poolReturn(transition)
                         }

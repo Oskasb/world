@@ -169,12 +169,12 @@ class GamePieceSystem {
     }
 
     listCombatActorOpponents(actor) {
-        let alignment = actor.getStatusByKey(ENUMS.ActorStatus.ALIGNMENT);
+        let alignment = actor.getStatus(ENUMS.ActorStatus.ALIGNMENT);
 
         MATH.emptyArray(opponentList);
 
         for (let i = 0; i < actors.length; i++) {
-            let align =  actors[i].getStatusByKey(ENUMS.ActorStatus.ALIGNMENT);
+            let align =  actors[i].getStatus(ENUMS.ActorStatus.ALIGNMENT);
             if (align !== alignment) {
                 opponentList.push(actors[i].id)
             }

@@ -76,12 +76,10 @@ let updateCameraUiSystem = function(tpf, time) {
 
 
 class CameraUiSystem {
-    constructor(camControls) {
-        cameraControls = camControls;
-    }
+    constructor() {}
 
     initCameraUi() {
-
+        cameraControls = ThreeAPI.getCameraCursor().getCameraControls();
         let containerReady = function(widget) {
             widget.attachToAnchor('mid_right');
             ThreeAPI.addPrerenderCallback(updateCameraUiSystem)

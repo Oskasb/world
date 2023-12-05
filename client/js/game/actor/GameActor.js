@@ -83,8 +83,15 @@ class GameActor {
 
         let turnEnd = function() {
             while (this.turnEndCallbacks.length) {
-                this.turnEndCallbacks.pop()(this);
+                let cb = this.turnEndCallbacks.pop();
+                if (typeof (cb) === 'function') {
+                    cb (this);
+                } else {
+                    console.log("Turn end CB not function... ")
+                }
             }
+
+            this.setStatusKey(ENUMS.ActorStatus.TURN_DONE, this.getStatus(ENUMS.ActorStatus.HAS_TURN_INDEX))
             this.setStatusKey(ENUMS.ActorStatus.HAS_TURN, false);
             this.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, false);
         }.bind(this)
@@ -149,10 +156,11 @@ class GameActor {
         if (this.call.getRemote() === null) {
             GameAPI.getGamePieceSystem().setSelectedGameActor(this);
         }
+
         this.turnEndCallbacks.push(turnEndedCB);
         this.setStatusKey(ENUMS.ActorStatus.HAS_TURN, true);
         this.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, true);
-        this.setStatusKey(ENUMS.ActorStatus.TURN_DONE, turnIndex)
+        this.setStatusKey(ENUMS.ActorStatus.HAS_TURN_INDEX, turnIndex)
     //    evt.dispatch(ENUMS.Event.SET_CAMERA_MODE, {mode:'game_travel'})
     }
 

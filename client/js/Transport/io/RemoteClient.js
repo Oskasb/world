@@ -84,20 +84,20 @@ class RemoteClient {
 
         let statusKey = actor.getStatus(ENUMS.ActorStatus.ACTION_STATE_KEY);
 
-        if (statusKey === 'attack_completed') {
+        if (statusKey === ENUMS.ActionState.COMPLETED) {
             let action = remote.call.getAction();
             if (action) {
 
             }
         }
 
-        if (statusKey === 'attack_apply_hit') {
+        if (statusKey === ENUMS.ActionState.APPLY_HIT) {
         //    actor.actorText.say("Apply Hit")
             let action = remote.call.getAction();
             action.call.updateApplyHit(0.05)
         }
 
-        if (statusKey === 'attack_post_hit') {
+        if (statusKey === ENUMS.ActionState.POST_HIT) {
             let action = remote.call.getAction();
         //    console.log("POST HIT", [action], actor.id, action.targetId);
         //    action.getTarget().actorText.say("Apply Post Hit")
@@ -111,7 +111,7 @@ class RemoteClient {
 
         }
 
-        if (statusKey === 'attack_precast' || statusKey === 'attack_selected') {
+        if (statusKey === ENUMS.ActionState.PRECAST || statusKey === ENUMS.ActionState.SELECTED) {
 
             if (lastActionKey === newActionKey) {
         //        console.log("SAME ACTION!")
@@ -120,12 +120,12 @@ class RemoteClient {
                 remote.remoteActionKey = newActionKey;
                 let action = poolFetch('ActorAction');
                 remote.call.setAction(action);
-                action.setActionKey(newActionKey);
+                action.setActionKey(actor, newActionKey);
                 action.initAction(actor);
             }
         }
 
-        if (statusKey === 'attack_active') {
+        if (statusKey === ENUMS.ActionState.ACTIVE) {
             let action = remote.call.getAction();
 
             let targetId = actor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET)
@@ -136,7 +136,7 @@ class RemoteClient {
 
             if (action.onCompletedCallbacks.indexOf(onRemoteClientActionDone) === -1) {
         //        console.log("ACTIVATE REMOTE ACTION", actor.id, targetId)
-                action.activateAttack(targetId, onRemoteClientActionDone)
+            //    action.activateAttack(targetId, onRemoteClientActionDone)
             } else {
         //        console.log("Already Activated", action, actor)
             }

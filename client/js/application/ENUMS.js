@@ -137,6 +137,8 @@ if(typeof(ENUMS) === "undefined"){
         QUAT_Z:'QUAT_Z',
         QUAT_W:'QUAT_W',
         HAS_TURN:'HAS_TURN',
+        HAS_TURN_INDEX:'HAS_TURN_INDEX',
+        TURN_DONE:'TURN_DONE',
         HEIGHT:'HEIGHT',
         HP:'HP',
         ICON_KEY:'ICON_KEY',
@@ -147,7 +149,7 @@ if(typeof(ENUMS) === "undefined"){
         SIZE:'SIZE',
         TRAVEL:'TRAVEL',
         TRAVEL_MODE:'TRAVEL_MODE',
-        TURN_DONE:'TURN_DONE',
+
         SEQUENCER_INITIATIVE:'SEQUENCER_INITIATIVE',
         SEQUENCER_SELECTED:'SEQUENCER_SELECTED',
         SELECTED_TARGET:'SELECTED_TARGET',
@@ -196,6 +198,39 @@ if(typeof(ENUMS) === "undefined"){
         STATUS_LEAP_SELECTION:'STATUS_LEAP_SELECTION'
     };
 
+    ENUMS.ActionStatus = {
+        ACTOR_ID:'ACTOR_ID',
+        ACTION_ID:'ACTION_ID',
+        ACTION_KEY:'ACTION_KEY',
+        BUTTON_STATE:'BUTTON_STATE',
+        ACTION_STATE:'ACTION_STATE',
+        STEP_CURRENT_TIME:'STEP_CURRENT_TIME',
+        STEP_START_TIME:'STEP_START_TIME',
+        STEP_END_TIME:'STEP_END_TIME',
+        SELECTED:'SELECTED',
+        TARGET_ID:'TARGET_ID'
+    }
+
+    ENUMS.ButtonState = {
+        UNAVAILABLE:      0,
+        AVAILABLE:        1,
+        ACTIVATING:       2,
+        ACTIVE:           3,
+        ON_COOLDOWN:      4,
+        ENABLED:          5,
+        DISABLED:         6
+    };
+
+    ENUMS.ActionState = {
+        DISABLED:      0,
+        SELECTED:      1,
+        PRECAST:       2,
+        ACTIVE:        3,
+        APPLY_HIT:     4,
+        POST_HIT:      5,
+        COMPLETED:     6
+    };
+
     ENUMS.EncounterStatus = {
         CLIENT_STAMP:'CLIENT_STAMP',
         WORLD_ENCOUNTER_ID:'WORLD_ENCOUNTER_ID',
@@ -209,6 +244,7 @@ if(typeof(ENUMS) === "undefined"){
     }
 
     ENUMS.ActivationState = {
+        UNAVAILABLE:'UNAVAILABLE',
         INIT:'INIT',
         INACTIVE:'INACTIVE',
         ACTIVATING:'ACTIVATING',
@@ -490,16 +526,6 @@ if(typeof(ENUMS) === "undefined"){
         HAS_UPDATE:       18,
         BUFFER_SIZE:      20
 
-    };
-
-    ENUMS.ActionState = {
-        UNAVAILABLE:      0,
-        AVAILABLE:        1,
-        ACTIVATING:       2,
-        ACTIVE:           3,
-        ON_COOLDOWN:      4,
-        ENABLED:          5,
-        DISABLED:         6
     };
 
     ENUMS.AttackType = {

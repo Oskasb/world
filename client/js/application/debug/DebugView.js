@@ -1,5 +1,6 @@
 import * as DebugUtils from "./DebugUtils.js";
 import {DebugLines} from "./lines/DebugLines.js";
+import {CameraUiSystem} from "../ui/gui/systems/CameraUiSystem.js";
 
 let cache = {};
 let mem = null;
@@ -33,7 +34,6 @@ let setupDebug = function() {
             evt.dispatch(ENUMS.Event.DEBUG_TEXT, {value: vendor})
             evt.dispatch(ENUMS.Event.DEBUG_TEXT, {value: glRenderer})
         }, 100)
-
     }
     console.log(vendor, glRenderer);
 }
@@ -158,17 +158,23 @@ class DebugView {
     activateDebugView = function() {
         this.isActive = !this.isActive;
         if (!this.isActive) {
-            ThreeAPI.getCameraCursor().getCameraUiSystem().closeCameraUi();
+            // ThreeAPI.getCameraCursor().getCameraUiSystem().closeCameraUi();
+            if (this.camButtons) {
+                this.camButtons.closeCameraUi();
+                this.camButtons = null;
+            }
+
             this.deactivateDebugView()
 
             ThreeAPI.unregisterPostrenderCallback(updateSystemDebug)
             return;
         }
         setupDebug();
+        this.camButtons = new CameraUiSystem();
+        this.camButtons.initCameraUi();
         ThreeAPI.addPostrenderCallback(updateSystemDebug)
         if (client.page) {
             GuiAPI.closePage(client.page)
-            ThreeAPI.getCameraCursor().getCameraUiSystem().initCameraUi();
             client.page = null;
         }
 

@@ -13,7 +13,12 @@ let getEncounter = function(enc) {
 let processEncStatus = function() {
 
     let hasTurnId = activeEncounter.status.call.getStatus(ENUMS.EncounterStatus.HAS_TURN_ACTOR);
+
+    // let currentTurnActor = GameAPI.getActorById(hasTurnActorId);
+
+
     if (!hasTurnId) {
+
         hasTurnActorId = null;
         return;
     }

@@ -2,10 +2,11 @@ import {GuiButtonFrame} from "./GuiButtonFrame.js";
 import {poolFetch} from "../../../utils/PoolUtils.js";
 
 class GuiActorActionButton {
-    constructor(actionId, layoutConfId, onActivate, testActive, x, y, onReady, frameWidgetId, hpProgressId) {
+    constructor(actor, actionId, layoutConfId, onActivate, testActive, x, y, onReady, frameWidgetId, hpProgressId) {
 
+        this.actor = actor;
         this.action = poolFetch('ActorAction')
-        this.action.setActionKey(actionId);
+        this.action.setActionKey(actor, actionId);
         this.name = this.action.visualAction.name;
         this.iconKey = this.action.visualAction.iconKey;
         this.portraitContainer;

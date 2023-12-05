@@ -197,7 +197,7 @@ class ActorStatus {
         this.statusMap[ENUMS.ActorStatus.PLAYER_PARTY]  = [];
         this.statusMap[ENUMS.ActorStatus.SELECTED_DESTINATION]  = [0, 0, 0];
         this.statusMap[ENUMS.ActorStatus.SELECTED_ACTION] = "";
-        this.statusMap[ENUMS.ActorStatus.ACTION_STATE_KEY] = "";
+        this.statusMap[ENUMS.ActorStatus.ACTION_STATE_KEY] = 0;
         this.statusMap[ENUMS.ActorStatus.ACTION_STEP_PROGRESS]  = 0;
 
         let updateTO = null;
@@ -232,7 +232,7 @@ class ActorStatus {
         if (typeof (this.statusMap[key]) === typeof (status)) {
             this.statusMap[key] = status;
         } else {
-            if (typeof (this.statusMap[key]) === 'undefined' || this.statusMap[key] === 0) {
+            if (typeof (this.statusMap[key]) === 'undefined' || this.statusMap[key] === 0  || this.statusMap[key] === null) {
                 this.statusMap[key] = status;
             } else {
                 console.log("changing type for status is bad", key, status)

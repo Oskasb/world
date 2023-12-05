@@ -1,6 +1,6 @@
 import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
 import {configDataList} from "../../application/utils/ConfigUtils.js";
-
+import {ActionStatus} from "./ActionStatus.js";
 
 let visualConfig = {
     "fx_selected":"combat_effect_hands_magic_power",
@@ -22,86 +22,99 @@ setTimeout(function() {
 }, 2000)
 
 
-
 let attackStateKeys = [
-    'attack_selected',
-    'attack_precast',
-    'attack_active',
-    'attack_apply_hit',
-    'attack_post_hit',
-    'attack_completed'
+    ENUMS.ActionState.SELECTED,
+    ENUMS.ActionState.PRECAST,
+    ENUMS.ActionState.ACTIVE,
+    ENUMS.ActionState.APPLY_HIT,
+    ENUMS.ActionState.POST_HIT,
+    ENUMS.ActionState.COMPLETED
 ]
 
-let attackStateMap = {};
-attackStateMap[attackStateKeys[0]] = {updateFunc:'updateSelected'}
-attackStateMap[attackStateKeys[1]] = {updateFunc:'updatePrecast'}
-attackStateMap[attackStateKeys[2]] = {updateFunc:'updateActive'}
-attackStateMap[attackStateKeys[3]] = {updateFunc:'updateApplyHit'}
-attackStateMap[attackStateKeys[4]] = {updateFunc:'updatePostHit'}
-attackStateMap[attackStateKeys[5]] = {updateFunc:'updateAttackCompleted'}
+let attackStateMap = [];
+
+attackStateMap[ENUMS.ActionState.DISABLED] =  {updateFunc:'updateProgress'}
+attackStateMap[ENUMS.ActionState.SELECTED] =  {updateFunc:'updateActivate'}
+attackStateMap[ENUMS.ActionState.PRECAST] =   {updateFunc:'updateProgress'}
+attackStateMap[ENUMS.ActionState.ACTIVE] =    {updateFunc:'updateActive'}
+attackStateMap[ENUMS.ActionState.APPLY_HIT] = {updateFunc:'updateProgress'}
+attackStateMap[ENUMS.ActionState.POST_HIT] =  {updateFunc:'updateProgress'}
+attackStateMap[ENUMS.ActionState.COMPLETED] = {updateFunc:'updateAttackCompleted'}
 
 
-let activateAttackStateTransition = function(attack) {
-    attack.stepProgress = 0;
-    let stateIndex = attack.attackStateIndex;
-    console.log("stateIndex", stateIndex)
-    let stateKey = attackStateKeys[stateIndex]
+let transitionMap = []
 
-    if (!attack.actor.call.getRemote()) {
-        attack.actor.setStatusKey(ENUMS.ActorStatus.ACTION_STATE_KEY, stateKey)
-    }
+transitionMap[ENUMS.ActionState.DISABLED]  =  ENUMS.ActionState.SELECTED
+transitionMap[ENUMS.ActionState.SELECTED]  =  ENUMS.ActionState.PRECAST;
+transitionMap[ENUMS.ActionState.PRECAST]   =   ENUMS.ActionState.ACTIVE
+transitionMap[ENUMS.ActionState.ACTIVE]    =    ENUMS.ActionState.APPLY_HIT
+transitionMap[ENUMS.ActionState.APPLY_HIT] = ENUMS.ActionState.POST_HIT
+transitionMap[ENUMS.ActionState.POST_HIT]  =  ENUMS.ActionState.COMPLETED
+transitionMap[ENUMS.ActionState.COMPLETED] = ENUMS.ActionState.DISABLED
 
-//    attack.actor.setStatusKey(ENUMS.ActorStatus.SELECTED_ACTION, attack.actionKey);
-//    attack.actor.actorText.say(stateKey)
-    let funcName = attackStateMap[stateKey].updateFunc
-    attack.updateFunc = attack.call[funcName];
-    attack.attackStateIndex++;
-}
-
+let index = 0;
 
 class ActorAction {
     constructor() {
 
+        this.id = "A"+index+"_"+client.getStamp()
+        index++;
+
+        this.status = new ActionStatus();
         this.stepProgress = 0;
         this.actor = null;
         this.targetId = null;
         this.visualAction = null;
-        this.attackStateIndex = 0;
         this.onCompletedCallbacks = [];
-        this.actionKey = null;
 
-        this.updateFunc = function () {
-            console.log("No Update func for ActorAction Yet...")
-        };
+        let stepDuration = 0;
 
-        let advanceState = function() {
-            activateAttackStateTransition(this);
-        }.bind(this)
 
-        let updateSelected = function(tpf) {
-            this.visualAction.call.updateSelected(tpf);
-        }.bind(this)
+        let activateAttackStateTransition = function() {
+            this.stepProgress = 0;
 
-        let updatePrecast = function(tpf) {
-            this.visualAction.call.updatePrecast(tpf);
-        }.bind(this)
+            let actionState = this.status.call.getStatusByKey(ENUMS.ActionStatus.ACTION_STATE)
+            console.log("ACTION_STATE", actionState)
 
-        let updateActive = function(tpf) {
-            this.visualAction.call.updateActive(tpf);
-        }.bind(this)
-
-        let updateApplyHit = function(tpf) {
-            this.visualAction.call.updateApplyHit(tpf);
-            if (this.stepProgress > this.getStepDuration('apply')) {
-                activateAttackStateTransition(this);
+            if (!this.actor.call.getRemote()) {
+                this.actor.setStatusKey(ENUMS.ActorStatus.ACTION_STATE_KEY, actionState)
             }
 
+            let newActionState = transitionMap[actionState];
+            let key = ENUMS.getKey('ActionState', newActionState);
+            stepDuration = this.getStepDuration(key);
+            console.log("Step Duration", stepDuration, "Key: ", key);
+            this.status.call.setStatusByKey(ENUMS.ActionStatus.ACTION_STATE, transitionMap[actionState])
+            let funcName = attackStateMap[newActionState].updateFunc
+            this.call[funcName]();
+
         }.bind(this)
 
-        let updatePostHit = function(tpf) {
-            this.visualAction.call.updatePostHit(tpf);
-            if (this.stepProgress > this.getStepDuration('post_hit')) {
-                activateAttackStateTransition(this);
+
+        let updateActivate = function(tpf) {
+                this.visualAction.activateVisualAction(this);
+        }.bind(this)
+
+        let updateProgress = function(tpf) {
+                console.log("Progress status... ")
+        }.bind(this)
+
+        let applyHitConsequences = function() {
+            let target = this.getTarget();
+
+            if (!target.call.getRemote()) {
+                let hp = target.getStatus(ENUMS.ActorStatus.HP);
+                let maxHP = target.getStatus(ENUMS.ActorStatus.MAX_HP);
+                let newHP = Math.ceil(MATH.clamp(hp - (1  + (Math.random()*3))), 0, maxHP );
+                target.setStatusKey(ENUMS.ActorStatus.HP, newHP)
+            }
+
+            activateAttackStateTransition()
+        }.bind(this);
+
+        let updateActive = function(tpf) {
+            if (this.stepProgress === 0) {
+                this.visualAction.visualizeAttack(this, applyHitConsequences);
             }
         }.bind(this)
 
@@ -111,31 +124,44 @@ class ActorAction {
 
         let updateAttack = function(tpf) {
             this.stepProgress += tpf;
-            this.updateFunc(tpf);
+            if (stepDuration < this.stepProgress) {
+                activateAttackStateTransition()
+            }
         }.bind(this);
 
         let closeAttack = function() {
             this.attackCompleted();
         }.bind(this)
 
+        let getStatus = function(key) {
+            return this.status.call.getStatusByKey(key);
+        }.bind(this);
+
+        let setStatusKey = function(key, status) {
+            this.status.call.setStatusByKey(key, status);
+        }.bind(this)
+
+        let initStatus = function(actor, actionKey) {
+            this.status.call.initActionStatus(actor, actionKey, this)
+        }.bind(this);
+
         this.call = {
-            advanceState:advanceState,
-            updateSelected:updateSelected,
-            updatePrecast:updatePrecast,
+            updateActivate:updateActivate,
+            updateProgress:updateProgress,
             updateActive:updateActive,
-            updateApplyHit:updateApplyHit,
-            updatePostHit:updatePostHit,
             updateAttackCompleted:updateAttackCompleted,
             updateAttack:updateAttack,
-            closeAttack:closeAttack
+            closeAttack:closeAttack,
+            getStatus:getStatus,
+            setStatusKey:setStatusKey,
+            initStatus:initStatus
         }
 
     }
 
     getTarget() {
-        return GameAPI.getActorById(this.targetId);
+        return GameAPI.getActorById(this.status.call.getStatusByKey(ENUMS.ActionStatus.TARGET_ID));
     }
-
 
     getStepDuration(step) {
         if (typeof this.sequencing[step] === 'object') {
@@ -143,29 +169,29 @@ class ActorAction {
         } else {
             return 1;
         }
-
     }
 
     readActionConfig(key) {
-        return config[this.actionKey][key];
+        let actionKey = this.call.getStatus(ENUMS.ActionStatus.ACTION_KEY)
+        return config[actionKey][key];
     }
 
-    setActionKey(actionKey) {
-        this.actionKey = actionKey;
+    setActionKey(actor, actionKey) {
+        this.call.initStatus(actor, actionKey)
         this.visualAction = poolFetch('VisualAction')
         let visualActionKey = this.readActionConfig('visual_action')
         this.visualAction.setActorAction(this, visualActionKey);
     }
 
     initAction(actor) {
+
         this.actor = actor;
 
+
         if (!actor.call.getRemote()) {
-            this.actor.setStatusKey(ENUMS.ActorStatus.ACTION_STATE_KEY, attackStateKeys[0])
-            this.actor.setStatusKey(ENUMS.ActorStatus.SELECTED_ACTION, this.actionKey);
+            this.actor.setStatusKey(ENUMS.ActorStatus.ACTION_STATE_KEY, this.status.call.getStatusByKey(ENUMS.ActionStatus.ACTION_STATE))
+            this.actor.setStatusKey(ENUMS.ActorStatus.SELECTED_ACTION, this.status.call.getStatusByKey(ENUMS.ActionStatus.ACTION_KEY));
         }
-
-
 
         let status = this.readActionConfig('status')
 
@@ -178,18 +204,16 @@ class ActorAction {
 
         this.sequencing = this.readActionConfig('sequencing')
         if (typeof(this.sequencing) === 'object') {
-            this.attackStateIndex = 0;
-            this.call.advanceState();
             GameAPI.registerGameUpdateCallback(this.call.updateAttack);
         }
     }
 
-    activateAttack(targetId, onCompletedCB) {
-        if (typeof(this.sequencing) === 'object') {
-            this.targetId = targetId;
-            this.onCompletedCallbacks.push(onCompletedCB)
-            this.visualAction.visualizeAttack(this);
-        }
+    setActionTargetId(targetId) {
+        this.status.call.setStatusByKey(ENUMS.ActionStatus.TARGET_ID, targetId)
+    }
+
+    activateAttack(onCompletedCB) {
+        this.onCompletedCallbacks.push(onCompletedCB)
     }
 
     attackCompleted() {
@@ -198,6 +222,7 @@ class ActorAction {
         GameAPI.unregisterGameUpdateCallback(this.call.updateAttack);
         MATH.callAll(this.onCompletedCallbacks, this.actor);
         MATH.emptyArray(this.onCompletedCallbacks);
+        this.visualAction.closeVisualAction();
         this.recoverAttack();
     }
 

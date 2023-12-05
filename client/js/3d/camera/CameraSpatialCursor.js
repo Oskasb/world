@@ -3,12 +3,10 @@ import { Vector3 } from "../../../libs/three/math/Vector3.js";
 import { Object3D } from "../../../libs/three/core/Object3D.js";
 import * as CursorUtils from "./CursorUtils.js";
 import {notifyCameraStatus, viewEncounterSelection} from "./CameraFunctions.js";
-import { CameraUiSystem } from "../../application/ui/gui/systems/CameraUiSystem.js";
 import { CameraControls} from "./CameraControls.js";
 
 
 let cameraControls = new CameraControls()
-let cameraUiSystem;
 let cameraStatus = {}
 
 let calcVec = new Vector3()
@@ -103,7 +101,6 @@ let updateActorTurnMovement = function() {
 class CameraSpatialCursor {
     constructor() {
 
-        cameraUiSystem = new CameraUiSystem(cameraControls)
         cursorObj3d.position.copy(lookAroundPoint);
         camPosVec.copy(lookAroundPoint);
         camParams.mode = camModes.worldDisplay;
@@ -115,7 +112,6 @@ class CameraSpatialCursor {
 
         let setCamMode = function(evt) {
             let selectedMode = evt.mode;
-        //    cameraUiSystem.initCameraUi();
             if (selectedMode === camModes.worldDisplay) {
                 notifyCameraStatus(ENUMS.CameraStatus.CAMERA_MODE, ENUMS.CameraControls.CAM_AUTO, true)
             }
@@ -165,9 +161,10 @@ class CameraSpatialCursor {
 
     }
 
-    getCameraUiSystem = function() {
-        return cameraUiSystem;
+    getCameraControls() {
+        return cameraControls;
     }
+
 
     setCursorPosition = function(vec3) {
         cursorObj3d.position.copy(vec3);

@@ -94,15 +94,29 @@ class EncounterTurnSequencer {
             setStatusKey(ENUMS.EncounterStatus.HAS_TURN_ACTOR, actor.id);
 
             if (actor.isPlayerActor()) {
-                GuiAPI.screenText("Your Turn", ENUMS.Message.HINT)
+                GuiAPI.screenText("Your turn as host", ENUMS.Message.HINT, 4)
                 actor.startPlayerTurn(this.call.turnEnded, this.turnIndex)
             } else if (actor.call.getRemote()) {
-                GuiAPI.screenText("Other Payer Turn", ENUMS.Message.HINT)
+                GuiAPI.screenText("Other Payer Turn", ENUMS.Message.HINT, 4)
             } else {
-                GuiAPI.screenText("Enemy Turn", ENUMS.Message.HINT)
+                GuiAPI.screenText("Enemy Turn", ENUMS.Message.HINT, 4)
                 actor.getActorTurnSequencer().startActorTurn(this.call.turnEnded, this.turnIndex);
             }
 
+        } else {
+
+            if (actor.call.getRemote()) {
+
+                let hasTurnId = getStatus(ENUMS.EncounterStatus.HAS_TURN_ACTOR);
+
+                if (hasTurnId === actor.id) {
+                    let turnDone = actor.getStatus(ENUMS.ActorStatus.TURN_DONE);
+                    if (turnDone === this.turnIndex) {
+                        console.log("Detect remote player turn done")
+                        this.call.turnEnded();
+                    }
+                }
+            }
         }
     }
 

@@ -62,13 +62,17 @@ let onActionActivate = function(action, actionId) {
         if (!targetId) {
             targetId = targetSelector.selectActorActionTargetId(actor, action)
         }
-        selectedTarget = GameAPI.getActorById(targetId);
-        action.call.advanceState();
+    //    selectedTarget = GameAPI.getActorById(targetId);
+        action.setActionTargetId(targetId)
+        action.activateAttack(action.actor.call.turnEnd)
+        //action.call.advanceState();
+    /*
         setTimeout(function() {
-            action.activateAttack(selectedTarget.id, action.actor.call.turnEnd)
+
             activatedAction = null;
             selectedTarget = null;
         }, 1000)
+     */
     } else {
         console.log("Non combat action", [action])
     }
@@ -85,8 +89,8 @@ let onActionActivate = function(action, actionId) {
 let actionTestActive = function(action) {
 //    console.log("actionTestActive:", action)
 }
-let addActionButton = function(actionId) {
-    let actionButton = new GuiActorActionButton(actionId, 'widget_companion_sequencer_button', onActionActivate, actionTestActive, -0.07+actionButtons.length*0.064, -0.33, onActionButtonReady);
+let addActionButton = function(actor, actionId) {
+    let actionButton = new GuiActorActionButton(actor, actionId, 'widget_companion_sequencer_button', onActionActivate, actionTestActive, -0.07+actionButtons.length*0.064, -0.33, onActionButtonReady);
   //  actionButton.initActionButton('widget_action_button', onActionButtonReady);
     actionButtons.push(actionButton);
 }
@@ -95,10 +99,10 @@ let setupActionUi = function() {
     portrait = new GuiCharacterPortrait(actor, playerPortraitLayoutId, onActivate, testActive, -0.16, -0.3, onReady, 'widget_actor_action_portrait_frame', 'progress_indicator_action_portrait_hp')
 }
 
-let setupActionButtons = function(actorStatusKey) {
+let setupActionButtons = function(actor, actorStatusKey) {
     let actions = actor.getStatus(ENUMS.ActorStatus[actorStatusKey]);
     for (let i = 0; i < actions.length; i++) {
-        addActionButton(actions[i]);
+        addActionButton(actor, actions[i]);
     }
 }
 
@@ -143,33 +147,13 @@ let updateActiveActorUi = function(tpf) {
             if (actor.getStatus(ENUMS.ActorStatus.IN_COMBAT)) {
                 if (actor.getStatus(ENUMS.ActorStatus.HAS_TURN)) {
                     if (actionButtons.length === 0) {
-                        setupActionButtons(ENUMS.ActorStatus.ACTIONS);
+                        setupActionButtons(actor, ENUMS.ActorStatus.ACTIONS);
                     }
                 }
             } else {
                 if (actionButtons.length === 0) {
-                    setupActionButtons(ENUMS.ActorStatus.TRAVEL);
+                    setupActionButtons(actor, ENUMS.ActorStatus.TRAVEL);
                 }
-            }
-
-
-        }
-    }
-
-
-    if (activatedAction) {
-        console.log("Is this ever needed?")
-        activatedAction = null;
-        return;
-        if (!selectedTarget) {
-            selectedTarget = GameAPI.getActorById(actor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET))
-            if (selectedTarget) {
-                activatedAction.call.advanceState();
-                setTimeout(function() {
-                    activatedAction.activateAttack(selectedTarget.id, action.actor.call.turnEnd)
-                    activatedAction = null;
-                    selectedTarget = null;
-                }, 1000)
             }
         }
     }
