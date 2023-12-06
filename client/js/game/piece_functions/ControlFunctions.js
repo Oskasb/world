@@ -27,11 +27,9 @@ class ControlFunctions {
         let actorSpeed = actor.getStatus(ENUMS.ActorStatus.ACTOR_SPEED);
         let forward = actor.getStatus(ENUMS.ActorStatus.STATUS_FORWARD);
         let frameSpeed = actorSpeed * forward * tpf;
-
-        actor.setStatusKey(ENUMS.ActorStatus.STATUS_SPEED, frameSpeed / tpf);
         let forwardVec = actor.getForward();
-        forwardVec.multiplyScalar(frameSpeed);
-    //    actor.setSpatialVelocity(forwardVec)
+        actor.setStatusKey(ENUMS.ActorStatus.STATUS_SPEED, frameSpeed / tpf);
+
 
         let elevation = actor.getSpatialPosition().y;
         let range = 50;
@@ -54,6 +52,7 @@ class ControlFunctions {
             neutralize = (0.5*pitchAxis*tpf)
         }
         actor.setStatusKey(ENUMS.ActorStatus.STATUS_PITCH, pitch + value*tpf - neutralize)
+        actor.setSpatialQuaternion(actor.actorObj3d.quaternion)
     }
 
     CONTROL_ROLL(value, actor) {
@@ -66,6 +65,7 @@ class ControlFunctions {
             neutralize = (0.5*rollAxis*tpf)
         }
         actor.setStatusKey(ENUMS.ActorStatus.STATUS_ROLL, roll + value*tpf - neutralize)
+        actor.setSpatialQuaternion(actor.actorObj3d.quaternion)
     }
 
     CONTROL_YAW(value, actor) {
@@ -74,12 +74,18 @@ class ControlFunctions {
         let yawRate = actor.getStatus(ENUMS.ActorStatus.ACTOR_YAW_RATE);
         actor.actorObj3d.rotateY(MATH.curveQuad(yaw) * tpf * yawRate)
         actor.setStatusKey(ENUMS.ActorStatus.STATUS_YAW, yaw + value*tpf)
+        actor.setSpatialQuaternion(actor.actorObj3d.quaternion)
     }
 
     CONTROL_SPEED(value, actor) {
         let tpf = GameAPI.getFrame().avgTpf;
         let forward = actor.getStatus(ENUMS.ActorStatus.STATUS_FORWARD);
-        actor.setStatusKey(ENUMS.ActorStatus.STATUS_FORWARD, MATH.clamp(forward + value*tpf, -1.0, 1.0))
+        forward = MATH.clamp(forward + value*tpf, -1.0, 1.0)
+        actor.setStatusKey(ENUMS.ActorStatus.STATUS_FORWARD, forward)
+        let forwardVec = actor.getForward();
+        let actorSpeed = actor.getStatus(ENUMS.ActorStatus.ACTOR_SPEED);
+        forwardVec.multiplyScalar(actorSpeed * forward * tpf);
+        actor.setSpatialVelocity(forwardVec)
     }
 
     CONTROL_TILE_X(value, actor) {

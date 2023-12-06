@@ -25,6 +25,22 @@ let onRemoteClientActionDone = function(actingActor) {
     // action.call.closeAttack()
 }
 
+let spatialMap = [
+    ENUMS.ActorStatus.POS_X,
+    ENUMS.ActorStatus.POS_Y,
+    ENUMS.ActorStatus.POS_Z,
+    ENUMS.ActorStatus.VEL_X,
+    ENUMS.ActorStatus.VEL_Y,
+    ENUMS.ActorStatus.VEL_Z,
+    ENUMS.ActorStatus.SCALE_X,
+    ENUMS.ActorStatus.SCALE_Y,
+    ENUMS.ActorStatus.SCALE_Z,
+    ENUMS.ActorStatus.QUAT_X,
+    ENUMS.ActorStatus.QUAT_Y,
+    ENUMS.ActorStatus.QUAT_Z,
+    ENUMS.ActorStatus.QUAT_W
+]
+
 
 class RemoteClient {
     constructor(stamp) {
@@ -79,14 +95,18 @@ class RemoteClient {
     applyRemoteSpatial(actor, timeDelta) {
 
         let remote = actor.call.getRemote();
-        tempQuat.copy(remote.quat)
-        actor.getSpatialVelocity(remote.vel);
-        actor.getSpatialPosition(remote.pos);
-        actor.getSpatialScale(remote.scale);
-        actor.getSpatialQuaternion(remote.quat);
-        actor.setSpatialQuaternion(tempQuat);
-        remote.timeDelta = timeDelta;
+        if (MATH.distanceBetween(remote.pos, remote.lastUpdate.pos) > 50) {
+            remote.copyLastFrame();
+        }
 
+        tempQuat.copy(remote.quat)
+        actor.getSpatialScale(remote.scale);
+        remote.timeDelta = timeDelta;
+    /*
+        tempVec.copy(remote.pos);
+        tempVec.add(remote.vel);
+        evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:remote.pos, to:tempVec, color:'GREEN', drawFrames:Math.floor(timeDelta/GameAPI.getFrame().tpf)});
+   */
     }
 
 
@@ -341,12 +361,17 @@ class RemoteClient {
                 actor.closeTimeout = setTimeout(removeActor, 6000);
 
                 for (let i = 2; i < msg.length; i++) {
+
+
+
                     let key = msg[i];
                     i++
                     let status = msg[i]
-                    actor.setStatusKey(key, status);
-                    if (key === (ENUMS.ActorStatus.QUAT_Z || ENUMS.ActorStatus.POS_X || ENUMS.ActorStatus.VEL_X || ENUMS.ActorStatus.VEL_Z)) {
+                    if (spatialMap.indexOf(key) !== -1) {
                         hasSpatial = true;
+                        actor.call.getRemote().updateSpatial(key, status);
+                    } else {
+                        actor.setStatusKey(key, status);
                     }
 
                     if (key === ENUMS.ActorStatus.EXISTS) {
@@ -359,9 +384,6 @@ class RemoteClient {
                 }
 
 
-
-
-
                 let delta = gameTime - actor.getStatus(ENUMS.ActorStatus.LAST_UPDATE);
 
                 actor.setStatusKey(ENUMS.ActorStatus.UPDATE_DELTA, MATH.clamp(delta, 0, 2));
@@ -369,9 +391,9 @@ class RemoteClient {
 
                 if (hasSpatial) {
                     let spatialMaxDelta = actor.getStatus(ENUMS.ActorStatus.SPATIAL_DELTA);
-                    let spatialDelta = gameTime - actor.call.getRemote().lastSpatialTime
+                    let spatialDelta = gameTime - actor.call.getRemote().updateTime
                     this.applyRemoteSpatial(actor, MATH.clamp(spatialDelta, 0.02, spatialMaxDelta));
-                    actor.call.getRemote().lastSpatialTime = gameTime;
+                    actor.call.getRemote().updateTime = gameTime;
                 }
 
                 this.applyRemoteEquipment(actor)

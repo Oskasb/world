@@ -99,6 +99,8 @@ class GameActor {
         }.bind(this)
 
 
+
+
         let spatialTransition;
         let setSpatialTransition = function(transition) {
             spatialTransition = transition;
@@ -358,14 +360,16 @@ class GameActor {
     }
 
     showGameActor() {
+
         this.visualGamePiece.call.showVisualPiece();
         //    this.actorEquipment.call.hideEquipment()
-    //    this.actorEquipment.call.showEquipment()
+        this.actorEquipment.call.showEquipment()
     }
 
     hideGameActor() {
+        this.actorEquipment.call.hideEquipment()
         this.visualGamePiece.call.hideVisualPiece();
-    //    this.actorEquipment.call.hideEquipment()
+
         //    this.actorEquipment.call.showEquipment()
     }
 
@@ -481,6 +485,9 @@ class GameActor {
     }
 
     setSpatialVelocity(velVec) {
+        let pos = this.getSpatialPosition();
+        pos.add(velVec),
+        evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:pos, color:'GREEN', size:0.35})
         MATH.testVec3ForNaN(velVec)
         this.actorStatus.setStatusVelocity(velVec);
     }
@@ -499,6 +506,7 @@ class GameActor {
     }
 
     setSpatialPosition(posVec) {
+        evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:posVec, color:'WHITE', size:0.35})
         this.actorObj3d.position.copy(posVec)
         this.actorStatus.setStatusPosition(posVec);
     }
@@ -529,53 +537,66 @@ class GameActor {
 
         if (remote === null) {
 
-            if (this.lastFramePos.length() === 0) {
-                this.lastFramePos.copy(this.framePos);
-            }
+            if (this.getStatus(ENUMS.ActorStatus.TRAVEL_MODE) === ENUMS.TravelMode.TRAVEL_MODE_FLY) {
 
-            tempVec.copy(this.framePos);
-            tempVec.sub(this.lastFramePos);
+                this.getSpatialVelocity(this.lookDirection);
+                this.framePos.add(this.lookDirection);
+                this.setSpatialPosition(this.framePos);
 
-            let speed = tempVec.length();
-            if (speed > 100) {
-                console.log("bad speed")
-            }
-
-            this.setSpatialVelocity(tempVec);
-        //    console.log(tempVec.length())
-        //    this.framePos.add(tempVec);
-
-
-            if (speed < 0.001) {
-                this.setStatusKey(ENUMS.ActorStatus.FRAME_TRAVEL_DISTANCE, 0);
             } else {
-                this.setStatusKey(ENUMS.ActorStatus.FRAME_TRAVEL_DISTANCE, speed);
-            //    tempVec.add(this.framePos);
-                // this.lookDirection.copy(tempVec);
-                this.getSpatialVelocity(this.lookDirection)
-                this.lookDirection.y = 0;
+                if (this.lastFramePos.length() === 0) {
+                    this.lastFramePos.copy(this.framePos);
+                }
 
+                tempVec.copy(this.framePos);
+                tempVec.sub(this.lastFramePos);
+                this.setSpatialPosition(this.framePos);
+                let speed = tempVec.length();
+                if (speed > 100) {
+                    console.log("bad speed")
+                }
+
+                this.setSpatialVelocity(tempVec);
+                //    console.log(tempVec.length())
+                //    this.framePos.add(tempVec);
+
+                if (speed < 0.001) {
+                    this.setStatusKey(ENUMS.ActorStatus.FRAME_TRAVEL_DISTANCE, 0);
+                } else {
+                    this.setStatusKey(ENUMS.ActorStatus.FRAME_TRAVEL_DISTANCE, speed);
+                    //    tempVec.add(this.framePos);
+                    // this.lookDirection.copy(tempVec);
+                    this.getSpatialVelocity(this.lookDirection)
+                    this.lookDirection.y = 0;
+
+                }
+
+                this.applyHeading(this.lookDirection, this.getStatus(ENUMS.ActorStatus.ACTOR_YAW_RATE) * tpf);
             }
 
-           this.applyHeading(this.lookDirection, this.getStatus(ENUMS.ActorStatus.ACTOR_YAW_RATE) * tpf);
+
             this.travelMode.updateTravelMode(this);
         } else {
 
-            this.getSpatialQuaternion(tempQuat);
-            let alpha = tpf / remote.timeDelta
-            tempQuat.slerp(remote.quat, alpha);
-            this.setSpatialQuaternion(tempQuat);
+        //    let now = GameAPI.getGameTime();
+            let fraction = tpf/remote.timeDelta;
+        //    this.getSpatialPosition(this.framePos);
+            remote.lastUpdate.vel.lerp(remote.vel, fraction);
 
-            if (remote.vel.length() > 0.001) {
-                tempVec.copy(remote.vel);
-                tempVec.normalize();
-                tempVec.multiplyScalar(tpf * this.getStatus(ENUMS.ActorStatus.MOVEMENT_SPEED));
-                this.framePos.add(tempVec)
-            }
+
+            this.setSpatialVelocity(remote.lastUpdate.vel);
+            remote.lastUpdate.scale.lerp(remote.scale, fraction);
+            this.setSpatialScale(remote.lastUpdate.scale);
+            remote.lastUpdate.pos.lerp(remote.pos, fraction);
+            this.framePos.copy(remote.lastUpdate.pos);
+            remote.lastUpdate.quat.slerp(remote.quat, fraction);
+
+            this.setSpatialQuaternion(remote.lastUpdate.quat);
+            this.setSpatialPosition(this.framePos);
         }
 
         tempObj.position.copy(this.framePos);
-        this.setSpatialPosition(this.framePos);
+
         this.lastFramePos.copy(this.framePos);
         this.getSpatialQuaternion(tempObj.quaternion);
         this.visualGamePiece.getSpatial().stickToObj3D(tempObj)

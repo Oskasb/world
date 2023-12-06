@@ -100,9 +100,7 @@ let skipMap = [
     ENUMS.ActorStatus.STATUS_CLIMB_2,
     ENUMS.ActorStatus.STATUS_CLIMB_3,
     ENUMS.ActorStatus.STATUS_CLIMB_4,
-    ENUMS.ActorStatus.STATUS_FORWARD,
     ENUMS.ActorStatus.STATUS_SPEED,
-    ENUMS.ActorStatus.ACTOR_SPEED,
     ENUMS.ActorStatus.ACTOR_YAW_RATE,
     ENUMS.ActorStatus.SELECTING_DESTINATION,
     ENUMS.ActorStatus.STATUS_INPUT_SAMPLERS,
@@ -255,13 +253,12 @@ class ActorStatus {
 
         if (this.actor.checkBroadcast()) {
 
-            if (delay < this.spatialDelay) {
-                this.spatialDelay = delay;
-            }
+         //   if (delay < this.spatialDelay) {
+                this.spatialDelay = 0.1;
+        //    }
 
             let gameTime = GameAPI.getGameTime();
             if (this.lastDeltaSend < gameTime - this.spatialDelay) {
-                this.spatialDelay = delay;
                 MATH.emptyArray(this.sendStatus);
                 this.sendStatus.push(ENUMS.ActorStatus.ACTOR_ID)
                 this.sendStatus.push(this.statusMap[ENUMS.ActorStatus.ACTOR_ID])
@@ -306,9 +303,7 @@ class ActorStatus {
             this.setStatusKey(ENUMS.ActorStatus.VEL_Y, velVec.y)
             this.setStatusKey(ENUMS.ActorStatus.VEL_Z, velVec.z)
         if (diff > 0.1) {
-            this.relaySpatial(0.02)
-        } else {
-            this.relaySpatial(0.1)
+            this.relaySpatial()
         }
 
 
@@ -389,7 +384,7 @@ class ActorStatus {
         this.setStatusKey(ENUMS.ActorStatus.QUAT_Y, quat.y)
         this.setStatusKey(ENUMS.ActorStatus.QUAT_Z, quat.z)
         this.setStatusKey(ENUMS.ActorStatus.QUAT_W, quat.w)
-
+        this.relaySpatial(this.getStatusByKey(ENUMS.ActorStatus.SPATIAL_DELTA))
     }
 
     getStatusQuaternion(store) {

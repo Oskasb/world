@@ -633,10 +633,10 @@ function CAM_ENCOUNTER() {
 
     let actorTarget = GameAPI.getActorById(turnActiveActor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET))
     if (actorTarget) {
-        zoomDistance = 5 + distance;
+        zoomDistance = 3 + distance;
         selectedActor.turnTowardsPos(actorTarget.getSpatialPosition())
     } else {
-        zoomDistance = 9 + distance;
+        zoomDistance = 3 + distance;
         actorTarget = selectedActor;
     }
 
@@ -662,9 +662,9 @@ function CAM_ENCOUNTER() {
         zoomDistance = 1 + distance * 0.6;
         tempVec2.copy(CAM_POINTS[lookFromControlKey](turnActiveActor))
         tempVec.copy(tempVec2);
-        tempVec.x += tempVec3.x * (5 + distance*0.3);
-        tempVec.y += 8 + distance * 0.8;
-        tempVec.z += tempVec3.z * (5 + distance*0.3);
+        tempVec.x += tempVec3.x * (3 + distance*0.3);
+        tempVec.y += 4 + distance * 0.8;
+        tempVec.z += tempVec3.z * (3 + distance*0.3);
 
         lerpCameraPosition(tempVec, tpf*2);
     }

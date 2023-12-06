@@ -233,6 +233,12 @@ function removeActorFromHint(actor) {
     }
 }
 
+let alignmentRangeFactors = {}
+alignmentRangeFactors['FRIENDLY'] = 10;
+alignmentRangeFactors['NEUTRAL'] = 1;
+alignmentRangeFactors['HOSTILE'] = 1;
+alignmentRangeFactors['ITEM'] = 0.5;
+
 function updateInteractiveActors() {
     let worldActors = GameAPI.getGamePieceSystem().getActors();
 
@@ -247,13 +253,16 @@ function updateInteractiveActors() {
     for (let i = 0; i < worldActors.length; i++) {
         let actor = worldActors[i];
 
+        let alignment = actor.getStatus(ENUMS.ActorStatus.ALIGNMENT);
+        let rangeFactor = alignmentRangeFactors[alignment];
+
         if (actor.getStatus(ENUMS.ActorStatus.EXISTS) === 1) {
             if (actor.isPlayerActor()) {
                 removeActorFromInteraction(actor)
                 removeActorFromHint(actor)
             } else {
                 let distance = MATH.distanceBetween(playerPos, actor.getSpatialPosition())
-                if (distance < maxButtonDistance) {
+                if (distance < maxButtonDistance*rangeFactor) {
                     if (interactibleActors.indexOf(actor) === -1) {
                         interactibleActors.push(actor);
                         addActorButton(actor);
@@ -261,7 +270,7 @@ function updateInteractiveActors() {
                     }
                 } else {
                     removeActorFromInteraction(actor, selectedActor)
-                    if (distance < maxHintDistance) {
+                    if (distance < maxHintDistance*rangeFactor) {
                         if (hintedActors.indexOf(actor) === -1) {
                             hintedActors.push(actor);
                             addActorHint(actor);

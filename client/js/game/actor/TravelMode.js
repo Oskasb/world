@@ -27,9 +27,14 @@ setTimeout(function() {
     configDataList("GAME_ACTORS", "TRAVEL_MODES", configUpdated)
 }, 2000)
 
-let stickToActor = function() {
-    draken.getSpatial().stickToObj3D(actor.actorObj3d);
+
+let activateDraken = function(actor, callback) {
+        let addModelInstance = function(instance) {
+            callback(instance)
+        }
+        client.dynamicMain.requestAssetInstance("asset_j35draken", addModelInstance)
 }
+
 
 function registerPathPoints(actor) {
     if (!actor.isPlayerActor()) {
@@ -70,10 +75,7 @@ function activateTravelMode(actr, mode, activateCB, deactivateCB) {
 
     actor = actr;
     
-    if (draken) {
-        GameAPI.unregisterGameUpdateCallback(stickToActor)
-        actor.showGameActor()
-    }
+
 
     if (mode === ENUMS.TravelMode.TRAVEL_MODE_PASSIVE) {
         //    evt.dispatch(ENUMS.Event.SET_CAMERA_MODE, {mode:'game_travel'})
@@ -112,25 +114,9 @@ function activateTravelMode(actr, mode, activateCB, deactivateCB) {
 
         ThreeAPI.getCameraCursor().setZoomDistance(5);
 
-        actor.hideGameActor()
         actor.setSpatialPosition(ThreeAPI.getCameraCursor().getLookAroundPoint())
         actor.getSpatialPosition(ThreeAPI.getCameraCursor().getPos())
-
-        if (draken) {
-            GameAPI.registerGameUpdateCallback(stickToActor)
-            activateCB(config[mode], actor)
-        } else {
-            let addModelInstance = function(instance) {
-
-                draken = instance;
-                GameAPI.registerGameUpdateCallback(stickToActor)
-                activateCB(config[mode], actor)
-            }
-
-            //     client.dynamicMain.requestAssetInstance("asset_f14", addModelInstance)
-            //     client.dynamicMain.requestAssetInstance("asset_svigg", addModelInstance)
-             client.dynamicMain.requestAssetInstance("asset_j35draken", addModelInstance)
-        }
+        activateCB(config[mode], actor)
 
     }
 
@@ -165,6 +151,8 @@ class TravelMode {
     constructor() {
         this.mode = null;
 
+        this.vehicle = null;
+
         let active = false;
         let hasTurn = false;
 
@@ -191,7 +179,12 @@ class TravelMode {
             return hasTurn;
         }
 
+        let activateVehicle = function(actor, callback) {
+            activateDraken(actor, callback)
+        }
+
         this.call = {
+            activateVehicle:activateVehicle,
             isActive:isActive,
             deactivateControls:deactivateControls,
             activateControls:activateControls,
