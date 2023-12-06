@@ -1,27 +1,51 @@
 import {GuiButtonFrame} from "./GuiButtonFrame.js";
 import {poolFetch} from "../../../utils/PoolUtils.js";
-import {frameFeedbackMap} from "../../../../game/visuals/Colors.js";
+import {elementColorMap, frameFeedbackMap} from "../../../../game/visuals/Colors.js";
 
 class GuiActorActionButton {
-    constructor(actor, actionId, layoutConfId, onActivate, testActive, x, y, onReady, frameWidgetId, hpProgressId) {
+    constructor(actor, actionId, actorStatusKey, layoutConfId, onActivate, testActive, x, y, onReady, frameWidgetId, hpProgressId) {
 
         this.actor = actor;
-        this.action = poolFetch('ActorAction')
-        this.action.setActionKey(actor, actionId);
 
+        this.templateAction = poolFetch('ActorAction')
+        this.templateAction.setActionKey(actor, actionId);
 
-        this.name = this.action.visualAction.name;
-        this.iconKey = this.action.visualAction.iconKey;
+        this.name = this.templateAction.visualAction.name;
+        this.iconKey = this.templateAction.visualAction.iconKey;
         this.portraitContainer;
 
-        let action = this.action;
+        function getAction() {
+            return actor.call.getActionByKey(actionId, actorStatusKey)
+        }
+
         let activate = function() {
-            onActivate(action, actionId);
+            let gotAction = getAction()
+
+            if (typeof (gotAction) === 'object') {
+                if (gotAction.getActionKey() === actionId) {
+                    gotAction.call.updateActionCompleted()
+                    return;
+                }
+            }
+
+            onActivate(actionId, actorStatusKey);
         }
 
         let isActive = function() {
 
+            let available = false;
+            let isActivated = false;
+            let inCombat = actor.getStatus(ENUMS.ActionStatus.IN_COMBAT);
+            if (inCombat) {
+                let hasTurn = testActive(actor);
+                if (hasTurn) {
+                    available = true;
+                }
+            } else {
+                available = true;
+            }
 
+            let action = getAction();
 
             return testActive(action)
         }
@@ -32,42 +56,66 @@ class GuiActorActionButton {
         let stateProgress = 0;
         let buttonStateStartTime = 0;
         let buttonStateKey = "none";
-
+        let newButtonState = false;
 
         let updateButtonState = function(tpf) {
 
-            if (actor.call.getRemote()) {
-                if (typeof (actor.call.getRemote().call.getActionById) === 'function') {
-                    action = actor.call.getRemote().call.getActionById(actionId);
-                    if (!action) {
-                        return;
+            let gotAction = getAction() ;
+            if (actorStatusKey === ENUMS.ActorStatus.TRAVEL) {
+                // movement actions
+                let travelMode = actor.getStatus(ENUMS.ActorStatus.TRAVEL_MODE);
+           //     if (actionId === travelMode) {
+                    if (typeof (gotAction) === 'object') {
+                        newButtonState = ENUMS.ButtonState.ACTIVE;
                     } else {
-                        return;
+                        if (gotAction === true) {
+                            newButtonState = ENUMS.ButtonState.AVAILABLE;
+                        } else {
+                            newButtonState = ENUMS.ButtonState.DISABLED;
+                        }
+                    }
+            //    }
+            }
+
+            if (actorStatusKey === ENUMS.ActorStatus.ACTIONS) {
+                // combat action..
+                if (typeof (gotAction) === 'object') {
+                    newButtonState = gotAction.call.getStatus(ENUMS.ActionStatus.BUTTON_STATE);
+                    buttonStateStartTime =  gotAction.call.getStatus(ENUMS.ActionStatus.STEP_START_TIME)
+                    buttonStateDuration = gotAction.call.getStatus(ENUMS.ActionStatus.STEP_END_TIME)
+                    stateProgress = MATH.calcFraction(buttonStateTime, buttonStateStartTime, buttonStateDuration);
+                } else {
+                    if (gotAction === true) {
+                        newButtonState = ENUMS.ButtonState.AVAILABLE;
+                    } else {
+                        newButtonState = ENUMS.ButtonState.DISABLED;
                     }
                 }
             }
 
-            let newButtonState = action.call.getStatus(ENUMS.ActionStatus.BUTTON_STATE);
+
+        //    console.log("Got Action", gotAction)
+        //    newButtonState = Math.ceil(Math.random()*5);
+
             if (newButtonState !== buttonState) {
                 buttonState = newButtonState;
                 buttonStateKey = ENUMS.getKey('ButtonState', buttonState)
+            //    let colorRgb = elementColorMap[buttonStateKey]
+           //     this.button.guiWidget.setIconRGBA(colorRgb)
                 buttonStateTime = 0;
-                buttonStateStartTime =  action.call.getStatus(ENUMS.ActionStatus.STEP_START_TIME)
-                buttonStateDuration = action.call.getStatus(ENUMS.ActionStatus.STEP_END_TIME)
                 let frameFbConfId = frameFeedbackMap[buttonStateKey];
-                this.button.guiWidget.guiSurface.setFeedbackConfigId(frameFbConfId || 'feedback_icon_button_item')
+
+            this.guiWidget.icon.setFeedbackConfigId(frameFbConfId || 'feedback_icon_button_item')
+            this.guiWidget.guiSurface.setFeedbackConfigId(frameFbConfId || 'feedback_icon_button_item')
             }
 
-            stateProgress = MATH.calcFraction(buttonStateTime, buttonStateStartTime, buttonStateDuration);
             buttonStateTime += tpf;
-
-            this.button.guiWidget.guiSurface.applyStateFeedback()
-
+        //    this.guiWidget.guiSurface.applyStateFeedback()
             this.updateButtonState(tpf);
+
         }.bind(this)
 
         this.call = {
-            isActive:isActive,
             updateButtonState:updateButtonState
         }
 
@@ -123,7 +171,7 @@ class GuiActorActionButton {
     }
 
     removeGuiWidget() {
-        this.action.recoverAttack()
+        this.templateAction.recoverAttack()
         ThreeAPI.unregisterPrerenderCallback(this.call.updateButtonState)
         this.guiWidget.recoverGuiWidget()
     }

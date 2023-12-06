@@ -192,7 +192,9 @@ class GuiString {
         for (let i = 0; i < this.letters.length; i++) {
             let guiLetter = this.letters[i];
             guiLetter.setLetterColorRGBA(rgba);
-            guiLetter.setLetterLutColor(ENUMS.ColorCurve[lutColor]);
+            if (lutColor) {
+                guiLetter.setLetterLutColor(ENUMS.ColorCurve[lutColor]);
+            }
         }
 
     };

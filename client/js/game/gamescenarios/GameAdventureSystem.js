@@ -20,6 +20,8 @@ class GameAdventureSystem {
             //    actor.activateWalkGrid(3);
 
             setTimeout(function() {
+
+                actor.call.activateActionKey("ACTION_TRAVEL_WALK", ENUMS.ActorStatus.TRAVEL)
                 actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_WALK)
                 actor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, true)
                 //        actor.getGameWalkGrid().deactivateWalkGrid();
@@ -31,6 +33,7 @@ class GameAdventureSystem {
 
             }, 1000)
 
+            actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_INACTIVE)
             this.startActor.setStatusKey(ENUMS.ActorStatus.HP, this.startActor.getStatus(ENUMS.ActorStatus.MAX_HP))
             GameAPI.getGamePieceSystem().addActorToPlayerParty(this.startActor);
             GameAPI.getGamePieceSystem().playerParty.selectPartyActor(this.startActor);

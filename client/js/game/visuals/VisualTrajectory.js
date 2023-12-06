@@ -97,7 +97,7 @@ class VisualTrajectory {
 
     }
     on(statusKey, actor, effectData) {
-        GuiAPI.screenText("LEAP ON", ENUMS.Message.HINT, 2)
+    //    GuiAPI.screenText("LEAP ON", ENUMS.Message.HINT, 2)
         this.actor = actor;
         this.statusKey = statusKey;
         this.effectData = effectData;
@@ -106,7 +106,7 @@ class VisualTrajectory {
     }
 
     off() {
-        GuiAPI.screenText("LEAP OFF", ENUMS.Message.HINT, 2)
+    //    GuiAPI.screenText("LEAP OFF", ENUMS.Message.HINT, 2)
         transitionEffectOff(this.actor.getSpatialPosition(), this.effectData);
         while (this.pathPointsFX.length) {
             let pointFX = this.pathPointsFX.pop();

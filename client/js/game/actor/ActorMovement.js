@@ -142,7 +142,7 @@ console.log("Pathing Completed")
                         actor.setDestination(tile.getPos());
                     } else {
                     //    actor.setStatusKey(ENUMS.ActorStatus.SELECTING_DESTINATION, 0);
-                        actor.setDestination(actor.getSpatialPosition(ThreeAPI.tempVec3));
+                     //   actor.setDestination(actor.getSpatialPosition(ThreeAPI.tempVec3));
                     }
 
                 } else {
@@ -181,7 +181,7 @@ console.log("Pathing Completed")
         //        console.log("LEAP COMPLETED", actor)
         //        actor.actorText.say("Distance "+MATH.numberToDigits(distance, 1, 1)+"m")
                 walkGrid.setGridCenter(actor.getSpatialPosition());
-                actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_WALK);
+                actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_LEAP);
             }
 
             let lastPos

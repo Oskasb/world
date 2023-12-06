@@ -105,7 +105,7 @@ class VisualAction {
         stateMap[ENUMS.ActionState.ACTIVE] =    {updateFunc:'updateActive'}
         stateMap[ENUMS.ActionState.APPLY_HIT] = {updateFunc:'updateApplyHit'}
         stateMap[ENUMS.ActionState.POST_HIT] =  {updateFunc:'updatePostHit'}
-        stateMap[ENUMS.ActionState.COMPLETED] = {updateFunc:'updateAttackCompleted'}
+        stateMap[ENUMS.ActionState.COMPLETED] = {updateFunc:'updateActionCompleted'}
 
         let updateVisualAction = function(tpf) {
             let actionState = this.actorAction.call.getStatus(ENUMS.ActionStatus.ACTION_STATE);

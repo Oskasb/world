@@ -229,7 +229,7 @@ class RemoteClient {
 
         if (actionState === ENUMS.ActionState.COMPLETED) {
             console.log("Remote Action State: COMPLETED", actionState, msg);
-            action.call.updateAttackCompleted();
+            action.call.updateActionCompleted();
             action.call.setStatusKey(ENUMS.ActionStatus.ACTOR_ID, "none")
             action.call.setStatusKey(ENUMS.ActionStatus.ACTION_KEY, "none")
             action.isRemote = false;

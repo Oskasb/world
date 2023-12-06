@@ -96,6 +96,13 @@ function applyPointerMove() {
         return;
     }
 
+    let mode = selectedActor.getStatus(ENUMS.ActorStatus.TRAVEL_MODE)
+    if (mode === ENUMS.TravelMode.TRAVEL_MODE_WALK || mode === ENUMS.TravelMode.TRAVEL_MODE_BATTLE) {
+        
+    } else {
+        return;
+    }
+
     let walkGrid = selectedActor.getGameWalkGrid();
     let distance = 0;
     tileSelector = walkGrid.gridTileSelector;

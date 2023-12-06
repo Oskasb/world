@@ -34,7 +34,7 @@ let onActionButtonReady = function(widget) {
 let activatedAction = null;
 let selectedTarget = null;
 
-let onActionActivate = function(action, actionId) {
+let onActionActivate = function(actionId, actorStatusKey) {
 
     let actor = GameAPI.getGamePieceSystem().selectedActor;
     if (actor.isPlayerActor()) {
@@ -49,6 +49,7 @@ let onActionActivate = function(action, actionId) {
     }
 
 
+    let action = actor.call.activateActionKey(actionId, actorStatusKey);
 
  //   console.log("onActionActivate:", action)
 
@@ -80,7 +81,8 @@ let onActionActivate = function(action, actionId) {
         }, 1000)
      */
     } else {
-        console.log("Non combat action", [action])
+        console.log("Non combat action", [actorStatusKey, action])
+    //    action.call.updateActionCompleted();
     }
 
     if (selectedTarget) {
@@ -95,8 +97,8 @@ let onActionActivate = function(action, actionId) {
 let actionTestActive = function(action) {
 //    console.log("actionTestActive:", action)
 }
-let addActionButton = function(actor, actionId) {
-    let actionButton = new GuiActorActionButton(actor, actionId, 'widget_companion_sequencer_button', onActionActivate, actionTestActive, -0.07+actionButtons.length*0.064, -0.33, onActionButtonReady);
+let addActionButton = function(actor, actionId, actorStatusKey) {
+    let actionButton = new GuiActorActionButton(actor, actionId, actorStatusKey, 'widget_companion_sequencer_button', onActionActivate, actionTestActive, -0.07+actionButtons.length*0.064, -0.33, onActionButtonReady);
   //  actionButton.initActionButton('widget_action_button', onActionButtonReady);
     actionButtons.push(actionButton);
 }
@@ -108,7 +110,7 @@ let setupActionUi = function() {
 let setupActionButtons = function(actor, actorStatusKey) {
     let actions = actor.getStatus(ENUMS.ActorStatus[actorStatusKey]);
     for (let i = 0; i < actions.length; i++) {
-        addActionButton(actor, actions[i]);
+        addActionButton(actor, actions[i], actorStatusKey);
     }
 }
 

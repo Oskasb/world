@@ -39,7 +39,7 @@ attackStateMap[ENUMS.ActionState.PRECAST] =   {updateFunc:'updateProgress'}
 attackStateMap[ENUMS.ActionState.ACTIVE] =    {updateFunc:'updateActive'}
 attackStateMap[ENUMS.ActionState.APPLY_HIT] = {updateFunc:'updateProgress'}
 attackStateMap[ENUMS.ActionState.POST_HIT] =  {updateFunc:'updateProgress'}
-attackStateMap[ENUMS.ActionState.COMPLETED] = {updateFunc:'updateAttackCompleted'}
+attackStateMap[ENUMS.ActionState.COMPLETED] = {updateFunc:'updateActionCompleted'}
 
 
 let transitionMap = []
@@ -139,7 +139,7 @@ class ActorAction {
             }
         }.bind(this)
 
-        let updateAttackCompleted = function(tpf) {
+        let updateActionCompleted = function(tpf) {
             this.attackCompleted()
         }.bind(this)
 
@@ -172,7 +172,7 @@ class ActorAction {
             updateActivate:updateActivate,
             updateProgress:updateProgress,
             updateActive:updateActive,
-            updateAttackCompleted:updateAttackCompleted,
+            updateActionCompleted:updateActionCompleted,
             updateAttack:updateAttack,
             closeAttack:closeAttack,
             getStatus:getStatus,
@@ -194,8 +194,12 @@ class ActorAction {
         }
     }
 
+    getActionKey() {
+        return this.call.getStatus(ENUMS.ActionStatus.ACTION_KEY)
+    }
+
     readActionConfig(key) {
-        let actionKey = this.call.getStatus(ENUMS.ActionStatus.ACTION_KEY)
+        let actionKey = this.getActionKey();
         if (!actionKey) {
             console.log("Need actionKey here.. ", config, key)
             return;
@@ -255,7 +259,7 @@ class ActorAction {
         this.call.setStatusKey(ENUMS.ActionStatus.ACTION_KEY, "none")
 
         GameAPI.unregisterGameUpdateCallback(this.call.updateAttack);
-        MATH.callAll(this.onCompletedCallbacks, actor);
+        MATH.callAll(this.onCompletedCallbacks, actor, this);
         MATH.emptyArray(this.onCompletedCallbacks);
         this.visualAction.closeVisualAction();
         this.recoverAttack();

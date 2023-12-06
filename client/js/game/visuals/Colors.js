@@ -16,6 +16,15 @@ elementColorMap['HOSTILE']    = {r:1,     g:0.1,   b:0.1,   a:0.8};
 elementColorMap['ITEM']       = {r:0.2,   g:0.5,   b:0.8,   a:0.8};
 elementColorMap['PATH_POINT'] = {r:0.1,   g:0.6,   b:0.9,   a:0.8};
 elementColorMap['STATUS_HINT']= {r:0.7,   g:0.7,   b:0.1,   a:1.0};
+elementColorMap['UNAVAILABLE']= {r:0.3,   g:0.3,   b:0.4,   a:1.0};
+elementColorMap['SELECTED']   = {r:0.2,   g:0.7,   b:0.8,   a:1.0};
+elementColorMap['AVAILABLE']  = {r:0.5,   g:0.7,   b:0.6,   a:1.0};
+elementColorMap['ACTIVATING'] = {r:0.7,   g:0.8,   b:0.4,   a:1.0};
+elementColorMap['ACTIVE']     = {r:0.4,   g:0.9,   b:0.6,   a:1.0};
+elementColorMap['ON_COOLDOWN']= {r:0.6,   g:0.4,   b:0.2,   a:1.0};
+elementColorMap['ENABLED']    = {r:0.9,   g:0.9,   b:0.1,   a:1.0};
+elementColorMap['DISABLED']   = {r:0.2,   g:0.2,   b:0.2,   a:1.0};
+
 
 let frameFeedbackMap = {}
 frameFeedbackMap['FRIENDLY']   = 'feedback_icon_button_friendly';
@@ -23,14 +32,14 @@ frameFeedbackMap['NEUTRAL']    = 'feedback_icon_button_neutral';
 frameFeedbackMap['HOSTILE']    = 'feedback_icon_button_hostile';
 frameFeedbackMap['ITEM']       = 'feedback_icon_button_item';
 
-frameFeedbackMap['UNAVAILABLE']   = 'feedback_icon_button_hostile';
-frameFeedbackMap['SELECTED']      = 'feedback_icon_button_neutral';
-frameFeedbackMap['AVAILABLE']     = 'feedback_icon_button_item';
-frameFeedbackMap['ACTIVATING']    = 'feedback_icon_button_friendly';
-frameFeedbackMap['ACTIVE']        = 'feedback_icon_button_friendly';
-frameFeedbackMap['ON_COOLDOWN']   = 'feedback_icon_button_friendly';
-frameFeedbackMap['ENABLED']       = 'feedback_icon_button_neutral';
-frameFeedbackMap['DISABLED']      = 'feedback_icon_button_hostile';
+frameFeedbackMap['UNAVAILABLE']   = 'feedback_action_button_unavailable';
+frameFeedbackMap['SELECTED']      = 'feedback_action_button_enabled';
+frameFeedbackMap['AVAILABLE']     = 'feedback_action_button_available';
+frameFeedbackMap['ACTIVATING']    = 'feedback_action_button_activating';
+frameFeedbackMap['ACTIVE']        = 'feedback_action_button_active';
+frameFeedbackMap['ON_COOLDOWN']   = 'feedback_action_button_cooldown';
+frameFeedbackMap['ENABLED']       = 'feedback_action_button_enabled';
+frameFeedbackMap['DISABLED']      = 'feedback_action_button_disabled';
 
 export {
     colorMapFx,

@@ -321,6 +321,19 @@ class GuiWidget {
 
         };
 
+
+        setTextRGBA(rgba) {
+            this.text.setTextColor(rgba)
+        }
+
+        setIconRGBA(rgba) {
+            this.icon.setGuiIconColorRGBA(rgba);
+        }
+
+        setSurfaceRGBA(rgba) {
+            this.guiSurface.setSurfaceColor(rgba);
+        }
+
         updateIconPosition = function() {
             this.guiSurface.getSurfaceExtents(this.extents);
             this.icon.updateGuiIconPosition(this.guiSurface.minXY, this.extents);

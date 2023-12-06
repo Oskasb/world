@@ -52,6 +52,8 @@ class GameActor {
 
         this.lastSendTime = 0;
 
+        this.activeActions = [];
+
         let setAsSelection = function () {
 
         }.bind(this);
@@ -120,9 +122,51 @@ class GameActor {
             this.removeGameActor();
         }.bind(this);
 
+
+        let getActionByKey = function(actionKey, actorStatusKey) {
+            for (let i = 0; i < this.activeActions.length; i++) {
+                if (this.activeActions[i].getActionKey() === actionKey) {
+                    return this.activeActions[i];
+                }
+            }
+            let actionKeys = this.getStatus(ENUMS.ActorStatus[actorStatusKey]);
+            if (actionKeys.indexOf(actionKey) !== -1) {
+                return true
+            } else {
+                return false;
+            }
+        }.bind(this);
+
+        let deactivateAction = function(actor, action) {
+            actor.actorText.say("Action Completed")
+            MATH.splice(this.activeActions, action);
+        }.bind(this);
+
+        let activateActionKey = function(actionKey, actorStatusKey) {
+            let action = poolFetch('ActorAction');
+
+            if (actorStatusKey === ENUMS.ActorStatus.TRAVEL) {
+                while (this.activeActions.length) {
+                    this.activeActions.pop().call.updateActionCompleted();
+                }
+
+                let deactivateTravel = function() {
+                    this.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_INACTIVE)
+                }.bind(this)
+                action.onCompletedCallbacks.push(deactivateTravel);
+            }
+
+            this.activeActions.push(action);
+            action.setActionKey(this, actionKey);
+            action.onCompletedCallbacks.push(deactivateAction);
+            return action;
+        }.bind(this);
+
         this.call = {
             setRemote:setRemote,
             getRemote:getRemote,
+            getActionByKey:getActionByKey,
+            activateActionKey:activateActionKey,
             remove:remove,
             turnEnd:turnEnd,
             onActive:onActive,
