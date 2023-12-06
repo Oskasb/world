@@ -3,6 +3,7 @@ import { DynamicEncounter } from "./encounter/DynamicEncounter.js";
 import {EncounterTurnSequencer} from "./encounter/EncounterTurnSequencer.js";
 import {EncounterUiSystem} from "../application/ui/gui/systems/EncounterUiSystem.js";
 import {EncounterStatusProcessor} from "./encounter/EncounterStatusProcessor.js";
+import {notifyCameraStatus} from "../3d/camera/CameraFunctions.js";
 
 let encounterUiSystem;
 let encounterTurnSequencer = null;
@@ -158,6 +159,8 @@ class GameEncounterSystem {
         console.log("GET GRID ID:", gridId);
 
         let gridReady = function(grid) {
+            GameAPI.getGamePieceSystem().selectedActor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_BATTLE);
+            notifyCameraStatus(ENUMS.CameraStatus.CAMERA_MODE, ENUMS.CameraControls.CAM_AUTO, false);
             GuiAPI.getWorldInteractionUi().closeWorldInteractUi();
             GameAPI.worldModels.deactivateEncounters();
             dynamicEncounter.setEncounterGrid(grid);

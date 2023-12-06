@@ -640,13 +640,17 @@ function CAM_ENCOUNTER() {
         actorTarget = selectedActor;
     }
 
+    let isFar = 0;
+     if (MATH.distanceBetween(turnActiveActor, ThreeAPI.getCamera().position) > 200) {
+         isFar = 1;
+     }
 
     if (lookAtActive) {
         if (actorTarget) {
             zoomDistance = 1;
-            lerpCameraLookAt(CAM_POINTS[lookAtControlKey](actorTarget), tpf*2);
+            lerpCameraLookAt(CAM_POINTS[lookAtControlKey](actorTarget), tpf*2 +isFar);
         } else {
-            lerpCameraLookAt(CAM_POINTS[lookAtControlKey](turnActiveActor), tpf*1);
+            lerpCameraLookAt(CAM_POINTS[lookAtControlKey](turnActiveActor), tpf*1 +isFar);
         }
     }
 
@@ -666,7 +670,7 @@ function CAM_ENCOUNTER() {
         tempVec.y += 4 + distance * 0.8;
         tempVec.z += tempVec3.z * (3 + distance*0.3);
 
-        lerpCameraPosition(tempVec, tpf*2);
+        lerpCameraPosition(tempVec, tpf*2+isFar);
     }
 }
 

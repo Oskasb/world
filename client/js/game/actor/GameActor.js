@@ -485,9 +485,9 @@ class GameActor {
     }
 
     setSpatialVelocity(velVec) {
-        let pos = this.getSpatialPosition();
-        pos.add(velVec),
-        evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:pos, color:'GREEN', size:0.35})
+    //    let pos = this.getSpatialPosition();
+    //    pos.add(velVec),
+    //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:pos, color:'GREEN', size:0.35})
         MATH.testVec3ForNaN(velVec)
         this.actorStatus.setStatusVelocity(velVec);
     }
@@ -506,7 +506,7 @@ class GameActor {
     }
 
     setSpatialPosition(posVec) {
-        evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:posVec, color:'WHITE', size:0.35})
+    //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:posVec, color:'WHITE', size:0.35})
         this.actorObj3d.position.copy(posVec)
         this.actorStatus.setStatusPosition(posVec);
     }

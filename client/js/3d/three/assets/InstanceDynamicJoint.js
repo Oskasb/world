@@ -19,15 +19,23 @@ class InstanceDynamicJoint {
         stickToBoneWorldMatrix = function() {
 
             if (isNaN(this.obj3d.position.x)) {
-                console.log("Bad dynJoint")
-                return;
+                this.obj3d.position.set(0, 0, 0)
+                this.obj3d.scale.set(1, 1, 1);
+                this.obj3d.quaternion.set(0, 0, 0, 1);
+
+                console.log("Bad dynJoint pre")
+                //   return;
             }
 
             this.bone.matrixWorld.decompose(this.obj3d.position, this.obj3d.quaternion, this.obj3d.scale);
 
             if (isNaN(this.obj3d.position.x)) {
-                console.log("Bad dynJoint")
-                return;
+                this.obj3d.position.set(0, 0, 0)
+                this.obj3d.scale.set(1, 1, 1);
+                this.obj3d.quaternion.set(0, 0, 0, 1);
+
+                console.log("Bad dynJoint post")
+             //   return;
             }
 
 

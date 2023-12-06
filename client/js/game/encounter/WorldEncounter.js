@@ -105,7 +105,7 @@ function checkTriggerPlayer(encounter) {
 
                 evt.dispatch(ENUMS.Event.GAME_MODE_BATTLE, encounterEvent)
             }
-            encounter.timeInsideTrigger += GameAPI.getFrame().tpf *0.75;
+            encounter.timeInsideTrigger += GameAPI.getFrame().tpf *0.25;
             indicateTriggerTime(selectedActor, encounter)
             if (encounter.timeInsideTrigger > 1) {
 

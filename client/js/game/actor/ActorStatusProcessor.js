@@ -89,24 +89,26 @@ function processPartyStatus(actor) {
                         actor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, false);
                         actor.setStatusKey(ENUMS.ActorStatus.REQUEST_PARTY, '');
                         actor.setStatusKey(ENUMS.ActorStatus.ACTIVATING_ENCOUNTER, '');
-                        actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_INACTIVE);
+                        actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_BATTLE);
                     //    actor.actorStatusProcessor.processActorStatus(actor);
 
                         let onCompleted = function(pos) {
                             actor.setSpatialPosition(pos);
-                            transition.targetPos.set(0, 0, 0)
-                            actor.setSpatialVelocity(transition.targetPos);
+
+                        //    transition.targetPos.set(0, 0, 0)
+                        //    actor.setSpatialVelocity(transition.targetPos);
                             actor.setStatusKey(ENUMS.ActorStatus.IN_COMBAT, true);
-                            actor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, true);
+                            actor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, false);
                             actor.setStatusKey(ENUMS.ActorStatus.ACTIVATING_ENCOUNTER, "");
                             actor.setStatusKey(ENUMS.ActorStatus.ACTIVATED_ENCOUNTER, encounter.id);
                             actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_BATTLE);
-                            notifyCameraStatus(ENUMS.CameraStatus.CAMERA_MODE, ENUMS.CameraControls.CAM_ENCOUNTER, true);
+                            notifyCameraStatus(ENUMS.CameraStatus.CAMERA_MODE, ENUMS.CameraControls.CAM_ENCOUNTER, false);
                             actor.actorStatusProcessor.processActorStatus(actor);
                             poolReturn(transition)
                         }
 
                         let onUpdate = function(pos, vel) {
+                            ThreeAPI.getCameraCursor().getLookAroundPoint().copy(pos)
                             actor.setSpatialPosition(pos);
                         //    actor.setSpatialVelocity(vel);
                         }
@@ -117,7 +119,9 @@ function processPartyStatus(actor) {
 
                         let transition = poolFetch('SpatialTransition')
                         transition.targetPos.copy(encounter.getPointInsideActivationRange(actor.getSpatialPosition()));
-                        transition.initSpatialTransition(actor.actorObj3d.position, transition.targetPos, 2.2, onCompleted, null, null, onUpdate)
+                        transition.targetPos.x = Math.round(transition.targetPos.x);
+                        transition.targetPos.z = Math.round(transition.targetPos.z);
+                        transition.initSpatialTransition(actor.actorObj3d.position, transition.targetPos, 2.3, onCompleted, null, null, onUpdate)
                     }
                 }
             }

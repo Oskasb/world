@@ -79,7 +79,7 @@ class Remote {
     }
 
     updateSpatial(key, value) {
-        console.log(value)
+    //    console.log(value)
         let vector = this[spatialMap[key].key]
         vector[spatialMap[key].val] = value;
 
