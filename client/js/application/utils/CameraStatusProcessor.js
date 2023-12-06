@@ -88,28 +88,44 @@ class CameraStatusProcessor {
         if (travelMode === ENUMS.TravelMode.TRAVEL_MODE_BATTLE) {
 
             if (!actor.getStatus(ENUMS.ActorStatus.HAS_TURN)) {
-                return;
+            //    return;
             }
 
-            let turnActiveActor = actor;
-            let selectedActor = GameAPI.getActorById(turnActiveActor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET))
+            let turnActiveActor = GameAPI.call.getTurnActiveSequencerActor();
+            let targetActor = null;
+            if (turnActiveActor) {
+                targetActor = GameAPI.getActorById(turnActiveActor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET))
+            }
+
             let moveControlActive = actor.getControl(ENUMS.Controls.CONTROL_MOVE_ACTION)
             let partySelected = actor.getStatus(ENUMS.ActorStatus.PARTY_SELECTED)
+
             if (turnActiveActor !== actor) {
-                if (turnActiveActor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET)) {
-                    controlKey = ENUMS.CameraControls.CAM_ENCOUNTER;
-                    notifyCameraStatus( ENUMS.CameraStatus.LOOK_AT, ENUMS.CameraControls.CAM_TARGET, null)
-                    notifyCameraStatus( ENUMS.CameraStatus.LOOK_FROM, ENUMS.CameraControls.CAM_SHOULDER, null)
-                } else {
+
+                if (!targetActor) {
                     controlKey = ENUMS.CameraControls.CAM_GRID;
                     notifyCameraStatus( ENUMS.CameraStatus.LOOK_AT, ENUMS.CameraControls.CAM_AHEAD, null)
-                    notifyCameraStatus( ENUMS.CameraStatus.LOOK_FROM, ENUMS.CameraControls.CAM_HIGH, null)
+                    if (partySelected) {
+                        notifyCameraStatus( ENUMS.CameraStatus.LOOK_FROM, ENUMS.CameraControls.CAM_PARTY, null)
+                    } else {
+                        notifyCameraStatus( ENUMS.CameraStatus.LOOK_FROM, ENUMS.CameraControls.CAM_HIGH, null)
+                    }
+
+                } else {
+                    controlKey = ENUMS.CameraControls.CAM_ENCOUNTER;
+                    if (partySelected) {
+                        notifyCameraStatus( ENUMS.CameraStatus.LOOK_AT, ENUMS.CameraControls.CAM_TARGET, null)
+                        notifyCameraStatus( ENUMS.CameraStatus.LOOK_FROM, ENUMS.CameraControls.CAM_HIGH, null)
+                    } else {
+                        notifyCameraStatus( ENUMS.CameraStatus.LOOK_AT, ENUMS.CameraControls.CAM_TARGET, null)
+                        notifyCameraStatus( ENUMS.CameraStatus.LOOK_FROM, ENUMS.CameraControls.CAM_HIGH, null)
+                    }
                 }
 
             } else {
 
-                if (selectedActor) {
-                    if (selectedActor !== turnActiveActor) {
+                if (targetActor) {
+                    if (targetActor !== turnActiveActor) {
 
                         if (moveControlActive === 1) {
                             controlKey = ENUMS.CameraControls.CAM_GRID;
@@ -123,14 +139,12 @@ class CameraStatusProcessor {
                         } else {
                             controlKey = ENUMS.CameraControls.CAM_ENCOUNTER;
                             if (partySelected) {
-                                notifyCameraStatus( ENUMS.CameraStatus.LOOK_AT, ENUMS.CameraControls.CAM_TARGET, null)
-                                notifyCameraStatus( ENUMS.CameraStatus.LOOK_FROM, ENUMS.CameraControls.CAM_SHOULDER, null)
-                            } else {
                                 notifyCameraStatus( ENUMS.CameraStatus.LOOK_AT, ENUMS.CameraControls.CAM_AHEAD, null)
                                 notifyCameraStatus( ENUMS.CameraStatus.LOOK_FROM, ENUMS.CameraControls.CAM_PARTY, null)
+                            } else {
+                                notifyCameraStatus( ENUMS.CameraStatus.LOOK_AT, ENUMS.CameraControls.CAM_AHEAD, null)
+                                notifyCameraStatus( ENUMS.CameraStatus.LOOK_FROM, ENUMS.CameraControls.CAM_HIGH, null)
                             }
-
-
                         }
 
                     } else {
@@ -140,10 +154,10 @@ class CameraStatusProcessor {
                             if (moveControlActive === 1) {
                                 controlKey = ENUMS.CameraControls.CAM_GRID;
                                 notifyCameraStatus( ENUMS.CameraStatus.LOOK_AT, ENUMS.CameraControls.CAM_TARGET, null)
-                                notifyCameraStatus( ENUMS.CameraStatus.LOOK_FROM, ENUMS.CameraControls.CAM_PARTY, null)
+                                notifyCameraStatus( ENUMS.CameraStatus.LOOK_FROM, ENUMS.CameraControls.CAM_HIGH, null)
                             } else {
-                                controlKey = ENUMS.CameraControls.CAM_MOVE;
-                                notifyCameraStatus( ENUMS.CameraStatus.LOOK_AT, ENUMS.CameraControls.CAM_AHEAD, null)
+                                controlKey = ENUMS.CameraControls.CAM_ENCOUNTER;
+                                notifyCameraStatus( ENUMS.CameraStatus.LOOK_AT, ENUMS.CameraControls.CAM_TARGET, null)
                                 notifyCameraStatus( ENUMS.CameraStatus.LOOK_FROM, ENUMS.CameraControls.CAM_PARTY, null)
                             }
 
@@ -154,7 +168,7 @@ class CameraStatusProcessor {
                                 notifyCameraStatus( ENUMS.CameraStatus.LOOK_AT, ENUMS.CameraControls.CAM_TARGET, null)
                                 notifyCameraStatus( ENUMS.CameraStatus.LOOK_FROM, ENUMS.CameraControls.CAM_HIGH, null)
                             } else {
-                                controlKey = ENUMS.CameraControls.CAM_GRID;
+                                controlKey = ENUMS.CameraControls.CAM_ENCOUNTER;
                                 notifyCameraStatus( ENUMS.CameraStatus.LOOK_AT, ENUMS.CameraControls.CAM_AHEAD, null)
                                 notifyCameraStatus( ENUMS.CameraStatus.LOOK_FROM, ENUMS.CameraControls.CAM_HIGH, null)
                             }
@@ -165,9 +179,7 @@ class CameraStatusProcessor {
 
                 } else {
 
-                    let partySelected = actor.getStatus(ENUMS.ActorStatus.PARTY_SELECTED)
                     if (partySelected) {
-
                         if (moveControlActive === 1) {
                             controlKey = ENUMS.CameraControls.CAM_GRID;
                             notifyCameraStatus( ENUMS.CameraStatus.LOOK_AT, ENUMS.CameraControls.CAM_AHEAD, null)
@@ -180,18 +192,18 @@ class CameraStatusProcessor {
 
                     } else {
                         controlKey = ENUMS.CameraControls.CAM_GRID;
-                        if (selectedActor) {
+                        if (targetActor) {
+                            controlKey = ENUMS.CameraControls.CAM_ENCOUNTER;
                             notifyCameraStatus( ENUMS.CameraStatus.LOOK_AT, ENUMS.CameraControls.CAM_TARGET, null)
                         } else {
                             notifyCameraStatus( ENUMS.CameraStatus.LOOK_AT, ENUMS.CameraControls.CAM_AHEAD, null)
                         }
-
                         notifyCameraStatus( ENUMS.CameraStatus.LOOK_FROM, ENUMS.CameraControls.CAM_HIGH, null)
                     }
                 }
+
+
             }
-
-
 
         }
 

@@ -3,6 +3,7 @@ import { Vector3 } from "../../../libs/three/math/Vector3.js";
 import { VisualEncounterHost } from "../visuals/VisualEncounterHost.js";
 import { EncounterIndicator } from "../visuals/EncounterIndicator.js";
 import {parseConfigDataKey} from "../../application/utils/ConfigUtils.js";
+import {notifyCameraStatus} from "../../3d/camera/CameraFunctions.js";
 
 let tempVec = new Vector3()
 let calcVec = new Vector3()
@@ -122,7 +123,7 @@ function checkTriggerPlayer(encounter) {
                 selectedActor.setStatusKey(ENUMS.ActorStatus.ACTIVATING_ENCOUNTER, "");
                 selectedActor.setStatusKey(ENUMS.ActorStatus.ACTIVATED_ENCOUNTER, encounter.id);
                 selectedActor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_BATTLE);
-
+                notifyCameraStatus(ENUMS.CameraStatus.CAMERA_MODE, ENUMS.CameraControls.CAM_ENCOUNTER, true);
                 evt.dispatch(ENUMS.Event.GAME_MODE_BATTLE, encounterEvent)
 
             }

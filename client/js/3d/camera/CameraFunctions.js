@@ -98,7 +98,7 @@ function applyPointerMove() {
 
     let mode = selectedActor.getStatus(ENUMS.ActorStatus.TRAVEL_MODE)
     if (mode === ENUMS.TravelMode.TRAVEL_MODE_WALK || mode === ENUMS.TravelMode.TRAVEL_MODE_BATTLE) {
-        
+
     } else {
         return;
     }
@@ -637,23 +637,36 @@ function CAM_ENCOUNTER() {
         selectedActor.turnTowardsPos(actorTarget.getSpatialPosition())
     } else {
         zoomDistance = 9 + distance;
+        actorTarget = selectedActor;
     }
-
 
 
     if (lookAtActive) {
         if (actorTarget) {
             zoomDistance = 1;
             lerpCameraLookAt(CAM_POINTS[lookAtControlKey](actorTarget), tpf*2);
-            zoomDistance = 5 + distance;
         } else {
             lerpCameraLookAt(CAM_POINTS[lookAtControlKey](turnActiveActor), tpf*1);
         }
     }
 
     if (lookFromActive) {
-        zoomDistance = 3 + distance * 0;
-        lerpCameraPosition(CAM_POINTS[lookFromControlKey](turnActiveActor), tpf*4);
+
+        tempVec3.copy(CAM_POINTS.CAM_SHOULDER(turnActiveActor));
+        tempVec3.sub(CAM_POINTS.CAM_AHEAD(actorTarget));
+
+        tempVec3.y = 0;
+        tempVec3.normalize()
+        tempVec3.y = 1;
+        tempVec3.multiplyScalar(2);
+        zoomDistance = 1 + distance * 0.6;
+        tempVec2.copy(CAM_POINTS[lookFromControlKey](turnActiveActor))
+        tempVec.copy(tempVec2);
+        tempVec.x += tempVec3.x * (5 + distance*0.3);
+        tempVec.y += 8 + distance * 0.8;
+        tempVec.z += tempVec3.z * (5 + distance*0.3);
+
+        lerpCameraPosition(tempVec, tpf*2);
     }
 }
 
@@ -736,42 +749,29 @@ function CAM_GRID() {
     tempVec3.multiplyScalar(2);
     zoomDistance = 1 + distance * 0.6;
     tempVec2.copy(CAM_POINTS[lookAtControlKey](targetActor))
+
+
     tempVec.copy(tempVec2);
+
+    if (isTileSelecting) {
+    //
+        ThreeAPI.tempVec3.copy(tileSelector.translation);
+        ThreeAPI.tempVec3.multiplyScalar(0.5);
+        tempVec2.add(ThreeAPI.tempVec3)
+        if (pointerAction) {
+            tempVec.add(ThreeAPI.tempVec3)
+        }
+    }
+
     tempVec.x += tempVec3.x * (5 + distance*0.3);
     tempVec.y += 8 + distance * 0.8;
     tempVec.z += tempVec3.z * (5 + distance*0.3);
 
     if (lookFromActive) {
-
-        if (targetActor === 2) {
-            let aPos = selectedActor.getSpatialPosition();
-            let tPos = targetActor.getSpatialPosition();
-            let distance = MATH.distanceBetween(aPos, tPos) * 0.2;
-
-            if (isTileSelecting) {
-                distance += tileSelector.extendedDistance;
-            }
-
-            tempVec.copy(aPos);
-            tempVec.sub(tPos);
-            tempVec.normalize()
-            let actorHeight = selectedActor.getStatus(ENUMS.ActorStatus.HEIGHT)
-            tempVec.multiplyScalar(actorHeight + distance * 2.5 + 1);
-            tempVec.y =  actorHeight*2 + distance * 1.5;
-            tempVec.add(aPos);
-            lerpCameraPosition(tempVec, tpf*3);
-        } else {
-            lerpCameraPosition(tempVec, tpf*2);
-        }
-
-
+        lerpCameraPosition(tempVec, tpf*2);
     }
 
     if (lookAtActive) {
-
-        //    zoomDistance = 9 + distance;
-
-
         lerpCameraLookAt(tempVec2, tpf*2);
     }
 
