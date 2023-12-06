@@ -121,11 +121,11 @@
                 "sunLightDirection": { "value": {"x":1, "y":1, "z":1}}
               },
               "texture_uniforms": [
-
                 {"key":"terrainmap",  "tiles":[0,   0]},
                 {"key":"heightmap",   "tiles":[0,   0]},
                 {"key":"tx0",         "tiles":[16,   16]},
-                {"key":"tx0nm",       "tiles":[16,   16]}
+                {"key":"tx0nm",       "tiles":[16,   16]},
+                {"key":"envMap",      "tiles":[0,    0]}
               ],
               "settings": {
               }
@@ -258,11 +258,8 @@
               "side": "DoubleSide",
               "texture_uniforms": [
                 {"key":"materialErm" , "repeat":[1,   1]},
-                {"key":"emissiveMap",  "repeat":[1,   1]},
                 {"key":"envMap",       "repeat":[1,   1]},
-                {"key":"normalMap",    "repeat":[1,   1]},
-                {"key":"metalnessMap", "repeat":[1,   1]},
-                {"key":"roughnessMap", "repeat":[1,   1]}
+                {"key":"normalMap",    "repeat":[1,   1]}
               ],
               "settings": {
                 "alphaTest": 0.75

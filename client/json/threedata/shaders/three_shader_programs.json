@@ -683,8 +683,6 @@
           "uniform sampler2D materialErm;",
           "uniform sampler2D normalMap;",
           "uniform sampler2D envMap;",
-          "uniform sampler2D metalnessMap;",
-          "uniform sampler2D roughnessMap;",
           "varying vec3 faceNormal;",
           "varying vec3 fragPos;",
           "varying vec2 vUv;",

@@ -168,10 +168,12 @@
           "config":{
             "settings": "mat_settings_terrain_big",
             "textures":[
+              {"key":"envMap"         , "id":"ref_sphere"                },
               {"key":"terrainmap"     , "id":"tx_terrainmap_world_01"  },
               {"key":"heightmap"      , "id":"tx_heightmap_world_01"   },
               {"key":"tx0"            , "id":"tx_ground_tiles16x16"      },
               {"key":"tx0nm"          , "id":"tx_ground_tiles16x16nm"    }
+
             ]
           }
         },
@@ -234,11 +236,8 @@
             "textures":[
               {"key":"map"           , "id":"atlas_2k_diff"   },
               {"key":"envMap"         , "id":"ref_sphere"     } ,
-              {"key":"emissiveMap"   , "id":"atlas_2k_emit"       },
               {"key":"materialErm"   , "id":"atlas_2k_mat_erm"    },
-              {"key":"normalMap"     , "id":"atlas_2k_norm"       },
-              {"key":"metalnessMap"  , "id":"atlas_2k_metalness"  },
-              {"key":"roughnessMap"  , "id":"atlas_2k_roughness"  }
+              {"key":"normalMap"     , "id":"atlas_2k_norm"       }
             ]
           }
         },
