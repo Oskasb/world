@@ -1,7 +1,6 @@
 // import { SsrFx } from "./fx/SsrFx.js";
 
 
-
 class ThreeSetup {
 
     constructor() {
@@ -185,6 +184,16 @@ class ThreeSetup {
 
     toScreenPosition = function(vec3, store) {
 
+        ThreeAPI.tempVec3.set(0, 0, 1);
+        ThreeAPI.tempVec3.applyQuaternion(this.camera.quaternion);
+        ThreeAPI.tempVec3b.copy(vec3);
+        ThreeAPI.tempVec3b.sub(this.camera.position);
+        ThreeAPI.tempVec3b.normalize();
+
+
+        let angle = ThreeAPI.tempVec3.dot(ThreeAPI.tempVec3b);
+
+
         if (!store) {
             store = ThreeAPI.tempVec3;
         }
@@ -201,6 +210,11 @@ class ThreeSetup {
         store.x = this.vector.x * 0.83 *0.5;
         store.y = this.vector.y * 0.5 * 0.83;
         store.z = this.vector.z * 0;
+
+        if (angle > 0.0) {
+            store.x *= -angle;
+            store.y *= -1;
+        }
 
         if (!this.pointIsVisible(this.tempObj.position)) {
             store.z = -100000;
