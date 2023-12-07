@@ -367,9 +367,9 @@ class GameActor {
     }
 
     hideGameActor() {
-        this.actorEquipment.call.hideEquipment()
-        this.visualGamePiece.call.hideVisualPiece();
 
+        this.visualGamePiece.call.hideVisualPiece();
+        this.actorEquipment.call.hideEquipment()
         //    this.actorEquipment.call.showEquipment()
     }
 

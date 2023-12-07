@@ -24,6 +24,16 @@ class ActorEquipment {
                 console.log("Add modifiers:", equipmentAddModifiers)
         }
 
+
+        function getUpdateCallback(item, dynJoint) {
+            if (dynJoint.key === 'SKIN') {
+                return item.callbacks.tickPieceEquippedItem;
+            } else {
+                return dynJoint.callbacks.updateAttachedSpatial;
+            }
+        }
+
+
         let equipActorItem = function(item) {
             console.log("EQUIP ITEM: ", item)
             this.items.push(item)
@@ -42,13 +52,11 @@ class ActorEquipment {
             if (dynamicJoint.key === 'SKIN') {
                 item.modelInstance.obj3d.frusumCulled = false;
                 this.getModel().attachInstancedModel(item.modelInstance)
-                ThreeAPI.registerPrerenderCallback(item.callbacks.tickPieceEquippedItem);
-
             } else {
                 dynamicJoint.registerAttachedSpatial(item.getSpatial());
-                ThreeAPI.registerPrerenderCallback(dynamicJoint.callbacks.updateAttachedSpatial);
             }
-
+            item.call.setUpdateCallback(getUpdateCallback(item, dynamicJoint))
+            item.show();
         }.bind(this);
 
 
@@ -65,13 +73,10 @@ class ActorEquipment {
             itemSlot.setSlotItem(null);
             if (dynamicJoint.key === 'SKIN') {
                 this.getModel().detatchInstancedModel(item.modelInstance)
-                ThreeAPI.unregisterPrerenderCallback(item.callbacks.tickPieceEquippedItem);
-
             } else {
                 dynamicJoint.detachAttachedEntity(item.getSpatial());
-                ThreeAPI.unregisterPrerenderCallback(dynamicJoint.callbacks.updateAttachedSpatial);
             }
-
+            item.hide();
         }.bind(this)
 
         let getEquipmentStatusKey = function(key, store) {

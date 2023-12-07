@@ -5,6 +5,7 @@ class Item {
         this.config = config;
         this.visualGamePiece = visualGamePiece;
         let addModifiers = {};
+        let updateCallback = null;
 
         let addMods = config['status_add_modifiers']
         if (addMods) {
@@ -20,18 +21,30 @@ class Item {
             return addModifiers
         }
 
+        let setUpdateCallback = function(cb) {
+            updateCallback = cb;
+        }
+
+        let getUpdateCallback = function() {
+            return updateCallback
+        }
+
         this.call = {
-            getAddModifiers:getAddModifiers
+            getAddModifiers:getAddModifiers,
+            setUpdateCallback:setUpdateCallback,
+            getUpdateCallback:getUpdateCallback
         }
 
     }
 
 
     show() {
+        ThreeAPI.registerPrerenderCallback(this.call.getUpdateCallback());
         this.visualGamePiece.call.showVisualPiece();
     }
 
     hide() {
+        ThreeAPI.unregisterPrerenderCallback(this.call.getUpdateCallback());
         this.visualGamePiece.call.hideVisualPiece();
     }
 
