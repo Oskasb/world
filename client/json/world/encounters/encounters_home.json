@@ -238,6 +238,24 @@
                         "rot": [0, 1.2, 0],
                         "on_ground": true,
                         "tile": [5, 5]
+                      }
+                    ]
+                  }
+                },
+                {
+                  "pos": [-908, 5, 606],
+                  "visibility": 1,
+                  "grid_id": "grid_12x12",
+                  "host_id": "bandit_basic",
+                  "indicator_id": "battle_indicator",
+                  "trigger_radius": 5,
+                  "spawn": {
+                    "actors": [
+                      {
+                        "actor": "ACTOR_FIGHTER",
+                        "rot": [0, 1.2, 0],
+                        "on_ground": true,
+                        "tile": [5, 5]
                       },
                       {
                         "actor": "ACTOR_FIGHTER",

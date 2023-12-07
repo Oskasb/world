@@ -6,6 +6,7 @@ import {GridTile} from "../gamescenarios/GridTile.js";
 import {Obj3DText} from "../../application/ui/gui/game/Obj3DText.js";
 import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
 import {aaBoxTestVisibility, borrowBox, cubeTestVisibility} from "../../3d/ModelUtils.js";
+import {colorMapFx} from "../visuals/Colors.js";
 
 let up = new Vector3(0, 1, 0)
 let tempVec = new Vector3();
@@ -20,9 +21,10 @@ class DynamicTile {
         this.offset = 0;
     }
 
-    activateTile = function(defaultSprite, defaultSize, spacing, hideTile, centerOffset, debug) {
+    activateTile = function(defaultSprite, defaultSize, spacing, hideTile, centerOffset, debug, isExit) {
         this.defaultSprite = defaultSprite || [7, 3]
 
+        this.isExit = isExit;
         this.debug = debug;
         this.hideTile = hideTile;
         this.spacing = spacing || 1;
@@ -35,6 +37,7 @@ class DynamicTile {
 
         this.defaultSize = this.spacing * defaultSize || 0.9
 
+        this.exitSprite = [4, 7];
         this.groundSprite = [7, 1]
 
         this.requiresLeap = false;
@@ -59,28 +62,12 @@ class DynamicTile {
             a : 1
         }
 
-        this.tileEffect = null;
-
-        let effectCb = function(efct) {
-
-            efct.activateEffectFromConfigId(true)
-
-            efct.setEffectQuaternion(this.obj3d.quaternion);
-
-            efct.setEffectSpriteXY(this.defaultSprite[0], this.defaultSprite[1]);
-            efct.scaleEffectSize( this.defaultSize)
-
-            this.tileEffect = efct;
-        }.bind(this);
-
         this.pathPoint = poolFetch('PathPoint');
 
         this.visualTile = null;
         if (!this.hideTile) {
             this.visualTile = poolFetch('VisualTile');
             this.visualTile.visualizeDynamicTile(this);
-       //     EffectAPI.buildEffectClassByConfigId('overlay_stamps_8x8', 'stamp_overlay_pool',  effectCb)
-       //     EffectAPI.buildEffectClassByConfigId('additive_stamps_8x8', 'stamp_additive_pool',  effectCb)
         }
 
     }
@@ -103,6 +90,18 @@ class DynamicTile {
             this.visualTile.dynamicTileUpdated(this)
         }
 
+
+    }
+
+    addExitVisuals() {
+        tempVec.set(0, -1.0, -0.0);
+        tempObj.quaternion.set(0, 0, 0, 1);
+        let rotY = this.direction;
+        tempObj.rotateX(-MATH.HALF_PI)
+        tempObj.rotateZ(rotY)
+        tempVec.applyQuaternion(tempObj.quaternion);
+        tempVec.add(this.obj3d.position)
+        this.visualTile.addTileFeedbackEffect(this, this.exitSprite, tempVec, tempObj.quaternion, colorMapFx['EXIT_TILE'])
     }
 
     indicatePath = function() {
@@ -111,6 +110,9 @@ class DynamicTile {
             let rgba = this.visualTile.rgba;
             this.visualTile.setTileColor(CombatFxUtils.setRgba(rgba.r*2, rgba.g*2, rgba.b*2, rgba.a*2))
         }
+
+    //    this.text.say(""+this.gridI+" "+this.gridJ)
+
     //    this.tileEffect.setEffectColorRGBA(CombatFxUtils.setRgba(this.rgba.r*4, this.rgba.g*4, this.rgba.b*4, this.rgba.a*4))
     }
 
@@ -118,6 +120,9 @@ class DynamicTile {
         if (this.visualTile) {
             let rgba = this.visualTile.rgba;
             this.visualTile.setTileColor(CombatFxUtils.setRgba(rgba.r, rgba.g, rgba.b, rgba.a))
+        }
+        if (this.isExit) {
+            this.visualTile.clearTileFeedbackEffects()
         }
     }
 

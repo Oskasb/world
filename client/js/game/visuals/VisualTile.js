@@ -11,6 +11,7 @@ class VisualTile {
         index++
     //    console.log("VisualTiles: ", index)
         this.effects = [];
+        this.feedbackEffects = [];
     }
 
     visualizeDynamicTile(dynamicTile) {
@@ -39,6 +40,33 @@ class VisualTile {
 
         EffectAPI.buildEffectClassByConfigId('overlay_stamps_8x8', 'stamp_overlay_pool',  effectCb)
         EffectAPI.buildEffectClassByConfigId('additive_stamps_8x8', 'stamp_additive_pool',  effectCb)
+    }
+
+    addTileFeedbackEffect(dynamicTile, sprite, pos, quat, rgba) {
+
+        let feedbackEffects = this.feedbackEffects;
+
+        let effectCb = function(efct) {
+
+            efct.activateEffectFromConfigId(true)
+
+            efct.setEffectQuaternion(quat);
+            efct.setEffectPosition(pos);
+            efct.setEffectSpriteXY(sprite[0], sprite[1]);
+            efct.scaleEffectSize( dynamicTile.defaultSize)
+            efct.setEffectColorRGBA(rgba || this.rgba);
+            feedbackEffects.push(efct);
+        };
+
+        EffectAPI.buildEffectClassByConfigId('overlay_stamps_8x8', 'stamp_overlay_pool',  effectCb)
+        EffectAPI.buildEffectClassByConfigId('additive_stamps_8x8', 'stamp_additive_pool',  effectCb)
+    }
+
+    clearTileFeedbackEffects() {
+        while (this.feedbackEffects.length) {
+            let fx = this.feedbackEffects.pop();
+            fx.recoverEffectOfClass()
+        }
     }
 
     setTilePosition(pos) {
@@ -158,6 +186,8 @@ class VisualTile {
             let fx = this.effects.pop();
             fx.recoverEffectOfClass()
         }
+
+        this.clearTileFeedbackEffects()
     }
 
 }

@@ -291,6 +291,7 @@ function setupEncounterGrid(gridTiles, instances, gridConfig, posVec, forwardVec
     tempObj.quaternion.set(0, 0, 0, 1);
 
     let defaultSprite = [7, 2]
+    let exitSprite = [4, 7];
     let defaultSize = 0.88;
  //   console.log(gridConfig, gridWidth, gridDepth);
 
@@ -299,6 +300,9 @@ function setupEncounterGrid(gridTiles, instances, gridConfig, posVec, forwardVec
     minXYZ.y = pos.y = 9999;
 
     maxXYZ.y = pos.y = -9999;
+    tempObj.position.copy(pos)
+    tempObj.position.x += gridWidth*0.5;
+    tempObj.position.z += gridDepth*0.5;
 
     for (let i = 0; i < gridWidth; i++) {
         gridTiles.push([])
@@ -308,7 +312,15 @@ function setupEncounterGrid(gridTiles, instances, gridConfig, posVec, forwardVec
             let z = pos.z+j;
 
             let dynamicTile = poolFetch('DynamicTile');
-            dynamicTile.activateTile(defaultSprite, defaultSize)
+
+            let direction = null;
+            let isExit = false;
+            if (i === 0 || i === gridWidth-1 || j === 0 || j === gridWidth-1) {
+                isExit = true;
+
+            }
+
+            dynamicTile.activateTile(defaultSprite, defaultSize, null, null, null, false, isExit)
             dynamicTile.setTileIndex(x, z, i, j)
             gridTiles[i].push(dynamicTile);
 
@@ -318,6 +330,13 @@ function setupEncounterGrid(gridTiles, instances, gridConfig, posVec, forwardVec
 
             if (dynamicTile.getPos().y > maxXYZ.y) {
                 maxXYZ.y = dynamicTile.getPos().y;
+            }
+
+            if (isExit) {
+                tempObj.position.y = dynamicTile.getPos().y;
+                tempObj.lookAt(dynamicTile.getPos());
+                dynamicTile.direction = MATH.compassAttitudeFromQuaternion(tempObj.quaternion);
+                dynamicTile.addExitVisuals()
             }
 
             maxXYZ.x = x +0.5;
