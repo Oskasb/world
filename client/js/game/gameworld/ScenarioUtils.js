@@ -362,7 +362,14 @@ function filterForWalkableTiles(gridTiles, key) {
         for (let j = 0; j < gridTiles[i].length; j++) {
             let tile = gridTiles[i][j];
             if (tile[tileKey]) {
-                tileStore.push(tile);
+                if (key !== 'walkable') {
+                    if (tile['walkable']) {
+                        tileStore.push(tile);
+                    }
+                } else {
+                    tileStore.push(tile);
+                }
+
             }
         }
     }

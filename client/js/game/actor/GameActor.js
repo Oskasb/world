@@ -229,11 +229,11 @@ class GameActor {
                 return false;
             }
 
-            if (typeof(actor.getSTatus) === 'function') {
+            if (typeof(actor.getStatus) === 'function') {
                 let clientStamp =client.getStamp();
                 let actorClientStamp = actor.getStatus(ENUMS.ActorStatus.CLIENT_STAMP)
                 if (clientStamp !== actorClientStamp) {
-                    return false;
+                //    return false;
                 }
             }
         }
@@ -247,7 +247,7 @@ class GameActor {
             }
         }
 
-        if (encounterHosted || this.isPlayerActor()) {
+        if (encounterHosted || actor.isPlayerActor()) {
             return true;
         } else {
             return false;
@@ -538,7 +538,8 @@ class GameActor {
 
         let transition = poolFetch('SpatialTransition');
         transition.targetPos.copy(pos);
-        transition.initSpatialTransition(this.actorObj3d.position, transition.targetPos, time, onCompleted, null, null, onUpdate)
+        transition.moveVec3.copy(this.getSpatialPosition());
+        transition.initSpatialTransition(transition.moveVec3, transition.targetPos, time, onCompleted, null, null, onUpdate)
 
     }
 

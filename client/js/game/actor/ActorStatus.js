@@ -12,6 +12,40 @@ let testSkip = function(key) {
     return false;
 }
 
+function checkBroadcast(actor) {
+
+    if (actor) {
+        if (actor.call.getRemote()) {
+            return false;
+        }
+
+        if (typeof(actor.getStatus) === 'function') {
+            let clientStamp =client.getStamp();
+            let actorClientStamp = actor.getStatus(ENUMS.ActorStatus.CLIENT_STAMP)
+            if (clientStamp !== actorClientStamp) {
+                return false;
+            }
+        }
+    }
+
+    let encounterHosted = false;
+    let dynEnc = GameAPI.call.getDynamicEncounter()
+    if (dynEnc) {
+        let encActors = dynEnc.status.call.getStatus(ENUMS.EncounterStatus.ENCOUNTER_ACTORS)
+        if (encActors.indexOf(actor.id) !== -1) {
+            encounterHosted = true;
+        }
+    }
+
+    if (encounterHosted || actor.isPlayerActor()) {
+        return true;
+    } else {
+        return false;
+    }
+
+}
+
+
 function fullSend(status, statusMap) {
     for (let key in statusMap) {
         if (key !== ENUMS.ActorStatus.ACTOR_ID)  {
@@ -83,6 +117,7 @@ let spatialMap = [
 
 let skipMap = [
     ENUMS.ActorStatus.PARTY_SELECTED,
+    ENUMS.ActorStatus.SEQUENCER_SELECTED,
     ENUMS.ActorStatus.STATUS_PITCH,
     ENUMS.ActorStatus.STATUS_ROLL,
     ENUMS.ActorStatus.STATUS_YAW,
@@ -251,7 +286,7 @@ class ActorStatus {
 
     relaySpatial(delay) {
 
-        if (this.actor.checkBroadcast()) {
+        if (checkBroadcast(this.actor)) {
 
          //   if (delay < this.spatialDelay) {
                 this.spatialDelay = 0.1;
@@ -272,22 +307,24 @@ class ActorStatus {
     }
 
     broadcastStatus(gameTime) {
-        MATH.emptyArray(this.sendStatus);
-        this.sendStatus.push(ENUMS.ActorStatus.ACTOR_ID)
-        this.sendStatus.push(this.statusMap[ENUMS.ActorStatus.ACTOR_ID])
+        if (checkBroadcast(this.actor)) {
+            MATH.emptyArray(this.sendStatus);
+            this.sendStatus.push(ENUMS.ActorStatus.ACTOR_ID)
+            this.sendStatus.push(this.statusMap[ENUMS.ActorStatus.ACTOR_ID])
 
-        if (this.lastFullSend < gameTime -2) {
-            this.lastFullSend = gameTime;
-            sendSpatial(this, this.statusMap)
-            fullSend(this, this.statusMap)
-        } else {
-            sendDetails(this, this.statusMap);
-            sendUpdatedOnly(this, this.statusMap)
-        }
+            if (this.lastFullSend < gameTime -2) {
+                this.lastFullSend = gameTime;
+                sendSpatial(this, this.statusMap)
+                fullSend(this, this.statusMap)
+            } else {
+                sendDetails(this, this.statusMap);
+                sendUpdatedOnly(this, this.statusMap)
+            }
 
-        if (this.sendStatus.length > 2) {
-        //    console.log(sendStatus)
-            evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, this.sendStatus)
+            if (this.sendStatus.length > 2) {
+                //    console.log(sendStatus)
+                evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, this.sendStatus)
+            }
         }
 
     }

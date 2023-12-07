@@ -159,7 +159,9 @@ class GameEncounterSystem {
         console.log("GET GRID ID:", gridId);
 
         let gridReady = function(grid) {
-            GameAPI.getGamePieceSystem().selectedActor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_BATTLE);
+            let selectedActor = GameAPI.getGamePieceSystem().selectedActor
+            selectedActor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_BATTLE);
+            selectedActor.setStatusKey(ENUMS.ActorStatus.SELECTED_ENCOUNTER, '');
             notifyCameraStatus(ENUMS.CameraStatus.CAMERA_MODE, ENUMS.CameraControls.CAM_AUTO, false);
             GuiAPI.getWorldInteractionUi().closeWorldInteractUi();
             GameAPI.worldModels.deactivateEncounters();
@@ -190,6 +192,8 @@ class GameEncounterSystem {
                 actor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, false);
                 actor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, '');
                 actor.setStatusKey(ENUMS.ActorStatus.IN_COMBAT, false);
+                actor.setStatusKey(ENUMS.ActorStatus.RETREATING, '');
+                actor.setStatusKey(ENUMS.ActorStatus.EXIT_ENCOUNTER, '');
                 GameAPI.getGamePieceSystem().playerParty.clearPartyMemebers()
             }
 
@@ -204,9 +208,12 @@ class GameEncounterSystem {
         GameAPI.unregisterGameUpdateCallback(this.call.updateEncounterSystem)
         GameAPI.unregisterGameUpdateCallback(encounterStatusProcessor.processEncounterStatus)
 
+    //    encounterUiSystem = new EncounterUiSystem();
+
         setTimeout(function() {
             GameAPI.call.spawnWorldEncounters();
-        }, 2000)
+            encounterTurnSequencer = new EncounterTurnSequencer();
+        }, 4000)
 
 
 

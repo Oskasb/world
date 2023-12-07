@@ -98,7 +98,7 @@ function processEncounterActorStatus(actor) {
     let deactivate = actor.getStatus(ENUMS.ActorStatus.DEACTIVATING_ENCOUNTER);
 
     if (deactivate) {
-        GameAPI.call.getGameEncounterSystem().deactivateActiveEncounter();
+        GameAPI.call.getGameEncounterSystem().deactivateActiveEncounter(false);
         activeEncounter = null;
     }
 
@@ -121,6 +121,10 @@ class EncounterStatusProcessor {
             let hasTurnId = activeEncounter.status.call.getStatus(ENUMS.EncounterStatus.HAS_TURN_ACTOR);
             if (hasTurnId) {
                 let actor = GameAPI.getActorById(hasTurnId)
+                if (!actor) {
+                    this.actorTurnStart = null
+                    return;
+                }
                 if (this.actorTurnStart !== hasTurnId) {
                     processEncounterTurnStartTileMechanics(actor)
                     this.actorTurnStart = hasTurnId
