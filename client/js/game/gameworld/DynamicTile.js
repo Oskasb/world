@@ -16,7 +16,7 @@ class DynamicTile {
     constructor() {
         this.index = index;
         index ++;
-        this.text = new Obj3DText(up);
+        this.text = new Obj3DText(new Vector3());
         this.step = 0;
         this.offset = 0;
     }
@@ -37,7 +37,7 @@ class DynamicTile {
 
         this.defaultSize = this.spacing * defaultSize || 0.9
 
-        this.exitSprite = [4, 7];
+        this.exitSprite = [5, 6];
         this.groundSprite = [7, 1]
 
         this.requiresLeap = false;
@@ -86,10 +86,10 @@ class DynamicTile {
         let height = ThreeAPI.terrainAt(this.obj3d.position, this.groundNormal);
         this.obj3d.position.y = height+0.05;
         this.pathPoint.setPos(this.obj3d.position)
+
         if (this.visualTile) {
             this.visualTile.dynamicTileUpdated(this)
         }
-
 
     }
 
@@ -111,10 +111,10 @@ class DynamicTile {
             this.visualTile.setTileColor(CombatFxUtils.setRgba(rgba.r*2, rgba.g*2, rgba.b*2, rgba.a*2))
         }
 
-    //    this.text.say(""+this.gridI+" "+this.gridJ)
-
-    //    this.tileEffect.setEffectColorRGBA(CombatFxUtils.setRgba(this.rgba.r*4, this.rgba.g*4, this.rgba.b*4, this.rgba.a*4))
-    }
+     //   if (this.isExit) {
+     //       GuiAPI.screenText("Exit Selected", ENUMS.Message.HINT)
+     //   }
+     }
 
     clearPathIndication = function() {
         if (this.visualTile) {

@@ -118,6 +118,17 @@ class ActorAction {
         let applyHitConsequences = function() {
             let target = this.getTarget();
 
+            if (!target) {
+                console.log("No target found for action", this)
+                return;
+            }
+
+            if (!target.call) {
+                console.log("No target found for action", target)
+                return;
+            }
+
+
             if (!target.call.getRemote()) {
                 let hp = target.getStatus(ENUMS.ActorStatus.HP);
                 let maxHP = target.getStatus(ENUMS.ActorStatus.MAX_HP);
@@ -182,8 +193,26 @@ class ActorAction {
 
     }
 
+    getActor() {
+        let actorId = this.status.call.getStatusByKey(ENUMS.ActionStatus.ACTOR_ID);
+        let actor = GameAPI.getActorById(actorId)
+        return actor;
+    }
+
     getTarget() {
-        return GameAPI.getActorById(this.status.call.getStatusByKey(ENUMS.ActionStatus.TARGET_ID));
+
+        let targetId = this.status.call.getStatusByKey(ENUMS.ActionStatus.TARGET_ID);
+        if (!targetId) {
+            console.log("No action Target...", this)
+            let actor = GameAPI.getActorById(this.status.call.getStatusByKey(ENUMS.ActionStatus.ACTOR_ID));
+            GameAPI.getActorById(actor.getStatus(ENUMS.ActionStatus.SELECTED_TARGET));
+            if (!targetId) {
+                console.log("No actor Target either...", this)
+                targetId = actor.id;
+            }
+        }
+
+        return GameAPI.getActorById(targetId);
     }
 
     getStepDuration(step) {

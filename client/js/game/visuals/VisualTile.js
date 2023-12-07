@@ -3,6 +3,7 @@ import * as CombatFxUtils from "../combat/feedback/CombatFxUtils.js";
 let index = 0;
 import { Object3D } from "../../../libs/three/core/Object3D.js";
 import { Vector3 } from "../../../libs/three/math/Vector3.js";
+import {colorMapFx} from "./Colors.js";
 
 let up = new Vector3(0, 1, 0)
 let tempObj = new Object3D()
@@ -17,6 +18,7 @@ class VisualTile {
     visualizeDynamicTile(dynamicTile) {
 
 
+        this.defaultSize = dynamicTile.defaultSize;
         this.rgba = {
             r : 0,
             g : 1,
@@ -62,6 +64,25 @@ class VisualTile {
         EffectAPI.buildEffectClassByConfigId('additive_stamps_8x8', 'stamp_additive_pool',  effectCb)
     }
 
+
+    indicateExitSelection() {
+
+        for (let i = 0; i < this.feedbackEffects.length; i++) {
+            let efct = this.feedbackEffects[i];
+            efct.scaleEffectSize( this.defaultSize+0.5)
+            efct.setEffectColorRGBA(colorMapFx['EXIT_TILE_ACTIVE']);
+        }
+
+    }
+
+    clearExitSelection() {
+        for (let i = 0; i < this.feedbackEffects.length; i++) {
+            let efct = this.feedbackEffects[i];
+            efct.scaleEffectSize( this.defaultSize)
+            efct.setEffectColorRGBA(colorMapFx['EXIT_TILE']);
+        }
+    }
+
     clearTileFeedbackEffects() {
         while (this.feedbackEffects.length) {
             let fx = this.feedbackEffects.pop();
@@ -89,7 +110,6 @@ class VisualTile {
     setTileColor(rgba) {
         for (let i = 0; i < this.effects.length; i++) {
             this.effects[i].setEffectColorRGBA(rgba)
-
         }
     }
 
@@ -151,10 +171,10 @@ class VisualTile {
                 if (dynamicTile.groundData.y > 0.52) {
                     spriteX = 6;
                     spriteY = 4;
-                    r = 0.12;
+                    r = 0.05;
                     g = 0.0;
                     b = 0.0;
-                    a = 0.85;
+                    a = 0.15;
                     dynamicTile.walkable = false;
                     dynamicTile.blocking = true;
                 }

@@ -7,7 +7,9 @@ let trackMap = [
     ENUMS.ActorStatus.SELECTED_ENCOUNTER,
     ENUMS.ActorStatus.REQUEST_PARTY,
     ENUMS.ActorStatus.ACTIVATING_ENCOUNTER,
-    ENUMS.ActorStatus.ACTIVATED_ENCOUNTER
+    ENUMS.ActorStatus.ACTIVATED_ENCOUNTER,
+    ENUMS.ActorStatus.EXIT_ENCOUNTER,
+    ENUMS.ActorStatus.RETREATING
 ]
 
 let rgba = {r:1, g:1, b:1, a:1}

@@ -1,6 +1,7 @@
 import {SpatialTransition} from "../piece_functions/SpatialTransition.js";
 import {VisualPath} from "../visuals/VisualPath.js";
 import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
+import {processEncounterGridTilePath} from "../gameworld/ScenarioUtils.js";
 
 let colorsRgba = {
     BLUE:{r:0.015, g:0.05, b:0.2, a:1}
@@ -8,6 +9,22 @@ let colorsRgba = {
 
 let visualPath = new VisualPath()
 let tileCount = 0;
+
+function applyTileSelection(actor, tileSelector, walkGrid) {
+    if (actor.getStatus(ENUMS.ActorStatus.IN_COMBAT)) {
+        processEncounterGridTilePath(walkGrid.getActiveTilePath(), GameAPI.getActiveEncounterGrid())
+        let mayExit = actor.getStatus(ENUMS.ActorStatus.EXIT_ENCOUNTER)
+        if (mayExit) {
+            actor.prepareTilePath(tileSelector.getPos());
+        } else {
+            let encounterTile = GameAPI.getActiveEncounterGrid().getTileAtPosition(tileSelector.getPos());
+            actor.prepareTilePath(encounterTile.getPos());
+        }
+    } else {
+        actor.prepareTilePath(tileSelector.getPos());
+    }
+}
+
 class ActorMovement {
     constructor() {
 
@@ -28,6 +45,7 @@ console.log("Pathing Completed")
     }
 
 
+
     tileSelectionActive(actor) {
         let walkGrid = actor.getGameWalkGrid();
 
@@ -40,36 +58,27 @@ console.log("Pathing Completed")
 
         actor.setStatusKey(ENUMS.ActorStatus.SELECTING_DESTINATION, 1);
         if (!walkGrid.isActive) {
-    //        GuiAPI.screenText("GRID ACTIVATE")
             actor.activateWalkGrid(1+ actor.getStatus(ENUMS.ActorStatus.MOVEMENT_SPEED) * 4 )
-     //       console.log("MOVE ACTION - activate")
-    //        actor.actorText.say("Grid Stick")
         } else {
 
             if (tileSelector.hasValue()) {
 
                     if (tileSelector.extendedDistance > 0.8) {
 
-                        actor.prepareTilePath(tileSelector.getPos());
-            //            evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:actor.getHeadPosition(), to:walkGrid.getGridCenter(), color:'YELLOW'});
+                        applyTileSelection(actor, tileSelector, walkGrid)
+                        //            evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:actor.getHeadPosition(), to:walkGrid.getGridCenter(), color:'YELLOW'});
                     } else {
-
                         walkGrid.clearGridTilePath()
                     }
 
                     actor.turnTowardsPos(tileSelector.getPos() , GameAPI.getFrame().avgTpf * tileSelector.extendedDistance * 0.3);
 
-             //       evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:actor.getSpatialPosition(), color:'CYAN', size:0.5})
-            //        evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:actor.getSpatialPosition(), to:tileSelector.getPos(), color:'CYAN'});
                     if (tileCount !== walkGrid.getActivePathTiles().length) {
-                    //    actor.actorText.say("Path length: "+walkGrid.getActivePathTiles().length)
-                    //    GuiAPI.screenText("TILE COUNT CHANGE")
                         tileCount = walkGrid.getActivePathTiles().length
                     }
 
-           //     evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:actor.getHeadPosition(), to:walkGrid.getGridCenter(), color:'YELLOW'});
 
-            //    actor.turnTowardsPos(tileSelector.getPos() , GameAPI.getFrame().avgTpf * tileSelector.extendedDistance * 0.3);
+
             } else {
 
                 if (walkGrid.getActivePathTiles().length > 1) {
@@ -94,8 +103,9 @@ console.log("Pathing Completed")
             if (walkGrid.getActivePathTiles().length > 1) {
         //        console.log("MOVE ACTION - Complete, tiles: ", walkGrid.getActiveTilePath().getRemainingTiles())
        //         actor.actorText.say("Move "+walkGrid.getActivePathTiles().length+" tiles")
+                applyTileSelection(actor, tileSelector, walkGrid)
 
-                actor.prepareTilePath(tileSelector.getPos());
+
                 //    actor.moveActorOnGridTo(tileSelector.getPos(), walkGrid.call.deactivate)
                 walkGrid.applySelectedPath(this.call.pathingUpdate, this.call.pathingCompleted)
 

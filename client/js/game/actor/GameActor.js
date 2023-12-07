@@ -526,6 +526,22 @@ class GameActor {
         return pos;
     }
 
+    transitionTo(pos, time) {
+
+        let onCompleted = function() {
+            poolReturn(transition);
+        }
+
+        let onUpdate = function(pos) {
+            this.setSpatialPosition(pos);
+        }.bind(this);
+
+        let transition = poolFetch('SpatialTransition');
+        transition.targetPos.copy(pos);
+        transition.initSpatialTransition(this.actorObj3d.position, transition.targetPos, time, onCompleted, null, null, onUpdate)
+
+    }
+
     getSpatialScale(store) {
         return this.actorStatus.getStatusScale(store);
     }

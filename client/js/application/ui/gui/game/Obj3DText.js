@@ -12,9 +12,13 @@ class Obj3DText {
         index++
         let pos = posVec;
 
+        this.posVec = new Vector3();
+
         let txtOrigin = new Vector3();
 
         let getTextOrigin = function() {
+            evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ThreeAPI.getCameraCursor().getPos(), to:pos, color:'YELLOW', drawFrames:20});
+
             ThreeAPI.toScreenPosition(pos, txtOrigin)
             if (txtOrigin.z === 0) {
                 GuiAPI.applyAspectToScreenPosition(txtOrigin, txtOrigin);
@@ -137,6 +141,8 @@ class Obj3DText {
         }.bind(this);
 
         let initPos = this.call.getTextOrigin()
+
+
         if (initPos.y < 0) {
             return;
         }

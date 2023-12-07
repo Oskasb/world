@@ -337,19 +337,7 @@ class GameAPI {
     };
 
     getActiveEncounterGrid() {
-        let dynScen = this.getActiveDynamicScenario()
-        if (typeof (dynScen) !== 'object') {
-        //    console.log("bad scenario logic, fix!")
-            return;
-        }
-        if (dynScen) {
-            let grid = dynScen.encounterGrid;
-            if (typeof (grid) === 'undefined') {
-                console.log("Bad encounter grid logic... fix!")
-                return null;
-            }
-            return grid;
-        }
+        return gameEncounterSystem.call.getActiveEncounterGrid()
     }
     handleWorldSpacePointerUpdate(pointer, start, release) {
 

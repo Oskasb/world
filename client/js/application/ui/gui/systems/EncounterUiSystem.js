@@ -32,7 +32,6 @@ let onActivate = function(actor) {
     let playerActor = GameAPI.getGamePieceSystem().getSelectedGameActor()
 
     if (selectedActor) {
-        selectedActor.actorText.say('Unselected')
         selectedActor.setStatusKey(ENUMS.ActorStatus.SEQUENCER_SELECTED, false)
         playerActor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, "")
     }
@@ -44,7 +43,7 @@ let onActivate = function(actor) {
     playerActor.turnTowardsPos(actor.getSpatialPosition());
     selectedActor = actor;
     actor.setStatusKey(ENUMS.ActorStatus.SEQUENCER_SELECTED, true)
-    actor.actorText.say('Sequencer Selected')
+    actor.actorText.say('Selected')
     let partyActor = GameAPI.getGamePieceSystem().getPlayerParty().getPartySelection()
 
     if (partyActor) {

@@ -53,11 +53,9 @@ let onActionActivate = function(actionId, actorStatusKey) {
 
  //   console.log("onActionActivate:", action)
 
-    action.initAction(actor);
-    activatedAction = action;
+
 
     let inCombat = actor.getStatus(ENUMS.ActorStatus.IN_COMBAT)
-
     if (inCombat) {
         let targetId = actor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET);
         if (!targetId) {
@@ -67,29 +65,19 @@ let onActionActivate = function(actionId, actorStatusKey) {
             } else {
                 targetId = actor.id;
             }
-
         }
-    //    selectedTarget = GameAPI.getActorById(targetId);
+
         action.setActionTargetId(targetId)
-        action.activateAttack(action.actor.call.turnEnd)
-        //action.call.advanceState();
-    /*
-        setTimeout(function() {
+        action.initAction(actor);
+        action.activateAttack(action.getActor().call.turnEnd)
 
-            activatedAction = null;
-            selectedTarget = null;
-        }, 1000)
-     */
     } else {
+        action.initAction(actor);
         console.log("Non combat action", [actorStatusKey, action])
-    //    action.call.updateActionCompleted();
     }
 
-    if (selectedTarget) {
+    activatedAction = action;
 
-    } else {
-    //    actor.actorText.say('Pick a target')
-    }
 }
 
 

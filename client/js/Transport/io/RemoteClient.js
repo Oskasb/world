@@ -150,8 +150,13 @@ class RemoteClient {
         for (let i = 0; i < actorList.length; i++) {
             let actor = this.getActorById(actorList[i])
             MATH.splice(this.actors, actor);
-            MATH.splice(this.remoteIndex, actor.id);
-            actor.call.remove()
+            if (typeof (actor) === 'object') {
+                MATH.splice(this.remoteIndex, actor.id);
+                actor.call.remove()
+            } else {
+                console.log("Bad remote actor removal ", actorList[i], this.actors);
+            }
+
         }
     }
 
@@ -291,8 +296,13 @@ class RemoteClient {
                 GameAPI.call.getGameEncounterSystem().activateByRemote(this.encounter)
             }
 
+            if (activationState === ENUMS.ActivationState.DEACTIVATING) {
+                GameAPI.call.getGameEncounterSystem().deactivateActiveEncounter(true)
+                this.encounter = null;
+            }
+
             console.log(statusPre, activationState)
-        //    GuiAPI.screenText(activationState + " BATTLE")
+
         }
     }
 

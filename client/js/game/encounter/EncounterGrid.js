@@ -20,6 +20,7 @@ class EncounterGrid {
         this.maxXYZ = new Vector3();
         this.camHomePos = new Vector3();
         this.configData = new ConfigData("GRID", "ENCOUNTER_GRIDS",  'grid_main_data', 'data_key', 'config')
+
     }
 
     getPos() {
@@ -75,8 +76,8 @@ class EncounterGrid {
         ScenarioUtils.setupEncounterGrid(this.gridTiles, this.instances, config, pos, forward, this.minXYZ , this.maxXYZ )
     }
 
-    getRandomWalkableTiles(count) {
-        let tiles = filterForWalkableTiles(this.gridTiles);
+    getRandomWalkableTiles(count, key) {
+        let tiles = filterForWalkableTiles(this.gridTiles, key);
 
         if (tiles.length < count) {
             console.log("Not enought tiles", tiles)
@@ -93,6 +94,7 @@ class EncounterGrid {
 
     }
 
+
     setCameraHomePos(pos) {
         this.camHomePos.copy(pos);
     }
@@ -103,6 +105,11 @@ class EncounterGrid {
     getTileAtPosition(posVec3) {
         return ScenarioUtils.getTileForPosition(this.gridTiles, posVec3)
     }
+
+    getPosOutsideTrigger() {
+        return this.getRandomWalkableTiles(1, 'isExit')[0].getPos()
+    }
+
 
     removeEncounterGrid() {
         while (this.gridTiles.length) {

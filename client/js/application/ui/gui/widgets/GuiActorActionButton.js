@@ -19,9 +19,19 @@ class GuiActorActionButton {
         }
 
         let activate = function() {
+            if (buttonState === ENUMS.ButtonState.UNAVAILABLE) {
+                actor.actorText.say('I need a target')
+                return;
+            }
+
             let gotAction = getAction()
 
             if (typeof (gotAction) === 'object') {
+
+                if (gotAction.call.getStatus(ENUMS.ActionStatus.BUTTON_STATE) === ENUMS.ButtonState.UNAVAILABLE) {
+                    return;
+                }
+
                 if (gotAction.getActionKey() === actionId) {
                     gotAction.call.updateActionCompleted()
                     return;
@@ -81,12 +91,25 @@ class GuiActorActionButton {
                 // combat action..
                 if (typeof (gotAction) === 'object') {
                     newButtonState = gotAction.call.getStatus(ENUMS.ActionStatus.BUTTON_STATE);
-                    buttonStateStartTime =  gotAction.call.getStatus(ENUMS.ActionStatus.STEP_START_TIME)
-                    buttonStateDuration = gotAction.call.getStatus(ENUMS.ActionStatus.STEP_END_TIME)
-                    stateProgress = MATH.calcFraction(buttonStateTime, buttonStateStartTime, buttonStateDuration);
+
+                    let targetId = actor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET);
+                    if (!targetId) {
+                        newButtonState = ENUMS.ButtonState.UNAVAILABLE
+                        gotAction.call.setStatusKey(ENUMS.ActionStatus.BUTTON_STATE, newButtonState)
+                    } else {
+                        buttonStateStartTime =  gotAction.call.getStatus(ENUMS.ActionStatus.STEP_START_TIME)
+                        buttonStateDuration = gotAction.call.getStatus(ENUMS.ActionStatus.STEP_END_TIME)
+                        stateProgress = MATH.calcFraction(buttonStateTime, buttonStateStartTime, buttonStateDuration);
+                    }
                 } else {
                     if (gotAction === true) {
-                        newButtonState = ENUMS.ButtonState.AVAILABLE;
+
+                        let targetId = actor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET);
+                        if (!targetId) {
+                            newButtonState = ENUMS.ButtonState.UNAVAILABLE
+                        } else {
+                            newButtonState = ENUMS.ButtonState.AVAILABLE;
+                        }
                     } else {
                         newButtonState = ENUMS.ButtonState.DISABLED;
                     }

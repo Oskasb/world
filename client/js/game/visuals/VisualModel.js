@@ -28,7 +28,7 @@ class VisualModel {
 
         actor.travelMode.call.activateVehicle(actor, callback)
 
-        actor.actorText.say(statusKey+ " ON")
+   //     actor.actorText.say(statusKey+ " ON")
         this.actor = actor;
         this.statusKey = statusKey;
         this.effectData = effectData;
@@ -36,7 +36,7 @@ class VisualModel {
     }
 
     off() {
-        this.actor.actorText.say(this.statusKey+ " OFF")
+     //   this.actor.actorText.say(this.statusKey+ " OFF")
         this.actor.showGameActor()
         this.effectModel.decommissionInstancedModel();
         transitionEffectOff(this.actor.getSpatialPosition(), this.effectData);

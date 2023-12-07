@@ -58,10 +58,10 @@ class GameEncounterSystem {
                 selectedActor.setStatusKey(ENUMS.ActorStatus.HAS_TURN, false);
                 selectedActor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, '');
                 selectedActor.setStatusKey(ENUMS.ActorStatus.SEQUENCER_SELECTED, false);
+                selectedActor.setStatusKey(ENUMS.ActorStatus.DEACTIVATING_ENCOUNTER, selectedActor.getStatus(ENUMS.ActorStatus.ACTIVATED_ENCOUNTER));
                 selectedActor.setStatusKey(ENUMS.ActorStatus.ACTIVATING_ENCOUNTER, '');
                 selectedActor.setStatusKey(ENUMS.ActorStatus.ACTIVATED_ENCOUNTER, '');
                 selectedActor.setStatusKey(ENUMS.ActorStatus.SELECTED_ENCOUNTER, '');
-                this.deactivateActiveEncounter()
             }
 
         }.bind(this);
@@ -171,7 +171,7 @@ class GameEncounterSystem {
         console.log("Activate Enc from Remote", dynamicEncounter)
     }
 
-    deactivateActiveEncounter() {
+    deactivateActiveEncounter(byRemote) {
         if (dynamicEncounter) {
 
         //    let statusActors = dynamicEncounter.getStatus(ENUMS.EncounterStatus.ENCOUNTER_ACTORS);
@@ -183,14 +183,33 @@ class GameEncounterSystem {
         }
 
         if (activeEncounterGrid) {
+            if (byRemote) {
+                let actor = GameAPI.getGamePieceSystem().selectedActor;
+                actor.transitionTo(activeEncounterGrid.getPosOutsideTrigger(), 0.5);
+                actor.setStatusKey(ENUMS.ActorStatus.SEQUENCER_SELECTED, false);
+                actor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, false);
+                actor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, '');
+                actor.setStatusKey(ENUMS.ActorStatus.IN_COMBAT, false);
+                GameAPI.getGamePieceSystem().playerParty.clearPartyMemebers()
+            }
+
             activeEncounterGrid.removeEncounterGrid()
             activeEncounterGrid = null;
         }
-        encounterTurnSequencer.closeTurnSequencer();
+        if (!byRemote) {
+            encounterTurnSequencer.closeTurnSequencer();
+        }
+
         encounterUiSystem.closeEncounterUi()
         GameAPI.unregisterGameUpdateCallback(this.call.updateEncounterSystem)
         GameAPI.unregisterGameUpdateCallback(encounterStatusProcessor.processEncounterStatus)
-        GameAPI.call.spawnWorldEncounters();
+
+        setTimeout(function() {
+            GameAPI.call.spawnWorldEncounters();
+        }, 2000)
+
+
+
     }
 
 }

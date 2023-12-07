@@ -109,6 +109,9 @@ class DynamicPath {
                 i = tileCount;
             } else if (tile.walkable) {
                 tile.indicatePath()
+
+
+
                 let color = 'YELLOW';
                 this.tilePath.addTileToPath(tile);
                 let elevationDiff = tile.getPos().y - this.tempVec.y;

@@ -97,7 +97,7 @@ class EncounterTurnSequencer {
                 GuiAPI.screenText("Your turn as host", ENUMS.Message.HINT, 4)
                 actor.startPlayerTurn(this.call.turnEnded, this.turnIndex)
             } else if (actor.call.getRemote()) {
-                GuiAPI.screenText("Other Payer Turn", ENUMS.Message.HINT, 4)
+                GuiAPI.screenText("Joined Payer Turn", ENUMS.Message.HINT, 4)
             } else {
                 GuiAPI.screenText("Enemy Turn", ENUMS.Message.HINT, 4)
                 actor.getActorTurnSequencer().startActorTurn(this.call.turnEnded, this.turnIndex);
@@ -126,12 +126,13 @@ class EncounterTurnSequencer {
             let actor = this.actors.pop();
             actor.setStatusKey(ENUMS.ActorStatus.SEQUENCER_SELECTED, false);
             actor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, false);
+            actor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, '');
             actor.setStatusKey(ENUMS.ActorStatus.IN_COMBAT, false);
+            GameAPI.getGamePieceSystem().playerParty.clearPartyMemebers()
         }
         this.activeActor.getActorTurnSequencer().exitSequence();
         this.activeActor = null;
         this.turnIndex = 0;
-        setStatusKey(ENUMS.EncounterStatus.TURN_INDEX, this.turnIndex)
         this.turnTime = 0;
 
     }

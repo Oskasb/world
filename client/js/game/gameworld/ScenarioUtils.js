@@ -333,10 +333,12 @@ function setupEncounterGrid(gridTiles, instances, gridConfig, posVec, forwardVec
             }
 
             if (isExit) {
-                tempObj.position.y = dynamicTile.getPos().y;
-                tempObj.lookAt(dynamicTile.getPos());
-                dynamicTile.direction = MATH.compassAttitudeFromQuaternion(tempObj.quaternion);
-                dynamicTile.addExitVisuals()
+                if (dynamicTile.walkable) {
+                    tempObj.position.y = dynamicTile.getPos().y;
+                    tempObj.lookAt(dynamicTile.getPos());
+                    dynamicTile.direction = MATH.compassAttitudeFromQuaternion(tempObj.quaternion);
+                    dynamicTile.addExitVisuals()
+                }
             }
 
             maxXYZ.x = x +0.5;
@@ -347,7 +349,9 @@ function setupEncounterGrid(gridTiles, instances, gridConfig, posVec, forwardVec
 }
 
 let tileStore = [];
-function filterForWalkableTiles(gridTiles) {
+function filterForWalkableTiles(gridTiles, key) {
+
+    let tileKey = key || 'walkable'
 
     while (tileStore.length) {
         tileStore.pop();
@@ -357,7 +361,7 @@ function filterForWalkableTiles(gridTiles) {
 
         for (let j = 0; j < gridTiles[i].length; j++) {
             let tile = gridTiles[i][j];
-            if (tile.walkable) {
+            if (tile[tileKey]) {
                 tileStore.push(tile);
             }
         }
@@ -451,6 +455,32 @@ function buildScenarioCharacter(charId, characters, charConf) {
     GameAPI.composeCharacter(charId, charCB)
 }
 
+let indicatedTiles = [];
+
+function processEncounterGridTilePath(tilePath, encounterGrid) {
+    let pathTiles = tilePath.pathTiles;
+
+    while (indicatedTiles.length) {
+        indicatedTiles.pop().visualTile.clearExitSelection()
+    }
+
+    for (let i = 0; i < pathTiles.length; i++) {
+
+            let encounterTile = encounterGrid.getTileAtPosition(pathTiles[i].getPos());
+            if (encounterTile.isExit) {
+
+                if (indicatedTiles.indexOf(encounterTile) === -1) {
+                    encounterTile.visualTile.indicateExitSelection();
+                    indicatedTiles.push(encounterTile)
+                }
+
+        }
+
+    }
+
+}
+
+
 export {
     positionPlayer,
     setupBoxGrid,
@@ -461,5 +491,6 @@ export {
     filterForWalkableTiles,
     getTileForPosition,
     getTileForScreenPosition,
-    buildScenarioCharacter
+    buildScenarioCharacter,
+    processEncounterGridTilePath
 }

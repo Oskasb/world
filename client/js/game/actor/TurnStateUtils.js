@@ -16,7 +16,6 @@ function turnInit(actor, turnIndex) {
     actor.setStatusKey(ENUMS.ActorStatus.HAS_TURN, true)
     let sequencer = actor.actorTurnSequencer
     setSequencer(sequencer)
-    actor.actorText.say('My turn '+turnIndex)
     GameAPI.registerGameUpdateCallback(updateActorInit)
 }
 
@@ -76,14 +75,14 @@ function turnTileSelect(actor, turnIndex) {
         let targetPos = actor.getActorGridMovementTargetPosition()
         actor.getGameWalkGrid().setTargetPosition(targetPos)
     }
-    actor.actorText.say('Select tile')
+ //   actor.actorText.say('Select tile')
     GameAPI.registerGameUpdateCallback(updateActorTileSelect)
 }
 
 function turnMove(actor, turnIndex) {
     let sequencer = actor.actorTurnSequencer
     let targetPos = actor.getGameWalkGrid().getTargetPosition()
-    actor.actorText.say('Moving '+Math.round(targetPos.x)+' '+Math.round(targetPos.z))
+  //  actor.actorText.say('Moving '+Math.round(targetPos.x)+' '+Math.round(targetPos.z))
 
   //  let walkGrid = actor.getGameWalkGrid();
    // actor.prepareTilePath(targetPos);
@@ -94,7 +93,7 @@ function turnMove(actor, turnIndex) {
 
 function turnClose(actor, turnIndex) {
    // let sequencer = actor.actorTurnSequencer
-    actor.actorText.say('Turn completed')
+ //   actor.actorText.say('Turn completed')
     GameAPI.registerGameUpdateCallback(updateActorClose)
 }
 
@@ -106,7 +105,7 @@ function cancelTurnProcess() {
 }
 
 function turnClosed(actor, turnIndex, onCompletedCB) {
-    actor.actorText.say('Turn closed '+turnIndex)
+ //   actor.actorText.say('Turn closed '+turnIndex)
     actor.setStatusKey(ENUMS.ActorStatus.HAS_TURN, false)
     let sequencer = actor.actorTurnSequencer
     setSequencer(sequencer)

@@ -67,6 +67,11 @@ class PlayerParty {
         return this.actors;
     }
 
+    clearPartyMemebers() {
+        MATH.emptyArray(this.actors);
+        this.actors.push(GameAPI.getGamePieceSystem().selectedActor);
+    }
+
     removePartyActor(actor) {
         return MATH.splice(this.actors, actor);
     }

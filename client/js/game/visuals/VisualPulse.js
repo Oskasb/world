@@ -7,7 +7,7 @@ class VisualPulse {
         this.effectData = null;
     }
     on(statusKey, actor, effectData) {
-        actor.actorText.say(statusKey+ " ON")
+    //    actor.actorText.say(statusKey+ " ON")
         this.actor = actor;
         this.statusKey = statusKey;
         this.effectData = effectData;
@@ -15,7 +15,7 @@ class VisualPulse {
     }
 
     off() {
-        this.actor.actorText.say(this.statusKey+ " OFF")
+    //    this.actor.actorText.say(this.statusKey+ " OFF")
         transitionEffectOff(this.actor.getSpatialPosition(), this.effectData);
     }
 
