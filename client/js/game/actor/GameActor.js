@@ -599,7 +599,10 @@ class GameActor {
 
         this.lastFramePos.copy(this.framePos);
         this.getSpatialQuaternion(tempObj.quaternion);
-        this.visualGamePiece.getSpatial().stickToObj3D(tempObj)
+        if (this.visualGamePiece.hidden === false) {
+            this.visualGamePiece.getSpatial().stickToObj3D(tempObj)
+        }
+
         this.actorStatusProcessor.processActorStatus(this);
 
     }
