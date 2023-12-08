@@ -86,8 +86,9 @@ class TerrainElementModel {
                 }
             }
         }
-
     }
+
+
 
     clearLodLevel(lodLevel) {
         let lodInstances = this.lodLevelInstances[lodLevel];
@@ -112,6 +113,10 @@ class TerrainElementModel {
             for (let i = 0; i < this.lodLevelInstances.length; i++) {
                 this.clearLodLevel(i);
             }
+            if (terrainSectionInfo) {
+                terrainSectionInfo.deactivateTerrainSectionPhysics(terrainSectionInfo)
+            }
+
             // console.log("clear trees")
         } else {
             // console.log("Update trees lod level. ", lodLevel)
@@ -122,6 +127,12 @@ class TerrainElementModel {
             }
                 this.updateElementModels(terrainSectionInfo, MATH.clamp(this.levelOfDetail, 0, this.lodMap.length), lodLevel,  this.lodMap.length);
         //    }
+
+            if (lodLevel === 0) {
+                terrainSectionInfo.activateTerrainSectionPhysics()
+            } else {
+                terrainSectionInfo.deactivateTerrainSectionPhysics()
+            }
 
         }
         this.levelOfDetail = lodLevel;

@@ -65,6 +65,39 @@ class TerrainSectionInfo {
         return this.lodLevels[lodLevel];
     }
 
+    getAllGroundElements() {
+        return this.lodLevels;
+    }
+
+
+    activateTerrainSectionPhysics() {
+        for (let i = 0; i < this.lodLevels.length; i++) {
+            let level = this.lodLevels[i];
+            if (level) {
+                for (let j = 0; j < level.length; j++) {
+                    let terrainElem = level[j];
+                    if (terrainElem.assetId) {
+                        terrainElem.activateElementPhysics()
+                    }
+                }
+            }
+        }
+    }
+
+    deactivateTerrainSectionPhysics() {
+        for (let i = 0; i < this.lodLevels.length; i++) {
+            let level = this.lodLevels[i];
+            if (level) {
+                for (let j = 0; j < level.length; j++) {
+                    let terrainElem = level[j];
+                    if (terrainElem.assetId) {
+                        terrainElem.deactivateElementPhysics()
+                    }
+                }
+            }
+        }
+    }
+
 }
 
 export { TerrainSectionInfo }

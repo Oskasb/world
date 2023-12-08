@@ -1,10 +1,10 @@
-import {ConfigData} from "../application/utils/ConfigData.js";
-import {PieceAnimator} from "../game/gamepieces/PieceAnimator.js";
-import {PieceActionSystem} from "../game/gamepieces/PieceActionSystem.js";
-import {PieceAttacher} from "../game/gamepieces/PieceAttacher.js";
-import {Vector3} from "../../libs/three/math/Vector3.js";
-import {Object3D} from "../../libs/three/core/Object3D.js";
-import {Box3} from "../../libs/three/math/Box3.js";
+import {ConfigData} from "./ConfigData.js";
+import {PieceAnimator} from "../../game/gamepieces/PieceAnimator.js";
+import {PieceActionSystem} from "../../game/gamepieces/PieceActionSystem.js";
+import {PieceAttacher} from "../../game/gamepieces/PieceAttacher.js";
+import {Vector3} from "../../../libs/three/math/Vector3.js";
+import {Object3D} from "../../../libs/three/core/Object3D.js";
+import {Box3} from "../../../libs/three/math/Box3.js";
 
 
 let tempBox = new Box3();
@@ -192,8 +192,22 @@ function aaBoxTestVisibility(center, sizeX, sizeY, sizeZ) {
     return ThreeAPI.testBoxIsVisible(tempBox);
 }
 
+
+function testAABOXIntersectPosition(vec3, aabox) {
+    return aabox.containsPoint(vec3);
+}
+
 function borrowBox() {
     return tempBox;
+}
+
+function fixParentAroundChildBox(parent, child) {
+    if (child.min.x < parent.min.x) parent.min.x = child.min.x;
+    if (child.min.y < parent.min.y) parent.min.y = child.min.y;
+    if (child.min.z < parent.min.z) parent.min.z = child.min.z;
+    if (child.max.x > parent.max.x) parent.max.x = child.max.x;
+    if (child.max.y > parent.max.y) parent.max.y = child.max.y;
+    if (child.max.z > parent.max.z) parent.max.z = child.max.z;
 }
 
 export {
@@ -204,5 +218,7 @@ export {
     buildAssetInstance,
     attachSkeletonRig,
     inheritConfigTransform,
-    inheritAsParent
+    inheritAsParent,
+    testAABOXIntersectPosition,
+    fixParentAroundChildBox
 }

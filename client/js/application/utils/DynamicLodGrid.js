@@ -1,6 +1,6 @@
 import {DynamicGrid} from "../../game/gameworld/DynamicGrid.js";
-import {cubeTestVisibility} from "../ModelUtils.js";
-import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
+import {cubeTestVisibility} from "./ModelUtils.js";
+import {poolFetch, poolReturn} from "./PoolUtils.js";
 import { Vector3 } from "../../../libs/three/math/Vector3.js";
 
 class DynamicLodGrid {

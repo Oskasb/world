@@ -12,6 +12,7 @@
       "TEXTURES"
     ],
     "POLL_INDEX":[
+      "/physics/physics_parameters.json"                    ,
       "/ui/pages/start/gui_page_start.json"                  ,
       "/ui/pages/start/gui_page_start_princess.json"                  ,
       "/ui/pages/start/gui_page_start_alien.json"                  ,

@@ -1,4 +1,4 @@
-import {aaBoxTestVisibility, borrowBox} from "../../3d/ModelUtils.js";
+import {aaBoxTestVisibility, borrowBox} from "../../application/utils/ModelUtils.js";
 
 class LodTest {
     constructor() {

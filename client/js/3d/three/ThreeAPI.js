@@ -7,6 +7,7 @@ import {ThreeTextureMaker} from './ThreeTextureMaker.js';
 import {ThreeSpatialFunctions} from './ThreeSpatialFunctions.js';
 import {CameraSpatialCursor } from "../camera/CameraSpatialCursor.js";
 import {TerrainSystem} from "./terrain/TerrainSystem.js";
+import {physicalIntersection} from "../../application/utils/PhysicsUtils.js";
 
 
 let cameraSpatialCursor;
@@ -219,13 +220,15 @@ class ThreeAPI {
         }
 
         let terrainHeight = terrainSystem.getTerrainHeightAndNormal(pos, normalStore, groundData);
-
+    //    pos.y = terrainHeight;
         let boxHeight = terrainHeight;
+
         if (GameAPI.worldModels) {
-            boxHeight = GameAPI.getWorldModelHeightAtPos(pos, boxHeight);
+            let intersects = physicalIntersection(pos, tempVec);
+            if (intersects) {
+                boxHeight = pos.y - tempVec.y;
+            }
         }
-
-
 
         if (boxHeight > terrainHeight) {
             if (normalStore) {

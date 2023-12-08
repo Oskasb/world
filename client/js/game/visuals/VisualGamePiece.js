@@ -1,4 +1,4 @@
-import * as ModelUtils from "../../3d/ModelUtils.js";
+import * as ModelUtils from "../../application/utils/ModelUtils.js";
 import { Vector3 } from "../../../libs/three/math/Vector3.js";
 import { Object3D } from "../../../libs/three/core/Object3D.js";
 import { VisualPathPoints } from "./VisualPathPoints.js";

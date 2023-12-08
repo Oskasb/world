@@ -1,5 +1,9 @@
 import {Object3D} from "../../../../libs/three/core/Object3D.js";
 import {Vector3} from "../../../../libs/three/math/Vector3.js";
+import {
+    addPhysicsToModel,
+    removePhysicalModel
+} from "../../../application/utils/PhysicsUtils.js";
 
 let calcVec = new Vector3();
 let index = 0;
@@ -12,6 +16,8 @@ class TerrainElement {
         this.obj3d = new Object3D();
         this.groundData = {x:0, y:0, z:0, w:0};
         this.hasShade = false;
+        this.physicalModel = null;
+
     }
 
     getCount() {
@@ -47,6 +53,8 @@ class TerrainElement {
 
     setupElementModel(assetId, callback, shade) {
 
+        this.assetId = assetId;
+
         let shadeCompleted = ThreeAPI.checkShadeCompleted()
         if (shadeCompleted) {
             this.hasShade = true;
@@ -68,6 +76,21 @@ class TerrainElement {
         }.bind(this);
 
         client.dynamicMain.requestAssetInstance(assetId, addInstance)
+    }
+
+
+    deactivateElementPhysics() {
+        if (this.physicalModel) {
+            removePhysicalModel(this.physicalModel);
+            this.physicalModel = null;
+        }
+
+    }
+
+    activateElementPhysics() {
+        if (!this.physicalModel) {
+            this.physicalModel = addPhysicsToModel(this.assetId, this.obj3d)
+        }
     }
 
 

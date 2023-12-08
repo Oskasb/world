@@ -1,7 +1,7 @@
 import {Object3D} from "../../../libs/three/core/Object3D.js";
 import {LocationModel} from "./LocationModel.js";
 import {parseConfigDataKey} from "../../application/utils/ConfigUtils.js";
-import {inheritConfigTransform} from "../../3d/ModelUtils.js";
+import {inheritConfigTransform} from "../../application/utils/ModelUtils.js";
 
 function removeWorldModel(model) {
     //    console.log("Remove Model ", this.isVisible, this)

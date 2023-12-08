@@ -5,7 +5,7 @@ import * as CombatFxUtils from "../combat/feedback/CombatFxUtils.js";
 import {GridTile} from "../gamescenarios/GridTile.js";
 import {Obj3DText} from "../../application/ui/gui/game/Obj3DText.js";
 import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
-import {aaBoxTestVisibility, borrowBox, cubeTestVisibility} from "../../3d/ModelUtils.js";
+import {aaBoxTestVisibility, borrowBox, cubeTestVisibility} from "../../application/utils/ModelUtils.js";
 import {colorMapFx} from "../visuals/Colors.js";
 
 let up = new Vector3(0, 1, 0)

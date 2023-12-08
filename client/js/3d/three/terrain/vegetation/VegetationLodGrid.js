@@ -1,6 +1,6 @@
 import {DynamicGrid} from "../../../../game/gameworld/DynamicGrid.js";
-import {DynamicLodGrid} from "../../../utils/DynamicLodGrid.js";
-import {cubeTestVisibility} from "../../../ModelUtils.js";
+import {DynamicLodGrid} from "../../../../application/utils/DynamicLodGrid.js";
+import {cubeTestVisibility} from "../../../../application/utils/ModelUtils.js";
 import {VegetationTile} from "./VegetationTile.js";
 import {VegetationPatch} from "./VegetationPatch.js";
 import {poolFetch, poolReturn, registerPool} from "../../../../application/utils/PoolUtils.js";

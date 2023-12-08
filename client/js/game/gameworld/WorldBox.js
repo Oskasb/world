@@ -1,8 +1,9 @@
 import {Object3D} from "../../../libs/three/core/Object3D.js";
 import {Vector3} from "../../../libs/three/math/Vector3.js";
-import {inheritAsParent, inheritConfigTransform} from "../../3d/ModelUtils.js";
+import {inheritAsParent, inheritConfigTransform} from "../../application/utils/ModelUtils.js";
 import {LodTest} from "../visuals/LodTest.js";
 import {poolReturn} from "../../application/utils/PoolUtils.js";
+import {removePhysicalModel, addPhysicsToModel} from "../../application/utils/PhysicsUtils.js";
 
 let iconKeysAll = [
     "grass",
@@ -92,8 +93,20 @@ class WorldBox {
 
         let lodTest = new LodTest()
 
+        let physicalModel = null;
+
         let lodUpdated = function(lodLevel) {
             lodTest.lodTestModel(this, lodLevel, config.visibility, showWorldBox, removeWorldBox)
+            if (lodLevel === 0) {
+                physicalModel = addPhysicsToModel('asset_box', this.obj3d);
+            } else {
+                if (physicalModel) {
+                    removePhysicalModel(physicalModel);
+                    physicalModel = null;
+                }
+
+            }
+
         }.bind(this)
 
         this.call = {

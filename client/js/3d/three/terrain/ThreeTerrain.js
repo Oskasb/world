@@ -4,7 +4,7 @@ import {Vector3} from "../../../../libs/three/math/Vector3.js";
 import {Object3D} from "../../../../libs/three/core/Object3D.js";
 import {TerrainGeometry} from "./TerrainGeometry.js";
 import { TerrainBigGeometry} from "./TerrainBigGeometry.js";
-import {DynamicLodGrid} from "../../utils/DynamicLodGrid.js";
+import {DynamicLodGrid} from "../../../application/utils/DynamicLodGrid.js";
 import * as TerrainFunctions from "./TerrainFunctions.js";
 import * as CursorUtils from "../../camera/CursorUtils.js";
 import {poolReturn} from "../../../application/utils/PoolUtils.js";

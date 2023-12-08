@@ -3,7 +3,7 @@ import {Mesh} from "../../../../libs/three/objects/Mesh.js";
 import {MeshBasicMaterial} from "../../../../libs/three/materials/MeshBasicMaterial.js";
 import {DoubleSide} from "../../../../libs/three/constants.js";
 import {Vector3} from "../../../../libs/three/math/Vector3.js";
-import {borrowBox, cubeTestVisibility, aaBoxTestVisibility} from "../../ModelUtils.js";
+import {borrowBox, cubeTestVisibility, aaBoxTestVisibility} from "../../../application/utils/ModelUtils.js";
 
 let bigWorld = null;
 let bigOcean = null;

@@ -1,4 +1,4 @@
-import {borrowBox, cubeTestVisibility} from "../../../ModelUtils.js";
+import {borrowBox, cubeTestVisibility} from "../../../../application/utils/ModelUtils.js";
 
 let index = 0;
 let boxColor = {}

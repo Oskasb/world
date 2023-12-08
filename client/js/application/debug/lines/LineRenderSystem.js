@@ -1,6 +1,11 @@
 import {LineRenderer} from "./LineRenderer.js";
 import {Vector3} from "../../../../libs/three/math/Vector3.js";
 
+let tempVec = new Vector3();
+let tempVec2 = new Vector3();
+let tempVec3 = new Vector3();
+let tempVec4 = new Vector3();
+
 class LineRenderSystem {
 	constructor() {
 
@@ -49,7 +54,7 @@ class LineRenderSystem {
 	};
 
 
-	_drawAxisLine = function (start, startEndDelta, startDataIndex, endDataIndex, startPolarity, endPolarity, color, transformMatrix) {
+	_drawAxisLine = function (start, startEndDelta, startDataIndex, endDataIndex, startPolarity, endPolarity, color, quat) {
 		let startAxis = this.axis[startDataIndex];
 		let endAxis = this.axis[endDataIndex];
 
@@ -59,12 +64,32 @@ class LineRenderSystem {
 		let lineEnd = this.tmpVec3.copy(lineStart);
 		lineEnd[endAxis] += startEndDelta[endAxis] * endPolarity;
 
-		if (transformMatrix !== undefined) {
-			lineStart.applyPostPoint(transformMatrix);
-			lineEnd.applyPostPoint(transformMatrix);
+
+		if (quat !== undefined) {
+
+			let distance = MATH.distanceBetween(lineStart, lineEnd);
+
+			tempVec.subVectors(lineEnd, lineStart);
+			tempVec.normalize();
+			tempVec4.copy(tempVec);
+
+		//    tempVec.multiplyScalar(0.5);
+
+			tempVec2.copy(lineStart);
+
+			tempVec2.add(tempVec);
+			tempVec.applyQuaternion(quat);
+			tempVec.multiplyScalar(distance);
+			tempVec3.addVectors(tempVec2, tempVec);
+			tempVec2.sub(tempVec)
+		//
+
+
+			this.drawLine(tempVec2, tempVec3, color);
+		} else {
+			this.drawLine(lineStart, lineEnd, color);
 		}
 
-		this.drawLine(lineStart, lineEnd, color);
 	};
 
 	/**
@@ -74,18 +99,18 @@ class LineRenderSystem {
 	 * @param {Vector3} color A vector with its components between 0-1.
 	 * @param {Matrix4} [transformMatrix]
 	 */
-	drawAABox = function (min, max, color, transformMatrix) {
+	drawAABox = function (min, max, color, quat) {
 		let diff = this.tmpVec1.copy(max).sub(min);
 
 		for (let a = 0; a < 3; a++) {
 			for (let b = 0; b < 3; b++) {
 				if (b !== a) {
-					this._drawAxisLine(min, diff, a, b, 1, 1, color, transformMatrix);
+					this._drawAxisLine(min, diff, a, b, 1, 1, color, quat);
 				}
 			}
 
-			this._drawAxisLine(max, diff, a, a, -1, 1, color, transformMatrix);
-			this._drawAxisLine(min, diff, a, a, 1, -1, color, transformMatrix);
+			this._drawAxisLine(max, diff, a, a, -1, 1, color, quat);
+			this._drawAxisLine(min, diff, a, a, 1, -1, color, quat);
 		}
 	};
 

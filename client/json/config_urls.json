@@ -2,6 +2,7 @@
   "config_url_index": {
     "files": [
       "/world/world_systems.json"                            ,
+      "/physics/physics_parameters.json"                    ,
       "/threedata/assets/load_assets.json"                   ,
       "/world/encounters/indicators/encounter_indicators.json"         ,
       "/world/encounters/hosts/encounter_hosts.json"         ,

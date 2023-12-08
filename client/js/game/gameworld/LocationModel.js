@@ -1,8 +1,9 @@
 import {Object3D} from "../../../libs/three/core/Object3D.js";
-import {inheritAsParent, inheritConfigTransform} from "../../3d/ModelUtils.js";
+import {inheritAsParent, inheritConfigTransform} from "../../application/utils/ModelUtils.js";
 import {WorldBox} from "./WorldBox.js";
 import {LodTest} from "../visuals/LodTest.js";
 import {poolFetch, registerPool} from "../../application/utils/PoolUtils.js";
+import {addPhysicsToModel, removePhysicalModel} from "../../application/utils/PhysicsUtils.js";
 
 function showLocationModel(model) {
 
@@ -62,8 +63,21 @@ class LocationModel {
 
         let lodText = new LodTest()
 
+        let physicalModel = null;
+
         let lodUpdated = function(lodLevel) {
+
             lodText.lodTestModel(this, lodLevel, config.visibility, showLocationModel, hideLocationModel)
+
+            if (lodLevel === 0) {
+                physicalModel = addPhysicsToModel(config.asset, this.obj3d);
+            } else {
+                if (physicalModel) {
+                    removePhysicalModel(physicalModel);
+                    physicalModel = null;
+                }
+            }
+
         }.bind(this)
 
         this.call = {

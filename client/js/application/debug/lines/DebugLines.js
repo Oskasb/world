@@ -92,7 +92,7 @@ class DebugLines {
             } else {
                 color = event.color;
             }
-            lineDenderSystem.drawAABox(event.min, event.max, color)
+            lineDenderSystem.drawAABox(event.min, event.max, color, event.quat)
         };
 
         evt.on(ENUMS.Event.DEBUG_DRAW_LINE, drawLine);

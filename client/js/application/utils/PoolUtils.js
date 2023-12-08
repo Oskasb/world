@@ -20,6 +20,7 @@ import { WorldActorStatusUI } from "../ui/gui/systems/WorldActorStatusUI.js";
 import { VisualPulse } from "../../game/visuals/VisualPulse.js";
 import { VisualModel } from "../../game/visuals/VisualModel.js";
 import {PhysicalModel} from "../../game/gameworld/PhysicalModel.js";
+import {PhysicalShape} from "../../game/gameworld/PhysicalShape.js";
 
 let pools = {}
 let stats = {};
@@ -44,7 +45,8 @@ function initPools() {
     registerPool(VisualTrajectory);
     registerPool(VisualPulse);
     registerPool(VisualModel);
-    registerPool(PhysicalModel)
+    registerPool(PhysicalModel);
+    registerPool(PhysicalShape)
 }
 
 function registerPool(DataObj) {

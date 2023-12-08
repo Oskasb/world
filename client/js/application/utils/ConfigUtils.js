@@ -24,6 +24,8 @@ function parseConfigDataKey(root, folder, dataId, id, callback) {
     configData.parseConfig(id, callback)
 }
 
+
+
 export {
     configDataList,
     parseConfigDataKey
