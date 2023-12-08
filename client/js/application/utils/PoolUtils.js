@@ -19,6 +19,7 @@ import { VisualPointFX } from "../../game/visuals/VisualPointFX.js";
 import { WorldActorStatusUI } from "../ui/gui/systems/WorldActorStatusUI.js";
 import { VisualPulse } from "../../game/visuals/VisualPulse.js";
 import { VisualModel } from "../../game/visuals/VisualModel.js";
+import {PhysicalModel} from "../../game/gameworld/PhysicalModel.js";
 
 let pools = {}
 let stats = {};
@@ -43,6 +44,7 @@ function initPools() {
     registerPool(VisualTrajectory);
     registerPool(VisualPulse);
     registerPool(VisualModel);
+    registerPool(PhysicalModel)
 }
 
 function registerPool(DataObj) {

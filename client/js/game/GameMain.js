@@ -4,9 +4,11 @@ import { PlayerMain } from "./Player/PlayerMain.js";
 import { CharacterComposer } from "./Player/CharacterComposer.js";
 import { Vector3 } from "../../libs/three/math/Vector3.js";
 import { GameWalkGrid } from "./gameworld/GameWalkGrid.js";
+import { PhysicalWorld } from "./gameworld/PhysicalWorld.js";
 
 let tempVec3 = new Vector3()
 let gameWalkGrid = null
+
 
 class GameMain {
     constructor() {
@@ -55,6 +57,7 @@ class GameMain {
         this.navPointConfigData.addUpdateCallback(updateNavpoint);
 
         this.gameWorld = new GameWorld();
+        this.phyiscalWorld = new PhysicalWorld();
         this.playerMain = new PlayerMain();
         this.onUpdateCallbacks = [];
         this.onTurnCallbacks = []

@@ -43,10 +43,12 @@ class TerrainSectionInfo {
     }
 
     updateLodLevel(lodLevel) {
-        this.lodLevels[lodLevel] = [];
-        let lodLevelCfg = this.lodConfig[lodLevel]
-        let lodGrid = lodLevelCfg['grid'];
-        this.setupLodLevelGrid(lodLevel, lodGrid);
+        if (this.lodLevels.indexOf(lodLevel) === -1) {
+            this.lodLevels[lodLevel] = [];
+            let lodLevelCfg = this.lodConfig[lodLevel]
+            let lodGrid = lodLevelCfg['grid'];
+            this.setupLodLevelGrid(lodLevel, lodGrid);
+        }
     }
 
     applyLodLevel(lodLevel, maxLodLevel) {
