@@ -132,7 +132,9 @@ class EncounterTurnSequencer {
             actor.setStatusKey(ENUMS.ActorStatus.EXIT_ENCOUNTER, '');
             GameAPI.getGamePieceSystem().playerParty.clearPartyMemebers()
         }
-        this.activeActor.getActorTurnSequencer().exitSequence();
+        if (this.activeActor) {
+            this.activeActor.getActorTurnSequencer().exitSequence();
+        }
         this.activeActor = null;
         this.turnIndex = 0;
         this.turnTime = 0;

@@ -883,6 +883,10 @@ MATH.deepClone = function(source) {
 		return to;
 	}
 
+	MATH.compareQuaternions = function(a, b) {
+		return (a.x-b.x) + (a.y-b.y) + (a.z-b.z)
+	}
+
 	MATH.testVec3ForNaN = function(vec3) {
 		if (isNaN(vec3.x) || isNaN(vec3.y) || isNaN(vec3.z)) {
 			console.log("Spatial Vec3 is NaN.. investigate!")

@@ -4,6 +4,7 @@ import {EncounterTurnSequencer} from "./encounter/EncounterTurnSequencer.js";
 import {EncounterUiSystem} from "../application/ui/gui/systems/EncounterUiSystem.js";
 import {EncounterStatusProcessor} from "./encounter/EncounterStatusProcessor.js";
 import {notifyCameraStatus} from "../3d/camera/CameraFunctions.js";
+import {clearActorEncounterStatus} from "../application/utils/StatusUtils.js";
 
 let encounterUiSystem;
 let encounterTurnSequencer = null;
@@ -55,13 +56,8 @@ class GameEncounterSystem {
             if (isWithin) {
                 encounterTurnSequencer.updateTurnSequencer()
             } else {
-                selectedActor.setStatusKey(ENUMS.ActorStatus.HAS_TURN, false);
-                selectedActor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, '');
-                selectedActor.setStatusKey(ENUMS.ActorStatus.SEQUENCER_SELECTED, false);
                 selectedActor.setStatusKey(ENUMS.ActorStatus.DEACTIVATING_ENCOUNTER, selectedActor.getStatus(ENUMS.ActorStatus.ACTIVATED_ENCOUNTER));
-                selectedActor.setStatusKey(ENUMS.ActorStatus.ACTIVATING_ENCOUNTER, '');
-                selectedActor.setStatusKey(ENUMS.ActorStatus.ACTIVATED_ENCOUNTER, '');
-                selectedActor.setStatusKey(ENUMS.ActorStatus.SELECTED_ENCOUNTER, '');
+                clearActorEncounterStatus(selectedActor);
             }
 
         }.bind(this);
@@ -161,6 +157,7 @@ class GameEncounterSystem {
         let gridReady = function(grid) {
             let selectedActor = GameAPI.getGamePieceSystem().selectedActor
             selectedActor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_BATTLE);
+            selectedActor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, '');
             selectedActor.setStatusKey(ENUMS.ActorStatus.SELECTED_ENCOUNTER, '');
             notifyCameraStatus(ENUMS.CameraStatus.CAMERA_MODE, ENUMS.CameraControls.CAM_AUTO, false);
             GuiAPI.getWorldInteractionUi().closeWorldInteractUi();
@@ -187,23 +184,16 @@ class GameEncounterSystem {
         if (activeEncounterGrid) {
             if (byRemote) {
                 let actor = GameAPI.getGamePieceSystem().selectedActor;
-                actor.transitionTo(activeEncounterGrid.getPosOutsideTrigger(), 0.5);
-                actor.setStatusKey(ENUMS.ActorStatus.SEQUENCER_SELECTED, false);
-                actor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, false);
-                actor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, '');
-                actor.setStatusKey(ENUMS.ActorStatus.IN_COMBAT, false);
-                actor.setStatusKey(ENUMS.ActorStatus.RETREATING, '');
-                actor.setStatusKey(ENUMS.ActorStatus.EXIT_ENCOUNTER, '');
+                actor.transitionTo(activeEncounterGrid.getPosOutsideTrigger(), 1.0);
+                clearActorEncounterStatus(actor);
                 GameAPI.getGamePieceSystem().playerParty.clearPartyMemebers()
             }
 
             activeEncounterGrid.removeEncounterGrid()
             activeEncounterGrid = null;
         }
-        if (!byRemote) {
-            encounterTurnSequencer.closeTurnSequencer();
-        }
 
+        encounterTurnSequencer.closeTurnSequencer();
         encounterUiSystem.closeEncounterUi()
         GameAPI.unregisterGameUpdateCallback(this.call.updateEncounterSystem)
         GameAPI.unregisterGameUpdateCallback(encounterStatusProcessor.processEncounterStatus)
@@ -212,8 +202,7 @@ class GameEncounterSystem {
 
         setTimeout(function() {
             GameAPI.call.spawnWorldEncounters();
-            encounterTurnSequencer = new EncounterTurnSequencer();
-        }, 4000)
+        }, 3000)
 
 
 

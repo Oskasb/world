@@ -285,7 +285,7 @@ class RemoteClient {
     }
 
     handleEncounterMessage(encounterId, msg) {
-    //        console.log("Encounter Message; ", msg);
+     //       console.log("Encounter Message; ", msg);
 
             if (!this.encounter) {
                 let playerParty = GameAPI.getGamePieceSystem().playerParty;

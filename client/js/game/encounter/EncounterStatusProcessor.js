@@ -1,3 +1,5 @@
+import {clearTargetSelection, getActorBySelectedTarget, hasHostileTarget} from "../../application/utils/StatusUtils.js";
+
 let activeEncounter = null;
 
 let lastStatus = {};
@@ -56,7 +58,11 @@ let processEncStatus = function() {
 let standingOnTile = null;
 function processEncounterTurnStartTileMechanics(actor) {
     actor.actorText.say("My Turn Start")
-    actor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, '');
+
+    if (!hasHostileTarget(actor)) {
+        clearTargetSelection(actor)
+    }
+
     let encounterGrid = GameAPI.getActiveEncounterGrid();
     let encounterTile = encounterGrid.getTileAtPosition(actor.getSpatialPosition());
     standingOnTile = encounterTile;
@@ -99,6 +105,7 @@ function processEncounterActorStatus(actor) {
 
     if (deactivate) {
         GameAPI.call.getGameEncounterSystem().deactivateActiveEncounter(false);
+        actor.setStatusKey(ENUMS.ActorStatus.DEACTIVATING_ENCOUNTER, 0);
         activeEncounter = null;
     }
 

@@ -598,17 +598,30 @@ class GameActor {
         //    let now = GameAPI.getGameTime();
             let fraction = tpf/remote.timeDelta;
         //    this.getSpatialPosition(this.framePos);
-            remote.lastUpdate.vel.lerp(remote.vel, fraction);
+            if (remote.lastUpdate.vel.manhattanDistanceTo(remote.vel) > 0.01) {
+                remote.lastUpdate.vel.lerp(remote.vel, fraction);
+                this.setSpatialVelocity(remote.lastUpdate.vel);
+            } else {
+                if (remote.vel.lengthSq() < 0.1) {
+                    remote.vel.set(0, 0, 0);
+                    this.setSpatialVelocity(remote.vel);
+                }
+            }
 
+            if (remote.lastUpdate.scale.manhattanDistanceTo(remote.scale) > 0.01) {
+                remote.lastUpdate.scale.lerp(remote.scale, fraction);
+                this.setSpatialScale(remote.lastUpdate.scale);
+            }
+            if (remote.lastUpdate.pos.manhattanDistanceTo(remote.pos) > 0.01) {
+                remote.lastUpdate.pos.lerp(remote.pos, fraction);
+                this.framePos.copy(remote.lastUpdate.pos);
+            }
 
-            this.setSpatialVelocity(remote.lastUpdate.vel);
-            remote.lastUpdate.scale.lerp(remote.scale, fraction);
-            this.setSpatialScale(remote.lastUpdate.scale);
-            remote.lastUpdate.pos.lerp(remote.pos, fraction);
-            this.framePos.copy(remote.lastUpdate.pos);
-            remote.lastUpdate.quat.slerp(remote.quat, fraction);
+            if (MATH.compareQuaternions(remote.lastUpdate.quat, remote.quat) > 0.01) {
+                remote.lastUpdate.quat.slerp(remote.quat, fraction);
+                this.setSpatialQuaternion(remote.lastUpdate.quat);
+            }
 
-            this.setSpatialQuaternion(remote.lastUpdate.quat);
             this.setSpatialPosition(this.framePos);
         }
 
