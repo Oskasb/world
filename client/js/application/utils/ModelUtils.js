@@ -210,6 +210,10 @@ function fixParentAroundChildBox(parent, child) {
     if (child.max.z > parent.max.z) parent.max.z = child.max.z;
 }
 
+function boxObjIntersectsPoint(boxObj3d, pos, insideStore) {
+
+}
+
 export {
     borrowBox,
     cubeTestVisibility,
@@ -220,5 +224,6 @@ export {
     inheritConfigTransform,
     inheritAsParent,
     testAABOXIntersectPosition,
-    fixParentAroundChildBox
+    fixParentAroundChildBox,
+    boxObjIntersectsPoint
 }

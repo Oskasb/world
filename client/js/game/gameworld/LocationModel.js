@@ -69,7 +69,7 @@ class LocationModel {
 
             lodText.lodTestModel(this, lodLevel, config.visibility, showLocationModel, hideLocationModel)
 
-            if (lodLevel === 0) {
+            if (lodLevel < 2) {
                 physicalModel = addPhysicsToModel(config.asset, this.obj3d);
             } else {
                 if (physicalModel) {

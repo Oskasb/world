@@ -97,7 +97,7 @@ class WorldBox {
 
         let lodUpdated = function(lodLevel) {
             lodTest.lodTestModel(this, lodLevel, config.visibility, showWorldBox, removeWorldBox)
-            if (lodLevel === 0) {
+            if (lodLevel < 2) {
                 physicalModel = addPhysicsToModel('asset_box', this.obj3d);
             } else {
                 if (physicalModel) {

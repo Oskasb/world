@@ -5,7 +5,7 @@ class PhysicalWorld {
         this.physicalModels = [];
 
 
-        ThreeAPI.addPostrenderCallback(debugDrawPhysicalWorld);
+   //     ThreeAPI.addPostrenderCallback(debugDrawPhysicalWorld);
     }
 
     addPhysicalModel(physicalModel) {

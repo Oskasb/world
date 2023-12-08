@@ -4,6 +4,7 @@ import { Object3D } from "../../../libs/three/core/Object3D.js";
 import * as CursorUtils from "./CursorUtils.js";
 import {notifyCameraStatus, viewEncounterSelection} from "./CameraFunctions.js";
 import { CameraControls} from "./CameraControls.js";
+import { rayTest} from "../../application/utils/PhysicsUtils.js";
 
 
 let cameraControls = new CameraControls()
@@ -65,6 +66,9 @@ let debugDrawCursor = function() {
 }
 
 let updateCursorFrame = function() {
+//    calcVec.copy(camPosVec);
+    //   rayTest(camLookAtVec, camPosVec, calcVec);
+
     camParams.pos[0] = camPosVec.x // + posMod.x;
     camParams.pos[1] = camPosVec.y // + posMod.y;
     camParams.pos[2] = camPosVec.z // + posMod.z;

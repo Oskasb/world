@@ -1,5 +1,6 @@
 import {Vector3} from "../../../libs/three/math/Vector3.js";
 import * as CursorUtils from "./CursorUtils.js";
+import { rayTest} from "../../application/utils/PhysicsUtils.js";
 
 let CAM_MODES = {
     CAM_AUTO:CAM_AUTO,
@@ -199,6 +200,9 @@ function applyPointerRelease() {
 }
 
 function lerpCameraPosition(towardsPos, alpha) {
+
+    rayTest(camLookAtVec, towardsPos, towardsPos);
+
     camPosVec.lerp(towardsPos, alpha)
 }
 
