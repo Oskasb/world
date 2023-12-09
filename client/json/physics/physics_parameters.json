@@ -42,7 +42,8 @@
           "shapes": [
             {"shape": "box", "rot": [0, 0, 0], "pos": [0, 0, 0], "scale": [4, 1, 4]},
             {"shape": "box", "rot": [0, 0, 0], "pos": [0, 0, 3], "scale": [1, 6, 1]},
-            {"shape": "box", "rot": [0, 0, 0], "pos": [0, 0, 8], "scale": [9, 5, 9]}
+            {"shape": "box", "rot": [0, 0, 0], "pos": [0, 0, 8], "scale": [9, 5, 9]},
+            {"shape": "box", "rot": [0, 0, 0.7], "pos": [0, 0, 8], "scale": [11, 3, 11]}
           ]
         }
       },

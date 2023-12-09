@@ -199,11 +199,18 @@ function applyPointerRelease() {
 
 }
 
-function lerpCameraPosition(towardsPos, alpha) {
+function lerpCameraPosition(towardsPos, alpha, testObscured) {
 
-    rayTest(camLookAtVec, towardsPos, towardsPos);
+    if (!testObscured) {
+    //    rayTest(camLookAtVec, camPosVec, towardsPos);
+    }
 
     camPosVec.lerp(towardsPos, alpha)
+
+    if (testObscured) {
+        rayTest(camLookAtVec, camPosVec, camPosVec);
+    }
+
 }
 
 function lerpCameraLookAt(towardsPos, alpha) {
@@ -447,7 +454,7 @@ function CAM_ORBIT() {
 
         if (lookFromActive) {
             zoomDistance = actorSpeed*0.5 + 8 + distance*0.4;;
-            lerpCameraPosition(CAM_POINTS[lookFromControlKey](selectedActor), tpf*2);
+            lerpCameraPosition(CAM_POINTS[lookFromControlKey](selectedActor), tpf*2, true);
             rollAlpha += 3 * tpf;
         }
 
@@ -494,7 +501,7 @@ function CAM_ORBIT() {
         tempVec.multiplyScalar(zoomDistance);
         tempVec.add(tempVec2);
         tempVec.add(offsetPos);
-        lerpCameraPosition(tempVec, lerpFactor)
+        lerpCameraPosition(tempVec, lerpFactor, true)
 
     }
 
@@ -585,7 +592,7 @@ function CAM_POINT() {
         tempVec.multiplyScalar(actorHeight + distance * 2.5 + 1);
         tempVec.y =  actorHeight*2 + distance * 1.5;
         tempVec.add(aPos);
-        lerpCameraPosition(tempVec, tpf*3);
+        lerpCameraPosition(tempVec, tpf*3, true);
     }
 }
 
@@ -676,7 +683,7 @@ function CAM_ENCOUNTER() {
         tempVec.y += 4 + distance * 0.8;
         tempVec.z += tempVec3.z * (3 + distance*0.3);
 
-        lerpCameraPosition(tempVec, tpf*1.5+isFar);
+        lerpCameraPosition(tempVec, tpf*1.5+isFar, true);
     }
 }
 
@@ -713,7 +720,7 @@ function CAM_MOVE() {
 
     if (lookFromActive) {
         zoomDistance = 11 + distance*0.6;;
-        lerpCameraPosition(CAM_POINTS[lookFromControlKey](selectedActor), tpf*3);
+        lerpCameraPosition(CAM_POINTS[lookFromControlKey](selectedActor), tpf*3, true);
     }
 
 
@@ -778,7 +785,7 @@ function CAM_GRID() {
     tempVec.z += tempVec3.z * (5 + distance*0.3);
 
     if (lookFromActive) {
-        lerpCameraPosition(tempVec, tpf*2);
+        lerpCameraPosition(tempVec, tpf*2, true);
     }
 
     if (lookAtActive) {

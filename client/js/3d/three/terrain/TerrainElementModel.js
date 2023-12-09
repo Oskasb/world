@@ -128,7 +128,7 @@ class TerrainElementModel {
                 this.updateElementModels(terrainSectionInfo, MATH.clamp(this.levelOfDetail, 0, this.lodMap.length), lodLevel,  this.lodMap.length);
         //    }
 
-            if (lodLevel === 0) {
+            if (lodLevel < 2) {
                 terrainSectionInfo.activateTerrainSectionPhysics()
             } else {
                 terrainSectionInfo.deactivateTerrainSectionPhysics()

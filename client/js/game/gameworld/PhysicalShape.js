@@ -49,7 +49,7 @@ class PhysicalShape {
         this.box.max.copy(this.getPos())
         this.box.max.add(tempVec)
 
-        fixParentAroundChildBox(parentBox, this.box);
+        fixParentAroundChildBox(parentBox, this.box, 0.5);
 
 
 

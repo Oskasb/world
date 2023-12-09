@@ -58,9 +58,6 @@ class PhysicalModel {
                 shape.setShapeParams(this.obj3d, this.box, conf['shape'], conf['pos'], conf['rot'], conf['scale'])
                 this.shapes.push(shape);
             }
-            tempVec.set(0.5, 0.5, 0.5)
-            this.box.min.sub(tempVec);
-            this.box.max.add(tempVec);
         }
     }
 
