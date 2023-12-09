@@ -7,12 +7,11 @@ class PhysicalWorld {
         this.physicalModels = [];
 
         let onReady = function() {
-            AMMO.initPhysics();
+            window.AmmoAPI.initPhysics();
             ThreeAPI.addPostrenderCallback(AMMO.updatePhysicsSimulation);
         }
 
-        AMMO = new AmmoAPI(onReady);
-        window.AmmoAPI = AMMO;
+        window.AmmoAPI = new AmmoAPI(onReady);
     }
 
     addPhysicalModel(physicalModel) {

@@ -2,7 +2,6 @@ import {AmmoFunctions} from "./AmmoFunctions.js";
 
 "use strict";
 
-let AMMO;
 let ammoFunctions;
 let bodies = [];
 let world;
@@ -20,25 +19,13 @@ let status = {
 };
 
 let initApi = function(onReady) {
-    if (typeof(AMMO) !== 'undefined') {
-        AMMO().then(function(ammo) {
-            AMMO = Ammo
+        window.AMMO.then(function(ammo) {
+        //    AMMO = Ammo
             console.log("Ammo Ready", ammo);
             ammoFunctions = new AmmoFunctions(ammo);
             onReady()
         });
-    } else {
-        queSetup(onReady)
-    }
 };
-
-let queSetup = function(onReady) {
-
-    setTimeout(function() {
-        initApi(onReady)
-    }, 1000)
-
-}
 
 class AmmoAPI {
 
@@ -47,7 +34,6 @@ class AmmoAPI {
     }
 
     initPhysics = function() {
-        consoloe.log("Init Physics", this)
         world = ammoFunctions.createPhysicalWorld();
     };
 
