@@ -652,7 +652,9 @@ function CAM_ENCOUNTER() {
     if (lookAtActive) {
         if (actorTarget) {
             zoomDistance = 1;
-            lerpCameraLookAt(CAM_POINTS[lookAtControlKey](actorTarget), tpf*2 +isFar);
+
+            lerpCameraLookAt(CAM_POINTS[lookAtControlKey](turnActiveActor), tpf +isFar);
+            lerpCameraLookAt(CAM_POINTS[lookAtControlKey](actorTarget), tpf +isFar);
         } else {
             lerpCameraLookAt(CAM_POINTS[lookAtControlKey](turnActiveActor), tpf*1 +isFar);
         }
@@ -674,7 +676,7 @@ function CAM_ENCOUNTER() {
         tempVec.y += 4 + distance * 0.8;
         tempVec.z += tempVec3.z * (3 + distance*0.3);
 
-        lerpCameraPosition(tempVec, tpf*2+isFar);
+        lerpCameraPosition(tempVec, tpf*1.5+isFar);
     }
 }
 

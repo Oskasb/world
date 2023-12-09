@@ -15,7 +15,7 @@
         {"id": "model_settings_tileset" ,
           "config": {
             "instancing": {
-              "instances": 2000,
+              "instances": 8000,
               "attributes": ["offset", "vertexColor", "scale3d", "orientation", "sprite"],
               "cameraspace": false
             },

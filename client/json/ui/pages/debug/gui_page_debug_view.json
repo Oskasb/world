@@ -226,13 +226,13 @@
                   "widget_class":"GuiExpandingContainer",
                   "widget_config_id":"button_big_blue",
                   "options":{
-                    "text":"WALK",
+                    "text":"PHYSICS",
                     "container_id":"page_debug_bottom_right",
                     "offset_x": -0.05,
                     "offset_y": 0.12,
                     "dispatch":{
-                      "event":"SET_CAMERA_MODE",
-                      "value":{"mode":"game_travel"}
+                      "event":"DEBUG_STATUS_TOGGLE",
+                      "value":{"status":"physics"}
                     }
                   }
                 },

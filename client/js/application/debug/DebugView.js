@@ -1,6 +1,7 @@
 import * as DebugUtils from "./DebugUtils.js";
 import {DebugLines} from "./lines/DebugLines.js";
 import {CameraUiSystem} from "../ui/gui/systems/CameraUiSystem.js";
+import {debugDrawPhysicalWorld} from "../utils/PhysicsUtils.js";
 
 let cache = {};
 let mem = null;
@@ -107,6 +108,28 @@ class DebugView {
             onActivate:onActivate,
             inspectFrameUpdate:inspectFrameUpdate
         }
+
+        let status = {}
+        let onToggleStatus = function(e) {
+            if (!status[e.status]) {
+                status[e.status] = {on:true};
+            } else {
+                status[e.status].on = !status[e.status].on
+            }
+
+            if (e.status === 'physics') {
+                console.log(status, status[e.status]);
+                if (status[e.status].on === true) {
+                    ThreeAPI.addPostrenderCallback(debugDrawPhysicalWorld)
+                } else {
+                    ThreeAPI.unregisterPostrenderCallback(debugDrawPhysicalWorld)
+                }
+            }
+
+        }
+
+        evt.on(ENUMS.Event.DEBUG_STATUS_TOGGLE, onToggleStatus);
+
     }
 
     renderInspectionFrame() {

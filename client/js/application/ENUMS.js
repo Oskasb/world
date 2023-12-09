@@ -95,7 +95,8 @@ if(typeof(ENUMS) === "undefined"){
         LOAD_ADVENTURE_ENCOUNTERS:  74,
         SET_CAMERA_STATUS:          75,
         SEND_SOCKET_MESSAGE:        76,
-        ON_SOCKET_MESSAGE:          77
+        ON_SOCKET_MESSAGE:          77,
+        DEBUG_STATUS_TOGGLE:        78
     };
 
 
