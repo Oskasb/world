@@ -35,6 +35,9 @@ let server = createServer(
         case '.json':
             contentType = 'application/json';
             break;
+        case '.wasm':
+            contentType = 'application/wasm';
+            break;
         case '.png':
             contentType = 'image/png';
             break;

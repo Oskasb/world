@@ -7,6 +7,7 @@ let tempVec2 = new Vector3();
 let tempVec3 = new Vector3();
 let tempVec4 = new Vector3();
 let tempVec5 = new Vector3();
+let normalStore = new Vector3();
 let tempRay = new Ray();
 
 function getPhysicalWorld() {
@@ -62,7 +63,7 @@ function debugDrawPhysicalWorld() {
         if (intersects) {
 
         } else {
-            rayTest(tempVec4, tempVec5, tempVec3, true);
+            rayTest(tempVec4, tempVec5, tempVec3, normalStore, true);
         }
     }
 
@@ -77,16 +78,29 @@ function debugDrawPhysicalWorld() {
 }
 
 
-function rayTest(from, to, contactPointStore, debugDraw) {
+function rayTest(from, to, contactPointStore, contactNormal, debugDraw) {
     tempRay.origin.copy(from);
     tempRay.direction.copy(to);
     tempRay.direction.sub(from);
+    tempVec.copy(to).sub(from);
+    let hit = AmmoAPI.raycastPhysicsWorld(from, to, contactPointStore, contactNormal)
+
+    if (debugDraw) {
+        if (hit) {
+            evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:from, to:contactPointStore, color:'YELLOW'});
+            evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos: contactPointStore, color:'YELLOW', size:0.25})
+        } else {
+            evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:from, to:to, color:'BLUE'});
+        }
+    }
+
+    return hit;
 
     let physicalModels = getPhysicalWorld().physicalModels;
     for (let i = 0; i < physicalModels.length; i++) {
     //    let intersects = physicalModels[i].testIntersectPos(to, contactPointStore);
     //    if (intersects) {
-            physicalModels[i].testIntersectRay(tempRay, contactPointStore, debugDraw);
+            physicalModels[i].testIntersectRay(tempRay, contactPointStore, contactNormal, normalStore);
     //    }
     }
 

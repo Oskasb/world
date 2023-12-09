@@ -1,13 +1,18 @@
+import {AmmoAPI} from "../../application/physics/AmmoAPI.js";
 
-
-let AMMO;
+let AMMO ;
 
 class PhysicalWorld {
     constructor() {
         this.physicalModels = [];
-        AMMO = new Ammo();
 
-        ThreeAPI.addPostrenderCallback(this.updatePhysicalWorld);
+        let onReady = function() {
+            AMMO.initPhysics();
+            ThreeAPI.addPostrenderCallback(AMMO.updatePhysicsSimulation);
+        }
+
+        AMMO = new AmmoAPI(onReady);
+        window.AmmoAPI = AMMO;
     }
 
     addPhysicalModel(physicalModel) {
@@ -21,11 +26,6 @@ class PhysicalWorld {
     pointIntersectsPhysicalWorld(pos) {
 
     }
-
-    updatePhysicalWorld(tpf) {
-
-    }
-
 
 }
 
