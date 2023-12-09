@@ -2,6 +2,28 @@
   "WORLD_LOCATIONS":{
     "LOCATION_MODELS":[
       {
+        "id": "model_cottage",
+        "data": [
+          {
+            "data_key":"model_data",
+            "config": {
+              "assets": [
+                {
+                  "asset": "asset_cottage",
+                  "pos": [0, 0, 0],
+                  "rot": [0, 0, 0],
+                  "scale": [0.005, 0.005, 0.005],
+                  "visibility": 4,
+                  "boxes": [
+
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
         "id": "model_house_small",
         "data": [
           {

@@ -502,6 +502,7 @@ let fetchGeometryBuffer = function(id, cb) {
 
 function createMeshBody(dataKey, assetId, position, quaternion, mass, scale, onReady, obj3d, ammoFuncs) {
     //        console.log("CreateMEshShape", dataKey, bodyParams, position, quaternion, mass, scale, onReady)
+    return
     if (geoShapes[dataKey]) {
         configureMeshShape(geoShapes[dataKey], bodyParams, position, quaternion, mass, scale, onReady)
     } else {
@@ -980,7 +981,7 @@ class AmmoFunctions {
 
     createRigidBody(obj3d, shapeKey, pos, rot, scale, assetId, onReady, mass) {
 
-        let dataKey = assetId+getObj3dScaleKey();
+        let dataKey = assetId+getObj3dScaleKey(obj3d);
 
         let position = obj3d.position;
         let quaternion = obj3d.quaternion;
@@ -994,7 +995,7 @@ class AmmoFunctions {
         //    dynamicSpatial.setSpatialDynamicFlag(0);
         }
 
-        mass = rigid_body.mass*scaleVec.x*scaleVec.y*scaleVec.z || 0;
+        mass = mass*scaleVec.x*scaleVec.y*scaleVec.z || 0;
 
 
         let rigidBody;
@@ -1054,7 +1055,7 @@ class AmmoFunctions {
         if (shapeKey === "mesh") {
             createMeshBody(dataKey, assetId, position, quaternion, mass, scale, onReady, obj3d, this);
         } else {
-            onReady(rigidBody, rigid_body);
+        //    onReady(rigidBody, rigid_body);
         }
 
     };
