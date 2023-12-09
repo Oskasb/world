@@ -48,10 +48,10 @@ function debugDrawPhysicalWorld() {
     let pos = ThreeAPI.getCameraCursor().getPos();
     let intersects = physicalIntersection(pos, tempVec);
 
-    for (let i = 0; i < 1; i++) {
+    for (let i = 0; i < 100; i++) {
         tempVec.copy(pos)
-        tempVec2.set(8, 8, 8)
-        tempVec.y+=0;
+        tempVec2.set(5, 5, 5)
+        tempVec.y+=2;
         MATH.randomVector(tempVec2);
         tempVec2.multiplyScalar(5)
         MATH.spreadVector(tempVec, tempVec2);
@@ -62,7 +62,7 @@ function debugDrawPhysicalWorld() {
         if (intersects) {
 
         } else {
-            rayTest(tempVec4, tempVec5, tempVec3);
+            rayTest(tempVec4, tempVec5, tempVec3, true);
         }
     }
 
@@ -77,7 +77,7 @@ function debugDrawPhysicalWorld() {
 }
 
 
-function rayTest(from, to, contactPointStore) {
+function rayTest(from, to, contactPointStore, debugDraw) {
     tempRay.origin.copy(from);
     tempRay.direction.copy(to);
     tempRay.direction.sub(from);
@@ -86,7 +86,7 @@ function rayTest(from, to, contactPointStore) {
     for (let i = 0; i < physicalModels.length; i++) {
     //    let intersects = physicalModels[i].testIntersectPos(to, contactPointStore);
     //    if (intersects) {
-            physicalModels[i].testIntersectRay(tempRay, contactPointStore);
+            physicalModels[i].testIntersectRay(tempRay, contactPointStore, debugDraw);
     //    }
     }
 

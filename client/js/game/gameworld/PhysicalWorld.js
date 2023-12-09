@@ -1,11 +1,13 @@
-import {debugDrawPhysicalWorld} from "../../application/utils/PhysicsUtils.js";
+
+
+let AMMO;
 
 class PhysicalWorld {
     constructor() {
         this.physicalModels = [];
+        AMMO = new Ammo();
 
-
-   //     ThreeAPI.addPostrenderCallback(debugDrawPhysicalWorld);
+        ThreeAPI.addPostrenderCallback(this.updatePhysicalWorld);
     }
 
     addPhysicalModel(physicalModel) {
@@ -20,7 +22,9 @@ class PhysicalWorld {
 
     }
 
+    updatePhysicalWorld(tpf) {
 
+    }
 
 
 }

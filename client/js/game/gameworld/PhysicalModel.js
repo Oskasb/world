@@ -91,13 +91,13 @@ class PhysicalModel {
 
     }
 
-    testIntersectRay(ray, contactPoint) {
+    testIntersectRay(ray, contactPoint, debugDraw) {
         let insideBounds = ray.intersectBox(this.box, tempVec);
         if (insideBounds) {
             this.debugColor = 'CYAN'
 
             for (let i = 0; i < this.shapes.length; i++) {
-                let intersects = this.shapes[i].shapeIntersectsRay(ray, contactPoint);
+                let intersects = this.shapes[i].shapeIntersectsRay(ray, contactPoint, debugDraw);
                 if (intersects) {
                     //    return intersects;
                 }

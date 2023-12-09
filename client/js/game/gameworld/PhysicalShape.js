@@ -99,24 +99,27 @@ class PhysicalShape {
         }
     }
 
-    shapeIntersectsRay(ray, contactPoint) {
+    shapeIntersectsRay(ray, contactPoint, debugDraw) {
         let insideBounds = ray.intersectBox(this.box, tempVec);
         tempVec2.addVectors(ray.origin, ray.direction);
         if (insideBounds) {
-            evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos: tempVec, color:'YELLOW', size:0.25})
+        //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos: tempVec, color:'YELLOW', size:0.25})
             //    this.debugColor = 'GREEN'
             let intersects = this.OBB.intersectRay(ray, contactPoint)
-        //    contactPoint.sub(ray.origin)
-            if (intersects) {
-                evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ray.origin, to:contactPoint, color:'YELLOW'});
-                evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos: contactPoint, color:'YELLOW', size:0.25})
-                //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos: this.OBB.center, color:'GREEN', size:0.25})
-                //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:pos, to:this.OBB.center, color:'YELLOW'});
-                this.debugColor = 'YELLOW';
-                //    return true;
-            } else {
-                evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ray.origin, to:tempVec2, color:'RED'});
+            if (debugDraw) {
+                if (intersects) {
+                    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ray.origin, to:contactPoint, color:'YELLOW'});
+                    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos: contactPoint, color:'YELLOW', size:0.25})
+                    //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos: this.OBB.center, color:'GREEN', size:0.25})
+                    //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:pos, to:this.OBB.center, color:'YELLOW'});
+                    this.debugColor = 'YELLOW';
+                    //    return true;
+                } else {
+                    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ray.origin, to:tempVec2, color:'BLUE'});
+                }
             }
+        //    contactPoint.sub(ray.origin)
+
         } else {
             this.debugColor = 'BLACK'
         }
