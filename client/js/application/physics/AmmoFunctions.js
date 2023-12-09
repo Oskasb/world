@@ -3,6 +3,7 @@ import {Vector3} from "../../../libs/three/math/Vector3.js";
 import {Euler} from "../../../libs/three/math/Euler.js";
 import {Object3D} from "../../../libs/three/core/Object3D.js";
 import {Quaternion} from "../../../libs/three/math/Quaternion.js";
+import {getObj3dScaleKey} from "../utils/ModelUtils.js";
 
 
 let threeVec = new Vector3();
@@ -218,11 +219,6 @@ let configureMeshShape = function(shape, bodyParams, position, quaternion, mass,
     onReady(body);
 }
 
-
-
-let createMeshBody = function(dataKey, bodyParams, position, quaternion, mass, scale, onReady, dynamicSpatial, ammoFuncs) {
-    createMeshShape(dataKey, bodyParams, position, quaternion, mass, scale, onReady, dynamicSpatial, ammoFuncs);
-};
 
 let createPrimitiveShape = function(bodyParams) {
     let args = bodyParams.args;
@@ -504,7 +500,7 @@ let fetchGeometryBuffer = function(id, cb) {
     geoCallbacks[id].push(cb);
 };
 
-function createMeshShape(dataKey, bodyParams, position, quaternion, mass, scale, onReady, dynamicSpatial, ammoFuncs) {
+function createMeshBody(dataKey, assetId, position, quaternion, mass, scale, onReady, obj3d, ammoFuncs) {
     //        console.log("CreateMEshShape", dataKey, bodyParams, position, quaternion, mass, scale, onReady)
     if (geoShapes[dataKey]) {
         configureMeshShape(geoShapes[dataKey], bodyParams, position, quaternion, mass, scale, onReady)
@@ -982,28 +978,24 @@ class AmmoFunctions {
     };
 
 
-    createRigidBody(body_config, dynamicSpatial, onReady) {
+    createRigidBody(obj3d, shapeKey, pos, rot, scale, assetId, onReady, mass) {
 
-        let rigid_body = body_config;
+        let dataKey = assetId+getObj3dScaleKey();
 
-        let dataKey = rigid_body.body_key+dynamicSpatial.getScaleKey();
-        let shapeKey = rigid_body.category;
+        let position = obj3d.position;
+        let quaternion = obj3d.quaternion;
 
-        let position = dynamicSpatial.getSpatialPosition(threeVec);
-        let quaternion = dynamicSpatial.getSpatialQuaternion(threeQuat);
-
-        let scale = dynamicSpatial.getSpatialScale(new THREE.Vector3());
+        let scaleVec = obj3d.scale;
 
 
-        if (rigid_body.mass) {
-            dynamicSpatial.setSpatialDynamicFlag(1);
+        if (mass) {
+        //    dynamicSpatial.setSpatialDynamicFlag(1);
         } else {
-            dynamicSpatial.setSpatialDynamicFlag(0);
+        //    dynamicSpatial.setSpatialDynamicFlag(0);
         }
 
-        let mass = rigid_body.mass*scale.x*scale.y*scale.z || 0;
+        mass = rigid_body.mass*scaleVec.x*scaleVec.y*scaleVec.z || 0;
 
-        dynamicSpatial.setSpatialBodyMass(mass);
 
         let rigidBody;
 
@@ -1022,13 +1014,13 @@ class AmmoFunctions {
             if (!rigidBody) {
 
                 let createFunc = function(physicsShape) {
-                    return createPrimitiveBody(physicsShape, rigid_body, scale);
+                    return createPrimitiveBody(physicsShape, rigid_body, scaleVec);
                 };
 
                 let shape = createPrimitiveShape(rigid_body);
 
                 if (rigid_body.shape === "Compound") {
-                    shape.setLocalScaling(new Ammo.btVector3(scale.x, scale.y, scale.z));
+                    shape.setLocalScaling(new Ammo.btVector3(scaleVec.x, scaleVec.y, scaleVec.z));
                 };
 
                 bodyPools[dataKey] = new BodyPool(shape, createFunc);
@@ -1060,7 +1052,7 @@ class AmmoFunctions {
 
 
         if (shapeKey === "mesh") {
-            createMeshBody(dataKey, rigid_body, position, quaternion, mass, scale, onReady, dynamicSpatial, this);
+            createMeshBody(dataKey, assetId, position, quaternion, mass, scale, onReady, obj3d, this);
         } else {
             onReady(rigidBody, rigid_body);
         }

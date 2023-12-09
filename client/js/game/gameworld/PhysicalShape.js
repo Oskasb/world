@@ -24,11 +24,14 @@ class PhysicalShape {
         this.shapeName = null;
     }
 
-    setShapeParams(parentObj3d, parentBox, shapeName, pos, rot, scale) {
-        if (this.instance) {
-            this.instance.decommissionInstancedModel()
-        }
+    setShapeParams(parentObj3d, shapeName, pos, rot, scale, assetId, cb) {
+    //    if (this.instance) {
+    //        this.instance.decommissionInstancedModel()
+    //    }
 
+        AmmoAPI.setupRigidBody(parentObj3d, shapeName, pos, rot, scale, assetId, cb)
+
+        return;
         MATH.vec3FromArray(this.obj3d.position, pos);
         MATH.vec3FromArray(this.obj3d.scale, scale);
         this.obj3d.quaternion.set(0, 0, 0, 1);

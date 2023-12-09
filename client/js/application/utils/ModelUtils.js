@@ -215,7 +215,12 @@ function boxObjIntersectsPoint(boxObj3d, pos, insideStore) {
 
 }
 
+function  getObj3dScaleKey(obj3d) {
+    return '_scale_'+obj3d.scale.x+'_'+obj3d.scale.y+'_'+obj3d.scale.z;
+}
+
 export {
+    getObj3dScaleKey,
     borrowBox,
     cubeTestVisibility,
     aaBoxTestVisibility,

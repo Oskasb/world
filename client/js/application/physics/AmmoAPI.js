@@ -61,7 +61,7 @@ class AmmoAPI {
         ammoFunctions.setGeometryBuffer(id, buffer);
     };
 
-    setupRigidBody = function(bodyConf, dynamicSpatial, cb) {
+    setupRigidBody = function(obj3d, shapeName, pos, rot, scale, assetId, bodyReadyCB, mass) {
 
         var onReady = function(body, bdCfg) {
 
@@ -69,10 +69,10 @@ class AmmoAPI {
                 ammoFunctions.attachBodyBySliderJoints(world, body, bdCfg)
             }
 
-            cb(dynamicSpatial, body);
+            bodyReadyCB(obj3d, body);
         };
 
-        ammoFunctions.createRigidBody(bodyConf, dynamicSpatial, onReady);
+        ammoFunctions.createRigidBody(obj3d, shapeName, pos, rot, scale, assetId, onReady, mass);
 
     };
 

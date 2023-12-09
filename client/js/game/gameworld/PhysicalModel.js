@@ -52,10 +52,15 @@ class PhysicalModel {
                 shapes = configData['default']['shapes'];
             }
 
+            let bodyReadyCB = function(obj3d, body) {
+
+            }
+
+
             for (let i = 0; i < shapes.length; i++) {
                 let conf = shapes[i];
                 let shape = poolFetch('PhysicalShape');
-                shape.setShapeParams(this.obj3d, this.box, conf['shape'], conf['pos'], conf['rot'], conf['scale'])
+                shape.setShapeParams(this.obj3d, conf['shape'], conf['pos'], conf['rot'], conf['scale'], conf['asset'], bodyReadyCB)
                 this.shapes.push(shape);
             }
         }
