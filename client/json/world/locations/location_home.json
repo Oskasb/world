@@ -18,7 +18,7 @@
                 },
                 {
                   "model": "model_cottage",
-                  "pos": [-881, 1.3, 533],
+                  "pos": [-881, 1.3, 529],
                   "rot": [0, -1.3, 0],
                   "scale": [1, 1, 1],
                   "on_ground": true,
