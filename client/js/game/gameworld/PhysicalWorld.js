@@ -8,7 +8,7 @@ class PhysicalWorld {
 
         let onReady = function() {
             window.AmmoAPI.initPhysics();
-            ThreeAPI.addPostrenderCallback(AMMO.updatePhysicsSimulation);
+            ThreeAPI.addPostrenderCallback(window.AmmoAPI.updatePhysicsSimulation);
         }
 
         window.AmmoAPI = new AmmoAPI(onReady);
