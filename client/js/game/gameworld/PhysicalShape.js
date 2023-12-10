@@ -24,39 +24,6 @@ class PhysicalShape {
         this.shapeName = null;
     }
 
-    setShapeParams(parentObj3d, shapeName, pos, rot, scale, assetId, cb) {
-    //    if (this.instance) {
-    //        this.instance.decommissionInstancedModel()
-    //    }
-
-        AmmoAPI.setupRigidBody(parentObj3d, shapeName, pos, rot, scale, assetId, cb)
-
-        return;
-        MATH.vec3FromArray(this.obj3d.position, pos);
-        MATH.vec3FromArray(this.obj3d.scale, scale);
-        this.obj3d.quaternion.set(0, 0, 0, 1);
-        MATH.rotXYZFromArray(this.obj3d, rot);
-        inheritAsParent(this.obj3d, parentObj3d);
-        this.OBB.center.copy(this.getPos())
-        this.OBB.halfSize.copy(this.getScale())
-        this.OBB.halfSize.multiplyScalar(0.5);
-        tempObj.copy(this.obj3d);
-        tempObj.rotateX(-MATH.HALF_PI);
-        tempMatrix.makeRotationFromQuaternion(tempObj.quaternion);
-        this.OBB.rotation.setFromMatrix4(tempMatrix)
-
-        tempVec.set(1, 1, 1).multiplyScalar(this.getScale().length() * 0.6);
-
-        this.box.min.copy(this.getPos())
-        this.box.min.sub(tempVec)
-        this.box.max.copy(this.getPos())
-        this.box.max.add(tempVec)
-
-        fixParentAroundChildBox(parentBox, this.box, 0.5);
-
-
-
-    }
 
     getPos() {
         return this.obj3d.position;

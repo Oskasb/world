@@ -140,7 +140,7 @@
         {"id": "file_scraper_17",   "config": { "url": "./client/assets/models/buildings/scraper_17"                               }},
         {"id": "file_block_4",      "config": { "url": "./client/assets/models/buildings/block_4"                                      }},
 
-        {"id": "file_cottage",   "config": { "url": "./client/assets/models/buildings/cottage"                               }},
+        {"id": "file_cottage",       "config": { "url": "./client/assets/models/buildings/cottage"                               }},
 
         {"id": "file_house_small",   "config": { "url": "./client/assets/models/buildings/house_small"                               }},
         {"id": "file_town_house",    "config": { "url": "./client/assets/models/buildings/town_house"                               }},

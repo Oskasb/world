@@ -142,7 +142,7 @@
         {"id": "asset_hat_leather_brown", "config": { "model": "file_hat_leather_brown", "material": "mat_instancing_basic",  "settings": "model_settings_items"  }},
         {"id": "asset_hat_pointy_white", "config": { "model": "file_hat_pointy_white", "material": "mat_instancing_basic",  "settings": "model_settings_items"  }},
 
-
+        {"id": "asset_cottage",  "config": { "model": "file_cottage",   "material": "mat_instancing_basic",     "settings": "model_settings_instancing_50" }},
         {"id": "asset_house_small",  "config": { "model": "file_house_small",   "material": "mat_instancing_basic",     "settings": "model_settings_instancing_50" }},
         {"id": "asset_town_house",   "config": { "model": "file_town_house",    "material": "mat_instancing_basic",     "settings": "model_settings_instancing_10" }},
         {"id": "asset_mansion_roof", "config": { "model": "file_mansion_roof",  "material": "mat_instancing_basic",     "settings": "model_settings_instancing_5" }},

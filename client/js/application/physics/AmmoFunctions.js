@@ -122,7 +122,7 @@ function ammoCompoundShape(args) {
 }
 
 function createConvexHullFromBuffer(buffer, scale) {
-    console.log("Create Convex Hull...", buffer, scale);
+    console.log("Create Convex Hull...", [buffer], scale);
     let btConvexHullShape = new Ammo.btConvexHullShape();
     let _vec3_1 = new Ammo.btVector3(0,0,0);
     let _vec3_2 = new Ammo.btVector3(0,0,0);
@@ -176,10 +176,8 @@ function createTriMeshFromBuffer(buffer, scale) {
 }
 
 
-let configureMeshShape = function(shape, bodyParams, position, quaternion, mass, scale, onReady) {
-    let args = bodyParams.args;
+let configureMeshShape = function(shape, mass, friction, position, quaternion, scale, onReady) {
 
-    let friction = bodyParams.friction || 2.9;
 
     shape.setMargin(0.05);
 
@@ -212,9 +210,9 @@ let configureMeshShape = function(shape, bodyParams, position, quaternion, mass,
 
     //    let body = createBody(shape, mass);
     //    body.setActivationState(DISABLE_DEACTIVATION);
-    console.log("Mesh shape body:", body);
+//    console.log("Mesh shape body:", body);
 
-    applyBodyParams(body, bodyParams);
+    applyBodyParams(body, bodyParamsDefault);
 
     onReady(body);
 }
@@ -247,8 +245,18 @@ let createPrimitiveShape = function(bodyParams) {
 
 };
 
+let bodyParamsDefault = {
+    restitution:0.5,
+    damping:0.5,
+    dampingA:0.5,
+    friction:2.9,
+    angular_factor:[1, 1, 1,],
+    linear_factor:[1, 1, 1,]
+}
 
-let applyBodyParams = function(body, bodyParams) {
+let applyBodyParams = function(body, params) {
+
+    let bodyParams = params || bodyParamsDefault;
 
     let restitution = bodyParams.restitution || 0.5;
     let damping = bodyParams.damping || 0.5;
@@ -500,32 +508,22 @@ let fetchGeometryBuffer = function(id, cb) {
     geoCallbacks[id].push(cb);
 };
 
-function createMeshBody(dataKey, assetId, position, quaternion, mass, scale, onReady, obj3d, ammoFuncs) {
+function createMeshBody(dataKey, assetId, mass, friction, position, quaternion, scale, convex, onReady) {
     //        console.log("CreateMEshShape", dataKey, bodyParams, position, quaternion, mass, scale, onReady)
-    return
+
     if (geoShapes[dataKey]) {
-        configureMeshShape(geoShapes[dataKey], bodyParams, position, quaternion, mass, scale, onReady)
+        configureMeshShape(geoShapes[dataKey], mass, friction, position, quaternion, scale, onReady)
     } else {
 
-        if (geometryBuffers[bodyParams.model_id]) {
-
-            if (bodyParams.convex) {
-                geoShapes[dataKey] = createConvexHullFromBuffer(geometryBuffers[bodyParams.model_id], scale);
+        if (geometryBuffers[assetId]) {
+            if (convex) {
+                geoShapes[dataKey] = createConvexHullFromBuffer(geometryBuffers[assetId], scale);
             } else {
-                geoShapes[dataKey] = createTriMeshFromBuffer(geometryBuffers[bodyParams.model_id], scale);
+                geoShapes[dataKey] = createTriMeshFromBuffer(geometryBuffers[assetId], scale);
             }
-            configureMeshShape(geoShapes[dataKey], bodyParams, position, quaternion, mass, scale, onReady)
+            configureMeshShape(geoShapes[dataKey], mass, friction, position, quaternion, scale, onReady)
         } else {
-
-            let bp = bodyParams;
-            let ds = dynamicSpatial;
-            let or = onReady;
-
-            let modelCB = function() {
-                ammoFuncs.createRigidBody(bp, ds, or)
-            };
-
-            fetchGeometryBuffer(bodyParams.model_id, modelCB)
+            console.log("No buffer for asset: ", assetId);
         }
     }
 }
@@ -957,18 +955,16 @@ class AmmoFunctions {
 
     };
 
-
-
-
-
     setGeometryBuffer(id, buffer) {
         geometryBuffers[id] = buffer;
-        while (geoCallbacks[id].length) {
-            geoCallbacks[id].pop()()
+        console.log("Set Buffer", id, [buffer])
+        function onReady(body) {
+            body.forceActivationState(STATE.DISABLE_SIMULATION);
         }
+
+        createMeshBody(id+"_temp", id, 0, 1, tempVec, tempObj.quaternion, tempVec, false, onReady)
+
     };
-
-
 
     attachBodyBySliderJoints(world, parentBody, bodyConf) {
 
@@ -979,15 +975,18 @@ class AmmoFunctions {
     };
 
 
-    createRigidBody(obj3d, shapeKey, pos, rot, scale, assetId, onReady, mass) {
+    createRigidBody(obj3d, shapeKey, mass, friction, pos, rot, scale, assetId, convex, onReady) {
 
         let dataKey = assetId+getObj3dScaleKey(obj3d);
 
-        let position = obj3d.position;
-        let quaternion = obj3d.quaternion;
 
-        let scaleVec = obj3d.scale;
-
+        let position = MATH.vec3FromArray(threeObj.position, pos);
+        threeObj.position.add(obj3d.position);
+        threeObj.quaternion.copy(obj3d.quaternion);
+        MATH.rotXYZFromArray(threeObj, rot);
+        let quaternion = threeObj.quaternion
+        let scaleVec = MATH.vec3FromArray(threeObj.scale, scale);
+        scaleVec.multiply(obj3d.scale);
 
         if (mass) {
         //    dynamicSpatial.setSpatialDynamicFlag(1);
@@ -996,7 +995,6 @@ class AmmoFunctions {
         }
 
         mass = mass*scaleVec.x*scaleVec.y*scaleVec.z || 0;
-
 
         let rigidBody;
 
@@ -1053,7 +1051,7 @@ class AmmoFunctions {
 
 
         if (shapeKey === "mesh") {
-            createMeshBody(dataKey, assetId, position, quaternion, mass, scale, onReady, obj3d, this);
+            createMeshBody(dataKey, assetId, mass, friction, position, quaternion, scaleVec, convex, onReady);
         } else {
         //    onReady(rigidBody, rigid_body);
         }
@@ -1061,6 +1059,13 @@ class AmmoFunctions {
     };
 
 
+    getAuxTransform() {
+        return TRANSFORM_AUX
+    }
+
+    getAuxVector() {
+        return VECTOR_AUX
+    }
 
 
 

@@ -6,9 +6,16 @@ class PhysicalWorld {
     constructor() {
         this.physicalModels = [];
 
+        let updateModels = function() {
+            for (let i = 0; i < this.physicalModels.length; i++) {
+                this.physicalModels[i].updatePhysicalModel();
+            }
+        }.bind(this);
+
         let onReady = function() {
             window.AmmoAPI.initPhysics();
-            ThreeAPI.addPostrenderCallback(window.AmmoAPI.updatePhysicsSimulation);
+            GameAPI.registerGameUpdateCallback(window.AmmoAPI.updatePhysicsSimulation);
+            ThreeAPI.addPostrenderCallback(updateModels);
         }
 
         window.AmmoAPI = new AmmoAPI(onReady);

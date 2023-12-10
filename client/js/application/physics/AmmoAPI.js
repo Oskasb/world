@@ -61,18 +61,18 @@ class AmmoAPI {
         ammoFunctions.setGeometryBuffer(id, buffer);
     };
 
-    setupRigidBody = function(obj3d, shapeName, pos, rot, scale, assetId, bodyReadyCB, mass) {
+    setupRigidBody = function(obj3d, shapeName, mass, friction, pos, rot, scale, assetId, convex, bodyReadyCB) {
 
-        var onReady = function(body, bdCfg) {
-
+        let onReady = function(body, bdCfg) {
+/*
             if (bdCfg.joints) {
                 ammoFunctions.attachBodyBySliderJoints(world, body, bdCfg)
             }
-
-            bodyReadyCB(obj3d, body);
+*/
+            bodyReadyCB(body);
         };
 
-        ammoFunctions.createRigidBody(obj3d, shapeName, pos, rot, scale, assetId, onReady, mass);
+        ammoFunctions.createRigidBody(obj3d, shapeName, mass, friction, pos, rot, scale, assetId, convex, onReady);
 
     };
 
@@ -84,7 +84,6 @@ class AmmoAPI {
     requestBodyActivation = function(body) {
         ammoFunctions.enableBodySimulation(body);
     };
-
 
     includeBody = function(body) {
 
@@ -101,12 +100,6 @@ class AmmoAPI {
 
         ammoFunctions.enableBodySimulation(body);
     };
-
-
-    disableRigidBody = function(body) {
-        this.excludeBody(body);
-    };
-
 
     excludeBody = function(body) {
         var bi = bodies.indexOf(body);
@@ -152,13 +145,13 @@ class AmmoAPI {
 
     };
 
-    triggerPhysicallyActive = function(actor) {
-        return ammoFunctions.enableBodySimulation(actor.getPhysicsBody());
+    triggerPhysicallyActive = function(body) {
+        return ammoFunctions.enableBodySimulation(body);
         //  actor.getPhysicsBody().activate();
     };
 
-    isPhysicallyActive = function(actor) {
-        return ammoFunctions.getBodyActiveState(actor.getPhysicsBody());
+    isPhysicallyActive = function(body) {
+        return ammoFunctions.getBodyActiveState(body);
     };
 
     raycastPhysicsWorld = function(position, direction, hitPositionStore, hitNormalStore) {
@@ -167,6 +160,14 @@ class AmmoAPI {
             return hit;
         }
     };
+
+    getAuxTransform() {
+        return ammoFunctions.getAuxTransform();
+    }
+
+    getAuxVector3() {
+        return ammoFunctions.getAuxVector3();
+    }
 
     fetchPhysicsStatus = function() {
 

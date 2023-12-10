@@ -19,7 +19,7 @@ class DynamicMain {
     requestAsset = function(modelAssetId, assetReadyCB) {
 
         let onAssetReady = function(asset) {
-        //    console.log("AssetReady:", asset.id);
+
             this.assetIndex[asset.id] = this.assets.length;
             this.assets[modelAssetId] = asset;
 
@@ -40,6 +40,22 @@ class DynamicMain {
                 message.skin = modelSettings.skin
 
             }
+
+
+            let onInstance = function(instance) {
+            //    console.log("First loaded Instance:", instance.originalModel);
+                if (instance.originalModel.isGeometryInstance()) {
+            //        console.log("buffers", instance.originalModel.instanceBuffers.geometry.attributes)
+                    window.AmmoAPI.registerGeoBuffer(asset.id, instance.originalModel.instanceBuffers.geometry.attributes.position.array)
+                }
+                instance.decommissionInstancedModel();
+            }.bind(this);
+
+
+            this.requestAssetInstance(asset.id, onInstance)
+
+
+
 
         }.bind(this);
 

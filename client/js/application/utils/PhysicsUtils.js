@@ -49,22 +49,27 @@ function debugDrawPhysicalWorld() {
     let pos = ThreeAPI.getCameraCursor().getPos();
     let intersects = physicalIntersection(pos, tempVec);
 
-    for (let i = 0; i < 100; i++) {
+    tempVec3.copy(pos);
+    tempVec3.y += 50;
+    rayTest(tempVec3, pos, tempVec3, normalStore, true);
+    tempVec3.x += 10;
+    rayTest(tempVec3, pos, tempVec3, normalStore, true);
+    tempVec3.x -= 20;
+    rayTest(tempVec3, pos, tempVec3, normalStore, true);
+    tempVec3.z += 10;
+    rayTest(tempVec3, pos, tempVec3, normalStore, true);
+    tempVec3.z -= 20;
+    rayTest(tempVec3, pos, tempVec3, normalStore, true);
+
+    let time = GameAPI.getGameTime();
+
+    for (let i = 0; i < 50; i++) {
         tempVec.copy(pos)
-        tempVec2.set(5, 5, 5)
-        tempVec.y+=2;
-        MATH.randomVector(tempVec2);
-        tempVec2.multiplyScalar(5)
-        MATH.spreadVector(tempVec, tempVec2);
-        tempVec4.copy(tempVec);
-        tempVec5.addVectors(tempVec, tempVec2);
-        intersects = physicalIntersection(pos, tempVec3);
+        tempVec.y = ThreeAPI.terrainAt(pos)
+        tempVec2.set(tempVec.x + Math.sin(time*1.2 +i*1.2)*(10+i*0.5), tempVec.y + i*0.5 + (Math.cos( time*0.5+i*1.2)+0.8) * (2+i*0.5), tempVec.z + Math.cos( time*1.2+i*1.2) * (10+i*0.5))
 
-        if (intersects) {
+        rayTest(tempVec2, tempVec,  tempVec3, normalStore, true);
 
-        } else {
-            rayTest(tempVec4, tempVec5, tempVec3, normalStore, true);
-        }
     }
 
 
@@ -83,14 +88,18 @@ function rayTest(from, to, contactPointStore, contactNormal, debugDraw) {
     tempRay.direction.copy(to);
     tempRay.direction.sub(from);
     tempVec.copy(to).sub(from);
-    let hit = AmmoAPI.raycastPhysicsWorld(from, to, contactPointStore, contactNormal)
+    let hit = AmmoAPI.raycastPhysicsWorld(from, tempVec, contactPointStore, contactNormal)
 
     if (debugDraw) {
         if (hit) {
-            evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:from, to:contactPointStore, color:'YELLOW'});
-            evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos: contactPointStore, color:'YELLOW', size:0.25})
+        //    console.log(hit)
+        //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:from, to:contactPointStore, color:'RED'});
+
+            evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos: contactPointStore, color:'YELLOW', size:0.1})
+            tempVec.copy(contactNormal).add(contactPointStore)
+            evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:contactPointStore, to:tempVec, color:'RED'});
         } else {
-            evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:from, to:to, color:'BLUE'});
+        //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:from, to:to, color:'BLUE'});
         }
     }
 
@@ -106,21 +115,63 @@ function rayTest(from, to, contactPointStore, contactNormal, debugDraw) {
 
 }
 
+function bodyTransformToObj3d(body, obj3d, debugDraw) {
+    let ms = body.getMotionState();
+
+    let TRANSFORM_AUX = AmmoAPI.getAuxTransform();
+
+    ms.getWorldTransform(TRANSFORM_AUX);
+    let p = TRANSFORM_AUX.getOrigin();
+    let q = TRANSFORM_AUX.getRotation();
+    if (isNaN(p.x())) {
+        //    PhysicsWorldAPI.registerPhysError();
+
+        let tf = new Ammo.btTransform();
+
+        this.getSpatialPosition(tempVec1);
+        this.getSpatialQuaternion(tempQuat);
+
+        tf.getOrigin().setX(tempVec1.x);
+        tf.getOrigin().setY(tempVec1.y);
+        tf.getOrigin().setZ(tempVec1.z);
+
+        tf.getRotation().setX(tempQuat.x);
+        tf.getRotation().setY(tempQuat.y);
+        tf.getRotation().setZ(tempQuat.z);
+        tf.getRotation().setW(tempQuat.w);
+        ms.setWorldTransform(tf);
+        console.log("Bad body transform", this.body)
+        return;
+    }
+
+    obj3d.position.set(p.x(), p.y(), p.z());
+
+    obj3d.quaternion.set(q.x(), q.y(), q.z(), q.w());
+
+ //   if (debugDraw) {
+  //     evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ThreeAPI.getCameraCursor().getPos(), to:obj3d.position, color:'YELLOW'});
+//    }
+
+}
+
 function physicalIntersection(pos, insideVec3) {
     if (!insideVec3) {
         insideVec3 = tempVec;
     }
     let physicalModels = getPhysicalWorld().physicalModels;
     for (let i = 0; i < physicalModels.length; i++) {
-        let intersects = physicalModels[i].testIntersectPos(pos, insideVec3);
-        if (intersects) {
-            return insideVec3
-        }
+
+    //    let intersects = physicalModels[i].testIntersectPos(pos, insideVec3);
+    //    if (intersects) {
+    //        return insideVec3
+    //    }
+
     }
 }
 
 export {
     rayTest,
+    bodyTransformToObj3d,
     addPhysicsToModel,
     removePhysicalModel,
     debugDrawPhysicalWorld,

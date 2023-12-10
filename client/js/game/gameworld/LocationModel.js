@@ -13,6 +13,7 @@ function showLocationModel(model) {
         ThreeAPI.getScene().remove(instance.spatial.obj3d)
         instance.spatial.stickToObj3D(model.obj3d);
         model.instance = instance;
+        model.instanceCallback(instance);
     }.bind(this)
 
     if (model.config.asset) {
@@ -46,6 +47,7 @@ class LocationModel {
         inheritConfigTransform(this.obj3d, this.config);
 
 
+
         if (config.boxes) {
             let boxes = config.boxes;
 
@@ -65,18 +67,29 @@ class LocationModel {
 
         let physicalModel = null;
 
+        this.instanceCallback = function() {
+
+        }
+
         let lodUpdated = function(lodLevel) {
 
-            lodText.lodTestModel(this, lodLevel, config.visibility, showLocationModel, hideLocationModel)
-
             if (lodLevel < 2) {
-                physicalModel = addPhysicsToModel(config.asset, this.obj3d);
+                if (this.instance === null) {
+                    this.instanceCallback = function() {
+                        physicalModel = addPhysicsToModel(config.asset, this.obj3d);
+                    }.bind(this);
+                } else {
+                    physicalModel = addPhysicsToModel(config.asset, this.obj3d);
+                }
+
             } else {
                 if (physicalModel) {
                     removePhysicalModel(physicalModel);
                     physicalModel = null;
                 }
             }
+
+            lodText.lodTestModel(this, lodLevel, config.visibility, showLocationModel, hideLocationModel)
 
         }.bind(this)
 
