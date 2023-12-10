@@ -10,6 +10,8 @@ let bigOcean = null;
 let lodCenter = null;
 let originalMat = null;
 
+let terrainAmmoBody = null;
+
 let groundUpdate = false;
 let terrainMaterial = null;
 let oceanMaterial = null
@@ -24,6 +26,7 @@ let maxLodLevel = 6;
 let terrainContext = null;
 let heightmapContext = null;
 let terrainUpdate = false;
+let terrainConfig = null;
 
 let terrainParams = {}
 
@@ -135,6 +138,26 @@ let activeGround = [];
 let activeOcean = [];
 let availableGround = [];
 let availableOcean = [];
+
+let heightfieldData = [];
+
+function setupAmmoTerrainBody(canvasData, config) {
+    console.log("Setup Terrain Body", [canvasData], config)
+    if (terrainAmmoBody !== null) {
+        AmmoAPI.excludeBody(terrainAmmoBody);
+        terrainAmmoBody = null;
+    }
+
+    for (let i = 0; i < canvasData.length / 4; i++) {
+        let txR = i*4;
+        heightfieldData[i] = canvasData[txR] *= 0.1;
+    }
+
+    let w = config.dimensions['tx_width'];
+
+    terrainAmmoBody = AmmoAPI.buildPhysicalTerrain(heightfieldData, w, 0, 0, -3, ThreeAPI.getTerrainMaxHeight() * 0.1);
+
+}
 
 let addGroundSection = function(lodScale, x, z, index) {
 
@@ -268,6 +291,7 @@ let updateBigGeo = function(tpf) {
         terrainMaterial.heightmap.needsUpdate = true;
         heightmap = heightmapContext.getImageData(0, 0, width, height).data;
         terrainUpdate = false;
+        setupAmmoTerrainBody(heightmap, terrainConfig)
     }
 
 }
@@ -338,6 +362,7 @@ class TerrainBigGeometry {
         // "asset_big_loader"
         lodCenter = lodC;
         let dims = heightMapData['dimensions'];
+        terrainConfig = heightMapData;
         // gridMeshAssetId = dims['grid_mesh'];
         let txWidth = dims['tx_width'];
         let groundTxWidth = dims['ground_tx_width'];
@@ -355,6 +380,7 @@ class TerrainBigGeometry {
         let groundCB = function(model) {
             if (groundInstances.length === 0) {
                 materialModel(model)
+                setupAmmoTerrainBody(heightmap, terrainConfig);
                 ThreeAPI.addPrerenderCallback(updateBigGeo)
                 model.setAttributev4('texelRowSelect',{x:1, y:1, z:1, w:1})
             }
