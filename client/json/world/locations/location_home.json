@@ -10,7 +10,7 @@
               "models": [
                 {
                   "model": "model_house_home",
-                  "pos": [-887, 2, 531.6],
+                  "pos": [-887, 2, 532.6],
                   "rot": [0, 0, 0],
                   "scale": [1, 1, 1],
                   "on_ground": true,

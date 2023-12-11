@@ -102,10 +102,10 @@ function processEncounterTileUpdateMechanics(actor) {
 function processEncounterActorStatus(actor) {
 
     let deactivate = actor.getStatus(ENUMS.ActorStatus.DEACTIVATING_ENCOUNTER);
-
-    if (deactivate) {
+  //  console.log("DEACTIVATE ENC", deactivate)
+    if (deactivate ===  activeEncounter.status.call.getStatus(ENUMS.EncounterStatus.WORLD_ENCOUNTER_ID)) {
+        console.log("DEACTIVATE ENC", deactivate)
         GameAPI.call.getGameEncounterSystem().deactivateActiveEncounter(false);
-        actor.setStatusKey(ENUMS.ActorStatus.DEACTIVATING_ENCOUNTER, 0);
         activeEncounter = null;
     }
 

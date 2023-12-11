@@ -56,6 +56,7 @@ class GameEncounterSystem {
             if (isWithin) {
                 encounterTurnSequencer.updateTurnSequencer()
             } else {
+                console.log("Is outside enc...")
                 selectedActor.setStatusKey(ENUMS.ActorStatus.DEACTIVATING_ENCOUNTER, selectedActor.getStatus(ENUMS.ActorStatus.ACTIVATED_ENCOUNTER));
                 clearActorEncounterStatus(selectedActor);
             }
@@ -171,6 +172,8 @@ class GameEncounterSystem {
     }
 
     deactivateActiveEncounter(byRemote) {
+
+        console.log("DEACTIVATE ENC", dynamicEncounter)
         if (dynamicEncounter) {
 
         //    let statusActors = dynamicEncounter.getStatus(ENUMS.EncounterStatus.ENCOUNTER_ACTORS);
@@ -182,13 +185,14 @@ class GameEncounterSystem {
         }
 
         if (activeEncounterGrid) {
-            if (byRemote) {
-                let actor = GameAPI.getGamePieceSystem().selectedActor;
-                actor.transitionTo(activeEncounterGrid.getPosOutsideTrigger(), 1.0);
-                clearActorEncounterStatus(actor);
-                GameAPI.getGamePieceSystem().playerParty.clearPartyMemebers()
-            }
+            let actor = GameAPI.getGamePieceSystem().selectedActor;
 
+            if (byRemote) {
+                actor.transitionTo(activeEncounterGrid.getPosOutsideTrigger(), 1.0);
+            }
+            actor.setStatusKey(ENUMS.ActorStatus.DEACTIVATING_ENCOUNTER, '');
+            GameAPI.getGamePieceSystem().playerParty.clearPartyMemebers()
+            clearActorEncounterStatus(actor);
             activeEncounterGrid.removeEncounterGrid()
             activeEncounterGrid = null;
         }
@@ -198,14 +202,10 @@ class GameEncounterSystem {
         GameAPI.unregisterGameUpdateCallback(this.call.updateEncounterSystem)
         GameAPI.unregisterGameUpdateCallback(encounterStatusProcessor.processEncounterStatus)
 
-    //    encounterUiSystem = new EncounterUiSystem();
-
         setTimeout(function() {
             GameAPI.call.spawnWorldEncounters();
         }, 3000)
-
-
-
+        
     }
 
 }

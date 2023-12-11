@@ -468,7 +468,10 @@ function processEncounterGridTilePath(tilePath, encounterGrid) {
     let pathTiles = tilePath.pathTiles;
 
     while (indicatedTiles.length) {
-        indicatedTiles.pop().visualTile.clearExitSelection()
+        let tile = indicatedTiles.pop()
+        if (tile.visualTile) {
+            tile.visualTile.clearExitSelection()
+        }
     }
 
     for (let i = 0; i < pathTiles.length; i++) {

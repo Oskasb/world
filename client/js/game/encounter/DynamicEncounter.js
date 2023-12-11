@@ -76,7 +76,6 @@ class DynamicEncounter {
             actor.removeGameActor();
         }
     }
-
 }
 
 export { DynamicEncounter }

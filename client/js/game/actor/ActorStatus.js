@@ -272,6 +272,9 @@ class ActorStatus {
     setStatusKey(key, status) {
 
 
+        if (key === ENUMS.ActorStatus.DEACTIVATING_ENCOUNTER && status !== 0) {
+            console.log("Set Deactivate", status)
+        }
 
         if (typeof (this.statusMap[key]) === typeof (status)) {
             this.statusMap[key] = status;
