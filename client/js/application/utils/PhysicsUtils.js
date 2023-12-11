@@ -47,11 +47,13 @@ function debugDrawPhysicalWorld() {
     }
 
     let pos = ThreeAPI.getCameraCursor().getPos();
+    pos.y = ThreeAPI.terrainAt(pos) - 0.1;
     let intersects = physicalIntersection(pos, tempVec);
 
     tempVec3.copy(pos);
-    tempVec3.y += 50;
+    tempVec3.y += 3;
     rayTest(tempVec3, pos, tempVec3, normalStore, true);
+    tempVec3.y += 50;
     tempVec3.x += 10;
     rayTest(tempVec3, pos, tempVec3, normalStore, true);
     tempVec3.x -= 20;
@@ -66,7 +68,7 @@ function debugDrawPhysicalWorld() {
     for (let i = 0; i < 50; i++) {
         tempVec.copy(pos)
         tempVec.y = ThreeAPI.terrainAt(pos)
-        tempVec2.set(tempVec.x + Math.sin(time*1.2 +i*1.2)*(10+i*0.5), tempVec.y + i*0.5 + (Math.cos( time*0.5+i*1.2)+0.8) * (2+i*0.5), tempVec.z + Math.cos( time*1.2+i*1.2) * (10+i*0.5))
+        tempVec2.set(tempVec.x + Math.sin(time*1.2 +(i+2)*1.2)*(10+(i+2)*0.5), tempVec.y + (i)*1.5 + (Math.cos( time*0.5+i*1.2)+0.8) * (2+i*0.5), tempVec.z + Math.cos( time*1.2+i*1.2) * (10+(i+2)*0.5))
 
         rayTest(tempVec2, tempVec,  tempVec3, normalStore, true);
 
@@ -84,9 +86,9 @@ function debugDrawPhysicalWorld() {
 
 
 function rayTest(from, to, contactPointStore, contactNormal, debugDraw) {
-    tempRay.origin.copy(from);
-    tempRay.direction.copy(to);
-    tempRay.direction.sub(from);
+    if (!contactNormal) {
+        contactNormal = tempVec5;
+    }
     tempVec.copy(to).sub(from);
     let hit = AmmoAPI.raycastPhysicsWorld(from, tempVec, contactPointStore, contactNormal)
 
@@ -104,14 +106,6 @@ function rayTest(from, to, contactPointStore, contactNormal, debugDraw) {
     }
 
     return hit;
-
-    let physicalModels = getPhysicalWorld().physicalModels;
-    for (let i = 0; i < physicalModels.length; i++) {
-    //    let intersects = physicalModels[i].testIntersectPos(to, contactPointStore);
-    //    if (intersects) {
-            physicalModels[i].testIntersectRay(tempRay, contactPointStore, contactNormal, normalStore);
-    //    }
-    }
 
 }
 

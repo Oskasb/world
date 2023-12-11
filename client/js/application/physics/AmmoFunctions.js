@@ -121,8 +121,8 @@ function ammoCompoundShape(args) {
     return compoundShape
 }
 
-function createConvexHullFromBuffer(buffer, scale) {
-    console.log("Create Convex Hull...", [buffer], scale);
+function createConvexHullFromBuffer(buffer) {
+    console.log("Create Convex Hull...", [buffer]);
     let btConvexHullShape = new Ammo.btConvexHullShape();
     let _vec3_1 = new Ammo.btVector3(0,0,0);
     let _vec3_2 = new Ammo.btVector3(0,0,0);
@@ -143,12 +143,10 @@ function createConvexHullFromBuffer(buffer, scale) {
         btConvexHullShape.addPoint(_vec3_3,true);
     }
 
-    btConvexHullShape.setLocalScaling(new Ammo.btVector3(scale.x, scale.y, scale.z));
-
     return btConvexHullShape;
 }
 
-function createTriMeshFromBuffer(buffer, scale) {
+function createTriMeshFromBuffer(buffer) {
     let triangle_mesh = new Ammo.btTriangleMesh;
     let _vec3_1 = new Ammo.btVector3(0,0,0);
     let _vec3_2 = new Ammo.btVector3(0,0,0);
@@ -171,12 +169,13 @@ function createTriMeshFromBuffer(buffer, scale) {
         );
     }
     let shape = new Ammo.btBvhTriangleMeshShape( triangle_mesh, true, true );
-    shape.setLocalScaling(new Ammo.btVector3(scale.x, scale.y, scale.z));
+  //  console.log(scale)
+   // shape.setLocalScaling(new Ammo.btVector3(scale.x, scale.y, scale.z));
     return shape
 }
 
 
-let configureMeshShape = function(shape, mass, friction, position, quaternion, scale, onReady) {
+let configureMeshShape = function(shape, mass, friction, position, quaternion) {
 
 
     shape.setMargin(0.05);
@@ -196,6 +195,7 @@ let configureMeshShape = function(shape, mass, friction, position, quaternion, s
     let rbInfo = new Ammo.btRigidBodyConstructionInfo(mass, motionState, shape, localInertia);
     let body = new Ammo.btRigidBody(rbInfo);
 
+    body.shape = shape;
     body.getWorldTransform(transform);
 
     QUAT_AUX.setX(quaternion.x);
@@ -212,9 +212,9 @@ let configureMeshShape = function(shape, mass, friction, position, quaternion, s
     //    body.setActivationState(DISABLE_DEACTIVATION);
 //    console.log("Mesh shape body:", body);
 
-    applyBodyParams(body, bodyParamsDefault);
+    applyBodyParams(body);
 
-    onReady(body);
+    return body;
 }
 
 
@@ -254,9 +254,9 @@ let bodyParamsDefault = {
     linear_factor:[1, 1, 1,]
 }
 
-let applyBodyParams = function(body, params) {
+let applyBodyParams = function(body) {
 
-    let bodyParams = params || bodyParamsDefault;
+    let bodyParams = bodyParamsDefault;
 
     let restitution = bodyParams.restitution || 0.5;
     let damping = bodyParams.damping || 0.5;
@@ -476,8 +476,8 @@ let attachJoint = function(world, parentBody, jointConf, bodyConf) {
 
 };
 
-let reset = function(body, params) {
-    applyBodyParams(body, params)
+let reset = function(body) {
+    applyBodyParams(body)
 };
 
 
@@ -508,28 +508,9 @@ let fetchGeometryBuffer = function(id, cb) {
     geoCallbacks[id].push(cb);
 };
 
-function createMeshBody(dataKey, assetId, mass, friction, position, quaternion, scale, convex, onReady) {
-    //        console.log("CreateMEshShape", dataKey, bodyParams, position, quaternion, mass, scale, onReady)
-
-    if (geoShapes[dataKey]) {
-        configureMeshShape(geoShapes[dataKey], mass, friction, position, quaternion, scale, onReady)
-    } else {
-
-        if (geometryBuffers[assetId]) {
-            if (convex) {
-                geoShapes[dataKey] = createConvexHullFromBuffer(geometryBuffers[assetId], scale);
-            } else {
-                geoShapes[dataKey] = createTriMeshFromBuffer(geometryBuffers[assetId], scale);
-            }
-            configureMeshShape(geoShapes[dataKey], mass, friction, position, quaternion, scale, onReady)
-        } else {
-            console.log("No buffer for asset: ", assetId);
-        }
-    }
-}
 
 
-function setBodyTransform(conf, body, position, quaternion) {
+function setBodyTransform(body, position, quaternion) {
 
 
 
@@ -585,7 +566,7 @@ function setBodyTransform(conf, body, position, quaternion) {
     body.getAngularVelocity().setY(0);
     body.getAngularVelocity().setZ(0);
 
-    applyBodyParams(body, conf);
+    applyBodyParams(body);
     return;
 
     /*
@@ -657,16 +638,18 @@ function createTerrainShape(data, sideSize, terrainMaxHeight, terrainMinHeight, 
         terrainDepth,
         ammoHeightData,
         heightScale,
-        terrainMinHeight-margin,
-        terrainMaxHeight-margin,
+        0,
+        terrainMaxHeight - terrainMinHeight,
         upAxis,
         hdt,
         flipQuadEdges
     );
+
+    console.log(heightFieldShape)
     // Set horizontal scale
     let scaleX = terrainWidthExtents / ( terrainWidth - 1 );
     let scaleZ = terrainDepthExtents / ( terrainDepth - 1 );
-    heightFieldShape.setLocalScaling(new Ammo.btVector3(scaleX, 1, scaleZ));
+    heightFieldShape.setLocalScaling(new Ammo.btVector3(scaleX, heightScale, scaleZ));
     heightFieldShape.setMargin(margin);
     return heightFieldShape;
 }
@@ -816,6 +799,14 @@ class AmmoFunctions {
 
     disableBodySimulation(body) {
         body.forceActivationState(STATE.DISABLE_SIMULATION);
+
+        if (body.dataKey) {
+            if (bodyPools[body.dataKey]) {
+                bodyPools[body.dataKey].returnToPool(body)
+            }
+        }
+
+
     };
 
 
@@ -894,7 +885,7 @@ class AmmoFunctions {
 
         console.log("createPhysicalTerrain", totalSize, posx, posz, minHeight, maxHeight);
 
-        let margin = 0.25;
+        let margin = 0.1;
 
         let terrainMaxHeight = maxHeight;
         let terrainMinHeight = minHeight;
@@ -912,7 +903,10 @@ class AmmoFunctions {
         let groundTransform = new Ammo.btTransform();
         groundTransform.setIdentity();
         // Shifts the terrain, since bullet re-centers it on its bounding box.
-        groundTransform.setOrigin( new Ammo.btVector3(posx, -margin + minHeight + (heightDiff) * 0.5 ,posz) );
+        let posY =  -margin + minHeight + (heightDiff) * 0.5
+        groundTransform.setOrigin( new Ammo.btVector3(posx, posY,posz) );
+        console.log(groundTransform)
+    //    groundTransform.setScale( new Ammo.btVector3(posx, posY,posz) );
         let groundMass = 0;
         let groundLocalInertia = new Ammo.btVector3( 0, 0, 0 );
         let groundMotionState = new Ammo.btDefaultMotionState( groundTransform );
@@ -962,7 +956,7 @@ class AmmoFunctions {
             body.forceActivationState(STATE.DISABLE_SIMULATION);
         }
 
-        createMeshBody(id+"_temp", id, 0, 1, tempVec, tempObj.quaternion, tempVec, false, onReady)
+        this.createRigidBody(tempObj, id+"_temp", id, 0, 1, tempVec, tempObj.quaternion, tempVec, false, onReady)
 
     };
 
@@ -1024,12 +1018,13 @@ class AmmoFunctions {
 
                 bodyPools[dataKey] = new BodyPool(shape, createFunc);
                 rigidBody = fetchPoolBody(dataKey);
+                rigidBody.dataKey = dataKey;
             } else {
                 rigidBody.forceActivationState(STATE.ACTIVE);
             }
 
             //    position.y += args[2] / 2;
-            setBodyTransform(rigid_body, rigidBody, position, quaternion);
+            setBodyTransform(rigidBody, position, quaternion);
         }
 
         if (shapeKey === "vehicle") {
@@ -1051,7 +1046,33 @@ class AmmoFunctions {
 
 
         if (shapeKey === "mesh") {
-            createMeshBody(dataKey, assetId, mass, friction, position, quaternion, scaleVec, convex, onReady);
+
+            let body = fetchPoolBody(dataKey);
+
+            if (!body) {
+            let createFunc = function(bodyShape) {
+                return configureMeshShape(bodyShape, mass, friction, position, quaternion)
+            };
+
+            let shape;
+
+            if (convex) {
+                shape = createConvexHullFromBuffer(geometryBuffers[assetId]);
+            } else {
+                shape = createTriMeshFromBuffer(geometryBuffers[assetId]);
+            }
+
+            shape.setLocalScaling(new Ammo.btVector3(scaleVec.x, scaleVec.y, scaleVec.z));
+
+            bodyPools[dataKey] = new BodyPool(shape, createFunc);
+                body = fetchPoolBody(dataKey);
+            } else {
+                body.forceActivationState(STATE.ACTIVE);
+            }
+
+            setBodyTransform(body, position, quaternion);
+
+            onReady(body)
         } else {
         //    onReady(rigidBody, rigid_body);
         }

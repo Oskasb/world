@@ -139,7 +139,8 @@ let activeOcean = [];
 let availableGround = [];
 let availableOcean = [];
 
-let heightfieldData = new Float32Array( 2048*2048 );
+
+let rgbaR = [];
 
 function setupAmmoTerrainBody(canvasData, config) {
     console.log("Setup Terrain Body", [canvasData], config)
@@ -150,12 +151,14 @@ function setupAmmoTerrainBody(canvasData, config) {
 
     for (let i = 0; i < canvasData.length / 4; i++) {
         let txR = i*4;
-        heightfieldData[i] = canvasData[txR];
+        rgbaR[i] = (canvasData[txR]+1) * (100/256);
     }
+
+    let heightfieldData = new Float32Array( rgbaR );
 
     let w = config.dimensions['tx_width'];
 
-    terrainAmmoBody = AmmoAPI.buildPhysicalTerrain(heightfieldData, w, 0, 0, -3, ThreeAPI.getTerrainMaxHeight());
+    terrainAmmoBody = AmmoAPI.buildPhysicalTerrain(rgbaR, w, 0, 0, -3, 97);
 
 }
 
