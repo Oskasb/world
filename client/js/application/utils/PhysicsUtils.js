@@ -13,9 +13,9 @@ let tempRay = new Ray();
 function getPhysicalWorld() {
     return GameAPI.gameMain.phyiscalWorld;
 }
-function addPhysicsToModel(assetId, obj3d) {
+function addPhysicsToModel(assetId, obj3d, updateCB) {
     let physicalModel = poolFetch('PhysicalModel')
-    physicalModel.initPhysicalWorldModel(assetId, obj3d)
+    physicalModel.initPhysicalWorldModel(assetId, obj3d, updateCB)
     getPhysicalWorld().addPhysicalModel(physicalModel);
     return physicalModel;
 }
@@ -143,8 +143,8 @@ function bodyTransformToObj3d(body, obj3d, debugDraw) {
     obj3d.quaternion.set(q.x(), q.y(), q.z(), q.w());
 
  //   if (debugDraw) {
-  //     evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ThreeAPI.getCameraCursor().getPos(), to:obj3d.position, color:'YELLOW'});
-//    }
+//       evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ThreeAPI.getCameraCursor().getPos(), to:obj3d.position, color:'YELLOW'});
+ //   }
 
 }
 

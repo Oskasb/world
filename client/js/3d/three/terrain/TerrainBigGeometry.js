@@ -383,7 +383,6 @@ class TerrainBigGeometry {
         let groundCB = function(model) {
             if (groundInstances.length === 0) {
                 materialModel(model)
-                setupAmmoTerrainBody(heightmap, terrainConfig);
                 ThreeAPI.addPrerenderCallback(updateBigGeo)
                 model.setAttributev4('texelRowSelect',{x:1, y:1, z:1, w:1})
             }

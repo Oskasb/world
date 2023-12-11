@@ -4,6 +4,7 @@ import {Euler} from "../../../libs/three/math/Euler.js";
 import {Object3D} from "../../../libs/three/core/Object3D.js";
 import {Quaternion} from "../../../libs/three/math/Quaternion.js";
 import {getObj3dScaleKey} from "../utils/ModelUtils.js";
+import {bodyTransformToObj3d} from "../utils/PhysicsUtils.js";
 
 
 let threeVec = new Vector3();
@@ -49,17 +50,10 @@ let COLLISION_FLAGS = {
 let shapes = [];
 let bodyPools = {};
 
-let createPrimitiveBody = function(shape, bodyParams, scale) {
-    let mass = bodyParams.mass*scale.x*scale.y*scale.z || 0;
+let createPrimitiveBody = function(shape, mass, scale) {
+    mass = mass*scale.x*scale.y*scale.z || 0;
     let body = createBody(shape, mass);
 
-    //    applyBodyParams(body, bodyParams);
-
-    if (bodyParams.state) {
-        body.forceActivationState(STATE[bodyParams.state]);
-    }
-
-    //
     return body;
 
 };
@@ -798,12 +792,18 @@ class AmmoFunctions {
     };
 
     disableBodySimulation(body) {
-        body.forceActivationState(STATE.DISABLE_SIMULATION);
+
 
         if (body.dataKey) {
             if (bodyPools[body.dataKey]) {
                 bodyPools[body.dataKey].returnToPool(body)
+                body.forceActivationState(STATE.DISABLE_SIMULATION);
+                bodyTransformToObj3d(body, tempObj)
+                evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ThreeAPI.getCameraCursor().getPos(), to:tempObj.position, color:'RED'});
+
             }
+        } else {
+            body.forceActivationState(STATE.DISABLE_SIMULATION);
         }
 
 
@@ -971,6 +971,7 @@ class AmmoFunctions {
 
     createRigidBody(obj3d, shapeKey, mass, friction, pos, rot, scale, assetId, convex, onReady) {
 
+
         let dataKey = assetId+getObj3dScaleKey(obj3d);
 
 
@@ -980,7 +981,7 @@ class AmmoFunctions {
         MATH.rotXYZFromArray(threeObj, rot);
         let quaternion = threeObj.quaternion
         let scaleVec = MATH.vec3FromArray(threeObj.scale, scale);
-        scaleVec.multiply(obj3d.scale);
+        threeObj.scale.multiply(obj3d.scale);
 
         if (mass) {
         //    dynamicSpatial.setSpatialDynamicFlag(1);
@@ -1000,6 +1001,32 @@ class AmmoFunctions {
             return;
         }
 
+        if (shapeKey === "box") {
+
+            rigidBody = fetchPoolBody(dataKey);
+
+            if (!rigidBody) {
+
+                let createFunc = function(physicsShape) {
+                    return shape = createBody(physicsShape, mass);
+                };
+
+                let shape = ammoBoxShape(scaleVec.x, scaleVec.y, scaleVec.z);
+
+                bodyPools[dataKey] = new BodyPool(shape, createFunc);
+                rigidBody = fetchPoolBody(dataKey);
+            } else {
+                rigidBody.forceActivationState(STATE.ACTIVE);
+            }
+            rigidBody.forceActivationState(STATE.ACTIVE);
+            rigidBody.dataKey = dataKey;
+            //    position.y += args[2] / 2;
+        //    console.log("Box", scaleVec, rigidBody)
+            setBodyTransform(rigidBody, position, quaternion);
+            onReady(rigidBody)
+            return;
+        }
+
         if (shapeKey === "primitive") {
 
             rigidBody = fetchPoolBody(dataKey);
@@ -1007,14 +1034,11 @@ class AmmoFunctions {
             if (!rigidBody) {
 
                 let createFunc = function(physicsShape) {
-                    return createPrimitiveBody(physicsShape, rigid_body, scaleVec);
+                    return createBody(physicsShape, mass);
                 };
 
                 let shape = createPrimitiveShape(rigid_body);
 
-                if (rigid_body.shape === "Compound") {
-                    shape.setLocalScaling(new Ammo.btVector3(scaleVec.x, scaleVec.y, scaleVec.z));
-                };
 
                 bodyPools[dataKey] = new BodyPool(shape, createFunc);
                 rigidBody = fetchPoolBody(dataKey);
@@ -1022,9 +1046,11 @@ class AmmoFunctions {
             } else {
                 rigidBody.forceActivationState(STATE.ACTIVE);
             }
-
+            rigidBody.dataKey = dataKey;
             //    position.y += args[2] / 2;
             setBodyTransform(rigidBody, position, quaternion);
+            onReady(rigidBody)
+            return;
         }
 
         if (shapeKey === "vehicle") {
@@ -1050,29 +1076,31 @@ class AmmoFunctions {
             let body = fetchPoolBody(dataKey);
 
             if (!body) {
-            let createFunc = function(bodyShape) {
-                return configureMeshShape(bodyShape, mass, friction, position, quaternion)
-            };
+                let createFunc = function(bodyShape) {
+                    return configureMeshShape(bodyShape, mass, friction, position, quaternion)
+                };
 
-            let shape;
+                let shape;
 
-            if (convex) {
-                shape = createConvexHullFromBuffer(geometryBuffers[assetId]);
-            } else {
-                shape = createTriMeshFromBuffer(geometryBuffers[assetId]);
-            }
+                if (convex) {
+                    shape = createConvexHullFromBuffer(geometryBuffers[assetId]);
+                } else {
+                    shape = createTriMeshFromBuffer(geometryBuffers[assetId]);
+                }
 
-            shape.setLocalScaling(new Ammo.btVector3(scaleVec.x, scaleVec.y, scaleVec.z));
+                shape.setLocalScaling(new Ammo.btVector3(scaleVec.x, scaleVec.y, scaleVec.z));
 
-            bodyPools[dataKey] = new BodyPool(shape, createFunc);
+                bodyPools[dataKey] = new BodyPool(shape, createFunc);
                 body = fetchPoolBody(dataKey);
+                body.dataKey = dataKey;
             } else {
                 body.forceActivationState(STATE.ACTIVE);
             }
-
+            body.forceActivationState(STATE.ACTIVE);
+            body.dataKey = dataKey;
             setBodyTransform(body, position, quaternion);
-
             onReady(body)
+
         } else {
         //    onReady(rigidBody, rigid_body);
         }

@@ -67,22 +67,31 @@ class LocationModel {
 
         let physicalModel = null;
 
-        this.instanceCallback = function() {
+        this.physicsUpdate = function(obj3d) {
+        //    console.log("update", obj3d.position.y)
+            evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ThreeAPI.getCameraCursor().getPos(), to:obj3d.position, color:'GREEN'});
 
-        }
+            if (this.instance) {
+                this.instance.getSpatial().stickToObj3D(obj3d);
+            }
+        }.bind(this);
 
         let lodUpdated = function(lodLevel) {
 
-            if (lodLevel < 2) {
-                if (this.instance === null) {
-                    this.instanceCallback = function() {
-                        physicalModel = addPhysicsToModel(config.asset, this.obj3d);
-                    }.bind(this);
-                } else {
-                    physicalModel = addPhysicsToModel(config.asset, this.obj3d);
+            if (lodLevel < 1) {
+
+                if (!physicalModel) {
+                    if (this.instance === null) {
+                        this.instanceCallback = function() {
+                            physicalModel = addPhysicsToModel(config.asset, this.obj3d, this.physicsUpdate);
+                        }.bind(this);
+                    } else {
+                        physicalModel = addPhysicsToModel(config.asset, this.obj3d, this.physicsUpdate);
+                    }
                 }
 
             } else {
+
                 if (physicalModel) {
                     removePhysicalModel(physicalModel);
                     physicalModel = null;

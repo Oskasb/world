@@ -692,20 +692,7 @@ class TerrainFunctions {
         physicsApi.excludeBody(module.body);
     };
 
-    addTerrainToPhysics = function(terrainOpts, buffer, posX, posZ) {
 
-        let  opts = terrainOpts;
-        //    let  matrix = makeMatrix2D(array1d);
-        let  body = physicsApi.buildPhysicalTerrain(
-            buffer,
-            opts.terrain_size,
-            posX-opts.terrain_size/2,
-            posZ-opts.terrain_size/2,
-            opts.min_height,
-            opts.max_height);
-
-        return body;
-    };
 
     getTerrainHeightAt = function(terrain, pos, terrainOrigin, normalStore) {
 

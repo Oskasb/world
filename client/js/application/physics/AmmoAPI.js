@@ -3,7 +3,6 @@ import {AmmoFunctions} from "./AmmoFunctions.js";
 "use strict";
 
 let ammoFunctions;
-let bodies = [];
 let world;
 
 let STATE = {
@@ -41,19 +40,9 @@ class AmmoAPI {
         return ammoFunctions.getYGravity();
     };
 
-    cleanupPhysics = function(cb) {
-
-        while (bodies.length) {
-            this.excludeBody(bodies[0], true)
-        }
-
-        world = null;
-        ammoFunctions.cleanupPhysicalWorld(cb);
-    };
 
     buildPhysicalTerrain = function(data, size, posx, posz, min_height, max_height) {
         var body = ammoFunctions.createPhysicalTerrain(world, data, size, posx, posz, min_height, max_height);
-        bodies.push(body);
         return body;
     };
 
@@ -93,17 +82,15 @@ class AmmoAPI {
             console.log("Cant add !body", body);
             return;
         }
-        if (bodies.indexOf(body) === -1) {
+
+    //    if (bodies.indexOf(body) === -1) {
             world.addRigidBody(body);
-            bodies.push(body);
-        }
+    //    }
 
         ammoFunctions.enableBodySimulation(body);
     };
 
     excludeBody = function(body) {
-        var bi = bodies.indexOf(body);
-        bodies.splice(bi, 1);
 
         if (!body) {
             console.log("No body", bi, body);
@@ -111,6 +98,7 @@ class AmmoAPI {
         }
 
         ammoFunctions.disableBodySimulation(body);
+        world.removeRigidBody(body);
     };
 
 
@@ -169,13 +157,7 @@ class AmmoAPI {
         return ammoFunctions.getAuxVector3();
     }
 
-    fetchPhysicsStatus = function() {
 
-        status.bodyCount = bodies.length;
-        //    this.status.contactCount = this.world.contacts.length;
-
-        return status;
-    };
 
 
 

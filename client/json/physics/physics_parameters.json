@@ -13,7 +13,15 @@
         "id":"asset_box",
         "data":{
           "shapes": [
-            {"shape": "mesh", "rot": [0, 0, 0], "pos": [0, 0, 0], "scale": [100, 100, 100], "asset": "asset_box", "convex": false, "mass": 0, "friction": 2.9}
+            {"shape": "box", "rot": [0, 0, 0], "pos": [0, 0, 0], "scale": [100, 100, 100], "asset": "box", "convex": false, "mass": 0, "friction": 2.9}
+          ]
+        }
+      },
+      {
+        "id":"asset_box_dynamic",
+        "data":{
+          "shapes": [
+            {"shape": "box", "rot": [0, 0, 0], "pos": [0, 0, 0], "scale": [100, 100, 100], "asset": "box_dyn", "convex": false, "mass": 10, "friction": 2.9}
           ]
         }
       },
@@ -45,7 +53,7 @@
         "id":"asset_town_house",
         "data":{
           "shapes": [
-            {"shape": "mesh", "rot": [0, 0, 0], "pos": [0, 0, 0], "scale": [100, 100, 100], "asset": "asset_town_house", "convex": true, "mass": 0, "friction": 2.9}
+            {"shape": "mesh", "rot": [0, 0, 0], "pos": [0, 0, 0], "scale": [100, 100, 100], "asset": "asset_town_house", "convex": false, "mass": 0, "friction": 2.9}
           ]
         }
       },

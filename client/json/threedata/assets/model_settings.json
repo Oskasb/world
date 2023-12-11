@@ -26,6 +26,20 @@
             }
           }
         },
+        {"id": "model_settings_tileset_dynamic" ,
+          "config": {
+            "instancing": {
+              "instances": 100,
+              "attributes": ["offset", "vertexColor", "scale3d", "orientation", "sprite"],
+              "cameraspace": false
+            },
+            "transform": {
+              "pos":   [0, 0, 0],
+              "rot":   [0, 0, 0],
+              "scale": [1, 1, 1]
+            }
+          }
+        },
         {"id": "model_settings_big_terrain" ,
           "config": {
             "instancing": {

@@ -88,7 +88,8 @@
         {"id": "asset_ocean_big_outer",   "config": { "model": "file_ground_big_outer",     "material": "material_big_ocean",      "settings": "model_settings_ocean_tile"  }},
         {"id": "asset_ocean_big",    "config": { "model": "file_unit_grid_52", "material": "material_big_ocean",      "settings": "model_settings_ocean_tile"  }},
 
-        {"id": "asset_box",         "config": { "model": "file_box",         "material": "material_instancing_tileset",      "settings": "model_settings_tileset"  }},
+        {"id": "asset_box",           "config": { "model": "file_box",         "material": "material_instancing_tileset",      "settings": "model_settings_tileset"  }},
+        {"id": "asset_box_dynamic",   "config": { "model": "file_box",         "material": "material_instancing_tileset",      "settings": "model_settings_tileset_dynamic"  }},
 
         {"id": "asset_vegQuad",      "config": { "model": "file_vegQuad",    "material": "material_instancing_vegetation",  "settings": "model_settings_vegetation"  }},
         {"id": "_asset_vegQuad",      "config":  { "model": "file_vegQuad",    "material": "mat_instancing_basic",     "settings": "model_settings_instancing_100"     }},

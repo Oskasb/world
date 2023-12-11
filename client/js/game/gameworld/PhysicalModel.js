@@ -22,6 +22,9 @@ class PhysicalModel {
         this.rigidBodies = [];
         this.assetId = null;
         this.box = new Box3();
+
+        this.onUpdateCallbacks = [];
+
         let applyPhysicalConfig = function(data) {
             onConfig(data);
             let rebuild = this.assetId;
@@ -41,7 +44,12 @@ class PhysicalModel {
         return this.obj3d.position;
     }
 
-    initPhysicalWorldModel(assetId, obj3d) {
+    initPhysicalWorldModel(assetId, obj3d, updateCB) {
+
+        if (typeof (updateCB) === 'function') {
+            this.onUpdateCallbacks.push(updateCB);
+        }
+
         this.assetId = assetId;
         this.obj3d.copy(obj3d);
         this.box.min.set(999999999, 99999999, 99999999);
@@ -56,7 +64,7 @@ class PhysicalModel {
             }
 
             let bodyReadyCB = function(body) {
-
+                bodyTransformToObj3d(body, this.obj3d);
                 this.rigidBodies.push(body);
                 window.AmmoAPI.includeBody(body);
                 if (this.static === false) {
@@ -81,6 +89,10 @@ class PhysicalModel {
     }
 
     deactivatePhysicalModel() {
+        while (this.onUpdateCallbacks.length) {
+            this.onUpdateCallbacks.pop();
+        }
+
         while (this.rigidBodies.length) {
             let body = this.rigidBodies.pop();
             window.AmmoAPI.excludeBody(body);
@@ -90,39 +102,31 @@ class PhysicalModel {
     sampleBodyState() {
 
         if (this.static) {
-        //    return;
+            return;
         }
+
+   //     console.log("sampleBodyState body", this.rigidBodies);
 
         for (let i = 0; i < this.rigidBodies.length; i++) {
             let body = this.rigidBodies[i];
             if (!body.getMotionState) {
-                console.log("Bad physics body", this.body);
+                console.log("Bad physics body", body);
                 return;
             }
             bodyTransformToObj3d(body, this.obj3d);
             let vel = body.getLinearVelocity();
             let angVel = body.getAngularVelocity();
+
+            for (let i = 0; i < this.onUpdateCallbacks.length; i++) {
+                this.onUpdateCallbacks[i](this.obj3d);
+            }
         }
-
-
-    //    this.velocity.set(vel.x(), vel.y(), vel.z());
-
-    //    this.worldEntity.setWorldEntityVelocity(this.velocity);
-
-
-
-    //    this.angularVelocity.set(angVel.x(), angVel.y(), angVel.z());
-
-    //    if (this.isStatic()) {
-    //        this.setSpatialDisabledFlag(1);
-    //    }
 
     };
 
     updatePhysicalModel() {
         this.sampleBodyState()
     }
-
 
 }
 
