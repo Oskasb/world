@@ -7,8 +7,11 @@ import {Obj3DText} from "../../application/ui/gui/game/Obj3DText.js";
 import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
 import {aaBoxTestVisibility, borrowBox, cubeTestVisibility} from "../../application/utils/ModelUtils.js";
 import {colorMapFx} from "../visuals/Colors.js";
+import {detectFreeSpaceAbovePoint, rayTest} from "../../application/utils/PhysicsUtils.js";
 
 let up = new Vector3(0, 1, 0)
+let normalHit = new Vector3();
+let contactPoint = new Vector3();
 let tempVec = new Vector3();
 let tempObj = new Object3D();
 let index = 0;
@@ -84,7 +87,20 @@ class DynamicTile {
         this.obj3d.position.x = indexX*this.spacing + this.offset
         this.obj3d.position.z = indexY*this.spacing + this.offset;
         let height = ThreeAPI.terrainAt(this.obj3d.position, this.groundNormal);
-        this.obj3d.position.y = height+0.05;
+        this.obj3d.position.y = height+0.01;
+
+        tempVec.copy(this.obj3d.position);
+        tempVec.y +=2;
+
+        let hit = detectFreeSpaceAbovePoint(tempVec, 2, this.obj3d.position, this.groundNormal, 4, false);
+
+
+        if (hit) {
+
+     //       this.obj3d.position.copy(contactPoint);
+     //       this.groundNormal.copy(normalHit);
+        }
+
         this.pathPoint.setPos(this.obj3d.position)
 
         if (this.visualTile) {

@@ -205,7 +205,7 @@ class ActorAction {
         if (!targetId) {
             console.log("No action Target...", this)
             let actor = GameAPI.getActorById(this.status.call.getStatusByKey(ENUMS.ActionStatus.ACTOR_ID));
-            GameAPI.getActorById(actor.getStatus(ENUMS.ActionStatus.SELECTED_TARGET));
+            targetId = actor.getStatus(ENUMS.ActionStatus.SELECTED_TARGET);
             if (!targetId) {
                 console.log("No actor Target either...", this)
                 targetId = actor.id;

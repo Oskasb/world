@@ -152,7 +152,12 @@
         {"id": "file_tree_2",        "config": { "url": "./client/assets/models/trees/tree_2"                                        }},
         {"id": "file_tree_3",        "config": { "url": "./client/assets/models/trees/tree_3"                                        }},
         {"id": "file_tree_4",        "config": { "url": "./client/assets/models/trees/tree_4"                                        }},
-        {"id": "file_tree_5_big",    "config": { "url": "./client/assets/models/trees/tree_5_big"                                    }}
+        {"id": "file_tree_5_big",    "config": { "url": "./client/assets/models/trees/tree_5_big"                                    }},
+        {"id": "file_convex_tree_1",        "config": { "url": "./client/assets/models/trees/convex_tree_1"                                        }},
+        {"id": "file_convex_tree_2",        "config": { "url": "./client/assets/models/trees/convex_tree_2"                                        }},
+        {"id": "file_convex_tree_3",        "config": { "url": "./client/assets/models/trees/convex_tree_3"                                        }},
+        {"id": "file_convex_tree_4",        "config": { "url": "./client/assets/models/trees/convex_tree_4"                                        }},
+        {"id": "file_convex_tree_5_big",    "config": { "url": "./client/assets/models/trees/convex_tree_5_big"                                    }}
       ]
     }
   }

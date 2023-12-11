@@ -29,7 +29,8 @@
         "id":"asset_cottage",
         "data":{
           "shapes": [
-            {"shape": "mesh", "rot": [0, 0, 0], "pos": [0, 0, 0], "scale": [100, 100, 100], "asset": "asset_cottage", "convex": false, "mass": 0, "friction": 2.9}
+            {"shape": "mesh", "rot": [0, 0, 0], "pos": [0, 0, 0], "scale": [100, 100, 100], "asset": "asset_cottage", "convex": false, "mass": 0, "friction": 2.9},
+            {"shape": "box", "rot": [0, 0, 0], "pos": [0, 2, 0], "scale": [600, 400, 550], "asset": "box", "convex": false, "mass": 0, "friction": 2.9}
           ]
         }
       },
@@ -53,7 +54,8 @@
         "id":"asset_town_house",
         "data":{
           "shapes": [
-            {"shape": "mesh", "rot": [0, 0, 0], "pos": [0, 0, 0], "scale": [100, 100, 100], "asset": "asset_town_house", "convex": false, "mass": 0, "friction": 2.9}
+            {"shape": "mesh", "rot": [0, 0, 0], "pos": [0, 0, 0], "scale": [100, 100, 100], "asset": "asset_town_house", "convex": false, "mass": 0, "friction": 2.9},
+            {"shape": "box", "rot": [0, 0, 0], "pos": [0, 1, 0], "scale": [600, 600, 100], "asset": "box", "convex": false, "mass": 0, "friction": 2.9}
           ]
         }
       },
@@ -61,7 +63,7 @@
         "id":"asset_tree_1",
         "data":{
           "shapes": [
-            {"shape": "mesh", "rot": [0, 0, 0], "pos": [0, 0, 0], "scale": [100, 100, 100], "asset": "asset_tree_1", "convex": false, "mass": 0, "friction": 2.9}
+            {"shape": "mesh", "rot": [0, 0, 0], "pos": [0, 0, 0], "scale": [100, 100, 100], "asset": "asset_convex_tree_1", "convex": true, "mass": 0, "friction": 2.9}
           ]
         }
       },
@@ -69,7 +71,7 @@
         "id":"asset_tree_2",
         "data":{
           "shapes": [
-            {"shape": "mesh", "rot": [0, 0, 0], "pos": [0, 0, 0], "scale": [100, 100, 100], "asset": "asset_tree_2", "convex": false, "mass": 0}
+            {"shape": "mesh", "rot": [0, 0, 0], "pos": [0, 0, 0], "scale": [100, 100, 100], "asset": "asset_convex_tree_2", "convex": true, "mass": 0}
           ]
         }
       },
@@ -77,7 +79,7 @@
         "id":"asset_tree_3",
         "data":{
           "shapes": [
-            {"shape": "mesh", "rot": [0, 0, 0], "pos": [0, 0, 0], "scale": [100, 100, 100], "asset": "asset_tree_3", "convex": false, "mass": 0}
+            {"shape": "mesh", "rot": [0, 0, 0], "pos": [0, 0, 0], "scale": [100, 100, 100], "asset": "asset_convex_tree_3", "convex": true, "mass": 0}
           ]
         }
       },
@@ -85,7 +87,7 @@
         "id":"asset_tree_4",
         "data":{
           "shapes": [
-            {"shape": "mesh", "rot": [0, 0, 0], "pos": [0, 0, 0], "scale": [100, 100, 100], "asset": "asset_tree_4", "convex": false, "mass": 0}
+            {"shape": "mesh", "rot": [0, 0, 0], "pos": [0, 0, 0], "scale": [100, 100, 100], "asset": "asset_convex_tree_4", "convex": true, "mass": 0}
           ]
         }
       },
@@ -93,7 +95,7 @@
         "id":"asset_tree_5",
         "data":{
           "shapes": [
-            {"shape": "mesh", "rot": [0, 0, 0], "pos": [0, 0, 0], "scale": [100, 100, 100], "asset": "asset_tree_5", "convex": false, "mass": 0}
+            {"shape": "mesh", "rot": [0, 0, 0], "pos": [0, 0, 0], "scale": [100, 100, 100], "asset": "asset_convex_tree_5", "convex": true, "mass": 0}
           ]
         }
       },

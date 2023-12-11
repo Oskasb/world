@@ -417,6 +417,20 @@
               "scale": [1, 1, 1]
             }
           }
+        },
+        {"id": "model_settings_instancing_1" ,
+          "config": {
+            "instancing": {
+              "instances": 1,
+              "attributes": ["offset", "vertexColor", "scale3d", "orientation"],
+              "cameraspace": false
+            },
+            "transform": {
+              "pos":   [0, 0, 0],
+              "rot":   [0, 0, 0],
+              "scale": [1, 1, 1]
+            }
+          }
         }
       ]
     }

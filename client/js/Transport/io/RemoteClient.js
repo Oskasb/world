@@ -158,8 +158,8 @@ class RemoteClient {
             } else {
                 console.log("Bad remote actor removal ", actorList[i], this.actors);
             }
-
         }
+        this.encounter = null;
     }
 
     handleActionMessage(actionId, msg) {
@@ -336,9 +336,10 @@ class RemoteClient {
             }
 
             if (activationState === ENUMS.ActivationState.DEACTIVATING) {
-                this.encounter = null;
+
                 GameAPI.call.getGameEncounterSystem().deactivateActiveEncounter(true);
                 this.deactivateEncounter(status)
+
             }
 
             console.log(statusPre, activationState)

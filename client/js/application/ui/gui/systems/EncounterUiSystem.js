@@ -44,11 +44,6 @@ let onActivate = function(actor) {
     selectedActor = actor;
     actor.setStatusKey(ENUMS.ActorStatus.SEQUENCER_SELECTED, true)
     actor.actorText.say('Selected')
-    let partyActor = GameAPI.getGamePieceSystem().getPlayerParty().getPartySelection()
-
-    if (partyActor) {
-        partyActor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, selectedActor.id);
-    }
 
 }
 

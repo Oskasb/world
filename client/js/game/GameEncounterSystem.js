@@ -174,14 +174,9 @@ class GameEncounterSystem {
     deactivateActiveEncounter(byRemote) {
 
         console.log("DEACTIVATE ENC", dynamicEncounter)
-        if (dynamicEncounter) {
 
-        //    let statusActors = dynamicEncounter.getStatus(ENUMS.EncounterStatus.ENCOUNTER_ACTORS);
-        //    MATH.emptyArray(statusActors);
-        //    dynamicEncounter.setStatusKEy(ENUMS.EncounterStatus.ENCOUNTER_ACTORS, statusActors);
+        if (dynamicEncounter) {
             dynamicEncounter.setStatusKey(ENUMS.EncounterStatus.ACTIVATION_STATE, ENUMS.ActivationState.DEACTIVATING);
-            dynamicEncounter.removeEncounterActors()
-            dynamicEncounter = null;
         }
 
         if (activeEncounterGrid) {
@@ -190,9 +185,7 @@ class GameEncounterSystem {
             if (byRemote) {
                 actor.transitionTo(activeEncounterGrid.getPosOutsideTrigger(), 1.0);
             }
-            actor.setStatusKey(ENUMS.ActorStatus.DEACTIVATING_ENCOUNTER, '');
-            GameAPI.getGamePieceSystem().playerParty.clearPartyMemebers()
-            clearActorEncounterStatus(actor);
+
             activeEncounterGrid.removeEncounterGrid()
             activeEncounterGrid = null;
         }
@@ -203,9 +196,17 @@ class GameEncounterSystem {
         GameAPI.unregisterGameUpdateCallback(encounterStatusProcessor.processEncounterStatus)
 
         setTimeout(function() {
+            dynamicEncounter.removeEncounterActors()
+            dynamicEncounter = null;
+            actor.setStatusKey(ENUMS.ActorStatus.DEACTIVATING_ENCOUNTER, '');
+            clearActorEncounterStatus(actor);
+            GameAPI.getGamePieceSystem().playerParty.clearPartyMemebers()
+        },1000)
+
+        setTimeout(function() {
             GameAPI.call.spawnWorldEncounters();
         }, 3000)
-        
+
     }
 
 }

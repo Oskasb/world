@@ -22,6 +22,7 @@ let CAM_POINTS = {
 }
 
 let lerpFactor = 0.1;
+let obscureTestVec3 = new Vector3();
 let tempVec = new Vector3();
 let tempVec2 = new Vector3();
 let tempVec3 = new Vector3();
@@ -29,7 +30,7 @@ let lookAtMod = new Vector3();
 let offsetPos = new Vector3();
 let camTargetPos = new Vector3()
 let cameraTime = 0;
-let zoomDistance = 10;
+let zoomDistance = 6;
 let tpf = 0.02;
 let pointerAction ;
 let lookAroundPoint;
@@ -201,14 +202,19 @@ function applyPointerRelease() {
 
 function lerpCameraPosition(towardsPos, alpha, testObscured) {
 
-    if (!testObscured) {
-    //    rayTest(camLookAtVec, camPosVec, towardsPos);
+    if (testObscured) {
+        if (selectedActor) {
+            obscureTestVec3.copy(selectedActor.getSpatialPosition());
+            obscureTestVec3.y += selectedActor.getStatus(ENUMS.ActorStatus.HEIGHT);
+            rayTest(obscureTestVec3, camPosVec, towardsPos);
+        }
+
     }
 
     camPosVec.lerp(towardsPos, alpha)
 
     if (testObscured) {
-        rayTest(camLookAtVec, camPosVec, camPosVec);
+    //    rayTest(camLookAtVec, camPosVec, camPosVec);
     }
 
 }
@@ -720,7 +726,8 @@ function CAM_MOVE() {
 
     if (lookFromActive) {
         zoomDistance = 11 + distance*0.6;;
-        lerpCameraPosition(CAM_POINTS[lookFromControlKey](selectedActor), tpf*3, true);
+        let testObscured = true;
+        lerpCameraPosition(CAM_POINTS[lookFromControlKey](selectedActor), tpf*3, testObscured );
     }
 
 

@@ -3,11 +3,14 @@ import {Vector3} from "../../../libs/three/math/Vector3.js";
 import {Ray} from "../../../libs/three/math/Ray.js";
 
 let tempVec = new Vector3();
+let tempPos = new Vector3()
 let tempVec2 = new Vector3();
 let tempVec3 = new Vector3();
 let tempVec4 = new Vector3();
 let tempVec5 = new Vector3();
 let normalStore = new Vector3();
+let tempFrom = new Vector3();
+let tempTo = new Vector3();
 let tempRay = new Ray();
 
 function getPhysicalWorld() {
@@ -89,17 +92,18 @@ function rayTest(from, to, contactPointStore, contactNormal, debugDraw) {
     if (!contactNormal) {
         contactNormal = tempVec5;
     }
-    tempVec.copy(to).sub(from);
-    let hit = AmmoAPI.raycastPhysicsWorld(from, tempVec, contactPointStore, contactNormal)
+    tempTo.copy(to).sub(from);
+    let hit = AmmoAPI.raycastPhysicsWorld(from, tempTo, contactPointStore, contactNormal, debugDraw)
 
     if (debugDraw) {
         if (hit) {
+            tempVec.copy(tempTo)
         //    console.log(hit)
         //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:from, to:contactPointStore, color:'RED'});
 
             evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos: contactPointStore, color:'YELLOW', size:0.1})
             tempVec.copy(contactNormal).add(contactPointStore)
-            evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:contactPointStore, to:tempVec, color:'RED'});
+            evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:contactPointStore, to:tempVec, color:'CYAN'});
         } else {
         //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:from, to:to, color:'BLUE'});
         }
@@ -163,7 +167,27 @@ function physicalIntersection(pos, insideVec3) {
     }
 }
 
+let step = 0;
+function detectFreeSpaceAbovePoint(point, marginHeight, contactPoint, contactNormal, maxSteps, debugDraw) {
+
+    tempPos.copy(point);
+    tempPos.y = point.y + marginHeight;
+
+    let hit = rayTest(tempPos, point, contactPoint, contactNormal, debugDraw);
+    if (hit) {
+        step++;
+        if (step > maxSteps) {
+            return hit;
+        } else {
+            return detectFreeSpaceAbovePoint(contactPoint, marginHeight, contactPoint, contactNormal, debugDraw)
+        }
+    }
+    step = 0;
+    return hit;
+}
+
 export {
+    detectFreeSpaceAbovePoint,
     rayTest,
     bodyTransformToObj3d,
     addPhysicsToModel,

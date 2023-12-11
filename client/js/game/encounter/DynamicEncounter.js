@@ -73,6 +73,7 @@ class DynamicEncounter {
     removeEncounterActors() {
         while (encounterActors.length) {
             let actor = encounterActors.pop();
+            console.log("Remove Enc Actors", actor)
             actor.removeGameActor();
         }
     }

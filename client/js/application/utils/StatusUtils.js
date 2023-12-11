@@ -16,13 +16,16 @@ function clearTargetSelection(actor) {
 }
 
 function clearActorEncounterStatus(actor) {
+    actor.setStatusKey(ENUMS.ActorStatus.IN_COMBAT, false);
     actor.setStatusKey(ENUMS.ActorStatus.HAS_TURN, false);
     actor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, '');
     actor.setStatusKey(ENUMS.ActorStatus.SEQUENCER_SELECTED, false);
-
+    actor.setStatusKey(ENUMS.ActorStatus.RETREATING, '');
+    actor.setStatusKey(ENUMS.ActorStatus.EXIT_ENCOUNTER, '');
     actor.setStatusKey(ENUMS.ActorStatus.ACTIVATING_ENCOUNTER, '');
     actor.setStatusKey(ENUMS.ActorStatus.ACTIVATED_ENCOUNTER, '');
     actor.setStatusKey(ENUMS.ActorStatus.SELECTED_ENCOUNTER, '');
+    actor.setStatusKey(ENUMS.ActorStatus.DEACTIVATING_ENCOUNTER, '');
 }
 
 export {
