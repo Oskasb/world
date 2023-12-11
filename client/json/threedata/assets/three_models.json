@@ -164,7 +164,7 @@
         {"id": "asset_tree_1",      "config": { "model": "file_tree_1" ,      "material": "mat_instancing_basic",     "settings": "model_settings_instancing_100"     }},
         {"id": "asset_tree_2",      "config": { "model": "file_tree_2" ,      "material": "mat_instancing_basic",     "settings": "model_settings_instancing_100"     }},
         {"id": "asset_tree_3",      "config": { "model": "file_tree_3" ,      "material": "mat_instancing_basic",     "settings": "model_settings_instancing_100"     }},
-        {"id": "asset_tree_4",      "config": { "model": "file_tree_4" ,      "material": "mat_instancing_basic",     "settings": "model_settings_instancing_75"     }},
+        {"id": "asset_tree_4",      "config": { "model": "file_tree_4" ,      "material": "mat_instancing_basic",     "settings": "model_settings_instancing_150"     }},
         {"id": "asset_tree_5",      "config": { "model": "file_tree_5_big" ,  "material": "mat_instancing_basic",     "settings": "model_settings_instancing_75"     }}
       ]
     }
