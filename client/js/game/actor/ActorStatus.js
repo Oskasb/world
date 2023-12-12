@@ -86,6 +86,7 @@ let detailsMap = [
     ENUMS.ActorStatus.PATH_POINTS,
     ENUMS.ActorStatus.SELECTED_TARGET,
     ENUMS.ActorStatus.ALIGNMENT,
+    ENUMS.ActorStatus.STAND_STATE,
     ENUMS.ActorStatus.MOVE_STATE,
     ENUMS.ActorStatus.BODY_STATE,
     ENUMS.ActorStatus.IN_COMBAT,
@@ -99,7 +100,10 @@ let detailsMap = [
     ENUMS.ActorStatus.SEQUENCER_SELECTED,
     ENUMS.ActorStatus.SELECTED_TARGET,
     ENUMS.ActorStatus.SELECTED_ENCOUNTER,
-    ENUMS.ActorStatus.REQUEST_PARTY
+    ENUMS.ActorStatus.REQUEST_PARTY,
+    ENUMS.ActorStatus.DAMAGE_APPLIED,
+    ENUMS.ActorStatus.DEAD,
+    ENUMS.ActorStatus.IS_LEAPING
 ];
 
 let spatialMap = [

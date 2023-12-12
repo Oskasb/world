@@ -66,7 +66,7 @@ class StatusFeedback {
                 }
 
             } else if (activate === false) {
-                if (this.feedbackMap[key] !== null) {
+                if (typeof(this.feedbackMap[key]) === 'object') {
                     this.feedbackMap[key].off();
                     poolReturn(this.feedbackMap[key]);
                     this.feedbackMap[key] = null;

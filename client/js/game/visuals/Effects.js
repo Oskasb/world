@@ -21,8 +21,8 @@ effectMap[ENUMS.ActorStatus.DAMAGE_APPLIED] = {
 
 effectMap[ENUMS.ActorStatus.DEAD] = {
     className:'VisualPieceEffectTransition',
-    activateOn:true,
-    deactivateOn:false,
+    activateOn:1,
+    deactivateOn:0,
     maxDuration: 3,
     effect: {
         updateFunction: 'deathEffect'
