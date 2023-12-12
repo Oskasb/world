@@ -175,7 +175,7 @@ class ActorAction {
 
         let initStatus = function(actor, actionKey) {
             this.initiated = true;
-            this.status.call.initActionStatus(actor, actionKey, this)
+            this.status.call.initActionStatus(actor, this)
         }.bind(this);
 
         this.call = {
@@ -239,6 +239,7 @@ class ActorAction {
 
     setActionKey(actor, actionKey) {
         this.call.initStatus(actor, actionKey)
+        this.status.call.setStatusByKey(ENUMS.ActionStatus.ACTION_KEY, actionKey);
         this.visualAction = poolFetch('VisualAction')
         let visualActionKey = this.readActionConfig('visual_action')
         this.visualAction.setActorAction(this, visualActionKey);
@@ -247,26 +248,30 @@ class ActorAction {
     initAction(actor) {
 
         this.actor = actor;
-
+        console.log("initAction", [actor], this.status.call.getStatusByKey(ENUMS.ActionStatus.ACTION_KEY))
 
         if (!actor.call.getRemote()) {
             this.actor.setStatusKey(ENUMS.ActorStatus.ACTION_STATE_KEY, this.status.call.getStatusByKey(ENUMS.ActionStatus.ACTION_STATE))
             this.actor.setStatusKey(ENUMS.ActorStatus.SELECTED_ACTION, this.status.call.getStatusByKey(ENUMS.ActionStatus.ACTION_KEY));
         }
-
+/*
         let status = this.readActionConfig('status')
 
         if (typeof(status) === 'object') {
             for (let key in status) {
                 actor.setStatusKey(ENUMS.ActorStatus[key], status[key])
             }
+        } else {
+            console.log("Broken status")
         }
+
+ */
         actor.actorText.yell(this.visualAction.name)
 
         this.sequencing = this.readActionConfig('sequencing')
-        if (typeof(this.sequencing) === 'object') {
+     //   if (typeof(this.sequencing) === 'object') {
             GameAPI.registerGameUpdateCallback(this.call.updateAttack);
-        }
+    //    }
     }
 
     setActionTargetId(targetId) {

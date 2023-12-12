@@ -11,14 +11,20 @@ class SimpleSend {
             for (let key in statusMap) {
                 if (key !== skipKey)  {
 
-                    sendStatus.push(key)
-                    sendStatus.push(statusMap[key])
+                    if (key === 'undefined') {
+                    //    console.log("SIMPLE SEND FULL: ",key, sendStatus)
+                    } else {
 
-                    if (!lastBroadcast[key]) {
-                        lastBroadcast[key] = [0];
+                        sendStatus.push(key)
+                        sendStatus.push(statusMap[key])
+                        if (!lastBroadcast[key]) {
+                            lastBroadcast[key] = [0];
+                        }
+
+                        lastBroadcast[key][0] = MATH.stupidChecksumArray(statusMap[key])
                     }
 
-                    lastBroadcast[key][0] = MATH.stupidChecksumArray(statusMap[key])
+
                 }
             }
         }
@@ -33,8 +39,13 @@ class SimpleSend {
                     let checksum = MATH.stupidChecksumArray(statusMap[key])
                     if (checksum !== lastBroadcast[key][0]) {
                         lastBroadcast[key][0] = checksum;
-                        sendStatus.push(key)
-                        sendStatus.push(statusMap[key])
+                        if (key === 'undefined') {
+                        //    console.log("SIMPLE SEND: ",key, sendStatus)
+                        } else {
+                            sendStatus.push(key)
+                            sendStatus.push(statusMap[key])
+                        }
+
                     }
                 }
 

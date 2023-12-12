@@ -13,7 +13,7 @@ let tempQuat = new Quaternion();
 
 function messageByKey(msg, key ) {
     let keyIndex = msg.indexOf(key);
-    console.log(keyIndex, [msg], key)
+//    console.log(keyIndex, [msg], key)
     if (keyIndex === -1) {
         return null;
     }
@@ -131,7 +131,7 @@ class RemoteClient {
 
             if (isEquipped === false) {
                 if (equipQueue.indexOf(equippedList[i]) === -1) {
-                    console.log("EQUIP: ", equippedList[i])
+                 //   console.log("EQUIP: ", equippedList[i])
                     equipQueue.push(equippedList[i])
                     evt.dispatch(ENUMS.Event.LOAD_ITEM, {id: equippedList[i], callback:equipCb})
                 }
@@ -172,7 +172,7 @@ class RemoteClient {
         if (!action) {
             action = poolFetch('ActorAction');
             action.id = actionId;
-            console.log("Start new Action ", actionId)
+       //     console.log("Start new Action ", actionId)
             this.actions.push(action);
             action.isRemote = true;
         }
@@ -192,14 +192,16 @@ class RemoteClient {
 
         let actor = this.getActorById(actorKey);
         if (!actor) {
-            console.log("No such actor... ", msg);
+            GuiAPI.screenText("No Actor "+this.index,  ENUMS.Message.SYSTEM, 0.5)
+            // console.log("No such actor... ", msg);
             return;
         } else {
             if (action.initiated === false) {
                 let actionKey = action.call.getStatus(ENUMS.ActionStatus.ACTION_KEY);
             //    action.call.initStatus(actor, actionKey)
                 if (actionKey === "none") {
-                    console.log("No key yet")
+                    GuiAPI.screenText("No Action Key "+this.index,  ENUMS.Message.SYSTEM, 0.5)
+           //         console.log("No key yet")
                     return;
                 }
                 action.setActionKey(actor, actionKey)
@@ -224,7 +226,7 @@ class RemoteClient {
 
         let actionStateKey = ENUMS.getKey('ActionState', actionState)
 
-        console.log("Remote Action State", actionStateKey ,actionState, msg);
+    //    console.log("Remote Action State", actionStateKey ,actionState, msg);
 
         if (actionState === 1) {
         //    console.log("Status Map:", action.state.statusMap);
@@ -233,15 +235,16 @@ class RemoteClient {
         if (actionState === ENUMS.ActionState.SELECTED) {
 
             action.call.updateActivate();
-            console.log("Remote Action State: SELECTED", actionState, action.status);
+            GuiAPI.screenText("ACTION SELECTED "+this.index,  ENUMS.Message.SYSTEM, 1.2)
+        //    console.log("Remote Action State: SELECTED", actionState, action.status);
         }
 
         if (actionState === ENUMS.ActionState.PRECAST) {
-            console.log("Remote Action State: PRECAST", actionState, msg);
+        //    console.log("Remote Action State: PRECAST", actionState, msg);
         }
 
         if (actionState === ENUMS.ActionState.ACTIVE) {
-            console.log("Remote Action State: ACTIVE", actionState, msg);
+        //    console.log("Remote Action State: ACTIVE", actionState, msg);
             action.visualAction.visualizeAttack(action.call.applyHitConsequences);
 
         }
@@ -255,7 +258,8 @@ class RemoteClient {
         }
 
         if (actionState === ENUMS.ActionState.COMPLETED) {
-            console.log("Remote Action State: COMPLETED", actionState, msg);
+        //    console.log("Remote Action State: COMPLETED", actionState, msg);
+            GuiAPI.screenText("ACTION COMPLETED "+this.index,  ENUMS.Message.SYSTEM, 1.5)
             action.call.updateActionCompleted();
             action.call.setStatusKey(ENUMS.ActionStatus.ACTOR_ID, "none")
             action.call.setStatusKey(ENUMS.ActionStatus.ACTION_KEY, "none")
@@ -390,7 +394,8 @@ class RemoteClient {
 
 
                     if (configId === null) {
-                        console.log("No configId", msg);
+                        // console.log("No configId", msg);
+                        GuiAPI.screenText("loading config "+this.index,  ENUMS.Message.SYSTEM, 0.5)
                         return;
                     }
 

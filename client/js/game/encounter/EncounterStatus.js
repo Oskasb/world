@@ -96,7 +96,7 @@ class EncounterStatus {
             sendStatus.push(ENUMS.EncounterStatus.ENCOUNTER_ID)
             sendStatus.push(statusMap[ENUMS.EncounterStatus.ENCOUNTER_ID])
 
-            if (lastFullSend < gameTime -10) {
+            if (lastFullSend < gameTime -1) {
                 lastFullSend = gameTime;
                 fullSend(statusMap)
             } else {

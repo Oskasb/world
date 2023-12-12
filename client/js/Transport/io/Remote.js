@@ -24,8 +24,9 @@ let spatialMap = {}
 
 class Remote {
     constructor(stamp, remoteId) {
-        if (remotes.indexOf(remoteId)) {
-            console.log("--- REMOTE ALREADY ADDED --- FIX!")
+        if (remotes.indexOf(remoteId) !== -1) {
+            console.log("--- REMOTE ALREADY ADDED --- FIX!", remotes, stamp, remoteId)
+        //    return;
         }
         remotes.push(remoteId)
         this.stamp = stamp;
