@@ -1,4 +1,4 @@
-import { processPieceStatusFx } from "./feedback/StatusEffects.js";
+import { processPieceStatusFx } from "../visuals/effects/StatusEffects.js";
 
 class PieceStateProcessor {
     constructor(gamePiece) {

@@ -134,6 +134,7 @@ class ActorAction {
                 let maxHP = target.getStatus(ENUMS.ActorStatus.MAX_HP);
                 let newHP = Math.ceil(MATH.clamp(hp - (1  + (Math.random()*3))), 0, maxHP );
                 target.setStatusKey(ENUMS.ActorStatus.HP, newHP)
+                target.setStatusKey(ENUMS.ActorStatus.DAMAGE_APPLIED, hp - newHP)
             }
 
         }.bind(this);

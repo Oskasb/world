@@ -1,4 +1,4 @@
-import {transitionEffectOff, transitionEffectOn} from "./VisualTriggerFx.js";
+import {transitionEffectOff, transitionEffectOn} from "./effects/VisualTriggerFx.js";
 
 class VisualModel {
     constructor() {

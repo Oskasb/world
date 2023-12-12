@@ -1,4 +1,4 @@
-import * as PieceEffects from "./feedback/PieceEffects.js";
+import * as PieceEffects from "../visuals/effects/PieceEffects.js";
 
 import { Vector3 } from "../../../libs/three/math/Vector3.js";
 import { Object3D } from "../../../libs/three/core/Object3D.js";

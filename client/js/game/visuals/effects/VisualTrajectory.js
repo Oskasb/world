@@ -1,8 +1,8 @@
-import {Vector3} from "../../../libs/three/math/Vector3.js";
-import {Object3D} from "../../../libs/three/core/Object3D.js";
-import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
+import {Vector3} from "../../../../libs/three/math/Vector3.js";
+import {Object3D} from "../../../../libs/three/core/Object3D.js";
+import {poolFetch, poolReturn} from "../../../application/utils/PoolUtils.js";
 import {transitionEffectOn, transitionEffectOff} from "./VisualTriggerFx.js";
-import {colorMapFx} from "./Colors.js";
+import {colorMapFx} from "../Colors.js";
 
 let fromVec = new Vector3();
 let toVec = new Vector3();

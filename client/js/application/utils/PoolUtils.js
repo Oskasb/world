@@ -14,13 +14,14 @@ import {GuiScreenSpaceText} from "../ui/gui/widgets/GuiScreenSpaceText.js";
 import {PathPoint} from "../../game/gameworld/PathPoint.js";
 import {SpatialTransition} from "../../game/piece_functions/SpatialTransition.js";
 
-import { VisualTrajectory } from "../../game/visuals/VisualTrajectory.js";
+import { VisualTrajectory } from "../../game/visuals/effects/VisualTrajectory.js";
 import { VisualPointFX } from "../../game/visuals/VisualPointFX.js";
 import { WorldActorStatusUI } from "../ui/gui/systems/WorldActorStatusUI.js";
-import { VisualPulse } from "../../game/visuals/VisualPulse.js";
+import { VisualPulse } from "../../game/visuals/effects/VisualPulse.js";
 import { VisualModel } from "../../game/visuals/VisualModel.js";
 import {PhysicalModel} from "../../game/gameworld/PhysicalModel.js";
 import {PhysicalShape} from "../../game/gameworld/PhysicalShape.js";
+import {VisualEffectJointsToGround} from "../../game/visuals/effects/VisualEffectJointsToGround.js";
 
 let pools = {}
 let stats = {};
@@ -44,6 +45,7 @@ function initPools() {
     registerPool(WorldActorStatusUI);
     registerPool(VisualTrajectory);
     registerPool(VisualPulse);
+    registerPool(VisualEffectJointsToGround);
     registerPool(VisualModel);
     registerPool(PhysicalModel);
     registerPool(PhysicalShape)

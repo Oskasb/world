@@ -1,5 +1,5 @@
-import {Vector3} from "../../../libs/three/math/Vector3.js";
-import {colorMapFx} from "./Colors.js";
+import {Vector3} from "../../../../libs/three/math/Vector3.js";
+import {colorMapFx} from "../Colors.js";
 
 let effectEvent = {
     pos:new Vector3(),

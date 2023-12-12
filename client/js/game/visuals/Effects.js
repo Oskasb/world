@@ -7,6 +7,17 @@ effectMap[ENUMS.ActorStatus.IS_LEAPING] = {
     color:'LEAP_FX'
 }
 
+effectMap[ENUMS.ActorStatus.DAMAGE_APPLIED] = {
+    className:'VisualEffectJointsToGround',
+    activateOn:1,
+    deactivateOn:0,
+    maxDuration: 0.5,
+    effect: {
+        updateFunction: 'damageEffect'
+    }
+}
+
+
 effectMap[ENUMS.ActorStatus.TRAVEL_MODE] = {};
 
 let travelFx = effectMap[ENUMS.ActorStatus.TRAVEL_MODE];

@@ -1,16 +1,18 @@
 import * as CombatFxUtils from "../../combat/feedback/CombatFxUtils.js";
 import * as CombatFxOptions from "../../combat/feedback/CombatFxOptions.js";
 
-function damageEffect(gamePiece, dmg) {
+function damageEffect(actor, dmg, tpf) {
 
     let effectCb = function(efct) {
         efct.activateEffectFromConfigId()
-        let options = CombatFxOptions.setupOptsBoneToGround(efct, gamePiece)
+        let options = CombatFxOptions.setupOptsBoneToGround(efct, actor)
         efct.setEffectSpriteXY(1+Math.floor(Math.random()*3), 6);
         efct.activateSpatialTransition(options)
     }
 
-    for (let i = 0; i < dmg; i++) {
+    let count = Math.ceil(dmg * tpf * 10);
+
+    for (let i = 0; i < count; i++) {
         EffectAPI.buildEffectClassByConfigId('additive_stamps_8x8', 'effect_damage_taken',  effectCb)
     }
 }
@@ -26,9 +28,11 @@ function healEffect(gamePiece, hp, healer) {
         applies ++;
     };
 
+
     for (let i = 0; i < hp; i++) {
         EffectAPI.buildEffectClassByConfigId('additive_stamps_8x8', 'effect_health_recovered',  effectCb)
     }
+
 }
 
 function deathEffect(gamePiece) {

@@ -14,7 +14,7 @@ class StatusFeedback {
 
                 settings = effectMap[key][status];
                 if (typeof(this.feedbackMap[key]) === 'object') {
-                    console.log("EFFECT MAYNE TOGGLE ---")
+                    console.log("EFFECT MAYBE TOGGLE ---")
                     this.feedbackMap[key].off();
                     poolReturn(this.feedbackMap[key]);
                     this.feedbackMap[key] = null;
@@ -25,13 +25,25 @@ class StatusFeedback {
                 }
 
             } else {
+
                 settings = effectMap[key];
-                if (status === settings.activateOn) {
-                    activate = true;
-                } else if (status === settings.deactivateOn) {
-                    if (typeof(this.feedbackMap[key]) === 'object') {
+
+                if (typeof (settings.activateOn) === 'boolean') {
+                    if (status === settings.activateOn) {
+                        activate = true;
+                    } else if (status === settings.deactivateOn) {
+                        if (typeof(this.feedbackMap[key]) === 'object') {
+                            activate = false;
+                        } else {
+                            activate = true;
+                        }
+                    }
+                }
+                if (typeof (settings.activateOn) === 'number') {
+                //    console.log("ACTIVATE FX: ", settings)
+                    if (status < settings.activateOn) {
                         activate = false;
-                    } else {
+                    } else  {
                         activate = true;
                     }
                 }
@@ -42,10 +54,23 @@ class StatusFeedback {
             if (activate === true) {
                 this.feedbackMap[key] = poolFetch(settings.className);
                 this.feedbackMap[key].on(key, actor, settings)
+
+                if (settings.maxDuration) {
+
+                    let timeoutCB = function(effect) {
+                        effect.off();
+                        this.feedbackMap[effect.statusKey] = null;
+                        poolReturn(effect);
+                    }.bind(this)
+                    this.feedbackMap[key].addOnTimeoutCallback(timeoutCB)
+                }
+
             } else if (activate === false) {
-                this.feedbackMap[key].off();
-                poolReturn(this.feedbackMap[key]);
-                this.feedbackMap[key] = null;
+                if (this.feedbackMap[key] !== null) {
+                    this.feedbackMap[key].off();
+                    poolReturn(this.feedbackMap[key]);
+                    this.feedbackMap[key] = null;
+                }
             }
         }
     }
