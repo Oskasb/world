@@ -1,3 +1,4 @@
+import {trackDebugConfig} from "../../application/utils/DebugUtils.js";
 
 let lastBroadcast = {};
 let sendStatus = [];
@@ -74,6 +75,7 @@ class EncounterStatus {
     }
 
     setStatusKey(key, status) {
+        trackDebugConfig('ENCOUNTER_STATUS', key, status);
         if (typeof (this.statusMap[key]) === typeof (status)) {
             this.statusMap[key] = status;
         } else {

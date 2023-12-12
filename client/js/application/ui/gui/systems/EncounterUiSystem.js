@@ -28,7 +28,7 @@ function getStatus(key) {
 }
 
 let onActivate = function(actor) {
-    console.log("Button Pressed, onActivate:", actor)
+ //   console.log("Button Pressed, onActivate:", actor)
     let playerActor = GameAPI.getGamePieceSystem().getSelectedGameActor()
 
     if (selectedActor) {
@@ -50,7 +50,7 @@ let onActivate = function(actor) {
 let fitTimeout = null;
 
 let onReady = function(portrait) {
-    console.log("onReady", portrait)
+ //   console.log("onReady", portrait)
     portrait.actor.setStatusKey(ENUMS.ActorStatus.SEQUENCER_SELECTED, false)
     container.addChildWidgetToContainer(portrait.guiWidget)
 
@@ -137,7 +137,7 @@ class EncounterUiSystem {
 
     addContainer() {
         let containerReady = function(widget) {
-            console.log(widget)
+        //    console.log(widget)
             //    container = widget;
             widget.attachToAnchor('top_q_left');
         }

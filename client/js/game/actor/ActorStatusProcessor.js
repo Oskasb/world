@@ -63,8 +63,9 @@ function processPartyStatus(actor) {
                     if (playerParty.actors.length === 1) {
                         //         GuiAPI.screenText("Party Created")
                     }
-                    console.log("JOIN PARTY: ", playerParty, actor.id)
-                    otherActor.actorText.say("Joining")
+                    // console.log("JOIN PARTY: ", playerParty, actor.id)
+                    GuiAPI.screenText("PARTY JOINED", ENUMS.Message.HINT, 4);
+                    // otherActor.actorText.say("Joining")
                     if (playerParty.isMember(otherActor) === false) {
                         playerParty.addPartyActor(otherActor);
                     }
@@ -85,7 +86,7 @@ function processPartyStatus(actor) {
                         return;
                     }
                     if (encounter.getRequestingActor() !== actor) {
-                        GuiAPI.screenText("PARTY ENCOUNTER", ENUMS.Message.SAY, 3);
+                        GuiAPI.screenText("PARTY ENCOUNTER", ENUMS.Message.HINT, 4);
                         actor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, false);
                         actor.setStatusKey(ENUMS.ActorStatus.REQUEST_PARTY, '');
                         actor.setStatusKey(ENUMS.ActorStatus.ACTIVATING_ENCOUNTER, '');

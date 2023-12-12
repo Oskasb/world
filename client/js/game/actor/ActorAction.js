@@ -85,7 +85,7 @@ class ActorAction {
             this.stepProgress = 0;
 
             let actionState = this.status.call.getStatusByKey(ENUMS.ActionStatus.ACTION_STATE)
-            console.log("ACTION_STATE", actionState)
+       //     console.log("ACTION_STATE", actionState)
 
             if (!this.actor.call.getRemote()) {
                 this.actor.setStatusKey(ENUMS.ActorStatus.ACTION_STATE_KEY, actionState)
@@ -97,7 +97,7 @@ class ActorAction {
 
             let key = ENUMS.getKey('ActionState', newActionState);
             stepDuration = this.getStepDuration(key);
-            console.log("New Action State", newActionState, "Key: ", key);
+       //     console.log("New Action State", newActionState, "Key: ", key);
             this.status.call.setStatusByKey(ENUMS.ActionStatus.ACTION_STATE, newActionState)
             this.status.call.setStatusByKey(ENUMS.ActionStatus.STEP_START_TIME, 0)
             this.status.call.setStatusByKey(ENUMS.ActionStatus.STEP_END_TIME, stepDuration)
@@ -112,7 +112,7 @@ class ActorAction {
         }.bind(this)
 
         let updateProgress = function(tpf) {
-                console.log("Progress status... ")
+   //             console.log("Progress status... ")
         }.bind(this)
 
         let applyHitConsequences = function() {
@@ -248,7 +248,7 @@ class ActorAction {
     initAction(actor) {
 
         this.actor = actor;
-        console.log("initAction", [actor], this.status.call.getStatusByKey(ENUMS.ActionStatus.ACTION_KEY))
+     //   console.log("initAction", [actor], this.status.call.getStatusByKey(ENUMS.ActionStatus.ACTION_KEY))
 
         if (!actor.call.getRemote()) {
             this.actor.setStatusKey(ENUMS.ActorStatus.ACTION_STATE_KEY, this.status.call.getStatusByKey(ENUMS.ActionStatus.ACTION_STATE))
@@ -283,7 +283,7 @@ class ActorAction {
     }
 
     attackCompleted() {
-        console.log("attackCompleted", this)
+ //       console.log("attackCompleted", this)
         this.initiated = false;
 
         let actor = GameAPI.getActorById(this.call.getStatus(ENUMS.ActionStatus.ACTOR_ID))

@@ -622,7 +622,7 @@ function CAM_ENCOUNTER() {
 
     let turnActiveActor = GameAPI.call.getTurnActiveSequencerActor()
     if (!turnActiveActor) {
-        console.log("No turn Active Actor for CAM_ENCOUNTER")
+    //    console.log("No turn Active Actor for CAM_ENCOUNTER")
         return;
     }
     if (!selectedActor) {

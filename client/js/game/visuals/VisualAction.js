@@ -165,7 +165,7 @@ class VisualAction {
         }.bind(this)
 
         let onMissileArrive = function(gameEffect) {
-            console.log("Missile Arrive", gameEffect)
+    //        console.log("Missile Arrive", gameEffect)
             if (typeof (onArriveCB) === 'function' ) {
                 onArriveCB();
             }

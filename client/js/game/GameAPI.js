@@ -111,7 +111,8 @@ function getTurnActiveSequencerActor() {
         let actor = gameAPI.getActorById(hasTurnId)
 
         if (!actor) {
-            console.log("No actor has turn....")
+            // console.log("No actor has turn....")
+            GuiAPI.screenText("PASSING TURN", ENUMS.Message.HINT, 2);
         }
 
         return actor;

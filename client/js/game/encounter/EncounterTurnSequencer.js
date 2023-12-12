@@ -31,7 +31,7 @@ class EncounterTurnSequencer {
                 this.turnIndex++
                 setStatusKey(ENUMS.EncounterStatus.TURN_INDEX, this.turnIndex)
             }
-            console.log("turnEnded", this.turnActorIndex, this.turnIndex)
+    //        console.log("turnEnded", this.turnActorIndex, this.turnIndex)
         }.bind(this)
 
         this.call = {
@@ -103,15 +103,15 @@ class EncounterTurnSequencer {
 
             if (actor.isPlayerActor()) {
                 setStatusKey(ENUMS.EncounterStatus.ACTIVE_TURN_SIDE, "HOST");
-                GuiAPI.screenText("Your turn as host", ENUMS.Message.HINT, 4)
+                GuiAPI.screenText("Your turn", ENUMS.Message.HINT, 3)
                 actor.startPlayerTurn(this.call.turnEnded, this.turnIndex)
             } else if (GameAPI.getGamePieceSystem().isPlayerPartyActor(actor)) {
                 setStatusKey(ENUMS.EncounterStatus.ACTIVE_TURN_SIDE, "PARTY PLAYER");
-                GuiAPI.screenText("Joined Payer Turn", ENUMS.Message.HINT, 4)
+                GuiAPI.screenText("Party Turn", ENUMS.Message.HINT, 3)
             } else {
-                setStatusKey(ENUMS.EncounterStatus.ACTIVE_TURN_SIDE, "OPONENTS");
-                console.log("HOST: Opponent turn start")
-                GuiAPI.screenText("Enemy Turn", ENUMS.Message.HINT, 4)
+                setStatusKey(ENUMS.EncounterStatus.ACTIVE_TURN_SIDE, "OPPONENTS");
+            //    console.log("HOST: Opponent turn start")
+                GuiAPI.screenText("Hosting Enemy ", ENUMS.Message.SYSTEM, 3)
                 actor.getActorTurnSequencer().startActorTurn(this.call.turnEnded, this.turnIndex);
             }
 
@@ -124,7 +124,9 @@ class EncounterTurnSequencer {
                 if (hasTurnId === actor.id) {
                     let turnDone = actor.getStatus(ENUMS.ActorStatus.TURN_DONE);
                     if (turnDone === this.turnIndex) {
-                        console.log("Detect remote player turn done")
+                        GuiAPI.screenText("REMOTE DONE",  ENUMS.Message.SYSTEM, 2.2)
+
+                    //    console.log("Detect remote player turn done")
                         this.call.turnEnded();
                         return;
                     }

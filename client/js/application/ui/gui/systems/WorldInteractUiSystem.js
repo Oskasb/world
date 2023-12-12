@@ -40,8 +40,8 @@ let testActive = function(statusKey, buttonWidget) {
     let actor = GameAPI.getActorById(statusKey);
 
     if (!actor) {
-        console.log("Bad actor selection", statusKey)
-        console.log("testActive", GameAPI.getGamePieceSystem().getActors(), actorButtons)
+    //    console.log("Bad actor selection", statusKey)
+    //    console.log("testActive", GameAPI.getGamePieceSystem().getActors(), actorButtons)
         removeActorButton(buttonWidget)
     } else {
         let color = colorMapFx[actor.getStatus(ENUMS.ActorStatus.ALIGNMENT)] || colorMapFx['ITEM']
@@ -154,7 +154,7 @@ function renderWorldInteractUi() {
         let button = getActorButton(actor);
 
         if (!button) {
-            console.log("No button yet", actor, actorButtons)
+        //    console.log("No button yet", actor, actorButtons)
             if (actor.getStatus(ENUMS.ActorStatus.EXISTS) === 0) {
                 MATH.splice(interactibleActors, actor);
                 i--

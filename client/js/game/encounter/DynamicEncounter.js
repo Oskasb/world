@@ -41,7 +41,7 @@ class DynamicEncounter {
         let write = this.status.setStatusKey(key, status);
 
     //    if (trackStatusKeys.indexOf(key) !== -1) {
-            trackDebugConfig('ENCOUNTER_STATUS', key, status);
+
     //    }
 
         if (this.isRemote === false) {
@@ -65,7 +65,7 @@ class DynamicEncounter {
 
     processSpawnEvent(spawn, encounterTurnSequencer, onReady) {
 
-        console.log("processSpawnEvent", spawn)
+   //     console.log("processSpawnEvent", spawn)
 
         if (spawn['actors']) {
             loads = spawn.actors.length

@@ -89,7 +89,7 @@ class GameActor {
                 if (typeof (cb) === 'function') {
                     cb (this);
                 } else {
-                    console.log("Turn end CB not function... ")
+                    console.log("Turn end CB not function... ", cb)
                 }
             }
 

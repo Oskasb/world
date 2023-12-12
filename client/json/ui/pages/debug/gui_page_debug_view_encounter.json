@@ -31,6 +31,10 @@
                           "label": "HOST"
                         },
                         {
+                          "key": "GRID_ID",
+                          "label": "GRID"
+                        },
+                        {
                           "key": "TURN_INDEX",
                           "label": "TURN"
                         },

@@ -9,7 +9,7 @@ class ActionSelector {
 
         let action = poolFetch('ActorAction');
         let actionKey = MATH.getRandomArrayEntry(actions);
-            console.log(actor, actionKey)
+   //         console.log(actor, actionKey)
         action.setActionKey(actor, actionKey);
         action.initAction(actor);
         return action;

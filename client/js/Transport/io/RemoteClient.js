@@ -186,13 +186,14 @@ class RemoteClient {
 
         let actorKey = action.call.getStatus(ENUMS.ActionStatus.ACTOR_ID)
         if (actorKey === "none" ) {
-            console.log("No Actor Key yet", msg);
+        //    GuiAPI.screenText("SYNC ACTION "+this.index,  ENUMS.Message.SYSTEM, 1.5)
+            // console.log("No Actor Key yet", msg);
             return;
         }
 
         let actor = this.getActorById(actorKey);
         if (!actor) {
-            GuiAPI.screenText("No Actor "+this.index,  ENUMS.Message.SYSTEM, 0.5)
+            GuiAPI.screenText("No Actor "+this.index,  ENUMS.Message.SYSTEM, 1.5)
             // console.log("No such actor... ", msg);
             return;
         } else {
@@ -200,7 +201,7 @@ class RemoteClient {
                 let actionKey = action.call.getStatus(ENUMS.ActionStatus.ACTION_KEY);
             //    action.call.initStatus(actor, actionKey)
                 if (actionKey === "none") {
-                    GuiAPI.screenText("No Action Key "+this.index,  ENUMS.Message.SYSTEM, 0.5)
+                    GuiAPI.screenText("No Action Key "+this.index,  ENUMS.Message.SYSTEM, 1.5)
            //         console.log("No key yet")
                     return;
                 }
@@ -299,7 +300,8 @@ class RemoteClient {
                     let stamp = otherActor.getStatus(ENUMS.ActorStatus.CLIENT_STAMP);
                     if (stamp !== 0) {
                         if (msg.indexOf(stamp) !== -1) {
-                            console.log("Participate: ", otherActor, msg, stamp)
+                            GuiAPI.screenText("PARTY BATTLE "+this.index,  ENUMS.Message.SYSTEM, 1.2)
+                        //    console.log("Participate: ", otherActor, msg, stamp)
                             participate = true;
                         }
                     }
@@ -345,7 +347,8 @@ class RemoteClient {
 
             }
 
-            console.log(statusPre, activationState)
+            GuiAPI.screenText("ENCOUNTER "+activationState, ENUMS.Message.SYSTEM, 2);
+            // console.log(statusPre, activationState)
 
         }
     }
@@ -380,7 +383,9 @@ class RemoteClient {
                 let actor = this.getActorById(remoteId);
                 if (!actor) {
                     let onLoadedCB = function(actr) {
-                        console.log("Remote Actor Loaded", actr)
+                    //    console.log("Remote Actor Loaded", actr)
+                        GuiAPI.screenText("REMOTE LOADED "+this.index,  ENUMS.Message.SYSTEM, 1.2)
+
                         actr.id = remoteId;
                         let onReady = function(readyActor) {
                             actors.push(readyActor);

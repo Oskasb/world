@@ -58,7 +58,7 @@ class GuiButtonFrame {
         if (this.frameState !== frameState) {
             this.frameTime = 0;
             this.frameState = frameState
-            console.log('setFrameState', frameState)
+        //    console.log('setFrameState', frameState)
             if (this.frameState === 'flash_frame') {
 
             } else {

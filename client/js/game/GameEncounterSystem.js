@@ -78,10 +78,12 @@ class GameEncounterSystem {
     activateEncounter(event) {
         // Hosting Client Handles this stuff, remote goes other path
 
-        console.log("activateEncounter", event)
+        GuiAPI.screenText("HOSTING ENCOUNTER",  ENUMS.Message.HINT, 1.5)
+
+    //    console.log("activateEncounter", event)
         if (event.encounterId !== null) {
             if (!dynamicEncounter) {
-                console.log("INIT DYN ENC, ", event.worldEncounterId);
+        //        console.log("INIT DYN ENC, ", event.worldEncounterId);
                 initEncounter(event.encounterId, event.worldEncounterId)
                 activeEncounterGrid = new EncounterGrid();
             }
@@ -125,9 +127,9 @@ class GameEncounterSystem {
             let posArray = dynamicEncounter.status.call.getStatus(ENUMS.EncounterStatus.GRID_POS);
             MATH.vec3ToArray(activeEncounterGrid.center, posArray)
             dynamicEncounter.status.call.setStatus(ENUMS.EncounterStatus.GRID_POS , posArray);
-            console.log("SET POS:", posArray);
+    //        console.log("SET POS:", posArray);
             dynamicEncounter.status.call.setStatus(ENUMS.EncounterStatus.GRID_ID , event['grid_id']);
-            console.log("SET GRID ID:", event['grid_id']);
+    //        console.log("SET GRID ID:", event['grid_id']);
             dynamicEncounter.status.call.setStatus(ENUMS.EncounterStatus.ACTIVATION_STATE , ENUMS.ActivationState.ACTIVATING);
                 if (event.spawn) {
                     dynamicEncounter.processSpawnEvent(event.spawn, encounterTurnSequencer, onSpawnDone)
@@ -152,8 +154,8 @@ class GameEncounterSystem {
         let gridId = dynamicEncounter.status.call.getStatus(ENUMS.EncounterStatus.GRID_ID);
         let pos = MATH.vec3FromArray(activeEncounterGrid.center, dynamicEncounter.status.call.getStatus(ENUMS.EncounterStatus.GRID_POS));
 
-        console.log("GET POS:", pos);
-        console.log("GET GRID ID:", gridId);
+    //    console.log("GET POS:", pos);
+    //    console.log("GET GRID ID:", gridId);
 
         let gridReady = function(grid) {
             let selectedActor = GameAPI.getGamePieceSystem().selectedActor
@@ -168,12 +170,12 @@ class GameEncounterSystem {
 
         activeEncounterGrid.initEncounterGrid(gridId, pos, gridReady )
 
-        console.log("Activate Enc from Remote", dynamicEncounter)
+    //    console.log("Activate Enc from Remote", dynamicEncounter)
     }
 
     deactivateActiveEncounter(byRemote) {
 
-        console.log("DEACTIVATE ENC", dynamicEncounter)
+    //    console.log("DEACTIVATE ENC", dynamicEncounter)
         let actor = GameAPI.getGamePieceSystem().selectedActor;
         if (dynamicEncounter) {
             dynamicEncounter.setStatusKey(ENUMS.EncounterStatus.ACTIVATION_STATE, ENUMS.ActivationState.DEACTIVATING);
