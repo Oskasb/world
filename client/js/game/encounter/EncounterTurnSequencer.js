@@ -105,7 +105,7 @@ class EncounterTurnSequencer {
                 setStatusKey(ENUMS.EncounterStatus.ACTIVE_TURN_SIDE, "HOST");
                 GuiAPI.screenText("Your turn as host", ENUMS.Message.HINT, 4)
                 actor.startPlayerTurn(this.call.turnEnded, this.turnIndex)
-            } else if (actor.call.getRemote()) {
+            } else if (GameAPI.getGamePieceSystem().isPlayerPartyActor(actor)) {
                 setStatusKey(ENUMS.EncounterStatus.ACTIVE_TURN_SIDE, "PARTY PLAYER");
                 GuiAPI.screenText("Joined Payer Turn", ENUMS.Message.HINT, 4)
             } else {
