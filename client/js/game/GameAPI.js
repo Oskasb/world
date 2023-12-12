@@ -10,6 +10,7 @@ import { GameEncounterSystem } from "./GameEncounterSystem.js";
 import { VisualEffectSystem } from "./visuals/VisualEffectSystem.js";
 import { GameAdventureSystem } from "./gamescenarios/GameAdventureSystem.js";
 import {poolFetch, poolReturn} from "../application/utils/PoolUtils.js";
+import {trackDebugConfig} from "../application/utils/DebugUtils.js";
 
 let cache = {};
 let debugStats = {
@@ -217,6 +218,7 @@ class GameAPI {
 
     getActorById(actorId) {
         let actors = gamePieceSystem.getActors();
+
         for (let i = 0; i < actors.length; i++) {
             let actor = actors[i];
             if (actor.id === actorId) {

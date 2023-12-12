@@ -60,6 +60,15 @@ let onReady = function(portrait) {
     },0)
 }
 
+
+function getPortraitByActorId(actorId) {
+    for (let i = 0; i < portraits.length; i++) {
+        if (portraits[i].actor.id === actorId) {
+            return portraits[i];
+        }
+    }
+}
+
 function addActorPortrait(actor) {
     let count = actors.length;
     let seqIndex = actors.indexOf(actor);
@@ -68,18 +77,13 @@ function addActorPortrait(actor) {
     if (actor.isPlayerActor()) {
         portraitLayoutId = playerPortraitLayoutId;
     }
-    portraits[actor.index] = new GuiCharacterPortrait(actor, portraitLayoutId, onActivate, testActive, 0, 0, onReady)
+    portraits.push(new GuiCharacterPortrait(actor, portraitLayoutId, onActivate, testActive, 0, 0, onReady))
 }
 
 function renderEncounterActorUi(actor, tpf, time) {
-    if (actor.getStatus(ENUMS.ActorStatus.HAS_TURN)) {
-    //    debugDrawActorIndex(actor, actors.indexOf(actor))
-    }
-
-    if (!portraits[actor.index]) {
+    if (!getPortraitByActorId(actor.id)) {
         addActorPortrait(actor);
     }
-
 }
 
 function updateActorsByStatus() {
@@ -164,6 +168,11 @@ class EncounterUiSystem {
                 portrait.closeCharacterPortrait()
             }
         }
+
+        while (actors.length) {
+            actors.pop();
+        }
+
         ThreeAPI.unregisterPrerenderCallback(updateDynamicEncounterUiSystem)
     }
 

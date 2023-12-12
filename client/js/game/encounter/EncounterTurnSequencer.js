@@ -21,7 +21,6 @@ class EncounterTurnSequencer {
         this.turnIndex = 0;
         this.turnTime = 0;
 
-        setStatusKey(ENUMS.EncounterStatus.TURN_INDEX, this.turnIndex)
         let turnEnded = function() {
             this.turnTime = 0;
             this.activeActor = null;
@@ -98,11 +97,12 @@ class EncounterTurnSequencer {
     updateTurnSequencer() {
         let actor = this.actors[this.turnActorIndex];
         if (this.activeActor !== actor) {
+            setStatusKey(ENUMS.EncounterStatus.TURN_INDEX, this.turnIndex)
             this.activeActor = actor;
             setStatusKey(ENUMS.EncounterStatus.HAS_TURN_ACTOR, actor.id);
 
             if (actor.isPlayerActor()) {
-                setStatusKey(ENUMS.EncounterStatus.ACTIVE_TURN_SIDE, "YOU");
+                setStatusKey(ENUMS.EncounterStatus.ACTIVE_TURN_SIDE, "HOST");
                 GuiAPI.screenText("Your turn as host", ENUMS.Message.HINT, 4)
                 actor.startPlayerTurn(this.call.turnEnded, this.turnIndex)
             } else if (actor.call.getRemote()) {
@@ -125,10 +125,19 @@ class EncounterTurnSequencer {
                     if (turnDone === this.turnIndex) {
                         console.log("Detect remote player turn done")
                         this.call.turnEnded();
+                        return;
                     }
                 }
             }
         }
+
+        if (actor) {
+            setStatusKey(ENUMS.EncounterStatus.TURN_ACTOR_INITIATIVE, actor.getStatus(ENUMS.ActorStatus.SEQUENCER_INITIATIVE))
+            setStatusKey(ENUMS.EncounterStatus.TURN_ACTOR_TARGET, actor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET))
+            setStatusKey(ENUMS.EncounterStatus.TURN_ACTOR_ACTION, actor.getStatus(ENUMS.ActorStatus.SELECTED_ACTION))
+            setStatusKey(ENUMS.EncounterStatus.TURN_ACTION_STATE, actor.getStatus(ENUMS.ActorStatus.ACTION_STATE_KEY))
+        }
+
     }
 
     closeTurnSequencer() {

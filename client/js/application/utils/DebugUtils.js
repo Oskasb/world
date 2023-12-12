@@ -7,10 +7,11 @@ function trackDebugConfig(folder, key, value) {
         if (!cache['DEBUG']) {
             cache.DEBUG = {};
         }
-        if (!cache.DEBUG[folder]) {
-            cache.DEBUG[folder] = {}
-        }
     }
+    if (!cache.DEBUG[folder]) {
+        cache.DEBUG[folder] = {}
+    }
+
     cache.DEBUG[folder][key] = value;
 }
 

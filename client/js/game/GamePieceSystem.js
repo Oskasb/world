@@ -5,6 +5,7 @@ import { PlayerParty } from "./Player/PlayerParty.js";
 import { Item } from "./gamepieces/Item.js";
 import { ConfigData } from "../application/utils/ConfigData.js";
 import { RemoteClient } from "../Transport/io/RemoteClient.js";
+import {trackDebugConfig} from "../application/utils/DebugUtils.js";
 
 
 let visualConfigs = {};
@@ -120,6 +121,7 @@ class GamePieceSystem {
 
         this.playerParty = new PlayerParty();
         this.selectedActor = null;
+
     }
 
     getActors() {
@@ -158,6 +160,7 @@ class GamePieceSystem {
         evt.on(ENUMS.Event.LOAD_ITEM,  loadItem)
 
         evt.on(ENUMS.Event.ON_SOCKET_MESSAGE,  processConnectionMessage)
+        trackDebugConfig('WORLD', 'actors', actors);
     }
 
     getPlayerParty() {

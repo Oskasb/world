@@ -35,12 +35,28 @@
                           "label": "TURN"
                         },
                         {
+                          "key": "ACTIVE_TURN_SIDE",
+                          "label": "ACTIVE"
+                        },
+                        {
                           "key": "HAS_TURN_ACTOR",
                           "label": "HAS_TURN"
                         },
                         {
-                          "key": "ACTIVE_TURN_SIDE",
-                          "label": "ACTIVE"
+                          "key": "TURN_ACTOR_INITIATIVE",
+                          "label": "INITIATIVE"
+                        },
+                        {
+                          "key": "TURN_ACTOR_TARGET",
+                          "label": "TARGET"
+                        },
+                        {
+                          "key": "TURN_ACTOR_ACTION",
+                          "label": "ACTION"
+                        },
+                        {
+                          "key": "TURN_ACTION_STATE",
+                          "label": "ACT STATE"
                         },
                         {
                           "key": "OPPONENT_COUNT",

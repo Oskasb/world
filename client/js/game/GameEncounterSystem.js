@@ -198,6 +198,7 @@ class GameEncounterSystem {
         setTimeout(function() {
             dynamicEncounter.closeDynamicEncounter()
             dynamicEncounter = null;
+            encounterUiSystem = new EncounterUiSystem()
             actor.setStatusKey(ENUMS.ActorStatus.DEACTIVATING_ENCOUNTER, '');
             clearActorEncounterStatus(actor);
             GameAPI.getGamePieceSystem().playerParty.clearPartyMemebers()
