@@ -617,7 +617,7 @@ class GameActor {
                 this.framePos.copy(remote.lastUpdate.pos);
             }
 
-            if (MATH.compareQuaternions(remote.lastUpdate.quat, remote.quat) > 0.01) {
+            if (MATH.compareQuaternions(remote.lastUpdate.quat, remote.quat) > 0.001) {
                 remote.lastUpdate.quat.slerp(remote.quat, fraction);
                 this.setSpatialQuaternion(remote.lastUpdate.quat);
             }
