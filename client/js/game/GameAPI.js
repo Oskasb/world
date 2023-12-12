@@ -186,7 +186,7 @@ class GameAPI {
         }
 
         let selectAdventurer = function(event) {
-            console.log("Select Adventurer:", event);
+        //    console.log("Select Adventurer:", event);
             this.gameAdventureSystem.selectAdventure(event);
         }.bind(this);
 

@@ -87,15 +87,12 @@ class PlayerMovementInputs {
     }
 
     applyInputSamplingConfig(config, actor) {
-        console.log('applyInputSamplingConfig', config)
-
-
+     //   console.log('applyInputSamplingConfig', config)
 
         let cameraMode = config['camera_mode']
         if (cameraMode) {
             evt.dispatch(ENUMS.Event.SET_CAMERA_MODE, {mode:cameraMode})
         }
-
 
         let inputs = config['inputs']
         if (inputs) {

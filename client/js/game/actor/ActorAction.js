@@ -13,7 +13,7 @@ let visualConfig = {
 let config = {};
 let configUpdated = function(cfg) {
     config = cfg;
-    console.log("ActorActionConfig: ", config);
+  //  console.log("ActorActionConfig: ", config);
 }
 
 

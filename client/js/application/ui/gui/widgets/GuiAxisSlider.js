@@ -11,7 +11,7 @@ let applyPositionOffset = function(guiAxisSlider) {
 
 let onPressStart = function(guiAxisSlider, guiPointer) {
     let options = guiAxisSlider.options;
-    console.log("SLider press start", guiPointer);
+ //   console.log("SLider press start", guiPointer);
     for (let i = 0; i < guiAxisSlider.onActivateCallbacks.length; i++) {
         guiAxisSlider.onActivateCallbacks[i](1);
     }
@@ -19,7 +19,7 @@ let onPressStart = function(guiAxisSlider, guiPointer) {
 };
 
 let onPressActivate = function(guiAxisSlider) {
-    console.log("SLider press activate", guiAxisSlider);
+//    console.log("SLider press activate", guiAxisSlider);
     for (let i = 0; i < guiAxisSlider.onActivateCallbacks.length; i++) {
         guiAxisSlider.onActivateCallbacks[i](2);
     }

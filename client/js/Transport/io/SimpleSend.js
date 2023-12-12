@@ -57,7 +57,7 @@ class SimpleSend {
                 }
 
                 if (sendStatus.length > 2) {
-                    console.log("SIMPLE SEND: ",statusMessageKey, sendStatus)
+                //    console.log("SIMPLE SEND: ",statusMessageKey, sendStatus)
                     evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, sendStatus)
                 }
 

@@ -143,7 +143,7 @@ let availableOcean = [];
 let rgbaR = [];
 
 function setupAmmoTerrainBody(canvasData, config) {
-    console.log("Setup Terrain Body", [canvasData], config)
+ //   console.log("Setup Terrain Body", [canvasData], config)
     if (terrainAmmoBody !== null) {
         AmmoAPI.excludeBody(terrainAmmoBody);
         terrainAmmoBody = null;
@@ -303,7 +303,7 @@ let materialModel = function(model) {
     originalMat = model.originalModel.material.mat;
     setupHeightmapData(originalMat)
     bigWorld = model;
-    console.log("big world model:", model)
+ //   console.log("big world model:", model)
 
 }
 
@@ -371,7 +371,7 @@ class TerrainBigGeometry {
         let groundTxWidth = dims['ground_tx_width'];
         let mesh_segments = dims['mesh_segments'];
         lodLayers = dims['lod_layers'] || 2;
-        console.log("Constructs Big Terrain", txWidth, mesh_segments);
+   //     console.log("Constructs Big Terrain", txWidth, mesh_segments);
 
 
         terrainParams.tx_width = txWidth;

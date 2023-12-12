@@ -20,7 +20,7 @@ let configUpdated = function(cfg) {
         playerMovementControls.applyInputSamplingConfig(config[travelMode]);
         playerMovementControls.activatePlayerMovementControls()
     }
-    console.log("Travel Mode Configs: ", config);
+ //   console.log("Travel Mode Configs: ", config);
 }
 
 setTimeout(function() {
@@ -70,12 +70,9 @@ function activateTravelMode(actr, mode, activateCB, deactivateCB) {
     }
 
     deactivateCB()
-
-    console.log("activate TravelMode: ", mode, actor);
-
     actor = actr;
-    
 
+    //   console.log("activate TravelMode: ", mode, actor);
 
     if (mode === ENUMS.TravelMode.TRAVEL_MODE_PASSIVE) {
         //    evt.dispatch(ENUMS.Event.SET_CAMERA_MODE, {mode:'game_travel'})

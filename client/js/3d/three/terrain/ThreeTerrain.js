@@ -189,7 +189,7 @@ let constructGeometries = function(heightMapData, transform, groundConfig, secti
     let mesh_segments = dims['mesh_segments'];
 //let lodTiles = dims['lod_tiles'];
     let tiles = (txWidth / (mesh_segments+1));
-    console.log("Constructs HM Geos", gridMeshAssetId, txWidth, mesh_segments, tiles);
+ //   console.log("Constructs HM Geos", gridMeshAssetId, txWidth, mesh_segments, tiles);
 
 
     MATH.vec3FromArray(terrainOrigin, transform['pos']);
@@ -434,7 +434,7 @@ class ThreeTerrain {
 
 
         let terrainListLoaded = function(data) {
-            console.log("TERRAINS", data);
+        //    console.log("TERRAINS", data);
             terrainList[terrainId] = data;
             //    terrainMaterial.addTerrainMaterial(terrainId, data['textures'], data['shader']);
             //    console.log("terrainListLoaded", data, terrainMaterial, terrainMaterial.getMaterialById(terrainId));
@@ -459,7 +459,7 @@ class ThreeTerrain {
     setGroundShadeFromImage(image) {
         let context = terrainBigGeometry.getHeightmapCanvas()
         context.globalCompositeOperation = "copy";
-        console.log(image)
+    //    console.log(image)
         context.drawImage(image, 0, 0, context.canvas.width, context.canvas.height);
         shadeCompleted = true;
         terrainBigGeometry.updateHeightmapCanvasTexture()

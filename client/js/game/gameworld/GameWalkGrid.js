@@ -170,7 +170,7 @@ class GameWalkGrid {
         this.dynamicPath.clearPathVisuals();
         let activePath = this.getActiveTilePath();
 
-        console.log(activePath.pathTiles)
+    //    console.log(activePath.pathTiles)
 
         if (activePath.pathTiles.length > 1) {
             if (onCompletedCB) {
@@ -237,7 +237,7 @@ class GameWalkGrid {
     }
 
     deactivateWalkGrid() {
-        console.log("Deactivate Walk Grid:", this)
+    //    console.log("Deactivate Walk Grid:", this)
         if (this.gridTileSelector) {
             this.gridTileSelector.deactivateGridTileSelector()
         }

@@ -90,7 +90,7 @@ class ThreeTexture {
                 let canvas = document.createElement("canvas");
                 let tx = _this.texture;
 
-                console.log("Canvas asset: ", asset)
+            //    console.log("Canvas asset: ", asset)
                     canvas.id = id+'_canvas';
                     canvas.width  = asset.bitmap.width;
                     canvas.height = asset.bitmap.height;

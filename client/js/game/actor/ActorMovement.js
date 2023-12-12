@@ -35,7 +35,7 @@ class ActorMovement {
          }
 
         let pathingCompleted = function() {
-console.log("Pathing Completed")
+            // console.log("Pathing Completed")
         }
 
         this.call = {

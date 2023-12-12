@@ -116,7 +116,7 @@ function ammoCompoundShape(args) {
 }
 
 function createConvexHullFromBuffer(buffer) {
-    console.log("Create Convex Hull...", [buffer]);
+//    console.log("Create Convex Hull...", [buffer]);
     let btConvexHullShape = new Ammo.btConvexHullShape();
     let _vec3_1 = new Ammo.btVector3(0,0,0);
     let _vec3_2 = new Ammo.btVector3(0,0,0);
@@ -639,7 +639,7 @@ function createTerrainShape(data, sideSize, terrainMaxHeight, terrainMinHeight, 
         flipQuadEdges
     );
 
-    console.log(heightFieldShape)
+//    console.log(heightFieldShape)
     // Set horizontal scale
     let scaleX = terrainWidthExtents / ( terrainWidth - 1 );
     let scaleZ = terrainDepthExtents / ( terrainDepth - 1 );
@@ -883,7 +883,7 @@ class AmmoFunctions {
 
     createPhysicalTerrain(world, data, totalSize, posx, posz, minHeight, maxHeight) {
 
-        console.log("createPhysicalTerrain", totalSize, posx, posz, minHeight, maxHeight);
+   //     console.log("createPhysicalTerrain", totalSize, posx, posz, minHeight, maxHeight);
 
         let margin = 0.1;
 
@@ -905,7 +905,7 @@ class AmmoFunctions {
         // Shifts the terrain, since bullet re-centers it on its bounding box.
         let posY =  -margin + minHeight + (heightDiff) * 0.5
         groundTransform.setOrigin( new Ammo.btVector3(posx, posY,posz) );
-        console.log(groundTransform)
+    //    console.log(groundTransform)
     //    groundTransform.setScale( new Ammo.btVector3(posx, posY,posz) );
         let groundMass = 0;
         let groundLocalInertia = new Ammo.btVector3( 0, 0, 0 );
@@ -951,7 +951,7 @@ class AmmoFunctions {
 
     setGeometryBuffer(id, buffer) {
         geometryBuffers[id] = buffer;
-        console.log("Set Buffer", id, [buffer])
+    //    console.log("Set Buffer", id, [buffer])
         function onReady(body) {
             body.forceActivationState(STATE.DISABLE_SIMULATION);
         }

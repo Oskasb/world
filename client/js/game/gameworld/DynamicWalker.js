@@ -197,7 +197,7 @@ class DynamicWalker {
 
         if (pathRemainingDistance <= frameTravelDistance) {
 
-            console.log("Path End Tile Reached")
+        //    console.log("Path End Tile Reached")
             this.walkGrid.deactivateWalkGrid();
             GameAPI.unregisterGameUpdateCallback(this.call.updateWalker);
 

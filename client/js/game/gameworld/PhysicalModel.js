@@ -68,7 +68,7 @@ class PhysicalModel {
                 this.rigidBodies.push(body);
                 window.AmmoAPI.includeBody(body);
                 if (this.static === false) {
-                    console.log("Rigid Body: ",assetId, body)
+            //        console.log("Rigid Body: ",assetId, body)
                 } else {
 
                 }

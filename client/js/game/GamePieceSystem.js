@@ -31,7 +31,7 @@ let loadItem = function(event) {
 
     let visualReadyCB = function(visualGP) {
 
-        console.log("Visual Piece: ", visualGP)
+    //    console.log("Visual Piece: ", visualGP)
     //    visualGP.obj3d = item.obj3d;
 
     //

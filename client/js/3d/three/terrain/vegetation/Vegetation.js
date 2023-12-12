@@ -134,7 +134,7 @@ class Vegetation {
 
 
         let plantDataReady = function(data) {
-            console.log("Plants data",this.init,  data[0].data);
+        //    console.log("Plants data",this.init,  data[0].data);
             this.applyPlantConfig(data[0].data);
             this.callbacks.setupLodGrids(this.config, this.plantConfigs)
             if (plantInit === 0) {
@@ -148,7 +148,7 @@ class Vegetation {
 
 
         let onDataReady = function(data) {
-            console.log("Veg data",this.init, data[0].data);
+        //    console.log("Veg data",this.init, data[0].data);
             this.applyConfig(data[0].data);
 
             if (dataInit === 0) {
@@ -162,7 +162,7 @@ class Vegetation {
 
         }.bind(this);
 
-        console.log("init Veg data", vegGridData);
+    //    console.log("init Veg data", vegGridData);
         vegGridData.addUpdateCallback(onDataReady)
         vegGridData.fetchData('vegetation_grid');
 

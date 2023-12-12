@@ -20,7 +20,7 @@ let status = {
 let initApi = function(onReady) {
         window.AMMO.then(function(ammo) {
         //    AMMO = Ammo
-            console.log("Ammo Ready", ammo);
+        //    console.log("Ammo Ready", ammo);
             ammoFunctions = new AmmoFunctions(ammo);
             onReady()
         });

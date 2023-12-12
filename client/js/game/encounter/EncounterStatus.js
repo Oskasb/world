@@ -96,7 +96,7 @@ class EncounterStatus {
             sendStatus.push(ENUMS.EncounterStatus.ENCOUNTER_ID)
             sendStatus.push(statusMap[ENUMS.EncounterStatus.ENCOUNTER_ID])
 
-            if (lastFullSend < gameTime -0.1) {
+            if (lastFullSend < gameTime -10) {
                 lastFullSend = gameTime;
                 fullSend(statusMap)
             } else {
@@ -104,7 +104,7 @@ class EncounterStatus {
             }
 
             if (sendStatus.length > 2) {
-                console.log("DYN ENC SEND: ", sendStatus)
+             //   console.log("DYN ENC SEND: ", sendStatus)
                 evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, sendStatus)
             }
         } else {

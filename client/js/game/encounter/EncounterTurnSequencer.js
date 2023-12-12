@@ -110,6 +110,7 @@ class EncounterTurnSequencer {
                 GuiAPI.screenText("Joined Payer Turn", ENUMS.Message.HINT, 4)
             } else {
                 setStatusKey(ENUMS.EncounterStatus.ACTIVE_TURN_SIDE, "OPONENTS");
+                console.log("HOST: Opponent turn start")
                 GuiAPI.screenText("Enemy Turn", ENUMS.Message.HINT, 4)
                 actor.getActorTurnSequencer().startActorTurn(this.call.turnEnded, this.turnIndex);
             }

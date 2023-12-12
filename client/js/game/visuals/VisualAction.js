@@ -9,7 +9,7 @@ let tempObj3D = new Object3D();
 let config = {};
 let configUpdated = function(cfg) {
     config = cfg;
-    console.log("VisualActionConfig: ", config);
+ //   console.log("VisualActionConfig: ", config);
 }
 
 setTimeout(function() {

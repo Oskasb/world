@@ -38,7 +38,7 @@ let onActivate = function(actor) {
 }
 
 let onReady = function(portrait) {
-    console.log("onReady", portrait)
+  //  console.log("onReady", portrait)
     container.addChildWidgetToContainer(portrait.guiWidget)
     portrait.actor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, false)
     portrait.statusUi = new WorldActorStatusUI()
@@ -116,8 +116,6 @@ class PartyUiSystem {
     activatePartyUiSystem() {
 
         let containerReady = function(widget) {
-            console.log(widget)
-        //    container = widget;
             widget.attachToAnchor('mid_left');
         }
 
