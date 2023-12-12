@@ -1,3 +1,5 @@
+import {VisualPieceEffectTransition} from "./effects/VisualPieceEffectTransition.js";
+
 let effectMap = {} // get these from poolFetch
 
 effectMap[ENUMS.ActorStatus.IS_LEAPING] = {
@@ -8,12 +10,22 @@ effectMap[ENUMS.ActorStatus.IS_LEAPING] = {
 }
 
 effectMap[ENUMS.ActorStatus.DAMAGE_APPLIED] = {
-    className:'VisualEffectJointsToGround',
+    className:'VisualPieceEffectContinuous',
     activateOn:1,
     deactivateOn:0,
     maxDuration: 0.5,
     effect: {
         updateFunction: 'damageEffect'
+    }
+}
+
+effectMap[ENUMS.ActorStatus.DEAD] = {
+    className:'VisualPieceEffectTransition',
+    activateOn:true,
+    deactivateOn:false,
+    maxDuration: 3,
+    effect: {
+        updateFunction: 'deathEffect'
     }
 }
 

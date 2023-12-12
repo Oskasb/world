@@ -599,11 +599,13 @@ function setupOptsFlames(efct, actor, applies) {
 
 function setupOptsSproutFromGround(efct, posVec3, size) {
 
+
+
     let tempObj = ThreeAPI.tempObj;
     tempObj.scale.set(1, 1, 1);
     tempObj.position.copy(posVec3);
 
-    tempObj.position.y = -0.2
+    tempObj.position.y = posVec3.y -0.2
     ThreeAPI.tempVec3.set(size*0.2, size*0.75, size*0.2)
     tempObj.quaternion.set(0, 0, 0, 1);
     tempObj.lookAt(ThreeAPI.getCamera().position);
@@ -614,11 +616,11 @@ function setupOptsSproutFromGround(efct, posVec3, size) {
     tempVec3.y += 10000;
     tempObj.lookAt(tempVec3);
 
-    tempVec3.y = 0.2;
+    tempVec3.y = posVec3.y + 0.2;
 
     let fromSize = size*0.6;
-    let toSize = size*2
-    let time = 1
+    let toSize = size*3
+    let time = 2
 
     let options = defaultOptions();
     options.fromPos = tempObj.position;
@@ -629,7 +631,7 @@ function setupOptsSproutFromGround(efct, posVec3, size) {
     options.toSize = toSize;
     options.time = time;
     options.callback = endOnLanded;
-    options.bounce = size*0.3;
+    options.bounce = size*0.6;
     options.spread = 0;
 
     return options

@@ -21,7 +21,8 @@ import { VisualPulse } from "../../game/visuals/effects/VisualPulse.js";
 import { VisualModel } from "../../game/visuals/VisualModel.js";
 import {PhysicalModel} from "../../game/gameworld/PhysicalModel.js";
 import {PhysicalShape} from "../../game/gameworld/PhysicalShape.js";
-import {VisualEffectJointsToGround} from "../../game/visuals/effects/VisualEffectJointsToGround.js";
+import {VisualPieceEffectContinuous} from "../../game/visuals/effects/VisualPieceEffectContinuous.js";
+import {VisualPieceEffectTransition} from "../../game/visuals/effects/VisualPieceEffectTransition.js";
 
 let pools = {}
 let stats = {};
@@ -45,10 +46,11 @@ function initPools() {
     registerPool(WorldActorStatusUI);
     registerPool(VisualTrajectory);
     registerPool(VisualPulse);
-    registerPool(VisualEffectJointsToGround);
+    registerPool(VisualPieceEffectContinuous);
     registerPool(VisualModel);
     registerPool(PhysicalModel);
-    registerPool(PhysicalShape)
+    registerPool(PhysicalShape);
+    registerPool(VisualPieceEffectTransition)
 }
 
 function registerPool(DataObj) {

@@ -1,27 +1,22 @@
 import {transitionEffectOn, transitionEffectOff} from "./VisualTriggerFx.js";
-import {damageEffect} from "./PieceEffects.js";
+import {damageEffect, deathEffect} from "./PieceEffects.js";
 
 let updateFunctions = {};
 updateFunctions['damageEffect'] = damageEffect;
+updateFunctions['deathEffect'] = deathEffect;
 
-class VisualEffectJointsToGround {
+class VisualPieceEffectTransition {
     constructor() {
         this.actor = null;
         this.statusKey = null;
         this.effectData = null;
-
         this.onTimeoutCallbacks = [];
 
         let update = function(tpf) {
-
             if (this.duration > this.effectData.maxDuration) {
                 MATH.callAll(this.onTimeoutCallbacks, this);
             }
-
-            let amount = this.actor.getStatus(ENUMS.ActorStatus[this.statusKey])
-            updateFunctions[this.effectData.effect['updateFunction']](this.actor, amount, tpf);
             this.duration += tpf;
-
         }.bind(this);
 
         this.call = {
@@ -39,6 +34,8 @@ class VisualEffectJointsToGround {
         this.statusKey = statusKey;
         this.effectData = effectData;
         ThreeAPI.addPostrenderCallback(this.call.update);
+        let amount = this.actor.getStatus(ENUMS.ActorStatus[this.statusKey])
+        updateFunctions[this.effectData.effect['updateFunction']](this.actor, amount);
     }
 
     off() {
@@ -48,4 +45,4 @@ class VisualEffectJointsToGround {
 
 }
 
-export { VisualEffectJointsToGround }
+export { VisualPieceEffectTransition }

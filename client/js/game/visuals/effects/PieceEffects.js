@@ -35,14 +35,16 @@ function healEffect(gamePiece, hp, healer) {
 
 }
 
-function deathEffect(gamePiece) {
-    let size = gamePiece.getStatusByKey('size');
+function deathEffect(actor, value) {
+    let size = actor.getStatus(ENUMS.ActorStatus.SIZE);
+    console.log("Death FX")
     let effectCb = function(efct) {
         efct.activateEffectFromConfigId()
-        let options = CombatFxOptions.setupOptsSproutFromGround(efct, gamePiece.getPos(), size)
-        efct.setEffectColorRGBA(CombatFxUtils.setRgba(0.7, 0.7, 0.7, 0.5))
+        let options = CombatFxOptions.setupOptsSproutFromGround(efct, actor.getSpatialPosition(), size)
+        efct.setEffectColorRGBA(CombatFxUtils.setRgba(0.8, 0.7, 0.9, 0.75))
         efct.setEffectSpriteXY(2, 5);
         efct.activateSpatialTransition(options)
+
     }
 
     EffectAPI.buildEffectClassByConfigId('additive_stamps_8x8', 'effect_damage_taken',  effectCb)
