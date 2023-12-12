@@ -190,21 +190,6 @@
                   }
                 },
                 {
-                  "widget_id":"button_cam_look",
-                  "widget_class":"GuiExpandingContainer",
-                  "widget_config_id":"button_big_blue",
-                  "options":{
-                    "text":"FLY",
-                    "container_id":"page_debug_bottom_right",
-                    "offset_x": -0.05,
-                    "offset_y": 0.04,
-                    "dispatch":{
-                      "event":"SET_CAMERA_MODE",
-                      "value":{"mode":"world_viewer"}
-                    }
-                  }
-                },
-                {
                   "widget_id":"button_cam_home",
                   "widget_class":"GuiExpandingContainer",
                   "widget_config_id":"button_big_blue",
@@ -222,7 +207,7 @@
                   }
                 },
                 {
-                  "widget_id":"button_game_walk",
+                  "widget_id":"button_physics",
                   "widget_class":"GuiExpandingContainer",
                   "widget_config_id":"button_big_blue",
                   "options":{

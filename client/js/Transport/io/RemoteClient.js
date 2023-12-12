@@ -319,7 +319,6 @@ class RemoteClient {
 
         let statusPre = this.encounter.status.call.getStatus(ENUMS.EncounterStatus.ACTIVATION_STATE)
 
-
         for (let i = 2; i < msg.length; i++) {
             let key = msg[i];
             i++

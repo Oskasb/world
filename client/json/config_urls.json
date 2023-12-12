@@ -63,14 +63,17 @@
       "/ui/pages/characters/gui_page_companion_peace.json"   ,
       "/ui/pages/characters/gui_page_leader_peace.json"       ,
 
+      "/ui/pages/encounter/gui_page_encounter_info.json"     ,
+
       "/ui/pages/start/gui_page_start.json"                  ,
-      "/ui/pages/start/gui_page_start_princess.json"                  ,
-      "/ui/pages/start/gui_page_start_alien.json"                  ,
-      "/ui/pages/start/gui_page_start_farmer.json"                  ,
-      "/ui/pages/start/gui_page_start_pirate.json"                  ,
+      "/ui/pages/start/gui_page_start_princess.json"         ,
+      "/ui/pages/start/gui_page_start_alien.json"            ,
+      "/ui/pages/start/gui_page_start_farmer.json"           ,
+      "/ui/pages/start/gui_page_start_pirate.json"           ,
 
       "/ui/pages/debug/gui_page_debug_view.json"             ,
       "/ui/pages/debug/gui_page_debug_view_buffers.json"     ,
+      "/ui/pages/debug/gui_page_debug_view_encounter.json"   ,
       "/ui/pages/debug/gui_page_debug_view_models.json"      ,
       "/ui/pages/debug/gui_page_debug_view_pools.json"       ,
       "/ui/pages/debug/gui_page_debug_view_system.json"      ,

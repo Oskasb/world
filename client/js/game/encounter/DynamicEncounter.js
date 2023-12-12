@@ -29,7 +29,7 @@ class DynamicEncounter {
         this.id = id;
         this.status = new EncounterStatus(id, worldEncId)
         this.isRemote = false;
-
+        this.page = GuiAPI.activatePage('page_encounter_info');
     }
 
     setStatusKey(key, status) {
@@ -77,6 +77,12 @@ class DynamicEncounter {
             actor.removeGameActor();
         }
     }
+
+    closeDynamicEncounter() {
+        this.removeEncounterActors();
+        this.page.closeGuiPage();
+    }
+
 }
 
 export { DynamicEncounter }

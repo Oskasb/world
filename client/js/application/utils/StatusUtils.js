@@ -25,7 +25,6 @@ function clearActorEncounterStatus(actor) {
     actor.setStatusKey(ENUMS.ActorStatus.ACTIVATING_ENCOUNTER, '');
     actor.setStatusKey(ENUMS.ActorStatus.ACTIVATED_ENCOUNTER, '');
     actor.setStatusKey(ENUMS.ActorStatus.SELECTED_ENCOUNTER, '');
-    actor.setStatusKey(ENUMS.ActorStatus.DEACTIVATING_ENCOUNTER, '');
 }
 
 export {

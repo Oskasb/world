@@ -174,13 +174,13 @@ class GameEncounterSystem {
     deactivateActiveEncounter(byRemote) {
 
         console.log("DEACTIVATE ENC", dynamicEncounter)
-
+        let actor = GameAPI.getGamePieceSystem().selectedActor;
         if (dynamicEncounter) {
             dynamicEncounter.setStatusKey(ENUMS.EncounterStatus.ACTIVATION_STATE, ENUMS.ActivationState.DEACTIVATING);
         }
 
         if (activeEncounterGrid) {
-            let actor = GameAPI.getGamePieceSystem().selectedActor;
+
 
             if (byRemote) {
                 actor.transitionTo(activeEncounterGrid.getPosOutsideTrigger(), 1.0);
@@ -196,7 +196,7 @@ class GameEncounterSystem {
         GameAPI.unregisterGameUpdateCallback(encounterStatusProcessor.processEncounterStatus)
 
         setTimeout(function() {
-            dynamicEncounter.removeEncounterActors()
+            dynamicEncounter.closeDynamicEncounter()
             dynamicEncounter = null;
             actor.setStatusKey(ENUMS.ActorStatus.DEACTIVATING_ENCOUNTER, '');
             clearActorEncounterStatus(actor);
