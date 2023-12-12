@@ -21,7 +21,7 @@ class EncounterTurnSequencer {
         this.turnIndex = 0;
         this.turnTime = 0;
 
-
+        setStatusKey(ENUMS.EncounterStatus.TURN_INDEX, this.turnIndex)
         let turnEnded = function() {
             this.turnTime = 0;
             this.activeActor = null;
@@ -78,13 +78,21 @@ class EncounterTurnSequencer {
 
     getOpposingActors(actor, actorList) {
         let isPlayer = actor.isPlayerActor();
+        let playerCount = 0;
+        let opponentCount = 0;
 
         for (let i = 0; i < this.actors.length; i++) {
             let encActor = this.actors[i];
             if (encActor.isPlayerActor() !== isPlayer) {
+                opponentCount++
                 actorList.push(encActor);
+            } else {
+                playerCount++
             }
         }
+        setStatusKey(ENUMS.EncounterStatus.ACTOR_COUNT, this.actors.length);
+        setStatusKey(ENUMS.EncounterStatus.PLAYER_COUNT, playerCount);
+        setStatusKey(ENUMS.EncounterStatus.OPPONENT_COUNT, opponentCount);
     }
 
     updateTurnSequencer() {
@@ -94,11 +102,14 @@ class EncounterTurnSequencer {
             setStatusKey(ENUMS.EncounterStatus.HAS_TURN_ACTOR, actor.id);
 
             if (actor.isPlayerActor()) {
+                setStatusKey(ENUMS.EncounterStatus.ACTIVE_TURN_SIDE, "YOU");
                 GuiAPI.screenText("Your turn as host", ENUMS.Message.HINT, 4)
                 actor.startPlayerTurn(this.call.turnEnded, this.turnIndex)
             } else if (actor.call.getRemote()) {
+                setStatusKey(ENUMS.EncounterStatus.ACTIVE_TURN_SIDE, "PARTY PLAYER");
                 GuiAPI.screenText("Joined Payer Turn", ENUMS.Message.HINT, 4)
             } else {
+                setStatusKey(ENUMS.EncounterStatus.ACTIVE_TURN_SIDE, "OPONENTS");
                 GuiAPI.screenText("Enemy Turn", ENUMS.Message.HINT, 4)
                 actor.getActorTurnSequencer().startActorTurn(this.call.turnEnded, this.turnIndex);
             }

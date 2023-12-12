@@ -114,7 +114,7 @@ class GameEncounterSystem {
                 GameAPI.registerGameUpdateCallback(encounterStatusProcessor.processEncounterStatus)
                 encounterStatusProcessor.call.setEncounter(dynamicEncounter);
                 dynamicEncounter.setStatusKey(ENUMS.EncounterStatus.ACTIVATION_STATE, ENUMS.ActivationState.ACTIVE);
-
+                dynamicEncounter.setStatusKey(ENUMS.EncounterStatus.CLIENT_STAMP, client.getStamp());
         }
 
         let gridReady = function(grid) {

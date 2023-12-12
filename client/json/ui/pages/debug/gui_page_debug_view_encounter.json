@@ -12,7 +12,7 @@
                   "widget_class":"GuiExpandingContainer",
                   "widget_config_id":"widget_hidden_container",
                   "options": {
-                    "offset_x": 0.0,
+                    "offset_x": -0.1,
                     "offset_y": 0.0
                   }
                 },
@@ -24,21 +24,31 @@
                     "container_id": "page_container",
                     "offset_x": 0.0,
                     "offset_y": -0.0,
-                    "track_config": {"category": "DEBUG","key": "BUFFERS",
+                    "track_config": {"category": "DEBUG","key": "ENCOUNTER_STATUS",
                       "samplers": [
                         {
-                          "key": "sysKeys",
-                          "digits": 0
+                          "key": "CLIENT_STAMP",
+                          "label": "HOST"
                         },
                         {
-                          "key": "sysBuffs",
-                          "digits": 0
-                        },{
-                          "key": "mats",
-                          "digits": 0
-                        },{
-                          "key": "iCount",
-                          "digits": 0
+                          "key": "TURN_INDEX",
+                          "label": "TURN"
+                        },
+                        {
+                          "key": "HAS_TURN_ACTOR",
+                          "label": "HAS_TURN"
+                        },
+                        {
+                          "key": "ACTIVE_TURN_SIDE",
+                          "label": "ACTIVE"
+                        },
+                        {
+                          "key": "OPPONENT_COUNT",
+                          "label": "OPPONENTS"
+                        },
+                        {
+                          "key": "PLAYER_COUNT",
+                          "label": "PLAYERS"
                         }
                       ]
                     }

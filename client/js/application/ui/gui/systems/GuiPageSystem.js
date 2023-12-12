@@ -21,6 +21,7 @@ class GuiPageSystem {
         }
 
         let onTogglePage = function(event) {
+            console.log('onTogglePage', event)
             let pageId = event['page_id'];
             let parentPageId = event['parent_page_id'];
             let parentcontainerId = event['parent_container_id']
@@ -53,6 +54,7 @@ class GuiPageSystem {
         }
     }
     toggleGuiPage(pageId, parentPageId, parentContainerId) {
+        console.log("Toggle page: ", pageId, parentPageId, parentContainerId);
         if (this.activePages.indexOf(this.pages[pageId]) === -1) {
             let page = this.activateGuiPage(pageId);
             this.attachPageToParent(page, parentPageId, parentContainerId);

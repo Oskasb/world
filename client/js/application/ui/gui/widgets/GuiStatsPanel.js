@@ -22,14 +22,20 @@ class GuiStatsPanel {
 
         let catKey = options['track_config']['category'];
         let confKey = options['track_config']['key'];
+        let label = options['track_config']['label'];
         let trackValues = PipelineAPI.getCachedConfigs()[catKey][confKey];
 
         let updateTrackedStats = function() {
             for (let i = 0; i < this.samplers.length; i++) {
                 let sampler = this.samplers[i].key
         //    console.log("trackValues", trackValues);
-                //      let value = trackValues.gamePiece.getStatusByKey(sampler);
-                this.updateStat(this.samplers[i].key, trackValues[sampler]);
+                let value = 'no_value';
+
+                if (trackValues) {
+                    value =     trackValues[sampler]
+                }
+
+                this.updateStat(this.samplers[i].key, value, this.samplers[i].label);
             }
         }.bind(this);
 
@@ -48,15 +54,15 @@ class GuiStatsPanel {
         let cb = function() {
 
         }
-        let addStatSampler = function(key, callback, unit, digits) {
-            return {key:key,   callback:callback || cb, unit:unit || '', digits:digits}
+        let addStatSampler = function(key, callback, unit, digits, label) {
+            return {key:key,   label:label || key, callback:callback || cb, unit:unit || '', digits:digits}
         }
 
 
         let samplers = this.options['track_config']['samplers']
         for (let i= 0; i <  samplers.length; i++) {
      //       console.log("Add Track stats", samplers[i]);
-            this.addTrackStatFunction(addStatSampler(samplers[i].key, '',samplers[i].unit || '', samplers[i].digits));
+            this.addTrackStatFunction(addStatSampler(samplers[i].key, '',samplers[i].unit || '', samplers[i].digits, samplers[i].label));
         }
 
         ThreeAPI.addPostrenderCallback(this.callbacks.updateTrackedStats)
@@ -129,12 +135,12 @@ class GuiStatsPanel {
         return valueString+unit;
     };
 
-    updateStat = function(key, value) {
+    updateStat = function(key, value, label) {
 
         let sampler = this.statWidgets[key].keyWidget.statSampler;
 
         let valueString = this.setupValueString(value, sampler.unit || '', sampler.digits);
-        this.statWidgets[key].keyWidget.setFirstSTringText(key);
+        this.statWidgets[key].keyWidget.setFirstSTringText(label || key);
         this.statWidgets[key].valueWidget.setFirstSTringText(valueString)
     };
 

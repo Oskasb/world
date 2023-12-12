@@ -1,9 +1,14 @@
 import {EncounterStatus} from "./EncounterStatus.js";
+import {trackDebugConfig} from "../../application/utils/DebugUtils.js";
 
 
 let encounterActors = []
 let faces = ['face_1', 'face_2', 'face_3', 'face_5', 'face_6', 'face_7', 'face_8']
 let loads = 0;
+
+let trackStatusKeys = [
+    ENUMS.EncounterStatus.CLIENT_STAMP
+];
 
 function spawnActor(actorConfig, tile, encounterTurnSequencer, onReady) {
     let actorLoaded = function(actor) {
@@ -34,6 +39,11 @@ class DynamicEncounter {
 
     setStatusKey(key, status) {
         let write = this.status.setStatusKey(key, status);
+
+    //    if (trackStatusKeys.indexOf(key) !== -1) {
+            trackDebugConfig('ENCOUNTER_STATUS', key, status);
+    //    }
+
         if (this.isRemote === false) {
             this.status.setStatusKey(ENUMS.EncounterStatus.CLIENT_STAMP, client.getStamp());
             let gameTime = GameAPI.getGameTime();
