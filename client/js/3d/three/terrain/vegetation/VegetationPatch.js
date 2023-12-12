@@ -166,15 +166,22 @@ class VegetationPatch {
     //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ThreeAPI.getCameraCursor().getPos(), to:this.position, color:'YELLOW', drawFrames:10});
     }
 
-    applyGridVisibility(lodTile, updateFrame) {
+    applyGridVisibility(lodTile, updateFrame, preUpdateTime) {
         if (limitTestFrame !== updateFrame) {
             limitTestFrame = updateFrame;
             frameAdds = 0;
         }
 
-
         this.updateFrame = updateFrame;
         let plantCount = Math.ceil(MATH.clamp(0.2 +(lodTile.nearness*1.2), 0, 1)*this.maxPlants);
+
+        let now = performance.now();
+
+        if ((preUpdateTime - now) > 500) {
+            frameLimit = 5;
+        } else {
+            frameLimit = 50;
+        }
 
             if (this.plants.length < plantCount) {
                 addPlantsToPatch(this, plantCount, lodTile)

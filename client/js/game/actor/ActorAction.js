@@ -216,6 +216,12 @@ class ActorAction {
     }
 
     getStepDuration(step) {
+
+        this.sequencing = this.readActionConfig('sequencing')
+        if (!this.sequencing) {
+            return 1;
+        }
+
         if (typeof this.sequencing[step] === 'object') {
             return this.sequencing[step].time || 1;
         } else {
@@ -254,24 +260,24 @@ class ActorAction {
             this.actor.setStatusKey(ENUMS.ActorStatus.ACTION_STATE_KEY, this.status.call.getStatusByKey(ENUMS.ActionStatus.ACTION_STATE))
             this.actor.setStatusKey(ENUMS.ActorStatus.SELECTED_ACTION, this.status.call.getStatusByKey(ENUMS.ActionStatus.ACTION_KEY));
         }
-/*
+
         let status = this.readActionConfig('status')
 
         if (typeof(status) === 'object') {
+            // used for status altering actions, FLY, LEAP etc:
             for (let key in status) {
                 actor.setStatusKey(ENUMS.ActorStatus[key], status[key])
             }
-        } else {
-            console.log("Broken status")
         }
 
- */
+
         actor.actorText.yell(this.visualAction.name)
 
         this.sequencing = this.readActionConfig('sequencing')
-     //   if (typeof(this.sequencing) === 'object') {
+        if (typeof(this.sequencing) === 'object') {
+            // used for combat actions
             GameAPI.registerGameUpdateCallback(this.call.updateAttack);
-    //    }
+        }
     }
 
     setActionTargetId(targetId) {

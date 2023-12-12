@@ -171,7 +171,7 @@ class DynamicTile {
         poolReturn(this);
     }
 
-    processDynamicTileVisibility = function(maxDistance, lodLevels, lodCenter,  tileUpdateCallback, coarseness, margin, centerIsUpdated) {
+    processDynamicTileVisibility = function(maxDistance, lodLevels, lodCenter,  tileUpdateCallback, coarseness, margin, centerIsUpdated, preUpdateTime) {
 
         if (coarseness > 1 && centerIsUpdated === false) {
             this.step++;
@@ -236,7 +236,7 @@ class DynamicTile {
         } else {
             this.lodLevel = -1;
         }
-        tileUpdateCallback(this, centerIsUpdated)
+        tileUpdateCallback(this, centerIsUpdated, preUpdateTime)
     }
 
     debugDrawTilePosition(size, color) {

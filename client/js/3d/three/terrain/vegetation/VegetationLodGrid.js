@@ -24,7 +24,7 @@ function getPatchByPosition(vegPatches, pos) {
     //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos: tile.getPos(), color:'RED', size:1.2})
 }
 
-function fitPatchToLodTile(freePatches, vegPatches, lodTile) {
+function fitPatchToLodTile(freePatches, vegPatches, lodTile, preUpdateTime) {
 
     let pos = lodTile.getPos();
     let patch = getPatchByPosition(vegPatches, pos);
@@ -36,7 +36,7 @@ function fitPatchToLodTile(freePatches, vegPatches, lodTile) {
         }
         patch.setPatchPosition(pos)
     }
-    patch.applyGridVisibility(lodTile, updateFrame);
+    patch.applyGridVisibility(lodTile, updateFrame, preUpdateTime);
 }
 
 class VegetationLodGrid {
@@ -45,10 +45,10 @@ class VegetationLodGrid {
         this.vegetationPatches = [];
         this.freePatches = [];
 
-        let updateVisibility = function(lodTile) {
+        let updateVisibility = function(lodTile, preUpdateTime) {
         //    lodTile.debug = true;
             if (lodTile.isVisible === true) {
-               fitPatchToLodTile(this.freePatches, this.vegetationPatches, lodTile);
+               fitPatchToLodTile(this.freePatches, this.vegetationPatches, lodTile, preUpdateTime);
 
             }
 
@@ -92,9 +92,9 @@ class VegetationLodGrid {
         }
     }
 
-    updateVegLodGrid(lodCenter, frame) {
+    updateVegLodGrid(lodCenter, frame, preUpdateTime) {
         updateFrame = frame;
-        this.dynamicLodGrid.updateDynamicLodGrid(lodCenter, this.call.updateVisibility, 0, 1)
+        this.dynamicLodGrid.updateDynamicLodGrid(lodCenter, this.call.updateVisibility, 0, 1, preUpdateTime)
         this.releaseHiddenTiles()
     }
 

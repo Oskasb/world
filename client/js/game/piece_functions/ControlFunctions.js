@@ -49,7 +49,7 @@ class ControlFunctions {
         actor.actorObj3d.rotateX(MATH.curveQuad(pitch)*0.14)
         let neutralize = 0;
         if (!value) {
-            neutralize = (0.5*pitchAxis*tpf)
+            neutralize = (0.2*pitchAxis*tpf)
         }
         actor.setStatusKey(ENUMS.ActorStatus.STATUS_PITCH, pitch + value*tpf - neutralize)
         actor.setSpatialQuaternion(actor.actorObj3d.quaternion)
@@ -62,7 +62,7 @@ class ControlFunctions {
         actor.actorObj3d.rotateZ(MATH.curveQuad(roll)*0.25)
         let neutralize = 0;
         if (!value) {
-            neutralize = (0.5*rollAxis*tpf)
+            neutralize = (0.2*rollAxis*tpf)
         }
         actor.setStatusKey(ENUMS.ActorStatus.STATUS_ROLL, roll + value*tpf - neutralize)
         actor.setSpatialQuaternion(actor.actorObj3d.quaternion)
