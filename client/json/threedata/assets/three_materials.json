@@ -236,7 +236,7 @@
             "textures":[
               {"key":"map"           , "id":"atlas_2k_diff"   },
               {"key":"envMap"         , "id":"ref_sphere"     } ,
-              {"key":"materialErm"   , "id":"atlas_2k_mat_erm"    },
+              {"key":"materialEps"   , "id":"atlas_2k_mat_eps"    },
               {"key":"normalMap"     , "id":"atlas_2k_norm"       },
               {"key":"data_texture"  , "id":"data_texture"   }
             ]

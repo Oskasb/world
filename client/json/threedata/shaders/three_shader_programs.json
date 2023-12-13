@@ -617,6 +617,7 @@
           "attribute vec3 scale3d;",
           "attribute vec2 uv;",
           "attribute vec4 texelRowSelect;",
+          "attribute vec4 sprite;",
           "attribute vec4 vertexColor;",
           "varying vec4 vColor;",
           "varying vec3 fragPos;",
@@ -634,8 +635,10 @@
           "varying float vFragDepth;",
           "varying vec4 clearView1;",
           "varying vec4 texelRowAttribute;",
+          "varying vec4 spriteAttribute;",
           "void main(){",
           "texelRowAttribute = texelRowSelect;",
+          "spriteAttribute = sprite;",
             "vec3 vPosition = position;",
 
             "vec4 quat = orientation.xyzw;",
@@ -684,11 +687,12 @@
           "uniform vec3 ambientLightColor;",
           "uniform vec3 clearViewPos1;",
           "uniform sampler2D map;",
-          "uniform sampler2D materialErm;",
+          "uniform sampler2D materialEps;",
           "uniform sampler2D normalMap;",
           "uniform sampler2D envMap;",
           "uniform sampler2D data_texture;",
           "varying vec4 texelRowAttribute;",
+          "varying vec4 spriteAttribute;",
           "varying vec4 clearView1;",
           "varying vec3 faceNormal;",
           "varying vec3 fragPos;",
@@ -700,12 +704,20 @@
           "void main(){",
           "vec4 txColor = texture2D( map, vUv);",
 
-          "float cameraPenetrability = texelRowAttribute.w;",
 
-          "vec4 matERM = texture2D( materialErm, vUv);",
-          "float metal = matERM.b;",
-          "float rough = matERM.g;",
+          "float cameraPenetrability = 0.59;",
+
+
+          "vec2 pixelSelector = vec2(1.0 / 128.0, texelRowAttribute.w);",
+          "vec4 penRgba = texture2D( data_texture, pixelSelector);",
+          "vec4 matERM = texture2D( materialEps, vUv);",
+          "float surfaceFactor = matERM.b;",
+          "float metal = max(min(surfaceFactor*2.2 - 0.1, 1.0), 0.0);",
+          "float rough = min(metal + max((surfaceFactor-0.52)*2.2, 0.0), 1.0);",
           "float smooth = 1.0-rough;",
+          "metal = metal;",
+
+          "float paletteSelect = matERM.g;",
           "float emitSum = matERM.r;",
           "vec4 emitColor = txColor * emitSum;",
 
@@ -715,12 +727,15 @@
           "vec3 cameraToClear = (clearOffsetPos-cameraPosition);",
           "vec3 cameraToFrag = (fragPos-cameraPosition);",
 
-          "cameraPenetrability = emitSum;",
+          "cameraPenetrability *= max(( 1.0 + min(length(txColor.rgb), 0.85) * 0.75), 1.0);",
 
-          "float distanceFactor = min(1.0 / ((length(cameraToClear)*(0.96 ) - length(cameraToFrag) + (0.0 + cameraPenetrability))*8.0), 1.0);",
-          "float cameraToClearAngle = 1.3 - 0.552*dot(normalize(cameraToClear), normalize(cameraToFrag));",
+          "float distanceFactor = min(1.0 / (max(length(cameraToClear)*(0.96) - length(cameraToFrag), 0.0) + (1.0) ) *  (1.0 / (1.0*cameraPenetrability + 0.01)), 1.0);",
+          "float cameraToClearAngle = 1.3 - 0.552*dot(normalize(cameraToClear), normalize(cameraToFrag)) * (0.99 + cameraPenetrability * 0.05);",
 
-          "alpha *= cameraToClearAngle * (1.0-distanceFactor);",
+          "distanceFactor = max(distanceFactor, cameraToClearAngle);",
+          "float maxCamPen = max(distanceFactor, cameraToClearAngle);",
+
+          "alpha -= alpha * (1.0 - maxCamPen * (1.0) ) ;",
 
           "if (alpha <= alphaTest) discard;",
 

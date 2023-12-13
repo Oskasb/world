@@ -296,7 +296,7 @@
           "config": {
             "instancing": {
               "instances": 250,
-              "attributes": ["offset", "vertexColor", "scale3d", "orientation","sprite", "texelRowSelect"],],
+              "attributes": ["offset", "vertexColor", "scale3d", "orientation","sprite", "texelRowSelect"],
               "cameraspace": false
             },
             "transform": {
@@ -310,7 +310,7 @@
           "config": {
             "instancing": {
               "instances": 150,
-              "attributes": ["offset", "vertexColor", "scale3d", "orientation","sprite", "texelRowSelect"],],
+              "attributes": ["offset", "vertexColor", "scale3d", "orientation","sprite", "texelRowSelect"],
               "cameraspace": false
             },
             "transform": {
@@ -324,7 +324,7 @@
           "config": {
             "instancing": {
               "instances": 100,
-              "attributes": ["offset", "vertexColor", "scale3d", "orientation","sprite", "texelRowSelect"],],
+              "attributes": ["offset", "vertexColor", "scale3d", "orientation","sprite", "texelRowSelect"],
               "cameraspace": false
             },
             "transform": {
@@ -338,7 +338,7 @@
           "config": {
             "instancing": {
               "instances": 75,
-              "attributes": ["offset", "vertexColor", "scale3d", "orientation","sprite", "texelRowSelect"],],
+              "attributes": ["offset", "vertexColor", "scale3d", "orientation","sprite", "texelRowSelect"],
               "cameraspace": false
             },
             "transform": {
@@ -352,7 +352,7 @@
           "config": {
             "instancing": {
               "instances": 50,
-              "attributes": ["offset", "vertexColor", "scale3d", "orientation","sprite", "texelRowSelect"],],
+              "attributes": ["offset", "vertexColor", "scale3d", "orientation","sprite", "texelRowSelect"],
               "cameraspace": false
             },
             "transform": {
@@ -366,7 +366,7 @@
           "config": {
             "instancing": {
               "instances": 25,
-              "attributes": ["offset", "vertexColor", "scale3d", "orientation","sprite", "texelRowSelect"],],
+              "attributes": ["offset", "vertexColor", "scale3d", "orientation","sprite", "texelRowSelect"],
               "cameraspace": false
             },
             "transform": {
@@ -380,7 +380,7 @@
           "config": {
             "instancing": {
               "instances": 15,
-              "attributes": ["offset", "vertexColor", "scale3d", "orientation","sprite", "texelRowSelect"],],
+              "attributes": ["offset", "vertexColor", "scale3d", "orientation","sprite", "texelRowSelect"],
               "cameraspace": false
             },
             "transform": {
@@ -394,7 +394,7 @@
           "config": {
             "instancing": {
               "instances": 10,
-              "attributes": ["offset", "vertexColor", "scale3d", "orientation","sprite", "texelRowSelect"],],
+              "attributes": ["offset", "vertexColor", "scale3d", "orientation","sprite", "texelRowSelect"],
               "cameraspace": false
             },
             "transform": {
@@ -408,7 +408,7 @@
           "config": {
             "instancing": {
               "instances": 5,
-              "attributes": ["offset", "vertexColor", "scale3d", "orientation","sprite", "texelRowSelect"],],
+              "attributes": ["offset", "vertexColor", "scale3d", "orientation","sprite", "texelRowSelect"],
               "cameraspace": false
             },
             "transform": {
@@ -422,7 +422,7 @@
           "config": {
             "instancing": {
               "instances": 1,
-              "attributes": ["offset", "vertexColor", "scale3d", "orientation","sprite", "texelRowSelect"],],
+              "attributes": ["offset", "vertexColor", "scale3d", "orientation","sprite", "texelRowSelect"],
               "cameraspace": false
             },
             "transform": {
