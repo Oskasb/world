@@ -1,7 +1,9 @@
 import {poolFetch, poolReturn} from "./PoolUtils.js";
 import {Vector3} from "../../../libs/three/math/Vector3.js";
+import {Object3D} from "../../../libs/three/core/Object3D.js";
 import {Ray} from "../../../libs/three/math/Ray.js";
 
+let tempObj = new Object3D();
 let tempVec = new Vector3();
 let tempPos = new Vector3()
 let tempVec2 = new Vector3();
@@ -34,12 +36,14 @@ function debugDrawPhysicalModel(physicalModel) {
   //  evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos: physicalModel.getPos(), color:physicalModel.debugColor, size:1})
   //  evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:physicalModel.box.min, max:physicalModel.box.max, color:physicalModel.debugColor})
     let shapes = physicalModel.shapes;
-    for (let i = 0; i < shapes.length; i++) {
-        let shape = shapes[i];
-    //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos: shape.getPos(), color:shape.debugColor, size:0.5})
+    for (let i = 0; i < physicalModel.rigidBodies.length; i++) {
+        let body = physicalModel.rigidBodies[i];
+        bodyTransformToObj3d(body, tempObj);
+        evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:tempObj.position, to:ThreeAPI.getCameraCursor().getPos(), color:'GREY'});
+     //   evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos: shape.getPos(), color:shape.debugColor, size:0.5})
     //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:physicalModel.getPos(), to:shape.getPos(), color:shape.debugColor});
     //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:shape.getBoundingMin(), max:shape.getBoundingMax(), color:shape.debugColor})
-        shape.drawDebugBox()
+    //    shape.drawDebugBox()
     }
 }
 

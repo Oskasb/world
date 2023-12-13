@@ -76,16 +76,21 @@ class LocationModel {
             }
         }.bind(this);
 
+        this.instanceCallback = function(instance) {
+
+        };
+
         let lodUpdated = function(lodLevel) {
 
-            if (lodLevel < 1) {
+            if (lodLevel === 0) {
 
                 if (!physicalModel) {
                     if (this.instance === null) {
-                        this.instanceCallback = function() {
+                        this.instanceCallback = function(instance) {
                             physicalModel = addPhysicsToModel(config.asset, this.obj3d, this.physicsUpdate);
                         }.bind(this);
                     } else {
+
                         physicalModel = addPhysicsToModel(config.asset, this.obj3d, this.physicsUpdate);
                     }
                 }

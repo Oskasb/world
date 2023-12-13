@@ -154,7 +154,7 @@ function processTerrainLodCenter(lodCenter, terrainCenter) {
     let camPos = ThreeAPI.getCamera().position
     let elevationFactor = camPos.y*0.1;
 //    lodCenter.subVectors(cursorPos , camPos );
-    terrainCenter.set(0, 0, -(40+elevationFactor))
+    terrainCenter.set(0, 0, -(20+elevationFactor))
     terrainCenter.applyQuaternion(ThreeAPI.getCamera().quaternion)
 //    terrainCenter.multiplyScalar(2.0*(1.0+elevationFactor*1))
 //    lodCenter.multiplyScalar(-(0.5-elevationFactor*0.5));
@@ -170,7 +170,7 @@ function processTerrainLodCenter(lodCenter, terrainCenter) {
     }
 
     // terrainCenter.y = 0// lodCenter.y;
-    // evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:terrainCenter, color:'YELLOW', size:2.2})
+     evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:terrainCenter, color:'YELLOW', size:2.2})
 
     tempVec3.copy(terrainCenter)
     tempVec3.y = ThreeAPI.terrainAt(terrainCenter);

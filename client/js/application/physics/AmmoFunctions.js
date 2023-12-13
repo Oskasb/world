@@ -28,7 +28,7 @@ let rayFromVec;
 let rayToVec;
 
 let Ammo;
-
+let ammoHeightData;
 
 let STATE = {
     ACTIVE : 1,
@@ -613,7 +613,10 @@ function createTerrainShape(data, sideSize, terrainMaxHeight, terrainMinHeight, 
     // Set this to your needs (inverts the triangles)
     let flipQuadEdges = false;
     // Creates height data buffer in Ammo heap
-    let ammoHeightData = Ammo._malloc(4 * terrainWidth * terrainDepth);
+    if (!ammoHeightData) {
+        ammoHeightData = Ammo._malloc(4 * terrainWidth * terrainDepth);
+    }
+    
     // Copy the javascript height data array to the Ammo one.
     let p = 0;
     let p2 = 0;

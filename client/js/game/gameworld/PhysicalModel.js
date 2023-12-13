@@ -82,7 +82,7 @@ class PhysicalModel {
                 let conf = shapes[i];
             //    let shape = poolFetch('PhysicalShape');
 
-                    window.AmmoAPI.setupRigidBody(this.obj3d, conf['shape'], conf['mass'], conf['friction'], conf['pos'], conf['rot'], conf['scale'], conf['asset'], conf['convex'], bodyReadyCB)
+                    AmmoAPI.setupRigidBody(this.obj3d, conf['shape'], conf['mass'], conf['friction'], conf['pos'], conf['rot'], conf['scale'], conf['asset'], conf['convex'], bodyReadyCB)
 
             }
         }
@@ -95,7 +95,7 @@ class PhysicalModel {
 
         while (this.rigidBodies.length) {
             let body = this.rigidBodies.pop();
-            window.AmmoAPI.excludeBody(body);
+            AmmoAPI.excludeBody(body);
         }
     }
 
