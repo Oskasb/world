@@ -259,7 +259,7 @@
               "side": "DoubleSide",
               "data_texture": "data_texture",
               "texture_uniforms": [
-                {"key":"materialErm" , "repeat":[1,   1]},
+                {"key":"materialEps" , "repeat":[1,   1]},
                 {"key":"envMap",       "repeat":[1,   1]},
                 {"key":"normalMap",    "repeat":[1,   1]}
               ],

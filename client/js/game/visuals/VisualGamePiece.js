@@ -2,6 +2,7 @@ import * as ModelUtils from "../../application/utils/ModelUtils.js";
 import { Vector3 } from "../../../libs/three/math/Vector3.js";
 import { Object3D } from "../../../libs/three/core/Object3D.js";
 import { VisualPathPoints } from "./VisualPathPoints.js";
+import {poolReturn, poolFetch} from "../../application/utils/PoolUtils.js";
 
 let tempVec = new Vector3();
 let tempObj3d = new Object3D()
@@ -80,6 +81,13 @@ class VisualGamePiece {
 
             let setInstance = function(inst) {
                 instance = inst;
+
+                if (instance.getSpatial().call.isInstanced()) {
+                    let palette = poolFetch('VisualModelPalette')
+                    applyVisualPiecePalette(palette);
+                    poolReturn(palette);
+                }
+
             }
 
             let getInstance = function() {
@@ -97,7 +105,12 @@ class VisualGamePiece {
             gamePiece = piece;
         }.bind(this)
 
+        let applyVisualPiecePalette = function(visualModelPalette) {
+                visualModelPalette.applyPaletteSelection('DEFAULT', getInstance());
+        }
+
         this.call = {
+                applyVisualPiecePalette:applyVisualPiecePalette,
             getPiece:getPiece,
             setPiece:setPiece,
             setInstance:setInstance,
