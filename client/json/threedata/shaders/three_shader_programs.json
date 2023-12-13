@@ -710,9 +710,10 @@
           "vec4 matERM = texture2D( materialEps, vUv);",
           "float surfaceFactor = matERM.b;",
           "float metal = max(min(surfaceFactor*2.2 - 0.1, 1.0), 0.0);",
-          "float rough = min(metal + max((surfaceFactor-0.52)*2.2, 0.0), 1.0);",
+          "float rough = floor(surfaceFactor * 2.0) * (surfaceFactor - 0.5)*2.0;",
           "float smooth = 1.0-rough;",
-          "metal = metal;",
+          "metal = metal*(1.0-rough);",
+          "metal = metal*metal*metal*1.0;",
 
           "float paletteSelect = matERM.g;",
           "float emitSum = matERM.r;",
@@ -738,7 +739,7 @@
 
           "if (alpha <= alphaTest) discard;",
 
-          "float paletteSteps = 8.0;",
+          "float paletteSteps = 4.0;",
 
           "float rowSelector = 0.0 + 1.0 * paletteSelect * paletteSteps;",
           "float rowDelta1 = texelRowAttribute.y - texelRowAttribute.x;",
