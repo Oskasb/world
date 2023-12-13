@@ -704,12 +704,8 @@
           "void main(){",
           "vec4 txColor = texture2D( map, vUv);",
 
-
           "float cameraPenetrability = 0.59;",
 
-
-          "vec2 pixelSelector = vec2(1.0 / 128.0, texelRowAttribute.w);",
-          "vec4 penRgba = texture2D( data_texture, pixelSelector);",
           "vec4 matERM = texture2D( materialEps, vUv);",
           "float surfaceFactor = matERM.b;",
           "float metal = max(min(surfaceFactor*2.2 - 0.1, 1.0), 0.0);",
@@ -738,6 +734,11 @@
           "alpha -= alpha * (1.0 - maxCamPen * (1.0) ) ;",
 
           "if (alpha <= alphaTest) discard;",
+
+
+          "vec2 pixelSelector = vec2(1.0 / 128.0, texelRowAttribute.w);",
+          "vec4 penRgba = texture2D( data_texture, pixelSelector);",
+
 
           "vec4 normal = texture2D( normalMap, vUv);",
 

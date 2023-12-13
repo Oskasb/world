@@ -23,6 +23,7 @@ import {PhysicalModel} from "../../game/gameworld/PhysicalModel.js";
 import {PhysicalShape} from "../../game/gameworld/PhysicalShape.js";
 import {VisualPieceEffectContinuous} from "../../game/visuals/effects/VisualPieceEffectContinuous.js";
 import {VisualPieceEffectTransition} from "../../game/visuals/effects/VisualPieceEffectTransition.js";
+import {VisualModelPalette} from "../../game/visuals/VisualModelPalette.js";
 
 let pools = {}
 let stats = {};
@@ -50,7 +51,8 @@ function initPools() {
     registerPool(VisualModel);
     registerPool(PhysicalModel);
     registerPool(PhysicalShape);
-    registerPool(VisualPieceEffectTransition)
+    registerPool(VisualPieceEffectTransition);
+    registerPool(VisualModelPalette)
 }
 
 function registerPool(DataObj) {

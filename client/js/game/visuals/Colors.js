@@ -35,7 +35,6 @@ frameFeedbackMap['FRIENDLY']   = 'feedback_icon_button_friendly';
 frameFeedbackMap['NEUTRAL']    = 'feedback_icon_button_neutral';
 frameFeedbackMap['HOSTILE']    = 'feedback_icon_button_hostile';
 frameFeedbackMap['ITEM']       = 'feedback_icon_button_item';
-
 frameFeedbackMap['UNAVAILABLE']   = 'feedback_action_button_unavailable';
 frameFeedbackMap['SELECTED']      = 'feedback_action_button_enabled';
 frameFeedbackMap['AVAILABLE']     = 'feedback_action_button_available';
@@ -45,8 +44,12 @@ frameFeedbackMap['ON_COOLDOWN']   = 'feedback_action_button_cooldown';
 frameFeedbackMap['ENABLED']       = 'feedback_action_button_enabled';
 frameFeedbackMap['DISABLED']      = 'feedback_action_button_disabled';
 
+let paletteMap = {};
+paletteMap['DEFAULT'] = {}
+
 export {
     colorMapFx,
     frameFeedbackMap,
-    elementColorMap
+    elementColorMap,
+    paletteMap
 }
