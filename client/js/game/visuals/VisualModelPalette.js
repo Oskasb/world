@@ -1,16 +1,19 @@
+import {paletteMap} from "./Colors.js";
+
 class VisualModelPalette {
 
     constructor() {
-
+        this.instance = null;
     }
 
+    applyPaletteSelection(selection, instance) {
 
-    setInstanceModel(instance) {
-        // this only works for specific shaders using the texelRowSelect and sprite attributes for palette data;
+        if (!selection) {
+            selection = 'DEFAULT'
+        }
 
-    }
-
-    applyPaletteSelection() {
+        let palette = paletteMap[selection];
+        instance.setAttributev4('texelRowSelect', palette)
 
     }
 

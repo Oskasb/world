@@ -691,6 +691,7 @@
           "uniform sampler2D normalMap;",
           "uniform sampler2D envMap;",
           "uniform sampler2D data_texture;",
+          "uniform float data_rows;",
           "varying vec4 texelRowAttribute;",
           "varying vec4 spriteAttribute;",
           "varying vec4 clearView1;",
@@ -723,7 +724,9 @@
           "vec3 cameraToClear = (clearOffsetPos-cameraPosition);",
           "vec3 cameraToFrag = (fragPos-cameraPosition);",
 
-          "cameraPenetrability *= max(( 1.0 + min(length(txColor.rgb), 0.85) * 0.75), 1.0);",
+          "float colorIntensity = length(txColor.rgb);",
+
+          "cameraPenetrability *= max(( 1.0 + min(colorIntensity, 0.85) * 0.75), 1.0);",
 
           "float distanceFactor = min(1.0 / (max(length(cameraToClear)*(0.96) - length(cameraToFrag), 0.0) + (1.0) ) *  (1.0 / (1.0*cameraPenetrability + 0.01)), 1.0);",
           "float cameraToClearAngle = 1.3 - 0.552*dot(normalize(cameraToClear), normalize(cameraToFrag)) * (0.99 + cameraPenetrability * 0.05);",
@@ -735,10 +738,28 @@
 
           "if (alpha <= alphaTest) discard;",
 
+          "float paletteSteps = 8.0;",
 
-          "vec2 pixelSelector = vec2(1.0 / 128.0, texelRowAttribute.w);",
-          "vec4 penRgba = texture2D( data_texture, pixelSelector);",
+          "float rowSelector = 0.0 + 1.0 * paletteSelect * paletteSteps;",
+          "float rowDelta1 = texelRowAttribute.y - texelRowAttribute.x;",
+          "float rowDelta2 = texelRowAttribute.z - texelRowAttribute.y;",
+          "float rowDelta3 = texelRowAttribute.w - texelRowAttribute.z;",
 
+          "float selectedStep = floor(rowSelector);",
+
+          "float selection = texelRowAttribute.x;",
+
+          "float stepFactor = min(floor(selectedStep / 1.0), 1.0);",
+          "selection = selection * (1.0 - stepFactor) +  texelRowAttribute.y*stepFactor;",
+          "stepFactor = min(floor(selectedStep / 2.0), 1.0);",
+          "selection = selection * (1.0 - stepFactor) +  texelRowAttribute.z*stepFactor;",
+          "stepFactor = min(floor(selectedStep / 3.0), 1.0);",
+          "selection = selection * (1.0 - stepFactor) +  texelRowAttribute.w*stepFactor;",
+
+          "vec2 pixelSelector = vec2(colorIntensity, (selection / data_rows) - (0.5 / data_rows));",
+          "vec4 paletteRgba = texture2D( data_texture, pixelSelector);",
+
+          "txColor.rgb = paletteRgba.rgb;",
 
           "vec4 normal = texture2D( normalMap, vUv);",
 
