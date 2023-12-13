@@ -46,6 +46,7 @@ frameFeedbackMap['DISABLED']      = 'feedback_action_button_disabled';
 
 let paletteMap = {};
 paletteMap['DEFAULT'] = {x:ENUMS.ColorCurve.grad_orange_1, y:ENUMS.ColorCurve.grad_blue_2, z: ENUMS.ColorCurve.grad_green_1, w:ENUMS.ColorCurve.grad_red_1}
+paletteMap['NATURE'] = {x:ENUMS.ColorCurve.grad_green_3, y:ENUMS.ColorCurve.grad_yellow_3, z: ENUMS.ColorCurve.grad_red_3, w:ENUMS.ColorCurve.grad_green_2}
 
 export {
     colorMapFx,

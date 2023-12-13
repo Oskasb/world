@@ -2,7 +2,7 @@ import {Object3D} from "../../../libs/three/core/Object3D.js";
 import {inheritAsParent, inheritConfigTransform} from "../../application/utils/ModelUtils.js";
 import {WorldBox} from "./WorldBox.js";
 import {LodTest} from "../visuals/LodTest.js";
-import {poolFetch, registerPool} from "../../application/utils/PoolUtils.js";
+import {poolFetch, poolReturn, registerPool} from "../../application/utils/PoolUtils.js";
 import {addPhysicsToModel, removePhysicalModel} from "../../application/utils/PhysicsUtils.js";
 
 function showLocationModel(model) {
@@ -10,6 +10,11 @@ function showLocationModel(model) {
 //    console.log("SHOW LocationModel", model);
 
     let addModelInstance = function(instance) {
+
+        let palette = poolFetch('VisualModelPalette')
+            palette.applyPaletteSelection('DEFAULT', instance);
+        poolReturn(palette);
+
         ThreeAPI.getScene().remove(instance.spatial.obj3d)
         instance.spatial.stickToObj3D(model.obj3d);
         model.instance = instance;

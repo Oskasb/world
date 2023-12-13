@@ -1,5 +1,6 @@
 import {ConfigData} from "../../../application/utils/ConfigData.js";
 import {Object3D} from "../../../../libs/three/core/Object3D.js";
+import {poolReturn, poolFetch} from "../../../application/utils/PoolUtils.js";
 
 let tempObj = new Object3D();
 let index = 0;
@@ -70,6 +71,9 @@ class TerrainElementModel {
         }
    //     console.log("Populate lod level. ", lodLevel)
         let addLodInstance = function(instance) {
+            let palette = poolFetch('VisualModelPalette')
+            palette.applyPaletteSelection('NATURE', instance);
+            poolReturn(palette);
             modelCount++
             lodInstances.push(instance);
         }.bind(this);
