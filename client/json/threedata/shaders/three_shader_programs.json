@@ -616,7 +616,7 @@
           "attribute vec3 offset;",
           "attribute vec3 scale3d;",
           "attribute vec2 uv;",
-
+          "attribute vec4 texelRowSelect;",
           "attribute vec4 vertexColor;",
           "varying vec4 vColor;",
           "varying vec3 fragPos;",
@@ -625,16 +625,17 @@
 
           "uniform vec3 ambientLightColor;",
           "uniform vec3 sunLightColor;",
-
+          "uniform vec3 clearViewPos1;",
           "uniform vec3 sunLightDirection;",
           "varying vec3 faceNormal;",
           "uniform vec3 fogColor;",
           "uniform float fogDensity;",
           "varying float fogDepth;",
           "varying float vFragDepth;",
-
-
+          "varying vec4 clearView1;",
+          "varying vec4 texelRowAttribute;",
           "void main(){",
+          "texelRowAttribute = texelRowSelect;",
             "vec3 vPosition = position;",
 
             "vec4 quat = orientation.xyzw;",
@@ -664,8 +665,10 @@
 
             "vColor = vec4(vertexColor.r * vColor.r, vertexColor.g*vColor.g, vertexColor.b*vColor.b,  vColor.a*vertexColor.a);",
             "fragPos = offset + vPosition;",
+
+            "clearView1 = projectionMatrix * modelViewMatrix * vec4( clearViewPos1, 1.0 );",
             "gl_Position = projectionMatrix * modelViewMatrix * vec4( offset + vPosition, 1.0 );",
-          "fogDepth = gl_Position.z*1.0;",
+            "fogDepth = gl_Position.z*1.0;",
           "}",
           ""
         ],
@@ -679,34 +682,53 @@
           "uniform vec3 sunLightDirection;",
           "uniform vec3 sunLightColor;",
           "uniform vec3 ambientLightColor;",
+          "uniform vec3 clearViewPos1;",
           "uniform sampler2D map;",
           "uniform sampler2D materialErm;",
           "uniform sampler2D normalMap;",
           "uniform sampler2D envMap;",
+          "uniform sampler2D data_texture;",
+          "varying vec4 texelRowAttribute;",
+          "varying vec4 clearView1;",
           "varying vec3 faceNormal;",
           "varying vec3 fragPos;",
           "varying vec2 vUv;",
           "varying float fogDepth;",
           "varying float vFragDepth;",
           "varying vec4 vColor;",
+
           "void main(){",
           "vec4 txColor = texture2D( map, vUv);",
 
-
-          "if (txColor.a <= alphaTest) discard;",
+          "float cameraPenetrability = texelRowAttribute.w;",
 
           "vec4 matERM = texture2D( materialErm, vUv);",
-
           "float metal = matERM.b;",
           "float rough = matERM.g;",
           "float smooth = 1.0-rough;",
           "float emitSum = matERM.r;",
           "vec4 emitColor = txColor * emitSum;",
+
+          "float alpha = txColor.a;",
+          "vec3 clearOffsetPos = vec3(clearViewPos1.xyz);",
+          "clearOffsetPos.y += 1.0;",
+          "vec3 cameraToClear = (clearOffsetPos-cameraPosition);",
+          "vec3 cameraToFrag = (fragPos-cameraPosition);",
+
+          "cameraPenetrability = emitSum;",
+
+          "float distanceFactor = min(1.0 / ((length(cameraToClear)*(0.96 ) - length(cameraToFrag) + (0.0 + cameraPenetrability))*8.0), 1.0);",
+          "float cameraToClearAngle = 1.3 - 0.552*dot(normalize(cameraToClear), normalize(cameraToFrag));",
+
+          "alpha *= cameraToClearAngle * (1.0-distanceFactor);",
+
+          "if (alpha <= alphaTest) discard;",
+
           "vec4 normal = texture2D( normalMap, vUv);",
 
           "vec3 fragNormal = normalize(faceNormal * normal.rgb);",
           "vec3 transposedFragPos = fragPos + fragNormal.xyz*1.0;",
-          "vec3 cameraToFrag = normalize(transposedFragPos-cameraPosition);",
+          "cameraToFrag = normalize(transposedFragPos-cameraPosition);",
           "vec3 surfaceAngle = normalize(fragNormal * cameraToFrag);",
           "vec3 cameraAngle = cross(surfaceAngle, cameraToFrag);",
           "vec3 surfaceToCameraVec3 = cross(surfaceAngle, cameraAngle);",

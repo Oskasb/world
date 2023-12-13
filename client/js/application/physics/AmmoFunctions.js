@@ -561,26 +561,20 @@ function setBodyTransform(body, position, quaternion) {
     body.getAngularVelocity().setZ(0);
 
     applyBodyParams(body);
-    return;
-
-    /*
-
-    body.setLinearVelocity(VECTOR_AUX);
-
-
-    body.setAngularVelocity(VECTOR_AUX);
-    */
-
-    //    body.setMassProps(conf.mass, VECTOR_AUX);
-    //    body.setDamping(conf.mass, VECTOR_AUX);
-
-    body.setRestitution(0);
-    body.setFriction(9);
-    body.setDamping(9, 9);
-
-    resetMass(body, conf)
 
 };
+
+
+function clearBodyState(body) {
+    tempVec.set(1000, 0, 1000);
+    TRANSFORM_AUX.setIdentity();
+    TRANSFORM_AUX.getOrigin().setX(tempVec.x);
+    TRANSFORM_AUX.getOrigin().setY(tempVec.y);
+    TRANSFORM_AUX.getOrigin().setZ(tempVec.z);
+    body.setWorldTransform(TRANSFORM_AUX);
+    body.getMotionState().setWorldTransform(TRANSFORM_AUX);
+    body.clearForces();
+}
 
 
 let hit = {
@@ -596,6 +590,8 @@ let disable = function(body) {
     }, 500)
 }
 
+let heightFieldShape
+
 function createTerrainShape(data, sideSize, terrainMaxHeight, terrainMinHeight, margin) {
 
     let terrainWidthExtents = sideSize;
@@ -605,18 +601,39 @@ function createTerrainShape(data, sideSize, terrainMaxHeight, terrainMinHeight, 
     let terrainHalfWidth = terrainWidth / 2;
     let terrainHalfDepth = terrainDepth / 2;
 
-    let heightScale = 1;
-    // Up axis = 0 for X, 1 for Y, 2 for Z. Normally 1 = Y is used.
-    let upAxis = 1;
-    // hdt, height data type. "PHY_FLOAT" is used. Possible values are "PHY_FLOAT", "PHY_UCHAR", "PHY_SHORT"
-    let hdt = "PHY_FLOAT";
-    // Set this to your needs (inverts the triangles)
-    let flipQuadEdges = false;
-    // Creates height data buffer in Ammo heap
     if (!ammoHeightData) {
         ammoHeightData = Ammo._malloc(4 * terrainWidth * terrainDepth);
+        let heightScale = 1;
+        // Up axis = 0 for X, 1 for Y, 2 for Z. Normally 1 = Y is used.
+        let upAxis = 1;
+        // hdt, height data type. "PHY_FLOAT" is used. Possible values are "PHY_FLOAT", "PHY_UCHAR", "PHY_SHORT"
+        let hdt = "PHY_FLOAT";
+        // Set this to your needs (inverts the triangles)
+        let flipQuadEdges = false;
+        // Creates height data buffer in Ammo heap
+        //    }
+        // Creates the heightfield physics shape
+        heightFieldShape = new Ammo.btHeightfieldTerrainShape(
+            terrainWidth,
+            terrainDepth,
+            ammoHeightData,
+            heightScale,
+            0,
+            terrainMaxHeight - terrainMinHeight,
+            upAxis,
+            hdt,
+            flipQuadEdges
+        );
+
+//    console.log(heightFieldShape)
+        // Set horizontal scale
+        let scaleX = terrainWidthExtents / ( terrainWidth - 1 );
+        let scaleZ = terrainDepthExtents / ( terrainDepth - 1 );
+        heightFieldShape.setLocalScaling(new Ammo.btVector3(scaleX, heightScale, scaleZ));
+        heightFieldShape.setMargin(margin);
+
     }
-    
+
     // Copy the javascript height data array to the Ammo one.
     let p = 0;
     let p2 = 0;
@@ -628,27 +645,9 @@ function createTerrainShape(data, sideSize, terrainMaxHeight, terrainMinHeight, 
         // 4 bytes/float
         p2 += 4;
     }
-    //    }
-    // Creates the heightfield physics shape
-    let heightFieldShape = new Ammo.btHeightfieldTerrainShape(
-        terrainWidth,
-        terrainDepth,
-        ammoHeightData,
-        heightScale,
-        0,
-        terrainMaxHeight - terrainMinHeight,
-        upAxis,
-        hdt,
-        flipQuadEdges
-    );
 
-//    console.log(heightFieldShape)
-    // Set horizontal scale
-    let scaleX = terrainWidthExtents / ( terrainWidth - 1 );
-    let scaleZ = terrainDepthExtents / ( terrainDepth - 1 );
-    heightFieldShape.setLocalScaling(new Ammo.btVector3(scaleX, heightScale, scaleZ));
-    heightFieldShape.setMargin(margin);
     return heightFieldShape;
+
 }
 
 let gravity = -9.81;
@@ -762,7 +761,7 @@ class AmmoFunctions {
     };
 
     enableBodySimulation(body) {
-        body.activate();
+
         body.forceActivationState(STATE.ACTIVE);
     };
 
@@ -795,23 +794,16 @@ class AmmoFunctions {
     };
 
     disableBodySimulation(body) {
-
-
-        if (body.dataKey) {
-            if (bodyPools[body.dataKey]) {
-                bodyPools[body.dataKey].returnToPool(body)
-                body.forceActivationState(STATE.DISABLE_SIMULATION);
-                bodyTransformToObj3d(body, tempObj)
-                evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ThreeAPI.getCameraCursor().getPos(), to:tempObj.position, color:'RED'});
-
-            }
-        } else {
-            body.forceActivationState(STATE.DISABLE_SIMULATION);
-        }
-
-
+        body.forceActivationState(STATE.DISABLE_SIMULATION);
     };
 
+
+
+    returnBodyToPool(body) {
+    //    console.log("Pool Body", bodyPools, body);
+        clearBodyState(body);
+        bodyPools[body.dataKey].returnToPool(body)
+    }
 
     physicsRayRange = function(world, pos, dir, posRes, normalRes) {
 
@@ -957,6 +949,7 @@ class AmmoFunctions {
     //    console.log("Set Buffer", id, [buffer])
         function onReady(body) {
             body.forceActivationState(STATE.DISABLE_SIMULATION);
+            body.activate(false);
         }
 
         this.createRigidBody(tempObj, id+"_temp", id, 0, 1, tempVec, tempObj.quaternion, tempVec, false, onReady)
@@ -1019,7 +1012,7 @@ class AmmoFunctions {
                 bodyPools[dataKey] = new BodyPool(shape, createFunc);
                 rigidBody = fetchPoolBody(dataKey);
             } else {
-                rigidBody.forceActivationState(STATE.ACTIVE);
+                clearBodyState(rigidBody);
             }
             rigidBody.forceActivationState(STATE.ACTIVE);
             rigidBody.dataKey = dataKey;

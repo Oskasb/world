@@ -5,6 +5,8 @@ import {AmmoFunctions} from "./AmmoFunctions.js";
 let ammoFunctions;
 let world;
 
+let bodyIndex = [];
+
 let STATE = {
     ACTIVE : 1,
     ISLAND_SLEEPING : 2,
@@ -58,6 +60,11 @@ class AmmoAPI {
                 ammoFunctions.attachBodyBySliderJoints(world, body, bdCfg)
             }
 */
+            if (bodyIndex.indexOf(body) === -1) {
+                world.addRigidBody(body);
+                bodyIndex.push(body);
+            }
+
             bodyReadyCB(body);
         };
 
@@ -84,9 +91,9 @@ class AmmoAPI {
         }
 
     //    if (bodies.indexOf(body) === -1) {
-            world.addRigidBody(body);
-    //    }
 
+    //    }
+        body.activate(true);
         ammoFunctions.enableBodySimulation(body);
     };
 
@@ -98,7 +105,9 @@ class AmmoAPI {
         }
 
         ammoFunctions.disableBodySimulation(body);
-        world.removeRigidBody(body);
+        body.activate(false);
+        ammoFunctions.returnBodyToPool(body);
+    //    world.removeRigidBody(body);
     };
 
 

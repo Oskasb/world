@@ -237,7 +237,8 @@
               {"key":"map"           , "id":"atlas_2k_diff"   },
               {"key":"envMap"         , "id":"ref_sphere"     } ,
               {"key":"materialErm"   , "id":"atlas_2k_mat_erm"    },
-              {"key":"normalMap"     , "id":"atlas_2k_norm"       }
+              {"key":"normalMap"     , "id":"atlas_2k_norm"       },
+              {"key":"data_texture"  , "id":"data_texture"   }
             ]
           }
         },
@@ -248,7 +249,8 @@
             "textures":[
               {"key":"map"           , "id":"atlas_2k_diff"   },
               {"key":"emissiveMap"   , "id":"atlas_2k_emit"   },
-              {"key":"normalMap"     , "id":"atlas_2k_norm"   }
+              {"key":"normalMap"     , "id":"atlas_2k_norm"   },
+              {"key":"data_texture"  , "id":"data_texture"   }
             ]
           }
         },

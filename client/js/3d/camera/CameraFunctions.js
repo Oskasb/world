@@ -201,7 +201,7 @@ function applyPointerRelease() {
 }
 
 function lerpCameraPosition(towardsPos, alpha, testObscured) {
-
+/*
     if (testObscured) {
         if (selectedActor) {
             obscureTestVec3.copy(selectedActor.getSpatialPosition());
@@ -210,7 +210,7 @@ function lerpCameraPosition(towardsPos, alpha, testObscured) {
         }
 
     }
-
+*/
     camPosVec.lerp(towardsPos, alpha)
 
     if (testObscured) {

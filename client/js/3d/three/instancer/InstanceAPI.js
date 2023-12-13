@@ -186,6 +186,11 @@ class InstanceAPI {
         this.tempVec.applyQuaternion(quat);
         ThreeAPI.setGlobalUniform( 'sunLightDirection' ,this.tempVec);
 
+        ThreeAPI.setGlobalUniform('clearViewPos1', ThreeAPI.getCameraCursor().getPos());
+
+
+
+
         let mats = 0;
 
         for (let i = 0; i < this.materials.length; i++) {
