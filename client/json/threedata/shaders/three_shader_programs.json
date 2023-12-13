@@ -725,7 +725,7 @@
           "vec3 cameraToClear = (clearOffsetPos-cameraPosition);",
           "vec3 cameraToFrag = (fragPos-cameraPosition);",
 
-          "float colorIntensity = length(txColor.rgb);",
+          "float colorIntensity = 0.0 + 1.0 * max(length(txColor.rgb) * 0.5 + (txColor.r*txColor.g*txColor.b)* 2.0, 1.0);",
 
           "cameraPenetrability *= max(( 1.0 + min(colorIntensity, 0.85) * 0.75), 1.0);",
 
@@ -757,10 +757,10 @@
           "stepFactor = min(floor(selectedStep / 3.0), 1.0);",
           "selection = selection * (1.0 - stepFactor) +  texelRowAttribute.w*stepFactor;",
 
-          "vec2 pixelSelector = vec2(colorIntensity, (selection / data_rows) - (0.5 / data_rows));",
+          "vec2 pixelSelector = vec2(colorIntensity * 1.0 -0.5, (selection / data_rows) - (0.5 / data_rows));",
           "vec4 paletteRgba = texture2D( data_texture, pixelSelector);",
 
-          "txColor.rgb = paletteRgba.rgb;",
+          "txColor.rgb = txColor.rgb * paletteRgba.rgb * paletteRgba.rgb;",
 
           "vec4 normal = texture2D( normalMap, vUv);",
 
@@ -785,11 +785,11 @@
           "vec3 metalReflection = metalDirectReflection + metalSurfaceReflection/(1.0 + angle * 0.75);",
 
 
-          "float smoothnessFactor = smooth*smooth + smooth*1.0;",
-          "vec4 fresnelReflection = reflectionColor * smoothnessFactor * (fresnelIntensity*(rough+smooth*0.1) + fresnelFactor*smooth);",
-          "vec4 directReflection  = reflectionColor  * directFactor * (directFactor * (5.0 -(angle*(rough*4.9))));",
-          "vec4 surfaceReflection = reflectionColor * smoothnessFactor * ((0.5 *smooth*metal) * (1.0-angle) + (0.5 * (smooth*(1.0/(1.0+metal*5.0))) * angle));",
-          "vec4 finalReflection = vec4(metalReflection, 1.0) + (1.0 - (metal * (1.0))) * (directReflection + surfaceReflection) + fresnelReflection*(smooth+metal);",
+          "float smoothnessFactor = smooth*smooth + smooth*1.0 - metal;",
+          "vec4 fresnelReflection = reflectionColor * smoothnessFactor * (fresnelIntensity*(rough+smooth*0.1) + fresnelFactor*smooth*0.5);",
+          "vec4 directReflection  = reflectionColor  * directFactor * (directFactor * (5.0 -(angle*(rough*4.9)))) *0.5;",
+          "vec4 surfaceReflection = reflectionColor * smoothnessFactor * ((0.5 *smooth*metal) * (1.0-angle) + (0.5 * (smooth*(1.0/(1.0+metal*5.0))) * angle))*0.5;",
+          "vec4 finalReflection = vec4(metalReflection, 1.0) + (1.0 - (metal * (1.0))) * (directReflection + surfaceReflection) + fresnelReflection*(smooth+metal)*0.5;",
           "finalReflection = vec4(finalReflection.rgb, 1.0);",
 
 
