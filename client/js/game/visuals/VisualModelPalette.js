@@ -13,8 +13,9 @@ class VisualModelPalette {
         }
 
         let palette = paletteMap[selection];
-        instance.setAttributev4('texelRowSelect', palette)
-
+        instance.setAttributev4('texelRowSelect', palette.colors);
+        // solidity, saturation, blendStrength, skew (makes color go across rows)
+        instance.setAttributev4('sprite', palette.settings);
     }
 
 

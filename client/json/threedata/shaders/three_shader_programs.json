@@ -726,9 +726,9 @@
           "vec3 cameraToClear = (clearOffsetPos-cameraPosition);",
           "vec3 cameraToFrag = (fragPos-cameraPosition);",
 
-          "float colorIntensity = length(txColor.rgb);",
+          "float colorIntensity = max(max(txColor.r, txColor.g), txColor.b);",
 
-          "float solidity = ((1.0 - paletteSelect) * 0.6);",
+          "float solidity = (1.0 - (paletteSelect * (1.0 - spriteAttribute.x)) ) * (0.5 + 0.5 * spriteAttribute.x);",
           "cameraPenetrability *= max(( 1.0 + min(colorIntensity*colorIntensity, 0.95) * 0.95), 1.0)*(1.0-solidity) ;",
 
 
@@ -744,6 +744,8 @@
           "if (alpha <= alphaTest) discard;",
 
           "float paletteSteps = 4.0;",
+
+
 
           "float rowSelector = 0.0 + 1.0 * paletteSelect * paletteSteps;",
           "float rowDelta1 = texelRowAttribute.y - texelRowAttribute.x;",
@@ -761,10 +763,18 @@
           "stepFactor = min(floor(selectedStep / 3.0), 1.0);",
           "selection = selection * (1.0 - stepFactor) +  texelRowAttribute.w*stepFactor;",
 
-          "vec2 pixelSelector = vec2(min(colorIntensity * colorIntensity * 1.8, 1.45) -0.5, (selection / data_rows) - (0.5 / data_rows));",
+          "float skew = spriteAttribute.w;",
+          "float gradientFraction = colorIntensity;",
+
+          "selection = selection + gradientFraction * skew;",
+          "vec2 pixelSelector = vec2(gradientFraction* 1.5 -0.5, (selection / data_rows) - (0.5 / data_rows));",
           "vec4 paletteRgba = texture2D( data_texture, pixelSelector);",
 
-          "txColor.rgb = mix(txColor.rgb , paletteRgba.rgb, colorIntensity*colorIntensity);",
+          "float saturation = spriteAttribute.y;",
+          "float blend = spriteAttribute.z;",
+
+
+          "txColor.rgb = mix(colorIntensity * normalize(txColor.rgb)*(1.0 - blend) + colorIntensity * normalize(paletteRgba.rgb) * blend , paletteRgba.rgb, colorIntensity);",
 
           "vec4 normal = texture2D( normalMap, vUv);",
 
@@ -776,7 +786,7 @@
           "vec3 surfaceToCameraVec3 = cross(surfaceAngle, cameraAngle);",
           "float sunToCameraAngle = 0.5 +0.46*dot(cameraToFrag, sunLightDirection);",
           "float angle = min(max(0.51 +0.49*dot(cameraToFrag, fragNormal), 0.0), 1.0);",
-          "float metalDirect = min(pow(2.0 - angle*2.0, 1.0 + smooth*5.0), 4.0/(1.0 +angle * 8.0));",
+          "float metalDirect = max(min(pow(2.0 - angle*2.0, 1.0 + smooth*5.0), 4.0/(1.0 +angle * 1.0)), 0.0);",
           "float fresnelIntensity = max(angle*(1.0 + smooth) - max(((angle-0.5)*(smooth*4.0 + rough*1.0) -0.0), 0.0), 0.0);",
           "float fresnelFactor =  min(pow(fresnelIntensity*(0.5 + smooth*0.6), rough + 30.0*smooth), 1.0);",
           "float directFactor =   min(pow ( (1.0-angle*0.95) *(0.25 + smooth*0.85), rough*2.2 + 15.0*smooth), 1.0);",
@@ -784,7 +794,7 @@
           "vec2 envUv = vec2(surfaceToCameraVec3.x * 0.5 +0.5, -sqrt(surfaceToCameraVec3.y * 0.49 + 0.5));",
 
           "vec4 reflectionColor = texture2D( envMap, envUv);",
-          "vec3 metalDirectReflection = vec3(reflectionColor.rgb) * txColor.rgb * metal * (metalDirect + directFactor*10.0);",
+          "vec3 metalDirectReflection = vec3(reflectionColor.rgb) * txColor.rgb * metal * (metalDirect*0.5 + directFactor*0.5);",
           "vec3 metalSurfaceReflection = vec3(reflectionColor.rgb) * txColor.rgb * metal*0.5 + metal* (0.5 + directFactor) * (normalize(txColor.rgb) * reflectionColor.rgb);",
           "vec3 metalReflection = metalDirectReflection + metalSurfaceReflection/(1.0 + angle * 0.75);",
 
@@ -820,6 +830,8 @@
           "float fogFactor = min(fogDensity * fogDepth, 1.0) * (1.0-emitSum*0.2);",
           "gl_FragColor.rgb = mix(gl_FragColor.rgb, fogColor,  fogFactor );",
           "gl_FragColor.rgb = gl_FragColor.rgb;",
+          "gl_FragColor.r = gl_FragColor.r;",
+
           "}",
           ""
 

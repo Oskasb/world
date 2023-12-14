@@ -578,16 +578,17 @@ if(typeof(ENUMS) === "undefined"){
     };
 
     ENUMS.ColorCurve = {
+        grad_grey:      127,
         grad_blue_3:    126,
         grad_green_3:   125,
         grad_yellow_3: 124,
-        grad_orange_3: 123,
-        grad_red_3:    122,
-        grad_blue_2:    121,
+        grad_red_3:    123,
+        grad_blue_2:    122,
+        grad_cyan_2:    121,
         grad_green_2:   120,
         grad_yellow_2: 119,
-        grad_orange_2: 118,
-        grad_red_2:    117,
+        grad_red_2:    118,
+        grad_blue_deep_1:117,
         grad_blue_1:    116,
         grad_sky_1:     115,
         grad_cyan_1:    114,

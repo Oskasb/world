@@ -12,7 +12,7 @@ function showLocationModel(model) {
     let addModelInstance = function(instance) {
 
         let palette = poolFetch('VisualModelPalette')
-            palette.applyPaletteSelection('DEFAULT', instance);
+            palette.applyPaletteSelection('TOWN_RED', instance);
         poolReturn(palette);
 
         ThreeAPI.getScene().remove(instance.spatial.obj3d)

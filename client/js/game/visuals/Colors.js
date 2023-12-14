@@ -45,8 +45,20 @@ frameFeedbackMap['ENABLED']       = 'feedback_action_button_enabled';
 frameFeedbackMap['DISABLED']      = 'feedback_action_button_disabled';
 
 let paletteMap = {};
-paletteMap['DEFAULT'] = {x:ENUMS.ColorCurve.grad_orange_1, y:ENUMS.ColorCurve.grad_blue_2, z: ENUMS.ColorCurve.grad_green_1, w:ENUMS.ColorCurve.grad_red_1}
-paletteMap['NATURE'] = {x:ENUMS.ColorCurve.grad_green_3, y:ENUMS.ColorCurve.grad_yellow_3, z: ENUMS.ColorCurve.grad_red_3, w:ENUMS.ColorCurve.grad_green_2}
+paletteMap['DEFAULT'] = {
+    colors:{x:ENUMS.ColorCurve.grad_blue_3, y:ENUMS.ColorCurve.grad_red_1, z: ENUMS.ColorCurve.grad_blue_3, w:ENUMS.ColorCurve.grad_orange_1},
+    settings:{x:0.9, y:0.6, z: 1, w:0} // solidity, saturation, blendStrength, skew (makes color go across rows)
+};
+paletteMap['NATURE'] = {
+    colors:{x:ENUMS.ColorCurve.grad_yellow_2, y:ENUMS.ColorCurve.grad_red_2, z: ENUMS.ColorCurve.grad_yellow_1, w:ENUMS.ColorCurve.grad_green_2},
+    settings:{x:0.2, y:0.3, z: 1, w:0.5}
+};
+paletteMap['TOWN_RED'] = {
+    colors:{x:ENUMS.ColorCurve.grad_yellow_3, y:ENUMS.ColorCurve.grad_orange_1, z: ENUMS.ColorCurve.grad_yellow_2, w:ENUMS.ColorCurve.grad_red_1},
+    settings:{x:0.6, y:0.25, z: 1, w:0.0}
+}
+
+
 
 export {
     colorMapFx,
