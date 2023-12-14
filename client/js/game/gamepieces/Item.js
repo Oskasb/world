@@ -1,9 +1,18 @@
+import {ItemStatus} from "./ItemStatus.js";
+
+let index = 0;
+
 class Item {
 
     constructor(configId, visualGamePiece, config) {
+
+        this.id = 'item_'+index+'_'+client.getStamp();
+        index++;
+
         this.configId = configId;
         this.config = config;
         this.visualGamePiece = visualGamePiece;
+        this.status = new ItemStatus(this.id);
         let addModifiers = {};
         let updateCallback = null;
 
@@ -35,6 +44,15 @@ class Item {
             getUpdateCallback:getUpdateCallback
         }
 
+    }
+
+
+    setStatusKey(key, status) {
+        this.status.call.setStatusByKey(key, status);
+    };
+
+    getStatus(key) {
+        return this.status.call.getStatusByKey(key);
     }
 
 

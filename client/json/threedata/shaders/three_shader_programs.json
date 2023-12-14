@@ -767,6 +767,7 @@
           "float gradientFraction = colorIntensity;",
 
           "selection = selection + gradientFraction * skew;",
+
           "vec2 pixelSelector = vec2(gradientFraction* 1.5 -0.5, (selection / data_rows) - (0.5 / data_rows));",
           "vec4 paletteRgba = texture2D( data_texture, pixelSelector);",
 
@@ -815,7 +816,7 @@
 
           "vec3 diffuseColor = vec3(txColor.rgb);",
           "vec3 lightColor = sunDir;",
-          "vec3 litDiffuse = lightColor * diffuseColor *0.5;",
+          "vec3 litDiffuse = lightColor * diffuseColor *0.75;",
           "vec3 ambientColor = vColor.rgb ;",
           "vec3 ambientDiffuse = ambientColor * (1.0-intensity);",
           "vec3 combinedEnvLight = litDiffuse+ambientDiffuse;",

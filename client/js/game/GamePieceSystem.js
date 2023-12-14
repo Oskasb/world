@@ -40,6 +40,7 @@ let loadItem = function(event) {
             item.getPos().copy(event.pos);
         }
         visualGP.getSpatial().call.applyInstanceBuffers()
+        item.status.call.initItemStatus();
         event.callback(item)
     }
 

@@ -44,6 +44,8 @@ class ActorEquipment {
             let itemSlot = this.getSlotForItem(item);
             let dynamicJoint = this.getJointForItemSlot(itemSlot);
             let slotId = item.getEquipSlotId();
+            item.setStatusKey(ENUMS.ItemStatus.EQUIPPED_SLOT, slotId);
+
         //    let slot = MATH.getFromArrayByKeyValue(this.slots, 'slot_id', slotId);
 
             //        let oldItem = itemSlot.removeSlotitem();

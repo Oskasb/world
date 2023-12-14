@@ -162,6 +162,14 @@ class RemoteClient {
         this.encounter = null;
     }
 
+    handleItemMessage(item, msg) {
+
+        console.log("Item Messasge", msg);
+
+
+
+    }
+
     handleActionMessage(actionId, msg) {
 
         if (actionId === "none") {
@@ -372,6 +380,9 @@ class RemoteClient {
                 //    GuiAPI.screenText("REQUEST REMOTE ACTOR "+ remoteId)
             } else if (msg[0] === ENUMS.ActionStatus.ACTION_ID) {
                 this.handleActionMessage(msg[1], msg);
+                return;
+            } else if (msg[0] === ENUMS.ItemStatus.ITEM_ID) {
+                this.handleItemMessage(msg[1], msg);
                 return;
             } else {
                 console.log("Index for Actor missing ", msg);

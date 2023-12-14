@@ -202,6 +202,15 @@ if(typeof(ENUMS) === "undefined"){
         STATUS_LEAP_SELECTION:'STATUS_LEAP_SELECTION'
     };
 
+    ENUMS.ItemStatus = {
+        ITEM_ID:'ITEM_ID',
+        ACTOR_ID:'ACTOR_ID',
+        PALETTE_VALUES:'PALETTE_VALUES',
+        EQUIPPED_SLOT:'EQUIPPED_SLOT',
+        MODIFIERS:'MODIFIERS',
+        ACTIVATION_STATE:'ACTIVATION_STATE'
+    }
+
     ENUMS.ActionStatus = {
         ACTOR_ID:'ACTOR_ID',
         ACTION_ID:'ACTION_ID',

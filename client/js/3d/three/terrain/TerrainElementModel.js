@@ -6,6 +6,13 @@ let tempObj = new Object3D();
 let index = 0;
 let modelCount = 0;
 
+let palettes = ['NATURE_DESERT', 'NATURE_SUMMER', 'NATURE_FALL', 'NATURE_FALL_LATE', 'NATURE_WINTER', 'NATURE_WINTER', 'NATURE_WINTER', 'NATURE_WINTER', 'NATURE_DESERT', 'NATURE_DESERT', 'NATURE_DESERT']
+// palettes = ['NATURE_FALL_LATE']
+
+function getNatureByGroundData(groundData) {
+    return palettes[Math.floor(groundData.x * palettes.length)]
+}
+
 class TerrainElementModel {
     constructor(terrainGeo) {
         this.index = index;
@@ -70,9 +77,9 @@ class TerrainElementModel {
             return;
         }
    //     console.log("Populate lod level. ", lodLevel)
-        let addLodInstance = function(instance) {
+        let addLodInstance = function(instance, groundData) {
             let palette = poolFetch('VisualModelPalette')
-            palette.applyPaletteSelection('NATURE', instance);
+            palette.applyPaletteSelection(getNatureByGroundData(groundData), instance);
             poolReturn(palette);
             modelCount++
             lodInstances.push(instance);

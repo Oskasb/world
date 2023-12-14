@@ -349,6 +349,7 @@ class GameActor {
         this.actorEquipment.call.equipActorItem(item);
         let equippedList = this.getStatus(ENUMS.ActorStatus.EQUIPPED_ITEMS);
         equippedList.push(item.configId);
+        item.setStatusKey(ENUMS.ItemStatus.ACTOR_ID, this.getStatus(ENUMS.ActorStatus.ACTOR_ID));
     }
 
     unequipItem(item) {

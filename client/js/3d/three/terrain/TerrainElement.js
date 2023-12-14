@@ -73,7 +73,7 @@ class TerrainElement {
             instance.stationary = true;
             instance.spatial.stickToObj3D(this.obj3d);
             ThreeAPI.getScene().remove(instance.spatial.obj3d)
-            callback(instance);
+            callback(instance, this.groundData);
         }.bind(this);
 
         client.dynamicMain.requestAssetInstance(assetId, addInstance)
