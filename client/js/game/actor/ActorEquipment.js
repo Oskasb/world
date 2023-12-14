@@ -142,6 +142,15 @@ class ActorEquipment {
     }
 
 
+    getEquippedItemBySlotId(slotId) {
+        for (let i = 0; i < this.items.length; i++) {
+            let itemSlotId = this.items[i].getEquipSlotId();
+            if (itemSlotId === slotId) {
+                return this.items[i];
+            }
+        }
+        console.log("Item not equipped here.. ", slotId)
+    }
 
     getModel() {
         return this.actor.getVisualGamePiece().getModel();

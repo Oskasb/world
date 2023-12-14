@@ -8,6 +8,18 @@ let tempVec = new Vector3();
 let tempObj3d = new Object3D()
 let visualIndex = 0;
 
+let paletteTemplatesOptions = [
+    'DEFAULT',
+    'ITEMS_RED',
+    'ITEMS_BLUE',
+    'ITEMS_GREEN',
+    'NATURE',
+    'NATURE_DESERT',
+    'NATURE_SUMMER',
+    'NATURE_FALL',
+    'NATURE_WINTER'
+]
+
 class VisualGamePiece {
     constructor(config) {
 
@@ -17,6 +29,29 @@ class VisualGamePiece {
         let gamePiece // will be either item or actor... needs "getStatus()"
 
         this.visualPathPoints = new VisualPathPoints();
+
+        this.visualModelPalette = poolFetch('VisualModelPalette')
+
+        let paletteUpdateCB = function(colorParams, settings) {
+            let piece = this.call.getPiece();
+            if (!piece) {
+                console.log("nO Piece yet...", gamePiece)
+                return;
+            }
+            console.log("Apply colors", colorParams)
+            let statusValues = piece.getStatus(ENUMS.ItemStatus.PALETTE_VALUES);
+            MATH.emptyArray(statusValues);
+            for (let key in colorParams) {
+                statusValues.push(colorParams[key]);
+            }
+            for (let key in settings) {
+                statusValues.push(settings[key])
+            }
+            piece.setStatusKey(ENUMS.ItemStatus.PALETTE_VALUES, statusValues)
+        }.bind(this)
+
+        this.visualModelPalette.onUpdateCallbacks.push(paletteUpdateCB)
+        this.visualModelPalette.applyPaletteSelection(paletteTemplatesOptions[Math.floor(Math.random() * paletteTemplatesOptions.length)], null)
 
         this.hidden = true;
         this.addedAssets = [];
@@ -38,6 +73,8 @@ class VisualGamePiece {
                 }
 
             }
+
+
 
         }.bind(this);
 
@@ -69,6 +106,7 @@ class VisualGamePiece {
 
             if (this.getSpatial().call.isInstanced()) {
                 this.getSpatial().call.hideSpatial(false)
+                applyVisualPiecePalette()
             } else {
                 ThreeAPI.showModel(this.getSpatial().obj3d)
                 this.getSpatial().obj3d.frustumCulled = false;
@@ -81,14 +119,10 @@ class VisualGamePiece {
 
             let setInstance = function(inst) {
                 instance = inst;
-
-                if (instance.getSpatial().call.isInstanced()) {
-                    let palette = poolFetch('VisualModelPalette')
-                    applyVisualPiecePalette(palette);
-                    poolReturn(palette);
+                if (gamePiece) {
+                    applyVisualPiecePalette();
                 }
-
-            }
+            }.bind(this);
 
             let getInstance = function() {
                 if (!instance) {
@@ -103,11 +137,14 @@ class VisualGamePiece {
 
         let setPiece = function(piece) {
             gamePiece = piece;
+            console.log("set Piece ", this.call.getPiece())
+                        applyVisualPiecePalette()
         }.bind(this)
 
-        let applyVisualPiecePalette = function(visualModelPalette) {
-                visualModelPalette.applyPaletteSelection('DEFAULT', getInstance());
-        }
+        let applyVisualPiecePalette = function() {
+                if (!instance) return;
+                this.visualModelPalette.applyPaletteToInstance(instance);
+        }.bind(this)
 
         this.call = {
                 applyVisualPiecePalette:applyVisualPiecePalette,
@@ -203,6 +240,8 @@ class VisualGamePiece {
     }
 
     removeVisualGamePiece() {
+        this.visualModelPalette.closePalette()
+        poolReturn(this.visualModelPalette);
         this.call.hideVisualPiece();
         this.getModel().decommissionInstancedModel();
     };
@@ -278,13 +317,14 @@ class VisualGamePiece {
     updateVisualGamePiece() {
         if (this.hidden === false) {
             let piece = this.call.getPiece()
-            if (piece) {
+            if (piece.actorStatus) {
                 this.call.getPiece().getSpatialPosition(tempObj3d.position);
                 this.call.getPiece().getSpatialQuaternion(tempObj3d.quaternion);
                 this.call.getPiece().getSpatialScale(tempObj3d.scale);
 
            //     console.log(tempObj3d.position)
                 this.getSpatial().stickToObj3D(tempObj3d);
+
             } else {
             //    console.log("No piece...") // items do otherwise
             }

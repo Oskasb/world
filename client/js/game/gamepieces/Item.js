@@ -13,17 +13,24 @@ class Item {
         this.config = config;
         this.visualGamePiece = visualGamePiece;
         this.status = new ItemStatus(this.id);
+        this.visualGamePiece.call.setPiece(this)
+
+        ThreeAPI.addPostrenderCallback(this.status.call.pulseStatusUpdate)
+
         let addModifiers = {};
         let updateCallback = null;
 
         let addMods = config['status_add_modifiers']
         if (addMods) {
+            let modStatus = this.status.call.getStatusByKey(ENUMS.ItemStatus.MODIFIERS)
             for (let i = 0; i < addMods.length; i++) {
                 if (addModifiers[addMods[i].status]) {
                     addModifiers[addMods[i].status].push(addMods[i].value)
                 } else {
                     addModifiers[addMods[i].status] = [addMods[i].value];
                 }
+                modStatus[i*2] = addMods[i].status;
+                modStatus[i*2 + 1] = addMods[i].value;
             }
         }
         let getAddModifiers = function() {
@@ -57,11 +64,13 @@ class Item {
 
 
     show() {
+        this.setStatusKey(ENUMS.ItemStatus.ACTIVATION_STATE, ENUMS.ActivationState.ACTIVE)
         ThreeAPI.registerPrerenderCallback(this.call.getUpdateCallback());
         this.visualGamePiece.call.showVisualPiece();
     }
 
     hide() {
+        this.setStatusKey(ENUMS.ItemStatus.ACTIVATION_STATE, ENUMS.ActivationState.DEACTIVATING)
         ThreeAPI.unregisterPrerenderCallback(this.call.getUpdateCallback());
         this.visualGamePiece.call.hideVisualPiece();
     }
@@ -95,6 +104,7 @@ class Item {
     }
 
     disposeItem() {
+        ThreeAPI.unregisterPostrenderCallback(this.status.call.pulseStatusUpdate);
         this.visualGamePiece.removeVisualGamePiece();
     }
 

@@ -60,10 +60,23 @@ class ItemStatus {
             this.statusMap[ENUMS.ActionStatus.ACTIVATION_STATE] = ENUMS.ActivationState.INIT;
         }.bind(this);
 
+
+
+        let lastPulseTime = 0;
+
+        let pulseStatusUpdate = function() {
+            let gameTime = GameAPI.getGameTime();
+            if (lastPulseTime < gameTime -5) {
+                lastPulseTime = gameTime;
+                simpleSend.call.broadcastStatus(ENUMS.ItemStatus.ITEM_ID, this.statusMap);
+            }
+        }.bind(this);
+
         this.call = {
             initItemStatus:initItemStatus,
             setStatusByKey:setStatusByKey,
-            getStatusByKey:getStatusByKey
+            getStatusByKey:getStatusByKey,
+            pulseStatusUpdate:pulseStatusUpdate
         }
 
 

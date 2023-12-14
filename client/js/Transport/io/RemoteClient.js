@@ -51,6 +51,7 @@ class RemoteClient {
         this.stamp = stamp;
         this.actors = [];
         this.actions = [];
+        this.items = [];
         this.encounter = null;
         this.remoteIndex = [];
         this.closeTimeout = null;
@@ -77,7 +78,6 @@ class RemoteClient {
     getActorById(id) {
         for (let i = 0; i < this.actors.length; i++) {
             let actor = this.actors[i];
-
             if (actor.id === id) {
                 return this.actors[i];
             }
@@ -87,9 +87,17 @@ class RemoteClient {
     getActionById(id) {
         for (let i = 0; i < this.actions.length; i++) {
             let action = this.actions[i];
-
             if (action.id === id) {
                 return this.actions[i];
+            }
+        }
+    }
+
+    getItemById(id) {
+        for (let i = 0; i < this.items.length; i++) {
+            let item = this.items[i];
+            if (item.id === id) {
+                return this.items[i];
             }
         }
     }
@@ -162,11 +170,46 @@ class RemoteClient {
         this.encounter = null;
     }
 
-    handleItemMessage(item, msg) {
+    handleItemMessage(itemId, msg) {
 
         console.log("Item Messasge", msg);
 
+        let item = this.getItemById(itemId);
 
+        if (!item) {
+            if (msg.indexOf(ENUMS.ItemStatus.ACTOR_ID) !== -1) {
+                let actorId = msg[msg.indexOf(ENUMS.ItemStatus.ACTOR_ID) +1]
+                let actor = this.getActorById(actorId);
+
+                if (!actor) {
+                    GuiAPI.screenText("Item before Actor "+this.index,  ENUMS.Message.SYSTEM, 1.5)
+                    return;
+                }
+
+                if (msg.indexOf(ENUMS.ItemStatus.EQUIPPED_SLOT) !== -1) {
+                    let idIdx = msg.indexOf(ENUMS.ItemStatus.EQUIPPED_SLOT)+1
+                    let slotId = msg[idIdx]
+                    item = actor.actorEquipment.getEquippedItemBySlotId(slotId);
+                    if (item) {
+                        item.id = itemId;
+                        ThreeAPI.unregisterPostrenderCallback(item.status.call.pulseStatusUpdate);
+                        this.items.push(item);
+                    } else {
+                        console.log("Item not equipped as expected..")
+                        return;
+                    }
+                }
+            }
+        }
+
+        if (msg.indexOf(ENUMS.ItemStatus.PALETTE_VALUES) !== -1) {
+            let valueIdx = msg.indexOf(ENUMS.ItemStatus.PALETTE_VALUES)+1
+            let paletteValues = msg[valueIdx]
+            if (paletteValues.length === 8) {
+                item.getVisualGamePiece().visualModelPalette.setFromValuearray(paletteValues);
+            }
+
+        }
 
     }
 
