@@ -38,7 +38,7 @@ class VisualGamePiece {
                 console.log("nO Piece yet...", gamePiece)
                 return;
             }
-            console.log("Apply colors", colorParams)
+            console.log("Apply colors", colorParams, piece)
             let statusValues = piece.getStatus(ENUMS.ItemStatus.PALETTE_VALUES);
             MATH.emptyArray(statusValues);
             for (let key in colorParams) {

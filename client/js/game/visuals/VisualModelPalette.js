@@ -54,7 +54,6 @@ class VisualModelPalette {
         this.settings.y = array[5];
         this.settings.z = array[6];
         this.settings.w = array[7];
-        MATH.callAll(this.onUpdateCallbacks, this.colorParams, this.settings);
     }
 
     closePalette() {
