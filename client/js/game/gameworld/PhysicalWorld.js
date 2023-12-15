@@ -5,7 +5,7 @@ let AMMO ;
 class PhysicalWorld {
     constructor() {
         this.physicalModels = [];
-
+        this.terrainBody = null;
         let updateModels = function() {
             for (let i = 0; i < this.physicalModels.length; i++) {
                 this.physicalModels[i].updatePhysicalModel();
@@ -19,6 +19,10 @@ class PhysicalWorld {
         }
 
         window.AmmoAPI = new AmmoAPI(onReady);
+    }
+
+    registerTerrainBody(terrainBody) {
+        this.terrainBody = terrainBody;
     }
 
     addPhysicalModel(physicalModel) {

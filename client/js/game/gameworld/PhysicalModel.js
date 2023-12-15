@@ -18,6 +18,7 @@ class PhysicalModel {
     constructor() {
         this.debugColor = 'BLUE'
         this.obj3d = new Object3D();
+        let model = null;
         this.shapes = [];
         this.rigidBodies = [];
         this.assetId = null;
@@ -38,6 +39,20 @@ class PhysicalModel {
             configDataList('PHYSICS', 'ASSET_SHAPES', applyPhysicalConfig)
         }
 
+        let getModel = function() {
+            return model;
+        }.bind(this)
+
+        let setModel = function(m) {
+            model = m;
+        }.bind(this)
+
+        this.call = {
+            setModel:setModel,
+            getModel:getModel
+        }
+
+
     }
 
     getPos() {
@@ -45,7 +60,6 @@ class PhysicalModel {
     }
 
     initPhysicalWorldModel(assetId, obj3d, updateCB) {
-
         if (typeof (updateCB) === 'function') {
             this.onUpdateCallbacks.push(updateCB);
         }
@@ -67,9 +81,7 @@ class PhysicalModel {
                 bodyTransformToObj3d(body, this.obj3d);
                 this.rigidBodies.push(body);
                 window.AmmoAPI.includeBody(body);
-                if (typeof (updateCB) === 'function') {
-                    updateCB(this.obj3d, body.kB);
-                }
+
                 if (this.static === false) {
             //        console.log("Rigid Body: ",assetId, body)
                 } else {
@@ -92,6 +104,7 @@ class PhysicalModel {
     }
 
     deactivatePhysicalModel() {
+     //   this.call.setModel("null");
         while (this.onUpdateCallbacks.length) {
             this.onUpdateCallbacks.pop();
         }

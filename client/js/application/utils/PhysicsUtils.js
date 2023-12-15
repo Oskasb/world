@@ -191,11 +191,28 @@ function detectFreeSpaceAbovePoint(point, marginHeight, contactPoint, contactNor
 
 function getModelByBodyPointer(ptr) {
     let world = getPhysicalWorld();
+
+    if (world.terrainBody.kB === ptr) {
+        return world.terrainBody;
+    }
     let models = world.physicalModels;
+    for (let i = 0; i < models.length; i++){
+        let model = models[i];
+        let bodies = model.rigidBodies;
+        for (let j = 0; j < bodies.length;j++) {
+            let body = bodies[j];
+            if (body.kB === ptr) {
+                return model;
+            }
+        }
+
+    }
+    console.log("no body found for pointer ", ptr);
 
 }
 
 export {
+    getPhysicalWorld,
     detectFreeSpaceAbovePoint,
     rayTest,
     bodyTransformToObj3d,

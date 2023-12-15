@@ -11,9 +11,9 @@ function showLocationModel(model) {
 
     let addModelInstance = function(instance) {
 
-        let palette = poolFetch('VisualModelPalette')
-            palette.applyPaletteSelection('TOWN_RED', instance);
-        poolReturn(palette);
+
+        model.palette.applyPaletteSelection('TOWN_RED');
+
 
         ThreeAPI.getScene().remove(instance.spatial.obj3d)
         instance.spatial.stickToObj3D(model.obj3d);
@@ -48,6 +48,8 @@ class LocationModel {
         this.boxes = [];
         this.isVisible = false;
 
+        this.palette = poolFetch('VisualModelPalette')
+        this.palette.initPalette()
         this.bodyPointers = [];
 
         inheritAsParent(this.obj3d, parentObj3d);
@@ -91,8 +93,9 @@ class LocationModel {
         }.bind(this);
 
         this.instanceCallback = function(instance) {
-
-        };
+            this.call.playerContact(false)
+        }.bind(this);
+let model = this;
 
         let lodUpdated = function(lodLevel) {
 
@@ -101,19 +104,28 @@ class LocationModel {
                 if (!physicalModel) {
                     if (this.instance === null) {
                         this.instanceCallback = function(instance) {
+                            this.call.playerContact(false)
                             physicalModel = addPhysicsToModel(config.asset, this.obj3d, this.physicsUpdate);
+                        //    console.log("Set model 1", model)
+                            physicalModel.call.setModel(model)
                         }.bind(this);
                     } else {
 
                         physicalModel = addPhysicsToModel(config.asset, this.obj3d, this.physicsUpdate);
+                     //   console.log("Set model 2", model)
+                        physicalModel.call.setModel(model)
                     }
+
+                } else {
+                //    console.log("Set model 3", model)
+                    physicalModel.call.setModel(model)
                 }
 
             } else {
 
                 if (physicalModel) {
                     removePhysicalModel(physicalModel);
-                    physicalModel = null;
+
                 }
             }
 
@@ -121,9 +133,24 @@ class LocationModel {
 
         }.bind(this)
 
+        let playerContact = function(bool) {
+            if (bool) {
+                this.palette.setSeeThroughSolidity(0.5)
+            } else {
+                this.palette.setSeeThroughSolidity(1)
+            }
+            if (this.instance) {
+                this.palette.applyPaletteToInstance(this.instance)
+            } else {
+                console.log("palette expects instance")
+            }
+        }.bind(this);
+
+
         this.call = {
             lodUpdated:lodUpdated,
-            hideLocationModel:hideLocationModel
+            hideLocationModel:hideLocationModel,
+            playerContact:playerContact
         }
 
     }
@@ -133,7 +160,10 @@ class LocationModel {
     }
 
 
+
     clearLocationBoxes() {
+        poolReturn(this.palette)
+        MATH.emptyArray(this.bodyPointers);
         while (this.boxes.length) {
             let box = this.boxes.pop()
             ThreeAPI.clearTerrainLodUpdateCallback(box.call.lodUpdated)

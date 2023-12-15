@@ -4,6 +4,7 @@ import {MeshBasicMaterial} from "../../../../libs/three/materials/MeshBasicMater
 import {DoubleSide} from "../../../../libs/three/constants.js";
 import {Vector3} from "../../../../libs/three/math/Vector3.js";
 import {borrowBox, cubeTestVisibility, aaBoxTestVisibility} from "../../../application/utils/ModelUtils.js";
+import {getPhysicalWorld} from "../../../application/utils/PhysicsUtils.js";
 
 let bigWorld = null;
 let bigOcean = null;
@@ -159,6 +160,7 @@ function setupAmmoTerrainBody(canvasData, config) {
     let w = config.dimensions['tx_width'];
 
     terrainAmmoBody = AmmoAPI.buildPhysicalTerrain(rgbaR, w, 0, 0, -3, 97);
+    getPhysicalWorld().registerTerrainBody(terrainAmmoBody)
 
 }
 

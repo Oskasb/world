@@ -79,6 +79,7 @@ class TerrainElementModel {
    //     console.log("Populate lod level. ", lodLevel)
         let addLodInstance = function(instance, groundData) {
             let palette = poolFetch('VisualModelPalette')
+            palette.initPalette()
             palette.applyPaletteSelection(getNatureByGroundData(groundData), instance);
             poolReturn(palette);
             modelCount++

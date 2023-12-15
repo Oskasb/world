@@ -12,6 +12,10 @@ class VisualModelPalette {
 
     }
 
+    initPalette() {
+        MATH.emptyArray(this.onUpdateCallbacks)
+    }
+
     applyPaletteSelection(selection, instance) {
 
         if (!selection) {
@@ -42,6 +46,10 @@ class VisualModelPalette {
             MATH.callAll(this.onUpdateCallbacks, this.colorParams, this.settings);
         }
 
+    }
+
+    setSeeThroughSolidity(solidity) {
+        this.settings.x = solidity;
     }
 
     setFromValuearray(array) {

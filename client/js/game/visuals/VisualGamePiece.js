@@ -31,7 +31,7 @@ class VisualGamePiece {
         this.visualPathPoints = new VisualPathPoints();
 
         this.visualModelPalette = poolFetch('VisualModelPalette')
-
+        this.visualModelPalette.initPalette()
         let paletteUpdateCB = function(colorParams, settings) {
             let piece = this.call.getPiece();
             if (!piece) {
@@ -40,6 +40,10 @@ class VisualGamePiece {
             }
         //    console.log("Apply colors", colorParams, piece)
             let statusValues = piece.getStatus(ENUMS.ItemStatus.PALETTE_VALUES);
+            if (!statusValues) {
+                console.log("Missing Status Value Array", config);
+                return;
+            }
             MATH.emptyArray(statusValues);
             for (let key in colorParams) {
                 statusValues.push(colorParams[key]);

@@ -44,7 +44,7 @@ class AmmoAPI {
 
 
     buildPhysicalTerrain = function(data, size, posx, posz, min_height, max_height) {
-        var body = ammoFunctions.createPhysicalTerrain(world, data, size, posx, posz, min_height, max_height);
+        let body = ammoFunctions.createPhysicalTerrain(world, data, size, posx, posz, min_height, max_height);
         return body;
     };
 

@@ -2,6 +2,7 @@ import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
 import {notifyCameraStatus} from "../../3d/camera/CameraFunctions.js";
 import {Vector3} from "../../../libs/three/math/Vector3.js";
 import {CameraStatusProcessor} from "../../application/utils/CameraStatusProcessor.js";
+import {getModelByBodyPointer, getPhysicalWorld} from "../../application/utils/PhysicsUtils.js";
 
 let tempVec = new Vector3()
 let tempVec2 = new Vector3();
@@ -139,8 +140,35 @@ function processEncounterStatus(actor) {
 
 }
 
+let lastContact = 0;
+let lastContactModel = null;
+function updateRigidBodyContact(actor) {
 
+    let ptr = actor.getStatus(ENUMS.ActorStatus.RIGID_BODY_CONTACT);
+    if (ptr !== lastContact) {
+        let physicalModel = getModelByBodyPointer(ptr)
 
+        let world = getPhysicalWorld();
+
+        if (lastContactModel) {
+            if (lastContactModel !== world.terrainBody) {
+                lastContactModel.call.playerContact(false)
+            }
+        }
+
+        if (world.terrainBody.kB === ptr) {
+            lastContactModel = world.terrainBody
+        } else {
+            let model = physicalModel.call.getModel()
+       //     console.log(physicalModel, model);
+            model.call.playerContact(true)
+            lastContactModel = model
+        }
+
+     //   console.log( "contact" , lastContactModel)
+    }
+
+}
 
 class ActorStatusProcessor {
     constructor() {
@@ -206,15 +234,7 @@ class ActorStatusProcessor {
 
     }
 
-    updateRigidBodyContact(actor) {
 
-        let ptr = actor.getStatus(ENUMS.ActorStatus.RIGID_BODY_CONTACT);
-        if (ptr !== 0) {
-
-
-        }
-
-    }
 
     processActorStatus(actor) {
         if (actor.isPlayerActor()) {
