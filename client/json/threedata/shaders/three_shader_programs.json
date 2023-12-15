@@ -725,21 +725,60 @@
           "clearOffsetPos.y += 1.0;",
           "vec3 cameraToClear = (clearOffsetPos-cameraPosition);",
           "vec3 cameraToFrag = (fragPos-cameraPosition);",
+          "vec3 clearToFrag =   (fragPos-clearOffsetPos);",
+
+          "clearOffsetPos.xz = cameraToFrag.xz;",
+          "clearOffsetPos.y = cameraToClear.y;",
 
           "float colorIntensity = max(max(txColor.r, txColor.g), txColor.b);",
 
           "float solidity = (1.0 - (paletteSelect * (1.0 - spriteAttribute.x)) ) * (0.5 + 0.5 * spriteAttribute.x);",
           "cameraPenetrability *= max(( 1.0 + min(colorIntensity*colorIntensity, 0.95) * 0.95), 1.0)*(1.0-solidity) ;",
 
+          "float targetDistance = length(cameraToClear);",
+          "float fragDistance = length(clearOffsetPos);",
+          "float clearToFragDistance = length(clearToFrag);",
+
+          "float consideredNearDistance = 10.0;",
+
+          "float farness = min(consideredNearDistance / targetDistance, 1.0);",
+
+          "float nearness = min(max(consideredNearDistance*2.0 - targetDistance, 0.0), 1.0);",
+
+          "float proximityFraction = min(max((targetDistance+2.5) / (fragDistance*1.1), 0.0), 1.0);",
+          "float sphereFraction =    max(farness / (clearToFragDistance*0.2), 0.0);",
+
+          "float distanceCompensation = 1.0/(targetDistance - 0.0);",
+
+          "float groundLimit = min(max(-clearToFragDistance*(0.25/nearness) + clearToFrag.y +1.5 , 0.0), 1.0) ;",
+          "float groundFactor = min(1.0 * min(max(groundLimit,  0.0), 1.0), 1.0);",
+          "float sphereFactor = 1.0 - pow(1.0/sphereFraction, 10.0);",
+          "float distanceFactor = max(min((1.0 * pow(proximityFraction, 8.0) + 0.0), 1.0) , 0.0);",
+
+          "sphereFactor = sphereFactor * 1.0 + 0.0 * pow(proximityFraction*0.995, (22.0));",
+          "distanceFactor = distanceFactor * (0.75 + nearness * 0.25) ;",
+          "float viewAngleFactor = pow(dot(normalize(cameraToClear), normalize(cameraToFrag)), 30.0) ;",
+          "viewAngleFactor *= 1.0 + 0.0*(0.92 + cameraPenetrability * (10.4*(25.0 / fragDistance)));",
+          "float cameraToClearAngle = viewAngleFactor;",
+          "cameraToClearAngle -= 0.0 * nearness;",
+
+          "sphereFactor = sphereFactor * groundFactor * (0.625 + colorIntensity*0.25);",
+          "distanceFactor = distanceFactor * (0.9 + colorIntensity*0.1);",
+          "groundFactor = groundFactor * (0.80 - colorIntensity*0.45);",
+          "cameraToClearAngle = cameraToClearAngle * (0.95 + colorIntensity*0.65);",
 
 
-          "float distanceFactor = min(1.0 / (max(length(cameraToClear)*(0.96) - length(cameraToFrag), 0.0) + (1.0) ) *  (1.0 / (1.0*cameraPenetrability + 0.01)), 1.0);",
-          "float cameraToClearAngle = 1.3 - 0.552*dot(normalize(cameraToClear), normalize(cameraToFrag)) * (0.96 + cameraPenetrability * 0.14);",
+          "cameraToClearAngle = min(cameraToClearAngle, distanceFactor);",
+          "cameraToClearAngle = cameraToClearAngle+(cameraToClearAngle)*2.0 * (2.0 - (sqrt(fragDistance*1.5) * 0.15));",
+          "cameraToClearAngle = min(cameraToClearAngle, distanceFactor);",
+          "sphereFactor = min(sphereFactor, distanceFactor);",
+          "groundFactor = min(groundFactor, distanceFactor);",
 
-          "distanceFactor = max(distanceFactor, cameraToClearAngle) ;",
-          "float maxCamPen = max(distanceFactor, cameraToClearAngle-colorIntensity*0.01);",
+          "float combinedFactors =  max((sphereFactor*groundFactor * 1.5), 0.0) + cameraToClearAngle;",
 
-          "alpha -= alpha * (1.0 - maxCamPen * (1.0) ) ;",
+          "float maxCamPen = combinedFactors;",
+
+          "alpha -= alpha * (maxCamPen*cameraPenetrability) ;",
 
           "if (alpha <= alphaTest) discard;",
 
@@ -830,8 +869,6 @@
           "gl_FragColor += finalReflection;",
           "float fogFactor = min(fogDensity * fogDepth, 1.0) * (1.0-emitSum*0.2);",
           "gl_FragColor.rgb = mix(gl_FragColor.rgb, fogColor,  fogFactor );",
-          "gl_FragColor.rgb = gl_FragColor.rgb;",
-          "gl_FragColor.r = gl_FragColor.r;",
 
           "}",
           ""

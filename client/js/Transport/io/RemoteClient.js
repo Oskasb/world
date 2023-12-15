@@ -208,7 +208,6 @@ class RemoteClient {
             if (paletteValues.length === 8) {
                 let actorId = msg[msg.indexOf(ENUMS.ItemStatus.ACTOR_ID) +1]
                 let actor = this.getActorById(actorId);
-                console.log("REmote Actor Item", actor, item)
                 item.getVisualGamePiece().visualModelPalette.setFromValuearray(paletteValues);
                 let instance = item.getVisualGamePiece().call.getInstance()
                 if (instance) {
