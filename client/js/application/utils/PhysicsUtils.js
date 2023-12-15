@@ -187,7 +187,12 @@ function detectFreeSpaceAbovePoint(point, marginHeight, contactPoint, contactNor
         }
     }
     step = 0;
-    return hit;
+}
+
+function getModelByBodyPointer(ptr) {
+    let world = getPhysicalWorld();
+    let models = world.physicalModels;
+
 }
 
 export {
@@ -197,5 +202,6 @@ export {
     addPhysicsToModel,
     removePhysicalModel,
     debugDrawPhysicalWorld,
-    physicalIntersection
+    physicalIntersection,
+    getModelByBodyPointer
 }

@@ -148,6 +148,7 @@ let skipMap = [
     ENUMS.ActorStatus.ACTION_STATE_KEY,
     ENUMS.ActorStatus.SELECTED_ACTION,
     ENUMS.ActorStatus.ACTION_STEP_PROGRESS,
+    ENUMS.ActorStatus.RIGID_BODY_CONTACT,
     ENUMS.ActorStatus.POS_X,
     ENUMS.ActorStatus.POS_Y,
     ENUMS.ActorStatus.POS_Z,
@@ -247,7 +248,7 @@ class ActorStatus {
         this.statusMap[ENUMS.ActorStatus.SELECTED_ACTION] = "";
         this.statusMap[ENUMS.ActorStatus.ACTION_STATE_KEY] = 0;
         this.statusMap[ENUMS.ActorStatus.ACTION_STEP_PROGRESS]  = 0;
-
+        this.statusMap[ENUMS.ActorStatus.RIGID_BODY_CONTACT]  = 0;
         let updateTO = null;
 
         let send = function() {

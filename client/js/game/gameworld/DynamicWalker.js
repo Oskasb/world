@@ -1,4 +1,5 @@
 import {Vector3} from "../../../libs/three/math/Vector3.js";
+import {ActorStatus} from "../actor/ActorStatus.js";
 
 let tempVec = new Vector3()
 let effectEvent = {
@@ -193,6 +194,13 @@ class DynamicWalker {
 
 
         let currentTile = this.walkGrid.getTileAtPosition(this.walkObj3d.position)
+
+        if (currentTile.rigidBodyPointer !== null) {
+            actor.setStatusKey(ENUMS.ActorStatus.RIGID_BODY_CONTACT, currentTile.rigidBodyPointer)
+        } else {
+            actor.setStatusKey(ENUMS.ActorStatus.RIGID_BODY_CONTACT, 0)
+        }
+
         MATH.callAll(this.tilePath.pathingUpdateCallbacks, this.tilePath, this.walkObj3d)
 
         if (pathRemainingDistance <= frameTravelDistance) {

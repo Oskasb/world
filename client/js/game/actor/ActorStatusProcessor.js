@@ -206,12 +206,22 @@ class ActorStatusProcessor {
 
     }
 
+    updateRigidBodyContact(actor) {
+
+        let ptr = actor.getStatus(ENUMS.ActorStatus.RIGID_BODY_CONTACT);
+        if (ptr !== 0) {
+
+
+        }
+
+    }
 
     processActorStatus(actor) {
         if (actor.isPlayerActor()) {
             cameraStatusProcessor.processCameraStatus(actor)
             registerPathPoints(actor);
             processPartyStatus(actor);
+            updateRigidBodyContact(actor);
         }
         processAnimationState(actor);
         this.indicateSelectionStatus(actor);

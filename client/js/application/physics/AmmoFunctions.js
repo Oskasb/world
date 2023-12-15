@@ -579,11 +579,10 @@ function clearBodyState(body) {
 
 let hit = {
     fraction:0,
-    normal:null,
+    position:new Vector3(),
+    normal:new Vector3(),
     ptr:null
 };
-
-
 let disable = function(body) {
     setTimeout(function() {
         body.forceActivationState(STATE.DISABLE_SIMULATION);
@@ -655,6 +654,7 @@ let gravity = -9.81;
 class AmmoFunctions {
     constructor(ammo) {
         Ammo = ammo;
+
         rayFromVec = new Ammo.btVector3();
         rayToVec = new Ammo.btVector3();
         rayCallback = new Ammo.ClosestRayResultCallback(rayFromVec, rayToVec);
@@ -832,12 +832,13 @@ class AmmoFunctions {
         if(fraction < 1){
 
             let hitNormal = rayCallback.get_m_hitNormalWorld();
-            normalRes.set(hitNormal.x(), hitNormal.y(), hitNormal.z());
+            hit.normal.set(hitNormal.x(), hitNormal.y(), hitNormal.z());
             let hitPoint = rayCallback.get_m_hitPointWorld();
-            posRes.set(hitPoint.x(), hitPoint.y(), hitPoint.z());
-
-            hit.ptr = rayCallback.get_m_collisionObject().tw;
-
+            hit.position.set(hitPoint.x(), hitPoint.y(), hitPoint.z());
+        //    console.log(rayCallback, rayCallback.get_m_collisionObject());
+            hit.ptr = rayCallback.get_m_collisionObject().kB;
+            posRes.copy(hit.position);
+            normalRes.copy(hit.normal);
             //    console.log(hitPoint, hit.ptr);
             return hit;
         }

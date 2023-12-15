@@ -18,6 +18,7 @@ let index = 0;
 class DynamicTile {
     constructor() {
         this.index = index;
+        this.rigidBodyPointer = null;
         index ++;
         this.text = new Obj3DText(new Vector3());
         this.step = 0;
@@ -82,6 +83,7 @@ class DynamicTile {
         this.gridI = gridI;
         this.gridJ = gridJ;
 
+        this.rigidBodyPointer = null;
 
     //    this.gridTile.setTileXZ(indexX, indexY);
         this.obj3d.position.x = indexX*this.spacing + this.offset
@@ -96,6 +98,10 @@ class DynamicTile {
 
 
         if (hit) {
+            if (hit.fraction !== 1) {
+            //    console.log("Tile physical contact ", hit)
+                this.rigidBodyPointer = hit.ptr;
+            }
 
      //       this.obj3d.position.copy(contactPoint);
      //       this.groundNormal.copy(normalHit);

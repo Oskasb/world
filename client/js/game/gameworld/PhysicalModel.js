@@ -67,6 +67,9 @@ class PhysicalModel {
                 bodyTransformToObj3d(body, this.obj3d);
                 this.rigidBodies.push(body);
                 window.AmmoAPI.includeBody(body);
+                if (typeof (updateCB) === 'function') {
+                    updateCB(this.obj3d, body.kB);
+                }
                 if (this.static === false) {
             //        console.log("Rigid Body: ",assetId, body)
                 } else {
@@ -118,7 +121,7 @@ class PhysicalModel {
             let angVel = body.getAngularVelocity();
 
             for (let i = 0; i < this.onUpdateCallbacks.length; i++) {
-                this.onUpdateCallbacks[i](this.obj3d);
+                this.onUpdateCallbacks[i](this.obj3d, body.kB);
             }
         }
 

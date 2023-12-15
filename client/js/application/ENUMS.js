@@ -103,6 +103,7 @@ if(typeof(ENUMS) === "undefined"){
     ENUMS.ActorStatus = {
         ACTOR_ID:'ACTOR_ID',
         IS_ACTIVE:'IS_ACTIVE',
+        RIGID_BODY_CONTACT:'RIGID_BODY_CONTACT',
         EXISTS:'EXISTS',
         CONFIG_ID:'CONFIG_ID',
         SPATIAL_DELTA:'SPATIAL_DELTA',

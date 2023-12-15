@@ -48,6 +48,8 @@ class LocationModel {
         this.boxes = [];
         this.isVisible = false;
 
+        this.bodyPointers = [];
+
         inheritAsParent(this.obj3d, parentObj3d);
         inheritConfigTransform(this.obj3d, this.config);
 
@@ -72,7 +74,14 @@ class LocationModel {
 
         let physicalModel = null;
 
-        this.physicsUpdate = function(obj3d) {
+        MATH.emptyArray(this.bodyPointers);
+
+        this.physicsUpdate = function(obj3d, bodyPointer) {
+            if (this.bodyPointers.indexOf(bodyPointer) === -1) {
+                console.log("update body pointer", bodyPointer)
+                this.bodyPointers.push(bodyPointer);
+            }
+
         //    console.log("update", obj3d.position.y)
             evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ThreeAPI.getCameraCursor().getPos(), to:obj3d.position, color:'GREEN'});
 
