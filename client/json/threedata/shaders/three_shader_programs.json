@@ -758,19 +758,19 @@
           "sphereFactor = sphereFactor * 1.0 + 0.0 * pow(proximityFraction*0.995, (22.0));",
           "distanceFactor = distanceFactor * (0.75 + nearness * 0.25) ;",
           "float viewAngleFactor = pow(dot(normalize(cameraToClear), normalize(cameraToFrag)), 30.0) ;",
-          "viewAngleFactor *= 1.0 + 0.0*(0.92 + cameraPenetrability * (10.4*(25.0 / fragDistance)));",
           "float cameraToClearAngle = viewAngleFactor;",
           "cameraToClearAngle -= 0.0 * nearness;",
 
           "sphereFactor = sphereFactor * groundFactor * (0.625 + colorIntensity*0.25);",
-          "distanceFactor = distanceFactor * (0.9 + colorIntensity*0.1);",
+          "distanceFactor = distanceFactor * (1.2 + colorIntensity*0.015);",
           "groundFactor = groundFactor * (0.80 - colorIntensity*0.45);",
-          "cameraToClearAngle = cameraToClearAngle * (0.95 + colorIntensity*0.65);",
+          "cameraToClearAngle = 1.0/groundLimit * cameraToClearAngle * (0.75*(0.7+colorIntensity*0.5) - colorIntensity*0.21);",
 
 
           "cameraToClearAngle = min(cameraToClearAngle, distanceFactor);",
-          "cameraToClearAngle = cameraToClearAngle+(cameraToClearAngle)*2.0 * (2.0 - (sqrt(fragDistance*1.5) * 0.15));",
+          "cameraToClearAngle = cameraToClearAngle+(cameraToClearAngle)*2.0 * (2.0 - (sqrt(fragDistance*1.2) * 0.03));",
           "cameraToClearAngle = min(cameraToClearAngle, distanceFactor);",
+          "cameraToClearAngle = min(cameraToClearAngle, max(clearToFrag.y*7.2*colorIntensity/(1.0+clearToFragDistance*0.1), 0.0));",
           "sphereFactor = min(sphereFactor, distanceFactor);",
           "groundFactor = min(groundFactor, distanceFactor);",
 
