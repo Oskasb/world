@@ -8,15 +8,34 @@ function removeWorldModel(model) {
     model.removeLocationModels();
 }
 
+let randomPaletteList = [
+    'DEFAULT',
+    'TOWN_RED',
+    'TOWN_RED_2',
+    'TOWN_GREEN',
+    'TOWN_NEUTRAL',
+    'TOWN_NEUTRAL_2',
+    'TOWN_DARK',
+    'TOWN_DARK_2',
+    'TOWN_YELLOW'
+]
+
+
 class WorldModel {
 
     constructor(config) {
 
         this.config = config;
-        this.paletteKey = config['palette'] || 'DEFAULT';
+
         this.obj3d = new Object3D();
 
         inheritConfigTransform(this.obj3d, this.config);
+        if (config['palette']) {
+            this.paletteKey = config['palette'];
+        } else {
+            this.paletteKey = randomPaletteList[Math.floor(randomPaletteList.length * MATH.sillyRandom(this.obj3d.position.x + this.obj3d.position.z + this.obj3d.position.y))];
+        }
+
 
         this.locationModels = [];
 

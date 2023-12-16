@@ -103,6 +103,7 @@
         {"id": "file_helmetviking",  "config": { "url": "./client/assets/models/items_rigid/armor/head/helmet_viking"             }},
         {"id": "file_bracer_bronze", "config": { "url": "./client/assets/models/items_rigid/armor/wrist/bracer_bronze"            }},
 
+        {"id": "file_hat_ribbon","config": { "url": "./client/assets/models/items_rigid/clothes/head/hat_ribbon"                   }},
         {"id": "file_hat_cloth_white","config": { "url": "./client/assets/models/items_rigid/clothes/head/hat_cloth_white"         }},
         {"id": "file_hat_cloth_yellow","config": { "url": "./client/assets/models/items_rigid/clothes/head/hat_cloth_yellow"       }},
 

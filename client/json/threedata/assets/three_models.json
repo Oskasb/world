@@ -135,7 +135,7 @@
         {"id": "asset_bracer_purple", "config": { "model": "file_bracer_bronze", "material":     "mat_instancing_purple",  "settings": "model_settings_items"  }},
 
 
-        {"id": "asset_hat_cloth_white", "config": { "model": "file_hat_cloth_white", "material": "mat_instancing_basic",  "settings": "model_settings_items"  }},
+        {"id": "asset_hat_cloth_white", "config": { "model": "file_hat_ribbon", "material": "mat_instancing_basic",  "settings": "model_settings_items"  }},
         {"id": "asset_hat_cloth_yellow", "config": { "model": "file_hat_cloth_yellow", "material": "mat_instancing_basic",  "settings": "model_settings_items"  }},
 
         {"id": "asset_hat_cloth_blue", "config": { "model": "file_hat_cloth_blue", "material": "mat_instancing_basic",  "settings": "model_settings_items"  }},

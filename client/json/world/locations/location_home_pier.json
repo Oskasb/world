@@ -14,7 +14,8 @@
                   "rot": [0, 1.3, 0],
                   "scale": [1, 1, 1],
                   "on_ground": true,
-                  "visibility": 2
+                  "visibility": 2,
+                  "palette": "TOWN_NEUTRAL"
                 },
                 {
                   "model": "model_cottage",
@@ -22,7 +23,8 @@
                   "rot": [0, 0.2, 0],
                   "scale": [1, 1, 1],
                   "on_ground": true,
-                  "visibility": 3
+                  "visibility": 3,
+                  "palette": "TOWN_RED_2"
                 },
 
                 {
@@ -31,7 +33,8 @@
                   "on_ground": false,
                   "rot": [0, -0.7, 0],
                   "scale": [1, 1, 1],
-                  "visibility": 2
+                  "visibility": 2,
+                  "palette": "TOWN_NEUTRAL"
                 },
                 {
                   "model": "model_rowboat",
@@ -39,7 +42,8 @@
                   "on_ground": false,
                   "rot": [0, -0, 0],
                   "scale": [1, 1, 1],
-                  "visibility": 2
+                  "visibility": 2,
+                  "palette": "TOWN_NEUTRAL_2"
                 },
                 {
                   "model": "model_home_pier",
