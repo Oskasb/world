@@ -6,7 +6,25 @@ let tempObj = new Object3D();
 let index = 0;
 let modelCount = 0;
 
-let palettes = ['NATURE_DESERT', 'NATURE_SUMMER', 'NATURE_FALL', 'NATURE_FALL_LATE', 'NATURE_WINTER', 'NATURE_WINTER', 'NATURE_DESERT', 'NATURE_DESERT', 'NATURE_DESERT']
+let palettes = [
+    'NATURE_DESERT',
+    'NATURE_DESERT_2',
+    'NATURE_SUMMER',
+    'NATURE_SUMMER_2',
+    'NATURE_FALL',
+    'NATURE_FALL_2',
+    'NATURE_FALL_LATE',
+    'NATURE_FALL_LATE_2',
+    'NATURE_WINTER',
+    'NATURE_WINTER_2',
+    'NATURE_WINTER',
+    'NATURE_WINTER_2',
+    'NATURE_DESERT',
+    'NATURE_DESERT_2',
+    'NATURE_DESERT',
+    'NATURE_DESERT_2',
+    'NATURE_DESERT',
+    'NATURE_DESERT_2']
 // palettes = ['NATURE_FALL_LATE']
 
 function getNatureByGroundData(groundData) {

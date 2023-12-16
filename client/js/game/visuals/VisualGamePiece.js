@@ -17,8 +17,12 @@ let paletteTemplatesOptions = [
     'NATURE_DESERT',
     'NATURE_SUMMER',
     'NATURE_FALL',
-    'NATURE_WINTER'
+    'NATURE_WINTER',
+    'ITEMS_WHITE',
+    'ITEMS_BLACK',
+    'ITEMS_MONO'
 ]
+
 
 class VisualGamePiece {
     constructor(config) {
@@ -57,7 +61,7 @@ class VisualGamePiece {
 
         this.visualModelPalette.onUpdateCallbacks.push(paletteUpdateCB)
         this.visualModelPalette.applyPaletteSelection(paletteTemplatesOptions[Math.floor(Math.random() * paletteTemplatesOptions.length)], null)
-
+        this.visualModelPalette.setSeeThroughSolidity(1);
         this.hidden = true;
         this.addedAssets = [];
         this.obj3d = new Object3D();
@@ -149,6 +153,7 @@ class VisualGamePiece {
         let applyVisualPiecePalette = function() {
                 if (!instance) return;
                 this.visualModelPalette.applyPaletteToInstance(instance);
+                this.visualModelPalette.setSeeThroughSolidity(1);
         }.bind(this)
 
         this.call = {
@@ -246,7 +251,6 @@ class VisualGamePiece {
 
     removeVisualGamePiece() {
         this.visualModelPalette.closePalette()
-        poolReturn(this.visualModelPalette);
         this.call.hideVisualPiece();
         this.getModel().decommissionInstancedModel();
     };
