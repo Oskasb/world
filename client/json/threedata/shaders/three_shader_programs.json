@@ -801,20 +801,20 @@
           "selection = selection * (1.0 - stepFactor) +  texelRowAttribute.z*stepFactor;",
           "stepFactor = min(floor(selectedStep / 3.0), 1.0);",
           "selection = selection * (1.0 - stepFactor) +  texelRowAttribute.w*stepFactor;",
-
+          "float brightness = spriteAttribute.y;",
           "float skew = spriteAttribute.w;",
           "float gradientFraction = colorIntensity;",
 
           "selection = selection + gradientFraction * skew;",
 
-          "vec2 pixelSelector = vec2(gradientFraction* 1.5 -0.5, (selection / data_rows) - (0.5 / data_rows));",
+          "vec2 pixelSelector = vec2(brightness*gradientFraction * 1.5 -0.5, (selection / data_rows) - (0.5 / data_rows));",
           "vec4 paletteRgba = texture2D( data_texture, pixelSelector);",
 
-          "float saturation = spriteAttribute.y;",
+
           "float blend = spriteAttribute.z;",
 
 
-          "txColor.rgb = mix(colorIntensity * normalize(txColor.rgb)*(1.0 - blend) + colorIntensity * normalize(paletteRgba.rgb) * blend , paletteRgba.rgb, colorIntensity);",
+          "txColor.rgb = mix(txColor.rgb, paletteRgba.rgb, blend);",
 
           "vec4 normal = texture2D( normalMap, vUv);",
 

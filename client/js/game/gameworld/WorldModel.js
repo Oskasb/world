@@ -13,6 +13,7 @@ class WorldModel {
     constructor(config) {
 
         this.config = config;
+        this.paletteKey = config['palette'] || 'DEFAULT';
         this.obj3d = new Object3D();
 
         inheritConfigTransform(this.obj3d, this.config);
@@ -28,6 +29,7 @@ class WorldModel {
                 let model = new LocationModel(this.obj3d, data.assets[i])
                 if (model.lodLevel) {
                     ThreeAPI.registerTerrainLodUpdateCallback(model.getPos(), model.call.lodUpdated)
+                    model.call.setPaletteKey(this.paletteKey);
                 }
                 this.locationModels.push(model)
             }

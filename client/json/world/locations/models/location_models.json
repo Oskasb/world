@@ -13,6 +13,7 @@
                   "pos": [0, 0, 0],
                   "rot": [0, 0, 0],
                   "scale": [0.007, 0.007, 0.007],
+                  "solidity": 1.0,
                   "visibility": 2,
                   "boxes": [
 
@@ -35,6 +36,7 @@
                   "pos": [0, 0, 0],
                   "rot": [0, 0, 0],
                   "scale": [0.0033, 0.0033, 0.0033],
+                  "solidity": 1.0,
                   "visibility": 2,
                   "boxes": [
 
@@ -57,6 +59,7 @@
                   "pos": [0, 0, 0],
                   "rot": [0, 0, 0],
                   "scale": [0.002, 0.002, 0.002],
+                  "solidity": 1.0,
                   "visibility": 4,
                   "boxes": [
                     {
@@ -99,6 +102,7 @@
                   "pos": [0, 0, 0],
                   "rot": [0, 0, 0],
                   "scale": [0.003, 0.003, 0.003],
+                  "solidity": 1.0,
                   "visibility": 4,
                   "boxes": [
 
@@ -121,6 +125,7 @@
                   "pos": [0, 0, 0],
                   "rot": [0, 0, 0],
                   "scale": [0.001, 0.001, 0.001],
+                  "solidity": 1.0,
                   "visibility": 4,
                   "boxes": [
 
@@ -143,6 +148,7 @@
                   "pos": [0, 0, 0],
                   "rot": [-1.57, 0, 0],
                   "scale": [0.005, 0.005, 0.005],
+                  "solidity": 1.0,
                   "visibility": 4,
                   "boxes": [
 
@@ -165,6 +171,7 @@
                   "pos": [0, 0, 0],
                   "rot": [-1.57, 0, 0],
                   "scale": [0.005, 0.005, 0.005],
+                  "solidity": 1.0,
                   "visibility": 4,
                   "boxes": [
 
@@ -187,6 +194,7 @@
                   "pos": [0, 0, 0],
                   "rot": [-1.57, 0, 0],
                   "scale": [0.005, 0.005, 0.005],
+                  "solidity": 1.0,
                   "visibility": 4,
                   "boxes": [
 
@@ -209,6 +217,7 @@
                   "pos": [0, 0.8, 0],
                   "rot": [0, 0, 0],
                   "scale": [0.01, 0.01, 0.01],
+                  "solidity": 1.0,
                   "visibility": 3,
                   "boxes": [
 
@@ -231,6 +240,7 @@
                   "pos": [0, 0.8, 0],
                   "rot": [0, 0, 0],
                   "scale": [0.01, 0.01, 0.01],
+                  "solidity": 1.0,
                   "visibility": 3,
                   "boxes": [
 
@@ -253,6 +263,7 @@
                   "pos": [0, 0, 0],
                   "rot": [0, 0, 0],
                   "scale": [0.01, 0.01, 0.01],
+                  "solidity": 1.0,
                   "visibility": 2,
                   "boxes": [
 
@@ -275,6 +286,7 @@
                   "pos": [0, 0, 0],
                   "rot": [0, 0, 0],
                   "scale": [0.01, 0.01, 0.01],
+                  "solidity": 1.0,
                   "visibility": 2,
                   "boxes": [
 
@@ -297,6 +309,7 @@
                   "pos": [0, 0, 0],
                   "rot": [0, 0, 0],
                   "scale": [0.01, 0.01, 0.01],
+                  "solidity": 1.0,
                   "visibility": 3,
                   "boxes": [
 
@@ -319,6 +332,7 @@
                   "pos": [0, 0, 0],
                   "rot": [-1.57, 0, 0],
                   "scale": [1.001, 1.001, 1.001],
+                  "solidity": 0.2,
                   "visibility": 3,
                   "boxes": [
 
@@ -341,6 +355,7 @@
                   "pos": [0, 0, 0],
                   "rot": [-1.571, 0, 0],
                   "scale": [0.5, 0.5, 0.5],
+                  "solidity": 0.2,
                   "visibility": 3,
                   "boxes": [
 
@@ -363,6 +378,7 @@
                   "pos": [0, 0, 0],
                   "rot": [-1.571, 0, 0],
                   "scale": [0.4, 0.4, 0.4],
+                  "solidity": 0.2,
                   "visibility": 3,
                   "boxes": [
 
@@ -385,6 +401,7 @@
                   "pos": [0, 0, 0],
                   "rot": [-1.571, 0, 0],
                   "scale": [0.3, 0.3, 0.3],
+                  "solidity": 0.2,
                   "visibility": 3,
                   "boxes": [
 

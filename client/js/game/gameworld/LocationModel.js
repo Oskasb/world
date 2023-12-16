@@ -10,11 +10,6 @@ function showLocationModel(model) {
 //    console.log("SHOW LocationModel", model);
 
     let addModelInstance = function(instance) {
-
-
-        model.palette.applyPaletteSelection('TOWN_RED');
-
-
         ThreeAPI.getScene().remove(instance.spatial.obj3d)
         instance.spatial.stickToObj3D(model.obj3d);
         model.instance = instance;
@@ -45,9 +40,11 @@ class LocationModel {
         this.instance = null;
         this.config = config;
         this.lodLevel = config.visibility;
+        this.solidity = config.solidity || 0.5;
         this.boxes = [];
         this.isVisible = false;
 
+        let paletteKey = 'DEFAULT'
         this.palette = poolFetch('VisualModelPalette')
         this.palette.initPalette()
         this.bodyPointers = [];
@@ -92,10 +89,21 @@ class LocationModel {
             }
         }.bind(this);
 
-        this.instanceCallback = function(instance) {
+        let applySelectedPaletteKey = function() {
+            this.palette.applyPaletteSelection(paletteKey, this.instance);
+        }.bind(this);
+
+        let setInstance = function(instance) {
+            this.instance = instance;
+            applySelectedPaletteKey();
             this.call.playerContact(false)
         }.bind(this);
-let model = this;
+
+        this.instanceCallback = function(instance) {
+            this.call.setInstance(instance)
+        }.bind(this);
+
+        let model = this;
 
         let lodUpdated = function(lodLevel) {
 
@@ -104,10 +112,11 @@ let model = this;
                 if (!physicalModel) {
                     if (this.instance === null) {
                         this.instanceCallback = function(instance) {
-                            this.call.playerContact(false)
+
                             physicalModel = addPhysicsToModel(config.asset, this.obj3d, this.physicsUpdate);
                         //    console.log("Set model 1", model)
                             physicalModel.call.setModel(model)
+                            this.call.setInstance(instance)
                         }.bind(this);
                     } else {
 
@@ -137,7 +146,7 @@ let model = this;
             if (bool) {
                 this.palette.setSeeThroughSolidity(0.5)
             } else {
-                this.palette.setSeeThroughSolidity(1)
+                this.palette.setSeeThroughSolidity(this.solidity)
             }
             if (this.instance) {
                 this.palette.applyPaletteToInstance(this.instance)
@@ -147,7 +156,15 @@ let model = this;
         }.bind(this);
 
 
+        let setPaletteKey = function(key) {
+            paletteKey = key;
+            applySelectedPaletteKey();
+        }.bind(this)
+
+
         this.call = {
+            setInstance:setInstance,
+            setPaletteKey:setPaletteKey,
             lodUpdated:lodUpdated,
             hideLocationModel:hideLocationModel,
             playerContact:playerContact

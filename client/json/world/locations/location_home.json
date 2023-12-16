@@ -14,7 +14,8 @@
                   "rot": [0, 0, 0],
                   "scale": [1, 1, 1],
                   "on_ground": true,
-                  "visibility": 3
+                  "visibility": 3,
+                  "palette": "TOWN_NEUTRAL"
                 },
                 {
                   "model": "model_box_dynamic",
@@ -30,7 +31,8 @@
                   "rot": [0, -1.3, 0],
                   "scale": [1, 1, 1],
                   "on_ground": true,
-                  "visibility": 3
+                  "visibility": 3,
+                  "palette": "TOWN_RED"
                 },
                 {
                   "model": "model_rabbit",
