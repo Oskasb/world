@@ -1,4 +1,5 @@
 import {paletteMap} from "./Colors.js";
+import {poolReturn} from "../../application/utils/PoolUtils.js";
 
 class VisualModelPalette {
 
@@ -66,6 +67,7 @@ class VisualModelPalette {
 
     closePalette() {
         MATH.emptyArray(this.onUpdateCallbacks);
+        poolReturn(this);
     }
 
 }

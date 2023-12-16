@@ -19,16 +19,15 @@ function getPhysicalWorld() {
     return GameAPI.gameMain.phyiscalWorld;
 }
 function addPhysicsToModel(assetId, obj3d, updateCB) {
-    let physicalModel = poolFetch('PhysicalModel')
+    let physicalModel = getPhysicalWorld().addPhysicalModel();
     physicalModel.initPhysicalWorldModel(assetId, obj3d, updateCB)
-    getPhysicalWorld().addPhysicalModel(physicalModel);
     return physicalModel;
 }
 
 function removePhysicalModel(physicalModel) {
     getPhysicalWorld().removePhysicalModel(physicalModel);
     physicalModel.deactivatePhysicalModel();
-    poolReturn(physicalModel);
+
 }
 
 

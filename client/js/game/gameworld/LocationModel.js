@@ -125,7 +125,7 @@ let model = this;
 
                 if (physicalModel) {
                     removePhysicalModel(physicalModel);
-
+                    physicalModel = null;
                 }
             }
 
@@ -162,7 +162,6 @@ let model = this;
 
 
     clearLocationBoxes() {
-        poolReturn(this.palette)
         MATH.emptyArray(this.bodyPointers);
         while (this.boxes.length) {
             let box = this.boxes.pop()

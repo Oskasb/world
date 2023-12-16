@@ -35,12 +35,13 @@ class VisualGamePiece {
         let paletteUpdateCB = function(colorParams, settings) {
             let piece = this.call.getPiece();
             if (!piece) {
-                console.log("no Piece yet...", gamePiece)
+            //    console.log("no Piece yet...", gamePiece)
                 return;
             }
         //    console.log("Apply colors", colorParams, piece)
             let statusValues = piece.getStatus(ENUMS.ItemStatus.PALETTE_VALUES);
             if (!statusValues) {
+                this.visualModelPalette.initPalette()
                 console.log("Missing Status Value Array", config);
                 return;
             }
@@ -141,8 +142,8 @@ class VisualGamePiece {
 
         let setPiece = function(piece) {
             gamePiece = piece;
-            console.log("set Piece ", this.call.getPiece())
-                        applyVisualPiecePalette()
+        //    console.log("set Piece ", this.call.getPiece())
+            applyVisualPiecePalette()
         }.bind(this)
 
         let applyVisualPiecePalette = function() {

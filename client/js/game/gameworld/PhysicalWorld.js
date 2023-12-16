@@ -1,4 +1,5 @@
 import {AmmoAPI} from "../../application/physics/AmmoAPI.js";
+import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
 
 let AMMO ;
 
@@ -25,12 +26,20 @@ class PhysicalWorld {
         this.terrainBody = terrainBody;
     }
 
-    addPhysicalModel(physicalModel) {
+    addPhysicalModel() {
+        let physicalModel = poolFetch('PhysicalModel')
         this.physicalModels.push(physicalModel)
+        return physicalModel
     }
 
     removePhysicalModel(physicalModel) {
+        if (this.physicalModels.indexOf(physicalModel) === -1) {
+            console.log("no model to remove, bad call")
+            return;
+        }
         MATH.splice(this.physicalModels, physicalModel);
+
+        poolReturn(physicalModel);
     }
 
     pointIntersectsPhysicalWorld(pos) {
