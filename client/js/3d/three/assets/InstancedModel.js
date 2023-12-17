@@ -120,6 +120,7 @@ class InstancedModel {
             //    console.log("Mesh applyModelMaterial", node, _this, clone)
             }
             if (node.type === 'SkinnedMesh') {
+                console.log("Material to clone", node, material)
                 _this.skinNode = node;
                 node.material = material;
                 material.skinning = true;

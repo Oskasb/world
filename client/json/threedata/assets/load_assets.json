@@ -124,6 +124,7 @@
       "/threedata/assets/sprites/particle_sprites_8x8.json"
     ],
     "LOAD_MODELS":[
+      "asset_chain_shirt",
       "asset_convex_tree_1",
       "asset_convex_tree_2",
       "asset_convex_tree_3",
