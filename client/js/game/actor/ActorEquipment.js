@@ -27,7 +27,7 @@ class ActorEquipment {
 
         function getUpdateCallback(item, dynJoint) {
             if (dynJoint.key === 'SKIN') {
-                return item.callbacks.tickPieceEquippedItem;
+                return item.call.tickSkinnedItem;
             } else {
                 return dynJoint.callbacks.updateAttachedSpatial;
             }
@@ -52,8 +52,8 @@ class ActorEquipment {
             //    evt.dispatch(ENUMS.Event.UNEQUIP_ITEM, {item:oldItem, time:0.6});
             itemSlot.setSlotItem(item);
             if (dynamicJoint.key === 'SKIN') {
-                item.modelInstance.obj3d.frusumCulled = false;
-                this.getModel().attachInstancedModel(item.modelInstance)
+                item.visualGamePiece.obj3d.frusumCulled = false;
+                this.getModel().attachInstancedModel(item.visualGamePiece.call.getInstance())
             } else {
                 dynamicJoint.registerAttachedSpatial(item.getSpatial());
             }
@@ -74,7 +74,7 @@ class ActorEquipment {
             let slotId = item.getEquipSlotId();
             itemSlot.setSlotItem(null);
             if (dynamicJoint.key === 'SKIN') {
-                this.getModel().detatchInstancedModel(item.modelInstance)
+                this.getModel().detatchInstancedModel(item.visualGamePiece.call.getInstance())
             } else {
                 dynamicJoint.detachAttachedEntity(item.getSpatial());
             }

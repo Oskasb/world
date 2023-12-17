@@ -45,10 +45,21 @@ class Item {
             return updateCallback
         }
 
+        let tickSkinnedItem = function(tpf, gameTime) {
+            let actor = GameAPI.getActorById(this.getStatus(ENUMS.ItemStatus.ACTOR_ID))
+            if (actor) {
+                this.visualGamePiece.call.tickPieceEquippedItem(actor)
+            } else {
+                console.log("Owner actor removed")
+            }
+
+        }.bind(this);
+
         this.call = {
             getAddModifiers:getAddModifiers,
             setUpdateCallback:setUpdateCallback,
-            getUpdateCallback:getUpdateCallback
+            getUpdateCallback:getUpdateCallback,
+            tickSkinnedItem:tickSkinnedItem
         }
 
     }

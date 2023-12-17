@@ -267,7 +267,7 @@
           "model_asset":"asset_chain_legs"
         }
       },      {
-        "id": "VISUAL_SHIRT_CHAIN_GREEN",
+        "id": "VISUAL_SHIRT_CHAIN",
         "data": {
           "model_asset":"asset_chain_shirt"
         }

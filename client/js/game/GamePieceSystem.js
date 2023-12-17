@@ -39,7 +39,12 @@ let loadItem = function(event) {
         if (event.pos) {
             item.getPos().copy(event.pos);
         }
-        visualGP.getSpatial().call.applyInstanceBuffers()
+        if (visualGP.isSkinnedItem) {
+        //    console.log("Bind Skinned visualGP Item")
+        } else {
+            visualGP.getSpatial().call.applyInstanceBuffers()
+        }
+
         item.status.call.initItemStatus();
         event.callback(item)
     }

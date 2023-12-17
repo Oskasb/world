@@ -2,6 +2,16 @@
   "GAME":{
     "ITEMS":[
       {
+        "id": "ITEM_SHIRT_CHAIN",
+        "data": {
+          "visual_id":"VISUAL_SHIRT_CHAIN",
+          "equip_slot": "SLOT_BODY",
+          "status_add_modifiers": [
+
+          ]
+        }
+      },
+      {
         "id": "ITEM_HAT_BLUE",
         "data": {
           "visual_id":"VISUAL_HAT_BLUE",

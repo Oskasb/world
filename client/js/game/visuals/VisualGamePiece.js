@@ -33,7 +33,7 @@ class VisualGamePiece {
         let gamePiece // will be either item or actor... needs "getStatus()"
 
         this.visualPathPoints = new VisualPathPoints();
-
+        this.isSkinnedItem = false;
         this.visualModelPalette = poolFetch('VisualModelPalette')
         this.visualModelPalette.initPalette()
         let paletteUpdateCB = function(colorParams, settings) {
@@ -151,12 +151,22 @@ class VisualGamePiece {
         }.bind(this)
 
         let applyVisualPiecePalette = function() {
-                if (!instance) return;
+                if (!instance || this.isSkinnedItem) return;
                 this.visualModelPalette.applyPaletteToInstance(instance);
                 this.visualModelPalette.setSeeThroughSolidity(1);
         }.bind(this)
 
+        let tickPieceEquippedItem = function(actor) {
+            if (this.getSpatial().obj3d.parent) {
+                this.getSpatial().stickToObj3D(actor.actorObj3d)
+                this.getSpatial().obj3d.updateMatrixWorld();
+            } else {
+                console.log("Equipment init not right")
+            }
+        }.bind(this)
+
         this.call = {
+            tickPieceEquippedItem:tickPieceEquippedItem,
                 applyVisualPiecePalette:applyVisualPiecePalette,
             getPiece:getPiece,
             setPiece:setPiece,
@@ -245,8 +255,15 @@ class VisualGamePiece {
     }
 
     enablePieceAnimations() {
-        this.pieceAnimator.callbacks.resetAnimator();
-        this.getSpatial().call.setStopped();
+        if (!this.pieceAnimator) {
+            this.isSkinnedItem = true;
+         //   console.log("Expect this to be skinned equip item", this)
+        } else {
+            this.isSkinnedItem = false;
+            this.pieceAnimator.callbacks.resetAnimator();
+            this.getSpatial().call.setStopped();
+        }
+
     }
 
     removeVisualGamePiece() {

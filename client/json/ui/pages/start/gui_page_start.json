@@ -33,7 +33,7 @@
                         "actor_id":"ACTOR_FARMER",
                         "page_id": "page_start_farmer",
                         "world_encounters": ["farmer_start_encounters"],
-                        "equipped_items": ["ITEM_HAT_LEATHER", "ITEM_SWORD_FANCY"],
+                        "equipped_items": ["ITEM_HAT_LEATHER", "ITEM_SWORD_FANCY", "ITEM_SHIRT_CHAIN"],
                         "status": {
                           "ALIGNMENT": "FRIENDLY"
                         }

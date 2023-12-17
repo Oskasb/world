@@ -161,8 +161,14 @@ function updateRigidBodyContact(actor) {
         } else {
             let model = physicalModel.call.getModel()
        //     console.log(physicalModel, model);
-            model.call.playerContact(true)
-            lastContactModel = model
+            if (!model) {
+                console.log("Probably Primitive, figure out")
+                lastContactModel = null
+            } else {
+                model.call.playerContact(true)
+                lastContactModel = model
+            }
+
         }
 
      //   console.log( "contact" , lastContactModel)
