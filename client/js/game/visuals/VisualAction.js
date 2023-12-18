@@ -110,7 +110,13 @@ class VisualAction {
         let updateVisualAction = function(tpf) {
             let actionState = this.actorAction.call.getStatus(ENUMS.ActionStatus.ACTION_STATE);
             if (stateMap[actionState]) {
-                this.update[stateMap[actionState].updateFunc]()
+                if (typeof(this.update[stateMap[actionState].updateFunc]) === 'function' ) {
+                    this.update[stateMap[actionState].updateFunc]()
+                } else {
+                    console.log("Visual Action dismissed early...")
+                    this.closeVisualAction();
+                }
+
             } else {
                 console.log("No Update Function for state", actionState);
             }

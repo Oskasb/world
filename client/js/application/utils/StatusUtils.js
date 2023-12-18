@@ -16,6 +16,7 @@ function clearTargetSelection(actor) {
 }
 
 function clearActorEncounterStatus(actor) {
+    actor.setStatusKey(ENUMS.ActorStatus.DEAD, false);
     actor.setStatusKey(ENUMS.ActorStatus.IN_COMBAT, false);
     actor.setStatusKey(ENUMS.ActorStatus.HAS_TURN, false);
     actor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, '');

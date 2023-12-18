@@ -64,11 +64,27 @@
                         },
                         {
                           "key": "OPPONENT_COUNT",
-                          "label": "OPPONENTS"
+                          "label": "ENEMIES"
+                        },
+                        {
+                          "key": "OPPONENTS_ENGAGED",
+                          "label": "ENM ACTIVE"
+                        },
+                        {
+                          "key": "OPPONENTS_DEAD",
+                          "label": "ENM DEAD"
                         },
                         {
                           "key": "PLAYER_COUNT",
-                          "label": "PLAYERS"
+                          "label": "FRIENDS"
+                        },
+                        {
+                          "key": "PLAYERS_ENGAGED",
+                          "label": "FND ACTIVE"
+                        },
+                        {
+                          "key": "PLAYERS_DEAD",
+                          "label": "FND DEAD"
                         }
                       ]
                     }

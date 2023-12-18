@@ -33,8 +33,10 @@ function updatePathPointVisuals(actor) {
 function processAnimationState(actor) {
 
     if (actor.getStatus(ENUMS.ActorStatus.DEAD) === true) {
-        actor.setStatusKey(ENUMS.ActorStatus.BODY_STATE, 'FALL_DOWN');
-        actor.setStatusKey(ENUMS.ActorStatus.STAND_STATE, 'FALL_DOWN')
+        actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_INACTIVE);
+        actor.setStatusKey(ENUMS.ActorStatus.RETREATING, actor.getStatus(ENUMS.ActorStatus.ACTIVATED_ENCOUNTER));
+        //     actor.setStatusKey(ENUMS.ActorStatus.BODY_STATE, 'FALL_DOWN');
+       actor.setStatusKey(ENUMS.ActorStatus.STAND_STATE, 'FALL_DOWN');
         return;
     }
 

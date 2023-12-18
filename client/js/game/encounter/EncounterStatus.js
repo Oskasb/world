@@ -49,6 +49,7 @@ class EncounterStatus {
         this.statusMap[ENUMS.EncounterStatus.ENCOUNTER_ACTORS] = [];
         this.statusMap[ENUMS.EncounterStatus.HAS_TURN_ACTOR] = "";
         this.statusMap[ENUMS.EncounterStatus.TURN_INDEX] = 0;
+        this.statusMap[ENUMS.EncounterStatus.PLAYER_VICTORY] = false;
         this.statusMap[ENUMS.EncounterStatus.ACTIVATION_STATE] = ENUMS.ActivationState.INIT;
 
 

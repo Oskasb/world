@@ -173,7 +173,7 @@ class GameEncounterSystem {
     //    console.log("Activate Enc from Remote", dynamicEncounter)
     }
 
-    deactivateActiveEncounter(byRemote) {
+    deactivateActiveEncounter(positionOutside, victory) {
 
     //    console.log("DEACTIVATE ENC", dynamicEncounter)
         let actor = GameAPI.getGamePieceSystem().selectedActor;
@@ -184,7 +184,7 @@ class GameEncounterSystem {
         if (activeEncounterGrid) {
 
 
-            if (byRemote) {
+            if (positionOutside) {
                 actor.transitionTo(activeEncounterGrid.getPosOutsideTrigger(), 1.0);
             }
 
@@ -203,7 +203,9 @@ class GameEncounterSystem {
             encounterUiSystem = new EncounterUiSystem()
             actor.setStatusKey(ENUMS.ActorStatus.DEACTIVATING_ENCOUNTER, '');
             clearActorEncounterStatus(actor);
-            GameAPI.getGamePieceSystem().playerParty.clearPartyMemebers()
+            if (!victory) {
+                GameAPI.getGamePieceSystem().playerParty.clearPartyMemebers()
+            }
         },1000)
 
         setTimeout(function() {

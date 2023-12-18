@@ -172,7 +172,7 @@ class RemoteClient {
 
     handleItemMessage(itemId, msg) {
 
-        console.log("Item Messasge", msg);
+    //    console.log("Item Messasge", msg);
 
         let item = this.getItemById(itemId);
 

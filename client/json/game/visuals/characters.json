@@ -18,7 +18,7 @@
             "ICON_KEY": "face_4",
             "DEAD": false,
             "NAME": "Fighter",
-            "MAX_HP": 6,
+            "MAX_HP": 2,
             "IN_COMBAT": false,
             "TRAVEL_MODE": "TRAVEL_MODE_WALK",
             "ALIGNMENT": "NEUTRAL"
@@ -42,7 +42,7 @@
             "ICON_KEY": "face_12",
             "DEAD": false,
             "NAME": "Farmer",
-            "MAX_HP": 12,
+            "MAX_HP": 4,
             "IN_COMBAT": false,
             "TRAVEL_MODE": "TRAVEL_MODE_INACTIVE"
           }

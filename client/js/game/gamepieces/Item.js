@@ -51,6 +51,8 @@ class Item {
                 this.visualGamePiece.call.tickPieceEquippedItem(actor)
             } else {
                 console.log("Owner actor removed")
+                this.hide();
+                this.disposeItem();
             }
 
         }.bind(this);

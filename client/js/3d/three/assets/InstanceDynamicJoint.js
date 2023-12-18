@@ -27,15 +27,25 @@ class InstanceDynamicJoint {
                 //   return;
             }
 
+            if (isNaN(this.bone.matrix[0])) {
+                // this happens... needs a fix - likely from some null pointer in animation data?
+            //    console.log("Bad dynJoint matrixWorld", this.bone, this.obj3d)
+            //    this.bone.matrixWorld.identity()
+            //    this.bone.matrix.identity()
+            //    return;
+            }
+
             this.bone.matrixWorld.decompose(this.obj3d.position, this.obj3d.quaternion, this.obj3d.scale);
 
             if (isNaN(this.obj3d.position.x)) {
+                this.bone.matrix.identity()
+             //   console.log("Bad dynJoint post", this.bone, this.obj3d)
+
                 this.obj3d.position.set(0, 0, 0)
                 this.obj3d.scale.set(1, 1, 1);
                 this.obj3d.quaternion.set(0, 0, 0, 1);
 
-                console.log("Bad dynJoint post")
-             //   return;
+                return;
             }
 
 

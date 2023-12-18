@@ -12,6 +12,62 @@ function getStatus(key) {
     return getActiveEncounter().status.call.getStatus(key)
 }
 
+let hostilesList = [];
+let friendliesList = [];
+
+let playerCount = 0;
+let playersEngaged = 0;
+let playersDead = 0;
+
+let opponentCount = 0;
+let opponentsEngaged = 0;
+let opponentsDead = 0;
+
+
+function updateEncounterActorStatus(actors) {
+    MATH.emptyArray(hostilesList);
+    MATH.emptyArray(friendliesList);
+    playerCount = 0;
+    playersEngaged = 0;
+    playersDead = 0;
+
+    opponentCount = 0;
+    opponentsEngaged = 0;
+    opponentsDead = 0;
+
+    for (let i = 0; i < actors.length; i++) {
+        let encActor = actors[i];
+        if (encActor.getStatus(ENUMS.ActorStatus.ALIGNMENT) === 'HOSTILE') {
+            if (encActor.getStatus(ENUMS.ActorStatus.DEAD)) {
+                opponentsDead++
+            } else {
+                opponentsEngaged++
+            }
+            opponentCount++
+            hostilesList.push(encActor);
+        } else {
+            if (encActor.getStatus(ENUMS.ActorStatus.DEAD)) {
+                playersDead++
+            } else {
+                playersEngaged++
+            }
+
+            playerCount++
+            friendliesList.push(encActor);
+        }
+    }
+
+    setStatusKey(ENUMS.EncounterStatus.ACTOR_COUNT, actors.length);
+
+    setStatusKey(ENUMS.EncounterStatus.PLAYER_COUNT, playerCount);
+    setStatusKey(ENUMS.EncounterStatus.PLAYERS_ENGAGED, playersEngaged);
+    setStatusKey(ENUMS.EncounterStatus.PLAYERS_DEAD, playersDead);
+
+    setStatusKey(ENUMS.EncounterStatus.OPPONENT_COUNT, opponentCount);
+    setStatusKey(ENUMS.EncounterStatus.OPPONENTS_ENGAGED, opponentsEngaged);
+    setStatusKey(ENUMS.EncounterStatus.OPPONENTS_DEAD, opponentsDead);
+}
+
 let statusActors = [];
 class EncounterTurnSequencer {
     constructor() {
@@ -76,25 +132,25 @@ class EncounterTurnSequencer {
     }
 
     getOpposingActors(actor, actorList) {
-        let isPlayer = actor.isPlayerActor();
-        let playerCount = 0;
-        let opponentCount = 0;
+        let alignment = actor.getStatus(ENUMS.ActorStatus.ALIGNMENT);
 
         for (let i = 0; i < this.actors.length; i++) {
             let encActor = this.actors[i];
-            if (encActor.isPlayerActor() !== isPlayer) {
-                opponentCount++
-                actorList.push(encActor);
-            } else {
-                playerCount++
+            if (encActor.getStatus(ENUMS.ActorStatus.DEAD) === false) {
+                if (encActor.getStatus(ENUMS.ActorStatus.ALIGNMENT) !== alignment) {
+                    actorList.push(encActor);
+                }
             }
         }
-        setStatusKey(ENUMS.EncounterStatus.ACTOR_COUNT, this.actors.length);
-        setStatusKey(ENUMS.EncounterStatus.PLAYER_COUNT, playerCount);
-        setStatusKey(ENUMS.EncounterStatus.OPPONENT_COUNT, opponentCount);
     }
 
     updateTurnSequencer() {
+        updateEncounterActorStatus(this.actors);
+
+        if (playersEngaged === 0) {
+            return;
+        }
+
         let actor = this.actors[this.turnActorIndex];
         if (this.activeActor !== actor) {
             setStatusKey(ENUMS.EncounterStatus.TURN_INDEX, this.turnIndex)

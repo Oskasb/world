@@ -539,8 +539,8 @@ class GameActor {
 
         let transition = poolFetch('SpatialTransition');
         transition.targetPos.copy(pos);
-        transition.moveVec3.copy(this.getSpatialPosition());
-        transition.initSpatialTransition(transition.moveVec3, transition.targetPos, time, onCompleted, null, null, onUpdate)
+        this.actorObj3d.position.copy(this.getSpatialPosition());
+        transition.initSpatialTransition(this.actorObj3d.position, transition.targetPos, time, onCompleted, null, null, onUpdate)
 
     }
 

@@ -3,6 +3,42 @@
 class PlayerParty {
     constructor() {
         this.actors = [];
+
+
+        let partyVictorious = function(worldEncounterId) {
+            evt.dispatch(ENUMS.Event.ENCOUNTER_COMPLETED, {worldEncounterId:worldEncounterId})
+            for (let i = 0; i < this.actors.length; i++) {
+                let actor = this.actors[i];
+                actor.setStatusKey(ENUMS.ActorStatus.EXIT_ENCOUNTER, actor.getStatus(ENUMS.ActorStatus.ACTIVATED_ENCOUNTER));
+                actor.setStatusKey(ENUMS.ActorStatus.DEACTIVATING_ENCOUNTER, actor.getStatus(ENUMS.ActorStatus.ACTIVATED_ENCOUNTER));
+
+                if (!actor.call.getRemote()) {
+                    GameAPI.call.getGameEncounterSystem().deactivateActiveEncounter(false, true);
+                }
+            }
+        }.bind(this);
+
+
+        let partyDefeated = function() {
+
+            for (let i = 0; i < this.actors.length; i++) {
+                let actor = this.actors[i];
+                actor.setStatusKey(ENUMS.ActorStatus.EXIT_ENCOUNTER, actor.getStatus(ENUMS.ActorStatus.ACTIVATED_ENCOUNTER));
+                actor.setStatusKey(ENUMS.ActorStatus.DEACTIVATING_ENCOUNTER, actor.getStatus(ENUMS.ActorStatus.ACTIVATED_ENCOUNTER));
+
+                if (!actor.call.getRemote()) {
+                    GameAPI.call.getGameEncounterSystem().deactivateActiveEncounter(true, false);
+                }
+
+            }
+
+        }.bind(this);
+
+        this.call = {
+            partyDefeated:partyDefeated,
+            partyVictorious:partyVictorious
+        }
+
     }
 
     addPartyActor(actor) {
@@ -66,6 +102,9 @@ class PlayerParty {
     getPartyActors() {
         return this.actors;
     }
+
+
+
 
     clearPartyMemebers() {
         MATH.emptyArray(this.actors);

@@ -56,7 +56,7 @@ class ActorEquipment {
                 let itemInstance = item.visualGamePiece.call.getInstance()
                 let modelClone = item.visualGamePiece.getModel().obj3d.children[0]
                 let originalMaterial =  item.visualGamePiece.getModel().originalModel.material.mat
-                console.log("skinned mesh clone:", itemInstance, modelClone, originalMaterial);
+            //    console.log("skinned mesh clone:", itemInstance, modelClone, originalMaterial);
                 itemInstance.applyModelMaterial(modelClone, originalMaterial)
                     this.getModel().attachInstancedModel(itemInstance)
             } else {

@@ -142,10 +142,11 @@ class DynamicTile {
         if (this.visualTile) {
             let rgba = this.visualTile.rgba;
             this.visualTile.setTileColor(CombatFxUtils.setRgba(rgba.r, rgba.g, rgba.b, rgba.a))
-        }
-        if (this.isExit) {
+        //    if (this.isExit) {
             this.visualTile.clearTileFeedbackEffects()
+         //   }
         }
+
     }
 
     getPos = function() {

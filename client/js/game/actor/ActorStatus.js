@@ -1,5 +1,6 @@
 import {Vector3} from "../../../libs/three/math/Vector3.js";
 import {Quaternion} from "../../../libs/three/math/Quaternion.js";
+import {clearActorEncounterStatus} from "../../application/utils/StatusUtils.js";
 
 
 let testSkip = function(key) {
@@ -242,6 +243,7 @@ class ActorStatus {
         this.statusMap[ENUMS.ActorStatus.REQUEST_PARTY] = "";
         this.statusMap[ENUMS.ActorStatus.ACTIVATING_ENCOUNTER] = "";
         this.statusMap[ENUMS.ActorStatus.ACTIVATED_ENCOUNTER]  = "";
+        this.statusMap[ENUMS.ActorStatus.DEACTIVATING_ENCOUNTER] = "";
         this.statusMap[ENUMS.ActorStatus.PARTY_SELECTED]  = false;
         this.statusMap[ENUMS.ActorStatus.PLAYER_PARTY]  = [];
         this.statusMap[ENUMS.ActorStatus.SELECTED_DESTINATION]  = [0, 0, 0];
@@ -249,6 +251,7 @@ class ActorStatus {
         this.statusMap[ENUMS.ActorStatus.ACTION_STATE_KEY] = 0;
         this.statusMap[ENUMS.ActorStatus.ACTION_STEP_PROGRESS]  = 0;
         this.statusMap[ENUMS.ActorStatus.RIGID_BODY_CONTACT]  = 0;
+        this.statusMap[ENUMS.ActorStatus.DEAD] = false;
         let updateTO = null;
 
         let send = function() {
@@ -277,7 +280,16 @@ class ActorStatus {
     setStatusKey(key, status) {
 
 
-        if (key === ENUMS.ActorStatus.DEACTIVATING_ENCOUNTER && status !== 0) {
+        if (key === ENUMS.ActorStatus.DEACTIVATING_ENCOUNTER && status !== '') {
+
+            let dynEnc = GameAPI.call.getDynamicEncounter()
+
+            if (dynEnc) {
+                dynEnc.setStatusKey(ENUMS.EncounterStatus.ACTIVATION_STATE, ENUMS.ActivationState.DEACTIVATING);
+            } else {
+                clearActorEncounterStatus(this.actor);
+            }
+
             console.log("Set Deactivate", status)
         }
 

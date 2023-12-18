@@ -1,5 +1,14 @@
 import {clearTargetSelection, getActorBySelectedTarget, hasHostileTarget} from "../../application/utils/StatusUtils.js";
 
+let playerCount = 0;
+let playersEngaged = 0;
+let playersDead = 0;
+let opponentCount = 0;
+let opponentsEngaged = 0;
+let opponentsDead = 0;
+
+let encounterClosing = false;
+
 let activeEncounter = null;
 
 let lastStatus = {};
@@ -12,8 +21,62 @@ let getEncounter = function(enc) {
     return activeEncounter;
 }
 
+function getStatus(key) {
+    return activeEncounter.status.call.getStatus(ENUMS.EncounterStatus[key]);
+}
+
+function processVictory() {
+    console.log("Victory", activeEncounter);
+    activeEncounter.status.call.setStatus(ENUMS.EncounterStatus.PLAYER_VICTORY, true);
+    GuiAPI.screenText("VICTORY", ENUMS.Message.HINT, 5)
+    let playerParty = GameAPI.getGamePieceSystem().playerParty;
+    let victoryCall = function() {
+        playerParty.call.partyVictorious(getStatus(ENUMS.EncounterStatus.WORLD_ENCOUNTER_ID))
+    }
+
+    setTimeout(victoryCall, 3000)
+}
+
+function processDefeat() {
+    console.log("Defeat", activeEncounter);
+    GuiAPI.screenText("DEFEAT", ENUMS.Message.HINT, 5)
+    let playerParty = GameAPI.getGamePieceSystem().playerParty;
+
+    setTimeout(playerParty.call.partyDefeated, 4000)
+}
+
 let processEncStatus = function() {
 
+    if (encounterClosing === true) {
+
+        let victory = getStatus(ENUMS.EncounterStatus.PLAYER_VICTORY);
+        if (victory) {
+            console.log("Update Post Victory")
+        }
+
+        return;
+    }
+
+    playerCount = getStatus(ENUMS.EncounterStatus.PLAYER_COUNT);
+    playersEngaged = getStatus(ENUMS.EncounterStatus.PLAYERS_ENGAGED);
+    playersDead = getStatus(ENUMS.EncounterStatus.PLAYERS_DEAD);
+    opponentCount = getStatus(ENUMS.EncounterStatus.OPPONENT_COUNT);
+    opponentsEngaged = getStatus(ENUMS.EncounterStatus.OPPONENTS_ENGAGED);
+    opponentsDead = getStatus(ENUMS.EncounterStatus.OPPONENTS_DEAD);
+
+    if (opponentsDead === opponentCount) {
+        if (opponentCount !== 0) {
+            encounterClosing = true;
+            processVictory()
+        }
+        return;
+    } else if (playersDead === playerCount) {
+        encounterClosing = true;
+        processDefeat()
+        return;
+    }
+
+    encounterClosing = false;
     let hasTurnId = activeEncounter.status.call.getStatus(ENUMS.EncounterStatus.HAS_TURN_ACTOR);
 
     // let currentTurnActor = GameAPI.getActorById(hasTurnActorId);
@@ -99,13 +162,15 @@ function processEncounterTileUpdateMechanics(actor) {
 
 }
 
-function processEncounterActorStatus(actor) {
+function processEncounterDeactivation(actor) {
+    console.log("DEACTIVATE ENC", activeEncounter)
 
-    let deactivate = actor.getStatus(ENUMS.ActorStatus.DEACTIVATING_ENCOUNTER);
-  //  console.log("DEACTIVATE ENC", deactivate)
-    if (deactivate ===  activeEncounter.status.call.getStatus(ENUMS.EncounterStatus.WORLD_ENCOUNTER_ID)) {
-        console.log("DEACTIVATE ENC", deactivate)
-        GameAPI.call.getGameEncounterSystem().deactivateActiveEncounter(false);
+    let victory = getStatus(ENUMS.EncounterStatus.PLAYER_VICTORY)
+    let positionOutside = true;
+
+    if (victory) {
+        positionOutside = false;
+        GameAPI.call.getGameEncounterSystem().deactivateActiveEncounter(positionOutside, victory);
         activeEncounter = null;
     }
 
@@ -132,13 +197,27 @@ class EncounterStatusProcessor {
                     this.actorTurnStart = null
                     return;
                 }
+
+                if (getStatus(ENUMS.EncounterStatus.ACTIVATION_STATE) === ENUMS.ActivationState.DEACTIVATING) {
+                    processEncounterDeactivation(actor);
+                    return;
+                }
+
+                if (actor.getStatus(ENUMS.ActorStatus.DEACTIVATING_ENCOUNTER) !== '') {
+                    console.log("Deactivate: ", actor.getStatus(ENUMS.ActorStatus.DEACTIVATING_ENCOUNTER), activeEncounter.status.call.getStatus(ENUMS.EncounterStatus.WORLD_ENCOUNTER_ID))
+                    return;
+                }
+
                 if (this.actorTurnStart !== hasTurnId) {
                     processEncounterTurnStartTileMechanics(actor)
                     this.actorTurnStart = hasTurnId
                 } else {
-                    processEncounterTileUpdateMechanics(actor)
+                    if (actor.getStatus(ENUMS.ActorStatus.DEAD) === false) {
+                        processEncounterTileUpdateMechanics(actor)
+                    }
+
                 }
-                processEncounterActorStatus(actor);
+
             } else {
                 this.actorTurnStart = null
             }

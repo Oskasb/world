@@ -618,6 +618,7 @@
           "float rough = 0.9;",
           "float metal = 0.7;",
           "vec2 terrainSampler = scaledVPos;",
+          "terrainSampler.x -= 1.0/4096.0;",
           "vec4 terrainMapSample = texture2D( terrainmap, terrainSampler);",
           "vec4 heightMapSample = texture2D( heightmap, terrainSampler);",
 

@@ -59,6 +59,8 @@ let activateWorldEncounters = function(event) {
         activeActor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_WALK);
     }
 
+    let completedEncounters = GameAPI.gameAdventureSystem.getCompletedEncounters();
+
     activateEvent = event;
     let encountersData = function(encounters, index, listId) {
         for (let i = 0; i < encounters.length;i++) {
@@ -67,7 +69,11 @@ let activateWorldEncounters = function(event) {
                 worldEncounters.push(encounter);
                 encounter.activateWorldEncounter()
             }
-            new WorldEncounter(encId, encounters[i], onReady)
+            if (completedEncounters.indexOf(encId) === -1) {
+                new WorldEncounter(encId, encounters[i], onReady)
+            } else {
+                console.log("Not loading completed encounters..", encId);
+            }
 
         }
     }

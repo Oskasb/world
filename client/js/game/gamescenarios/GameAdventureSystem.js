@@ -3,11 +3,23 @@ import {notifyCameraStatus} from "../../3d/camera/CameraFunctions.js";
 
 let spatialTransition
 
+let completedEncounters = [];
+
+function encounterCompleted(event) {
+    console.log("Enc Completed", event);
+    completedEncounters.push(event.worldEncounterId);
+}
+
 class GameAdventureSystem {
     constructor() {
         spatialTransition  = new SpatialTransition();
         this.startActor = null;
         this.page = null;
+        evt.on(ENUMS.Event.ENCOUNTER_COMPLETED, encounterCompleted)
+    }
+
+    getCompletedEncounters() {
+        return completedEncounters;
     }
 
     selectAdventure(event) {
