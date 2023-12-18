@@ -1,0 +1,46 @@
+[{
+  "GAME_ACTIONS":{
+    "STATISTICAL_ACTIONS":[
+      {
+        "id":"STATISTICAL_FIREBALL",
+        "data":{
+          "on_hit_apply": {
+            "to_target": [
+              {"modifier": "APPLY_DAMAGE", "amount": 3}
+            ]
+          }
+        }
+      },
+      {
+        "id":"STATISTICAL_MAGIC_MISSILE",
+        "data":{
+          "on_hit_apply": {
+            "to_target": [
+              {"modifier": "APPLY_DAMAGE", "amount": 3}
+            ]
+          }
+        }
+      },
+      {
+        "id":"STATISTICAL_FREEZE_BOLT",
+        "data":{
+          "on_hit_apply": {
+            "to_target": [
+              {"modifier": "APPLY_DAMAGE", "amount": 3}
+            ]
+          }
+        }
+      },
+      {
+        "id":"STATISTICAL_HEAL_BOLT",
+        "data":{
+          "on_hit_apply": {
+            "to_target": [
+              {"modifier": "APPLY_HEAL", "amount": 5}
+            ]
+          }
+        }
+      }
+    ]
+  }
+}]

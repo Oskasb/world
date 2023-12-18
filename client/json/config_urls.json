@@ -112,6 +112,7 @@
       "/game/visuals/visual_items.json"                      ,
       "/game/visuals/visual_actions.json"                    ,
       "/game/actors/actions/actor_actions.json"              ,
+      "/game/actors/actions/statistical/statistical_actions.json"              ,
       "/game/visuals/visual_travel.json"                     ,
       "/game/items/items_weapons.json"                      ,
       "/game/items/items_armor.json"                      ,

@@ -170,7 +170,7 @@ function processTerrainLodCenter(lodCenter, terrainCenter) {
     }
 
     // terrainCenter.y = 0// lodCenter.y;
-     evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:terrainCenter, color:'YELLOW', size:2.2})
+ //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:terrainCenter, color:'YELLOW', size:2.2})
 
     tempVec3.copy(terrainCenter)
     tempVec3.y = ThreeAPI.terrainAt(terrainCenter);

@@ -118,6 +118,7 @@ if(typeof(ENUMS) === "undefined"){
         RETREATING:'RETREATING',
         EXIT_ENCOUNTER:'EXIT_ENCOUNTER',
         DAMAGE_APPLIED:'DAMAGE_APPLIED',
+        HEALING_APPLIED:'HEALING_APPLIED',
         DEAD:'DEAD',
         IS_LEAPING:'IS_LEAPING',
         MOVE_STATE:'MOVE_STATE',
@@ -202,6 +203,11 @@ if(typeof(ENUMS) === "undefined"){
         STATUS_WALK_SELECTION:'STATUS_WALK_SELECTION',
         STATUS_LEAP_SELECTION:'STATUS_LEAP_SELECTION'
     };
+
+    ENUMS.StatusModifiers = {
+        APPLY_DAMAGE:'APPLY_DAMAGE',
+        APPLY_HEAL:'APPLY_HEAL'
+    }
 
     ENUMS.ItemStatus = {
         ITEM_ID:'ITEM_ID',

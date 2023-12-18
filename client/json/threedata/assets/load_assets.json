@@ -12,6 +12,7 @@
       "TEXTURES"
     ],
     "POLL_INDEX":[
+      "/game/actors/actions/statistical/statistical_actions.json"              ,
       "/physics/physics_parameters.json"                    ,
       "/ui/pages/start/gui_page_start.json"                  ,
       "/ui/pages/start/gui_page_start_princess.json"                  ,

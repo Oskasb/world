@@ -410,7 +410,7 @@ function CAM_AUTO() {
         notifyCameraStatus(ENUMS.CameraStatus.POINTER_ACTION, ENUMS.CameraControls.CAM_MOVE, false)
     }
 
-    let offsetFactor = MATH.curveQuad(zoomDistance*0.75)
+    let offsetFactor = MATH.curveQuad(zoomDistance*0.35)
     if (modeActive) {
         cameraTime+= tpf;
         notifyCameraStatus(ENUMS.CameraStatus.CAMERA_MODE, ENUMS.CameraControls.CAM_AUTO, true)
@@ -424,7 +424,7 @@ function CAM_AUTO() {
     cursorObj3d.position.copy(lookAroundPoint);
     cursorObj3d.position.y = ThreeAPI.terrainAt(lookAroundPoint);
     offsetPos.x = Math.sin(cameraTime*0.15)*offsetFactor
-    offsetPos.y = offsetFactor*0.4 + zoomDistance*0.3 + Math.sin(GameAPI.getGameTime()*0.4)*zoomDistance*0.25
+    offsetPos.y = offsetFactor*0.4 + zoomDistance*0.8 + Math.sin(GameAPI.getGameTime()*0.4)*zoomDistance*0.25
     offsetPos.z = Math.cos(cameraTime*0.18)*offsetFactor
 
     tempVec3.addVectors(lookAroundPoint, offsetPos)

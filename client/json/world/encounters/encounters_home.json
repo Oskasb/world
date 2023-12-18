@@ -32,7 +32,7 @@
                   "grid_id": "grid_12x12",
                   "host_id": "bandit_basic",
                   "indicator_id": "battle_indicator",
-                  "trigger_radius": 5,
+                  "trigger_radius": 4,
                   "spawn": {
                     "actors": [
                       {
@@ -40,12 +40,6 @@
                         "rot": [0, 1.2, 0],
                         "on_ground": true,
                         "tile": [5, 5]
-                      },
-                      {
-                        "actor": "ACTOR_FIGHTER",
-                        "rot": [0, 1.2, 0],
-                        "on_ground": true,
-                        "tile": [9, 4]
                       }
                     ]
                   }
@@ -56,7 +50,7 @@
                   "grid_id": "grid_15x15",
                   "host_id": "bandit_basic",
                   "indicator_id": "battle_indicator",
-                  "trigger_radius": 7,
+                  "trigger_radius": 5,
                   "spawn": {
                     "actors": [
                       {
@@ -86,7 +80,7 @@
                   "grid_id": "grid_15x15",
                   "host_id": "bandit_basic",
                   "indicator_id": "battle_indicator",
-                  "trigger_radius": 7,
+                  "trigger_radius": 5,
                   "spawn": {
                     "actors": [
                       {
@@ -116,7 +110,7 @@
                   "grid_id": "grid_15x15",
                   "host_id": "bandit_basic",
                   "indicator_id": "battle_indicator",
-                  "trigger_radius": 7,
+                  "trigger_radius": 5,
                   "spawn": {
                     "actors": [
                       {
@@ -158,7 +152,7 @@
                   "grid_id": "grid_12x12",
                   "host_id": "bandit_basic",
                   "indicator_id": "battle_indicator",
-                  "trigger_radius": 5,
+                  "trigger_radius": 4,
                   "spawn": {
                     "actors": [
                       {
@@ -166,12 +160,6 @@
                         "rot": [0, 1.2, 0],
                         "on_ground": true,
                         "tile": [5, 5]
-                      },
-                      {
-                        "actor": "ACTOR_FIGHTER",
-                        "rot": [0, 1.2, 0],
-                        "on_ground": true,
-                        "tile": [9, 4]
                       }
                     ]
                   }
@@ -194,7 +182,7 @@
                   "grid_id": "grid_12x12",
                   "host_id": "bandit_basic",
                   "indicator_id": "battle_indicator",
-                  "trigger_radius": 5,
+                  "trigger_radius": 4,
                   "spawn": {
                     "actors": [
                       {
@@ -202,12 +190,6 @@
                         "rot": [0, 1.2, 0],
                         "on_ground": true,
                         "tile": [5, 5]
-                      },
-                      {
-                        "actor": "ACTOR_FIGHTER",
-                        "rot": [0, 1.2, 0],
-                        "on_ground": true,
-                        "tile": [9, 4]
                       }
                     ]
                   }

@@ -9,8 +9,8 @@
           "scale": [1.0, 1.0, 1.0],
           "rot": [0, 0, 0],
           "status": {
-            "ACTIONS": ["ACTION_FIREBALL", "ACTION_MAGIC_MISSILE", "ACTION_FREEZE_BOLT", "ACTION_HEAL_BOLT"],
-            "TRAVEL":  ["ACTION_TRAVEL_WALK", "ACTION_TRAVEL_FLY"],
+            "ACTIONS": ["ACTION_MAGIC_MISSILE", "ACTION_FREEZE_BOLT"],
+            "TRAVEL":  ["ACTION_TRAVEL_WALK"],
             "MOVEMENT_SPEED": 4,
             "HEIGHT": 1.8,
             "SIZE": 1.2,
@@ -18,7 +18,7 @@
             "ICON_KEY": "face_4",
             "DEAD": false,
             "NAME": "Fighter",
-            "MAX_HP": 10,
+            "MAX_HP": 6,
             "IN_COMBAT": false,
             "TRAVEL_MODE": "TRAVEL_MODE_WALK",
             "ALIGNMENT": "NEUTRAL"

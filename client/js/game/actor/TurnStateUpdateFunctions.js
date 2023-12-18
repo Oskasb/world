@@ -2,7 +2,7 @@ import {indicateTurnClose, indicateTurnInit} from "./TurnStateFeedback.js";
 import {Vector3} from "../../../libs/three/math/Vector3.js";
 import {TargetSelector} from "./TargetSelector.js";
 import {viewTargetSelection, viewPrecastAction, viewTileSelect} from "../../3d/camera/CameraFunctions.js";
-import {ActionSelector} from "./ActionSelector.js";
+import {ActionSelector} from "../actions/ActionSelector.js";
 
 
 let targetSelector = new TargetSelector();

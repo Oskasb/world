@@ -1,6 +1,6 @@
 import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
 import {configDataList} from "../../application/utils/ConfigUtils.js";
-import {ActionStatus} from "./ActionStatus.js";
+import {ActionStatus} from "../actions/ActionStatus.js";
 
 let visualConfig = {
     "fx_selected":"combat_effect_hands_magic_power",
@@ -11,14 +11,20 @@ let visualConfig = {
 }
 
 let config = {};
+let actionStats = {};
 let configUpdated = function(cfg) {
     config = cfg;
   //  console.log("ActorActionConfig: ", config);
 }
 
+let statsUpdated = function(cfg) {
+    actionStats = cfg;
+    console.log("STATISTICAL_ACTIONS: ", actionStats);
+}
 
 setTimeout(function() {
     configDataList("GAME_ACTORS", "ACTIONS", configUpdated)
+    configDataList("GAME_ACTIONS", "STATISTICAL_ACTIONS", statsUpdated)
 }, 2000)
 
 
@@ -76,7 +82,7 @@ class ActorAction {
         this.visualAction = null;
         this.onCompletedCallbacks = [];
         this.initiated = false;
-
+        this.statisticalActions = [];
 
         let stepDuration = 0;
 
@@ -130,16 +136,15 @@ class ActorAction {
 
 
             if (!target.call.getRemote()) {
-                let hp = target.getStatus(ENUMS.ActorStatus.HP);
-                let maxHP = target.getStatus(ENUMS.ActorStatus.MAX_HP);
-                let newHP = Math.ceil(MATH.clamp(hp - (1  + (Math.random()*3))), 0, maxHP );
-                target.setStatusKey(ENUMS.ActorStatus.HP, newHP)
-                target.setStatusKey(ENUMS.ActorStatus.DAMAGE_APPLIED, hp - newHP)
+                for (let i = 0; i < this.statisticalActions.length; i++) {
+                    this.statisticalActions[i].applyStatisticalActionToTarget(target)
+                }
+
             }
 
         }.bind(this);
 
-        let applyMissileHit = function() {
+        let applyHit = function() {
             applyHitConsequences()
             activateAttackStateTransition()
         }
@@ -147,7 +152,7 @@ class ActorAction {
 
         let updateActive = function(tpf) {
             if (this.stepProgress === 0) {
-                this.visualAction.visualizeAttack(applyMissileHit);
+                this.visualAction.visualizeAttack(applyHit);
             }
         }.bind(this)
 
@@ -250,7 +255,18 @@ class ActorAction {
         this.visualAction = poolFetch('VisualAction')
         let visualActionKey = this.readActionConfig('visual_action')
         this.visualAction.setActorAction(this, visualActionKey);
+        let statConfig = this.readActionConfig('statistical_actions')
+        if (statConfig) {
+            for (let i = 0; i < statConfig.length; i++) {
+                let statAction = poolFetch('StatisticalAction')
+                let cfg = actionStats[statConfig[i]];
+                statAction.initStatisticalActionConfig(cfg);
+                this.statisticalActions.push(statAction);
+            }
+        }
     }
+
+
 
     initAction(actor) {
 
@@ -302,11 +318,15 @@ class ActorAction {
         GameAPI.unregisterGameUpdateCallback(this.call.updateAttack);
         MATH.callAll(this.onCompletedCallbacks, actor, this);
         MATH.emptyArray(this.onCompletedCallbacks);
+
         this.visualAction.closeVisualAction();
         this.recoverAttack();
     }
 
     recoverAttack() {
+        while (this.statisticalActions.length) {
+            poolReturn(this.statisticalActions.pop())
+        }
         poolReturn(this.visualAction);
         poolReturn(this)
     }
