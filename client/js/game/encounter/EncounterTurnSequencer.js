@@ -101,6 +101,11 @@ class EncounterTurnSequencer {
             this.activeActor = actor;
             setStatusKey(ENUMS.EncounterStatus.HAS_TURN_ACTOR, actor.id);
 
+            if (actor.getStatus(ENUMS.ActorStatus.DEAD)) {
+                this.call.turnEnded();
+                return;
+            }
+
             if (actor.isPlayerActor()) {
                 setStatusKey(ENUMS.EncounterStatus.ACTIVE_TURN_SIDE, "HOST");
                 GuiAPI.screenText("Your turn", ENUMS.Message.HINT, 3)

@@ -32,6 +32,13 @@ function updatePathPointVisuals(actor) {
 
 function processAnimationState(actor) {
 
+    if (actor.getStatus(ENUMS.ActorStatus.DEAD) === true) {
+        actor.setStatusKey(ENUMS.ActorStatus.BODY_STATE, 'FALL_DOWN');
+        actor.setStatusKey(ENUMS.ActorStatus.STAND_STATE, 'FALL_DOWN')
+        return;
+    }
+
+
     let isLeaping = actor.getStatus(ENUMS.ActorStatus.IS_LEAPING)
     if (isLeaping) {
         actor.setStatusKey(ENUMS.ActorStatus.MOVE_STATE, 'STAND_COMBAT')
@@ -136,7 +143,22 @@ function processPartyStatus(actor) {
 
 }
 
-function processEncounterStatus(actor) {
+function processActorCombatStatus(actor) {
+
+    if (actor.getStatus(ENUMS.ActorStatus.IN_COMBAT)) {
+        if (actor.getStatus(ENUMS.ActorStatus.DEAD) === true) {
+            return;
+        }
+        let hp = actor.getStatus(ENUMS.ActorStatus.HP)
+        if (hp < 1) {
+            actor.setStatusKey(ENUMS.ActorStatus.DEAD, true);
+        }
+    } else {
+        if (actor.getStatus(ENUMS.ActorStatus.DEAD) === false)
+            actor.setStatusKey(ENUMS.ActorStatus.HP, actor.getStatus(ENUMS.ActorStatus.MAX_HP));
+    }
+
+
 
 }
 
@@ -243,6 +265,7 @@ class ActorStatusProcessor {
 
 
     processActorStatus(actor) {
+        processActorCombatStatus(actor);
         if (actor.isPlayerActor()) {
             cameraStatusProcessor.processCameraStatus(actor)
             registerPathPoints(actor);

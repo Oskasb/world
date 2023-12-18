@@ -44,10 +44,10 @@ let processEncStatus = function() {
                 // Hosting player starts turn from sequencer
             }
         } else if (actor.getStatus(ENUMS.ActorStatus.ALIGNMENT) === 'FRIENDLY') {
-            GuiAPI.screenText("Other Payer Turn", ENUMS.Message.HINT)
+        //    GuiAPI.screenText("Other Payer Turn", ENUMS.Message.HINT)
             return;
         } else {
-            GuiAPI.screenText("Enemy Turn", ENUMS.Message.HINT)
+        //    GuiAPI.screenText("Enemy Turn", ENUMS.Message.HINT)
         //    actor.getActorTurnSequencer().startActorTurn(this.call.turnEnded, this.turnIndex);
             return
         }

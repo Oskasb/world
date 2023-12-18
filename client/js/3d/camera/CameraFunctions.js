@@ -410,7 +410,7 @@ function CAM_AUTO() {
         notifyCameraStatus(ENUMS.CameraStatus.POINTER_ACTION, ENUMS.CameraControls.CAM_MOVE, false)
     }
 
-    let offsetFactor = MATH.curveQuad(zoomDistance*0.35)
+    let offsetFactor = MATH.curveQuad(zoomDistance*0.65)
     if (modeActive) {
         cameraTime+= tpf;
         notifyCameraStatus(ENUMS.CameraStatus.CAMERA_MODE, ENUMS.CameraControls.CAM_AUTO, true)
