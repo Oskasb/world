@@ -200,7 +200,7 @@ class GameActor {
 
     startPlayerTurn(turnEndedCB, turnIndex) {
         if (this.call.getRemote() === null) {
-            GameAPI.getGamePieceSystem().setSelectedGameActor(this);
+        //    GameAPI.getGamePieceSystem().setSelectedGameActor(this);
         }
 
         this.turnEndCallbacks.push(turnEndedCB);

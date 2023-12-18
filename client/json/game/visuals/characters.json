@@ -42,7 +42,7 @@
             "ICON_KEY": "face_12",
             "DEAD": false,
             "NAME": "Farmer",
-            "MAX_HP": 4,
+            "MAX_HP": 12,
             "IN_COMBAT": false,
             "TRAVEL_MODE": "TRAVEL_MODE_INACTIVE"
           }
