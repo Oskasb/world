@@ -107,6 +107,14 @@ class PartyUiSystem {
             updatePartyUiSystem:updatePartyUiSystem
         }
 
+        let clearUi = function() {
+            this.closePartyUi();
+            this.activatePartyUiSystem();
+        }.bind(this);
+
+
+        evt.on(ENUMS.Event.CLEAR_UI, clearUi)
+
     }
 
     setEncounterSequencer(sequencer) {

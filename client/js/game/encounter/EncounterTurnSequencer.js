@@ -214,7 +214,8 @@ class EncounterTurnSequencer {
             actor.setStatusKey(ENUMS.ActorStatus.IN_COMBAT, false);
             actor.setStatusKey(ENUMS.ActorStatus.RETREATING, '');
             actor.setStatusKey(ENUMS.ActorStatus.EXIT_ENCOUNTER, '');
-            GameAPI.getGamePieceSystem().playerParty.clearPartyMemebers()
+            GameAPI.getGamePieceSystem().playerParty.clearPartyStatus()
+        //    GameAPI.getGamePieceSystem().playerParty.clearPartyMemebers()
         }
         if (this.activeActor) {
             this.activeActor.getActorTurnSequencer().exitSequence();

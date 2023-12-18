@@ -66,10 +66,16 @@ class StatusFeedback {
                 }
 
             } else if (activate === false) {
-                if (typeof(this.feedbackMap[key]) === 'object') {
-                    this.feedbackMap[key].off();
-                    poolReturn(this.feedbackMap[key]);
-                    this.feedbackMap[key] = null;
+                if (this.feedbackMap[key]) {
+                    if (this.feedbackMap[key].off) {
+                        this.feedbackMap[key].off();
+                        poolReturn(this.feedbackMap[key]);
+                        this.feedbackMap[key] = null;
+                    } else {
+                        console.log("Some bad logic for removing status feedback FX")
+                        this.feedbackMap[key] = null;
+                    }
+
                 }
             }
         }

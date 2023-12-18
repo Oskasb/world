@@ -1,18 +1,17 @@
+import {clearActorEncounterStatus} from "../../application/utils/StatusUtils.js";
 
 
 class PlayerParty {
     constructor() {
         this.actors = [];
 
-
         let partyVictorious = function(worldEncounterId) {
             evt.dispatch(ENUMS.Event.ENCOUNTER_COMPLETED, {worldEncounterId:worldEncounterId})
             for (let i = 0; i < this.actors.length; i++) {
                 let actor = this.actors[i];
-                actor.setStatusKey(ENUMS.ActorStatus.EXIT_ENCOUNTER, actor.getStatus(ENUMS.ActorStatus.ACTIVATED_ENCOUNTER));
-                actor.setStatusKey(ENUMS.ActorStatus.DEACTIVATING_ENCOUNTER, actor.getStatus(ENUMS.ActorStatus.ACTIVATED_ENCOUNTER));
-
                 if (!actor.call.getRemote()) {
+                    actor.setStatusKey(ENUMS.ActorStatus.EXIT_ENCOUNTER, actor.getStatus(ENUMS.ActorStatus.ACTIVATED_ENCOUNTER));
+                    actor.setStatusKey(ENUMS.ActorStatus.DEACTIVATING_ENCOUNTER, actor.getStatus(ENUMS.ActorStatus.ACTIVATED_ENCOUNTER));
                     GameAPI.call.getGameEncounterSystem().deactivateActiveEncounter(false, true);
                 }
             }
@@ -91,6 +90,7 @@ class PlayerParty {
 
         if (remote) {
             let selectedActor = GameAPI.getGamePieceSystem().selectedActor;
+            GuiAPI.screenText("INSPECT "+actor.id,  ENUMS.Message.SYSTEM, 4)
             actor.actorText.say("Picked Me")
             selectedActor.actorText.say("Poke You")
             selectedActor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, actor.id);
@@ -104,7 +104,24 @@ class PlayerParty {
     }
 
 
+    clearPartyStatus() {
+    //
+     //   return;
+        for (let i = 0; i < this.actors.length; i++) {
+            let actor = this.actors[i];
 
+            clearActorEncounterStatus(actor);
+
+            if (!actor.call.getRemote()) {
+            //    GameAPI.call.getGameEncounterSystem().deactivateActiveEncounter(true, false);
+            }
+
+        }
+
+    //    this.selectPartyActor(GameAPI.getGamePieceSystem().selectedActor);
+     //   evt.dispatch(ENUMS.Event.CLEAR_UI, {});
+     //   this.clearPartyMemebers();
+    }
 
     clearPartyMemebers() {
         MATH.emptyArray(this.actors);

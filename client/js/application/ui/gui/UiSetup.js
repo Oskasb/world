@@ -7,7 +7,7 @@ import { PartyUiSystem } from "./systems/PartyUiSystem.js";
 import { ActorActionUiSystem} from "./systems/ActorActionUiSystem.js";
 import {WorldInteractUiSystem} from "./systems/WorldInteractUiSystem.js";
 
-let partyUiSystem = new PartyUiSystem()
+let partyUiSystem = null;
 let actorActionUpSystem = new ActorActionUiSystem();
 
 
@@ -24,7 +24,7 @@ class UiSetup {
             let buttonSystem = new GuiButtonSystem();
             buttonSystem.initGuiButtonSystem();
             GuiAPI.setButtonSystem(buttonSystem);
-
+            partyUiSystem = new PartyUiSystem()
             let textSysCb = function() {
                 callback('textSysCb loaded');
 

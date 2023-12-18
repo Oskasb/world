@@ -193,7 +193,7 @@ class GamePieceSystem {
 
     setSelectedGameActor = function(gameActor) {
     //    console.log("Set Selected Actor: ", gameActor);
-        GuiAPI.screenText("PARTY SELECT "+gameActor.id,  ENUMS.Message.SYSTEM, 4)
+        GuiAPI.screenText("PLAYER CONTROL "+gameActor.id,  ENUMS.Message.SYSTEM, 4)
 
         if (gameActor.getStatus(ENUMS.ActorStatus.HAS_POSITION) === true) {
             gameActor.getSpatialPosition(ThreeAPI.getCameraCursor().getCursorObj3d().position)

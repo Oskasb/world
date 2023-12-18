@@ -84,7 +84,9 @@ class DynamicEncounter {
         while (encounterActors.length) {
             let actor = encounterActors.pop();
             console.log("Remove Enc Actors", actor)
-            actor.removeGameActor();
+            if (actor.getStatus(ENUMS.ActorStatus.ALIGNMENT) !== 'FRIENDLY') {
+                actor.removeGameActor();
+            }
         }
     }
 

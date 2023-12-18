@@ -11,6 +11,8 @@ let encounterTurnSequencer = null;
 let activeEncounterGrid = null;
 let dynamicEncounter = null;
 let encounterStatusProcessor = new EncounterStatusProcessor();
+let encounterIsClosing = false;
+
 
 let testPosIsWithin = function(pos, min, max) {
     if (min.x <= pos.x && max.x >= pos.x) {
@@ -30,6 +32,7 @@ let getActiveDynamicEncounter = function() {
 }
 
 function initEncounter(id, worldEncId) {
+    encounterIsClosing = false;
     dynamicEncounter = new DynamicEncounter(id, worldEncId);
     dynamicEncounter.setStatusKey(ENUMS.EncounterStatus.ACTIVATION_STATE, ENUMS.ActivationState.INIT);
 }
@@ -43,6 +46,8 @@ class GameEncounterSystem {
     constructor() {
         encounterUiSystem = new EncounterUiSystem();
         encounterTurnSequencer = new EncounterTurnSequencer();
+
+
 
         let updateEncounterSystem = function() {
 
@@ -175,10 +180,21 @@ class GameEncounterSystem {
 
     deactivateActiveEncounter(positionOutside, victory) {
 
-    //    console.log("DEACTIVATE ENC", dynamicEncounter)
+        if (encounterIsClosing === true) {
+            console.log("Encounter Already closing")
+            return
+        }
+        encounterIsClosing = true;
+
+        console.log("DEACTIVATE ENC", positionOutside, victory, dynamicEncounter)
         let actor = GameAPI.getGamePieceSystem().selectedActor;
+
         if (dynamicEncounter) {
-            dynamicEncounter.setStatusKey(ENUMS.EncounterStatus.ACTIVATION_STATE, ENUMS.ActivationState.DEACTIVATING);
+            if (dynamicEncounter.getStatus(ENUMS.EncounterStatus.ACTIVATION_STATE) === ENUMS.ActivationState.DEACTIVATING) {
+                console.log("Deactivate already set")
+            } else {
+                dynamicEncounter.setStatusKey(ENUMS.EncounterStatus.ACTIVATION_STATE, ENUMS.ActivationState.DEACTIVATING);
+            }
         }
 
         if (activeEncounterGrid) {
@@ -198,13 +214,16 @@ class GameEncounterSystem {
         GameAPI.unregisterGameUpdateCallback(encounterStatusProcessor.processEncounterStatus)
 
         setTimeout(function() {
-            dynamicEncounter.closeDynamicEncounter()
-            dynamicEncounter = null;
-            encounterUiSystem = new EncounterUiSystem()
+            if (dynamicEncounter) {
+                dynamicEncounter.closeDynamicEncounter()
+                dynamicEncounter = null;
+                encounterUiSystem = new EncounterUiSystem()
+            }
+
             actor.setStatusKey(ENUMS.ActorStatus.DEACTIVATING_ENCOUNTER, '');
             clearActorEncounterStatus(actor);
             if (!victory) {
-                GameAPI.getGamePieceSystem().playerParty.clearPartyMemebers()
+            //    GameAPI.getGamePieceSystem().playerParty.clearPartyMemebers()
             }
         },1000)
 

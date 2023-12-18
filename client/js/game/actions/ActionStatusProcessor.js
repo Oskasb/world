@@ -18,10 +18,10 @@ function modifyTargetHP(target, change, typeKey) {
 function processStatisticalActionApplied(target, modifier, amount) {
 
     if (modifier === ENUMS.StatusModifiers.APPLY_DAMAGE) {
-        let change = Math.floor(amount * 0.5 + Math.random()*amount);
+        let change = Math.ceil(amount * 0.5 + Math.random()*amount);
         modifyTargetHP(target, -change, ENUMS.ActorStatus.DAMAGE_APPLIED)
     } else if  (modifier === ENUMS.StatusModifiers.APPLY_HEAL) {
-        let change = Math.floor(amount * 0.5 + Math.random()*amount);
+        let change = Math.ceil(amount * 0.5 + Math.random()*amount);
         modifyTargetHP(target, change, ENUMS.ActorStatus.HEALING_APPLIED)
     }
 

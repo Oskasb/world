@@ -154,17 +154,27 @@ class RemoteClient {
     }
 
     deactivateEncounter() {
-    //    GuiAPI.screenText(status+" BATTLE")
         let actorList = this.encounter.status.call.getStatus(ENUMS.EncounterStatus.ENCOUNTER_ACTORS)
+        console.log("Remotely deactivate Encounter ", actorList, this.actors, this.remoteIndex)
+    //    GuiAPI.screenText(status+" BATTLE")
+
         //    console.log("DEACTIVATING: ", actorList, this.actors)
         for (let i = 0; i < actorList.length; i++) {
             let actor = this.getActorById(actorList[i])
-            MATH.splice(this.actors, actor);
-            if (typeof (actor) === 'object') {
-                MATH.splice(this.remoteIndex, actor.id);
-                actor.call.remove()
+
+            if (!actor) {
+                console.log("Actor probably player:", actorList[i], this.actors)
+                GameAPI.getGamePieceSystem().playerParty.clearPartyStatus();
             } else {
-                console.log("Bad remote actor removal ", actorList[i], this.actors);
+                if (actor.getStatus(ENUMS.ActorStatus.ALIGNMENT) !== 'FRIENDLY') {
+                    MATH.splice(this.actors, actor);
+                    if (typeof (actor) === 'object') {
+                        MATH.splice(this.remoteIndex, actor.id);
+                        actor.call.remove()
+                    } else {
+                        console.log("Bad remote actor removal ", actorList[i], this.actors);
+                    }
+                }
             }
         }
         this.encounter = null;
@@ -402,7 +412,9 @@ class RemoteClient {
 
             if (activationState === ENUMS.ActivationState.DEACTIVATING) {
 
-                GameAPI.call.getGameEncounterSystem().deactivateActiveEncounter(true);
+                let victory = this.encounter.status.call.getStatus(ENUMS.EncounterStatus.PLAYER_VICTORY)
+
+                GameAPI.call.getGameEncounterSystem().deactivateActiveEncounter(!victory, victory);
                 this.deactivateEncounter(status)
 
             }

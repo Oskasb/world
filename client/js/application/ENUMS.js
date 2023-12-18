@@ -97,7 +97,8 @@ if(typeof(ENUMS) === "undefined"){
         SEND_SOCKET_MESSAGE:        76,
         ON_SOCKET_MESSAGE:          77,
         DEBUG_STATUS_TOGGLE:        78,
-        ENCOUNTER_COMPLETED:        79
+        ENCOUNTER_COMPLETED:        79,
+        CLEAR_UI:                   80
     };
 
 
