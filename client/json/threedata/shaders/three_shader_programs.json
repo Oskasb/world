@@ -739,11 +739,11 @@
           "float fragDistance = length(clearOffsetPos);",
           "float clearToFragDistance = length(clearToFrag);",
 
-          "float consideredNearDistance = 10.0;",
+          "float consideredNearDistance = 35.0;",
 
-          "float farness = min(consideredNearDistance / targetDistance, 1.0);",
+          "float farness = min(consideredNearDistance / fragDistance, 1.0);",
 
-          "float nearness = min(max(consideredNearDistance*2.0 - targetDistance, 0.0), 1.0);",
+          "float nearness = min(max(consideredNearDistance*2.0 - fragDistance, 0.0), 1.0);",
 
           "float proximityFraction = min(max((targetDistance+2.5) / (fragDistance*1.1), 0.0), 1.0);",
           "float sphereFraction =    max(farness / (clearToFragDistance*0.2), 0.0);",
@@ -757,7 +757,7 @@
 
           "sphereFactor = sphereFactor * 1.0 + 0.0 * pow(proximityFraction*0.995, (22.0));",
           "distanceFactor = distanceFactor * (0.75 + nearness * 0.25) ;",
-          "float viewAngleFactor = pow(dot(normalize(cameraToClear), normalize(cameraToFrag)), 30.0) ;",
+          "float viewAngleFactor = pow(-0.01*nearness*colorIntensity + dot(normalize(cameraToClear), normalize(cameraToFrag)), 15.0 + sqrt(farness)*30.0 ) ;",
           "float cameraToClearAngle = viewAngleFactor;",
           "cameraToClearAngle -= 0.0 * nearness;",
 
@@ -814,7 +814,7 @@
           "float blend = spriteAttribute.z;",
 
 
-          "txColor.rgb = mix(txColor.rgb, paletteRgba.rgb, blend);",
+          "txColor.rgb = mix(txColor.rgb, paletteRgba.rgb, blend-sqrt(emitSum));",
 
           "vec4 normal = texture2D( normalMap, vUv);",
 
