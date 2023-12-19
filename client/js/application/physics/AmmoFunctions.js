@@ -881,7 +881,7 @@ class AmmoFunctions {
 
    //     console.log("createPhysicalTerrain", totalSize, posx, posz, minHeight, maxHeight);
 
-        let margin = 0.5;
+        let margin = 0.3;
 
         let terrainMaxHeight = maxHeight;
         let terrainMinHeight = minHeight;
@@ -899,7 +899,7 @@ class AmmoFunctions {
         let groundTransform = new Ammo.btTransform();
         groundTransform.setIdentity();
         // Shifts the terrain, since bullet re-centers it on its bounding box.
-        let posY =  -(margin*1) + minHeight + (heightDiff) * 0.5
+        let posY =  -(margin*0.5) + minHeight + (heightDiff) * 0.5
         groundTransform.setOrigin( new Ammo.btVector3(posx, posY,posz) );
     //    console.log(groundTransform)
     //    groundTransform.setScale( new Ammo.btVector3(posx, posY,posz) );

@@ -150,6 +150,7 @@ class GameEncounterSystem {
     }
 
     activateByRemote(encounter) {
+        encounterIsClosing = false;
         dynamicEncounter = encounter;
         GameAPI.registerGameUpdateCallback(encounterStatusProcessor.processEncounterStatus)
         encounterStatusProcessor.call.setEncounter(dynamicEncounter);

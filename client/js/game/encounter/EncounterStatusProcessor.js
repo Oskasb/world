@@ -1,4 +1,5 @@
 import {clearTargetSelection, getActorBySelectedTarget, hasHostileTarget} from "../../application/utils/StatusUtils.js";
+import {buildEffectEvent, defaultEffectValues} from "../visuals/effects/EffectEventDefaults.js";
 
 let playerCount = 0;
 let playersEngaged = 0;
@@ -15,6 +16,7 @@ let lastStatus = {};
 let hasTurnActorId = null;
 
 let setEncounter = function(enc) {
+    encounterClosing = false;
     activeEncounter = enc;
 }
 let getEncounter = function(enc) {
@@ -34,7 +36,7 @@ function processVictory() {
         playerParty.call.partyVictorious(getStatus(ENUMS.EncounterStatus.WORLD_ENCOUNTER_ID))
     }
 
-    setTimeout(victoryCall, 3000)
+    setTimeout(victoryCall, 2000)
 }
 
 function processDefeat() {
@@ -42,16 +44,35 @@ function processDefeat() {
     GuiAPI.screenText("DEFEAT", ENUMS.Message.HINT, 5)
     let playerParty = GameAPI.getGamePieceSystem().playerParty;
 
-    setTimeout(playerParty.call.partyDefeated, 4000)
+    setTimeout(playerParty.call.partyDefeated, 2000)
 }
 
 let processEncStatus = function() {
 
     if (encounterClosing === true) {
-
+        let encounterGrid = GameAPI.getActiveEncounterGrid();
+        let tiles = encounterGrid.getRandomWalkableTiles(2)
         let victory = getStatus(ENUMS.EncounterStatus.PLAYER_VICTORY);
+
+        let fxEvent;
+
         if (victory) {
+            fxEvent = buildEffectEvent(defaultEffectValues.GLITTER);
             console.log("Update Post Victory")
+        } else {
+            console.log("Update post defeat")
+            fxEvent = buildEffectEvent(defaultEffectValues.SMOKE);
+        }
+
+        for (let i = 0; i < tiles.length; i++) {
+            let pos = tiles[i].getPos();
+            fxEvent.pos.copy(pos);
+            let spacing = tiles[i].spacing
+            fxEvent.pos.x += MATH.randomBetween(-spacing, spacing);
+            fxEvent.pos.y += MATH.randomBetween(0, spacing * 0.5);
+            fxEvent.pos.z += MATH.randomBetween(-spacing, spacing);
+
+            evt.dispatch(ENUMS.Event.SPAWN_EFFECT, fxEvent)
         }
 
         return;
@@ -76,7 +97,6 @@ let processEncStatus = function() {
         return;
     }
 
-    encounterClosing = false;
     let hasTurnId = activeEncounter.status.call.getStatus(ENUMS.EncounterStatus.HAS_TURN_ACTOR);
 
     // let currentTurnActor = GameAPI.getActorById(hasTurnActorId);
@@ -166,14 +186,19 @@ function processEncounterDeactivation(actor) {
     console.log("DEACTIVATE ENC", activeEncounter)
 
     let victory = getStatus(ENUMS.EncounterStatus.PLAYER_VICTORY)
-    let positionOutside = true;
 
-    if (victory) {
-        positionOutside = false;
-        GameAPI.call.getGameEncounterSystem().deactivateActiveEncounter(positionOutside, victory);
-        activeEncounter = null;
+    if (encounterClosing === false) {
+        if (victory) {
+            //    positionOutside = false;
+            //    GameAPI.call.getGameEncounterSystem().deactivateActiveEncounter(positionOutside, victory);
+            //    activeEncounter = null;
+            processVictory()
+        } else {
+            processDefeat()
+        }
     }
 
+    encounterClosing = true;
 }
 
 

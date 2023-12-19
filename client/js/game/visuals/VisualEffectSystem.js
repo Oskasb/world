@@ -10,7 +10,7 @@ function endOnLanded(fx) {
     fx.endEffectOfClass()
 }
 
-function setupOptsSprayUpwards(efct, pos, applies) {
+function setupOptsSprayUpwards(efct, pos) {
 
     let tempObj = ThreeAPI.tempObj;
     tempObj.position.y += 0.5
@@ -64,21 +64,43 @@ let drawTriggerHead = function(head, heads, radius, triggerCycle, center, rgba, 
    // evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:calcVec, to:calcVec2, color:'YELLOW'});
 
 
-    let applies = 0;
     let effectCb = function(efct) {
         efct.activateEffectFromConfigId()
-        let options = setupOptsSprayUpwards(efct, calcVec, applies)
+        let options = setupOptsSprayUpwards(efct, calcVec)
         efct.setEffectSpriteXY(1, 5);
         efct.activateSpatialTransition(options)
         efct.setEffectColorRGBA(CombatFxUtils.setRgba(rgba[0], rgba[1], rgba[2], rgba[3]))
-        applies ++;
     };
 
     EffectAPI.buildEffectClassByConfigId('additive_particles_8x8', 'particle_additive_pool',  effectCb)
 
 }
 
+let sprayUpwards = function(event) {
+
+    let effectCb = function(efct) {
+        efct.activateEffectFromConfigId()
+        let options = setupOptsSprayUpwards(efct, event.pos)
+        options.fromSize = event.fromSize;
+        options.toSize = event.toSize;
+        options.fromQuat.set(0, 0, 0, 1);
+        options.toQuat.set(0, 0, 0, 1);
+        efct.setEffectSpriteXY(event.sprite[0], event.sprite[1]);
+        efct.setEffectColorRGBA(event.rgba);
+        efct.activateSpatialTransition(options)
+    };
+
+    EffectAPI.buildEffectClassByConfigId(event.effectConfig || 'additive_particles_8x8', event.effectName || 'particle_additive_pool',  effectCb)
+
+}
+
 let spawnEffect = function(event) {
+
+    if (event.effectCall) {
+        effectCalls[event.effectCall](event)
+    //    return;
+    }
+
  //   console.log("Spawn Effect", event);
     let shockwaveCb = function(efct) {
         efct.activateEffectFromConfigId()
@@ -88,8 +110,11 @@ let spawnEffect = function(event) {
         efct.activateSpatialTransition(options)
     }
 
-    EffectAPI.buildEffectClassByConfigId('additive_stamps_8x8', event.effectName,  shockwaveCb)
+    EffectAPI.buildEffectClassByConfigId(event.effectConfig || 'additive_stamps_8x8', event.effectName|| 'particle_additive_pool',  shockwaveCb)
 }
+
+let effectCalls = {};
+effectCalls['sprayUpwards'] = sprayUpwards;
 
 function indicateRadius(event) {
 

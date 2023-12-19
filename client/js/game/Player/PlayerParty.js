@@ -118,9 +118,9 @@ class PlayerParty {
 
         }
 
-    //    this.selectPartyActor(GameAPI.getGamePieceSystem().selectedActor);
+      //  this.selectPartyActor(GameAPI.getGamePieceSystem().selectedActor);
      //   evt.dispatch(ENUMS.Event.CLEAR_UI, {});
-        this.clearPartyMemebers();
+    //    this.clearPartyMemebers();
     }
 
     clearPartyMemebers() {
