@@ -83,8 +83,8 @@ let sprayUpwards = function(event) {
         let options = setupOptsSprayUpwards(efct, event.pos)
         options.fromSize = event.fromSize;
         options.toSize = event.toSize;
-        options.fromQuat.set(0, 0, 0, 1);
-        options.toQuat.set(0, 0, 0, 1);
+        options.fromQuat.copy(0, 0, 0, 1);
+        options.toQuat.copy(ThreeAPI.getCamera().quaternion);
         efct.setEffectSpriteXY(event.sprite[0], event.sprite[1]);
         efct.setEffectColorRGBA(event.rgba);
         efct.activateSpatialTransition(options)

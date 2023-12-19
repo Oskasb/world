@@ -36,16 +36,18 @@ function copyDefaults(defaults, target) {
 let defaultEffectValues = {
     GLITTER: {
         sprite:[1, 5],
-        fromSize:1.75,
-        toSize:0.2,
-        duration:0.5,
+        fromSize:0.15,
+        toSize:1.2,
+        duration:1.35,
+        effectConfig:'additive_stamps_8x8',
+        effectName:'stamp_additive_pool',
         effectCall:'sprayUpwards',
         rgba:colorMapFx['GLITTER_FX']
     },
     SMOKE: {
         sprite:[2, 1],
-        fromSize:0.3,
-        toSize:1.5,
+        fromSize:0.4,
+        toSize:1.75,
         duration:1.5,
         effectCall:'',
         effectConfig:'normal_stamps_8x8',

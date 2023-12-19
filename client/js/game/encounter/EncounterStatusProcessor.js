@@ -58,9 +58,9 @@ let processEncStatus = function() {
 
         if (victory) {
             fxEvent = buildEffectEvent(defaultEffectValues.GLITTER);
-            console.log("Update Post Victory")
+        //    console.log("Update Post Victory")
         } else {
-            console.log("Update post defeat")
+        //    console.log("Update post defeat")
             fxEvent = buildEffectEvent(defaultEffectValues.SMOKE);
         }
 

@@ -11,7 +11,7 @@ colorMapFx['LEAP_FX']    = {r:0.2,     g:0.6,   b:0.9,   a:0.4};
 colorMapFx['WALK_FX']    = {r:0.1,     g:0.6,   b:0.2,   a:0.3};
 colorMapFx['DEFAULT_FX'] = {r:0.4,     g:0.4,   b:0.0,   a:0.3};
 colorMapFx['DAMAGE_FX']  = {r:0.99,    g:0.0,   b:0.0,   a:0.4};
-colorMapFx['GLITTER_FX'] = {r:0.7,     g:0.7,   b:0.5,   a:0.7};
+colorMapFx['GLITTER_FX'] = {r:0.4,     g:0.5,   b:0.6,   a:0.5};
 colorMapFx['SMOKE_FX']   = {r:0.4,     g:0.3,   b:0.2,   a:0.4};
 
 let elementColorMap = {}
