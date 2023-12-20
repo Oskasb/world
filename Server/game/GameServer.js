@@ -22,17 +22,30 @@ class GameServer {
         msgEvent.stamp = msg.stamp;
         msgEvent.msg = msg.msg;
         //	evt.dispatch(ENUMS.Event.ON_SOCKET_MESSAGE, msgEvent)
-        postMessage([ENUMS.Protocol.MESSAGE_RECIEVE, msg])
+        postMessage([ENUMS.Protocol.MESSAGE_RECEIVE, msg])
     }
 
     handleClientMessage(msgJson) {
-        let msg = JSON.parse(msgJson)
-        msgEvent.stamp = msg.stamp;
-        msgEvent.msg = msg.msg;
-        console.log("Client Message Event: ", msgEvent)
+
         this.sendJsonCB(msgJson)
-    //    evt.dispatch(ENUMS.Event.ON_SOCKET_MESSAGE, msgEvent)
-    //    postMessage([ENUMS.Protocol.MESSAGE_RECIEVE, msg])
+    }
+
+    handleClientRequest(msgJson) {
+        let data = JSON.parse(msgJson)
+        msgEvent.stamp = data.stamp;
+        msgEvent.msg = data.msg;
+
+        let request = data.msg.request;
+
+        if (request === ENUMS.ClientRequests.ENCOUNTER_INIT) {
+            console.log("Handle Encounter Init", data.msg)
+        } else {
+            console.log("Request not processed ",request,  msg)
+        }
+
+    //    console.log("Client Message Event: ", msgEvent)
+
+
     }
 
 }

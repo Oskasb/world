@@ -1,5 +1,5 @@
 import { PipelineAPI } from '../data_pipeline/PipelineAPI.js';
-import { MATH } from "./MATHM.js";
+import { MATH } from "./MATH.js";
 
 window.PipelineAPI = new PipelineAPI();
 window.MATH = new MATH();

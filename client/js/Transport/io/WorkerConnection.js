@@ -39,7 +39,6 @@ class WorkerConnection {
 		let pings = 0;
 
 
-
 		socket = new WebSocket(host);
 		socket.responseCallbacks = {};
 

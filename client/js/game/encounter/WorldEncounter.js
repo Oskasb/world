@@ -86,7 +86,7 @@ function checkTriggerPlayer(encounter) {
         if (distance < radius) {
 
             if (encounter.timeInsideTrigger === 0) {
-                    hostActor.actorText.yell("This is it")
+                    hostActor.actorText.yell("Here we go")
                     selectedActor.getGameWalkGrid().setTargetPosition(encounter.getPos())
                     selectedActor.getGameWalkGrid().cancelActivePath()
                     selectedActor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, false);
@@ -96,6 +96,7 @@ function checkTriggerPlayer(encounter) {
                     ThreeAPI.getCameraCursor().getLookAroundPoint().copy(encounter.getPos())
                 //    console.log("Activate Encounter Triggered Transition")
 
+                encounterEvent.request = ENUMS.ClientRequests.ENCOUNTER_INIT
                 encounterEvent.worldEncounterId = encounter.id;
                 encounterEvent.encounterId = client.getStamp()+encounter.id;
                 encounterEvent.pos = null;
@@ -103,6 +104,7 @@ function checkTriggerPlayer(encounter) {
                 encounterEvent.spawn = null;
                 encounterEvent.cam_pos = null;
 
+                evt.dispatch(ENUMS.Event.CALL_SERVER, encounterEvent)
                 evt.dispatch(ENUMS.Event.GAME_MODE_BATTLE, encounterEvent)
             }
             encounter.timeInsideTrigger += GameAPI.getFrame().tpf *0.5;
@@ -113,6 +115,7 @@ function checkTriggerPlayer(encounter) {
             //        console.log("Synch Encounter from remote")
             //        GuiAPI.screenText("SYNCHING", ENUMS.Message.HINT, 1.5);
             //    } else {
+                encounterEvent.request = ENUMS.ClientRequests.ENCOUNTER_INIT
                 encounterEvent.worldEncounterId = null;
                 encounterEvent.encounterId = null;
                 encounterEvent.pos = encounter.getPos();
@@ -124,6 +127,7 @@ function checkTriggerPlayer(encounter) {
                 selectedActor.setStatusKey(ENUMS.ActorStatus.ACTIVATED_ENCOUNTER, encounter.id);
                 selectedActor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_BATTLE);
                 notifyCameraStatus(ENUMS.CameraStatus.CAMERA_MODE, ENUMS.CameraControls.CAM_ENCOUNTER, true);
+                evt.dispatch(ENUMS.Event.CALL_SERVER, encounterEvent)
                 evt.dispatch(ENUMS.Event.GAME_MODE_BATTLE, encounterEvent)
 
             }

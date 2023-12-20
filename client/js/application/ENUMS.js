@@ -96,14 +96,26 @@ let ENUMS = {}
         ON_SOCKET_MESSAGE:          77,
         DEBUG_STATUS_TOGGLE:        78,
         ENCOUNTER_COMPLETED:        79,
-        CLEAR_UI:                   80
+        CLEAR_UI:                   80,
+        CALL_SERVER:                81
     };
 
     ENUMS.Protocol = {
         SET_SERVER_STAMP:0,
-        MESSAGE_RECIEVE:1,
-        CLIENT_TO_WORKER:2
-    }
+        MESSAGE_RECEIVE:1,
+        CLIENT_TO_WORKER:2,
+        SERVER_CALL:3
+    };
+
+    ENUMS.ClientRequests = {
+        ENCOUNTER_INIT:0
+    };
+
+    ENUMS.ServerCommands = {
+        ENCOUNTER_TRIGGER:0,
+        ENCOUNTER_CLOSE:1
+    };
+
 
 
     ENUMS.ActorStatus = {

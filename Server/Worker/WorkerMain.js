@@ -1,5 +1,5 @@
 import {WorkerConnection} from "../../client/js/Transport/io/WorkerConnection.js";
-import {MATH} from "../../client/js/application/MATHM.js";
+import {MATH} from "../../client/js/application/MATH.js";
 import {ENUMS} from "../../client/js/application/ENUMS.js";
 import {evt} from "../../client/js/application/event/evt.js";
 import {GameServer} from "../game/GameServer.js";
@@ -23,7 +23,6 @@ let onConnected = function(event, serverStamp) {
 
 //    evt.on(ENUMS.Event.SEND_SOCKET_MESSAGE, connection.call.sendMessage)
 
-
 }
 
 let onError = function(event) {
@@ -40,6 +39,8 @@ let handleMessage = function(oEvent) {
 
     if (oEvent.data[0] === ENUMS.Protocol.CLIENT_TO_WORKER) {
         gameServer.handleClientMessage(oEvent.data[1]);
+    } else if (oEvent.data[0] === ENUMS.Protocol.SERVER_CALL) {
+        gameServer.handleClientRequest(oEvent.data[1]);
     } else {
         console.log("Not Parsed message:", oEvent.data);
     }

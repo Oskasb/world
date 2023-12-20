@@ -97,13 +97,11 @@ class MATH {
 		this.G = -9.81;
 		this.sign = Math.sign;
 
-
 	}
 
 		getNowMS = function() {
 			return performance.now();
 		};
-
 
 		trackEvent = function(statEnum, value, unitEnum, digits) {
 			track[0] = statEnum;
@@ -160,8 +158,6 @@ class MATH {
 			return Math.abs(n % 2) === 1;
 		}
 
-
-
 		gridXYfromCountAndIndex = function(count, index, store) {
 			store.y = Math.floor(index / Math.sqrt(count)) - Math.sqrt(count)*0.5;
 			store.x = index % Math.round(Math.sqrt(count)) - Math.sqrt(count)*0.5;
@@ -179,7 +175,6 @@ class MATH {
 		getSillyRandomArrayEntry = function(array, seed) {
 			return array[Math.floor(this.sillyRandom(seed)*array.length)]
 		};
-
 
 		sillyRandomBetweenColors = function(rgba1, rgba2, seed, store) {
 			if (!store) store = rgba;
@@ -200,8 +195,6 @@ class MATH {
 		arrayContains = function(array, entry) {
 			return array.indexOf(entry) !== -1;
 		};
-
-
 
 		getFromArrayByKeyValue = function(array, key, value) {
 			for (let idx = 0; idx < array.length; idx++) {
@@ -240,7 +233,6 @@ class MATH {
 				let cb = array.pop()
 				cb(arg1, arg2, arg3, arg4, arg5);
 			}
-
 		};
 
 		vectorAtPositionTowards = function(sourceVec3, targVec3, distance, storeVec3) {
@@ -250,7 +242,6 @@ class MATH {
 			storeVec3.add(sourceVec3);
 		}
 
-
 		animationFunctions = {
 			sinwave:  sinWave,
 			coswave:  cosWave
@@ -259,7 +250,6 @@ class MATH {
 		percentify = function(number, total) {
 			return Math.round((number/total) * 100);
 		};
-
 
 		isOddNumber = function(number) {
 			return number % 2;
