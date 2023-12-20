@@ -1,9 +1,7 @@
-if(typeof(ENUMS) === "undefined"){
-    ENUMS = {};
-}
 
-(function(ENUMS){
 
+
+let ENUMS = {}
 
     ENUMS.Message = {
         SAY:                        0,
@@ -792,10 +790,6 @@ if(typeof(ENUMS) === "undefined"){
 
     };
 
-    //  console.log("ENUMS", ENUMS);
-
-})(ENUMS);
-
 const mapEnums = function() {
     const map = {};
 
@@ -815,3 +809,6 @@ const mapEnums = function() {
 };
 
 mapEnums();
+
+export {ENUMS}
+

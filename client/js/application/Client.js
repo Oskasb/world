@@ -1,5 +1,9 @@
 import { PipelineAPI } from '../data_pipeline/PipelineAPI.js';
+import { MATH } from "./MATHM.js";
+
 window.PipelineAPI = new PipelineAPI();
+window.MATH = new MATH();
+
 
 import { evt } from './event/evt.js';
 import { GameScreen } from './ui/GameScreen.js';

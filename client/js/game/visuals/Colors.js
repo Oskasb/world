@@ -1,3 +1,6 @@
+import {ENUMS} from "../../application/ENUMS.js";
+window.ENUMS = ENUMS;
+
 let colorMapFx = {}
 
 colorMapFx['FRIENDLY']   = {r:0.01,  g:0.2,   b:0.01,  a:0.2};

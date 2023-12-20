@@ -1,25 +1,13 @@
-// import {WorkerMain} from "../../../../Server/Worker/WorkerMain.js";
 
 let socket;
 let frameStack = [];
 let messageCount = 0;
 let socketBytes = 0;
 // './client/js/data_pipeline/worker/WorkerMain.js'
-let worker = new Worker("./Server/Worker/WorkerMain.js", { type: "module" });
-worker.onmessage = function(msg) {
-	console.log("Worker -> Client Message", msg);
-	if (msg.data[0] === 'ready') {
 
-	}
-	if (msg.data[0] === 'ok') {
-
-	}
-
-};
-
-class Connection {
+class WorkerConnection {
 	constructor() {
-		worker.postMessage({message:"ping", transfer:["connect"]})
+		console.log("Worker Connection ready")
 		let sendMessage = function(msg) {
 
 			//	console.log("SEND message", msg, args);
@@ -38,10 +26,6 @@ class Connection {
 		}
 	}
 
-	setupWorker = function() {
-
-	}
-
 	setupSocket = function(connectedCallback, errorCallback, disconnectedCallback) {
 		let host = location.origin.replace(/^http/, 'ws');
 		let pings = 0;
@@ -55,7 +39,7 @@ class Connection {
 		socket.responseCallbacks = {};
 
 		socket.onopen = function (event) {
-			window.GuiAPI.screenText('Connected')
+			console.log('Worker Connected')
 			connectedCallback(event);
 		};
 
@@ -71,7 +55,8 @@ class Connection {
 			if (msg.stamp !== client.getStamp()) {
 				msgEvent.stamp = msg.stamp;
 				msgEvent.msg = msg.msg;
-				evt.dispatch(ENUMS.Event.ON_SOCKET_MESSAGE, msgEvent)
+				console.log("Worker Socket Message", msg)
+			//	evt.dispatch(ENUMS.Event.ON_SOCKET_MESSAGE, msgEvent)
 			}
 
 		};
@@ -85,4 +70,4 @@ class Connection {
 
 }
 
-export { Connection };
+export { WorkerConnection };

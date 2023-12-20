@@ -42,7 +42,7 @@ require(
 	}
 );
 
-var handleMessage = function(oEvent) {
+let handleMessage = function(oEvent) {
 
 	if (!MainWorker) {
 		console.log("MainWorker not yet ready: ", oEvent);
