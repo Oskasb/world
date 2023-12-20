@@ -4,16 +4,43 @@ let socket;
 let frameStack = [];
 let messageCount = 0;
 let socketBytes = 0;
+let msgEvent = {
+	stamp:0,
+	msg:""
+}
+
 // './client/js/data_pipeline/worker/WorkerMain.js'
 let worker = new Worker("./Server/Worker/WorkerMain.js", { type: "module" });
 worker.onmessage = function(msg) {
-	console.log("Worker -> Client Message", msg);
-	if (msg.data[0] === 'ready') {
 
-	}
-	if (msg.data[0] === 'ok') {
+		if (msg.data[0] === ENUMS.Protocol.SET_SERVER_STAMP) {
+			console.log("Worker Set ServerStamp", msg.data[1]);
+			client.setStamp(msg.data[1]);
+			let relayToWorker = function(msg) {
 
+				if (!msg) {
+					console.log("SEND REQUEST missing", msg, args);
+					return;
+				}
+
+				let json = JSON.stringify({stamp:client.getStamp(), msg:msg})
+			//	console.log("Relay to Worker: ", json)
+				worker.postMessage([ENUMS.Protocol.CLIENT_TO_WORKER, json]);
+			}
+
+			evt.on(ENUMS.Event.SEND_SOCKET_MESSAGE, relayToWorker)
+		}
+
+	if (msg.data[0] === ENUMS.Protocol.MESSAGE_RECIEVE) {
+
+		msgEvent.stamp = msg.data[1].stamp;
+		msgEvent.msg = msg.data[1].msg;
+		evt.dispatch(ENUMS.Event.ON_SOCKET_MESSAGE, msgEvent)
+
+	//	console.log("Worker Socket -> Client Message", msg[1], msgEvent);
 	}
+
+
 
 };
 
@@ -43,13 +70,11 @@ class Connection {
 	}
 
 	setupSocket = function(connectedCallback, errorCallback, disconnectedCallback) {
+		return;
 		let host = location.origin.replace(/^http/, 'ws');
 		let pings = 0;
 
-		let msgEvent = {
-			stamp:0,
-			msg:""
-		}
+
 
 		socket = new WebSocket(host);
 		socket.responseCallbacks = {};
@@ -73,7 +98,6 @@ class Connection {
 				msgEvent.msg = msg.msg;
 				evt.dispatch(ENUMS.Event.ON_SOCKET_MESSAGE, msgEvent)
 			}
-
 		};
 
 		socket.onerror = function (error) {

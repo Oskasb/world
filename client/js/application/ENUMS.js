@@ -99,6 +99,12 @@ let ENUMS = {}
         CLEAR_UI:                   80
     };
 
+    ENUMS.Protocol = {
+        SET_SERVER_STAMP:0,
+        MESSAGE_RECIEVE:1,
+        CLIENT_TO_WORKER:2
+    }
+
 
     ENUMS.ActorStatus = {
         ACTOR_ID:'ACTOR_ID',

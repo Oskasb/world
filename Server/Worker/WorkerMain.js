@@ -5,7 +5,7 @@ import {evt} from "../../client/js/application/event/evt.js";
 import {GameServer} from "../game/GameServer.js";
 
 let workerConnection = new WorkerConnection()
-let gameServer = new GameServer();
+let gameServer = new GameServer(workerConnection.call.sendMessage, workerConnection.call.sendJson);
 
 
 WorkerGlobalScope.MATH = new MATH();
@@ -14,17 +14,12 @@ WorkerGlobalScope.evt = new evt(ENUMS.Event);
 
 let stamp = 0;
 
-let onConnected = function(event) {
+let onConnected = function(event, serverStamp) {
     console.log("Connected Event:", event)
-    if (stamp === 0) {
-        stamp = WorkerGlobalScope.MATH.decimalify(event.timeStamp + new Date().getTime(), 1);
-        let result = 0;
-        result = Number(String(stamp).split('').reverse().join(''));
-        gameServer.setStamp(result);
+        gameServer.setStamp(serverStamp);
         //    let msg = {}
         //    msg[ENUMS.Send.CONNECTED] = stamp;
         //    client.evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, msg)
-    }
 
 //    evt.on(ENUMS.Event.SEND_SOCKET_MESSAGE, connection.call.sendMessage)
 
@@ -39,27 +34,16 @@ let onDisconnect = function() {
     console.log("Worker socket disconnected")
 }
 
-workerConnection.setupSocket(onConnected, onError, onDisconnect)
+workerConnection.setupSocket(onConnected, onError, onDisconnect, gameServer.handleServerMessage)
 
 let handleMessage = function(oEvent) {
 
-    console.log("Game Worker Main message: ", oEvent.data);
-
-    if (oEvent.data[0] == 'storeJson') {
-
+    if (oEvent.data[0] === ENUMS.Protocol.CLIENT_TO_WORKER) {
+        gameServer.handleClientMessage(oEvent.data[1]);
+    } else {
+        console.log("Not Parsed message:", oEvent.data);
     }
 
-    if (oEvent.data[0] == 'json') {
-
-    }
-
-    if (oEvent.data[0] == 'svg') {
-
-    }
-
-    if (oEvent.data[0] == 'bin') {
-
-    }
 };
 
 console.log("Load Worker Main")
