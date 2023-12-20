@@ -47,6 +47,8 @@ let handleMessage = function(oEvent) {
 
 };
 
+gameServer.initServerLoop(100)
+
 console.log("Load Worker Main")
 
 onmessage = function (oEvent) {

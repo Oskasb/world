@@ -7,9 +7,11 @@ let msgEvent = {
 
 class GameServer {
     constructor(sendMessageCB, sendJsonCB) {
+        this.serverTime = 0;
         this.sendJsonCB = sendJsonCB;
         this.sendMessageCB = sendMessageCB;
         this.stamp = "init";
+        this.onUpdateCallbacks = [];
     }
 
 
@@ -45,6 +47,29 @@ class GameServer {
 
     //    console.log("Client Message Event: ", msgEvent)
 
+
+    }
+
+    initServerLoop(targetTpfMs) {
+
+        let lastTick = performance.now();
+        let avgTpf = targetTpfMs;
+
+        let update = function() {
+            let now = performance.now();
+            let dt = now-lastTick;
+            avgTpf = avgTpf*0.95 + dt*0.05;
+            this.tickGameServer(Math.round(avgTpf));
+            lastTick = now;
+        }.bind(this)
+
+        setInterval(update, targetTpfMs);
+
+    }
+
+    tickGameServer(tpf) {
+        this.serverTime += tpf;
+        console.log(tpf, this.serverTime);
 
     }
 
