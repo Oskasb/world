@@ -171,15 +171,15 @@ MATH.getRandomArrayEntry = function(array) {
 };
 
 MATH.getSillyRandomArrayEntry = function(array, seed) {
-	return array[Math.floor(this.sillyRandom(seed)*array.length)]
+	return array[Math.floor(MATH.sillyRandom(seed)*array.length)]
 };
 
 MATH.sillyRandomBetweenColors = function(rgba1, rgba2, seed, store) {
 	if (!store) store = rgba;
-	store.r = this.sillyRandomBetween(rgba1[0], rgba2[0], seed);
-	store.g = this.sillyRandomBetween(rgba1[1], rgba2[1], seed+1);
-	store.b = this.sillyRandomBetween(rgba1[2], rgba2[2], seed+2);
-	store.a = this.sillyRandomBetween(rgba1[3], rgba2[3], seed+3);
+	store.r = MATH.sillyRandomBetween(rgba1[0], rgba2[0], seed);
+	store.g = MATH.sillyRandomBetween(rgba1[1], rgba2[1], seed+1);
+	store.b = MATH.sillyRandomBetween(rgba1[2], rgba2[2], seed+2);
+	store.a = MATH.sillyRandomBetween(rgba1[3], rgba2[3], seed+3);
 	return store;
 }
 
@@ -278,11 +278,11 @@ MATH.mpsToMachAtSeaLevel = function(mps) {
 };
 
 MATH.mpsAtAltToMach = function(mps, alt) {
-	return this.valueFromCurve(alt, curves.machByAlt) * this.mpsToMachAtSeaLevel(mps)
+	return MATH.valueFromCurve(alt, curves.machByAlt) * MATH.mpsToMachAtSeaLevel(mps)
 };
 
 MATH.airDensityAtAlt = function(alt) {
-	return this.valueFromCurve(alt, curves.densityByAlt) * 1.0;
+	return MATH.valueFromCurve(alt, curves.densityByAlt) * 1.0;
 };
 
 
@@ -291,11 +291,11 @@ MATH.curveSigmoid = function(t) {
 };
 
 MATH.curveSigmoidInverted = function(t) {
-	return 1/this.curveSigmoid(t);
+	return 1/MATH.curveSigmoid(t);
 }
 
 MATH.curveEdge = function(t) {
-	return this.curveSin(t) * 0.5 + t * 0.5;
+	return MATH.curveSin(t) * 0.5 + t * 0.5;
 };
 
 MATH.curveLinear = function(t) {
@@ -303,31 +303,31 @@ MATH.curveLinear = function(t) {
 };
 
 MATH.curveSin = function(t) {
-	return Math.sin(t*this.HALF_PI);
+	return Math.sin(t*MATH.HALF_PI);
 };
 
 MATH.curveCos = function(t) {
-	return 1-Math.cos(t*this.HALF_PI);
+	return 1-Math.cos(t*MATH.HALF_PI);
 };
 
 MATH.curveSigmoidMirrored = function(value) {
-	return this.curveSigmoid(Math.abs(value)) * this.sign(value)
+	return MATH.curveSigmoid(Math.abs(value)) * MATH.sign(value)
 };
 
 MATH.curveSqrt = function(value) {
-	return Math.sqrt(Math.abs(value)) * this.sign(value)
+	return Math.sqrt(Math.abs(value)) * MATH.sign(value)
 };
 
 MATH.curveQuad = function(value) {
-	return value*value * this.sign(value)
+	return value*value * MATH.sign(value)
 };
 
 MATH.curveParabola = function(value) {
-	return this.curveQuad( (2 * (value -0.5)) )
+	return MATH.curveQuad( (2 * (value -0.5)) )
 }
 
 MATH.curveParabolaInverted = function(value) {
-	return 1 - this.curveParabola(value);
+	return 1 - MATH.curveParabola(value);
 }
 
 MATH.curveCube = function(value) {
@@ -351,7 +351,7 @@ MATH.CurveState = function(curve, amplitude) {
 
 	this.amplitudeFromFraction = function(fraction) {
 		this.fraction = fraction;
-		this.value = this.valueFromCurve(this.fraction * (this.curve.length-1), this.curve);
+		this.value = MATH.valueFromCurve(this.fraction * (this.curve.length-1), this.curve);
 		return this.amplitude*this.value;
 	}.bind(this);
 
@@ -399,24 +399,24 @@ MATH.bigSafeValue = function() {
 
 MATH.safeInt = function(value) {
 	if (isNaN(value)) return 0;
-	return this.clamp(value, -bigSafeValue, bigSafeValue);
+	return MATH.clamp(value, -bigSafeValue, bigSafeValue);
 };
 
 
 MATH.randomVector = function(vec) {
 	if (!tempRandVec) tempRandVec =  new THREE.Vector3()
 	if (!vec) vec=tempRandVec;
-	vec.x = this.randomBetween(-1, 1);
-	vec.y = this.randomBetween(-1, 1);
-	vec.z = this.randomBetween(-1, 1);
+	vec.x = MATH.randomBetween(-1, 1);
+	vec.y = MATH.randomBetween(-1, 1);
+	vec.z = MATH.randomBetween(-1, 1);
 	vec.normalize();
 	return vec;
 };
 
 MATH.safeForceVector = function(vec) {
-	vec.x = this.safeInt(vec.x);
-	vec.y = this.safeInt(vec.y);
-	vec.z = this.safeInt(vec.z);
+	vec.x = MATH.safeInt(vec.x);
+	vec.y = MATH.safeInt(vec.y);
+	vec.z = MATH.safeInt(vec.z);
 };
 
 MATH.remainder = function(float) {
@@ -443,9 +443,9 @@ MATH.triangleArea = function (t1, t2, t3) {
 
 
 MATH.barycentricInterpolation = function (t1, t2, t3, p) {
-	let t1Area = this.triangleArea(t2, t3, p);
-	let t2Area = this.triangleArea(t1, t3, p);
-	let t3Area = this.triangleArea(t1, t2, p);
+	let t1Area = MATH.triangleArea(t2, t3, p);
+	let t2Area = MATH.triangleArea(t1, t3, p);
+	let t3Area = MATH.triangleArea(t1, t2, p);
 
 	// assuming the point is inside the triangle
 	let totalArea = t1Area + t2Area + t3Area;
@@ -490,17 +490,17 @@ MATH.getTriangleAt = function(array1d, segments, x, y) {
 	p1.y = yc;
 
 	//   console.log(xf, yc);
-	p1.z = this.getAt(array1d, segments, xf, yc);
+	p1.z = MATH.getAt(array1d, segments, xf, yc);
 
 
-	setTri(p1, xf, yc, this.getAt(array1d, segments,xf, yc));
-	setTri(p2, xc, yf, this.getAt(array1d, segments,xc, yf));
+	setTri(p1, xf, yc, MATH.getAt(array1d, segments,xf, yc));
+	setTri(p2, xc, yf, MATH.getAt(array1d, segments,xc, yf));
 
 
 	if (fracX < 1-fracY) {
-		setTri(p3,xf,yf,this.getAt(array1d, segments,xf, yf));
+		setTri(p3,xf,yf,MATH.getAt(array1d, segments,xf, yf));
 	} else {
-		setTri(p3, xc, yc, this.getAt(array1d, segments,xc, yc));
+		setTri(p3, xc, yc, MATH.getAt(array1d, segments,xc, yc));
 	}
 
 	points[0] = p1;
@@ -515,7 +515,7 @@ MATH.valueFromCurve = function(value, curve) {
 			//	console.log("Curve out end value", value, curve.length-1, curve[curve.length-1][1]);
 			return curve[curve.length-1][1];
 		}
-		if (curve[i+1][0] >= value) return this.getInterpolatedInCurveAboveIndex(value, curve, i)
+		if (curve[i+1][0] >= value) return MATH.getInterpolatedInCurveAboveIndex(value, curve, i)
 	}
 	console.log("Curve out of bounds", curve.length-1 , value);
 	return curve[curve.length-1][1];
@@ -539,8 +539,8 @@ MATH.sphereDisplacement = function(radius, depth) {
 };
 
 MATH.curveBlendArray = function(value, curve, from, to, store) {
-	blend = this.valueFromCurve(value, curve);
-	this.blendArray(from, to, blend, store);
+	blend = MATH.valueFromCurve(value, curve);
+	MATH.blendArray(from, to, blend, store);
 };
 
 MATH.moduloPositive = function (value, size) {
@@ -567,17 +567,17 @@ MATH.lineDistance = function(fromX, fromY, toX, toY) {
 };
 
 MATH.sillyRandom = function(seed) {
-	return this.remainder(Math.sin(seed) * 9999.991 + Math.cos(seed));
+	return MATH.remainder(Math.sin(seed) * 9999.991 + Math.cos(seed));
 };
 
 MATH.sillyRandomBetween = function(min, max, seed) {
-	return this.sillyRandom(seed)*(max-min) + min;
+	return MATH.sillyRandom(seed)*(max-min) + min;
 };
 
 MATH.randomRotateObj = function(obj3d, rotArray, seed) {
-	obj3d.rotateX((this.sillyRandom(seed)-0.5) * rotArray[0] * 2)
-	obj3d.rotateY((this.sillyRandom(seed+1)-0.5) * rotArray[1] *2)
-	obj3d.rotateZ((this.sillyRandom(seed+2)-0.5) * rotArray[2] *2)
+	obj3d.rotateX((MATH.sillyRandom(seed)-0.5) * rotArray[0] * 2)
+	obj3d.rotateY((MATH.sillyRandom(seed+1)-0.5) * rotArray[1] *2)
+	obj3d.rotateZ((MATH.sillyRandom(seed+2)-0.5) * rotArray[2] *2)
 }
 
 MATH.rotateObj = function(obj3d, rotArray) {
@@ -587,8 +587,8 @@ MATH.rotateObj = function(obj3d, rotArray) {
 }
 
 MATH.angleInsideCircle = function(angle) {
-	if (angle < -Math.PI) angle+= this.TWO_PI;
-	if (angle > Math.PI) angle-= this.TWO_PI;
+	if (angle < -Math.PI) angle+= MATH.TWO_PI;
+	if (angle > Math.PI) angle-= MATH.TWO_PI;
 	return angle;
 };
 
@@ -615,7 +615,7 @@ MATH.numberToDigits = function(current, digits, min) {
 };
 
 MATH.wrapValue = function(wrapRange, value) {
-	return this.clamp((wrapRange+value) % wrapRange, 0, wrapRange)-wrapRange*0.5;
+	return MATH.clamp((wrapRange+value) % wrapRange, 0, wrapRange)-wrapRange*0.5;
 };
 
 MATH.subAngles = function(a, b) {
@@ -651,7 +651,7 @@ MATH.distanceBetween = function(vec3a, vec3b) {
 }
 
 MATH.lerpClamped = function(targetVec3, towardsVec3, alpha, min, max) {
-	targetVec3.lerp(towardsVec3, this.clamp(alpha, min || -1, max || 1))
+	targetVec3.lerp(towardsVec3, MATH.clamp(alpha, min || -1, max || 1))
 }
 
 MATH.expandVector = function(vec, expand) {
@@ -701,24 +701,24 @@ MATH.angleZFromVectorToVector = function(fromVec, toVec) {
 
 
 MATH.applyNormalVectorToPitch = function(normalVec, upVec) {
-	upVec.setX(this.subAngles(upVec.getX() - normalVec.getX()));
+	upVec.setX(MATH.subAngles(upVec.getX() - normalVec.getX()));
 };
 
 MATH.applyNormalVectorToRoll = function(normalVec, tiltVec) {
-	tiltVec.setZ(this.subAngles(tiltVec.getZ(), normalVec.getZ()));
+	tiltVec.setZ(MATH.subAngles(tiltVec.getZ(), normalVec.getZ()));
 };
 
 
 MATH.radialClamp = function(value, min, max) {
 
 	var zero = (min + max)/2 + ((max > min) ? Math.PI : 0);
-	var _value = this.moduloPositive(value - zero, MATH.TWO_PI);
-	var _min = this.moduloPositive(min - zero, MATH.TWO_PI);
-	var _max = this.moduloPositive(max - zero, MATH.TWO_PI);
+	var _value = MATH.moduloPositive(value - zero, MATH.TWO_PI);
+	var _min = MATH.moduloPositive(min - zero, MATH.TWO_PI);
+	var _max = MATH.moduloPositive(max - zero, MATH.TWO_PI);
 
-	if (value < 0 && min > 0) { min -= this.TWO_PI; }
-	else if (value > 0 && min < 0) { min += this.TWO_PI; }
-	if (value > this.TWO_PI && max < this.TWO_PI) { max += this.TWO_PI; }
+	if (value < 0 && min > 0) { min -= MATH.TWO_PI; }
+	else if (value > 0 && min < 0) { min += MATH.TWO_PI; }
+	if (value > MATH.TWO_PI && max < MATH.TWO_PI) { max += MATH.TWO_PI; }
 
 	return _value < _min ? min : _value > _max ? max : value;
 };
@@ -728,13 +728,13 @@ MATH.clamp = function(value, min, max) {
 };
 
 MATH.clampVectorXZ = function(vector3, minX, maxX, minZ, maxZ) {
-	vector3.x = this.clamp(vector3.x, minX, maxX);
-	vector3.z = this.clamp(vector3.z, minZ, maxZ);
+	vector3.x = MATH.clamp(vector3.x, minX, maxX);
+	vector3.z = MATH.clamp(vector3.z, minZ, maxZ);
 }
 
 MATH.clampVectorXY = function(vector3, minX, maxX, minY, maxY) {
-	vector3.x = this.clamp(vector3.x, minX, maxX);
-	vector3.y = this.clamp(vector3.y, minY, maxY);
+	vector3.x = MATH.clamp(vector3.x, minX, maxX);
+	vector3.y = MATH.clamp(vector3.y, minY, maxY);
 }
 
 MATH.expand = function(value, min, max) {
@@ -774,13 +774,13 @@ MATH.compassAttitudeFromQuaternion = function(q) {
 	if (!calcVec) calcVec = new THREE.Vector3();
 	calcVec.set(0, 0, 1);
 	calcVec.applyQuaternion(q);
-	return this.vectorXZToAngleAxisY(calcVec)
+	return MATH.vectorXZToAngleAxisY(calcVec)
 };
 
 
 
 MATH.rollAttitudeFromQuaternion = function(q) {
-	let rotation = this.eulerFromQuaternion(q, "YXZ");
+	let rotation = MATH.eulerFromQuaternion(q, "YXZ");
 	return rotation.z
 };
 
@@ -792,7 +792,7 @@ MATH.eulerFromQuaternion = function(q, order) {
 
 MATH.copyArray = function(from, to) {
 	for (let i = 0; i < from.length; i++) {
-		let value = this.copyValues(from[i], to[i])
+		let value = MATH.copyValues(from[i], to[i])
 		if (value !== null) {
 			to[i] = value;
 		}
@@ -805,7 +805,7 @@ MATH.copyValues = function(from, to) {
 		if (typeof (to.length) !== 'number') {
 			to = []
 		}
-		this.copyArray(from, to)
+		MATH.copyArray(from, to)
 		return null;
 	} else {
 		return from;

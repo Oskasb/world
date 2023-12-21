@@ -1,5 +1,6 @@
 import {ENUMS} from "../../client/js/application/ENUMS.js";
 import {MATH} from "../../client/js/application/MATH.js";
+import {ServerEncounter} from "./encounter/ServerEncounter.js";
 
 let msgEvent = {
     stamp:0,
@@ -7,11 +8,11 @@ let msgEvent = {
 }
 
 class GameServer {
-    constructor(sendMessageCB, sendJsonCB) {
+    constructor(sendMessageCB, sendJson) {
         this.tpf = 1;
         this.serverTime = 0;
         this.onUpdateCallbacks = [];
-        this.sendJsonCB = sendJsonCB;
+        this.sendJson = sendJson;
         this.sendMessageCB = sendMessageCB;
         this.stamp = "init";
     }
@@ -25,13 +26,13 @@ class GameServer {
     connectionMessage(msg) {
         msgEvent.stamp = msg.stamp;
         msgEvent.msg = msg.msg;
-        //	evt.dispatch(ENUMS.Event.ON_SOCKET_MESSAGE, msgEvent)
-        postMessage([ENUMS.Protocol.MESSAGE_RECEIVE, msg])
+        console.log("relay message", msg);
+        postMessage([ENUMS.Protocol.MESSAGE_RELAYED, msg])
     }
 
     handleClientMessage(msgJson) {
 
-        this.sendJsonCB(msgJson)
+        this.sendJson(msgJson)
     }
 
     handleClientRequest(msgJson) {
@@ -42,6 +43,7 @@ class GameServer {
         let request = data.msg.request;
 
         if (request === ENUMS.ClientRequests.ENCOUNTER_INIT) {
+            new ServerEncounter(msgEvent);
             console.log("Handle Encounter Init", data.msg)
         } else {
             console.log("Request not processed ",request,  msg)
@@ -71,7 +73,7 @@ class GameServer {
     tickGameServer(avgTpf) {
         this.tpf = avgTpf;
         this.serverTime += avgTpf;
-        console.log(this.tpf, this.serverTime);
+    //    console.log(this.tpf, this.serverTime);
         MATH.callAll(this.onUpdateCallbacks, this.tpf, this.serverTime);
 
     }

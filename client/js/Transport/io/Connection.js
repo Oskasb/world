@@ -1,3 +1,4 @@
+import {processServerCommand} from "./ServerCommandProcessor.js";
 
 let socket;
 let msgEvent = {
@@ -8,6 +9,7 @@ let msgEvent = {
 // './client/js/data_pipeline/worker/WorkerMain.js'
 let worker = new Worker("./Server/Worker/WorkerMain.js", { type: "module" });
 worker.onmessage = function(msg) {
+
 
 		if (msg.data[0] === ENUMS.Protocol.SET_SERVER_STAMP) {
 			console.log("Worker Set ServerStamp", msg.data[1]);
@@ -34,13 +36,22 @@ worker.onmessage = function(msg) {
 			evt.on(ENUMS.Event.CALL_SERVER, callServer)
 		}
 
-	if (msg.data[0] === ENUMS.Protocol.MESSAGE_RECEIVE) {
+	if (msg.data[0] === ENUMS.Protocol.MESSAGE_RELAYED) {
 
 		msgEvent.stamp = msg.data[1].stamp;
 		msgEvent.msg = msg.data[1].msg;
-		evt.dispatch(ENUMS.Event.ON_SOCKET_MESSAGE, msgEvent)
+		if (msgEvent.stamp === client.getStamp()) {
+			console.log("Not return back to self")
+		} else {
+			evt.dispatch(ENUMS.Event.ON_SOCKET_MESSAGE, msgEvent)
+		}
+
 
 	//	console.log("Worker Socket -> Client Message", msg[1], msgEvent);
+	} else if (msg.data[0] === ENUMS.Protocol.SERVER_DISPATCH) {
+		processServerCommand(msg.data[0], msg.data[1]);
+	} else {
+		console.log("Worker Socket Unhandles Message", msg);
 	}
 
 };

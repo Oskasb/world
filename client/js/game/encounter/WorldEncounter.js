@@ -54,16 +54,12 @@ function checkTriggerPlayer(encounter) {
 
     let selectedActor = GameAPI.getGamePieceSystem().getSelectedGameActor();
 
-
-
     let hostActor = encounter.visualEncounterHost.call.getActor();
     if (!hostActor) return;
 
     if (selectedActor) {
         let radius = encounter.config.trigger_radius;
         let distance = MATH.distanceBetween(selectedActor.getSpatialPosition(), encounter.getPos())
-
-
 
         if (distance < radius * 2) {
             indicateTriggerRadius(encounter);
@@ -86,29 +82,22 @@ function checkTriggerPlayer(encounter) {
         if (distance < radius) {
 
             if (encounter.timeInsideTrigger === 0) {
-                    hostActor.actorText.yell("Here we go")
-                    selectedActor.getGameWalkGrid().setTargetPosition(encounter.getPos())
-                    selectedActor.getGameWalkGrid().cancelActivePath()
-                    selectedActor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, false);
-                    selectedActor.setStatusKey(ENUMS.ActorStatus.REQUEST_PARTY, '');
-                    selectedActor.setStatusKey(ENUMS.ActorStatus.ACTIVATING_ENCOUNTER, encounter.id);
-                    selectedActor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_INACTIVE);
-                    ThreeAPI.getCameraCursor().getLookAroundPoint().copy(encounter.getPos())
                 //    console.log("Activate Encounter Triggered Transition")
 
                 encounterEvent.request = ENUMS.ClientRequests.ENCOUNTER_INIT
                 encounterEvent.worldEncounterId = encounter.id;
                 encounterEvent.encounterId = client.getStamp()+encounter.id;
-                encounterEvent.pos = null;
-                encounterEvent.grid_id = null;
-                encounterEvent.spawn = null;
-                encounterEvent.cam_pos = null;
+                encounterEvent.pos = encounter.getPos();
+                encounterEvent.grid_id = encounter.config.grid_id;
+                encounterEvent.spawn = encounter.config.spawn;
+                encounterEvent.cam_pos = encounter.getTriggeredCameraHome();
 
                 evt.dispatch(ENUMS.Event.CALL_SERVER, encounterEvent)
-                evt.dispatch(ENUMS.Event.GAME_MODE_BATTLE, encounterEvent)
+            //    evt.dispatch(ENUMS.Event.GAME_MODE_BATTLE, encounterEvent)
             }
-            encounter.timeInsideTrigger += GameAPI.getFrame().tpf *0.5;
-            indicateTriggerTime(selectedActor, encounter)
+
+
+
             if (encounter.timeInsideTrigger > 1) {
 
             //    if (encounter.requestingActor) {
@@ -127,8 +116,8 @@ function checkTriggerPlayer(encounter) {
                 selectedActor.setStatusKey(ENUMS.ActorStatus.ACTIVATED_ENCOUNTER, encounter.id);
                 selectedActor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_BATTLE);
                 notifyCameraStatus(ENUMS.CameraStatus.CAMERA_MODE, ENUMS.CameraControls.CAM_ENCOUNTER, true);
-                evt.dispatch(ENUMS.Event.CALL_SERVER, encounterEvent)
-                evt.dispatch(ENUMS.Event.GAME_MODE_BATTLE, encounterEvent)
+            //    evt.dispatch(ENUMS.Event.CALL_SERVER, encounterEvent)
+            //    evt.dispatch(ENUMS.Event.GAME_MODE_BATTLE, encounterEvent)
 
             }
         } else {
@@ -137,9 +126,16 @@ function checkTriggerPlayer(encounter) {
     }
 }
 
+let updateTriggered = function(encounter) {
+    let selectedActor = GameAPI.getGamePieceSystem().getSelectedGameActor();
+    encounter.timeInsideTrigger += GameAPI.getFrame().tpf *0.5;
+    indicateTriggerTime(selectedActor, encounter)
+}
+
 class WorldEncounter {
     constructor(id, config, onReady) {
         this.id = id
+        this.triggered = false;
         this.timeInsideTrigger = 0;
         this.timeInsideProximity = 0;
         this.requestingActor = null;
@@ -175,11 +171,38 @@ class WorldEncounter {
         }.bind(this)
 
 
+
         let onGameUpdate = function(tpf, gameTime) {
-            checkTriggerPlayer(this, gameTime);
+            if (this.triggered) {
+                updateTriggered(this);
+            } else {
+                checkTriggerPlayer(this, gameTime);
+            }
+
+        }.bind(this)
+
+
+        let triggerWorldEncounter = function() {
+            this.triggered = true;;
+            let hostActor = this.visualEncounterHost.call.getActor();
+            let selectedActor = GameAPI.getGamePieceSystem().getSelectedGameActor();
+            hostActor.actorText.yell("Here we go")
+            selectedActor.getGameWalkGrid().setTargetPosition(this.getPos())
+            selectedActor.getGameWalkGrid().cancelActivePath()
+            selectedActor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, false);
+            selectedActor.setStatusKey(ENUMS.ActorStatus.REQUEST_PARTY, '');
+            selectedActor.setStatusKey(ENUMS.ActorStatus.ACTIVATING_ENCOUNTER, this.id);
+            selectedActor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_INACTIVE);
+            ThreeAPI.getCameraCursor().getLookAroundPoint().copy(this.getPos())
+        }.bind(this)
+
+        let startWorldEncounter = function() {
+
         }.bind(this)
 
         this.call = {
+            triggerWorldEncounter:triggerWorldEncounter,
+            startWorldEncounter:startWorldEncounter,
             lodUpdated:lodUpdated,
             onGameUpdate:onGameUpdate,
         }

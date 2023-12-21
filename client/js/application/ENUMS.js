@@ -101,21 +101,20 @@ let ENUMS = {}
 
     ENUMS.Protocol = {
         SET_SERVER_STAMP:0,
-        MESSAGE_RECEIVE:1,
+        MESSAGE_RELAYED:1,
         CLIENT_TO_WORKER:2,
-        SERVER_CALL:3
+        SERVER_CALL:3,
+        SERVER_DISPATCH:4
     };
 
     ENUMS.ClientRequests = {
-        ENCOUNTER_INIT:0
+        ENCOUNTER_INIT:1
     };
 
     ENUMS.ServerCommands = {
-        ENCOUNTER_TRIGGER:0,
-        ENCOUNTER_CLOSE:1
+        ENCOUNTER_TRIGGER:1,
+        ENCOUNTER_CLOSE:2
     };
-
-
 
     ENUMS.ActorStatus = {
         ACTOR_ID:'ACTOR_ID',

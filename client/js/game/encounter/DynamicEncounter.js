@@ -1,6 +1,4 @@
 import {EncounterStatus} from "./EncounterStatus.js";
-import {trackDebugConfig} from "../../application/utils/DebugUtils.js";
-
 
 let encounterActors = []
 let faces = ['face_1', 'face_2', 'face_3', 'face_5', 'face_6', 'face_7', 'face_8']

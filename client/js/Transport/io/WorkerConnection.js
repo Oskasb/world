@@ -56,7 +56,7 @@ class WorkerConnection {
 		socket.onmessage = function (message) {
 			messageCount++;
 			socketBytes += message.data.length;
-		//	console.log("Socket Message: ",messageCount, socketBytes, [message.data])
+			//	console.log("Socket Message: ",messageCount, socketBytes, [message.data])
 			let msg = JSON.parse(message.data)
 		//	console.log("Worker Socket Message", msg)
 			if (msg.stamp !== serverStamp) {

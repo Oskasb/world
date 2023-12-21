@@ -41,7 +41,7 @@ class Client {
         window.GameScreen = this.gameScreen;
         this.setup = new Setup();
         this.INPUT_STATE = null;
-        this.stamp = 0;
+        this.stamp = -1;
     }
 
     setStamp(stamp) {
