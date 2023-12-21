@@ -113,7 +113,9 @@ let ENUMS = {}
 
     ENUMS.ServerCommands = {
         ENCOUNTER_TRIGGER:1,
-        ENCOUNTER_CLOSE:2
+        ENCOUNTER_START:2,
+        ENCOUNTER_UPDATE:3,
+        ENCOUNTER_CLOSE:4
     };
 
     ENUMS.ActorStatus = {

@@ -61,7 +61,7 @@ function checkTriggerPlayer(encounter) {
         let radius = encounter.config.trigger_radius;
         let distance = MATH.distanceBetween(selectedActor.getSpatialPosition(), encounter.getPos())
 
-        if (distance < radius * 2) {
+        if (distance < radius + 10) {
             indicateTriggerRadius(encounter);
 
             if (encounter.timeInsideProximity === 0) {
@@ -96,26 +96,13 @@ function checkTriggerPlayer(encounter) {
             //    evt.dispatch(ENUMS.Event.GAME_MODE_BATTLE, encounterEvent)
             }
 
-
-
             if (encounter.timeInsideTrigger > 1) {
 
             //    if (encounter.requestingActor) {
             //        console.log("Synch Encounter from remote")
             //        GuiAPI.screenText("SYNCHING", ENUMS.Message.HINT, 1.5);
             //    } else {
-                encounterEvent.request = ENUMS.ClientRequests.ENCOUNTER_INIT
-                encounterEvent.worldEncounterId = null;
-                encounterEvent.encounterId = null;
-                encounterEvent.pos = encounter.getPos();
-                encounterEvent.grid_id = encounter.config.grid_id;
-                encounterEvent.spawn = encounter.config.spawn;
-                encounterEvent.cam_pos = encounter.getTriggeredCameraHome();
-                selectedActor.setStatusKey(ENUMS.ActorStatus.SELECTED_ENCOUNTER, "");
-                selectedActor.setStatusKey(ENUMS.ActorStatus.ACTIVATING_ENCOUNTER, "");
-                selectedActor.setStatusKey(ENUMS.ActorStatus.ACTIVATED_ENCOUNTER, encounter.id);
-                selectedActor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_BATTLE);
-                notifyCameraStatus(ENUMS.CameraStatus.CAMERA_MODE, ENUMS.CameraControls.CAM_ENCOUNTER, true);
+
             //    evt.dispatch(ENUMS.Event.CALL_SERVER, encounterEvent)
             //    evt.dispatch(ENUMS.Event.GAME_MODE_BATTLE, encounterEvent)
 
@@ -131,6 +118,7 @@ let updateTriggered = function(encounter) {
     encounter.timeInsideTrigger += GameAPI.getFrame().tpf *0.5;
     indicateTriggerTime(selectedActor, encounter)
 }
+
 
 class WorldEncounter {
     constructor(id, config, onReady) {
@@ -197,7 +185,26 @@ class WorldEncounter {
         }.bind(this)
 
         let startWorldEncounter = function() {
+            this.deactivateWorldEncounter();
+            GuiAPI.getWorldInteractionUi().closeWorldInteractUi();
+            GameAPI.worldModels.deactivateEncounters();
+        //   return;
+            let hostActor = this.visualEncounterHost.call.getActor();
+            let selectedActor = GameAPI.getGamePieceSystem().getSelectedGameActor();
 
+            encounterEvent.request = ENUMS.ClientRequests.ENCOUNTER_INIT
+            encounterEvent.worldEncounterId = null;
+            encounterEvent.encounterId = null;
+            encounterEvent.pos = this.getPos();
+            encounterEvent.grid_id = this.config.grid_id;
+            encounterEvent.spawn = this.config.spawn;
+            encounterEvent.cam_pos = this.getTriggeredCameraHome();
+            selectedActor.setStatusKey(ENUMS.ActorStatus.SELECTED_ENCOUNTER, "");
+            selectedActor.setStatusKey(ENUMS.ActorStatus.ACTIVATING_ENCOUNTER, "");
+            selectedActor.setStatusKey(ENUMS.ActorStatus.ACTIVATED_ENCOUNTER, this.id);
+            selectedActor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_BATTLE);
+            notifyCameraStatus(ENUMS.CameraStatus.CAMERA_MODE, ENUMS.CameraControls.CAM_ENCOUNTER, true);
+        //    evt.dispatch(ENUMS.Event.GAME_MODE_BATTLE, encounterEvent)
         }.bind(this)
 
         this.call = {

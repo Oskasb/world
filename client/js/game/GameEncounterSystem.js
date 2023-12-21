@@ -126,8 +126,6 @@ class GameEncounterSystem {
 
         let gridReady = function(grid) {
 
-            GuiAPI.getWorldInteractionUi().closeWorldInteractUi();
-            GameAPI.worldModels.deactivateEncounters();
             dynamicEncounter.setEncounterGrid(grid);
             let posArray = dynamicEncounter.status.call.getStatus(ENUMS.EncounterStatus.GRID_POS);
             MATH.vec3ToArray(activeEncounterGrid.center, posArray)
@@ -169,8 +167,7 @@ class GameEncounterSystem {
             selectedActor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, '');
             selectedActor.setStatusKey(ENUMS.ActorStatus.SELECTED_ENCOUNTER, '');
             notifyCameraStatus(ENUMS.CameraStatus.CAMERA_MODE, ENUMS.CameraControls.CAM_AUTO, false);
-            GuiAPI.getWorldInteractionUi().closeWorldInteractUi();
-            GameAPI.worldModels.deactivateEncounters();
+
             dynamicEncounter.setEncounterGrid(grid);
         }
 

@@ -8,6 +8,10 @@ function processServerCommand(command, message) {
         let encounter = GameAPI.getWorldEncounterByEncounterId(msg.worldEncounterId);
         encounter.call.triggerWorldEncounter();
         console.log("WE: ", encounter);
+    } else if (msg.command === ENUMS.ServerCommands.ENCOUNTER_START) {
+        console.log("Start Encounter; ", msg.encounterId, msg.worldEncounterId, stamp, msg);
+        let encounter = GameAPI.getWorldEncounterByEncounterId(msg.worldEncounterId);
+        encounter.call.startWorldEncounter();
 
     } else if (msg.command === ENUMS.ServerCommands.ENCOUNTER_CLOSE) {
         console.log("Close Encounter; ", msg.encounterId, msg.worldEncounterId, stamp, msg);
