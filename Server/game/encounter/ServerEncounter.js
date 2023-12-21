@@ -3,6 +3,8 @@ class ServerEncounter {
 
     }
 
+
+
 }
 
 export {ServerEncounter}

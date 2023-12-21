@@ -1,6 +1,5 @@
 
 
-
 let ENUMS = {}
 
     ENUMS.Message = {

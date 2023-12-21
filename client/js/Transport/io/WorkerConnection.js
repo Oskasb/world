@@ -1,5 +1,5 @@
 import {ENUMS} from "../../application/ENUMS.js";
-
+import {MATH} from "../../application/MATH.js";
 
 let socket;
 let frameStack = [];
@@ -43,7 +43,7 @@ class WorkerConnection {
 		socket.responseCallbacks = {};
 
 		socket.onopen = function (event) {
-			let timestamp = WorkerGlobalScope.MATH.decimalify(event.timeStamp + new Date().getTime(), 1);
+			let timestamp = MATH.decimalify(event.timeStamp + new Date().getTime(), 1);
 			serverStamp = Number(String(timestamp).split('').reverse().join(''));
 			postMessage([ENUMS.Protocol.SET_SERVER_STAMP, serverStamp])
 			connectedCallback(event, serverStamp);

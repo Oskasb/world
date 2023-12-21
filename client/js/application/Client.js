@@ -2,7 +2,7 @@ import { PipelineAPI } from '../data_pipeline/PipelineAPI.js';
 import { MATH } from "./MATH.js";
 
 window.PipelineAPI = new PipelineAPI();
-window.MATH = new MATH();
+window.MATH = MATH;
 
 
 import { evt } from './event/evt.js';
@@ -31,7 +31,8 @@ class Client {
         this.type = 'Client';
         this.devMode = devMode;
         this.env = env;
-        this.evt = new evt(ENUMS.Event);
+        this.evt = evt;
+        evt.setEventKeys(ENUMS.Event)
         window.evt = this.evt;
         this.threeController = new ThreeController();
 

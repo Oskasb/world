@@ -1,67 +1,68 @@
 
-class evt {
+let evt = {}
+let _this = evt;
 
-    constructor(eventKeys) {
+evt.setEventKeys = function(eventKeys) {
 
         for (let key in eventKeys) {
-            this.setupEvent(eventKeys[key])
+            _this.setupEvent(eventKeys[key])
         }
-
-        this.camEvt = {
-            status_key:'',
-            control_key:'',
-            activate:false
-        }
-
     }
 
-    listeners = [];
-    spliceListeners = [];
-    evtStatus = {
+evt.camEvt = {
+    status_key:'',
+    control_key:'',
+    activate:false
+}
+
+
+evt.listeners = [];
+evt.spliceListeners = [];
+evt.evtStatus = {
         activeListeners:0,
         firedCount:0,
         onceListeners:0,
         addedListeners:0
     };
 
-    setupEvent = function(event) {
+evt.setupEvent = function(event) {
 
         if (typeof (event) !== 'number') {
             console.log("Old Event: ", event);
             return;
         }
 
-        if (!this.listeners[event]) {
-            this.listeners[event] = [];
+        if (!_this.listeners[event]) {
+            _this.listeners[event] = [];
         }
     };
 
 
-    dispatch(event, args) {
+evt.dispatch = function(event, args) {
 
-        while (this.spliceListeners.length) {
-        //    console.log("pre splice listeners", this.spliceListeners);
-            this.spliceListener(this.spliceListeners.shift(), this.spliceListeners.shift())
+        while (_this.spliceListeners.length) {
+        //    console.log("pre splice listeners", _this.spliceListeners);
+            _this.spliceListener(_this.spliceListeners.shift(), _this.spliceListeners.shift())
         }
 
-        for (let i = 0; i < this.listeners[event].length; i++) {
+        for (let i = 0; i < _this.listeners[event].length; i++) {
 
-            if (typeof (this.listeners[event][i]) !== 'function') {
-                console.log("Bad listener", event, this.listeners);
+            if (typeof (_this.listeners[event][i]) !== 'function') {
+                console.log("Bad listener", event, _this.listeners);
                 return;
             }
 
-            this.listeners[event][i](args);
+            _this.listeners[event][i](args);
         }
 
-        while (this.spliceListeners.length) {
-        //    console.log("post splice listeners", this.spliceListeners);
-            this.spliceListener(this.spliceListeners.shift(), this.spliceListeners.shift())
+        while (_this.spliceListeners.length) {
+        //    console.log("post splice listeners", _this.spliceListeners);
+            _this.spliceListener(_this.spliceListeners.shift(), _this.spliceListeners.shift())
         }
-        this.evtStatus.firedCount++;
+    _this.evtStatus.firedCount++;
     };
 
-    removeListener(event, callback, evt) {
+evt.removeListener= function(event, callback, evt) {
 
         if (!evt.listeners[event]) {
             return;
@@ -75,17 +76,16 @@ class evt {
         evt.spliceListeners.push(callback);
     };
 
-    on(event, callback) {
-    //    this.setupEvent(event);
-        this.listeners[event].push(callback);
+evt.on= function(event, callback) {
+    //    _this.setupEvent(event);
+    _this.listeners[event].push(callback);
     };
 
-    once(event, callback) {
-    //    this.setupEvent(event);
+evt.once= function(event, callback) {
+    //    _this.setupEvent(event);
 
-        const _this = this;
 
-        const evtStatus = this.evtStatus;
+        const evtStatus = _this.evtStatus;
 
         const remove = function() {
             _this.removeListener(event, singleShot,_this);
@@ -106,29 +106,27 @@ class evt {
 
         };
 
-        this.evtStatus.onceListeners++;
+    _this.evtStatus.onceListeners++;
 
-        this.on(event, singleShot);
+    _this.on(event, singleShot);
     };
 
-    spliceListener(listeners, cb) {
+evt.spliceListener= function(listeners, cb) {
         MATH.splice(listeners, cb);
     };
 
-    getEventSystemStatus() {
+evt.getEventSystemStatus= function() {
 
-        this.evtStatus.eventCount = 0;
-        this.evtStatus.listenerCount = 0;
-        for (const key in this.listeners) {
-            this.evtStatus.eventCount++;
-            this.evtStatus.listenerCount += this.listeners[key].length;
+    _this.evtStatus.eventCount = 0;
+    _this.evtStatus.listenerCount = 0;
+        for (const key in _this.listeners) {
+            _this.evtStatus.eventCount++;
+            _this.evtStatus.listenerCount += _this.listeners[key].length;
         }
 
-        return this.evtStatus;
+        return _this.evtStatus;
     };
 
 
-
-}
 
 export { evt }

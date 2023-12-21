@@ -1,16 +1,15 @@
 import {WorkerConnection} from "../../client/js/Transport/io/WorkerConnection.js";
-import {MATH} from "../../client/js/application/MATH.js";
 import {ENUMS} from "../../client/js/application/ENUMS.js";
-import {evt} from "../../client/js/application/event/evt.js";
 import {GameServer} from "../game/GameServer.js";
+import {setGameServer} from "../game/utils/GameServerUtils.js";
 
 let workerConnection = new WorkerConnection()
 let gameServer = new GameServer(workerConnection.call.sendMessage, workerConnection.call.sendJson);
+setGameServer(gameServer);
 
 
-WorkerGlobalScope.MATH = new MATH();
-WorkerGlobalScope.ENUMS = ENUMS;
-WorkerGlobalScope.evt = new evt(ENUMS.Event);
+
+
 
 let stamp = 0;
 
@@ -33,7 +32,7 @@ let onDisconnect = function() {
     console.log("Worker socket disconnected")
 }
 
-workerConnection.setupSocket(onConnected, onError, onDisconnect, gameServer.handleServerMessage)
+workerConnection.setupSocket(onConnected, onError, onDisconnect, gameServer.connectionMessage)
 
 let handleMessage = function(oEvent) {
 
