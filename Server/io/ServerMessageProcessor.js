@@ -1,6 +1,6 @@
 import {ENUMS} from "../../client/js/application/ENUMS.js";
 import {ServerEncounter} from "../game/encounter/ServerEncounter.js";
-import {dispatchMessage, getGameServer, getGameServerWorld, getServerStamp} from "../game/utils/GameServerFunctions.js";
+import {dispatchMessage, getGameServer, getGameServerWorld, getServerStamp, applyMessageToClient} from "../game/utils/GameServerFunctions.js";
 
 let msgEvent = {
     stamp:0,
@@ -84,6 +84,8 @@ function processMessageData(stamp, msg) {
 
             if (stamp === getServerStamp()) {
                 dispatchMessage(msgEvent)
+            } else {
+                applyMessageToClient(msgEvent)
             }
 
 

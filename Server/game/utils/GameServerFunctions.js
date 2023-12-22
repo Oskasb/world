@@ -73,6 +73,10 @@ function dispatchMessage(messageData) {
 
 }
 
+function applyMessageToClient(messageDate) {
+    postMessage([ENUMS.Protocol.MESSAGE_RELAYED, messageDate]);
+}
+
 
 export {
     getServerStamp,
@@ -86,4 +90,5 @@ export {
     registerGameServerUpdateCallback,
     unregisterGameServerUpdateCallback,
     dispatchMessage,
+    applyMessageToClient
 }
