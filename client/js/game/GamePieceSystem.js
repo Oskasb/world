@@ -6,6 +6,7 @@ import { Item } from "./gamepieces/Item.js";
 import { ConfigData } from "../application/utils/ConfigData.js";
 import { RemoteClient } from "../Transport/io/RemoteClient.js";
 import {trackDebugConfig} from "../application/utils/DebugUtils.js";
+import {evt} from "../application/event/evt.js";
 
 
 let visualConfigs = {};
@@ -55,6 +56,7 @@ let loadItem = function(event) {
 
 
 let loadActor = function(event) {
+
     let actorConfig = actorConfigs[event.id]
     let actor = new GameActor(actorIndex, actorConfig, parsedEquipSlotData);
     actorIndex++;
@@ -96,7 +98,6 @@ let loadActor = function(event) {
 }
 
 
-
 let processConnectionMessage = function(event) {
 
     if (!GameAPI.getGamePieceSystem().getSelectedGameActor()) {
@@ -110,6 +111,7 @@ let processConnectionMessage = function(event) {
     }
 
     if (event.stamp === client.getStamp()) {
+        console.log("Respond to Host")
         return;
     }
 

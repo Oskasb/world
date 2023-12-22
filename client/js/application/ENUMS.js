@@ -108,14 +108,22 @@ let ENUMS = {}
     };
 
     ENUMS.ClientRequests = {
-        ENCOUNTER_INIT:1
+        ENCOUNTER_INIT:1,
+        REGISTER_PLAYER:2,
+        LOAD_SERVER_ACTOR:3
     };
 
     ENUMS.ServerCommands = {
         ENCOUNTER_TRIGGER:1,
         ENCOUNTER_START:2,
         ENCOUNTER_UPDATE:3,
-        ENCOUNTER_CLOSE:4
+        ENCOUNTER_CLOSE:4,
+        PLAYER_CONNECTED:5,
+        PLAYER_UPDATE:6,
+        PLAYER_DISCONNECTED:7,
+        ACTOR_INIT:8,
+        ACTOR_UPDATE:9,
+        ACTOR_REMOVED:10
     };
 
     ENUMS.ActorStatus = {

@@ -10,7 +10,7 @@ let serverStamp = 0;
 
 class WorkerConnection {
 	constructor() {
-		console.log("Worker Connection ready")
+		console.log("Worker ClientConnection ready")
 		let sendMessage = function(serverStamp, msg) {
 
 			//	console.log("SEND message", msg, args);
@@ -54,6 +54,7 @@ class WorkerConnection {
 		};
 
 		socket.onmessage = function (message) {
+		//	console.log("Socket Message: ", message)
 			messageCount++;
 			socketBytes += message.data.length;
 			//	console.log("Socket Message: ",messageCount, socketBytes, [message.data])

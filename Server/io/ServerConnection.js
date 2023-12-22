@@ -35,7 +35,7 @@ class ServerConnection {
 
 		});
 
-		console.log("Init Server Connection")
+		console.log("Init Server ClientConnection")
 
 	};
 

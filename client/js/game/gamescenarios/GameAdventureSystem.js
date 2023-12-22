@@ -1,5 +1,6 @@
 import { SpatialTransition } from "../piece_functions/SpatialTransition.js";
 import {notifyCameraStatus} from "../../3d/camera/CameraFunctions.js";
+import {evt} from "../../application/event/evt.js";
 
 let spatialTransition
 
@@ -53,7 +54,7 @@ class GameAdventureSystem {
             GuiAPI.closePage(this.page);
             GuiAPI.closePage(client.page)
             client.page = null;
-
+            evt.dispatch(ENUMS.Event.CALL_SERVER, {request:ENUMS.ClientRequests.LOAD_SERVER_ACTOR, status:this.startActor.getStatus()})
 
             return;
         }

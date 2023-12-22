@@ -6,7 +6,7 @@ import { InstanceAPI } from '../../3d/three/instancer/InstanceAPI.js';
 import { DomUtils } from '../ui/dom/DomUtils.js';
 import { DataLoader } from '../load/DataLoader.js';
 import { GameAPI } from "../../game/GameAPI.js";
-import { Connection} from "../../Transport/io/Connection.js";
+import { ClientConnection} from "../../Transport/io/ClientConnection.js";
 
 
 class Setup {
@@ -19,38 +19,8 @@ class Setup {
     }
 
     initDefaultUi = function() {
-
         this.uiSetup.setupDefaultUi()
-        let connection = new Connection();
-
-        let stamp = 0;
-
-        let onConnected = function(event) {
-            console.log("Connected Event:", event)
-            if (stamp === 0) {
-                stamp = MATH.decimalify(event.timeStamp + new Date().getTime(), 1);
-                let result = 0;
-                result = Number(String(stamp).split('').reverse().join(''));
-                client.setStamp(result);
-            //    let msg = {}
-            //    msg[ENUMS.Send.CONNECTED] = stamp;
-            //    client.evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, msg)
-            }
-
-            evt.on(ENUMS.Event.SEND_SOCKET_MESSAGE, connection.call.sendMessage)
-
-
-        }
-
-        let onError = function(event) {
-            console.log("socket error: ", event)
-        }
-
-        let onDisconnect = function() {
-            console.log("socket disconnected")
-        }
-
-        connection.setupSocket(onConnected, onError, onDisconnect)
+        new ClientConnection();
     };
 
     initUiSetup(callback) {

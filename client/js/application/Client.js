@@ -46,6 +46,7 @@ class Client {
 
     setStamp(stamp) {
         this.stamp = stamp
+        evt.dispatch(ENUMS.Event.CALL_SERVER, {request:ENUMS.ClientRequests.REGISTER_PLAYER, stamp:stamp})
     }
 
     getStamp() {

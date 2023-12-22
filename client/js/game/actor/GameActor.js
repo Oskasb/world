@@ -286,6 +286,9 @@ class GameActor {
     }
 
     getStatus(key) {
+        if (!key) {
+            return this.actorStatus.statusMap
+        }
         MATH.emptyArray(tempStore)
         this.actorEquipment.call.getEquipmentStatusKey(key, tempStore);
         let status = this.actorStatus.getStatusByKey(key);

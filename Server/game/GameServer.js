@@ -1,56 +1,45 @@
 import {ENUMS} from "../../client/js/application/ENUMS.js";
 import {MATH} from "../../client/js/application/MATH.js";
 import {ServerEncounter} from "./encounter/ServerEncounter.js";
+import {GameServerWorld} from "./GameServerWorld.js";
+import {ServerPlayer} from "./player/ServerPlayer.js";
 
-let msgEvent = {
-    stamp:0,
-    msg:""
-}
+let connectedPlayers = [];
 
 class GameServer {
-    constructor(sendMessageCB, sendJson) {
+    constructor() {
+        this.gameServerWorld = new GameServerWorld();
         this.tpf = 1;
         this.serverTime = 0;
         this.onUpdateCallbacks = [];
-        this.sendJson = sendJson;
-        this.sendMessageCB = sendMessageCB;
         this.stamp = "init";
     }
 
 
     setStamp(stamp) {
-        console.log("Set GameServer Stamp: ", stamp);
         this.stamp = stamp;
     }
 
-    connectionMessage(msg) {
-        msgEvent.stamp = msg.stamp;
-        msgEvent.msg = msg.msg;
-        console.log("relay message", msg);
-        postMessage([ENUMS.Protocol.MESSAGE_RELAYED, msg])
-    }
-
-    handleClientMessage(msgJson) {
-
-        this.sendJson(msgJson)
-    }
-
-    handleClientRequest(msgJson) {
-        let data = JSON.parse(msgJson)
-        msgEvent.stamp = data.stamp;
-        msgEvent.msg = data.msg;
-
-        let request = data.msg.request;
-
-        if (request === ENUMS.ClientRequests.ENCOUNTER_INIT) {
-            new ServerEncounter(msgEvent);
-            console.log("Handle Encounter Init", data.msg)
-        } else {
-            console.log("Request not processed ",request,  msg)
+    getConnectedPlayerByStamp(stamp) {
+        for (let i = 0; i < connectedPlayers.length; i++) {
+            let player = connectedPlayers[i];
+            if (player.stamp === stamp) {
+                return player;
+            }
         }
+    }
 
-    //    console.log("Client Message Event: ", msgEvent)
-
+    registerConnectedPlayer(stamp) {
+        let player = this.getConnectedPlayerByStamp(stamp)
+        if (!player) {
+            player = new ServerPlayer(stamp)
+            connectedPlayers.push(player);
+            console.log("Player registered: ", connectedPlayers, this.getConnectedPlayerByStamp(stamp))
+            return true;
+        } else {
+            console.log("Player Already registered, skipping add process: ", player)
+            return false;
+        }
     }
 
     initServerLoop(targetTpfMs) {
@@ -62,7 +51,7 @@ class GameServer {
             let now = performance.now();
             let dt = now-lastTick;
             avgTpf = avgTpf*0.95 + dt*0.05;
-            this.tickGameServer(Math.round(avgTpf));
+            this.tickGameServer(Math.round(avgTpf) * 0.001); // ms to s to run time in seconds
             lastTick = now;
         }.bind(this)
 

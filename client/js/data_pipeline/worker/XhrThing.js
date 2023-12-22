@@ -141,7 +141,7 @@ define([
 			if (packet.contentType == 'application/json') {
 				//	body = JSON.stringify(packet.body);
 				request.setRequestHeader("Content-Type", packet.contentType);
-				//	request.setRequestHeader("Connection", "close");
+				//	request.setRequestHeader("ClientConnection", "close");
 			}
 
 			if (packet.contentType == 'application/x-www-form-urlencoded') {

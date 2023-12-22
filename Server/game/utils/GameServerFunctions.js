@@ -3,14 +3,44 @@ import {ENUMS} from "../../../client/js/application/ENUMS.js";
 import {evt} from "../../../client/js/application/event/evt.js";
 
 let gameServer = null;
+let serverMessageProcessor = null;
+let serverActors = [];
 
 function setGameServer(gs) {
     evt.setEventKeys(ENUMS.Event);
     gameServer = gs;
 }
 
-function getGameServer() {
+function getServerStamp() {
+    return gameServer.stamp;
+}
 
+function setServerMessageProcessor(msgProc) {
+    serverMessageProcessor = msgProc;
+}
+
+function getGameServer() {
+    return gameServer;
+}
+
+function registerServerActor(serverActor) {
+    serverActors.push(serverActor);
+}
+
+function removeServerActor(serverActor) {
+    MATH.splice(serverActors, serverActor);
+}
+
+function getServerActorByActorId(actorId) {
+    for (let i = 0; i < serverActors.length; i++) {
+        if (serverActors[i].id === actorId) {
+            return serverActors[i];
+        }
+    }
+}
+
+function getGameServerWorld() {
+    return gameServer.gameServerWorld;
 }
 
 function registerGameServerUpdateCallback(callback) {
@@ -38,15 +68,21 @@ function dispatchMessage(messageData) {
     msgData.msg = JSON.stringify(messageData.msg)
 
     let msg = [ENUMS.Protocol.SERVER_DISPATCH, msgData];
-    gameServer.sendJson(JSON.stringify(messageData));
+    serverMessageProcessor.sendJson(JSON.stringify(messageData));
     postMessage(msg);
 
 }
 
 
 export {
+    getServerStamp,
+    setServerMessageProcessor,
+    getServerActorByActorId,
+    registerServerActor,
+    removeServerActor,
     setGameServer,
     getGameServer,
+    getGameServerWorld,
     registerGameServerUpdateCallback,
     unregisterGameServerUpdateCallback,
     dispatchMessage,

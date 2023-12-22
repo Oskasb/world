@@ -2,7 +2,7 @@ import {
     dispatchMessage,
     registerGameServerUpdateCallback,
     unregisterGameServerUpdateCallback
-} from "../utils/GameServerUtils.js";
+} from "../utils/GameServerFunctions.js";
 import {ENUMS} from "../../../client/js/application/ENUMS.js";
 import {EncounterStatus} from "../../../client/js/game/encounter/EncounterStatus.js";
 
@@ -28,7 +28,7 @@ function processActivationState(encounter) {
 }
 
 class ServerEncounter {
-    constructor(msgEvent) {
+    constructor(msgEvent, closeEncounterCB) {
 
         console.log("New ServerEncounter", msgEvent);
 
@@ -39,6 +39,8 @@ class ServerEncounter {
         this.setStatusKey(ENUMS.EncounterStatus.GRID_POS, msgEvent.msg.pos)
         this.encounterTime = 0;
         this.hostStamp = msgEvent.stamp;
+        this.onCloseCallbacks = [];
+
         let msg = {
             stamp : this.hostStamp,
             msg:{
@@ -73,6 +75,9 @@ class ServerEncounter {
 
 
     closeServerEncounter() {
+        while (this.onCloseCallbacks.length) {
+            this.onCloseCallbacks.pop()(this.hostStamp);
+        }
         unregisterGameServerUpdateCallback(this.call.updateServerEncounter)
     }
 
