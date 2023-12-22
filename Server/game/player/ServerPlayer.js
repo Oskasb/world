@@ -15,6 +15,7 @@ class ServerPlayer {
         let serverActor = getServerActorByActorId(actorId);
         if (!serverActor) {
             serverActor = new ServerActor(actorId, msg.status)
+            this.actors.push(serverActor);
             registerServerActor(serverActor);
             console.log("NEW ServerActor", serverActor)
         } else {
@@ -23,6 +24,14 @@ class ServerPlayer {
 
     }
 
+
+    getPlayerActor(actorId) {
+        for (let i = 0; i < this.actors.length; i++) {
+            if (this.actors[i].id === actorId) {
+                return this.actors[i]
+            }
+        }
+    }
 
 }
 

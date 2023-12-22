@@ -35,6 +35,9 @@ function processMessageData(stamp, msg) {
                 console.log("No player for adding actor, something not right!", msg)
                 return;
             }
+            if (stamp === getServerStamp()) {
+                dispatchMessage(msgEvent)
+            }
             player.loadPlayerActor(msg);
 
             break
@@ -42,7 +45,48 @@ function processMessageData(stamp, msg) {
             getGameServerWorld().initServerEncounter(msgEvent)
             break;
         default:
-            console.log("Request not processed ",request,  msg)
+
+            if (msg.indexOf(ENUMS.ItemStatus.ITEM_ID) === 0) {
+                let player = getGameServer().getConnectedPlayerByStamp(stamp);
+                let actorIdIdx = msg.indexOf(ENUMS.ItemStatus.ACTOR_ID)+1;
+                let actor = player.getPlayerActor(msg[actorIdIdx])
+                if (actor) {
+                    actor.updateItemStatusFromMessage(msg)
+                } else {
+                    // console.log("Item Message for no actor", msg)
+                    return;
+                }
+
+            } else if (msg.indexOf(ENUMS.ActionStatus.ACTION_ID) === 0) {
+                let player = getGameServer().getConnectedPlayerByStamp(stamp);;
+                let actorIdIdx = msg.indexOf(ENUMS.ActionStatus.ACTOR_ID)+1;
+                let actor = player.getPlayerActor(msg[actorIdIdx])
+                if (actor) {
+                    actor.updateActionStatusFromMessage(msg);
+                } else {
+                    console.log("ServerActor not loaded")
+                    return;
+                }
+
+            } else if (msg.indexOf(ENUMS.ActorStatus.ACTOR_ID) === 0) {
+                let player = getGameServer().getConnectedPlayerByStamp(stamp);;
+                let actor = player.getPlayerActor(msg[1])
+                if (actor) {
+                    actor.updateStatusFromMessage(msg);
+                } else {
+                    console.log("ServerActor not loaded")
+                    return;
+                }
+            } else {
+                console.log("Request not processed ",request,  msg)
+                return;
+            }
+
+            if (stamp === getServerStamp()) {
+                dispatchMessage(msgEvent)
+            }
+
+
     }
 }
 
@@ -56,7 +100,7 @@ class ServerMessageProcessor {
     connectionMessage(data) {
 
         if (data.stamp !== getServerStamp()) {
-            console.log("handle message from SOCKET", data);
+        //    console.log("handle message from SOCKET", data);
             processMessageData(data.stamp, data.msg);
         } else {
             console.log("No reprocess already dispatched message", data)
