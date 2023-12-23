@@ -1,3 +1,48 @@
+import {evt} from "../../application/event/evt.js";
+import {notifyCameraStatus} from "../../3d/camera/CameraFunctions.js";
+
+function processActorInit(stamp, msg) {
+    let status = msg.status;
+    let initLocalPlayerControlledActor = function(playerActor) {
+        console.log("initLocalPlayerControlledActor; ", stamp, msg);
+        setTimeout(function() {
+            GameAPI.getGamePieceSystem().addActorToPlayerParty(playerActor);
+            GameAPI.getGamePieceSystem().playerParty.selectPartyActor(playerActor);
+            playerActor.call.activateActionKey("ACTION_TRAVEL_WALK", ENUMS.ActorStatus.TRAVEL)
+            playerActor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_WALK)
+            playerActor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, true)
+            notifyCameraStatus(ENUMS.CameraStatus.CAMERA_MODE, ENUMS.CameraControls.CAM_MOVE, true)
+            notifyCameraStatus(ENUMS.CameraStatus.LOOK_AT, ENUMS.CameraControls.CAM_AHEAD, true)
+            notifyCameraStatus(ENUMS.CameraStatus.LOOK_FROM, ENUMS.CameraControls.CAM_PARTY, true)
+            notifyCameraStatus(ENUMS.CameraStatus.POINTER_ACTION, ENUMS.CameraControls.CAM_MOVE, null)
+        }, 500)
+
+    }
+
+    let actorLoaded = function(actor) {
+        console.log("actorLoaded; ", stamp, msg);
+        for (let key in status) {
+            actor.setStatusKey(key, status[key]);
+        }
+
+        let onActivated = function(actor) {
+            if (actor.getStatus(ENUMS.ActorStatus.ACTOR_ID) === GameAPI.getGamePieceSystem().playerActorId) {
+                initLocalPlayerControlledActor(actor);
+            } else {
+                console.log("Remotely operated actor activated", actor);
+            }
+        }
+
+        actor.activateGameActor(onActivated);
+    }
+
+    let configId = status[ENUMS.ActorStatus.CONFIG_ID];
+    console.log("ACTOR_INIT; ", configId, stamp, msg);
+    evt.dispatch(ENUMS.Event.LOAD_ACTOR,  {id: configId, callback:actorLoaded})
+
+
+}
+
 function processServerCommand(command, message) {
 
     let stamp = message.stamp;
@@ -19,8 +64,7 @@ function processServerCommand(command, message) {
 
             break;
         case ENUMS.ServerCommands.ACTOR_INIT:
-            console.log("ACTOR_INIT; ", stamp, msg);
-
+            processActorInit(stamp, msg);
             break;
         case ENUMS.ServerCommands.ACTOR_UPDATE:
             console.log("ACTOR_UPDATE; ", stamp, msg);

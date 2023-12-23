@@ -50,6 +50,7 @@ worker.onmessage = function(msg) {
 
 		//	console.log("Worker Socket -> Client Message", msg[1], msgEvent);
 	} else if (protocolKey === ENUMS.Protocol.SERVER_DISPATCH) {
+		console.log("SERVER_DISPATCH -> Socket", msg[1], msgEvent);
 		processServerCommand(msg.data[0], msg.data[1]);
 	} else {
 		console.log("Worker Socket Unhandled Message", msg);

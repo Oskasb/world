@@ -111,7 +111,7 @@ let processConnectionMessage = function(event) {
     }
 
     if (event.stamp === client.getStamp()) {
-        console.log("Respond to Host")
+        console.log("Respond to Host", event)
         return;
     }
 
@@ -127,6 +127,7 @@ let processConnectionMessage = function(event) {
 class GamePieceSystem {
     constructor() {
 
+        this.playerActorId = -1;
         this.playerParty = new PlayerParty();
         this.selectedActor = null;
 

@@ -18,8 +18,10 @@ class ServerPlayer {
             this.actors.push(serverActor);
             registerServerActor(serverActor);
             console.log("NEW ServerActor", serverActor)
+            return true;
         } else {
             console.log("ServerActor already added", serverActor)
+            return false;
         }
 
     }

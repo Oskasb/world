@@ -42,20 +42,21 @@ class GameAdventureSystem {
                 notifyCameraStatus(ENUMS.CameraStatus.CAMERA_MODE, ENUMS.CameraControls.CAM_MOVE, true)
                 notifyCameraStatus(ENUMS.CameraStatus.LOOK_AT, ENUMS.CameraControls.CAM_AHEAD, true)
                 notifyCameraStatus(ENUMS.CameraStatus.LOOK_FROM, ENUMS.CameraControls.CAM_PARTY, true)
-                notifyCameraStatus( ENUMS.CameraStatus.POINTER_ACTION, ENUMS.CameraControls.CAM_MOVE, null)
+                notifyCameraStatus(ENUMS.CameraStatus.POINTER_ACTION, ENUMS.CameraControls.CAM_MOVE, null)
 
             }, 1000)
 
             actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_INACTIVE)
             this.startActor.setStatusKey(ENUMS.ActorStatus.HP, this.startActor.getStatus(ENUMS.ActorStatus.MAX_HP))
-            GameAPI.getGamePieceSystem().addActorToPlayerParty(this.startActor);
-            GameAPI.getGamePieceSystem().playerParty.selectPartyActor(this.startActor);
+        //    GameAPI.getGamePieceSystem().addActorToPlayerParty(this.startActor);
+        //    GameAPI.getGamePieceSystem().playerParty.selectPartyActor(this.startActor);
+            GameAPI.getGamePieceSystem().playerActorId = actor.id;
             //    this.startActor.travelMode.mode = null;
             GuiAPI.closePage(this.page);
             GuiAPI.closePage(client.page)
             client.page = null;
             evt.dispatch(ENUMS.Event.CALL_SERVER, {request:ENUMS.ClientRequests.LOAD_SERVER_ACTOR, status:this.startActor.getStatus()})
-
+            this.startActor.removeGameActor();
             return;
         }
 

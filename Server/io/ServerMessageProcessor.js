@@ -36,9 +36,14 @@ function processMessageData(stamp, msg) {
                 return;
             }
             if (stamp === getServerStamp()) {
+
+            }
+            let newActor = player.loadPlayerActor(msg);
+
+            if (newActor) {
+                msgEvent.msg.command = ENUMS.ServerCommands.ACTOR_INIT
                 dispatchMessage(msgEvent)
             }
-            player.loadPlayerActor(msg);
 
             break
         case ENUMS.ClientRequests.ENCOUNTER_INIT:
