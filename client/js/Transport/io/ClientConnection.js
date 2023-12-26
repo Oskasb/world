@@ -30,8 +30,8 @@ function setupUniqueConnection(stamp) {
 	client.setStamp(stamp);
 }
 
-// './client/js/data_pipeline/worker/WorkerMain.js'
-let worker = new Worker("./Server/Worker/WorkerMain.js", { type: "module" });
+// './client/js/data_pipeline/worker/ServerWorkerMain.js'
+let worker = new Worker("./Server/Worker/ServerWorkerMain.js", { type: "module" });
 
 worker.onmessage = function(msg) {
 

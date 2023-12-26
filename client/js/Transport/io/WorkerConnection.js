@@ -5,7 +5,7 @@ let socket;
 let frameStack = [];
 let messageCount = 0;
 let socketBytes = 0;
-// './client/js/data_pipeline/worker/WorkerMain.js'
+// './client/js/data_pipeline/worker/ServerWorkerMain.js'
 let serverStamp = 0;
 
 class WorkerConnection {

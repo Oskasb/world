@@ -58,7 +58,7 @@ function processMessageData(stamp, msg) {
                 if (actor) {
                     actor.updateItemStatusFromMessage(msg)
                 } else {
-                    // console.log("Item Message for no actor", msg)
+                    console.log("Item Message for no actor", msg)
                     return;
                 }
 

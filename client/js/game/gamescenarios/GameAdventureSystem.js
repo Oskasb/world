@@ -31,20 +31,12 @@ class GameAdventureSystem {
         notifyCameraStatus(ENUMS.CameraStatus.LOOK_FROM, ENUMS.CameraControls.CAM_HIGH, false)
         if (event['activate_selection'] === true) {
             //    actor.activateWalkGrid(3);
+            actor.call.activateActionKey("ACTION_TRAVEL_WALK", ENUMS.ActorStatus.TRAVEL)
+
 
             setTimeout(function() {
-
-                actor.call.activateActionKey("ACTION_TRAVEL_WALK", ENUMS.ActorStatus.TRAVEL)
-                actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_WALK)
-                actor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, true)
-                //        actor.getGameWalkGrid().deactivateWalkGrid();
-
-                notifyCameraStatus(ENUMS.CameraStatus.CAMERA_MODE, ENUMS.CameraControls.CAM_MOVE, true)
-                notifyCameraStatus(ENUMS.CameraStatus.LOOK_AT, ENUMS.CameraControls.CAM_AHEAD, true)
-                notifyCameraStatus(ENUMS.CameraStatus.LOOK_FROM, ENUMS.CameraControls.CAM_PARTY, true)
-                notifyCameraStatus(ENUMS.CameraStatus.POINTER_ACTION, ENUMS.CameraControls.CAM_MOVE, null)
-
-            }, 1000)
+                evt.dispatch(ENUMS.Event.CALL_SERVER, {request:ENUMS.ClientRequests.LOAD_SERVER_ACTOR, status:actor.getStatus()})
+            }, 500)
 
             actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_INACTIVE)
             this.startActor.setStatusKey(ENUMS.ActorStatus.HP, this.startActor.getStatus(ENUMS.ActorStatus.MAX_HP))
@@ -55,7 +47,7 @@ class GameAdventureSystem {
             GuiAPI.closePage(this.page);
             GuiAPI.closePage(client.page)
             client.page = null;
-            evt.dispatch(ENUMS.Event.CALL_SERVER, {request:ENUMS.ClientRequests.LOAD_SERVER_ACTOR, status:this.startActor.getStatus()})
+
             this.startActor.removeGameActor();
             return;
         }
