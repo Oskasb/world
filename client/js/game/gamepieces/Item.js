@@ -46,11 +46,12 @@ class Item {
         }
 
         let tickSkinnedItem = function(tpf, gameTime) {
-            let actor = GameAPI.getActorById(this.getStatus(ENUMS.ItemStatus.ACTOR_ID))
+            let ownerId = this.getStatus(ENUMS.ItemStatus.ACTOR_ID)
+            let actor = GameAPI.getActorById(ownerId)
             if (actor) {
                 this.visualGamePiece.call.tickPieceEquippedItem(actor)
             } else {
-                console.log("Owner actor removed")
+                console.log("No current owner actor", ownerId)
                 this.hide();
                 this.disposeItem();
             }

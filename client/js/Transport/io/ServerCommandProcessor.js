@@ -15,6 +15,7 @@ function processActorInit(stamp, msg) {
             notifyCameraStatus(ENUMS.CameraStatus.LOOK_AT, ENUMS.CameraControls.CAM_AHEAD, true)
             notifyCameraStatus(ENUMS.CameraStatus.LOOK_FROM, ENUMS.CameraControls.CAM_PARTY, true)
             notifyCameraStatus(ENUMS.CameraStatus.POINTER_ACTION, ENUMS.CameraControls.CAM_MOVE, null)
+            GameAPI.getGamePieceSystem().grabLooseItems(playerActor);
         }, 500)
 
     }
@@ -24,6 +25,8 @@ function processActorInit(stamp, msg) {
         for (let key in status) {
             actor.setStatusKey(key, status[key]);
         }
+
+        actor.id = actor.getStatus(ENUMS.ActorStatus.ACTOR_ID)
 
         let onActivated = function(actor) {
             if (actor.getStatus(ENUMS.ActorStatus.ACTOR_ID) === GameAPI.getGamePieceSystem().playerActorId) {
@@ -43,12 +46,42 @@ function processActorInit(stamp, msg) {
 
 }
 
-function processServerCommand(command, message) {
+function processItemInit(stamp, msg) {
+    let status = msg.status;
+
+    let itemLoaded = function(item) {
+
+        for (let key in status) {
+            item.setStatusKey(key, status[key]);
+        }
+
+        let equippedToActorId = item.getStatus(ENUMS.ItemStatus.ACTOR_ID);
+        let actor = GameAPI.getActorById(equippedToActorId);
+
+        if (actor) {
+            actor.equipItem(item)
+        } else {
+            GameAPI.getGamePieceSystem().addLooseItem(item);
+
+        }
+
+
+    }
+
+    let templateId = status[ENUMS.ItemStatus.TEMPLATE];
+    console.log("ITEM_INIT: ", templateId, stamp, msg);
+    evt.dispatch(ENUMS.Event.LOAD_ITEM,  {id: templateId, callback:itemLoaded})
+
+}
+
+
+function processServerCommand(protocolKey, message) {
 
     let stamp = message.stamp;
     let msg = JSON.parse(message.msg);
     let encounter;
 
+    console.log("processServerCommand", ENUMS.getKey('Protocol', protocolKey), ENUMS.getKey('ServerCommands', msg.command), msg);
 
     switch (msg.command) {
         case ENUMS.ServerCommands.PLAYER_CONNECTED:
@@ -72,6 +105,17 @@ function processServerCommand(command, message) {
             break;
         case ENUMS.ServerCommands.ACTOR_REMOVED:
             console.log("ACTOR_REMOVED; ", stamp, msg);
+
+            break;
+        case ENUMS.ServerCommands.ITEM_INIT:
+            processItemInit(stamp, msg);
+            break;
+        case ENUMS.ServerCommands.ITEM_UPDATE:
+            console.log("ITEM_UPDATE; ", stamp, msg);
+
+            break;
+        case ENUMS.ServerCommands.ITEM_REMOVED:
+            console.log("ITEM_REMOVED; ", stamp, msg);
 
             break;
         case ENUMS.ServerCommands.ENCOUNTER_TRIGGER:

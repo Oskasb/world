@@ -1,12 +1,12 @@
 import {SimpleSend} from "../../Transport/io/SimpleSend.js";
 
 class ItemStatus {
-    constructor(itemId) {
+    constructor(itemTemplate) {
 
         let simpleSend = new SimpleSend();
 
         this.statusMap =  {};
-        this.statusMap[ENUMS.ItemStatus.ITEM_ID] = itemId;
+        this.statusMap[ENUMS.ItemStatus.TEMPLATE] = itemTemplate;
         this.statusMap[ENUMS.ItemStatus.ACTOR_ID] = 'none';
         this.statusMap[ENUMS.ItemStatus.PALETTE_VALUES] = [];
         this.statusMap[ENUMS.ItemStatus.EQUIPPED_SLOT] = '';

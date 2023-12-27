@@ -123,7 +123,10 @@ let ENUMS = {}
         PLAYER_DISCONNECTED:7,
         ACTOR_INIT:8,
         ACTOR_UPDATE:9,
-        ACTOR_REMOVED:10
+        ACTOR_REMOVED:10,
+        ITEM_INIT:11,
+        ITEM_UPDATE:12,
+        ITEM_REMOVED:13
     };
 
     ENUMS.ActorStatus = {
@@ -136,6 +139,7 @@ let ENUMS = {}
         UPDATE_DELTA:'UPDATE_DELTA',
         LAST_UPDATE:'LAST_UPDATE',
         CLIENT_STAMP:'CLIENT_STAMP',
+        PLAYER_STAMP:'PLAYER_STAMP',
         ACTOR_INDEX:'ACTOR_INDEX',
         EQUIPPED_ITEMS:'EQUIPPED_ITEMS',
         ALIGNMENT:'ALIGNMENT',
@@ -237,6 +241,7 @@ let ENUMS = {}
 
     ENUMS.ItemStatus = {
         ITEM_ID:'ITEM_ID',
+        TEMPLATE:'TEMPLATE',
         ACTOR_ID:'ACTOR_ID',
         PALETTE_VALUES:'PALETTE_VALUES',
         EQUIPPED_SLOT:'EQUIPPED_SLOT',

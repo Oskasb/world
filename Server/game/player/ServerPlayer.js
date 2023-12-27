@@ -1,10 +1,14 @@
 import {ENUMS} from "../../../client/js/application/ENUMS.js";
 import {ServerActor} from "../actor/ServerActor.js";
 import {getServerActorByActorId, registerServerActor} from "../utils/GameServerFunctions.js";
+import {ServerItem} from "../item/ServerItem.js";
+
+let index = 0;
 class ServerPlayer {
     constructor(stamp) {
         this.actors = [];
         this.stamp = stamp;
+        index++
     }
 
 
@@ -15,8 +19,18 @@ class ServerPlayer {
         let serverActor = getServerActorByActorId(actorId);
         if (!serverActor) {
             serverActor = new ServerActor(actorId, msg.status)
+            serverActor.status.setStatusKey(ENUMS.ActorStatus.PLAYER_STAMP, this.stamp);
             this.actors.push(serverActor);
             registerServerActor(serverActor);
+
+            let equippedTemplateItems = msg.status['EQUIPPED_ITEMS']
+            for (let i = 0; i < equippedTemplateItems.length; i++) {
+                let serverItem = new ServerItem(equippedTemplateItems[i]);
+                serverActor.equipServerItem(serverItem)
+                serverItem.dispatchItemStatus(ENUMS.ServerCommands.ITEM_INIT)
+            }
+
+
             console.log("NEW ServerActor", serverActor)
             return true;
         } else {

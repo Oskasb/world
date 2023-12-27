@@ -18,6 +18,9 @@ let remoteClients = {}
 let opponentList = []; // temp list for fetching opponents
 let parsedEquipSlotData
 
+let looseItems = []
+
+
 let registerActor = function(actor) {
     if (actors.indexOf(actor) === -1) {
         actors.push(actor);
@@ -135,6 +138,28 @@ class GamePieceSystem {
 
     getActors() {
         return actors;
+    }
+
+    addLooseItem(item) {
+        console.log("Add Loose Item ", item)
+        item.hide()
+        looseItems.push(item)
+    }
+
+    grabLooseItems(actor) {
+
+        for (let i = 0; i < looseItems.length; i++) {
+            let item = looseItems[i];
+            let itemActorId = item.getStatus(ENUMS.ItemStatus.ACTOR_ID);
+            if (actor.getStatus(ENUMS.ActorStatus.ACTOR_ID) === itemActorId) {
+                looseItems.splice(i, 1);
+                i--
+                console.log("Grab Loose Item ", item)
+                actor.equipItem(item);
+            }
+
+        }
+
     }
 
     timeoutRemoteClient(stamp) {

@@ -43,6 +43,8 @@ function processMessageData(stamp, msg) {
             if (newActor) {
                 msgEvent.msg.command = ENUMS.ServerCommands.ACTOR_INIT
                 dispatchMessage(msgEvent)
+            } else {
+                console.log("Actor already loaded:", msg, player)
             }
 
             break
@@ -54,7 +56,8 @@ function processMessageData(stamp, msg) {
             if (msg.indexOf(ENUMS.ItemStatus.ITEM_ID) === 0) {
                 let player = getGameServer().getConnectedPlayerByStamp(stamp);
                 let actorIdIdx = msg.indexOf(ENUMS.ItemStatus.ACTOR_ID)+1;
-                let actor = player.getPlayerActor(msg[actorIdIdx])
+                let actorId = msg[actorIdIdx]
+                let actor = player.getPlayerActor(actorId)
                 if (actor) {
                     actor.updateItemStatusFromMessage(msg)
                 } else {
@@ -79,7 +82,7 @@ function processMessageData(stamp, msg) {
                 if (actor) {
                     actor.updateStatusFromMessage(msg);
                 } else {
-                    console.log("ServerActor not loaded")
+                    console.log("ServerActor not loaded", msg[1], msg, player)
                     return;
                 }
             } else {

@@ -106,7 +106,7 @@ class GameAdventureSystem {
             }
 
             let onActorReady = function() {
-                setTimeout(delayed, 500);
+                setTimeout(delayed, 10);
             }
 
             actor.activateGameActor(onActorReady);
