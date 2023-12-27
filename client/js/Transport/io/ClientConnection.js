@@ -56,7 +56,7 @@ worker.onmessage = function(msg) {
 		} else {
 			console.log("Not listening to remote dispatches")
 		}
-		
+
 	} else {
 		console.log("Worker Socket Unhandled Message", msg);
 	}

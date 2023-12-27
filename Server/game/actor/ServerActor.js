@@ -1,12 +1,13 @@
 import {Status} from "../status/Status.js";
 import {ENUMS} from "../../../client/js/application/ENUMS.js";
-
+import {ServerActorStatusProcessor} from "./ServerActorStatusProcessor.js";
 
 class ServerActor {
     constructor(id, statusValues) {
         this.id = id;
         this.status = new Status(statusValues);
-        this.equippedItems = []
+        this.equippedItems = [];
+            this.serverActorStatusProcessor = new ServerActorStatusProcessor()
     }
 
 
@@ -20,8 +21,12 @@ class ServerActor {
 
     }
 
+
+
+
     updateStatusFromMessage(msg) {
         console.log("Actor status message: ", [msg]);
+        this.serverActorStatusProcessor.processServerActorStatusMessage(this.status, msg)
     }
 
     updateActionStatusFromMessage(msg) {

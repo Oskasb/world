@@ -84,6 +84,7 @@ function sendUpdatedOnly(status, statusMap) {
 }
 
 let detailsMap = [
+    ENUMS.ActorStatus.ACTIVATION_STATE,
     ENUMS.ActorStatus.PATH_POINTS,
     ENUMS.ActorStatus.SELECTED_TARGET,
     ENUMS.ActorStatus.ALIGNMENT,
@@ -217,6 +218,7 @@ class ActorStatus {
         this.tempQuat = new Quaternion();
         this.statusMap = {}
         this.statusMap[ENUMS.ActorStatus.ACTOR_ID] = this.actor.id;
+        this.statusMap[ENUMS.ActorStatus.ACTIVATION_STATE] = ENUMS.ActivationState.INIT;
         this.statusMap[ENUMS.ActorStatus.IS_ACTIVE] = 0;
         this.statusMap[ENUMS.ActorStatus.ALIGNMENT] = 'NEUTRAL';
         this.statusMap[ENUMS.ActorStatus.MOVE_STATE] = 'MOVE';

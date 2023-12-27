@@ -28,7 +28,7 @@ let onDisconnect = function() {
 workerConnection.setupSocket(onConnected, onError, onDisconnect, serverMessageProcessor.connectionMessage)
 
 let handleMessage = function(oEvent) {
-
+    console.log("handle message:", oEvent.data);
     if (oEvent.data[0] === ENUMS.Protocol.CLIENT_TO_WORKER) {
         serverMessageProcessor.handleClientMessage(oEvent.data[1]);
     } else if (oEvent.data[0] === ENUMS.Protocol.SERVER_CALL) {

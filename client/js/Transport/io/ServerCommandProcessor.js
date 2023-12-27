@@ -1,5 +1,6 @@
 import {evt} from "../../application/event/evt.js";
 import {notifyCameraStatus} from "../../3d/camera/CameraFunctions.js";
+import {processStatusMessage} from "../../../../Server/game/utils/GameServerFunctions.js";
 
 function processActorInit(stamp, msg) {
     let status = msg.status;
@@ -15,6 +16,7 @@ function processActorInit(stamp, msg) {
             notifyCameraStatus(ENUMS.CameraStatus.LOOK_AT, ENUMS.CameraControls.CAM_AHEAD, true)
             notifyCameraStatus(ENUMS.CameraStatus.LOOK_FROM, ENUMS.CameraControls.CAM_PARTY, true)
             notifyCameraStatus(ENUMS.CameraStatus.POINTER_ACTION, ENUMS.CameraControls.CAM_MOVE, null)
+            playerActor.setStatusKey(ENUMS.ActorStatus.ACTIVATION_STATE, ENUMS.ActivationState.ACTIVATING)
             GameAPI.getGamePieceSystem().grabLooseItems(playerActor);
         }, 500)
 
@@ -81,6 +83,10 @@ function processServerCommand(protocolKey, message) {
     let msg = JSON.parse(message.msg);
     let encounter;
 
+    if (!msg.command) {
+        return;
+    }
+
     console.log("processServerCommand", ENUMS.getKey('Protocol', protocolKey), ENUMS.getKey('ServerCommands', msg.command), msg);
 
     switch (msg.command) {
@@ -133,7 +139,11 @@ function processServerCommand(protocolKey, message) {
             console.log("Close Encounter; ", msg.encounterId, msg.worldEncounterId, stamp, msg);
             break;
         default:
-            console.log("Unhandled server Command; ", [stamp, msg]);
+
+
+        //       processStatusMessage(stamp, msg)
+
+         console.log("Unhandled server Command; ", [stamp, msg]);
     }
 
 }

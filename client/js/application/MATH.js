@@ -836,6 +836,10 @@ MATH.stupidChecksumArray = function(arr) {
 
 	let sum = 0;
 
+	if (!arr) {
+		return -1;
+	}
+
 	let addLevel = function(array) {
 		if (typeof (array) === 'undefined') {
 			sum += 0.1
