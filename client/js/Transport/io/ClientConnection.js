@@ -51,7 +51,12 @@ worker.onmessage = function(msg) {
 		//	console.log("Worker Socket -> Client Message", msg[1], msgEvent);
 	} else if (protocolKey === ENUMS.Protocol.SERVER_DISPATCH) {
 
-		processServerCommand(msg.data[0], msg.data[1]);
+		if (msg.data[1].stamp === client.getStamp()) {
+			processServerCommand(msg.data[0], msg.data[1]);
+		} else {
+			console.log("Not listening to remote dispatches")
+		}
+		
 	} else {
 		console.log("Worker Socket Unhandled Message", msg);
 	}

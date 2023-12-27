@@ -53,41 +53,50 @@ function processMessageData(stamp, msg) {
             break;
         default:
 
-            if (msg.indexOf(ENUMS.ItemStatus.ITEM_ID) === 0) {
-                let player = getGameServer().getConnectedPlayerByStamp(stamp);
-                let actorIdIdx = msg.indexOf(ENUMS.ItemStatus.ACTOR_ID)+1;
-                let actorId = msg[actorIdIdx]
-                let actor = player.getPlayerActor(actorId)
-                if (actor) {
-                    actor.updateItemStatusFromMessage(msg)
-                } else {
-                    console.log("Item Message for no actor", msg)
-                    return;
-                }
+            if (typeof (msg.indexOf) !== 'function') {
+                console.log("Not array message", msg)
 
-            } else if (msg.indexOf(ENUMS.ActionStatus.ACTION_ID) === 0) {
-                let player = getGameServer().getConnectedPlayerByStamp(stamp);;
-                let actorIdIdx = msg.indexOf(ENUMS.ActionStatus.ACTOR_ID)+1;
-                let actor = player.getPlayerActor(msg[actorIdIdx])
-                if (actor) {
-                    actor.updateActionStatusFromMessage(msg);
-                } else {
-                    console.log("ServerActor not loaded")
-                    return;
-                }
-
-            } else if (msg.indexOf(ENUMS.ActorStatus.ACTOR_ID) === 0) {
-                let player = getGameServer().getConnectedPlayerByStamp(stamp);;
-                let actor = player.getPlayerActor(msg[1])
-                if (actor) {
-                    actor.updateStatusFromMessage(msg);
-                } else {
-                    console.log("ServerActor not loaded", msg[1], msg, player)
-                    return;
-                }
             } else {
-                console.log("Request not processed ",request,  msg)
-                return;
+
+
+
+                if (msg.indexOf(ENUMS.ItemStatus.ITEM_ID) === 0) {
+                    let player = getGameServer().getConnectedPlayerByStamp(stamp);
+                    let actorIdIdx = msg.indexOf(ENUMS.ItemStatus.ACTOR_ID)+1;
+                    let actorId = msg[actorIdIdx]
+                    let actor = player.getPlayerActor(actorId)
+                    if (actor) {
+                        actor.updateItemStatusFromMessage(msg)
+                    } else {
+                        console.log("Item Message for no actor", msg)
+                    //    return;
+                    }
+
+                } else if (msg.indexOf(ENUMS.ActionStatus.ACTION_ID) === 0) {
+                    let player = getGameServer().getConnectedPlayerByStamp(stamp);;
+                    let actorIdIdx = msg.indexOf(ENUMS.ActionStatus.ACTOR_ID)+1;
+                    let actor = player.getPlayerActor(msg[actorIdIdx])
+                    if (actor) {
+                        actor.updateActionStatusFromMessage(msg);
+                    } else {
+                        console.log("ServerActor not loaded")
+                        return;
+                    }
+
+                } else if (msg.indexOf(ENUMS.ActorStatus.ACTOR_ID) === 0) {
+                    let player = getGameServer().getConnectedPlayerByStamp(stamp);;
+                    let actor = player.getPlayerActor(msg[1])
+                    if (actor) {
+                        actor.updateStatusFromMessage(msg);
+                    } else {
+                        console.log("ServerActor not loaded", msg[1], msg, player)
+                        return;
+                    }
+                } else {
+                    console.log("Request not processed ",request,  msg)
+                    return;
+                }
+
             }
 
             if (stamp === getServerStamp()) {
@@ -110,7 +119,7 @@ class ServerMessageProcessor {
     connectionMessage(data) {
 
         if (data.stamp !== getServerStamp()) {
-        //    console.log("handle message from SOCKET", data);
+            //    console.log("handle message from SOCKET", data);
             processMessageData(data.stamp, data.msg);
         } else {
             console.log("No reprocess already dispatched message", data)
