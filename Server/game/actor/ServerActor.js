@@ -25,16 +25,16 @@ class ServerActor {
 
 
     updateStatusFromMessage(msg) {
-        console.log("Actor status message: ", [msg]);
+    //    console.log("Actor status message: ", [msg]);
         this.serverActorStatusProcessor.processServerActorStatusMessage(this.status, msg)
     }
 
     updateActionStatusFromMessage(msg) {
-        console.log("Actor ACTION message: ", [msg]);
+    //    console.log("Actor ACTION message: ", [msg]);
     }
 
     updateItemStatusFromMessage(msg) {
-        console.log("Actor ITEM msg", [msg]);
+    //    console.log("Actor ITEM msg", [msg]);
     }
 
 }

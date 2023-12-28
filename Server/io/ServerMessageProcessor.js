@@ -6,7 +6,7 @@ import {
     getGameServerWorld,
     getServerStamp,
     applyMessageToClient,
-    processStatusMessage
+    processStatusMessage, getServerActorByActorId, statusMapFromMsg, getStatusFromMsg
 } from "../game/utils/GameServerFunctions.js";
 
 let msgEvent = {
@@ -61,7 +61,60 @@ function processMessageData(stamp, msg) {
             getGameServerWorld().initServerEncounter(msgEvent)
             break;
         default:
-            processStatusMessage(stamp, msg)
+            if (typeof (msg.indexOf) !== 'function') {
+                console.log("Not array message", msg)
+
+            } else {
+
+                if (msg.indexOf(ENUMS.ItemStatus.ITEM_ID) === 0) {
+                    //    let player = gameServer.getConnectedPlayerByStamp(stamp);
+                    let actorIdIdx = msg.indexOf(ENUMS.ItemStatus.ACTOR_ID)+1;
+                    let actorId = msg[actorIdIdx]
+                    let actor = getServerActorByActorId(actorId)
+                    if (actor) {
+                        actor.updateItemStatusFromMessage(msg)
+                    } else {
+                        console.log("Item Message for no actor", msg)
+                        return;
+                    }
+
+                } else if (msg.indexOf(ENUMS.ActionStatus.ACTION_ID) === 0) {
+                    //   let player = gameServer.getConnectedPlayerByStamp(stamp);;
+                    let actorIdIdx = msg.indexOf(ENUMS.ActionStatus.ACTOR_ID)+1;
+                    let actor = getServerActorByActorId(msg[actorIdIdx])
+                    if (actor) {
+                        actor.updateActionStatusFromMessage(msg);
+                    } else {
+                        console.log("ServerActor not loaded")
+                        return;
+                    }
+
+                } else if (msg.indexOf(ENUMS.ActorStatus.ACTOR_ID) === 0) {
+                    //    let player = gameServer.getConnectedPlayerByStamp(stamp);;
+                    let actor = getServerActorByActorId(msg[1])
+                    if (actor) {
+                        actor.updateStatusFromMessage(msg);
+                    } else {
+
+                        let exists = getStatusFromMsg(ENUMS.ActorStatus.EXISTS, msg)
+                        if (exists !== 'no_value') {
+                            console.log("Load actor from message")
+
+                            let player = getGameServer().getConnectedPlayerByStamp(stamp);
+                            let status = statusMapFromMsg(msg);
+                            player.loadPlayerActor({status:status});
+                        } else {
+                            console.log("not loading actor", msg[1], msg)
+                        }
+
+                        return;
+                    }
+                } else {
+                    console.log("Request not processed ",request,  msg)
+                    return;
+                }
+
+            }
 
             if (stamp === getServerStamp()) {
                 dispatchMessage(msgEvent)
@@ -97,7 +150,7 @@ class ServerMessageProcessor {
 
     handleClientRequest(msgJson) {
         let data = JSON.parse(msgJson)
-        console.log("handle message from CLIENT", data);
+    //    console.log("handle message from CLIENT", data);
         processMessageData(data.stamp, data.msg)
 
     }

@@ -35,7 +35,7 @@ class ActorEquipment {
 
 
         let equipActorItem = function(item) {
-            console.log("EQUIP ITEM: ", item)
+        //    console.log("EQUIP ITEM: ", item)
             this.items.push(item)
             //    this.applyItemStatusModifiers(item, 1);
             //    item.setEquippedToPiece(this.gamePiece)

@@ -52,16 +52,21 @@ class ServerActorStatusProcessor {
 
                     if (statusKey === ENUMS.ActorStatus.ACTIVATION_STATE) {
                         if (newValue === ENUMS.ActivationState.ACTIVATING) {
-                            let currentItems = status.getStatus(ENUMS.ActorStatus.EQUIPPED_ITEMS);
-                            status.setStatusKey(ENUMS.ActorStatus.EQUIPPED_ITEMS, [])
-                            this.updateEquippedItems(status, currentItems);
+                            let initRequests = status.getStatus(ENUMS.ActorStatus.EQUIP_REQUESTS);
+
+                            this.updateEquippedItems(status, initRequests);
+                            status.setStatusKey(ENUMS.ActorStatus.EQUIP_REQUESTS, []);
                             console.log("Actor ACTIVATING")
                         }
                     }
 
-                    if (status.getStatus(ENUMS.ActorStatus.EQUIPPED_ITEMS)) {
-                        this.updateEquippedItems(status, newValue);
+                    if (status.getStatus(ENUMS.ActorStatus.ACTIVATION_STATE) === ENUMS.ActivationState.ACTIVE) {
+                        if (statusKey === ENUMS.ActorStatus.EQUIP_REQUESTS) {
+                            this.updateEquippedItems(status, newValue);
+                            newValue = []
+                        }
                     }
+
 
                     status.setStatusKey(statusKey, newValue);
                 }

@@ -62,7 +62,7 @@ let msgData = {
 }
 
 function dispatchMessage(messageData) {
-    console.log("Dispatch Msg ", messageData);
+ //   console.log("Dispatch Msg ", messageData);
 
     msgData.stamp = messageData.stamp;
     msgData.msg = JSON.stringify(messageData.msg)
@@ -76,6 +76,28 @@ function dispatchMessage(messageData) {
 function applyMessageToClient(messageDate) {
     postMessage([ENUMS.Protocol.MESSAGE_RELAYED, messageDate]);
 }
+
+function getStatusFromMsg(key, msg) {
+    let keyIndex = msg.indexOf(key);
+    if (keyIndex !== -1) {
+        return msg[keyIndex+1]
+    } else {
+        return 'no_value'
+    }
+
+}
+
+function statusMapFromMsg(msg) {
+    let statusMap = {}
+    for (let i = 0; i < msg.length; i++) {
+        let statusKey = ENUMS.ActorStatus[msg[i]]
+        i++;
+        let newValue =  msg[i]
+        statusMap[statusKey] = newValue;
+    }
+    return statusMap
+}
+
 
 function processStatusMessage(stamp, msg) {
 
@@ -99,7 +121,7 @@ function processStatusMessage(stamp, msg) {
                 actor.updateItemStatusFromMessage(msg)
             } else {
                 console.log("Item Message for no actor", msg)
-                //    return;
+                return;
             }
 
         } else if (msg.indexOf(ENUMS.ActionStatus.ACTION_ID) === 0) {
@@ -119,7 +141,18 @@ function processStatusMessage(stamp, msg) {
             if (actor) {
                 actor.updateStatusFromMessage(msg);
             } else {
-                console.log("ServerActor not loaded", msg[1], msg, player)
+
+                let exists = getStatusFromMsg(ENUMS.ActorStatus.EXISTS, msg)
+                if (exists !== 'no_value') {
+                    console.log("Load actor from message")
+
+                    let player = gameServer.getConnectedPlayerByStamp(stamp);
+                    let status = statusMapFromMsg(msg);
+                    player.loadPlayerActor({status:status});
+                } else {
+                    console.log("not loading actor", msg[1], msg)
+                }
+
                 return;
             }
         } else {
@@ -148,5 +181,8 @@ export {
     dispatchMessage,
     applyMessageToClient,
     processStatusMessage,
-    equipActorItem
+    equipActorItem,
+    getStatusFromMsg,
+    statusMapFromMsg
+
 }

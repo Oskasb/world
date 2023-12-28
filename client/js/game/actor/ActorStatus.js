@@ -225,6 +225,7 @@ class ActorStatus {
         this.statusMap[ENUMS.ActorStatus.STAND_STATE] = 'IDLE_HANDS';
         this.statusMap[ENUMS.ActorStatus.BODY_STATE] = 'IDLE_LEGS';
         this.statusMap[ENUMS.ActorStatus.SPATIAL_DELTA] = 0.2;
+        this.statusMap[ENUMS.ActorStatus.EQUIP_REQUESTS] = [];
         this.statusMap[ENUMS.ActorStatus.EQUIPPED_ITEMS] = [];
         this.statusMap[ENUMS.ActorStatus.PATH_POINTS] = [];
         this.statusMap[ENUMS.ActorStatus.ACTIONS] = [];
