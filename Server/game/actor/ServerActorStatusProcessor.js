@@ -1,7 +1,7 @@
 import {ENUMS} from "../../../client/js/application/ENUMS.js";
 import {MATH} from "../../../client/js/application/MATH.js";
 import {ServerItem} from "../item/ServerItem.js";
-import {getServerActorByActorId} from "../utils/GameServerFunctions.js";
+import {getServerActorByActorId, getServerStamp, registerServerItem} from "../utils/GameServerFunctions.js";
 
 class ServerActorStatusProcessor {
     constructor() {
@@ -23,15 +23,18 @@ class ServerActorStatusProcessor {
             currentItems = [];
         }
 
-        console.log("UPDATE EQUIPPED ITEMS: ", itemTemplateList)
+    //    console.log("UPDATE EQUIPPED ITEMS: ", itemTemplateList)
 
         for (let i = 0; i < itemTemplateList.length; i++) {
             if (currentItems.indexOf(itemTemplateList[i]) === -1) {
                 let serverItem = new ServerItem(itemTemplateList[i]);
+                registerServerItem(serverItem)
                 let serverActor = getServerActorByActorId(status.getStatus(ENUMS.ActorStatus.ACTOR_ID))
 
                 serverActor.equipServerItem(serverItem)
-                serverItem.dispatchItemStatus(ENUMS.ServerCommands.ITEM_INIT)
+                if (status.getStatus(ENUMS.ActorStatus.PLAYER_STAMP) === getServerStamp()) {
+                    serverItem.dispatchItemStatus(ENUMS.ServerCommands.ITEM_INIT)
+                }
             }
         }
 
@@ -48,7 +51,7 @@ class ServerActorStatusProcessor {
                 i++;
                 let newValue =  msg[i]
                 if (MATH.stupidChecksumArray(currentStatus) !== MATH.stupidChecksumArray(newValue)) {
-                    console.log("Server Status updated", statusKey, newValue, currentStatus);
+               //     console.log("Server Status updated", statusKey, newValue, currentStatus);
 
                     if (statusKey === ENUMS.ActorStatus.ACTIVATION_STATE) {
                         if (newValue === ENUMS.ActivationState.ACTIVATING) {

@@ -33,9 +33,7 @@ class ServerActor {
     //    console.log("Actor ACTION message: ", [msg]);
     }
 
-    updateItemStatusFromMessage(msg) {
-    //    console.log("Actor ITEM msg", [msg]);
-    }
+
 
 }
 

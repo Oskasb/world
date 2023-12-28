@@ -36,7 +36,7 @@ class GameAdventureSystem {
             actor.setStatusKey(ENUMS.ActorStatus.EQUIP_REQUESTS, actor.getStatus(ENUMS.ActorStatus.EQUIPPED_ITEMS))
             actor.setStatusKey(ENUMS.ActorStatus.EQUIPPED_ITEMS, [])
             setTimeout(function() {
-                evt.dispatch(ENUMS.Event.CALL_SERVER, {request:ENUMS.ClientRequests.LOAD_SERVER_ACTOR, status:actor.getStatus()})
+                evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, {request:ENUMS.ClientRequests.LOAD_SERVER_ACTOR, status:actor.getStatus()})
             }, 500)
 
             actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_INACTIVE)

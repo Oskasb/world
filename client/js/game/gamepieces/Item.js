@@ -51,9 +51,14 @@ class Item {
             if (actor) {
                 this.visualGamePiece.call.tickPieceEquippedItem(actor)
             } else {
-                console.log("No current owner actor", ownerId)
-                this.hide();
-                this.disposeItem();
+                console.log("No current owner actor", ownerId, GameAPI.getGamePieceSystem().getActors())
+                if (this.getStatus(ENUMS.ItemStatus.ACTIVATION_STATE) === ENUMS.ActivationState.DEACTIVATED) {
+                    console.log("Deactivate Item", ownerId)
+                    this.hide();
+                    this.disposeItem();
+                }
+
+
             }
 
         }.bind(this);
@@ -118,6 +123,7 @@ class Item {
     }
 
     disposeItem() {
+        this.setStatusKey(ENUMS.ItemStatus.ACTIVATION_STATE, ENUMS.ActivationState.DEACTIVATING)
         ThreeAPI.unregisterPostrenderCallback(this.status.call.pulseStatusUpdate);
         this.visualGamePiece.removeVisualGamePiece();
     }

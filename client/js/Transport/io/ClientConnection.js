@@ -7,26 +7,13 @@ let msgEvent = {
 }
 
 let relayToWorker = function(msg) {
-
-	if (!msg) {
-		console.log("SEND REQUEST missing", msg, args);
-		return;
-	}
-
 	let json = JSON.stringify({stamp:client.getStamp(), msg:msg})
-	//	console.log("Relay to Worker: ", json)
 	worker.postMessage([ENUMS.Protocol.CLIENT_TO_WORKER, json]);
-}
-
-let callServer = function(msg) {
-	let json = JSON.stringify({stamp:client.getStamp(), msg:msg})
-	worker.postMessage([ENUMS.Protocol.SERVER_CALL, json]);
 }
 
 function setupUniqueConnection(stamp) {
 	console.log("Client got Server Stamp from worker message", stamp);
 	evt.on(ENUMS.Event.SEND_SOCKET_MESSAGE, relayToWorker)
-	evt.on(ENUMS.Event.CALL_SERVER, callServer)
 	client.setStamp(stamp);
 }
 
@@ -52,9 +39,10 @@ worker.onmessage = function(msg) {
 	} else if (protocolKey === ENUMS.Protocol.SERVER_DISPATCH) {
 
 		if (msg.data[1].stamp === client.getStamp()) {
-			processServerCommand(msg.data[0], msg.data[1]);
+			console.log("local dispatch", msg.data)
+		//	processServerCommand(msg.data[0], msg.data[1]);
 		} else {
-			console.log("Not listening to remote dispatches")
+			console.log("Not listening to remote dispatches", msg.data)
 		}
 
 	} else {

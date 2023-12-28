@@ -1,3 +1,4 @@
+import {ConnectedPlayer} from "../game/player/ConnectedPlayer.js";
 let sockets = [];
 
 class ServerConnection {
@@ -18,14 +19,13 @@ class ServerConnection {
 
 			var sends = 0;
 
+			ws.connectedPlayer = new ConnectedPlayer(ws.send)
 			console.log("websocket connection open");
 
 			ws.on("message", function message(data, isBinary) {
 				const message = isBinary ? data : data.toString();
-			//	console.log(message + "\n\n");
-				for (let i =0; i < sockets.length; i++) {
-					sockets[i].send(message);
-				}
+				console.log(message + "\n\n");
+				ws.connectedPlayer.handleMessage(message, "NODE WS")
 			});
 
 			ws.on("close", function() {

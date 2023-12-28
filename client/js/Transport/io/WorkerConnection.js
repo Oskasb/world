@@ -5,32 +5,18 @@ let socket;
 let frameStack = [];
 let messageCount = 0;
 let socketBytes = 0;
-// './client/js/data_pipeline/worker/ServerWorkerMain.js'
 let serverStamp = 0;
 
 class WorkerConnection {
 	constructor() {
 		console.log("Worker ClientConnection ready")
-		let sendMessage = function(serverStamp, msg) {
-
-			//	console.log("SEND message", msg, args);
-			if (!msg) {
-				console.log("SEND REQUEST missing", msg, args);
-				//	return;
-			}
-
-			let json = JSON.stringify({stamp:serverStamp, msg:msg})
-		//	console.log("Send string: ", [json])
-			socket.send(json);
-		};
 
 		let sendJson = function(json) {
 			socket.send(json);
 		}
 
 		this.call = {
-			sendJson:sendJson,
-			sendMessage:sendMessage
+			sendJson:sendJson
 		}
 	}
 

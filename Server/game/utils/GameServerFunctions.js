@@ -5,6 +5,7 @@ import {evt} from "../../../client/js/application/event/evt.js";
 let gameServer = null;
 let serverMessageProcessor = null;
 let serverActors = [];
+let serverItems = []
 
 function setGameServer(gs) {
     evt.setEventKeys(ENUMS.Event);
@@ -35,6 +36,22 @@ function getServerActorByActorId(actorId) {
     for (let i = 0; i < serverActors.length; i++) {
         if (serverActors[i].id === actorId) {
             return serverActors[i];
+        }
+    }
+}
+
+function registerServerItem(serverItem) {
+    serverItems.push(serverItem);
+}
+
+function removeServerItem(serverItem) {
+    MATH.splice(serverItems, serverItem);
+}
+
+function getServerItemByItemId(itemId) {
+    for (let i = 0; i < serverItems.length; i++) {
+        if (serverItems[i].id === itemId) {
+            return serverItems[i];
         }
     }
 }
@@ -167,6 +184,12 @@ function equipActorItem(actor, itemTemplate) {
 
 }
 
+function applyStatusToMap(status, targetMap) {
+    for (let key in status) {
+        targetMap[key] = status[key]
+    }
+}
+
 export {
     getServerStamp,
     setServerMessageProcessor,
@@ -183,6 +206,10 @@ export {
     processStatusMessage,
     equipActorItem,
     getStatusFromMsg,
-    statusMapFromMsg
+    statusMapFromMsg,
+    registerServerItem,
+    removeServerItem,
+    getServerItemByItemId,
+    applyStatusToMap
 
 }

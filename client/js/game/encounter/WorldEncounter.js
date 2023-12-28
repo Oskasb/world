@@ -92,7 +92,7 @@ function checkTriggerPlayer(encounter) {
                 encounterEvent.spawn = encounter.config.spawn;
                 encounterEvent.cam_pos = encounter.getTriggeredCameraHome();
 
-                evt.dispatch(ENUMS.Event.CALL_SERVER, encounterEvent)
+                evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, encounterEvent)
             //    evt.dispatch(ENUMS.Event.GAME_MODE_BATTLE, encounterEvent)
             }
 

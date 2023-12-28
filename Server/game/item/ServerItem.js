@@ -1,4 +1,4 @@
-import {dispatchMessage, getServerStamp} from "../utils/GameServerFunctions.js";
+import {applyStatusToMap, dispatchMessage, getServerStamp, statusMapFromMsg} from "../utils/GameServerFunctions.js";
 import {Status} from "../status/Status.js";
 import {ENUMS} from "../../../client/js/application/ENUMS.js";
 
@@ -21,6 +21,13 @@ class ServerItem {
                 command:ENUMS.ServerCommands.ITEM_INIT,
             }
         }
+    }
+
+    updateItemStatusFromMessage(msg) {
+        console.log("ITEM status msg", [msg]);
+        let status = statusMapFromMsg(msg);
+    //    applyStatusToMap(status, this.status.statusMap)
+    //    dispatchMessage(ENUMS.ServerCommands.ITEM_UPDATE)
     }
 
     setStatusKey(key, status) {

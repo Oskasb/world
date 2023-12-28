@@ -6,7 +6,7 @@ import {
     getGameServerWorld,
     getServerStamp,
     applyMessageToClient,
-    processStatusMessage, getServerActorByActorId, statusMapFromMsg, getStatusFromMsg
+    processStatusMessage, getServerActorByActorId, statusMapFromMsg, getStatusFromMsg, getServerItemByItemId
 } from "../game/utils/GameServerFunctions.js";
 
 let msgEvent = {
@@ -61,6 +61,7 @@ function processMessageData(stamp, msg) {
             getGameServerWorld().initServerEncounter(msgEvent)
             break;
         default:
+            if (stamp === getServerStamp()) {
             if (typeof (msg.indexOf) !== 'function') {
                 console.log("Not array message", msg)
 
@@ -68,13 +69,13 @@ function processMessageData(stamp, msg) {
 
                 if (msg.indexOf(ENUMS.ItemStatus.ITEM_ID) === 0) {
                     //    let player = gameServer.getConnectedPlayerByStamp(stamp);
-                    let actorIdIdx = msg.indexOf(ENUMS.ItemStatus.ACTOR_ID)+1;
-                    let actorId = msg[actorIdIdx]
-                    let actor = getServerActorByActorId(actorId)
-                    if (actor) {
-                        actor.updateItemStatusFromMessage(msg)
+                    let itemId = msg[1];
+
+                    let item = getServerItemByItemId(itemId)
+                    if (item) {
+                        item.updateItemStatusFromMessage(msg)
                     } else {
-                        console.log("Item Message for no actor", msg)
+                        console.log("Item Message for no item", msg)
                         return;
                     }
 
@@ -116,7 +117,6 @@ function processMessageData(stamp, msg) {
 
             }
 
-            if (stamp === getServerStamp()) {
                 dispatchMessage(msgEvent)
             } else {
                 applyMessageToClient(msgEvent)
@@ -128,8 +128,7 @@ function processMessageData(stamp, msg) {
 
 class ServerMessageProcessor {
 
-    constructor(sendMessage, sendJson) {
-        this.sendMessage = sendMessage;
+    constructor(sendJson) {
         this.sendJson = sendJson;
     }
 
@@ -144,15 +143,9 @@ class ServerMessageProcessor {
     }
 
     handleClientMessage(msgJson) {
-    //    this.sendJson(msgJson)
-        this.handleClientRequest(msgJson)
-    }
-
-    handleClientRequest(msgJson) {
         let data = JSON.parse(msgJson)
-    //    console.log("handle message from CLIENT", data);
+        //    console.log("handle message from CLIENT", data);
         processMessageData(data.stamp, data.msg)
-
     }
 
 }

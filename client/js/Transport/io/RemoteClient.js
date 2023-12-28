@@ -192,6 +192,7 @@ class RemoteClient {
                 let actor = this.getActorById(actorId);
 
                 if (!actor) {
+                    console.log("Item remote no actor..", itemId, msg)
                     GuiAPI.screenText("Item before Actor "+this.index,  ENUMS.Message.SYSTEM, 1.5)
                     return;
                 }
