@@ -110,7 +110,8 @@ let ENUMS = {}
         ENCOUNTER_INIT:1,
         REGISTER_PLAYER:2,
         LOAD_SERVER_ACTOR:3,
-        SERVER_PING:4
+        SERVER_PING:4,
+        APPLY_ACTOR_STATUS:5
     };
 
     ENUMS.ServerCommands = {

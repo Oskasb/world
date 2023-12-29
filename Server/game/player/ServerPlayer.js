@@ -19,7 +19,7 @@ class ServerPlayer {
         let serverActor = getServerActorByActorId(actorId);
         if (!serverActor) {
             serverActor = new ServerActor(actorId, msg.status)
-            serverActor.status.setStatusKey(ENUMS.ActorStatus.PLAYER_STAMP, this.stamp);
+            serverActor.status.setStatusKey(ENUMS.ActorStatus.CLIENT_STAMP, this.stamp);
             this.actors.push(serverActor);
             registerServerActor(serverActor);
             console.log("NEW ServerActor", serverActor)

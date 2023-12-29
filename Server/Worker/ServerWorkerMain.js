@@ -16,12 +16,14 @@ let messageLocalClient = function(messageData) {
 }
 
 let localClient = new ConnectedClient(messageLocalClient, true)
+connectedClients.push(localClient);
 localClient.activateConnectedClient()
 let onConnected = function(event, serverStamp) {
     console.log("Connected Event:", event, serverStamp)
     localClient.setStamp(serverStamp);
     workerConnection.call.sendJson(JSON.stringify({request:ENUMS.ClientRequests.REGISTER_PLAYER, stamp:serverStamp}))
     localClient.sendToServer = workerConnection.call.sendJson;
+    postMessage([ENUMS.Protocol.SET_SERVER_STAMP, serverStamp])
 }
 
 let onError = function(event) {
@@ -33,21 +35,22 @@ let onDisconnect = function() {
 }
 
 let onMessage = function(data) {
-    console.log("handle message from SOCKET", data);
+//    console.log("handle message from SOCKET", data);
     localClient.handleMessage(data, "SOCKET")
 }
 
 if (runLocally === true) {
     localClient.handleMessage({request:ENUMS.ClientRequests.REGISTER_PLAYER, stamp:-1}, "LOCAL")
+    postMessage([ENUMS.Protocol.SET_SERVER_STAMP, -1])
 } else {
     workerConnection.setupSocket(onConnected, onError, onDisconnect, onMessage)
 }
 
 
 let handleMessage = function(oEvent) {
-   // console.log("handle message:", oEvent.data);
+ //   console.log("handle message:", oEvent.data);
     if (oEvent.data[0] === ENUMS.Protocol.CLIENT_TO_WORKER) {
-        localClient.handleMessage(oEvent.data[1], "WORKER");
+        localClient.handleMessage(oEvent.data[1], 'WORKER');
     } else {
         console.log("Not Parsed message:", oEvent.data);
     }

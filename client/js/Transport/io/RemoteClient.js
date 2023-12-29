@@ -498,7 +498,7 @@ class RemoteClient {
                     }.bind(this);
 
                     clearTimeout(actor.closeTimeout);
-                    actor.closeTimeout = setTimeout(removeActor, 6000);
+                    actor.closeTimeout = setTimeout(removeActor, 60000);
 
                     for (let i = 2; i < msg.length; i++) {
 
@@ -548,7 +548,7 @@ class RemoteClient {
         }
 
         clearTimeout(this.closeTimeout);
-        this.closeTimeout = setTimeout(this.call.timeout, 8000);
+        this.closeTimeout = setTimeout(this.call.timeout, 80000);
 
     }
 

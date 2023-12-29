@@ -1,5 +1,14 @@
 import {evt} from "../../application/event/evt.js";
 import {notifyCameraStatus} from "../../3d/camera/CameraFunctions.js";
+import {
+    applyStatusToMap,
+    getStatusFromMsg,
+    statusMapFromMsg
+} from "../../../../Server/game/utils/GameServerFunctions.js";
+import {ENUMS} from "../../application/ENUMS.js";
+import {RemoteClient} from "./RemoteClient.js";
+
+let remoteClients = {}
 
 function processActorInit(stamp, msg) {
     let status = msg.status;
@@ -97,7 +106,19 @@ function processServerCommand(protocolKey, message) {
 
         case ENUMS.ServerCommands.PLAYER_CONNECTED:
             console.log("Player Connected; ", stamp, msg);
-            GuiAPI.screenText("Player Connection Added", ENUMS.Message.HINT, 2)
+
+            if (stamp === client.getStamp()) {
+
+            } else {
+                GuiAPI.screenText("Remote Player Connected", ENUMS.Message.HINT, 2)
+                if (!remoteClients[stamp]) {
+                    remoteClients[stamp] = new RemoteClient(stamp);
+                } else {
+                    console.log("Remote already added for stamp: ", stamp);
+                }
+            }
+
+
             break;
         case ENUMS.ServerCommands.PLAYER_UPDATE:
             console.log("Player Update; ", stamp, msg);
@@ -108,10 +129,68 @@ function processServerCommand(protocolKey, message) {
             GuiAPI.screenText("Player Disconnected", ENUMS.Message.HINT, 2)
             break;
         case ENUMS.ServerCommands.ACTOR_INIT:
-            processActorInit(stamp, msg);
+            stamp = msg.status[ENUMS.ActorStatus.CLIENT_STAMP];
+
+            if (stamp === client.getStamp()) {
+                processActorInit(stamp, msg);
+            } else {
+                // use remote client here...
+                let remoteClient = remoteClients[stamp];
+                if (remoteClient) {
+                } else {
+                    console.log("ACTOR_INIT Remote client missing for stamp; ", stamp, msg, remoteClients);
+                    remoteClient = new RemoteClient(stamp);
+                    remoteClients[stamp] = remoteClient
+                }
+
+                console.log("REMOTE ACTOR_INIT; ", stamp, [msg.status]);
+
+                let statusList = [];
+                statusList[0] = ENUMS.ActorStatus.ACTOR_ID;
+                statusList[1] = msg.status[ENUMS.ActorStatus.ACTOR_ID];
+                for (let key in msg.status) {
+                    if (key !== ENUMS.ActorStatus.ACTOR_ID) {
+                        statusList.push(key)
+                        statusList.push(msg.status[key])
+                    }
+                }
+
+                remoteClient.processClientMessage(statusList);
+            }
+
             break;
         case ENUMS.ServerCommands.ACTOR_UPDATE:
-            console.log("ACTOR_UPDATE; ", stamp, msg);
+
+            stamp = getStatusFromMsg(ENUMS.ActorStatus.CLIENT_STAMP, msg.status)
+
+            if (!stamp) {
+                console.log("No client stamp in message... ")
+                let actor = GameAPI.getActorById(msg.status[1])
+                if (!actor) {
+                    console.log("No actor either... exiting")
+                    return;
+                } else {
+                    stamp = actor.getStatus(ENUMS.ActorStatus.CLIENT_STAMP)
+                }
+            }
+
+            if (stamp === client.getStamp()) {
+                // own client already has the command status, use response to possibly validate
+            } else {
+                // use remote client here...
+                let remoteClient = remoteClients[stamp];
+                if (remoteClient) {
+                    console.log("REMOTE ACTOR_UPDATE; ", stamp, [msg.status]);
+                    remoteClient.processClientMessage(msg.status);
+                } else {
+                    console.log("ACTOR_UPDATE Remote client missing for stamp; ", stamp, remoteClients);
+                    remoteClients[stamp] = new RemoteClient(stamp);
+                    remoteClients[stamp].processClientMessage(msg.status);
+                //    let statusMap = statusMapFromMsg(msg.status);
+                //    applyStatusToMap(statusMap, actor.getStatus());
+                }
+
+            }
 
             break;
         case ENUMS.ServerCommands.ACTOR_REMOVED:

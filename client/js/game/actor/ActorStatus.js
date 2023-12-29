@@ -257,8 +257,10 @@ class ActorStatus {
         this.statusMap[ENUMS.ActorStatus.DEAD] = false;
         let updateTO = null;
 
+        this.request = {request:ENUMS.ClientRequests.APPLY_ACTOR_STATUS, status:this.sendStatus}
+
         let send = function() {
-            evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, this.sendStatus)
+            evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, this.request)
         }.bind(this);
 
 
@@ -323,7 +325,7 @@ class ActorStatus {
                 this.lastDeltaSend = gameTime;
                 sendSpatial(this, this.statusMap)
                 if (this.sendStatus.length > 2) {
-                    evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, this.sendStatus)
+                    evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, this.request)
                 }
             }
         }
@@ -346,7 +348,7 @@ class ActorStatus {
 
             if (this.sendStatus.length > 2) {
                 //    console.log(sendStatus)
-                evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, this.sendStatus)
+                evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, this.request)
             }
         }
 

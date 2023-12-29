@@ -31,7 +31,7 @@ class WorkerConnection {
 		socket.onopen = function (event) {
 			let timestamp = MATH.decimalify(event.timeStamp + new Date().getTime(), 1);
 			serverStamp = Number(String(timestamp).split('').reverse().join(''));
-			postMessage([ENUMS.Protocol.SET_SERVER_STAMP, serverStamp])
+
 			connectedCallback(event, serverStamp);
 		};
 
@@ -40,7 +40,7 @@ class WorkerConnection {
 		};
 
 		socket.onmessage = function (message) {
-			console.log("Socket Message: ", message)
+		//	console.log("Socket Message: ", message)
 			messageCount++;
 			socketBytes += message.data.length;
 			//	console.log("Socket Message: ",messageCount, socketBytes, [message.data])
