@@ -1,18 +1,25 @@
 import {WorkerConnection} from "../../client/js/Transport/io/WorkerConnection.js";
 import {ENUMS} from "../../client/js/application/ENUMS.js";
-import {ConnectedPlayer} from "../game/player/ConnectedPlayer.js";
+import {ConnectedClient} from "../game/player/ConnectedClient.js";
+import {GameServer} from "../game/GameServer.js";
+import {setGameServer} from "../game/utils/GameServerFunctions.js";
+
+let runLocally = false;
 
 let workerConnection = new WorkerConnection()
-
-let messageLocalClient = function(json) {
-    postMessage([ENUMS.Protocol.SERVER_DISPATCH, JSON.parse(json)])
+let connectedClients = []; // will hold only the localClient here, but the list will have many on the node server
+let gameServer = new GameServer(connectedClients)
+gameServer.initServerLoop(100);
+setGameServer(gameServer)
+let messageLocalClient = function(messageData) {
+    postMessage([ENUMS.Protocol.SERVER_DISPATCH, messageData])
 }
 
-let localPlayer = new ConnectedPlayer(messageLocalClient)
-
+let localClient = new ConnectedClient(messageLocalClient, true)
+localClient.activateConnectedClient()
 let onConnected = function(event, serverStamp) {
     console.log("Connected Event:", event, serverStamp)
-    localPlayer.setStamp(serverStamp);
+    localClient.setStamp(serverStamp);
     workerConnection.call.sendJson(JSON.stringify({request:ENUMS.ClientRequests.REGISTER_PLAYER, stamp:serverStamp}))
 }
 
@@ -26,15 +33,20 @@ let onDisconnect = function() {
 
 let onMessage = function(data) {
     console.log("handle message from SOCKET", data);
-    localPlayer.handleMessage(data, "SOCKET")
+    localClient.handleMessage(data, "SOCKET")
 }
 
-workerConnection.setupSocket(onConnected, onError, onDisconnect, onMessage)
+if (runLocally === true) {
+    localClient.handleMessage({request:ENUMS.ClientRequests.REGISTER_PLAYER, stamp:-1}, "LOCAL")
+} else {
+    workerConnection.setupSocket(onConnected, onError, onDisconnect, onMessage)
+}
+
 
 let handleMessage = function(oEvent) {
    // console.log("handle message:", oEvent.data);
     if (oEvent.data[0] === ENUMS.Protocol.CLIENT_TO_WORKER) {
-        localPlayer.handleMessage(oEvent.data[1], "WORKER");
+        localClient.handleMessage(oEvent.data[1], "WORKER");
     } else {
         console.log("Not Parsed message:", oEvent.data);
     }

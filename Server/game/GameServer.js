@@ -5,16 +5,15 @@ import {GameServerWorld} from "./GameServerWorld.js";
 import {ServerPlayer} from "./player/ServerPlayer.js";
 
 let connectedPlayers = [];
-
 class GameServer {
-    constructor() {
+    constructor(connectedClients) {
+        this.connectedClients = connectedClients;
         this.gameServerWorld = new GameServerWorld();
         this.tpf = 1;
         this.serverTime = 0;
         this.onUpdateCallbacks = [];
         this.stamp = "init";
     }
-
 
     setStamp(stamp) {
         this.stamp = stamp;
@@ -64,7 +63,12 @@ class GameServer {
         this.serverTime += avgTpf;
     //    console.log(this.tpf, this.serverTime);
         MATH.callAll(this.onUpdateCallbacks, this.tpf, this.serverTime);
+    }
 
+    messageAllClients(message) {
+        for (let i = 0; i < this.connectedClients.length; i++) {
+            this.connectedClients[i].call.returnDataMessage(message);
+        }
     }
 
 }

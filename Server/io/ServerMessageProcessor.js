@@ -6,7 +6,7 @@ import {
     getGameServerWorld,
     getServerStamp,
     applyMessageToClient,
-    processStatusMessage, getServerActorByActorId, statusMapFromMsg, getStatusFromMsg, getServerItemByItemId
+    getServerActorByActorId, statusMapFromMsg, getStatusFromMsg, getServerItemByItemId
 } from "../game/utils/GameServerFunctions.js";
 
 let msgEvent = {

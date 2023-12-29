@@ -1,6 +1,5 @@
 import {evt} from "../../application/event/evt.js";
 import {notifyCameraStatus} from "../../3d/camera/CameraFunctions.js";
-import {processStatusMessage} from "../../../../Server/game/utils/GameServerFunctions.js";
 
 function processActorInit(stamp, msg) {
     let status = msg.status;
@@ -80,19 +79,25 @@ function processItemInit(stamp, msg) {
 function processServerCommand(protocolKey, message) {
 
     let stamp = message.stamp;
-    let msg = JSON.parse(message.msg);
+    let msg = message;
     let encounter;
 
     if (!msg.command) {
+        console.log("processServerCommand requires msg.command")
         return;
     }
 
-    console.log("processServerCommand", ENUMS.getKey('Protocol', protocolKey), ENUMS.getKey('ServerCommands', msg.command), msg);
+    if (typeof(msg.request) === 'number') {
+        console.log(ENUMS.getKey('ServerCommands', msg.command) +" is response to request ", ENUMS.getKey('ClientRequests', msg.request))
+    }  else {
+        console.log("Non Request: ", ENUMS.getKey('Protocol', protocolKey), ENUMS.getKey('ServerCommands', msg.command), msg);
+    }
 
     switch (msg.command) {
+
         case ENUMS.ServerCommands.PLAYER_CONNECTED:
             console.log("Player Connected; ", stamp, msg);
-
+            GuiAPI.screenText("Player Connection Added", ENUMS.Message.HINT, 2)
             break;
         case ENUMS.ServerCommands.PLAYER_UPDATE:
             console.log("Player Update; ", stamp, msg);
@@ -100,7 +105,7 @@ function processServerCommand(protocolKey, message) {
             break;
         case ENUMS.ServerCommands.PLAYER_DISCONNECTED:
             console.log("Player Disconnected; ", stamp, msg);
-
+            GuiAPI.screenText("Player Disconnected", ENUMS.Message.HINT, 2)
             break;
         case ENUMS.ServerCommands.ACTOR_INIT:
             processActorInit(stamp, msg);
