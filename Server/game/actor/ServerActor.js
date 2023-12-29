@@ -10,6 +10,9 @@ class ServerActor {
             this.serverActorStatusProcessor = new ServerActorStatusProcessor()
     }
 
+    getStatusMap() {
+        return this.status.statusMap;
+    }
 
     equipServerItem(serverItem) {
         if (this.equippedItems.indexOf(serverItem) === -1) {

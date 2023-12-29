@@ -32,21 +32,22 @@ function processClientRequest(request, stamp, message, connectedClient) {
 
             break
         case ENUMS.ClientRequests.LOAD_SERVER_ACTOR:
-            console.log("LOAD_SERVER_ACTOR: ", msg, msgEvent);
+            console.log("LOAD_SERVER_ACTOR: ", message);
 
-            let player = getGameServer().getConnectedPlayerByStamp(stamp);
+            let player = getGameServer().getConnectedPlayerByStamp(connectedClient.stamp);
 
             if (!player) {
-                console.log("No player for adding actor, something not right!", msg)
+                console.log("No player for adding actor, something not right!", message)
                 return;
             }
             if (stamp === getServerStamp()) {
 
             }
-            let newActor = player.loadPlayerActor(msg);
+            let newActor = player.loadPlayerActor(message);
 
             if (newActor) {
                 message.command = ENUMS.ServerCommands.ACTOR_INIT
+                message.status = newActor.status.statusMap;
                 dispatchMessage(message)
             } else {
                 console.log("Actor already loaded:", message, player)

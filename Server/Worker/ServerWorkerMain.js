@@ -21,6 +21,7 @@ let onConnected = function(event, serverStamp) {
     console.log("Connected Event:", event, serverStamp)
     localClient.setStamp(serverStamp);
     workerConnection.call.sendJson(JSON.stringify({request:ENUMS.ClientRequests.REGISTER_PLAYER, stamp:serverStamp}))
+    localClient.sendToServer = workerConnection.call.sendJson;
 }
 
 let onError = function(event) {
