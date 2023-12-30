@@ -79,7 +79,7 @@ let msgData = {
 }
 
 function dispatchMessage(messageData) {
-    console.log("Dispatch Msg ", messageData);
+ //   console.log("Dispatch Msg ", messageData);
     getGameServer().messageAllClients(messageData)
 }
 
@@ -119,6 +119,28 @@ function applyStatusToMap(status, targetMap) {
     }
 }
 
+function getClientStampFromStatusMessage(status) {
+    let stamp = getStatusFromMsg(ENUMS.ActorStatus.CLIENT_STAMP, status)
+
+    if (stamp === 'no_value') {
+    //    console.log("No client stamp in message... spatial update")
+        if (status[0] === ENUMS.ActorStatus.ACTOR_ID) {
+            let actor = GameAPI.getActorById(status[1])
+            if (!actor) {
+                console.log("No actor either... exiting")
+                return;
+            } else {
+                stamp = actor.getStatus(ENUMS.ActorStatus.CLIENT_STAMP)
+            }
+        } else {
+            console.log("Not trying to get stamp from status: ", status);
+            return;
+        }
+
+    }
+    return stamp;
+}
+
 export {
     getServerStamp,
     setServerMessageProcessor,
@@ -138,6 +160,7 @@ export {
     registerServerItem,
     removeServerItem,
     getServerItemByItemId,
-    applyStatusToMap
+    applyStatusToMap,
+    getClientStampFromStatusMessage
 
 }

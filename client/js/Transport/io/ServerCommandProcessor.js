@@ -1,7 +1,7 @@
 import {evt} from "../../application/event/evt.js";
 import {notifyCameraStatus} from "../../3d/camera/CameraFunctions.js";
 import {
-    applyStatusToMap,
+    applyStatusToMap, getClientStampFromStatusMessage,
     getStatusFromMsg,
     statusMapFromMsg
 } from "../../../../Server/game/utils/GameServerFunctions.js";
@@ -97,7 +97,7 @@ function processServerCommand(protocolKey, message) {
     }
 
     if (typeof(msg.request) === 'number') {
-        console.log(ENUMS.getKey('ServerCommands', msg.command) +" is response to request ", ENUMS.getKey('ClientRequests', msg.request))
+    //    console.log(ENUMS.getKey('ServerCommands', msg.command) +" is response to request ", ENUMS.getKey('ClientRequests', msg.request))
     }  else {
         console.log("Non Request: ", ENUMS.getKey('Protocol', protocolKey), ENUMS.getKey('ServerCommands', msg.command), msg);
     }
@@ -160,18 +160,11 @@ function processServerCommand(protocolKey, message) {
 
             break;
         case ENUMS.ServerCommands.ACTOR_UPDATE:
-
-            stamp = getStatusFromMsg(ENUMS.ActorStatus.CLIENT_STAMP, msg.status)
+            stamp = getClientStampFromStatusMessage(msg.status)
 
             if (!stamp) {
-                console.log("No client stamp in message... ")
-                let actor = GameAPI.getActorById(msg.status[1])
-                if (!actor) {
-                    console.log("No actor either... exiting")
-                    return;
-                } else {
-                    stamp = actor.getStatus(ENUMS.ActorStatus.CLIENT_STAMP)
-                }
+                console.log("No client stamp found for message: ", msg)
+                return;
             }
 
             if (stamp === client.getStamp()) {
@@ -180,7 +173,7 @@ function processServerCommand(protocolKey, message) {
                 // use remote client here...
                 let remoteClient = remoteClients[stamp];
                 if (remoteClient) {
-                    console.log("REMOTE ACTOR_UPDATE; ", stamp, [msg.status]);
+                //    console.log("REMOTE ACTOR_UPDATE; ", stamp, [msg.status]);
                     remoteClient.processClientMessage(msg.status);
                 } else {
                     console.log("ACTOR_UPDATE Remote client missing for stamp; ", stamp, remoteClients);

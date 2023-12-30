@@ -13,7 +13,7 @@ let relayToWorker = function(msg) {
 }
 
 function setupUniqueConnection(stamp) {
-	console.log("Client got Server Stamp from worker message", stamp);
+	console.log("Set Stamp from message", stamp);
 	evt.on(ENUMS.Event.SEND_SOCKET_MESSAGE, relayToWorker)
 	client.setStamp(stamp);
 }
@@ -43,10 +43,10 @@ function initWorker() {
 		} else if (protocolKey === ENUMS.Protocol.SERVER_DISPATCH) {
 
 			if (msg.data[1].stamp === client.getStamp()) {
-				console.log("local dispatch", msg.data)
+			//	console.log("local dispatch", msg.data)
 				processServerCommand(msg.data[0], msg.data[1]);
 			} else {
-				console.log("remote dispatch", msg.data)
+			//	console.log("remote dispatch", msg.data)
 				processServerCommand(msg.data[0], msg.data[1]);
 				//	console.log("Not listening to remote dispatches", msg.data)
 			}

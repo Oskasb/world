@@ -475,7 +475,7 @@ class RemoteClient {
 
 
                     if (configId === null) {
-                        // console.log("No configId", msg);
+                        console.log("No configId", remoteId, msg, this.actors);
                         GuiAPI.screenText("loading config "+this.index,  ENUMS.Message.SYSTEM, 0.5)
                         return;
                     }

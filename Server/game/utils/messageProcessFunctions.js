@@ -59,7 +59,7 @@ function processClientRequest(request, stamp, message, connectedClient) {
             player = getGameServer().getConnectedPlayerByStamp(connectedClient.stamp);
 
             let actor = player.getPlayerActor(message.status[1])
-            console.log("APPLY_ACTOR_STATUS", actor, message, player.actors)
+        //    console.log("APPLY_ACTOR_STATUS", actor, message, player.actors)
             let statusValues = statusMapFromMsg(message.status);
             applyStatusToMap(statusValues, actor.getStatusMap());
         //    getGameServerWorld().initServerEncounter(msgEvent)
