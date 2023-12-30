@@ -13,7 +13,8 @@ let ENUMS = {}
         HEALING_GAINED:             7,
         HINT:                       8,
         SYSTEM:                     9,
-        PING:                       10
+        PING:                       10,
+        SERVER_STATUS:              11
     };
 
     ENUMS.Event = {

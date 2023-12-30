@@ -34,6 +34,11 @@ class OnScreenText {
             return txtOrigin;
         }
 
+        let getServerStatusOrigin = function() {
+            txtOrigin.set(0.0, 0.4, 0)
+            return txtOrigin;
+        }
+
         let getSayTextPosition = function(progress, offsetVec3) {
             let pos = getTextOrigin();
             //      pos.x += MATH.curveSqrt(progress) *offsetVec3.x - offsetVec3.x*0.5;
@@ -55,6 +60,12 @@ class OnScreenText {
             return pos;
         }
 
+        let getServerStatusPosition = function(progress, offsetVec3) {
+            let pos = getServerStatusOrigin();
+            //      pos.x += MATH.curveSqrt(progress) *offsetVec3.x - offsetVec3.x*0.5;
+            pos.y += progress*(Math.sin(progress*0.6)) * 0.03;
+            return pos;
+        }
         let getPingTextPosition = function(progress, offsetVec3) {
             let pos = getPingOrigin();
             //      pos.x += MATH.curveSqrt(progress) *offsetVec3.x - offsetVec3.x*0.5;
@@ -88,7 +99,8 @@ class OnScreenText {
             getSystemTextPosition:getSystemTextPosition,
             getDamageTextPosition:getDamageTextPosition,
             getHealTextPosition:getHealTextPosition,
-            getPingTextPosition:getPingTextPosition
+            getPingTextPosition:getPingTextPosition,
+            getServerStatusPosition:getServerStatusPosition
         }
 
         let conf = {
@@ -158,6 +170,7 @@ class OnScreenText {
         this.messageMap[ENUMS.Message.HINT]                     = {getPos:this.call.getHintTextPosition, config:confHint};
         this.messageMap[ENUMS.Message.SYSTEM]                   = {getPos:this.call.getSystemTextPosition, config:confSystem};
         this.messageMap[ENUMS.Message.PING]                     = {getPos:this.call.getPingTextPosition, config:confSystem};
+        this.messageMap[ENUMS.Message.SERVER_STATUS]            = {getPos:this.call.getServerStatusPosition, config:confSystem};
         this.pieceTexts = [];
 
     }

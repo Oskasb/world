@@ -3,10 +3,11 @@ import {
     applyStatusToMap,
     dispatchMessage,
     getGameServer,
-    getGameServerWorld, getServerActorByActorId,
+    getGameServerWorld, getRegisteredActors, getServerActorByActorId,
     getServerItemByItemId,
     getServerStamp, getStatusFromMsg, statusMapFromMsg
 } from "./GameServerFunctions.js";
+import {getIncomingBytes, getOutgoingBytes} from "./ServerStatusTracker.js";
 
 let msgEvent = {
     stamp:0,
@@ -71,7 +72,11 @@ function processClientRequest(request, stamp, message, connectedClient) {
             break;
         case ENUMS.ClientRequests.SERVER_PING:
             message.serverNow = performance.now();
+            message.clientCount = getGameServer().connectedClients.length;
+            message.actorCount = getRegisteredActors().length;
             message.command = ENUMS.ServerCommands.SYSTEM_INFO;
+            message.bytesIn = getIncomingBytes();
+            message.bytesOut = getOutgoingBytes();
             console.log("Process Ping Msg", message)
             connectedClient.call.returnDataMessage(message);
             break;

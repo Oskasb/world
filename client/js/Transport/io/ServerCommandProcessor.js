@@ -85,6 +85,9 @@ function processItemInit(stamp, msg) {
 
 }
 
+let lastBytesOut = 0;
+let lastBytesIn = 0;
+let lastPingTime = 0;
 
 function processServerCommand(protocolKey, message) {
 
@@ -107,9 +110,25 @@ function processServerCommand(protocolKey, message) {
         case ENUMS.ServerCommands.SYSTEM_INFO:
             let now = performance.now();
             let clientFrame = GameAPI.getFrame().frame;
+            let pingFrame = msg.pingFrame;
+            let pingFrames = pingFrame - clientFrame;
             let pingCycleTime = MATH.numberToDigits(now - msg.outTime, 1, 1);
+            let clientCount = msg.clientCount;
+            let actorCount = msg.actorCount;
+            let bytesOut = msg.bytesOut;
+            let bytesIn = msg.bytesIn;
+            let bytesOutDelta = bytesOut - lastBytesOut;
+            let bytesInDelta = bytesIn - lastBytesIn;
+            let timeDelta = (now - lastPingTime) * 0.001; // measure in seconds
+            lastBytesOut = bytesOut;
+            lastBytesIn = bytesIn;
+            lastPingTime = now;
+            let bytesOutPerS = MATH.numberToDigits(0.001 * bytesOutDelta / timeDelta, 1, 1);
+            let bytesInPerS = MATH.numberToDigits(0.001 * bytesInDelta / timeDelta, 1, 1);
+
             console.log("Ping; ", pingCycleTime, msg);
             GuiAPI.screenText(pingCycleTime+'ms', ENUMS.Message.PING, 2);
+            GuiAPI.screenText('out: '+bytesOutPerS+'kb/s in: '+bytesInPerS+'kb/s', ENUMS.Message.SERVER_STATUS, 3);
             break;
         case ENUMS.ServerCommands.PLAYER_CONNECTED:
             console.log("Player Connected; ", stamp, msg);

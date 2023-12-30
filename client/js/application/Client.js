@@ -131,7 +131,6 @@ class Client {
             frame.avgTpf = ThreeAPI.getSetup().avgTpf;
             frame.elapsedTime = clock.elapsedTime;
 
-''
             if (pingTime > pingDelay) {
                 pingTime = 0;
                 client.evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, {

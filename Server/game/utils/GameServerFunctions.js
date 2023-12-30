@@ -28,6 +28,10 @@ function registerServerActor(serverActor) {
     serverActors.push(serverActor);
 }
 
+function getRegisteredActors() {
+    return serverActors;
+}
+
 function removeServerActor(serverActor) {
     MATH.splice(serverActors, serverActor);
 }
@@ -145,6 +149,7 @@ export {
     getServerStamp,
     setServerMessageProcessor,
     getServerActorByActorId,
+    getRegisteredActors,
     registerServerActor,
     removeServerActor,
     setGameServer,

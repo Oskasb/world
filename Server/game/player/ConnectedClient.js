@@ -4,7 +4,7 @@ import {
     registerGameServerUpdateCallback,
     unregisterGameServerUpdateCallback
 } from "../utils/GameServerFunctions.js";
-import {processClientMessage} from "../utils/messageProcessFunctions.js";
+import {processClientMessage} from "../utils/MsgProcessFunctions.js";
 
 class ConnectedClient { // This is running on both the client in a worker and on the node server.
     constructor(sendFunction, isLocal) {

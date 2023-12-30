@@ -1,6 +1,7 @@
 import {ConnectedClient} from "../game/player/ConnectedClient.js";
 import {GameServer} from "../game/GameServer.js";
 import {setGameServer} from "../game/utils/GameServerFunctions.js";
+import {trackIncomingBytes, trackOutgoingBytes} from "../game/utils/ServerStatusTracker.js";
 
 let sockets = [];
 let connectedPlayers = [];
@@ -30,7 +31,9 @@ class ServerConnection {
 
 			let returnFromPlayer = function(message) {
 				sends++
-				console.log("Pass to socket ", sends, message)
+			//	console.log("Pass to socket ", sends, message)
+				let bytes = message.length
+				trackOutgoingBytes(bytes)
 				ws.send(message)
 			}
 
@@ -42,7 +45,9 @@ class ServerConnection {
 
 			ws.on("message", function message(data, isBinary) {
 				const message = isBinary ? data : data.toString();
-				console.log(message + "\n\n");
+				let bytes = message.length;
+				trackIncomingBytes(bytes);
+			//	console.log(message + "\n\n");
 				ws.connectedClient.handleMessage(message, "NODE WS")
 			});
 
