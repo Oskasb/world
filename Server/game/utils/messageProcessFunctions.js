@@ -69,10 +69,16 @@ function processClientRequest(request, stamp, message, connectedClient) {
         case ENUMS.ClientRequests.ENCOUNTER_INIT:
             getGameServerWorld().initServerEncounter(msgEvent)
             break;
+        case ENUMS.ClientRequests.SERVER_PING:
+            message.serverNow = performance.now();
+            message.command = ENUMS.ServerCommands.SYSTEM_INFO;
+            console.log("Process Ping Msg", message)
+            connectedClient.call.returnDataMessage(message);
+            break;
         default:
             if (stamp === getServerStamp()) {
-                if (typeof (msg.indexOf) !== 'function') {
-                    console.log("Not array message", msg)
+                if (typeof (message.indexOf) !== 'function') {
+                    console.log("Not array message", message)
 
                 } else {
 

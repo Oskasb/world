@@ -12,7 +12,8 @@ let ENUMS = {}
         DAMAGE_CRITICAL_DONE:       6,
         HEALING_GAINED:             7,
         HINT:                       8,
-        SYSTEM:                     9
+        SYSTEM:                     9,
+        PING:                       10
     };
 
     ENUMS.Event = {
@@ -127,7 +128,8 @@ let ENUMS = {}
         ACTOR_REMOVED:10,
         ITEM_INIT:11,
         ITEM_UPDATE:12,
-        ITEM_REMOVED:13
+        ITEM_REMOVED:13,
+        SYSTEM_INFO: 14
     };
 
     ENUMS.ActorStatus = {

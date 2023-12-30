@@ -121,18 +121,30 @@ class Client {
 
 
 
+        let pingIndex = 0;
+        let pingDelay = 2;
+        let pingTime = 0;
+
         function triggerFrame() {
             frame.frame ++;
             frame.tpf = clock.getDelta();
             frame.avgTpf = ThreeAPI.getSetup().avgTpf;
             frame.elapsedTime = clock.elapsedTime;
 
-
-            if (Math.random() < 0.04) {
-            //    client.evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, {"msg":"random ping"})
-            //    GuiAPI.screenText('ping', ENUMS.Message.SYSTEM, 1);
+''
+            if (pingTime > pingDelay) {
+                pingTime = 0;
+                client.evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, {
+                    request:ENUMS.ClientRequests.SERVER_PING,
+                    pingIndex:pingIndex,
+                    pingFrame:frame.frame,
+                    outTime:performance.now()
+                })
+                pingIndex++
+                GuiAPI.screenText('ping', ENUMS.Message.SYSTEM, 1);
             //    GuiAPI.screenText('ping', ENUMS.Message.HINT, 2);
             }
+            pingTime+=frame.tpf;
 
             ThreeAPI.updateCamera();
             GuiAPI.updateGui(frame.tpf, frame.elapsedTime);

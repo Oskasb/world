@@ -44,7 +44,7 @@ class ConnectedClient { // This is running on both the client in a worker and on
 
         let tickConnectedClient = function(tpf, serverTime) {
             if (pingTime > pingDelay) {
-                returnDataMessage({request:ENUMS.ClientRequests.SERVER_PING, command:ENUMS.ServerCommands.PLAYER_UPDATE, tpf:tpf, serverTime:serverTime, stamp:this.stamp, local:this.isLocal})
+        //        returnDataMessage({request:ENUMS.ClientRequests.SERVER_PING, command:ENUMS.ServerCommands.PLAYER_UPDATE, tpf:tpf, serverTime:serverTime, stamp:this.stamp, local:this.isLocal})
                 pingTime -= pingDelay;
             }
             pingTime+=tpf;

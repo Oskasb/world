@@ -6,6 +6,7 @@ import {
     statusMapFromMsg
 } from "../../../../Server/game/utils/GameServerFunctions.js";
 import {ENUMS} from "../../application/ENUMS.js";
+import {MATH} from "../../application/MATH.js";
 import {RemoteClient} from "./RemoteClient.js";
 
 let remoteClients = {}
@@ -103,7 +104,13 @@ function processServerCommand(protocolKey, message) {
     }
 
     switch (msg.command) {
-
+        case ENUMS.ServerCommands.SYSTEM_INFO:
+            let now = performance.now();
+            let clientFrame = GameAPI.getFrame().frame;
+            let pingCycleTime = MATH.numberToDigits(now - msg.outTime, 1, 1);
+            console.log("Ping; ", pingCycleTime, msg);
+            GuiAPI.screenText(pingCycleTime+'ms', ENUMS.Message.PING, 2);
+            break;
         case ENUMS.ServerCommands.PLAYER_CONNECTED:
             console.log("Player Connected; ", stamp, msg);
 
