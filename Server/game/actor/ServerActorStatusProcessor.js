@@ -15,7 +15,7 @@ class ServerActorStatusProcessor {
             serverActor.equipServerItem(serverItem)
             serverItem.dispatchItemStatus(ENUMS.ServerCommands.ITEM_INIT)
         }
-*/
+    */
 
     updateEquippedItems(status, itemTemplateList) {
         let currentItems = status.getStatus(ENUMS.ActorStatus.EQUIPPED_ITEMS);
@@ -23,24 +23,25 @@ class ServerActorStatusProcessor {
             currentItems = [];
         }
 
-    //    console.log("UPDATE EQUIPPED ITEMS: ", itemTemplateList)
+        console.log("UPDATE EQUIPPED ITEMS: ", itemTemplateList)
 
         for (let i = 0; i < itemTemplateList.length; i++) {
             if (currentItems.indexOf(itemTemplateList[i]) === -1) {
-                let serverItem = new ServerItem(itemTemplateList[i]);
+                let serverItem = new ServerItem(itemTemplateList[i], status.getStatus(ENUMS.ActorStatus.CLIENT_STAMP));
                 registerServerItem(serverItem)
                 let serverActor = getServerActorByActorId(status.getStatus(ENUMS.ActorStatus.ACTOR_ID))
 
                 serverActor.equipServerItem(serverItem)
-                if (status.getStatus(ENUMS.ActorStatus.PLAYER_STAMP) === getServerStamp()) {
+            //    if (status.getStatus(ENUMS.ActorStatus.PLAYER_STAMP) === getServerStamp()) {
                     serverItem.dispatchItemStatus(ENUMS.ServerCommands.ITEM_INIT)
-                }
+            //    }
             }
         }
 
     }
 
     processServerActorStatusMessage(status, msg) {
+    //    console.log("processServerActorStatusMessage", status, msg);
         if (msg[1] !== status.getStatus(ENUMS.ActorStatus.ACTOR_ID)) {
             console.log("Incorrect actor for status")
         } else {
@@ -50,8 +51,9 @@ class ServerActorStatusProcessor {
                 let currentStatus = status.getStatus(statusKey);
                 i++;
                 let newValue =  msg[i]
+
                 if (MATH.stupidChecksumArray(currentStatus) !== MATH.stupidChecksumArray(newValue)) {
-               //     console.log("Server Status updated", statusKey, newValue, currentStatus);
+           //         console.log("Server Status updated", statusKey, newValue, currentStatus);
 
                     if (statusKey === ENUMS.ActorStatus.ACTIVATION_STATE) {
                         if (newValue === ENUMS.ActivationState.ACTIVATING) {
@@ -69,7 +71,6 @@ class ServerActorStatusProcessor {
                             newValue = []
                         }
                     }
-
 
                     status.setStatusKey(statusKey, newValue);
                 }

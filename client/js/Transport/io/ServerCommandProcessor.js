@@ -96,7 +96,7 @@ function processServerCommand(protocolKey, message) {
     let encounter;
 
     if (!msg.command) {
-        console.log("processServerCommand requires msg.command")
+        console.log("processServerCommand requires msg.command", message)
         return;
     }
 
@@ -126,7 +126,7 @@ function processServerCommand(protocolKey, message) {
             let bytesOutPerS = MATH.numberToDigits(0.001 * bytesOutDelta / timeDelta, 1, 1);
             let bytesInPerS = MATH.numberToDigits(0.001 * bytesInDelta / timeDelta, 1, 1);
 
-            console.log("Ping; ", pingCycleTime, msg);
+        //    console.log("Ping; ", pingCycleTime, msg);
             GuiAPI.screenText(pingCycleTime+'ms', ENUMS.Message.PING, 2);
             GuiAPI.screenText('out: '+bytesOutPerS+'kb/s in: '+bytesInPerS+'kb/s', ENUMS.Message.SERVER_STATUS, 3);
             break;
@@ -213,33 +213,34 @@ function processServerCommand(protocolKey, message) {
 
             break;
         case ENUMS.ServerCommands.ACTOR_REMOVED:
-            console.log("ACTOR_REMOVED; ", stamp, msg);
+            console.log("ACTOR_REMOVED; ", stamp, message);
 
             break;
         case ENUMS.ServerCommands.ITEM_INIT:
-            processItemInit(stamp, msg);
+            console.log("Command: ITEM_INIT", message)
+            processItemInit(stamp, message);
             break;
         case ENUMS.ServerCommands.ITEM_UPDATE:
-            console.log("ITEM_UPDATE; ", stamp, msg);
+            console.log("ITEM_UPDATE; ", message);
 
             break;
         case ENUMS.ServerCommands.ITEM_REMOVED:
-            console.log("ITEM_REMOVED; ", stamp, msg);
+            console.log("ITEM_REMOVED; ", message);
 
             break;
         case ENUMS.ServerCommands.ENCOUNTER_TRIGGER:
-            console.log("Trigger Encounter; ", msg.encounterId, msg.worldEncounterId, stamp, msg);
-            encounter = GameAPI.getWorldEncounterByEncounterId(msg.worldEncounterId);
+            console.log("Trigger Encounter; ", message.encounterId, message.worldEncounterId, stamp, message);
+            encounter = GameAPI.getWorldEncounterByEncounterId(message.worldEncounterId);
             encounter.call.triggerWorldEncounter();
             console.log("WE: ", encounter);
             break;
         case ENUMS.ServerCommands.ENCOUNTER_START:
-            console.log("Start Encounter; ", msg.encounterId, msg.worldEncounterId, stamp, msg);
+            console.log("Start Encounter; ", message.encounterId, message.worldEncounterId, stamp, message);
             encounter = GameAPI.getWorldEncounterByEncounterId(msg.worldEncounterId);
             encounter.call.startWorldEncounter();
             break;
         case ENUMS.ServerCommands.ENCOUNTER_CLOSE:
-            console.log("Close Encounter; ", msg.encounterId, msg.worldEncounterId, stamp, msg);
+            console.log("Close Encounter; ", message.encounterId, message.worldEncounterId, stamp, message);
             break;
         default:
 

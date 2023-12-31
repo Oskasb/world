@@ -1,6 +1,9 @@
 class SimpleSend {
     constructor() {
-
+        let request = {
+            request:null,
+            status:null
+        }
         let lastBroadcast = {};
         let sendStatus = [];
         let lastFullSend = 0;
@@ -53,7 +56,9 @@ class SimpleSend {
             }
         }
 
-        function broadcastStatus(statusMessageKey, statusMap) {
+        function broadcastStatus(statusMessageKey, statusMap, clientRequest) {
+            request.request = clientRequest;
+            request.status = sendStatus;
             let gameTime = GameAPI.getGameTime();
             MATH.emptyArray(sendStatus);
             sendStatus.push(statusMessageKey)
@@ -68,8 +73,8 @@ class SimpleSend {
                 }
 
                 if (sendStatus.length > 2) {
-                //    console.log("SIMPLE SEND: ",statusMessageKey, sendStatus)
-                    evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, sendStatus)
+                    console.log("SIMPLE SEND: ", request)
+                    evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, request)
                 }
 
         }

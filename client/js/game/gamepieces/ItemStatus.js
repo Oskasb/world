@@ -1,11 +1,12 @@
 import {SimpleSend} from "../../Transport/io/SimpleSend.js";
 
 class ItemStatus {
-    constructor(itemTemplate) {
+    constructor(itemId, itemTemplate) {
 
         let simpleSend = new SimpleSend();
 
         this.statusMap =  {};
+        this.statusMap[ENUMS.ItemStatus.ITEM_ID] = itemId;
         this.statusMap[ENUMS.ItemStatus.TEMPLATE] = itemTemplate;
         this.statusMap[ENUMS.ItemStatus.ACTOR_ID] = 'none';
         this.statusMap[ENUMS.ItemStatus.PALETTE_VALUES] = [];
@@ -39,7 +40,7 @@ class ItemStatus {
             }
 
             if (!actor.call.getRemote()) {
-                simpleSend.call.broadcastStatus(ENUMS.ItemStatus.ITEM_ID, this.statusMap);
+                simpleSend.call.broadcastStatus(ENUMS.ItemStatus.ITEM_ID, this.statusMap, ENUMS.ClientRequests.APPLY_ITEM_STATUS);
             }
 
         }.bind(this);
@@ -68,7 +69,7 @@ class ItemStatus {
             let gameTime = GameAPI.getGameTime();
             if (lastPulseTime < gameTime -5) {
                 lastPulseTime = gameTime;
-                simpleSend.call.broadcastStatus(ENUMS.ItemStatus.ITEM_ID, this.statusMap);
+                simpleSend.call.broadcastStatus(ENUMS.ItemStatus.ITEM_ID, this.statusMap, ENUMS.ClientRequests.APPLY_ITEM_STATUS);
             }
         }.bind(this);
 

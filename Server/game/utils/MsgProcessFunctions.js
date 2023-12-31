@@ -20,7 +20,9 @@ function processClientRequest(request, stamp, message, connectedClient) {
     msgEvent.msg = message
     msgEvent.stamp = stamp;
     let player;
-
+    let actor;
+    let actorId;
+    let statusValues;
 
     switch (request) {
         case ENUMS.ClientRequests.REGISTER_PLAYER:
@@ -56,13 +58,38 @@ function processClientRequest(request, stamp, message, connectedClient) {
             }
 
             break
+        case ENUMS.ClientRequests.APPLY_ITEM_STATUS:
+            player = getGameServer().getConnectedPlayerByStamp(connectedClient.stamp);
+
+            if (!player) {
+                console.log("No player for item, exiting")
+                return;
+            }
+
+            actorId = getStatusFromMsg(ENUMS.ActorStatus.ACTOR_ID, message.status);
+        //    actor = player.getPlayerActor(actorId)
+
+        //    statusValues = statusMapFromMsg(message.status);
+            console.log("APPLY_ITEM_STATUS", message, player.actors)
+
+        //    applyStatusToMap(statusValues, actor.getStatusMap());
+            //    getGameServerWorld().initServerEncounter(msgEvent)
+            message.command = ENUMS.ServerCommands.ITEM_UPDATE;
+            dispatchMessage(message);
+            break;
         case ENUMS.ClientRequests.APPLY_ACTOR_STATUS:
             player = getGameServer().getConnectedPlayerByStamp(connectedClient.stamp);
 
             let actor = player.getPlayerActor(message.status[1])
-        //    console.log("APPLY_ACTOR_STATUS", actor, message, player.actors)
-            let statusValues = statusMapFromMsg(message.status);
-            applyStatusToMap(statusValues, actor.getStatusMap());
+
+            if (actor) {
+                actor.updateStatusFromMessage(message.status);
+            } else {
+                console.log("actor not found", message)
+                return;
+            }
+
+
         //    getGameServerWorld().initServerEncounter(msgEvent)
             message.command = ENUMS.ServerCommands.ACTOR_UPDATE;
             dispatchMessage(message);
@@ -77,7 +104,7 @@ function processClientRequest(request, stamp, message, connectedClient) {
             message.command = ENUMS.ServerCommands.SYSTEM_INFO;
             message.bytesIn = getIncomingBytes();
             message.bytesOut = getOutgoingBytes();
-            console.log("Process Ping Msg", message)
+        //    console.log("Process Ping Msg", message)
             connectedClient.call.returnDataMessage(message);
             break;
         default:

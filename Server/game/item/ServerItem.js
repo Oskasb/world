@@ -3,12 +3,11 @@ import {Status} from "../status/Status.js";
 import {ENUMS} from "../../../client/js/application/ENUMS.js";
 
 
-
 let index = 0;
 
 class ServerItem {
-    constructor(itemTemplate) {
-        this.id = "item_"+index+"_"+getServerStamp()
+    constructor(itemTemplate, stamp) {
+        this.id = "item_"+index+"_"+stamp
         index++
         this.status = new Status();
         this.setStatusKey(ENUMS.ItemStatus.ITEM_ID, this.id);
@@ -40,7 +39,7 @@ class ServerItem {
 
     dispatchItemStatus(command) {
         this.msgEvent.msg.command = command
-        dispatchMessage(this.msgEvent);
+        dispatchMessage(this.msgEvent.msg);
     }
 
 }

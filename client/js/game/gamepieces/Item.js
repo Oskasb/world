@@ -12,7 +12,7 @@ class Item {
         this.configId = configId;
         this.config = config;
         this.visualGamePiece = visualGamePiece;
-        this.status = new ItemStatus(this.id);
+        this.status = new ItemStatus(this.id, configId);
         this.visualGamePiece.call.setPiece(this)
 
         ThreeAPI.addPostrenderCallback(this.status.call.pulseStatusUpdate)
