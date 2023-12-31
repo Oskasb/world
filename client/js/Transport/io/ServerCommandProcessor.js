@@ -64,10 +64,11 @@ function processItemInit(msg) {
     let itemLoaded = function(item) {
 
         item.id = status[ENUMS.ItemStatus.ITEM_ID]
-    //    console.log("itemLoaded: ", item)
+
         for (let key in status) {
             item.setStatusKey(key, status[key]);
         }
+        console.log("itemLoaded: ", item, status)
         ThreeAPI.addPostrenderCallback(item.status.call.pulseStatusUpdate)
         let equippedToActorId = item.getStatus(ENUMS.ItemStatus.ACTOR_ID);
         let actor = GameAPI.getActorById(equippedToActorId);
@@ -88,12 +89,25 @@ function processItemInit(msg) {
 
 }
 
+function processRemoteStatus(stamp, msgStatus) {
+    let remoteClient = remoteClients[stamp];
+    if (remoteClient) {
+        //    console.log("REMOTE ACTOR_UPDATE; ", stamp, [msg.status]);
+        remoteClient.processClientMessage(msgStatus);
+    } else {
+        console.log("REMOTE UPDATE - Remote client missing for stamp; ", stamp, remoteClients);
+        remoteClients[stamp] = new RemoteClient(stamp);
+        remoteClients[stamp].processClientMessage(msgStatus);
+    }
+}
+
 let lastBytesOut = 0;
 let lastBytesIn = 0;
 let lastPingTime = 0;
 
 function processServerCommand(protocolKey, message) {
 
+    let clientStamp = client.getStamp();
     let stamp = message.stamp;
     let msg = message;
     let encounter;
@@ -104,7 +118,7 @@ function processServerCommand(protocolKey, message) {
     }
 
     if (typeof(msg.request) === 'number') {
-    //    console.log(ENUMS.getKey('ServerCommands', msg.command) +" is response to request ", ENUMS.getKey('ClientRequests', msg.request))
+        console.log(ENUMS.getKey('ServerCommands', msg.command) +" is response to request ", ENUMS.getKey('ClientRequests', msg.request), message)
     }  else {
         console.log("Non Request: ", ENUMS.getKey('Protocol', protocolKey), ENUMS.getKey('ServerCommands', msg.command), msg);
     }
@@ -136,7 +150,7 @@ function processServerCommand(protocolKey, message) {
         case ENUMS.ServerCommands.PLAYER_CONNECTED:
             console.log("Player Connected; ", stamp, msg);
 
-            if (stamp === client.getStamp()) {
+            if (stamp === clientStamp) {
 
             } else {
                 GuiAPI.screenText("Remote Player Connected", ENUMS.Message.HINT, 2)
@@ -160,7 +174,7 @@ function processServerCommand(protocolKey, message) {
         case ENUMS.ServerCommands.ACTOR_INIT:
             stamp = msg.status[ENUMS.ActorStatus.CLIENT_STAMP];
 
-            if (stamp === client.getStamp()) {
+            if (stamp === clientStamp) {
                 processActorInit(stamp, msg);
             } else {
                 // use remote client here...
@@ -189,29 +203,12 @@ function processServerCommand(protocolKey, message) {
 
             break;
         case ENUMS.ServerCommands.ACTOR_UPDATE:
-            stamp = getClientStampFromStatusMessage(msg.status)
 
-            if (!stamp) {
-                console.log("No client stamp found for message: ", msg)
-                return;
-            }
-
-            if (stamp === client.getStamp()) {
+            if (stamp === clientStamp) {
                 // own client already has the command status, use response to possibly validate
             } else {
                 // use remote client here...
-                let remoteClient = remoteClients[stamp];
-                if (remoteClient) {
-                //    console.log("REMOTE ACTOR_UPDATE; ", stamp, [msg.status]);
-                    remoteClient.processClientMessage(msg.status);
-                } else {
-                    console.log("ACTOR_UPDATE Remote client missing for stamp; ", stamp, remoteClients);
-                    remoteClients[stamp] = new RemoteClient(stamp);
-                    remoteClients[stamp].processClientMessage(msg.status);
-                //    let statusMap = statusMapFromMsg(msg.status);
-                //    applyStatusToMap(statusMap, actor.getStatus());
-                }
-
+                processRemoteStatus(stamp, msg.status)
             }
 
             break;
@@ -221,18 +218,30 @@ function processServerCommand(protocolKey, message) {
             break;
         case ENUMS.ServerCommands.ITEM_INIT:
         //    console.log("Command: ITEM_INIT", message)
-            processItemInit(message);
+            if (stamp === clientStamp) {
+                console.log("Local: ITEM_INIT", stamp, message)
+                processItemInit(message);
+            } else {
+                console.log("Remote: ITEM_INIT", stamp, message)
+            //    processRemoteStatus(stamp, message.status)
+            }
             break;
         case ENUMS.ServerCommands.ITEM_UPDATE:
         //    console.log("ITEM_UPDATE; ", message);
-            let itemId = message.status[1];
-            let item = GameAPI.getItemById(itemId)
-            if (!item) {
-                console.log("No client item found:", itemId, message )
-                return;
+
+            if (stamp === clientStamp) {
+                let itemId = message.status[1];
+                let item = GameAPI.getItemById(itemId)
+                if (!item) {
+                    console.log("No client item found:", itemId, message )
+                    return;
+                }
+                console.log("Item ", item, message.status);
+                item.call.applyStatusMessage(message.status)
+            } else {
+                processRemoteStatus(stamp, message.status)
             }
-            console.log("Item ", item, message.status);
-            applyStatusMessageToMap(message.status, item.status.statusMap)
+
             break;
         case ENUMS.ServerCommands.ITEM_REMOVED:
             console.log("ITEM_REMOVED; ", message);

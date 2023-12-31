@@ -213,23 +213,14 @@ class RemoteClient {
             }
         }
 
-        if (msg.indexOf(ENUMS.ItemStatus.PALETTE_VALUES) !== -1) {
-            let valueIdx = msg.indexOf(ENUMS.ItemStatus.PALETTE_VALUES)+1
-            let paletteValues = msg[valueIdx]
-            if (paletteValues.length === 8) {
-                let actorId = msg[msg.indexOf(ENUMS.ItemStatus.ACTOR_ID) +1]
-                let actor = this.getActorById(actorId);
-                item.getVisualGamePiece().visualModelPalette.setFromValuearray(paletteValues);
-                let instance = item.getVisualGamePiece().call.getInstance()
-                if (instance) {
-                    item.getVisualGamePiece().visualModelPalette.applyPaletteToInstance(instance)
-                } else {
-                    console.log("Remote item expects instance here")
-                }
-
-            }
-
+        if (!item) {
+            console.log("Item missing.. ", itemId, this.items)
+            return;
         }
+
+        item.call.applyStatusMessage(msg);
+
+
 
     }
 

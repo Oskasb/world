@@ -115,7 +115,8 @@ let ENUMS = {}
         SERVER_PING:4,
         APPLY_ACTOR_STATUS:5,
         APPLY_ITEM_STATUS:6,
-        APPLY_ACTION_STATUS:7
+        APPLY_ACTION_STATUS:7,
+        LOAD_SERVER_ITEM: 8
     };
 
     ENUMS.ServerCommands = {

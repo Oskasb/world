@@ -4,7 +4,7 @@ import {
     dispatchMessage,
     getGameServer,
     getGameServerWorld, getRegisteredActors, getServerActorByActorId,
-    getServerItemByItemId,
+    getServerItemByItemId, getServerItems,
     getServerStamp, getStatusFromMsg, statusMapFromMsg
 } from "./GameServerFunctions.js";
 import {getIncomingBytes, getOutgoingBytes} from "./ServerStatusTracker.js";
@@ -19,6 +19,7 @@ function processClientRequest(request, stamp, message, connectedClient) {
 
     msgEvent.msg = message
     msgEvent.stamp = stamp;
+    message.stamp = connectedClient.stamp;
     let player;
     let actor;
     let actorId;
@@ -72,7 +73,12 @@ function processClientRequest(request, stamp, message, connectedClient) {
         //    statusValues = statusMapFromMsg(message.status);
             let item = getServerItemByItemId(message.status[1])
 
-            console.log("APPLY_ITEM_STATUS", message, player.actors)
+            if (!item) {
+                console.log("Item missing ", message.status[1], getServerItems())
+                return;
+            }
+
+            console.log("APPLY_ITEM_STATUS", item, message, player.actors)
 
         //    applyStatusToMap(statusValues, actor.getStatusMap());
             //    getGameServerWorld().initServerEncounter(msgEvent)

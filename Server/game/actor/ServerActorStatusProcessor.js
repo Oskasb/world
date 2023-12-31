@@ -8,14 +8,6 @@ class ServerActorStatusProcessor {
 
     }
 
-    /*
-        let equippedTemplateItems = msg.status['EQUIPPED_ITEMS']
-        for (let i = 0; i < equippedTemplateItems.length; i++) {
-            let serverItem = new ServerItem(equippedTemplateItems[i]);
-            serverActor.equipServerItem(serverItem)
-            serverItem.dispatchItemStatus(ENUMS.ServerCommands.ITEM_INIT)
-        }
-    */
 
     updateEquippedItems(status, itemTemplateList) {
         let currentItems = status.getStatus(ENUMS.ActorStatus.EQUIPPED_ITEMS);
@@ -33,7 +25,7 @@ class ServerActorStatusProcessor {
 
                 serverActor.equipServerItem(serverItem)
             //    if (status.getStatus(ENUMS.ActorStatus.PLAYER_STAMP) === getServerStamp()) {
-                    serverItem.dispatchItemStatus(ENUMS.ServerCommands.ITEM_INIT)
+                    serverItem.dispatchItemStatus(ENUMS.ClientRequests.LOAD_SERVER_ITEM, ENUMS.ServerCommands.ITEM_INIT)
             //    }
             }
         }

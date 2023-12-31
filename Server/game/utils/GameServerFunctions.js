@@ -60,6 +60,10 @@ function getServerItemByItemId(itemId) {
     }
 }
 
+function getServerItems() {
+    return serverItems;
+}
+
 function getGameServerWorld() {
     return gameServer.gameServerWorld;
 }
@@ -83,7 +87,7 @@ let msgData = {
 }
 
 function dispatchMessage(messageData) {
- //   console.log("Dispatch Msg ", messageData);
+    console.log("Dispatch Msg ", messageData);
     getGameServer().messageAllClients(messageData)
 }
 
@@ -168,6 +172,7 @@ export {
     statusMapFromMsg,
     registerServerItem,
     removeServerItem,
+    getServerItems,
     getServerItemByItemId,
     applyStatusToMap,
     getClientStampFromStatusMessage,

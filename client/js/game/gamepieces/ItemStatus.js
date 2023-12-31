@@ -2,7 +2,7 @@ import {SimpleSend} from "../../Transport/io/SimpleSend.js";
 
 class ItemStatus {
     constructor(itemId, itemTemplate) {
-
+        console.log("Init Item status", itemId)
         let simpleSend = new SimpleSend();
 
         this.statusMap =  {};

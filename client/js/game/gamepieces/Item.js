@@ -1,4 +1,5 @@
 import {ItemStatus} from "./ItemStatus.js";
+import {applyStatusMessageToMap} from "../../../../Server/game/utils/GameServerFunctions.js";
 
 let index = 0;
 
@@ -61,11 +62,34 @@ class Item {
 
         }.bind(this);
 
+
+        let applyStatusMessage = function(msg) {
+            applyStatusMessageToMap(msg, this.status.statusMap);
+            let item = this;
+
+            if (msg.indexOf(ENUMS.ItemStatus.PALETTE_VALUES) !== -1) {
+
+                let valueIdx = msg.indexOf(ENUMS.ItemStatus.PALETTE_VALUES)+1
+                let paletteValues = msg[valueIdx]
+                if (paletteValues.length === 8) {
+                    item.getVisualGamePiece().visualModelPalette.setFromValuearray(paletteValues);
+                    let instance = item.getVisualGamePiece().call.getInstance()
+                    if (instance) {
+                        item.getVisualGamePiece().visualModelPalette.applyPaletteToInstance(instance)
+                    } else {
+                        console.log("item expects instance here")
+                    }
+                }
+            }
+
+        }.bind(this)
+
         this.call = {
             getAddModifiers:getAddModifiers,
             setUpdateCallback:setUpdateCallback,
             getUpdateCallback:getUpdateCallback,
-            tickSkinnedItem:tickSkinnedItem
+            tickSkinnedItem:tickSkinnedItem,
+            applyStatusMessage:applyStatusMessage
         }
 
     }

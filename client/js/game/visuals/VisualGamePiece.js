@@ -167,7 +167,7 @@ class VisualGamePiece {
 
         this.call = {
             tickPieceEquippedItem:tickPieceEquippedItem,
-                applyVisualPiecePalette:applyVisualPiecePalette,
+            applyVisualPiecePalette:applyVisualPiecePalette,
             getPiece:getPiece,
             setPiece:setPiece,
             setInstance:setInstance,
