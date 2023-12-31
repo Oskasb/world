@@ -15,8 +15,6 @@ class Item {
         this.status = new ItemStatus(this.id, configId);
         this.visualGamePiece.call.setPiece(this)
 
-        ThreeAPI.addPostrenderCallback(this.status.call.pulseStatusUpdate)
-
         let addModifiers = {};
         let updateCallback = null;
 

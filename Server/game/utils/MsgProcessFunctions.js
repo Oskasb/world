@@ -70,6 +70,8 @@ function processClientRequest(request, stamp, message, connectedClient) {
         //    actor = player.getPlayerActor(actorId)
 
         //    statusValues = statusMapFromMsg(message.status);
+            let item = getServerItemByItemId(message.status[1])
+
             console.log("APPLY_ITEM_STATUS", message, player.actors)
 
         //    applyStatusToMap(statusValues, actor.getStatusMap());

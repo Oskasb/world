@@ -13,6 +13,7 @@ let visualConfigs = {};
 let actorConfigs = {};
 let itemConfigs = {};
 let actors = [];
+let items = [];
 let actorIndex = 1; // zero index get culled by connection
 let remoteClients = {}
 let opponentList = []; // temp list for fetching opponents
@@ -40,6 +41,7 @@ let loadItem = function(event) {
 
     //
         let item = new Item(event['id'], visualPiece, itemConfig)
+        items.push(item);
         if (event.pos) {
             item.getPos().copy(event.pos);
         }
@@ -138,6 +140,10 @@ class GamePieceSystem {
 
     getActors() {
         return actors;
+    }
+
+    getItems() {
+        return items;
     }
 
     addLooseItem(item) {

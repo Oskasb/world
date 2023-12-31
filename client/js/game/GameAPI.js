@@ -230,6 +230,18 @@ class GameAPI {
 
     }
 
+    getItemById(itemId) {
+        let items = gamePieceSystem.getItems();
+
+        for (let i = 0; i < items.length; i++) {
+            let item = items[i];
+            if (item.id === itemId) {
+                return item
+            }
+        }
+        //    console.log("No actor by index; ", index, actors);
+
+    }
 
     initGameMain() {
         let init = poolFetch('ActorAction')

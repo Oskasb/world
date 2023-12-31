@@ -1,6 +1,7 @@
 import {evt} from "../../application/event/evt.js";
 import {notifyCameraStatus} from "../../3d/camera/CameraFunctions.js";
 import {
+    applyStatusMessageToMap,
     applyStatusToMap, getClientStampFromStatusMessage,
     getStatusFromMsg,
     statusMapFromMsg
@@ -57,15 +58,17 @@ function processActorInit(stamp, msg) {
 
 }
 
-function processItemInit(stamp, msg) {
+function processItemInit(msg) {
     let status = msg.status;
 
     let itemLoaded = function(item) {
 
+        item.id = status[ENUMS.ItemStatus.ITEM_ID]
+    //    console.log("itemLoaded: ", item)
         for (let key in status) {
             item.setStatusKey(key, status[key]);
         }
-
+        ThreeAPI.addPostrenderCallback(item.status.call.pulseStatusUpdate)
         let equippedToActorId = item.getStatus(ENUMS.ItemStatus.ACTOR_ID);
         let actor = GameAPI.getActorById(equippedToActorId);
 
@@ -80,7 +83,7 @@ function processItemInit(stamp, msg) {
     }
 
     let templateId = status[ENUMS.ItemStatus.TEMPLATE];
-    console.log("ITEM_INIT: ", templateId, stamp, msg);
+//    console.log("ITEM_INIT: ", templateId, msg);
     evt.dispatch(ENUMS.Event.LOAD_ITEM,  {id: templateId, callback:itemLoaded})
 
 }
@@ -217,12 +220,19 @@ function processServerCommand(protocolKey, message) {
 
             break;
         case ENUMS.ServerCommands.ITEM_INIT:
-            console.log("Command: ITEM_INIT", message)
-            processItemInit(stamp, message);
+        //    console.log("Command: ITEM_INIT", message)
+            processItemInit(message);
             break;
         case ENUMS.ServerCommands.ITEM_UPDATE:
-            console.log("ITEM_UPDATE; ", message);
-
+        //    console.log("ITEM_UPDATE; ", message);
+            let itemId = message.status[1];
+            let item = GameAPI.getItemById(itemId)
+            if (!item) {
+                console.log("No client item found:", itemId, message )
+                return;
+            }
+            console.log("Item ", item, message.status);
+            applyStatusMessageToMap(message.status, item.status.statusMap)
             break;
         case ENUMS.ServerCommands.ITEM_REMOVED:
             console.log("ITEM_REMOVED; ", message);

@@ -103,13 +103,17 @@ function getStatusFromMsg(key, msg) {
 
 function statusMapFromMsg(msg) {
     let statusMap = {}
-    for (let i = 0; i < msg.length; i++) {
-        let statusKey = ENUMS.ActorStatus[msg[i]]
+    applyStatusMessageToMap(msg, statusMap)
+    return statusMap
+}
+
+function applyStatusMessageToMap(status, statusMap) {
+    for (let i = 0; i < status.length; i++) {
+        let statusKey = status[i]
         i++;
-        let newValue =  msg[i]
+        let newValue =  status[i]
         statusMap[statusKey] = newValue;
     }
-    return statusMap
 }
 
 
@@ -166,6 +170,7 @@ export {
     removeServerItem,
     getServerItemByItemId,
     applyStatusToMap,
-    getClientStampFromStatusMessage
+    getClientStampFromStatusMessage,
+    applyStatusMessageToMap
 
 }
