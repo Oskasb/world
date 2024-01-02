@@ -87,7 +87,7 @@ let msgData = {
 }
 
 function dispatchMessage(messageData) {
-    console.log("Dispatch Msg ", messageData);
+  //  console.log("Dispatch Msg ", messageData);
     getGameServer().messageAllClients(messageData)
 }
 

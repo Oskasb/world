@@ -19,7 +19,7 @@ class ServerActor {
             this.equippedItems.push(serverItem);
             serverItem.setStatusKey(ENUMS.ItemStatus.ACTOR_ID, this.status.getStatus(ENUMS.ActorStatus.ACTOR_ID))
             serverItem.setStatusKey(ENUMS.ItemStatus.ITEM_ID, serverItem.id)
-            console.log("Server Equip: to actor_id",serverItem.id, this.status.getStatus(ENUMS.ActorStatus.ACTOR_ID))
+        //    console.log("Server Equip: to actor_id",serverItem.id, this.status.getStatus(ENUMS.ActorStatus.ACTOR_ID))
         } else {
             console.log("Item already equipped", serverItem, this)
         }

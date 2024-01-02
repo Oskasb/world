@@ -70,13 +70,13 @@ class InstanceSpatial{
 
             let hideSpatial = function(bool) {
                 if (bool) {
-                    console.log("HIDE: ")
+                //    console.log("HIDE: ")
                     setTimeout(function() {
                         obj3d.position.y = -100000;
                         obj3d.scale.y = 0;
                         //    geometryInstance.applyObjPos();
                         applyInstanceBuffers()
-                    }, 200)
+                    }, 0)
 
 
                 } else {

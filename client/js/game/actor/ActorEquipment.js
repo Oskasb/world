@@ -44,7 +44,7 @@ class ActorEquipment {
             let itemSlot = this.getSlotForItem(item);
             let dynamicJoint = this.getJointForItemSlot(itemSlot);
             let slotId = item.getEquipSlotId();
-            console.log("Equip Actor Item ", item, slotId)
+        //    console.log("Equip Actor Item ", item, slotId)
             item.setStatusKey(ENUMS.ItemStatus.EQUIPPED_SLOT, slotId);
 
         //    let slot = MATH.getFromArrayByKeyValue(this.slots, 'slot_id', slotId);

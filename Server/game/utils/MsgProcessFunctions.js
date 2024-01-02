@@ -74,14 +74,10 @@ function processClientRequest(request, stamp, message, connectedClient) {
             let item = getServerItemByItemId(message.status[1])
 
             if (!item) {
-                console.log("Item missing ", message.status[1], getServerItems())
+            //    console.log("Item missing ", message.status[1], getServerItems())
                 return;
             }
-
-            console.log("APPLY_ITEM_STATUS", item, message, player.actors)
-
-        //    applyStatusToMap(statusValues, actor.getStatusMap());
-            //    getGameServerWorld().initServerEncounter(msgEvent)
+            item.updateItemStatusFromMessage(message.status)
             message.command = ENUMS.ServerCommands.ITEM_UPDATE;
             dispatchMessage(message);
             break;

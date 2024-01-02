@@ -2,7 +2,7 @@ import {SimpleSend} from "../../Transport/io/SimpleSend.js";
 
 class ItemStatus {
     constructor(itemId, itemTemplate) {
-        console.log("Init Item status", itemId)
+    //    console.log("Init Item status", itemId)
         let simpleSend = new SimpleSend();
 
         this.statusMap =  {};
@@ -71,7 +71,7 @@ class ItemStatus {
             let equipSlotId = getStatusByKey(ENUMS.ItemStatus.EQUIPPED_SLOT);
             if (equipSlotId === '') {
                 let item = GameAPI.getItemById(getStatusByKey(ENUMS.ItemStatus.ITEM_ID))
-                console.log("Fix missing equipslotId ", item)
+            //    console.log("Fix missing equipslotId ", item)
                 setStatusByKey(ENUMS.ItemStatus.EQUIPPED_SLOT, item.config['equip_slot'])
             }
 

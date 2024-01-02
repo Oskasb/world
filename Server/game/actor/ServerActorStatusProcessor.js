@@ -15,7 +15,7 @@ class ServerActorStatusProcessor {
             currentItems = [];
         }
 
-        console.log("UPDATE EQUIPPED ITEMS: ", itemTemplateList)
+    //    console.log("UPDATE EQUIPPED ITEMS: ", itemTemplateList)
 
         for (let i = 0; i < itemTemplateList.length; i++) {
             if (currentItems.indexOf(itemTemplateList[i]) === -1) {
@@ -53,7 +53,7 @@ class ServerActorStatusProcessor {
 
                             this.updateEquippedItems(status, initRequests);
                             status.setStatusKey(ENUMS.ActorStatus.EQUIP_REQUESTS, []);
-                            console.log("Actor ACTIVATING")
+                        //    console.log("Actor ACTIVATING")
                         }
                     }
 

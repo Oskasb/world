@@ -192,14 +192,18 @@ class RemoteClient {
                 let actor = this.getActorById(actorId);
 
                 if (!actor) {
-                    console.log("Item remote no actor..", itemId, msg)
-                    GuiAPI.screenText("Item before Actor "+this.index,  ENUMS.Message.SYSTEM, 1.5)
+            //        console.log("Item remote no actor..", itemId, msg)
+                    GuiAPI.screenText("Item pre Actor "+this.index,  ENUMS.Message.SYSTEM, 1.5)
                     return;
                 }
 
                 if (msg.indexOf(ENUMS.ItemStatus.EQUIPPED_SLOT) !== -1) {
                     let idIdx = msg.indexOf(ENUMS.ItemStatus.EQUIPPED_SLOT)+1
                     let slotId = msg[idIdx]
+                    if (slotId === '') {
+                        GuiAPI.screenText("Sync Item",  ENUMS.Message.SYSTEM, 1.0)
+                        return;
+                    }
                     item = actor.actorEquipment.getEquippedItemBySlotId(slotId);
                     if (item) {
                         item.id = itemId;
@@ -214,7 +218,8 @@ class RemoteClient {
         }
 
         if (!item) {
-            console.log("Item missing.. ", itemId, this.items)
+            GuiAPI.screenText("Sync Remote",  ENUMS.Message.SYSTEM, 1.0)
+        //     console.log("Item missing.. ", itemId, this.items)
             return;
         }
 
@@ -466,7 +471,7 @@ class RemoteClient {
 
 
                     if (configId === null) {
-                        console.log("No configId", remoteId, msg, this.actors);
+                    //    console.log("No configId", remoteId, msg, this.actors);
                         GuiAPI.screenText("loading config "+this.index,  ENUMS.Message.SYSTEM, 0.5)
                         return;
                     }

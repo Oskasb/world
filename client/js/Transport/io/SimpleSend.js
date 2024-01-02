@@ -23,11 +23,11 @@ class SimpleSend {
                         sendStatus.push(key)
                         sendStatus.push(statusMap[key])
 
-
+/*
                         if (key === ENUMS.ItemStatus.EQUIPPED_SLOT) {
                             console.log("Send EQ SLot: ", statusMap[key],  statusMap[ENUMS.ItemStatus.TEMPLATE])
                         }
-
+*/
                         if (!lastBroadcast[key]) {
                             lastBroadcast[key] = [0];
                         }

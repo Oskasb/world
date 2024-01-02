@@ -68,7 +68,7 @@ function processItemInit(msg) {
         for (let key in status) {
             item.setStatusKey(key, status[key]);
         }
-        console.log("itemLoaded: ", item, status)
+    //    console.log("itemLoaded: ", item, status)
         ThreeAPI.addPostrenderCallback(item.status.call.pulseStatusUpdate)
         let equippedToActorId = item.getStatus(ENUMS.ItemStatus.ACTOR_ID);
         let actor = GameAPI.getActorById(equippedToActorId);
@@ -148,9 +148,9 @@ function processServerCommand(protocolKey, message) {
             GuiAPI.screenText('out: '+bytesOutPerS+'kb/s in: '+bytesInPerS+'kb/s', ENUMS.Message.SERVER_STATUS, 3);
             break;
         case ENUMS.ServerCommands.PLAYER_CONNECTED:
-            console.log("Player Connected; ", stamp, msg);
+    //        console.log("Player Connected; ", stamp, msg);
 
-            if (stamp === clientStamp) {
+            if (stamp === clientStamp ) {
 
             } else {
                 GuiAPI.screenText("Remote Player Connected", ENUMS.Message.HINT, 2)
@@ -186,7 +186,7 @@ function processServerCommand(protocolKey, message) {
                     remoteClients[stamp] = remoteClient
                 }
 
-                console.log("REMOTE ACTOR_INIT; ", stamp, [msg.status]);
+            //    console.log("REMOTE ACTOR_INIT; ", stamp, [msg.status]);
 
                 let statusList = [];
                 statusList[0] = ENUMS.ActorStatus.ACTOR_ID;
@@ -219,10 +219,10 @@ function processServerCommand(protocolKey, message) {
         case ENUMS.ServerCommands.ITEM_INIT:
         //    console.log("Command: ITEM_INIT", message)
             if (stamp === clientStamp) {
-                console.log("Local: ITEM_INIT", stamp, message)
+        //        console.log("Local: ITEM_INIT", stamp, message)
                 processItemInit(message);
             } else {
-                console.log("Remote: ITEM_INIT", stamp, message)
+        //        console.log("Remote: ITEM_INIT", stamp, message)
             //    processRemoteStatus(stamp, message.status)
             }
             break;
@@ -236,7 +236,7 @@ function processServerCommand(protocolKey, message) {
                     console.log("No client item found:", itemId, message )
                     return;
                 }
-                console.log("Item ", item, message.status);
+            //    console.log("Item ", item, message.status);
                 item.call.applyStatusMessage(message.status)
             } else {
                 processRemoteStatus(stamp, message.status)
