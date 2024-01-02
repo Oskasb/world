@@ -275,11 +275,11 @@ class GameActor {
 
             this.statusFeedback.setStatusKey(key, status, this);
             this.actorStatus.setStatusKey(key, status);
-            this.sendStatus(0.05)
+            this.sendStatus(0.02)
 
         }   else {
 
-            this.sendStatus(2)
+            this.sendStatus(4)
 
         }
 

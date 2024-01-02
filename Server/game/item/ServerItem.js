@@ -30,7 +30,7 @@ class ServerItem {
 
 
         applyStatusToMap(status, this.status.statusMap)
-        console.log("ITEM status msg", [msg], [this.status.statusMap]);
+    //    console.log("ITEM status msg", [msg], [this.status.statusMap]);
     //    message.command = ENUMS.ServerCommands.ITEM_UPDATE;
     //    this.dispatchItemStatus(ENUMS.ClientRequests.APPLY_ITEM_STATUS, ENUMS.ServerCommands.ITEM_UPDATE)
     //    dispatchMessage(ENUMS.ServerCommands.ITEM_UPDATE)

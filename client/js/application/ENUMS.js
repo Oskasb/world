@@ -133,7 +133,8 @@ let ENUMS = {}
         ITEM_INIT:11,
         ITEM_UPDATE:12,
         ITEM_REMOVED:13,
-        SYSTEM_INFO: 14
+        SYSTEM_INFO: 14,
+        ACTION_UPDATE:15
     };
 
     ENUMS.ActorStatus = {

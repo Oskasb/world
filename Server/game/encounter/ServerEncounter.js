@@ -28,26 +28,24 @@ function processActivationState(encounter) {
 }
 
 class ServerEncounter {
-    constructor(msgEvent, closeEncounterCB) {
+    constructor(message, closeEncounterCB) {
 
-        console.log("New ServerEncounter", msgEvent);
+        console.log("New ServerEncounter", message);
 
-        this.spawn = msgEvent.msg.spawn;
+        this.spawn = message.spawn;
 
-        this.status = new EncounterStatus(msgEvent.msg.encounterId, msgEvent.msg.worldEncounterId);
-        this.setStatusKey(ENUMS.EncounterStatus.GRID_ID, msgEvent.msg.grid_id)
-        this.setStatusKey(ENUMS.EncounterStatus.GRID_POS, msgEvent.msg.pos)
+        this.status = new EncounterStatus(message.encounterId, message.worldEncounterId);
+        this.setStatusKey(ENUMS.EncounterStatus.GRID_ID, message.grid_id)
+        this.setStatusKey(ENUMS.EncounterStatus.GRID_POS, message.pos)
         this.encounterTime = 0;
-        this.hostStamp = msgEvent.stamp;
+        this.hostStamp = message.stamp;
         this.onCloseCallbacks = [];
 
         let msg = {
             stamp : this.hostStamp,
-            msg:{
-                command:ENUMS.ServerCommands.ENCOUNTER_TRIGGER,
-                encounterId:msgEvent.msg.encounterId,
-                worldEncounterId: msgEvent.msg.worldEncounterId
-            }
+            command:ENUMS.ServerCommands.ENCOUNTER_TRIGGER,
+            encounterId:message.encounterId,
+            worldEncounterId: message.worldEncounterId
         }
         dispatchMessage(msg);
 

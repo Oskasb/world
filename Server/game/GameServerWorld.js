@@ -12,13 +12,13 @@ class GameServerWorld {
 
     }
 
-    initServerEncounter(requestMsg) {
-        console.log("Handle Encounter Init", requestMsg)
-        if (activeEncounterStamps.indexOf(requestMsg.stamp) === -1) {
-            new ServerEncounter(requestMsg, closeEncounterCB);
-            activeEncounterStamps.push(requestMsg.stamp);
+    initServerEncounter( message) {
+        console.log("Handle Encounter Init", message)
+        if (activeEncounterStamps.indexOf(message.stamp) === -1) {
+            new ServerEncounter(message, closeEncounterCB);
+            activeEncounterStamps.push(message.stamp);
         } else {
-            console.log("Server already operates encounter by source stamp: ", requestMsg.stamp)
+            console.log("Server already operates encounter by source stamp: ", message.stamp)
         }
     }
 
