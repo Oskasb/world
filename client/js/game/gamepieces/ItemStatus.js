@@ -58,7 +58,7 @@ class ItemStatus {
         }.bind(this);
 
         let initItemStatus = function() {
-            this.statusMap[ENUMS.ActionStatus.ACTIVATION_STATE] = ENUMS.ActivationState.INIT;
+            this.statusMap[ENUMS.ItemStatus.ACTIVATION_STATE] = ENUMS.ActivationState.INIT;
         }.bind(this);
 
 
@@ -67,6 +67,14 @@ class ItemStatus {
 
         let pulseStatusUpdate = function() {
             let gameTime = GameAPI.getGameTime();
+
+            let equipSlotId = getStatusByKey(ENUMS.ItemStatus.EQUIPPED_SLOT);
+            if (equipSlotId === '') {
+                let item = GameAPI.getItemById(getStatusByKey(ENUMS.ItemStatus.ITEM_ID))
+                console.log("Fix missing equipslotId ", item)
+                setStatusByKey(ENUMS.ItemStatus.EQUIPPED_SLOT, item.config['equip_slot'])
+            }
+
             if (lastPulseTime < gameTime -5) {
                 lastPulseTime = gameTime;
                 simpleSend.call.broadcastStatus(ENUMS.ItemStatus.ITEM_ID, this.statusMap, ENUMS.ClientRequests.APPLY_ITEM_STATUS);

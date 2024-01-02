@@ -118,7 +118,7 @@ function processServerCommand(protocolKey, message) {
     }
 
     if (typeof(msg.request) === 'number') {
-        console.log(ENUMS.getKey('ServerCommands', msg.command) +" is response to request ", ENUMS.getKey('ClientRequests', msg.request), message)
+    //    console.log(ENUMS.getKey('ServerCommands', msg.command) +" is response to request ", ENUMS.getKey('ClientRequests', msg.request), message)
     }  else {
         console.log("Non Request: ", ENUMS.getKey('Protocol', protocolKey), ENUMS.getKey('ServerCommands', msg.command), msg);
     }

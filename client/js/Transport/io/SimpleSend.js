@@ -1,3 +1,5 @@
+import {ENUMS} from "../../application/ENUMS.js";
+
 class SimpleSend {
     constructor() {
         let request = {
@@ -20,6 +22,12 @@ class SimpleSend {
 
                         sendStatus.push(key)
                         sendStatus.push(statusMap[key])
+
+
+                        if (key === ENUMS.ItemStatus.EQUIPPED_SLOT) {
+                            console.log("Send EQ SLot: ", statusMap[key],  statusMap[ENUMS.ItemStatus.TEMPLATE])
+                        }
+
                         if (!lastBroadcast[key]) {
                             lastBroadcast[key] = [0];
                         }
@@ -64,6 +72,8 @@ class SimpleSend {
             sendStatus.push(statusMessageKey)
             sendStatus.push(statusMap[statusMessageKey])
             skipKey = statusMessageKey;
+
+
 
                 if (lastFullSend < gameTime -0.5) {
                     lastFullSend = gameTime;

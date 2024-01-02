@@ -44,6 +44,7 @@ class ActorEquipment {
             let itemSlot = this.getSlotForItem(item);
             let dynamicJoint = this.getJointForItemSlot(itemSlot);
             let slotId = item.getEquipSlotId();
+            console.log("Equip Actor Item ", item, slotId)
             item.setStatusKey(ENUMS.ItemStatus.EQUIPPED_SLOT, slotId);
 
         //    let slot = MATH.getFromArrayByKeyValue(this.slots, 'slot_id', slotId);
@@ -68,6 +69,7 @@ class ActorEquipment {
 
 
         let unequipActorItem = function(item) {
+        //    console.log("UnEquip Actor Item ", item)
             if (this.items.indexOf(item) !== -1) {
                 MATH.splice(this.items, item);
             }
