@@ -125,6 +125,9 @@ function processClientRequest(request, stamp, message, connectedClient) {
         case ENUMS.ClientRequests.ENCOUNTER_INIT:
             getGameServerWorld().initServerEncounter(message)
             break;
+        case ENUMS.ClientRequests.ENCOUNTER_PLAY:
+            getGameServerWorld().handleEncounterPlayMessage(message)
+            break;
         case ENUMS.ClientRequests.SERVER_PING:
             message.serverNow = performance.now();
             message.clientCount = getGameServer().connectedClients.length;
@@ -137,14 +140,8 @@ function processClientRequest(request, stamp, message, connectedClient) {
             break;
         default:
             console.log("Message not handled by server:", message)
-
     }
-
-
 }
-
-
-
 
 function processClientMessage(messageData, connectedClient) {
 //    console.log("processClientMessage", messageData)
@@ -156,7 +153,5 @@ function processClientMessage(messageData, connectedClient) {
     }
 
 }
-
-
 
 export {processClientMessage}

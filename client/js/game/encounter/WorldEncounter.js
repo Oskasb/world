@@ -57,7 +57,9 @@ function checkTriggerPlayer(encounter) {
     let hostActor = encounter.visualEncounterHost.call.getActor();
     if (!hostActor) return;
 
+
     if (selectedActor) {
+        let tpf = GameAPI.getFrame().tpf
         let radius = encounter.config.trigger_radius;
         let distance = MATH.distanceBetween(selectedActor.getSpatialPosition(), encounter.getPos())
 
@@ -68,7 +70,7 @@ function checkTriggerPlayer(encounter) {
                 hostActor.actorText.say("Get closer if you dare")
             }
 
-            encounter.timeInsideProximity += GameAPI.getFrame().tpf
+            encounter.timeInsideProximity += tpf;
         } else {
             encounter.timeInsideProximity = 0;
         }
@@ -82,8 +84,6 @@ function checkTriggerPlayer(encounter) {
         if (distance < radius) {
 
             if (encounter.timeInsideTrigger === 0) {
-                //    console.log("Activate Encounter Triggered Transition")
-
                 encounterEvent.request = ENUMS.ClientRequests.ENCOUNTER_INIT
                 encounterEvent.worldEncounterId = encounter.id;
                 encounterEvent.encounterId = client.getStamp()+encounter.id;
@@ -91,22 +91,10 @@ function checkTriggerPlayer(encounter) {
                 encounterEvent.grid_id = encounter.config.grid_id;
                 encounterEvent.spawn = encounter.config.spawn;
                 encounterEvent.cam_pos = encounter.getTriggeredCameraHome();
-
                 evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, encounterEvent)
-            //    evt.dispatch(ENUMS.Event.GAME_MODE_BATTLE, encounterEvent)
             }
 
-            if (encounter.timeInsideTrigger > 1) {
-
-            //    if (encounter.requestingActor) {
-            //        console.log("Synch Encounter from remote")
-            //        GuiAPI.screenText("SYNCHING", ENUMS.Message.HINT, 1.5);
-            //    } else {
-
-            //    evt.dispatch(ENUMS.Event.CALL_SERVER, encounterEvent)
-            //    evt.dispatch(ENUMS.Event.GAME_MODE_BATTLE, encounterEvent)
-
-            }
+            encounter.timeInsideTrigger += tpf;
         } else {
             encounter.timeInsideTrigger = 0;
         }
@@ -155,10 +143,7 @@ class WorldEncounter {
                 }
                 this.isVisible = false
             }
-
         }.bind(this)
-
-
 
         let onGameUpdate = function(tpf, gameTime) {
             if (this.triggered) {
@@ -166,12 +151,22 @@ class WorldEncounter {
             } else {
                 checkTriggerPlayer(this, gameTime);
             }
-
         }.bind(this)
 
+        let serverEncounterActivated = function(message) {
+            this.triggered = true;
+            let encId = message.encounterId;
+            let selectedActor = GameAPI.getGamePieceSystem().getSelectedGameActor();
+            evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, {
+                request:ENUMS.ClientRequests.ENCOUNTER_PLAY,
+                encounterId:encId,
+                actorId:selectedActor.getStatus(ENUMS.ActorStatus.ACTOR_ID),
+                playerParty:selectedActor.getStatus(ENUMS.ActorStatus.PLAYER_PARTY)
+            })
+            console.log("ServerEncounterActive message: ", message)
+        }.bind(this)
 
         let triggerWorldEncounter = function() {
-            this.triggered = true;;
             let hostActor = this.visualEncounterHost.call.getActor();
             let selectedActor = GameAPI.getGamePieceSystem().getSelectedGameActor();
             hostActor.actorText.yell("Here we go")
@@ -209,6 +204,7 @@ class WorldEncounter {
 
         this.call = {
             triggerWorldEncounter:triggerWorldEncounter,
+            serverEncounterActivated:serverEncounterActivated,
             startWorldEncounter:startWorldEncounter,
             lodUpdated:lodUpdated,
             onGameUpdate:onGameUpdate,

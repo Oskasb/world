@@ -84,6 +84,12 @@ class RemoteClient {
         }
     }
 
+    removeRemoteActor(actorId) {
+        let actor = this.getActorById(actorId);
+        MATH.splice(this.actors, actor);
+        actor.removeGameActor();
+    }
+
     getActionById(id) {
         for (let i = 0; i < this.actions.length; i++) {
             let action = this.actions[i];
@@ -494,7 +500,7 @@ class RemoteClient {
                     }.bind(this);
 
                     clearTimeout(actor.closeTimeout);
-                    actor.closeTimeout = setTimeout(removeActor, 60000);
+                    actor.closeTimeout = setTimeout(removeActor, 9000);
 
                     for (let i = 2; i < msg.length; i++) {
 
@@ -544,7 +550,7 @@ class RemoteClient {
         }
 
         clearTimeout(this.closeTimeout);
-        this.closeTimeout = setTimeout(this.call.timeout, 80000);
+        this.closeTimeout = setTimeout(this.call.timeout, 10000);
 
     }
 

@@ -118,7 +118,6 @@ class AttachmentJoint {
             console.log("Bad jointData Scale")
         }
 
-
         if (this.parentScale.length() > 10) {
             console.log("Bad parent Scale")
             this.parentScale.set(1, 1, 1);
@@ -129,6 +128,10 @@ class AttachmentJoint {
     };
 
     detachAttachedEntity() {
+        if (!this.attachedSpatial) {
+            console.log("Spatial Already detached")
+            return this;
+        }
         this.attachedSpatial.dynamicJoint = null;
         this.attachedSpatial = null;
         return this;

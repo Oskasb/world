@@ -118,6 +118,9 @@ class ConnectedClient { // This is running on both the client in a worker and on
     }
 
     deactivateConnectedClient() {
+        let player = getGameServer().getConnectedPlayerByStamp(this.stamp)
+        getGameServer().disconnectConnectedPlayer(player);
+        player.removeServerPlayer();
         unregisterGameServerUpdateCallback(this.call.tickConnectedClient)
     }
 

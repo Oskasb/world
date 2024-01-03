@@ -41,6 +41,12 @@ class GameServer {
         }
     }
 
+    disconnectConnectedPlayer(player) {
+        MATH.splice(connectedPlayers, player);
+
+    }
+
+
     initServerLoop(targetTpfMs) {
 
         let lastTick = performance.now();

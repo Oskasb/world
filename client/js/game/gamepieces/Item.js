@@ -7,7 +7,7 @@ class Item {
 
     constructor(configId, visualGamePiece, config) {
 
-        this.id = 'item_'+index+'_'+client.getStamp();
+        this.id = 'item_local_'+index+'_'+client.getStamp();
         index++;
 
         this.configId = configId;

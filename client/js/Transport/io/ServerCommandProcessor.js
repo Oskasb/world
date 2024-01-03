@@ -214,6 +214,15 @@ function processServerCommand(protocolKey, message) {
             break;
         case ENUMS.ServerCommands.ACTOR_REMOVED:
             console.log("ACTOR_REMOVED; ", stamp, message);
+            let actorId = message.actorId;
+
+            let remoteClient = remoteClients[stamp];
+            if (remoteClient) {
+               remoteClient.removeRemoteActor(actorId);
+            } else {
+                let actor = GameAPI.getActorById(actorId);
+                actor.removeGameActor();
+            }
 
             break;
         case ENUMS.ServerCommands.ITEM_INIT:
@@ -250,7 +259,7 @@ function processServerCommand(protocolKey, message) {
         case ENUMS.ServerCommands.ENCOUNTER_TRIGGER:
             console.log("Trigger Encounter; ", message.encounterId, message.worldEncounterId, stamp, message);
             encounter = GameAPI.getWorldEncounterByEncounterId(message.worldEncounterId);
-            encounter.call.triggerWorldEncounter();
+            encounter.call.serverEncounterActivated(message);
             console.log("WE: ", encounter);
             break;
         case ENUMS.ServerCommands.ENCOUNTER_START:

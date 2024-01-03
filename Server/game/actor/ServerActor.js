@@ -1,6 +1,7 @@
 import {Status} from "../status/Status.js";
 import {ENUMS} from "../../../client/js/application/ENUMS.js";
 import {ServerActorStatusProcessor} from "./ServerActorStatusProcessor.js";
+import {dispatchMessage, getGameServer, getGameServerWorld} from "../utils/GameServerFunctions.js";
 
 class ServerActor {
     constructor(id, statusValues) {
@@ -27,8 +28,6 @@ class ServerActor {
     }
 
 
-
-
     updateStatusFromMessage(msg) {
     //    console.log("Actor status message: ", [msg]);
         this.serverActorStatusProcessor.processServerActorStatusMessage(this.status, msg)
@@ -38,7 +37,28 @@ class ServerActor {
         console.log("Actor ACTION message: ", [msg]);
     }
 
+    removeServerActor() {
+        let clientStamp = this.status.getStatus(ENUMS.ActorStatus.CLIENT_STAMP);
+        this.status.setStatusKey(ENUMS.ActorStatus.ACTIVATION_STATE, ENUMS.ActivationState.DEACTIVATING)
+        dispatchMessage(
+            {
+                request:ENUMS.ClientRequests.APPLY_ACTOR_STATUS,
+                command:ENUMS.ServerCommands.ACTOR_REMOVED,
+                stamp:clientStamp,
+                actorId:this.status.getStatus(ENUMS.ActorStatus.ACTOR_ID)
+            }
+        )
 
+        let activeEncounters = getGameServerWorld().getActiveEncoutners();
+
+        for (let i = 0; i < activeEncounters.length; i++) {
+            if (activeEncounters[i].hostStamp === clientStamp) {
+                activeEncounters[i].handleHostActorRemoved()
+            }
+        }
+
+
+    }
 
 }
 

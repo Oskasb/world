@@ -11,8 +11,6 @@ class ServerPlayer {
         index++
     }
 
-
-
     loadPlayerActor(msg) {
         console.log('loadPlayerActor', msg);
         let actorId = msg.status[ENUMS.ActorStatus.ACTOR_ID];
@@ -37,6 +35,13 @@ class ServerPlayer {
             if (this.actors[i].id === actorId) {
                 return this.actors[i]
             }
+        }
+    }
+
+    removeServerPlayer() {
+        while (this.actors.length) {
+            let serverActor = this.actors.pop();
+            serverActor.removeServerActor();
         }
     }
 

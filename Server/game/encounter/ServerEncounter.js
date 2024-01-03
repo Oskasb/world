@@ -33,13 +33,13 @@ class ServerEncounter {
         console.log("New ServerEncounter", message);
 
         this.spawn = message.spawn;
-
+        this.id = message.encounterId;
         this.status = new EncounterStatus(message.encounterId, message.worldEncounterId);
         this.setStatusKey(ENUMS.EncounterStatus.GRID_ID, message.grid_id)
         this.setStatusKey(ENUMS.EncounterStatus.GRID_POS, message.pos)
         this.encounterTime = 0;
         this.hostStamp = message.stamp;
-        this.onCloseCallbacks = [];
+        this.onCloseCallbacks = [closeEncounterCB];
 
         let msg = {
             stamp : this.hostStamp,
@@ -47,8 +47,8 @@ class ServerEncounter {
             encounterId:message.encounterId,
             worldEncounterId: message.worldEncounterId
         }
-        dispatchMessage(msg);
 
+        dispatchMessage(msg);
 
         let updateServerEncounter = function(tpf) {
             this.encounterTime+=tpf;
@@ -62,7 +62,6 @@ class ServerEncounter {
         registerGameServerUpdateCallback(this.call.updateServerEncounter);
     }
 
-
     getStatus(key) {
         return this.status.call.getStatus(key)
     }
@@ -71,6 +70,13 @@ class ServerEncounter {
         this.status.call.setStatus(key, status);
     }
 
+    applyPlayerPlayMessage(message) {
+        console.log("applyPlayerPlayMessage", message);
+    }
+
+    handleHostActorRemoved() {
+        this.closeServerEncounter();
+    }
 
     closeServerEncounter() {
         while (this.onCloseCallbacks.length) {
