@@ -85,6 +85,8 @@ function checkTriggerPlayer(encounter) {
 
             if (encounter.timeInsideTrigger === 0) {
                 encounterEvent.request = ENUMS.ClientRequests.ENCOUNTER_INIT
+                encounterEvent.actorId = selectedActor.getStatus(ENUMS.ActorStatus.ACTOR_ID);
+                encounterEvent.playerParty = GameAPI.getGamePieceSystem().playerParty.listPartyMemeberIDs();
                 encounterEvent.worldEncounterId = encounter.id;
                 encounterEvent.encounterId = client.getStamp()+encounter.id;
                 encounterEvent.pos = encounter.getPos();

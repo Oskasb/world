@@ -1,5 +1,5 @@
 import {
-    dispatchMessage,
+    dispatchMessage, dispatchPartyMessage, getServerActorByActorId,
     registerGameServerUpdateCallback,
     unregisterGameServerUpdateCallback
 } from "../utils/GameServerFunctions.js";
@@ -38,17 +38,23 @@ class ServerEncounter {
         this.setStatusKey(ENUMS.EncounterStatus.GRID_ID, message.grid_id)
         this.setStatusKey(ENUMS.EncounterStatus.GRID_POS, message.pos)
         this.encounterTime = 0;
+        this.hostActorId = message.actorId;
         this.hostStamp = message.stamp;
         this.onCloseCallbacks = [closeEncounterCB];
+        this.partyMembers = message.playerParty;
+
 
         let msg = {
             stamp : this.hostStamp,
+            request:ENUMS.ClientRequests.ENCOUNTER_INIT,
             command:ENUMS.ServerCommands.ENCOUNTER_TRIGGER,
             encounterId:message.encounterId,
             worldEncounterId: message.worldEncounterId
         }
 
-        dispatchMessage(msg);
+        console.log("PLAYER PARTY MEMBERS: ",  this.partyMembers);
+
+        dispatchPartyMessage(msg,  this.partyMembers);
 
         let updateServerEncounter = function(tpf) {
             this.encounterTime+=tpf;

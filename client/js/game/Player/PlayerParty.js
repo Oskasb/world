@@ -1,6 +1,6 @@
 import {clearActorEncounterStatus} from "../../application/utils/StatusUtils.js";
 
-
+let list = [];
 class PlayerParty {
     constructor() {
         this.actors = [];
@@ -121,6 +121,14 @@ class PlayerParty {
       //  this.selectPartyActor(GameAPI.getGamePieceSystem().selectedActor);
      //   evt.dispatch(ENUMS.Event.CLEAR_UI, {});
     //    this.clearPartyMemebers();
+    }
+
+    listPartyMemeberIDs() {
+        MATH.emptyArray(list);
+        for (let i = 0; i < this.actors.length;i++) {
+            list.push(this.actors[i].getStatus(ENUMS.ActorStatus.ACTOR_ID))
+        }
+        return list;
     }
 
     clearPartyMemebers() {

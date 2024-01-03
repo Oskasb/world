@@ -11,6 +11,14 @@ class ServerActor {
             this.serverActorStatusProcessor = new ServerActorStatusProcessor()
     }
 
+    getStatus(key) {
+        return this.status.getStatus(key);
+    }
+
+    setStatusKey(key, status) {
+        return this.status.setStatusKey(key, status);
+    }
+
     getStatusMap() {
         return this.status.statusMap;
     }
@@ -56,8 +64,11 @@ class ServerActor {
                 activeEncounters[i].handleHostActorRemoved()
             }
         }
+    }
 
-
+    messageClient(messageData) {
+        let clientStamp = this.status.getStatus(ENUMS.ActorStatus.CLIENT_STAMP);
+        getGameServer().messageClientByStamp(clientStamp, messageData);
     }
 
 }

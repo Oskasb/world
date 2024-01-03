@@ -28,6 +28,16 @@ class GameServer {
         }
     }
 
+    messageClientByStamp(stamp, message) {
+        for (let i = 0; i < this.connectedClients.length; i++) {
+            let client = this.connectedClients[i]
+            if (client.stamp === stamp) {
+                client.call.returnDataMessage(message);
+                return;
+            }
+        }
+    }
+
     registerConnectedPlayer(stamp) {
         let player = this.getConnectedPlayerByStamp(stamp)
         if (!player) {

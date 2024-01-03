@@ -86,6 +86,17 @@ let msgData = {
     msg:"json"
 }
 
+
+function dispatchPartyMessage(messageData, playerParty) {
+
+    for (let i = 0; i < playerParty.length; i++) {
+        let partyActorId = playerParty[i];
+        let partyActor = getServerActorByActorId(partyActorId);
+        partyActor.messageClient(messageData);
+    }
+
+}
+
 function dispatchMessage(messageData) {
   //  console.log("Dispatch Msg ", messageData);
     getGameServer().messageAllClients(messageData)
@@ -165,6 +176,7 @@ export {
     getGameServerWorld,
     registerGameServerUpdateCallback,
     unregisterGameServerUpdateCallback,
+    dispatchPartyMessage,
     dispatchMessage,
     applyMessageToClient,
     equipActorItem,
