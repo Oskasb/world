@@ -31,25 +31,13 @@ class DynamicEncounter {
 
         this.id = id;
         this.status = new EncounterStatus(id, worldEncId)
+        this.status.setStatusKey(ENUMS.EncounterStatus.ACTIVATION_STATE, ENUMS.ActivationState.ACTIVATING)
         this.isRemote = false;
         this.page = GuiAPI.activatePage('page_encounter_info');
     }
 
     setStatusKey(key, status) {
         let write = this.status.setStatusKey(key, status);
-
-    //    if (trackStatusKeys.indexOf(key) !== -1) {
-
-    //    }
-
-        if (this.isRemote === false) {
-            this.status.setStatusKey(ENUMS.EncounterStatus.CLIENT_STAMP, client.getStamp());
-            let gameTime = GameAPI.getGameTime();
-            this.status.broadcastStatus(gameTime);
-        } else {
-        //    console.log("Battle Data:", key, status);
-        //    GuiAPI.screenText("GOT BATTLE DATA")
-        }
         return write
     }
 

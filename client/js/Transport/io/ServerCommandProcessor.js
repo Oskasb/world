@@ -186,7 +186,7 @@ function processServerCommand(protocolKey, message) {
                     remoteClients[stamp] = remoteClient
                 }
 
-            //    console.log("REMOTE ACTOR_INIT; ", stamp, [msg.status]);
+                console.log("REMOTE ACTOR_INIT; ", stamp, [msg.status]);
 
                 let statusList = [];
                 statusList[0] = ENUMS.ActorStatus.ACTOR_ID;
@@ -265,10 +265,20 @@ function processServerCommand(protocolKey, message) {
         case ENUMS.ServerCommands.ENCOUNTER_START:
             console.log("Start Encounter; ", message.encounterId, message.worldEncounterId, stamp, message);
             encounter = GameAPI.getWorldEncounterByEncounterId(msg.worldEncounterId);
-            encounter.call.startWorldEncounter();
+            console.log("Enc: ",encounter.triggered, encounter.started, encounter);
+            if (encounter.triggered === false) {
+                encounter.call.triggerWorldEncounter();
+            } else if (encounter.started === false) {
+                encounter.call.startWorldEncounter(message);
+            } else {
+                console.log("Once encounter is started there should be no more start messages for it", message)
+            }
+            break;
+        case ENUMS.ServerCommands.ENCOUNTER_UPDATE:
+            console.log("Update Encounter; ", message);
             break;
         case ENUMS.ServerCommands.ENCOUNTER_CLOSE:
-            console.log("Close Encounter; ", message.encounterId, message.worldEncounterId, stamp, message);
+            console.log("Close Encounter; ", message);
             break;
         default:
 

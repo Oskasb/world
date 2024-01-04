@@ -226,6 +226,26 @@ function filterForWalkableTiles(gridTiles, key) {
     return tileStore
 }
 
+let walkableTiles = [];
+
+function getRandomWalkableTiles(gridTiles, count, key) {
+    let tiles = filterForWalkableTiles(gridTiles, key);
+
+    if (tiles.length < count) {
+        console.log("Not enough tiles", tiles)
+    }
+
+    MATH.emptyArray(walkableTiles)
+
+    for (let i = 0; i < count; i++) {
+        let tile = MATH.getRandomArrayEntry(tiles);
+        MATH.splice(tiles, tile)
+        walkableTiles.push(tile);
+    }
+    return walkableTiles;
+
+}
+
 function getTileForPosition(gridTiles, posVec3) {
     let selectedTile = null;
     let nearestTileDist = MATH.bigSafeValue();
@@ -345,6 +365,7 @@ export {
     resetScenarioCharacterPiece,
     setupEncounterGrid,
     filterForWalkableTiles,
+    getRandomWalkableTiles,
     getTileForPosition,
     getTileForScreenPosition,
     buildScenarioCharacter,

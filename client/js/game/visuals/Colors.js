@@ -1,5 +1,8 @@
 import {ENUMS} from "../../application/ENUMS.js";
-window.ENUMS = ENUMS;
+if (typeof(window) !== 'undefined') {
+    window.ENUMS = ENUMS;
+}
+
 
 let colorMapFx = {}
 

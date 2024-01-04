@@ -145,6 +145,9 @@ class EncounterTurnSequencer {
     }
 
     updateTurnSequencer() {
+    //    console.log("Move turn sequencer to server")
+        return;
+
         updateEncounterActorStatus(this.actors);
 
         if (playersEngaged === 0) {

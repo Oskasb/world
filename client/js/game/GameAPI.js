@@ -268,6 +268,10 @@ class GameAPI {
         return this.gameMain.playerMain;
     }
 
+    getPlayerParty() {
+        return gamePieceSystem.playerParty;
+    }
+
     createGameCharacter(config) {
         return new GameCharacter(config);
     };

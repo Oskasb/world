@@ -1,6 +1,7 @@
 import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
 import {configDataList} from "../../application/utils/ConfigUtils.js";
 import {ActionStatus} from "../actions/ActionStatus.js";
+import {ENUMS} from "../../application/ENUMS.js";
 
 let visualConfig = {
     "fx_selected":"combat_effect_hands_magic_power",

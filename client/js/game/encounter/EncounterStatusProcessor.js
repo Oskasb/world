@@ -213,6 +213,17 @@ class EncounterStatusProcessor {
 
     processEncounterStatus() {
         if (activeEncounter) {
+
+            let activationState = activeEncounter.getStatus(ENUMS.EncounterStatus.ACTIVATION_STATE);
+            if (activationState === ENUMS.ActivationState.ACTIVATING) {
+                console.log("Encounter Activating")
+                return;
+            } else {
+            //    console.log("Should process encounter on server...")
+                return;
+            }
+
+
             processEncStatus()
 
             let hasTurnId = activeEncounter.status.call.getStatus(ENUMS.EncounterStatus.HAS_TURN_ACTOR);

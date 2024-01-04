@@ -1,3 +1,4 @@
+import {Object3D} from "../../libs/three/core/Object3D.js";
 
 (function(){Math.clamp=function(a,b,c){return Math.max(b,Math.min(c,a));}})();
 
@@ -11,7 +12,7 @@ function cosWave(time, speed, amplitude) {
 
 
 let calcVec1 = null;
-
+let tempObj = new Object3D()
 let half32BitInt = 1047483647;
 let bigSafeValue = 53372036850;
 let tempRandVec = null;
@@ -675,6 +676,12 @@ MATH.vec3FromArray = function(vec3, array) {
 	return vec3;
 }
 
+MATH.quatFromRotArray = function(rot) {
+	tempObj.quaternion.set(0, 0, 0, 1);
+	this.rotXYZFromArray(tempObj, rot);
+	return tempObj.quaternion;
+}
+
 MATH.rotXYZFromArray = function(obj3d, rot) {
 	obj3d.rotateX(rot[0]);
 	obj3d.rotateY(rot[1]);
@@ -789,6 +796,12 @@ MATH.eulerFromQuaternion = function(q, order) {
 	return euler.setFromQuaternion(q, order);
 }
 
+MATH.copyArrayValues = function(from, to) {
+	this.emptyArray(to);
+	for (let i = 0; i < from.length; i++) {
+		to[i] = from[i];
+	}
+}
 
 MATH.copyArray = function(from, to) {
 	for (let i = 0; i < from.length; i++) {

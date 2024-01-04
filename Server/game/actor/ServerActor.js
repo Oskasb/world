@@ -8,7 +8,7 @@ class ServerActor {
         this.id = id;
         this.status = new Status(statusValues);
         this.equippedItems = [];
-            this.serverActorStatusProcessor = new ServerActorStatusProcessor()
+        this.serverActorStatusProcessor = new ServerActorStatusProcessor()
     }
 
     getStatus(key) {
@@ -64,6 +64,16 @@ class ServerActor {
                 activeEncounters[i].handleHostActorRemoved()
             }
         }
+    }
+
+    buildServerActorStatusMessage(request, command) {
+        let message = {
+            request:request,
+            command:command,
+            status:this.getStatusMap(),
+            stamp:this.getStatus(ENUMS.ActorStatus.CLIENT_STAMP)
+        }
+        return message;
     }
 
     messageClient(messageData) {

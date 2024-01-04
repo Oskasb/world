@@ -131,6 +131,21 @@ function applyStatusMessageToMap(status, statusMap) {
     }
 }
 
+let message = [];
+
+function messageFromStatusMap(statusMap, zeroKey) {
+    MATH.emptyArray(message);
+    message[0] = zeroKey;
+    message[1] = statusMap[zeroKey];
+    for (let key in statusMap) {
+        if (key !== zeroKey) {
+            message.push(key);
+            message.push(statusMap[key])
+        }
+    }
+    return message;
+}
+
 
 function equipActorItem(actor, itemTemplate) {
 
@@ -164,7 +179,75 @@ function getClientStampFromStatusMessage(status) {
     return stamp;
 }
 
+function buildEncounterActorStatus(id, templateId, rot, tile) {
+    let quat = MATH.quatFromRotArray(rot);
+    let pos = tile.getPos();
+    let statusMap = {};
+    statusMap[ENUMS.ActorStatus.CLIENT_STAMP] = 'server';
+    statusMap[ENUMS.ActorStatus.ACTOR_ID] = id;
+    statusMap[ENUMS.ActorStatus.CONFIG_ID] = templateId;
+    statusMap[ENUMS.ActorStatus.QUAT_X] = quat.x;
+    statusMap[ENUMS.ActorStatus.QUAT_Y] = quat.y;
+    statusMap[ENUMS.ActorStatus.QUAT_Z] = quat.z;
+    statusMap[ENUMS.ActorStatus.QUAT_W] = quat.w;
+    statusMap[ENUMS.ActorStatus.POS_X] = pos.x;
+    statusMap[ENUMS.ActorStatus.POS_Y] = pos.y;
+    statusMap[ENUMS.ActorStatus.POS_Z] = pos.z;
+    return statusMap;
+}
+
+let tileStore = [];
+function filterForWalkableTiles(gridTiles, key) {
+
+    let tileKey = key || 'walkable'
+
+    while (tileStore.length) {
+        tileStore.pop();
+    }
+
+    for (let i = 0; i < gridTiles.length; i++) {
+
+        for (let j = 0; j < gridTiles[i].length; j++) {
+            let tile = gridTiles[i][j];
+            if (tile[tileKey]) {
+                if (key !== 'walkable') {
+                    if (tile['walkable']) {
+                        tileStore.push(tile);
+                    }
+                } else {
+                    tileStore.push(tile);
+                }
+
+            }
+        }
+    }
+
+    return tileStore
+}
+
+let walkableTiles = [];
+
+function getRandomWalkableTiles(gridTiles, count, key) {
+    let tiles = filterForWalkableTiles(gridTiles, key);
+
+    if (tiles.length < count) {
+        console.log("Not enough tiles", tiles)
+    }
+
+    MATH.emptyArray(walkableTiles)
+
+    for (let i = 0; i < count; i++) {
+        let tile = MATH.getRandomArrayEntry(tiles);
+        MATH.splice(tiles, tile)
+        walkableTiles.push(tile);
+    }
+    return walkableTiles;
+
+}
+
 export {
+    filterForWalkableTiles,
+    getRandomWalkableTiles,
     getServerStamp,
     setServerMessageProcessor,
     getServerActorByActorId,
@@ -182,12 +265,14 @@ export {
     equipActorItem,
     getStatusFromMsg,
     statusMapFromMsg,
+    messageFromStatusMap,
     registerServerItem,
     removeServerItem,
     getServerItems,
     getServerItemByItemId,
     applyStatusToMap,
     getClientStampFromStatusMessage,
-    applyStatusMessageToMap
+    applyStatusMessageToMap,
+    buildEncounterActorStatus
 
 }

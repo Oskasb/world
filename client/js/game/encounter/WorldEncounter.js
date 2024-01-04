@@ -114,6 +114,8 @@ class WorldEncounter {
     constructor(id, config, onReady) {
         this.id = id
         this.triggered = false;
+        this.activated = false;
+        this.started = false;
         this.timeInsideTrigger = 0;
         this.timeInsideProximity = 0;
         this.requestingActor = null;
@@ -155,20 +157,28 @@ class WorldEncounter {
             }
         }.bind(this)
 
+
+
         let serverEncounterActivated = function(message) {
-            this.triggered = true;
+            this.activted = true;
             let encId = message.encounterId;
             let selectedActor = GameAPI.getGamePieceSystem().getSelectedGameActor();
+            let partyList = message.playerParty;
+            let partyMatches = GameAPI.getPlayerParty().memberListMatchesPlayerParty(partyList)
+            if (partyMatches === false) {
+                console.log("Party is not matching message member list, handle this...")
+            }
+
             evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, {
                 request:ENUMS.ClientRequests.ENCOUNTER_PLAY,
                 encounterId:encId,
-                actorId:selectedActor.getStatus(ENUMS.ActorStatus.ACTOR_ID),
-                playerParty:selectedActor.getStatus(ENUMS.ActorStatus.PLAYER_PARTY)
+                actorId:selectedActor.getStatus(ENUMS.ActorStatus.ACTOR_ID)
             })
             console.log("ServerEncounterActive message: ", message)
         }.bind(this)
 
         let triggerWorldEncounter = function() {
+            this.triggered = true;
             let hostActor = this.visualEncounterHost.call.getActor();
             let selectedActor = GameAPI.getGamePieceSystem().getSelectedGameActor();
             hostActor.actorText.yell("Here we go")
@@ -181,7 +191,8 @@ class WorldEncounter {
             ThreeAPI.getCameraCursor().getLookAroundPoint().copy(this.getPos())
         }.bind(this)
 
-        let startWorldEncounter = function() {
+        let startWorldEncounter = function(message) {
+            this.started = true;
             this.deactivateWorldEncounter();
             GuiAPI.getWorldInteractionUi().closeWorldInteractUi();
             GameAPI.worldModels.deactivateEncounters();
@@ -191,7 +202,7 @@ class WorldEncounter {
 
             encounterEvent.request = ENUMS.ClientRequests.ENCOUNTER_INIT
             encounterEvent.worldEncounterId = null;
-            encounterEvent.encounterId = null;
+            encounterEvent.encounterId = message.encounterId;
             encounterEvent.pos = this.getPos();
             encounterEvent.grid_id = this.config.grid_id;
             encounterEvent.spawn = this.config.spawn;
@@ -201,7 +212,7 @@ class WorldEncounter {
             selectedActor.setStatusKey(ENUMS.ActorStatus.ACTIVATED_ENCOUNTER, this.id);
             selectedActor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_BATTLE);
             notifyCameraStatus(ENUMS.CameraStatus.CAMERA_MODE, ENUMS.CameraControls.CAM_ENCOUNTER, true);
-        //    evt.dispatch(ENUMS.Event.GAME_MODE_BATTLE, encounterEvent)
+            evt.dispatch(ENUMS.Event.GAME_MODE_BATTLE, encounterEvent)
         }.bind(this)
 
         this.call = {

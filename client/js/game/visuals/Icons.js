@@ -1,3 +1,5 @@
+import {ENUMS} from "../../application/ENUMS.js";
+
 let statusIcons = {}
 statusIcons[ENUMS.ActorStatus.SELECTED_ENCOUNTER] = 'icon_dagger';
 statusIcons[ENUMS.ActorStatus.REQUEST_PARTY] = 'CAM_PARTY' ;

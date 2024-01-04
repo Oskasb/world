@@ -131,6 +131,21 @@ class PlayerParty {
         return list;
     }
 
+    memberListMatchesPlayerParty(memberIdList) {
+        if(memberIdList.length !== this.actors.length) {
+            console.log("PlayerParty not matching expected members list");
+            return false;
+        }
+        for (let i=0; i < this.actors.length; i++) {
+            let memberId = this.actors[i].getStatus(ENUMS.ActorStatus.ACTOR_ID);
+            if (memberIdList.indexOf(memberId) === -1) {
+                console.log("Party Member:", this.actors[i], "not listed", memberIdList, this.actors);
+                return false;
+            }
+        }
+        return true;
+    }
+
     clearPartyMemebers() {
         MATH.emptyArray(this.actors);
         this.actors.push(GameAPI.getGamePieceSystem().selectedActor);

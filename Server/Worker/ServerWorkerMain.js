@@ -4,7 +4,7 @@ import {ConnectedClient} from "../game/player/ConnectedClient.js";
 import {GameServer} from "../game/GameServer.js";
 import {setGameServer} from "../game/utils/GameServerFunctions.js";
 
-let runLocally = false;
+let runLocally = true;
 
 let workerConnection = new WorkerConnection()
 let connectedClients = []; // will hold only the localClient here, but the list will have many on the node server
@@ -45,7 +45,6 @@ if (runLocally === true) {
 } else {
     workerConnection.setupSocket(onConnected, onError, onDisconnect, onMessage)
 }
-
 
 let handleMessage = function(oEvent) {
  //   console.log("handle message:", oEvent.data);

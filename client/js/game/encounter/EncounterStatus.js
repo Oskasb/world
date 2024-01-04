@@ -70,6 +70,9 @@ class EncounterStatus {
     }
 
     getStatusByKey(key) {
+        if (!key) {
+            return this.statusMap;
+        }
         if (typeof (this.statusMap[key]) === 'undefined') {
             this.statusMap[key] = 0;
         }

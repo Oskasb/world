@@ -77,22 +77,9 @@ class EncounterGrid {
     }
 
     getRandomWalkableTiles(count, key) {
-        let tiles = filterForWalkableTiles(this.gridTiles, key);
-
-        if (tiles.length < count) {
-            console.log("Not enought tiles", tiles)
-        }
-
-        MATH.emptyArray(walkableTiles)
-
-        for (let i = 0; i < count; i++) {
-            let tile = MATH.getRandomArrayEntry(tiles);
-            MATH.splice(tiles, tile)
-            walkableTiles.push(tile);
-        }
-        return walkableTiles;
-
+        return getRandomWalkableTiles(this.gridTiles, count, key);
     }
+
 
 
     setCameraHomePos(pos) {
@@ -110,6 +97,29 @@ class EncounterGrid {
         return this.getRandomWalkableTiles(1, 'isExit')[0].getPos()
     }
 
+    buildGridDataForMessage() {
+        let messageData= [];
+        for (let i = 0; i < this.gridTiles.length;i++) {
+            let col = []
+            messageData[i] = col;
+            for (let j=0; j < this.gridTiles[i].length; j++) {
+                let tile = this.gridTiles[i][j];
+                let pos = tile.getPos();
+                col[j] = {
+                    tileX:tile.tileX,
+                    tileZ:tile.tileZ,
+                    gridI:tile.gridI,
+                    gridJ:tile.gridJ,
+                    posX:pos.x,
+                    posY:pos.y,
+                    posZ:pos.z,
+                    walkable:tile.walkable,
+                    blocking:tile.blocking
+                }
+            }
+        }
+        return messageData;
+    }
 
     removeEncounterGrid() {
         while (this.gridTiles.length) {

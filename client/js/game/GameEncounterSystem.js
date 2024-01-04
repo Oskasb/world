@@ -83,19 +83,23 @@ class GameEncounterSystem {
     activateEncounter(event) {
         // Hosting Client Handles this stuff, remote goes other path
 
-        GuiAPI.screenText("HOSTING ENCOUNTER",  ENUMS.Message.HINT, 1.5)
+        GuiAPI.screenText("ENCOUNTER",  ENUMS.Message.HINT, 1.5)
 
-    //    console.log("activateEncounter", event)
-        if (event.encounterId !== null) {
+        if (event.encounterId) {
             if (!dynamicEncounter) {
-        //        console.log("INIT DYN ENC, ", event.worldEncounterId);
+                console.log("INIT DYN ENC:", event);
                 initEncounter(event.encounterId, event.worldEncounterId)
                 activeEncounterGrid = new EncounterGrid();
             }
             if (dynamicEncounter.id !== event.encounterId) {
                 console.log("Wrong Encounter ID")
                 return;
+            } else {
+                console.log("Dynamic Encounter Matches message data")
             }
+        } else {
+            console.log("Encounter Id expected from server", event);
+            return;
         }
 
         let updateCB = this.call.updateEncounterSystem
@@ -118,10 +122,12 @@ class GameEncounterSystem {
                 // encounterUiSystem.setEncounterSequencer(encounterTurnSequencer)
                 encounterUiSystem.setActiveEncounter(dynamicEncounter);
                 GameAPI.registerGameUpdateCallback(updateCB)
+
                 GameAPI.registerGameUpdateCallback(encounterStatusProcessor.processEncounterStatus)
                 encounterStatusProcessor.call.setEncounter(dynamicEncounter);
-                dynamicEncounter.setStatusKey(ENUMS.EncounterStatus.ACTIVATION_STATE, ENUMS.ActivationState.ACTIVE);
-                dynamicEncounter.setStatusKey(ENUMS.EncounterStatus.CLIENT_STAMP, client.getStamp());
+            //    dynamicEncounter.setStatusKey(ENUMS.EncounterStatus.ACTIVATION_STATE, ENUMS.ActivationState.ACTIVATING);
+            //    dynamicEncounter.setStatusKey(ENUMS.EncounterStatus.CLIENT_STAMP, client.getStamp());
+
         }
 
         let gridReady = function(grid) {
@@ -130,15 +136,16 @@ class GameEncounterSystem {
             let posArray = dynamicEncounter.status.call.getStatus(ENUMS.EncounterStatus.GRID_POS);
             MATH.vec3ToArray(activeEncounterGrid.center, posArray)
             dynamicEncounter.status.call.setStatus(ENUMS.EncounterStatus.GRID_POS , posArray);
-    //        console.log("SET POS:", posArray);
             dynamicEncounter.status.call.setStatus(ENUMS.EncounterStatus.GRID_ID , event['grid_id']);
-    //        console.log("SET GRID ID:", event['grid_id']);
             dynamicEncounter.status.call.setStatus(ENUMS.EncounterStatus.ACTIVATION_STATE , ENUMS.ActivationState.ACTIVATING);
-                if (event.spawn) {
-                    dynamicEncounter.processSpawnEvent(event.spawn, encounterTurnSequencer, onSpawnDone)
-                } else {
-                    console.log("encounter event requires spawn data")
-                }
+
+            evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, {
+                request:ENUMS.ClientRequests.ENCOUNTER_PLAY,
+                status:dynamicEncounter.getStatus(),
+                tiles:grid.buildGridDataForMessage(),
+                encounterId:event.encounterId,
+                actorId:GameAPI.getGamePieceSystem().selectedActor.getStatus(ENUMS.ActorStatus.ACTOR_ID)
+            })
 
         }
 
