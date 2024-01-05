@@ -1,6 +1,7 @@
 import {MATH} from "../../../client/js/application/MATH.js";
 import {ENUMS} from "../../../client/js/application/ENUMS.js";
 import {evt} from "../../../client/js/application/event/evt.js";
+import {ServerActor} from "../actor/ServerActor.js";
 
 let gameServer = null;
 let serverMessageProcessor = null;
@@ -245,6 +246,27 @@ function getRandomWalkableTiles(gridTiles, count, key) {
 
 }
 
+let actorCount = 0;
+let faces = ['face_1', 'face_2', 'face_3', 'face_5', 'face_6', 'face_7', 'face_8']
+
+function spawnServerEncounterActor(spawnInfo, serverGrid) {
+
+    let templateId = spawnInfo.actor;
+    let rot = spawnInfo.rot;
+    let tileI = spawnInfo.tile[0];
+    let tileJ = spawnInfo.tile[1];
+    let tile = serverGrid.getTileByColRow(tileI, tileJ)
+    let id = 'server_enc_actor_'+actorCount;
+    actorCount++
+    let statusMap = buildEncounterActorStatus(id, templateId, rot, tile);
+    let actor = new ServerActor(id, statusMap)
+    actor.setStatusKey(ENUMS.ActorStatus.ALIGNMENT, ENUMS.Alignment.HOSTILE)
+    actor.setStatusKey(ENUMS.ActorStatus.DEAD, false)
+    actor.setStatusKey(ENUMS.ActorStatus.ICON_KEY, MATH.getRandomArrayEntry(faces));
+    return actor;
+
+}
+
 export {
     filterForWalkableTiles,
     getRandomWalkableTiles,
@@ -273,6 +295,7 @@ export {
     applyStatusToMap,
     getClientStampFromStatusMessage,
     applyStatusMessageToMap,
-    buildEncounterActorStatus
+    buildEncounterActorStatus,
+    spawnServerEncounterActor
 
 }

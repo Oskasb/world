@@ -275,7 +275,16 @@ function processServerCommand(protocolKey, message) {
             }
             break;
         case ENUMS.ServerCommands.ENCOUNTER_UPDATE:
-            console.log("Update Encounter; ", message);
+            let encounterId = message.status[1];
+            encounter = GameAPI.call.getDynamicEncounter();
+            if (encounter.id === encounterId) {
+                encounter.applyEncounterStatusUpdate(message.status);
+                console.log("Enc Updated", encounter.status)
+            } else {
+                console.log("Bad Encounter ID; ", message, encounter);
+            }
+
+
             break;
         case ENUMS.ServerCommands.ENCOUNTER_CLOSE:
             console.log("Close Encounter; ", message);

@@ -1,7 +1,7 @@
 import {
     buildEncounterActorStatus,
     dispatchMessage, dispatchPartyMessage, getServerActorByActorId, messageFromStatusMap,
-    registerGameServerUpdateCallback,
+    registerGameServerUpdateCallback, spawnServerEncounterActor,
     unregisterGameServerUpdateCallback
 } from "../utils/GameServerFunctions.js";
 import {ENUMS} from "../../../client/js/application/ENUMS.js";
@@ -11,8 +11,9 @@ import {MATH} from "../../../client/js/application/MATH.js";
 import {ServerGrid} from "./ServerGrid.js";
 import {ServerActor} from "../actor/ServerActor.js";
 import {getRandomWalkableTiles} from "../utils/GameServerFunctions.js";
-import {EncounterTurnSequencer} from "../../../client/js/game/encounter/EncounterTurnSequencer.js";
 import {SimpleUpdateMessage} from "../utils/SimpleUpdateMessage.js";
+
+import {ServerEncounterTurnSequencer} from "./ServerEncounterTurnSequencer.js";
 
 let actorCount = 0;
 let actorMessage = {
@@ -41,8 +42,7 @@ function processActivationState(encounter) {
         // Run the turn sequencer here...
         if (Math.random() < 0.1) {
             console.log("Random position enc actor")
-            let randomId = MATH.getRandomArrayEntry(encounter.getStatus(ENUMS.EncounterStatus.ENCOUNTER_ACTORS));
-            let actor = encounter.getServerActorById(randomId);
+            let actor = MATH.getRandomArrayEntry(encounter.encounterActors);
             let tile = getRandomWalkableTiles(encounter.serverGrid.gridTiles, 1)[0];
             let pos = tile.getPos();
             actor.setStatusKey(ENUMS.ActorStatus.POS_X, pos.x);
@@ -52,12 +52,11 @@ function processActivationState(encounter) {
             actorMessage.status = messageFromStatusMap(actor.getStatusMap(), ENUMS.ActorStatus.ACTOR_ID);
             encounter.call.messageParticipants(actorMessage);
         }
+        encounter.serverEncounterTurnSequencer.call.updateTurnSequencer()
         encounter.sendEncounterStatusUpdate();
     } else  {
         console.log("ProcessEncActivationState", encounter.getStatus(ENUMS.EncounterStatus.ACTIVATION_STATE))
     }
-
-
 
 }
 
@@ -68,7 +67,7 @@ class ServerEncounter {
 
         this.simpleUpdateMessage = new SimpleUpdateMessage();
 
-        this.encounterTurnSequencer = new EncounterTurnSequencer()
+        this.serverEncounterTurnSequencer = new ServerEncounterTurnSequencer(this)
         this.serverGrid = new ServerGrid();
         this.spawn = message.spawn;
         this.encounterActors = [];
@@ -128,6 +127,13 @@ class ServerEncounter {
         return this.status.call.getStatus(key)
     }
 
+    setStatusKey(key, status) {
+        if (!key) {
+            return this.status.statusMap;
+        }
+        return this.status.call.getStatus(key)
+    }
+
     clientTilesReported(tiles) {
         if (this.reportedTiles === null) {
             this.reportedTiles = tiles;
@@ -151,33 +157,21 @@ class ServerEncounter {
     spawnServerEncounterActors() {
         let actors = this.spawn.actors;
         console.log("Spawn: ", actors, this.spawn);
-        let faces = ['face_1', 'face_2', 'face_3', 'face_5', 'face_6', 'face_7', 'face_8']
         let encActors = [];
         for (let i = 0; i < actors.length; i++) {
-            let templateId = actors[i].actor;
-            let rot = actors[i].rot;
-            let tileI = actors[i].tile[0];
-            let tileJ = actors[i].tile[1];
-            let tile = this.serverGrid.getTileByColRow(tileI, tileJ)
-            let id = 'server_enc_actor_'+actorCount;
-            actorCount++
-            let statusMap = buildEncounterActorStatus(id, templateId, rot, tile);
-            let actor = new ServerActor(id, statusMap)
-            actor.setStatusKey(ENUMS.ActorStatus.ALIGNMENT, ENUMS.Alignment.HOSTILE)
-            actor.setStatusKey(ENUMS.ActorStatus.ICON_KEY, MATH.getRandomArrayEntry(faces));
+            let actor = spawnServerEncounterActor(actors[i], this.serverGrid)
             encActors.push(actor.id);
             this.encounterActors.push(actor);
             this.combatants.push(actor);
             let message = actor.buildServerActorStatusMessage(ENUMS.ClientRequests.ENCOUNTER_PLAY, ENUMS.ServerCommands.ACTOR_INIT);
             this.call.messageParticipants(message);
         }
-        this.setStatusKey(ENUMS.EncounterStatus.ENCOUNTER_ACTORS, encActors);
-
     }
 
     rollEncounterCombatantsInitiative() {
           for (let i = 0; i < this.combatants.length; i++) {
               this.combatants[i].rollInitiative();
+              this.serverEncounterTurnSequencer.addEncounterActor(this.combatants[i])
           }
     }
 
@@ -193,10 +187,17 @@ class ServerEncounter {
         this.closeServerEncounter();
     }
 
+    actorIsPlayer(actor) {
+        if (this.partyMembers.indexOf(actor.id) !== -1) {
+            return true;
+        }
+    }
+
     sendEncounterStatusUpdate() {
         let message = this.simpleUpdateMessage.call.buildMessage(ENUMS.EncounterStatus.ENCOUNTER_ID, this.getStatus(), ENUMS.ClientRequests.ENCOUNTER_PLAY)
         if (message) {
             message.command = ENUMS.ServerCommands.ENCOUNTER_UPDATE;
+            console.log("Message Enc Status: ", message)
             this.call.messageParticipants(message);
         }
     }

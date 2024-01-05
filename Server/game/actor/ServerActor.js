@@ -1,6 +1,8 @@
 import {Status} from "../status/Status.js";
 import {ENUMS} from "../../../client/js/application/ENUMS.js";
 import {ServerActorStatusProcessor} from "./ServerActorStatusProcessor.js";
+
+import {ServerActorTurnSequencer} from "./ServerActorTurnSequencer.js";
 import {dispatchMessage, getGameServer, getGameServerWorld} from "../utils/GameServerFunctions.js";
 
 class ServerActor {
@@ -9,7 +11,11 @@ class ServerActor {
         this.status = new Status(statusValues);
         this.equippedItems = [];
         this.serverActorStatusProcessor = new ServerActorStatusProcessor()
+        this.turnSequencer = new ServerActorTurnSequencer()
+
     }
+
+
 
     getStatus(key) {
         return this.status.getStatus(key);
@@ -24,6 +30,7 @@ class ServerActor {
     }
 
     rollInitiative() {
+        this.turnSequencer.setGameActor(this);
         this.setStatusKey(ENUMS.ActorStatus.SEQUENCER_INITIATIVE, Math.random())
     }
 

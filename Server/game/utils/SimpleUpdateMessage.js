@@ -1,5 +1,6 @@
-import {ENUMS} from "../../application/ENUMS.js";
+
 import {MATH} from "../../../client/js/application/MATH.js";
+import {getGameServer} from "./GameServerFunctions.js";
 
 class SimpleUpdateMessage {
     constructor() {

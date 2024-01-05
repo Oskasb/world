@@ -96,13 +96,6 @@ class EncounterTurnSequencer {
 
     }
 
-    getSequencerActors() {
-        return this.actors;
-    }
-
-    getActiveSequencerActor() {
-        return this.activeActor;
-    }
 
     addEncounterActor(actor) {
         actor.setStatusKey(ENUMS.ActorStatus.HP, actor.getStatus(ENUMS.ActorStatus.MAX_HP))
