@@ -18,7 +18,6 @@ function clearTargetSelection(actor) {
 function clearActorEncounterStatus(actor) {
     actor.actorText.say("Clearing Encounter Status")
     actor.setStatusKey(ENUMS.ActorStatus.DEAD, false);
-    actor.setStatusKey(ENUMS.ActorStatus.IN_COMBAT, false);
     actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_WALK);
     actor.setStatusKey(ENUMS.ActorStatus.HAS_TURN, false);
     actor.setStatusKey(ENUMS.ActorStatus.HAS_TURN_INDEX, -1);

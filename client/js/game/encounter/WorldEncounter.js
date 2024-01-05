@@ -27,7 +27,6 @@ let green =  [0, 0.5, 0.0, 1]
 
 function processEncounterActivation(actor, encounter) {
 
-    actor.setStatusKey(ENUMS.ActorStatus.IN_COMBAT, true);
     actor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, false);
     actor.setStatusKey(ENUMS.ActorStatus.REQUEST_PARTY, '');
     actor.setStatusKey(ENUMS.ActorStatus.ACTIVATING_ENCOUNTER, '');

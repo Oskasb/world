@@ -96,6 +96,7 @@ function processActorCombatStatus(actor) {
         if (actor.getStatus(ENUMS.ActorStatus.DEAD) === true) {
             return;
         }
+        actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_BATTLE);
         let hp = actor.getStatus(ENUMS.ActorStatus.HP)
         if (hp < 1) {
             actor.setStatusKey(ENUMS.ActorStatus.DEAD, true);

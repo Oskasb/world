@@ -207,7 +207,10 @@ function processServerCommand(protocolKey, message) {
             if (stamp === clientStamp) {
                 // own client already has the command status, use response for hard states
                 let clientActor = GameAPI.getGamePieceSystem().selectedActor;
-                clientActor.actorStatus.applyServerCommandStatus(msg.status);
+                if (clientActor) {
+                    clientActor.actorStatus.applyServerCommandStatus(msg.status);
+                }
+
             } else {
                 // use remote client here...
                 processRemoteStatus(stamp, msg.status)

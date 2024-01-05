@@ -26,9 +26,7 @@ class ServerPlayer {
             console.log("ServerActor already added", serverActor)
             return false;
         }
-
     }
-
 
     getPlayerActor(actorId) {
         for (let i = 0; i < this.actors.length; i++) {

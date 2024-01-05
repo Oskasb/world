@@ -100,7 +100,6 @@ class EncounterTurnSequencer {
     addEncounterActor(actor) {
         actor.setStatusKey(ENUMS.ActorStatus.HP, actor.getStatus(ENUMS.ActorStatus.MAX_HP))
     //    actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_BATTLE);
-        actor.setStatusKey(ENUMS.ActorStatus.IN_COMBAT, true);
         if (actor === GameAPI.getGamePieceSystem().selectedActor) {
         //    actor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, true);
         }
@@ -207,7 +206,6 @@ class EncounterTurnSequencer {
             actor.setStatusKey(ENUMS.ActorStatus.SEQUENCER_SELECTED, false);
             actor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, false);
             actor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, '');
-            actor.setStatusKey(ENUMS.ActorStatus.IN_COMBAT, false);
             actor.setStatusKey(ENUMS.ActorStatus.RETREATING, '');
             actor.setStatusKey(ENUMS.ActorStatus.EXIT_ENCOUNTER, '');
             GameAPI.getGamePieceSystem().playerParty.clearPartyStatus()
