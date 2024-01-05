@@ -16,6 +16,7 @@ function handlePartyHandshakeOk(serverEncounter) {
 function handlePartyDynamicEncountersLoaded(serverEncounter) {
     serverEncounter.serverGrid.buildGridFromReportedTiles(serverEncounter.reportedTiles);
     serverEncounter.spawnServerEncounterActors();
+    serverEncounter.rollEncounterCombatantsInitiative();
     let message = {
         stamp:serverEncounter.hostStamp,
         request:ENUMS.ClientRequests.ENCOUNTER_PLAY,

@@ -8,24 +8,6 @@ let trackStatusKeys = [
     ENUMS.EncounterStatus.CLIENT_STAMP
 ];
 
-function spawnActor(actorConfig, tile, encounterTurnSequencer, onReady) {
-    let actorLoaded = function(actor) {
-        actor.setStatusKey(ENUMS.ActorStatus.ALIGNMENT, 'HOSTILE');
-        actor.setStatusKey(ENUMS.ActorStatus.NAME, 'Bandit '+actor.index);
-        actor.setStatusKey(ENUMS.ActorStatus.ICON_KEY, MATH.getRandomArrayEntry(faces));
-        actor.rollInitiative()
-        encounterActors.push(actor);
-        encounterTurnSequencer.addEncounterActor(actor);
-        loads--
-        if (loads === 0) {
-            onReady()
-        }
-    }
-
-    evt.dispatch(ENUMS.Event.LOAD_ACTOR, {id: 'ACTOR_FIGHTER', tile:tile, callback:actorLoaded});
-
-}
-
 class DynamicEncounter {
     constructor(id, worldEncId) {
 
@@ -49,35 +31,7 @@ class DynamicEncounter {
         this.encounterGrid = encounterGrid;
     }
 
-    processSpawnEvent(spawn, encounterTurnSequencer, onReady) {
-
-   //     console.log("processSpawnEvent", spawn)
-
-        if (spawn['actors']) {
-            loads = spawn.actors.length
-            for (let i = 0; i < spawn.actors.length; i++) {
-                let cfg = spawn.actors[i]
-                let tile =  this.encounterGrid.getTileByRowCol(cfg.tile[0], cfg.tile[1]);
-                if (tile.walkable === false) {
-                    tile = this.encounterGrid.getRandomWalkableTiles(1)[0];
-                }
-                spawnActor(cfg, tile, encounterTurnSequencer, onReady);
-            }
-        }
-    }
-
-    removeEncounterActors() {
-        while (encounterActors.length) {
-            let actor = encounterActors.pop();
-            console.log("Remove Enc Actors", actor)
-            if (actor.getStatus(ENUMS.ActorStatus.ALIGNMENT) !== 'FRIENDLY') {
-                actor.removeGameActor();
-            }
-        }
-    }
-
     closeDynamicEncounter() {
-        this.removeEncounterActors();
         this.page.closeGuiPage();
     }
 

@@ -250,6 +250,12 @@ let ENUMS = {}
         APPLY_HEAL:'APPLY_HEAL'
     }
 
+    ENUMS.Alignment = {
+        FRIENDLY:'FRIENDLY',
+        NEUTRAL:'NEUTRAL',
+        HOSTILE:'HOSTILE'
+    }
+
     ENUMS.ItemStatus = {
         ITEM_ID:'ITEM_ID',
         TEMPLATE:'TEMPLATE',

@@ -194,10 +194,6 @@ class GameActor {
         return false;
     }
 
-    rollInitiative() {
-        this.setStatusKey(ENUMS.ActorStatus.SEQUENCER_INITIATIVE, Math.random())
-    }
-
     startPlayerTurn(turnEndedCB, turnIndex) {
         if (this.call.getRemote() === null) {
         //    GameAPI.getGamePieceSystem().setSelectedGameActor(this);
@@ -322,7 +318,6 @@ class GameActor {
         return this.gameWalkGrid.getGridMovementObj3d().position;
     }
 
-
     getQuat() {
         console.log("actor getQuat()")
         return this.gameWalkGrid.getGridMovementObj3d().quaternion;
@@ -332,8 +327,6 @@ class GameActor {
         console.log("actor getObj3d()")
         return this.gameWalkGrid.getGridMovementObj3d();
     }
-
-
 
     setVisualGamePiece(visualGamePiece) {
         visualGamePiece.setVisualPieceActor(this);

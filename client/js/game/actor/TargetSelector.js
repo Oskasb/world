@@ -3,7 +3,6 @@ let actorList = []
 class TargetSelector {
     constructor() {}
 
-
     getActorEncounterTargetCandidates(actor) {
         MATH.emptyArray(actorList);
         let encounterSequencer = GameAPI.call.getGameEncounterSystem().getEncounterTurnSequencer()
@@ -23,7 +22,5 @@ class TargetSelector {
     }
 
 }
-
-
 
 export {TargetSelector}

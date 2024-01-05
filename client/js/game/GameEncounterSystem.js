@@ -41,13 +41,10 @@ function activateGrid(gridId, updateCB) {
 
 }
 
-
 class GameEncounterSystem {
     constructor() {
         encounterUiSystem = new EncounterUiSystem();
         encounterTurnSequencer = new EncounterTurnSequencer();
-
-
 
         let updateEncounterSystem = function() {
 
@@ -116,21 +113,20 @@ class GameEncounterSystem {
                         pActor.setSpatialPosition(startTile.getPos());
                     }
                     encounterTurnSequencer.addEncounterActor(pActor);
-                    pActor.rollInitiative()
                 }
 
                 // encounterUiSystem.setEncounterSequencer(encounterTurnSequencer)
-                encounterUiSystem.setActiveEncounter(dynamicEncounter);
-                GameAPI.registerGameUpdateCallback(updateCB)
-
-                GameAPI.registerGameUpdateCallback(encounterStatusProcessor.processEncounterStatus)
-                encounterStatusProcessor.call.setEncounter(dynamicEncounter);
             //    dynamicEncounter.setStatusKey(ENUMS.EncounterStatus.ACTIVATION_STATE, ENUMS.ActivationState.ACTIVATING);
             //    dynamicEncounter.setStatusKey(ENUMS.EncounterStatus.CLIENT_STAMP, client.getStamp());
 
         }
 
         let gridReady = function(grid) {
+
+            encounterUiSystem.setActiveEncounter(dynamicEncounter);
+            GameAPI.registerGameUpdateCallback(updateCB)
+            GameAPI.registerGameUpdateCallback(encounterStatusProcessor.processEncounterStatus)
+            encounterStatusProcessor.call.setEncounter(dynamicEncounter);
 
             dynamicEncounter.setEncounterGrid(grid);
             let posArray = dynamicEncounter.status.call.getStatus(ENUMS.EncounterStatus.GRID_POS);

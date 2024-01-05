@@ -1,8 +1,10 @@
 import {ENUMS} from "../../application/ENUMS.js";
+import {MATH} from "../../../client/js/application/MATH.js";
 
-class SimpleSend {
+class SimpleUpdateMessage {
     constructor() {
-        let request = {
+        let message = {
+            command:null,
             request:null,
             status:null
         }
@@ -59,21 +61,19 @@ class SimpleSend {
 
                     }
                 }
-
-
             }
         }
 
-        function broadcastStatus(statusMessageKey, statusMap, clientRequest) {
-            request.request = clientRequest;
-            request.status = sendStatus;
-            let gameTime = GameAPI.getGameTime();
+        function buildMessage(statusMessageKey, statusMap, clientRequest) {
+            message.request = clientRequest;
+            message.status = sendStatus;
+            let gameTime = getGameServer().serverTime;
             MATH.emptyArray(sendStatus);
             sendStatus.push(statusMessageKey)
             sendStatus.push(statusMap[statusMessageKey])
             skipKey = statusMessageKey;
 
-                if (lastFullSend < gameTime -0.5) {
+                if (lastFullSend < gameTime -5) {
                     lastFullSend = gameTime;
                     fullSend(statusMap)
                 } else {
@@ -82,17 +82,20 @@ class SimpleSend {
 
                 if (sendStatus.length > 2) {
             //        console.log("SIMPLE SEND: ", request)
-                    evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, request)
+                //    evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, request)
+                    return message;
+                } else {
+                    return false
                 }
 
         }
 
         this.call = {
-            broadcastStatus:broadcastStatus
+            buildMessage:buildMessage
         }
 
     }
 
 }
 
-export { SimpleSend }
+export { SimpleUpdateMessage }

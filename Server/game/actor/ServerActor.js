@@ -23,6 +23,10 @@ class ServerActor {
         return this.status.statusMap;
     }
 
+    rollInitiative() {
+        this.setStatusKey(ENUMS.ActorStatus.SEQUENCER_INITIATIVE, Math.random())
+    }
+
     equipServerItem(serverItem) {
         if (this.equippedItems.indexOf(serverItem) === -1) {
             this.equippedItems.push(serverItem);
