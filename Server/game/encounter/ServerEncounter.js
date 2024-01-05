@@ -48,9 +48,8 @@ function processActivationState(encounter) {
             actor.setStatusKey(ENUMS.ActorStatus.POS_X, pos.x);
             actor.setStatusKey(ENUMS.ActorStatus.POS_Y, pos.y);
             actor.setStatusKey(ENUMS.ActorStatus.POS_Z, pos.z);
-            actorMessage.stamp = actor.getStatus(ENUMS.ActorStatus.CLIENT_STAMP);
-            actorMessage.status = messageFromStatusMap(actor.getStatusMap(), ENUMS.ActorStatus.ACTOR_ID);
-            encounter.call.messageParticipants(actorMessage);
+            encounter.sendActorStatusUpdate(actor);
+
         }
         encounter.serverEncounterTurnSequencer.call.updateTurnSequencer()
         encounter.sendEncounterStatusUpdate();
@@ -200,6 +199,12 @@ class ServerEncounter {
             console.log("Message Enc Status: ", message)
             this.call.messageParticipants(message);
         }
+    }
+
+    sendActorStatusUpdate(actor) {
+        actorMessage.stamp = actor.getStatus(ENUMS.ActorStatus.CLIENT_STAMP);
+        actorMessage.status = messageFromStatusMap(actor.getStatusMap(), ENUMS.ActorStatus.ACTOR_ID);
+        this.call.messageParticipants(actorMessage);
     }
 
     closeServerEncounter() {

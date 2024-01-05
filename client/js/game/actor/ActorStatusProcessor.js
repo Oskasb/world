@@ -90,53 +90,6 @@ function processPartyStatus(actor) {
 
 }
 
-function processEncounterActivation(actor) {
-
-                let activatingEncounterId = actor.getStatus(ENUMS.ActorStatus.ACTIVATING_ENCOUNTER);
-                if (activatingEncounterId) {
-
-                    let encounter = GameAPI.getWorldEncounterByEncounterId(activatingEncounterId);
-                    if (!encounter) {
-                        return;
-                    }
-                    if (encounter.getRequestingActor() !== actor) {
-                        GuiAPI.screenText("PARTY ENCOUNTER", ENUMS.Message.HINT, 4);
-                        actor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, false);
-                        actor.setStatusKey(ENUMS.ActorStatus.REQUEST_PARTY, '');
-                        actor.setStatusKey(ENUMS.ActorStatus.ACTIVATING_ENCOUNTER, '');
-                        actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_BATTLE);
-                        //    actor.actorStatusProcessor.processActorStatus(actor);
-
-                        let onCompleted = function(pos) {
-                            actor.setSpatialPosition(pos);
-
-                            //    transition.targetPos.set(0, 0, 0)
-                            //    actor.setSpatialVelocity(transition.targetPos);
-                            actor.setStatusKey(ENUMS.ActorStatus.IN_COMBAT, true);
-                            actor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, false);
-                            actor.setStatusKey(ENUMS.ActorStatus.ACTIVATING_ENCOUNTER, "");
-                            actor.setStatusKey(ENUMS.ActorStatus.ACTIVATED_ENCOUNTER, encounter.id);
-                            actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_BATTLE);
-                            notifyCameraStatus(ENUMS.CameraStatus.CAMERA_MODE, ENUMS.CameraControls.CAM_ENCOUNTER, false);
-                            actor.actorStatusProcessor.processActorStatus(actor);
-                            poolReturn(transition)
-                        }
-
-                        let onUpdate = function(pos, vel) {
-                            ThreeAPI.getCameraCursor().getLookAroundPoint().copy(pos)
-                            actor.setSpatialPosition(pos);
-                        }
-
-                        let transition = poolFetch('SpatialTransition')
-                        transition.targetPos.copy(encounter.getPointInsideActivationRange(actor.getSpatialPosition()));
-                        transition.targetPos.x = Math.round(transition.targetPos.x);
-                        transition.targetPos.z = Math.round(transition.targetPos.z);
-                        transition.initSpatialTransition(actor.actorObj3d.position, transition.targetPos, 2.3, onCompleted, null, null, onUpdate)
-                    }
-                }
-
-}
-
 function processActorCombatStatus(actor) {
 
     if (actor.getStatus(ENUMS.ActorStatus.IN_COMBAT)) {
@@ -151,10 +104,7 @@ function processActorCombatStatus(actor) {
         if (actor.getStatus(ENUMS.ActorStatus.DEAD) === false)
             actor.setStatusKey(ENUMS.ActorStatus.HP, actor.getStatus(ENUMS.ActorStatus.MAX_HP));
     }
-
-
-
-}
+    }
 
 let lastContact = 0;
 let lastContactModel = null;
@@ -244,7 +194,7 @@ class ActorStatusProcessor {
         }
 
         if (actor.getStatus(ENUMS.ActorStatus.HAS_TURN)) {
-
+            actor.actorText.say("My Turn")
             if (!this.indicators[ENUMS.ActorStatus.HAS_TURN]) {
                 this.attachIndicator(ENUMS.ActorStatus.HAS_TURN, actor, 0, 6, 0.5, 1.12, 0, 0)
             }

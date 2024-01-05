@@ -9,6 +9,10 @@ class ServerEncounterTurnSequencer {
             return serverEncounter
         }
 
+        function sendActorUpdate(actor) {
+            serverEncounter.sendActorStatusUpdate(actor)
+        }
+
         function setStatusKey(key, status) {
             return serverEncounter.status.setStatusKey(key, status)
         }
@@ -108,6 +112,9 @@ class ServerEncounterTurnSequencer {
                 setStatusKey(ENUMS.EncounterStatus.TURN_INDEX, this.turnIndex)
                 this.activeActor = actor;
                 setStatusKey(ENUMS.EncounterStatus.HAS_TURN_ACTOR, actor.id);
+                actor.setStatusKey(ENUMS.ActorStatus.HAS_TURN, true);
+                actor.setStatusKey(ENUMS.ActorStatus.HAS_TURN_INDEX, this.turnIndex);
+
                 console.log("pass turn to new actor",  actor.id)
                 if (actor.getStatus(ENUMS.ActorStatus.DEAD)) {
                     this.call.turnEnded();
@@ -142,9 +149,10 @@ class ServerEncounterTurnSequencer {
                         let turnDone = actor.getStatus(ENUMS.ActorStatus.TURN_DONE);
                         if (turnDone === this.turnIndex) {
                         //    GuiAPI.screenText("REMOTE DONE",  ENUMS.Message.SYSTEM, 2.2)
-
-                            console.log("Determine actor urn done")
+                            actor.setStatusKey(ENUMS.ActorStatus.HAS_TURN, false);
+                            console.log("Determine actor turn done")
                             this.call.turnEnded();
+                            sendActorUpdate(actor)
                             return;
                         }
                     }
@@ -156,7 +164,11 @@ class ServerEncounterTurnSequencer {
                 setStatusKey(ENUMS.EncounterStatus.TURN_ACTOR_TARGET, actor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET))
                 setStatusKey(ENUMS.EncounterStatus.TURN_ACTOR_ACTION, actor.getStatus(ENUMS.ActorStatus.SELECTED_ACTION))
                 setStatusKey(ENUMS.EncounterStatus.TURN_ACTION_STATE, actor.getStatus(ENUMS.ActorStatus.ACTION_STATE_KEY))
+                sendActorUpdate(actor)
+                serverEncounter.sendEncounterStatusUpdate()
             }
+
+
 
         }.bind(this);
 

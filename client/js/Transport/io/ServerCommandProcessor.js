@@ -205,7 +205,9 @@ function processServerCommand(protocolKey, message) {
         case ENUMS.ServerCommands.ACTOR_UPDATE:
 
             if (stamp === clientStamp) {
-                // own client already has the command status, use response to possibly validate
+                // own client already has the command status, use response for hard states
+                let clientActor = GameAPI.getGamePieceSystem().selectedActor;
+                clientActor.actorStatus.applyServerCommandStatus(msg.status);
             } else {
                 // use remote client here...
                 processRemoteStatus(stamp, msg.status)
@@ -279,11 +281,10 @@ function processServerCommand(protocolKey, message) {
             encounter = GameAPI.call.getDynamicEncounter();
             if (encounter.id === encounterId) {
                 encounter.applyEncounterStatusUpdate(message.status);
-                console.log("Enc Updated", encounter.status)
+                console.log("Enc Updated", encounter)
             } else {
                 console.log("Bad Encounter ID; ", message, encounter);
             }
-
 
             break;
         case ENUMS.ServerCommands.ENCOUNTER_CLOSE:

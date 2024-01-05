@@ -49,6 +49,8 @@ function processDefeat() {
 
 let processEncStatus = function() {
 
+    return;
+
     if (encounterClosing === true) {
         let encounterGrid = GameAPI.getActiveEncounterGrid();
         let tiles = encounterGrid.getRandomWalkableTiles(2)
@@ -101,7 +103,6 @@ let processEncStatus = function() {
 
     // let currentTurnActor = GameAPI.getActorById(hasTurnActorId);
 
-
     if (!hasTurnId) {
 
         hasTurnActorId = null;
@@ -141,6 +142,8 @@ let processEncStatus = function() {
 let standingOnTile = null;
 function processEncounterTurnStartTileMechanics(actor) {
     actor.actorText.say("My Turn Start")
+
+    console.log("Turn Start ", actor)
 
     if (!hasHostileTarget(actor)) {
         clearTargetSelection(actor)
@@ -218,11 +221,7 @@ class EncounterStatusProcessor {
             if (activationState === ENUMS.ActivationState.ACTIVATING) {
                 console.log("Encounter Activating")
                 return;
-            } else {
-            //    console.log("Should process encounter on server...")
-                return;
             }
-
 
             processEncStatus()
 
@@ -233,6 +232,9 @@ class EncounterStatusProcessor {
                     this.actorTurnStart = null
                     return;
                 }
+
+
+
 
                 if (getStatus(ENUMS.EncounterStatus.ACTIVATION_STATE) === ENUMS.ActivationState.DEACTIVATING) {
                     processEncounterDeactivation(actor);
@@ -251,7 +253,6 @@ class EncounterStatusProcessor {
                     if (actor.getStatus(ENUMS.ActorStatus.DEAD) === false) {
                         processEncounterTileUpdateMechanics(actor)
                     }
-
                 }
 
             } else {

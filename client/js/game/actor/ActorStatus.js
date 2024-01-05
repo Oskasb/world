@@ -1,6 +1,7 @@
 import {Vector3} from "../../../libs/three/math/Vector3.js";
 import {Quaternion} from "../../../libs/three/math/Quaternion.js";
 import {clearActorEncounterStatus} from "../../application/utils/StatusUtils.js";
+import {statusMapFromMsg} from "../../../../Server/game/utils/GameServerFunctions.js";
 
 
 let testSkip = function(key) {
@@ -8,6 +9,13 @@ let testSkip = function(key) {
         return true;
     }
     if (skipMap.indexOf(key) !== -1) {
+        return true;
+    }
+    return false;
+}
+
+let testHardState = function(key) {
+    if (hardStateMap.indexOf(key) !== -1) {
         return true;
     }
     return false;
@@ -82,6 +90,16 @@ function sendUpdatedOnly(status, statusMap) {
         }
     }
 }
+
+let hardStateMap = [
+    ENUMS.ActorStatus.ALIGNMENT,
+    ENUMS.ActorStatus.IN_COMBAT,
+    ENUMS.ActorStatus.HAS_TURN,
+    ENUMS.ActorStatus.HAS_TURN_INDEX,
+    ENUMS.ActorStatus.TURN_DONE,
+    ENUMS.ActorStatus.DAMAGE_APPLIED,
+    ENUMS.ActorStatus.DEAD
+];
 
 let detailsMap = [
     ENUMS.ActorStatus.ACTIVATION_STATE,
@@ -274,6 +292,19 @@ class ActorStatus {
         }
 
     }
+
+    applyServerCommandStatus(message) {
+    //    console.log("Apply Server Command msg ", message);
+        let map = statusMapFromMsg(message)
+
+        for (let key in map) {
+            if (testHardState(key) === true) {
+                this.statusMap[key] = map[key];
+            }
+        }
+
+    }
+
 
     getStatusByKey(key) {
         if (typeof (this.statusMap[key]) === 'undefined') {

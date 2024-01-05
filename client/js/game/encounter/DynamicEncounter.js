@@ -25,7 +25,7 @@ class DynamicEncounter {
     }
 
     getStatus(key) {
-        this.status.getStatusByKey(key);
+        return this.status.getStatusByKey(key);
     }
 
     applyEncounterStatusUpdate(statusMsg) {
