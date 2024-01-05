@@ -4,14 +4,13 @@ import { VisualEncounterHost } from "../visuals/VisualEncounterHost.js";
 import { EncounterIndicator } from "../visuals/EncounterIndicator.js";
 import {parseConfigDataKey} from "../../application/utils/ConfigUtils.js";
 import {notifyCameraStatus} from "../../3d/camera/CameraFunctions.js";
+import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
 
 let tempVec = new Vector3()
 let calcVec = new Vector3()
 
+let radiusEvent = {}
 
-let radiusEvent = {
-
-}
 let indicateTriggerRadius = function(encounter) {
     let radius = encounter.config.trigger_radius
     radiusEvent.heads = Math.ceil(MATH.curveSqrt(radius))+2;
@@ -24,8 +23,37 @@ let indicateTriggerRadius = function(encounter) {
 }
 
 let encounterEvent = {};
-
 let green =  [0, 0.5, 0.0, 1]
+
+function processEncounterActivation(actor, encounter) {
+
+    actor.setStatusKey(ENUMS.ActorStatus.IN_COMBAT, true);
+    actor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, false);
+    actor.setStatusKey(ENUMS.ActorStatus.REQUEST_PARTY, '');
+    actor.setStatusKey(ENUMS.ActorStatus.ACTIVATING_ENCOUNTER, '');
+    actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_BATTLE);
+//    notifyCameraStatus(ENUMS.CameraStatus.CAMERA_MODE, ENUMS.CameraControls.CAM_ENCOUNTER, false);
+
+    if (encounter.timeInsideTrigger === 0) {
+        GuiAPI.screenText("PARTY ENCOUNTER", ENUMS.Message.HINT, 4);
+        //    actor.actorStatusProcessor.processActorStatus(actor);
+        let onCompleted = function(pos) {
+            actor.setSpatialPosition(pos);
+            poolReturn(transition)
+        }
+
+        let onUpdate = function(pos, vel) {
+            ThreeAPI.getCameraCursor().getLookAroundPoint().copy(pos)
+            actor.setSpatialPosition(pos);
+        }
+
+        let transition = poolFetch('SpatialTransition')
+        transition.targetPos.copy(encounter.getPointInsideActivationRange(actor.getSpatialPosition()));
+        transition.targetPos.x = Math.round(transition.targetPos.x);
+        transition.targetPos.z = Math.round(transition.targetPos.z);
+        transition.initSpatialTransition(actor.actorObj3d.position, transition.targetPos, 2.3, onCompleted, null, null, onUpdate)
+    }
+}
 
 let indicateTriggerTime = function(actor, encounter) {
     let radius = 0.5 + MATH.curveQuad(encounter.timeInsideTrigger)
@@ -57,7 +85,6 @@ function checkTriggerPlayer(encounter) {
     let hostActor = encounter.visualEncounterHost.call.getActor();
     if (!hostActor) return;
 
-
     if (selectedActor) {
         let tpf = GameAPI.getFrame().tpf
         let radius = encounter.config.trigger_radius;
@@ -74,7 +101,6 @@ function checkTriggerPlayer(encounter) {
         } else {
             encounter.timeInsideProximity = 0;
         }
-
 
         let requestingActor = encounter.requestingActor;
         if (requestingActor) {
@@ -108,7 +134,6 @@ let updateTriggered = function(encounter) {
     encounter.timeInsideTrigger += GameAPI.getFrame().tpf *0.5;
     indicateTriggerTime(selectedActor, encounter)
 }
-
 
 class WorldEncounter {
     constructor(id, config, onReady) {
@@ -189,6 +214,7 @@ class WorldEncounter {
             selectedActor.setStatusKey(ENUMS.ActorStatus.ACTIVATING_ENCOUNTER, this.id);
             selectedActor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_INACTIVE);
             ThreeAPI.getCameraCursor().getLookAroundPoint().copy(this.getPos())
+            processEncounterActivation(selectedActor, this);
         }.bind(this)
 
         let startWorldEncounter = function(message) {

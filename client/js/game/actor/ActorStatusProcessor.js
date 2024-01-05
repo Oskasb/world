@@ -84,11 +84,15 @@ function processPartyStatus(actor) {
         }
     }
 
-    for (let i = 0; i < playerParty.actors.length; i++) {
-        let otherActor = playerParty.actors[i];
-        if (otherActor !== actor && playerParty.isMember(otherActor) === true) {
-            if (otherActor !== actor) {
-                let activatingEncounterId = otherActor.getStatus(ENUMS.ActorStatus.ACTIVATING_ENCOUNTER);
+    if (playerParty.isMember(actor)) {
+
+    }
+
+}
+
+function processEncounterActivation(actor) {
+
+                let activatingEncounterId = actor.getStatus(ENUMS.ActorStatus.ACTIVATING_ENCOUNTER);
                 if (activatingEncounterId) {
 
                     let encounter = GameAPI.getWorldEncounterByEncounterId(activatingEncounterId);
@@ -101,13 +105,13 @@ function processPartyStatus(actor) {
                         actor.setStatusKey(ENUMS.ActorStatus.REQUEST_PARTY, '');
                         actor.setStatusKey(ENUMS.ActorStatus.ACTIVATING_ENCOUNTER, '');
                         actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_BATTLE);
-                    //    actor.actorStatusProcessor.processActorStatus(actor);
+                        //    actor.actorStatusProcessor.processActorStatus(actor);
 
                         let onCompleted = function(pos) {
                             actor.setSpatialPosition(pos);
 
-                        //    transition.targetPos.set(0, 0, 0)
-                        //    actor.setSpatialVelocity(transition.targetPos);
+                            //    transition.targetPos.set(0, 0, 0)
+                            //    actor.setSpatialVelocity(transition.targetPos);
                             actor.setStatusKey(ENUMS.ActorStatus.IN_COMBAT, true);
                             actor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, false);
                             actor.setStatusKey(ENUMS.ActorStatus.ACTIVATING_ENCOUNTER, "");
@@ -121,12 +125,7 @@ function processPartyStatus(actor) {
                         let onUpdate = function(pos, vel) {
                             ThreeAPI.getCameraCursor().getLookAroundPoint().copy(pos)
                             actor.setSpatialPosition(pos);
-                        //    actor.setSpatialVelocity(vel);
                         }
-
-                        encounter.requestActivationBy(actor);
-                        GameAPI.worldModels.deactivateEncounters();
-
 
                         let transition = poolFetch('SpatialTransition')
                         transition.targetPos.copy(encounter.getPointInsideActivationRange(actor.getSpatialPosition()));
@@ -135,13 +134,6 @@ function processPartyStatus(actor) {
                         transition.initSpatialTransition(actor.actorObj3d.position, transition.targetPos, 2.3, onCompleted, null, null, onUpdate)
                     }
                 }
-            }
-        }
-    }
-
-    if (playerParty.isMember(actor)) {
-
-    }
 
 }
 
