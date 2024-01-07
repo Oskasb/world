@@ -217,6 +217,23 @@ function processServerCommand(protocolKey, message) {
             }
 
             break;
+        case ENUMS.ServerCommands.ACTION_UPDATE:
+            console.log("ACTION_UPDATE; ", stamp, message);
+            if (stamp === clientStamp) {
+                // own client already has the command status, use response for something?
+                console.log("Local ACTION_UPDATE response", message)
+                let clientActor = GameAPI.getGamePieceSystem().selectedActor;
+                if (clientActor) {
+            //        clientActor.actorStatus.applyServerCommandStatus(msg.status);
+                }
+
+            } else {
+                // use remote client here...
+                console.log("Remote ACTION_UPDATE", message)
+                processRemoteStatus(stamp, msg.status)
+            }
+
+            break;
         case ENUMS.ServerCommands.ACTOR_REMOVED:
             console.log("ACTOR_REMOVED; ", stamp, message);
             let actorId = message.actorId;
