@@ -123,7 +123,9 @@ let detailsMap = [
     ENUMS.ActorStatus.REQUEST_PARTY,
     ENUMS.ActorStatus.DAMAGE_APPLIED,
     ENUMS.ActorStatus.DEAD,
-    ENUMS.ActorStatus.IS_LEAPING
+    ENUMS.ActorStatus.IS_LEAPING,
+    ENUMS.ActorStatus.TURN_STATE,
+    ENUMS.ActorStatus.REQUEST_TURN_STATE
 ];
 
 let spatialMap = [

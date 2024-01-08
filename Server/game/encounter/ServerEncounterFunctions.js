@@ -79,9 +79,8 @@ function passSequencerTurnToActor(encounterSequencer, actor) {
 
     if (priorActor) {
         serverEncounter.sendActorStatusUpdate(priorActor);
-        console.log("pass turn to",  actor.id, "from", priorActor)
+        console.log("pass turn to",  actor.id, "from", priorActor.id)
     }
-
 
 
     if (actor.getStatus(ENUMS.ActorStatus.DEAD)) {
@@ -114,9 +113,14 @@ function checkActorTurnDone(encounterSequencer, actor) {
 
     if (activeId === actor.id) {
         let turnState = actor.getStatus(ENUMS.ActorStatus.TURN_STATE);
-        console.log("hasTurn", turnIndex, turnState, activeId)
+
+        if (turnState === ENUMS.TurnState.TURN_CLOSE) {
+            actor.setStatusKey(ENUMS.ActorStatus.TURN_DONE, turnIndex)
+        }
+
         let turnDone = actor.getStatus(ENUMS.ActorStatus.TURN_DONE);
         if (turnDone === turnIndex) {
+            console.log("turnDone", turnIndex, turnState, activeId)
             return true
         }
     } else {

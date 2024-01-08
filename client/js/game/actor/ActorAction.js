@@ -277,6 +277,7 @@ class ActorAction {
         if (!actor.call.getRemote()) {
             this.actor.setStatusKey(ENUMS.ActorStatus.ACTION_STATE_KEY, this.status.call.getStatusByKey(ENUMS.ActionStatus.ACTION_STATE))
             this.actor.setStatusKey(ENUMS.ActorStatus.SELECTED_ACTION, this.status.call.getStatusByKey(ENUMS.ActionStatus.ACTION_KEY));
+            this.actor.setStatusKey(ENUMS.ActorStatus.REQUEST_TURN_STATE, ENUMS.TurnState.ACTION_APPLY);
         }
 
         let status = this.readActionConfig('status')
@@ -311,6 +312,12 @@ class ActorAction {
         this.initiated = false;
 
         let actor = GameAPI.getActorById(this.call.getStatus(ENUMS.ActionStatus.ACTOR_ID))
+
+
+        if (!actor.call.getRemote()) {
+            this.actor.setStatusKey(ENUMS.ActorStatus.REQUEST_TURN_STATE, ENUMS.TurnState.TURN_CLOSE);
+        }
+
         actor.setStatusKey(ENUMS.ActorStatus.SELECTED_ACTION, '');
 
         this.call.setStatusKey(ENUMS.ActionStatus.ACTOR_ID, "none")

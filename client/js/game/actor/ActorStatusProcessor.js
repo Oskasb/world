@@ -143,7 +143,7 @@ function updateRigidBodyContact(actor) {
 
 }
 
-function processActorTurnState(actor) {
+function processSelectedActorTurnState(actor) {
 
     let turnState = actor.getStatus(ENUMS.ActorStatus.TURN_STATE)
 
@@ -151,12 +151,24 @@ function processActorTurnState(actor) {
     if (turnState === ENUMS.TurnState.TURN_INIT) {
         actor.actorText.say(turnState)
         actor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, true);
+        actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_BATTLE)
         actor.setStatusKey(ENUMS.ActorStatus.REQUEST_TURN_STATE, ENUMS.TurnState.TURN_MOVE)
     } else if (turnState === ENUMS.TurnState.TURN_MOVE) {
     //    console.log("Update TURN_MOVE", actor)
 
-        actor.actorText.say('move me')
+        actor.actorText.say('play me')
 
+    } else if (turnState === ENUMS.TurnState.ACTION_APPLY) {
+        //    console.log("Update TURN_MOVE", actor)
+
+        actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_PASSIVE)
+
+        actor.actorText.say('action apply')
+
+    } else if (turnState === ENUMS.TurnState.TURN_CLOSE) {
+            console.log("Update TURN_CLOSE", actor)
+        actor.actorText.say('turn done')
+    //    actor.setStatusKey(ENUMS.ActorStatus.REQUEST_TURN_STATE, ENUMS.TurnState.NO_TURN)
     }
 
 
@@ -220,8 +232,10 @@ class ActorStatusProcessor {
             if (!this.indicators[ENUMS.ActorStatus.HAS_TURN]) {
                 this.attachIndicator(ENUMS.ActorStatus.HAS_TURN, actor, 0, 6, 0.5, 1.12, 0, 0)
             }
-            processActorTurnState(actor)
 
+            if (actor === GameAPI.getGamePieceSystem().selectedActor) {
+                processSelectedActorTurnState(actor)
+            }
 
         } else {
             if (this.indicators[ENUMS.ActorStatus.HAS_TURN]) {

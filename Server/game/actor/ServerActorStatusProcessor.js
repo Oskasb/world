@@ -37,6 +37,7 @@ class ServerActorStatusProcessor {
         let currentTurnState = status.getStatus(ENUMS.ActorStatus.TURN_STATE);
         console.log("Process Turn State Request:", currentTurnState, newValue);
         status.setStatusKey(ENUMS.ActorStatus.TURN_STATE, newValue);
+
     }
 
     processServerActorStatusMessage(status, msg) {
