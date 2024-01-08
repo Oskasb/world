@@ -101,6 +101,11 @@ class ServerEncounterTurnSequencer {
 
             let actor = sequencerTurnActiveActor(this);
 
+            if (!actor) {
+                console.log("No Actor")
+                return;
+            }
+
             if (this.activeActor !== actor) {
                 passSequencerTurnToActor(this, actor);
                 setStatusKey(ENUMS.EncounterStatus.TURN_ACTOR_INITIATIVE, actor.getStatus(ENUMS.ActorStatus.SEQUENCER_INITIATIVE))

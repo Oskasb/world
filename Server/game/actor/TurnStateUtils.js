@@ -101,14 +101,14 @@ function turnMove(actor, turnIndex) {
     console.log("turnMove", turnIndex)
     actor.setStatusKey(ENUMS.ActorStatus.TURN_STATE, ENUMS.TurnState.TURN_MOVE)
     let sequencer = actor.turnSequencer
-    let targetPos = actor.getGameWalkGrid().getTargetPosition()
+ //   let targetPos = actor.getGameWalkGrid().getTargetPosition()
   //  actor.actorText.say('Moving '+Math.round(targetPos.x)+' '+Math.round(targetPos.z))
 
   //  let walkGrid = actor.getGameWalkGrid();
    // actor.prepareTilePath(targetPos);
     //    walkGrid.applySelectedPath(null, sequencer.call.stateTransition)
 
-   actor.moveActorOnGridTo(targetPos, sequencer.call.stateTransition)
+//   actor.moveActorOnGridTo(targetPos, sequencer.call.stateTransition)
 }
 
 function turnClose(actor, turnIndex) {
