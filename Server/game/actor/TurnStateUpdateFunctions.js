@@ -3,6 +3,7 @@ import {unregisterGameServerUpdateCallback} from "../utils/GameServerFunctions.j
 
 let actorTurnSequencer = null;
 function setSequencer(sequencer) {
+    console.log("setSequencer", sequencer)
     actorTurnSequencer = sequencer;
 }
 

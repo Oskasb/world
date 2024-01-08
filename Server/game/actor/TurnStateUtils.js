@@ -14,12 +14,14 @@ import {
     unregisterGameServerUpdateCallback
 } from "../utils/GameServerFunctions.js";
 
+import {ENUMS} from "../../../client/js/application/ENUMS.js";
+
 let nullTurn = -1
 
 function turnInit(actor, turnIndex) {
     console.log("turnInit", turnIndex)
     actor.setStatusKey(ENUMS.ActorStatus.HAS_TURN, true)
-    let sequencer = actor.actorTurnSequencer
+    let sequencer = actor.turnSequencer
     setSequencer(sequencer)
     registerGameServerUpdateCallback(updateActorInit)
 }
@@ -118,7 +120,7 @@ function cancelTurnProcess() {
 function turnClosed(actor, turnIndex, onCompletedCB) {
  //   actor.actorText.say('Turn closed '+turnIndex)
     actor.setStatusKey(ENUMS.ActorStatus.HAS_TURN, false)
-    let sequencer = actor.actorTurnSequencer
+    let sequencer = actor.turnSequencer
     setSequencer(sequencer)
     MATH.callAndClearAll(sequencer.turnEncBallbacks, actor);
 }

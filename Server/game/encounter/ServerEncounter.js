@@ -146,9 +146,9 @@ class ServerEncounter {
     }
 
     getServerActorById(actorId) {
-        for (let i = 0; i < this.encounterActors.length;i++) {
-            if (this.encounterActors[i].id === actorId) {
-                return this.encounterActors[i];
+        for (let i = 0; i < this.combatants.length;i++) {
+            if (this.combatants[i].id === actorId) {
+                return this.combatants[i];
             }
         }
     }

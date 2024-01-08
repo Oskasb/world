@@ -1,5 +1,3 @@
-
-
 let ENUMS = {}
 
     ENUMS.Message = {
@@ -66,7 +64,7 @@ let ENUMS = {}
         MAIN_CHAR_REGISTER_HOSTILE: 45,
         MAIN_CHAR_SELECT_TARGET:    46,
         MAIN_CHAR_ENGAGE_TARGET:    47,
-        MAIN_CHAR_RETURN_HOME:       48,
+        MAIN_CHAR_RETURN_HOME:      48,
         SCENARIO_TEXT:              49,
         SCENARIO_HEADER:            50,
         SWITCH_BACK_GUI_PAGE:       51,
