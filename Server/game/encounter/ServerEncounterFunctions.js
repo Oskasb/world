@@ -57,16 +57,32 @@ function passSequencerTurnToActor(encounterSequencer, actor) {
     if (priorActor) {
         priorActor.setStatusKey(ENUMS.ActorStatus.HAS_TURN, false);
         priorActor.setStatusKey(ENUMS.ActorStatus.TURN_DONE, turnIndex);
+        actor.setStatusKey(ENUMS.ActorStatus.TURN_STATE, ENUMS.TurnState.NO_TURN);
     } else {
-        console.log("No prior Actor, assuming new turn started?")
+
+        if (turnIndex === 0) {
+            console.log("No Actor first turn, assuming new encounter started")
+            let setupDone = serverEncounter.encounterPrepareFirstTurn()
+            if (setupDone === false) {
+                return;
+            }
+        } else {
+            console.log("No prior Actor, assuming new turn started")
+        }
     }
 
     encounterSequencer.activeActor = actor;
     serverEncounter.setStatusKey(ENUMS.EncounterStatus.HAS_TURN_ACTOR, actor.id);
     actor.setStatusKey(ENUMS.ActorStatus.HAS_TURN, true);
+    actor.setStatusKey(ENUMS.ActorStatus.TURN_STATE, ENUMS.TurnState.TURN_INIT);
     actor.setStatusKey(ENUMS.ActorStatus.HAS_TURN_INDEX, turnIndex);
 
-    console.log("pass turn to",  actor.id)
+    if (priorActor) {
+        serverEncounter.sendActorStatusUpdate(priorActor);
+        console.log("pass turn to",  actor.id, "from", priorActor)
+    }
+
+
 
     if (actor.getStatus(ENUMS.ActorStatus.DEAD)) {
         console.log("dead actor, drop turn",  actor.id)
@@ -82,7 +98,7 @@ function passSequencerTurnToActor(encounterSequencer, actor) {
         actor.setStatusKey(ENUMS.ActorStatus.HAS_TURN, true);
         actor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, true);
         actor.setStatusKey(ENUMS.ActorStatus.HAS_TURN_INDEX, turnIndex)
-
+        actor.setStatusKey(ENUMS.ActorStatus.TURN_STATE, ENUMS.TurnState.TURN_INIT);
     } else {
         serverEncounter.setStatusKey(ENUMS.EncounterStatus.ACTIVE_TURN_SIDE, "OPPONENTS");
         actor.turnSequencer.startActorTurn(encounterSequencer.call.actorTurnEnded, turnIndex);
@@ -95,10 +111,10 @@ function checkActorTurnDone(encounterSequencer, actor) {
     let serverEncounter = encounterSequencer.serverEncounter;
     let turnIndex = serverEncounter.getStatus(ENUMS.EncounterStatus.TURN_INDEX);
     let activeId = serverEncounter.getStatus(ENUMS.EncounterStatus.HAS_TURN_ACTOR);
-    let hasTurnId = serverEncounter.getStatus(ENUMS.EncounterStatus.HAS_TURN_ACTOR);
 
-    console.log("hasTurnId", hasTurnId)
-    if (hasTurnId === actor.id) {
+    if (activeId === actor.id) {
+        let turnState = actor.getStatus(ENUMS.ActorStatus.TURN_STATE);
+        console.log("hasTurn", turnIndex, turnState, activeId)
         let turnDone = actor.getStatus(ENUMS.ActorStatus.TURN_DONE);
         if (turnDone === turnIndex) {
             return true

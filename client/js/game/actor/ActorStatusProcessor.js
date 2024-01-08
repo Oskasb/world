@@ -143,6 +143,26 @@ function updateRigidBodyContact(actor) {
 
 }
 
+function processActorTurnState(actor) {
+
+    let turnState = actor.getStatus(ENUMS.ActorStatus.TURN_STATE)
+
+
+    if (turnState === ENUMS.TurnState.TURN_INIT) {
+        actor.actorText.say(turnState)
+        actor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, true);
+        actor.setStatusKey(ENUMS.ActorStatus.REQUEST_TURN_STATE, ENUMS.TurnState.TURN_MOVE)
+    } else if (turnState === ENUMS.TurnState.TURN_MOVE) {
+    //    console.log("Update TURN_MOVE", actor)
+
+        actor.actorText.say('move me')
+
+    }
+
+
+}
+
+
 class ActorStatusProcessor {
     constructor() {
         this.indicators = {};
@@ -165,6 +185,7 @@ class ActorStatusProcessor {
             poolReturn(indicator);
         }
     }
+
 
 
     indicateSelectionStatus(actor) {
@@ -195,10 +216,13 @@ class ActorStatusProcessor {
         }
 
         if (actor.getStatus(ENUMS.ActorStatus.HAS_TURN)) {
-            actor.actorText.say("My Turn")
+
             if (!this.indicators[ENUMS.ActorStatus.HAS_TURN]) {
                 this.attachIndicator(ENUMS.ActorStatus.HAS_TURN, actor, 0, 6, 0.5, 1.12, 0, 0)
             }
+            processActorTurnState(actor)
+
+
         } else {
             if (this.indicators[ENUMS.ActorStatus.HAS_TURN]) {
                 this.detachIndicator(ENUMS.ActorStatus.HAS_TURN)

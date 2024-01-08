@@ -263,6 +263,7 @@ function spawnServerEncounterActor(spawnInfo, serverGrid) {
     actor.setStatusKey(ENUMS.ActorStatus.ALIGNMENT, ENUMS.Alignment.HOSTILE)
     actor.setStatusKey(ENUMS.ActorStatus.DEAD, false)
     actor.setStatusKey(ENUMS.ActorStatus.ICON_KEY, MATH.getRandomArrayEntry(faces));
+    actor.setStatusKey(ENUMS.ActorStatus.TURN_STATE, ENUMS.TurnState.NO_TURN);
     return actor;
 
 }

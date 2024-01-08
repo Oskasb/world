@@ -40,6 +40,7 @@ function processActivationState(encounter) {
         console.log("Party queue for encounter active, await dynamic encounter activation from ", encounter.memberResponseQueue.length)
     } else if (encounter.getStatus(ENUMS.EncounterStatus.ACTIVATION_STATE) === ENUMS.ActivationState.ACTIVE) {
         // Run the turn sequencer here...
+        /*
         if (Math.random() < 0.1) {
             console.log("Random position enc actor")
             let actor = MATH.getRandomArrayEntry(encounter.encounterActors);
@@ -49,8 +50,8 @@ function processActivationState(encounter) {
             actor.setStatusKey(ENUMS.ActorStatus.POS_Y, pos.y);
             actor.setStatusKey(ENUMS.ActorStatus.POS_Z, pos.z);
             encounter.sendActorStatusUpdate(actor);
-
         }
+        */
         encounter.serverEncounterTurnSequencer.call.updateTurnSequencer()
         encounter.sendEncounterStatusUpdate();
     } else  {
@@ -63,6 +64,8 @@ class ServerEncounter {
     constructor(message, closeEncounterCB) {
 
         console.log("New ServerEncounter", message);
+
+        this.ticks = 0;
 
         this.simpleUpdateMessage = new SimpleUpdateMessage();
 
@@ -165,6 +168,27 @@ class ServerEncounter {
             let message = actor.buildServerActorStatusMessage(ENUMS.ClientRequests.ENCOUNTER_PLAY, ENUMS.ServerCommands.ACTOR_INIT);
             this.call.messageParticipants(message);
         }
+    }
+
+    encounterPrepareFirstTurn() {
+        if (this.ticks < 10) {
+            for (let i = 0; i < this.encounterActors.length; i++) {
+                console.log("Random position enc actor")
+                let actor = this.encounterActors[i];
+                let tile = getRandomWalkableTiles(this.serverGrid.gridTiles, 1)[0];
+                let pos = tile.getPos();
+                actor.setStatusKey(ENUMS.ActorStatus.POS_X, pos.x);
+                actor.setStatusKey(ENUMS.ActorStatus.POS_Y, pos.y);
+                actor.setStatusKey(ENUMS.ActorStatus.POS_Z, pos.z);
+                actor.setStatusKey(ENUMS.ActorStatus.HAS_TURN, false);
+                this.sendActorStatusUpdate(actor);
+            }
+            this.ticks++
+            return false;
+        } else {
+            return true;
+        }
+
     }
 
     rollEncounterCombatantsInitiative() {

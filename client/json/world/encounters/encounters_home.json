@@ -9,7 +9,7 @@
             "config": {
               "encounters": [
                 {
-                  "pos": [-897, 2, 512],
+                  "pos": [-897, 2, 514],
                   "visibility": 1,
                   "grid_id": "grid_12x12",
                   "host_id": "bandit_basic",

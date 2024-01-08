@@ -493,15 +493,6 @@ class RemoteClient {
 
                     let hasSpatial = false;
 
-                    let removeActor = function() {
-                        MATH.splice(this.actors, actor);
-                        MATH.splice(this.remoteIndex, actor.id);
-                        actor.call.remove()
-                    }.bind(this);
-
-                    clearTimeout(actor.closeTimeout);
-                    actor.closeTimeout = setTimeout(removeActor, 9000);
-
                     for (let i = 2; i < msg.length; i++) {
 
 
@@ -518,9 +509,7 @@ class RemoteClient {
 
                         if (key === ENUMS.ActorStatus.EXISTS) {
                             if (status === 0) {
-                                clearTimeout(actor.closeTimeout);
-                                removeActor();
-                                return;
+                                console.log("Actor does not EXIST, handle?")
                             }
                         }
                     }
@@ -549,8 +538,6 @@ class RemoteClient {
             }
         }
 
-        clearTimeout(this.closeTimeout);
-        this.closeTimeout = setTimeout(this.call.timeout, 10000);
 
     }
 
