@@ -51,7 +51,6 @@ class DynamicPath {
         this.tilePath.clearTilePath()
 
 
-
         let tile = startTile;
     //    tile.text.say(""+tile.gridI+":"+tile.gridJ)
     //    GuiAPI.screenText(""+tile.gridI+":"+tile.gridJ, ENUMS.Message.HINT, 1)

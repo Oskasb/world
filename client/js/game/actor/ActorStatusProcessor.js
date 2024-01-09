@@ -235,6 +235,9 @@ class ActorStatusProcessor {
 
             if (actor === GameAPI.getGamePieceSystem().selectedActor) {
                 processSelectedActorTurnState(actor)
+            } else {
+                let turnState = actor.getStatus(ENUMS.ActorStatus.TURN_STATE)
+                actor.actorText.say(turnState)
             }
 
         } else {

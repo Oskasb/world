@@ -3,6 +3,9 @@ import {ENUMS} from "../../../client/js/application/ENUMS.js";
 import {evt} from "../../../client/js/application/event/evt.js";
 import {ServerActor} from "../actor/ServerActor.js";
 
+import {Vector2} from "../../../client/libs/three/math/Vector2.js";
+
+let tempVec2D = new Vector2();
 let gameServer = null;
 let serverMessageProcessor = null;
 let serverActors = [];
@@ -264,11 +267,44 @@ function spawnServerEncounterActor(spawnInfo, serverGrid) {
     actor.setStatusKey(ENUMS.ActorStatus.DEAD, false)
     actor.setStatusKey(ENUMS.ActorStatus.ICON_KEY, MATH.getRandomArrayEntry(faces));
     actor.setStatusKey(ENUMS.ActorStatus.TURN_STATE, ENUMS.TurnState.NO_TURN);
+    actor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, "");
+    actor.setStatusKey(ENUMS.ActorStatus.SELECTED_ACTION, "");
+    actor.setStatusKey(ENUMS.ActorStatus.PATH_POINTS, []);
+    actor.setStatusKey(ENUMS.ActorStatus.SELECTED_DESTINATION, [0, 0, 0]);
     return actor;
 
 }
 
+function getTileForPosition(gridTiles, posVec3) {
+    let selectedTile = null;
+    let nearestTileDist = MATH.bigSafeValue();
+
+    console.log("Find nearest tile", posVec3)
+
+    for (let i = 0; i < gridTiles.length; i++) {
+
+        for (let j = 0; j < gridTiles[i].length; j++) {
+            let tile = gridTiles[i][j];
+            let pos = tile.getPos();
+            tempVec2D.set(pos.x - posVec3.x, pos.z - posVec3.z);
+            let lengthSq = tempVec2D.lengthSq();
+            if (lengthSq < nearestTileDist) {
+                selectedTile = tile;
+                nearestTileDist = lengthSq;
+                if (nearestTileDist === 0) {
+                    console.log("nearestTileDist", nearestTileDist, tile.getPos())
+                    return selectedTile;
+                }
+
+            }
+        }
+    }
+
+    return selectedTile
+}
+
 export {
+    getTileForPosition,
     filterForWalkableTiles,
     getRandomWalkableTiles,
     getServerStamp,

@@ -1,21 +1,20 @@
 import {Status} from "../status/Status.js";
 import {ENUMS} from "../../../client/js/application/ENUMS.js";
-import {ServerActorStatusProcessor} from "./ServerActorStatusProcessor.js";
+import {ServerActorMessageProcessor} from "./ServerActorMessageProcessor.js";
 
 import {ServerActorTurnSequencer} from "./ServerActorTurnSequencer.js";
 import {dispatchMessage, getGameServer, getGameServerWorld} from "../utils/GameServerFunctions.js";
+import {TilePath} from "../../../client/js/game/piece_functions/TilePath.js";
 
 class ServerActor {
     constructor(id, statusValues) {
         this.id = id;
         this.status = new Status(statusValues);
         this.equippedItems = [];
-        this.serverActorStatusProcessor = new ServerActorStatusProcessor()
+        this.serverActorStatusProcessor = new ServerActorMessageProcessor()
         this.turnSequencer = new ServerActorTurnSequencer()
-
+        this.tilePath = new TilePath();
     }
-
-
 
     getStatus(key) {
         return this.status.getStatus(key);
@@ -43,9 +42,7 @@ class ServerActor {
         } else {
             console.log("Item already equipped", serverItem, this)
         }
-
     }
-
 
     updateStatusFromMessage(msg) {
     //    console.log("Actor status message: ", [msg]);

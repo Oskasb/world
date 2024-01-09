@@ -91,7 +91,8 @@ class ServerActorTurnSequencer {
         return this.targetActor;
     }
 
-    startActorTurn(turnEndCallback, turnIndex) {
+    startActorTurn(turnEndCallback, turnIndex, serverEncounter) {
+        this.serverEncounter = serverEncounter;
         this.turnEncBallbacks.push(turnEndCallback);
         this.turnTime = 0;
         this.turnIndex = turnIndex;

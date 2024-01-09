@@ -100,7 +100,7 @@ function passSequencerTurnToActor(encounterSequencer, actor) {
         actor.setStatusKey(ENUMS.ActorStatus.TURN_STATE, ENUMS.TurnState.TURN_INIT);
     } else {
         serverEncounter.setStatusKey(ENUMS.EncounterStatus.ACTIVE_TURN_SIDE, "OPPONENTS");
-        actor.turnSequencer.startActorTurn(encounterSequencer.call.actorTurnEnded, turnIndex);
+        actor.turnSequencer.startActorTurn(encounterSequencer.call.actorTurnEnded, turnIndex, serverEncounter);
     }
 
 }

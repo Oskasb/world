@@ -3,7 +3,7 @@ import {MATH} from "../../../client/js/application/MATH.js";
 import {ServerItem} from "../item/ServerItem.js";
 import {getServerActorByActorId, getServerStamp, registerServerItem} from "../utils/GameServerFunctions.js";
 
-class ServerActorStatusProcessor {
+class ServerActorMessageProcessor {
     constructor() {
 
     }
@@ -85,4 +85,4 @@ class ServerActorStatusProcessor {
 
 }
 
-export { ServerActorStatusProcessor }
+export { ServerActorMessageProcessor }

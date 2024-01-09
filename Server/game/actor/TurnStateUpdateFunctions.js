@@ -1,5 +1,9 @@
 import {unregisterGameServerUpdateCallback} from "../utils/GameServerFunctions.js";
-
+import {
+    getDestination,
+    getStatusPosition
+} from "./ActorStatusFunctions.js";
+import {ENUMS} from "../../../client/js/application/ENUMS.js";
 
 let actorTurnSequencer = null;
 function setSequencer(sequencer) {
@@ -98,15 +102,47 @@ function updateActorApplyAttack(tpf) {
 }
 
 function updateActorTileSelect(tpf) {
+    let sequencer = getSequencer();
 
-    let seqTime = getSequencer().getSequenceProgress()
+    let seqTime = sequencer.getSequenceProgress()
 
     if (seqTime > 1) {
         unregisterGameServerUpdateCallback(updateActorTileSelect)
         getSequencer().call.stateTransition()
         tpf = 0;
+    } else {
+
+        if (seqTime === 0) {
+            let actor = sequencer.actor;
+            let serverEncounter = sequencer.serverEncounter;
+            let serverGrid = serverEncounter.serverGrid;
+            let gridTiles = serverGrid.gridTiles;
+
+            let destinationPos = getDestination(actor)
+            let destinationTile = serverGrid.getTileByPos(destinationPos);
+
+            let startTile = serverGrid.getTileByPos(getStatusPosition(actor));
+
+            console.log("From To: ", startTile, destinationTile);
+            let tilePath = actor.tilePath;
+            serverGrid.selectTilesBeneathPath(startTile, destinationTile, gridTiles, tilePath);
+            let pathTiles = tilePath.pathTiles;
+            let pathPoints = actor.getStatus(ENUMS.ActorStatus.PATH_POINTS);
+
+            while (pathPoints.length) {
+                pathPoints.pop()
+            }
+
+            for (let i = 0; i < pathTiles.length; i++) {
+                let gridPoint = pathTiles[i].gridPoint;
+                pathPoints.push(gridPoint.point);
+            }
+            console.log("Set path points: ", pathPoints, tilePath);
+            serverEncounter.sendActorStatusUpdate(actor);
+        }
     }
-    getSequencer().advanceSequenceProgress(tpf);
+
+    sequencer.advanceSequenceProgress(tpf);
 }
 
 function updateActorClose(tpf) {
