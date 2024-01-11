@@ -1,5 +1,4 @@
 import {Vector3} from "../../../libs/three/math/Vector3.js";
-import {ActorStatus} from "../actor/ActorStatus.js";
 
 let tempVec = new Vector3()
 let effectEvent = {

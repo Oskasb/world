@@ -7,7 +7,8 @@ import {
     updateActorSelectAttack,
     updateActorApplyAttack,
     updateActorClose,
-    setSequencer
+    setSequencer,
+    updateActorTurnMove
 } from "./TurnStateUpdateFunctions.js";
 import {
     getRandomWalkableTiles,
@@ -29,6 +30,29 @@ function turnInit(actor, turnIndex) {
     let serverEncounter = sequencer.serverEncounter;
     setSequencer(sequencer)
     registerGameServerUpdateCallback(updateActorInit)
+}
+
+function turnTileSelect(actor, turnIndex) {
+    console.log("turnTileSelect", turnIndex)
+    actor.setStatusKey(ENUMS.ActorStatus.TURN_STATE, ENUMS.TurnState.TILE_SELECT)
+    let sequencer = actor.turnSequencer
+    let serverEncounter = sequencer.serverEncounter;
+    let serverGrid = serverEncounter.serverGrid;
+    let gridTiles = serverGrid.gridTiles;
+
+    let tile = getRandomWalkableTiles(gridTiles, 1)[0];
+    // console.log("Destination tile:", tile)
+    let pos = tile.getPos();
+    // console.log("Destination pos:", pos, "Actor Pos", getStatusPosition(actor))
+    setDestination(actor, pos);
+
+    registerGameServerUpdateCallback(updateActorTileSelect)
+}
+
+function turnMove(actor, turnIndex) {
+    console.log("turnMove", turnIndex)
+    actor.setStatusKey(ENUMS.ActorStatus.TURN_STATE, ENUMS.TurnState.TURN_MOVE)
+    registerGameServerUpdateCallback(updateActorTurnMove)
 }
 
 function turnTargetSelect(actor, turnIndex) {
@@ -86,37 +110,6 @@ function turnApplyAttack(actor, turnIndex) {
 }
 
 
-function turnTileSelect(actor, turnIndex) {
-    console.log("turnTileSelect", turnIndex)
-    actor.setStatusKey(ENUMS.ActorStatus.TURN_STATE, ENUMS.TurnState.TILE_SELECT)
-    let sequencer = actor.turnSequencer
-    let serverEncounter = sequencer.serverEncounter;
-    let serverGrid = serverEncounter.serverGrid;
-    let gridTiles = serverGrid.gridTiles;
-
-    let tile = getRandomWalkableTiles(gridTiles, 1)[0];
-    // console.log("Destination tile:", tile)
-    let pos = tile.getPos();
-    // console.log("Destination pos:", pos, "Actor Pos", getStatusPosition(actor))
-    setDestination(actor, pos);
-
-    registerGameServerUpdateCallback(updateActorTileSelect)
-}
-
-function turnMove(actor, turnIndex) {
-    console.log("turnMove", turnIndex)
-    actor.setStatusKey(ENUMS.ActorStatus.TURN_STATE, ENUMS.TurnState.TURN_MOVE)
-    let sequencer = actor.turnSequencer
-    let serverEncounter = sequencer.serverEncounter;
- //   let targetPos = actor.getGameWalkGrid().getTargetPosition()
-  //  actor.actorText.say('Moving '+Math.round(targetPos.x)+' '+Math.round(targetPos.z))
-
-  //  let walkGrid = actor.getGameWalkGrid();
-   // actor.prepareTilePath(targetPos);
-    //    walkGrid.applySelectedPath(null, sequencer.call.stateTransition)
-
-//   actor.moveActorOnGridTo(targetPos, sequencer.call.stateTransition)
-}
 
 function turnClose(actor, turnIndex) {
     console.log("turnClose", turnIndex)
@@ -128,8 +121,11 @@ function turnClose(actor, turnIndex) {
 
 function cancelTurnProcess() {
     unregisterGameServerUpdateCallback(updateActorInit)
-    unregisterGameServerUpdateCallback(updateActorTargetSelect)
     unregisterGameServerUpdateCallback(updateActorTileSelect)
+    unregisterGameServerUpdateCallback(updateActorTurnMove)
+    unregisterGameServerUpdateCallback(updateActorTargetSelect)
+    unregisterGameServerUpdateCallback(updateActorSelectAttack)
+    unregisterGameServerUpdateCallback(updateActorApplyAttack)
     unregisterGameServerUpdateCallback(updateActorClose)
 }
 

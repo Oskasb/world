@@ -26,6 +26,69 @@ function updateActorInit(tpf) {
     getSequencer().advanceSequenceProgress(tpf*2);
 }
 
+function updateActorTileSelect(tpf) {
+    let sequencer = getSequencer();
+
+    let seqTime = sequencer.getSequenceProgress()
+
+    if (seqTime > 1) {
+        unregisterGameServerUpdateCallback(updateActorTileSelect)
+        getSequencer().call.stateTransition()
+        tpf = 0;
+    } else {
+        let actor = sequencer.actor;
+        let tilePath = actor.tilePath;
+        let serverEncounter = sequencer.serverEncounter;
+        let pathTiles = tilePath.pathTiles;
+        let pathPoints = actor.getStatus(ENUMS.ActorStatus.PATH_POINTS);
+
+        if (seqTime === 0) {
+            let serverGrid = serverEncounter.serverGrid;
+            let gridTiles = serverGrid.gridTiles;
+            let destinationPos = getDestination(actor)
+            let destinationTile = serverGrid.getTileByPos(destinationPos);
+            let startTile = serverGrid.getTileByPos(getStatusPosition(actor));
+            console.log("From To: ", startTile, destinationTile);
+            serverGrid.selectTilesBeneathPath(startTile, destinationTile, gridTiles, tilePath);
+            actor.serverActorPathWalker.setPathPoints(pathPoints);
+        }
+
+
+        let tileCount = pathTiles.length;
+
+        while (pathPoints.length) {
+            pathPoints.pop()
+        }
+
+        let drawTiles = Math.ceil(tileCount * seqTime);
+
+        for (let i = 0; i < drawTiles; i++) {
+            let gridPoint = pathTiles[i].gridPoint;
+            pathPoints.push(gridPoint.point);
+        }
+    //    console.log("Set path points: ", pathPoints, tilePath);
+        serverEncounter.sendActorStatusUpdate(actor);
+
+    }
+
+    sequencer.advanceSequenceProgress(tpf);
+}
+
+function updateActorTurnMove(tpf) {
+
+    let actor = sequencer.actor;
+    let tileCount = actor.serverActorPathWalker.tileCount();
+    let seqTime = getSequencer().getSequenceProgress()
+    if (seqTime > 1) {
+        unregisterGameServerUpdateCallback(updateActorTurnMove)
+        getSequencer().call.stateTransition()
+        tpf = 0;
+    } else {
+        actor.serverActorPathWalker.walkPath(seqTime);
+    }
+    getSequencer().advanceSequenceProgress(tpf/tileCount);
+}
+
 function updateActorTargetSelect(tpf) {
 
     let seqTime = getSequencer().getSequenceProgress()
@@ -101,49 +164,6 @@ function updateActorApplyAttack(tpf) {
 
 }
 
-function updateActorTileSelect(tpf) {
-    let sequencer = getSequencer();
-
-    let seqTime = sequencer.getSequenceProgress()
-
-    if (seqTime > 1) {
-        unregisterGameServerUpdateCallback(updateActorTileSelect)
-        getSequencer().call.stateTransition()
-        tpf = 0;
-    } else {
-
-        if (seqTime === 0) {
-            let actor = sequencer.actor;
-            let serverEncounter = sequencer.serverEncounter;
-            let serverGrid = serverEncounter.serverGrid;
-            let gridTiles = serverGrid.gridTiles;
-
-            let destinationPos = getDestination(actor)
-            let destinationTile = serverGrid.getTileByPos(destinationPos);
-
-            let startTile = serverGrid.getTileByPos(getStatusPosition(actor));
-
-            console.log("From To: ", startTile, destinationTile);
-            let tilePath = actor.tilePath;
-            serverGrid.selectTilesBeneathPath(startTile, destinationTile, gridTiles, tilePath);
-            let pathTiles = tilePath.pathTiles;
-            let pathPoints = actor.getStatus(ENUMS.ActorStatus.PATH_POINTS);
-
-            while (pathPoints.length) {
-                pathPoints.pop()
-            }
-
-            for (let i = 0; i < pathTiles.length; i++) {
-                let gridPoint = pathTiles[i].gridPoint;
-                pathPoints.push(gridPoint.point);
-            }
-            console.log("Set path points: ", pathPoints, tilePath);
-            serverEncounter.sendActorStatusUpdate(actor);
-        }
-    }
-
-    sequencer.advanceSequenceProgress(tpf);
-}
 
 function updateActorClose(tpf) {
     let seqTime = getSequencer().getSequenceProgress()
@@ -160,10 +180,11 @@ function updateActorClose(tpf) {
 export {
     setSequencer,
     updateActorInit,
+    updateActorTileSelect,
+    updateActorTurnMove,
     updateActorTargetSelect,
     updateActorEvaluateTarget,
     updateActorSelectAttack,
     updateActorApplyAttack,
-    updateActorTileSelect,
     updateActorClose
 }

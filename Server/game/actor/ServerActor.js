@@ -1,10 +1,11 @@
 import {Status} from "../status/Status.js";
 import {ENUMS} from "../../../client/js/application/ENUMS.js";
 import {ServerActorMessageProcessor} from "./ServerActorMessageProcessor.js";
-
+import {ServerActorPathWalker} from "./ServerActorPathWalker.js";
 import {ServerActorTurnSequencer} from "./ServerActorTurnSequencer.js";
 import {dispatchMessage, getGameServer, getGameServerWorld} from "../utils/GameServerFunctions.js";
 import {TilePath} from "../../../client/js/game/piece_functions/TilePath.js";
+
 
 class ServerActor {
     constructor(id, statusValues) {
@@ -12,6 +13,7 @@ class ServerActor {
         this.status = new Status(statusValues);
         this.equippedItems = [];
         this.serverActorStatusProcessor = new ServerActorMessageProcessor()
+        this.serverActorPathWalker = new ServerActorPathWalker();
         this.turnSequencer = new ServerActorTurnSequencer()
         this.tilePath = new TilePath();
     }
