@@ -83,6 +83,7 @@ class ServerEncounterTurnSequencer {
         let actorTurnEnded = function() {
             this.turnTime = 0;
             this.activeActor.setStatusKey(ENUMS.ActorStatus.TURN_STATE, ENUMS.TurnState.NO_TURN)
+
             this.activeActor = null;
         }.bind(this)
 
@@ -141,9 +142,6 @@ class ServerEncounterTurnSequencer {
     }
 
     addEncounterActor(actor) {
-
-        actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_BATTLE);
-        actor.setStatusKey(ENUMS.ActorStatus.IN_COMBAT, true);
 
         this.actors.push(actor);
 

@@ -101,6 +101,11 @@ function processActorCombatStatus(actor) {
         if (hp < 1) {
             actor.setStatusKey(ENUMS.ActorStatus.DEAD, true);
         }
+
+        if (actor.getStatus(ENUMS.ActorStatus.HAS_TURN) === false) {
+            actor.actorText.say(actor.getStatus(ENUMS.ActorStatus.TURN_DONE))
+        }
+
     } else {
         if (actor.getStatus(ENUMS.ActorStatus.DEAD) === false)
             actor.setStatusKey(ENUMS.ActorStatus.HP, actor.getStatus(ENUMS.ActorStatus.MAX_HP));

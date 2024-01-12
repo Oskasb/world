@@ -14,6 +14,7 @@ import {getRandomWalkableTiles} from "../utils/GameServerFunctions.js";
 import {SimpleUpdateMessage} from "../utils/SimpleUpdateMessage.js";
 
 import {ServerEncounterTurnSequencer} from "./ServerEncounterTurnSequencer.js";
+import {enterEncounter} from "../actor/ActorStatusFunctions.js";
 
 let actorCount = 0;
 let actorMessage = {
@@ -201,16 +202,16 @@ class ServerEncounter {
             this.ticks++
             return false;
         } else {
+            this.setStatusKey(ENUMS.EncounterStatus.TURN_INDEX, 0);
             return true;
         }
 
     }
 
-    rollEncounterCombatantsInitiative() {
-          for (let i = 0; i < this.combatants.length; i++) {
-              this.combatants[i].rollInitiative();
-              this.serverEncounterTurnSequencer.addEncounterActor(this.combatants[i])
-          }
+    enrollEncounterCombatants() {
+        for (let i = 0; i < this.combatants.length; i++) {
+            enterEncounter(this, this.combatants[i]);
+        }
     }
 
     setStatusKey(key, status) {

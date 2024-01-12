@@ -1,6 +1,6 @@
 import {ENUMS} from "../../../client/js/application/ENUMS.js";
 import {MATH} from "../../../client/js/application/MATH.js";
-import {getStatusPosition} from "../actor/ActorStatusFunctions.js";
+import {endEncounterTurn, getStatusPosition, startEncounterTurn} from "../actor/ActorStatusFunctions.js";
 
 function getNextActorInTurnSequence(encounterSequencer) {
     let serverEncounter = encounterSequencer.serverEncounter;
@@ -50,72 +50,25 @@ function sequencerTurnActiveActor(encounterSequencer) {
 }
 
 function passSequencerTurnToActor(encounterSequencer, actor) {
+
     let serverEncounter = encounterSequencer.serverEncounter;
-    let turnIndex = serverEncounter.getStatus(ENUMS.EncounterStatus.TURN_INDEX);
     let activeId = serverEncounter.getStatus(ENUMS.EncounterStatus.HAS_TURN_ACTOR);
     let priorActor;
     if (activeId === '') {
         priorActor = null;
     } else {
         priorActor = serverEncounter.getServerActorById(activeId);
-    }
-
-
-    if (priorActor === actor) {
-        console.log("Pass Turn back to prior", encounterSequencer, actor);
-    //    actor.setStatusKey(ENUMS.ActorStatus.TURN_DONE, turnIndex)
-    //    encounterSequencer.activeActor = null;
-        // encounterSequencer.call.actorTurnEnded();
-        return;
-    }
-
-    if (priorActor) {
-        priorActor.setStatusKey(ENUMS.ActorStatus.HAS_TURN, false);
-        priorActor.setStatusKey(ENUMS.ActorStatus.TURN_DONE, turnIndex);
-        priorActor.setStatusKey(ENUMS.ActorStatus.TURN_STATE, ENUMS.TurnState.NO_TURN);
-        serverEncounter.sendActorStatusUpdate(priorActor);
         console.log("pass turn to",  actor.id, "from", priorActor.id)
-    } else {
-
-        if (turnIndex === 0) {
-            console.log("No Actor first turn, assuming new encounter started")
-            let setupDone = serverEncounter.encounterPrepareFirstTurn()
-            if (setupDone === false) {
-                return;
-            }
-        } else {
-            console.log("No prior Actor, assuming new turn started")
-        }
+        endEncounterTurn(serverEncounter, priorActor);
     }
 
-    encounterSequencer.activeActor = actor;
-    serverEncounter.setStatusKey(ENUMS.EncounterStatus.HAS_TURN_ACTOR, actor.id);
-    actor.setStatusKey(ENUMS.ActorStatus.HAS_TURN, true);
-    actor.setStatusKey(ENUMS.ActorStatus.TURN_STATE, ENUMS.TurnState.TURN_INIT);
-    actor.setStatusKey(ENUMS.ActorStatus.HAS_TURN_INDEX, turnIndex);
-
+    startEncounterTurn(serverEncounter, actor);
 
     if (actor.getStatus(ENUMS.ActorStatus.DEAD)) {
         console.log("dead actor, drop turn",  actor.id)
         encounterSequencer.call.actorTurnEnded();
-        return;
     }
-
-    let actorIsPlayer = serverEncounter.actorIsPlayer(actor)
-
-    if (actorIsPlayer) {
-        console.log("Start player actor turn", actor)
-        serverEncounter.setStatusKey(ENUMS.EncounterStatus.ACTIVE_TURN_SIDE, "PARTY PLAYER");
-
-        actor.setStatusKey(ENUMS.ActorStatus.HAS_TURN, true);
-        actor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, true);
-        actor.setStatusKey(ENUMS.ActorStatus.HAS_TURN_INDEX, turnIndex)
-        actor.setStatusKey(ENUMS.ActorStatus.TURN_STATE, ENUMS.TurnState.TURN_INIT);
-    } else {
-        serverEncounter.setStatusKey(ENUMS.EncounterStatus.ACTIVE_TURN_SIDE, "OPPONENTS");
-        actor.turnSequencer.startActorTurn(encounterSequencer.call.actorTurnEnded, turnIndex, serverEncounter);
-    }
-
+    
 }
 
 function checkActorTurnDone(encounterSequencer, actor) {
