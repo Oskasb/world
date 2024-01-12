@@ -53,12 +53,28 @@ function passSequencerTurnToActor(encounterSequencer, actor) {
     let serverEncounter = encounterSequencer.serverEncounter;
     let turnIndex = serverEncounter.getStatus(ENUMS.EncounterStatus.TURN_INDEX);
     let activeId = serverEncounter.getStatus(ENUMS.EncounterStatus.HAS_TURN_ACTOR);
-    let priorActor = serverEncounter.getServerActorById(activeId);
+    let priorActor;
+    if (activeId === '') {
+        priorActor = null;
+    } else {
+        priorActor = serverEncounter.getServerActorById(activeId);
+    }
+
+
+    if (priorActor === actor) {
+        console.log("Pass Turn back to prior", encounterSequencer, actor);
+    //    actor.setStatusKey(ENUMS.ActorStatus.TURN_DONE, turnIndex)
+    //    encounterSequencer.activeActor = null;
+        // encounterSequencer.call.actorTurnEnded();
+        return;
+    }
 
     if (priorActor) {
         priorActor.setStatusKey(ENUMS.ActorStatus.HAS_TURN, false);
         priorActor.setStatusKey(ENUMS.ActorStatus.TURN_DONE, turnIndex);
-        actor.setStatusKey(ENUMS.ActorStatus.TURN_STATE, ENUMS.TurnState.NO_TURN);
+        priorActor.setStatusKey(ENUMS.ActorStatus.TURN_STATE, ENUMS.TurnState.NO_TURN);
+        serverEncounter.sendActorStatusUpdate(priorActor);
+        console.log("pass turn to",  actor.id, "from", priorActor.id)
     } else {
 
         if (turnIndex === 0) {
@@ -78,11 +94,6 @@ function passSequencerTurnToActor(encounterSequencer, actor) {
     actor.setStatusKey(ENUMS.ActorStatus.TURN_STATE, ENUMS.TurnState.TURN_INIT);
     actor.setStatusKey(ENUMS.ActorStatus.HAS_TURN_INDEX, turnIndex);
 
-    if (priorActor) {
-        serverEncounter.sendActorStatusUpdate(priorActor);
-        console.log("pass turn to",  actor.id, "from", priorActor.id)
-    }
-
 
     if (actor.getStatus(ENUMS.ActorStatus.DEAD)) {
         console.log("dead actor, drop turn",  actor.id)
@@ -93,6 +104,7 @@ function passSequencerTurnToActor(encounterSequencer, actor) {
     let actorIsPlayer = serverEncounter.actorIsPlayer(actor)
 
     if (actorIsPlayer) {
+        console.log("Start player actor turn", actor)
         serverEncounter.setStatusKey(ENUMS.EncounterStatus.ACTIVE_TURN_SIDE, "PARTY PLAYER");
 
         actor.setStatusKey(ENUMS.ActorStatus.HAS_TURN, true);

@@ -73,6 +73,7 @@ class ServerActorMessageProcessor {
                     }
 
                     if (statusKey === ENUMS.ActorStatus.REQUEST_TURN_STATE) {
+                        console.log("REQUEST_TURN_STATE", status.getStatus(ENUMS.ActorStatus.ACTOR_ID), newValue)
                         this.processTurnStateRequest(status, newValue);
                     }
 

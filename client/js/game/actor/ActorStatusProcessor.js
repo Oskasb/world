@@ -153,6 +153,7 @@ function processSelectedActorTurnState(actor) {
         actor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, true);
         actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_BATTLE)
         actor.setStatusKey(ENUMS.ActorStatus.REQUEST_TURN_STATE, ENUMS.TurnState.TURN_MOVE)
+    //    actor.setStatusKey(ENUMS.ActorStatus.TURN_STATE, ENUMS.TurnState.TURN_MOVE)
     } else if (turnState === ENUMS.TurnState.TURN_MOVE) {
     //    console.log("Update TURN_MOVE", actor)
 

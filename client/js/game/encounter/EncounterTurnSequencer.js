@@ -137,65 +137,6 @@ class EncounterTurnSequencer {
     }
 
     updateTurnSequencer() {
-    //    console.log("Move turn sequencer to server")
-        return;
-
-        updateEncounterActorStatus(this.actors);
-
-        if (playersEngaged === 0) {
-            return;
-        }
-
-        let actor = this.actors[this.turnActorIndex];
-        if (this.activeActor !== actor) {
-            setStatusKey(ENUMS.EncounterStatus.TURN_INDEX, this.turnIndex)
-            this.activeActor = actor;
-            setStatusKey(ENUMS.EncounterStatus.HAS_TURN_ACTOR, actor.id);
-
-            if (actor.getStatus(ENUMS.ActorStatus.DEAD)) {
-                this.call.turnEnded();
-                return;
-            }
-
-            if (actor.isPlayerActor()) {
-                setStatusKey(ENUMS.EncounterStatus.ACTIVE_TURN_SIDE, "HOST");
-                GuiAPI.screenText("Your turn", ENUMS.Message.HINT, 3)
-                actor.startPlayerTurn(this.call.turnEnded, this.turnIndex)
-            } else if (GameAPI.getGamePieceSystem().isPlayerPartyActor(actor)) {
-                setStatusKey(ENUMS.EncounterStatus.ACTIVE_TURN_SIDE, "PARTY PLAYER");
-                GuiAPI.screenText("Party Turn", ENUMS.Message.HINT, 3)
-            } else {
-                setStatusKey(ENUMS.EncounterStatus.ACTIVE_TURN_SIDE, "OPPONENTS");
-            //    console.log("HOST: Opponent turn start")
-                GuiAPI.screenText("Hosting Enemy ", ENUMS.Message.SYSTEM, 3)
-                actor.getActorTurnSequencer().startActorTurn(this.call.turnEnded, this.turnIndex);
-            }
-
-        } else {
-
-            if (actor.call.getRemote()) {
-
-                let hasTurnId = getStatus(ENUMS.EncounterStatus.HAS_TURN_ACTOR);
-
-                if (hasTurnId === actor.id) {
-                    let turnDone = actor.getStatus(ENUMS.ActorStatus.TURN_DONE);
-                    if (turnDone === this.turnIndex) {
-                        GuiAPI.screenText("REMOTE DONE",  ENUMS.Message.SYSTEM, 2.2)
-
-                    //    console.log("Detect remote player turn done")
-                        this.call.turnEnded();
-                        return;
-                    }
-                }
-            }
-        }
-
-        if (actor) {
-            setStatusKey(ENUMS.EncounterStatus.TURN_ACTOR_INITIATIVE, actor.getStatus(ENUMS.ActorStatus.SEQUENCER_INITIATIVE))
-            setStatusKey(ENUMS.EncounterStatus.TURN_ACTOR_TARGET, actor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET))
-            setStatusKey(ENUMS.EncounterStatus.TURN_ACTOR_ACTION, actor.getStatus(ENUMS.ActorStatus.SELECTED_ACTION))
-            setStatusKey(ENUMS.EncounterStatus.TURN_ACTION_STATE, actor.getStatus(ENUMS.ActorStatus.ACTION_STATE_KEY))
-        }
 
     }
 

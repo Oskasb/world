@@ -82,6 +82,7 @@ class ServerEncounterTurnSequencer {
 
         let actorTurnEnded = function() {
             this.turnTime = 0;
+            this.activeActor.setStatusKey(ENUMS.ActorStatus.TURN_STATE, ENUMS.TurnState.NO_TURN)
             this.activeActor = null;
         }.bind(this)
 

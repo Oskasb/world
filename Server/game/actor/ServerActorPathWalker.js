@@ -48,12 +48,14 @@ class ServerActorPathWalker {
                 pathPoints.shift();
                 serverEncounter.sendActorStatusUpdate(actor);
             }
-
-        } else {
+            return;
+        } else if (pathTiles.length === 1) {
             stopAtPos(actor, pathTiles[0].getPos())
+        }
+
             MATH.callAndClearAll(this.pathCompletedCallbacks);
             serverEncounter.sendActorStatusUpdate(actor);
-        }
+
 
 
     }
