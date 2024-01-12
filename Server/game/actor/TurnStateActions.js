@@ -17,6 +17,7 @@ import {
 } from "../utils/GameServerFunctions.js";
 
 import {ENUMS} from "../../../client/js/application/ENUMS.js";
+import {MATH} from "../../../client/js/application/MATH.js";
 import {getStatusPosition, setDestination} from "./ActorStatusFunctions.js";
 
 let nullTurn = -1
@@ -60,11 +61,7 @@ function turnTargetSelect(actor, turnIndex) {
     let sequencer = actor.turnSequencer
     let serverEncounter = sequencer.serverEncounter;
     actor.setStatusKey(ENUMS.ActorStatus.TURN_STATE, ENUMS.TurnState.TARGET_SELECT)
-    if (turnIndex === nullTurn) {
-        sequencer.call.stateTransition()
-        return;
-    }
-    actor.actorText.say('Selecting target')
+
     registerGameServerUpdateCallback(updateActorTargetSelect)
 
 }
@@ -74,11 +71,7 @@ function turnEvaluateTarget(actor, turnIndex) {
     actor.setStatusKey(ENUMS.ActorStatus.TURN_STATE, ENUMS.TurnState.TARGET_EVALUATE)
     let sequencer = actor.turnSequencer
     let serverEncounter = sequencer.serverEncounter;
-    if (turnIndex === nullTurn) {
-        sequencer.call.stateTransition()
-        return;
-    }
-    actor.actorText.say('Evaluate target')
+
     registerGameServerUpdateCallback(updateActorEvaluateTarget)
 }
 
@@ -87,11 +80,7 @@ function turnSelectAttack(actor, turnIndex) {
     actor.setStatusKey(ENUMS.ActorStatus.TURN_STATE, ENUMS.TurnState.ACTION_SELECT)
     let sequencer = actor.turnSequencer
     let serverEncounter = sequencer.serverEncounter;
-    if (turnIndex === nullTurn) {
-        sequencer.call.stateTransition()
-        return;
-    }
-//    actor.actorText.say('Selecting action')
+
     registerGameServerUpdateCallback(updateActorSelectAttack)
 }
 
@@ -100,11 +89,7 @@ function turnApplyAttack(actor, turnIndex) {
     actor.setStatusKey(ENUMS.ActorStatus.TURN_STATE, ENUMS.TurnState.ACTION_APPLY)
     let sequencer = actor.turnSequencer
     let serverEncounter = sequencer.serverEncounter;
-    if (turnIndex === nullTurn) {
-        sequencer.call.stateTransition()
-        return;
-    }
- //   actor.actorText.say('Apply action')
+
     registerGameServerUpdateCallback(updateActorApplyAttack)
 
 }

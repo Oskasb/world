@@ -131,6 +131,19 @@ function checkActorTurnDone(encounterSequencer, actor) {
 
 }
 
+
+function getActorEncounterTargetCandidates(encounterSequencer, actor) {
+    MATH.emptyArray(actorList);
+    encounterSequencer.getOpposingActors(actor, actorList);
+    return actorList;
+}
+
+function selectActorEncounterTarget(encounterSequencer, actor, candidates) {
+    let target = MATH.getRandomArrayEntry(candidates);
+    return target;
+}
+
+
 export {
     sequencerTurnActiveActor,
     getNextActorInTurnSequence,

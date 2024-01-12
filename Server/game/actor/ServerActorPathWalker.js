@@ -10,7 +10,7 @@ class ServerActorPathWalker {
     }
 
     setPathPoints(points) {
-        MATH.copyArrayValues(points, this.setPathPoints)
+        MATH.copyArrayValues(points, this.pathPoints)
     }
 
     walkPath(progress) {

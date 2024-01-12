@@ -16,25 +16,25 @@ function getSequencer() {
 }
 
 function updateActorInit(tpf) {
-    let seqTime = getSequencer().getSequenceProgress()
+    let stepProgress = getSequencer().getSequenceProgress()
 
-    if (seqTime > 1) {
+    if (stepProgress > 1) {
         unregisterGameServerUpdateCallback(updateActorInit)
         getSequencer().call.stateTransition()
-        tpf = 0;
+    } else {
+        getSequencer().advanceSequenceProgress(tpf*2);
     }
-    getSequencer().advanceSequenceProgress(tpf*2);
+
 }
 
 function updateActorTileSelect(tpf) {
     let sequencer = getSequencer();
 
-    let seqTime = sequencer.getSequenceProgress()
+    let stepProgress = sequencer.getSequenceProgress()
 
-    if (seqTime > 1) {
+    if (stepProgress > 1) {
         unregisterGameServerUpdateCallback(updateActorTileSelect)
         getSequencer().call.stateTransition()
-        tpf = 0;
     } else {
         let actor = sequencer.actor;
         let tilePath = actor.tilePath;
@@ -42,7 +42,7 @@ function updateActorTileSelect(tpf) {
         let pathTiles = tilePath.pathTiles;
         let pathPoints = actor.getStatus(ENUMS.ActorStatus.PATH_POINTS);
 
-        if (seqTime === 0) {
+        if (stepProgress === 0) {
             let serverGrid = serverEncounter.serverGrid;
             let gridTiles = serverGrid.gridTiles;
             let destinationPos = getDestination(actor)
@@ -60,7 +60,7 @@ function updateActorTileSelect(tpf) {
             pathPoints.pop()
         }
 
-        let drawTiles = Math.ceil(tileCount * seqTime);
+        let drawTiles = Math.ceil(tileCount * stepProgress);
 
         for (let i = 0; i < drawTiles; i++) {
             let gridPoint = pathTiles[i].gridPoint;
@@ -68,113 +68,119 @@ function updateActorTileSelect(tpf) {
         }
     //    console.log("Set path points: ", pathPoints, tilePath);
         serverEncounter.sendActorStatusUpdate(actor);
-
+        sequencer.advanceSequenceProgress(tpf);
     }
 
-    sequencer.advanceSequenceProgress(tpf);
+
 }
 
 function updateActorTurnMove(tpf) {
-
+    let sequencer = getSequencer();
     let actor = sequencer.actor;
     let tileCount = actor.serverActorPathWalker.tileCount();
-    let seqTime = getSequencer().getSequenceProgress()
-    if (seqTime > 1) {
+    let stepProgress = getSequencer().getSequenceProgress()
+    if (stepProgress > 1) {
         unregisterGameServerUpdateCallback(updateActorTurnMove)
         getSequencer().call.stateTransition()
-        tpf = 0;
     } else {
-        actor.serverActorPathWalker.walkPath(seqTime);
+        actor.serverActorPathWalker.walkPath(stepProgress);
+        getSequencer().advanceSequenceProgress(tpf/tileCount);
     }
-    getSequencer().advanceSequenceProgress(tpf/tileCount);
+
 }
 
 function updateActorTargetSelect(tpf) {
 
-    let seqTime = getSequencer().getSequenceProgress()
-    if (seqTime > 1) {
+    let stepProgress = getSequencer().getSequenceProgress()
+    if (stepProgress > 1) {
 
         unregisterGameServerUpdateCallback(updateActorTargetSelect)
         getSequencer().call.stateTransition()
         tpf = 0;
+    } else {
+        console.log("Updat Target Select", stepProgress, tpf);
+
+        getSequencer().advanceSequenceProgress(tpf*0.7);
     }
-    getSequencer().advanceSequenceProgress(tpf*0.7);
+
+
 }
 
 
 function updateActorEvaluateTarget(tpf) {
 
-    let seqTime = getSequencer().getSequenceProgress()
+    let stepProgress = getSequencer().getSequenceProgress()
 
-    if (seqTime > 1) {
+    if (stepProgress > 1) {
         unregisterGameServerUpdateCallback(updateActorEvaluateTarget)
         getSequencer().call.stateTransition()
         tpf = 0;
+    } else {
+        getSequencer().advanceSequenceProgress(tpf * 0.75);
     }
 
-    getSequencer().advanceSequenceProgress(tpf * 0.75);
+
 }
 
 function updateActorSelectAttack(tpf) {
 
  //   let actor = getSequencer().getGameActor()
-    let seqTime = getSequencer().getSequenceProgress()
+    let stepProgress = getSequencer().getSequenceProgress()
 
  //   evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:actor.getSpatialPosition(), to:getSequencer().getTargetActor().getSpatialPosition(), color:'RED'});
 
-    if (seqTime === 0) {
+    if (stepProgress === 0) {
  //       getSequencer().selectedAttack = attackSelector.selectActorAction(actor)
     }
 
 
  //   let attack = getSequencer().selectedAttack;
-    let holdTime = attack.getStepDuration('selected')
+ //   let holdTime = attack.getStepDuration('selected')
 
  //   let target = getSequencer().getTargetActor();
  //   attack.setActionTargetId(target.id);
  //   viewPrecastAction(getSequencer(), target)
 
-    if (seqTime > holdTime) {
+    if (stepProgress > 1) {
         unregisterGameServerUpdateCallback(updateActorSelectAttack)
         getSequencer().call.stateTransition()
-        tpf = 0;
+    } else {
+        getSequencer().advanceSequenceProgress(tpf);
     }
 
-    getSequencer().advanceSequenceProgress(tpf);
+
 }
 
 
 function updateActorApplyAttack(tpf) {
 
-    let actor = getSequencer().getGameActor()
-    let target = getSequencer().getTargetActor();
-    let seqTime = getSequencer().getSequenceProgress()
+ //   let actor = getSequencer().getGameActor()
+ //   let target = getSequencer().getTargetActor();
+    let stepProgress = getSequencer().getSequenceProgress()
 
-    let attack = getSequencer().selectedAttack;
+ //   let attack = getSequencer().selectedAttack;
 
-    if (seqTime === 0) {
-
+    if (stepProgress > 1) {
         unregisterGameServerUpdateCallback(updateActorApplyAttack)
-
-        attack.activateAttack(getSequencer().call.stateTransition)
-        tpf = 0;
+  //      attack.activateAttack(getSequencer().call.stateTransition)
+        getSequencer().call.stateTransition()
+    } else {
+        getSequencer().advanceSequenceProgress(tpf * 1.5);
     }
-
-    getSequencer().advanceSequenceProgress(tpf * 1.5);
 
 }
 
 
 function updateActorClose(tpf) {
-    let seqTime = getSequencer().getSequenceProgress()
+    let stepProgress = getSequencer().getSequenceProgress()
 
-    if (seqTime > 1) {
+    if (stepProgress > 1) {
         unregisterGameServerUpdateCallback(updateActorClose)
         getSequencer().call.stateTransition()
-        tpf = 0;
+    } else {
+        getSequencer().advanceSequenceProgress(tpf*1.2);
     }
 
-    getSequencer().advanceSequenceProgress(tpf*1.2);
 }
 
 export {
