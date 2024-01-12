@@ -114,9 +114,24 @@ class ServerEncounter {
             dispatchPartyMessage(message,  this.partyMembers);
         }.bind(this)
 
+
+        let getOpposingActors = function(actor, actorList) {
+            let alignment = actor.getStatus(ENUMS.ActorStatus.ALIGNMENT);
+
+            for (let i = 0; i < this.combatants.length; i++) {
+                let encActor = this.combatants[i];
+                if (encActor.getStatus(ENUMS.ActorStatus.DEAD) === false) {
+                    if (encActor.getStatus(ENUMS.ActorStatus.ALIGNMENT) !== alignment) {
+                        actorList.push(encActor);
+                    }
+                }
+            }
+        }.bind(this)
+
         this.call = {
             updateServerEncounter:updateServerEncounter,
-            messageParticipants:messageParticipants
+            messageParticipants:messageParticipants,
+            getOpposingActors:getOpposingActors
         }
 
         registerGameServerUpdateCallback(this.call.updateServerEncounter);

@@ -126,6 +126,8 @@ class ServerEncounterTurnSequencer {
 
         }.bind(this);
 
+
+
         this.call = {
             actorTurnEnded:actorTurnEnded,
             sequencerTurnEnded:sequencerTurnEnded,
@@ -162,18 +164,7 @@ class ServerEncounterTurnSequencer {
         return null;
     }
 
-    getOpposingActors(actor, actorList) {
-        let alignment = actor.getStatus(ENUMS.ActorStatus.ALIGNMENT);
 
-        for (let i = 0; i < this.actors.length; i++) {
-            let encActor = this.actors[i];
-            if (encActor.getStatus(ENUMS.ActorStatus.DEAD) === false) {
-                if (encActor.getStatus(ENUMS.ActorStatus.ALIGNMENT) !== alignment) {
-                    actorList.push(encActor);
-                }
-            }
-        }
-    }
 
 
     closeTurnSequencer() {

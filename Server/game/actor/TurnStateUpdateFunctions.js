@@ -1,9 +1,11 @@
 import {unregisterGameServerUpdateCallback} from "../utils/GameServerFunctions.js";
 import {
     getDestination,
-    getStatusPosition
+    getStatusPosition,
+    faceTowardsPos
 } from "./ActorStatusFunctions.js";
 import {ENUMS} from "../../../client/js/application/ENUMS.js";
+import {selectActorEncounterTarget} from "../encounter/ServerEncounterFunctions.js";
 
 let actorTurnSequencer = null;
 function setSequencer(sequencer) {
@@ -34,7 +36,7 @@ function updateActorTileSelect(tpf) {
 
     if (stepProgress > 1) {
         unregisterGameServerUpdateCallback(updateActorTileSelect)
-        getSequencer().call.stateTransition()
+        sequencer.call.stateTransition()
     } else {
         let actor = sequencer.actor;
         let tilePath = actor.tilePath;
@@ -79,26 +81,40 @@ function updateActorTurnMove(tpf) {
     let actor = sequencer.actor;
     let tileCount = actor.serverActorPathWalker.tileCount();
     let stepProgress = getSequencer().getSequenceProgress()
-    if (stepProgress > 1) {
-        unregisterGameServerUpdateCallback(updateActorTurnMove)
-        getSequencer().call.stateTransition()
+    if (actor.serverActorPathWalker.pathCompletedCallbacks.length === 0) {
+
+        let pathCompletedCB = function() {
+            sequencer.call.stateTransition()
+            unregisterGameServerUpdateCallback(updateActorTurnMove)
+        }
+
+        actor.serverActorPathWalker.pathCompletedCallbacks.push(pathCompletedCB)
+
     } else {
-        actor.serverActorPathWalker.walkPath(stepProgress);
-        getSequencer().advanceSequenceProgress(tpf/tileCount);
+        actor.serverActorPathWalker.walkPath(actor, tpf, sequencer.serverEncounter);
     }
 
 }
 
 function updateActorTargetSelect(tpf) {
-
+    let sequencer = getSequencer();
+    let actor = sequencer.actor;
     let stepProgress = getSequencer().getSequenceProgress()
     if (stepProgress > 1) {
-
         unregisterGameServerUpdateCallback(updateActorTargetSelect)
         getSequencer().call.stateTransition()
-        tpf = 0;
     } else {
-        console.log("Updat Target Select", stepProgress, tpf);
+    //    console.log("Updat Target Select", stepProgress, tpf, sequencer);
+
+        let candidate = selectActorEncounterTarget(sequencer.serverEncounter, actor)
+        if (candidate) {
+            if (actor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET) !== candidate.getStatus(ENUMS.ActorStatus.ACTOR_ID)) {
+                let targetPos = getStatusPosition(candidate);
+                faceTowardsPos(actor, targetPos);
+                actor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, candidate.getStatus(ENUMS.ActorStatus.ACTOR_ID));
+                sequencer.serverEncounter.sendActorStatusUpdate(actor);
+            }
+        }
 
         getSequencer().advanceSequenceProgress(tpf*0.7);
     }

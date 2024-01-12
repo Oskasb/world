@@ -79,10 +79,10 @@ class ServerGrid {
                 } else if (tile.walkable) {
                     //    tile.indicatePath()
                     tilePath.addTileToPath(tile);
-                    console.log("Add walkable tile", tile)
+                //    console.log("Add walkable tile", tile)
                 } else {
                     tilePath.addTileToPath(tile);
-                    console.log("Add leapOver tile", tile)
+                //    console.log("Add leapOver tile", tile)
                 }
             }
         }

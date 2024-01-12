@@ -279,7 +279,7 @@ function getTileForPosition(gridTiles, posVec3) {
     let selectedTile = null;
     let nearestTileDist = MATH.bigSafeValue();
 
-    console.log("Find nearest tile", posVec3)
+ //   console.log("Find nearest tile", posVec3)
 
     for (let i = 0; i < gridTiles.length; i++) {
 
@@ -292,7 +292,7 @@ function getTileForPosition(gridTiles, posVec3) {
                 selectedTile = tile;
                 nearestTileDist = lengthSq;
                 if (nearestTileDist === 0) {
-                    console.log("nearestTileDist", nearestTileDist, tile.getPos())
+                //    console.log("nearestTileDist", nearestTileDist, tile.getPos())
                     return selectedTile;
                 }
 

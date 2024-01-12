@@ -1,4 +1,6 @@
 import {Object3D} from "../../libs/three/core/Object3D.js";
+import {Vector3} from "../../libs/three/math/Vector3.js";
+import {Euler} from "../../libs/three/math/Euler.js";
 
 (function(){Math.clamp=function(a,b,c){return Math.max(b,Math.min(c,a));}})();
 
@@ -11,7 +13,7 @@ function cosWave(time, speed, amplitude) {
 }
 
 
-let calcVec1 = null;
+let calcVec1 = new Vector3();
 let tempObj = new Object3D()
 let half32BitInt = 1047483647;
 let bigSafeValue = 53372036850;
@@ -363,7 +365,7 @@ MATH.CurveState = function(curve, amplitude) {
 
 
 MATH.interpolateVec3FromTo = function(startVec3, endVec3, fraction, storeVec3, mathCurveFuction) {
-	if (!calcVec1) calcVec1 = new THREE.Vector3();
+	if (!calcVec1) calcVec1 = new Vector3();
 	calcVec1.copy(endVec3);
 	calcVec1.sub(startVec3);
 	if (typeof(mathCurveFuction) === 'string') {
@@ -405,7 +407,7 @@ MATH.safeInt = function(value) {
 
 
 MATH.randomVector = function(vec) {
-	if (!tempRandVec) tempRandVec =  new THREE.Vector3()
+	if (!tempRandVec) tempRandVec =  new Vector3()
 	if (!vec) vec=tempRandVec;
 	vec.x = MATH.randomBetween(-1, 1);
 	vec.y = MATH.randomBetween(-1, 1);
@@ -646,7 +648,6 @@ MATH.spreadVector = function(vec, spreadV) {
 };
 
 MATH.distanceBetween = function(vec3a, vec3b) {
-	if (!calcVec1) calcVec1 = new THREE.Vector3();
 	calcVec1.subVectors(vec3a, vec3b);
 	return calcVec1.length();
 }
@@ -669,7 +670,7 @@ MATH.vec3ToArray = function(vec3, array) {
 }
 
 MATH.vec3FromArray = function(vec3, array) {
-	if (!vec3) vec3 = new THREE.Vector3();
+	if (!vec3) vec3 = new Vector3();
 	vec3.x = array[0];
 	vec3.y = array[1];
 	vec3.z = array[2];
@@ -771,14 +772,14 @@ MATH.rollFromQuaternion = function(q) {
 
 
 MATH.horizonAttitudeFromQuaternion = function(q) {
-	if (!calcVec) calcVec = new THREE.Vector3();
+	if (!calcVec) calcVec = new Vector3();
 	calcVec.set(0, 0, 1);
 	calcVec.applyQuaternion(q);
 	return -calcVec.y * Math.PI // Math.atan2(calcVec.x, calcVec.y);
 };
 
 MATH.compassAttitudeFromQuaternion = function(q) {
-	if (!calcVec) calcVec = new THREE.Vector3();
+	if (!calcVec) calcVec = new Vector3();
 	calcVec.set(0, 0, 1);
 	calcVec.applyQuaternion(q);
 	return MATH.vectorXZToAngleAxisY(calcVec)
@@ -792,7 +793,7 @@ MATH.rollAttitudeFromQuaternion = function(q) {
 };
 
 MATH.eulerFromQuaternion = function(q, order) {
-	if (!euler) euler = new THREE.Euler()
+	if (!euler) euler = new Euler()
 	return euler.setFromQuaternion(q, order);
 }
 

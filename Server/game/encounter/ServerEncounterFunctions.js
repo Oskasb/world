@@ -1,5 +1,6 @@
 import {ENUMS} from "../../../client/js/application/ENUMS.js";
 import {MATH} from "../../../client/js/application/MATH.js";
+import {getStatusPosition} from "../actor/ActorStatusFunctions.js";
 
 function getNextActorInTurnSequence(encounterSequencer) {
     let serverEncounter = encounterSequencer.serverEncounter;
@@ -132,21 +133,21 @@ function checkActorTurnDone(encounterSequencer, actor) {
 }
 
 
-function getActorEncounterTargetCandidates(encounterSequencer, actor) {
-    MATH.emptyArray(actorList);
-    encounterSequencer.getOpposingActors(actor, actorList);
-    return actorList;
-}
+let actorList = [];
 
-function selectActorEncounterTarget(encounterSequencer, actor, candidates) {
-    let target = MATH.getRandomArrayEntry(candidates);
+function selectActorEncounterTarget(serverEncounter, actor) {
+    MATH.emptyArray(actorList);
+    serverEncounter.call.getOpposingActors(actor, actorList);
+    let target = MATH.getRandomArrayEntry(actorList);
     return target;
 }
+
 
 
 export {
     sequencerTurnActiveActor,
     getNextActorInTurnSequence,
     passSequencerTurnToActor,
-    checkActorTurnDone
+    checkActorTurnDone,
+    selectActorEncounterTarget
 }

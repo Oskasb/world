@@ -5,10 +5,13 @@ import {ServerActorPathWalker} from "./ServerActorPathWalker.js";
 import {ServerActorTurnSequencer} from "./ServerActorTurnSequencer.js";
 import {dispatchMessage, getGameServer, getGameServerWorld} from "../utils/GameServerFunctions.js";
 import {TilePath} from "../../../client/js/game/piece_functions/TilePath.js";
-
+import {Object3D} from "../../../client/libs/three/core/Object3D.js";
+import {Vector3} from "../../../client/libs/three/math/Vector3.js";
 
 class ServerActor {
     constructor(id, statusValues) {
+        this.obj3d = new Object3D();
+        this.pos = this.obj3d.position;
         this.id = id;
         this.status = new Status(statusValues);
         this.equippedItems = [];

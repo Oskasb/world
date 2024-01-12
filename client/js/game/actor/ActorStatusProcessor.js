@@ -257,6 +257,7 @@ class ActorStatusProcessor {
             registerPathPoints(actor);
             processPartyStatus(actor);
             updateRigidBodyContact(actor);
+
         }
         processAnimationState(actor);
         this.indicateSelectionStatus(actor);
