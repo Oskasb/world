@@ -91,12 +91,10 @@ class ServerActorTurnSequencer {
         return this.targetActor;
     }
 
-    startActorTurn(turnEndCallback, turnIndex, serverEncounter) {
+    startNpcActorTurn(turnEndCallback, serverEncounter) {
         this.serverEncounter = serverEncounter;
         this.turnEncBallbacks.push(turnEndCallback);
         this.turnTime = 0;
-        this.turnIndex = turnIndex;
-        this.actor.setStatusKey(ENUMS.ActorStatus.TURN_DONE, this.turnIndex)
         this.exitTo = turnStateKeys.turn_init
         activateStateTransition(this)
     }

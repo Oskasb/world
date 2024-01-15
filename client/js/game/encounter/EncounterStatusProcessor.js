@@ -47,97 +47,6 @@ function processDefeat() {
     setTimeout(playerParty.call.partyDefeated, 2000)
 }
 
-let processEncStatus = function() {
-
-    return;
-
-    if (encounterClosing === true) {
-        let encounterGrid = GameAPI.getActiveEncounterGrid();
-        let tiles = encounterGrid.getRandomWalkableTiles(2)
-        let victory = getStatus(ENUMS.EncounterStatus.PLAYER_VICTORY);
-
-        let fxEvent;
-
-        if (victory) {
-            fxEvent = buildEffectEvent(defaultEffectValues.GLITTER);
-        //    console.log("Update Post Victory")
-        } else {
-        //    console.log("Update post defeat")
-            fxEvent = buildEffectEvent(defaultEffectValues.SMOKE);
-        }
-
-        for (let i = 0; i < tiles.length; i++) {
-            let pos = tiles[i].getPos();
-            fxEvent.pos.copy(pos);
-            let spacing = tiles[i].spacing
-            fxEvent.pos.x += MATH.randomBetween(-spacing, spacing);
-            fxEvent.pos.y += MATH.randomBetween(0, spacing * 0.5);
-            fxEvent.pos.z += MATH.randomBetween(-spacing, spacing);
-
-            evt.dispatch(ENUMS.Event.SPAWN_EFFECT, fxEvent)
-        }
-
-        return;
-    }
-
-    playerCount = getStatus(ENUMS.EncounterStatus.PLAYER_COUNT);
-    playersEngaged = getStatus(ENUMS.EncounterStatus.PLAYERS_ENGAGED);
-    playersDead = getStatus(ENUMS.EncounterStatus.PLAYERS_DEAD);
-    opponentCount = getStatus(ENUMS.EncounterStatus.OPPONENT_COUNT);
-    opponentsEngaged = getStatus(ENUMS.EncounterStatus.OPPONENTS_ENGAGED);
-    opponentsDead = getStatus(ENUMS.EncounterStatus.OPPONENTS_DEAD);
-
-    if (opponentsDead === opponentCount) {
-        if (opponentCount !== 0) {
-            encounterClosing = true;
-            processVictory()
-        }
-        return;
-    } else if (playersDead === playerCount) {
-        encounterClosing = true;
-        processDefeat()
-        return;
-    }
-
-    let hasTurnId = activeEncounter.status.call.getStatus(ENUMS.EncounterStatus.HAS_TURN_ACTOR);
-
-    // let currentTurnActor = GameAPI.getActorById(hasTurnActorId);
-
-    if (!hasTurnId) {
-
-        hasTurnActorId = null;
-        return;
-    }
-    if (hasTurnId !== hasTurnActorId) {
-
-        let actor = GameAPI.getActorById(hasTurnId);
-
-        if (!actor) {
-            return;
-        }
-
-        hasTurnActorId = hasTurnId;
-
-        if (actor.isPlayerActor()) {
-
-            let hasTurn = actor.getStatus(ENUMS.ActorStatus.HAS_TURN);
-            if (!hasTurn) {
-                GuiAPI.screenText("Your Turn", ENUMS.Message.HINT)
-                actor.startPlayerTurn(actor.call.turnEnded, activeEncounter.status.call.getStatus(ENUMS.EncounterStatus.TURN_INDEX))
-            } else {
-                // Hosting player starts turn from sequencer
-            }
-        } else if (actor.getStatus(ENUMS.ActorStatus.ALIGNMENT) === 'FRIENDLY') {
-        //    GuiAPI.screenText("Other Payer Turn", ENUMS.Message.HINT)
-            return;
-        } else {
-        //    GuiAPI.screenText("Enemy Turn", ENUMS.Message.HINT)
-        //    actor.getActorTurnSequencer().startActorTurn(this.call.turnEnded, this.turnIndex);
-            return
-        }
-    }
-}
-
 
 let standingOnTile = null;
 function processEncounterTurnStartTileMechanics(actor) {
@@ -223,7 +132,6 @@ class EncounterStatusProcessor {
                 return;
             }
 
-            processEncStatus()
 
             let hasTurnId = activeEncounter.status.call.getStatus(ENUMS.EncounterStatus.HAS_TURN_ACTOR);
             if (hasTurnId) {
@@ -232,8 +140,6 @@ class EncounterStatusProcessor {
                     this.actorTurnStart = null
                     return;
                 }
-
-
 
 
                 if (getStatus(ENUMS.EncounterStatus.ACTIVATION_STATE) === ENUMS.ActivationState.DEACTIVATING) {

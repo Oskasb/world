@@ -28,8 +28,15 @@ function registerTrackUpdateCallback(folder, key, callback) {
     //}
 }
 
+function debugTrackStatusMap(folder, statusMap) {
 
+    for (let key in statusMap) {
+        trackDebugConfig(folder, key, statusMap[key])
+    }
+
+}
 
 export {
-    trackDebugConfig
+    trackDebugConfig,
+    debugTrackStatusMap
 }

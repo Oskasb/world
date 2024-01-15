@@ -78,6 +78,7 @@ class ServerEncounter {
         this.status = new EncounterStatus(message.encounterId, message.worldEncounterId);
         this.setStatusKey(ENUMS.EncounterStatus.GRID_ID, message.grid_id)
         this.setStatusKey(ENUMS.EncounterStatus.GRID_POS, message.pos)
+        this.setStatusKey(ENUMS.EncounterStatus.TURN_STATE, ENUMS.TurnState.TURN_CLOSE)
         this.encounterTime = 0;
         this.hostStamp = message.stamp;
         this.onCloseCallbacks = [closeEncounterCB];
@@ -164,7 +165,7 @@ class ServerEncounter {
         }
     }
 
-    getServerActorById(actorId) {
+    getEncounterCombatantById(actorId) {
         for (let i = 0; i < this.combatants.length;i++) {
             if (this.combatants[i].id === actorId) {
                 return this.combatants[i];

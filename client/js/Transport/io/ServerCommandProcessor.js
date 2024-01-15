@@ -301,7 +301,6 @@ function processServerCommand(protocolKey, message) {
             encounter = GameAPI.call.getDynamicEncounter();
             if (encounter.id === encounterId) {
                 encounter.applyEncounterStatusUpdate(message.status);
-                console.log("Enc Updated", encounter)
             } else {
                 console.log("Bad Encounter ID; ", message, encounter);
             }

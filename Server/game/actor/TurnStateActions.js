@@ -24,8 +24,6 @@ let nullTurn = -1
 
 function turnInit(actor, turnIndex) {
     console.log("turnInit", turnIndex)
-    actor.setStatusKey(ENUMS.ActorStatus.HAS_TURN, true)
-    actor.setStatusKey(ENUMS.ActorStatus.TURN_STATE, ENUMS.TurnState.TURN_INIT)
 
     let sequencer = actor.turnSequencer
     let serverEncounter = sequencer.serverEncounter;

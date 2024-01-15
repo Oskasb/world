@@ -75,8 +75,6 @@ class PartyUiSystem {
 
             MATH.forAll(actors, renderPartyActorUi, tpf)
 
-        //    let currentTurnIndex = encounterTurnSequencer.turnIndex;
-
             for (let i = 0; i < portraits.length; i++) {
                 let portrait = portraits[i]
 

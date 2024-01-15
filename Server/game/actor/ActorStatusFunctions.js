@@ -84,8 +84,8 @@ function enterEncounter(encounter, actor) {
     actor.rollInitiative();
     actor.setStatusKey(ENUMS.ActorStatus.TURN_STATE, ENUMS.TurnState.NO_TURN);
     actor.setStatusKey(ENUMS.ActorStatus.HAS_TURN, false); // -1 for new encounter
-    actor.setStatusKey(ENUMS.ActorStatus.HAS_TURN_INDEX, encounter.getStatus(ENUMS.EncounterStatus.TURN_INDEX)); // -1 for new encounter
-    actor.setStatusKey(ENUMS.ActorStatus.TURN_DONE, encounter.getStatus(ENUMS.EncounterStatus.TURN_INDEX)); // -1 for new encounter
+    actor.setStatusKey(ENUMS.ActorStatus.HAS_TURN_INDEX, encounter.getStatus(ENUMS.EncounterStatus.TURN_INDEX));
+    actor.setStatusKey(ENUMS.ActorStatus.TURN_DONE, encounter.getStatus(ENUMS.EncounterStatus.TURN_INDEX) -1); // -1 for new encounter
     actor.setStatusKey(ENUMS.ActorStatus.IN_COMBAT, true); // -1 for new encounter
     actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_BATTLE);
     encounter.serverEncounterTurnSequencer.addEncounterActor(actor)
@@ -96,37 +96,44 @@ function exitEncounter(encounter, actor) {
 
 }
 
-function startEncounterTurn(encounter, actor) {
+function startActorTurn(encounter, actor) {
     let turnIndex = encounter.getStatus(ENUMS.EncounterStatus.TURN_INDEX);
     actor.setStatusKey(ENUMS.ActorStatus.HAS_TURN, true);
     actor.setStatusKey(ENUMS.ActorStatus.TURN_STATE, ENUMS.TurnState.TURN_INIT);
     actor.setStatusKey(ENUMS.ActorStatus.HAS_TURN_INDEX, turnIndex);
-    encounter.setStatusKey(ENUMS.EncounterStatus.HAS_TURN_ACTOR, actor.getStatus(ENUMS.ActorStatus.ACTOR_ID));
-    encounter.activeActor = actor;
 
     let actorIsPlayer = encounter.actorIsPlayer(actor)
 
+    actor.setStatusKey(ENUMS.ActorStatus.HAS_TURN, true);
+    actor.setStatusKey(ENUMS.ActorStatus.HAS_TURN_INDEX, turnIndex)
+    actor.setStatusKey(ENUMS.ActorStatus.TURN_STATE, ENUMS.TurnState.TURN_INIT);
+
     if (actorIsPlayer) {
         console.log("Start player actor turn", actor)
-        encounter.setStatusKey(ENUMS.EncounterStatus.ACTIVE_TURN_SIDE, "PARTY PLAYER");
-
-        actor.setStatusKey(ENUMS.ActorStatus.HAS_TURN, true);
         actor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, true);
-        actor.setStatusKey(ENUMS.ActorStatus.HAS_TURN_INDEX, turnIndex)
-        actor.setStatusKey(ENUMS.ActorStatus.TURN_STATE, ENUMS.TurnState.TURN_INIT);
+        encounter.setStatusKey(ENUMS.EncounterStatus.ACTIVE_TURN_SIDE, "PARTY PLAYER");
     } else {
         encounter.setStatusKey(ENUMS.EncounterStatus.ACTIVE_TURN_SIDE, "OPPONENTS");
-        actor.turnSequencer.startActorTurn(encounter.serverEncounterTurnSequencer.call.actorTurnEnded, turnIndex, encounter);
-    }
+        let turnEnded = function() {
+            console.log("Call turn ended")
+        }
 
+        actor.turnSequencer.startNpcActorTurn(turnEnded, encounter);
+    }
+    encounter.sendActorStatusUpdate(actor);
 }
 
-function endEncounterTurn(encounter, actor) {
+function endActorTurn(encounter) {
+    let actorId = encounter.getStatus(ENUMS.EncounterStatus.HAS_TURN_ACTOR);
+    let actor = encounter.getEncounterCombatantById(actorId);
+    console.log("End Actor Turn ", actorId);
     let turnIndex = encounter.getStatus(ENUMS.EncounterStatus.TURN_INDEX);
     actor.setStatusKey(ENUMS.ActorStatus.HAS_TURN, false);
+    actor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, false);
     actor.setStatusKey(ENUMS.ActorStatus.TURN_DONE, turnIndex);
     actor.setStatusKey(ENUMS.ActorStatus.TURN_STATE, ENUMS.TurnState.NO_TURN);
     encounter.setStatusKey(ENUMS.EncounterStatus.HAS_TURN_ACTOR, '');
+    encounter.setStatusKey(ENUMS.EncounterStatus.TURN_STATE, ENUMS.TurnState.TURN_INIT);
     encounter.sendActorStatusUpdate(actor);
 }
 
@@ -140,6 +147,6 @@ export {
     faceTowardsPos,
     enterEncounter,
     exitEncounter,
-    startEncounterTurn,
-    endEncounterTurn
+    startActorTurn,
+    endActorTurn
 }

@@ -27,25 +27,27 @@
                     "track_config": {"category": "DEBUG","key": "ENCOUNTER_STATUS",
                       "samplers": [
                         {
-                          "key": "CLIENT_STAMP",
-                          "label": "HOST"
-                        },
-                        {
-                          "key": "GRID_ID",
-                          "label": "GRID"
+                          "key": "TURN_STATE",
+                          "label": "TURN_ST"
                         },
                         {
                           "key": "TURN_INDEX",
                           "label": "TURN"
                         },
                         {
-                          "key": "ACTIVE_TURN_SIDE",
-                          "label": "ACTIVE"
-                        },
-                        {
                           "key": "HAS_TURN_ACTOR",
                           "label": "HAS_TURN"
                         },
+                        {
+                          "key": "GRID_ID",
+                          "label": "GRID"
+                        },
+
+                        {
+                          "key": "ACTIVE_TURN_SIDE",
+                          "label": "ACTIVE"
+                        },
+
                         {
                           "key": "TURN_ACTOR_INITIATIVE",
                           "label": "INITIATIVE"

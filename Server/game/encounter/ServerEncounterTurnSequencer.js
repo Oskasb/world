@@ -2,9 +2,11 @@ import {ENUMS} from "../../../client/js/application/ENUMS.js";
 import {MATH} from "../../../client/js/application/MATH.js";
 import {
     checkActorTurnDone,
+    endEncounterTurn, getHasTurnActor, getNextActorInTurnSequence,
     passSequencerTurnToActor,
-    sequencerTurnActiveActor,
+    startEncounterTurn,
 } from "./ServerEncounterFunctions.js";
+import {endActorTurn} from "../actor/ActorStatusFunctions.js";
 
 class ServerEncounterTurnSequencer {
     constructor(serverEncounter) {
@@ -76,21 +78,17 @@ class ServerEncounterTurnSequencer {
         }
 
         this.actors = [];
-        this.activeActor = null;
-        this.turnIndex = 0;
         this.turnTime = 0;
 
         let actorTurnEnded = function() {
             this.turnTime = 0;
-            this.activeActor.setStatusKey(ENUMS.ActorStatus.TURN_STATE, ENUMS.TurnState.NO_TURN)
-
-            this.activeActor = null;
+            endActorTurn(this.serverEncounter)
         }.bind(this)
 
         let sequencerTurnEnded = function () {
-                this.turnIndex++
-                setStatusKey(ENUMS.EncounterStatus.TURN_INDEX, this.turnIndex)
+            endEncounterTurn(this.serverEncounter)
         }.bind(this);
+
 
         let updateTurnSequencer = function() {
 
@@ -101,34 +99,49 @@ class ServerEncounterTurnSequencer {
                 return;
             }
 
-            let actor = sequencerTurnActiveActor(this);
+            let turnState = getStatus(ENUMS.EncounterStatus.TURN_STATE);
 
-            if (!actor) {
-                console.log("No Actor")
-                return;
+            if (turnState === ENUMS.TurnState.TURN_CLOSE) {
+                console.log("Update TURN_CLOSE")
+                startEncounterTurn(this.serverEncounter)
             }
 
-            if (this.activeActor !== actor) {
+
+            if (turnState === ENUMS.TurnState.TURN_INIT) {
+                let actor = getNextActorInTurnSequence(this)
+
+                if (!actor) {
+                    sequencerTurnEnded()
+                    console.log("sequencerTurnEnded TURN_INIT")
+                    serverEncounter.sendEncounterStatusUpdate()
+                    return;
+                }
+                console.log("Update TURN_INIT", actor.id)
                 passSequencerTurnToActor(this, actor);
-                setStatusKey(ENUMS.EncounterStatus.TURN_ACTOR_INITIATIVE, actor.getStatus(ENUMS.ActorStatus.SEQUENCER_INITIATIVE))
-            } else {
+                sendActorUpdate(actor)
+            }
+
+            if (turnState === ENUMS.TurnState.TURN_MOVE) {
+            //
+                let actor = getHasTurnActor(this.serverEncounter);
+
                 let turnDone = checkActorTurnDone(this, actor);
+                console.log("Update TURN_MOVE", actor.id, turnDone)
                 if (turnDone) {
-                    console.log("Determine actor turn done")
+                    console.log("Determine actor turn done", actor.id)
                     this.call.actorTurnEnded();
                 } else {
                     setStatusKey(ENUMS.EncounterStatus.TURN_ACTOR_TARGET, actor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET))
                     setStatusKey(ENUMS.EncounterStatus.TURN_ACTOR_ACTION, actor.getStatus(ENUMS.ActorStatus.SELECTED_ACTION))
                     setStatusKey(ENUMS.EncounterStatus.TURN_ACTION_STATE, actor.getStatus(ENUMS.ActorStatus.ACTION_STATE_KEY))
+                    sendActorUpdate(actor)
                 }
+
             }
 
-            sendActorUpdate(actor)
             serverEncounter.sendEncounterStatusUpdate()
 
         }.bind(this);
-
-
 
         this.call = {
             actorTurnEnded:actorTurnEnded,
@@ -168,6 +181,8 @@ class ServerEncounterTurnSequencer {
 
     closeTurnSequencer() {
 
+        console.log("Close server encounter sequencer")
+
         while(this.actors.length) {
             let actor = this.actors.pop();
             actor.setStatusKey(ENUMS.ActorStatus.SEQUENCER_SELECTED, false);
@@ -176,16 +191,8 @@ class ServerEncounterTurnSequencer {
             actor.setStatusKey(ENUMS.ActorStatus.IN_COMBAT, false);
             actor.setStatusKey(ENUMS.ActorStatus.RETREATING, '');
             actor.setStatusKey(ENUMS.ActorStatus.EXIT_ENCOUNTER, '');
-            GameAPI.getGamePieceSystem().playerParty.clearPartyStatus()
         //    GameAPI.getGamePieceSystem().playerParty.clearPartyMemebers()
         }
-        if (this.activeActor) {
-            this.activeActor.getActorTurnSequencer().exitSequence();
-        }
-        this.activeActor = null;
-        this.turnIndex = 0;
-        this.turnTime = 0;
-
     }
 
 }

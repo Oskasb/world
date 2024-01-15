@@ -85,9 +85,8 @@ class EncounterTurnSequencer {
             if (this.turnActorIndex === this.actors.length) {
                 this.turnActorIndex = 0;
                 this.turnIndex++
-                setStatusKey(ENUMS.EncounterStatus.TURN_INDEX, this.turnIndex)
             }
-    //        console.log("turnEnded", this.turnActorIndex, this.turnIndex)
+            console.log("turnEnded", this.turnActorIndex, this.turnIndex)
         }.bind(this)
 
         this.call = {

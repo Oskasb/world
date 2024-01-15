@@ -9,7 +9,7 @@ import {selectActorEncounterTarget} from "../encounter/ServerEncounterFunctions.
 
 let actorTurnSequencer = null;
 function setSequencer(sequencer) {
-    console.log("setSequencer", sequencer)
+    console.log("setSequencer", sequencer.actor)
     actorTurnSequencer = sequencer;
 }
 
