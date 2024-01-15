@@ -115,7 +115,8 @@ let ENUMS = {}
         APPLY_ITEM_STATUS:6,
         APPLY_ACTION_STATUS:7,
         LOAD_SERVER_ITEM: 8,
-        ENCOUNTER_PLAY:9
+        ENCOUNTER_PLAY:9,
+        REGISTER_CONFIGS:10
     };
 
     ENUMS.ServerCommands = {
@@ -133,7 +134,8 @@ let ENUMS = {}
         ITEM_UPDATE:12,
         ITEM_REMOVED:13,
         SYSTEM_INFO: 14,
-        ACTION_UPDATE:15
+        ACTION_UPDATE:15,
+        FETCH_CONFIGS:16
     };
 
     ENUMS.ActorStatus = {

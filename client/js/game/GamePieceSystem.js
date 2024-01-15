@@ -8,7 +8,7 @@ import { RemoteClient } from "../Transport/io/RemoteClient.js";
 import {trackDebugConfig} from "../application/utils/DebugUtils.js";
 import {evt} from "../application/event/evt.js";
 
-
+let statsConfig = {};
 let visualConfigs = {};
 let actorConfigs = {};
 let itemConfigs = {};
@@ -67,6 +67,17 @@ let loadActor = function(event) {
     actorIndex++;
    // actor.setStatusKey(ENUMS.ActorStatus.ACTOR_INDEX, actor.index);
     registerActor(actor);
+    let statsData = statsConfig[actor.config['stats_id']];
+//    console.log("Actor Stats :", statsData.status)
+
+    let status = statsData.status;
+
+    if (status) {
+        for (let key in status) {
+            actor.setStatusKey(key, status[key])
+        }
+    }
+
     let visualConfig = visualConfigs[actor.config['visual_id']];
 
     let visualPiece = new VisualGamePiece(visualConfig);
@@ -168,13 +179,16 @@ class GamePieceSystem {
 
     }
 
-    timeoutRemoteClient(stamp) {
-        remoteClients[stamp].closeRemoteClient();
-        remoteClients[stamp] = null;
-    }
-
     initGamePieceSystem = function() {
         parsedEquipSlotData = new ConfigData("GAME", "EQUIP_SLOTS").parseConfigData()
+
+        let statsData = function(data) {
+            statsConfig = data;
+            console.log("statsConfig", statsConfig)
+        }
+
+        configDataList("GAME","CHARACTER_STATS", statsData)
+
         let onData = function(data) {
             visualConfigs = data;
             //        console.log("visualConfigs", visualConfigs)

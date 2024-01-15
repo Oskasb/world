@@ -7,7 +7,6 @@ import {Vector2} from "../../../client/libs/three/math/Vector2.js";
 
 let tempVec2D = new Vector2();
 let gameServer = null;
-let serverMessageProcessor = null;
 let serverActors = [];
 let serverItems = []
 
@@ -20,12 +19,26 @@ function getServerStamp() {
     return gameServer.stamp;
 }
 
-function setServerMessageProcessor(msgProc) {
-    serverMessageProcessor = msgProc;
-}
 
 function getGameServer() {
     return gameServer;
+}
+
+function getServerConfig(folder) {
+    let configs = gameServer.getServerConfigs();
+    if (!configs[folder]) {
+        console.log("No server configs for folder ", folder, configs);
+        return false;
+    }
+    return configs[folder];
+}
+
+function parseConfigData(configData, id) {
+    for (let i = 0; i < configData.length; i++) {
+        if (configData[i].id === id) {
+            return configData[i].data
+        }
+    }
 }
 
 function registerServerActor(serverActor) {
@@ -308,13 +321,14 @@ export {
     filterForWalkableTiles,
     getRandomWalkableTiles,
     getServerStamp,
-    setServerMessageProcessor,
     getServerActorByActorId,
     getRegisteredActors,
     registerServerActor,
     removeServerActor,
     setGameServer,
     getGameServer,
+    getServerConfig,
+    parseConfigData,
     getGameServerWorld,
     registerGameServerUpdateCallback,
     unregisterGameServerUpdateCallback,

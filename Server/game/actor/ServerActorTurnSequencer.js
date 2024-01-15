@@ -46,7 +46,8 @@ let activateStateTransition = function(sequencer) {
     let turnStateKey = sequencer.exitTo;
     let enter = turnStateMap[turnStateKey].enter;
     sequencer.exitTo  = turnStateMap[turnStateKey].exitTo;
-    enter(sequencer.actor, sequencer.turnIndex)
+    let turnIndex = sequencer.serverEncounter.getStatus(ENUMS.EncounterStatus.TURN_INDEX)
+    enter(sequencer.actor, turnIndex)
 }
 
 class ServerActorTurnSequencer {

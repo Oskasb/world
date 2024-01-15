@@ -8,7 +8,7 @@ function startEncounterTurn(serverEncounter) {
  //   console.log("startEncounterTurn", turnIndex)
     serverEncounter.setStatusKey(ENUMS.EncounterStatus.TURN_INDEX, turnIndex++);
     turnIndex = serverEncounter.getStatus(ENUMS.EncounterStatus.TURN_INDEX);
-    console.log("updatedTurnIndex", turnIndex)
+//    console.log("updatedTurnIndex", turnIndex)
     serverEncounter.setStatusKey(ENUMS.EncounterStatus.TURN_STATE, ENUMS.TurnState.TURN_INIT);
 }
 

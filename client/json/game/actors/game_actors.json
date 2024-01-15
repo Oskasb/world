@@ -5,6 +5,7 @@
         "id":"ACTOR_FIGHTER",
         "data":{
           "visual_id": "VISUAL_FIGHTER",
+          "stats_id": "STATS_FIGHTER",
           "equip_slots": "SLOTS_FIGHTER"
         }
       },
@@ -12,6 +13,7 @@
         "id":"ACTOR_PRINCESS",
         "data":{
           "visual_id": "VISUAL_PRINCESS",
+          "stats_id": "STATS_PRINCESS",
           "equip_slots": "SLOTS_FIGHTER"
         }
       },
@@ -19,6 +21,7 @@
         "id":"ACTOR_FARMER",
         "data":{
           "visual_id": "VISUAL_FARMER",
+          "stats_id": "STATS_FARMER",
           "equip_slots": "SLOTS_FIGHTER"
         }
       },
@@ -26,6 +29,7 @@
         "id":"ACTOR_ALIEN",
         "data":{
           "visual_id": "VISUAL_ALIEN",
+          "stats_id": "STATS_ALIEN",
           "equip_slots": "SLOTS_FIGHTER"
         }
       },
@@ -33,6 +37,7 @@
         "id":"ACTOR_PIRATE",
         "data":{
           "visual_id": "VISUAL_PIRATE",
+          "stats_id": "STATS_PIRATE",
           "equip_slots": "SLOTS_FIGHTER"
         }
       },
@@ -40,6 +45,7 @@
         "id":"ACTOR_BARB",
         "data":{
           "visual_id": "VISUAL_BARBARIAN",
+          "stats_id": "STATS_BARBARIAN",
           "equip_slots": "SLOTS_BARB"
         }
       },
@@ -47,6 +53,7 @@
         "id":"ACTOR_DUDE",
         "data":{
           "visual_id": "VISUAL_DUDE",
+          "stats_id": "STATS_DUDE",
           "equip_slots": "SLOTS_DUDE"
         }
       }

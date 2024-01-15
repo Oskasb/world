@@ -274,6 +274,8 @@ class ActorStatus {
         this.statusMap[ENUMS.ActorStatus.ACTION_STATE_KEY] = 0;
         this.statusMap[ENUMS.ActorStatus.ACTION_STEP_PROGRESS]  = 0;
         this.statusMap[ENUMS.ActorStatus.RIGID_BODY_CONTACT]  = 0;
+        this.statusMap[ENUMS.ActorStatus.IS_LEAPING]  = false;
+        this.statusMap[ENUMS.ActorStatus.SEQUENCER_SELECTED]  = false;
         this.statusMap[ENUMS.ActorStatus.DEAD] = false;
         let updateTO = null;
 
@@ -337,7 +339,7 @@ class ActorStatus {
             if (typeof (this.statusMap[key]) === 'undefined' || this.statusMap[key] === 0  || this.statusMap[key] === null) {
                 this.statusMap[key] = status;
             } else {
-                console.log("changing type for status is bad", key, status)
+                console.log("changing type for status is bad", key, status, this.statusMap[ENUMS.ActorStatus.ACTOR_ID])
             }
         }
     }

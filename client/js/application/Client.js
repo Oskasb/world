@@ -46,7 +46,6 @@ class Client {
 
     setStamp(stamp) {
         this.stamp = stamp
-        evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, {request:ENUMS.ClientRequests.REGISTER_PLAYER, stamp:stamp})
     }
 
     getStamp() {

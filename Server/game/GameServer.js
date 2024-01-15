@@ -5,6 +5,9 @@ import {GameServerWorld} from "./GameServerWorld.js";
 import {ServerPlayer} from "./player/ServerPlayer.js";
 
 let connectedPlayers = [];
+
+let serverConfigs = null;
+
 class GameServer {
     constructor(connectedClients) {
         this.connectedClients = connectedClients;
@@ -29,21 +32,48 @@ class GameServer {
     }
 
     messageClientByStamp(stamp, message) {
+    //    console.log("Message by stamp: ", stamp, message)
         for (let i = 0; i < this.connectedClients.length; i++) {
             let client = this.connectedClients[i]
             if (client.stamp === stamp) {
+            //    console.log("stamp ok: ", stamp, message)
                 client.call.returnDataMessage(message);
                 return;
             }
         }
     }
 
+    getServerConfigs() {
+        return serverConfigs;
+    }
+
+    registerServerConfigData(data) {
+        for (let key in data) {
+            serverConfigs[key] = data[key];
+        }
+    //    console.log("ServerConfigs", [serverConfigs]);
+    }
+
     registerConnectedPlayer(stamp) {
+
+
+
         let player = this.getConnectedPlayerByStamp(stamp)
         if (!player) {
             player = new ServerPlayer(stamp)
             connectedPlayers.push(player);
             console.log("Player registered: ", connectedPlayers, this.getConnectedPlayerByStamp(stamp))
+
+            if (serverConfigs === null) {
+                let message = {
+                    request:ENUMS.ClientRequests.REGISTER_PLAYER,
+                    command:ENUMS.ServerCommands.FETCH_CONFIGS,
+                    folders:['GAME', 'GAME_ACTIONS', 'GAME_ACTORS', 'GRID']
+                }
+                serverConfigs = {};
+                this.messageAllClients(message);
+            }
+
             return true;
         } else {
             console.log("Player Already registered, skipping add process: ", player)

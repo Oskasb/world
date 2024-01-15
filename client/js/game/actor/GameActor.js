@@ -331,13 +331,7 @@ class GameActor {
     setVisualGamePiece(visualGamePiece) {
         visualGamePiece.setVisualPieceActor(this);
         this.visualGamePiece = visualGamePiece;
-        let visualConfig = visualGamePiece.config;
 
-        if (visualConfig.status) {
-            for (let key in visualConfig.status) {
-                this.setStatusKey(key, visualConfig.status[key])
-            }
-        }
         this.call.onVisualAdded();
     }
 

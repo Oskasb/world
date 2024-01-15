@@ -190,6 +190,7 @@ class DataLoader {
             PipelineAPI.addProgressCallback(pipelineCallback);
 
             let onPipelineInitCallback = function(configCache) {
+                window.CONFIGS = configCache.configs;
                 console.log("CONFIGS:", configCache.configs)
                 notifyProgress(null, 'Init Loading');
             };

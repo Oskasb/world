@@ -65,7 +65,7 @@ class SimpleUpdateMessage {
             }
         }
 
-        function buildMessage(statusMessageKey, statusMap, clientRequest) {
+        function buildMessage(statusMessageKey, statusMap, clientRequest, forceFullSend) {
             message.request = clientRequest;
             message.status = sendStatus;
             let gameTime = getGameServer().serverTime;
@@ -74,11 +74,13 @@ class SimpleUpdateMessage {
             sendStatus.push(statusMap[statusMessageKey])
             skipKey = statusMessageKey;
 
-                if (lastFullSend < gameTime -5) {
+                if (lastFullSend < gameTime -5 || forceFullSend) {
                     lastFullSend = gameTime;
                     fullSend(statusMap)
+                 //   console.log("Send fullSend", sendStatus)
                 } else {
                     sendUpdatedOnly(statusMap)
+                //    console.log("Send Updated", sendStatus)
                 }
 
                 if (sendStatus.length > 2) {

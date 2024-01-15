@@ -138,6 +138,11 @@ function processClientRequest(request, stamp, message, connectedClient) {
         //    console.log("Process Ping Msg", message)
             connectedClient.call.returnDataMessage(message);
             break;
+
+        case ENUMS.ClientRequests.REGISTER_CONFIGS:
+            getGameServer().registerServerConfigData(message.data);
+            break;
+
         default:
             console.log("Message not handled by server:", message)
     }

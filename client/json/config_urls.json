@@ -108,6 +108,7 @@
       "/threedata/assets/sprites/veg_sprites_8x8.json"       ,
       "/threedata/assets/sprites/tile_sprites_8x8.json"      ,
       "/threedata/assets/sprites/particle_sprites_8x8.json"  ,
+      "/game/stats/character_stats.json"                     ,
       "/game/visuals/characters.json"                        ,
       "/game/visuals/visual_items.json"                      ,
       "/game/visuals/visual_actions.json"                    ,

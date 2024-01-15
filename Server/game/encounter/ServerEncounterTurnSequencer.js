@@ -102,7 +102,7 @@ class ServerEncounterTurnSequencer {
             let turnState = getStatus(ENUMS.EncounterStatus.TURN_STATE);
 
             if (turnState === ENUMS.TurnState.TURN_CLOSE) {
-                console.log("Update TURN_CLOSE")
+            //    console.log("Update TURN_CLOSE")
                 startEncounterTurn(this.serverEncounter)
             }
 
@@ -112,11 +112,11 @@ class ServerEncounterTurnSequencer {
 
                 if (!actor) {
                     sequencerTurnEnded()
-                    console.log("sequencerTurnEnded TURN_INIT")
+                //    console.log("sequencerTurnEnded TURN_INIT")
                     serverEncounter.sendEncounterStatusUpdate()
                     return;
                 }
-                console.log("Update TURN_INIT", actor.id)
+            //    console.log("Update TURN_INIT", actor.id)
                 passSequencerTurnToActor(this, actor);
                 sendActorUpdate(actor)
             }
@@ -126,7 +126,7 @@ class ServerEncounterTurnSequencer {
                 let actor = getHasTurnActor(this.serverEncounter);
 
                 let turnDone = checkActorTurnDone(this, actor);
-                console.log("Update TURN_MOVE", actor.id, turnDone)
+            //    console.log("Update TURN_MOVE", actor.id, turnDone)
                 if (turnDone) {
                     console.log("Determine actor turn done", actor.id)
                     this.call.actorTurnEnded();

@@ -14,7 +14,7 @@ let relayToWorker = function(msg) {
 
 function setupUniqueConnection(stamp) {
 	console.log("Set Stamp from message", stamp);
-	evt.on(ENUMS.Event.SEND_SOCKET_MESSAGE, relayToWorker)
+
 	client.setStamp(stamp);
 }
 
@@ -23,7 +23,7 @@ function setupUniqueConnection(stamp) {
 // './client/js/data_pipeline/worker/ServerWorkerMain.js'
 function initWorker() {
 	worker = new Worker("./Server/Worker/ServerWorkerMain.js", { type: "module" });
-
+	evt.on(ENUMS.Event.SEND_SOCKET_MESSAGE, relayToWorker)
 	worker.onmessage = function(msg) {
 
 		let protocolKey = msg.data[0];

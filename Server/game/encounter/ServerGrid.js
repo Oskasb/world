@@ -13,7 +13,7 @@ class ServerGrid {
         this.pathToPos = new Vector3();
         this.pathDirection = new Vector3();
         this.pathDistance = 0;
-        this.stepLength = 0.75;
+        this.stepLength = 0.95;
     }
 
     buildGridFromReportedTiles(tiles) {

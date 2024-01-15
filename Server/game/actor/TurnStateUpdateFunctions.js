@@ -140,12 +140,19 @@ function updateActorEvaluateTarget(tpf) {
 
 function updateActorSelectAttack(tpf) {
 
- //   let actor = getSequencer().getGameActor()
-    let stepProgress = getSequencer().getSequenceProgress()
+    let sequencer = getSequencer();
+    let stepProgress = sequencer.getSequenceProgress()
+
+
 
  //   evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:actor.getSpatialPosition(), to:getSequencer().getTargetActor().getSpatialPosition(), color:'RED'});
 
     if (stepProgress === 0) {
+        let actor = getSequencer().getGameActor()
+        let actionId = actor.call.selectServerActorActionId();
+        actor.serverAction.activateServerActionId(actionId, actor);
+
+        sequencer.serverEncounter.sendActionStatusUpdate(actor.serverAction);
  //       getSequencer().selectedAttack = attackSelector.selectActorAction(actor)
     }
 

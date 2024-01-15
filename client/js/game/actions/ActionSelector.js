@@ -15,8 +15,6 @@ class ActionSelector {
         return action;
     }
 
-
-
 }
 
 export { ActionSelector }

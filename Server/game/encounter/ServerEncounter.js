@@ -183,12 +183,23 @@ class ServerEncounter {
             this.encounterActors.push(actor);
             this.combatants.push(actor);
             let message = actor.buildServerActorStatusMessage(ENUMS.ClientRequests.ENCOUNTER_PLAY, ENUMS.ServerCommands.ACTOR_INIT);
-            this.call.messageParticipants(message);
+            if (message) {
+                this.call.messageParticipants(message);
+            }
         }
+
+
+        let randomPos = function() {
+            this.encounterPrepareFirstTurn()
+        }.bind(this);
+
+        setTimeout(randomPos, 200)
+
+
     }
 
     encounterPrepareFirstTurn() {
-        if (this.ticks < 10) {
+
             for (let i = 0; i < this.encounterActors.length; i++) {
                 console.log("Random position enc actor")
                 let actor = this.encounterActors[i];
@@ -200,12 +211,6 @@ class ServerEncounter {
                 actor.setStatusKey(ENUMS.ActorStatus.HAS_TURN, false);
                 this.sendActorStatusUpdate(actor);
             }
-            this.ticks++
-            return false;
-        } else {
-            this.setStatusKey(ENUMS.EncounterStatus.TURN_INDEX, 0);
-            return true;
-        }
 
     }
 
@@ -237,15 +242,26 @@ class ServerEncounter {
         let message = this.simpleUpdateMessage.call.buildMessage(ENUMS.EncounterStatus.ENCOUNTER_ID, this.getStatus(), ENUMS.ClientRequests.ENCOUNTER_PLAY)
         if (message) {
             message.command = ENUMS.ServerCommands.ENCOUNTER_UPDATE;
-            console.log("Message Enc Status: ", message)
+        //    console.log("Message Enc Status: ", message)
             this.call.messageParticipants(message);
         }
     }
 
     sendActorStatusUpdate(actor) {
-        actorMessage.stamp = actor.getStatus(ENUMS.ActorStatus.CLIENT_STAMP);
-        actorMessage.status = messageFromStatusMap(actor.getStatusMap(), ENUMS.ActorStatus.ACTOR_ID);
-        this.call.messageParticipants(actorMessage);
+
+        let msg = actor.buildServerActorStatusMessage(actorMessage.request, actorMessage.command)
+        if (msg) {
+        //    this.call.messageParticipants(msg);
+            actorMessage.stamp = actor.getStatus(ENUMS.ActorStatus.CLIENT_STAMP);
+            actorMessage.status = messageFromStatusMap(actor.getStatusMap(), ENUMS.ActorStatus.ACTOR_ID);
+            this.call.messageParticipants(actorMessage);
+        }
+
+    }
+
+    sendActionStatusUpdate(serverAction) {
+        let message = serverAction.buildActionMessage()
+        this.call.messageParticipants(message);
     }
 
     closeServerEncounter() {

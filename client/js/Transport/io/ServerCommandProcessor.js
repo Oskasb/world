@@ -309,6 +309,24 @@ function processServerCommand(protocolKey, message) {
         case ENUMS.ServerCommands.ENCOUNTER_CLOSE:
             console.log("Close Encounter; ", message);
             break;
+        case ENUMS.ServerCommands.FETCH_CONFIGS:
+            console.log("FETCH_CONFIGS; ", message.folders, CONFIGS);
+
+            let res = {
+                request:ENUMS.ClientRequests.REGISTER_CONFIGS,
+                data:{}
+            }
+
+            for (let i = 0; i < message.folders.length; i++) {
+                let folder = message.folders[i];
+                let folderData = CONFIGS[folder];
+                res.data[folder] = folderData;
+            }
+
+            console.log("SEND_SOCKET_MESSAGE; ", res);
+            evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, res);
+
+            break;
         default:
 
 
