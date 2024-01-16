@@ -68,8 +68,7 @@ class ServerAction {
             this.status.setStatusKey(ENUMS.ActionStatus.STEP_END_TIME, stepDuration)
             let funcName = attackStateMap[newActionState].updateFunc
             this.call[funcName]();
-            this.serverEncounter.sendActionStatusUpdate(this);
-            this.serverEncounter.sendActorStatusUpdate(this.actor);
+
         }.bind(this)
 
 
@@ -106,7 +105,7 @@ class ServerAction {
         let updateActive = function(tpf) {
             if (this.stepProgress === 0) {
             //    this.visualAction.visualizeAttack(applyHit);
-                setTimeout(applyHit, 1000)
+                setTimeout(applyHit, 2000)
             }
         }.bind(this)
 
@@ -121,6 +120,8 @@ class ServerAction {
             if (stepDuration < this.stepProgress) {
                 activateAttackStateTransition()
             }
+            this.serverEncounter.sendActionStatusUpdate(this);
+            this.serverEncounter.sendActorStatusUpdate(this.actor);
         }.bind(this);
 
         let closeAttack = function() {
@@ -185,7 +186,7 @@ class ServerAction {
         statusMap[ENUMS.ActionStatus.ACTION_ID] = "action_"+castIndex+"_"+actionId;
         statusMap[ENUMS.ActionStatus.ACTION_KEY] = actionId;
         statusMap[ENUMS.ActionStatus.BUTTON_STATE] = ENUMS.ButtonState.UNAVAILABLE;
-        statusMap[ENUMS.ActionStatus.ACTION_STATE] = ENUMS.ActionState.SELECTED;
+        statusMap[ENUMS.ActionStatus.ACTION_STATE] = ENUMS.ActionState.DISABLED;
         statusMap[ENUMS.ActionStatus.SELECTED] = true;
         statusMap[ENUMS.ActionStatus.TARGET_ID] = actor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET);
         statusMap[ENUMS.ActionStatus.STEP_START_TIME] = 0;
