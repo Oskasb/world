@@ -1,3 +1,6 @@
+import {ENUMS} from "../../application/ENUMS.js";
+import {MATH} from "../../application/MATH.js";
+
 function processActionStatus(action) {
 
 }
@@ -8,11 +11,15 @@ function modifyTargetHP(target, change, typeKey) {
     let newHP = Math.ceil(MATH.clamp(hp +change, 0, maxHP ));
     target.setStatusKey(ENUMS.ActorStatus.HP, newHP)
     target.setStatusKey(ENUMS.ActorStatus[typeKey], hp - newHP)
-    if (change < 0) {
-        target.actorText.pieceTextPrint(Math.abs(change), ENUMS.Message.DAMAGE_NORMAL_TAKEN, 3)
-    } else {
-        target.actorText.pieceTextPrint(change, ENUMS.Message.HEALING_GAINED, 3)
+
+    if (target.actorText) {
+        if (change < 0) {
+            target.actorText.pieceTextPrint(Math.abs(change), ENUMS.Message.DAMAGE_NORMAL_TAKEN, 3)
+        } else {
+            target.actorText.pieceTextPrint(change, ENUMS.Message.HEALING_GAINED, 3)
+        }
     }
+
 }
 
 function processStatisticalActionApplied(target, modifier, amount) {

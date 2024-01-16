@@ -50,7 +50,6 @@ class ServerActor {
     }
 
 
-
     rollInitiative() {
         this.turnSequencer.setGameActor(this);
         this.setStatusKey(ENUMS.ActorStatus.SEQUENCER_INITIATIVE, Math.random())

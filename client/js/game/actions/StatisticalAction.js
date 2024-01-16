@@ -17,8 +17,6 @@ class StatisticalAction {
             processStatisticalActionApplied(target, mod['modifier'], mod['amount'])
         }
 
-
-
     }
 
 }

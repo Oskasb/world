@@ -112,6 +112,7 @@ function updateActorTargetSelect(tpf) {
                 let targetPos = getStatusPosition(candidate);
                 faceTowardsPos(actor, targetPos);
                 actor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, candidate.getStatus(ENUMS.ActorStatus.ACTOR_ID));
+                actor.selectedTarget = candidate;
                 sequencer.serverEncounter.sendActorStatusUpdate(actor);
             }
         }
@@ -150,7 +151,7 @@ function updateActorSelectAttack(tpf) {
     if (stepProgress === 0) {
         let actor = getSequencer().getGameActor()
         let actionId = actor.call.selectServerActorActionId();
-        actor.serverAction.activateServerActionId(actionId, actor);
+        actor.serverAction.activateServerActionId(actionId, actor, actor.selectedTarget, sequencer.serverEncounter);
 
         sequencer.serverEncounter.sendActionStatusUpdate(actor.serverAction);
  //       getSequencer().selectedAttack = attackSelector.selectActorAction(actor)

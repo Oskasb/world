@@ -3,13 +3,6 @@ import {configDataList} from "../../application/utils/ConfigUtils.js";
 import {ActionStatus} from "../actions/ActionStatus.js";
 import {ENUMS} from "../../application/ENUMS.js";
 
-let visualConfig = {
-    "fx_selected":"combat_effect_hands_magic_power",
-    "fx_precast":"combat_effect_hands_fire",
-    "fx_active":"combat_effect_fire_missile",
-    "fx_apply":"combat_effect_fireball",
-    "fx_post_hit":"damage_effect_catch_on_fire"
-}
 
 let config = {};
 let actionStats = {};
@@ -84,6 +77,8 @@ class ActorAction {
         this.onCompletedCallbacks = [];
         this.initiated = false;
         this.statisticalActions = [];
+
+
 
         let stepDuration = 0;
 
@@ -312,7 +307,6 @@ class ActorAction {
         this.initiated = false;
 
         let actor = GameAPI.getActorById(this.call.getStatus(ENUMS.ActionStatus.ACTOR_ID))
-
 
         if (!actor.call.getRemote()) {
             this.actor.setStatusKey(ENUMS.ActorStatus.REQUEST_TURN_STATE, ENUMS.TurnState.TURN_CLOSE);
