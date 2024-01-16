@@ -142,7 +142,13 @@ function processClientRequest(request, stamp, message, connectedClient) {
         case ENUMS.ClientRequests.REGISTER_CONFIGS:
             getGameServer().registerServerConfigData(message.data);
             break;
+        case ENUMS.ClientRequests.APPLY_ACTION_EFFECT:
+            console.log('APPLY_ACTION_EFFECT', message);
 
+            player = getGameServer().getConnectedPlayerByStamp(message.stamp)
+            let target = player.serverEncounter.getEncounterCombatantById(message.targetId);
+            console.log('APPLY_ACTION_EFFECT', player, target);
+            break;
         default:
             console.log("Message not handled by server:", message)
     }

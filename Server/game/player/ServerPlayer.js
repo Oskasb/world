@@ -8,8 +8,11 @@ class ServerPlayer {
     constructor(stamp) {
         this.actors = [];
         this.stamp = stamp;
+        this.serverEncounter = null;
         index++
     }
+
+
 
     loadPlayerActor(msg) {
         console.log('loadPlayerActor', msg);

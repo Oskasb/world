@@ -120,7 +120,6 @@ function updateActorTargetSelect(tpf) {
         getSequencer().advanceSequenceProgress(tpf*0.7);
     }
 
-
 }
 
 
@@ -136,42 +135,17 @@ function updateActorEvaluateTarget(tpf) {
         getSequencer().advanceSequenceProgress(tpf * 0.75);
     }
 
-
 }
 
 function updateActorSelectAttack(tpf) {
 
     let sequencer = getSequencer();
-    let stepProgress = sequencer.getSequenceProgress()
-
-
-
- //   evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:actor.getSpatialPosition(), to:getSequencer().getTargetActor().getSpatialPosition(), color:'RED'});
-
-    if (stepProgress === 0) {
-        let actor = getSequencer().getGameActor()
+        let actor = sequencer.getGameActor()
         let actionId = actor.call.selectServerActorActionId();
         actor.serverAction.activateServerActionId(actionId, actor, actor.selectedTarget, sequencer.serverEncounter);
-
+        actor.serverAction.onCompletedCallbacks.push(sequencer.call.stateTransition)
         sequencer.serverEncounter.sendActionStatusUpdate(actor.serverAction);
- //       getSequencer().selectedAttack = attackSelector.selectActorAction(actor)
-    }
-
-
- //   let attack = getSequencer().selectedAttack;
- //   let holdTime = attack.getStepDuration('selected')
-
- //   let target = getSequencer().getTargetActor();
- //   attack.setActionTargetId(target.id);
- //   viewPrecastAction(getSequencer(), target)
-
-    if (stepProgress > 1) {
         unregisterGameServerUpdateCallback(updateActorSelectAttack)
-        getSequencer().call.stateTransition()
-    } else {
-        getSequencer().advanceSequenceProgress(tpf);
-    }
-
 
 }
 

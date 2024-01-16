@@ -1,6 +1,6 @@
 import {
     buildEncounterActorStatus,
-    dispatchMessage, dispatchPartyMessage, getServerActorByActorId, messageFromStatusMap,
+    dispatchMessage, dispatchPartyMessage, getGameServer, getServerActorByActorId, messageFromStatusMap,
     registerGameServerUpdateCallback, spawnServerEncounterActor,
     unregisterGameServerUpdateCallback
 } from "../utils/GameServerFunctions.js";
@@ -102,6 +102,8 @@ class ServerEncounter {
 
         for (let i = 0; i < this.partyMembers.length; i++) {
             let actor = getServerActorByActorId(this.partyMembers[i]);
+            let player = getGameServer().getConnectedPlayerByStamp(actor.getStatus(ENUMS.ActorStatus.CLIENT_STAMP))
+            player.serverEncounter = this;
             this.combatants.push(actor);
         }
 

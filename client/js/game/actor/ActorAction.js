@@ -130,12 +130,11 @@ class ActorAction {
                 return;
             }
 
-
-            if (!target.call.getRemote()) {
+            let selectedActor = GameAPI.getGamePieceSystem().selectedActor;
+            if (this.actor === selectedActor) {
                 for (let i = 0; i < this.statisticalActions.length; i++) {
                     this.statisticalActions[i].applyStatisticalActionToTarget(target)
                 }
-
             }
 
         }.bind(this);

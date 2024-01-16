@@ -116,7 +116,8 @@ let ENUMS = {}
         APPLY_ACTION_STATUS:7,
         LOAD_SERVER_ITEM: 8,
         ENCOUNTER_PLAY:9,
-        REGISTER_CONFIGS:10
+        REGISTER_CONFIGS:10,
+        APPLY_ACTION_EFFECT:11
     };
 
     ENUMS.ServerCommands = {
