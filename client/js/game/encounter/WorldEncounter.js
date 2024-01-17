@@ -24,6 +24,8 @@ let indicateTriggerRadius = function(encounter) {
 
 let encounterEvent = {};
 let green =  [0, 0.5, 0.0, 1]
+let triggeredCount = 0;
+
 
 function processEncounterActivation(actor, encounter) {
 
@@ -113,12 +115,13 @@ function checkTriggerPlayer(encounter) {
                 encounterEvent.actorId = selectedActor.getStatus(ENUMS.ActorStatus.ACTOR_ID);
                 encounterEvent.playerParty = GameAPI.getGamePieceSystem().playerParty.listPartyMemeberIDs();
                 encounterEvent.worldEncounterId = encounter.id;
-                encounterEvent.encounterId = client.getStamp()+encounter.id;
+                encounterEvent.encounterId = client.getStamp()+encounter.id+'_'+triggeredCount;
                 encounterEvent.pos = encounter.getPos();
                 encounterEvent.grid_id = encounter.config.grid_id;
                 encounterEvent.spawn = encounter.config.spawn;
                 encounterEvent.cam_pos = encounter.getTriggeredCameraHome();
                 evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, encounterEvent)
+                triggeredCount++
             }
 
             encounter.timeInsideTrigger += tpf;

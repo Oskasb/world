@@ -23,7 +23,6 @@ function clearActorEncounterStatus(actor) {
     actor.setStatusKey(ENUMS.ActorStatus.HAS_TURN_INDEX, -1);
     actor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, '');
     actor.setStatusKey(ENUMS.ActorStatus.SEQUENCER_SELECTED, false);
-    actor.setStatusKey(ENUMS.ActorStatus.SEQUENCER_INITIATIVE, -1);
     actor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, false);
     actor.setStatusKey(ENUMS.ActorStatus.REQUEST_PARTY, '');
     actor.setStatusKey(ENUMS.ActorStatus.RETREATING, '');

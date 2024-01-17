@@ -7,29 +7,34 @@ class PlayerParty {
 
         let partyVictorious = function(worldEncounterId) {
             evt.dispatch(ENUMS.Event.ENCOUNTER_COMPLETED, {worldEncounterId:worldEncounterId})
+
+
             for (let i = 0; i < this.actors.length; i++) {
                 let actor = this.actors[i];
                 if (!actor.call.getRemote()) {
                     actor.setStatusKey(ENUMS.ActorStatus.EXIT_ENCOUNTER, actor.getStatus(ENUMS.ActorStatus.ACTIVATED_ENCOUNTER));
                     actor.setStatusKey(ENUMS.ActorStatus.DEACTIVATING_ENCOUNTER, actor.getStatus(ENUMS.ActorStatus.ACTIVATED_ENCOUNTER));
-                    GameAPI.call.getGameEncounterSystem().deactivateActiveEncounter(false, true);
                 }
             }
+
+            GameAPI.call.getGameEncounterSystem().deactivateActiveEncounter(false, true);
         }.bind(this);
 
-
         let partyDefeated = function() {
+
+            console.log("Party Defeated", this.actors)
 
             for (let i = 0; i < this.actors.length; i++) {
                 let actor = this.actors[i];
                 actor.setStatusKey(ENUMS.ActorStatus.EXIT_ENCOUNTER, actor.getStatus(ENUMS.ActorStatus.ACTIVATED_ENCOUNTER));
                 actor.setStatusKey(ENUMS.ActorStatus.DEACTIVATING_ENCOUNTER, actor.getStatus(ENUMS.ActorStatus.ACTIVATED_ENCOUNTER));
-
-                if (!actor.call.getRemote()) {
-                    GameAPI.call.getGameEncounterSystem().deactivateActiveEncounter(true, false);
-                }
-
+                let dst = actor.getStatus(ENUMS.ActorStatus.SELECTED_DESTINATION);
+                actor.setSpatialPosition(MATH.vec3FromArray(actor.getPos(), dst))
             }
+
+
+
+            GameAPI.call.getGameEncounterSystem().deactivateActiveEncounter(false, false);
 
         }.bind(this);
 

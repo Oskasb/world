@@ -317,7 +317,7 @@ class ActorAction {
         let actor = GameAPI.getActorById(this.call.getStatus(ENUMS.ActionStatus.ACTOR_ID))
 
         if (!actor.call.getRemote()) {
-            this.actor.setStatusKey(ENUMS.ActorStatus.REQUEST_TURN_STATE, ENUMS.TurnState.TURN_CLOSE);
+            actor.setStatusKey(ENUMS.ActorStatus.REQUEST_TURN_STATE, ENUMS.TurnState.TURN_CLOSE);
         }
 
         actor.setStatusKey(ENUMS.ActorStatus.SELECTED_ACTION, '');

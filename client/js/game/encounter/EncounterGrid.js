@@ -1,7 +1,7 @@
 import {ConfigData} from "../../application/utils/ConfigData.js";
 import * as ScenarioUtils from "../gameworld/ScenarioUtils.js";
 import {Vector3} from "../../../libs/three/math/Vector3.js";
-import {filterForWalkableTiles} from "../gameworld/ScenarioUtils.js";
+import {filterForWalkableTiles, getRandomWalkableTiles} from "../gameworld/ScenarioUtils.js";
 
 let forward = new Vector3();
 let tempVec = new Vector3()
@@ -114,7 +114,8 @@ class EncounterGrid {
                     posY:pos.y,
                     posZ:pos.z,
                     walkable:tile.walkable,
-                    blocking:tile.blocking
+                    blocking:tile.blocking,
+                    isExit:tile.isExit
                 }
             }
         }

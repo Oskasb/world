@@ -110,6 +110,7 @@ function processEncounterDeactivation(actor) {
         }
     }
 
+    activeEncounter.setStatusKey(ENUMS.EncounterStatus.ACTIVATION_STATE, ENUMS.ActivationState.DEACTIVATED);
     encounterClosing = true;
 }
 
@@ -132,6 +133,15 @@ class EncounterStatusProcessor {
                 return;
             }
 
+            if (activationState === ENUMS.ActivationState.DEACTIVATED) {
+                console.log("Encounter DEACTIVATED")
+                return;
+            }
+
+            if (getStatus(ENUMS.EncounterStatus.ACTIVATION_STATE) === ENUMS.ActivationState.DEACTIVATING) {
+                processEncounterDeactivation();
+                return;
+            }
 
             let hasTurnId = activeEncounter.status.call.getStatus(ENUMS.EncounterStatus.HAS_TURN_ACTOR);
             if (hasTurnId) {
@@ -141,23 +151,17 @@ class EncounterStatusProcessor {
                     return;
                 }
 
-
-                if (getStatus(ENUMS.EncounterStatus.ACTIVATION_STATE) === ENUMS.ActivationState.DEACTIVATING) {
-                    processEncounterDeactivation(actor);
-                    return;
-                }
-
                 if (actor.getStatus(ENUMS.ActorStatus.DEACTIVATING_ENCOUNTER) !== '') {
                     console.log("Deactivate: ", actor.getStatus(ENUMS.ActorStatus.DEACTIVATING_ENCOUNTER), activeEncounter.status.call.getStatus(ENUMS.EncounterStatus.WORLD_ENCOUNTER_ID))
                     return;
                 }
 
                 if (this.actorTurnStart !== hasTurnId) {
-                    processEncounterTurnStartTileMechanics(actor)
+                //    processEncounterTurnStartTileMechanics(actor)
                     this.actorTurnStart = hasTurnId
                 } else {
                     if (actor.getStatus(ENUMS.ActorStatus.DEAD) === false) {
-                        processEncounterTileUpdateMechanics(actor)
+                //        processEncounterTileUpdateMechanics(actor)
                     }
                 }
 

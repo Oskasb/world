@@ -82,6 +82,21 @@ class ServerEncounterTurnSequencer {
 
         let actorTurnEnded = function() {
             this.turnTime = 0;
+
+            if (opponentsEngaged === 0) {
+                console.log("No active enemies")
+                serverEncounter.closeServerEncounter(true);
+                serverEncounter.sendEncounterStatusUpdate()
+                return;
+            }
+
+            if (playersEngaged === 0) {
+                console.log("No active players")
+                serverEncounter.closeServerEncounter(false);
+                serverEncounter.sendEncounterStatusUpdate()
+                return;
+            }
+
             endActorTurn(this.serverEncounter)
         }.bind(this)
 
@@ -94,10 +109,7 @@ class ServerEncounterTurnSequencer {
 
             this.call.updateEncounterActorStatus(this.actors);
 
-            if (playersEngaged === 0) {
-                console.log("No active players")
-                return;
-            }
+
 
             let turnState = getStatus(ENUMS.EncounterStatus.TURN_STATE);
 
@@ -105,7 +117,6 @@ class ServerEncounterTurnSequencer {
             //    console.log("Update TURN_CLOSE")
                 startEncounterTurn(this.serverEncounter)
             }
-
 
             if (turnState === ENUMS.TurnState.TURN_INIT) {
                 let actor = getNextActorInTurnSequence(this)

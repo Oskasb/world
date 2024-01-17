@@ -14,7 +14,7 @@ import {getRandomWalkableTiles} from "../utils/GameServerFunctions.js";
 import {SimpleUpdateMessage} from "../utils/SimpleUpdateMessage.js";
 
 import {ServerEncounterTurnSequencer} from "./ServerEncounterTurnSequencer.js";
-import {enterEncounter} from "../actor/ActorStatusFunctions.js";
+import {enterEncounter, exitEncounter} from "../actor/ActorStatusFunctions.js";
 
 let actorCount = 0;
 let actorMessage = {
@@ -65,7 +65,6 @@ class ServerEncounter {
     constructor(message, closeEncounterCB) {
 
         console.log("New ServerEncounter", message);
-
         this.ticks = 0;
 
         this.simpleUpdateMessage = new SimpleUpdateMessage();
@@ -267,11 +266,31 @@ class ServerEncounter {
         this.call.messageParticipants(message);
     }
 
-    closeServerEncounter() {
-        while (this.onCloseCallbacks.length) {
-            this.onCloseCallbacks.pop()(this.hostStamp);
+
+    getRandomExitTile() {
+        return getRandomWalkableTiles(this.serverGrid.gridTiles, 1, 'isExit')[0];
+    }
+
+    closeServerEncounter(victory) {
+        this.setStatusKey(ENUMS.EncounterStatus.PLAYER_VICTORY, victory);
+        this.setStatusKey(ENUMS.EncounterStatus.ACTIVATION_STATE, ENUMS.ActivationState.DEACTIVATING);
+
+        while (this.encounterActors.length) {
+            let actor = this.encounterActors.pop();
+            actor.removeServerActor();
         }
+
+        for (let i = 0; i < this.partyMembers.length; i++) {
+            let actor = getServerActorByActorId(this.partyMembers[i]);
+            exitEncounter(this, actor, victory);
+        }
+
         unregisterGameServerUpdateCallback(this.call.updateServerEncounter)
+
+        while (this.onCloseCallbacks.length) {
+            this.onCloseCallbacks.pop()(this);
+        }
+
     }
 
 }

@@ -12,8 +12,8 @@ function getEncounterById(encId) {
     console.log("No Server Encounter by id", encId, activeEncounters);
 }
 
-let closeEncounterCB = function(encounterId) {
-    MATH.splice(activeEncounters, encounterId)
+let closeEncounterCB = function(encounter) {
+    MATH.splice(activeEncounters, encounter)
 }
 
 class GameServerWorld {

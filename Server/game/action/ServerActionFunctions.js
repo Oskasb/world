@@ -18,7 +18,7 @@ function modifyTargetHP(target, change, typeKey) {
 function applyServerAction(target, modifier, amount) {
 
     let change = Math.ceil(amount * 0.5 + Math.random()*amount);
-    
+
     if (modifier === ENUMS.StatusModifiers.APPLY_DAMAGE) {
         modifyTargetHP(target, -change, ENUMS.ActorStatus.DAMAGE_APPLIED)
     } else if  (modifier === ENUMS.StatusModifiers.APPLY_HEAL) {

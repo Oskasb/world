@@ -58,6 +58,8 @@ function updateActorTileSelect(tpf) {
 
         let tileCount = pathTiles.length;
 
+
+
         while (pathPoints.length) {
             pathPoints.pop()
         }
@@ -73,14 +75,12 @@ function updateActorTileSelect(tpf) {
         sequencer.advanceSequenceProgress(tpf);
     }
 
-
 }
 
 function updateActorTurnMove(tpf) {
     let sequencer = getSequencer();
     let actor = sequencer.actor;
-    let tileCount = actor.serverActorPathWalker.tileCount();
-    let stepProgress = getSequencer().getSequenceProgress()
+
     if (actor.serverActorPathWalker.pathCompletedCallbacks.length === 0) {
 
         let pathCompletedCB = function() {
@@ -88,7 +88,12 @@ function updateActorTurnMove(tpf) {
             unregisterGameServerUpdateCallback(updateActorTurnMove)
         }
 
-        actor.serverActorPathWalker.pathCompletedCallbacks.push(pathCompletedCB)
+        let tileCount = actor.serverActorPathWalker.tileCount();
+        if (!tileCount) {
+            pathCompletedCB()
+        } else {
+            actor.serverActorPathWalker.pathCompletedCallbacks.push(pathCompletedCB)
+        }
 
     } else {
         actor.serverActorPathWalker.walkPath(actor, tpf, sequencer.serverEncounter);

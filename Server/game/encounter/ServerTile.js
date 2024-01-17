@@ -5,6 +5,7 @@ import {GridPoint} from "./movement/GridPoiint.js";
 class ServerTile {
     constructor(tileInfo) {
         this.pos = new Vector3(tileInfo.posX, tileInfo.posY, tileInfo.posZ);
+        this.isExit = tileInfo.isExit;
         this.walkable = tileInfo.walkable;
         this.blocking = tileInfo.blocking;
         this.tileX = tileInfo.tileX;

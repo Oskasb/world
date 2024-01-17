@@ -44,6 +44,10 @@ turnStateMap[turnStateKeys.turn_closed] = {enter: turnClosed, exitTo:null};
 let activateStateTransition = function(sequencer) {
     sequencer.stepProgress = 0;
     let turnStateKey = sequencer.exitTo;
+    if (!turnStateMap[turnStateKey]) {
+        console.log("undefined turnState", turnStateKey, sequencer);
+        turnStateKey = turnStateKeys.turn_closed;
+    }
     let enter = turnStateMap[turnStateKey].enter;
     sequencer.exitTo  = turnStateMap[turnStateKey].exitTo;
     let turnIndex = sequencer.serverEncounter.getStatus(ENUMS.EncounterStatus.TURN_INDEX)
