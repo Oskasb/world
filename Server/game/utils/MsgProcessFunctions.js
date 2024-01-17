@@ -8,6 +8,8 @@ import {
     getServerStamp, getStatusFromMsg, statusMapFromMsg
 } from "./GameServerFunctions.js";
 import {getIncomingBytes, getOutgoingBytes} from "./ServerStatusTracker.js";
+import {applyServerAction} from "../action/ServerActionFunctions.js";
+import {MATH} from "../../../client/js/application/MATH.js";
 
 let msgEvent = {
     stamp:0,
@@ -22,8 +24,10 @@ function processClientRequest(request, stamp, message, connectedClient) {
     message.stamp = connectedClient.stamp;
     let player;
     let actor;
+    let target;
     let actorId;
     let statusValues;
+    let serverEncounter;
 
     switch (request) {
         case ENUMS.ClientRequests.REGISTER_PLAYER:
@@ -90,8 +94,26 @@ function processClientRequest(request, stamp, message, connectedClient) {
                 return;
             }
 
-            actorId = getStatusFromMsg(ENUMS.ActorStatus.ACTOR_ID, message.status);
-            //    actor = player.getPlayerActor(actorId)
+            let actionState = getStatusFromMsg(ENUMS.ActionStatus.ACTION_STATE, message.status);
+
+            if (actionState === ENUMS.ActionState.ACTIVE || actionState === ENUMS.ActionState.APPLY_HIT) {
+                let modifiers = getStatusFromMsg(ENUMS.ActionStatus.STATUS_MODIFIERS, message.status);
+
+                if (typeof modifiers === 'object') {
+                    if (modifiers.length > 0) {
+                            console.log("actionState modifiers", actionState, modifiers)
+                        actorId = getStatusFromMsg(ENUMS.ActionStatus.ACTOR_ID, message.status);
+                        actor = player.getPlayerActor(actorId);
+                        let targetId = getStatusFromMsg(ENUMS.ActionStatus.TARGET_ID, message.status);
+                        target = player.serverEncounter.getEncounterCombatantById(targetId);
+                        actor.serverAction.processActionStatusModifiers(modifiers, target);
+                        MATH.emptyArray(modifiers);
+                        player.serverEncounter.sendActorStatusUpdate(target);
+                        target.setStatusKey(ENUMS.ActorStatus.DAMAGE_APPLIED, 0)
+                        target.setStatusKey(ENUMS.ActorStatus.HEALING_APPLIED, 0)
+                    }
+                }
+            }
 
             //    statusValues = statusMapFromMsg(message.status);
         //    let item = getServerItemByItemId(message.status[1])
@@ -101,6 +123,7 @@ function processClientRequest(request, stamp, message, connectedClient) {
         //        return;
         //    }
         //    item.updateItemStatusFromMessage(message.status)
+
             message.command = ENUMS.ServerCommands.ACTION_UPDATE;
             dispatchMessage(message);
             break;
@@ -108,7 +131,7 @@ function processClientRequest(request, stamp, message, connectedClient) {
         case ENUMS.ClientRequests.APPLY_ACTOR_STATUS:
             player = getGameServer().getConnectedPlayerByStamp(connectedClient.stamp);
 
-            let actor = player.getPlayerActor(message.status[1])
+            actor = player.getPlayerActor(message.status[1])
 
             if (actor) {
                 actor.updateStatusFromMessage(message.status);
@@ -116,7 +139,6 @@ function processClientRequest(request, stamp, message, connectedClient) {
                 console.log("actor not found", message)
                 return;
             }
-
 
         //    getGameServerWorld().initServerEncounter(msgEvent)
             message.command = ENUMS.ServerCommands.ACTOR_UPDATE;
@@ -143,11 +165,17 @@ function processClientRequest(request, stamp, message, connectedClient) {
             getGameServer().registerServerConfigData(message.data);
             break;
         case ENUMS.ClientRequests.APPLY_ACTION_EFFECT:
-            console.log('APPLY_ACTION_EFFECT', message);
-
+        //    console.log('APPLY_ACTION_EFFECT', message);
+/*
             player = getGameServer().getConnectedPlayerByStamp(message.stamp)
-            let target = player.serverEncounter.getEncounterCombatantById(message.targetId);
-            console.log('APPLY_ACTION_EFFECT', player, target);
+            target = player.serverEncounter.getEncounterCombatantById(message.targetId);
+            let modifier = message.modifier;
+            let amount = message.amount;
+            applyServerAction(target, modifier, amount);
+            player.serverEncounter.sendActorStatusUpdate(target);
+
+ */
+            // console.log('APPLY_ACTION_EFFECT', player, target, modifier, amount);
             break;
         default:
             console.log("Message not handled by server:", message)

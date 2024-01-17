@@ -13,7 +13,7 @@ class ActionStatus {
         this.statusMap[ENUMS.ActionStatus.TARGET_ID] = "none";
         this.statusMap[ENUMS.ActionStatus.STEP_START_TIME] = 0;
         this.statusMap[ENUMS.ActionStatus.STEP_END_TIME] = 0;
-
+        this.statusMap[ENUMS.ActionStatus.STATUS_MODIFIERS] = [];
 
         this.isRemote = false;
         let setStatusByKey = function(key, status) {
@@ -73,6 +73,9 @@ class ActionStatus {
             this.statusMap[ENUMS.ActionStatus.TARGET_ID] = "none";
             this.statusMap[ENUMS.ActionStatus.STEP_START_TIME] = 0;
             this.statusMap[ENUMS.ActionStatus.STEP_END_TIME] = 0;
+
+            MATH.emptyArray(this.statusMap[ENUMS.ActionStatus.STATUS_MODIFIERS]);
+
         //    console.log("INIT ACTION STATUS", this, actor, this.statusMap[ENUMS.ActionStatus.ACTION_STATE])
         //    simpleSend.call.broadcastStatus(ENUMS.ActionStatus.ACTION_ID, this.statusMap);
         }.bind(this);

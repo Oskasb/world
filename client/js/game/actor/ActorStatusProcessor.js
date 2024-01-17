@@ -3,6 +3,7 @@ import {notifyCameraStatus} from "../../3d/camera/CameraFunctions.js";
 import {Vector3} from "../../../libs/three/math/Vector3.js";
 import {CameraStatusProcessor} from "../../application/utils/CameraStatusProcessor.js";
 import {getModelByBodyPointer, getPhysicalWorld} from "../../application/utils/PhysicsUtils.js";
+import {ENUMS} from "../../application/ENUMS.js";
 
 let tempVec = new Vector3()
 let tempVec2 = new Vector3();
@@ -102,14 +103,28 @@ function processActorCombatStatus(actor) {
             actor.setStatusKey(ENUMS.ActorStatus.DEAD, true);
         }
 
+
+        let dmgApplied = actor.getStatus(ENUMS.ActorStatus.DAMAGE_APPLIED);
+        let healApplied = actor.getStatus(ENUMS.ActorStatus.HEALING_APPLIED);
+        if (dmgApplied) {
+            actor.actorText.pieceTextPrint(dmgApplied, ENUMS.Message.DAMAGE_NORMAL_TAKEN, 3)
+            actor.setStatusKey(ENUMS.ActorStatus.DAMAGE_APPLIED, 0)
+        }
+
+        if (healApplied) {
+            actor.actorText.pieceTextPrint(healApplied, ENUMS.Message.HEALING_GAINED, 3)
+            actor.setStatusKey(ENUMS.ActorStatus.HEALING_APPLIED, 0)
+        }
+
+
         if (actor.getStatus(ENUMS.ActorStatus.HAS_TURN) === false) {
-            actor.actorText.say(actor.getStatus(ENUMS.ActorStatus.TURN_DONE))
+        //    actor.actorText.say(actor.getStatus(ENUMS.ActorStatus.TURN_DONE))
         }
 
     } else {
         if (actor.getStatus(ENUMS.ActorStatus.DEAD) === false)
             actor.setStatusKey(ENUMS.ActorStatus.HP, actor.getStatus(ENUMS.ActorStatus.MAX_HP));
-    }
+        }
     }
 
 let lastContact = 0;
@@ -154,7 +169,7 @@ function processSelectedActorTurnState(actor) {
 
 
     if (turnState === ENUMS.TurnState.TURN_INIT) {
-        actor.actorText.say(turnState)
+    //    actor.actorText.say(turnState)
         actor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, true);
         actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_BATTLE)
         actor.setStatusKey(ENUMS.ActorStatus.REQUEST_TURN_STATE, ENUMS.TurnState.TURN_MOVE)
@@ -162,18 +177,18 @@ function processSelectedActorTurnState(actor) {
     } else if (turnState === ENUMS.TurnState.TURN_MOVE) {
     //    console.log("Update TURN_MOVE", actor)
 
-        actor.actorText.say('play me')
+    //    actor.actorText.say('play me')
 
     } else if (turnState === ENUMS.TurnState.ACTION_APPLY) {
         //    console.log("Update TURN_MOVE", actor)
 
         actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_PASSIVE)
 
-        actor.actorText.say('action apply')
+    //    actor.actorText.say('action apply')
 
     } else if (turnState === ENUMS.TurnState.TURN_CLOSE) {
             console.log("Update TURN_CLOSE", actor)
-        actor.actorText.say('turn done')
+    //    actor.actorText.say('turn done')
     //    actor.setStatusKey(ENUMS.ActorStatus.REQUEST_TURN_STATE, ENUMS.TurnState.NO_TURN)
     }
 
@@ -243,7 +258,7 @@ class ActorStatusProcessor {
                 processSelectedActorTurnState(actor)
             } else {
                 let turnState = actor.getStatus(ENUMS.ActorStatus.TURN_STATE)
-                actor.actorText.say(turnState)
+            //    actor.actorText.say(turnState)
             }
 
         } else {

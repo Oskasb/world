@@ -82,6 +82,9 @@ function faceTowardsPos(actor, pos) {
 function enterEncounter(encounter, actor) {
 
     actor.rollInitiative();
+    actor.setStatusKey(ENUMS.ActorStatus.HP, actor.getStatus(ENUMS.ActorStatus.MAX_HP));
+    actor.setStatusKey(ENUMS.ActorStatus.DAMAGE_APPLIED, 0);
+    actor.setStatusKey(ENUMS.ActorStatus.HEALING_APPLIED, 0);
     actor.setStatusKey(ENUMS.ActorStatus.TURN_STATE, ENUMS.TurnState.NO_TURN);
     actor.setStatusKey(ENUMS.ActorStatus.HAS_TURN, false); // -1 for new encounter
     actor.setStatusKey(ENUMS.ActorStatus.HAS_TURN_INDEX, encounter.getStatus(ENUMS.EncounterStatus.TURN_INDEX));

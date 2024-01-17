@@ -2,13 +2,15 @@ import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
 import {configDataList} from "../../application/utils/ConfigUtils.js";
 import {ActionStatus} from "../actions/ActionStatus.js";
 import {ENUMS} from "../../application/ENUMS.js";
+import {MATH} from "../../application/MATH.js";
+import {processStatisticalActionApplied} from "../actions/ActionStatusProcessor.js";
 
 
 let config = {};
 let actionStats = {};
 let configUpdated = function(cfg) {
     config = cfg;
-  //  console.log("ActorActionConfig: ", config);
+    //  console.log("ActorActionConfig: ", config);
 }
 
 let statsUpdated = function(cfg) {
@@ -87,7 +89,7 @@ class ActorAction {
             this.stepProgress = 0;
 
             let actionState = this.status.call.getStatusByKey(ENUMS.ActionStatus.ACTION_STATE)
-       //     console.log("ACTION_STATE", actionState)
+            //     console.log("ACTION_STATE", actionState)
 
             if (!this.actor.call.getRemote()) {
                 this.actor.setStatusKey(ENUMS.ActorStatus.ACTION_STATE_KEY, actionState)
@@ -99,7 +101,7 @@ class ActorAction {
 
             let key = ENUMS.getKey('ActionState', newActionState);
             stepDuration = this.getStepDuration(key);
-       //     console.log("New Action State", newActionState, "Key: ", key);
+            //     console.log("New Action State", newActionState, "Key: ", key);
             this.status.call.setStatusByKey(ENUMS.ActionStatus.ACTION_STATE, newActionState)
             this.status.call.setStatusByKey(ENUMS.ActionStatus.STEP_START_TIME, 0)
             this.status.call.setStatusByKey(ENUMS.ActionStatus.STEP_END_TIME, stepDuration)
@@ -110,11 +112,11 @@ class ActorAction {
 
 
         let updateActivate = function(tpf) {
-                this.visualAction.activateVisualAction(this);
+            this.visualAction.activateVisualAction(this);
         }.bind(this)
 
         let updateProgress = function(tpf) {
-   //             console.log("Progress status... ")
+            //             console.log("Progress status... ")
         }.bind(this)
 
         let applyHitConsequences = function() {
@@ -130,12 +132,19 @@ class ActorAction {
                 return;
             }
 
-            let selectedActor = GameAPI.getGamePieceSystem().selectedActor;
-            if (this.actor === selectedActor) {
-                for (let i = 0; i < this.statisticalActions.length; i++) {
-                    this.statisticalActions[i].applyStatisticalActionToTarget(target)
+            //    let selectedActor = GameAPI.getGamePieceSystem().selectedActor;
+            let actor = this.getActor();
+            if (actor) {
+                let modifiers = this.call.getStatus(ENUMS.ActionStatus.STATUS_MODIFIERS);
+                MATH.emptyArray(modifiers);
+                if (!actor.call.getRemote()) {
+                    for (let i = 0; i < this.statisticalActions.length; i++) {
+                        this.statisticalActions[i].applyStatisticalActionToTarget(target, modifiers)
+                    }
+                    processStatisticalActionApplied(target, modifiers, actor);
                 }
             }
+
 
         }.bind(this);
 
@@ -266,7 +275,7 @@ class ActorAction {
     initAction(actor) {
 
         this.actor = actor;
-     //   console.log("initAction", [actor], this.status.call.getStatusByKey(ENUMS.ActionStatus.ACTION_KEY))
+        //   console.log("initAction", [actor], this.status.call.getStatusByKey(ENUMS.ActionStatus.ACTION_KEY))
 
         if (!actor.call.getRemote()) {
             this.actor.setStatusKey(ENUMS.ActorStatus.ACTION_STATE_KEY, this.status.call.getStatusByKey(ENUMS.ActionStatus.ACTION_STATE))
@@ -302,7 +311,7 @@ class ActorAction {
     }
 
     attackCompleted() {
- //       console.log("attackCompleted", this)
+        //       console.log("attackCompleted", this)
         this.initiated = false;
 
         let actor = GameAPI.getActorById(this.call.getStatus(ENUMS.ActionStatus.ACTOR_ID))

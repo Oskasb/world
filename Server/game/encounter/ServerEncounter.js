@@ -207,6 +207,7 @@ class ServerEncounter {
                 let actor = this.encounterActors[i];
                 let tile = getRandomWalkableTiles(this.serverGrid.gridTiles, 1)[0];
                 let pos = tile.getPos();
+                actor.setStatusKey(ENUMS.ActorStatus.HP, actor.getStatus(ENUMS.ActorStatus.MAX_HP));
                 actor.setStatusKey(ENUMS.ActorStatus.POS_X, pos.x);
                 actor.setStatusKey(ENUMS.ActorStatus.POS_Y, pos.y);
                 actor.setStatusKey(ENUMS.ActorStatus.POS_Z, pos.z);

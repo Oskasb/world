@@ -290,7 +290,8 @@ let ENUMS = {}
         STEP_START_TIME:'STEP_START_TIME',
         STEP_END_TIME:'STEP_END_TIME',
         SELECTED:'SELECTED',
-        TARGET_ID:'TARGET_ID'
+        TARGET_ID:'TARGET_ID',
+        STATUS_MODIFIERS:'STATUS_MODIFIERS'
     }
 
     ENUMS.ButtonState = {

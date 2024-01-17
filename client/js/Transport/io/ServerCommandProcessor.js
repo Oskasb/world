@@ -9,6 +9,7 @@ import {
 import {ENUMS} from "../../application/ENUMS.js";
 import {MATH} from "../../application/MATH.js";
 import {RemoteClient} from "./RemoteClient.js";
+import {processStatisticalActionApplied} from "../../game/actions/ActionStatusProcessor.js";
 
 let remoteClients = {}
 
@@ -111,6 +112,7 @@ function processServerCommand(protocolKey, message) {
     let stamp = message.stamp;
     let msg = message;
     let encounter;
+    let actorId;
 
     if (!msg.command) {
         console.log("processServerCommand requires msg.command", message)
@@ -233,10 +235,29 @@ function processServerCommand(protocolKey, message) {
                 processRemoteStatus(stamp, msg.status)
             }
 
+            let actionState = getStatusFromMsg(ENUMS.ActionStatus.ACTION_STATE, message.status);
+
+            if (actionState === ENUMS.ActionState.ACTIVE || actionState === ENUMS.ActionState.APPLY_HIT ) {
+                let modifiers = getStatusFromMsg(ENUMS.ActionStatus.STATUS_MODIFIERS, message.status);
+                if (typeof modifiers === 'object') {
+                    if (modifiers.length > 0) {
+                        actorId = getStatusFromMsg(ENUMS.ActionStatus.ACTOR_ID, message.status);
+                        console.log("actionState client", actionState, modifiers, message)
+                        let sourceActor = GameAPI.getActorById(actorId);
+                        let targetId = getStatusFromMsg(ENUMS.ActionStatus.TARGET_ID, message.status);
+                        let targetActor = GameAPI.getActorById(targetId);
+                        processStatisticalActionApplied(targetActor, modifiers, sourceActor);
+                        // actor.serverAction.processActionStatusModifiers(modifiers, target);
+                        MATH.emptyArray(modifiers);
+                    }
+                }
+            }
+
+
             break;
         case ENUMS.ServerCommands.ACTOR_REMOVED:
             console.log("ACTOR_REMOVED; ", stamp, message);
-            let actorId = message.actorId;
+            actorId = message.actorId;
 
             let remoteClient = remoteClients[stamp];
             if (remoteClient) {

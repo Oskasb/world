@@ -9,6 +9,7 @@ import {ENUMS} from "../../../client/js/application/ENUMS.js";
 import {Status} from "../status/Status.js";
 import {SimpleUpdateMessage} from "../utils/SimpleUpdateMessage.js";
 import {StatisticalAction} from "../../../client/js/game/actions/StatisticalAction.js";
+import {applyServerAction} from "./ServerActionFunctions.js";
 
 let attackStateMap = [];
 
@@ -36,6 +37,7 @@ let castIndex = 0;
 class ServerAction {
     constructor() {
         this.status = new Status();
+        this.status.statusMap[ENUMS.ActionStatus.STATUS_MODIFIERS] = [];
         this.timeElapsed = 0;
         this.sequencing = null;
         this.statisticalActions = [];
@@ -91,13 +93,22 @@ class ServerAction {
                 return;
             }
 
+            let modifiers = this.call.getStatus(ENUMS.ActionStatus.STATUS_MODIFIERS);
+            MATH.emptyArray(modifiers);
+
                 for (let i = 0; i < this.statisticalActions.length; i++) {
-                    this.statisticalActions[i].applyStatisticalActionToTarget(target)
+                    this.statisticalActions[i].applyStatisticalActionToTarget(target, modifiers, true)
                 }
+
+            this.serverEncounter.sendActionStatusUpdate(this);
+            MATH.emptyArray(modifiers);
             this.serverEncounter.sendActorStatusUpdate(target);
+            target.setStatusKey(ENUMS.ActorStatus.DAMAGE_APPLIED, 0)
+            target.setStatusKey(ENUMS.ActorStatus.HEALING_APPLIED, 0)
         }.bind(this);
 
         let applyHit = function() {
+
             applyHitConsequences()
             activateAttackStateTransition()
         }
@@ -191,6 +202,7 @@ class ServerAction {
         statusMap[ENUMS.ActionStatus.TARGET_ID] = actor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET);
         statusMap[ENUMS.ActionStatus.STEP_START_TIME] = 0;
         statusMap[ENUMS.ActionStatus.STEP_END_TIME] = 0;
+        MATH.emptyArray(statusMap[ENUMS.ActionStatus.STATUS_MODIFIERS]);
 
         actor.setStatusKey(ENUMS.ActorStatus.ACTION_STATE_KEY, this.status.getStatus(ENUMS.ActionStatus.ACTION_STATE))
         actor.setStatusKey(ENUMS.ActorStatus.SELECTED_ACTION, this.status.getStatus(ENUMS.ActionStatus.ACTION_KEY));
@@ -199,6 +211,22 @@ class ServerAction {
 
     getTarget() {
         return this.targetActor;
+    }
+
+    processActionStatusModifiers(modifiers, targetActor) {
+
+        if (targetActor !== this.targetActor) {
+            this.targetActor = targetActor;
+        }
+
+        for (let i = 0; i < modifiers.length;i++) {
+            let modifier = modifiers[i];
+            i++;
+            let amount = modifiers[i];
+            console.log("processActionStatusModifiers", modifier, amount, targetActor.getStatus(ENUMS.ActorStatus.ACTOR_ID));
+            applyServerAction(targetActor, modifier, amount)
+        }
+
     }
 
     activateServerActionId(actionId, actor, target, serverEncounter) {

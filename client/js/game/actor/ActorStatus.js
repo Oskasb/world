@@ -95,9 +95,12 @@ let hardStateMap = [
     ENUMS.ActorStatus.IN_COMBAT,
     ENUMS.ActorStatus.TURN_STATE,
     ENUMS.ActorStatus.HAS_TURN,
+    ENUMS.ActorStatus.HP,
+    ENUMS.ActorStatus.MAX_HP,
     ENUMS.ActorStatus.HAS_TURN_INDEX,
     ENUMS.ActorStatus.TURN_DONE,
     ENUMS.ActorStatus.DAMAGE_APPLIED,
+    ENUMS.ActorStatus.HEALING_APPLIED,
     ENUMS.ActorStatus.DEAD
 ];
 
@@ -109,22 +112,22 @@ let detailsMap = [
     ENUMS.ActorStatus.STAND_STATE,
     ENUMS.ActorStatus.MOVE_STATE,
     ENUMS.ActorStatus.BODY_STATE,
-    ENUMS.ActorStatus.IN_COMBAT,
+  //  ENUMS.ActorStatus.IN_COMBAT,
     ENUMS.ActorStatus.ACTIONS,
     ENUMS.ActorStatus.SELECTED_DESTINATION,
     ENUMS.ActorStatus.SELECTED_ACTION,
-    ENUMS.ActorStatus.HAS_TURN,
-    ENUMS.ActorStatus.HAS_TURN_INDEX,
+  //  ENUMS.ActorStatus.HAS_TURN,
+  //  ENUMS.ActorStatus.HAS_TURN_INDEX,
     ENUMS.ActorStatus.TURN_DONE,
     ENUMS.ActorStatus.SEQUENCER_INITIATIVE,
     ENUMS.ActorStatus.SEQUENCER_SELECTED,
     ENUMS.ActorStatus.SELECTED_TARGET,
     ENUMS.ActorStatus.SELECTED_ENCOUNTER,
     ENUMS.ActorStatus.REQUEST_PARTY,
-    ENUMS.ActorStatus.DAMAGE_APPLIED,
-    ENUMS.ActorStatus.DEAD,
+    // ENUMS.ActorStatus.DAMAGE_APPLIED,
+    // ENUMS.ActorStatus.DEAD,
     ENUMS.ActorStatus.IS_LEAPING,
-    ENUMS.ActorStatus.TURN_STATE,
+  //  ENUMS.ActorStatus.TURN_STATE,
     ENUMS.ActorStatus.REQUEST_TURN_STATE
 ];
 
