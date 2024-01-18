@@ -64,7 +64,7 @@ class SimpleSend {
             }
         }
 
-        function broadcastStatus(statusMessageKey, statusMap, clientRequest) {
+        function broadcastStatus(statusMessageKey, statusMap, clientRequest, forceFullSend) {
             request.request = clientRequest;
             request.status = sendStatus;
             let gameTime = GameAPI.getGameTime();
@@ -82,6 +82,12 @@ class SimpleSend {
 
                 if (sendStatus.length > 2) {
             //        console.log("SIMPLE SEND: ", request)
+
+                    if (forceFullSend) {
+                        lastFullSend = gameTime;
+                        fullSend(statusMap)
+                    }
+
                     evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, request)
                 }
 

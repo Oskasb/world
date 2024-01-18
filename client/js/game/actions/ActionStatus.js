@@ -45,7 +45,7 @@ class ActionStatus {
                     console.log("Missing ID", this.statusMap);
                 } else {
             //    console.log("Trigger send", key, status);
-                    simpleSend.call.broadcastStatus(ENUMS.ActionStatus.ACTION_ID, this.statusMap, ENUMS.ClientRequests.APPLY_ACTION_STATUS);
+                    simpleSend.call.broadcastStatus(ENUMS.ActionStatus.ACTION_ID, this.statusMap, ENUMS.ClientRequests.APPLY_ACTION_STATUS, true);
                 }
             }
 
