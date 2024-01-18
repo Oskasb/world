@@ -66,11 +66,12 @@ function getServerActorByActorId(actorId) {
 
     }
 
+    /*
     console.log("Server actor not found ", actorId)
     for (let i = 0; i < serverActors.length; i++) {
         console.log("Actor ID", serverActors[i].id);
     }
-
+    */
 }
 
 function registerServerItem(serverItem) {

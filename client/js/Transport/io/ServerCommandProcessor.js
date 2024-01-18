@@ -34,7 +34,7 @@ function processActorInit(stamp, msg) {
     }
 
     let actorLoaded = function(actor) {
-        console.log("actorLoaded; ", stamp, msg);
+    //    console.log("actorLoaded; ", stamp, msg);
         for (let key in status) {
             actor.setStatusKey(key, status[key]);
         }
@@ -53,7 +53,7 @@ function processActorInit(stamp, msg) {
     }
 
     let configId = status[ENUMS.ActorStatus.CONFIG_ID];
-    console.log("ACTOR_INIT; ", configId, stamp, msg);
+  //  console.log("ACTOR_INIT; ", configId, stamp, msg);
     evt.dispatch(ENUMS.Event.LOAD_ACTOR,  {id: configId, callback:actorLoaded})
 
 
@@ -231,7 +231,7 @@ function processServerCommand(protocolKey, message) {
 
             } else {
                 // use remote client here...
-                console.log("Remote ACTION_UPDATE", message)
+            //    console.log("Remote ACTION_UPDATE", message)
                 processRemoteStatus(stamp, msg.status)
             }
 
@@ -242,7 +242,7 @@ function processServerCommand(protocolKey, message) {
                 if (typeof modifiers === 'object') {
                     if (modifiers.length > 0) {
                         actorId = getStatusFromMsg(ENUMS.ActionStatus.ACTOR_ID, message.status);
-                        console.log("actionState client", actionState, modifiers, message)
+                     //   console.log("actionState client", actionState, modifiers, message)
                         let sourceActor = GameAPI.getActorById(actorId);
                         let targetId = getStatusFromMsg(ENUMS.ActionStatus.TARGET_ID, message.status);
                         let targetActor = GameAPI.getActorById(targetId);
@@ -310,18 +310,16 @@ function processServerCommand(protocolKey, message) {
                 }
 
                 GameAPI.worldModels.activateCompletedEncounter(message.worldEncounterId, onReady)
-
-
             } else {
                 encounter.call.serverEncounterActivated(message);
-                console.log("WE: ", encounter);
+            //    console.log("WE: ", encounter);
             }
 
             break;
         case ENUMS.ServerCommands.ENCOUNTER_START:
-            console.log("Start Encounter; ", message.encounterId, message.worldEncounterId, stamp, message);
+        //    console.log("Start Encounter; ", message.encounterId, message.worldEncounterId, stamp, message);
             encounter = GameAPI.getWorldEncounterByEncounterId(msg.worldEncounterId);
-            console.log("Enc: ",encounter.triggered, encounter.started, encounter);
+         //   console.log("Enc: ",encounter.triggered, encounter.started, encounter);
 
             if (encounter.triggered === false) {
                 encounter.call.triggerWorldEncounter();
@@ -356,7 +354,7 @@ function processServerCommand(protocolKey, message) {
             console.log("Close Encounter; ", message);
             break;
         case ENUMS.ServerCommands.FETCH_CONFIGS:
-            console.log("FETCH_CONFIGS; ", message.folders, CONFIGS);
+        //    console.log("FETCH_CONFIGS; ", message.folders, CONFIGS);
 
             let res = {
                 request:ENUMS.ClientRequests.REGISTER_CONFIGS,
@@ -369,7 +367,7 @@ function processServerCommand(protocolKey, message) {
                 res.data[folder] = folderData;
             }
 
-            console.log("SEND_SOCKET_MESSAGE; ", res);
+            console.log("Send configs to server; ", res.data);
             evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, res);
 
             break;

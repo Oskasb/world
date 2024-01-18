@@ -184,7 +184,7 @@ class GamePieceSystem {
 
         let statsData = function(data) {
             statsConfig = data;
-            console.log("statsConfig", statsConfig)
+        //    console.log("statsConfig", statsConfig)
         }
 
         configDataList("GAME","CHARACTER_STATS", statsData)

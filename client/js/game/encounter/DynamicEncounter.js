@@ -12,7 +12,7 @@ let trackStatusKeys = [
 
 class DynamicEncounter {
     constructor(id, worldEncId) {
-        console.log("New Dyn Enc ", id, worldEncId);
+    //    console.log("New Dyn Enc ", id, worldEncId);
         this.id = id;
         this.status = new EncounterStatus(id, worldEncId)
         this.status.setStatusKey(ENUMS.EncounterStatus.ACTIVATION_STATE, ENUMS.ActivationState.ACTIVATING)

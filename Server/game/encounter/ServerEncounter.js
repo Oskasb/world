@@ -64,7 +64,7 @@ function processActivationState(encounter) {
 class ServerEncounter {
     constructor(message, closeEncounterCB) {
 
-        console.log("New ServerEncounter", message);
+    //    console.log("New ServerEncounter", message);
         this.ticks = 0;
 
         this.simpleUpdateMessage = new SimpleUpdateMessage();
@@ -73,7 +73,10 @@ class ServerEncounter {
         this.serverGrid = new ServerGrid();
         this.spawn = message.spawn;
         this.encounterActors = [];
-        this.id = message.encounterId;console.log("New Server Enc ", message.encounterId, message.worldEncounterId);
+        this.id = message.encounterId;
+
+        // console.log("New Server Enc ", message.encounterId, message.worldEncounterId);
+
         this.status = new EncounterStatus(message.encounterId, message.worldEncounterId);
         this.setStatusKey(ENUMS.EncounterStatus.GRID_ID, message.grid_id)
         this.setStatusKey(ENUMS.EncounterStatus.GRID_POS, message.pos)
@@ -97,11 +100,11 @@ class ServerEncounter {
             worldEncounterId: message.worldEncounterId
         }
 
-        console.log("PLAYER PARTY MEMBERS: ",  this.partyMembers);
+    //    console.log("PLAYER PARTY MEMBERS: ",  this.partyMembers);
 
         for (let i = 0; i < this.partyMembers.length; i++) {
             let actor = getServerActorByActorId(this.partyMembers[i]);
-            console.log("partyMembers", actor, this.partyMembers[i])
+        //    console.log("partyMembers", actor, this.partyMembers[i])
             let clientStamp = actor.getStatus(ENUMS.ActorStatus.CLIENT_STAMP)
             let player = getGameServer().getConnectedPlayerByStamp(clientStamp)
             player.serverEncounter = this;

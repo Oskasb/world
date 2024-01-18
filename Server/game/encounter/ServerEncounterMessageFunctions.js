@@ -9,7 +9,7 @@ function handlePartyHandshakeOk(serverEncounter) {
         encounterId:serverEncounter.id,
         worldEncounterId:serverEncounter.getStatus(ENUMS.EncounterStatus.WORLD_ENCOUNTER_ID)
     }
-    console.log("Handshake OK ", message);
+  //  console.log("Handshake OK ", message);
     serverEncounter.call.messageParticipants(message);
 }
 
@@ -34,7 +34,7 @@ function handleQueueMessage(message, serverEncounter) {
         let queue = serverEncounter.memberResponseQueue;
         let actorId = message.actorId;
         if (queue.indexOf(actorId) !== -1) {
-            console.log("Process encounter queue", message);
+        //    console.log("Process encounter queue", message);
             MATH.splice(queue, actorId);
             if (message.tiles) {
                 serverEncounter.clientTilesReported(message.tiles)

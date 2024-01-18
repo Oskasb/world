@@ -22,7 +22,7 @@ class GameServerWorld {
     }
 
     initServerEncounter( message) {
-        console.log("Handle Encounter Init", message)
+    //    console.log("Handle Encounter Init", message)
         if (activeEncounters.indexOf(message.encounterId) === -1) {
             let enc = new ServerEncounter(message, closeEncounterCB);
             activeEncounters.push(enc);

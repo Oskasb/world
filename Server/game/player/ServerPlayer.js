@@ -15,7 +15,7 @@ class ServerPlayer {
 
 
     loadPlayerActor(msg) {
-        console.log('loadPlayerActor', msg);
+    //    console.log('loadPlayerActor', msg);
         let actorId = msg.status[ENUMS.ActorStatus.ACTOR_ID];
         let serverActor = getServerActorByActorId(actorId);
         if (!serverActor) {
@@ -24,7 +24,7 @@ class ServerPlayer {
             serverActor.status.setStatusKey(ENUMS.ActorStatus.TURN_STATE, ENUMS.TurnState.NO_TURN);
             this.actors.push(serverActor);
             registerServerActor(serverActor);
-            console.log("NEW ServerActor", serverActor)
+       //     console.log("NEW ServerActor", serverActor)
             return serverActor;
         } else {
             console.log("ServerActor already added", serverActor)

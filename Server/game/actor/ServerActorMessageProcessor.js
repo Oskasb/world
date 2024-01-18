@@ -35,7 +35,7 @@ class ServerActorMessageProcessor {
     processTurnStateRequest(status, newValue) {
 
         let currentTurnState = status.getStatus(ENUMS.ActorStatus.TURN_STATE);
-        console.log("Process Turn State Request:", currentTurnState, newValue);
+    //    console.log("Process Turn State Request:", currentTurnState, newValue);
         status.setStatusKey(ENUMS.ActorStatus.TURN_STATE, newValue);
 
     }
@@ -73,7 +73,7 @@ class ServerActorMessageProcessor {
                     }
 
                     if (statusKey === ENUMS.ActorStatus.REQUEST_TURN_STATE) {
-                        console.log("REQUEST_TURN_STATE", status.getStatus(ENUMS.ActorStatus.ACTOR_ID), newValue)
+                    //    console.log("REQUEST_TURN_STATE", status.getStatus(ENUMS.ActorStatus.ACTOR_ID), newValue)
                         this.processTurnStateRequest(status, newValue);
                     }
 

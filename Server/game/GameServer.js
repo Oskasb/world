@@ -62,7 +62,7 @@ class GameServer {
         if (!player) {
             player = new ServerPlayer(stamp)
             connectedPlayers.push(player);
-            console.log("Player registered: ", connectedPlayers, this.getConnectedPlayerByStamp(stamp))
+            console.log("Player registered: ", stamp)
 
             if (serverConfigs === null) {
                 let message = {

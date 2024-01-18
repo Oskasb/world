@@ -15,7 +15,7 @@ let configUpdated = function(cfg) {
 
 let statsUpdated = function(cfg) {
     actionStats = cfg;
-    console.log("STATISTICAL_ACTIONS: ", actionStats);
+ //   console.log("STATISTICAL_ACTIONS: ", actionStats);
 }
 
 setTimeout(function() {
@@ -258,7 +258,7 @@ class ActorAction {
         this.status.call.setStatusByKey(ENUMS.ActionStatus.ACTION_KEY, actionKey);
         this.visualAction = poolFetch('VisualAction')
         let visualActionKey = this.readActionConfig('visual_action')
-        console.log("Visual Action Key: ", visualActionKey);
+    //    console.log("Visual Action Key: ", visualActionKey);
         this.visualAction.setActorAction(this, visualActionKey);
         let statConfig = this.readActionConfig('statistical_actions')
         if (statConfig) {
@@ -275,7 +275,7 @@ class ActorAction {
         this.status.call.setStatusByKey(ENUMS.ActionStatus.ACTION_KEY, actionKey);
         this.visualAction = poolFetch('VisualAction')
         let visualActionKey = this.readActionConfig('visual_action')
-        console.log("Remote Visual Action Key: ", visualActionKey);
+    //    console.log("Remote Visual Action Key: ", visualActionKey);
         this.visualAction.setActorAction(this, visualActionKey);
     }
 

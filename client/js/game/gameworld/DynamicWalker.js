@@ -194,6 +194,16 @@ class DynamicWalker {
 
         let currentTile = this.walkGrid.getTileAtPosition(this.walkObj3d.position)
 
+        if (!currentTile) {
+            (actor.getSpatialPosition(this.walkObj3d.position))
+            currentTile = this.walkGrid.getTileAtPosition(this.walkObj3d.position)
+            if (!currentTile) {
+                currentTile = pathTiles[0]
+                console.log("No currentTile... setting to firstPathTile!")
+            }
+
+        }
+
         if (currentTile.rigidBodyPointer !== null) {
             actor.setStatusKey(ENUMS.ActorStatus.RIGID_BODY_CONTACT, currentTile.rigidBodyPointer)
         } else {

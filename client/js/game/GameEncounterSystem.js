@@ -84,7 +84,7 @@ class GameEncounterSystem {
 
         if (event.encounterId) {
             if (!dynamicEncounter) {
-                console.log("INIT DYN ENC:", event);
+            //    console.log("INIT DYN ENC:", event);
                 initEncounter(event.encounterId, event.worldEncounterId)
                 activeEncounterGrid = new EncounterGrid();
             }

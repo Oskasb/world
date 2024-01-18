@@ -46,7 +46,7 @@ function processClientRequest(request, stamp, message, connectedClient) {
 
     switch (request) {
         case ENUMS.ClientRequests.REGISTER_PLAYER:
-            console.log("REGISTER_PLAYER: ",message);
+        //    console.log("REGISTER_PLAYER: ",message);
 
             let add = getGameServer().registerConnectedPlayer(stamp);
 
@@ -58,7 +58,7 @@ function processClientRequest(request, stamp, message, connectedClient) {
 
             break
         case ENUMS.ClientRequests.LOAD_SERVER_ACTOR:
-            console.log("LOAD_SERVER_ACTOR: ", message);
+        //    console.log("LOAD_SERVER_ACTOR: ", message);
 
             player = getGameServer().getConnectedPlayerByStamp(connectedClient.stamp);
 
@@ -90,7 +90,7 @@ function processClientRequest(request, stamp, message, connectedClient) {
             actor = player.getPlayerActor(actorId)
 
             if (!actor) {
-                console.log("No actor for item msg", message.status)
+            //    console.log("No actor for item msg", connectedClient.stamp)
                 return;
             }
 
@@ -111,7 +111,7 @@ function processClientRequest(request, stamp, message, connectedClient) {
             player = getGameServer().getConnectedPlayerByStamp(connectedClient.stamp);
 
             if (!player) {
-                console.log("No player for action, exiting", message)
+                console.log("No player for action, exiting", connectedClient.stamp)
                 return;
             }
 
@@ -121,7 +121,7 @@ function processClientRequest(request, stamp, message, connectedClient) {
             actor = player.getPlayerActor(actorId);
 
             if (!actor) {
-                console.log("No actor for action msg", message.status)
+            //    console.log("No actor for action msg", connectedClient.stamp)
                 return;
             }
 
