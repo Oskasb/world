@@ -125,12 +125,12 @@ function processClientRequest(request, stamp, message, connectedClient) {
                 return;
             }
 
-            if (actionState === ENUMS.ActionState.ACTIVE || actionState === ENUMS.ActionState.APPLY_HIT) {
+            if (actionState === ENUMS.ActionState.ACTIVE) {
                 let modifiers = getStatusFromMsg(ENUMS.ActionStatus.STATUS_MODIFIERS, message.status);
 
                 if (typeof modifiers === 'object') {
                     if (modifiers.length > 0) {
-                            console.log("actionState modifiers", actionState, modifiers)
+                        console.log("actionState modifiers", actionState, modifiers)
 
                         let targetId = getStatusFromMsg(ENUMS.ActionStatus.TARGET_ID, message.status);
                         target = player.serverEncounter.getEncounterCombatantById(targetId);

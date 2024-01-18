@@ -139,7 +139,7 @@ class ServerEncounterTurnSequencer {
                 let turnDone = checkActorTurnDone(this, actor);
             //    console.log("Update TURN_MOVE", actor.id, turnDone)
                 if (turnDone) {
-                    console.log("Determine actor turn done", actor.id)
+                //    console.log("Determine actor turn done", actor.id)
                     this.call.actorTurnEnded();
                 } else {
                     setStatusKey(ENUMS.EncounterStatus.TURN_ACTOR_TARGET, actor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET))

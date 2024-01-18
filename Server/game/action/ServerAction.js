@@ -50,7 +50,7 @@ class ServerAction {
 
 
         let activateAttackStateTransition = function() {
-            console.log("activateAttackStateTransition")
+    //        console.log("activateAttackStateTransition")
             this.stepProgress = 0;
 
             let actionState = this.status.getStatus(ENUMS.ActionStatus.ACTION_STATE)
@@ -76,16 +76,16 @@ class ServerAction {
 
         let updateActivate = function(tpf) {
         //    this.visualAction.activateVisualAction(this);
-            console.log("updateActivate")
+        //    console.log("updateActivate")
         }.bind(this)
 
         let updateProgress = function(tpf) {
-            console.log("updateProgress")
+        //    console.log("updateProgress")
             //             console.log("Progress status... ")
         }.bind(this)
 
         let applyHitConsequences = function() {
-            console.log("applyHitConsequences")
+        //    console.log("applyHitConsequences")
             let target = this.getTarget();
 
             if (!target) {
@@ -121,7 +121,7 @@ class ServerAction {
         }.bind(this)
 
         let updateActionCompleted = function(tpf) {
-            console.log("updateActionCompleted")
+        //    console.log("updateActionCompleted")
             this.attackCompleted()
         }.bind(this)
 
@@ -136,7 +136,7 @@ class ServerAction {
         }.bind(this);
 
         let closeAttack = function() {
-            console.log("closeAttack")
+        //    console.log("closeAttack")
             this.attackCompleted();
         }.bind(this)
 
@@ -235,7 +235,7 @@ class ServerAction {
         this.serverEncounter = serverEncounter;
         this.targetActor = target;
         this.initNewActionStatus(actionId, actor);
-        console.log("activateServerActionId", actionId, actor)
+    //    console.log("activateServerActionId", actionId, actor)
         this.timeElapsed = 0;
         let actionConfigs = getServerConfig("GAME_ACTORS")['ACTIONS'];
         let conf = parseConfigData(actionConfigs, actionId)
@@ -253,16 +253,16 @@ class ServerAction {
             let statAction = new StatisticalAction();
             statAction.initStatisticalActionConfig(statsConf);
             this.statisticalActions.push(statAction)
-            console.log("statAction ", statAction);
+         //   console.log("statAction ", statAction);
         }
 
-        console.log("Action config ", conf);
+    //    console.log("Action config ", conf);
         registerGameServerUpdateCallback(this.call.updateAttack)
     }
 
 
     attackCompleted() {
-        console.log("attackCompleted", this)
+    //    console.log("attackCompleted", this)
 
         this.actor.setStatusKey(ENUMS.ActorStatus.SELECTED_ACTION, '');
 

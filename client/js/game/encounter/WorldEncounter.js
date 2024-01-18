@@ -201,7 +201,7 @@ class WorldEncounter {
                 encounterId:encId,
                 actorId:selectedActor.getStatus(ENUMS.ActorStatus.ACTOR_ID)
             })
-            console.log("ServerEncounterActive message: ", message)
+        //    console.log("ServerEncounterActive message: ", message)
         }.bind(this)
 
         let triggerWorldEncounter = function() {

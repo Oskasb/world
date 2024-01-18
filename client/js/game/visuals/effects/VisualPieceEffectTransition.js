@@ -36,7 +36,7 @@ class VisualPieceEffectTransition {
         ThreeAPI.addPostrenderCallback(this.call.update);
 
         let amount = this.actor.getStatus(ENUMS.ActorStatus[this.statusKey])
-        console.log("Trigger FX ", statusKey, amount)
+    //    console.log("Trigger FX ", statusKey, amount)
 
         updateFunctions[this.effectData.effect['updateFunction']](this.actor, amount);
     }

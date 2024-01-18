@@ -9,7 +9,6 @@ let tempObj = new Object3D();
 
 function setDestination(actor, posVec) {
     let destination = actor.getStatus(ENUMS.ActorStatus.SELECTED_DESTINATION);
-    console.log("Set Dest", posVec);
     MATH.vec3ToArray(posVec, destination);
     actor.setStatusKey(ENUMS.ActorStatus.SELECTED_DESTINATION, destination);
 }
@@ -146,13 +145,13 @@ function startActorTurn(encounter, actor) {
     actor.setStatusKey(ENUMS.ActorStatus.TURN_STATE, ENUMS.TurnState.TURN_INIT);
 
     if (actorIsPlayer) {
-        console.log("Start player actor turn", actor)
+    //    console.log("Start player actor turn", actor)
         actor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, true);
         encounter.setStatusKey(ENUMS.EncounterStatus.ACTIVE_TURN_SIDE, "PARTY PLAYER");
     } else {
         encounter.setStatusKey(ENUMS.EncounterStatus.ACTIVE_TURN_SIDE, "OPPONENTS");
         let turnEnded = function() {
-            console.log("Call turn ended")
+        //    console.log("Call turn ended")
             encounter.sendEncounterStatusUpdate();
         }
 
@@ -164,7 +163,7 @@ function startActorTurn(encounter, actor) {
 function endActorTurn(encounter) {
     let actorId = encounter.getStatus(ENUMS.EncounterStatus.HAS_TURN_ACTOR);
     let actor = encounter.getEncounterCombatantById(actorId);
-    console.log("End Actor Turn ", actorId);
+   // console.log("End Actor Turn ", actorId);
     let turnIndex = encounter.getStatus(ENUMS.EncounterStatus.TURN_INDEX);
     actor.setStatusKey(ENUMS.ActorStatus.HAS_TURN, false);
     actor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, false);

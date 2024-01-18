@@ -24,7 +24,7 @@ function handlePartyDynamicEncountersLoaded(serverEncounter) {
         encounterId:serverEncounter.id,
         status:serverEncounter.getStatus()
     }
-    console.log("handlePartyDynamicEncountersLoaded", message);
+ //   console.log("handlePartyDynamicEncountersLoaded", message);
     serverEncounter.setStatusKey(ENUMS.EncounterStatus.ACTIVATION_STATE, ENUMS.ActivationState.ACTIVE)
     serverEncounter.call.messageParticipants(message);
 }

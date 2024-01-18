@@ -24,7 +24,7 @@ function applyServerAction(target, modifier, amount) {
     } else if  (modifier === ENUMS.StatusModifiers.APPLY_HEAL) {
         modifyTargetHP(target, change, ENUMS.ActorStatus.HEALING_APPLIED)
     }
-    console.log('applyServerAction', target.id, modifier, change, amount)
+ //   console.log('applyServerAction', target.id, modifier, change, amount)
 
 }
 

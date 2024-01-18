@@ -183,12 +183,12 @@ function processServerCommand(protocolKey, message) {
                 let remoteClient = remoteClients[stamp];
                 if (remoteClient) {
                 } else {
-                    console.log("ACTOR_INIT Remote client missing for stamp; ", stamp, msg, remoteClients);
+                //    console.log("ACTOR_INIT Remote client missing for stamp; ", stamp, msg, remoteClients);
                     remoteClient = new RemoteClient(stamp);
                     remoteClients[stamp] = remoteClient
                 }
 
-                console.log("REMOTE ACTOR_INIT; ", stamp, [msg.status]);
+            //    console.log("REMOTE ACTOR_INIT; ", stamp, [msg.status]);
 
                 let statusList = [];
                 statusList[0] = ENUMS.ActorStatus.ACTOR_ID;
@@ -300,7 +300,7 @@ function processServerCommand(protocolKey, message) {
 
             break;
         case ENUMS.ServerCommands.ENCOUNTER_TRIGGER:
-            console.log("Trigger Encounter; ", message.encounterId, message.worldEncounterId, stamp, message);
+        //    console.log("Trigger Encounter; ", message.encounterId, message.worldEncounterId, stamp, message);
             encounter = GameAPI.getWorldEncounterByEncounterId(message.worldEncounterId);
             if (!encounter) {
                 console.log("Assume encounter already completed but started by other party member");

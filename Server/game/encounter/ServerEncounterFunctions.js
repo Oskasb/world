@@ -27,7 +27,7 @@ function getNextActorInTurnSequence(encounterSequencer) {
     for (let i = 0; i < actors.length; i++) {
         let actor = actors[i];
         let turnIndexDone = actor.getStatus(ENUMS.ActorStatus.TURN_DONE);
-        console.log(turnIndex, turnIndexDone, actor)
+    //    console.log(turnIndex, turnIndexDone, actor)
         if (turnIndexDone < turnIndex) {
             let initiative = actor.getStatus(ENUMS.ActorStatus.SEQUENCER_INITIATIVE)
             if (initiative < lowestInitiative) {
@@ -48,7 +48,7 @@ function passSequencerTurnToActor(encounterSequencer, actor) {
     serverEncounter.setStatusKey(ENUMS.EncounterStatus.TURN_STATE, ENUMS.TurnState.TURN_MOVE);
     serverEncounter.setStatusKey(ENUMS.EncounterStatus.HAS_TURN_ACTOR, actor.getStatus(ENUMS.ActorStatus.ACTOR_ID));
     serverEncounter.setStatusKey(ENUMS.EncounterStatus.TURN_ACTOR_INITIATIVE, actor.getStatus(ENUMS.ActorStatus.SEQUENCER_INITIATIVE))
-    console.log("pass turn to", actor.id)
+ //   console.log("pass turn to", actor.id)
 
     startActorTurn(serverEncounter, actor);
 
@@ -81,7 +81,7 @@ function checkActorTurnDone(encounterSequencer, actor) {
 
         let turnDone = actor.getStatus(ENUMS.ActorStatus.TURN_DONE);
         if (turnDone === turnIndex) {
-            console.log("turnDone", turnIndex, turnState, activeId)
+        //    console.log("turnDone", turnIndex, turnState, activeId)
             let sequencer = actor.turnSequencer
             if (sequencer) {
                 sequencer.exitSequence();

@@ -24,7 +24,7 @@ class ServerGrid {
                 this.gridTiles[i][j] = new ServerTile(tileInfo);
             }
         }
-        console.log("Build Server Grid:", this);
+    //    console.log("Build Server Grid:", this);
     }
 
     getTileByColRow(col, row) {

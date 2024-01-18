@@ -38,13 +38,13 @@ class ServerActorTurnSequencer {
         let sequencer = this;
 
         function turnInit(actor, turnIndex) {
-            console.log("turnInit", turnIndex)
+        //    console.log("turnInit", turnIndex)
             let serverEncounter = sequencer.serverEncounter;
             registerGameServerUpdateCallback(updateActorInit)
         }
 
         function turnTileSelect(actor, turnIndex) {
-            console.log("turnTileSelect", turnIndex)
+         //   console.log("turnTileSelect", turnIndex)
             actor.setStatusKey(ENUMS.ActorStatus.TURN_STATE, ENUMS.TurnState.TILE_SELECT)
             let serverEncounter = sequencer.serverEncounter;
             let serverGrid = serverEncounter.serverGrid;
@@ -60,13 +60,13 @@ class ServerActorTurnSequencer {
         }
 
         function turnMove(actor, turnIndex) {
-            console.log("turnMove", turnIndex)
+        //    console.log("turnMove", turnIndex)
             actor.setStatusKey(ENUMS.ActorStatus.TURN_STATE, ENUMS.TurnState.TURN_MOVE)
             registerGameServerUpdateCallback(updateActorTurnMove)
         }
 
         function turnTargetSelect(actor, turnIndex) {
-            console.log("turnTargetSelect", turnIndex)
+        //    console.log("turnTargetSelect", turnIndex)
             let serverEncounter = sequencer.serverEncounter;
             actor.setStatusKey(ENUMS.ActorStatus.TURN_STATE, ENUMS.TurnState.TARGET_SELECT)
 
@@ -75,7 +75,7 @@ class ServerActorTurnSequencer {
         }
 
         function turnEvaluateTarget(actor, turnIndex) {
-            console.log("turnEvaluateTarget", turnIndex)
+        //    console.log("turnEvaluateTarget", turnIndex)
             actor.setStatusKey(ENUMS.ActorStatus.TURN_STATE, ENUMS.TurnState.TARGET_EVALUATE)
             let serverEncounter = sequencer.serverEncounter;
 
@@ -83,7 +83,7 @@ class ServerActorTurnSequencer {
         }
 
         function turnSelectAttack(actor, turnIndex) {
-            console.log("turnSelectAttack", turnIndex)
+        //    console.log("turnSelectAttack", turnIndex)
             actor.setStatusKey(ENUMS.ActorStatus.TURN_STATE, ENUMS.TurnState.ACTION_SELECT)
             let serverEncounter = sequencer.serverEncounter;
 
@@ -91,7 +91,7 @@ class ServerActorTurnSequencer {
         }
 
         function turnApplyAttack(actor, turnIndex) {
-            console.log("turnApplyAttack", turnIndex)
+        //    console.log("turnApplyAttack", turnIndex)
             actor.setStatusKey(ENUMS.ActorStatus.TURN_STATE, ENUMS.TurnState.ACTION_APPLY)
             let serverEncounter = sequencer.serverEncounter;
 
@@ -100,7 +100,7 @@ class ServerActorTurnSequencer {
         }
 
         function turnClose(actor, turnIndex) {
-            console.log("turnClose", turnIndex)
+        //    console.log("turnClose", turnIndex)
             actor.setStatusKey(ENUMS.ActorStatus.TURN_STATE, ENUMS.TurnState.TURN_CLOSE)
             //   actor.actorText.say('Turn completed')
             registerGameServerUpdateCallback(updateActorClose)
@@ -157,7 +157,7 @@ class ServerActorTurnSequencer {
                     let destinationPos = getDestination(actor)
                     let destinationTile = serverGrid.getTileByPos(destinationPos);
                     let startTile = serverGrid.getTileByPos(getStatusPosition(actor));
-                    console.log("From To: ", startTile, destinationTile);
+                //    console.log("From To: ", startTile, destinationTile);
                     serverGrid.selectTilesBeneathPath(startTile, destinationTile, gridTiles, tilePath);
                     actor.serverActorPathWalker.setPathPoints(pathPoints);
                 }

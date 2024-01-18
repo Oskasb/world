@@ -181,7 +181,7 @@ class ServerEncounter {
 
     spawnServerEncounterActors() {
         let actors = this.spawn.actors;
-        console.log("Spawn: ", actors, this.spawn);
+    //    console.log("Spawn: ", actors, this.spawn);
         let encActors = [];
         for (let i = 0; i < actors.length; i++) {
             let actor = spawnServerEncounterActor(actors[i], this.serverGrid)

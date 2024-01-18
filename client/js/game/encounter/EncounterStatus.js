@@ -44,7 +44,7 @@ class EncounterStatus {
         if (typeof (this.statusMap[key]) === typeof (status)) {
 
             if (status === ENUMS.TurnState.TURN_INIT) {
-                console.log("Set TURN_INIT")
+            //    console.log("Set TURN_INIT")
             }
 
             this.statusMap[key] = status;

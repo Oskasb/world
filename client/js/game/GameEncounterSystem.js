@@ -187,12 +187,12 @@ class GameEncounterSystem {
         }
         encounterIsClosing = true;
 
-        console.log("DEACTIVATE ENC", positionOutside, victory, dynamicEncounter)
+    //    console.log("DEACTIVATE ENC", positionOutside, victory, dynamicEncounter)
         let actor = GameAPI.getGamePieceSystem().selectedActor;
 
         if (dynamicEncounter) {
             if (dynamicEncounter.getStatus(ENUMS.EncounterStatus.ACTIVATION_STATE) === ENUMS.ActivationState.DEACTIVATING) {
-                console.log("Deactivate already set")
+             //   console.log("Deactivate already set")
             } else {
                 dynamicEncounter.setStatusKey(ENUMS.EncounterStatus.ACTIVATION_STATE, ENUMS.ActivationState.DEACTIVATING);
             }

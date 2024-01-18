@@ -335,7 +335,7 @@ class ActorStatus {
                 clearActorEncounterStatus(this.actor);
             }
 
-            console.log("Set Deactivate", status)
+        //    console.log("Set Deactivate", status)
         }
 
         if (typeof (this.statusMap[key]) === typeof (status)) {

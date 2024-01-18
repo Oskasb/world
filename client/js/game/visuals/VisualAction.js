@@ -203,7 +203,7 @@ class VisualAction {
         }
     //    actorAction.call.advanceState();
         let fxKey = this.config['fx_active']
-        console.log("Fx Key ", fxKey);
+     //   console.log("Fx Key ", fxKey);
         effectCalls()[fxKey](this.sourcePos, actor, 0, onMissileArrive, getTargetPos, this.call.fxCallback)
 
     }
