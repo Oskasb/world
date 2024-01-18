@@ -639,7 +639,9 @@ function CAM_ENCOUNTER() {
     if (turnActiveActor === selectedActor) {
         if (pointerAction) {
             applyPointerMove();
-            distance += tileSelector.extendedDistance;
+            if (tileSelector) {
+                distance += tileSelector.extendedDistance;
+            }
         } else if (pointerActive) {
             applyPointerRelease()
         }
