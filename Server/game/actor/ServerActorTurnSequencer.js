@@ -120,6 +120,7 @@ class ServerActorTurnSequencer {
             //   actor.actorText.say('Turn closed '+turnIndex)
             actor.setStatusKey(ENUMS.ActorStatus.HAS_TURN, false)
             MATH.callAndClearAll(sequencer.turnEncBallbacks, actor);
+            cancelTurnProcess()
         }
 
 
@@ -306,6 +307,13 @@ class ServerActorTurnSequencer {
 
         let activateStateTransition = function() {
             sequencer.stepProgress = 0;
+            let actor = sequencer.actor;
+            let isDead = actor.getStatus(ENUMS.ActorStatus.DEAD);
+            if (isDead) {
+                console.log("Actor is Dead, closing sequencer")
+                sequencer.exitTo = turnStateKeys.turn_closed;
+            }
+
             let turnStateKey = sequencer.exitTo;
             if (!turnStateMap[turnStateKey]) {
                 console.log("undefined turnState", turnStateKey, sequencer);
