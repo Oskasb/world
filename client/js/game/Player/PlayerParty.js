@@ -130,7 +130,12 @@ class PlayerParty {
     listPartyMemeberIDs() {
         MATH.emptyArray(list);
         for (let i = 0; i < this.actors.length;i++) {
-            list.push(this.actors[i].getStatus(ENUMS.ActorStatus.ACTOR_ID))
+            if (this.actors[i].call.getRemote()) {
+                list.push(this.actors[i].call.getRemote().remoteId)
+            } else {
+                list.push(this.actors[i].getStatus(ENUMS.ActorStatus.ACTOR_ID))
+            }
+
         }
         return list;
     }

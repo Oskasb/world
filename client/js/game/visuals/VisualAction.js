@@ -73,12 +73,21 @@ class VisualAction {
 
         let updateApplyHit = function() {
             missileActive = false;
-            effectCalls()[this.config[fxKeys[3]]](this.getTarget())
+
+            let target = this.getTarget();
+            if (target) { // target can be in different context (in or outside encounter)
+                effectCalls()[this.config[fxKeys[3]]](this.getTarget())
+            }
+
         }.bind(this)
 
         let updatePostHit = function() {
             missileEffect = null;
-            effectCalls()[this.config[fxKeys[4]]](this.getTarget())
+            let target = this.getTarget();
+            if (target) {
+                effectCalls()[this.config[fxKeys[4]]](this.getTarget())
+            }
+
         }.bind(this)
 
         let updateDisabled = function() {
@@ -178,6 +187,7 @@ class VisualAction {
         }
     //    actorAction.call.advanceState();
         let fxKey = this.config['fx_active']
+        console.log("Fx Key ", fxKey);
         effectCalls()[fxKey](this.sourcePos, actor, 0, onMissileArrive, getTargetPos, this.call.fxCallback)
 
     }

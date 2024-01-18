@@ -16,6 +16,21 @@ let msgEvent = {
     msg: {}
 }
 
+
+function relayActorMessage(actor, message, player) {
+    let inCombat = actor.getStatus(ENUMS.ActorStatus.IN_COMBAT)
+    if (inCombat) {
+        if (player.serverEncounter) {
+            player.serverEncounter.call.messageParticipants(message);
+        } else {
+            dispatchMessage(message);
+        }
+
+    } else {
+        dispatchMessage(message);
+    }
+}
+
 function processClientRequest(request, stamp, message, connectedClient) {
 //    console.log("Process Request: ", ENUMS.getKey('ClientRequests', request), message)
 
@@ -72,7 +87,12 @@ function processClientRequest(request, stamp, message, connectedClient) {
             }
 
             actorId = getStatusFromMsg(ENUMS.ActorStatus.ACTOR_ID, message.status);
-        //    actor = player.getPlayerActor(actorId)
+            actor = player.getPlayerActor(actorId)
+
+            if (!actor) {
+                console.log("No actor for item msg", message.status)
+                return;
+            }
 
         //    statusValues = statusMapFromMsg(message.status);
             let item = getServerItemByItemId(message.status[1])
@@ -83,7 +103,8 @@ function processClientRequest(request, stamp, message, connectedClient) {
             }
             item.updateItemStatusFromMessage(message.status)
             message.command = ENUMS.ServerCommands.ITEM_UPDATE;
-            dispatchMessage(message);
+            relayActorMessage(actor, message, player)
+            // dispatchMessage(message);
             break;
 
         case ENUMS.ClientRequests.APPLY_ACTION_STATUS:
@@ -96,14 +117,21 @@ function processClientRequest(request, stamp, message, connectedClient) {
 
             let actionState = getStatusFromMsg(ENUMS.ActionStatus.ACTION_STATE, message.status);
 
+            actorId = getStatusFromMsg(ENUMS.ActionStatus.ACTOR_ID, message.status);
+            actor = player.getPlayerActor(actorId);
+
+            if (!actor) {
+                console.log("No actor for action msg", message.status)
+                return;
+            }
+
             if (actionState === ENUMS.ActionState.ACTIVE || actionState === ENUMS.ActionState.APPLY_HIT) {
                 let modifiers = getStatusFromMsg(ENUMS.ActionStatus.STATUS_MODIFIERS, message.status);
 
                 if (typeof modifiers === 'object') {
                     if (modifiers.length > 0) {
                             console.log("actionState modifiers", actionState, modifiers)
-                        actorId = getStatusFromMsg(ENUMS.ActionStatus.ACTOR_ID, message.status);
-                        actor = player.getPlayerActor(actorId);
+
                         let targetId = getStatusFromMsg(ENUMS.ActionStatus.TARGET_ID, message.status);
                         target = player.serverEncounter.getEncounterCombatantById(targetId);
                         actor.serverAction.processActionStatusModifiers(modifiers, target);
@@ -125,7 +153,7 @@ function processClientRequest(request, stamp, message, connectedClient) {
         //    item.updateItemStatusFromMessage(message.status)
 
             message.command = ENUMS.ServerCommands.ACTION_UPDATE;
-            dispatchMessage(message);
+            relayActorMessage(actor, message, player);
             break;
 
         case ENUMS.ClientRequests.APPLY_ACTOR_STATUS:
@@ -142,7 +170,9 @@ function processClientRequest(request, stamp, message, connectedClient) {
 
         //    getGameServerWorld().initServerEncounter(msgEvent)
             message.command = ENUMS.ServerCommands.ACTOR_UPDATE;
-            dispatchMessage(message);
+            relayActorMessage(actor, message, player);
+
+
             break;
         case ENUMS.ClientRequests.ENCOUNTER_INIT:
             getGameServerWorld().initServerEncounter(message)

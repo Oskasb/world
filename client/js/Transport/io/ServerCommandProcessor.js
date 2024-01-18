@@ -220,10 +220,10 @@ function processServerCommand(protocolKey, message) {
 
             break;
         case ENUMS.ServerCommands.ACTION_UPDATE:
-            console.log("ACTION_UPDATE; ", stamp, message);
+        //    console.log("ACTION_UPDATE; ", stamp, message);
             if (stamp === clientStamp) {
                 // own client already has the command status, use response for something?
-                console.log("Local ACTION_UPDATE response", message)
+        //        console.log("Local ACTION_UPDATE response", message)
                 let clientActor = GameAPI.getGamePieceSystem().selectedActor;
                 if (clientActor) {
             //        clientActor.actorStatus.applyServerCommandStatus(msg.status);
@@ -323,7 +323,18 @@ function processServerCommand(protocolKey, message) {
             if (encounter.id === encounterId) {
                 encounter.applyEncounterStatusUpdate(message.status);
             } else {
-                console.log("Bad Encounter ID; ", message, encounter);
+
+                if (message.status) {
+                    if (message.status[ENUMS.EncounterStatus.ENCOUNTER_ID]) {
+                        for (let key in message.status) {
+                        //    console.log("Encounter key map", key, message.status[key])
+                            encounter.setStatusKey(key, message.status[key])
+                        }
+                    }
+                } else {
+                    console.log("Bad Encounter ID; ", [message.status], message.status[0], message.status[1],encounterId, message.encounterId, encounter.id, [encounter]);
+                }
+
             }
 
             break;

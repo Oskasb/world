@@ -101,7 +101,9 @@ class ServerEncounter {
 
         for (let i = 0; i < this.partyMembers.length; i++) {
             let actor = getServerActorByActorId(this.partyMembers[i]);
-            let player = getGameServer().getConnectedPlayerByStamp(actor.getStatus(ENUMS.ActorStatus.CLIENT_STAMP))
+            console.log("partyMembers", actor, this.partyMembers[i])
+            let clientStamp = actor.getStatus(ENUMS.ActorStatus.CLIENT_STAMP)
+            let player = getGameServer().getConnectedPlayerByStamp(clientStamp)
             player.serverEncounter = this;
             this.combatants.push(actor);
         }

@@ -55,10 +55,22 @@ function unregisterServerActor(serverActor) {
 
 function getServerActorByActorId(actorId) {
     for (let i = 0; i < serverActors.length; i++) {
+
+        if (serverActors[i].id !== serverActors[i].getStatus(ENUMS.ActorStatus.ACTOR_ID)) {
+            console.log("Actor Id missmatch", serverActors[i]);
+        }
+
         if (serverActors[i].id === actorId) {
             return serverActors[i];
         }
+
     }
+
+    console.log("Server actor not found ", actorId)
+    for (let i = 0; i < serverActors.length; i++) {
+        console.log("Actor ID", serverActors[i].id);
+    }
+
 }
 
 function registerServerItem(serverItem) {

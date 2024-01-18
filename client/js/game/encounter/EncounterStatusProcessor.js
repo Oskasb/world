@@ -129,12 +129,12 @@ class EncounterStatusProcessor {
 
             let activationState = activeEncounter.getStatus(ENUMS.EncounterStatus.ACTIVATION_STATE);
             if (activationState === ENUMS.ActivationState.ACTIVATING) {
-                console.log("Encounter Activating")
+            //    console.log("Encounter Activating")
                 return;
             }
 
             if (activationState === ENUMS.ActivationState.DEACTIVATED) {
-                console.log("Encounter DEACTIVATED")
+            //    console.log("Encounter DEACTIVATED")
                 return;
             }
 

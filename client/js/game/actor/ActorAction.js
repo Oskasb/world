@@ -258,6 +258,7 @@ class ActorAction {
         this.status.call.setStatusByKey(ENUMS.ActionStatus.ACTION_KEY, actionKey);
         this.visualAction = poolFetch('VisualAction')
         let visualActionKey = this.readActionConfig('visual_action')
+        console.log("Visual Action Key: ", visualActionKey);
         this.visualAction.setActorAction(this, visualActionKey);
         let statConfig = this.readActionConfig('statistical_actions')
         if (statConfig) {
@@ -270,7 +271,13 @@ class ActorAction {
         }
     }
 
-
+    setActionKeyFromRemote(actionKey) {
+        this.status.call.setStatusByKey(ENUMS.ActionStatus.ACTION_KEY, actionKey);
+        this.visualAction = poolFetch('VisualAction')
+        let visualActionKey = this.readActionConfig('visual_action')
+        console.log("Remote Visual Action Key: ", visualActionKey);
+        this.visualAction.setActorAction(this, visualActionKey);
+    }
 
     initAction(actor) {
 
@@ -338,6 +345,7 @@ class ActorAction {
             poolReturn(this.statisticalActions.pop())
         }
         poolReturn(this.visualAction);
+        this.visualAction = null;
         poolReturn(this)
     }
 

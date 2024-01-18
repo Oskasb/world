@@ -78,7 +78,19 @@ class RemoteClient {
     getActorById(id) {
         for (let i = 0; i < this.actors.length; i++) {
             let actor = this.actors[i];
+            let remote = actor.call.getRemote();
+            let remoteId = remote.remoteId;
             if (actor.id === id) {
+
+                if (actor.id !== remoteId) {
+                    console.log("Remote ID missmatch")
+                }
+
+                if (actor.getStatus(ENUMS.ActorStatus.ACTOR_ID) !== id) {
+                    console.log("Remote Actor ID missmatch", id, actor.getStatus(ENUMS.ActorStatus.ACTOR_ID), actor)
+                    actor.setStatusKey(ENUMS.ActorStatus.ACTOR_ID, id);
+                }
+
                 return this.actors[i];
             }
         }
@@ -94,7 +106,16 @@ class RemoteClient {
         for (let i = 0; i < this.actions.length; i++) {
             let action = this.actions[i];
             if (action.id === id) {
-                return this.actions[i];
+
+                if (action.call.getStatus(ENUMS.ActionStatus.ACTION_ID) !== id) {
+                    console.log("Remote Action ID missmatch", id, action.call.getStatus(ENUMS.ActionStatus.ACTION_ID), action)
+                    action.call.setStatusKey(ENUMS.ActionStatus.ACTION_ID, id);
+                }
+
+            //    let actor = this.getActorById(action.call.getStatus(ENUMS.ActionStatus.ACTOR_ID))
+            //    actor.actorText.say(actor.getStatus(ENUMS.ActorStatus.SELECTED_ACTION))
+
+                return action;
             }
         }
     }
@@ -103,7 +124,13 @@ class RemoteClient {
         for (let i = 0; i < this.items.length; i++) {
             let item = this.items[i];
             if (item.id === id) {
-                return this.items[i];
+
+                if (item.getStatus(ENUMS.ItemStatus.ITEM_ID) !== id) {
+                    console.log("Remote Item ID missmatch", id, item)
+                    item.setStatusKey(ENUMS.ItemStatus.ITEM_ID, id);
+                }
+
+                return item;
             }
         }
     }
@@ -241,10 +268,16 @@ class RemoteClient {
             return;
         }
 
+        let isNew = false;
         let action = this.getActionById(actionId);
         if (!action) {
+            isNew = true;
             action = poolFetch('ActorAction');
             action.id = actionId;
+
+        //    let actorId = action.call.getStatus(ENUMS.ActionStatus.ACTOR_ID)
+        //    let actor = this.getActorById(actorId)
+
        //     console.log("Start new Action ", actionId)
             this.actions.push(action);
             action.isRemote = true;
@@ -255,6 +288,10 @@ class RemoteClient {
             i++
             let status = msg[i]
             action.call.setStatusKey(key, status);
+        }
+
+        if (isNew) {
+            action.setActionKeyFromRemote(action.call.getStatus(ENUMS.ActionStatus.ACTION_KEY))
         }
 
         let actorKey = action.call.getStatus(ENUMS.ActionStatus.ACTOR_ID)
@@ -462,9 +499,9 @@ class RemoteClient {
                 if (!actor) {
                     let onLoadedCB = function(actr) {
                     //    console.log("Remote Actor Loaded", actr)
+                        actr.id = remoteId;
                         GuiAPI.screenText("REMOTE LOADED "+this.index,  ENUMS.Message.SYSTEM, 1.2)
 
-                        actr.id = remoteId;
                         let onReady = function(readyActor) {
                             actors.push(readyActor);
                         }
