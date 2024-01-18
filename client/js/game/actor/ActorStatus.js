@@ -102,6 +102,7 @@ let hardStateMap = [
     ENUMS.ActorStatus.DAMAGE_APPLIED,
     ENUMS.ActorStatus.HEALING_APPLIED,
     ENUMS.ActorStatus.SELECTED_DESTINATION,
+    ENUMS.ActorStatus.PARTY_SELECTED,
     ENUMS.ActorStatus.DEAD
 ];
 

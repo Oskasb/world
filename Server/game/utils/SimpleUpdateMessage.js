@@ -74,7 +74,7 @@ class SimpleUpdateMessage {
             sendStatus.push(statusMap[statusMessageKey])
             skipKey = statusMessageKey;
 
-                if (lastFullSend < gameTime -5 || forceFullSend) {
+                if (lastFullSend < gameTime -5) {
                     lastFullSend = gameTime;
                     fullSend(statusMap)
                  //   console.log("Send fullSend", sendStatus)
@@ -84,6 +84,10 @@ class SimpleUpdateMessage {
                 }
 
                 if (sendStatus.length > 2) {
+                    if (forceFullSend) {
+                        lastFullSend = gameTime;
+                        fullSend(statusMap)
+                    }
             //        console.log("SIMPLE SEND: ", request)
                 //    evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, request)
                     return message;

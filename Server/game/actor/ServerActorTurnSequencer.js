@@ -31,7 +31,6 @@ turnStateMap[turnStateKeys.turn_init] = {enter: turnInit, exitTo:turnStateKeys.t
 turnStateMap[turnStateKeys.turn_tile_select] = {enter: turnTileSelect, exitTo:turnStateKeys.turn_move};
 
 turnStateMap[turnStateKeys.turn_move] = {enter: turnMove, exitTo:turnStateKeys.turn_target_select};
-
 turnStateMap[turnStateKeys.turn_target_select] = {enter: turnTargetSelect, exitTo:turnStateKeys.turn_evaluate_target};
 
 turnStateMap[turnStateKeys.turn_evaluate_target] = {enter: turnEvaluateTarget, exitTo:turnStateKeys.turn_select_attack};
@@ -46,7 +45,7 @@ let activateStateTransition = function(sequencer) {
     let turnStateKey = sequencer.exitTo;
     if (!turnStateMap[turnStateKey]) {
         console.log("undefined turnState", turnStateKey, sequencer);
-        turnStateKey = turnStateKeys.turn_closed;
+        turnStateKey = turnStateKeys.turn_init;
     }
     let enter = turnStateMap[turnStateKey].enter;
     sequencer.exitTo  = turnStateMap[turnStateKey].exitTo;

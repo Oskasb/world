@@ -97,7 +97,6 @@ function turnApplyAttack(actor, turnIndex) {
 function turnClose(actor, turnIndex) {
     console.log("turnClose", turnIndex)
     actor.setStatusKey(ENUMS.ActorStatus.TURN_STATE, ENUMS.TurnState.TURN_CLOSE)
-   // let sequencer = actor.actorTurnSequencer
  //   actor.actorText.say('Turn completed')
     registerGameServerUpdateCallback(updateActorClose)
 }

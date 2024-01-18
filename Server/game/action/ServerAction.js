@@ -116,7 +116,7 @@ class ServerAction {
         let updateActive = function(tpf) {
             if (this.stepProgress === 0) {
             //    this.visualAction.visualizeAttack(applyHit);
-                setTimeout(applyHit, 800)
+                setTimeout(applyHit, 1800)
             }
         }.bind(this)
 
@@ -127,7 +127,7 @@ class ServerAction {
 
         let updateAttack = function(tpf) {
             this.stepProgress += tpf;
-            console.log("updateAttack", stepDuration, this.stepProgress, tpf)
+        //    console.log("updateAttack", stepDuration, this.stepProgress, tpf)
             if (stepDuration < this.stepProgress) {
                 activateAttackStateTransition()
             }
@@ -164,9 +164,11 @@ class ServerAction {
 
     buildActionMessage() {
         let msg = this.updateMessage.call.buildMessage(ENUMS.ActionStatus.ACTION_ID, this.status.statusMap, ENUMS.ClientRequests.APPLY_ACTION_STATUS, true)
-            msg.command = ENUMS.ServerCommands.ACTION_UPDATE;
-            msg.stamp = 'server';
-            return msg;
+         if (msg) {
+             msg.command = ENUMS.ServerCommands.ACTION_UPDATE;
+             msg.stamp = 'server';
+             return msg;
+         }
     }
 
     getActor() {

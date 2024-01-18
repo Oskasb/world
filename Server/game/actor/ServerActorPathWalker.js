@@ -16,10 +16,6 @@ class ServerActorPathWalker {
         this.pathCompletedCallbacks = [];
     }
 
-    tileCount() {
-        return this.pathPoints.length;
-    }
-
     setPathPoints(points) {
         MATH.copyArrayValues(points, this.pathPoints)
     }

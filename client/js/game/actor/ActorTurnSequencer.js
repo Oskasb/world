@@ -87,6 +87,8 @@ class ActorTurnSequencer {
     }
 
     exitSequence() {
+        console.log("Exit server actor turn sequence")
+        MATH.callAll(this.turnEncBallbacks);
         MATH.emptyArray(this.turnEncBallbacks);
         cancelTurnProcess()
     }

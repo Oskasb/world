@@ -194,17 +194,7 @@ class GameActor {
         return false;
     }
 
-    startPlayerTurn(turnEndedCB, turnIndex) {
-        if (this.call.getRemote() === null) {
-        //    GameAPI.getGamePieceSystem().setSelectedGameActor(this);
-        }
 
-        this.turnEndCallbacks.push(turnEndedCB);
-        this.setStatusKey(ENUMS.ActorStatus.HAS_TURN, true);
-        this.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, true);
-        this.setStatusKey(ENUMS.ActorStatus.HAS_TURN_INDEX, turnIndex)
-    //    evt.dispatch(ENUMS.Event.SET_CAMERA_MODE, {mode:'game_travel'})
-    }
 
     getGameWalkGrid() {
         return this.gameWalkGrid;

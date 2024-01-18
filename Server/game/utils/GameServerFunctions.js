@@ -49,7 +49,7 @@ function getRegisteredActors() {
     return serverActors;
 }
 
-function removeServerActor(serverActor) {
+function unregisterServerActor(serverActor) {
     MATH.splice(serverActors, serverActor);
 }
 
@@ -116,7 +116,7 @@ function dispatchPartyMessage(messageData, playerParty) {
 
 function dispatchMessage(messageData) {
   //  console.log("Dispatch Msg ", messageData);
-    getGameServer().messageAllClients(messageData)
+    getGameServer().messageWorldClients(messageData)
 }
 
 function applyMessageToClient(messageDate) {
@@ -324,7 +324,7 @@ export {
     getServerActorByActorId,
     getRegisteredActors,
     registerServerActor,
-    removeServerActor,
+    unregisterServerActor,
     setGameServer,
     getGameServer,
     getServerConfig,

@@ -88,7 +88,7 @@ function updateActorTurnMove(tpf) {
             unregisterGameServerUpdateCallback(updateActorTurnMove)
         }
 
-        let tileCount = actor.serverActorPathWalker.tileCount();
+        let tileCount = actor.tilePath.pathTiles.length;
         if (!tileCount) {
             pathCompletedCB()
         } else {

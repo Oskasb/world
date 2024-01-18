@@ -57,6 +57,7 @@ let activateWorldEncounters = function(event) {
     let activeActor = GameAPI.getGamePieceSystem().selectedActor;
     if (activeActor) {
         activeActor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_WALK);
+        activeActor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, true);
     }
 
     let completedEncounters = GameAPI.gameAdventureSystem.getCompletedEncounters();

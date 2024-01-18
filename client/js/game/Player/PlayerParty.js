@@ -33,7 +33,6 @@ class PlayerParty {
             }
 
 
-
             GameAPI.call.getGameEncounterSystem().deactivateActiveEncounter(false, false);
 
         }.bind(this);

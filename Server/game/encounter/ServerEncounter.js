@@ -263,7 +263,9 @@ class ServerEncounter {
 
     sendActionStatusUpdate(serverAction) {
         let message = serverAction.buildActionMessage()
-        this.call.messageParticipants(message);
+        if (message) {
+            this.call.messageParticipants(message);
+        }
     }
 
 
@@ -277,7 +279,7 @@ class ServerEncounter {
 
         while (this.encounterActors.length) {
             let actor = this.encounterActors.pop();
-            actor.removeServerActor();
+            actor.removeServerActor(this);
         }
 
         for (let i = 0; i < this.partyMembers.length; i++) {

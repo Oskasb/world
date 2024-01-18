@@ -98,12 +98,11 @@ function enterEncounter(encounter, actor) {
 
     actor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, "")
     actor.setStatusKey(ENUMS.ActorStatus.SELECTED_ACTION, "")
-    actor.setStatusKey(ENUMS.ActorStatus.ACTION_STATE_KEY, "")
+    actor.setStatusKey(ENUMS.ActorStatus.ACTION_STATE_KEY, 0)
 
     encounter.serverEncounterTurnSequencer.addEncounterActor(actor)
     encounter.sendActorStatusUpdate(actor);
 }
-
 
 
 function exitEncounter(encounter, actor, victory) {
@@ -111,7 +110,7 @@ function exitEncounter(encounter, actor, victory) {
     actor.setStatusKey(ENUMS.ActorStatus.DEAD, false);
     actor.setStatusKey(ENUMS.ActorStatus.TURN_STATE, ENUMS.TurnState.NO_TURN);
     actor.setStatusKey(ENUMS.ActorStatus.HAS_TURN, false); // -1 for new encounter
-    actor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, true); // -1 for new encounter
+    actor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, false); // -1 for new encounter
     actor.setStatusKey(ENUMS.ActorStatus.HAS_TURN_INDEX, -1);
     actor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, "");
     actor.setStatusKey(ENUMS.ActorStatus.TURN_DONE, -1); // -1 for new encounter
@@ -119,8 +118,10 @@ function exitEncounter(encounter, actor, victory) {
     actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_WALK);
     actor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, "")
     actor.setStatusKey(ENUMS.ActorStatus.SELECTED_ACTION, "")
-    actor.setStatusKey(ENUMS.ActorStatus.ACTION_STATE_KEY, "")
-
+    actor.setStatusKey(ENUMS.ActorStatus.ACTION_STATE_KEY, 0)
+    actor.setStatusKey(ENUMS.ActorStatus.SEQUENCER_SELECTED, false);
+    actor.setStatusKey(ENUMS.ActorStatus.RETREATING, '');
+    actor.setStatusKey(ENUMS.ActorStatus.EXIT_ENCOUNTER, '');
 
     if (!victory) {
         let exitTile = encounter.getRandomExitTile();

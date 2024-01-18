@@ -82,6 +82,13 @@ function checkActorTurnDone(encounterSequencer, actor) {
         let turnDone = actor.getStatus(ENUMS.ActorStatus.TURN_DONE);
         if (turnDone === turnIndex) {
             console.log("turnDone", turnIndex, turnState, activeId)
+            let sequencer = actor.turnSequencer
+            if (sequencer) {
+                sequencer.exitSequence();
+            } else {
+                console.log("No sequencer", actor)
+            }
+
             return true
         }
     } else {

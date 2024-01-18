@@ -75,17 +75,23 @@ class ServerActor {
         console.log("Actor ACTION message: ", [msg]);
     }
 
-    removeServerActor() {
+    removeServerActor(serverEncounter) {
         let clientStamp = this.status.getStatus(ENUMS.ActorStatus.CLIENT_STAMP);
         this.status.setStatusKey(ENUMS.ActorStatus.ACTIVATION_STATE, ENUMS.ActivationState.DEACTIVATING)
-        dispatchMessage(
-            {
-                request:ENUMS.ClientRequests.APPLY_ACTOR_STATUS,
-                command:ENUMS.ServerCommands.ACTOR_REMOVED,
-                stamp:clientStamp,
-                actorId:this.status.getStatus(ENUMS.ActorStatus.ACTOR_ID)
-            }
-        )
+
+        let message = {
+            request:ENUMS.ClientRequests.APPLY_ACTOR_STATUS,
+            command:ENUMS.ServerCommands.ACTOR_REMOVED,
+            stamp:clientStamp,
+            actorId:this.status.getStatus(ENUMS.ActorStatus.ACTOR_ID)
+        }
+
+        if (serverEncounter) {
+            serverEncounter.call.messageParticipants(message)
+        } else {
+            dispatchMessage(message)
+        }
+
 
         let activeEncounters = getGameServerWorld().getActiveEncoutners();
 
@@ -116,7 +122,6 @@ class ServerActor {
         } else {
             return false;
         }
-
 
     }
 

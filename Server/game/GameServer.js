@@ -3,13 +3,15 @@ import {MATH} from "../../client/js/application/MATH.js";
 import {ServerEncounter} from "./encounter/ServerEncounter.js";
 import {GameServerWorld} from "./GameServerWorld.js";
 import {ServerPlayer} from "./player/ServerPlayer.js";
+import {ServerWorldMessenger} from "../io/ServerWorldMessenger.js";
+
 
 let connectedPlayers = [];
-
 let serverConfigs = null;
 
 class GameServer {
     constructor(connectedClients) {
+        this.serverWorldMessenger = new ServerWorldMessenger()
         this.connectedClients = connectedClients;
         this.gameServerWorld = new GameServerWorld();
         this.tpf = 1;
@@ -56,8 +58,6 @@ class GameServer {
 
     registerConnectedPlayer(stamp) {
 
-
-
         let player = this.getConnectedPlayerByStamp(stamp)
         if (!player) {
             player = new ServerPlayer(stamp)
@@ -83,7 +83,6 @@ class GameServer {
 
     disconnectConnectedPlayer(player) {
         MATH.splice(connectedPlayers, player);
-
     }
 
 
@@ -115,6 +114,10 @@ class GameServer {
         for (let i = 0; i < this.connectedClients.length; i++) {
             this.connectedClients[i].call.returnDataMessage(message);
         }
+    }
+
+    messageWorldClients(message) {
+        this.serverWorldMessenger.messageToWorldPresentActors(message);
     }
 
 }
