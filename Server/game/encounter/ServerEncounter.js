@@ -73,7 +73,7 @@ class ServerEncounter {
         this.serverGrid = new ServerGrid();
         this.spawn = message.spawn;
         this.encounterActors = [];
-        this.id = message.encounterId;
+        this.id = message.encounterId;console.log("New Server Enc ", message.encounterId, message.worldEncounterId);
         this.status = new EncounterStatus(message.encounterId, message.worldEncounterId);
         this.setStatusKey(ENUMS.EncounterStatus.GRID_ID, message.grid_id)
         this.setStatusKey(ENUMS.EncounterStatus.GRID_POS, message.pos)

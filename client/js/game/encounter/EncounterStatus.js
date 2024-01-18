@@ -53,7 +53,7 @@ class EncounterStatus {
 
                 this.statusMap[key] = status;
             } else {
-                console.log("changing type for status is bad", key, status)
+                console.log("changing type for status is bad", key, this.statusMap[key], status)
             }
         }
     }

@@ -51,6 +51,18 @@ let deactivateWorldEncounters = function () {
 
 let activateEvent = {world_encounters:[]};
 
+let skippedEncounters = {};
+
+let activateSkippedEncounter = function(encId, cb) {
+    let onReady = function(encounter) {
+        worldEncounters.push(encounter);
+        encounter.activateWorldEncounter()
+        cb(encounter);
+    }
+
+    new WorldEncounter(encId, skippedEncounters[encId], onReady)
+}
+
 let activateWorldEncounters = function(event) {
     deactivateWorldEncounters();
     GuiAPI.getWorldInteractionUi().initWorldInteractUi();
@@ -74,6 +86,7 @@ let activateWorldEncounters = function(event) {
                 new WorldEncounter(encId, encounters[i], onReady)
             } else {
                 console.log("Not loading completed encounters..", encId);
+                skippedEncounters[encId] = encounters[i];
             }
 
         }
@@ -114,6 +127,10 @@ class WorldModels {
 
     activateEncounters() {
         activateWorldEncounters(activateEvent)
+    }
+
+    activateCompletedEncounter(encId, onReady) {
+        activateSkippedEncounter(encId, onReady);
     }
 
     getEncounterByHostActorId(actorId) {

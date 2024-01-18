@@ -229,7 +229,7 @@ class WorldEncounter {
             let selectedActor = GameAPI.getGamePieceSystem().getSelectedGameActor();
 
             encounterEvent.request = ENUMS.ClientRequests.ENCOUNTER_INIT
-            encounterEvent.worldEncounterId = null;
+            encounterEvent.worldEncounterId = message.worldEncounterId
             encounterEvent.encounterId = message.encounterId;
             encounterEvent.pos = this.getPos();
             encounterEvent.grid_id = this.config.grid_id;

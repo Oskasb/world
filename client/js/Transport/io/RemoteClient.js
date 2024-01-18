@@ -428,7 +428,7 @@ class RemoteClient {
                     }
                     return
                 }
-                this.encounter = new DynamicEncounter(encounterId)
+                this.encounter = new DynamicEncounter(encounterId, msg)
                 this.encounter.isRemote = true;
             }
 

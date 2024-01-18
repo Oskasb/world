@@ -48,25 +48,38 @@ class VisualAction {
         let missileActive = false;
 
         let updateSelected = function() {
-            this.getActor().getVisualJointWorldTransform('HAND_R', this.rightHandObj3d)
-            this.getActor().getVisualJointWorldTransform('HAND_L', this.leftHandObj3d)
-            effectCalls()[this.config[fxKeys[0]]](this.getActor(), this.rightHandObj3d)
-            effectCalls()[this.config[fxKeys[0]]](this.getActor(), this.leftHandObj3d)
+
+            let actor = this.getActor();
+
+            if (actor) {
+                actor.getVisualJointWorldTransform('HAND_R', this.rightHandObj3d)
+                actor.getVisualJointWorldTransform('HAND_L', this.leftHandObj3d)
+                effectCalls()[this.config[fxKeys[0]]](actor, this.rightHandObj3d)
+                effectCalls()[this.config[fxKeys[0]]](actor, this.leftHandObj3d)
+            }
+
         }.bind(this)
 
         let updatePrecast = function() {
-            this.getActor().getVisualJointWorldTransform('HAND_R', this.rightHandObj3d)
-            this.getActor().getVisualJointWorldTransform('HAND_L', this.leftHandObj3d)
-            effectCalls()[this.config[fxKeys[1]]](this.getActor(), this.rightHandObj3d)
-            effectCalls()[this.config[fxKeys[1]]](this.getActor(), this.leftHandObj3d)
+            let actor = this.getActor();
+            if (actor) {
+                actor.getVisualJointWorldTransform('HAND_R', this.rightHandObj3d)
+                actor.getVisualJointWorldTransform('HAND_L', this.leftHandObj3d)
+                effectCalls()[this.config[fxKeys[1]]](actor, this.rightHandObj3d)
+                effectCalls()[this.config[fxKeys[1]]](actor, this.leftHandObj3d)
+            }
         }.bind(this)
 
         let updateActive = function() {
             if (missileEffect !== null) {
                 if (missileActive === false) {
-                    tempObj3D.position.copy(missileEffect.pos)
-                    effectCalls()[this.config[fxKeys[1]]](this.getActor(), tempObj3D)
-                    missileActive = true;
+                    let actor = this.getActor();
+                    if (actor) {
+                        tempObj3D.position.copy(missileEffect.pos)
+                        effectCalls()[this.config[fxKeys[1]]](actor, tempObj3D)
+                        missileActive = true;
+                    }
+
                 }
             }
         }.bind(this)
@@ -76,7 +89,7 @@ class VisualAction {
 
             let target = this.getTarget();
             if (target) { // target can be in different context (in or outside encounter)
-                effectCalls()[this.config[fxKeys[3]]](this.getTarget())
+                effectCalls()[this.config[fxKeys[3]]](target)
             }
 
         }.bind(this)
@@ -85,7 +98,7 @@ class VisualAction {
             missileEffect = null;
             let target = this.getTarget();
             if (target) {
-                effectCalls()[this.config[fxKeys[4]]](this.getTarget())
+                effectCalls()[this.config[fxKeys[4]]](target)
             }
 
         }.bind(this)
@@ -163,6 +176,9 @@ class VisualAction {
     visualizeAttack(onArriveCB) {
         this.progress = 0;
         let actor = this.getActor();
+        if (!actor) {
+            console.log("visualizeAttack - No actor", this);
+        }
         this.sourcePos.copy(actor.getSpatialPosition())
         this.sourcePos.y +=1.5;
 

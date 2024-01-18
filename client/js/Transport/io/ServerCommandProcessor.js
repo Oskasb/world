@@ -302,13 +302,27 @@ function processServerCommand(protocolKey, message) {
         case ENUMS.ServerCommands.ENCOUNTER_TRIGGER:
             console.log("Trigger Encounter; ", message.encounterId, message.worldEncounterId, stamp, message);
             encounter = GameAPI.getWorldEncounterByEncounterId(message.worldEncounterId);
-            encounter.call.serverEncounterActivated(message);
-            console.log("WE: ", encounter);
+            if (!encounter) {
+                console.log("Assume encounter already completed but started by other party member");
+
+                let onReady = function(worldEnc) {
+                    worldEnc.call.serverEncounterActivated(message);
+                }
+
+                GameAPI.worldModels.activateCompletedEncounter(message.worldEncounterId, onReady)
+
+
+            } else {
+                encounter.call.serverEncounterActivated(message);
+                console.log("WE: ", encounter);
+            }
+
             break;
         case ENUMS.ServerCommands.ENCOUNTER_START:
             console.log("Start Encounter; ", message.encounterId, message.worldEncounterId, stamp, message);
             encounter = GameAPI.getWorldEncounterByEncounterId(msg.worldEncounterId);
             console.log("Enc: ",encounter.triggered, encounter.started, encounter);
+
             if (encounter.triggered === false) {
                 encounter.call.triggerWorldEncounter();
             } else if (encounter.started === false) {
