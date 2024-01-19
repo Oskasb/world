@@ -9,19 +9,7 @@
           "scale": [1.0, 1.0, 1.0],
           "rot": [0, 0, 0],
           "status": {
-            "ACTIONS": ["ACTION_MAGIC_MISSILE", "ACTION_FREEZE_BOLT"],
-            "TRAVEL":  ["ACTION_TRAVEL_WALK"],
-            "MOVEMENT_SPEED": 4,
-            "HEIGHT": 1.8,
-            "SIZE": 1.2,
-            "HAND_SIZE": 0.4,
-            "ICON_KEY": "face_4",
-            "DEAD": false,
-            "NAME": "Fighter",
-            "MAX_HP": 2,
-            "IN_COMBAT": false,
-            "TRAVEL_MODE": "TRAVEL_MODE_WALK",
-            "ALIGNMENT": "NEUTRAL"
+
           }
         }
       },
@@ -33,18 +21,7 @@
           "scale": [1.0, 1.0, 1.0],
           "rot": [0, 0, 0],
           "status": {
-            "ACTIONS": ["ACTION_FIREBALL", "ACTION_HEAL_BOLT"],
-            "TRAVEL":  ["ACTION_TRAVEL_WALK", "ACTION_TRAVEL_LEAP"],
-            "MOVEMENT_SPEED": 4,
-            "HEIGHT": 1.8,
-            "SIZE": 1.2,
-            "HAND_SIZE": 0.4,
-            "ICON_KEY": "face_12",
-            "DEAD": false,
-            "NAME": "Farmer",
-            "MAX_HP": 12,
-            "IN_COMBAT": false,
-            "TRAVEL_MODE": "TRAVEL_MODE_INACTIVE"
+
           }
         }
       },
@@ -56,18 +33,7 @@
           "scale": [1.0, 1.0, 1.0],
           "rot": [0, 0, 0],
           "status": {
-            "ACTIONS": ["ACTION_FIREBALL", "ACTION_HEAL_BOLT"],
-            "TRAVEL":  ["ACTION_TRAVEL_WALK"],
-            "MOVEMENT_SPEED": 4,
-            "HEIGHT": 1.8,
-            "SIZE": 1.2,
-            "HAND_SIZE": 0.4,
-            "ICON_KEY": "face_11",
-            "DEAD": false,
-            "NAME": "Princess",
-            "MAX_HP": 11,
-            "IN_COMBAT": false,
-            "TRAVEL_MODE": "TRAVEL_MODE_INACTIVE"
+
           }
         }
       },
@@ -79,18 +45,7 @@
           "scale": [1.0, 1.0, 1.0],
           "rot": [0, 0, 0],
           "status": {
-            "ACTIONS": ["ACTION_FIREBALL", "ACTION_HEAL_BOLT"],
-            "TRAVEL":  ["ACTION_TRAVEL_WALK"],
-            "MOVEMENT_SPEED": 4,
-            "HEIGHT": 1.8,
-            "SIZE": 1.2,
-            "HAND_SIZE": 0.4,
-            "ICON_KEY": "face_10",
-            "DEAD": false,
-            "NAME": "Pirate",
-            "MAX_HP": 10,
-            "IN_COMBAT": false,
-            "TRAVEL_MODE": "TRAVEL_MODE_INACTIVE"
+
           }
         }
       },
@@ -102,18 +57,7 @@
           "scale": [1.0, 1.0, 1.0],
           "rot": [0, 0, 0],
           "status": {
-            "ACTIONS": ["ACTION_MAGIC_MISSILE", "ACTION_HEAL_BOLT"],
-            "TRAVEL":  ["ACTION_TRAVEL_WALK"],
-            "MOVEMENT_SPEED": 4,
-            "HEIGHT": 1.8,
-            "SIZE": 1.2,
-            "HAND_SIZE": 0.4,
-            "ICON_KEY": "face_9",
-            "DEAD": false,
-            "NAME": "Alien",
-            "MAX_HP": 10,
-            "IN_COMBAT": false,
-            "TRAVEL_MODE": "TRAVEL_MODE_INACTIVE"
+
           }
         }
       },

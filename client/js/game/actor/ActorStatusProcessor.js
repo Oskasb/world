@@ -48,9 +48,9 @@ function processAnimationState(actor) {
         actor.setStatusKey(ENUMS.ActorStatus.BODY_STATE, 'DISENGAGING')
     } else {
         if (actor.getStatus(ENUMS.ActorStatus.IN_COMBAT)) {
-            actor.setStatusKey(ENUMS.ActorStatus.MOVE_STATE, 'MOVE_COMBAT')
-            actor.setStatusKey(ENUMS.ActorStatus.STAND_STATE, 'STAND_COMBAT')
-            actor.setStatusKey(ENUMS.ActorStatus.BODY_STATE, 'ENGAGING')
+            actor.setStatusKey(ENUMS.ActorStatus.MOVE_STATE, actor.combatMoveState)
+            actor.setStatusKey(ENUMS.ActorStatus.STAND_STATE, actor.combatStandState)
+            actor.setStatusKey(ENUMS.ActorStatus.BODY_STATE, actor.combatBodyState)
         } else {
             actor.setStatusKey(ENUMS.ActorStatus.MOVE_STATE, 'MOVE')
             actor.setStatusKey(ENUMS.ActorStatus.STAND_STATE, 'IDLE_LEGS')

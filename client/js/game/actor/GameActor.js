@@ -25,6 +25,10 @@ let lastSendTime = 0;
 class GameActor {
     constructor(index, config, parsedEquipSlotData) {
 
+        this.combatStandState = 'STAND_COMBAT';
+        this.combatBodyState = 'ENGAGING';
+        this.combatMoveState = 'MOVE_COMBAT'
+
         this.id = index+"_"+client.getStamp();
         this.index = index;
 

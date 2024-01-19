@@ -22,7 +22,12 @@ let visualConfigDefaults = {
     "fx_precast":"combat_effect_hands_fire",
     "fx_active":"combat_effect_fire_missile",
     "fx_apply":"combat_effect_fireball",
-    "fx_post_hit":"damage_effect_catch_on_fire"
+    "fx_post_hit":"damage_effect_catch_on_fire",
+    "anim_selected": "DISENGAGING",
+    "anim_precast": "ENGAGING",
+    "anim_active": "COMBAT",
+    "anim_apply": "DISENGAGING",
+    "anim_post_hit": "ENGAGING"
 }
 
 let fxKeys = [
@@ -31,6 +36,14 @@ let fxKeys = [
     "fx_active",
     "fx_apply",
     "fx_post_hit"
+]
+
+let animKeys = [
+    "anim_selected",
+    "anim_precast",
+    "anim_active",
+    "anim_apply",
+    "anim_post_hit"
 ]
 
 class VisualAction {
@@ -56,6 +69,13 @@ class VisualAction {
                 actor.getVisualJointWorldTransform('HAND_L', this.leftHandObj3d)
                 effectCalls()[this.config[fxKeys[0]]](actor, this.rightHandObj3d)
                 effectCalls()[this.config[fxKeys[0]]](actor, this.leftHandObj3d)
+
+                if (this.config[animKeys[0]]) {
+                    actor.combatBodyState = this.config[animKeys[0]]
+                } else {
+                    actor.combatBodyState = 'ENGAGING'
+                }
+
             }
 
         }.bind(this)
@@ -67,6 +87,13 @@ class VisualAction {
                 actor.getVisualJointWorldTransform('HAND_L', this.leftHandObj3d)
                 effectCalls()[this.config[fxKeys[1]]](actor, this.rightHandObj3d)
                 effectCalls()[this.config[fxKeys[1]]](actor, this.leftHandObj3d)
+
+                if (this.config[animKeys[1]]) {
+                    actor.combatBodyState = this.config[animKeys[1]]
+                } else {
+                    actor.combatBodyState = 'ENGAGING'
+                }
+
             }
         }.bind(this)
 
@@ -78,6 +105,13 @@ class VisualAction {
                         tempObj3D.position.copy(missileEffect.pos)
                         effectCalls()[this.config[fxKeys[1]]](actor, tempObj3D)
                         missileActive = true;
+
+                        if (this.config[animKeys[2]]) {
+                            actor.combatBodyState = this.config[animKeys[2]]
+                        } else {
+                            actor.combatBodyState = 'ENGAGING'
+                        }
+
                     }
 
                 }
@@ -92,6 +126,15 @@ class VisualAction {
                 effectCalls()[this.config[fxKeys[3]]](target)
             }
 
+            let actor = this.getActor();
+            if (actor) {
+                if (this.config[animKeys[3]]) {
+                    actor.combatBodyState = this.config[animKeys[3]]
+                } else {
+                    actor.combatBodyState = 'ENGAGING'
+                }
+            }
+
         }.bind(this)
 
         let updatePostHit = function() {
@@ -99,6 +142,14 @@ class VisualAction {
             let target = this.getTarget();
             if (target) {
                 effectCalls()[this.config[fxKeys[4]]](target)
+            }
+            let actor = this.getActor();
+            if (actor) {
+                if (this.config[animKeys[4]]) {
+                    actor.combatBodyState = this.config[animKeys[4]]
+                } else {
+                    actor.combatBodyState = 'ENGAGING'
+                }
             }
 
         }.bind(this)

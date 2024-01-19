@@ -25,7 +25,7 @@
         "id":"STATS_FARMER",
         "data":{
           "status": {
-            "ACTIONS": ["ACTION_FIREBALL", "ACTION_HEAL_BOLT"],
+            "ACTIONS": ["ACTION_SWORD_SLASH", "ACTION_HEAL_BOLT"],
             "TRAVEL":  ["ACTION_TRAVEL_WALK", "ACTION_TRAVEL_LEAP"],
             "MOVEMENT_SPEED": 4,
             "HEIGHT": 1.8,

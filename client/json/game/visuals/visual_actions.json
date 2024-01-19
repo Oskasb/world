@@ -2,6 +2,25 @@
   "GAME_VISUALS":{
     "ACTIONS":[
       {
+        "id":"VISUAL_SWORD_SLASH",
+        "data":{
+          "name": "Slash",
+          "icon_key": "icon_dagger",
+          "effects": {
+            "fx_selected":"combat_effect_hands_magic_power",
+            "fx_precast":"combat_effect_hands_magic_power",
+            "fx_active":"combat_effect_magic_missile",
+            "fx_apply":"combat_effect_magic_hit",
+            "fx_post_hit":"damage_effect_magic_residual",
+            "anim_selected": "DISENGAGING",
+            "anim_precast": "ENGAGING",
+            "anim_active": "COMBAT",
+            "anim_apply": "DISENGAGING",
+            "anim_post_hit": "ENGAGING"
+          }
+        }
+      },
+      {
         "id":"VISUAL_FIREBALL",
         "data":{
           "name": "Burn",

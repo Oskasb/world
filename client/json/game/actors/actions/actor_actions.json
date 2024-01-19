@@ -2,6 +2,21 @@
   "GAME_ACTORS":{
     "ACTIONS":[
       {
+        "id":"ACTION_SWORD_SLASH",
+        "data":{
+          "visual_action": "VISUAL_SWORD_SLASH",
+          "statistical_actions": ["STATISTICAL_SWORD_SLASH"],
+          "sequencing": {
+            "SELECTED": {"time": 0.25},
+            "PRECAST":  {"time": 0.35},
+            "ACTIVE":   {"time": 8},
+            "APPLY_HIT":{"time": 0.15},
+            "POST_HIT": {"time": 0.35}
+          }
+
+        }
+      },
+      {
         "id":"ACTION_FIREBALL",
         "data":{
           "visual_action": "VISUAL_FIREBALL",
