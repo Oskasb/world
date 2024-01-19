@@ -565,11 +565,13 @@ class GameActor {
                     this.getSpatialVelocity(this.lookDirection)
                     this.lookDirection.y = 0;
 
+                    let bodyPointer = this.getStatus(ENUMS.ActorStatus.RIGID_BODY_CONTACT);
+                    this.actorText.say(""+bodyPointer);
+
                 }
 
                 this.applyHeading(this.lookDirection, this.getStatus(ENUMS.ActorStatus.ACTOR_YAW_RATE) * tpf);
             }
-
 
             this.travelMode.updateTravelMode(this);
         } else {

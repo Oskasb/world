@@ -92,7 +92,7 @@ class DynamicTile {
         this.obj3d.position.y = height+0.01;
 
         tempVec.copy(this.obj3d.position);
-        tempVec.y +=0.2;
+        tempVec.y +=0.01;
 
         let hit = detectFreeSpaceAbovePoint(tempVec, 1.7, this.obj3d.position, this.groundNormal, 4, false);
 

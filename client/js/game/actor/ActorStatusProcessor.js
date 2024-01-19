@@ -2,7 +2,7 @@ import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
 import {notifyCameraStatus} from "../../3d/camera/CameraFunctions.js";
 import {Vector3} from "../../../libs/three/math/Vector3.js";
 import {CameraStatusProcessor} from "../../application/utils/CameraStatusProcessor.js";
-import {getModelByBodyPointer, getPhysicalWorld} from "../../application/utils/PhysicsUtils.js";
+import {getModelByBodyPointer, getPhysicalWorld, rayTest} from "../../application/utils/PhysicsUtils.js";
 import {ENUMS} from "../../application/ENUMS.js";
 
 let tempVec = new Vector3()
@@ -118,11 +118,13 @@ function processActorCombatStatus(actor) {
             actor.setStatusKey(ENUMS.ActorStatus.HEALING_APPLIED, 0)
         }
 
+        actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_BATTLE);
 
         if (actor.getStatus(ENUMS.ActorStatus.HAS_TURN) === false) {
         //    actor.actorText.say(actor.getStatus(ENUMS.ActorStatus.TURN_DONE))
+        //    actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_INACTIVE);
         } else {
-            actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_BATTLE);
+
         }
 
     } else {
@@ -131,27 +133,95 @@ function processActorCombatStatus(actor) {
         }
     }
 
+    function getTerrainBodyPointer() {
+        let world = getPhysicalWorld();
+        return world.terrainBody.kB;
+    }
+
+
+
+let obstructHhitCb = function(hit) {
+    let world = getPhysicalWorld();
+    let ptr = hit.ptr;
+
+    if (ptr === getTerrainBodyPointer()) {
+        viewObstuctionTest(hit.position, ThreeAPI.getCamera().position, obstructHhitCb);
+        return;
+    }
+
+    let physicalModel = getModelByBodyPointer(ptr);
+
+    let model = physicalModel.call.getModel();
+
+    if (!model) {
+        viewObstuctionTest(hit.position, ThreeAPI.getCamera().position, obstructHhitCb);
+        return;
+    }
+
+    if (world.viewObstuctingModels.indexOf(model) === -1) {
+        world.viewObstuctingModels.push(model)
+        model.call.viewObstructing(true)
+    } else {
+        viewObstuctionTest(hit.position, ThreeAPI.getCamera().position, obstructHhitCb)
+    }
+}
+
+    function viewObstuctionTest(from, to, hitCb) {
+        let hit = rayTest(from, to, tempVec2, null, true);
+        if (hit) {
+            hitCb(hit);
+        }
+    }
+
+    let obstructingModels = [];
+
+function updateViewPhysicalObstruction(actor) {
+    let world = getPhysicalWorld();
+  //  let viewObstuctingModels
+    MATH.copyArrayValues(world.viewObstuctingModels, obstructingModels);
+    MATH.emptyArray(world.viewObstuctingModels);
+    actor.getSpatialPosition(tempVec);
+    tempVec.y += actor.getStatus(ENUMS.ActorStatus.HEIGHT);
+    let camPos = ThreeAPI.getCamera().position;
+
+    viewObstuctionTest(tempVec, camPos, obstructHhitCb)
+
+    for (let i = 0; i < obstructingModels.length; i++) {
+        let model = obstructingModels[i];
+        if (world.viewObstuctingModels.indexOf(model) === -1) {
+            model.call.viewObstructing(false);
+        }
+    }
+
+}
+
 let lastContact = 0;
 let lastContactModel = null;
+
+
+
 function updateRigidBodyContact(actor) {
 
     let ptr = actor.getStatus(ENUMS.ActorStatus.RIGID_BODY_CONTACT);
+
+    let terrainPtr = getTerrainBodyPointer();
+
+    if (ptr === terrainPtr) {
+        ptr = 0;
+    }
+
     if (ptr !== lastContact) {
-        let physicalModel = getModelByBodyPointer(ptr)
 
-        let world = getPhysicalWorld();
-
-        if (lastContactModel) {
-            if (lastContactModel !== world.terrainBody) {
+        if (lastContact !== 0) {
+            if (lastContactModel) {
                 lastContactModel.call.playerContact(false)
             }
         }
 
-        if (world.terrainBody.kB === ptr) {
-            lastContactModel = world.terrainBody
-        } else {
+        if (ptr !== 0) {
+            let physicalModel = getModelByBodyPointer(ptr)
             let model = physicalModel.call.getModel()
-       //     console.log(physicalModel, model);
+            //     console.log(physicalModel, model);
             if (!model) {
                 console.log("Probably Primitive, figure out")
                 lastContactModel = null
@@ -159,8 +229,9 @@ function updateRigidBodyContact(actor) {
                 model.call.playerContact(true)
                 lastContactModel = model
             }
-
         }
+
+        lastContact = ptr;
 
      //   console.log( "contact" , lastContactModel)
     }
@@ -314,7 +385,7 @@ class ActorStatusProcessor {
             registerPathPoints(actor);
             processPartyStatus(actor);
             updateRigidBodyContact(actor);
-
+            updateViewPhysicalObstruction(actor);
             processActorEncounterExit(actor);
         }
         processAnimationState(actor);

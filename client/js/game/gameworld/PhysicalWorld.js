@@ -5,6 +5,7 @@ let AMMO ;
 
 class PhysicalWorld {
     constructor() {
+        this.viewObstuctingModels = [];
         this.physicalModels = [];
         this.terrainBody = null;
         let updateModels = function() {

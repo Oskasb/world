@@ -144,6 +144,20 @@ class LocationModel {
 
         let playerContact = function(bool) {
             if (bool) {
+                this.palette.setSeeThroughSolidity(0.25)
+            } else {
+                this.palette.setSeeThroughSolidity(this.solidity)
+            }
+            if (this.instance) {
+                this.palette.applyPaletteToInstance(this.instance)
+            } else {
+                console.log("palette expects instance")
+            }
+        }.bind(this);
+
+        let viewObstructing = function(bool) {
+            console.log("View Obstruct")
+            if (bool) {
                 this.palette.setSeeThroughSolidity(0.5)
             } else {
                 this.palette.setSeeThroughSolidity(this.solidity)
@@ -167,7 +181,8 @@ class LocationModel {
             setPaletteKey:setPaletteKey,
             lodUpdated:lodUpdated,
             hideLocationModel:hideLocationModel,
-            playerContact:playerContact
+            playerContact:playerContact,
+            viewObstructing:viewObstructing
         }
 
     }

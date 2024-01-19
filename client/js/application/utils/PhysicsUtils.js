@@ -207,8 +207,8 @@ function getModelByBodyPointer(ptr) {
 
     }
     console.log("no body found for pointer ", ptr);
-
 }
+
 
 export {
     getPhysicalWorld,
