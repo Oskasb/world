@@ -565,8 +565,8 @@ class GameActor {
                     this.getSpatialVelocity(this.lookDirection)
                     this.lookDirection.y = 0;
 
-                    let bodyPointer = this.getStatus(ENUMS.ActorStatus.RIGID_BODY_CONTACT);
-                    this.actorText.say(""+bodyPointer);
+                //    let bodyPointer = this.getStatus(ENUMS.ActorStatus.RIGID_BODY_CONTACT);
+                //    this.actorText.say(""+bodyPointer);
 
                 }
 
