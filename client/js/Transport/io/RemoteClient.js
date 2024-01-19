@@ -532,8 +532,6 @@ class RemoteClient {
 
                     for (let i = 2; i < msg.length; i++) {
 
-
-
                         let key = msg[i];
                         i++
                         let status = msg[i]
@@ -541,6 +539,11 @@ class RemoteClient {
                             hasSpatial = true;
                             actor.call.getRemote().updateSpatial(key, status);
                         } else {
+
+                            if (status !== 0 && key === ENUMS.ActorStatus.DAMAGE_APPLIED) {
+                                console.log("DMG MSG: ", status);
+                            }
+
                             actor.setStatusKey(key, status);
                         }
 

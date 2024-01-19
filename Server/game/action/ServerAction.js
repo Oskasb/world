@@ -116,7 +116,7 @@ class ServerAction {
         let updateActive = function(tpf) {
             if (this.stepProgress === 0) {
             //    this.visualAction.visualizeAttack(applyHit);
-                setTimeout(applyHit, 1800)
+                setTimeout(applyHit, 800)
             }
         }.bind(this)
 

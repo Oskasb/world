@@ -28,6 +28,8 @@ class GameActor {
         this.id = index+"_"+client.getStamp();
         this.index = index;
 
+        this.insideEncounter = false;
+
         this.framePos = new Vector3();
         this.lastFramePos = new Vector3();
 
@@ -258,15 +260,11 @@ class GameActor {
         let currentStatus = this.actorStatus.getStatusByKey(key)
 
         if (currentStatus !== status) {
-
             this.statusFeedback.setStatusKey(key, status, this);
             this.actorStatus.setStatusKey(key, status);
-            this.sendStatus(0.02)
-
+            this.sendStatus(0.1)
         }   else {
-
-            this.sendStatus(4)
-
+            this.sendStatus(8)
         }
 
     }

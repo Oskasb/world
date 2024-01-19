@@ -297,6 +297,8 @@ function spawnServerEncounterActor(spawnInfo, serverGrid) {
     actor.setStatusKey(ENUMS.ActorStatus.SELECTED_ACTION, "");
     actor.setStatusKey(ENUMS.ActorStatus.PATH_POINTS, []);
     actor.setStatusKey(ENUMS.ActorStatus.SELECTED_DESTINATION, [0, 0, 0]);
+    actor.setStatusKey(ENUMS.ActorStatus.DAMAGE_APPLIED, 0);
+    actor.setStatusKey(ENUMS.ActorStatus.HEALING_APPLIED, 0);
     return actor;
 
 }

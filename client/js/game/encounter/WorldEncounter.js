@@ -224,6 +224,7 @@ class WorldEncounter {
             this.deactivateWorldEncounter();
             GuiAPI.getWorldInteractionUi().closeWorldInteractUi();
             GameAPI.worldModels.deactivateEncounters();
+
         //   return;
             let hostActor = this.visualEncounterHost.call.getActor();
             let selectedActor = GameAPI.getGamePieceSystem().getSelectedGameActor();

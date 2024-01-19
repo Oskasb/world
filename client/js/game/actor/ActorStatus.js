@@ -147,6 +147,8 @@ let spatialMap = [
 ]
 
 let skipMap = [
+    ENUMS.ActorStatus.DAMAGE_APPLIED,
+    ENUMS.ActorStatus.HEALING_APPLIED,
     ENUMS.ActorStatus.PARTY_SELECTED,
     ENUMS.ActorStatus.SEQUENCER_SELECTED,
     ENUMS.ActorStatus.STATUS_PITCH,
@@ -308,6 +310,11 @@ class ActorStatus {
 
         for (let key in map) {
             if (testHardState(key) === true) {
+
+                if (this.statusMap[key] !== map[key]) {
+                    this.actor.statusFeedback.setStatusKey(key, map[key], this.actor)
+                }
+
                 this.statusMap[key] = map[key];
             }
         }

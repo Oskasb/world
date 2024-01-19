@@ -29,7 +29,7 @@ class PlayerParty {
                 actor.setStatusKey(ENUMS.ActorStatus.EXIT_ENCOUNTER, actor.getStatus(ENUMS.ActorStatus.ACTIVATED_ENCOUNTER));
                 actor.setStatusKey(ENUMS.ActorStatus.DEACTIVATING_ENCOUNTER, actor.getStatus(ENUMS.ActorStatus.ACTIVATED_ENCOUNTER));
                 let dst = actor.getStatus(ENUMS.ActorStatus.SELECTED_DESTINATION);
-                actor.setSpatialPosition(MATH.vec3FromArray(actor.getPos(), dst))
+                actor.setSpatialPosition(MATH.vec3FromArray(actor.actorObj3d.position, dst))
             }
 
 

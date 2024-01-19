@@ -65,7 +65,7 @@ function processPartyStatus(actor) {
     let partyStatus = actor.getStatus(ENUMS.ActorStatus.REQUEST_PARTY);
     let worldActors = GameAPI.getGamePieceSystem().getActors();
     let playerParty = GameAPI.getGamePieceSystem().playerParty
-    if (partyStatus) {
+    if (partyStatus && playerParty.actors.length === 1) {
         for (let i = 0; i < worldActors.length; i++) {
             let otherActor = worldActors[i];
             if (otherActor !== actor && playerParty.isMember(otherActor) === false) {
@@ -94,24 +94,26 @@ function processPartyStatus(actor) {
 function processActorCombatStatus(actor) {
 
     if (actor.getStatus(ENUMS.ActorStatus.IN_COMBAT)) {
+
         if (actor.getStatus(ENUMS.ActorStatus.DEAD) === true) {
             return;
         }
-        actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_BATTLE);
+
         let hp = actor.getStatus(ENUMS.ActorStatus.HP)
         if (hp < 1) {
             actor.setStatusKey(ENUMS.ActorStatus.DEAD, true);
         }
 
-
         let dmgApplied = actor.getStatus(ENUMS.ActorStatus.DAMAGE_APPLIED);
         let healApplied = actor.getStatus(ENUMS.ActorStatus.HEALING_APPLIED);
         if (dmgApplied) {
+        //    console.log("processing dmg applied")
             actor.actorText.pieceTextPrint(dmgApplied, ENUMS.Message.DAMAGE_NORMAL_TAKEN, 3)
             actor.setStatusKey(ENUMS.ActorStatus.DAMAGE_APPLIED, 0)
         }
 
         if (healApplied) {
+
             actor.actorText.pieceTextPrint(healApplied, ENUMS.Message.HEALING_GAINED, 3)
             actor.setStatusKey(ENUMS.ActorStatus.HEALING_APPLIED, 0)
         }
@@ -119,6 +121,8 @@ function processActorCombatStatus(actor) {
 
         if (actor.getStatus(ENUMS.ActorStatus.HAS_TURN) === false) {
         //    actor.actorText.say(actor.getStatus(ENUMS.ActorStatus.TURN_DONE))
+        } else {
+            actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_BATTLE);
         }
 
     } else {
@@ -195,6 +199,40 @@ function processSelectedActorTurnState(actor) {
 }
 
 
+function processActorEncounterInit(actor) {
+    //    let activating = actor.getStatus(ENUMS.ActorStatus.ACTIVATING_ENCOUNTER);
+  let activated = actor.getStatus(ENUMS.ActorStatus.ACTIVATED_ENCOUNTER);
+
+    if (activated !== "" && actor.insideEncounter === false) {
+        console.log("Player Enc Activate")
+        actor.insideEncounter = true;
+
+        if (actor.isPlayerActor()) {
+            GameAPI.getGamePieceSystem().hideNonPartyActors();
+        } else {
+            let playerParty = GameAPI.getGamePieceSystem().playerParty;
+
+            if (!playerParty.isMember(actor)) {
+                GameAPI.getGamePieceSystem().detachRemoteByActor(actor);
+            }
+        }
+
+    }
+
+}
+
+function processActorEncounterExit(actor) {
+    let activated = actor.getStatus(ENUMS.ActorStatus.ACTIVATED_ENCOUNTER);
+
+    if (activated === ""  && actor.insideEncounter === true) {
+        console.log("Player Enc Deactivate")
+        actor.insideEncounter = false;
+        // Remotes get rebuilt by incoming server traffic
+    //    GameAPI.getGamePieceSystem().revealNonPartyActors();
+    }
+
+}
+
 class ActorStatusProcessor {
     constructor() {
         this.indicators = {};
@@ -217,7 +255,6 @@ class ActorStatusProcessor {
             poolReturn(indicator);
         }
     }
-
 
 
     indicateSelectionStatus(actor) {
@@ -269,15 +306,16 @@ class ActorStatusProcessor {
     }
 
 
-
     processActorStatus(actor) {
         processActorCombatStatus(actor);
+        processActorEncounterInit(actor);
         if (actor.isPlayerActor()) {
             cameraStatusProcessor.processCameraStatus(actor)
             registerPathPoints(actor);
             processPartyStatus(actor);
             updateRigidBodyContact(actor);
 
+            processActorEncounterExit(actor);
         }
         processAnimationState(actor);
         this.indicateSelectionStatus(actor);

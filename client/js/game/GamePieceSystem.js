@@ -7,6 +7,7 @@ import { ConfigData } from "../application/utils/ConfigData.js";
 import { RemoteClient } from "../Transport/io/RemoteClient.js";
 import {trackDebugConfig} from "../application/utils/DebugUtils.js";
 import {evt} from "../application/event/evt.js";
+import {getRemoteClients} from "../Transport/io/ServerCommandProcessor.js";
 
 let statsConfig = {};
 let visualConfigs = {};
@@ -155,6 +156,28 @@ class GamePieceSystem {
 
     getItems() {
         return items;
+    }
+
+    detachRemoteByActor(actor) {
+        let clientStamp = actor.getStatus(ENUMS.ActorStatus.CLIENT_STAMP);
+        let remoteClients = getRemoteClients();
+        let remoteClient = remoteClients[clientStamp];
+        if (!remoteClient) {
+            console.log("Remote Client Expected", clientStamp, remoteClients);
+        } else {
+            remoteClient.closeRemoteClient();
+            remoteClients[clientStamp] = null;
+        }
+    }
+
+    hideNonPartyActors() {
+        for (let i = 0; i < actors.length; i++) {
+            if (this.playerParty.isMember(actors[i])) {
+
+            } else {
+                this.detachRemoteByActor(actors[i]);
+            }
+        }
     }
 
     addLooseItem(item) {

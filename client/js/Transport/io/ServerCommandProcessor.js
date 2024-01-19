@@ -381,7 +381,11 @@ function processServerCommand(protocolKey, message) {
 
 }
 
+function getRemoteClients() {
+    return remoteClients;
+}
 
 export {
-    processServerCommand
+    processServerCommand,
+    getRemoteClients
 }

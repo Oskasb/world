@@ -125,6 +125,8 @@ class WorldModels {
         deactivateWorldEncounters()
     }
 
+
+
     activateEncounters() {
         activateWorldEncounters(activateEvent)
     }

@@ -92,7 +92,7 @@ class GameEncounterSystem {
                 console.log("Wrong Encounter ID")
                 return;
             } else {
-                console.log("Dynamic Encounter Matches message data")
+            //    console.log("Dynamic Encounter Matches message data")
             }
         } else {
             console.log("Encounter Id expected from server", event);

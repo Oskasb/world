@@ -14,12 +14,11 @@ function addButton(encounter, onAct, testAct, onReady, name) {
     buttons.push(button)
 }
 
-function activateSelectedEncounterUi(encounter) {
+function addRequestPartyButton(encounter) {
     selectedEncounter = encounter;
 
     let testActive = function(encId, button) {
         let selectedActor = GameAPI.getGamePieceSystem().selectedActor;
-
         if (selectedActor.getStatus(ENUMS.ActorStatus.REQUEST_PARTY) === encId) {
             return true;
         } else {
@@ -30,7 +29,6 @@ function activateSelectedEncounterUi(encounter) {
 
     let onActivate = function(encId) {
         let selectedActor = GameAPI.getGamePieceSystem().selectedActor;
-
         if (testActive(encId)) {
             selectedActor.setStatusKey(ENUMS.ActorStatus.REQUEST_PARTY, "");
         } else {
@@ -43,6 +41,15 @@ function activateSelectedEncounterUi(encounter) {
     }
 
     addButton(encounter, onActivate, testActive, onReady, 'Party')
+}
+
+function activateSelectedEncounterUi(encounter) {
+
+    let playerParty = GameAPI.getGamePieceSystem().playerParty
+    if (playerParty.actors.length === 1) {
+        addRequestPartyButton(encounter);
+    }
+
 }
 
 function deactivateSelectedEncounterUi() {
