@@ -139,7 +139,7 @@ class GameActor {
             }
             let actionKeys = this.getStatus(ENUMS.ActorStatus[actorStatusKey]);
             if (actionKeys.indexOf(actionKey) !== -1) {
-                return true
+                return actionKey
             } else {
                 return false;
             }

@@ -291,7 +291,19 @@ let ENUMS = {}
         STEP_END_TIME:'STEP_END_TIME',
         SELECTED:'SELECTED',
         TARGET_ID:'TARGET_ID',
-        STATUS_MODIFIERS:'STATUS_MODIFIERS'
+        STATUS_MODIFIERS:'STATUS_MODIFIERS',
+        RANGE_MIN:'RANGE_MIN',
+        RANGE_MAX:'RANGE_MAX',
+        REQUIRES_TARGET:'REQUIRES_TARGET',
+        ACTION_TRIGGER:'ACTION_TRIGGER'
+    }
+
+    ENUMS.Trigger = {
+        ON_ACTIVATE:1,
+        ON_CONTACT:2,
+        ON_DISENGAGE:3,
+        ON_SELECTED:4,
+        ON_TURN_START:5
     }
 
     ENUMS.ButtonState = {

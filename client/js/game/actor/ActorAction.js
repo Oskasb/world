@@ -65,6 +65,22 @@ buttonStateMap[ENUMS.ActionState.COMPLETED] =  ENUMS.ButtonState.DISABLED
 
 let index = 0;
 
+function determineButtonState(action, newActionState) {
+
+    let currentActionState = action.status.call.getStatusByKey(ENUMS.ActionStatus.ACTION_STATE)
+
+    console.log("currentActionState", currentActionState)
+
+    if (currentActionState === ENUMS.ActionState.DISABLED) {
+        let requiresTarget = action.status.call.getStatusByKey(ENUMS.ActionStatus.REQUIRES_TARGET)
+        console.log("determineButtonState", requiresTarget)
+    }
+
+
+    return buttonStateMap[newActionState];
+}
+
+
 class ActorAction {
     constructor() {
 
@@ -96,7 +112,7 @@ class ActorAction {
             }
 
             let newActionState = transitionMap[actionState];
-            let newButtonState = buttonStateMap[newActionState];
+            let newButtonState = determineButtonState(this, newActionState);
             this.status.call.setStatusByKey(ENUMS.ActionStatus.BUTTON_STATE, newButtonState)
 
             let key = ENUMS.getKey('ActionState', newActionState);
@@ -265,7 +281,7 @@ class ActorAction {
             for (let i = 0; i < statConfig.length; i++) {
                 let statAction = poolFetch('StatisticalAction')
                 let cfg = actionStats[statConfig[i]];
-                statAction.initStatisticalActionConfig(cfg);
+                statAction.initStatisticalActionConfig(cfg, this);
                 this.statisticalActions.push(statAction);
             }
         }

@@ -6,8 +6,16 @@ class StatisticalAction {
         this.config = null;
     }
 
-    initStatisticalActionConfig(conf) {
+    initStatisticalActionConfig(conf, action) {
+
         this.config = conf;
+
+        let status = conf['status'];
+        let statusMap = action.status.statusMap;
+        for (let key in status) {
+            statusMap[key] = status[key];
+        }
+
     }
 
     applyStatisticalActionToTarget(target, modifiersList, serverSide) {

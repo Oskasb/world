@@ -155,7 +155,7 @@ class VisualAction {
         }.bind(this)
 
         let updateDisabled = function() {
-
+            console.log("updateDisabled", this)
         }.bind(this)
 
         let fxCallback = function(efct) {

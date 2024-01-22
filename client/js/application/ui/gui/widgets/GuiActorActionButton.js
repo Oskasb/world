@@ -1,6 +1,7 @@
 import {GuiButtonFrame} from "./GuiButtonFrame.js";
 import {poolFetch} from "../../../utils/PoolUtils.js";
 import {elementColorMap, frameFeedbackMap} from "../../../../game/visuals/Colors.js";
+import {checkCombatActionConditions} from "../../../../../../Server/game/action/ServerActionFunctions.js";
 
 class GuiActorActionButton {
     constructor(actor, actionId, actorStatusKey, layoutConfId, onActivate, testActive, x, y, onReady, frameWidgetId, hpProgressId) {
@@ -90,6 +91,7 @@ class GuiActorActionButton {
             if (actorStatusKey === ENUMS.ActorStatus.ACTIONS) {
                 // combat action..
                 if (typeof (gotAction) === 'object') {
+                //    console.log("gotAction activated", gotAction)
                     newButtonState = gotAction.call.getStatus(ENUMS.ActionStatus.BUTTON_STATE);
 
                     let targetId = actor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET);
@@ -102,10 +104,13 @@ class GuiActorActionButton {
                         stateProgress = MATH.calcFraction(buttonStateTime, buttonStateStartTime, buttonStateDuration);
                     }
                 } else {
-                    if (gotAction === true) {
+                    if (typeof (gotAction) === 'string') {
 
-                        let targetId = actor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET);
-                        if (!targetId) {
+                        let action = this.templateAction;
+
+                        let available = checkCombatActionConditions(actor, action)
+
+                        if (!available) {
                             newButtonState = ENUMS.ButtonState.UNAVAILABLE
                         } else {
                             newButtonState = ENUMS.ButtonState.AVAILABLE;

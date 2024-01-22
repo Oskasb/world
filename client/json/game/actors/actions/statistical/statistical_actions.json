@@ -4,6 +4,11 @@
       {
         "id":"STATISTICAL_MELEE_BASH",
         "data":{
+          "status": {
+            "RANGE_MIN": 0,
+            "RANGE_MAX": 1,
+            "REQUIRES_TARGET":true
+          },
           "on_hit_apply": {
             "to_target": [
               {"modifier": "APPLY_DAMAGE", "amount": 2}
@@ -14,6 +19,16 @@
       {
         "id":"STATISTICAL_CHARGE",
         "data":{
+          "status": {
+            "RANGE_MIN": 3,
+            "RANGE_MAX": 9,
+            "REQUIRES_TARGET":false
+          },
+          "on_select_apply": {
+            "to_actor": [
+              {"request": "REQUEST_DESTINATION"}
+            ]
+          },
           "on_hit_apply": {
             "to_target": [
               {"modifier": "APPLY_DAMAGE", "amount": 2}
@@ -24,6 +39,11 @@
       {
         "id":"STATISTICAL_THROW",
         "data":{
+          "status": {
+            "RANGE_MIN": 2,
+            "RANGE_MAX": 15,
+            "REQUIRES_TARGET":true
+          },
           "on_hit_apply": {
             "to_target": [
               {"modifier": "APPLY_DAMAGE", "amount": 2}
@@ -34,6 +54,11 @@
       {
         "id":"STATISTICAL_SWORD_SLASH",
         "data":{
+          "status": {
+            "RANGE_MIN": 0,
+            "RANGE_MAX": 1,
+            "REQUIRES_TARGET":true
+          },
           "on_hit_apply": {
             "to_target": [
               {"modifier": "APPLY_DAMAGE", "amount": 4}
@@ -44,6 +69,11 @@
       {
         "id":"STATISTICAL_SWORD_STAB",
         "data":{
+          "status": {
+            "RANGE_MIN": 0,
+            "RANGE_MAX": 1,
+            "REQUIRES_TARGET":true
+          },
           "on_hit_apply": {
             "to_target": [
               {"modifier": "APPLY_DAMAGE", "amount": 4}
@@ -54,6 +84,11 @@
       {
         "id":"STATISTICAL_FIREBALL",
         "data":{
+          "status": {
+            "RANGE_MIN": 1,
+            "RANGE_MAX": 15,
+            "REQUIRES_TARGET":true
+          },
           "on_hit_apply": {
             "to_target": [
               {"modifier": "APPLY_DAMAGE", "amount": 3}
@@ -64,6 +99,11 @@
       {
         "id":"STATISTICAL_MAGIC_MISSILE",
         "data":{
+          "status": {
+            "RANGE_MIN": 1,
+            "RANGE_MAX": 15,
+            "REQUIRES_TARGET":true
+          },
           "on_hit_apply": {
             "to_target": [
               {"modifier": "APPLY_DAMAGE", "amount": 3}
@@ -74,6 +114,11 @@
       {
         "id":"STATISTICAL_FREEZE_BOLT",
         "data":{
+          "status": {
+            "RANGE_MIN": 1,
+            "RANGE_MAX": 15,
+            "REQUIRES_TARGET":true
+          },
           "on_hit_apply": {
             "to_target": [
               {"modifier": "APPLY_DAMAGE", "amount": 3}
@@ -84,6 +129,11 @@
       {
         "id":"STATISTICAL_HEAL_BOLT",
         "data":{
+          "status": {
+            "RANGE_MIN": 1,
+            "RANGE_MAX": 15,
+            "REQUIRES_TARGET":true
+          },
           "on_hit_apply": {
             "to_target": [
               {"modifier": "APPLY_HEAL", "amount": 5}
