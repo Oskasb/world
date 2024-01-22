@@ -2,7 +2,47 @@
   "GAME_ACTIONS":{
     "STATISTICAL_ACTIONS":[
       {
+        "id":"STATISTICAL_MELEE_BASH",
+        "data":{
+          "on_hit_apply": {
+            "to_target": [
+              {"modifier": "APPLY_DAMAGE", "amount": 2}
+            ]
+          }
+        }
+      },
+      {
+        "id":"STATISTICAL_CHARGE",
+        "data":{
+          "on_hit_apply": {
+            "to_target": [
+              {"modifier": "APPLY_DAMAGE", "amount": 2}
+            ]
+          }
+        }
+      },
+      {
+        "id":"STATISTICAL_THROW",
+        "data":{
+          "on_hit_apply": {
+            "to_target": [
+              {"modifier": "APPLY_DAMAGE", "amount": 2}
+            ]
+          }
+        }
+      },
+      {
         "id":"STATISTICAL_SWORD_SLASH",
+        "data":{
+          "on_hit_apply": {
+            "to_target": [
+              {"modifier": "APPLY_DAMAGE", "amount": 4}
+            ]
+          }
+        }
+      },
+      {
+        "id":"STATISTICAL_SWORD_STAB",
         "data":{
           "on_hit_apply": {
             "to_target": [

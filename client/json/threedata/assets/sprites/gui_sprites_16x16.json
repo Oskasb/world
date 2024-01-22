@@ -27,6 +27,38 @@
             "tiles":[[1, 6]]
           },
           {
+            "id":"icon_sword_slash",
+            "tiles":[[3, 6]]
+          },
+          {
+            "id":"icon_sword_stab",
+            "tiles":[[4, 6]]
+          },
+          {
+            "id":"icon_axe_chop",
+            "tiles":[[5, 6]]
+          },
+          {
+            "id":"icon_axe_cut",
+            "tiles":[[6, 6]]
+          },
+          {
+            "id":"icon_axe_big",
+            "tiles":[[7, 6]]
+          },
+          {
+            "id":"icon_fist_bash",
+            "tiles":[[8, 6]]
+          },
+          {
+            "id":"icon_throw",
+            "tiles":[[9, 6]]
+          },
+          {
+            "id":"icon_charge",
+            "tiles":[[10, 6]]
+          },
+          {
             "id":"text_background",
             "tiles":[[1, 1]]
           },

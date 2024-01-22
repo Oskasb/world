@@ -2,16 +2,72 @@
   "GAME_ACTORS":{
     "ACTIONS":[
       {
+        "id":"ACTION_MELEE_BASH",
+        "data":{
+          "visual_action": "VISUAL_MELEE_BASH",
+          "statistical_actions": ["STATISTICAL_MELEE_BASH"],
+          "sequencing": {
+            "SELECTED": {"time": 0.25},
+            "PRECAST":  {"time": 0.25},
+            "ACTIVE":   {"time": 8},
+            "APPLY_HIT":{"time": 0.45},
+            "POST_HIT": {"time": 0.45}
+          }
+        }
+      },
+      {
+        "id":"ACTION_CHARGE",
+        "data":{
+          "visual_action": "VISUAL_CHARGE",
+          "statistical_actions": ["STATISTICAL_CHARGE"],
+          "sequencing": {
+            "SELECTED": {"time": 0.25},
+            "PRECAST":  {"time": 0.25},
+            "ACTIVE":   {"time": 8},
+            "APPLY_HIT":{"time": 0.45},
+            "POST_HIT": {"time": 0.45}
+          }
+        }
+      },
+      {
+        "id":"ACTION_THROW",
+        "data":{
+          "visual_action": "VISUAL_THROW",
+          "statistical_actions": ["STATISTICAL_THROW"],
+          "sequencing": {
+            "SELECTED": {"time": 0.25},
+            "PRECAST":  {"time": 0.25},
+            "ACTIVE":   {"time": 8},
+            "APPLY_HIT":{"time": 0.45},
+            "POST_HIT": {"time": 0.45}
+          }
+        }
+      },
+      {
         "id":"ACTION_SWORD_SLASH",
         "data":{
           "visual_action": "VISUAL_SWORD_SLASH",
           "statistical_actions": ["STATISTICAL_SWORD_SLASH"],
           "sequencing": {
             "SELECTED": {"time": 0.25},
-            "PRECAST":  {"time": 0.35},
+            "PRECAST":  {"time": 0.25},
             "ACTIVE":   {"time": 8},
-            "APPLY_HIT":{"time": 0.15},
-            "POST_HIT": {"time": 0.35}
+            "APPLY_HIT":{"time": 0.45},
+            "POST_HIT": {"time": 0.45}
+          }
+        }
+      },
+      {
+        "id":"ACTION_SWORD_STAB",
+        "data":{
+          "visual_action": "VISUAL_SWORD_STAB",
+          "statistical_actions": ["STATISTICAL_SWORD_STAB"],
+          "sequencing": {
+            "SELECTED": {"time": 0.725},
+            "PRECAST":  {"time": 0.225},
+            "ACTIVE":   {"time": 8},
+            "APPLY_HIT":{"time": 0.75},
+            "POST_HIT": {"time": 0.25}
           }
 
         }

@@ -45,7 +45,7 @@ function processAnimationState(actor) {
     let isLeaping = actor.getStatus(ENUMS.ActorStatus.IS_LEAPING)
     if (isLeaping) {
         actor.setStatusKey(ENUMS.ActorStatus.MOVE_STATE, 'STAND_COMBAT')
-        actor.setStatusKey(ENUMS.ActorStatus.BODY_STATE, 'DISENGAGING')
+        actor.setStatusKey(ENUMS.ActorStatus.BODY_STATE, 'GUARD_SIDE')
     } else {
         if (actor.getStatus(ENUMS.ActorStatus.IN_COMBAT)) {
             actor.setStatusKey(ENUMS.ActorStatus.MOVE_STATE, actor.combatMoveState)
