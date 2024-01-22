@@ -173,6 +173,25 @@ class ActorAction {
         let updateActive = function(tpf) {
             if (this.stepProgress === 0) {
                 this.visualAction.visualizeAttack(applyHit);
+
+                let actor = this.getActor();
+                if (!actor.call.getRemote()) {
+                    let modifiers = this.call.getStatus(ENUMS.ActionStatus.STATUS_MODIFIERS);
+                    for (let i = 0; i < this.statisticalActions.length; i++) {
+                        this.statisticalActions[i].applyActorActionActivate(actor, modifiers)
+                    }
+
+                    let requiresTarget = this.call.getStatus(ENUMS.ActionStatus.REQUIRES_TARGET);
+                    let target = this.getTarget();
+                    if (requiresTarget) {
+                        if (!target) {
+                            console.log("No target found for action", this)
+                            return;
+                        }
+                    }
+
+                    processStatisticalActionApplied(actor, modifiers, target);
+                }
             }
         }.bind(this)
 
@@ -201,7 +220,28 @@ class ActorAction {
 
         let initStatus = function(actor, actionKey) {
             this.initiated = true;
-            this.status.call.initActionStatus(actor, this)
+            this.status.call.initActionStatus(actor, this);
+        }.bind(this);
+
+        let applyActionSelected = function() {
+            let actor = this.getActor();
+            if (!actor.call.getRemote()) {
+                let modifiers = this.call.getStatus(ENUMS.ActionStatus.STATUS_MODIFIERS);
+                for (let i = 0; i < this.statisticalActions.length; i++) {
+                    this.statisticalActions[i].applyActorActionSelected(actor, modifiers)
+                }
+
+                let requiresTarget = this.call.getStatus(ENUMS.ActionStatus.REQUIRES_TARGET);
+                let target = this.getTarget();
+                if (requiresTarget) {
+                    if (!target) {
+                        console.log("No target found for action", this)
+                        return;
+                    }
+                }
+
+                processStatisticalActionApplied(actor, modifiers, target);
+            }
         }.bind(this);
 
         this.call = {
@@ -214,7 +254,8 @@ class ActorAction {
             closeAttack:closeAttack,
             getStatus:getStatus,
             setStatusKey:setStatusKey,
-            initStatus:initStatus
+            initStatus:initStatus,
+            applyActionSelected:applyActionSelected
         }
 
     }
@@ -285,6 +326,7 @@ class ActorAction {
                 this.statisticalActions.push(statAction);
             }
         }
+        this.call.applyActionSelected();
     }
 
     setActionKeyFromRemote(actionKey) {

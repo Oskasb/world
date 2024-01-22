@@ -46,6 +46,7 @@ class GameActor {
         this.actorMovement = new ActorMovement();
         this.activated = false;
         this.actorObj3d = new Object3D();
+        this.pos = this.actorObj3d.position;
         this.config = config;
         this.actorEquipment = new ActorEquipment(parsedEquipSlotData)
         this.visualGamePiece = null;
@@ -201,6 +202,9 @@ class GameActor {
     }
 
 
+    getTileSelector() {
+        return this.gameWalkGrid.gridTileSelector;
+    }
 
     getGameWalkGrid() {
         return this.gameWalkGrid;

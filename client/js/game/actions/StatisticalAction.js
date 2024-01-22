@@ -15,8 +15,9 @@ class StatisticalAction {
         for (let key in status) {
             statusMap[key] = status[key];
         }
-
     }
+
+
 
     applyStatisticalActionToTarget(target, modifiersList, serverSide) {
         let onHitCfg = this.config['on_hit_apply'];
@@ -24,14 +25,59 @@ class StatisticalAction {
         for (let i = 0; i < targetModifiers.length; i++) {
             let mod = targetModifiers[i];
             let modifier = mod['modifier'];
-            let amount = mod['amount'];
+            let value = mod['value'];
             modifiersList.push(modifier);
-            modifiersList.push(amount);
+            modifiersList.push(value);
             if (serverSide) {
-                applyServerAction(target, modifier, amount)
+                applyServerAction(target, modifier, value)
             }
         }
     }
+
+    applyActorActionActivate(actor, modifiersList, serverSide) {
+        let onActivateCfg = this.config['on_activation'];
+        if (!onActivateCfg) {
+            return;
+        }
+        let modifiers = onActivateCfg['to_actor'];
+
+        if (modifiers) {
+            for (let i = 0; i < modifiers.length; i++) {
+                let mod = modifiers[i];
+                let modifier = mod['modifier'];
+                let value = mod['value'];
+                modifiersList.push(modifier);
+                modifiersList.push(value);
+                if (serverSide) {
+                    applyServerAction(actor, modifier, value)
+                }
+            }
+        }
+
+    }
+
+    applyActorActionSelected(actor, modifiersList, serverSide) {
+        let onSelectedCfg = this.config['on_selected'];
+        if (!onSelectedCfg) {
+            return;
+        }
+        let modifiers = onSelectedCfg['to_actor'];
+
+        if (modifiers) {
+            for (let i = 0; i < modifiers.length; i++) {
+                let mod = modifiers[i];
+                let modifier = mod['modifier'];
+                let value = mod['value'];
+                modifiersList.push(modifier);
+                modifiersList.push(value);
+                if (serverSide) {
+                    applyServerAction(actor, modifier, value)
+                }
+            }
+        }
+
+    }
+
 
 }
 

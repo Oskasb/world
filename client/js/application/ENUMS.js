@@ -262,7 +262,9 @@ let ENUMS = {}
 
     ENUMS.StatusModifiers = {
         APPLY_DAMAGE:'APPLY_DAMAGE',
-        APPLY_HEAL:'APPLY_HEAL'
+        APPLY_HEAL:'APPLY_HEAL',
+        SELECT_LEAP:'SELECT_LEAP',
+        APPLY_LEAP:'APPLY_LEAP'
     }
 
     ENUMS.Alignment = {

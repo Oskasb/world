@@ -11,7 +11,7 @@
           },
           "on_hit_apply": {
             "to_target": [
-              {"modifier": "APPLY_DAMAGE", "amount": 2}
+              {"modifier": "APPLY_DAMAGE", "value": 2}
             ]
           }
         }
@@ -22,16 +22,21 @@
           "status": {
             "RANGE_MIN": 3,
             "RANGE_MAX": 9,
-            "REQUIRES_TARGET":false
+            "REQUIRES_TARGET":true
           },
-          "on_select_apply": {
+          "on_selected": {
             "to_actor": [
-              {"request": "REQUEST_DESTINATION"}
+              {"modifier": "SELECT_LEAP", "value": "MELEE_POS"}
+            ]
+          },
+          "on_activation": {
+            "to_actor": [
+              {"modifier": "APPLY_LEAP", "value": "MELEE_POS"}
             ]
           },
           "on_hit_apply": {
             "to_target": [
-              {"modifier": "APPLY_DAMAGE", "amount": 2}
+              {"modifier": "APPLY_DAMAGE", "value": 2}
             ]
           }
         }
@@ -46,7 +51,7 @@
           },
           "on_hit_apply": {
             "to_target": [
-              {"modifier": "APPLY_DAMAGE", "amount": 2}
+              {"modifier": "APPLY_DAMAGE", "value": 2}
             ]
           }
         }
@@ -61,7 +66,7 @@
           },
           "on_hit_apply": {
             "to_target": [
-              {"modifier": "APPLY_DAMAGE", "amount": 4}
+              {"modifier": "APPLY_DAMAGE", "value": 4}
             ]
           }
         }
@@ -76,7 +81,7 @@
           },
           "on_hit_apply": {
             "to_target": [
-              {"modifier": "APPLY_DAMAGE", "amount": 4}
+              {"modifier": "APPLY_DAMAGE", "value": 4}
             ]
           }
         }
@@ -91,7 +96,7 @@
           },
           "on_hit_apply": {
             "to_target": [
-              {"modifier": "APPLY_DAMAGE", "amount": 3}
+              {"modifier": "APPLY_DAMAGE", "value": 3}
             ]
           }
         }
@@ -106,7 +111,7 @@
           },
           "on_hit_apply": {
             "to_target": [
-              {"modifier": "APPLY_DAMAGE", "amount": 3}
+              {"modifier": "APPLY_DAMAGE", "value": 3}
             ]
           }
         }
@@ -121,7 +126,7 @@
           },
           "on_hit_apply": {
             "to_target": [
-              {"modifier": "APPLY_DAMAGE", "amount": 3}
+              {"modifier": "APPLY_DAMAGE", "value": 3}
             ]
           }
         }
@@ -136,7 +141,7 @@
           },
           "on_hit_apply": {
             "to_target": [
-              {"modifier": "APPLY_HEAL", "amount": 5}
+              {"modifier": "APPLY_HEAL", "value": 5}
             ]
           }
         }

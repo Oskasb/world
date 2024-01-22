@@ -31,11 +31,11 @@
             "fx_active":"combat_effect_magic_missile",
             "fx_apply":"combat_effect_magic_hit",
             "fx_post_hit":"damage_effect_magic_residual",
-            "anim_selected": "GUARD_BACK",
-            "anim_precast": "SW_M_R_R",
-            "anim_active": "SW_BK_R",
+            "anim_selected": "GUARD_SHORT",
+            "anim_precast": "GUARD_HIGH",
+            "anim_active": "CUT",
             "anim_apply": "GUARD_BACK",
-            "anim_post_hit": "GUARD_SHORT"
+            "anim_post_hit": "GUARD_HIGH"
           }
         }
       },

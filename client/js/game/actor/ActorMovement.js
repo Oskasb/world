@@ -170,6 +170,7 @@ class ActorMovement {
         let transition = poolFetch('SpatialTransition');
         actor.setStatusKey(ENUMS.ActorStatus.SELECTING_DESTINATION, 0);
         if (walkGrid.isActive) {
+
             let tileSelector = walkGrid.gridTileSelector;
     //        console.log("LEAP SELECTED")
 
@@ -191,7 +192,15 @@ class ActorMovement {
         //        console.log("LEAP COMPLETED", actor)
         //        actor.actorText.say("Distance "+MATH.numberToDigits(distance, 1, 1)+"m")
                 walkGrid.setGridCenter(actor.getSpatialPosition());
-                actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_LEAP);
+
+                let inCombat = actor.getStatus(ENUMS.ActorStatus.IN_COMBAT)
+                if (inCombat) {
+                    actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_BATTLE);
+                } else {
+                    actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_LEAP);
+                }
+
+
             }
 
             let lastPos
