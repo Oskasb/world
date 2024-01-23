@@ -30,20 +30,11 @@ function processActionStatusEffects(target, modifier, value, sourceActor) {
         modifyTargetHP(target, value)
         sourceActor.actorText.say("welcome")
     } else if  (modifier === ENUMS.StatusModifiers.SELECT_LEAP) {
-    //    modifyTargetHP(target, amount)
-        console.log("Select leap -- DRAW TRAJECTORY", target, modifier, value, sourceActor)
-
-        if (value === "MELEE_POS") {
-            let tPos = getStatusPosition(sourceActor);
-            setDestination(target, tPos);
-            registerCombatStatus(target, ENUMS.CombatStatus.LEAPING);
-        }
-
         target.actorText.say("on it")
     } else if  (modifier === ENUMS.StatusModifiers.APPLY_LEAP) {
         //    modifyTargetHP(target, amount)
-        console.log("Apply leap -- TRANSITION", target, modifier, value, sourceActor)
-        unregisterCombatStatus(target, ENUMS.CombatStatus.LEAPING);
+    //    console.log("Apply leap -- TRANSITION", target, modifier, value, sourceActor)
+    //    unregisterCombatStatus(target, ENUMS.CombatStatus.LEAPING);
         let tPos = getStatusPosition(sourceActor);
         target.transitionTo(tPos, 0.5)
     //    target.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_PASSIVE);

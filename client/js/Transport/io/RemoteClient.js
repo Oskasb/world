@@ -338,7 +338,7 @@ class RemoteClient {
             action.remoteState = actionState;
             action.call.processActionStateChange(action, actionState);
         }
-        
+
         if (actionState === ENUMS.ActionState.COMPLETED) {
             GuiAPI.screenText("ACTION COMPLETED "+this.index,  ENUMS.Message.SYSTEM, 1.5)
             action.call.updateActionCompleted();
