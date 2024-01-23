@@ -223,6 +223,39 @@ function setupOptsDirectMissile(efct, fromPos, actor, index, onArriveCB, getPosF
     return options;
 }
 
+
+function setupOptsMeleeMissile(efct, fromPos, actor, index, onArriveCB, getPosFunc) {
+
+    let tempObj = ThreeAPI.tempObj;
+    tempObj.scale.set(1, 1, 1);
+    tempObj.position.copy(fromPos);
+    let size = actor.getStatus(ENUMS.ActorStatus.SIZE);
+    tempObj.quaternion.set(0, 0, 0, 1);
+    tempVec3.copy(actor.getSpatialPosition());
+    let startSize = 0.6;
+    let endSize = 0.3 + Math.random()*0.8;
+    let time = CombatFxUtils.setupLifecycle(efct, 0.12*(index+1) + 0.3, 0.3, 0.2);
+    let spread = 1
+    if (MATH.isOddNumber(index)) {
+        spread*=-1;
+    }
+
+    let options = defaultOptions();
+    options.fromPos = fromPos;
+    options.fromQuat = tempObj.quaternion;
+    options.toPos = actor.getSpatialPosition();
+    options.toQuat = tempObj.quaternion;
+    options.fromSize = startSize;
+    options.toSize = endSize;
+    options.time = time;
+    options.callback = onArriveCB;
+    options.bounce = 1
+    options.spread = spread*size;
+    options.getPosFunc = getPosFunc
+
+    return options;
+}
+
 function setupOptsMagicMissile(efct, fromPos, actor, index, onArriveCB, getPosFunc) {
 
     let distance = MATH.distanceBetween(fromPos, getPosFunc());
@@ -644,6 +677,7 @@ export {
     setupOptsFriendlyHands,
     setupOptsFriendlyCore,
     setupOptsDirectMissile,
+    setupOptsMeleeMissile,
     setupOptsMagicMissile,
     setupOptsFireMissile,
     setupOptsFriendlyMissile,

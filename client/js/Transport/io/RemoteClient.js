@@ -283,11 +283,14 @@ class RemoteClient {
             action.isRemote = true;
         }
 
+
+        let statusMap = action.status.statusMap;
         for (let i = 0; i < msg.length; i++) {
             let key = msg[i];
             i++
             let status = msg[i]
-            action.call.setStatusKey(key, status);
+            statusMap[key] = status;
+            // action.call.setStatusKey(key, status);
         }
 
         if (isNew) {
@@ -309,13 +312,13 @@ class RemoteClient {
         } else {
             if (action.initiated === false) {
                 let actionKey = action.call.getStatus(ENUMS.ActionStatus.ACTION_KEY);
-            //    action.call.initStatus(actor, actionKey)
+                action.call.initStatus(actor, actionKey)
                 if (actionKey === "none") {
                     GuiAPI.screenText("No Action Key "+this.index,  ENUMS.Message.SYSTEM, 1.5)
            //         console.log("No key yet")
                     return;
                 }
-                action.setActionKey(actor, actionKey)
+            //    action.setActionKey(actor, actionKey)
 
                 let getActionByKey = function(key) {
                     if (key === actorKey) {
@@ -333,43 +336,10 @@ class RemoteClient {
             return;
         } else {
             action.remoteState = actionState;
+            action.call.processActionStateChange(action, actionState);
         }
-
-        let actionStateKey = ENUMS.getKey('ActionState', actionState)
-
-    //    console.log("Remote Action State", actionStateKey ,actionState, msg);
-
-        if (actionState === 1) {
-        //    console.log("Status Map:", action.state.statusMap);
-        }
-
-        if (actionState === ENUMS.ActionState.SELECTED) {
-
-            action.call.updateActivate();
-            GuiAPI.screenText("ACTION SELECTED "+this.index,  ENUMS.Message.SYSTEM, 1.2)
-        //    console.log("Remote Action State: SELECTED", actionState, action.status);
-        }
-
-        if (actionState === ENUMS.ActionState.PRECAST) {
-        //    console.log("Remote Action State: PRECAST", actionState, msg);
-        }
-
-        if (actionState === ENUMS.ActionState.ACTIVE) {
-        //    console.log("Remote Action State: ACTIVE", actionState, msg);
-            action.visualAction.visualizeAttack(action.call.applyHitConsequences);
-
-        }
-
-        if (actionState === ENUMS.ActionState.APPLY_HIT) {
-
-        }
-
-        if (actionState === ENUMS.ActionState.POST_HIT) {
-
-        }
-
+        
         if (actionState === ENUMS.ActionState.COMPLETED) {
-        //    console.log("Remote Action State: COMPLETED", actionState, msg);
             GuiAPI.screenText("ACTION COMPLETED "+this.index,  ENUMS.Message.SYSTEM, 1.5)
             action.call.updateActionCompleted();
             action.call.setStatusKey(ENUMS.ActionStatus.ACTOR_ID, "none")

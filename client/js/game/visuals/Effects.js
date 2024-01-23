@@ -1,6 +1,8 @@
 import {VisualPieceEffectTransition} from "./effects/VisualPieceEffectTransition.js";
 
 let effectMap = {} // get these from poolFetch
+effectMap[ENUMS.ActorStatus.TRAVEL_MODE] = {};
+effectMap[ENUMS.ActorStatus.COMBAT_STATUS] = {};
 
 effectMap[ENUMS.ActorStatus.IS_LEAPING] = {
     className:'VisualPulse',
@@ -30,7 +32,7 @@ effectMap[ENUMS.ActorStatus.DEAD] = {
 }
 
 
-effectMap[ENUMS.ActorStatus.TRAVEL_MODE] = {};
+
 
 let travelFx = effectMap[ENUMS.ActorStatus.TRAVEL_MODE];
 
@@ -57,6 +59,19 @@ travelFx[ENUMS.TravelMode.TRAVEL_MODE_FLY] = {
         fromSize:2,
         toSize:0.2,
         duration:0.15,
+        sprite:[4, 6]
+    }
+}
+
+
+let combatFx = effectMap[ENUMS.ActorStatus.COMBAT_STATUS];
+combatFx[ENUMS.CombatStatus.LEAPING] = {
+    className:'VisualTrajectory',
+    color:'LEAP_FX',
+    effect:{
+        fromSize:2,
+        toSize:0.2,
+        duration:0.45,
         sprite:[4, 6]
     }
 }

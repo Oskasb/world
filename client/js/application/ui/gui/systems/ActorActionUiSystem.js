@@ -51,7 +51,7 @@ let onActionActivate = function(actionId, actorStatusKey) {
 
     let action = actor.call.activateActionKey(actionId, actorStatusKey);
 
- //   console.log("onActionActivate:", action)
+    console.log("onActionActivate:", action)
 
 
 

@@ -2,7 +2,11 @@ import {ENUMS} from "../../application/ENUMS.js";
 import {MATH} from "../../application/MATH.js";
 import {evt} from "../../application/event/evt.js";
 import {applyServerAction} from "../../../../Server/game/action/ServerActionFunctions.js";
-import {getStatusPosition} from "../../../../Server/game/actor/ActorStatusFunctions.js";
+import {
+    getStatusPosition,
+    registerCombatStatus,
+    setDestination, unregisterCombatStatus
+} from "../../../../Server/game/actor/ActorStatusFunctions.js";
 
 
 
@@ -30,28 +34,21 @@ function processActionStatusEffects(target, modifier, value, sourceActor) {
         console.log("Select leap -- DRAW TRAJECTORY", target, modifier, value, sourceActor)
 
         if (value === "MELEE_POS") {
-         //   let actorMovement = target.actorMovement;
-        //    let walkGrid = actorMovement.gameWalkGrid;
-         //   let tileSelector = target.getTileSelector();
             let tPos = getStatusPosition(sourceActor);
-        //    tileSelector.setPos(tPos);
-        //    actorMovement.tileSelectionActive(target);
-            //    let fromPos = getStatusPosition(target);
-        //    target.transitionTo(tPos, 1)
+            setDestination(target, tPos);
+            registerCombatStatus(target, ENUMS.CombatStatus.LEAPING);
         }
 
         target.actorText.say("on it")
     } else if  (modifier === ENUMS.StatusModifiers.APPLY_LEAP) {
         //    modifyTargetHP(target, amount)
         console.log("Apply leap -- TRANSITION", target, modifier, value, sourceActor)
-
+        unregisterCombatStatus(target, ENUMS.CombatStatus.LEAPING);
         let tPos = getStatusPosition(sourceActor);
-        target.transitionTo(tPos, 0.6)
-
+        target.transitionTo(tPos, 0.5)
+    //    target.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_PASSIVE);
         target.actorText.say("whoosch")
     }
-
-
 
 }
 
@@ -60,6 +57,7 @@ function processStatisticalActionApplied(target, modifiers, sourceActor) {
         let modifier = modifiers[i];
         i++;
         let value = modifiers[i];
+    //    console.log("processActionStatusEffects")
         processActionStatusEffects(target, modifier, value, sourceActor)
     }
 

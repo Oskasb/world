@@ -76,6 +76,8 @@ class VisualAction {
                     actor.combatBodyState = 'ENGAGING'
                 }
 
+            } else {
+                console.log("No Actor updateSelected")
             }
 
         }.bind(this)
@@ -94,6 +96,8 @@ class VisualAction {
                     actor.combatBodyState = 'ENGAGING'
                 }
 
+            } else {
+                console.log("No Actor updatePrecast")
             }
         }.bind(this)
 
@@ -112,6 +116,8 @@ class VisualAction {
                             actor.combatBodyState = 'ENGAGING'
                         }
 
+                    } else {
+                        console.log("No Actor updateActive")
                     }
 
                 }
@@ -133,6 +139,8 @@ class VisualAction {
                 } else {
                     actor.combatBodyState = 'ENGAGING'
                 }
+            }else {
+                console.log("No Actor updateApplyHit")
             }
 
         }.bind(this)
@@ -150,6 +158,8 @@ class VisualAction {
                 } else {
                     actor.combatBodyState = 'ENGAGING'
                 }
+            }else {
+                console.log("No Actor updatePostHit")
             }
 
         }.bind(this)
@@ -184,6 +194,7 @@ class VisualAction {
             let actionState = this.actorAction.call.getStatus(ENUMS.ActionStatus.ACTION_STATE);
             if (stateMap[actionState]) {
                 if (typeof(this.update[stateMap[actionState].updateFunc]) === 'function' ) {
+                //   console.log("Update Function for state", actionState);
                     this.update[stateMap[actionState].updateFunc]()
                 } else {
                     console.log("Visual Action dismissed early...")

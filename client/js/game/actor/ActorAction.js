@@ -76,10 +76,77 @@ function determineButtonState(action, newActionState) {
         console.log("determineButtonState", requiresTarget)
     }
 
-
     return buttonStateMap[newActionState];
 }
 
+function processActionStateChange(action, actionState) {
+    console.log("processActionStateChange", ENUMS.getKey('ActionState', actionState))
+
+    let actor = action.getActor();
+    if (!actor) {
+        return;
+    }
+
+    let requiresTarget = action.call.getStatus(ENUMS.ActionStatus.REQUIRES_TARGET);
+    let target = action.getTarget();
+
+    if (requiresTarget) {
+        if (!target) {
+            console.log("No target found for action", this)
+            return;
+        }
+    }
+
+    let statisticalActions = action.statisticalActions
+
+    let modifiers = action.call.getStatus(ENUMS.ActionStatus.STATUS_MODIFIERS);
+    MATH.emptyArray(modifiers);
+
+    switch (actionState) {
+        case ENUMS.ActionState.DISABLED:
+
+            break;
+        case ENUMS.ActionState.SELECTED:
+
+            console.log("Activate Visual Action", action.isRemote)
+            action.visualAction.activateVisualAction(action);
+
+            for (let i = 0; i < statisticalActions.length; i++) {
+                statisticalActions[i].applyActorActionSelected(actor, modifiers)
+            }
+            break;
+        case ENUMS.ActionState.PRECAST:
+
+            break;
+        case ENUMS.ActionState.ACTIVE:
+
+            if (action.isRemote) {
+                action.visualAction.visualizeAttack();
+            } else {
+                action.visualAction.visualizeAttack(action.call.activateAttackStateTransition);
+            }
+
+            for (let i = 0; i < statisticalActions.length; i++) {
+                statisticalActions[i].applyActorActionActivate(target, modifiers)
+            }
+            break;
+        case ENUMS.ActionState.APPLY_HIT:
+            for (let i = 0; i < statisticalActions.length; i++) {
+                statisticalActions[i].applyStatisticalActionToTarget(target, modifiers)
+            }
+            break;
+        case ENUMS.ActionState.POST_HIT:
+
+            break;
+        case ENUMS.ActionState.COMPLETED:
+
+            break;
+    }
+
+    processStatisticalActionApplied(actor, modifiers, target);
+    action.status.call.forceStatusSend();
+    MATH.emptyArray(modifiers);
+}
 
 class ActorAction {
     constructor() {
@@ -96,12 +163,10 @@ class ActorAction {
         this.initiated = false;
         this.statisticalActions = [];
 
-
-
         let stepDuration = 0;
 
-
         let activateAttackStateTransition = function() {
+        //    console.log("activateAttackStateTransition")
             this.stepProgress = 0;
 
             let actionState = this.status.call.getStatusByKey(ENUMS.ActionStatus.ACTION_STATE)
@@ -121,6 +186,7 @@ class ActorAction {
             this.status.call.setStatusByKey(ENUMS.ActionStatus.ACTION_STATE, newActionState)
             this.status.call.setStatusByKey(ENUMS.ActionStatus.STEP_START_TIME, 0)
             this.status.call.setStatusByKey(ENUMS.ActionStatus.STEP_END_TIME, stepDuration)
+            processActionStateChange(this, newActionState);
             let funcName = attackStateMap[newActionState].updateFunc
             this.call[funcName]();
 
@@ -128,71 +194,17 @@ class ActorAction {
 
 
         let updateActivate = function(tpf) {
-            this.visualAction.activateVisualAction(this);
+        //    this.visualAction.activateVisualAction(this);
         }.bind(this)
 
         let updateProgress = function(tpf) {
             //             console.log("Progress status... ")
         }.bind(this)
 
-        let applyHitConsequences = function() {
-            let target = this.getTarget();
-
-            if (!target) {
-                console.log("No target found for action", this)
-                return;
-            }
-
-            if (!target.call) {
-                console.log("No target found for action", target)
-                return;
-            }
-
-            //    let selectedActor = GameAPI.getGamePieceSystem().selectedActor;
-            let actor = this.getActor();
-            if (actor) {
-                let modifiers = this.call.getStatus(ENUMS.ActionStatus.STATUS_MODIFIERS);
-                MATH.emptyArray(modifiers);
-                if (!actor.call.getRemote()) {
-                    for (let i = 0; i < this.statisticalActions.length; i++) {
-                        this.statisticalActions[i].applyStatisticalActionToTarget(target, modifiers)
-                    }
-                    processStatisticalActionApplied(target, modifiers, actor);
-                }
-            }
-
-
-        }.bind(this);
-
-        let applyHit = function() {
-            applyHitConsequences()
-            activateAttackStateTransition()
-        }
 
 
         let updateActive = function(tpf) {
-            if (this.stepProgress === 0) {
-                this.visualAction.visualizeAttack(applyHit);
 
-                let actor = this.getActor();
-                if (!actor.call.getRemote()) {
-                    let modifiers = this.call.getStatus(ENUMS.ActionStatus.STATUS_MODIFIERS);
-                    for (let i = 0; i < this.statisticalActions.length; i++) {
-                        this.statisticalActions[i].applyActorActionActivate(actor, modifiers)
-                    }
-
-                    let requiresTarget = this.call.getStatus(ENUMS.ActionStatus.REQUIRES_TARGET);
-                    let target = this.getTarget();
-                    if (requiresTarget) {
-                        if (!target) {
-                            console.log("No target found for action", this)
-                            return;
-                        }
-                    }
-
-                    processStatisticalActionApplied(actor, modifiers, target);
-                }
-            }
         }.bind(this)
 
         let updateActionCompleted = function(tpf) {
@@ -224,28 +236,12 @@ class ActorAction {
         }.bind(this);
 
         let applyActionSelected = function() {
-            let actor = this.getActor();
-            if (!actor.call.getRemote()) {
-                let modifiers = this.call.getStatus(ENUMS.ActionStatus.STATUS_MODIFIERS);
-                for (let i = 0; i < this.statisticalActions.length; i++) {
-                    this.statisticalActions[i].applyActorActionSelected(actor, modifiers)
-                }
 
-                let requiresTarget = this.call.getStatus(ENUMS.ActionStatus.REQUIRES_TARGET);
-                let target = this.getTarget();
-                if (requiresTarget) {
-                    if (!target) {
-                        console.log("No target found for action", this)
-                        return;
-                    }
-                }
-
-                processStatisticalActionApplied(actor, modifiers, target);
-            }
         }.bind(this);
 
         this.call = {
-            applyHitConsequences:applyHitConsequences,
+         //   applyHitConsequences:applyHitConsequences,
+            activateAttackStateTransition:activateAttackStateTransition,
             updateActivate:updateActivate,
             updateProgress:updateProgress,
             updateActive:updateActive,
@@ -255,7 +251,8 @@ class ActorAction {
             getStatus:getStatus,
             setStatusKey:setStatusKey,
             initStatus:initStatus,
-            applyActionSelected:applyActionSelected
+            applyActionSelected:applyActionSelected,
+            processActionStateChange:processActionStateChange
         }
 
     }
@@ -326,10 +323,11 @@ class ActorAction {
                 this.statisticalActions.push(statAction);
             }
         }
-        this.call.applyActionSelected();
+
     }
 
     setActionKeyFromRemote(actionKey) {
+        console.log("setActionKeyFromRemote", actionKey)
         this.status.call.setStatusByKey(ENUMS.ActionStatus.ACTION_KEY, actionKey);
         this.visualAction = poolFetch('VisualAction')
         let visualActionKey = this.readActionConfig('visual_action')
@@ -339,13 +337,16 @@ class ActorAction {
 
     initAction(actor) {
 
+        console.log("Client initAction", this);
+
         this.actor = actor;
         //   console.log("initAction", [actor], this.status.call.getStatusByKey(ENUMS.ActionStatus.ACTION_KEY))
-
+        //   this.status.statusMap[ENUMS.ActionStatus.TARGET_ID] = actor.getStatus(ENUMS.ActionStatus.ACTOR_ID)
         if (!actor.call.getRemote()) {
             this.actor.setStatusKey(ENUMS.ActorStatus.ACTION_STATE_KEY, this.status.call.getStatusByKey(ENUMS.ActionStatus.ACTION_STATE))
             this.actor.setStatusKey(ENUMS.ActorStatus.SELECTED_ACTION, this.status.call.getStatusByKey(ENUMS.ActionStatus.ACTION_KEY));
             this.actor.setStatusKey(ENUMS.ActorStatus.REQUEST_TURN_STATE, ENUMS.TurnState.ACTION_APPLY);
+
         }
 
         let status = this.readActionConfig('status')
@@ -357,7 +358,6 @@ class ActorAction {
             }
         }
 
-
         actor.actorText.yell(this.visualAction.name)
 
         this.sequencing = this.readActionConfig('sequencing')
@@ -365,6 +365,7 @@ class ActorAction {
             // used for combat actions
             GameAPI.registerGameUpdateCallback(this.call.updateAttack);
         }
+        this.call.applyActionSelected();
     }
 
     setActionTargetId(targetId) {

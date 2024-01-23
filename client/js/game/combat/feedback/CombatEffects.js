@@ -2,11 +2,11 @@ import * as PostHitEffects from "./PostHitEffects.js";
 import * as HitEffects from "./HitEffects.js";
 import * as MissileEffects from "./MissileEffects.js";
 import * as PrecastEffects from "./PrecastEffects.js";
-import {freezeHit} from "./HitEffects.js";
-
 
 function effectCalls() {
     return {
+
+        combat_effect_melee_missile:MissileEffects.meleeMissile,
 
         combat_effect_hands_frost:PrecastEffects.handsOfFrost,
         combat_effect_frost_missile:MissileEffects.frostMissile,

@@ -457,6 +457,7 @@ class GameActor {
     }
 
     setDestination(posVec) {
+    //    console.log("setDestination ", posVec)
         let destination = this.actorStatus.getStatusByKey(ENUMS.ActorStatus.SELECTED_DESTINATION);
         MATH.vec3ToArray(posVec, destination);
         this.actorStatus.setStatusKey(ENUMS.ActorStatus.SELECTED_DESTINATION, destination);

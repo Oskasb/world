@@ -103,7 +103,8 @@ let hardStateMap = [
     ENUMS.ActorStatus.HEALING_APPLIED,
     ENUMS.ActorStatus.SELECTED_DESTINATION,
     ENUMS.ActorStatus.PARTY_SELECTED,
-    ENUMS.ActorStatus.DEAD
+    ENUMS.ActorStatus.DEAD,
+    ENUMS.ActorStatus.COMBAT_STATUS
 ];
 
 let detailsMap = [
@@ -130,7 +131,8 @@ let detailsMap = [
     // ENUMS.ActorStatus.DEAD,
     ENUMS.ActorStatus.IS_LEAPING,
   //  ENUMS.ActorStatus.TURN_STATE,
-    ENUMS.ActorStatus.REQUEST_TURN_STATE
+    ENUMS.ActorStatus.REQUEST_TURN_STATE,
+    ENUMS.ActorStatus.COMBAT_STATUS
 ];
 
 let spatialMap = [
@@ -256,6 +258,7 @@ class ActorStatus {
         this.statusMap[ENUMS.ActorStatus.EQUIPPED_ITEMS] = [];
         this.statusMap[ENUMS.ActorStatus.PATH_POINTS] = [];
         this.statusMap[ENUMS.ActorStatus.ACTIONS] = [];
+        this.statusMap[ENUMS.ActorStatus.COMBAT_STATUS] = [];
         this.statusMap[ENUMS.ActorStatus.VEL_X] = 0;
         this.statusMap[ENUMS.ActorStatus.VEL_y] = 0;
         this.statusMap[ENUMS.ActorStatus.VEL_Z] = 0;

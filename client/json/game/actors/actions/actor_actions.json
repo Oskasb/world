@@ -7,10 +7,10 @@
           "visual_action": "VISUAL_MELEE_BASH",
           "statistical_actions": ["STATISTICAL_MELEE_BASH"],
           "sequencing": {
-            "SELECTED": {"time": 0.25},
-            "PRECAST":  {"time": 0.25},
+            "SELECTED": {"time": 0.55},
+            "PRECAST":  {"time": 0.55},
             "ACTIVE":   {"time": 8},
-            "APPLY_HIT":{"time": 0.45},
+            "APPLY_HIT":{"time": 0.55},
             "POST_HIT": {"time": 0.45}
           }
         }
@@ -21,10 +21,10 @@
           "visual_action": "VISUAL_CHARGE",
           "statistical_actions": ["STATISTICAL_CHARGE"],
           "sequencing": {
-            "SELECTED": {"time": 0.25},
-            "PRECAST":  {"time": 0.25},
+            "SELECTED": {"time": 0.75},
+            "PRECAST":  {"time": 0.75},
             "ACTIVE":   {"time": 8},
-            "APPLY_HIT":{"time": 0.45},
+            "APPLY_HIT":{"time": 0.75},
             "POST_HIT": {"time": 0.45}
           }
         }
@@ -35,10 +35,10 @@
           "visual_action": "VISUAL_THROW",
           "statistical_actions": ["STATISTICAL_THROW"],
           "sequencing": {
-            "SELECTED": {"time": 0.25},
-            "PRECAST":  {"time": 0.25},
+            "SELECTED": {"time": 0.55},
+            "PRECAST":  {"time": 0.55},
             "ACTIVE":   {"time": 8},
-            "APPLY_HIT":{"time": 0.45},
+            "APPLY_HIT":{"time": 0.55},
             "POST_HIT": {"time": 0.45}
           }
         }
@@ -49,8 +49,8 @@
           "visual_action": "VISUAL_SWORD_SLASH",
           "statistical_actions": ["STATISTICAL_SWORD_SLASH"],
           "sequencing": {
-            "SELECTED": {"time": 0.25},
-            "PRECAST":  {"time": 0.25},
+            "SELECTED": {"time": 0.45},
+            "PRECAST":  {"time": 0.45},
             "ACTIVE":   {"time": 8},
             "APPLY_HIT":{"time": 0.45},
             "POST_HIT": {"time": 0.45}

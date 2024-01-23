@@ -45,6 +45,7 @@ class ActionStatus {
 
             let actor = GameAPI.getActorById(this.statusMap[ENUMS.ActionStatus.ACTOR_ID])
             if (!actor) {
+                console.log("No Actor for Action")
                 return;
             }
 
@@ -80,10 +81,15 @@ class ActionStatus {
 
         }.bind(this);
 
+        let forceStatusSend = function() {
+            simpleSend.call.broadcastStatus(ENUMS.ActionStatus.ACTION_ID, this.statusMap, ENUMS.ClientRequests.APPLY_ACTION_STATUS, true);
+        }.bind(this);
+
         this.call = {
             initActionStatus:initActionStatus,
             setStatusByKey:setStatusByKey,
-            getStatusByKey:getStatusByKey
+            getStatusByKey:getStatusByKey,
+            forceStatusSend:forceStatusSend
         }
     }
 

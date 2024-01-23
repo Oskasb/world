@@ -211,6 +211,7 @@ class WorldEncounter {
             hostActor.actorText.yell("Here we go")
             selectedActor.getGameWalkGrid().setTargetPosition(this.getPos())
             selectedActor.getGameWalkGrid().cancelActivePath()
+            selectedActor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, '');
             selectedActor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, false);
             selectedActor.setStatusKey(ENUMS.ActorStatus.REQUEST_PARTY, '');
             selectedActor.setStatusKey(ENUMS.ActorStatus.ACTIVATING_ENCOUNTER, this.id);

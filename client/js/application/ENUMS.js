@@ -170,6 +170,7 @@ let ENUMS = {}
         STAND_STATE:'STAND_STATE',
         PATH_POINTS:'PATH_POINTS',
         IN_COMBAT:'IN_COMBAT',
+        COMBAT_STATUS:'COMBAT_STATUS',
         HAND_SIZE:'HAND_SIZE',
         HAS_POSITION:'HAS_POSITION',
         POS_X:'POS_X',
@@ -247,6 +248,15 @@ let ENUMS = {}
         STATUS_WALK_SELECTION:'STATUS_WALK_SELECTION',
         STATUS_LEAP_SELECTION:'STATUS_LEAP_SELECTION'
     };
+
+ENUMS.CombatStatus = {
+    LEAPING:1,
+    RUSHGIN:2,
+    PUSHED:3,
+    PRONE:4,
+    STUNNED:5,
+    BLEEDING:6
+}
 
     ENUMS.TurnState = {
         NO_TURN:'NO_TURN',

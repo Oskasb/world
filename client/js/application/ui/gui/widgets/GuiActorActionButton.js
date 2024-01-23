@@ -79,7 +79,7 @@ class GuiActorActionButton {
                     if (typeof (gotAction) === 'object') {
                         newButtonState = ENUMS.ButtonState.ACTIVE;
                     } else {
-                        if (gotAction === true) {
+                        if (typeof (gotAction) === 'string') {
                             newButtonState = ENUMS.ButtonState.AVAILABLE;
                         } else {
                             newButtonState = ENUMS.ButtonState.DISABLED;
