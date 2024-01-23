@@ -21,10 +21,10 @@
           "visual_action": "VISUAL_CHARGE",
           "statistical_actions": ["STATISTICAL_CHARGE"],
           "sequencing": {
-            "SELECTED": {"time": 0.75},
-            "PRECAST":  {"time": 0.75},
+            "SELECTED": {"time": 0.55},
+            "PRECAST":  {"time": 0.45},
             "ACTIVE":   {"time": 8},
-            "APPLY_HIT":{"time": 0.75},
+            "APPLY_HIT":{"time": 0.55},
             "POST_HIT": {"time": 0.45}
           }
         }

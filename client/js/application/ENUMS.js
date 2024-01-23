@@ -274,7 +274,8 @@ ENUMS.CombatStatus = {
         APPLY_DAMAGE:'APPLY_DAMAGE',
         APPLY_HEAL:'APPLY_HEAL',
         SELECT_LEAP:'SELECT_LEAP',
-        APPLY_LEAP:'APPLY_LEAP'
+        APPLY_LEAP:'APPLY_LEAP',
+        APPLY_KNOCKBACK:'APPLY_KNOCKBACK'
     }
 
     ENUMS.Alignment = {

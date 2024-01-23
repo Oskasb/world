@@ -52,7 +52,7 @@ function drawPathPoints(from, to, distance, pathPoints) {
     for (let i = 0; i < pathPoints.length; i++) {
         let fraction = MATH.calcFraction(0, points+1, i+0.5)
         toVec.add(deltaVec);
-        toVec.y += Math.cos(fraction * Math.PI) * (MATH.curveSqrt(distance*30) * 0.022 +0.1);
+        toVec.y += Math.cos(fraction * Math.PI) * (MATH.curveSqrt(distance*30) * 0.032 +0.1);
         drawPathPoint(fromVec, toVec, rgba, pathPoints[i])
         fromVec.copy(toVec)
     }
@@ -68,10 +68,7 @@ class VisualTrajectory {
         this.lastDestination = new Vector3();
 
         let update = function() {
-
-
             this.actor.getDestination(tempVec);
-            console.log("Update Trajectory", tempVec)
             let distance = MATH.distanceBetween(tempVec, this.actor.getSpatialPosition(ThreeAPI.tempVec3c))
             let velocity = this.actor.getSpatialVelocity();
             if (distance > 0.9 && velocity.lengthSq() === 0) {

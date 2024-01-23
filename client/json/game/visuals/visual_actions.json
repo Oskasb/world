@@ -31,10 +31,10 @@
             "fx_active":"combat_effect_melee_missile",
             "fx_apply":"combat_effect_magic_hit",
             "fx_post_hit":"damage_effect_magic_residual",
-            "anim_selected": "GUARD_HIGH",
-            "anim_precast": "GUARD_HIGH",
-            "anim_active": "CUT",
-            "anim_apply": "GUARD_BACK",
+            "anim_selected": "GUARD_INSIDE",
+            "anim_precast": "GUARD_HANG",
+            "anim_active": "GUARD_SIDE",
+            "anim_apply": "CUT",
             "anim_post_hit": "GUARD_SHORT"
           }
         }

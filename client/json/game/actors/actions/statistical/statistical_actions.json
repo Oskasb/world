@@ -36,7 +36,8 @@
           },
           "on_hit_apply": {
             "to_target": [
-              {"modifier": "APPLY_DAMAGE", "value": 2}
+              {"modifier": "APPLY_DAMAGE", "value": 0},
+              {"modifier": "APPLY_KNOCKBACK", "value": 4}
             ]
           }
         }
