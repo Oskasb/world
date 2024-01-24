@@ -13,7 +13,7 @@ class ServerGrid {
         this.pathToPos = new Vector3();
         this.pathDirection = new Vector3();
         this.pathDistance = 0;
-        this.stepLength = 0.95;
+        this.stepLength = 1.0;
     }
 
     buildGridFromReportedTiles(tiles) {
@@ -25,6 +25,12 @@ class ServerGrid {
             }
         }
     //    console.log("Build Server Grid:", this);
+    }
+
+    getCenterTile() {
+        let col = Math.floor(this.gridTiles.length / 2);
+        let row = Math.floor(this.gridTiles[col].length / 2);
+        return this.getTileByColRow(col, row);
     }
 
     getTileByColRow(col, row) {

@@ -185,6 +185,7 @@ class ServerEncounter {
         let encActors = [];
         for (let i = 0; i < actors.length; i++) {
             let actor = spawnServerEncounterActor(actors[i], this.serverGrid)
+
             encActors.push(actor.id);
             this.encounterActors.push(actor);
             this.combatants.push(actor);
@@ -194,13 +195,7 @@ class ServerEncounter {
             }
         }
 
-
-        let randomPos = function() {
-            this.encounterPrepareFirstTurn()
-        }.bind(this);
-
-        setTimeout(randomPos, 200)
-
+        this.encounterPrepareFirstTurn()
 
     }
 
@@ -209,14 +204,8 @@ class ServerEncounter {
             for (let i = 0; i < this.encounterActors.length; i++) {
                 console.log("Random position enc actor")
                 let actor = this.encounterActors[i];
-                let tile = getRandomWalkableTiles(this.serverGrid.gridTiles, 1)[0];
-                let pos = tile.getPos();
                 actor.setStatusKey(ENUMS.ActorStatus.HP, actor.getStatus(ENUMS.ActorStatus.MAX_HP));
-                actor.setStatusKey(ENUMS.ActorStatus.POS_X, pos.x);
-                actor.setStatusKey(ENUMS.ActorStatus.POS_Y, pos.y);
-                actor.setStatusKey(ENUMS.ActorStatus.POS_Z, pos.z);
-                actor.setStatusKey(ENUMS.ActorStatus.HAS_TURN, false);
-                this.sendActorStatusUpdate(actor);
+                actor.call.activateEncounterPath(this)
             }
 
     }

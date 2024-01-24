@@ -204,6 +204,11 @@ class ServerAction {
         statusMap[ENUMS.ActionStatus.TARGET_ID] = actor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET);
         statusMap[ENUMS.ActionStatus.STEP_START_TIME] = 0;
         statusMap[ENUMS.ActionStatus.STEP_END_TIME] = 0;
+        statusMap[ENUMS.ActionStatus.RANGE_MIN] = 0;
+        statusMap[ENUMS.ActionStatus.RANGE_MAX] = 1;
+        statusMap[ENUMS.ActionStatus.REQUIRES_TARGET] = true;
+        statusMap[ENUMS.ActionStatus.ACTION_TRIGGER] = ENUMS.Trigger.ON_ACTIVATE;
+        statusMap[ENUMS.ActionStatus.COMBAT_STATUS] = [];
         MATH.emptyArray(statusMap[ENUMS.ActionStatus.STATUS_MODIFIERS]);
 
         actor.setStatusKey(ENUMS.ActorStatus.ACTION_STATE_KEY, this.status.getStatus(ENUMS.ActionStatus.ACTION_STATE))
@@ -215,7 +220,7 @@ class ServerAction {
         return this.targetActor;
     }
 
-    processActionStatusModifiers(modifiers, targetActor) {
+    processActionStatusModifiers(modifiers, targetActor, actor) {
 
         if (targetActor !== this.targetActor) {
             this.targetActor = targetActor;
@@ -226,7 +231,7 @@ class ServerAction {
             i++;
             let amount = modifiers[i];
             console.log("processActionStatusModifiers", modifier, amount, targetActor.getStatus(ENUMS.ActorStatus.ACTOR_ID));
-            applyServerAction(targetActor, modifier, amount)
+            applyServerAction(targetActor, modifier, amount, actor)
         }
 
     }
@@ -251,7 +256,7 @@ class ServerAction {
             let statId = statActions[i];
             let statsConf = parseConfigData(statConfigs, statId);
             let statAction = new StatisticalAction();
-            statAction.initStatisticalActionConfig(statsConf);
+            statAction.initStatisticalActionConfig(statsConf, this);
             this.statisticalActions.push(statAction)
          //   console.log("statAction ", statAction);
         }

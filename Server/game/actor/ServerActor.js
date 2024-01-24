@@ -3,7 +3,13 @@ import {ENUMS} from "../../../client/js/application/ENUMS.js";
 import {ServerActorMessageProcessor} from "./ServerActorMessageProcessor.js";
 import {ServerActorPathWalker} from "./ServerActorPathWalker.js";
 import {ServerActorTurnSequencer} from "./ServerActorTurnSequencer.js";
-import {dispatchMessage, getGameServer, getGameServerWorld, statusMapFromMsg} from "../utils/GameServerFunctions.js";
+import {
+    dispatchMessage,
+    getGameServer,
+    getGameServerWorld,
+    registerGameServerUpdateCallback,
+    statusMapFromMsg, unregisterGameServerUpdateCallback
+} from "../utils/GameServerFunctions.js";
 import {TilePath} from "../../../client/js/game/piece_functions/TilePath.js";
 import {Object3D} from "../../../client/libs/three/core/Object3D.js";
 import {SimpleUpdateMessage} from "../utils/SimpleUpdateMessage.js";
@@ -31,8 +37,24 @@ class ServerActor {
             return actionKey;
         }.bind(this);
 
+        let encounter;
+
+        let updateApplyActivePath = function(tpf) {
+            let pathWalker = this.serverActorPathWalker;
+            pathWalker.walkPath(this, tpf, encounter);
+            if (this.tilePath.pathTiles.length === 0) {
+                unregisterGameServerUpdateCallback(updateApplyActivePath);
+            }
+        }.bind(this);
+
+        let activateEncounterPath = function(serverEncounter) {
+            encounter = serverEncounter;
+            registerGameServerUpdateCallback(updateApplyActivePath)
+        }
+
         this.call = {
-            selectServerActorActionId:selectServerActorActionId
+            selectServerActorActionId:selectServerActorActionId,
+            activateEncounterPath:activateEncounterPath
         }
 
     }

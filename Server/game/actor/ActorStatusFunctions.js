@@ -7,7 +7,43 @@ import {Object3D} from "../../../client/libs/three/core/Object3D.js";
 let tempVec = new Vector3();
 let tempObj = new Object3D();
 
+function registerTilePathPoints(actor) {
+    let tilePath = actor.tilePath;
+
+    let pathPoints = actor.getStatus(ENUMS.ActorStatus.PATH_POINTS);
+
+    while (pathPoints.length) {
+        pathPoints.pop()
+    }
+
+    for (let i = 0; i < tilePath.pathTiles.length; i++) {
+        let gridPoint = tilePath.pathTiles[i].gridPoint;
+        pathPoints.push(gridPoint.point);
+    }
+    actor.serverActorPathWalker.setPathPoints(pathPoints);
+}
+
+
+function registerCombatStatus(actor, combatStatus) {
+
+    let sMap = actor.getStatus(ENUMS.ActorStatus.COMBAT_STATUS);
+
+    if (sMap.indexOf(combatStatus) === -1) {
+        sMap.push(combatStatus);
+    }
+
+}
+
+function unregisterCombatStatus(actor, combatStatus) {
+    let sMap = actor.getStatus(ENUMS.ActorStatus.COMBAT_STATUS);
+
+    if (sMap.indexOf(combatStatus) !== -1) {
+        MATH.splice(sMap, combatStatus)
+    }
+}
+
 function setDestination(actor, posVec) {
+    console.log("setDestination ", posVec)
     let destination = actor.getStatus(ENUMS.ActorStatus.SELECTED_DESTINATION);
     MATH.vec3ToArray(posVec, destination);
     actor.setStatusKey(ENUMS.ActorStatus.SELECTED_DESTINATION, destination);
@@ -16,6 +52,13 @@ function setDestination(actor, posVec) {
 function getDestination(actor) {
     let destination = actor.getStatus(ENUMS.ActorStatus.SELECTED_DESTINATION);
     MATH.vec3FromArray(tempVec, destination);
+    return tempVec;
+}
+
+function getActorForward(actor) {
+    let quat = getStatusQuaternion(actor);
+    tempVec.set(0, 0, 1);
+    tempVec.applyQuaternion(quat);
     return tempVec;
 }
 
@@ -34,8 +77,13 @@ function setStatusPosition(actor, pos) {
     actor.setStatusKey(ENUMS.ActorStatus.POS_Z, pos.z)
 }
 
-function setStatusDestination(actor, pos) {
-    actor.setStatusKey(ENUMS.ActorStatus.SELECTED_DESTINATION, [pos.x, pos.y, pos.z]);
+function getStatusVelocity(actor) {
+    tempVec.set(
+        actor.getStatus(ENUMS.ActorStatus.VEL_X),
+        actor.getStatus(ENUMS.ActorStatus.VEL_Y),
+        actor.getStatus(ENUMS.ActorStatus.VEL_Z)
+    )
+    return tempVec;
 }
 
 function setStatusVelocity(actor, vel) {
@@ -51,6 +99,16 @@ function setStatusQuaternion(actor, quat) {
     actor.setStatusKey(ENUMS.ActorStatus.QUAT_W, quat.w)
 }
 
+function getStatusQuaternion(actor) {
+    tempObj.quaternion.set(
+        actor.getStatus(ENUMS.ActorStatus.QUAT_X),
+        actor.getStatus(ENUMS.ActorStatus.QUAT_Y),
+        actor.getStatus(ENUMS.ActorStatus.QUAT_Z),
+        actor.getStatus(ENUMS.ActorStatus.QUAT_W)
+    )
+    return tempObj.quaternion;
+}
+
 function moveToPosition(actor, pos, tpf) {
     tempObj.position.copy(getStatusPosition(actor));
     tempVec.copy(pos);
@@ -63,7 +121,6 @@ function moveToPosition(actor, pos, tpf) {
     setStatusPosition(actor, pos);
     setStatusQuaternion(actor, tempObj.quaternion);
     actor.setStatusKey(ENUMS.ActorStatus.MOVE_STATE, 'MOVE_COMBAT')
-
 }
 
 function stopAtPos(actor, pos, tpf) {
@@ -125,7 +182,7 @@ function exitEncounter(encounter, actor, victory) {
     if (!victory) {
         let exitTile = encounter.getRandomExitTile();
         let exitPos = exitTile.getPos();
-        setStatusDestination(actor, exitPos);
+        setDestination(actor, exitPos);
         console.log("Exit lost Encounter")
     }
 
@@ -175,10 +232,15 @@ function endActorTurn(encounter) {
 }
 
 export {
+    registerTilePathPoints,
+    registerCombatStatus,
+    unregisterCombatStatus,
     setDestination,
     getDestination,
+    getActorForward,
     getStatusPosition,
     setStatusPosition,
+    getStatusVelocity,
     moveToPosition,
     stopAtPos,
     faceTowardsPos,

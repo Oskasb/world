@@ -125,7 +125,7 @@ function processClientRequest(request, stamp, message, connectedClient) {
                 return;
             }
 
-            if (actionState === ENUMS.ActionState.ACTIVE) {
+            if ( actionState === ENUMS.ActionState.SELECTED || actionState === ENUMS.ActionState.ACTIVE || actionState === ENUMS.ActionState.APPLY_HIT) {
                 let modifiers = getStatusFromMsg(ENUMS.ActionStatus.STATUS_MODIFIERS, message.status);
 
                 if (typeof modifiers === 'object') {
@@ -134,7 +134,7 @@ function processClientRequest(request, stamp, message, connectedClient) {
 
                         let targetId = getStatusFromMsg(ENUMS.ActionStatus.TARGET_ID, message.status);
                         target = player.serverEncounter.getEncounterCombatantById(targetId);
-                        actor.serverAction.processActionStatusModifiers(modifiers, target);
+                        actor.serverAction.processActionStatusModifiers(modifiers, target, actor);
                         MATH.emptyArray(modifiers);
                         player.serverEncounter.sendActorStatusUpdate(target);
                         target.setStatusKey(ENUMS.ActorStatus.DAMAGE_APPLIED, 0)

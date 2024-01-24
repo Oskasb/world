@@ -4,6 +4,7 @@ import {evt} from "../../../client/js/application/event/evt.js";
 import {ServerActor} from "../actor/ServerActor.js";
 
 import {Vector2} from "../../../client/libs/three/math/Vector2.js";
+import {registerTilePathPoints, setStatusPosition} from "../actor/ActorStatusFunctions.js";
 
 let tempVec2D = new Vector2();
 let gameServer = null;
@@ -282,13 +283,18 @@ function spawnServerEncounterActor(spawnInfo, serverGrid) {
 
     let templateId = spawnInfo.actor;
     let rot = spawnInfo.rot;
+    let centerTile = serverGrid.getCenterTile();
+    let originPos = centerTile.getPos();
     let tileI = spawnInfo.tile[0];
     let tileJ = spawnInfo.tile[1];
     let tile = serverGrid.getTileByColRow(tileI, tileJ)
+    let pos = tile.getPos();
     let id = 'server_enc_actor_'+actorCount;
     actorCount++
     let statusMap = buildEncounterActorStatus(id, templateId, rot, tile);
     let actor = new ServerActor(id, statusMap)
+    setStatusPosition(actor, originPos);
+    serverGrid.selectTilesBeneathPath(centerTile, tile, serverGrid.gridTiles, actor.tilePath);
     actor.setStatusKey(ENUMS.ActorStatus.ALIGNMENT, ENUMS.Alignment.HOSTILE)
     actor.setStatusKey(ENUMS.ActorStatus.DEAD, false)
     actor.setStatusKey(ENUMS.ActorStatus.ICON_KEY, MATH.getRandomArrayEntry(faces));
@@ -296,9 +302,11 @@ function spawnServerEncounterActor(spawnInfo, serverGrid) {
     actor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, "");
     actor.setStatusKey(ENUMS.ActorStatus.SELECTED_ACTION, "");
     actor.setStatusKey(ENUMS.ActorStatus.PATH_POINTS, []);
-    actor.setStatusKey(ENUMS.ActorStatus.SELECTED_DESTINATION, [0, 0, 0]);
+    actor.setStatusKey(ENUMS.ActorStatus.SELECTED_DESTINATION, [pos.x, pos.y, pos.z]);
     actor.setStatusKey(ENUMS.ActorStatus.DAMAGE_APPLIED, 0);
     actor.setStatusKey(ENUMS.ActorStatus.HEALING_APPLIED, 0);
+    actor.setStatusKey(ENUMS.ActorStatus.HAS_TURN, false);
+    registerTilePathPoints(actor);
     return actor;
 
 }
