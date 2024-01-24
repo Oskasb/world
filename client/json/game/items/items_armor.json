@@ -7,7 +7,7 @@
           "visual_id":"VISUAL_SHIRT_CHAIN",
           "equip_slot": "SLOT_BODY",
           "status_add_modifiers": [
-
+            {"status": "MAX_HP", "value":0}
           ]
         }
       },

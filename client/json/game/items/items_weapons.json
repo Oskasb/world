@@ -2,12 +2,23 @@
   "GAME":{
     "ITEMS":[
       {
+        "id": "ITEM_HATCHET",
+        "data": {
+          "visual_id":"VISUAL_HATCHET",
+          "equip_slot": "SLOT_HAND_R",
+          "status_add_modifiers": [
+            {"status": "ACTIONS", "value":"ACTION_MELEE_BASH"},
+            {"status": "ACTIONS", "value":"ACTION_THROW"}
+          ]
+        }
+      },
+      {
         "id": "ITEM_SWORD_FANCY",
         "data": {
           "visual_id":"VISUAL_SWORD_FANCY",
           "equip_slot": "SLOT_HAND_R",
           "status_add_modifiers": [
-
+            {"status": "ACTIONS", "value":"ACTION_SWORD_SLASH"}
           ]
         }
       }

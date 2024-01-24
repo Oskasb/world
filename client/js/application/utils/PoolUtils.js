@@ -25,6 +25,8 @@ import {VisualPieceEffectContinuous} from "../../game/visuals/effects/VisualPiec
 import {VisualPieceEffectTransition} from "../../game/visuals/effects/VisualPieceEffectTransition.js";
 import {VisualModelPalette} from "../../game/visuals/VisualModelPalette.js";
 import {StatisticalAction} from "../../game/actions/StatisticalAction.js";
+import {VisualEngagementIndicator} from "../../game/visuals/effects/VisualEngagementIndicator.js";
+import {VisualEngagementArc} from "../../game/visuals/effects/VisualEngagementArc.js";
 
 let pools = {}
 let stats = {};
@@ -54,7 +56,9 @@ function initPools() {
     registerPool(PhysicalShape);
     registerPool(VisualPieceEffectTransition);
     registerPool(VisualModelPalette);
-    registerPool(StatisticalAction)
+    registerPool(StatisticalAction);
+    registerPool(VisualEngagementIndicator);
+    registerPool(VisualEngagementArc);
 }
 
 function registerPool(DataObj) {

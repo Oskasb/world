@@ -104,7 +104,10 @@ let hardStateMap = [
     ENUMS.ActorStatus.SELECTED_DESTINATION,
     ENUMS.ActorStatus.PARTY_SELECTED,
     ENUMS.ActorStatus.DEAD,
-    ENUMS.ActorStatus.COMBAT_STATUS
+    ENUMS.ActorStatus.COMBAT_STATUS,
+    ENUMS.ActorStatus.ENGAGED_TARGETS,
+    ENUMS.ActorStatus.ENGAGE_MAX,
+    ENUMS.ActorStatus.ENGAGE_COUNT
 ];
 
 let detailsMap = [
@@ -284,6 +287,9 @@ class ActorStatus {
         this.statusMap[ENUMS.ActorStatus.ACTION_STATE_KEY] = 0;
         this.statusMap[ENUMS.ActorStatus.ACTION_STEP_PROGRESS]  = 0;
         this.statusMap[ENUMS.ActorStatus.RIGID_BODY_CONTACT]  = 0;
+        this.statusMap[ENUMS.ActorStatus.ENGAGE_MAX]  = 0;
+        this.statusMap[ENUMS.ActorStatus.ENGAGE_COUNT]  = 0;
+        this.statusMap[ENUMS.ActorStatus.ENGAGED_TARGETS]  = [];
         this.statusMap[ENUMS.ActorStatus.IS_LEAPING]  = false;
         this.statusMap[ENUMS.ActorStatus.SEQUENCER_SELECTED]  = false;
         this.statusMap[ENUMS.ActorStatus.DEAD] = false;

@@ -4,16 +4,16 @@ class VisualPointFX {
         this.fx = []
     }
 
-    setupPointFX() {
+    setupPointFX(sX, sY, scale) {
 
-        let spriteX = 0;
-        let spriteY = 3;
+        let spriteX = sX || 0;
+        let spriteY = sY || 3;
 
         let effectCb = function(efct) {
             efct.activateEffectFromConfigId(true)
         //    if (typeof (spriteX) === 'number' && typeof(spriteY) === 'number') {
                 efct.setEffectSpriteXY(spriteX, spriteY);
-                efct.scaleEffectSize( 1.0)
+                efct.scaleEffectSize( scale || 1.0)
         //    }
             this.fx.push(efct);
 

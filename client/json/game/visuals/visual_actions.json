@@ -66,7 +66,7 @@
           "effects": {
             "fx_selected":"combat_effect_hands_magic_power",
             "fx_precast":"combat_effect_hands_magic_power",
-            "fx_active":"combat_effect_magic_missile",
+            "fx_active":"combat_effect_melee_missile",
             "fx_apply":"combat_effect_magic_hit",
             "fx_post_hit":"damage_effect_magic_residual",
             "anim_selected": "GUARD_HANG",
@@ -85,7 +85,7 @@
           "effects": {
             "fx_selected":"combat_effect_hands_magic_power",
             "fx_precast":"combat_effect_hands_magic_power",
-            "fx_active":"combat_effect_magic_missile",
+            "fx_active":"combat_effect_melee_missile",
             "fx_apply":"combat_effect_magic_hit",
             "fx_post_hit":"damage_effect_magic_residual",
             "anim_selected": "GUARD_INSIDE",

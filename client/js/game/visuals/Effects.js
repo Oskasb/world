@@ -11,6 +11,19 @@ effectMap[ENUMS.ActorStatus.IS_LEAPING] = {
     color:'LEAP_FX'
 }
 
+effectMap[ENUMS.ActorStatus.ENGAGE_COUNT] = {
+    className:'VisualEngagementIndicator',
+    activateOn:1,
+    deactivateOn:0,
+    color:'DAMAGE_FX',
+    effect:{
+        fromSize:0.2,
+        toSize:1.8,
+        duration:0.25,
+        sprite:[0, 0]
+    }
+}
+
 effectMap[ENUMS.ActorStatus.DAMAGE_APPLIED] = {
     className:'VisualPieceEffectContinuous',
     activateOn:1,
