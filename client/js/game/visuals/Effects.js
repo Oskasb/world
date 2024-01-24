@@ -67,14 +67,26 @@ travelFx[ENUMS.TravelMode.TRAVEL_MODE_FLY] = {
 let combatFx = effectMap[ENUMS.ActorStatus.COMBAT_STATUS];
 combatFx[ENUMS.CombatStatus.LEAPING] = {
     className:'VisualTrajectory',
-    color:'LEAP_FX',
+    color:'FORCE_FX',
     effect:{
-        fromSize:2,
+        fromSize:0.5,
         toSize:0.2,
-        duration:0.45,
+        duration:0.25,
         sprite:[4, 6]
     }
 }
+
+combatFx[ENUMS.CombatStatus.PUSHED] = {
+    className:'VisualTrajectory',
+    color:'FORCE_FX',
+    effect:{
+        fromSize:0.2,
+        toSize:0.8,
+        duration:0.25,
+        sprite:[0, 0]
+    }
+}
+
 
 
 export {

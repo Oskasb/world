@@ -4,6 +4,7 @@ import {Vector3} from "../../../libs/three/math/Vector3.js";
 import {CameraStatusProcessor} from "../../application/utils/CameraStatusProcessor.js";
 import {getModelByBodyPointer, getPhysicalWorld, rayTest} from "../../application/utils/PhysicsUtils.js";
 import {ENUMS} from "../../application/ENUMS.js";
+import {hasCombatState} from "../../../../Server/game/actor/ActorStatusFunctions.js";
 
 let tempVec = new Vector3()
 let tempVec2 = new Vector3();
@@ -38,6 +39,13 @@ function processAnimationState(actor) {
         actor.setStatusKey(ENUMS.ActorStatus.RETREATING, actor.getStatus(ENUMS.ActorStatus.ACTIVATED_ENCOUNTER || ''));
         //     actor.setStatusKey(ENUMS.ActorStatus.BODY_STATE, 'FALL_DOWN');
        actor.setStatusKey(ENUMS.ActorStatus.STAND_STATE, 'FALL_DOWN');
+        return;
+    }
+
+    if (hasCombatState(actor, ENUMS.CombatStatus.PUSHED)) {
+        actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_INACTIVE);
+        actor.setStatusKey(ENUMS.ActorStatus.MOVE_STATE, 'FALL_DOWN');
+        actor.setStatusKey(ENUMS.ActorStatus.STAND_STATE, 'FALL_DOWN');
         return;
     }
 

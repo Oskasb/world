@@ -7,11 +7,11 @@
           "visual_action": "VISUAL_MELEE_BASH",
           "statistical_actions": ["STATISTICAL_MELEE_BASH"],
           "sequencing": {
-            "SELECTED": {"time": 0.55},
-            "PRECAST":  {"time": 0.55},
+            "SELECTED": {"time": 0.35},
+            "PRECAST":  {"time": 0.15},
             "ACTIVE":   {"time": 8},
-            "APPLY_HIT":{"time": 0.55},
-            "POST_HIT": {"time": 0.45}
+            "APPLY_HIT":{"time": 0.65},
+            "POST_HIT": {"time": 0.85}
           }
         }
       },
@@ -21,11 +21,11 @@
           "visual_action": "VISUAL_CHARGE",
           "statistical_actions": ["STATISTICAL_CHARGE"],
           "sequencing": {
-            "SELECTED": {"time": 0.55},
+            "SELECTED": {"time": 0.45},
             "PRECAST":  {"time": 0.45},
             "ACTIVE":   {"time": 8},
-            "APPLY_HIT":{"time": 0.55},
-            "POST_HIT": {"time": 0.45}
+            "APPLY_HIT":{"time": 1.45},
+            "POST_HIT": {"time": 2.65}
           }
         }
       },
