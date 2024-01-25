@@ -225,7 +225,24 @@ function processServerCommand(protocolKey, message) {
                 // own client already has the command status, use response for something?
         //        console.log("Local ACTION_UPDATE response", message)
                 let clientActor = GameAPI.getGamePieceSystem().selectedActor;
+
+
                 if (clientActor) {
+                    let passiveActions = clientActor.getStatus(ENUMS.ActorStatus.PASSIVE_ACTIONS)
+                //    console.log("PlayerActor update", passiveActions, message.status)
+                    let key = getStatusFromMsg(ENUMS.ActionStatus.ACTION_KEY, message.status)
+                    if (passiveActions.indexOf(key) !== -1) {
+                        let actionState = getStatusFromMsg(ENUMS.ActionStatus.ACTION_STATE, message.status);
+                        if (actionState === ENUMS.ActionState.DISABLED) {
+                            console.log("PlayerActor activate passive action", message.status);
+                            clientActor.actorText.say(key)
+                        } else {
+                            console.log("PlayerActor update passive action", message.status);
+                        }
+
+
+                    }
+
             //        clientActor.actorStatus.applyServerCommandStatus(msg.status);
                 }
 

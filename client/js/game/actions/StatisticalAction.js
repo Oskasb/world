@@ -17,8 +17,6 @@ class StatisticalAction {
         }
     }
 
-
-
     applyStatisticalActionToTarget(target, modifiersList, serverSide) {
         let onHitCfg = this.config['on_hit_apply'];
         let targetModifiers = onHitCfg['to_target'];
@@ -53,7 +51,6 @@ class StatisticalAction {
                 }
             }
         }
-
     }
 
     applyActorActionSelected(actor, modifiersList, serverSide) {
@@ -75,10 +72,7 @@ class StatisticalAction {
                 }
             }
         }
-
     }
-
-
 }
 
 export {StatisticalAction}

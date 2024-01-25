@@ -13,8 +13,8 @@
             "fx_apply":"combat_effect_magic_hit",
             "fx_post_hit":"damage_effect_magic_residual",
             "anim_selected": "GUARD_HANG",
-            "anim_precast": "GUARD_SIDE",
-            "anim_active": "SW_BK_R",
+            "anim_precast": "SW_BK_R",
+            "anim_active": "GUARD_HANG",
             "anim_apply": "GUARD_INSIDE",
             "anim_post_hit": "GUARD_SHORT"
           }
@@ -88,7 +88,7 @@
             "fx_active":"combat_effect_melee_missile",
             "fx_apply":"combat_effect_magic_hit",
             "fx_post_hit":"damage_effect_magic_residual",
-            "anim_selected": "GUARD_HANG",
+            "anim_selected": "GUARD_SHORT",
             "anim_precast": "GUARD_HANG",
             "anim_active": "CUT",
             "anim_apply": "GUARD_BACK",

@@ -2,6 +2,7 @@ import {Vector3} from "../../../libs/three/math/Vector3.js";
 import {Quaternion} from "../../../libs/three/math/Quaternion.js";
 import {clearActorEncounterStatus} from "../../application/utils/StatusUtils.js";
 import {statusMapFromMsg} from "../../../../Server/game/utils/GameServerFunctions.js";
+import {ENUMS} from "../../application/ENUMS.js";
 
 
 let testSkip = function(key) {
@@ -104,6 +105,8 @@ let hardStateMap = [
     ENUMS.ActorStatus.SELECTED_DESTINATION,
     ENUMS.ActorStatus.PARTY_SELECTED,
     ENUMS.ActorStatus.DEAD,
+    ENUMS.ActorStatus.SELECTED_ACTION,
+    ENUMS.ActorStatus.ACTION_STATE_KEY,
     ENUMS.ActorStatus.COMBAT_STATUS,
     ENUMS.ActorStatus.ENGAGED_TARGETS,
     ENUMS.ActorStatus.ENGAGE_MAX,
@@ -129,6 +132,7 @@ let detailsMap = [
     ENUMS.ActorStatus.ACTIONS,
     ENUMS.ActorStatus.SELECTED_DESTINATION,
     ENUMS.ActorStatus.SELECTED_ACTION,
+    ENUMS.ActorStatus.ACTION_STATE_KEY,
   //  ENUMS.ActorStatus.HAS_TURN,
   //  ENUMS.ActorStatus.HAS_TURN_INDEX,
     ENUMS.ActorStatus.TURN_DONE,
