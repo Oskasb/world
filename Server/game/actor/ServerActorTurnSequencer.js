@@ -207,9 +207,16 @@ class ServerActorTurnSequencer {
 
         }
 
+
+
         function updateActorTargetSelect(tpf) {
             let actor = sequencer.actor;
             let stepProgress = sequencer.getSequenceProgress()
+
+            if (stepProgress === 0) {
+                actor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, '');
+            }
+
             if (stepProgress > 1) {
                 unregisterGameServerUpdateCallback(updateActorTargetSelect)
                 sequencer.call.stateTransition()
@@ -247,15 +254,33 @@ class ServerActorTurnSequencer {
 
         }
 
+        function selectRandomOpponent(actor, sequencer) {
+            let candidate = selectActorEncounterTarget(sequencer.serverEncounter, actor)
+            if (candidate) {
+                if (actor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET) !== candidate.getStatus(ENUMS.ActorStatus.ACTOR_ID)) {
+                    let targetPos = getStatusPosition(candidate);
+                    faceTowardsPos(actor, targetPos);
+                    actor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, candidate.getStatus(ENUMS.ActorStatus.ACTOR_ID));
+                    actor.selectedTarget = candidate;
+                    sequencer.serverEncounter.sendActorStatusUpdate(actor);
+                }
+            }
+        }
+
         function updateActorSelectAttack(tpf) {
 
             let actor = sequencer.getGameActor()
-            let actionId = actor.call.selectServerActorActionId();
-            actor.serverAction.activateServerActionId(actionId, actor, actor.selectedTarget, sequencer.serverEncounter);
-            actor.serverAction.onCompletedCallbacks.push(sequencer.call.stateTransition)
-            sequencer.serverEncounter.sendActionStatusUpdate(actor.serverAction);
+            let actionId = actor.call.selectServerActorActionId(ENUMS.Trigger.ON_ACTIVATE);
+
             unregisterGameServerUpdateCallback(updateActorSelectAttack)
 
+            if (actor.selectedTarget) {
+                actor.serverAction.activateServerActionId(actionId, actor, actor.selectedTarget, sequencer.serverEncounter);
+                actor.serverAction.onCompletedCallbacks.push(sequencer.call.stateTransition)
+                sequencer.serverEncounter.sendActionStatusUpdate(actor.serverAction);
+            } else {
+                sequencer.call.stateTransition()
+            }
         }
 
 

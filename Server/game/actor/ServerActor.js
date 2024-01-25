@@ -14,7 +14,9 @@ import {TilePath} from "../../../client/js/game/piece_functions/TilePath.js";
 import {Object3D} from "../../../client/libs/three/core/Object3D.js";
 import {SimpleUpdateMessage} from "../utils/SimpleUpdateMessage.js";
 import {ServerAction} from "../action/ServerAction.js";
+import {ServerTransition} from "../encounter/movement/ServerTransition.js";
 import {MATH} from "../../../client/js/application/MATH.js";
+
 
 class ServerActor {
     constructor(id, statusValues) {
@@ -30,11 +32,17 @@ class ServerActor {
         this.tilePath = new TilePath();
         this.simpleMessage = new SimpleUpdateMessage();
         this.serverAction = new ServerAction();
+        this.serverTransition = new ServerTransition(this);
 
-        let selectServerActorActionId = function() {
-            let actions = this.getStatus(ENUMS.ActorStatus.ACTIONS)
-            let actionKey = MATH.getRandomArrayEntry(actions);
-            return actionKey;
+        this.sendFunction = null; // when in encounter use
+
+        let selectServerActorActionId = function(trigger) {
+            if (trigger === ENUMS.Trigger.ON_ACTIVATE) {
+                let actions = this.getStatus(ENUMS.ActorStatus.ACTIONS)
+                let actionKey = MATH.getRandomArrayEntry(actions);
+                return actionKey;
+            }
+
         }.bind(this);
 
         let encounter;
@@ -43,6 +51,7 @@ class ServerActor {
             let pathWalker = this.serverActorPathWalker;
             pathWalker.walkPath(this, tpf, encounter);
             if (this.tilePath.pathTiles.length === 0) {
+                console.log("unregisterGameServerUpdateCallback(updateApplyActivePath)")
                 unregisterGameServerUpdateCallback(updateApplyActivePath);
             }
         }.bind(this);
@@ -145,6 +154,12 @@ class ServerActor {
             return false;
         }
 
+    }
+
+    sendActorMessage() {
+        if (typeof (this.sendFunction) === 'function') {
+            this.sendFunction(this);
+        }
     }
 
     messageClient(messageData) {

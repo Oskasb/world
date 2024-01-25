@@ -1,6 +1,6 @@
 import {ENUMS} from "../../../client/js/application/ENUMS.js";
 import {MATH} from "../../../client/js/application/MATH.js";
-import {startActorTurn} from "../actor/ActorStatusFunctions.js";
+import {applyActorKilled, startActorTurn} from "../actor/ActorStatusFunctions.js";
 
 function startEncounterTurn(serverEncounter) {
 
@@ -79,8 +79,13 @@ function checkActorTurnDone(encounterSequencer, actor) {
             actor.setStatusKey(ENUMS.ActorStatus.TURN_DONE, turnIndex)
         }
 
+        let isDead = actor.getStatus(ENUMS.ActorStatus.DEAD)
+        if (isDead === true) {
+            applyActorKilled(actor);
+        }
+
         let turnDone = actor.getStatus(ENUMS.ActorStatus.TURN_DONE);
-        if (turnDone === turnIndex) {
+        if (turnDone === turnIndex || isDead) {
         //    console.log("turnDone", turnIndex, turnState, activeId)
             let sequencer = actor.turnSequencer
             if (sequencer) {

@@ -70,7 +70,6 @@ class ServerAction {
             this.status.setStatusKey(ENUMS.ActionStatus.STEP_END_TIME, stepDuration)
             let funcName = attackStateMap[newActionState].updateFunc
             this.call[funcName]();
-
         }.bind(this)
 
 
@@ -100,9 +99,7 @@ class ServerAction {
                     this.statisticalActions[i].applyStatisticalActionToTarget(target, modifiers, true)
                 }
 
-            this.serverEncounter.sendActionStatusUpdate(this);
             MATH.emptyArray(modifiers);
-            this.serverEncounter.sendActorStatusUpdate(target);
             target.setStatusKey(ENUMS.ActorStatus.DAMAGE_APPLIED, 0)
             target.setStatusKey(ENUMS.ActorStatus.HEALING_APPLIED, 0)
         }.bind(this);
@@ -127,7 +124,7 @@ class ServerAction {
 
         let updateAttack = function(tpf) {
             this.stepProgress += tpf;
-        //    console.log("updateAttack", stepDuration, this.stepProgress, tpf)
+            console.log("updateAttack", stepDuration, this.stepProgress, tpf)
             if (stepDuration < this.stepProgress) {
                 activateAttackStateTransition()
             }
@@ -177,13 +174,13 @@ class ServerAction {
 
     getStepDuration(step) {
         if (!this.sequencing) {
-            return 1;
+            return 0.1;
         }
 
         if (typeof this.sequencing[step] === 'object') {
-            return this.sequencing[step].time || 1;
+            return this.sequencing[step].time || 0.1;
         } else {
-            return 1;
+            return 0.1;
         }
     }
 
@@ -191,7 +188,7 @@ class ServerAction {
         return this.call.getStatus(ENUMS.ActionStatus.ACTION_KEY)
     }
 
-    initNewActionStatus(actionId, actor) {
+    initNewActionStatus(actionId, actor, target) {
         this.actor = actor;
         castIndex++;
         let statusMap = this.status.statusMap;
@@ -201,7 +198,7 @@ class ServerAction {
         statusMap[ENUMS.ActionStatus.BUTTON_STATE] = ENUMS.ButtonState.UNAVAILABLE;
         statusMap[ENUMS.ActionStatus.ACTION_STATE] = ENUMS.ActionState.DISABLED;
         statusMap[ENUMS.ActionStatus.SELECTED] = true;
-        statusMap[ENUMS.ActionStatus.TARGET_ID] = actor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET);
+        statusMap[ENUMS.ActionStatus.TARGET_ID] = target.getStatus(ENUMS.ActorStatus.ACTOR_ID);
         statusMap[ENUMS.ActionStatus.STEP_START_TIME] = 0;
         statusMap[ENUMS.ActionStatus.STEP_END_TIME] = 0;
         statusMap[ENUMS.ActionStatus.RANGE_MIN] = 0;
@@ -236,19 +233,28 @@ class ServerAction {
 
     }
 
+    getActionConfig(actionKey) {
+        let actionConfigs = getServerConfig("GAME_ACTORS")['ACTIONS'];
+        return parseConfigData(actionConfigs, actionKey)
+    }
+
+    getStatActionConfigs() {
+        return getServerConfig("GAME_ACTIONS")['STATISTICAL_ACTIONS'];
+    }
+
     activateServerActionId(actionId, actor, target, serverEncounter) {
         this.serverEncounter = serverEncounter;
         this.targetActor = target;
-        this.initNewActionStatus(actionId, actor);
+        actor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, target.getStatus(ENUMS.ActorStatus.ACTOR_ID))
+        this.initNewActionStatus(actionId, actor, target);
     //    console.log("activateServerActionId", actionId, actor)
         this.timeElapsed = 0;
-        let actionConfigs = getServerConfig("GAME_ACTORS")['ACTIONS'];
-        let conf = parseConfigData(actionConfigs, actionId)
+        let conf = this.getActionConfig(actionId)
         this.config = conf;
         this.sequencing = conf['sequencing'];
         let statActions = conf['statistical_actions'];
 
-        let statConfigs = getServerConfig("GAME_ACTIONS")['STATISTICAL_ACTIONS'];
+        let statConfigs = this.getStatActionConfigs();
 
         MATH.emptyArray(this.statisticalActions);
 

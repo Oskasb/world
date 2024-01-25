@@ -2,10 +2,24 @@ import {ENUMS} from "../../../client/js/application/ENUMS.js";
 import {MATH} from "../../../client/js/application/MATH.js";
 import {Vector3} from "../../../client/libs/three/math/Vector3.js";
 import {Object3D} from "../../../client/libs/three/core/Object3D.js";
+import {processActorEngageTarget, processDisengagement} from "../action/ServerActionFunctions.js";
 
 
 let tempVec = new Vector3();
 let tempObj = new Object3D();
+
+function applyActorKilled(actor) {
+    actor.turnSequencer.exitSequence();
+    MATH.emptyArray(actor.tilePath.pathTiles);
+    setDestination(actor, getStatusPosition(actor));
+    actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_INACTIVE);
+ //   actor.setStatusKey(ENUMS.ActorStatus.RETREATING, actor.getStatus(ENUMS.ActorStatus.ACTIVATED_ENCOUNTER || ''));
+    actor.setStatusKey(ENUMS.ActorStatus.BODY_STATE, 'FALL_DOWN');
+    actor.setStatusKey(ENUMS.ActorStatus.STAND_STATE, 'FALL_DOWN');
+    actor.setStatusKey(ENUMS.ActorStatus.MOVE_STATE, 'FALL_DOWN');
+    actor.setStatusKey(ENUMS.ActorStatus.PATH_POINTS, []);
+
+}
 
 function registerTilePathPoints(actor) {
     let tilePath = actor.tilePath;
@@ -75,6 +89,7 @@ function setStatusPosition(actor, pos) {
     actor.setStatusKey(ENUMS.ActorStatus.POS_X, pos.x);
     actor.setStatusKey(ENUMS.ActorStatus.POS_Y, pos.y);
     actor.setStatusKey(ENUMS.ActorStatus.POS_Z, pos.z)
+    actor.pos.copy(pos);
 }
 
 function getStatusVelocity(actor) {
@@ -123,6 +138,21 @@ function moveToPosition(actor, pos, tpf) {
     actor.setStatusKey(ENUMS.ActorStatus.MOVE_STATE, 'MOVE_COMBAT')
 }
 
+function pushToPosition(actor, pos, tpf) {
+    tempObj.position.copy(getStatusPosition(actor));
+    tempVec.copy(pos);
+    tempVec.sub(tempObj.position);
+    actor.setStatusKey(ENUMS.ActorStatus.FRAME_TRAVEL_DISTANCE, tempVec.length());
+    tempVec.multiplyScalar(1 / tpf);
+    setStatusVelocity(actor, tempVec);
+    tempObj.position.y = pos.y;
+    tempObj.lookAt(pos);
+    setStatusPosition(actor, pos);
+    setStatusQuaternion(actor, tempObj.quaternion);
+
+  //  actor.setStatusKey(ENUMS.ActorStatus.MOVE_STATE, 'MOVE_COMBAT')
+}
+
 function stopAtPos(actor, pos, tpf) {
     setStatusPosition(actor, pos);
     tempObj.position.copy(getStatusPosition(actor));
@@ -151,13 +181,15 @@ function enterEncounter(encounter, actor) {
     actor.setStatusKey(ENUMS.ActorStatus.TURN_DONE, encounter.getStatus(ENUMS.EncounterStatus.TURN_INDEX) -1); // -1 for new encounter
     actor.setStatusKey(ENUMS.ActorStatus.IN_COMBAT, true); // -1 for new encounter
     actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_BATTLE);
-
+    actor.setStatusKey(ENUMS.ActorStatus.COMBAT_STATUS, [])
     actor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, "")
     actor.setStatusKey(ENUMS.ActorStatus.SELECTED_ACTION, "")
     actor.setStatusKey(ENUMS.ActorStatus.ACTION_STATE_KEY, 0)
 
     encounter.serverEncounterTurnSequencer.addEncounterActor(actor)
     encounter.sendActorStatusUpdate(actor);
+    actor.sendFunction = encounter.sendActorStatusUpdate;
+    actor.serverEncounter = encounter;
 }
 
 
@@ -187,6 +219,8 @@ function exitEncounter(encounter, actor, victory) {
     }
 
     encounter.sendActorStatusUpdate(actor);
+    actor.sendFunction = null;
+    actor.serverEncounter = null;
 }
 
 function startActorTurn(encounter, actor) {
@@ -231,7 +265,99 @@ function endActorTurn(encounter) {
     encounter.sendActorStatusUpdate(actor);
 }
 
+function hasCombatState(actor, combatState) {
+    let combatStates = actor.getStatus(ENUMS.ActorStatus.COMBAT_STATUS);
+
+    if (combatStates.indexOf(combatState) !== -1) {
+        return true;
+    } else {
+        return false;
+    }
+
+}
+
+function clearEngagements(actor, encounter) {
+    let engagedTargets = actor.getStatus(ENUMS.ActorStatus.ENGAGED_TARGETS);
+
+    if (engagedTargets.length !== 0) {
+        MATH.emptyArray(engagedTargets);
+        actor.setStatusKey(ENUMS.ActorStatus.ENGAGE_COUNT, 0);
+        encounter.sendActorStatusUpdate(actor);
+    }
+
+
+}
+
+let actorList = [];
+function updateActorEncounterEngagements(actor, encounter) {
+    let isDead = actor.getStatus(ENUMS.ActorStatus.DEAD)
+    if (isDead) {
+        clearEngagements(actor, encounter);
+        return;
+    }
+    MATH.emptyArray(actorList);
+    encounter.call.getOpposingActors(actor, actorList);
+
+    let pos = getStatusPosition(actor);
+
+    let engageMax = actor.getStatus(ENUMS.ActorStatus.ENGAGE_MAX);
+
+    if (engageMax === 0) {
+        return;
+    }
+
+    let engagedTargets = actor.getStatus(ENUMS.ActorStatus.ENGAGED_TARGETS);
+    let hasUpdate = false;
+
+    for (let i = 0; i < engagedTargets.length; i++) {
+        let target = encounter.getEncounterCombatantById(engagedTargets[i])
+            let isDead = target.getStatus(ENUMS.ActorStatus.DEAD)
+            if (isDead) {
+                console.log("Engagement Dead ", actor.id, target.id);
+                MATH.splice(engagedTargets, target.id);
+                i--;
+                hasUpdate = true;
+            }
+    }
+
+    for (let i = 0; i < actorList.length; i++) {
+        let opponent = actorList[i];
+        let isDead = opponent.getStatus(ENUMS.ActorStatus.DEAD)
+
+        if (isDead) {
+
+        } else {
+            let oPos = getStatusPosition(opponent);
+            let distance = MATH.distanceBetween(pos, oPos);
+            if (distance < 1.6) {
+                if (engagedTargets.length < engageMax) {
+                    if (engagedTargets.indexOf(opponent.id) === -1) {
+                        engagedTargets.push(opponent.id)
+                        hasUpdate = true;
+                        processActorEngageTarget(actor, opponent, encounter)
+                    }
+                }
+            } else {
+                if (engagedTargets.indexOf(opponent.id) !== -1) {
+                    console.log("Engagement Detach ", actor.id, opponent.id);
+                    MATH.splice(engagedTargets, opponent.id);
+                    processDisengagement(actor, opponent, encounter);
+                    hasUpdate = true;
+                }
+            }
+        }
+
+    }
+
+    if (hasUpdate) {
+        actor.setStatusKey(ENUMS.ActorStatus.ENGAGE_COUNT, engagedTargets.length);
+        encounter.sendActorStatusUpdate(actor);
+    }
+
+}
+
 export {
+    applyActorKilled,
     registerTilePathPoints,
     registerCombatStatus,
     unregisterCombatStatus,
@@ -242,10 +368,13 @@ export {
     setStatusPosition,
     getStatusVelocity,
     moveToPosition,
+    pushToPosition,
     stopAtPos,
     faceTowardsPos,
     enterEncounter,
     exitEncounter,
     startActorTurn,
-    endActorTurn
+    endActorTurn,
+    hasCombatState,
+    updateActorEncounterEngagements
 }

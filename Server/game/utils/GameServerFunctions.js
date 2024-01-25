@@ -302,37 +302,60 @@ function spawnServerEncounterActor(spawnInfo, serverGrid) {
     actor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, "");
     actor.setStatusKey(ENUMS.ActorStatus.SELECTED_ACTION, "");
     actor.setStatusKey(ENUMS.ActorStatus.PATH_POINTS, []);
+    actor.setStatusKey(ENUMS.ActorStatus.ENGAGED_TARGETS, []);
     actor.setStatusKey(ENUMS.ActorStatus.SELECTED_DESTINATION, [pos.x, pos.y, pos.z]);
     actor.setStatusKey(ENUMS.ActorStatus.DAMAGE_APPLIED, 0);
     actor.setStatusKey(ENUMS.ActorStatus.HEALING_APPLIED, 0);
+    actor.setStatusKey(ENUMS.ActorStatus.ENGAGE_COUNT, 0);
     actor.setStatusKey(ENUMS.ActorStatus.HAS_TURN, false);
     registerTilePathPoints(actor);
     return actor;
 
 }
 
-function getTileForPosition(gridTiles, posVec3) {
+function getNearbyWalkableTile(gridTiles, posVec3, minDistance) {
+    return getTileForPosition(gridTiles, posVec3, 'walkable', minDistance);
+}
+
+function getTileForPosition(gridTiles, posVec3, filter, minDistance) {
     let selectedTile = null;
     let nearestTileDist = MATH.bigSafeValue();
 
  //   console.log("Find nearest tile", posVec3)
 
+    let min = minDistance*minDistance || -1;
+
+    let filterOut = false;
+
     for (let i = 0; i < gridTiles.length; i++) {
 
         for (let j = 0; j < gridTiles[i].length; j++) {
             let tile = gridTiles[i][j];
-            let pos = tile.getPos();
-            tempVec2D.set(pos.x - posVec3.x, pos.z - posVec3.z);
-            let lengthSq = tempVec2D.lengthSq();
-            if (lengthSq < nearestTileDist) {
-                selectedTile = tile;
-                nearestTileDist = lengthSq;
-                if (nearestTileDist === 0) {
-                //    console.log("nearestTileDist", nearestTileDist, tile.getPos())
-                    return selectedTile;
-                }
 
+            if (filter) {
+                if (tile[filter]) {
+                    filterOut = false;
+                } else {
+                    filterOut = true;
+                }
             }
+
+            if (!filterOut) {
+                let pos = tile.getPos();
+                tempVec2D.set(pos.x - posVec3.x, pos.z - posVec3.z);
+                let lengthSq = tempVec2D.lengthSq();
+                if (lengthSq < nearestTileDist && lengthSq > min) {
+                    selectedTile = tile;
+                    nearestTileDist = lengthSq;
+                    if (nearestTileDist === 0) {
+                        //    console.log("nearestTileDist", nearestTileDist, tile.getPos())
+
+                        return selectedTile;
+
+                    }
+                }
+            }
+
         }
     }
 
@@ -340,6 +363,7 @@ function getTileForPosition(gridTiles, posVec3) {
 }
 
 export {
+    getNearbyWalkableTile,
     getTileForPosition,
     filterForWalkableTiles,
     getRandomWalkableTiles,

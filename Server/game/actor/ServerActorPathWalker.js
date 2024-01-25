@@ -46,7 +46,7 @@ class ServerActorPathWalker {
             }
             return;
         } else if (pathTiles.length === 1) {
-            stopAtPos(actor, pathTiles[0].getPos())
+            stopAtPos(actor, pathTiles.shift().getPos())
         }
 
             MATH.callAndClearAll(this.pathCompletedCallbacks);

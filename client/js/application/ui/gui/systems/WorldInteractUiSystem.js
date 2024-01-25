@@ -72,6 +72,7 @@ let statusEvent = {
 let onActivate = function(statusKey) {
 
     let actor = GameAPI.getActorById(statusKey);
+    let playerActor = GameAPI.getGamePieceSystem().selectedActor;
 
     if (!actor) {
         console.log("Bad actor selection", statusKey)
@@ -80,7 +81,7 @@ let onActivate = function(statusKey) {
         actor.actorText.say("Me "+statusKey);
     }
 
-    let playerActor = GameAPI.getGamePieceSystem().selectedActor;
+
 
     if (playerActor) {
         let targetId = playerActor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET);

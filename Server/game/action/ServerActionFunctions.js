@@ -1,12 +1,16 @@
 import {ENUMS} from "../../../client/js/application/ENUMS.js";
 import {MATH} from "../../../client/js/application/MATH.js";
 import {
+    applyActorKilled,
+    faceTowardsPos,
     getActorForward,
     getStatusPosition, getStatusVelocity, moveToPosition,
     registerCombatStatus,
     setDestination, setStatusPosition,
     unregisterCombatStatus
 } from "../actor/ActorStatusFunctions.js";
+import {parseConfigData} from "../utils/GameServerFunctions.js";
+import {StatisticalAction} from "../../../client/js/game/actions/StatisticalAction.js";
 
 function modifyTargetHP(target, change, typeKey) {
     let hp = target.getStatus(ENUMS.ActorStatus.HP);
@@ -18,6 +22,7 @@ function modifyTargetHP(target, change, typeKey) {
 
     if (newHP === 0) {
         target.setStatusKey(ENUMS.ActorStatus.DEAD, true)
+        applyActorKilled(target);
     }
 
 }
@@ -44,11 +49,7 @@ function applyServerAction(target, modifier, value, sourceActor) {
          direction.multiplyScalar(value);
          direction.add(pos);
         console.log('APPLY_KNOCKBACK applyServerAction', target.id, modifier, value, sourceActor.id, pos, direction)
-
-        setDestination(target, direction);
-        registerCombatStatus(target, ENUMS.CombatStatus.LEAPING)
-        //    moveToPosition(target, direction, 0.05);
-
+        target.serverTransition.activateKnockbackTransition(direction);
     } else {
         console.log('unhandled applyServerAction', target.id, modifier, value, sourceActor.id)
     }
@@ -100,7 +101,68 @@ function checkCombatActionConditions(actor, action) {
     }
 }
 
+
+function testActionTrigger(serverAction, actionKey, trigger) {
+    let conf = serverAction.getActionConfig(actionKey);
+
+    let statActions = conf['statistical_actions'];
+    let statConfigs = serverAction.getStatActionConfigs();
+
+    for (let i = 0; i < statActions.length; i++) {
+        let statId = statActions[i];
+        let statsConf = parseConfigData(statConfigs, statId);
+        let status = statsConf['status'];
+
+        let key = status[ENUMS.ActionStatus.ACTION_TRIGGER]
+
+        console.log("Test Key ", key, trigger);
+
+        if (key === trigger) {
+            return true;
+        }
+
+    }
+
+}
+
+function processActorTargetTrigger(actor, target, trigger, encounter) {
+    let passiveActions = actor.getStatus(ENUMS.ActorStatus.PASSIVE_ACTIONS);
+    let serverAction = actor.serverAction;
+    for (let i = 0; i < passiveActions.length; i++) {
+        let activate = testActionTrigger(serverAction, passiveActions[i], trigger);
+        if (activate) {
+            serverAction.activateServerActionId(passiveActions[i], actor, target, encounter);
+            encounter.sendActionStatusUpdate(serverAction);
+        //    console.log("activateServerActionId", passiveActions[i])
+            return;
+        }
+    }
+
+}
+
+function processActorEngageTarget(actor, target, encounter) {
+    let hasTurn = actor.getStatus(ENUMS.ActorStatus.HAS_TURN);
+    if (hasTurn === false) {
+        faceTowardsPos(actor, getStatusPosition(target));
+        processActorTargetTrigger(actor, target, ENUMS.Trigger.ON_ENGAGED, encounter);
+    } else {
+        processActorTargetTrigger(actor, target, ENUMS.Trigger.ON_ENGAGING, encounter);
+    }
+}
+
+function processDisengagement(actor, target, encounter) {
+    let hasTurn = actor.getStatus(ENUMS.ActorStatus.HAS_TURN);
+
+    if (hasTurn === false) {
+        faceTowardsPos(actor, getStatusPosition(target));
+        processActorTargetTrigger(actor, target, ENUMS.Trigger.ON_DISENGAGE, encounter);
+    }
+
+}
+
 export {
     applyServerAction,
-    checkCombatActionConditions
+    checkCombatActionConditions,
+    processActorEngageTarget,
+    processDisengagement
 }

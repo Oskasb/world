@@ -14,12 +14,20 @@ import {getRandomWalkableTiles} from "../utils/GameServerFunctions.js";
 import {SimpleUpdateMessage} from "../utils/SimpleUpdateMessage.js";
 
 import {ServerEncounterTurnSequencer} from "./ServerEncounterTurnSequencer.js";
-import {enterEncounter, exitEncounter} from "../actor/ActorStatusFunctions.js";
+import {enterEncounter, exitEncounter, updateActorEncounterEngagements} from "../actor/ActorStatusFunctions.js";
 
 let actorCount = 0;
 let actorMessage = {
     request:ENUMS.ClientRequests.ENCOUNTER_PLAY,
     command:ENUMS.ServerCommands.ACTOR_UPDATE
+}
+
+function processEncounterEngagements(encounter) {
+    let combatants = encounter.combatants;
+    for (let i = 0; i < combatants.length; i++) {
+        updateActorEncounterEngagements(combatants[i], encounter);
+    }
+
 }
 
 function processActivationState(encounter) {
@@ -53,6 +61,7 @@ function processActivationState(encounter) {
             encounter.sendActorStatusUpdate(actor);
         }
         */
+        processEncounterEngagements(encounter);
         encounter.serverEncounterTurnSequencer.call.updateTurnSequencer()
         encounter.sendEncounterStatusUpdate();
     } else  {
@@ -185,7 +194,6 @@ class ServerEncounter {
         let encActors = [];
         for (let i = 0; i < actors.length; i++) {
             let actor = spawnServerEncounterActor(actors[i], this.serverGrid)
-
             encActors.push(actor.id);
             this.encounterActors.push(actor);
             this.combatants.push(actor);
@@ -259,6 +267,7 @@ class ServerEncounter {
         let message = serverAction.buildActionMessage()
         if (message) {
             this.call.messageParticipants(message);
+            this.sendActorStatusUpdate(serverAction.actor);
         }
     }
 
