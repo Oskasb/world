@@ -87,14 +87,23 @@ class VisualEngagementIndicator {
                 let tPos = getStatusPosition(target);
                 tempVec2.copy(tPos);
                 tempVec2.sub(origin);
+                tempVec2.y = 0;
+                let dist = tempVec2.length();
                 tempVec2.normalize();
-                tempVec2.multiplyScalar(0.2);
-                engagementArcs[i].to.copy(tPos);
-                engagementArcs[i].to.sub(tempVec2);
+                tempObj.lookAt(tempVec2);
+                tempVec2.multiplyScalar(0.5*dist)
+                tempObj.rotateY(0.4);
+                tempVec.set(0.03, 0, 0.35*dist)
+                tempVec.applyQuaternion(tempObj.quaternion);
+
+            //    tempVec2.add(origin);
+            //    tempVec2.y = origin.y;
+                engagementArcs[i].from.copy(origin);
+                engagementArcs[i].from.add(tempVec);
+                engagementArcs[i].to.copy(engagementArcs[i].from);
+                engagementArcs[i].to.add(tempVec2);
                 engagementArcs[i].to.y = tPos.y;
-                tempVec2.add(origin);
-                tempVec2.y = origin.y;
-                engagementArcs[i].from.copy(tempVec2);
+
                 engagementArcs[i].call.update();
             }
 

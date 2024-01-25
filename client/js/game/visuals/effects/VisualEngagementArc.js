@@ -30,7 +30,7 @@ function drawPathPoint(from, to, rgba, pointFx) {
 function drawPathPoints(from, to, pathPoints, gameTime, actor) {
     let distance = MATH.distanceBetween(from, to);
     fromVec.copy(from);
-    let points = Math.floor(distance*25)
+    let points = Math.floor(distance*14)
 
     while (pathPoints.length > points) {
         let pointFX = pathPoints.pop();
@@ -66,7 +66,7 @@ function drawPathPoints(from, to, pathPoints, gameTime, actor) {
     for (let i = 0; i < pathPoints.length; i++) {
         let fraction = MATH.calcFraction( 0, points+1, i+0.5)
         toVec.add(deltaVec);
-        toVec.y += Math.cos(fraction * Math.PI) * 0.022 + Math.sin(gameTime*6+i*0.2)*Math.sin(fraction * 6.3) * 0.005;
+        toVec.y += Math.cos(fraction * Math.PI) * 0.05 + Math.sin(gameTime*6+i*0.2)*Math.sin(fraction * 3.3) * 0.005;
         drawPathPoint(fromVec, toVec, rgba, pathPoints[i])
         fromVec.copy(toVec)
     }

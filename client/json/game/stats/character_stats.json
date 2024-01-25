@@ -16,7 +16,7 @@
             "DEAD": false,
             "NAME": "Fighter",
             "MAX_HP": 2,
-            "ENGAGE_MAX": 0,
+            "ENGAGE_MAX": 1,
             "IN_COMBAT": false,
             "TRAVEL_MODE": "TRAVEL_MODE_WALK",
             "ALIGNMENT": "NEUTRAL"
@@ -37,7 +37,7 @@
             "DEAD": false,
             "NAME": "Farmer",
             "MAX_HP": 12,
-            "ENGAGE_MAX": 2,
+            "ENGAGE_MAX": 1,
             "IN_COMBAT": false,
             "TRAVEL_MODE": "TRAVEL_MODE_INACTIVE"
           }
