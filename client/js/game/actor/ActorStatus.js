@@ -107,7 +107,14 @@ let hardStateMap = [
     ENUMS.ActorStatus.COMBAT_STATUS,
     ENUMS.ActorStatus.ENGAGED_TARGETS,
     ENUMS.ActorStatus.ENGAGE_MAX,
-    ENUMS.ActorStatus.ENGAGE_COUNT
+    ENUMS.ActorStatus.ENGAGE_COUNT,
+    ENUMS.ActorStatus.QUAT_X,
+    ENUMS.ActorStatus.QUAT_Y,
+    ENUMS.ActorStatus.QUAT_Z,
+    ENUMS.ActorStatus.QUAT_W,
+    ENUMS.ActorStatus.STAND_STATE,
+    ENUMS.ActorStatus.MOVE_STATE,
+    ENUMS.ActorStatus.BODY_STATE
 ];
 
 let detailsMap = [
@@ -260,6 +267,7 @@ class ActorStatus {
         this.statusMap[ENUMS.ActorStatus.EQUIP_REQUESTS] = [];
         this.statusMap[ENUMS.ActorStatus.EQUIPPED_ITEMS] = [];
         this.statusMap[ENUMS.ActorStatus.PATH_POINTS] = [];
+        this.statusMap[ENUMS.ActorStatus.PASSIVE_ACTIONS] = [];
         this.statusMap[ENUMS.ActorStatus.ACTIONS] = [];
         this.statusMap[ENUMS.ActorStatus.COMBAT_STATUS] = [];
         this.statusMap[ENUMS.ActorStatus.VEL_X] = 0;

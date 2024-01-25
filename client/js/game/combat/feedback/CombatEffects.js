@@ -6,6 +6,7 @@ import * as PrecastEffects from "./PrecastEffects.js";
 function effectCalls() {
     return {
 
+        combat_effect_freehack_missile:MissileEffects.freehackMissile,
         combat_effect_melee_missile:MissileEffects.meleeMissile,
 
         combat_effect_hands_frost:PrecastEffects.handsOfFrost,

@@ -6,6 +6,7 @@
         "data":{
           "status": {
             "EQUIPPED_ITEMS": ["ITEM_HATCHET"],
+            "PASSIVE_ACTIONS": ["ACTION_FREEHACK_MELEE"],
             "ACTIONS": ["ACTION_MELEE_BASH", "ACTION_THROW"],
             "TRAVEL":  ["ACTION_TRAVEL_WALK"],
             "MOVEMENT_SPEED": 4,
@@ -27,6 +28,7 @@
         "id":"STATS_FARMER",
         "data":{
           "status": {
+            "PASSIVE_ACTIONS": ["ACTION_FREEHACK_MELEE"],
             "ACTIONS": ["ACTION_CHARGE"],
             "TRAVEL":  ["ACTION_TRAVEL_WALK", "ACTION_TRAVEL_LEAP"],
             "MOVEMENT_SPEED": 4,
@@ -47,6 +49,7 @@
         "id":"STATS_PRINCESS",
         "data":{
           "status": {
+            "PASSIVE_ACTIONS": ["ACTION_FREEHACK_MELEE"],
             "ACTIONS": ["ACTION_FIREBALL", "ACTION_HEAL_BOLT"],
             "TRAVEL":  ["ACTION_TRAVEL_WALK"],
             "MOVEMENT_SPEED": 4,
@@ -66,6 +69,7 @@
         "id":"STATS_PIRATE",
         "data":{
           "status": {
+            "PASSIVE_ACTIONS": ["ACTION_FREEHACK_MELEE"],
             "ACTIONS": ["ACTION_FIREBALL", "ACTION_HEAL_BOLT"],
             "TRAVEL":  ["ACTION_TRAVEL_WALK"],
             "MOVEMENT_SPEED": 4,
@@ -85,6 +89,7 @@
         "id":"STATS_ALIEN",
         "data":{
           "status": {
+            "PASSIVE_ACTIONS": ["ACTION_FREEHACK_MELEE"],
             "ACTIONS": ["ACTION_MAGIC_MISSILE", "ACTION_HEAL_BOLT"],
             "TRAVEL":  ["ACTION_TRAVEL_WALK"],
             "MOVEMENT_SPEED": 4,
@@ -104,6 +109,7 @@
         "id":"STATS_BARBARIAN",
         "data":{
           "status": {
+            "PASSIVE_ACTIONS": ["ACTION_FREEHACK_MELEE"],
             "ACTIONS": ["ACTION_MAGIC_MISSILE", "ACTION_HEAL_BOLT"],
             "TRAVEL":  ["ACTION_TRAVEL_WALK"],
             "MOVEMENT_SPEED": 4,
@@ -123,6 +129,7 @@
         "id":"STATS_DUDE",
         "data":{
           "status": {
+            "PASSIVE_ACTIONS": ["ACTION_FREEHACK_MELEE"],
             "ACTIONS": ["ACTION_MAGIC_MISSILE", "ACTION_HEAL_BOLT"],
             "TRAVEL":  ["ACTION_TRAVEL_WALK"],
             "MOVEMENT_SPEED": 4,

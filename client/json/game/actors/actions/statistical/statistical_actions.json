@@ -2,6 +2,22 @@
   "GAME_ACTIONS":{
     "STATISTICAL_ACTIONS":[
       {
+        "id":"STATISTICAL_FREEHACK_MELEE",
+        "data":{
+          "status": {
+            "RANGE_MIN": 0,
+            "RANGE_MAX": 1,
+            "REQUIRES_TARGET":false,
+            "ACTION_TRIGGER": "ON_DISENGAGE"
+          },
+          "on_hit_apply": {
+            "to_target": [
+              {"modifier": "APPLY_DAMAGE", "value": 2}
+            ]
+          }
+        }
+      },
+      {
         "id":"STATISTICAL_MELEE_BASH",
         "data":{
           "status": {

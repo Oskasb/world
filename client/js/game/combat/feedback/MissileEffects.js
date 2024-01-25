@@ -2,7 +2,18 @@ import * as CombatFxUtils from "./CombatFxUtils.js";
 import * as CombatFxOptions from "./CombatFxOptions.js";
 import {setupOptsMeleeMissile} from "./CombatFxOptions.js";
 
+function freehackMissile(fromPos, actor, index, onArriveCB, getPosFunc, fxCallback) {
 
+    let effectCb = function(efct) {
+        efct.activateEffectFromConfigId()
+        let options = CombatFxOptions.setupOptsFreehackMissile(efct, fromPos, actor, index, onArriveCB, getPosFunc)
+        efct.activateSpatialTransition(options)
+        fxCallback(efct)
+    }
+
+    EffectAPI.buildEffectClassByConfigId('additive_stamps_8x8', 'magic_missile_projectile_effect',  effectCb)
+
+}
 function meleeMissile(fromPos, actor, index, onArriveCB, getPosFunc, fxCallback) {
 
     let effectCb = function(efct) {
@@ -72,6 +83,7 @@ function frostMissile(fromPos, actor, index, onArriveCB, getPosFunc, fxCallback)
 }
 
 export {
+    freehackMissile,
     meleeMissile,
     magicMissile,
     fireMissile,
