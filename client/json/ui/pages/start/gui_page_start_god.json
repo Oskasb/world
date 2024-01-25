@@ -1,0 +1,77 @@
+[
+  {
+    "UI": {
+      "PAGES":[
+        {
+          "id": "page_start_god",
+          "data": [
+            {
+              "containers":[
+                {
+                  "widget_id":"page_start_center",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"widget_hidden_container",
+                  "options": {
+                    "anchor":"center"
+                  }
+                },
+                {
+                  "widget_id":"top_bar_header",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"scene_page_header_text_box",
+                  "options":{
+                    "text":"ALMIGHTY GOD",
+                    "anchor":"top_center",
+                    "offset_x": 0.0,
+                    "offset_y": -0.03
+                  }
+                },
+                {
+                  "widget_id":"text_box_home",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"main_text_box",
+                  "options":{
+                    "anchor":"top_center",
+                    "offset_x":0.0,
+                    "offset_y":-0.06,
+                    "text":"Experience the Divine"
+                  }
+                },
+                {
+                  "widget_id":"text_box_details",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"debug_text_box",
+                  "options":{
+                    "anchor":"center",
+                    "offset_x":-0.2,
+                    "offset_y":-0.2,
+                    "text":["YOU GOT THE POWER"]
+                  }
+                }
+              ],
+              "buttons":[
+                {
+                  "widget_id":"start_button",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"button_big_blue",
+                  "options":{
+                    "text":"START",
+                    "container_id":"page_start_center",
+                    "offset_x": 0.14,
+                    "offset_y": -0.35,
+                    "dispatch":{
+                      "event":"SELECT_ADVENTURER",
+                      "value":{
+                        "activate_selection":true
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+]

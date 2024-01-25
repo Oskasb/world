@@ -66,6 +66,7 @@
       "/ui/pages/encounter/gui_page_encounter_info.json"     ,
 
       "/ui/pages/start/gui_page_start.json"                  ,
+      "/ui/pages/start/gui_page_start_god.json"              ,
       "/ui/pages/start/gui_page_start_princess.json"         ,
       "/ui/pages/start/gui_page_start_alien.json"            ,
       "/ui/pages/start/gui_page_start_farmer.json"           ,

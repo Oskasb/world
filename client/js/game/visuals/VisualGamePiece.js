@@ -36,6 +36,9 @@ class VisualGamePiece {
         this.isSkinnedItem = false;
         this.visualModelPalette = poolFetch('VisualModelPalette')
         this.visualModelPalette.initPalette()
+
+
+
         let paletteUpdateCB = function(colorParams, settings) {
             let piece = this.call.getPiece();
             if (!piece) {
@@ -60,7 +63,15 @@ class VisualGamePiece {
         }.bind(this)
 
         this.visualModelPalette.onUpdateCallbacks.push(paletteUpdateCB)
-        this.visualModelPalette.applyPaletteSelection(paletteTemplatesOptions[Math.floor(Math.random() * paletteTemplatesOptions.length)], null)
+
+        let paletteSelection = config['palette']
+        if (!paletteSelection) {
+            paletteSelection = paletteTemplatesOptions[Math.floor(Math.random() * paletteTemplatesOptions.length)]
+        }
+
+        console.log(paletteSelection)
+        this.visualModelPalette.applyPaletteSelection(paletteSelection, null)
+
         this.visualModelPalette.setSeeThroughSolidity(1);
         this.hidden = true;
         this.addedAssets = [];

@@ -5,21 +5,24 @@
         "id": "VISUAL_DRAKEN",
         "data": {
           "model_asset":"asset_svigg",
-          "base_size": 0.1
+          "base_size": 0.1,
+          "palette":"ITEMS_BLUE"
         }
       },
       {
         "id": "VISUAL_JETPACK",
         "data": {
           "model_asset":"asset_jetpack",
-          "base_size": 10
+          "base_size": 10,
+          "palette":"ITEMS_BLUE"
         }
       },
       {
         "id": "VISUAL_WRIST_COMPUTER",
         "data": {
           "model_asset":"asset_wrist_computer",
-          "base_size": 10
+          "base_size": 10,
+          "palette":"ITEMS_BLUE"
         }
       },
       {
@@ -74,6 +77,13 @@
         "id": "VISUAL_AXE_SLICER",
         "data": {
           "model_asset":"asset_slicer_axe_2h"
+        }
+      },
+      {
+        "id": "VISUAL_AXE_SLICER_BLACK",
+        "data": {
+          "model_asset":"asset_slicer_axe_2h",
+          "palette":"ITEMS_BLUE"
         }
       },
       {
@@ -134,6 +144,20 @@
         "id": "VISUAL_BELT_PLATE",
         "data": {
           "model_asset":"asset_beltplate"
+        }
+      },
+      {
+        "id": "VISUAL_HELMET_VIKING_BLUE",
+        "data": {
+          "model_asset":"asset_helmetviking",
+          "palette":"ITEMS_BLUE"
+        }
+      },
+      {
+        "id": "VISUAL_BELT_PLATE_BLUE",
+        "data": {
+          "model_asset":"asset_beltplate",
+          "palette":"ITEMS_BLUE"
         }
       },
       {

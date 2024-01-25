@@ -13,6 +13,16 @@
         }
       },
       {
+        "id": "ITEM_AXE_SLICER_BLACK",
+        "data": {
+          "visual_id":"VISUAL_AXE_SLICER_BLACK",
+          "equip_slot": "SLOT_HAND_R",
+          "status_add_modifiers": [
+            {"status": "ACTIONS", "value":"ACTION_SWORD_SLASH"}
+          ]
+        }
+      },
+      {
         "id": "ITEM_SWORD_FANCY",
         "data": {
           "visual_id":"VISUAL_SWORD_FANCY",
