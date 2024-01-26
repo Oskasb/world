@@ -18,19 +18,19 @@
               ],
               "buttons":[
                 {
-                  "widget_id":"start_button_0",
+                  "widget_id":"start_button_01",
                   "widget_class":"GuiExpandingContainer",
                   "widget_config_id":"button_big_blue",
                   "options":{
-                    "text":"GOD",
+                    "text":"GOD1",
                     "container_id":"page_start_center",
-                    "offset_x": -0.0,
-                    "offset_y": -0.32,
+                    "offset_x": -0.08,
+                    "offset_y": -0.30,
                     "dispatch":{
                       "event":"SELECT_ADVENTURER",
                       "value":{
                         "pos":[-888, 4, 522],
-                        "actor_id":"ACTOR_GOD",
+                        "actor_id":"ACTOR_GOD_1",
                         "page_id": "page_start_god",
                         "world_encounters": [
                           "farmer_start_encounters",
@@ -39,15 +39,60 @@
                           "alien_start_encounters"
                         ],
                         "equipped_items": [
-                          "ITEM_HELMET_VIKING_BLUE",
-                          "ITEM_AXE_SLICER_BLACK",
-                          "ITEM_SHIRT_CHAIN",
-                          "ITEM_DRAKEN",
-                          "ITEM_JETPACK",
-                          "ITEM_WRIST_COMPUTER",
+                          "ITEM_HELMET_VIKING_GOLDRED",
+                          "ITEM_AXE_SLICER_GOLDRED",
+                          "ITEM_BELT_PLATE_GOLDRED",
+
+                          "ITEM_DRAKEN_GOLDRED",
+                          "ITEM_JETPACK_GOLDRED",
+                          "ITEM_WRIST_COMPUTER_GOLDRED",
+
+                          "ITEM_CHEST_SCALE_RED",
+                          "ITEM_SHIRT_CHAIN_RED",
+                          "ITEM_LEGS_CHAIN_RED",
+                          "ITEM_BOOTS_SCALE_RED",
+                          "ITEM_GLOVES_SCALE_RED"
+                        ],
+                        "status": {
+                          "ALIGNMENT": "FRIENDLY"
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "widget_id":"start_button_02",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"button_big_blue",
+                  "options":{
+                    "text":"GOD2",
+                    "container_id":"page_start_center",
+                    "offset_x": 0.08,
+                    "offset_y": -0.30,
+                    "dispatch":{
+                      "event":"SELECT_ADVENTURER",
+                      "value":{
+                        "pos":[875, 100, -515],
+                        "actor_id":"ACTOR_GOD_2",
+                        "page_id": "page_start_god",
+                        "world_encounters": [
+                          "farmer_start_encounters",
+                          "princess_start_encounters",
+                          "pirate_start_encounters",
+                          "alien_start_encounters"
+                        ],
+                        "equipped_items": [
+                          "ITEM_HELMET_VIKING_WHITE",
+                          "ITEM_AXE_SLICER_WHITE",
+                          "ITEM_BELT_PLATE_WHITE",
+
+                          "ITEM_DRAKEN_WHITE",
+                          "ITEM_JETPACK_WHITE",
+                          "ITEM_WRIST_COMPUTER_WHITE",
+
                           "ITEM_CHEST_SCALE",
-                          "ITEM_BELT_PLATE_BLUE",
-                          "ITEM_LEGS_SCALE",
+                          "ITEM_SHIRT_CHAIN",
+                          "ITEM_LEGS_CHAIN",
                           "ITEM_BOOTS_SCALE",
                           "ITEM_GLOVES_SCALE"
                         ],

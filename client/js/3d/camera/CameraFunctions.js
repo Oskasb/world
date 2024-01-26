@@ -448,6 +448,8 @@ function CAM_ORBIT() {
     let actorSpeed = 0;
     let actorQuat = cursorObj3d.quaternion
     offsetPos.set(0, 0, 0)
+    let inMenu = false;
+
     if (selectedActor) {
 
         selectedActor.getSpatialPosition(cursorObj3d.position)
@@ -458,8 +460,22 @@ function CAM_ORBIT() {
         tempVec3.set(0, 1, 0);
         tempVec3.applyQuaternion(actorQuat);
 
+        let navState = selectedActor.getStatus(ENUMS.ActorStatus.NAVIGATION_STATE)
+
+        if (navState === ENUMS.NavigationState.CHARACTER) {
+            inMenu = true;
+        } else {
+            inMenu = false;
+        }
+
+
         if (lookFromActive) {
-            zoomDistance = actorSpeed*0.5 + 8 + distance*0.4;;
+            if (inMenu) {
+                zoomDistance = 3;
+            } else {
+                zoomDistance = actorSpeed*0.5 + 8 + distance*0.4;
+            }
+
             lerpCameraPosition(CAM_POINTS[lookFromControlKey](selectedActor), tpf*2, true);
             rollAlpha += 3 * tpf;
         }
@@ -484,30 +500,43 @@ function CAM_ORBIT() {
         distance += CursorUtils.processOrbitCursorInput(cursorObj3d, dragToVec3, offsetPos, cameraCursor.getForward(), pointerDragVector, zoomDistance)
         camPosVec.copy(cursorObj3d.position);
         camPosVec.add(offsetPos);
-        CursorUtils.drawInputCursorState(cursorObj3d, dragToVec3, camTargetPos, cameraCursor.getForward(), camLookAtVec)
+    //    CursorUtils.drawInputCursorState(cursorObj3d, dragToVec3, camTargetPos, cameraCursor.getForward(), camLookAtVec)
         tempVec.set(0, 1.3, 0)
         tempVec.add(cursorObj3d.position)
         lerpCameraLookAt(tempVec, 1)
     } else {
-        offsetPos.set(0, 0, 0)
-        notifyCameraStatus(ENUMS.CameraStatus.POINTER_ACTION, ENUMS.CameraControls.CAM_TRANSLATE, false)
 
-        tempVec.set(0, 1.3, actorSpeed)
-        tempVec.applyQuaternion(actorQuat);
-        tempVec.add(cursorObj3d.position)
+        if (inMenu) {
+            notifyCameraStatus(ENUMS.CameraStatus.POINTER_ACTION, ENUMS.CameraControls.CAM_TRANSLATE, false)
+            distance += CursorUtils.processOrbitCursorInput(cursorObj3d, dragToVec3, offsetPos, cameraCursor.getForward(), pointerDragVector, zoomDistance)
+            camPosVec.copy(cursorObj3d.position);
+            camPosVec.add(offsetPos);
+        //    CursorUtils.drawInputCursorState(cursorObj3d, dragToVec3, camTargetPos, cameraCursor.getForward(), camLookAtVec)
+            tempVec.set(0, 1.3, 0)
+            tempVec.add(cursorObj3d.position)
+            lerpCameraLookAt(tempVec, 1)
+            lerpCameraPosition(CAM_POINTS[lookFromControlKey](selectedActor), tpf*2, true);
+        } else {
+            offsetPos.set(0, 0, 0)
+            notifyCameraStatus(ENUMS.CameraStatus.POINTER_ACTION, ENUMS.CameraControls.CAM_TRANSLATE, false)
 
-        lerpCameraLookAt(tempVec, lerpFactor * 3)
-        tempVec2.copy(camLookAtVec);
-        tempVec.set(0, 0, 1);
-        tempVec.applyQuaternion(ThreeAPI.getCamera().quaternion);
-        if (tempVec.y > 0.6) {
-            tempVec.y = 0.6;
-            tempVec.normalize();
+            tempVec.set(0, 1.3, actorSpeed)
+            tempVec.applyQuaternion(actorQuat);
+            tempVec.add(cursorObj3d.position)
+
+            lerpCameraLookAt(tempVec, lerpFactor * 3)
+            tempVec2.copy(camLookAtVec);
+            tempVec.set(0, 0, 1);
+            tempVec.applyQuaternion(ThreeAPI.getCamera().quaternion);
+            if (tempVec.y > 0.6) {
+                tempVec.y = 0.6;
+                tempVec.normalize();
+            }
+            tempVec.multiplyScalar(zoomDistance);
+            tempVec.add(tempVec2);
+            tempVec.add(offsetPos);
+            lerpCameraPosition(tempVec, lerpFactor, true)
         }
-        tempVec.multiplyScalar(zoomDistance);
-        tempVec.add(tempVec2);
-        tempVec.add(offsetPos);
-        lerpCameraPosition(tempVec, lerpFactor, true)
 
     }
 

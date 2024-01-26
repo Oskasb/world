@@ -2,6 +2,48 @@
   "GAME":{
     "CHARACTER_STATS":[
       {
+        "id":"STATS_GOD_1",
+        "data":{
+          "status": {
+            "PASSIVE_ACTIONS": ["ACTION_FREEHACK_MELEE"],
+            "ACTIONS": ["ACTION_CHARGE"],
+            "TRAVEL":  ["ACTION_TRAVEL_WALK", "ACTION_TRAVEL_LEAP"],
+            "MOVEMENT_SPEED": 7,
+            "HEIGHT": 2.2,
+            "SIZE": 1.5,
+            "HAND_SIZE": 0.7,
+            "ICON_KEY": "face_13",
+            "DEAD": false,
+            "NAME": "Fire",
+            "MAX_HP": 100,
+            "ENGAGE_MAX": 4,
+            "IN_COMBAT": false,
+            "TRAVEL_MODE": "TRAVEL_MODE_INACTIVE"
+          }
+        }
+      },
+      {
+        "id":"STATS_GOD_2",
+        "data":{
+          "status": {
+            "PASSIVE_ACTIONS": ["ACTION_FREEHACK_MELEE"],
+            "ACTIONS": ["ACTION_CHARGE"],
+            "TRAVEL":  ["ACTION_TRAVEL_WALK", "ACTION_TRAVEL_LEAP"],
+            "MOVEMENT_SPEED": 7,
+            "HEIGHT": 2.2,
+            "SIZE": 1.5,
+            "HAND_SIZE": 0.7,
+            "ICON_KEY": "face_14",
+            "DEAD": false,
+            "NAME": "Ice",
+            "MAX_HP": 100,
+            "ENGAGE_MAX": 4,
+            "IN_COMBAT": false,
+            "TRAVEL_MODE": "TRAVEL_MODE_INACTIVE"
+          }
+        }
+      },
+      {
         "id":"STATS_FIGHTER",
         "data":{
           "status": {
@@ -11,7 +53,7 @@
             "TRAVEL":  ["ACTION_TRAVEL_WALK"],
             "MOVEMENT_SPEED": 4,
             "HEIGHT": 1.8,
-            "SIZE": 1.2,
+            "SIZE": 1.0,
             "HAND_SIZE": 0.4,
             "ICON_KEY": "face_4",
             "DEAD": false,
@@ -33,7 +75,7 @@
             "TRAVEL":  ["ACTION_TRAVEL_WALK", "ACTION_TRAVEL_LEAP"],
             "MOVEMENT_SPEED": 4,
             "HEIGHT": 1.8,
-            "SIZE": 1.2,
+            "SIZE": 1.0,
             "HAND_SIZE": 0.4,
             "ICON_KEY": "face_12",
             "DEAD": false,
@@ -54,7 +96,7 @@
             "TRAVEL":  ["ACTION_TRAVEL_WALK"],
             "MOVEMENT_SPEED": 4,
             "HEIGHT": 1.8,
-            "SIZE": 1.2,
+            "SIZE": 1.0,
             "HAND_SIZE": 0.4,
             "ICON_KEY": "face_11",
             "DEAD": false,
@@ -74,7 +116,7 @@
             "TRAVEL":  ["ACTION_TRAVEL_WALK"],
             "MOVEMENT_SPEED": 4,
             "HEIGHT": 1.8,
-            "SIZE": 1.2,
+            "SIZE": 1.0,
             "HAND_SIZE": 0.4,
             "ICON_KEY": "face_10",
             "DEAD": false,
@@ -94,7 +136,7 @@
             "TRAVEL":  ["ACTION_TRAVEL_WALK"],
             "MOVEMENT_SPEED": 4,
             "HEIGHT": 1.8,
-            "SIZE": 1.2,
+            "SIZE": 1.0,
             "HAND_SIZE": 0.4,
             "ICON_KEY": "face_9",
             "DEAD": false,
@@ -114,7 +156,7 @@
             "TRAVEL":  ["ACTION_TRAVEL_WALK"],
             "MOVEMENT_SPEED": 4,
             "HEIGHT": 1.8,
-            "SIZE": 1.2,
+            "SIZE": 1.0,
             "HAND_SIZE": 0.4,
             "ICON_KEY": "face_9",
             "DEAD": false,
@@ -134,7 +176,7 @@
             "TRAVEL":  ["ACTION_TRAVEL_WALK"],
             "MOVEMENT_SPEED": 4,
             "HEIGHT": 1.8,
-            "SIZE": 1.2,
+            "SIZE": 1.0,
             "HAND_SIZE": 0.4,
             "ICON_KEY": "face_9",
             "DEAD": false,

@@ -142,7 +142,7 @@ let detailsMap = [
     ENUMS.ActorStatus.SELECTED_ENCOUNTER,
     ENUMS.ActorStatus.REQUEST_PARTY,
     // ENUMS.ActorStatus.DAMAGE_APPLIED,
-    // ENUMS.ActorStatus.DEAD,
+    ENUMS.ActorStatus.NAVIGATION_STATE,
     ENUMS.ActorStatus.IS_LEAPING,
   //  ENUMS.ActorStatus.TURN_STATE,
     ENUMS.ActorStatus.REQUEST_TURN_STATE,
@@ -305,6 +305,7 @@ class ActorStatus {
         this.statusMap[ENUMS.ActorStatus.IS_LEAPING]  = false;
         this.statusMap[ENUMS.ActorStatus.SEQUENCER_SELECTED]  = false;
         this.statusMap[ENUMS.ActorStatus.DEAD] = false;
+        this.statusMap[ENUMS.ActorStatus.NAVIGATION_STATE] = ENUMS.NavigationState.WORLD;
         let updateTO = null;
 
         this.request = {request:ENUMS.ClientRequests.APPLY_ACTOR_STATUS, status:this.sendStatus}

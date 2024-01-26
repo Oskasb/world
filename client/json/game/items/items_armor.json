@@ -12,9 +12,59 @@
         }
       },
       {
-        "id": "ITEM_BELT_PLATE_BLUE",
+        "id": "ITEM_HELMET_VIKING_GOLDRED",
         "data": {
-          "visual_id":"VISUAL_BELT_PLATE_BLUE",
+          "visual_id":"VISUAL_HELMET_VIKING_GOLDRED",
+          "equip_slot": "SLOT_HEAD",
+          "status_add_modifiers": [
+            {"status": "MAX_HP", "value":0}
+          ]
+        }
+      },
+      {
+        "id": "ITEM_HELMET_VIKING_BLACK",
+        "data": {
+          "visual_id":"VISUAL_HELMET_VIKING_BLACK",
+          "equip_slot": "SLOT_HEAD",
+          "status_add_modifiers": [
+            {"status": "MAX_HP", "value":0}
+          ]
+        }
+      },
+      {
+        "id": "ITEM_BELT_PLATE_BLACK",
+        "data": {
+          "visual_id":"VISUAL_BELT_PLATE_BLACK",
+          "equip_slot": "SLOT_WAIST",
+          "status_add_modifiers": [
+            {"status": "MAX_HP", "value":0}
+          ]
+        }
+      },
+      {
+        "id": "ITEM_HELMET_VIKING_WHITE",
+        "data": {
+          "visual_id":"VISUAL_HELMET_VIKING_WHITE",
+          "equip_slot": "SLOT_HEAD",
+          "status_add_modifiers": [
+            {"status": "MAX_HP", "value":0}
+          ]
+        }
+      },
+      {
+        "id": "ITEM_BELT_PLATE_WHITE",
+        "data": {
+          "visual_id":"VISUAL_BELT_PLATE_WHITE",
+          "equip_slot": "SLOT_WAIST",
+          "status_add_modifiers": [
+            {"status": "MAX_HP", "value":0}
+          ]
+        }
+      },
+      {
+        "id": "ITEM_BELT_PLATE_GOLDRED",
+        "data": {
+          "visual_id":"VISUAL_BELT_PLATE_GOLDRED",
           "equip_slot": "SLOT_WAIST",
           "status_add_modifiers": [
             {"status": "MAX_HP", "value":0}
@@ -71,6 +121,138 @@
           ]
         }
       },
+      {
+        "id": "ITEM_LEGS_CHAIN",
+        "data": {
+          "visual_id":"VISUAL_LEGS_CHAIN",
+          "equip_slot": "SLOT_BODY",
+          "status_add_modifiers": [
+            {"status": "MAX_HP", "value":0}
+          ]
+        }
+      },
+      {
+        "id": "ITEM_GLOVES_SCALE_PURPLE",
+        "data": {
+          "visual_id":"VISUAL_GLOVES_SCALE_PURPLE",
+          "equip_slot": "SLOT_HANDS",
+          "status_add_modifiers": [
+            {"status": "MAX_HP", "value":0}
+          ]
+        }
+      },
+      {
+        "id": "ITEM_BOOTS_SCALE_PURPLE",
+        "data": {
+          "visual_id":"VISUAL_BOOTS_SCALE_PURPLE",
+          "equip_slot": "SLOT_FEET",
+          "status_add_modifiers": [
+            {"status": "MAX_HP", "value":0}
+          ]
+        }
+      },
+      {
+        "id": "ITEM_LEGS_SCALE_PURPLE",
+        "data": {
+          "visual_id":"VISUAL_LEGS_SCALE_PURPLE",
+          "equip_slot": "SLOT_LEGS",
+          "status_add_modifiers": [
+            {"status": "MAX_HP", "value":0}
+          ]
+        }
+      },
+      {
+        "id": "ITEM_CHEST_SCALE_PURPLE",
+        "data": {
+          "visual_id":"VISUAL_SHIRT_SCALE_PURPLE",
+          "equip_slot": "SLOT_CHEST",
+          "status_add_modifiers": [
+            {"status": "MAX_HP", "value":0}
+          ]
+        }
+      },
+      {
+        "id": "ITEM_SHIRT_CHAIN_PURPLE",
+        "data": {
+          "visual_id":"VISUAL_SHIRT_CHAIN_PURPLE",
+          "equip_slot": "SLOT_BODY",
+          "status_add_modifiers": [
+            {"status": "MAX_HP", "value":0}
+          ]
+        }
+      },
+      {
+        "id": "ITEM_LEGS_CHAIN_PURPLE",
+        "data": {
+          "visual_id":"VISUAL_LEGS_CHAIN_PURPLE",
+          "equip_slot": "SLOT_BODY",
+          "status_add_modifiers": [
+            {"status": "MAX_HP", "value":0}
+          ]
+        }
+      },
+
+      {
+        "id": "ITEM_GLOVES_SCALE_RED",
+        "data": {
+          "visual_id":"VISUAL_GLOVES_SCALE_RED",
+          "equip_slot": "SLOT_HANDS",
+          "status_add_modifiers": [
+            {"status": "MAX_HP", "value":0}
+          ]
+        }
+      },
+      {
+        "id": "ITEM_BOOTS_SCALE_RED",
+        "data": {
+          "visual_id":"VISUAL_BOOTS_SCALE_RED",
+          "equip_slot": "SLOT_FEET",
+          "status_add_modifiers": [
+            {"status": "MAX_HP", "value":0}
+          ]
+        }
+      },
+      {
+        "id": "ITEM_LEGS_SCALE_RED",
+        "data": {
+          "visual_id":"VISUAL_LEGS_SCALE_RED",
+          "equip_slot": "SLOT_LEGS",
+          "status_add_modifiers": [
+            {"status": "MAX_HP", "value":0}
+          ]
+        }
+      },
+      {
+        "id": "ITEM_CHEST_SCALE_RED",
+        "data": {
+          "visual_id":"VISUAL_SHIRT_SCALE_RED",
+          "equip_slot": "SLOT_CHEST",
+          "status_add_modifiers": [
+            {"status": "MAX_HP", "value":0}
+          ]
+        }
+      },
+      {
+        "id": "ITEM_SHIRT_CHAIN_RED",
+        "data": {
+          "visual_id":"VISUAL_SHIRT_CHAIN_RED",
+          "equip_slot": "SLOT_BODY",
+          "status_add_modifiers": [
+            {"status": "MAX_HP", "value":0}
+          ]
+        }
+      },
+      {
+        "id": "ITEM_LEGS_CHAIN_RED",
+        "data": {
+          "visual_id":"VISUAL_LEGS_CHAIN_RED",
+          "equip_slot": "SLOT_BODY",
+          "status_add_modifiers": [
+            {"status": "MAX_HP", "value":0}
+          ]
+        }
+      },
+
       {
         "id": "ITEM_HAT_BLUE",
         "data": {

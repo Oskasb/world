@@ -78,7 +78,12 @@ let onActivate = function(statusKey) {
         console.log("Bad actor selection", statusKey)
         console.log("onActivate", GameAPI.getGamePieceSystem().getActors(), actorButtons)
     } else {
-        actor.actorText.say("Me "+statusKey);
+
+        if (actor === playerActor) {
+            actor.actorText.say('Me '+statusKey)
+        } else {
+            actor.actorText.say("Hi "+statusKey);
+        }
     }
 
 

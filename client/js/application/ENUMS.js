@@ -170,6 +170,7 @@ let ENUMS = {}
         BODY_STATE:'BODY_STATE',
         STAND_STATE:'STAND_STATE',
         PATH_POINTS:'PATH_POINTS',
+        NAVIGATION_STATE:'NAVIGATION_STATE',
         IN_COMBAT:'IN_COMBAT',
         COMBAT_STATUS:'COMBAT_STATUS',
         ENGAGE_MAX:'ENGAGE_MAX',
@@ -260,6 +261,11 @@ ENUMS.CombatStatus = {
     PRONE:4,
     STUNNED:5,
     BLEEDING:6
+}
+
+ENUMS.NavigationState = {
+    WORLD:'WORLD',
+    CHARACTER:'CHARACTER'
 }
 
     ENUMS.TurnState = {

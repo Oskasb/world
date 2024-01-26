@@ -505,7 +505,7 @@ class GameActor {
 
     setSpatialScale(scaleVec) {
         this.actorStatus.setStatusScale(scaleVec);
-        this.actorObj3d.position.copy(scaleVec)
+        this.actorObj3d.scale.copy(scaleVec)
     }
 
     getHeadPosition() {

@@ -41,7 +41,9 @@ let processGroundCandidates = function(groundData) {
 
         if (MATH.valueIsBetween(groundData.y, min[1], max[1])) {
             if (MATH.valueIsBetween(groundData.z, min[2], max[2])) {
-                groundCandiates.push(candidate)
+                if (MATH.valueIsBetween(groundData.x, min[0], max[0])) {
+                    groundCandiates.push(candidate)
+                }
             }
         }
     }
@@ -81,7 +83,7 @@ let determinePlantConfig = function(patch, plant, min, max, seed, retries) {
     if (!config) {
     //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ThreeAPI.getCameraCursor().getPos(), to:tempPos, color:'YELLOW', drawFrames:5});
 
-        if (retries > 3) {
+        if (retries > 2) {
     //        evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ThreeAPI.getCameraCursor().getPos(), to:tempPos, color:'YELLOW', drawFrames:5});
 
             return patch.plantsConfig.plants["rock_small"];

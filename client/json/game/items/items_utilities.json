@@ -12,6 +12,26 @@
         }
       },
       {
+        "id": "ITEM_DRAKEN_GOLDRED",
+        "data": {
+          "visual_id":"VISUAL_DRAKEN_GOLDRED",
+          "equip_slot": "SLOT_HAND_L",
+          "status_add_modifiers": [
+            {"status": "TRAVEL", "value":"ACTION_TRAVEL_FLY"}
+          ]
+        }
+      },
+      {
+        "id": "ITEM_DRAKEN_WHITE",
+        "data": {
+          "visual_id":"VISUAL_DRAKEN_WHITE",
+          "equip_slot": "SLOT_HAND_L",
+          "status_add_modifiers": [
+            {"status": "TRAVEL", "value":"ACTION_TRAVEL_FLY"}
+          ]
+        }
+      },
+      {
         "id": "ITEM_JETPACK",
         "data": {
           "visual_id":"VISUAL_JETPACK",
@@ -22,9 +42,43 @@
         }
       },
       {
+        "id": "ITEM_JETPACK_GOLDRED",
+        "data": {
+          "visual_id":"VISUAL_JETPACK_GOLDRED",
+          "equip_slot": "SLOT_BACK",
+          "status_add_modifiers": [
+            {"status": "TRAVEL", "value":"ACTION_TRAVEL_JETPACK"}
+          ]
+        }
+      },
+      {
+        "id": "ITEM_JETPACK_WHITE",
+        "data": {
+          "visual_id":"VISUAL_JETPACK_WHITE",
+          "equip_slot": "SLOT_BACK",
+          "status_add_modifiers": [
+            {"status": "TRAVEL", "value":"ACTION_TRAVEL_JETPACK"}
+          ]
+        }
+      },
+      {
         "id": "ITEM_WRIST_COMPUTER",
         "data": {
           "visual_id":"VISUAL_WRIST_COMPUTER",
+          "equip_slot": "SLOT_WRIST_L"
+        }
+      },
+      {
+        "id": "ITEM_WRIST_COMPUTER_GOLDRED",
+        "data": {
+          "visual_id":"VISUAL_WRIST_COMPUTER_GOLDRED",
+          "equip_slot": "SLOT_WRIST_L"
+        }
+      },
+      {
+        "id": "ITEM_WRIST_COMPUTER_WHITE",
+        "data": {
+          "visual_id":"VISUAL_WRIST_COMPUTER_WHITE",
           "equip_slot": "SLOT_WRIST_L"
         }
       },

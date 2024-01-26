@@ -16,9 +16,29 @@ let testActive = function(actor) {
     }
 }
 
+let sourceTraveLMode = ENUMS.TravelMode.TRAVEL_MODE_WALK;
+
 let onActivate = function(actor) {
  //   console.log("Button Pressed, onActivate:", actor)
-    actor.actorText.say('Me '+actor.index)
+ //
+
+    let playerActor = GameAPI.getGamePieceSystem().selectedActor;
+    if (actor === playerActor) {
+
+        let currentNavState = actor.getStatus(ENUMS.ActorStatus.NAVIGATION_STATE);
+        if (currentNavState === ENUMS.NavigationState.CHARACTER) {
+            actor.actorText.say("World");
+            actor.setStatusKey(ENUMS.ActorStatus.NAVIGATION_STATE, ENUMS.NavigationState.WORLD)
+            actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, sourceTraveLMode)
+        } else {
+            actor.actorText.say("View Char");
+            actor.setStatusKey(ENUMS.ActorStatus.NAVIGATION_STATE, ENUMS.NavigationState.CHARACTER)
+            sourceTraveLMode = actor.getStatus(ENUMS.ActorStatus.TRAVEL_MODE);
+            actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_INACTIVE)
+        }
+    } else {
+        actor.actorText.say('Me '+actor.index)
+    }
 }
 
 let onReady = function(portrait) {

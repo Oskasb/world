@@ -99,6 +99,13 @@ function processPartyStatus(actor) {
 
 }
 
+function processActorSizeStatus(actor) {
+    let size = actor.getStatus(ENUMS.ActorStatus.SIZE);
+
+    tempVec.set(size, size, size);
+    actor.setSpatialScale(tempVec);
+}
+
 function processActorCombatStatus(actor) {
 
     if (actor.getStatus(ENUMS.ActorStatus.IN_COMBAT)) {
@@ -386,6 +393,7 @@ class ActorStatusProcessor {
 
 
     processActorStatus(actor) {
+        processActorSizeStatus(actor);
         processActorCombatStatus(actor);
         processActorEncounterInit(actor);
         if (actor.isPlayerActor()) {

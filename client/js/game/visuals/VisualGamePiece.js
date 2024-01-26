@@ -358,7 +358,8 @@ class VisualGamePiece {
                 this.call.getPiece().getSpatialPosition(tempObj3d.position);
                 this.call.getPiece().getSpatialQuaternion(tempObj3d.quaternion);
                 this.call.getPiece().getSpatialScale(tempObj3d.scale);
-
+           //     this.getModel().obj3d.scale.copy(tempObj3d.scale)
+           //     console.log("Size: ", tempObj3d.scale.x);
            //     console.log(tempObj3d.position)
                 this.getSpatial().stickToObj3D(tempObj3d);
 

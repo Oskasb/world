@@ -7,10 +7,21 @@ class CameraStatusProcessor {
     processCameraStatus(actor) {
 
         actor.getSpatialPosition(ThreeAPI.getCameraCursor().getPos())
-        let travelMode = actor.getStatus(ENUMS.ActorStatus.TRAVEL_MODE);
 
+        let navigationState = actor.getStatus(ENUMS.ActorStatus.NAVIGATION_STATE);
+
+
+        if (navigationState === ENUMS.NavigationState.CHARACTER) {
+            notifyCameraStatus( ENUMS.CameraStatus.LOOK_AT, ENUMS.CameraControls.CAM_TARGET, null)
+            notifyCameraStatus( ENUMS.CameraStatus.LOOK_FROM, ENUMS.CameraControls.CAM_AHEAD, null)
+            notifyCameraStatus( ENUMS.CameraStatus.CAMERA_MODE, ENUMS.CameraControls.CAM_ORBIT, null)
+            return;
+        }
+
+        let travelMode = actor.getStatus(ENUMS.ActorStatus.TRAVEL_MODE);
         let statusKey = ENUMS.CameraStatus.CAMERA_MODE;
         let controlKey = ENUMS.CameraControls.CAM_AUTO;
+
 
         let partySelected = actor.getStatus(ENUMS.ActorStatus.PARTY_SELECTED);
         let sequencerSelected = actor.getStatus(ENUMS.ActorStatus.SEQUENCER_SELECTED);

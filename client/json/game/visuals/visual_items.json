@@ -26,6 +26,54 @@
         }
       },
       {
+        "id": "VISUAL_DRAKEN_GOLDRED",
+        "data": {
+          "model_asset":"asset_svigg",
+          "base_size": 0.1,
+          "palette":"ITEMS_GOLDRED"
+        }
+      },
+      {
+        "id": "VISUAL_JETPACK_GOLDRED",
+        "data": {
+          "model_asset":"asset_jetpack",
+          "base_size": 10,
+          "palette":"ITEMS_GOLDRED"
+        }
+      },
+      {
+        "id": "VISUAL_WRIST_COMPUTER_GOLDRED",
+        "data": {
+          "model_asset":"asset_wrist_computer",
+          "base_size": 10,
+          "palette":"ITEMS_GOLDRED"
+        }
+      },
+      {
+        "id": "VISUAL_DRAKEN_WHITE",
+        "data": {
+          "model_asset":"asset_svigg",
+          "base_size": 0.1,
+          "palette":"ITEMS_WHITE"
+        }
+      },
+      {
+        "id": "VISUAL_JETPACK_WHITE",
+        "data": {
+          "model_asset":"asset_jetpack",
+          "base_size": 10,
+          "palette":"ITEMS_WHITE"
+        }
+      },
+      {
+        "id": "VISUAL_WRIST_COMPUTER_WHITE",
+        "data": {
+          "model_asset":"asset_wrist_computer",
+          "base_size": 10,
+          "palette":"ITEMS_WHITE"
+        }
+      },
+      {
         "id": "VISUAL_HAT_BLUE",
         "data": {
           "model_asset":"asset_hat_cloth_blue"
@@ -80,10 +128,31 @@
         }
       },
       {
-        "id": "VISUAL_AXE_SLICER_BLACK",
+        "id": "VISUAL_AXE_SLICER_GOLDRED",
+        "data": {
+          "model_asset":"asset_slicer_axe_2h",
+          "palette":"ITEMS_GOLDRED"
+        }
+      },
+      {
+        "id": "VISUAL_AXE_SLICER_BLUE",
         "data": {
           "model_asset":"asset_slicer_axe_2h",
           "palette":"ITEMS_BLUE"
+        }
+      },
+      {
+        "id": "VISUAL_AXE_SLICER_WHITE",
+        "data": {
+          "model_asset":"asset_slicer_axe_2h",
+          "palette":"ITEMS_WHITE"
+        }
+      },
+      {
+        "id": "VISUAL_AXE_SLICER_BLACK",
+        "data": {
+          "model_asset":"asset_slicer_axe_2h",
+          "palette":"ITEMS_BLACK"
         }
       },
       {
@@ -161,13 +230,62 @@
         }
       },
       {
+        "id": "VISUAL_HELMET_VIKING_GOLDRED",
+        "data": {
+          "model_asset":"asset_helmetviking",
+          "palette":"ITEMS_GOLDRED"
+        }
+      },
+      {
+        "id": "VISUAL_BELT_PLATE_GOLDRED",
+        "data": {
+          "model_asset":"asset_beltplate",
+          "palette":"ITEMS_GOLDREDE"
+        }
+      },
+      {
+        "id": "VISUAL_HELMET_VIKING_BLACK",
+        "data": {
+          "model_asset":"asset_helmetviking",
+          "palette":"ITEMS_BLACK"
+        }
+      },
+      {
+        "id": "VISUAL_BELT_PLATE_BLACK",
+        "data": {
+          "model_asset":"asset_beltplate",
+          "palette":"ITEMS_BLACK"
+        }
+      },
+      {
+        "id": "VISUAL_HELMET_VIKING_WHITE",
+        "data": {
+          "model_asset":"asset_helmetviking",
+          "palette":"ITEMS_WHITE"
+        }
+      },
+      {
+        "id": "VISUAL_BELT_PLATE_WHITE",
+        "data": {
+          "model_asset":"asset_beltplate",
+          "palette":"ITEMS_WHITE"
+        }
+      },
+      {
+        "id": "VISUAL_BELT_PLATE_GOLDRED",
+        "data": {
+          "model_asset":"asset_beltplate",
+          "palette":"ITEMS_GOLDRED"
+        }
+      },
+      {
         "id": "VISUAL_BELT_BRONZE",
         "data": {
           "model_asset":"asset_belt_bronze"
         }
       },
       {
-        "id": "VISUAL_SCALE_LEGS_PURPLE",
+        "id": "VISUAL_LEGS_SCALE_PURPLE",
         "data": {
           "model_asset":"asset_scale_purple_legs"
         }
@@ -236,7 +354,7 @@
           "model_asset":"asset_scale_red_gloves"
         }
       },      {
-        "id": "VISUAL_BOOTS_RED",
+        "id": "VISUAL_BOOTS_SCALE_RED",
         "data": {
           "model_asset":"asset_scale_red_boots"
         }

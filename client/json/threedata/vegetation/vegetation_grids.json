@@ -131,6 +131,7 @@
                 "tile_spacing" : 9,
                 "max_plants":100,
                 "plants":[
+                  "snow_small",
                   "leafy_small",
                   "grass_low_1_dead",
                   "grass_low_1_dry",
@@ -158,6 +159,7 @@
                 "tile_spacing" : 21,
                 "max_plants":110,
                 "plants":[
+                  "snow_small",
                   "flower_1_red",
                   "flower_1_yellow",
                   "flower_1_white",
