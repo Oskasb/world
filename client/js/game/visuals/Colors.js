@@ -59,27 +59,27 @@ paletteMap['DEFAULT'] = {
 };
 paletteMap['ITEMS_RED'] = {
     colors:{x:ENUMS.ColorCurve.grad_red_3, y:ENUMS.ColorCurve.grad_red_1, z: ENUMS.ColorCurve.grad_green_3, w:ENUMS.ColorCurve.grad_red_1},
-    settings:{x:1, y:0.9, z: 1, w:0} // solidity, saturation, blendStrength, skew (makes color go across rows)
+    settings:{x:1, y:0.9, z: 1, w:0}
 };
 paletteMap['ITEMS_BLUE'] = {
     colors:{x:ENUMS.ColorCurve.grad_blue_1, y:ENUMS.ColorCurve.grad_yellow_1, z: ENUMS.ColorCurve.grad_orange_1, w:ENUMS.ColorCurve.grad_blue_1},
-    settings:{x:1, y:0.9, z: 1, w:0} // solidity, saturation, blendStrength, skew (makes color go across rows)
+    settings:{x:1, y:0.9, z: 1, w:0}
 };
 paletteMap['ITEMS_GREEN'] = {
     colors:{x:ENUMS.ColorCurve.grad_green_1, y:ENUMS.ColorCurve.grad_orange_1, z: ENUMS.ColorCurve.grad_red_1, w:ENUMS.ColorCurve.grad_green_2},
-    settings:{x:1, y:0.9, z: 1, w:0} // solidity, saturation, blendStrength, skew (makes color go across rows)
+    settings:{x:1, y:0.9, z: 1, w:0}
 };
 paletteMap['ITEMS_BLACK'] = {
     colors:{x:ENUMS.ColorCurve.nearBlack, y:ENUMS.ColorCurve.grad_green_1, z: ENUMS.ColorCurve.nearBlack, w:ENUMS.ColorCurve.nearBlack},
-    settings:{x:1, y:0.7, z: 1, w:0} // solidity, saturation, blendStrength, skew (makes color go across rows)
+    settings:{x:1, y:0.7, z: 1, w:0}
 };
 paletteMap['ITEMS_MONO'] = {
     colors:{x:ENUMS.ColorCurve.grad_grey, y:ENUMS.ColorCurve.nearWhite, z: ENUMS.ColorCurve.quickFadeOut, w:ENUMS.ColorCurve.nearBlack},
-    settings:{x:1, y:0.8, z: 1, w:0} // solidity, saturation, blendStrength, skew (makes color go across rows)
+    settings:{x:1, y:0.8, z: 1, w:0}
 };
 paletteMap['ITEMS_WHITE'] = {
     colors:{x:ENUMS.ColorCurve.nearWhite, y:ENUMS.ColorCurve.grad_blue_2, z: ENUMS.ColorCurve.nearWhite, w:ENUMS.ColorCurve.nearWhite},
-    settings:{x:1, y:1.0, z: 1, w:0} // solidity, saturation, blendStrength, skew (makes color go across rows)
+    settings:{x:1, y:1.0, z: 1, w:0} 
 };
 paletteMap['NATURE'] = {
     colors:{x:ENUMS.ColorCurve.grad_yellow_2, y:ENUMS.ColorCurve.grad_red_2, z: ENUMS.ColorCurve.grad_yellow_1, w:ENUMS.ColorCurve.grad_green_2},
