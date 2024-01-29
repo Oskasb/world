@@ -11,7 +11,7 @@ class CameraStatusProcessor {
         let navigationState = actor.getStatus(ENUMS.ActorStatus.NAVIGATION_STATE);
 
 
-        if (navigationState === ENUMS.NavigationState.CHARACTER) {
+        if (navigationState !== ENUMS.NavigationState.WORLD) {
             notifyCameraStatus( ENUMS.CameraStatus.LOOK_AT, ENUMS.CameraControls.CAM_TARGET, null)
             notifyCameraStatus( ENUMS.CameraStatus.LOOK_FROM, ENUMS.CameraControls.CAM_AHEAD, null)
             notifyCameraStatus( ENUMS.CameraStatus.CAMERA_MODE, ENUMS.CameraControls.CAM_ORBIT, null)

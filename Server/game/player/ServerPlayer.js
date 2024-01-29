@@ -1,17 +1,18 @@
 import {ENUMS} from "../../../client/js/application/ENUMS.js";
 import {ServerActor} from "../actor/ServerActor.js";
-import {getServerActorByActorId, registerServerActor} from "../utils/GameServerFunctions.js";
+import {getGameServer, getServerActorByActorId, registerServerActor} from "../utils/GameServerFunctions.js";
 import {ServerItem} from "../item/ServerItem.js";
+import {ServerStronghold} from "../world/ServerStronghold.js";
 
 let index = 0;
 class ServerPlayer {
     constructor(stamp) {
         this.actors = [];
         this.stamp = stamp;
+        this.stronghold = new ServerStronghold(stamp)
         this.serverEncounter = null;
         index++
     }
-
 
 
     loadPlayerActor(msg) {
@@ -32,6 +33,14 @@ class ServerPlayer {
             console.log("ServerActor already added", serverActor)
             return false;
         }
+    }
+
+    updatePlayerStronghold(msg) {
+        console.log('updatePlayerStronghold', msg);
+        this.stronghold.applyStatusUpdate(msg.status);
+        msg.status = this.stronghold.status.statusMap;
+        msg.command = ENUMS.ServerCommands.STRONGHOLD_UPDATE;
+        getGameServer().messageClientByStamp(this.stamp, msg);
     }
 
     getPlayerActor(actorId) {

@@ -462,7 +462,7 @@ function CAM_ORBIT() {
 
         let navState = selectedActor.getStatus(ENUMS.ActorStatus.NAVIGATION_STATE)
 
-        if (navState === ENUMS.NavigationState.CHARACTER) {
+        if (navState !== ENUMS.NavigationState.WORLD) {
             inMenu = true;
         } else {
             inMenu = false;
@@ -473,7 +473,7 @@ function CAM_ORBIT() {
             if (inMenu) {
                 zoomDistance = 3;
             } else {
-                zoomDistance = actorSpeed*0.5 + 8 + distance*0.4;
+                zoomDistance = actorSpeed*2.5 + 25 + distance*0.4;
             }
 
             lerpCameraPosition(CAM_POINTS[lookFromControlKey](selectedActor), tpf*2, true);

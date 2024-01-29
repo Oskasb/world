@@ -33,6 +33,16 @@
                   }
                 },
                 {
+                  "widget_id":"bottom_box",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"widget_hidden_container",
+                  "options":{
+                    "anchor":"bottom_center",
+                    "offset_x": 0.0,
+                    "offset_y":0.025
+                  }
+                },
+                {
                   "widget_id":"text_box_home",
                   "widget_class":"GuiExpandingContainer",
                   "widget_config_id":"main_text_box",
@@ -47,43 +57,102 @@
               ],
               "buttons":[
                 {
-                  "widget_id":"button_exit_hero_page",
+                  "widget_id":"button_exit_page",
                   "widget_class":"GuiExpandingContainer",
                   "widget_config_id":"button_big_blue",
                   "options":{
                     "text":"CLOSE",
-                    "container_id":"text_box_home",
-                    "offset_x":0.17,
-                    "offset_y":-0.07,
+                    "container_id":"bottom_box",
+                    "offset_x":0.19,
+                    "offset_y":0.03,
                     "dispatch":{
                       "event":"SET_ACTOR_STATUS",
                       "value":[
                         {
                           "key": "NAVIGATION_STATE",
                           "status": "WORLD"
-                        },
-                        {
-                          "key": "PARTY_SELECTED",
-                          "status": true
                         }
                       ]
                     }
                   }
                 },
                 {
-                  "widget_id":"button_exit_hero_page",
+                  "widget_id":"button_0",
                   "widget_class":"GuiExpandingContainer",
                   "widget_config_id":"button_big_blue",
                   "options":{
-                    "text":"PIMP",
-                    "container_id":"page_hero_center",
-                    "offset_x": 0.05,
-                    "offset_y":-0.08,
+                    "text":"INV",
+                    "container_id":"bottom_box",
+                    "offset_x": 0.18,
+                    "offset_y":0.08,
                     "dispatch":{
-                      "event":"CHEAT_APPLY_PIMP",
-                      "value":{
-                        "status": "xp"
-                      }
+                      "event":"SET_ACTOR_STATUS",
+                      "value":[
+                        {
+                          "key": "NAVIGATION_STATE",
+                          "status": "INVENTORY"
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "widget_id":"button_1",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"button_big_blue",
+                  "options":{
+                    "text":"HOME",
+                    "container_id":"bottom_box",
+                    "offset_x": 0.06,
+                    "offset_y":0.08,
+                    "dispatch":{
+                      "event":"SET_ACTOR_STATUS",
+                      "value":[
+                        {
+                          "key": "NAVIGATION_STATE",
+                          "status": "HOME"
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "widget_id":"button_2",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"button_big_blue",
+                  "options":{
+                    "text":"PARTY",
+                    "container_id":"bottom_box",
+                    "offset_x": -0.06,
+                    "offset_y":0.08,
+                    "dispatch":{
+                      "event":"SET_ACTOR_STATUS",
+                      "value":[
+                        {
+                          "key": "NAVIGATION_STATE",
+                          "status": "PARTY"
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "widget_id":"button_2",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"button_big_blue",
+                  "options":{
+                    "text":"THING",
+                    "container_id":"bottom_box",
+                    "offset_x": -0.18,
+                    "offset_y":0.08,
+                    "dispatch":{
+                      "event":"SET_ACTOR_STATUS",
+                      "value":[
+                        {
+                          "key": "NAVIGATION_STATE",
+                          "status": "NONE"
+                        }
+                      ]
                     }
                   }
                 }

@@ -1,0 +1,14 @@
+[{
+  "GAME":{
+    "STRONGHOLDS":[
+      {
+        "id":"FARM_HOVEL",
+        "data":{
+          "status": {
+            "STRONGHOLD_NAME": "Farm Hovel"
+          }
+        }
+      }
+    ]
+  }
+}]

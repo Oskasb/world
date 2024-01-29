@@ -78,6 +78,10 @@ function processClientRequest(request, stamp, message, connectedClient) {
             }
 
             break
+        case ENUMS.ClientRequests.UPDATE_STRONGHOLD:
+            player = getGameServer().getConnectedPlayerByStamp(connectedClient.stamp);
+            player.updatePlayerStronghold(message);
+            break;
         case ENUMS.ClientRequests.APPLY_ITEM_STATUS:
             player = getGameServer().getConnectedPlayerByStamp(connectedClient.stamp);
 
@@ -190,6 +194,7 @@ function processClientRequest(request, stamp, message, connectedClient) {
         //    console.log("Process Ping Msg", message)
             connectedClient.call.returnDataMessage(message);
             break;
+
 
         case ENUMS.ClientRequests.REGISTER_CONFIGS:
             getGameServer().registerServerConfigData(message.data);

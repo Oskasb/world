@@ -1,0 +1,69 @@
+[
+  {
+    "UI": {
+      "PAGES":[
+        {
+          "id": "page_scene_home",
+          "data": [
+            {
+              "containers":[
+                {
+                  "widget_id":"page_home_center",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"widget_hidden_container",
+                  "options": {
+                    "anchor":"center"
+                  }
+                },
+                {
+                  "widget_id":"top_bar_header",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"scene_page_header_text_box",
+                  "options":{
+                    "text":"HOME",
+                    "anchor":"bottom_center",
+                    "offset_x": 0.0,
+                    "offset_y": 0.025
+                  }
+                },
+                {
+                  "widget_id":"text_box_home",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"main_text_box",
+                  "options":{
+                    "anchor":"bottom_center",
+                    "offset_x":0.0,
+                    "offset_y":0.005,
+                    "text":"Where you belong."
+                  }
+                }
+              ],
+              "buttons":[
+                {
+                  "widget_id":"button_leave",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"button_big_blue",
+                  "options":{
+                    "text":"LEAVE",
+                    "container_id":"text_box_home",
+                    "offset_x": 0.19,
+                    "offset_y": 0.03,
+                    "dispatch":{
+                      "event":"SET_ACTOR_STATUS",
+                      "value":[
+                        {
+                          "key": "NAVIGATION_STATE",
+                          "status": "WORLD"
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+]

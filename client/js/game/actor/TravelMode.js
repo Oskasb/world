@@ -4,6 +4,7 @@ import {ControlFunctions} from "../piece_functions/ControlFunctions.js";
 import {SpatialTransition} from "../piece_functions/SpatialTransition.js";
 import {PathPoint} from "../gameworld/PathPoint.js";
 import {poolFetch} from "../../application/utils/PoolUtils.js";
+import {getStatusPosition, setDestination} from "../../../../Server/game/actor/ActorStatusFunctions.js";
 
 let controlFunctions = new ControlFunctions();
 let spatialTransition = new SpatialTransition()
@@ -69,8 +70,11 @@ function activateTravelMode(actr, mode, activateCB, deactivateCB) {
 
     }
 
+
     deactivateCB()
     actor = actr;
+
+    setDestination(actor, getStatusPosition(actor))
 
     //   console.log("activate TravelMode: ", mode, actor);
 
@@ -109,10 +113,11 @@ function activateTravelMode(actr, mode, activateCB, deactivateCB) {
     if (mode === ENUMS.TravelMode.TRAVEL_MODE_FLY) {
     //    evt.dispatch(ENUMS.Event.SET_CAMERA_MODE, {mode:'world_viewer'})
 
-        ThreeAPI.getCameraCursor().setZoomDistance(5);
-
-        actor.setSpatialPosition(ThreeAPI.getCameraCursor().getLookAroundPoint())
-        actor.getSpatialPosition(ThreeAPI.getCameraCursor().getPos())
+        ThreeAPI.getCameraCursor().setZoomDistance(12);
+        ThreeAPI.getCameraCursor().getLookAroundPoint().copy(getStatusPosition(actor))
+        ThreeAPI.getCameraCursor().getPos().copy(getStatusPosition(actor))
+    //    actor.setSpatialPosition(ThreeAPI.getCameraCursor().getLookAroundPoint())
+    //    actor.getSpatialPosition()
         activateCB(config[mode], actor)
 
     }

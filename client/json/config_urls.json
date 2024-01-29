@@ -87,7 +87,7 @@
       "/ui/pages/gui_page_hero_practice.json"                ,
       "/ui/pages/activities/gui_activity_page_practice.json" ,
       "/ui/pages/activities/gui_activity_page_combat.json"   ,
-      "/ui/pages/gui_page_home.json"                         ,
+      "/ui/pages/menu/gui_page_home.json"                         ,
       "/ui/pages/gui_page_inn.json"                          ,
       "/ui/pages/gui_page_manor.json"                        ,
       "/ui/pages/gui_page_merchant.json"                     ,
@@ -150,8 +150,9 @@
       "/game/skeletons/biped_rigs.json"                      ,
 
       "/game/pieces/game_characters.json"                    ,
+      "/game/pieces/game_strongholds.json"                   ,
 
-      "/threedata/terrain/ground_elements.json"  ,
+      "/threedata/terrain/ground_elements.json"              ,
 
       "/threedata/vegetation/vegetation_grids.json"          ,
       "/threedata/vegetation/vegetation_plants.json"         ,

@@ -101,7 +101,7 @@
       "/ui/pages/activities/gui_activity_page_practice.json"  ,
       "/ui/pages/activities/gui_activity_page_combat.json"  ,
       "/ui/pages/menu/gui_page_hero.json"                        ,
-      "/ui/pages/gui_page_home.json"                        ,
+      "/ui/pages/menu/gui_page_home.json"                        ,
       "/ui/pages/gui_page_manor.json"                        ,
       "/ui/pages/gui_page_merchant.json"                        ,
       "/ui/pages/gui_page_stash.json"                        ,

@@ -325,16 +325,27 @@ function processActorUiNavigationState(actor) {
     let navState = actor.getStatus(ENUMS.ActorStatus.NAVIGATION_STATE);
 
     if (lastNavState !== navState) {
-        lastNavState = navState;
-        if (navState === ENUMS.NavigationState.WORLD) {
-            actor.actorText.say("World");
-            console.log("Recover Travel Mode", sourceTraveLMode)
-            actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, sourceTraveLMode)
-        } else if (navState === ENUMS.NavigationState.CHARACTER) {
-            actor.actorText.say("View Char");
+        if (lastNavState === ENUMS.NavigationState.WORLD) {
             sourceTraveLMode = actor.getStatus(ENUMS.ActorStatus.TRAVEL_MODE);
             actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_PASSIVE)
             actor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, false)
+        }
+
+        lastNavState = navState;
+        if (navState === ENUMS.NavigationState.WORLD) {
+            actor.actorText.say("WORLD");
+        //    console.log("Recover Travel Mode", sourceTraveLMode)
+            actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, sourceTraveLMode)
+        } else if (navState === ENUMS.NavigationState.PARTY) {
+            actor.actorText.say("PARTY");
+        } else if (navState === ENUMS.NavigationState.CHARACTER) {
+            actor.actorText.say("CHARACTER");
+        } else if (navState === ENUMS.NavigationState.HOME) {
+            actor.actorText.say("HOME");
+        } else if (navState === ENUMS.NavigationState.INVENTORY) {
+            actor.actorText.say("INVENTORY");
+        } else if (navState === ENUMS.NavigationState.MAP) {
+            actor.actorText.say("MAP");
         }
 
         GuiAPI.setNavigationState(navState);

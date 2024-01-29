@@ -118,7 +118,8 @@ let ENUMS = {}
         LOAD_SERVER_ITEM: 8,
         ENCOUNTER_PLAY:9,
         REGISTER_CONFIGS:10,
-        APPLY_ACTION_EFFECT:11
+        APPLY_ACTION_EFFECT:11,
+        UPDATE_STRONGHOLD:12
     };
 
     ENUMS.ServerCommands = {
@@ -137,8 +138,22 @@ let ENUMS = {}
         ITEM_REMOVED:13,
         SYSTEM_INFO: 14,
         ACTION_UPDATE:15,
-        FETCH_CONFIGS:16
+        FETCH_CONFIGS:16,
+        STRONGHOLD_UPDATE:17
     };
+
+    ENUMS.PlayerStatus = {
+        PLAYER_ID:'PLAYER_ID',
+        CLIENT_STAMP:'CLIENT_STAMP',
+        STRONGHOLD_ID:'STRONGHOLD_ID'
+    };
+
+    ENUMS.StrongholdStatus = {
+        CLIENT_STAMP:'CLIENT_STAMP',
+        TEMPLATE:'TEMPLATE',
+        STRONGHOLD_ID:'STRONGHOLD_ID',
+        STRONGHOLD_NAME:'STRONGHOLD_NAME'
+    }
 
     ENUMS.ActorStatus = {
         ACTOR_ID:'ACTOR_ID',
@@ -266,7 +281,11 @@ ENUMS.CombatStatus = {
 
 ENUMS.NavigationState = {
     WORLD:'WORLD',
+    PARTY:'PARTY',
     CHARACTER:'CHARACTER',
+    HOME:'HOME',
+    INVENTORY:'INVENTORY',
+    MAP:'MAP',
     NONE:'NONE'
 }
 

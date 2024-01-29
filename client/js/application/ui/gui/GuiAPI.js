@@ -7,12 +7,16 @@ import { DebugView } from "../../debug/DebugView.js";
 import { OnScreenText } from "./game/OnScreenText.js";
 import {WorldInteractUiSystem} from "./systems/WorldInteractUiSystem.js";
 import {WorldEncounterUISystem} from "./systems/WorldEncounterUISystem.js";
-import {CharacterPaperdollUiSystem} from "./systems/CharacterPaperdollUiSystem.js";
+import {NavigationStatePageSystem} from "./systems/NavigationStatePageSystem.js";
 
 let guiTime = 0;
 let worldInteractUiSystem = new WorldInteractUiSystem()
 let worldEncounterUISystem = new WorldEncounterUISystem()
-let characterPaperdollUiSystem = new CharacterPaperdollUiSystem();
+let characterUiSystem = new NavigationStatePageSystem(ENUMS.NavigationState.CHARACTER, 'page_paperdoll_hero');
+let partyNavUiSystem = new NavigationStatePageSystem(ENUMS.NavigationState.PARTY, 'page_scene_home');
+let homeNavUiSystem = new NavigationStatePageSystem(ENUMS.NavigationState.HOME, 'page_scene_home');
+let invNavUiSystem = new NavigationStatePageSystem(ENUMS.NavigationState.INVENTORY, 'page_scene_home');
+let mapNavUiSystem = new NavigationStatePageSystem(ENUMS.NavigationState.MAP, 'page_scene_home');
 
 class GuiAPI {
     constructor() {
@@ -111,7 +115,14 @@ class GuiAPI {
 
         this.guiPageSystem.initGuiPageSystem();
         worldEncounterUISystem.initEncounterUiSystem();
-        characterPaperdollUiSystem.initPaperdollSystem();
+
+
+        characterUiSystem.initNavigationPageSystem();
+        partyNavUiSystem.initNavigationPageSystem();
+        homeNavUiSystem.initNavigationPageSystem();
+        invNavUiSystem.initNavigationPageSystem();
+        mapNavUiSystem.initNavigationPageSystem();
+
     };
 
     getWorldInteractionUi() {
