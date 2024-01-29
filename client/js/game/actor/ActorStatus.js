@@ -117,7 +117,8 @@ let hardStateMap = [
     ENUMS.ActorStatus.QUAT_W,
     ENUMS.ActorStatus.STAND_STATE,
     ENUMS.ActorStatus.MOVE_STATE,
-    ENUMS.ActorStatus.BODY_STATE
+    ENUMS.ActorStatus.BODY_STATE,
+    ENUMS.ActorStatus.STRONGHOLD_ID
 ];
 
 let detailsMap = [
@@ -306,6 +307,7 @@ class ActorStatus {
         this.statusMap[ENUMS.ActorStatus.SEQUENCER_SELECTED]  = false;
         this.statusMap[ENUMS.ActorStatus.DEAD] = false;
         this.statusMap[ENUMS.ActorStatus.NAVIGATION_STATE] = ENUMS.NavigationState.WORLD;
+        this.statusMap[ENUMS.ActorStatus.STRONGHOLD_ID] = ""
         let updateTO = null;
 
         this.request = {request:ENUMS.ClientRequests.APPLY_ACTOR_STATUS, status:this.sendStatus}

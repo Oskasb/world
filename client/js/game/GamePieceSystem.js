@@ -8,7 +8,9 @@ import { RemoteClient } from "../Transport/io/RemoteClient.js";
 import {trackDebugConfig} from "../application/utils/DebugUtils.js";
 import {evt} from "../application/event/evt.js";
 import {getRemoteClients} from "../Transport/io/ServerCommandProcessor.js";
+import {ClientStronghold} from "./gameworld/ClientStronghold.js";
 
+let strongholds = [];
 let statsConfig = {};
 let visualConfigs = {};
 let actorConfigs = {};
@@ -300,6 +302,19 @@ class GamePieceSystem {
     getSelectedGameActor = function() {
         return this.selectedActor;
     }
+
+    getStrongholdById(shid) {
+        for (let i = 0; i < strongholds.length;i++) {
+            if (strongholds[i].id === shid) {
+                return strongholds[i];
+            }
+        }
+        let sh = new ClientStronghold(shid);
+        strongholds.push(sh);
+        return sh;
+    }
+
+
 
 }
 

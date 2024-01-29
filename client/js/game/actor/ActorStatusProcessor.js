@@ -341,6 +341,13 @@ function processActorUiNavigationState(actor) {
         } else if (navState === ENUMS.NavigationState.CHARACTER) {
             actor.actorText.say("CHARACTER");
         } else if (navState === ENUMS.NavigationState.HOME) {
+            let shId = actor.getStatus(ENUMS.ActorStatus.STRONGHOLD_ID);
+            let sh = GameAPI.getGamePieceSystem().getStrongholdById(shId)
+
+            MATH.vec3FromArray(tempVec, sh.getStatus(ENUMS.StrongholdStatus.ENTRANCE));
+
+            actor.setSpatialPosition(tempVec);
+
             actor.actorText.say("HOME");
         } else if (navState === ENUMS.NavigationState.INVENTORY) {
             actor.actorText.say("INVENTORY");

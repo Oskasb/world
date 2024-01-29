@@ -44,15 +44,32 @@
                 },
                 {
                   "widget_id":"text_box_home",
-                  "widget_class":"GuiExpandingContainer",
-                  "widget_config_id":"main_text_box",
+                  "widget_class":"GuiStatsPanel",
+                  "widget_config_id":"widget_stats_container",
                   "options":{
-                    "anchor":"top_center",
+                    "anchor":"center",
                     "offset_x":0.0,
-                    "offset_y":0.005,
-                    "text":"Ready to go right now"
+                    "offset_y":0.025,
+                    "track_config": {"category": "CHARACTERS","key": "MAIN_CHAR_STATUS",
+                      "samplers": [
+                        {
+                          "key": "POS_X",
+                          "label": "X",
+                          "digits": 2
+                        },
+                        {
+                          "key": "POS_Y",
+                          "label": "Y",
+                          "digits": 2
+                        },
+                        {
+                          "key": "POS_Z",
+                          "label": "Z",
+                          "digits": 2
+                        }
+                      ]
+                    }
                   }
-
                 }
               ],
               "buttons":[

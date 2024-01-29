@@ -5,7 +5,13 @@
         "id":"FARM_HOVEL",
         "data":{
           "status": {
-            "STRONGHOLD_NAME": "Farm Hovel"
+            "STRONGHOLD_NAME": "Farm Hovel",
+            "ENTRANCE": [-886, 2, 527],
+            "POS": [-887, 2, 532.5],
+            "ROT": [0, 0, 0],
+            "SCALE": [1, 1, 1],
+            "PALETTE": "TOWN_NEUTRAL",
+            "MODEL": "model_house_home"
           }
         }
       }

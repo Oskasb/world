@@ -9,7 +9,7 @@ class ServerPlayer {
     constructor(stamp) {
         this.actors = [];
         this.stamp = stamp;
-        this.stronghold = new ServerStronghold(stamp)
+        this.stronghold = null;
         this.serverEncounter = null;
         index++
     }
@@ -25,6 +25,7 @@ class ServerPlayer {
             serverActor.status.setStatusKey(ENUMS.ActorStatus.TURN_STATE, ENUMS.TurnState.NO_TURN);
             serverActor.status.setStatusKey(ENUMS.ActorStatus.DAMAGE_APPLIED, 0);
             serverActor.status.setStatusKey(ENUMS.ActorStatus.HEALING_APPLIED, 0);
+            serverActor.status.setStatusKey(ENUMS.ActorStatus.STRONGHOLD_ID, this.stronghold.id);
             this.actors.push(serverActor);
             registerServerActor(serverActor);
        //     console.log("NEW ServerActor", serverActor)
@@ -36,7 +37,11 @@ class ServerPlayer {
     }
 
     updatePlayerStronghold(msg) {
-        console.log('updatePlayerStronghold', msg);
+        if (!this.stronghold) {
+            this.stronghold = new ServerStronghold(this.stamp)
+            this.stronghold.status.applyConfigTemplateStats('GAME', 'STRONGHOLDS', msg.status[ENUMS.StrongholdStatus.TEMPLATE])
+        }
+
         this.stronghold.applyStatusUpdate(msg.status);
         msg.status = this.stronghold.status.statusMap;
         msg.command = ENUMS.ServerCommands.STRONGHOLD_UPDATE;

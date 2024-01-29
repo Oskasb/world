@@ -10,19 +10,9 @@ import {ENUMS} from "../../application/ENUMS.js";
 import {MATH} from "../../application/MATH.js";
 import {RemoteClient} from "./RemoteClient.js";
 import {processStatisticalActionApplied} from "../../game/actions/ActionStatusProcessor.js";
-import {ClientStronghold} from "../../game/gameworld/ClientStronghold.js";
+
 
 let remoteClients = {}
-
-let strongholds = [];
-
-function getStrongholdById(shid) {
-    for (let i = 0; i < strongholds.length;i++) {
-        if (strongholds[i].id === shid) {
-            return strongholds[i];
-        }
-    }
-}
 
 function processActorInit(stamp, msg) {
     let status = msg.status;
@@ -384,12 +374,12 @@ function processServerCommand(protocolKey, message) {
         case ENUMS.ServerCommands.STRONGHOLD_UPDATE:
             console.log("STRONGHOLD_UPDATE; ", message);
             let shId = message.status[ENUMS.StrongholdStatus.STRONGHOLD_ID];
-            let sh = getStrongholdById(shId);
-            if (!sh) {
-                sh = new ClientStronghold(shId)
-                strongholds.push(sh)
-            }
+            let sh = GameAPI.getGamePieceSystem().getStrongholdById(shId);
             sh.applyServerStatus(message.status);
+
+            if (sh.worldModel === null) {
+                sh.call.setupVisualSh()
+            }
 
             break;
         case ENUMS.ServerCommands.FETCH_CONFIGS:

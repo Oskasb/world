@@ -39,6 +39,21 @@ class Status {
         return this.statusMap[key];
     }
 
+    applyConfigTemplateStats(root, folder, template) {
+
+        let configs = getServerConfig(root)[folder];
+        let conf = parseConfigData(configs, template)
+            console.log("Template Configs", conf);
+
+        let status = conf['status']
+
+            if (typeof (status) === 'object') {
+                for (let key in status) {
+                    this.statusMap[key] = status[key];
+                }
+            }
+    }
+
 }
 
 export { Status }
