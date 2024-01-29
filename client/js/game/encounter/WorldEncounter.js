@@ -223,7 +223,7 @@ class WorldEncounter {
         let startWorldEncounter = function(message) {
             this.started = true;
             this.deactivateWorldEncounter();
-            GuiAPI.getWorldInteractionUi().closeWorldInteractUi();
+            GuiAPI.getWorldInteractionUi().deactivateWorldInteractUi();
             GameAPI.worldModels.deactivateEncounters();
 
         //   return;

@@ -69,7 +69,7 @@ class VisualGamePiece {
             paletteSelection = paletteTemplatesOptions[Math.floor(Math.random() * paletteTemplatesOptions.length)]
         }
 
-        console.log(paletteSelection)
+    //    console.log(paletteSelection)
         this.visualModelPalette.applyPaletteSelection(paletteSelection, null)
 
         this.visualModelPalette.setSeeThroughSolidity(1);

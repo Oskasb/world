@@ -293,11 +293,29 @@ function updateInteractiveActors() {
     }
 }
 
-let updateWorldInteractUiSystem = function(tpf, time) {
-    updateInteractiveActors()
-    renderWorldInteractUi()
-    renderWorldHintUi()
+function closeWorldInteractUi() {
+    interactibleActors.length = 0;
+    while (actorButtons.length) {
+        removeActorButton(actorButtons.pop())
+    }
 }
+
+let updateWorldInteractUiSystem = function(tpf, time) {
+
+    let navState = GuiAPI.getNavigationState()
+    if (navState === ENUMS.NavigationState.WORLD) {
+        updateInteractiveActors()
+        renderWorldInteractUi()
+        renderWorldHintUi()
+    } else {
+        if (actorButtons.length !== 0) {
+            closeWorldInteractUi();
+        }
+    }
+
+}
+
+
 
 class WorldInteractUiSystem {
     constructor() {    }
@@ -306,11 +324,10 @@ class WorldInteractUiSystem {
         ThreeAPI.addPrerenderCallback(updateWorldInteractUiSystem)
     }
 
-    closeWorldInteractUi() {
-        interactibleActors.length = 0;
-        while (actorButtons.length) {
-            removeActorButton(actorButtons.pop())
-        }
+
+
+    deactivateWorldInteractUi() {
+        closeWorldInteractUi();
         ThreeAPI.unregisterPrerenderCallback(updateWorldInteractUiSystem)
     }
 

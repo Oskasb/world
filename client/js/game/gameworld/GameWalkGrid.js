@@ -6,8 +6,7 @@ import { DynamicPath } from "./DynamicPath.js";
 import { DynamicWalker} from "./DynamicWalker.js";
 import * as ScenarioUtils from "./ScenarioUtils.js";
 import { GridTileSelector } from "../piece_functions/GridTileSelector.js";
-import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
-import {getTileForScreenPosition} from "./ScenarioUtils.js";
+
 
 let centerTileIndexX = 0;
 let centerTileIndexY = 0;

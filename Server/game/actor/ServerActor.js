@@ -51,7 +51,6 @@ class ServerActor {
             let pathWalker = this.serverActorPathWalker;
             pathWalker.walkPath(this, tpf, encounter);
             if (this.tilePath.pathTiles.length === 0) {
-                console.log("unregisterGameServerUpdateCallback(updateApplyActivePath)")
                 unregisterGameServerUpdateCallback(updateApplyActivePath);
             }
         }.bind(this);

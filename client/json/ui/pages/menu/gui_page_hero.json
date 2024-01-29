@@ -3,15 +3,9 @@
     "UI": {
       "PAGES":[
         {
-          "id": "page_scene_hero",
+          "id": "page_paperdoll_hero",
           "data": [
             {
-              "camera": {
-
-                "mode": "portrait_main_char",
-                "offset_pos": [0, 1.7, -4],
-                "offset_lookAt": [-0.0, 1.3, -0.0]
-              },
               "containers":[
                 {
                   "widget_id":"page_hero_center",
@@ -26,25 +20,24 @@
                   "widget_class":"GuiExpandingContainer",
                   "widget_config_id":"scene_page_header_text_box",
                   "options":{
-                    "anchor":"bottom_center",
+                    "anchor":"top_center",
                     "offset_x": 0.0,
-                    "offset_y":0.025,
+                    "offset_y":-0.025,
                     "text_dynamic": {
                       "track_config": {
                         "category": "CHARACTERS",
                         "key": "MAIN_CHAR_STATUS",
-                        "value": "name"
+                        "value": "NAME"
                       }
                     }
                   }
                 },
-
                 {
                   "widget_id":"text_box_home",
                   "widget_class":"GuiExpandingContainer",
                   "widget_config_id":"main_text_box",
                   "options":{
-                    "anchor":"bottom_center",
+                    "anchor":"top_center",
                     "offset_x":0.0,
                     "offset_y":0.005,
                     "text":"Ready to go right now"
@@ -58,15 +51,22 @@
                   "widget_class":"GuiExpandingContainer",
                   "widget_config_id":"button_big_blue",
                   "options":{
-                    "text":"BACK",
-                    "container_id":"page_hero_center",
-                    "offset_x":-0.15,
-                    "offset_y":-0.04,
+                    "text":"CLOSE",
+                    "container_id":"text_box_home",
+                    "offset_x":0.17,
+                    "offset_y":-0.07,
                     "dispatch":{
-                      "event":"SWITCH_BACK_GUI_PAGE",
-                      "value":{
-                        "from_id": "page_scene_hero"
-                      }
+                      "event":"SET_ACTOR_STATUS",
+                      "value":[
+                        {
+                          "key": "NAVIGATION_STATE",
+                          "status": "WORLD"
+                        },
+                        {
+                          "key": "PARTY_SELECTED",
+                          "status": true
+                        }
+                      ]
                     }
                   }
                 },

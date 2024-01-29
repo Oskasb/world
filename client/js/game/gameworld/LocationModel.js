@@ -156,7 +156,7 @@ class LocationModel {
         }.bind(this);
 
         let viewObstructing = function(bool) {
-            console.log("View Obstruct")
+        //    console.log("View Obstruct")
             if (bool) {
                 this.palette.setSeeThroughSolidity(0.5)
             } else {

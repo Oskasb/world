@@ -69,7 +69,7 @@ function determineButtonState(action, newActionState) {
 
     let currentActionState = action.status.call.getStatusByKey(ENUMS.ActionStatus.ACTION_STATE)
 
-    console.log("currentActionState", currentActionState)
+ //   console.log("currentActionState", currentActionState)
 
     if (currentActionState === ENUMS.ActionState.DISABLED) {
         let requiresTarget = action.status.call.getStatusByKey(ENUMS.ActionStatus.REQUIRES_TARGET)
@@ -80,7 +80,7 @@ function determineButtonState(action, newActionState) {
 }
 
 function processActionStateChange(action, actionState) {
-    console.log("processActionStateChange", ENUMS.getKey('ActionState', actionState))
+ //   console.log("processActionStateChange", ENUMS.getKey('ActionState', actionState))
 
     let actor = action.getActor();
     if (!actor) {
@@ -92,7 +92,7 @@ function processActionStateChange(action, actionState) {
 
     if (requiresTarget) {
         if (!target) {
-            console.log("No target found for action", this)
+            console.log("No target found for action", action, actionState)
             return;
         }
     }
@@ -327,7 +327,7 @@ class ActorAction {
     }
 
     setActionKeyFromRemote(actionKey) {
-        console.log("setActionKeyFromRemote", actionKey)
+   //     console.log("setActionKeyFromRemote", actionKey)
         this.status.call.setStatusByKey(ENUMS.ActionStatus.ACTION_KEY, actionKey);
         this.visualAction = poolFetch('VisualAction')
         let visualActionKey = this.readActionConfig('visual_action')

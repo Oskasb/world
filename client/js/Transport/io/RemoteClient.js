@@ -87,7 +87,7 @@ class RemoteClient {
                 }
 
                 if (actor.getStatus(ENUMS.ActorStatus.ACTOR_ID) !== id) {
-                    console.log("Remote Actor ID missmatch", id, actor.getStatus(ENUMS.ActorStatus.ACTOR_ID), actor)
+            //        console.log("Remote Actor ID missmatch", id, actor.getStatus(ENUMS.ActorStatus.ACTOR_ID), actor)
                     actor.setStatusKey(ENUMS.ActorStatus.ACTOR_ID, id);
                 }
 

@@ -111,7 +111,7 @@ class ExpandingPool {
         if (this.pool.indexOf(entry) === -1) {
             this.pushEP(entry)
         } else {
-            console.log("Entry already in pool, no good!", entry)
+        //    console.log("Entry already in pool, no good!", entry)
         }
     };
 

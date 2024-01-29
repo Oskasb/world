@@ -124,7 +124,7 @@ class ServerAction {
 
         let updateAttack = function(tpf) {
             this.stepProgress += tpf;
-            console.log("updateAttack", stepDuration, this.stepProgress, tpf)
+        //    console.log("updateAttack", stepDuration, this.stepProgress, tpf)
             if (stepDuration < this.stepProgress) {
                 activateAttackStateTransition()
             }
@@ -227,7 +227,7 @@ class ServerAction {
             let modifier = modifiers[i];
             i++;
             let amount = modifiers[i];
-            console.log("processActionStatusModifiers", modifier, amount, targetActor.getStatus(ENUMS.ActorStatus.ACTOR_ID));
+        //    console.log("processActionStatusModifiers", modifier, amount, targetActor.getStatus(ENUMS.ActorStatus.ACTOR_ID));
             applyServerAction(targetActor, modifier, amount, actor)
         }
 

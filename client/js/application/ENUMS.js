@@ -95,7 +95,8 @@ let ENUMS = {}
         ON_SOCKET_MESSAGE:          77,
         DEBUG_STATUS_TOGGLE:        78,
         ENCOUNTER_COMPLETED:        79,
-        CLEAR_UI:                   80
+        CLEAR_UI:                   80,
+        SET_ACTOR_STATUS:           81
     };
 
     ENUMS.Protocol = {
@@ -265,7 +266,8 @@ ENUMS.CombatStatus = {
 
 ENUMS.NavigationState = {
     WORLD:'WORLD',
-    CHARACTER:'CHARACTER'
+    CHARACTER:'CHARACTER',
+    NONE:'NONE'
 }
 
     ENUMS.TurnState = {

@@ -237,6 +237,20 @@ class GamePieceSystem {
         evt.on(ENUMS.Event.LOAD_ITEM,  loadItem)
 
         evt.on(ENUMS.Event.ON_SOCKET_MESSAGE,  processConnectionMessage)
+
+        let setActorStatus = function(values) {
+            let actor = this.selectedActor;
+            console.log("SET_ACTOR_STATUS", actor, values);
+            for (let i = 0; i < values.length; i++) {
+                let key = values[i].key;
+                let status = values[i].status;
+                console.log("SET_ACTOR_STATUS", actor, key, status);
+                actor.setStatusKey(key, status);
+            }
+
+        }.bind(this)
+
+        evt.on(ENUMS.Event.SET_ACTOR_STATUS, setActorStatus)
         trackDebugConfig('WORLD', 'actors', actors);
     }
 

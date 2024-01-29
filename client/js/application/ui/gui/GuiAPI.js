@@ -7,10 +7,13 @@ import { DebugView } from "../../debug/DebugView.js";
 import { OnScreenText } from "./game/OnScreenText.js";
 import {WorldInteractUiSystem} from "./systems/WorldInteractUiSystem.js";
 import {WorldEncounterUISystem} from "./systems/WorldEncounterUISystem.js";
+import {CharacterPaperdollUiSystem} from "./systems/CharacterPaperdollUiSystem.js";
 
 let guiTime = 0;
 let worldInteractUiSystem = new WorldInteractUiSystem()
 let worldEncounterUISystem = new WorldEncounterUISystem()
+let characterPaperdollUiSystem = new CharacterPaperdollUiSystem();
+
 class GuiAPI {
     constructor() {
         let inMenueFlag = false;
@@ -74,6 +77,8 @@ class GuiAPI {
         this.widgetBuilder = new WidgetBuilder();
         this.guiPageSystem = new GuiPageSystem();
 
+        this.navigationState = null;
+
         let reqs = 0;
         let loads = 0;
 
@@ -106,6 +111,7 @@ class GuiAPI {
 
         this.guiPageSystem.initGuiPageSystem();
         worldEncounterUISystem.initEncounterUiSystem();
+        characterPaperdollUiSystem.initPaperdollSystem();
     };
 
     getWorldInteractionUi() {
@@ -154,6 +160,15 @@ class GuiAPI {
     closePage(page) {
         this.guiPageSystem.closeGuiPage(page)
     }
+
+    setNavigationState(navState) {
+        this.navigationState = navState;
+    }
+
+    getNavigationState() {
+        return this.navigationState;
+    }
+
 
     registerTextSurfaceElement = function(elemKey, txtElem) {
         this.registeredTextElements[elemKey] = txtElem;

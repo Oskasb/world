@@ -14,7 +14,7 @@ class StatusFeedback {
 
                 settings = effectMap[key][status];
                 if (typeof(this.feedbackMap[key]) === 'object') {
-                    console.log("EFFECT MAYBE TOGGLE ---")
+                //    console.log("EFFECT MAYBE TOGGLE ---")
                     this.feedbackMap[key].off();
                     poolReturn(this.feedbackMap[key]);
                     this.feedbackMap[key] = null;

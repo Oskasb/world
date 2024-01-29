@@ -62,7 +62,10 @@ class GameActor {
         this.activeActions = [];
 
         let setAsSelection = function () {
-
+            let data = {
+                MAIN_CHAR_STATUS:this.actorStatus.statusMap
+            }
+            PipelineAPI.setCategoryData('CHARACTERS', data)
         }.bind(this);
 
         let updateGameActor = function(tpf) {
@@ -71,7 +74,7 @@ class GameActor {
 
         let onActive = function() {
             if (this.preDeactivated) {
-                console.log("Pre Deactivated happened, fix callback chain..")
+            //    console.log("Pre Deactivated happened, fix callback chain..")
                 return;
             }
             // skeleton not always ready here...

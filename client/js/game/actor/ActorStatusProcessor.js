@@ -319,6 +319,30 @@ function processActorEncounterExit(actor) {
 
 }
 
+let lastNavState = ENUMS.NavigationState.NONE;
+let sourceTraveLMode = ENUMS.TravelMode.TRAVEL_MODE_WALK;
+function processActorUiNavigationState(actor) {
+    let navState = actor.getStatus(ENUMS.ActorStatus.NAVIGATION_STATE);
+
+    if (lastNavState !== navState) {
+        lastNavState = navState;
+        if (navState === ENUMS.NavigationState.WORLD) {
+            actor.actorText.say("World");
+            console.log("Recover Travel Mode", sourceTraveLMode)
+            actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, sourceTraveLMode)
+        } else if (navState === ENUMS.NavigationState.CHARACTER) {
+            actor.actorText.say("View Char");
+            sourceTraveLMode = actor.getStatus(ENUMS.ActorStatus.TRAVEL_MODE);
+            actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_PASSIVE)
+            actor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, false)
+        }
+
+        GuiAPI.setNavigationState(navState);
+    }
+
+
+}
+
 class ActorStatusProcessor {
     constructor() {
         this.indicators = {};
@@ -398,6 +422,7 @@ class ActorStatusProcessor {
         processActorEncounterInit(actor);
         if (actor.isPlayerActor()) {
             cameraStatusProcessor.processCameraStatus(actor)
+            processActorUiNavigationState(actor);
             registerPathPoints(actor);
             processPartyStatus(actor);
             updateRigidBodyContact(actor);

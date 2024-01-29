@@ -48,7 +48,7 @@ class ServerTransition {
         //    let encounter = actor.serverEncounter;
 
             fromMoveState = actor.getStatus(ENUMS.ActorStatus.MOVE_STATE);
-            fromStandState = actor.getStatusMap(ENUMS.ActorStatus.STAND_STATE);
+            fromStandState = actor.getStatus(ENUMS.ActorStatus.STAND_STATE);
             fromBodyState = actor.getStatus(ENUMS.ActorStatus.BODY_STATE);
             fromTravelMode = actor.getStatus(ENUMS.ActorStatus.TRAVEL_MODE);
 

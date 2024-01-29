@@ -21,20 +21,14 @@ let sourceTraveLMode = ENUMS.TravelMode.TRAVEL_MODE_WALK;
 let onActivate = function(actor) {
  //   console.log("Button Pressed, onActivate:", actor)
  //
-
     let playerActor = GameAPI.getGamePieceSystem().selectedActor;
     if (actor === playerActor) {
 
         let currentNavState = actor.getStatus(ENUMS.ActorStatus.NAVIGATION_STATE);
         if (currentNavState === ENUMS.NavigationState.CHARACTER) {
-            actor.actorText.say("World");
             actor.setStatusKey(ENUMS.ActorStatus.NAVIGATION_STATE, ENUMS.NavigationState.WORLD)
-            actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, sourceTraveLMode)
         } else {
-            actor.actorText.say("View Char");
             actor.setStatusKey(ENUMS.ActorStatus.NAVIGATION_STATE, ENUMS.NavigationState.CHARACTER)
-            sourceTraveLMode = actor.getStatus(ENUMS.ActorStatus.TRAVEL_MODE);
-            actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_INACTIVE)
         }
     } else {
         actor.actorText.say('Me '+actor.index)
@@ -143,36 +137,46 @@ let updateActiveActorUi = function(tpf) {
 
     let activeActor = GameAPI.getGamePieceSystem().getPlayerParty().getPartySelection();
 
-    if (actor !== activeActor) {
-        if (actor) {
-            clearActionUi()
-        }
-        actor = activeActor;
-        if (activeActor) {
-            setupActionUi()
-        }
-    }
-
-
-    if (portrait) {
-        if (!actor) {
-            clearActionUi();
-        } else {
-            portrait.updateCharacterPortrait(tpf)
-
-            if (actor.getStatus(ENUMS.ActorStatus.IN_COMBAT)) {
-                if (actor.getStatus(ENUMS.ActorStatus.HAS_TURN)) {
-                    if (actionButtons.length === 0) {
-                        setupActionButtons(actor, ENUMS.ActorStatus.ACTIONS);
-                    }
+    let navState = GuiAPI.getNavigationState()
+        if (navState === ENUMS.NavigationState.WORLD) {
+            if (actor !== activeActor) {
+                if (actor) {
+                    clearActionUi()
                 }
-            } else {
-                if (actionButtons.length === 0) {
-                    setupActionButtons(actor, ENUMS.ActorStatus.TRAVEL);
+                actor = activeActor;
+                if (activeActor) {
+                    setupActionUi()
                 }
             }
-        }
-    }
+
+            if (portrait) {
+                if (!actor) {
+                    clearActionUi();
+                } else {
+                    portrait.updateCharacterPortrait(tpf)
+
+                    if (actor.getStatus(ENUMS.ActorStatus.IN_COMBAT)) {
+                        if (actor.getStatus(ENUMS.ActorStatus.HAS_TURN)) {
+                            if (actionButtons.length === 0) {
+                                setupActionButtons(actor, ENUMS.ActorStatus.ACTIONS);
+                            }
+                        }
+                    } else {
+                        if (actionButtons.length === 0) {
+                            setupActionButtons(actor, ENUMS.ActorStatus.TRAVEL);
+                        }
+                    }
+                }
+            }
+        } else {
+                if (actor) {
+                    clearActionUi();
+                    actor = null;
+                }
+
+
+}
+
 
 }
 

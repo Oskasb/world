@@ -66,39 +66,59 @@ function renderPartyActorUi(actor, tpf, time) {
 
 }
 
+
+function clearPartyUi() {
+    while (portraits.length) {
+        let portrait = portraits.pop()
+        if (portrait) {
+            portrait.closeCharacterPortrait()
+            if (portrait.statusUi) {
+                portrait.statusUi.deactivateWorldActorStatus()
+            }
+        }
+    }
+}
+
 class PartyUiSystem {
     constructor() {
 
         let updatePartyUiSystem = function(tpf) {
-            playerParty = GameAPI.getGamePieceSystem().getPlayerParty();
-            actors = playerParty.getPartyActors();
 
-            MATH.forAll(actors, renderPartyActorUi, tpf)
+            let navState = GuiAPI.getNavigationState()
+            if (navState === ENUMS.NavigationState.WORLD) {
+                playerParty = GameAPI.getGamePieceSystem().getPlayerParty();
+                actors = playerParty.getPartyActors();
 
-            for (let i = 0; i < portraits.length; i++) {
-                let portrait = portraits[i]
+                MATH.forAll(actors, renderPartyActorUi, tpf)
 
-                if (actors.indexOf(portrait.actor) === -1) {
-                    if (portrait) {
-                        portrait.closeCharacterPortrait()
-                        if (portrait.statusUi) {
-                            portrait.statusUi.deactivateWorldActorStatus()
+                for (let i = 0; i < portraits.length; i++) {
+                    let portrait = portraits[i]
+
+                    if (actors.indexOf(portrait.actor) === -1) {
+                        if (portrait) {
+                            portrait.closeCharacterPortrait()
+                            if (portrait.statusUi) {
+                                portrait.statusUi.deactivateWorldActorStatus()
+                            }
+                            MATH.splice(portraits, portrait);
+                            i--;
                         }
-                        MATH.splice(portraits, portrait);
-                        i--;
-                    }
-                } else {
-                    if (portrait) {
-                        portrait.updateCharacterPortrait(tpf)
-                        portrait.guiWidget.guiSurface.applyStateFeedback()
-                        if (portrait.statusUi) {
-                            portrait.statusUi.call.update();
+                    } else {
+                        if (portrait) {
+                            portrait.updateCharacterPortrait(tpf)
+                            portrait.guiWidget.guiSurface.applyStateFeedback()
+                            if (portrait.statusUi) {
+                                portrait.statusUi.call.update();
+                            }
                         }
                     }
                 }
-
-
+            } else {
+                if (portraits.length !== 0) {
+                    clearPartyUi();
+                }
             }
+
         }.bind(this)
 
         this.call = {
@@ -135,15 +155,8 @@ class PartyUiSystem {
 
     closePartyUi() {
 
-        while (portraits.length) {
-            let portrait = portraits.pop()
-            if (portrait) {
-                portrait.closeCharacterPortrait()
-                if (portrait.statusUi) {
-                    portrait.statusUi.deactivateWorldActorStatus()
-                }
-            }
-        }
+
+        clearPartyUi()
         ThreeAPI.unregisterPrerenderCallback(this.call.updatePartyUiSystem)
     }
 
