@@ -14,6 +14,20 @@
             "MODEL": "model_house_home"
           }
         }
+      },
+      {
+        "id":"SH_MANSION",
+        "data":{
+          "status": {
+            "STRONGHOLD_NAME": "Mansion",
+            "ENTRANCE": [675, 17, -286],
+            "POS": [672, 16, -312],
+            "ROT": [0, 0, 0],
+            "SCALE": [1, 1, 1],
+            "PALETTE": "ITEMS_WHITE",
+            "MODEL": "model_mansion"
+          }
+        }
       }
     ]
   }

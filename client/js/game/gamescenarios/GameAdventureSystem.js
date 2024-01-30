@@ -35,7 +35,7 @@ class GameAdventureSystem {
 
             actor.setStatusKey(ENUMS.ActorStatus.EQUIP_REQUESTS, actor.getStatus(ENUMS.ActorStatus.EQUIPPED_ITEMS))
             actor.setStatusKey(ENUMS.ActorStatus.EQUIPPED_ITEMS, [])
-            evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, {request:ENUMS.ClientRequests.UPDATE_STRONGHOLD, status:{TEMPLATE:'FARM_HOVEL'}})
+            evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, {request:ENUMS.ClientRequests.UPDATE_STRONGHOLD, status:{TEMPLATE:actor.getStatus(ENUMS.ActorStatus.STRONGHOLD_ID)}})
             setTimeout(function() {
                 evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, {request:ENUMS.ClientRequests.LOAD_SERVER_ACTOR, status:actor.getStatus()})
             }, 200)

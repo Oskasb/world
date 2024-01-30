@@ -54,7 +54,8 @@
                           "ITEM_GLOVES_SCALE_RED"
                         ],
                         "status": {
-                          "ALIGNMENT": "FRIENDLY"
+                          "ALIGNMENT": "FRIENDLY",
+                          "STRONGHOLD_ID": "FARM_HOVEL"
                         }
                       }
                     }
@@ -97,7 +98,8 @@
                           "ITEM_GLOVES_SCALE"
                         ],
                         "status": {
-                          "ALIGNMENT": "FRIENDLY"
+                          "ALIGNMENT": "FRIENDLY",
+                          "STRONGHOLD_ID": "SH_MANSION"
                         }
                       }
                     }
@@ -121,7 +123,8 @@
                         "world_encounters": ["farmer_start_encounters"],
                         "equipped_items": ["ITEM_HAT_LEATHER", "ITEM_SWORD_FANCY", "ITEM_SHIRT_CHAIN"],
                         "status": {
-                          "ALIGNMENT": "FRIENDLY"
+                          "ALIGNMENT": "FRIENDLY",
+                          "STRONGHOLD_ID": "FARM_HOVEL"
                         }
                       }
                     }
@@ -145,7 +148,8 @@
                         "world_encounters": ["princess_start_encounters"],
                         "equipped_items": ["ITEM_HAT_WHITE", "ITEM_DRAKEN", "ITEM_SWORD_FANCY"],
                         "status": {
-                          "ALIGNMENT": "FRIENDLY"
+                          "ALIGNMENT": "FRIENDLY",
+                          "STRONGHOLD_ID": "FARM_HOVEL"
                         }
                       }
                     }
@@ -169,7 +173,8 @@
                         "world_encounters": ["pirate_start_encounters"],
                         "equipped_items": ["ITEM_HAT_RED", "ITEM_SWORD_FANCY"],
                         "status": {
-                          "ALIGNMENT": "FRIENDLY"
+                          "ALIGNMENT": "FRIENDLY",
+                          "STRONGHOLD_ID": "FARM_HOVEL"
                         }
                       }
                     }
@@ -193,7 +198,8 @@
                         "world_encounters": ["alien_start_encounters"],
                         "equipped_items": ["ITEM_JETPACK", "ITEM_WRIST_COMPUTER"],
                         "status": {
-                          "ALIGNMENT": "FRIENDLY"
+                          "ALIGNMENT": "FRIENDLY",
+                          "STRONGHOLD_ID": "FARM_HOVEL"
                         }
                       }
                     }

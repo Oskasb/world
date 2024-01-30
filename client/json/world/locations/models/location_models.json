@@ -206,6 +206,40 @@
         ]
       },
       {
+        "id": "model_mansion",
+        "data": [
+          {
+            "data_key":"model_data",
+            "config": {
+              "assets": [
+                {
+                  "asset": "asset_mansion_main",
+                  "pos": [0, 0, 0],
+                  "rot": [-1.57, 0, 0],
+                  "scale": [0.002, 0.002, 0.002],
+                  "solidity": 1.0,
+                  "visibility": 4,
+                  "boxes": [
+
+                  ]
+                },
+                {
+                  "asset": "asset_mansion_roof",
+                  "pos": [0, 0, 0],
+                  "rot": [-1.57, 0, 0],
+                  "scale": [0.002, 0.002, 0.002],
+                  "solidity": 1.0,
+                  "visibility": 4,
+                  "boxes": [
+
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
         "id": "model_svigg",
         "data": [
           {
