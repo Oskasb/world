@@ -116,6 +116,14 @@ class ControlFunctions {
         }
     }
 
+    CONTROL_RUN_ACTION(value, actor) {
+        if (value === 1) {
+            actor.actorMovement.runControlActive(actor);
+        } else if (value === 2){
+            actor.actorMovement.runControlCompleted(actor);
+        }
+    }
+
     CONTROL_LEAP_ACTION(value, actor) {
         if (value === 1) {
             actor.actorMovement.leapSelectionActive(actor);

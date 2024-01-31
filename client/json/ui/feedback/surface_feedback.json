@@ -772,31 +772,31 @@
               "config": {
                 "NONE": {
                   "color_rgba": {"r": 0.1, "g": 0.3, "b": 0.55, "a": 0.6},
-                  "sprite": "inverted_corners"
+                  "sprite": "thumbstick_circle"
                 },
                 "HOVER": {
                   "color_rgba": {"r": 0.1, "g": 0.5, "b": 0.85, "a":0.6},
-                  "sprite": "inverted_corners"
+                  "sprite": "thumbstick_circle"
                 },
                 "PRESS": {
                   "color_rgba": {"r": 0.2, "g": 0.6, "b": 0.95, "a": 1.0},
-                  "sprite": "inverted_corners"
+                  "sprite": "thumbstick_circle"
                 },
                 "ACTIVE": {
                   "color_rgba": {"r": 0.21, "g": 0.71, "b": 0.91, "a": 1.0},
-                  "sprite": "inverted_corners"
+                  "sprite": "thumbstick_circle"
                 },
                 "ACTIVE_HOVER": {
                   "color_rgba": {"r": 0.41, "g": 0.81, "b": 0.97, "a": 1.0},
-                  "sprite": "inverted_corners"
+                  "sprite": "thumbstick_circle"
                 },
                 "ACTIVE_PRESS": {
                   "color_rgba": {"r": 0.41, "g": 0.81, "b": 0.97, "a": 1.0},
-                  "sprite": "inverted_corners"
+                  "sprite": "thumbstick_circle"
                 },
                 "DISABLED": {
                   "color_rgba": {"r": 0.3, "g": 0.3, "b": 0.3, "a": 1.0},
-                  "sprite": "inverted_corners"
+                  "sprite": "thumbstick_circle"
                 }
               }
             }

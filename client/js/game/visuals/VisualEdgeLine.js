@@ -30,7 +30,7 @@ class VisualEdgeLine {
                 tempVec.copy(this.to);
                 tempVec.y = this.from.y;
             //    console.log("recalcPoints Points",  this.from, this.to, tempVec)
-                let distance = Math.ceil(MATH.distanceBetween(this.from, tempVec));
+                let distance = MATH.distanceBetween(this.from, tempVec);
 
                 for (let i = 0; i < distance; i++) {
                     let pointFX = poolFetch('VisualPointFX')

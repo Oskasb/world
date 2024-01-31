@@ -20,6 +20,15 @@
         }
       },
       {
+        "id":"ACTION_TRAVEL_RUN",
+        "data":{
+          "visual_action": "VISUAL_TRAVEL_RUN",
+          "status": {
+            "TRAVEL_MODE": "TRAVEL_MODE_RUN"
+          }
+        }
+      },
+      {
         "id":"ACTION_TRAVEL_FLY",
         "data":{
           "visual_action": "VISUAL_TRAVEL_FLY",

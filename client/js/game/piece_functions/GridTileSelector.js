@@ -55,6 +55,8 @@ class GridTileSelector {
 
         this.useMoveTo = false;
 
+        this.isActive = false;
+
         let selectedTile = null;
         let selectedActor = null;
         let walkGrid = null;
@@ -130,7 +132,7 @@ class GridTileSelector {
     setPos(posVec) {
         this.useMoveTo = false;
         this.initPos.copy(posVec);
-        this.initPos.y = ThreeAPI.terrainAt(this.initPos)+0.2
+        this.initPos.y = ThreeAPI.terrainAt(this.initPos)+0.05
         this.moveToVec3.copy(posVec)
     }
 
@@ -161,11 +163,13 @@ class GridTileSelector {
 
 
     activateGridTileSelector() {
+        this.isActive = true;
         attachSelectorFx(this);
         GameAPI.registerGameUpdateCallback(this.call.updateTileSelector)
     }
 
     deactivateGridTileSelector() {
+        this.isActive = false;
         this.useMoveTo = false;
         while (this.effects.length) {
             this.effects.pop().recoverEffectOfClass();

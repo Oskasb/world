@@ -99,7 +99,7 @@ function applyPointerMove() {
     }
 
     let mode = selectedActor.getStatus(ENUMS.ActorStatus.TRAVEL_MODE)
-    if (mode === ENUMS.TravelMode.TRAVEL_MODE_WALK || mode === ENUMS.TravelMode.TRAVEL_MODE_BATTLE) {
+    if (mode === ENUMS.TravelMode.TRAVEL_MODE_WALK  || mode === ENUMS.TravelMode.TRAVEL_MODE_RUN || mode === ENUMS.TravelMode.TRAVEL_MODE_BATTLE) {
 
     } else {
         return;

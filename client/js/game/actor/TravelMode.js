@@ -129,6 +129,11 @@ function activateTravelMode(actr, mode, activateCB, deactivateCB) {
         activateCB(config[mode], actor)
     }
 
+    if (mode === ENUMS.TravelMode.TRAVEL_MODE_RUN) {
+        //    evt.dispatch(ENUMS.Event.SET_CAMERA_MODE, {mode:'game_travel'})
+        activateCB(config[mode], actor)
+    }
+
     if (mode === ENUMS.TravelMode.TRAVEL_MODE_BATTLE) {
 
     }

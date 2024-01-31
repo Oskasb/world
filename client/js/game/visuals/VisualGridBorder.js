@@ -47,14 +47,23 @@ class VisualGridBorder {
 
     on(statusKey, center, effectData, gridId) {
         this.center.copy(center)
-        this.center.x -= 0.5;
-        this.center.z -= 0.5;
+
         let lines = this.linesFromTo;
 
         let onConfig = function(config) {
             let grid = config['grid'];
             let gridWidth = grid.length;
             let gridDepth = grid[0].length;
+
+            let oddWidth = MATH.isOddNumber(gridWidth);
+            let oddDepth = MATH.isOddNumber(gridDepth);
+            if (!oddWidth) {
+                this.center.x -= 0.5;
+            }
+            if (!oddDepth) {
+                this.center.z -= 0.5;
+            }
+
             this.minXYZ.set(-gridWidth * 0.5, 0, -gridDepth * 0.5).add(this.center);
             this.maxXYZ.set(gridWidth  * 0.5, 0, gridDepth  * 0.5).add(this.center);
             lines[0][0][0] = this.center.x;

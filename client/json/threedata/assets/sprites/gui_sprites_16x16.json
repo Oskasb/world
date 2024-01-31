@@ -124,6 +124,18 @@
             "tiles":[[11, 0]]
           },
           {
+            "id":"thumbstick_circle",
+            "tiles":[[11, 3]]
+          },
+          {
+            "id":"thumbstick_arrows",
+            "tiles":[[11, 4]]
+          },
+          {
+            "id":"thumbstick_dot",
+            "tiles":[[11, 5]]
+          },
+          {
             "id":"horizontal_arrows",
             "tiles":[[12, 0]]
           },

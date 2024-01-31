@@ -2,6 +2,7 @@ import {SpatialTransition} from "../piece_functions/SpatialTransition.js";
 import {VisualPath} from "../visuals/VisualPath.js";
 import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
 import {processEncounterGridTilePath} from "../gameworld/ScenarioUtils.js";
+import {Vector3} from "../../../libs/three/Three.js";
 
 let colorsRgba = {
     BLUE:{r:0.015, g:0.05, b:0.2, a:1}
@@ -9,6 +10,9 @@ let colorsRgba = {
 
 let visualPath = new VisualPath()
 let tileCount = 0;
+let tempVec = new Vector3();
+let tempVec2 = new Vector3()
+
 
 function applyTileSelection(actor, tileSelector, walkGrid) {
     if (actor.getStatus(ENUMS.ActorStatus.IN_COMBAT)) {
@@ -45,7 +49,6 @@ class ActorMovement {
     }
 
 
-
     tileSelectionActive(actor) {
         let walkGrid = actor.getGameWalkGrid();
 
@@ -76,8 +79,6 @@ class ActorMovement {
                     if (tileCount !== walkGrid.getActivePathTiles().length) {
                         tileCount = walkGrid.getActivePathTiles().length
                     }
-
-
 
             } else {
 
@@ -125,6 +126,56 @@ class ActorMovement {
         } else if (walkGrid.isActive) {
         //    actor.actorText.say("No Input")
         }
+    }
+
+    runControlActive(actor) {
+        let walkGrid = actor.getGameWalkGrid();
+
+        let tileSelector = walkGrid.gridTileSelector;
+        actor.getSpatialPosition(tempVec)
+        if (tileSelector.isActive === false) {
+            tileSelector.setPos(tempVec);
+            tileSelector.activateGridTileSelector()
+        } else {
+
+        }
+
+        if (tileSelector.hasValue()) {
+
+            if (tileSelector.extendedDistance > 0.8) {
+                actor.setStatusKey(ENUMS.ActorStatus.SELECTING_DESTINATION, 1);
+                actor.setDestination(tileSelector.getPos())
+                actor.getSpatialPosition(tempVec)
+                tempVec2.copy(tileSelector.translation);
+                tempVec2.multiplyScalar(GameAPI.getFrame().avgTpf)
+                tempVec.add(tempVec2);
+                tempVec.y = ThreeAPI.terrainAt(tempVec);
+                actor.setSpatialPosition(tempVec)
+            }
+
+            actor.turnTowardsPos(tileSelector.getPos() , GameAPI.getFrame().avgTpf * tileSelector.extendedDistance * 0.3);
+
+        } else {
+
+        }
+    }
+
+    runControlCompleted(actor) {
+        let walkGrid = actor.getGameWalkGrid();
+        let tileSelector = walkGrid.gridTileSelector;
+        if (tileSelector.isActive) {
+            tileSelector.deactivateGridTileSelector()
+            
+            if (tileSelector.hasValue()) {
+
+                actor.setStatusKey(ENUMS.ActorStatus.SELECTING_DESTINATION, 0);
+                actor.setDestination(actor.getSpatialPosition())
+
+                tileSelector.moveAlongX(0);
+                tileSelector.moveAlongZ(0);
+            }
+        }
+
     }
 
     leapSelectionActive(actor) {
