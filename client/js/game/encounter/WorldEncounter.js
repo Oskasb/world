@@ -5,6 +5,7 @@ import { EncounterIndicator } from "../visuals/EncounterIndicator.js";
 import {parseConfigDataKey} from "../../application/utils/ConfigUtils.js";
 import {notifyCameraStatus} from "../../3d/camera/CameraFunctions.js";
 import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
+import {getDestination} from "../../../../Server/game/actor/ActorStatusFunctions.js";
 
 let tempVec = new Vector3()
 let calcVec = new Vector3()
@@ -52,6 +53,7 @@ function processEncounterActivation(actor, encounter) {
         transition.targetPos.copy(encounter.getPointInsideActivationRange(actor.getSpatialPosition()));
         transition.targetPos.x = Math.round(transition.targetPos.x);
         transition.targetPos.z = Math.round(transition.targetPos.z);
+        actor.setDestination(transition.targetPos)
         transition.initSpatialTransition(actor.actorObj3d.position, transition.targetPos, 2.3, onCompleted, null, null, onUpdate)
     }
 }
@@ -79,6 +81,55 @@ let indicateTriggerTime = function(actor, encounter) {
     evt.dispatch(ENUMS.Event.INDICATE_RADIUS, radiusEvent)
 }
 
+
+
+
+function testDestinationForTrigger(actor, encounter, radius) {
+
+    let destPos = getDestination(actor);
+
+    let distance = MATH.distanceBetween(destPos, encounter.getPos())
+
+    let color = 'GREEN'
+    let hostActor = encounter.getHostActor()
+    let gridId = encounter.config.grid_id;
+
+    if (distance < radius) {
+        color = 'RED';
+        actor.setStatusKey(ENUMS.ActorStatus.ACTIVATING_ENCOUNTER, encounter.id);
+
+        if (encounter.engagementArc === null) {
+            encounter.engagementArc = poolFetch('VisualEngagementArc')
+            encounter.engagementArc.on(null, hostActor, null);
+            encounter.engagementArc.from.copy(encounter.getPos());
+            hostActor.setStatusKey(ENUMS.ActorStatus.ACTIVATING_ENCOUNTER, encounter.id)
+            hostActor.actorText.say("Fight is on")
+
+            encounter.gridBorder = poolFetch('VisualGridBorder');
+            encounter.gridBorder.on(null, hostActor.getSpatialPosition(), null, gridId)
+
+        }
+        encounter.getHostActor().turnTowardsPos(destPos)
+        encounter.engagementArc.to.copy(destPos);
+
+    } else {
+        actor.setStatusKey(ENUMS.ActorStatus.ACTIVATING_ENCOUNTER, "");
+        if (encounter.engagementArc !== null) {
+            hostActor.setStatusKey(ENUMS.ActorStatus.ACTIVATING_ENCOUNTER, '')
+            encounter.engagementArc.off();
+            encounter.engagementArc = null;
+            hostActor.actorText.say("Chicken")
+        }
+        if (encounter.gridBorder !== null) {
+            encounter.gridBorder.off();
+            encounter.gridBorder = null;
+        }
+    }
+
+    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:destPos, to:encounter.getPos(), color:color});
+
+}
+
 function checkTriggerPlayer(encounter) {
 
     let selectedActor = GameAPI.getGamePieceSystem().getSelectedGameActor();
@@ -93,7 +144,7 @@ function checkTriggerPlayer(encounter) {
 
         if (distance < radius + 10) {
             indicateTriggerRadius(encounter);
-
+            testDestinationForTrigger(selectedActor, encounter, radius)
             if (encounter.timeInsideProximity === 0) {
                 hostActor.actorText.say("Get closer if you dare")
             }
@@ -111,6 +162,17 @@ function checkTriggerPlayer(encounter) {
         if (distance < radius) {
 
             if (encounter.timeInsideTrigger === 0) {
+
+                if (encounter.engagementArc !== null) {
+                    encounter.engagementArc.off();
+                    encounter.engagementArc = null;
+                }
+
+                if (encounter.gridBorder !== null) {
+                    encounter.gridBorder.off();
+                    encounter.gridBorder = null;
+                }
+
                 encounterEvent.request = ENUMS.ClientRequests.ENCOUNTER_INIT
                 encounterEvent.actorId = selectedActor.getStatus(ENUMS.ActorStatus.ACTOR_ID);
                 encounterEvent.playerParty = GameAPI.getGamePieceSystem().playerParty.listPartyMemeberIDs();
@@ -146,6 +208,8 @@ class WorldEncounter {
         this.timeInsideTrigger = 0;
         this.timeInsideProximity = 0;
         this.requestingActor = null;
+        this.engagementArc = null;
+        this.gridBorder = null;
         this.config = config;
         this.camHomePos = new Vector3();
         this.obj3d = new Object3D();

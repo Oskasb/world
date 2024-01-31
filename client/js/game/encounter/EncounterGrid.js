@@ -2,6 +2,7 @@ import {ConfigData} from "../../application/utils/ConfigData.js";
 import * as ScenarioUtils from "../gameworld/ScenarioUtils.js";
 import {Vector3} from "../../../libs/three/math/Vector3.js";
 import {filterForWalkableTiles, getRandomWalkableTiles} from "../gameworld/ScenarioUtils.js";
+import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
 
 let forward = new Vector3();
 let tempVec = new Vector3()
@@ -51,6 +52,8 @@ class EncounterGrid {
         }.bind(this)
 
         this.configData.parseConfig(gridId, onConfig)
+        this.visualGridBorder = poolFetch('VisualGridBorder')
+        this.visualGridBorder.on(null, this.center, null, gridId);
     }
 
     getPlayerEntranceTile() {
@@ -123,6 +126,8 @@ class EncounterGrid {
     }
 
     removeEncounterGrid() {
+        poolReturn(this.visualGridBorder);
+        this.visualGridBorder = null;
         while (this.gridTiles.length) {
             let col = this.gridTiles.pop()
             while (col.length) {

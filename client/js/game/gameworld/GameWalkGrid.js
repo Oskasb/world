@@ -161,7 +161,7 @@ class GameWalkGrid {
          //   evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:ThreeAPI.tempVec3, max:ThreeAPI.tempVec3b, color:'YELLOW'})
          //   toTile.getTileExtents(ThreeAPI.tempVec3, ThreeAPI.tempVec3b)
          //   evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:ThreeAPI.tempVec3, max:ThreeAPI.tempVec3b, color:'YELLOW'})
-            this.dynamicPath.selectTilesBeneathPath(fromTile, toTile, gridTiles);
+        return this.dynamicPath.selectTilesBeneathPath(fromTile, toTile, gridTiles);
 
     }
 

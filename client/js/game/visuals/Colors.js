@@ -6,20 +6,21 @@ if (typeof(window) !== 'undefined') {
 
 let colorMapFx = {}
 
-colorMapFx['FRIENDLY']   = {r:0.01,  g:0.2,   b:0.01,  a:0.2};
-colorMapFx['NEUTRAL']    = {r:0.2,   g:0.2,   b:0.02,   a:0.2};
-colorMapFx['HOSTILE']    = {r:0.2,   g:0.01,  b:0.01,  a:0.2};
-colorMapFx['ITEM']       = {r:0,     g:0.1,   b:0.15,   a:0.2};
-colorMapFx['PATH_POINT'] = {r:0.1,     g:0.6,   b:0.9,   a:0.1};
-colorMapFx['EXIT_TILE_ACTIVE'] = {r:0.03, g: 0.12,  b: 0.4, a:0.2};
-colorMapFx['EXIT_TILE']  = {r:0.15,    g:0.10, b: 0.0,   a:0.1};
-colorMapFx['LEAP_FX']    = {r:0.2,     g:0.6,   b:0.9,   a:0.4};
-colorMapFx['WALK_FX']    = {r:0.1,     g:0.6,   b:0.2,   a:0.3};
-colorMapFx['DEFAULT_FX'] = {r:0.4,     g:0.4,   b:0.0,   a:0.3};
-colorMapFx['DAMAGE_FX']  = {r:0.99,    g:0.0,   b:0.0,   a:0.4};
-colorMapFx['FORCE_FX']   = {r:0.19,    g:0.15,  b:0.0,   a:0.1};
-colorMapFx['GLITTER_FX'] = {r:0.4,     g:0.5,   b:0.6,   a:0.5};
-colorMapFx['SMOKE_FX']   = {r:0.4,     g:0.3,   b:0.2,   a:0.4};
+colorMapFx['FRIENDLY']              = {r:0.01,  g:0.3,   b:0.01,  a:0.2};
+colorMapFx['NEUTRAL']               = {r:0.2,   g:0.2,   b:0.02,   a:0.2};
+colorMapFx['HOSTILE']               = {r:0.3,   g:0.01,  b:0.01,  a:0.2};
+colorMapFx['ITEM']                  = {r:0,     g:0.1,   b:0.15,   a:0.2};
+colorMapFx['PATH_POINT']            = {r:0.1,     g:0.6,   b:0.9,   a:0.1};
+colorMapFx['PATH_POINT_ACTIVATING'] = {r:0.0,     g:0.9,   b:0.2,   a:0.7};
+colorMapFx['EXIT_TILE_ACTIVE']      = {r:0.03, g: 0.12,  b: 0.4, a:0.2};
+colorMapFx['EXIT_TILE']             = {r:0.15,    g:0.10, b: 0.0,   a:0.1};
+colorMapFx['LEAP_FX']               = {r:0.2,     g:0.6,   b:0.9,   a:0.4};
+colorMapFx['WALK_FX']               = {r:0.1,     g:0.6,   b:0.2,   a:0.3};
+colorMapFx['DEFAULT_FX']            = {r:0.4,     g:0.4,   b:0.0,   a:0.3};
+colorMapFx['DAMAGE_FX']             = {r:0.99,    g:0.0,   b:0.0,   a:0.4};
+colorMapFx['FORCE_FX']              = {r:0.19,    g:0.15,  b:0.0,   a:0.1};
+colorMapFx['GLITTER_FX']            = {r:0.4,     g:0.5,   b:0.6,   a:0.5};
+colorMapFx['SMOKE_FX']              = {r:0.4,     g:0.3,   b:0.2,   a:0.4};
 
 let elementColorMap = {}
 elementColorMap['FRIENDLY']   = {r:0.1,   g:1,     b:0.1,   a:0.8};

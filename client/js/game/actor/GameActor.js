@@ -419,7 +419,11 @@ class GameActor {
 
     prepareTilePath(toPos) {
         let gameWalkGrid = this.getGameWalkGrid()
-        gameWalkGrid.buildGridPath(toPos, this.getSpatialPosition())
+        let tilePath = gameWalkGrid.buildGridPath(toPos, this.getSpatialPosition())
+        if (tilePath) {
+            this.setDestination(tilePath.getEndTile().getPos());
+        }
+
     }
 
     moveActorOnGridTo(pos, onMoveEnded) {
@@ -531,7 +535,7 @@ class GameActor {
         transition.targetPos.copy(pos);
         this.actorObj3d.position.copy(this.getSpatialPosition());
         transition.initSpatialTransition(this.actorObj3d.position, transition.targetPos, time, onCompleted, null, null, onUpdate)
-
+        this.setDestination(pos);
     }
 
     getSpatialScale(store) {

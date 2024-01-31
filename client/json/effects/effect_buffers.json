@@ -14,13 +14,13 @@
                         {
                             "spawner": "additive_stamps_8x8",
                             "asset_id":  "asset_additiveStamp",
-                            "pool_size": 3000,
+                            "pool_size": 5000,
                             "render_order": 5
                         },
                         {
                             "spawner": "overlay_stamps_8x8",
                             "asset_id":  "asset_overlayStamp",
-                            "pool_size": 2500,
+                            "pool_size": 5000,
                             "render_order": 4
                         },
                         {

@@ -103,8 +103,6 @@ class VisualEngagementIndicator {
                 engagementArcs[i].to.copy(engagementArcs[i].from);
                 engagementArcs[i].to.add(tempVec2);
                 engagementArcs[i].to.y = tPos.y;
-
-                engagementArcs[i].call.update();
             }
 
             while (engagementArcs.length > engagements.length) {

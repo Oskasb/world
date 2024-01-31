@@ -1,9 +1,7 @@
 import {Vector3} from "../../../../libs/three/math/Vector3.js";
 import {Object3D} from "../../../../libs/three/core/Object3D.js";
 import {poolFetch, poolReturn} from "../../../application/utils/PoolUtils.js";
-import {transitionEffectOn, transitionEffectOff} from "./VisualTriggerFx.js";
 import {colorMapFx} from "../Colors.js";
-import {getStatusPosition} from "../../../../../Server/game/actor/ActorStatusFunctions.js";
 
 let fromVec = new Vector3();
 let toVec = new Vector3();
@@ -101,6 +99,7 @@ class VisualEngagementArc {
         this.actor = actor;
         this.statusKey = statusKey;
         this.effectData = effectData;
+        ThreeAPI.addPrerenderCallback(this.call.update);
     }
 
     off() {
@@ -109,6 +108,8 @@ class VisualEngagementArc {
             pointFX.recoverPointFx();
             poolReturn(pointFX);
         }
+        poolReturn(this);
+        ThreeAPI.unregisterPrerenderCallback(this.call.update);
     }
 
 }

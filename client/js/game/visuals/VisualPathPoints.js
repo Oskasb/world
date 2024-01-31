@@ -1,7 +1,7 @@
 import {Vector3} from "../../../libs/three/math/Vector3.js";
 import {Object3D} from "../../../libs/three/core/Object3D.js";
 import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
-import {colorMapFx} from "./Colors.js";
+import {colorMapFx, elementColorMap} from "./Colors.js";
 
 let fromVec = new Vector3();
 let toVec = new Vector3();
@@ -47,6 +47,11 @@ class VisualPathPoints {
         // let rgba = colorMapFx[actor.getStatus(ENUMS.ActorStatus.ALIGNMENT)]
 
         let rgba = colorMapFx['PATH_POINT']
+
+        if (actor.getStatus(ENUMS.ActorStatus.ACTIVATING_ENCOUNTER)) {
+            rgba = colorMapFx['PATH_POINT_ACTIVATING']
+        }
+
 
         for (let i = 1; i < pathPoints.length; i++) {
             let pointFrom = pathPoints[i-1]

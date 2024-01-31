@@ -60,9 +60,15 @@ function processAnimationState(actor) {
             actor.setStatusKey(ENUMS.ActorStatus.STAND_STATE, actor.combatStandState)
             actor.setStatusKey(ENUMS.ActorStatus.BODY_STATE, actor.combatBodyState)
         } else {
-            actor.setStatusKey(ENUMS.ActorStatus.MOVE_STATE, 'MOVE')
-            actor.setStatusKey(ENUMS.ActorStatus.STAND_STATE, 'IDLE_LEGS')
-            actor.setStatusKey(ENUMS.ActorStatus.BODY_STATE, 'IDLE_HANDS')
+            if (actor.getStatus(ENUMS.ActorStatus.ACTIVATING_ENCOUNTER)) {
+                actor.setStatusKey(ENUMS.ActorStatus.MOVE_STATE, 'MOVE_COMBAT')
+                actor.setStatusKey(ENUMS.ActorStatus.STAND_STATE, 'STAND_COMBAT')
+                actor.setStatusKey(ENUMS.ActorStatus.BODY_STATE, 'GUARD_INSIDE')
+            } else {
+                actor.setStatusKey(ENUMS.ActorStatus.MOVE_STATE, 'MOVE')
+                actor.setStatusKey(ENUMS.ActorStatus.STAND_STATE, 'IDLE_LEGS')
+                actor.setStatusKey(ENUMS.ActorStatus.BODY_STATE, 'IDLE_HANDS')
+            }
         }
     }
 
@@ -106,47 +112,54 @@ function processActorSizeStatus(actor) {
     actor.setSpatialScale(tempVec);
 }
 
+function processInCombat(actor) {
+    if (actor.getStatus(ENUMS.ActorStatus.DEAD) === true) {
+        return;
+    }
+
+    let hp = actor.getStatus(ENUMS.ActorStatus.HP)
+    if (hp < 1) {
+        actor.setStatusKey(ENUMS.ActorStatus.DEAD, true);
+    }
+
+    let dmgApplied = actor.getStatus(ENUMS.ActorStatus.DAMAGE_APPLIED);
+    let healApplied = actor.getStatus(ENUMS.ActorStatus.HEALING_APPLIED);
+    if (dmgApplied) {
+        //    console.log("processing dmg applied")
+        actor.actorText.pieceTextPrint(dmgApplied, ENUMS.Message.DAMAGE_NORMAL_TAKEN, 3)
+        actor.setStatusKey(ENUMS.ActorStatus.DAMAGE_APPLIED, 0)
+    }
+
+    if (healApplied) {
+
+        actor.actorText.pieceTextPrint(healApplied, ENUMS.Message.HEALING_GAINED, 3)
+        actor.setStatusKey(ENUMS.ActorStatus.HEALING_APPLIED, 0)
+    }
+
+    actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_BATTLE);
+
+    if (actor.getStatus(ENUMS.ActorStatus.HAS_TURN) === false) {
+        //    actor.actorText.say(actor.getStatus(ENUMS.ActorStatus.TURN_DONE))
+        //    actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_INACTIVE);
+    } else {
+
+    }
+}
+
+function processOutOfCombat(actor) {
+    if (actor.getStatus(ENUMS.ActorStatus.DEAD) === false) {
+        actor.setStatusKey(ENUMS.ActorStatus.HP, actor.getStatus(ENUMS.ActorStatus.MAX_HP));
+    }
+}
+
 function processActorCombatStatus(actor) {
 
     if (actor.getStatus(ENUMS.ActorStatus.IN_COMBAT)) {
-
-        if (actor.getStatus(ENUMS.ActorStatus.DEAD) === true) {
-            return;
-        }
-
-        let hp = actor.getStatus(ENUMS.ActorStatus.HP)
-        if (hp < 1) {
-            actor.setStatusKey(ENUMS.ActorStatus.DEAD, true);
-        }
-
-        let dmgApplied = actor.getStatus(ENUMS.ActorStatus.DAMAGE_APPLIED);
-        let healApplied = actor.getStatus(ENUMS.ActorStatus.HEALING_APPLIED);
-        if (dmgApplied) {
-        //    console.log("processing dmg applied")
-            actor.actorText.pieceTextPrint(dmgApplied, ENUMS.Message.DAMAGE_NORMAL_TAKEN, 3)
-            actor.setStatusKey(ENUMS.ActorStatus.DAMAGE_APPLIED, 0)
-        }
-
-        if (healApplied) {
-
-            actor.actorText.pieceTextPrint(healApplied, ENUMS.Message.HEALING_GAINED, 3)
-            actor.setStatusKey(ENUMS.ActorStatus.HEALING_APPLIED, 0)
-        }
-
-        actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_BATTLE);
-
-        if (actor.getStatus(ENUMS.ActorStatus.HAS_TURN) === false) {
-        //    actor.actorText.say(actor.getStatus(ENUMS.ActorStatus.TURN_DONE))
-        //    actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_INACTIVE);
-        } else {
-
-        }
-
+        processInCombat(actor);
     } else {
-        if (actor.getStatus(ENUMS.ActorStatus.DEAD) === false)
-            actor.setStatusKey(ENUMS.ActorStatus.HP, actor.getStatus(ENUMS.ActorStatus.MAX_HP));
-        }
+        processOutOfCombat(actor)
     }
+}
 
     function getTerrainBodyPointer() {
         let world = getPhysicalWorld();

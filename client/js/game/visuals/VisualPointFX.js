@@ -1,3 +1,4 @@
+import {poolReturn} from "../../application/utils/PoolUtils.js";
 
 class VisualPointFX {
     constructor() {
@@ -36,6 +37,7 @@ class VisualPointFX {
         while (this.fx.length) {
             this.fx.pop().recoverEffectOfClass();
         }
+        poolReturn(this);
     }
 
 }
