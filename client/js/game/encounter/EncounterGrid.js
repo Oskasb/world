@@ -127,6 +127,7 @@ class EncounterGrid {
 
     removeEncounterGrid() {
         poolReturn(this.visualGridBorder);
+        this.visualGridBorder.off();
         this.visualGridBorder = null;
         while (this.gridTiles.length) {
             let col = this.gridTiles.pop()
