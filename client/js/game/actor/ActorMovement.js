@@ -159,11 +159,13 @@ class ActorMovement {
             probeResult.destination.copy(probeResult.to)
             probeResult.halted = false;
         } else {
-            actor.actorText.say("f____")
+        //    actor.actorText.say("f____")
             probeResult.halted = true;
         }
 
         let groundHeight = ThreeAPI.terrainAt(probeResult.destination, tempNormal);
+        let normalY = tempNormal.y;
+
         probeResult.destination.y = probeResult.from.y + 1.5;
         probeResult.to.copy(probeResult.destination);
         probeResult.to.y = groundHeight + 0.3;
@@ -172,7 +174,8 @@ class ActorMovement {
         if (!hit) {
             probeResult.destination.y = groundHeight+0.3;
         } else {
-            actor.actorText.say('__d__')
+        //    actor.actorText.say('__d__')
+            normalY = tempNormal.y;
         }
 
         probeResult.to.copy(probeResult.destination)
@@ -180,10 +183,14 @@ class ActorMovement {
 
         hit = rayTest(probeResult.destination, probeResult.to, probeResult.destination, tempNormal, true)
         if (hit) {
-            actor.actorText.say('____u')
+        //    actor.actorText.say('____u')
             probeResult.blocked = true;
         } else {
-            probeResult.blocked = false;
+            if (normalY > 0.3) {
+                probeResult.blocked = false;
+            } else {
+                probeResult.blocked = true;
+            }
         }
 
         return probeResult;
@@ -254,7 +261,15 @@ class ActorMovement {
 
         probeRes = this.probeMovementPhysics(actor, GameAPI.getFrame().avgTpf * forward);
 
-        actor.setSpatialPosition(probeRes.destination)
+        if (probeRes.blocked) {
+        //    this.visualArc.rgba = colorMapFx['HOSTILE']
+        } else if (probeRes.halted) {
+        //    this.visualArc.rgba = colorMapFx['NEUTRAL']
+        } else {
+            actor.setSpatialPosition(probeRes.destination)
+        }
+
+
         //    }
 
 
