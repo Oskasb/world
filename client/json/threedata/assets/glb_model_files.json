@@ -142,6 +142,8 @@
         {"id": "file_block_4",      "config": { "url": "./client/assets/models/buildings/block_4"                                      }},
 
         {"id": "file_cottage",       "config": { "url": "./client/assets/models/buildings/cottage"                               }},
+        {"id": "file_cottage_hull_1",       "config": { "url": "./client/assets/models/buildings/cottage_hull_1"                               }},
+        {"id": "file_cottage_hull_2",       "config": { "url": "./client/assets/models/buildings/cottage_hull_2"                               }},
 
         {"id": "file_house_small",   "config": { "url": "./client/assets/models/buildings/house_small"                               }},
         {"id": "file_town_house",    "config": { "url": "./client/assets/models/buildings/town_house"                               }},
@@ -154,11 +156,18 @@
         {"id": "file_tree_3",        "config": { "url": "./client/assets/models/trees/tree_3"                                        }},
         {"id": "file_tree_4",        "config": { "url": "./client/assets/models/trees/tree_4"                                        }},
         {"id": "file_tree_5_big",    "config": { "url": "./client/assets/models/trees/tree_5_big"                                    }},
-        {"id": "file_convex_tree_1",        "config": { "url": "./client/assets/models/trees/convex_tree_1"                                        }},
-        {"id": "file_convex_tree_2",        "config": { "url": "./client/assets/models/trees/convex_tree_2"                                        }},
-        {"id": "file_convex_tree_3",        "config": { "url": "./client/assets/models/trees/convex_tree_3"                                        }},
-        {"id": "file_convex_tree_4",        "config": { "url": "./client/assets/models/trees/convex_tree_4"                                        }},
-        {"id": "file_convex_tree_5_big",    "config": { "url": "./client/assets/models/trees/convex_tree_5_big"                                    }}
+        {"id": "file_convex_tree_1",        "config": { "url": "./client/assets/models/trees/convex_tree_1"                                      }},
+        {"id": "file_convex_tree_1_1",      "config": { "url": "./client/assets/models/trees/convex_tree_1_1"                                    }},
+        {"id": "file_convex_tree_2",        "config": { "url": "./client/assets/models/trees/convex_tree_2"                                      }},
+        {"id": "file_convex_tree_2_1",      "config": { "url": "./client/assets/models/trees/convex_tree_2_1"                                    }},
+        {"id": "file_convex_tree_3",        "config": { "url": "./client/assets/models/trees/convex_tree_3"                                      }},
+        {"id": "file_convex_tree_3_1",      "config": { "url": "./client/assets/models/trees/convex_tree_3_1"                                    }},
+        {"id": "file_convex_tree_3_2",      "config": { "url": "./client/assets/models/trees/convex_tree_3_2"                                    }},
+        {"id": "file_convex_tree_4",        "config": { "url": "./client/assets/models/trees/convex_tree_4"                                      }},
+        {"id": "file_convex_tree_4_1",      "config": { "url": "./client/assets/models/trees/convex_tree_4_1"                                    }},
+        {"id": "file_convex_tree_5_big",    "config": { "url": "./client/assets/models/trees/convex_tree_5_big"                                  }},
+        {"id": "file_convex_tree_5_big_1",  "config": { "url": "./client/assets/models/trees/convex_tree_5_big_1"                                }}
+
       ]
     }
   }

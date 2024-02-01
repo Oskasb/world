@@ -150,7 +150,8 @@ function applyActorControls(actor) {
     let controlKeys = playerMovementControls.getInputSamplers()
     for (let i = 0; i < controlKeys.length; i++) {
         let key = controlKeys[i];
-        controlFunctions[key](actor.getControl(key), actor)
+        let controlValue = actor.getControl(key)
+        controlFunctions[key](controlValue, actor)
     }
 }
 

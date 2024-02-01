@@ -132,7 +132,7 @@ class GridTileSelector {
     setPos(posVec) {
         this.useMoveTo = false;
         this.initPos.copy(posVec);
-        this.initPos.y = ThreeAPI.terrainAt(this.initPos)+0.05
+        this.initPos.y = ThreeAPI.terrainAt(this.initPos)+0.2
         this.moveToVec3.copy(posVec)
     }
 

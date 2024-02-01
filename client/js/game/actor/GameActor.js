@@ -453,6 +453,7 @@ class GameActor {
         this.getSpatialPosition(tempVec)
         this.lookDirection.y = tempVec.y;
         this.lookDirection.sub(tempVec);
+        this.lookDirection.normalize();
     }
 
     applyHeading(direction, alpha) {

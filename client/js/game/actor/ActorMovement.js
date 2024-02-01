@@ -3,6 +3,7 @@ import {VisualPath} from "../visuals/VisualPath.js";
 import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
 import {processEncounterGridTilePath} from "../gameworld/ScenarioUtils.js";
 import {Vector3} from "../../../libs/three/Three.js";
+import {detectFreeSpaceAbovePoint, rayTest} from "../../application/utils/PhysicsUtils.js";
 
 let colorsRgba = {
     BLUE:{r:0.015, g:0.05, b:0.2, a:1}
@@ -12,7 +13,18 @@ let visualPath = new VisualPath()
 let tileCount = 0;
 let tempVec = new Vector3();
 let tempVec2 = new Vector3()
+let tempNormal = new Vector3()
 
+
+let probeResult = {
+    blocked:false,
+    requiresLeap:false,
+    hitNormal:new Vector3(),
+    from:new Vector3(),
+    to:new Vector3(),
+    translation:new Vector3(),
+    destination:new Vector3()
+}
 
 function applyTileSelection(actor, tileSelector, walkGrid) {
     if (actor.getStatus(ENUMS.ActorStatus.IN_COMBAT)) {
@@ -33,6 +45,8 @@ class ActorMovement {
     constructor() {
 
         this.spatialTransition = new SpatialTransition();
+
+        this.visualArc = null;
 
          let pathingUpdate = function() {
 
@@ -128,52 +142,121 @@ class ActorMovement {
         }
     }
 
-    runControlActive(actor) {
-        let walkGrid = actor.getGameWalkGrid();
-
-        let tileSelector = walkGrid.gridTileSelector;
-        actor.getSpatialPosition(tempVec)
-        if (tileSelector.isActive === false) {
-            tileSelector.setPos(tempVec);
-            tileSelector.activateGridTileSelector()
+    probeMovementPhysics(actor, inputAmount) {
+        let pos = actor.getSpatialPosition()
+        let moveSpeed = actor.getStatus(ENUMS.ActorStatus.MOVEMENT_SPEED)
+        probeResult.translation.copy(actor.lookDirection);
+        probeResult.translation.multiplyScalar(inputAmount * moveSpeed)
+    //    let quat = actor.getSpatialQuaternion();
+    //    probeResult.translation.applyQuaternion(quat);
+        probeResult.from.copy(pos)
+        probeResult.from.y += 0.5;
+        probeResult.to.addVectors(probeResult.from, probeResult.translation);
+        let hit = rayTest(probeResult.from, probeResult.to, probeResult.destination, tempNormal, true)
+        if (!hit) {
+            probeResult.destination.copy(probeResult.to)
         } else {
-
+            actor.actorText.say("f____")
         }
 
-        if (tileSelector.hasValue()) {
+        let groundHeight = ThreeAPI.terrainAt(probeResult.destination, tempNormal);
+        probeResult.destination.y = probeResult.from.y + 1.5;
+        probeResult.to.copy(probeResult.destination);
+        probeResult.to.y = groundHeight + 0.3;
+        hit = rayTest(probeResult.destination, probeResult.to, probeResult.destination, tempNormal, true)
 
-            if (tileSelector.extendedDistance > 0.8) {
-                actor.setStatusKey(ENUMS.ActorStatus.SELECTING_DESTINATION, 1);
-                actor.setDestination(tileSelector.getPos())
-                actor.getSpatialPosition(tempVec)
-                tempVec2.copy(tileSelector.translation);
-                tempVec2.multiplyScalar(GameAPI.getFrame().avgTpf)
-                tempVec.add(tempVec2);
-                tempVec.y = ThreeAPI.terrainAt(tempVec);
-                actor.setSpatialPosition(tempVec)
+        if (!hit) {
+            probeResult.destination.y = groundHeight;
+        } else {
+            actor.actorText.say('__d__')
+        }
+
+        probeResult.to.copy(probeResult.destination)
+        probeResult.to.y += 1.7;
+
+        hit = rayTest(probeResult.destination, probeResult.to, probeResult.destination, tempNormal, true)
+        if (hit) {
+            actor.actorText.say('____u')
+            probeResult.blocked = true;
+        }
+
+        return probeResult;
+
+    }
+
+    runControlActive(actor) {
+
+        let turn = actor.getControl(ENUMS.Controls.CONTROL_RUN_X)
+        let forward = actor.getControl(ENUMS.Controls.CONTROL_RUN_Z)
+
+        tempVec2.set(turn, 0, forward);
+        let inputAmount = tempVec2.length();
+        if (inputAmount === 0) return;
+
+        if (this.visualArc === null) {
+            this.visualArc = poolFetch('VisualEngagementArc')
+            this.visualArc.on(null, actor, null);
+        }
+
+
+            tempVec2.applyQuaternion(ThreeAPI.getCamera().quaternion);
+            tempVec2.y = 0;
+            let alignLength = tempVec2.length();
+            tempVec2.multiplyScalar(-inputAmount / alignLength);
+
+        let pos = actor.getSpatialPosition()
+        tempVec2.add(pos);
+        actor.turnTowardsPos(tempVec2, GameAPI.getFrame().avgTpf * -turn);
+
+           let probeRes = this.probeMovementPhysics(actor, forward);
+
+        this.visualArc.from.copy(pos);
+
+        tempVec.addVectors(pos, tempVec2);
+        let groundHeight = ThreeAPI.terrainAt(tempVec);
+        tempVec.y = groundHeight;
+
+        let hit = detectFreeSpaceAbovePoint(tempVec, 1.7, tempVec, tempNormal, 2, true);
+
+
+        if (hit) {
+            if (hit.fraction !== 1) {
+                //    console.log("Tile physical contact ", hit)
+                let rigidBodyPointer = hit.ptr;
             }
 
-            actor.turnTowardsPos(tileSelector.getPos() , GameAPI.getFrame().avgTpf * tileSelector.extendedDistance * 0.3);
-
-        } else {
-
+            //       this.obj3d.position.copy(contactPoint);
+            //       this.groundNormal.copy(normalHit);
         }
+
+        this.visualArc.to.copy(probeRes.destination);
+    //    this.visualArc.to.y = targetElevation;
+
+
+        actor.setStatusKey(ENUMS.ActorStatus.SELECTING_DESTINATION, 1);
+        //    if (tileSelector.extendedDistance > 0.8) {
+
+        actor.setDestination(this.visualArc.to)
+
+        probeRes = this.probeMovementPhysics(actor, GameAPI.getFrame().avgTpf * forward);
+
+        actor.setSpatialPosition(probeRes.destination)
+        //    }
+
+
     }
 
     runControlCompleted(actor) {
-        let walkGrid = actor.getGameWalkGrid();
-        let tileSelector = walkGrid.gridTileSelector;
-        if (tileSelector.isActive) {
-            tileSelector.deactivateGridTileSelector()
-            
-            if (tileSelector.hasValue()) {
+    //    actor.setControlKey(ENUMS.Controls.CONTROL_RUN_X, 0)
+    //    actor.setControlKey(ENUMS.Controls.CONTROL_RUN_Z, 0)
+        actor.setControlKey(ENUMS.ActorStatus.CONTROL_RUN_ACTION, 0);
+        actor.setStatusKey(ENUMS.ActorStatus.SELECTING_DESTINATION, 0);
+        actor.setDestination(actor.getSpatialPosition())
 
-                actor.setStatusKey(ENUMS.ActorStatus.SELECTING_DESTINATION, 0);
-                actor.setDestination(actor.getSpatialPosition())
-
-                tileSelector.moveAlongX(0);
-                tileSelector.moveAlongZ(0);
-            }
+        if (this.visualArc) {
+            this.visualArc.off();
+            poolReturn(this.visualArc);
+            this.visualArc = null;
         }
 
     }

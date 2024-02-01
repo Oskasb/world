@@ -116,6 +116,26 @@ class ControlFunctions {
         }
     }
 
+    CONTROL_RUN_X(value, actor) {
+        if (value !== 0) {
+            if (actor.getStatus(ENUMS.ActorStatus.SELECTING_DESTINATION)) {
+            //    let walkGrid = actor.getGameWalkGrid();
+            //    let tileSelector = walkGrid.gridTileSelector;
+            //    tileSelector.moveAlongX(value*actor.getStatus(ENUMS.ActorStatus.MOVEMENT_SPEED));
+            }
+        }
+    }
+
+    CONTROL_RUN_Z(value, actor) {
+        if (value !== 0) {
+            if (actor.getStatus(ENUMS.ActorStatus.SELECTING_DESTINATION)) {
+            //    let walkGrid = actor.getGameWalkGrid();
+            //    let tileSelector = walkGrid.gridTileSelector;
+            //    tileSelector.moveAlongZ(value*actor.getStatus(ENUMS.ActorStatus.MOVEMENT_SPEED));
+            }
+        }
+    }
+
     CONTROL_RUN_ACTION(value, actor) {
         if (value === 1) {
             actor.actorMovement.runControlActive(actor);
