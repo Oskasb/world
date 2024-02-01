@@ -4,6 +4,7 @@ import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
 import {processEncounterGridTilePath} from "../gameworld/ScenarioUtils.js";
 import {Vector3} from "../../../libs/three/Three.js";
 import {detectFreeSpaceAbovePoint, rayTest} from "../../application/utils/PhysicsUtils.js";
+import {colorMapFx} from "../visuals/Colors.js";
 
 let colorsRgba = {
     BLUE:{r:0.015, g:0.05, b:0.2, a:1}
@@ -17,6 +18,7 @@ let tempNormal = new Vector3()
 
 
 let probeResult = {
+    halted:false,
     blocked:false,
     requiresLeap:false,
     hitNormal:new Vector3(),
@@ -152,21 +154,23 @@ class ActorMovement {
         probeResult.from.copy(pos)
         probeResult.from.y += 0.5;
         probeResult.to.addVectors(probeResult.from, probeResult.translation);
-        let hit = rayTest(probeResult.from, probeResult.to, probeResult.destination, tempNormal, true)
+        let hit = rayTest(probeResult.from, probeResult.to, probeResult.destination, tempNormal, false)
         if (!hit) {
             probeResult.destination.copy(probeResult.to)
+            probeResult.halted = false;
         } else {
             actor.actorText.say("f____")
+            probeResult.halted = true;
         }
 
         let groundHeight = ThreeAPI.terrainAt(probeResult.destination, tempNormal);
         probeResult.destination.y = probeResult.from.y + 1.5;
         probeResult.to.copy(probeResult.destination);
         probeResult.to.y = groundHeight + 0.3;
-        hit = rayTest(probeResult.destination, probeResult.to, probeResult.destination, tempNormal, true)
+        hit = rayTest(probeResult.destination, probeResult.to, probeResult.destination, tempNormal, false)
 
         if (!hit) {
-            probeResult.destination.y = groundHeight;
+            probeResult.destination.y = groundHeight+0.3;
         } else {
             actor.actorText.say('__d__')
         }
@@ -178,6 +182,8 @@ class ActorMovement {
         if (hit) {
             actor.actorText.say('____u')
             probeResult.blocked = true;
+        } else {
+            probeResult.blocked = false;
         }
 
         return probeResult;
@@ -211,6 +217,14 @@ class ActorMovement {
            let probeRes = this.probeMovementPhysics(actor, forward);
 
         this.visualArc.from.copy(pos);
+
+        if (probeRes.blocked) {
+            this.visualArc.rgba = colorMapFx['HOSTILE']
+        } else if (probeRes.halted) {
+            this.visualArc.rgba = colorMapFx['NEUTRAL']
+        } else {
+            this.visualArc.rgba = colorMapFx['FRIENDLY']
+        }
 
         tempVec.addVectors(pos, tempVec2);
         let groundHeight = ThreeAPI.terrainAt(tempVec);

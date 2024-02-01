@@ -6,7 +6,7 @@
         "data":{
           "status": {
             "PASSIVE_ACTIONS": ["ACTION_FREEHACK_MELEE"],
-            "ACTIONS": ["ACTION_CHARGE"],
+            "ACTIONS": ["ACTION_CHARGE", "ACTION_FIREBALL", "ACTION_HEAL_BOLT"],
             "TRAVEL":  ["ACTION_TRAVEL_WALK", "ACTION_TRAVEL_RUN", "ACTION_TRAVEL_LEAP"],
             "MOVEMENT_SPEED": 7,
             "HEIGHT": 2.2,
@@ -27,8 +27,8 @@
         "data":{
           "status": {
             "PASSIVE_ACTIONS": ["ACTION_FREEHACK_MELEE"],
-            "ACTIONS": ["ACTION_CHARGE"],
-            "TRAVEL":  ["ACTION_TRAVEL_WALK", "ACTION_TRAVEL_LEAP"],
+            "ACTIONS": ["ACTION_CHARGE", "ACTION_FREEZE_BOLT", "ACTION_HEAL_BOLT"],
+            "TRAVEL":  ["ACTION_TRAVEL_WALK", "ACTION_TRAVEL_RUN", "ACTION_TRAVEL_LEAP"],
             "MOVEMENT_SPEED": 7,
             "HEIGHT": 2.2,
             "SIZE": 1.5,
@@ -50,7 +50,7 @@
             "EQUIPPED_ITEMS": ["ITEM_HATCHET"],
             "PASSIVE_ACTIONS": ["ACTION_FREEHACK_MELEE"],
             "ACTIONS": ["ACTION_MELEE_BASH", "ACTION_THROW"],
-            "TRAVEL":  ["ACTION_TRAVEL_WALK"],
+            "TRAVEL":  ["ACTION_TRAVEL_WALK", "ACTION_TRAVEL_RUN"],
             "MOVEMENT_SPEED": 4,
             "HEIGHT": 1.8,
             "SIZE": 1.0,
@@ -72,7 +72,7 @@
           "status": {
             "PASSIVE_ACTIONS": ["ACTION_FREEHACK_MELEE"],
             "ACTIONS": ["ACTION_CHARGE"],
-            "TRAVEL":  ["ACTION_TRAVEL_WALK", "ACTION_TRAVEL_LEAP"],
+            "TRAVEL":  ["ACTION_TRAVEL_WALK", "ACTION_TRAVEL_RUN", "ACTION_TRAVEL_LEAP"],
             "MOVEMENT_SPEED": 4,
             "HEIGHT": 1.8,
             "SIZE": 1.0,
@@ -92,8 +92,8 @@
         "data":{
           "status": {
             "PASSIVE_ACTIONS": ["ACTION_FREEHACK_MELEE"],
-            "ACTIONS": ["ACTION_FIREBALL", "ACTION_HEAL_BOLT"],
-            "TRAVEL":  ["ACTION_TRAVEL_WALK"],
+            "ACTIONS": ["ACTION_FREEZE_BOLT", "ACTION_HEAL_BOLT"],
+            "TRAVEL":  ["ACTION_TRAVEL_WALK", "ACTION_TRAVEL_RUN"],
             "MOVEMENT_SPEED": 4,
             "HEIGHT": 1.8,
             "SIZE": 1.0,
@@ -113,7 +113,7 @@
           "status": {
             "PASSIVE_ACTIONS": ["ACTION_FREEHACK_MELEE"],
             "ACTIONS": ["ACTION_FIREBALL", "ACTION_HEAL_BOLT"],
-            "TRAVEL":  ["ACTION_TRAVEL_WALK"],
+            "TRAVEL":  ["ACTION_TRAVEL_WALK", "ACTION_TRAVEL_RUN"],
             "MOVEMENT_SPEED": 4,
             "HEIGHT": 1.8,
             "SIZE": 1.0,
@@ -133,7 +133,7 @@
           "status": {
             "PASSIVE_ACTIONS": ["ACTION_FREEHACK_MELEE"],
             "ACTIONS": ["ACTION_MAGIC_MISSILE", "ACTION_HEAL_BOLT"],
-            "TRAVEL":  ["ACTION_TRAVEL_WALK"],
+            "TRAVEL":  ["ACTION_TRAVEL_WALK", "ACTION_TRAVEL_RUN"],
             "MOVEMENT_SPEED": 4,
             "HEIGHT": 1.8,
             "SIZE": 1.0,
@@ -153,7 +153,7 @@
           "status": {
             "PASSIVE_ACTIONS": ["ACTION_FREEHACK_MELEE"],
             "ACTIONS": ["ACTION_MAGIC_MISSILE", "ACTION_HEAL_BOLT"],
-            "TRAVEL":  ["ACTION_TRAVEL_WALK"],
+            "TRAVEL":  ["ACTION_TRAVEL_WALK", "ACTION_TRAVEL_RUN"],
             "MOVEMENT_SPEED": 4,
             "HEIGHT": 1.8,
             "SIZE": 1.0,
@@ -173,7 +173,7 @@
           "status": {
             "PASSIVE_ACTIONS": ["ACTION_FREEHACK_MELEE"],
             "ACTIONS": ["ACTION_MAGIC_MISSILE", "ACTION_HEAL_BOLT"],
-            "TRAVEL":  ["ACTION_TRAVEL_WALK"],
+            "TRAVEL":  ["ACTION_TRAVEL_WALK", "ACTION_TRAVEL_RUN"],
             "MOVEMENT_SPEED": 4,
             "HEIGHT": 1.8,
             "SIZE": 1.0,

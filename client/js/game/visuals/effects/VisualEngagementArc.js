@@ -25,7 +25,7 @@ function drawPathPoint(from, to, rgba, pointFx) {
     pointFx.updatePointFX(tempVec, tempObj.quaternion, rgba);
 }
 
-function drawPathPoints(from, to, pathPoints, gameTime, actor) {
+function drawPathPoints(from, to, pathPoints, gameTime, actor, rgba) {
     let distance = MATH.distanceBetween(from, to);
     fromVec.copy(from);
     let points = Math.floor(distance*14)
@@ -42,9 +42,7 @@ function drawPathPoints(from, to, pathPoints, gameTime, actor) {
         pathPoints.push(pointFx);
     }
 
-    let alignment = actor.getStatus(ENUMS.ActorStatus.ALIGNMENT);
 
-    let rgba = colorMapFx[alignment]
 
     let remainder = MATH.remainder(gameTime*3);
 
@@ -81,9 +79,11 @@ class VisualEngagementArc {
         this.effectData = null;
         this.lastDestination = new Vector3();
 
+        this.rgba = colorMapFx['NEUTRAL']
+
         let update = function() {
             let gameTime = GameAPI.getGameTime();
-            drawPathPoints(this.from, this.to, this.pathPointsFX, gameTime, this.actor)
+            drawPathPoints(this.from, this.to, this.pathPointsFX, gameTime, this.actor, this.rgba)
         }.bind(this)
 
 
@@ -99,6 +99,8 @@ class VisualEngagementArc {
         this.actor = actor;
         this.statusKey = statusKey;
         this.effectData = effectData;
+        let alignment = actor.getStatus(ENUMS.ActorStatus.ALIGNMENT);
+        this.rgba = colorMapFx[alignment]
         ThreeAPI.addPrerenderCallback(this.call.update);
     }
 
