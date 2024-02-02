@@ -142,6 +142,12 @@ class AmmoAPI {
 
     };
 
+    setBodyTransform = function(body, posVec, quat) {
+
+        ammoFunctions.setBodyTransform(body, posVec, quat);
+
+    };
+
     triggerPhysicallyActive = function(body) {
         return ammoFunctions.enableBodySimulation(body);
         //  actor.getPhysicsBody().activate();

@@ -945,6 +945,30 @@ class AmmoFunctions {
 
     };
 
+    setBodyTransform(body, posVec, quat) {
+        let ms = body.getMotionState();
+
+        ms.getWorldTransform(TRANSFORM_AUX);
+
+        //    body.clearForces();
+
+        TRANSFORM_AUX.setIdentity();
+
+        TRANSFORM_AUX.getOrigin().setX(posVec.x);
+        TRANSFORM_AUX.getOrigin().setY(posVec.y);
+        TRANSFORM_AUX.getOrigin().setZ(posVec.z);
+     //   console.log(TRANSFORM_AUX.getRotation())
+
+        TRANSFORM_AUX.getRotation().setX(quat.x);
+        TRANSFORM_AUX.getRotation().setY(quat.y);
+        TRANSFORM_AUX.getRotation().setZ(quat.z);
+        TRANSFORM_AUX.getRotation().setW(quat.w);
+
+        body.setWorldTransform(TRANSFORM_AUX);
+
+        body.getMotionState().setWorldTransform(TRANSFORM_AUX);
+    }
+
     setGeometryBuffer(id, buffer) {
         geometryBuffers[id] = buffer;
     //    console.log("Set Buffer", id, [buffer])

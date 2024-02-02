@@ -263,6 +263,29 @@
         ]
       },
       {
+        "id": "model_character_box",
+        "data": [
+          {
+            "data_key":"model_data",
+            "config": {
+              "assets": [
+                {
+                  "asset": "asset_box_dynamic",
+                  "pos": [0, 0.8, 0],
+                  "rot": [0, 0, 0],
+                  "scale": [0.005, 0.015, 0.005],
+                  "solidity": 1.0,
+                  "visibility": 3,
+                  "boxes": [
+
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
         "id": "model_box_dynamic",
         "data": [
           {

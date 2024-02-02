@@ -31,6 +31,7 @@ function removePhysicalModel(physicalModel) {
 }
 
 
+
 function debugDrawPhysicalModel(physicalModel) {
   //  evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos: physicalModel.getPos(), color:physicalModel.debugColor, size:1})
   //  evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:physicalModel.box.min, max:physicalModel.box.max, color:physicalModel.debugColor})
@@ -124,35 +125,18 @@ function bodyTransformToObj3d(body, obj3d, debugDraw) {
     ms.getWorldTransform(TRANSFORM_AUX);
     let p = TRANSFORM_AUX.getOrigin();
     let q = TRANSFORM_AUX.getRotation();
-    if (isNaN(p.x())) {
-        //    PhysicsWorldAPI.registerPhysError();
-
-        let tf = new Ammo.btTransform();
-
-        this.getSpatialPosition(tempVec1);
-        this.getSpatialQuaternion(tempQuat);
-
-        tf.getOrigin().setX(tempVec1.x);
-        tf.getOrigin().setY(tempVec1.y);
-        tf.getOrigin().setZ(tempVec1.z);
-
-        tf.getRotation().setX(tempQuat.x);
-        tf.getRotation().setY(tempQuat.y);
-        tf.getRotation().setZ(tempQuat.z);
-        tf.getRotation().setW(tempQuat.w);
-        ms.setWorldTransform(tf);
-        console.log("Bad body transform", this.body)
-        return;
-    }
 
     obj3d.position.set(p.x(), p.y(), p.z());
-
     obj3d.quaternion.set(q.x(), q.y(), q.z(), q.w());
 
  //   if (debugDraw) {
 //       evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ThreeAPI.getCameraCursor().getPos(), to:obj3d.position, color:'YELLOW'});
  //   }
 
+}
+
+function transformBody(objd3, body) {
+     AmmoAPI.setBodyTransform(body, objd3.position, objd3.quaternion);
 }
 
 function physicalIntersection(pos, insideVec3) {
@@ -188,6 +172,27 @@ function detectFreeSpaceAbovePoint(point, marginHeight, contactPoint, contactNor
     step = 0;
 }
 
+function getBodyByPointer(ptr) {
+    let world = getPhysicalWorld();
+
+    if (world.terrainBody.kB === ptr) {
+        return world.terrainBody;
+    }
+    let models = world.physicalModels;
+    for (let i = 0; i < models.length; i++){
+        let model = models[i];
+        let bodies = model.rigidBodies;
+        for (let j = 0; j < bodies.length;j++) {
+            let body = bodies[j];
+            if (body.kB === ptr) {
+                return body;
+            }
+        }
+
+    }
+    console.log("no body found for pointer ", ptr);
+}
+
 function getModelByBodyPointer(ptr) {
     let world = getPhysicalWorld();
 
@@ -218,6 +223,8 @@ export {
     addPhysicsToModel,
     removePhysicalModel,
     debugDrawPhysicalWorld,
+    transformBody,
     physicalIntersection,
+    getBodyByPointer,
     getModelByBodyPointer
 }

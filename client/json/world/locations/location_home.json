@@ -18,7 +18,7 @@
                   "palette": "TOWN_NEUTRAL"
                 },
                 {
-                  "model": "model_box_dynamic",
+                  "model": "model_character_box",
                   "pos": [-879, 12.0, 529],
                   "rot": [0, -1.3, 0],
                   "scale": [1, 1, 1],
@@ -26,8 +26,48 @@
                   "visibility": 3
                 },
                 {
+                  "model": "model_character_box",
+                  "pos": [-888, 12.0, 516],
+                  "rot": [0, -1.3, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": false,
+                  "visibility": 3
+                },
+                {
+                  "model": "model_character_box",
+                  "pos": [-887, 12.0, 516],
+                  "rot": [0, -1.3, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": false,
+                  "visibility": 3
+                },
+                {
+                  "model": "model_character_box",
+                  "pos": [-888, 12.0, 516],
+                  "rot": [0, -1.3, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": false,
+                  "visibility": 3
+                },
+                {
+                  "model": "model_character_box",
+                  "pos": [-887, 12.0, 517],
+                  "rot": [0, -1.3, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": false,
+                  "visibility": 3
+                },
+                {
+                  "model": "model_character_box",
+                  "pos": [-888, 12.0, 517],
+                  "rot": [0, -1.3, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": false,
+                  "visibility": 3
+                },
+                {
                   "model": "model_cottage",
-                  "pos": [-879, 1.0, 529],
+                  "pos": [-877, 1.0, 529],
                   "rot": [0, -1.3, 0],
                   "scale": [1, 1, 1],
                   "on_ground": true,

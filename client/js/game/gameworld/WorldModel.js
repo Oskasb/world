@@ -46,10 +46,15 @@ class WorldModel {
             this.removeLocationModels();
             for (let i = 0; i < data.assets.length; i++) {
                 let model = new LocationModel(this.obj3d, data.assets[i])
-                if (model.lodLevel) {
-                    ThreeAPI.registerTerrainLodUpdateCallback(model.getPos(), model.call.lodUpdated)
-                    model.call.setPaletteKey(this.paletteKey);
+                if (config['no_lod'] === true) {
+                    model.call.lodUpdated(0)
+                } else {
+                    if (model.lodLevel) {
+                        ThreeAPI.registerTerrainLodUpdateCallback(model.getPos(), model.call.lodUpdated)
+                        model.call.setPaletteKey(this.paletteKey);
+                    }
                 }
+
                 this.locationModels.push(model)
             }
         }.bind(this)

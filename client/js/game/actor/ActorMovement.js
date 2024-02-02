@@ -2,9 +2,12 @@ import {SpatialTransition} from "../piece_functions/SpatialTransition.js";
 import {VisualPath} from "../visuals/VisualPath.js";
 import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
 import {processEncounterGridTilePath} from "../gameworld/ScenarioUtils.js";
-import {Vector3} from "../../../libs/three/Three.js";
+import {Object3D, Vector3} from "../../../libs/three/Three.js";
 import {detectFreeSpaceAbovePoint, rayTest} from "../../application/utils/PhysicsUtils.js";
 import {colorMapFx} from "../visuals/Colors.js";
+import {WorldModel} from "../gameworld/WorldModel.js";
+import {PhysicalProbe} from "../piece_functions/PhysicalProbe.js";
+import {Box3} from "../../../libs/three/Three.js";
 
 let colorsRgba = {
     BLUE:{r:0.015, g:0.05, b:0.2, a:1}
@@ -15,7 +18,11 @@ let tileCount = 0;
 let tempVec = new Vector3();
 let tempVec2 = new Vector3()
 let tempNormal = new Vector3()
+let tempObj = new Object3D();
 
+
+
+let physicsProbes = null;
 
 let probeResult = {
     halted:false,
@@ -26,7 +33,11 @@ let probeResult = {
     to:new Vector3(),
     translation:new Vector3(),
     destination:new Vector3()
+
 }
+let probebox = new Box3()
+probebox.min.set(-0.25, 0, -0.25);
+probebox.max.set(0.25, 1.6, 0.25);
 
 function applyTileSelection(actor, tileSelector, walkGrid) {
     if (actor.getStatus(ENUMS.ActorStatus.IN_COMBAT)) {
@@ -43,8 +54,13 @@ function applyTileSelection(actor, tileSelector, walkGrid) {
     }
 }
 
+
 class ActorMovement {
     constructor() {
+
+        if (physicsProbes === null) {
+            physicsProbes = [new PhysicalProbe("model_character_box",  [-884, 12.0, 522]), new PhysicalProbe("model_character_box",  [-882, 12.0, 522])]
+        }
 
         this.spatialTransition = new SpatialTransition();
 
@@ -144,15 +160,61 @@ class ActorMovement {
         }
     }
 
-    probeMovementPhysics(actor, inputAmount) {
+
+    testProbeFitsAtPos(pos) {
+        probeResult.from.copy(pos);
+        probeResult.from.y += 0.4;
+        probeResult.to.copy(pos);
+        probeResult.to.y += 1.3;
+        let hit = rayTest(probeResult.from, probeResult.to, tempVec, tempNormal, true)
+        if (hit) {
+            return hit;
+        }
+        tempVec2.copy(pos)
+        tempVec2.y += 0.3;
+        tempVec2.x -= 0.25;
+        tempVec2.z -= 0.25;
+        hit = rayTest(probeResult.to, tempVec2, tempVec, tempNormal, true)
+        if (hit) {
+            return hit;
+        }
+
+
+    //    tempVec2.x += 0.5;
+        tempVec2.z += 0.5;
+        hit = rayTest(probeResult.to, tempVec2, tempVec, tempNormal, true)
+        if (hit) {
+            return hit;
+        }
+
+
+            tempVec2.x += 0.5;
+        //    tempVec2.z += 0.5;
+        hit = rayTest(probeResult.to, tempVec2, tempVec, tempNormal, true)
+        if (hit) {
+            return hit;
+        }
+
+        //    tempVec2.x += 0.5;
+          tempVec2.z -= 0.5;
+        hit = rayTest(probeResult.to, tempVec2, tempVec, tempNormal, true)
+        if (hit) {
+            return hit;
+        }
+
+    }
+
+    probeMovementPhysics(actor, inputAmount, probeShape) {
+        probeResult.blocked = false;
+        probeResult.halted = false;
         let pos = actor.getSpatialPosition()
-        let moveSpeed = actor.getStatus(ENUMS.ActorStatus.MOVEMENT_SPEED)
+        let moveSpeed = inputAmount // actor.getStatus(ENUMS.ActorStatus.MOVEMENT_SPEED)
         probeResult.translation.copy(actor.lookDirection);
         probeResult.translation.multiplyScalar(inputAmount * moveSpeed)
     //    let quat = actor.getSpatialQuaternion();
     //    probeResult.translation.applyQuaternion(quat);
         probeResult.from.copy(pos)
-        probeResult.from.y += 0.5;
+        probeResult.from.y += 0.75;
         probeResult.to.addVectors(probeResult.from, probeResult.translation);
         let hit = rayTest(probeResult.from, probeResult.to, probeResult.destination, tempNormal, false)
         if (!hit) {
@@ -160,6 +222,14 @@ class ActorMovement {
             probeResult.halted = false;
         } else {
         //    actor.actorText.say("f____")
+            //let fraction = hit.fraction;
+            tempVec.copy(probeResult.translation);
+            tempVec.normalize();
+            tempVec.multiplyScalar(0.25);
+            probeResult.translation.multiplyScalar(hit.fraction);
+            probeResult.translation.sub(tempVec);
+            probeResult.destination.addVectors(probeResult.from, probeResult.translation);
+        //    console.log("Fraction: ", fraction)
             probeResult.halted = true;
         }
 
@@ -179,9 +249,10 @@ class ActorMovement {
         }
 
         probeResult.to.copy(probeResult.destination)
-        probeResult.to.y += 1.7;
+        hit = this.testProbeFitsAtPos(probeResult.to)
+    //    probeResult.to.y += 1.7;
 
-        hit = rayTest(probeResult.destination, probeResult.to, probeResult.destination, tempNormal, true)
+    //    rayTest(probeResult.destination, probeResult.to, probeResult.destination, tempNormal, true)
         if (hit) {
         //    actor.actorText.say('____u')
             probeResult.blocked = true;
@@ -192,12 +263,17 @@ class ActorMovement {
                 probeResult.blocked = true;
             }
         }
-
+        probeResult.to.y = probeResult.destination.y + 0.8;
+    //    probeShape.setPosQuat(probeResult.to, actor.getSpatialQuaternion());
         return probeResult;
 
     }
 
     runControlActive(actor) {
+        tempObj.position.set(0, 100, 0)
+        tempObj.quaternion.set(0, 0, 0, 1)
+        physicsProbes[0].setPosQuat(tempObj.position, tempObj.quaternion);
+        physicsProbes[1].setPosQuat(tempObj.position, tempObj.quaternion);
 
         let turn = actor.getControl(ENUMS.Controls.CONTROL_RUN_X)
         let forward = actor.getControl(ENUMS.Controls.CONTROL_RUN_Z)
@@ -221,10 +297,12 @@ class ActorMovement {
         tempVec2.add(pos);
         actor.turnTowardsPos(tempVec2, GameAPI.getFrame().avgTpf * -turn);
 
-           let probeRes = this.probeMovementPhysics(actor, forward);
+        let distance = forward * actor.getStatus(ENUMS.ActorStatus.MOVEMENT_SPEED)
+
+           let probeRes = this.probeMovementPhysics(actor, distance, physicsProbes[0]);
 
         this.visualArc.from.copy(pos);
-
+/*
         if (probeRes.blocked) {
             this.visualArc.rgba = colorMapFx['HOSTILE']
         } else if (probeRes.halted) {
@@ -232,25 +310,28 @@ class ActorMovement {
         } else {
             this.visualArc.rgba = colorMapFx['FRIENDLY']
         }
-
+*/
         tempVec.addVectors(pos, tempVec2);
         let groundHeight = ThreeAPI.terrainAt(tempVec);
         tempVec.y = groundHeight;
 
-        let hit = detectFreeSpaceAbovePoint(tempVec, 1.7, tempVec, tempNormal, 2, true);
+        let hit = detectFreeSpaceAbovePoint(tempVec, 1.5, tempVec, tempNormal, 2, true);
 
 
         if (hit) {
             if (hit.fraction !== 1) {
                 //    console.log("Tile physical contact ", hit)
                 let rigidBodyPointer = hit.ptr;
+                physicsProbes[1].setPosQuat(tempVec, actor.getSpatialQuaternion());
             }
 
             //       this.obj3d.position.copy(contactPoint);
             //       this.groundNormal.copy(normalHit);
         }
 
-        this.visualArc.to.copy(probeRes.destination);
+    //    physicsProbes[0].setPosQuat(probeRes.destination, actor.getSpatialQuaternion());
+
+
     //    this.visualArc.to.y = targetElevation;
 
 
@@ -259,14 +340,27 @@ class ActorMovement {
 
         actor.setDestination(this.visualArc.to)
 
-        probeRes = this.probeMovementPhysics(actor, GameAPI.getFrame().avgTpf * forward);
+
+        probeRes = this.probeMovementPhysics(actor, 0.5+Math.max(forward*0.5, 0),  physicsProbes[1]);
+
+        this.visualArc.to.copy(probeRes.destination);
 
         if (probeRes.blocked) {
-        //    this.visualArc.rgba = colorMapFx['HOSTILE']
+            this.visualArc.rgba = colorMapFx['HOSTILE']
         } else if (probeRes.halted) {
-        //    this.visualArc.rgba = colorMapFx['NEUTRAL']
+            this.visualArc.rgba = colorMapFx['NEUTRAL']
         } else {
-            actor.setSpatialPosition(probeRes.destination)
+            this.visualArc.rgba = colorMapFx['FRIENDLY']
+            tempVec.copy(probeRes.destination);
+            tempVec.sub(actor.getSpatialPosition());
+            tempVec.normalize();
+            tempVec.multiplyScalar(GameAPI.getFrame().avgTpf * distance)
+            tempVec.add(actor.getSpatialPosition());
+        //    let hit = this.testProbeFitsAtPos(tempVec)
+        //    if (!hit) {
+                actor.setSpatialPosition(tempVec)
+        //    }
+
         }
 
 
@@ -281,7 +375,10 @@ class ActorMovement {
         actor.setControlKey(ENUMS.ActorStatus.CONTROL_RUN_ACTION, 0);
         actor.setStatusKey(ENUMS.ActorStatus.SELECTING_DESTINATION, 0);
         actor.setDestination(actor.getSpatialPosition())
-
+        tempObj.position.set(0, 100, 0)
+        tempObj.quaternion.set(0, 0, 0, 1)
+    //    physicsProbes[0].setPosQuat(tempObj.position, tempObj.quaternion);
+    //    physicsProbes[1].setPosQuat(tempObj.position, tempObj.quaternion);
         if (this.visualArc) {
             this.visualArc.off();
             poolReturn(this.visualArc);
