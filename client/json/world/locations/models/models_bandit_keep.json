@@ -562,6 +562,18 @@
                 },
                 {
                   "asset": "asset_castle_wall_10",
+                  "pos": [15, 0, 30],
+                  "rot": [0, 0, 0],
+                  "scale": [0.01, 0.01, 0.01],
+                  "solidity": 1.0,
+                  "visibility": 2,
+                  "palette": "TOWN_NEUTRAL",
+                  "boxes": [
+
+                  ]
+                },
+                {
+                  "asset": "asset_castle_wall_10",
                   "pos": [10, 0, 35],
                   "rot": [0, 1.575, 0],
                   "scale": [0.01, 0.01, 0.01],
@@ -575,6 +587,18 @@
                 {
                   "asset": "asset_castle_wall_10",
                   "pos": [20, 0, 35],
+                  "rot": [0, 1.575, 0],
+                  "scale": [0.01, 0.01, 0.01],
+                  "solidity": 1.0,
+                  "visibility": 2,
+                  "palette": "TOWN_NEUTRAL",
+                  "boxes": [
+
+                  ]
+                },
+                {
+                  "asset": "asset_castle_wall_10_door",
+                  "pos": [20, 0, 25],
                   "rot": [0, 1.575, 0],
                   "scale": [0.01, 0.01, 0.01],
                   "solidity": 1.0,

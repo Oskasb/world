@@ -29,7 +29,7 @@
                     "dispatch":{
                       "event":"SELECT_ADVENTURER",
                       "value":{
-                        "pos":[-750, 4, 780],
+                        "pos":[-728, 4, 785],
 
                         "actor_id":"ACTOR_GOD_1",
                         "page_id": "page_start_god",
