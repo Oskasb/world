@@ -179,6 +179,10 @@ let obstructHhitCb = function(hit) {
 
     let physicalModel = getModelByBodyPointer(ptr);
 
+    if (!physicalModel) {
+        return;
+    }
+
     let model = physicalModel.call.getModel();
 
     if (!model) {
@@ -189,9 +193,10 @@ let obstructHhitCb = function(hit) {
     if (world.viewObstuctingModels.indexOf(model) === -1) {
         world.viewObstuctingModels.push(model)
         model.call.viewObstructing(true)
-    } else {
-        viewObstuctionTest(hit.position, ThreeAPI.getCamera().position, obstructHhitCb)
     }
+
+    viewObstuctionTest(hit.position, ThreeAPI.getCamera().position, obstructHhitCb)
+
 }
 
     function viewObstuctionTest(from, to, hitCb) {
@@ -209,7 +214,7 @@ function updateViewPhysicalObstruction(actor) {
     MATH.copyArrayValues(world.viewObstuctingModels, obstructingModels);
     MATH.emptyArray(world.viewObstuctingModels);
     actor.getSpatialPosition(tempVec);
-    tempVec.y += actor.getStatus(ENUMS.ActorStatus.HEIGHT);
+    tempVec.y += actor.getStatus(ENUMS.ActorStatus.HEIGHT) * 0.25;
     let camPos = ThreeAPI.getCamera().position;
 
     viewObstuctionTest(tempVec, camPos, obstructHhitCb)
@@ -248,15 +253,20 @@ function updateRigidBodyContact(actor) {
 
         if (ptr !== 0) {
             let physicalModel = getModelByBodyPointer(ptr)
-            let model = physicalModel.call.getModel()
-            //     console.log(physicalModel, model);
-            if (!model) {
-                console.log("Probably Primitive, figure out")
-                lastContactModel = null
+            if (physicalModel) {
+                let model = physicalModel.call.getModel()
+                //     console.log(physicalModel, model);
+                if (!model) {
+                    console.log("Probably Primitive, figure out")
+                    lastContactModel = null
+                } else {
+                    model.call.playerContact(true)
+                    lastContactModel = model
+                }
             } else {
-                model.call.playerContact(true)
-                lastContactModel = model
+                lastContactModel = null
             }
+
         }
 
         lastContact = ptr;

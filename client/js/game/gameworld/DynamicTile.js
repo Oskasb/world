@@ -204,14 +204,19 @@ class DynamicTile {
         if (farness > 1) {
         //    console.log("Farness overrun", farness)
             farness = 1;
+            isVisible = false;
         }
 
         let nearness = MATH.decimalify(MATH.clamp(2-farness*(1.2+MATH.curveCube(farness)), 0, 1), 10);
-        let lodLevel = Math.floor(farness * (lodLevels));
+        let lodLevel = Math.floor((MATH.curveCube(farness)*0.5 + MATH.curveSqrt(farness)*0.5) * (lodLevels-1));
 
 
         this.isVisible = false;
         this.lodLevel = lodLevel;
+        if (lodLevel === 0) {
+        //    this.debug = true;
+            isVisible = true;
+        }
         if (isVisible) {
 
             if (nearness > 0) {

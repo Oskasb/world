@@ -7,12 +7,17 @@ import {Box3} from "../../../libs/three/math/Box3.js";
 import {colorMapFx} from "../visuals/Colors.js";
 import {bodyTransformToObj3d} from "../../application/utils/PhysicsUtils.js";
 
-
 let configData = null;
 let tempVec = new Vector3()
+
 function onConfig(data) {
     configData = data;
 }
+
+setTimeout(function() {
+    configDataList('PHYSICS', 'ASSET_SHAPES', onConfig)
+}, 1000);
+
 
 class PhysicalModel {
     constructor() {
@@ -69,38 +74,53 @@ class PhysicalModel {
         this.box.min.set(999999999, 99999999, 99999999);
         this.box.max.set(-999999999, -99999999, -99999999);
         this.static = false;
-        if (configData) {
-            let shapes = null;
-            if (configData[assetId]) {
-                shapes = configData[assetId]['shapes'];
+
+        this.includePhysicalModel();
+   //     if (configData) {
+
+    //    }
+
+    }
+
+    includePhysicalModel() {
+        let shapes = null;
+        if (configData[this.assetId]) {
+            shapes = configData[this.assetId]['shapes'];
+        } else {
+            shapes = configData['default']['shapes'];
+        }
+
+        let bodyReadyCB = function(body) {
+            bodyTransformToObj3d(body, this.obj3d);
+            this.rigidBodies.push(body);
+            window.AmmoAPI.includeBody(body);
+
+            if (this.static === false) {
+                //        console.log("Rigid Body: ",assetId, body)
             } else {
-                shapes = configData['default']['shapes'];
+
             }
 
-            let bodyReadyCB = function(body) {
-                bodyTransformToObj3d(body, this.obj3d);
-                this.rigidBodies.push(body);
-                window.AmmoAPI.includeBody(body);
+        }.bind(this)
 
-                if (this.static === false) {
-            //        console.log("Rigid Body: ",assetId, body)
-                } else {
-
-                }
-
-            }.bind(this)
-
-            if (!shapes[0].mass) {
-                this.static = true;
-            }
-            for (let i = 0; i < shapes.length; i++) {
-                let conf = shapes[i];
+        if (!shapes[0].mass) {
+            this.static = true;
+        }
+        for (let i = 0; i < shapes.length; i++) {
+            let conf = shapes[i];
             //    let shape = poolFetch('PhysicalShape');
 
-                    AmmoAPI.setupRigidBody(this.obj3d, conf['shape'], conf['mass'], conf['friction'], conf['pos'], conf['rot'], conf['scale'], conf['asset'], conf['convex'], bodyReadyCB)
+            AmmoAPI.setupRigidBody(this.obj3d, conf['shape'], conf['mass'], conf['friction'], conf['pos'], conf['rot'], conf['scale'], conf['asset'], conf['convex'], bodyReadyCB)
 
-            }
         }
+    }
+
+    testinclusion() {
+
+    }
+
+    testExclusion() {
+
     }
 
     deactivatePhysicalModel() {

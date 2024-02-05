@@ -255,7 +255,9 @@ class GameAPI {
         return gamePieceSystem;
     }
 
-
+    getSelectedPlayerPos(store) {
+        return gamePieceSystem.selectedActor.getSpatialPosition(store);
+    }
 
     initGameWorldModels() {
         this.worldModels = new WorldModels();
@@ -273,6 +275,8 @@ class GameAPI {
     getPlayerParty() {
         return gamePieceSystem.playerParty;
     }
+
+
 
     createGameCharacter(config) {
         return new GameCharacter(config);

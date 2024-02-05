@@ -3,12 +3,22 @@ import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
 
 let AMMO ;
 
+
+
 class PhysicalWorld {
     constructor() {
         this.viewObstuctingModels = [];
         this.physicalModels = [];
         this.terrainBody = null;
+
+        this.removesRequested = [];
+
+        let processRequestedRemoves = function() {
+
+        }.bind(this);
+
         let updateModels = function() {
+            processRequestedRemoves(this.removesRequested);
             for (let i = 0; i < this.physicalModels.length; i++) {
                 this.physicalModels[i].updatePhysicalModel();
             }
@@ -43,9 +53,8 @@ class PhysicalWorld {
         poolReturn(physicalModel);
     }
 
-    pointIntersectsPhysicalWorld(pos) {
 
-    }
+
 
 }
 

@@ -162,6 +162,8 @@ function processTerrainLodCenter(lodCenter, terrainCenter) {
     terrainCenter.add(camPos)
     terrainCenter.y =  elevationFactor // camPos.y // ThreeAPI.terrainAt(terrainCenter);
 
+
+    terrainCenter.copy(cursorPos);
     lodCenter.copy(camPos);
    // lodCenter.y = ThreeAPI.terrainAt(lodCenter);
 
@@ -174,10 +176,10 @@ function processTerrainLodCenter(lodCenter, terrainCenter) {
 
     tempVec3.copy(terrainCenter)
     tempVec3.y = ThreeAPI.terrainAt(terrainCenter);
-    /*
+
     evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:terrainCenter, color:'YELLOW', size:1.0})
     evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:terrainCenter, to:tempVec3, color:'YELLOW'});
-
+    /*
      */
     // GuiAPI.printDebugText( tempVec3.x)
     GuiAPI.printDebugText('x:'+MATH.decimalify(tempVec3.x, 10)+' y:'+MATH.decimalify(tempVec3.y, 10)+' z:'+MATH.decimalify(tempVec3.z, 10))

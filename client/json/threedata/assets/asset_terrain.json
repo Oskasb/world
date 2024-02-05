@@ -11,8 +11,8 @@
               "config":{
                 "grid": {
                   "hide_tiles": true,
-                  "tile_range": 9,
-                  "tile_spacing": 50
+                  "tile_range": 15,
+                  "tile_spacing": 40
                 },
                 "section_info": {
                   "lod_levels": [
