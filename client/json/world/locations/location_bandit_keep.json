@@ -15,7 +15,7 @@
                   "scale": [1, 1, 1],
                   "on_ground": true,
                   "visibility": 3,
-                  "palette": "TOWN_NEUTRAL"
+                  "palette": "DEFAULT"
                 },
                 {
                   "model": "model_bandit_keep_main_pillars_0",
@@ -24,7 +24,7 @@
                   "scale": [1, 1, 1],
                   "on_ground": true,
                   "visibility": 3,
-                  "palette": "TOWN_NEUTRAL"
+                  "palette": "TOWN_DARK_2"
                 },
                 {
                   "model": "model_bandit_keep_main_walls_0",
@@ -33,7 +33,7 @@
                   "scale": [1, 1, 1],
                   "on_ground": true,
                   "visibility": 3,
-                  "palette": "TOWN_NEUTRAL"
+                  "palette": "TOWN_DARK_2"
                 }
               ]
             }
