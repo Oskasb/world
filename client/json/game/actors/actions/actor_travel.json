@@ -11,6 +11,15 @@
         }
       },
       {
+        "id":"ACTION_TRAVEL_GRID",
+        "data":{
+          "visual_action": "VISUAL_TRAVEL_GRID",
+          "status": {
+            "TRAVEL_MODE": "TRAVEL_MODE_GRID"
+          }
+        }
+      },
+      {
         "id":"ACTION_TRAVEL_WALK",
         "data":{
           "visual_action": "VISUAL_TRAVEL_WALK",

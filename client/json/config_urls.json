@@ -72,6 +72,7 @@
       "/ui/pages/start/gui_page_start_princess.json"         ,
       "/ui/pages/start/gui_page_start_alien.json"            ,
       "/ui/pages/start/gui_page_start_farmer.json"           ,
+      "/ui/pages/start/gui_page_start_outlaw.json"           ,
       "/ui/pages/start/gui_page_start_pirate.json"           ,
 
       "/ui/pages/debug/gui_page_debug_view.json"             ,

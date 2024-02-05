@@ -7,7 +7,7 @@
           "status": {
             "PASSIVE_ACTIONS": ["ACTION_FREEHACK_MELEE"],
             "ACTIONS": ["ACTION_CHARGE", "ACTION_FIREBALL", "ACTION_HEAL_BOLT"],
-            "TRAVEL":  ["ACTION_TRAVEL_WALK", "ACTION_TRAVEL_RUN", "ACTION_TRAVEL_LEAP"],
+            "TRAVEL":  ["ACTION_TRAVEL_WALK", "ACTION_TRAVEL_RUN", "ACTION_TRAVEL_LEAP","ACTION_TRAVEL_GRID"],
             "MOVEMENT_SPEED": 7,
             "HEIGHT": 2.2,
             "SIZE": 1.5,
@@ -63,6 +63,27 @@
             "IN_COMBAT": false,
             "TRAVEL_MODE": "TRAVEL_MODE_WALK",
             "ALIGNMENT": "NEUTRAL"
+          }
+        }
+      },
+      {
+        "id":"STATS_OUTLAW",
+        "data":{
+          "status": {
+            "PASSIVE_ACTIONS": [],
+            "ACTIONS": ["ACTION_MELEE_BASH", "ACTION_THROW"],
+            "TRAVEL":  ["ACTION_TRAVEL_WALK", "ACTION_TRAVEL_GRID"],
+            "MOVEMENT_SPEED": 4,
+            "HEIGHT": 1.8,
+            "SIZE": 1.0,
+            "HAND_SIZE": 0.4,
+            "ICON_KEY": "face_6",
+            "DEAD": false,
+            "NAME": "Outlaw",
+            "MAX_HP": 8,
+            "ENGAGE_MAX": 0,
+            "IN_COMBAT": false,
+            "TRAVEL_MODE": "TRAVEL_MODE_INACTIVE"
           }
         }
       },

@@ -2,9 +2,17 @@
   "GAME":{
     "ACTORS":[
       {
+        "id":"ACTOR_OUTLAW",
+        "data":{
+          "visual_id": "VISUAL_OUTLAW",
+          "stats_id": "STATS_OUTLAW",
+          "equip_slots": "SLOTS_FIGHTER"
+        }
+      },
+      {
         "id":"ACTOR_GOD_1",
         "data":{
-          "visual_id": "VISUAL_FARMER",
+          "visual_id": "VISUAL_GOD",
           "stats_id": "STATS_GOD_1",
           "equip_slots": "SLOTS_FIGHTER"
         }
@@ -12,7 +20,7 @@
       {
         "id":"ACTOR_GOD_2",
         "data":{
-          "visual_id": "VISUAL_FARMER",
+          "visual_id": "VISUAL_GOD",
           "stats_id": "STATS_GOD_2",
           "equip_slots": "SLOTS_FIGHTER"
         }

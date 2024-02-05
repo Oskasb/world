@@ -18,6 +18,31 @@
               ],
               "buttons":[
                 {
+                  "widget_id":"start_button_outlaw",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"button_big_blue",
+                  "options":{
+                    "text":"OUTLAW",
+                    "container_id":"page_start_center",
+                    "offset_x": -0.0,
+                    "offset_y": -0.05,
+                    "dispatch":{
+                      "event":"SELECT_ADVENTURER",
+                      "value":{
+                        "pos":[-728, 4, 785],
+                        "actor_id":"ACTOR_OUTLAW",
+                        "page_id": "page_start_outlaw",
+                        "world_encounters": ["farmer_start_encounters"],
+                        "equipped_items": ["ITEM_HAT_LEATHER", "ITEM_HATCHET"],
+                        "status": {
+                          "ALIGNMENT": "FRIENDLY",
+                          "STRONGHOLD_ID": "FARM_HOVEL"
+                        }
+                      }
+                    }
+                  }
+                },
+                {
                   "widget_id":"start_button_01",
                   "widget_class":"GuiExpandingContainer",
                   "widget_config_id":"button_big_blue",
