@@ -151,8 +151,6 @@
                       "on_ground": false,
                       "visibility": 4
                     },
-
-
                     {
                       "sprite": "rock",
                       "pos": [-4.5, 7.3, 2.2],

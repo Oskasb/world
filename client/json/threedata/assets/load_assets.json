@@ -14,6 +14,8 @@
     "POLL_INDEX":[
       "/game/actors/actions/statistical/statistical_actions.json"              ,
       "/physics/physics_parameters.json"                    ,
+      "/world/locations/location_bandit_keep.json"           ,
+      "/world/locations/models/models_bandit_keep.json"         ,
       "/ui/pages/start/gui_page_start.json"                  ,
       "/ui/pages/start/gui_page_start_princess.json"                  ,
       "/ui/pages/start/gui_page_start_alien.json"                  ,
@@ -149,6 +151,13 @@
       "asset_vegQuad",
       "asset_town_house",
       "asset_house_small",
+      "asset_castle_floor_10_hull",
+      "asset_castle_pillar_hull",
+      "asset_castle_wall_10_hull",
+      "asset_castle_wall_10_door_hull_1",
+      "asset_castle_wall_10_door_hull_2",
+      "asset_castle_wall_10_door_hull_3",
+      "asset_castle_wall_10_door_hull_4",
       "asset_box"
 
     ],

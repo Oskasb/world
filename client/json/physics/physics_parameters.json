@@ -54,8 +54,42 @@
         "id":"asset_town_house",
         "data":{
           "shapes": [
-            {"shape": "mesh", "rot": [0, 0, 0], "pos": [0, 0, 0], "scale": [100, 100, 100], "asset": "asset_town_house", "convex": false, "mass": 0, "friction": 2.9},
-            {"shape": "box", "rot": [0, 0, 0], "pos": [0, 1, 0], "scale": [600, 600, 100], "asset": "box", "convex": false, "mass": 0, "friction": 2.9}
+            {"shape": "mesh", "rot": [0, 0, 0], "pos": [0, 0, 0], "scale": [100, 100, 100], "asset": "asset_town_house", "convex": false, "mass": 0, "friction": 2.9}
+          ]
+        }
+      },
+      {
+        "id":"asset_castle_floor_10",
+        "data":{
+          "shapes": [
+            {"shape": "mesh", "rot": [0, 0, 0], "pos": [0, 0, 0], "scale": [100, 100, 100], "asset": "asset_castle_floor_10_hull", "convex": true, "mass": 0, "friction": 2.9}
+          ]
+        }
+      },
+      {
+        "id":"asset_castle_pillar",
+        "data":{
+          "shapes": [
+            {"shape": "mesh", "rot": [0, 0, 0], "pos": [0, 0, 0], "scale": [100, 100, 100], "asset": "asset_castle_pillar_hull", "convex": true, "mass": 0, "friction": 2.9}
+          ]
+        }
+      },
+      {
+        "id":"asset_castle_wall_10",
+        "data":{
+          "shapes": [
+            {"shape": "mesh", "rot": [0, 0, 0], "pos": [0, 0, 0], "scale": [100, 100, 100], "asset": "asset_castle_wall_10_hull", "convex": true, "mass": 0, "friction": 2.9}
+          ]
+        }
+      },
+      {
+        "id":"asset_castle_wall_10_door",
+        "data":{
+          "shapes": [
+            {"shape": "mesh", "rot": [0, 0, 0], "pos": [0, 0, 0], "scale": [100, 100, 100], "asset": "asset_castle_wall_10_door_hull_1", "convex": true, "mass": 0, "friction": 2.9},
+            {"shape": "mesh", "rot": [0, 0, 0], "pos": [0, 0, 0], "scale": [100, 100, 100], "asset": "asset_castle_wall_10_door_hull_2", "convex": true, "mass": 0, "friction": 2.9},
+            {"shape": "mesh", "rot": [0, 0, 0], "pos": [0, 0, 0], "scale": [100, 100, 100], "asset": "asset_castle_wall_10_door_hull_3", "convex": true, "mass": 0, "friction": 2.9},
+            {"shape": "mesh", "rot": [0, 0, 0], "pos": [0, 0, 0], "scale": [100, 100, 100], "asset": "asset_castle_wall_10_door_hull_4", "convex": true, "mass": 0, "friction": 2.9}
           ]
         }
       },

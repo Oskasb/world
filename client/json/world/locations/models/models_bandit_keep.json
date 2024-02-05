@@ -1,0 +1,510 @@
+[{
+  "WORLD_LOCATIONS":{
+    "LOCATION_MODELS":[
+      {
+        "id": "model_bandit_keep_main_floor_0",
+        "data": [
+          {
+            "data_key":"model_data",
+            "config": {
+              "assets": [
+                {
+                  "asset": "asset_castle_floor_10",
+                  "pos": [0, 0, 0],
+                  "rot": [0, 0, 0],
+                  "scale": [0.01, 0.01, 0.01],
+                  "solidity": 1.0,
+                  "visibility": 2,
+                  "palette": "TOWN_NEUTRAL",
+                  "boxes": [
+
+                  ]
+                },
+                {
+                  "asset": "asset_castle_floor_10",
+                  "pos": [0, 0, 10],
+                  "rot": [0, 0, 0],
+                  "scale": [0.01, 0.01, 0.01],
+                  "solidity": 1.0,
+                  "visibility": 2,
+                  "palette": "TOWN_NEUTRAL",
+                  "boxes": [
+
+                  ]
+                },
+                {
+                  "asset": "asset_castle_floor_10",
+                  "pos": [0, 0, 20],
+                  "rot": [0, 0, 0],
+                  "scale": [0.01, 0.01, 0.01],
+                  "solidity": 1.0,
+                  "visibility": 2,
+                  "palette": "TOWN_NEUTRAL",
+                  "boxes": [
+
+                  ]
+                },
+                {
+                  "asset": "asset_castle_floor_10",
+                  "pos": [0, 0, 30],
+                  "rot": [0, 0, 0],
+                  "scale": [0.01, 0.01, 0.01],
+                  "solidity": 1.0,
+                  "visibility": 2,
+                  "palette": "TOWN_NEUTRAL",
+                  "boxes": [
+
+                  ]
+                },
+                {
+                  "asset": "asset_castle_floor_10",
+                  "pos": [10, 0, 0],
+                  "rot": [0, 0, 0],
+                  "scale": [0.01, 0.01, 0.01],
+                  "solidity": 1.0,
+                  "visibility": 2,
+                  "palette": "TOWN_NEUTRAL",
+                  "boxes": [
+
+                  ]
+                },
+                {
+                  "asset": "asset_castle_floor_10",
+                  "pos": [10, 0, 10],
+                  "rot": [0, 0, 0],
+                  "scale": [0.01, 0.01, 0.01],
+                  "solidity": 1.0,
+                  "visibility": 2,
+                  "palette": "TOWN_NEUTRAL",
+                  "boxes": [
+
+                  ]
+                },
+                {
+                  "asset": "asset_castle_floor_10",
+                  "pos": [10, 0, 20],
+                  "rot": [0, 0, 0],
+                  "scale": [0.01, 0.01, 0.01],
+                  "solidity": 1.0,
+                  "visibility": 2,
+                  "palette": "TOWN_NEUTRAL",
+                  "boxes": [
+
+                  ]
+                },
+                {
+                  "asset": "asset_castle_floor_10",
+                  "pos": [10, 0, 30],
+                  "rot": [0, 0, 0],
+                  "scale": [0.01, 0.01, 0.01],
+                  "solidity": 1.0,
+                  "visibility": 2,
+                  "palette": "TOWN_NEUTRAL",
+                  "boxes": [
+
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "model_bandit_keep_main_pillars_0",
+        "data": [
+          {
+            "data_key":"model_data",
+            "config": {
+              "assets": [
+                {
+                  "asset": "asset_castle_pillar",
+                  "pos": [-5, 0, -5],
+                  "rot": [0, 0, 0],
+                  "scale": [0.01, 0.01, 0.01],
+                  "solidity": 1.0,
+                  "visibility": 2,
+                  "palette": "TOWN_NEUTRAL",
+                  "boxes": [
+
+                  ]
+                },
+                {
+                  "asset": "asset_castle_pillar",
+                  "pos": [-5, 0, 5],
+                  "rot": [0, 0, 0],
+                  "scale": [0.01, 0.01, 0.01],
+                  "solidity": 1.0,
+                  "visibility": 2,
+                  "palette": "TOWN_NEUTRAL",
+                  "boxes": [
+
+                  ]
+                },
+                {
+                  "asset": "asset_castle_pillar",
+                  "pos": [-5, 0, 15],
+                  "rot": [0, 0, 0],
+                  "scale": [0.01, 0.01, 0.01],
+                  "solidity": 1.0,
+                  "visibility": 2,
+                  "palette": "TOWN_NEUTRAL",
+                  "boxes": [
+
+                  ]
+                },
+                {
+                  "asset": "asset_castle_pillar",
+                  "pos": [-5, 0, 25],
+                  "rot": [0, 0, 0],
+                  "scale": [0.01, 0.01, 0.01],
+                  "solidity": 1.0,
+                  "visibility": 2,
+                  "palette": "TOWN_NEUTRAL",
+                  "boxes": [
+
+                  ]
+                },
+                {
+                  "asset": "asset_castle_pillar",
+                  "pos": [-5, 0, 35],
+                  "rot": [0, 0, 0],
+                  "scale": [0.01, 0.01, 0.01],
+                  "solidity": 1.0,
+                  "visibility": 2,
+                  "palette": "TOWN_NEUTRAL",
+                  "boxes": [
+
+                  ]
+                },
+                {
+                  "asset": "asset_castle_pillar",
+                  "pos": [5, 0, -5],
+                  "rot": [0, 0, 0],
+                  "scale": [0.01, 0.01, 0.01],
+                  "solidity": 1.0,
+                  "visibility": 2,
+                  "palette": "TOWN_NEUTRAL",
+                  "boxes": [
+
+                  ]
+                },
+                {
+                  "asset": "asset_castle_pillar",
+                  "pos": [5, 0, 5],
+                  "rot": [0, 0, 0],
+                  "scale": [0.01, 0.01, 0.01],
+                  "solidity": 1.0,
+                  "visibility": 2,
+                  "palette": "TOWN_NEUTRAL",
+                  "boxes": [
+
+                  ]
+                },
+                {
+                  "asset": "asset_castle_pillar",
+                  "pos": [5, 0, 15],
+                  "rot": [0, 0, 0],
+                  "scale": [0.01, 0.01, 0.01],
+                  "solidity": 1.0,
+                  "visibility": 2,
+                  "palette": "TOWN_NEUTRAL",
+                  "boxes": [
+
+                  ]
+                },
+                {
+                  "asset": "asset_castle_pillar",
+                  "pos": [5, 0, 25],
+                  "rot": [0, 0, 0],
+                  "scale": [0.01, 0.01, 0.01],
+                  "solidity": 1.0,
+                  "visibility": 2,
+                  "palette": "TOWN_NEUTRAL",
+                  "boxes": [
+
+                  ]
+                },
+                {
+                  "asset": "asset_castle_pillar",
+                  "pos": [5, 0, 35],
+                  "rot": [0, 0, 0],
+                  "scale": [0.01, 0.01, 0.01],
+                  "solidity": 1.0,
+                  "visibility": 2,
+                  "palette": "TOWN_NEUTRAL",
+                  "boxes": [
+
+                  ]
+                },
+                {
+                  "asset": "asset_castle_pillar",
+                  "pos": [15, 0, -5],
+                  "rot": [0, 0, 0],
+                  "scale": [0.01, 0.01, 0.01],
+                  "solidity": 1.0,
+                  "visibility": 2,
+                  "palette": "TOWN_NEUTRAL",
+                  "boxes": [
+
+                  ]
+                },
+                {
+                  "asset": "asset_castle_pillar",
+                  "pos": [15, 0, 5],
+                  "rot": [0, 0, 0],
+                  "scale": [0.01, 0.01, 0.01],
+                  "solidity": 1.0,
+                  "visibility": 2,
+                  "palette": "TOWN_NEUTRAL",
+                  "boxes": [
+
+                  ]
+                },
+                {
+                  "asset": "asset_castle_pillar",
+                  "pos": [15, 0, 15],
+                  "rot": [0, 0, 0],
+                  "scale": [0.01, 0.01, 0.01],
+                  "solidity": 1.0,
+                  "visibility": 2,
+                  "palette": "TOWN_NEUTRAL",
+                  "boxes": [
+
+                  ]
+                },
+                {
+                  "asset": "asset_castle_pillar",
+                  "pos": [15, 0, 25],
+                  "rot": [0, 0, 0],
+                  "scale": [0.01, 0.01, 0.01],
+                  "solidity": 1.0,
+                  "visibility": 2,
+                  "palette": "TOWN_NEUTRAL",
+                  "boxes": [
+
+                  ]
+                },
+                {
+                  "asset": "asset_castle_pillar",
+                  "pos": [15, 0, 35],
+                  "rot": [0, 0, 0],
+                  "scale": [0.01, 0.01, 0.01],
+                  "solidity": 1.0,
+                  "visibility": 2,
+                  "palette": "TOWN_NEUTRAL",
+                  "boxes": [
+
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "model_bandit_keep_main_walls_0",
+        "data": [
+          {
+            "data_key":"model_data",
+            "config": {
+              "assets": [
+                {
+                  "asset": "asset_castle_wall_10",
+                  "pos": [-5, 0, 0],
+                  "rot": [0, 0, 0],
+                  "scale": [0.01, 0.01, 0.01],
+                  "solidity": 1.0,
+                  "visibility": 2,
+                  "palette": "TOWN_NEUTRAL",
+                  "boxes": [
+
+                  ]
+                },
+                {
+                  "asset": "asset_castle_wall_10",
+                  "pos": [-5, 0, 10],
+                  "rot": [0, 0, 0],
+                  "scale": [0.01, 0.01, 0.01],
+                  "solidity": 1.0,
+                  "visibility": 2,
+                  "palette": "TOWN_NEUTRAL",
+                  "boxes": [
+
+                  ]
+                },
+                {
+                  "asset": "asset_castle_wall_10_door",
+                  "pos": [-5, 0, 20],
+                  "rot": [0, 0, 0],
+                  "scale": [0.01, 0.01, 0.01],
+                  "solidity": 1.0,
+                  "visibility": 2,
+                  "palette": "TOWN_NEUTRAL",
+                  "boxes": [
+
+                  ]
+                },
+                {
+                  "asset": "asset_castle_wall_10",
+                  "pos": [-5, 0, 30],
+                  "rot": [0, 0, 0],
+                  "scale": [0.01, 0.01, 0.01],
+                  "solidity": 1.0,
+                  "visibility": 2,
+                  "palette": "TOWN_NEUTRAL",
+                  "boxes": [
+
+                  ]
+                },
+                {
+                  "asset": "asset_castle_wall_10",
+                  "pos": [-15, 0, 20],
+                  "rot": [0, 0, 0],
+                  "scale": [0.01, 0.01, 0.01],
+                  "solidity": 1.0,
+                  "visibility": 2,
+                  "palette": "TOWN_NEUTRAL",
+                  "boxes": [
+
+                  ]
+                },
+                {
+                  "asset": "asset_castle_wall_10",
+                  "pos": [0, 0, -5],
+                  "rot": [0, 1.575, 0],
+                  "scale": [0.01, 0.01, 0.01],
+                  "solidity": 1.0,
+                  "visibility": 2,
+                  "palette": "TOWN_NEUTRAL",
+                  "boxes": [
+
+                  ]
+                },
+                {
+                  "asset": "asset_castle_wall_10",
+                  "pos": [10, 0, -5],
+                  "rot": [0, 1.575, 0],
+                  "scale": [0.01, 0.01, 0.01],
+                  "solidity": 1.0,
+                  "visibility": 2,
+                  "palette": "TOWN_NEUTRAL",
+                  "boxes": [
+
+                  ]
+                },
+                {
+                  "asset": "asset_castle_wall_10",
+                  "pos": [5, 0, 10],
+                  "rot": [0, 0, 0],
+                  "scale": [0.01, 0.01, 0.01],
+                  "solidity": 1.0,
+                  "visibility": 2,
+                  "palette": "TOWN_NEUTRAL",
+                  "boxes": [
+
+                  ]
+                },
+                {
+                  "asset": "asset_castle_wall_10",
+                  "pos": [0, 0, 15],
+                  "rot": [0, 1.575, 0],
+                  "scale": [0.01, 0.01, 0.01],
+                  "solidity": 1.0,
+                  "visibility": 2,
+                  "palette": "TOWN_NEUTRAL",
+                  "boxes": [
+
+                  ]
+                },
+                {
+                  "asset": "asset_castle_wall_10",
+                  "pos": [0, 0, 25],
+                  "rot": [0, 1.575, 0],
+                  "scale": [0.01, 0.01, 0.01],
+                  "solidity": 1.0,
+                  "visibility": 2,
+                  "palette": "TOWN_NEUTRAL",
+                  "boxes": [
+
+                  ]
+                },
+                {
+                  "asset": "asset_castle_wall_10",
+                  "pos": [0, 0, 35],
+                  "rot": [0, 1.575, 0],
+                  "scale": [0.01, 0.01, 0.01],
+                  "solidity": 1.0,
+                  "visibility": 2,
+                  "palette": "TOWN_NEUTRAL",
+                  "boxes": [
+
+                  ]
+                },
+                {
+                  "asset": "asset_castle_wall_10",
+                  "pos": [15, 0, 0],
+                  "rot": [0, 0, 0],
+                  "scale": [0.01, 0.01, 0.01],
+                  "solidity": 1.0,
+                  "visibility": 2,
+                  "palette": "TOWN_NEUTRAL",
+                  "boxes": [
+
+                  ]
+                },
+                {
+                  "asset": "asset_castle_wall_10",
+                  "pos": [15, 0, 10],
+                  "rot": [0, 0, 0],
+                  "scale": [0.01, 0.01, 0.01],
+                  "solidity": 1.0,
+                  "visibility": 2,
+                  "palette": "TOWN_NEUTRAL",
+                  "boxes": [
+
+                  ]
+                },
+                {
+                  "asset": "asset_castle_wall_10",
+                  "pos": [15, 0, 20],
+                  "rot": [0, 0, 0],
+                  "scale": [0.01, 0.01, 0.01],
+                  "solidity": 1.0,
+                  "visibility": 2,
+                  "palette": "TOWN_NEUTRAL",
+                  "boxes": [
+
+                  ]
+                },
+                {
+                  "asset": "asset_castle_wall_10",
+                  "pos": [15, 0, 30],
+                  "rot": [0, 0, 0],
+                  "scale": [0.01, 0.01, 0.01],
+                  "solidity": 1.0,
+                  "visibility": 2,
+                  "palette": "TOWN_NEUTRAL",
+                  "boxes": [
+
+                  ]
+                },
+                {
+                  "asset": "asset_castle_wall_10",
+                  "pos": [10, 0, 35],
+                  "rot": [0, 1.575, 0],
+                  "scale": [0.01, 0.01, 0.01],
+                  "solidity": 1.0,
+                  "visibility": 2,
+                  "palette": "TOWN_NEUTRAL",
+                  "boxes": [
+
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  }
+}]

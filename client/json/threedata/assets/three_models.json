@@ -147,17 +147,27 @@
         {"id": "asset_cottage_hull_1",  "config": { "model": "file_cottage_hull_1",   "material": "mat_instancing_basic",     "settings": "model_settings_instancing_1" }},
         {"id": "asset_cottage_hull_2",  "config": { "model": "file_cottage_hull_2",   "material": "mat_instancing_basic",     "settings": "model_settings_instancing_1" }},
 
-
         {"id": "asset_house_small",  "config": { "model": "file_house_small",   "material": "mat_instancing_basic",     "settings": "model_settings_instancing_50" }},
         {"id": "asset_town_house",   "config": { "model": "file_town_house",    "material": "mat_instancing_basic",     "settings": "model_settings_instancing_10" }},
         {"id": "asset_mansion_roof", "config": { "model": "file_mansion_roof",  "material": "mat_instancing_basic",     "settings": "model_settings_instancing_5" }},
         {"id": "asset_mansion_main", "config": { "model": "file_mansion_main",  "material": "mat_instancing_basic",     "settings": "model_settings_instancing_5" }},
         {"id": "asset_house_t",      "config": { "model": "file_house_t",       "material": "mat_instancing_basic",     "settings": "model_settings_instancing_15" }},
 
+        {"id": "asset_castle_floor_10",     "config": { "model": "file_castle_floor_10",      "material": "mat_instancing_basic",     "settings": "model_settings_instancing_15" }},
+        {"id": "asset_castle_pillar",       "config": { "model": "file_castle_pillar",        "material": "mat_instancing_basic",     "settings": "model_settings_instancing_15" }},
+        {"id": "asset_castle_wall_10",      "config": { "model": "file_castle_wall_10",       "material": "mat_instancing_basic",     "settings": "model_settings_instancing_15" }},
+        {"id": "asset_castle_wall_10_door", "config": { "model": "file_castle_wall_10_door",  "material": "mat_instancing_basic",     "settings": "model_settings_instancing_15" }},
+        {"id": "asset_castle_floor_10_hull",       "config": { "model": "file_castle_floor_10_hull",      "material": "mat_instancing_basic",     "settings": "model_settings_instancing_1" }},
+        {"id": "asset_castle_pillar_hull",         "config": { "model": "file_castle_pillar_hull",        "material": "mat_instancing_basic",     "settings": "model_settings_instancing_1" }},
+        {"id": "asset_castle_wall_10_hull",        "config": { "model": "file_castle_wall_10_hull",       "material": "mat_instancing_basic",     "settings": "model_settings_instancing_1" }},
+        {"id": "asset_castle_wall_10_door_hull_1", "config": { "model": "file_castle_wall_10_door_hull_1",  "material": "mat_instancing_basic",     "settings": "model_settings_instancing_1" }},
+        {"id": "asset_castle_wall_10_door_hull_2", "config": { "model": "file_castle_wall_10_door_hull_2",  "material": "mat_instancing_basic",     "settings": "model_settings_instancing_1" }},
+        {"id": "asset_castle_wall_10_door_hull_3", "config": { "model": "file_castle_wall_10_door_hull_3",  "material": "mat_instancing_basic",     "settings": "model_settings_instancing_1" }},
+        {"id": "asset_castle_wall_10_door_hull_4", "config": { "model": "file_castle_wall_10_door_hull_4",  "material": "mat_instancing_basic",     "settings": "model_settings_instancing_1" }},
+
         {"id": "asset_block_4",         "config": { "model": "file_block_4",        "material": "mat_instancing_basic",     "settings": "model_settings_instancing_5" }},
         {"id": "asset_scraper_10",      "config": { "model": "file_scraper_10",     "material": "mat_instancing_basic",     "settings": "model_settings_instancing_5" }},
         {"id": "asset_scraper_17",      "config": { "model": "file_scraper_17",     "material": "mat_instancing_basic",     "settings": "model_settings_instancing_5" }},
-
 
         {"id": "asset_katana_green", "config": { "model": "file_ninjablade",        "material": "mat_instancing_green",  "settings": "model_settings_items" }},
         {"id": "asset_ninjablade",  "config": { "model": "file_ninjablade",         "material": "mat_instancing_basic",  "settings": "model_settings_items" }},

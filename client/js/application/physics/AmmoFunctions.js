@@ -1103,11 +1103,18 @@ class AmmoFunctions {
 
                 let shape;
 
-                if (convex) {
-                    shape = createConvexHullFromBuffer(geometryBuffers[assetId]);
-                } else {
-                    shape = createTriMeshFromBuffer(geometryBuffers[assetId]);
+                try {
+                    if (convex) {
+                        shape = createConvexHullFromBuffer(geometryBuffers[assetId]);
+                    } else {
+                        shape = createTriMeshFromBuffer(geometryBuffers[assetId]);
+                    }
                 }
+
+                catch (err) {
+                    console.log("Physical Mesh error ", assetId, dataKey, err)
+                }
+
 
                 shape.setLocalScaling(new Ammo.btVector3(scaleVec.x, scaleVec.y, scaleVec.z));
 

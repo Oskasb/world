@@ -137,9 +137,9 @@
         {"id": "file_cross3d",       "config": { "url": "./client/assets/models/shapes/cross3d"                                      }},
         {"id": "file_bullet",        "config": { "url": "./client/assets/models/shapes/bullet"                                       }},
 
-        {"id": "file_scraper_10",   "config": { "url": "./client/assets/models/buildings/scraper_10"                               }},
-        {"id": "file_scraper_17",   "config": { "url": "./client/assets/models/buildings/scraper_17"                               }},
-        {"id": "file_block_4",      "config": { "url": "./client/assets/models/buildings/block_4"                                      }},
+        {"id": "file_scraper_10",    "config": { "url": "./client/assets/models/buildings/scraper_10"                               }},
+        {"id": "file_scraper_17",    "config": { "url": "./client/assets/models/buildings/scraper_17"                               }},
+        {"id": "file_block_4",       "config": { "url": "./client/assets/models/buildings/block_4"                                      }},
 
         {"id": "file_cottage",       "config": { "url": "./client/assets/models/buildings/cottage"                               }},
         {"id": "file_cottage_hull_1",       "config": { "url": "./client/assets/models/buildings/cottage_hull_1"                               }},
@@ -150,6 +150,20 @@
         {"id": "file_mansion_roof",   "config": { "url": "./client/assets/models/buildings/mansion_roof"                               }},
         {"id": "file_mansion_main",   "config": { "url": "./client/assets/models/buildings/mansion_main"                               }},
         {"id": "file_house_t",        "config": { "url": "./client/assets/models/buildings/house_t"                                  }},
+
+        {"id": "file_castle_floor_10",   "config": { "url": "./client/assets/models/buildings/castle/castle_floor_10"        }},
+        {"id": "file_castle_pillar",   "config": { "url": "./client/assets/models/buildings/castle/castle_pillar"        }},
+        {"id": "file_castle_wall_10",   "config": { "url": "./client/assets/models/buildings/castle/castle_wall_10"        }},
+        {"id": "file_castle_wall_10_door",   "config": { "url": "./client/assets/models/buildings/castle/castle_wall_10_door"        }},
+
+        {"id": "file_castle_floor_10_hull",   "config": { "url": "./client/assets/models/buildings/castle/castle_floor_10_hull"        }},
+        {"id": "file_castle_pillar_hull",   "config": { "url": "./client/assets/models/buildings/castle/castle_pillar_hull"        }},
+        {"id": "file_castle_wall_10_hull",   "config": { "url": "./client/assets/models/buildings/castle/castle_wall_10_hull"        }},
+        {"id": "file_castle_wall_10_door_hull_1",   "config": { "url": "./client/assets/models/buildings/castle/castle_wall_10_door_hull_1"        }},
+        {"id": "file_castle_wall_10_door_hull_2",   "config": { "url": "./client/assets/models/buildings/castle/castle_wall_10_door_hull_2"        }},
+        {"id": "file_castle_wall_10_door_hull_3",   "config": { "url": "./client/assets/models/buildings/castle/castle_wall_10_door_hull_3"        }},
+        {"id": "file_castle_wall_10_door_hull_4",   "config": { "url": "./client/assets/models/buildings/castle/castle_wall_10_door_hull_4"        }},
+
 
         {"id": "file_tree_1",        "config": { "url": "./client/assets/models/trees/tree_1"                                        }},
         {"id": "file_tree_2",        "config": { "url": "./client/assets/models/trees/tree_2"                                        }},

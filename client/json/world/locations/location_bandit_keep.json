@@ -1,0 +1,45 @@
+[{
+  "WORLD_LOCATIONS":{
+    "MODELS":[
+      {
+        "id": "bandit_fort",
+        "data": [
+          {
+            "data_key":"location_data",
+            "config": {
+              "models": [
+                {
+                  "model": "model_bandit_keep_main_floor_0",
+                  "pos": [-760, 2, 770],
+                  "rot": [0, 0, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": true,
+                  "visibility": 3,
+                  "palette": "TOWN_NEUTRAL"
+                },
+                {
+                  "model": "model_bandit_keep_main_pillars_0",
+                  "pos": [-760, 2, 770],
+                  "rot": [0, 0, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": true,
+                  "visibility": 3,
+                  "palette": "TOWN_NEUTRAL"
+                },
+                {
+                  "model": "model_bandit_keep_main_walls_0",
+                  "pos": [-760, 2, 770],
+                  "rot": [0, 0, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": true,
+                  "visibility": 3,
+                  "palette": "TOWN_NEUTRAL"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  }
+}]

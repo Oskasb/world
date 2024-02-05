@@ -8,6 +8,7 @@
       "/world/encounters/hosts/encounter_hosts.json"         ,
       "/world/encounters/encounters_home.json"               ,
       "/world/locations/location_alien_crash_site.json"      ,
+      "/world/locations/location_bandit_keep.json"           ,
       "/world/locations/location_home.json"                  ,
       "/world/locations/location_home_pier.json"             ,
       "/world/locations/location_delta_fork.json"            ,
@@ -20,6 +21,7 @@
 
       "/world/locations/location_southport_main.json"       ,
 
+      "/world/locations/models/models_bandit_keep.json"         ,
       "/world/locations/models/location_towers.json"         ,
       "/world/locations/models/location_prop_models.json"    ,
       "/world/locations/models/location_models.json"         ,

@@ -44,7 +44,19 @@ define([
 
 			var _this = this;
 			var checkJson = function(str) {
-				dc.compareAndCacheJson(url, JSON.parse(str), _this);
+
+				let json;
+
+				try {
+					json = JSON.parse(str);
+				}
+
+				catch(err) {
+					console.log("Bad JSON", url, err)
+					return;
+				}
+
+				dc.compareAndCacheJson(url, json, _this);
 			};
 
 			this.xhrThing.sendXHR(packet, checkJson, responseFail);
