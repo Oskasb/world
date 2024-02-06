@@ -277,6 +277,10 @@ class ActorMovement {
 
         let turn = actor.getControl(ENUMS.Controls.CONTROL_RUN_X)
         let forward = actor.getControl(ENUMS.Controls.CONTROL_RUN_Z)
+        if (!actor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET)) {
+            forward = Math.max(0, forward)
+        }
+
 
         tempVec2.set(turn, 0, forward);
         let inputAmount = tempVec2.length();
@@ -341,7 +345,7 @@ class ActorMovement {
         actor.setDestination(this.visualArc.to)
 
 
-        probeRes = this.probeMovementPhysics(actor, 0.5+Math.max(forward*0.5, 0),  physicsProbes[1]);
+        probeRes = this.probeMovementPhysics(actor, MATH.sign(forward)*0.5+forward*0.5,  physicsProbes[1]);
 
         this.visualArc.to.copy(probeRes.destination);
 
