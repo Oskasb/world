@@ -7,7 +7,6 @@
           "visual_id":"VISUAL_HATCHET",
           "equip_slot": "SLOT_HAND_R",
           "status_add_modifiers": [
-            {"status": "ACTIONS", "value":"ACTION_MELEE_BASH"},
             {"status": "ACTIONS", "value":"ACTION_THROW"}
           ]
         }

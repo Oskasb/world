@@ -15,6 +15,7 @@
       "/game/actors/actions/statistical/statistical_actions.json"              ,
       "/physics/physics_parameters.json"                    ,
       "/world/locations/location_bandit_keep.json"           ,
+      "/world/encounters/encounters_outlaw.json"               ,
       "/world/locations/models/models_bandit_keep.json"         ,
       "/ui/pages/start/gui_page_start.json"                  ,
       "/ui/pages/start/gui_page_start_princess.json"                  ,

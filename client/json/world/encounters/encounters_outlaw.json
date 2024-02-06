@@ -1,0 +1,56 @@
+[{
+  "WORLD_ENCOUNTERS":{
+    "ENCOUNTERS":[
+      {
+        "id": "outlaw_start_encounters",
+        "data": [
+          {
+            "data_key":"encounter_data",
+            "config": {
+              "treasures": [
+                {
+                  "pos": [-728, 2, 791],
+                  "visibility": 2,
+                  "grid_id": "grid_7x7",
+                  "host_id": "bandit_basic",
+                  "indicator_id": "treasure_indicator",
+                  "trigger_radius": 2,
+                  "spawn": {
+                    "actors": [
+                      {
+                        "actor": "ACTOR_FIGHTER",
+                        "rot": [0, 3.2, 0],
+                        "on_ground": true,
+                        "tile": [3, 3]
+                      }
+                    ]
+                  }
+                }
+              ],
+              "encounters": [
+                {
+                  "pos": [-732, 2, 799],
+                  "visibility": 2,
+                  "grid_id": "grid_7x7",
+                  "host_id": "bandit_basic",
+                  "indicator_id": "battle_indicator",
+                  "trigger_radius": 3,
+                  "spawn": {
+                    "actors": [
+                      {
+                        "actor": "ACTOR_FIGHTER",
+                        "rot": [0, 3.2, 0],
+                        "on_ground": true,
+                        "tile": [3, 3]
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  }
+}]

@@ -23,6 +23,10 @@
             "tiles":[[2, 4]]
           },
           {
+            "id":"icon_star",
+            "tiles":[[7, 5]]
+          },
+          {
             "id":"icon_dagger",
             "tiles":[[1, 6]]
           },

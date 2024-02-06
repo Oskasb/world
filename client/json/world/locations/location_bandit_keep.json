@@ -34,6 +34,78 @@
                   "on_ground": true,
                   "visibility": 3,
                   "palette": "TOWN_DARK_2"
+                },
+                {
+                  "model": "model_fence_small",
+                  "pos": [-734.4, 5, 790],
+                  "rot": [0, 1.575, 0],
+                  "scale": [1.5, 1.5, 1.5],
+                  "on_ground": false,
+                  "visibility": 3,
+                  "palette": "TOWN_DARK_2"
+                },
+                {
+                  "model": "model_fence_small",
+                  "pos": [-734.4, 6.5, 790],
+                  "rot": [0, 1.575, 0],
+                  "scale": [1.5, 1.0, 1.5],
+                  "on_ground": false,
+                  "visibility": 3,
+                  "palette": "TOWN_DARK_2"
+                },
+                {
+                  "model": "model_fence_small",
+                  "pos": [-725.6, 4.7, 790],
+                  "rot": [0, 1.575, 0],
+                  "scale": [1.5, 1.5, 1.5],
+                  "on_ground": false,
+                  "visibility": 3,
+                  "palette": "TOWN_DARK_2"
+                },
+                {
+                  "model": "model_fence_small",
+                  "pos": [-725.6, 6.2, 790],
+                  "rot": [0, 1.575, 0],
+                  "scale": [1.5, 1.0, 1.5],
+                  "on_ground": false,
+                  "visibility": 3,
+                  "palette": "TOWN_DARK_2"
+                },
+                {
+                  "model": "model_fence_small",
+                  "pos": [-719.6, 4.7, 790],
+                  "rot": [0, 2.65, 0],
+                  "scale": [1.5, 1.5, 1.5],
+                  "on_ground": false,
+                  "visibility": 3,
+                  "palette": "TOWN_DARK_2"
+                },
+                {
+                  "model": "model_fence_small",
+                  "pos": [-719.6, 6.2, 790],
+                  "rot": [0, 2.65, 0],
+                  "scale": [1.5, 1.0, 1.5],
+                  "on_ground": false,
+                  "visibility": 3,
+                  "palette": "TOWN_DARK_2"
+                },
+                {
+                  "model": "model_tree_1",
+                  "pos": [-722.5, 6.2, 792],
+                  "rot": [0, 0.65, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": true,
+                  "visibility": 3,
+                  "palette": "DEFAULT"
+                },
+                {
+                  "model": "model_tree_2",
+                  "pos": [-732.0, 6.2, 786],
+                  "rot": [0, 0.65, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": true,
+                  "visibility": 3,
+                  "palette": "DEFAULT"
                 }
               ]
             }

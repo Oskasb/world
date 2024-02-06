@@ -2,10 +2,16 @@ import { ConfigData } from "../../application/utils/ConfigData.js";
 import * as ScenarioUtils from "../gameworld/ScenarioUtils.js";
 import { WorldModel} from "./WorldModel.js";
 import { WorldEncounter } from "../encounter/WorldEncounter.js";
+import { WorldTreasure} from "../encounter/WorldTreasure.js";
 
 let worldModels = [];
 let worldBoxes = [];
 let worldEncounters = [];
+let worldTreasures = [];
+let skippedTreasures = {};
+let skippedEncounters = {};
+
+let activateEvent = {world_encounters:[]};
 
 let heightTestNear = [];
 let heightIntersects = [];
@@ -49,9 +55,7 @@ let deactivateWorldEncounters = function () {
     }
 }
 
-let activateEvent = {world_encounters:[]};
 
-let skippedEncounters = {};
 
 let activateSkippedEncounter = function(encId, cb) {
     let onReady = function(encounter) {
@@ -73,7 +77,7 @@ let activateWorldEncounters = function(event) {
     }
 
     let completedEncounters = GameAPI.gameAdventureSystem.getCompletedEncounters();
-
+    let lootedTreasures = GameAPI.gameAdventureSystem.getLootedTreasured();
     activateEvent = event;
     let encountersData = function(encounters, index, listId) {
         for (let i = 0; i < encounters.length;i++) {
@@ -92,10 +96,31 @@ let activateWorldEncounters = function(event) {
         }
     }
 
+    let treasuresData = function(treasures, index, listId) {
+        for (let i = 0; i < treasures.length;i++) {
+            let treasureId = "trsr_"+listId+"_"+index+"_"+i;
+            console.log("Load World Treasure: ", treasureId, treasures[i])
+            let onReady = function(treasure) {
+                worldTreasures.push(treasure);
+                treasure.activateWorldTreasure()
+            }
+            if (lootedTreasures.indexOf(treasureId) === -1) {
+                new WorldTreasure(treasureId, treasures[i], onReady)
+            } else {
+                console.log("Not loading looted treasures..", treasureId);
+                skippedTreasures[treasureId] = treasures[i];
+            }
+
+        }
+    }
+
     let locationData = function(data, listId) {
         for (let i = 0; i < data.length;i++) {
             if (data[i].config['encounters']) {
                 encountersData(data[i].config.encounters, i, listId);
+            }
+            if (data[i].config['treasures']) {
+                treasuresData(data[i].config.treasures, i, listId);
             }
         }
     }

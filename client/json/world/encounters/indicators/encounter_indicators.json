@@ -2,15 +2,29 @@
   "ENCOUNTER_INDICATORS":{
     "INDICATORS":[
       {
+        "id": "treasure_indicator",
+        "data": [
+          {
+            "data_key":"indicator_data",
+            "config": {
+                "sprite": [7, 7],
+                "height": 1.6,
+                "rgba": [0.3, 0.75, 0.99, 1],
+                "size": 0.8
+            }
+          }
+        ]
+      },
+      {
         "id": "battle_indicator",
         "data": [
           {
             "data_key":"indicator_data",
             "config": {
-                "sprite": [3, 5],
-                "height": 2.6,
-                "rgba": [1, 0.1, 0.3, 1],
-                "size": 1.6
+              "sprite": [3, 5],
+              "height": 2.6,
+              "rgba": [1, 0.1, 0.3, 1],
+              "size": 1.6
             }
           }
         ]

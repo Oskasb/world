@@ -10,6 +10,7 @@ colorMapFx['FRIENDLY']              = {r:0.01,  g:0.3,   b:0.01,  a:0.2};
 colorMapFx['NEUTRAL']               = {r:0.2,   g:0.2,   b:0.02,   a:0.2};
 colorMapFx['HOSTILE']               = {r:0.3,   g:0.01,  b:0.01,  a:0.2};
 colorMapFx['ITEM']                  = {r:0,     g:0.1,   b:0.15,   a:0.2};
+colorMapFx['TREASURE']              = {r:0.1,     g:0.2,   b:0.35,  a:0.1};
 colorMapFx['PATH_POINT']            = {r:0.1,     g:0.6,   b:0.9,   a:0.1};
 colorMapFx['PATH_POINT_ACTIVATING'] = {r:0.0,     g:0.9,   b:0.2,   a:0.7};
 colorMapFx['EXIT_TILE_ACTIVE']      = {r:0.03, g: 0.12,  b: 0.4, a:0.2};

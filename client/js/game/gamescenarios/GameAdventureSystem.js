@@ -5,6 +5,7 @@ import {evt} from "../../application/event/evt.js";
 let spatialTransition
 
 let completedEncounters = [];
+let lootedTreasured = [];
 
 function encounterCompleted(event) {
     console.log("Enc Completed", event);
@@ -23,6 +24,9 @@ class GameAdventureSystem {
         return completedEncounters;
     }
 
+    getLootedTreasured() {
+        return lootedTreasured;
+    }
     selectAdventure(event) {
 
         let actor = this.startActor;

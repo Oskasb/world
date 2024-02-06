@@ -32,7 +32,7 @@
                         "pos":[-728, 4, 785],
                         "actor_id":"ACTOR_OUTLAW",
                         "page_id": "page_start_outlaw",
-                        "world_encounters": ["farmer_start_encounters"],
+                        "world_encounters": ["outlaw_start_encounters"],
                         "equipped_items": ["ITEM_HAT_LEATHER", "ITEM_HATCHET"],
                         "status": {
                           "ALIGNMENT": "FRIENDLY",
@@ -59,6 +59,7 @@
                         "actor_id":"ACTOR_GOD_1",
                         "page_id": "page_start_god",
                         "world_encounters": [
+                          "outlaw_start_encounters",
                           "farmer_start_encounters",
                           "princess_start_encounters",
                           "pirate_start_encounters",
