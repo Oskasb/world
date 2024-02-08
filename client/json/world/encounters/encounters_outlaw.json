@@ -16,12 +16,12 @@
                   "indicator_id": "treasure_indicator",
                   "trigger_radius": 2,
                   "spawn": {
-                    "actors": [
+                    "items": [
                       {
-                        "actor": "ACTOR_FIGHTER",
-                        "rot": [0, 3.2, 0],
-                        "on_ground": true,
-                        "tile": [4, 4]
+                        "item": "ITEM_HATCHET",
+                        "scale": [2, 2, 2],
+                        "rot": [-1, 0, 0],
+                        "spin": [0, 1.5, 0.0]
                       }
                     ]
                   }

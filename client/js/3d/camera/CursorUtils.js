@@ -138,6 +138,7 @@ function drawInputCursorState(cursorObj3d, dragToVec3, camTargetPos, cursorForwa
     evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE,  {from:calcVec, to:camTargetPos, color:'RED'});
     evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:camTargetPos, color:'RED', size:0.3})
 */
+    return
     tempVec3.copy(cursorForward);
     calcVec.copy(cursorPos);
     calcVec.y += 0.02;
@@ -177,10 +178,11 @@ function processTerrainLodCenter(lodCenter, terrainCenter) {
     tempVec3.copy(terrainCenter)
     tempVec3.y = ThreeAPI.terrainAt(terrainCenter);
 
-    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:terrainCenter, color:'YELLOW', size:1.0})
-    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:terrainCenter, to:tempVec3, color:'YELLOW'});
     /*
-     */
+        evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:terrainCenter, color:'YELLOW', size:1.0})
+        evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:terrainCenter, to:tempVec3, color:'YELLOW';
+        /*
+         */
     // GuiAPI.printDebugText( tempVec3.x)
     GuiAPI.printDebugText('x:'+MATH.decimalify(tempVec3.x, 10)+' y:'+MATH.decimalify(tempVec3.y, 10)+' z:'+MATH.decimalify(tempVec3.z, 10))
   //  evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:tempVec3, color:'YELLOW', size:1.0})

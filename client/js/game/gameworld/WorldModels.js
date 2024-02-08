@@ -53,6 +53,10 @@ let deactivateWorldEncounters = function () {
         let encounter = worldEncounters.pop()
         encounter.deactivateWorldEncounter()
     }
+    while (worldTreasures.length) {
+        let trsr = worldTreasures.pop()
+        trsr.deactivateWorldTreasure()
+    }
 }
 
 

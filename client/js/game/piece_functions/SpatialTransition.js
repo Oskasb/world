@@ -74,7 +74,7 @@ class SpatialTransition {
             tempVec3.copy(this.targetFunction());
             tempVec3.sub(this.moveVec3);
             this.moveVec3.copy(this.targetFunction());
-            MATH.interpolateVec3FromTo(this.startPos, this.targetPos, fraction, this.moveVec3, this.curve);
+            MATH.interpolateVec3FromTo(this.startPos, this.moveVec3, fraction, this.moveVec3, this.curve);
 
             if (this.bounce) {
                 if (MATH[this.curve]) {

@@ -2,7 +2,7 @@ import {Object3D} from "../../../libs/three/core/Object3D.js";
 import {EncounterIndicator} from "../visuals/EncounterIndicator.js";
 import {parseConfigDataKey} from "../../application/utils/ConfigUtils.js";
 import {Vector3} from "../../../libs/three/math/Vector3.js";
-import {poolFetch} from "../../application/utils/PoolUtils.js";
+import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
 import {colorMapFx} from "../visuals/Colors.js";
 
 let tempVec = new Vector3()
@@ -12,8 +12,8 @@ let radiusEvent = {}
 
 let indicateTriggerRadius = function(treasure) {
     let radius = treasure.config.trigger_radius || 2
-    radiusEvent.heads = Math.ceil(MATH.curveSqrt(radius))+2;
-    radiusEvent.speed = MATH.curveSqrt(radius)
+    radiusEvent.heads = Math.ceil(MATH.curveSqrt(radius))+3;
+    radiusEvent.speed = MATH.curveSqrt(radius) * 3
     radiusEvent.radius = radius;
     radiusEvent.pos = treasure.getPos();
     radiusEvent.rgba = treasure.getTriggerRGBA();
@@ -91,6 +91,31 @@ function checkTriggerPlayer(treasure) {
 
             if (treasure.timeInsideTrigger === 0) {
                 console.log("Trigger treasure")
+                treasure.spatialTransition = poolFetch('SpatialTransition')
+                let transition = treasure.spatialTransition;
+                //    walkGrid.dynamicWalker.attachFrameLeapTransitionFx(actor)
+                let onArrive = function(pos, spatTransition) {
+                    poolReturn(spatTransition);
+                    treasure.spatialTransition = null;
+                    treasure.deactivateWorldTreasure();
+
+                    if (treasure.engagementArc !== null) {
+                        treasure.engagementArc.off();
+                        treasure.engagementArc = null;
+                    }
+
+                }
+
+                let onFrameUpdate = function(pos, vel) {
+                    treasure.getPos().copy(pos);
+                }
+
+                let getTargetPos = function() {
+                    return selectedActor.getCenterMass();
+                }
+
+                transition.initSpatialTransition(treasure.getPos(), getTargetPos, 2, onArrive, 2, 'curveQuad', onFrameUpdate)
+
                 triggeredCount++
             }
 
@@ -116,6 +141,7 @@ class WorldTreasure {
         this.config = config;
         this.engagementArc = null;
         this.obj3d = new Object3D();
+        this.obj3d.scale.set(10, 10, 10)
         MATH.vec3FromArray(this.obj3d.position, this.config.pos)
         this.obj3d.position.y = ThreeAPI.terrainAt(this.obj3d.position);
         this.encounterIndicator = new EncounterIndicator(this.obj3d)
@@ -151,7 +177,10 @@ class WorldTreasure {
             }
         }.bind(this)
 
+
+
         let onGameUpdate = function(tpf, gameTime) {
+            this.obj3d.position.y += Math.sin(GameAPI.getGameTime()*3) * 0.01;
             if (this.triggered) {
                 updateTriggered(this);
             } else {
@@ -159,9 +188,78 @@ class WorldTreasure {
             }
         }.bind(this)
 
+        let spawn = config.spawn;
+        let items = []
+        if (spawn) {
+            if (spawn.items) {
+                items = spawn.items;
+            }
+        }
+
+        this.items = [];
+
+        let getPos = function () {
+            return this.obj3d.position;
+        }.bind(this);
+
+        let spawnHostItem = function() {
+
+            for (let i = 0; i < items.length; i++) {
+
+                let itemId = items[i].item;
+                let scale = items[i].scale || [1, 1, 1];
+                let rot = items[i].rot || [-1, 0, 0];
+                let spin = items[i].spin || [0, 0, 0];
+
+                let addItem = function(item) {
+                    let obj3d = item.getVisualGamePiece().getSpatial().obj3d;
+                    let itemUpdateCb = function(tpf) {
+                        //    this.call.getPiece().getSpatialPosition(tempObj3d.position);
+                        //    this.call.getPiece().getSpatialQuaternion(tempObj3d.quaternion);
+                        //    this.call.getPiece().getSpatialScale(tempObj3d.scale);
+
+                        let gameTime = GameAPI.getGameTime()
+
+                        obj3d.quaternion.set(0, 0, 0, 1);
+                        obj3d.rotateX(gameTime * spin[0])
+                        obj3d.rotateY(gameTime * spin[1])
+                        obj3d.rotateZ(gameTime * spin[2])
+                        MATH.rotXYZFromArray(obj3d, rot);
+
+                        obj3d.position.copy(getPos());
+                        obj3d.position.y += 0.5 + Math.sin(GameAPI.getGameTime()*5) * 0.005;
+                        MATH.vec3FromArray(obj3d.scale, scale);
+
+                    //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos: obj3d.position, color:'RED', size:0.5})
+                        item.getVisualGamePiece().getSpatial().stickToObj3D(obj3d);
+                    }
+                    MATH.rotXYZFromArray(obj3d, rot);
+                    this.items.push(item);
+                    item.call.setUpdateCallback();
+                    item.call.setUpdateCallback(itemUpdateCb);
+                    item.show();
+                    item.getPos().copy(this.getPos());
+                    item.getPos().y += 0.5;
+                }.bind(this);
+
+                evt.dispatch(ENUMS.Event.LOAD_ITEM,  {id: items[i].item, callback:addItem})
+            }
+
+        }.bind(this)
+
+        let despawnHostItem = function() {
+            while (this.items.length) {
+                let item = this.items.pop();
+                item.hide();
+                item.disposeItem();
+            }
+        }.bind(this);
+
         this.call = {
             lodUpdated:lodUpdated,
             onGameUpdate:onGameUpdate,
+            spawnHostItem:spawnHostItem,
+            despawnHostItem:despawnHostItem
         }
         onReady(this);
     }
@@ -191,7 +289,7 @@ class WorldTreasure {
         }
 
         this.encounterIndicator.showIndicator();
-    //    this.visualEncounterHost.showEncounterHost();
+        this.call.spawnHostItem()
         GameAPI.registerGameUpdateCallback(this.call.onGameUpdate)
         this.isVisible = true;
     }
@@ -202,6 +300,7 @@ class WorldTreasure {
             GameAPI.unregisterGameUpdateCallback(this.call.onGameUpdate)
         }
     //    this.visualEncounterHost.hideEncounterHost();
+        this.call.despawnHostItem()
         this.isVisible = false;
     }
     removeWorldTreasure() {

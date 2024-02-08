@@ -349,6 +349,12 @@ class GameActor {
         return this.visualGamePiece;
     }
 
+    getCenterMass() {
+        let pos = this.getSpatialPosition();
+        pos.y += this.getStatus(ENUMS.ActorStatus.HEIGHT) * 0.7;
+        return pos;
+    }
+
     showGameActor() {
 
         this.visualGamePiece.call.showVisualPiece();
