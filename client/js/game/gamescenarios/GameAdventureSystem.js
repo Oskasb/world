@@ -24,7 +24,7 @@ class GameAdventureSystem {
         return completedEncounters;
     }
 
-    getLootedTreasured() {
+    getLootedTreasures() {
         return lootedTreasured;
     }
     selectAdventure(event) {

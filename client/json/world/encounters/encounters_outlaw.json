@@ -55,6 +55,22 @@
                       }
                     ]
                   }
+                },
+                {
+                  "pos": [-742, 2, 802],
+                  "visibility": 2,
+                  "indicator_id": "treasure_indicator",
+                  "trigger_radius": 1,
+                  "spawn": {
+                    "items": [
+                      {
+                        "item": "ITEM_GLOVES_SCALE",
+                        "scale": [1.2, 1.2, 1.2],
+                        "rot": [-0.2, 0, 0],
+                        "spin": [0.6, 1.5, 0.4]
+                      }
+                    ]
+                  }
                 }
               ],
               "encounters": [
@@ -65,6 +81,24 @@
                   "host_id": "bandit_basic",
                   "indicator_id": "battle_indicator",
                   "trigger_radius": 3,
+                  "spawn": {
+                    "actors": [
+                      {
+                        "actor": "ACTOR_FIGHTER",
+                        "rot": [0, 3.2, 0],
+                        "on_ground": true,
+                        "tile": [4, 4]
+                      }
+                    ]
+                  }
+                },
+                {
+                  "pos": [-739, 2, 798],
+                  "visibility": 2,
+                  "grid_id": "grid_7x7",
+                  "host_id": "bandit_basic",
+                  "indicator_id": "battle_indicator",
+                  "trigger_radius": 2,
                   "spawn": {
                     "actors": [
                       {

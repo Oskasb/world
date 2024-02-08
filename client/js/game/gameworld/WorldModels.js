@@ -81,7 +81,7 @@ let activateWorldEncounters = function(event) {
     }
 
     let completedEncounters = GameAPI.gameAdventureSystem.getCompletedEncounters();
-    let lootedTreasures = GameAPI.gameAdventureSystem.getLootedTreasured();
+    let lootedTreasures = GameAPI.gameAdventureSystem.getLootedTreasures();
     activateEvent = event;
     let encountersData = function(encounters, index, listId) {
         for (let i = 0; i < encounters.length;i++) {

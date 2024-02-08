@@ -118,7 +118,8 @@ function checkTriggerPlayer(treasure) {
                     for (let i = 0; i < items.length; i++) {
                         selectedActor.processItemLooted(items[i]);
                     }
-
+                    let lootedTreasures = GameAPI.gameAdventureSystem.getLootedTreasures();
+                    lootedTreasures.push(treasure.id);
                     treasure.deactivateWorldTreasure();
                 }
 
