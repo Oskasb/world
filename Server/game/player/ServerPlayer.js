@@ -26,6 +26,7 @@ class ServerPlayer {
             serverActor.status.setStatusKey(ENUMS.ActorStatus.DAMAGE_APPLIED, 0);
             serverActor.status.setStatusKey(ENUMS.ActorStatus.HEALING_APPLIED, 0);
             serverActor.status.setStatusKey(ENUMS.ActorStatus.STRONGHOLD_ID, this.stronghold.id);
+            serverActor.status.setStatusKey(ENUMS.ActorStatus.ACTIVATION_STATE, ENUMS.ActivationState.ACTIVATING);
             this.actors.push(serverActor);
             registerServerActor(serverActor);
        //     console.log("NEW ServerActor", serverActor)

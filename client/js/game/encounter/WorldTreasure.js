@@ -4,6 +4,8 @@ import {parseConfigDataKey} from "../../application/utils/ConfigUtils.js";
 import {Vector3} from "../../../libs/three/math/Vector3.js";
 import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
 import {colorMapFx} from "../visuals/Colors.js";
+import {transitionEffectOn} from "../visuals/effects/VisualTriggerFx.js";
+import {defaultEffectValues} from "../visuals/effects/EffectEventDefaults.js";
 
 let tempVec = new Vector3()
 let calcVec = new Vector3()
@@ -48,6 +50,9 @@ let indicateTriggerTime = function(actor, treasure) {
     evt.dispatch(ENUMS.Event.INDICATE_RADIUS, radiusEvent)
 }
 
+let effectData ={
+    color:'TREASURE'
+}
 
 function checkTriggerPlayer(treasure) {
 
@@ -55,7 +60,7 @@ function checkTriggerPlayer(treasure) {
 
     if (selectedActor) {
         let tpf = GameAPI.getFrame().tpf
-        let radius = treasure.config.trigger_radius || 2;
+        let radius = treasure.triggerRadius || 2;
         let distance = MATH.distanceBetween(selectedActor.getSpatialPosition(), treasure.getPos())
 
         if (distance < radius + 2) {
@@ -91,22 +96,33 @@ function checkTriggerPlayer(treasure) {
 
             if (treasure.timeInsideTrigger === 0) {
                 console.log("Trigger treasure")
+                treasure.triggered = true;
                 treasure.spatialTransition = poolFetch('SpatialTransition')
                 let transition = treasure.spatialTransition;
+
+
+
                 //    walkGrid.dynamicWalker.attachFrameLeapTransitionFx(actor)
                 let onArrive = function(pos, spatTransition) {
                     poolReturn(spatTransition);
                     treasure.spatialTransition = null;
-                    treasure.deactivateWorldTreasure();
+
 
                     if (treasure.engagementArc !== null) {
                         treasure.engagementArc.off();
                         treasure.engagementArc = null;
                     }
 
+                    console.log("Loot arrives", treasure)
+                    let items = treasure.items;
+                    for (let i = 0; i < items.length; i++) {
+                        selectedActor.processItemLooted(items[i]);
+                    }
+
+                    treasure.deactivateWorldTreasure();
                 }
 
-                let onFrameUpdate = function(pos, vel) {
+                let onFrameUpdate = function(pos, vel, fraction) {
                     treasure.getPos().copy(pos);
                 }
 
@@ -139,6 +155,7 @@ class WorldTreasure {
         this.activated = false;
         this.timeInsideTrigger = 0;
         this.config = config;
+        this.triggerRadius = config.trigger_radius || 2
         this.engagementArc = null;
         this.obj3d = new Object3D();
         this.obj3d.scale.set(10, 10, 10)
@@ -197,6 +214,8 @@ class WorldTreasure {
         }
 
         this.items = [];
+        let treasureItems = this.items;
+        let treasure = this;
 
         let getPos = function () {
             return this.obj3d.position;
@@ -232,9 +251,12 @@ class WorldTreasure {
 
                     //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos: obj3d.position, color:'RED', size:0.5})
                         item.getVisualGamePiece().getSpatial().stickToObj3D(obj3d);
+                    //    effectData = defaultEffectValues['GLITTER']
+                        transitionEffectOn(obj3d.position, effectData);
                     }
                     MATH.rotXYZFromArray(obj3d, rot);
-                    this.items.push(item);
+                    treasure.items.push(item);
+                    console.log("Spawn Loot: ", item, treasure)
                     item.call.setUpdateCallback();
                     item.call.setUpdateCallback(itemUpdateCb);
                     item.show();

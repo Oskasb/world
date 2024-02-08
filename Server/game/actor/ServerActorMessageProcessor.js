@@ -55,6 +55,7 @@ class ServerActorMessageProcessor {
                 if (MATH.stupidChecksumArray(currentStatus) !== MATH.stupidChecksumArray(newValue)) {
            //         console.log("Server Status updated", statusKey, newValue, currentStatus);
 
+
                     if (statusKey === ENUMS.ActorStatus.ACTIVATION_STATE) {
                         if (newValue === ENUMS.ActivationState.ACTIVATING) {
                             let initRequests = status.getStatus(ENUMS.ActorStatus.EQUIP_REQUESTS);
@@ -67,6 +68,7 @@ class ServerActorMessageProcessor {
 
                     if (status.getStatus(ENUMS.ActorStatus.ACTIVATION_STATE) === ENUMS.ActivationState.ACTIVE) {
                         if (statusKey === ENUMS.ActorStatus.EQUIP_REQUESTS) {
+                            console.log("Server Status updated", statusKey, newValue, currentStatus);
                             this.updateEquippedItems(status, newValue);
                             newValue = []
                         }

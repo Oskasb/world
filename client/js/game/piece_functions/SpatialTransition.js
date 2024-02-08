@@ -84,7 +84,7 @@ class SpatialTransition {
                 }
             }
 
-            MATH.callAll(this.onFrameUpdateCallbacks, this.moveVec3, tempVec3);
+            MATH.callAll(this.onFrameUpdateCallbacks, this.moveVec3, tempVec3, fraction);
 
         } else {
             this.moveVec3.copy(this.targetPos);

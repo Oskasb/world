@@ -334,6 +334,13 @@ class GameActor {
         this.call.onVisualAdded();
     }
 
+    processItemLooted(item) {
+        let requests = this.getStatus(ENUMS.ActorStatus.EQUIP_REQUESTS)
+        requests.push(item.getStatus(ENUMS.ItemStatus.TEMPLATE));
+        console.log("loot: ", requests);
+        this.setStatusKey(ENUMS.ActorStatus.EQUIP_REQUESTS, requests);
+    }
+
     equipItem(item) {
         this.actorEquipment.call.equipActorItem(item);
         let equippedList = this.getStatus(ENUMS.ActorStatus.EQUIPPED_ITEMS);

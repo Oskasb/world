@@ -11,8 +11,6 @@
                 {
                   "pos": [-728, 2, 791],
                   "visibility": 2,
-                  "grid_id": "grid_7x7",
-                  "host_id": "bandit_basic",
                   "indicator_id": "treasure_indicator",
                   "trigger_radius": 2,
                   "spawn": {
@@ -21,6 +19,38 @@
                         "item": "ITEM_HATCHET",
                         "scale": [2, 2, 2],
                         "rot": [-1, 0, 0],
+                        "spin": [0, 1.5, 0.0]
+                      }
+                    ]
+                  }
+                },
+                {
+                  "pos": [-729, 2, 794],
+                  "visibility": 2,
+                  "indicator_id": "treasure_indicator",
+                  "trigger_radius": 1,
+                  "spawn": {
+                    "items": [
+                      {
+                        "item": "ITEM_HELMET_VIKING_WHITE",
+                        "scale": [2, 2, 2],
+                        "rot": [1, 0, 0],
+                        "spin": [0, 1.5, 0.0]
+                      }
+                    ]
+                  }
+                },
+                {
+                  "pos": [-732, 2, 793],
+                  "visibility": 2,
+                  "indicator_id": "treasure_indicator",
+                  "trigger_radius": 1,
+                  "spawn": {
+                    "items": [
+                      {
+                        "item": "ITEM_BOOTS_SCALE",
+                        "scale": [2, 2, 2],
+                        "rot": [-0.2, 0, 0],
                         "spin": [0, 1.5, 0.0]
                       }
                     ]

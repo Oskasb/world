@@ -33,7 +33,7 @@
                         "actor_id":"ACTOR_OUTLAW",
                         "page_id": "page_start_outlaw",
                         "world_encounters": ["outlaw_start_encounters"],
-                        "equipped_items": ["ITEM_HAT_LEATHER", "ITEM_HATCHET"],
+                        "equipped_items": [],
                         "status": {
                           "ALIGNMENT": "FRIENDLY",
                           "STRONGHOLD_ID": "FARM_HOVEL"
