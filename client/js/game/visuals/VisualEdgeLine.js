@@ -2,6 +2,7 @@ import {Vector3} from "../../../libs/three/math/Vector3.js";
 import {poolFetch} from "../../application/utils/PoolUtils.js";
 import {Object3D} from "../../../libs/three/core/Object3D.js";
 import {colorMapFx} from "./Colors.js";
+import {physicalAlignYGoundTest} from "../../application/utils/PhysicsUtils.js";
 
 let tempVec = new Vector3();
 let normalStore = new Vector3()
@@ -49,11 +50,15 @@ class VisualEdgeLine {
                 //    console.log("Draw Points",  this.fxPoints.length)
                 for (let i = 0; i < this.fxPoints.length; i++) {
                     let pointFX = this.fxPoints[i];
-
-                    tempObj.position.y = Math.max(ThreeAPI.terrainAt(tempObj.position, normalStore), 0.1);
-
-
-                    pointFX.updatePointFX(tempObj.position, tempObj.quaternion, rgba)
+                    let fits = physicalAlignYGoundTest(tempObj.position, tempObj.position, 1.5)
+                    if (fits === false) {
+                        tempObj.position.y = 0;
+                        pointFX.updatePointFX(tempObj.position, tempObj.quaternion, rgba)
+                    } else {
+                        tempObj.position.y = Math.max(tempObj.position.y, 0.1);
+                        pointFX.updatePointFX(tempObj.position, tempObj.quaternion, rgba)
+                    }
+                //
 
                     evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:tempObj.position, to:this.to, color:'YELLOW'});
                     tempObj.position.add(tempVec);

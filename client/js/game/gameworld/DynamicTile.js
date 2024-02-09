@@ -7,7 +7,7 @@ import {Obj3DText} from "../../application/ui/gui/game/Obj3DText.js";
 import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
 import {aaBoxTestVisibility, borrowBox, cubeTestVisibility} from "../../application/utils/ModelUtils.js";
 import {colorMapFx} from "../visuals/Colors.js";
-import {detectFreeSpaceAbovePoint, rayTest} from "../../application/utils/PhysicsUtils.js";
+import {detectFreeSpaceAbovePoint, physicalAlignYGoundTest, rayTest} from "../../application/utils/PhysicsUtils.js";
 
 let up = new Vector3(0, 1, 0)
 let normalHit = new Vector3();
@@ -47,6 +47,8 @@ class DynamicTile {
         this.requiresLeap = false;
         this.walkable = false;
         this.blocking = false;
+        this.fitsCharacter = true;
+
 
         this.obj3d = new Object3D();
         this.text.call.setPosVec(this.obj3d.position);
@@ -88,8 +90,20 @@ class DynamicTile {
     //    this.gridTile.setTileXZ(indexX, indexY);
         this.obj3d.position.x = indexX*this.spacing + this.offset
         this.obj3d.position.z = indexY*this.spacing + this.offset;
-        let height = ThreeAPI.terrainAt(this.obj3d.position, this.groundNormal);
-        this.obj3d.position.y = height+0.01;
+        let fits = physicalAlignYGoundTest(this.obj3d.position, this.obj3d.position, 1.5, this.groundNormal)
+
+    //    let height = ThreeAPI.terrainAt(this.obj3d.position, this.groundNormal);
+    //    this.obj3d.position.y = height+0.01;
+
+        if (fits === false) {
+            this.fitsCharacter = false;
+        } else {
+            if (typeof(fits) === "object") {
+                this.rigidBodyPointer = fits.ptr;
+            }
+        }
+
+        /*
 
         tempVec.copy(this.obj3d.position);
         tempVec.y +=0.01;
@@ -106,7 +120,7 @@ class DynamicTile {
      //       this.obj3d.position.copy(contactPoint);
      //       this.groundNormal.copy(normalHit);
         }
-
+*/
         this.pathPoint.setPos(this.obj3d.position)
 
         if (this.visualTile) {

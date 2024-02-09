@@ -1,6 +1,7 @@
 import {Vector3} from "../../../libs/three/math/Vector3.js";
 import * as CombatFxOptions from "../combat/feedback/CombatFxOptions.js";
 import * as CombatFxUtils from "../combat/feedback/CombatFxUtils.js";
+import {physicalAlignYGoundTest} from "../../application/utils/PhysicsUtils.js";
 
 let calcVec = new Vector3();
 let calcVec2 = new Vector3();
@@ -53,7 +54,11 @@ let drawTriggerHead = function(head, heads, radius, triggerCycle, center, rgba, 
     calcVec.set(Math.sin(cycle + cycle*head*0.1), 0, Math.cos(cycle + cycle*head*0.1));
     calcVec.multiplyScalar(radius);
     calcVec.add(center);
-    calcVec.y = ThreeAPI.terrainAt(calcVec) +elevation;
+    let groundAvailable = physicalAlignYGoundTest(calcVec, calcVec, 1.5);
+    if (groundAvailable === false) {
+        return;
+    }
+  //  calcVec.y = ThreeAPI.terrainAt(calcVec) +elevation;
   //  calcVec2.set(Math.sin(cycle+0.3), 0, Math.cos(cycle+0.3));
  //   calcVec2.multiplyScalar(radius);
   //  calcVec2.add(center);

@@ -17,7 +17,7 @@
                     "items": [
                       {
                         "item": "ITEM_HATCHET",
-                        "scale": [2, 2, 2],
+                        "scale": [1.5, 1.5, 1.5],
                         "rot": [-1, 0, 0],
                         "spin": [0, 1.5, 0.0]
                       }
@@ -33,8 +33,8 @@
                     "items": [
                       {
                         "item": "ITEM_HELMET_VIKING_WHITE",
-                        "scale": [2, 2, 2],
-                        "rot": [1, 0, 0],
+                        "scale": [1.5, 1.5, 1.5],
+                        "rot": [-2, 0, 0],
                         "spin": [0, 1.5, 0.0]
                       }
                     ]
@@ -49,8 +49,8 @@
                     "items": [
                       {
                         "item": "ITEM_BOOTS_SCALE",
-                        "scale": [2, 2, 2],
-                        "rot": [-0.2, 0, 0],
+                        "scale": [1.2, 1.2, 1.2],
+                        "rot": [0.3, 0, 0],
                         "spin": [0, 1.5, 0.0]
                       }
                     ]
@@ -67,7 +67,7 @@
                         "item": "ITEM_GLOVES_SCALE",
                         "scale": [1.2, 1.2, 1.2],
                         "rot": [-0.2, 0, 0],
-                        "spin": [0.6, 1.5, 0.4]
+                        "spin": [0.0, 1.5, 0.0]
                       }
                     ]
                   }
@@ -75,7 +75,7 @@
               ],
               "encounters": [
                 {
-                  "pos": [-732, 2, 799],
+                  "pos": [-731, 2, 799],
                   "visibility": 2,
                   "grid_id": "grid_7x7",
                   "host_id": "bandit_basic",
@@ -93,9 +93,27 @@
                   }
                 },
                 {
-                  "pos": [-739, 2, 798],
+                  "pos": [-737, 2, 800],
                   "visibility": 2,
-                  "grid_id": "grid_7x7",
+                  "grid_id": "grid_5x5",
+                  "host_id": "bandit_basic",
+                  "indicator_id": "battle_indicator",
+                  "trigger_radius": 2,
+                  "spawn": {
+                    "actors": [
+                      {
+                        "actor": "ACTOR_FIGHTER",
+                        "rot": [0, 3.2, 0],
+                        "on_ground": true,
+                        "tile": [4, 4]
+                      }
+                    ]
+                  }
+                },
+                {
+                  "pos": [-740, 2, 794],
+                  "visibility": 2,
+                  "grid_id": "grid_5x5",
                   "host_id": "bandit_basic",
                   "indicator_id": "battle_indicator",
                   "trigger_radius": 2,

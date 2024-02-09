@@ -127,62 +127,77 @@ class VisualTile {
         let a = 0.25;
 
         dynamicTile.walkable = false;
-        dynamicTile.blocking = false;
-        if (height < 0.01) {
-            dynamicTile.obj3d.position.y = 0.1;
+
+        if (dynamicTile.fitsCharacter === false) {
             spriteX = 6;
-            spriteY = 5;
-            r = 0.1;
-            g = 0.1;
-            b = 1.0;
+            spriteY = 4;
+            r = 0.05;
+            g = 0.0;
+            b = 0.0;
+            a = 0.15;
+            dynamicTile.walkable = false;
+            dynamicTile.blocking = true;
         } else {
-            dynamicTile.obj3d.position.y = height + 0.01;
 
-            ThreeAPI.groundAt(pos, dynamicTile.groundData)
 
-            slope = dynamicTile.groundNormal.angleTo(up);
 
-            if (slope > 0.65) {
+        dynamicTile.blocking = false;
+            if (height < 0.01) {
+                dynamicTile.obj3d.position.y = 0.1;
                 spriteX = 6;
-                spriteY = 2;
-                r = 0.12;
-                g = 0;
-                b = 0;
-                tempObj.lookAt(dynamicTile.groundNormal);
+                spriteY = 5;
+                r = 0.1;
+                g = 0.1;
+                b = 1.0;
             } else {
-                dynamicTile.walkable = true;
-                tempObj.rotateX(Math.sin(dynamicTile.groundNormal.z) * 0.5);
-                tempObj.rotateY(Math.sin(dynamicTile.groundNormal.x) * 0.5);
-                dynamicTile.obj3d.position.y += 0.05 + 0.55 * slope;
+                dynamicTile.obj3d.position.y = height + 0.01;
 
-                if (dynamicTile.groundData.y > 0.2) {
-                    r = 0.0;
-                    g = 0.2;
-                    b = 0;
-                }
-                if (dynamicTile.groundData.y > 0.32) {
+                ThreeAPI.groundAt(pos, dynamicTile.groundData)
+
+                slope = dynamicTile.groundNormal.angleTo(up);
+
+                if (slope > 0.65) {
+                    spriteX = 6;
+                    spriteY = 2;
                     r = 0.12;
-                    g = 0.07;
+                    g = 0;
                     b = 0;
-                    spriteX = 6;
-                    spriteY = 3;
+                    tempObj.lookAt(dynamicTile.groundNormal);
+                } else {
+                    dynamicTile.walkable = true;
+                    tempObj.rotateX(Math.sin(dynamicTile.groundNormal.z) * 0.5);
+                    tempObj.rotateY(Math.sin(dynamicTile.groundNormal.x) * 0.5);
+                    dynamicTile.obj3d.position.y += 0.05 + 0.55 * slope;
 
-                }
-                if (dynamicTile.groundData.y > 0.52) {
-                    spriteX = 6;
-                    spriteY = 4;
-                    r = 0.05;
-                    g = 0.0;
-                    b = 0.0;
-                    a = 0.15;
-                    dynamicTile.walkable = false;
-                    dynamicTile.blocking = true;
-                }
+                    if (dynamicTile.groundData.y > 0.2) {
+                        r = 0.0;
+                        g = 0.2;
+                        b = 0;
+                    }
+                    if (dynamicTile.groundData.y > 0.32) {
+                        r = 0.12;
+                        g = 0.07;
+                        b = 0;
+                        spriteX = 6;
+                        spriteY = 3;
 
-                if (dynamicTile.groundData.z > 0.05) {
-                    r = 0.0;
-                    g = 0.05;
-                    b = 0.6;
+                    }
+                    if (dynamicTile.groundData.y > 0.52) {
+                        spriteX = 6;
+                        spriteY = 4;
+                        r = 0.05;
+                        g = 0.0;
+                        b = 0.0;
+                        a = 0.15;
+                        dynamicTile.walkable = false;
+                        dynamicTile.blocking = true;
+                    }
+
+                    if (dynamicTile.groundData.z > 0.05) {
+                        r = 0.0;
+                        g = 0.05;
+                        b = 0.6;
+                    }
                 }
             }
         }

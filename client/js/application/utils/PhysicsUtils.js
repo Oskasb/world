@@ -11,6 +11,7 @@ let tempVec3 = new Vector3();
 let tempVec4 = new Vector3();
 let tempVec5 = new Vector3();
 let normalStore = new Vector3();
+let tempNormal = new Vector3()
 let tempFrom = new Vector3();
 let tempTo = new Vector3();
 let tempRay = new Ray();
@@ -214,6 +215,29 @@ function getModelByBodyPointer(ptr) {
     console.log("no body found for pointer ", ptr);
 }
 
+function physicalAlignYGoundTest(pos, store, height, nStore) {
+    let y = ThreeAPI.terrainAt(pos, nStore)+0.1;
+    store.set(pos.x, y, pos.z);
+    tempFrom.copy(store);
+    tempFrom.y += height+0.1;
+    let hit = rayTest(tempFrom, store, store, normalStore);
+
+    if (hit) {
+        store.y += 0.1;
+        tempFrom.y = pos.y+height*2;
+        hit = rayTest(tempFrom, store, store, null, true);
+        if (hit) {
+            return false;
+        }
+        if (nStore) {
+            nStore.copy(normalStore);
+        }
+        return hit;
+    }
+    return true;
+
+}
+
 
 export {
     getPhysicalWorld,
@@ -226,5 +250,6 @@ export {
     transformBody,
     physicalIntersection,
     getBodyByPointer,
-    getModelByBodyPointer
+    getModelByBodyPointer,
+    physicalAlignYGoundTest
 }
