@@ -108,6 +108,9 @@ function rayTest(from, to, contactPointStore, contactNormal, debugDraw) {
     if (!contactNormal) {
         contactNormal = tempVec5;
     }
+
+    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:from, to:to, color:'GREEN'});
+
     tempTo.copy(to).sub(from);
     let hit = AmmoAPI.raycastPhysicsWorld(from, tempTo, contactPointStore, contactNormal, debugDraw)
 
@@ -250,47 +253,61 @@ function physicalAlignYGoundTest(pos, store, height, nStore) {
 }
 
 function testProbeFitsAtPos(pos) {
+    let debug = true;
+
     probeResult.from.copy(pos);
-    probeResult.from.y += 0.4;
+    probeResult.from.y += 0.5;
     probeResult.to.copy(pos);
-    probeResult.to.y += 1.3;
-    let hit = rayTest(probeResult.from, probeResult.to, tempVec, tempNormal, false)
+    probeResult.to.y += 1.5;
+    let hit = rayTest(probeResult.from, probeResult.to, tempVec, tempNormal, debug)
     if (hit) {
         return hit;
     }
     tempVec2.copy(pos)
-    tempVec2.y += 0.3;
-    tempVec2.x -= 0.5;
-    tempVec2.z -= 0.5;
-    hit = rayTest(tempVec2, probeResult.to, tempVec, tempNormal, false)
+    tempVec2.y += 0.5;
+
+    tempVec2.x -= 0.35;
+    probeResult.to.x = tempVec2.x;
+    probeResult.to.z = tempVec2.z;
+    probeResult.to.z += 0.35;
+    tempVec2.z -= 0.35;
+
+    hit = rayTest(tempVec2, probeResult.to, tempVec, tempNormal, debug)
     if (hit) {
         return hit;
     }
 
 
     //    tempVec2.x += 0.5;
-    tempVec2.z += 1.0;
-    hit = rayTest(tempVec2, probeResult.to, tempVec, tempNormal, false)
+    probeResult.to.x = tempVec2.x;
+    probeResult.to.z = tempVec2.z;
+    tempVec2.x += 0.7;
+
+    hit = rayTest(tempVec2, probeResult.to, tempVec, tempNormal, debug)
     if (hit) {
         return hit;
     }
 
-
-    tempVec2.x += 1.0;
+    probeResult.to.x = tempVec2.x;
+    probeResult.to.z = tempVec2.z;
+    tempVec2.z += 0.7;
     //    tempVec2.z += 0.5;
-    hit = rayTest(tempVec2, probeResult.to, tempVec, tempNormal, false)
+    hit = rayTest(tempVec2, probeResult.to, tempVec, tempNormal, debug)
     if (hit) {
         return hit;
     }
 
-    //    tempVec2.x += 0.5;
-    tempVec2.z -= 1.0;
-    hit = rayTest(tempVec2, probeResult.to, tempVec, tempNormal, false)
+    probeResult.to.x = tempVec2.x;
+    probeResult.to.z = tempVec2.z;
+    tempVec2.x -= 0.7;
+
+    hit = rayTest(tempVec2, probeResult.to, tempVec, tempNormal, debug)
     if (hit) {
         return hit;
     }
 
     return true;
+
 
 }
 

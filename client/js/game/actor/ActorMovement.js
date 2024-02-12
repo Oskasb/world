@@ -3,7 +3,7 @@ import {VisualPath} from "../visuals/VisualPath.js";
 import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
 import {processEncounterGridTilePath} from "../gameworld/ScenarioUtils.js";
 import {Object3D, Vector3} from "../../../libs/three/Three.js";
-import {detectFreeSpaceAbovePoint, rayTest} from "../../application/utils/PhysicsUtils.js";
+import {detectFreeSpaceAbovePoint, rayTest, testProbeFitsAtPos} from "../../application/utils/PhysicsUtils.js";
 import {colorMapFx} from "../visuals/Colors.js";
 import {WorldModel} from "../gameworld/WorldModel.js";
 import {PhysicalProbe} from "../piece_functions/PhysicalProbe.js";
@@ -249,11 +249,11 @@ class ActorMovement {
         }
 
         probeResult.to.copy(probeResult.destination)
-        hit = this.testProbeFitsAtPos(probeResult.to)
+        hit = testProbeFitsAtPos(probeResult.to)
     //    probeResult.to.y += 1.7;
 
     //    rayTest(probeResult.destination, probeResult.to, probeResult.destination, tempNormal, true)
-        if (hit) {
+        if (hit !== true) {
         //    actor.actorText.say('____u')
             probeResult.blocked = true;
         } else {
