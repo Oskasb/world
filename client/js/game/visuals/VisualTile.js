@@ -137,6 +137,8 @@ class VisualTile {
             a = 0.15;
             dynamicTile.walkable = false;
             dynamicTile.blocking = true;
+            console.log("Fit test failed")
+            evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ThreeAPI.getCameraCursor().getPos(), to:pos, color:'YELLOW', drawFrames:20});
         } else {
 
 

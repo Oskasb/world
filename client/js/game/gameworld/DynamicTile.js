@@ -7,7 +7,12 @@ import {Obj3DText} from "../../application/ui/gui/game/Obj3DText.js";
 import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
 import {aaBoxTestVisibility, borrowBox, cubeTestVisibility} from "../../application/utils/ModelUtils.js";
 import {colorMapFx} from "../visuals/Colors.js";
-import {detectFreeSpaceAbovePoint, physicalAlignYGoundTest, rayTest} from "../../application/utils/PhysicsUtils.js";
+import {
+    detectFreeSpaceAbovePoint,
+    physicalAlignYGoundTest,
+    rayTest,
+    testProbeFitsAtPos
+} from "../../application/utils/PhysicsUtils.js";
 
 let up = new Vector3(0, 1, 0)
 let normalHit = new Vector3();
@@ -97,10 +102,22 @@ class DynamicTile {
 
         if (fits === false) {
             this.fitsCharacter = false;
+            this.blocking = true;
         } else {
+
             if (typeof(fits) === "object") {
                 this.rigidBodyPointer = fits.ptr;
             }
+
+            fits = testProbeFitsAtPos(this.obj3d.position)
+
+            if (fits !== true) {
+                this.fitsCharacter = false;
+                this.blocking = true;
+            } else {
+
+            }
+
         }
 
         /*

@@ -33,8 +33,8 @@ let probeResult = {
     to:new Vector3(),
     translation:new Vector3(),
     destination:new Vector3()
-
 }
+
 let probebox = new Box3()
 probebox.min.set(-0.25, 0, -0.25);
 probebox.max.set(0.25, 1.6, 0.25);
@@ -266,7 +266,6 @@ class ActorMovement {
         probeResult.to.y = probeResult.destination.y + 0.8;
     //    probeShape.setPosQuat(probeResult.to, actor.getSpatialQuaternion());
         return probeResult;
-
     }
 
     runControlActive(actor) {
@@ -304,7 +303,7 @@ class ActorMovement {
 
         let distance = forward * actor.getStatus(ENUMS.ActorStatus.MOVEMENT_SPEED)
 
-           let probeRes = this.probeMovementPhysics(actor, distance, physicsProbes[0]);
+        let probeRes = this.probeMovementPhysics(actor, distance, physicsProbes[0]);
 
         this.visualArc.from.copy(pos);
 /*

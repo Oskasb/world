@@ -16,6 +16,17 @@ let tempFrom = new Vector3();
 let tempTo = new Vector3();
 let tempRay = new Ray();
 
+let probeResult = {
+    halted:false,
+    blocked:false,
+    requiresLeap:false,
+    hitNormal:new Vector3(),
+    from:new Vector3(),
+    to:new Vector3(),
+    translation:new Vector3(),
+    destination:new Vector3()
+}
+
 function getPhysicalWorld() {
     return GameAPI.gameMain.phyiscalWorld;
 }
@@ -238,6 +249,50 @@ function physicalAlignYGoundTest(pos, store, height, nStore) {
 
 }
 
+function testProbeFitsAtPos(pos) {
+    probeResult.from.copy(pos);
+    probeResult.from.y += 0.4;
+    probeResult.to.copy(pos);
+    probeResult.to.y += 1.3;
+    let hit = rayTest(probeResult.from, probeResult.to, tempVec, tempNormal, false)
+    if (hit) {
+        return hit;
+    }
+    tempVec2.copy(pos)
+    tempVec2.y += 0.3;
+    tempVec2.x -= 0.5;
+    tempVec2.z -= 0.5;
+    hit = rayTest(tempVec2, probeResult.to, tempVec, tempNormal, false)
+    if (hit) {
+        return hit;
+    }
+
+
+    //    tempVec2.x += 0.5;
+    tempVec2.z += 1.0;
+    hit = rayTest(tempVec2, probeResult.to, tempVec, tempNormal, false)
+    if (hit) {
+        return hit;
+    }
+
+
+    tempVec2.x += 1.0;
+    //    tempVec2.z += 0.5;
+    hit = rayTest(tempVec2, probeResult.to, tempVec, tempNormal, false)
+    if (hit) {
+        return hit;
+    }
+
+    //    tempVec2.x += 0.5;
+    tempVec2.z -= 1.0;
+    hit = rayTest(tempVec2, probeResult.to, tempVec, tempNormal, false)
+    if (hit) {
+        return hit;
+    }
+
+    return true;
+
+}
 
 export {
     getPhysicalWorld,
@@ -251,5 +306,6 @@ export {
     physicalIntersection,
     getBodyByPointer,
     getModelByBodyPointer,
-    physicalAlignYGoundTest
+    physicalAlignYGoundTest,
+    testProbeFitsAtPos
 }
