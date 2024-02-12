@@ -70,7 +70,7 @@ class ServerActorMessageProcessor {
                         if (statusKey === ENUMS.ActorStatus.EQUIP_REQUESTS) {
                             console.log("Server Status updated", statusKey, newValue, currentStatus);
                             this.updateEquippedItems(status, newValue);
-                            newValue = []
+                        //    newValue = []
                         }
                     }
 

@@ -794,6 +794,10 @@ function CAM_GRID() {
 
     if (isTileSelecting) {
         distance = tileSelector.extendedDistance;
+    } else {
+        selectedActor.getDestination(tempVec3);
+
+        distance = 0.5 + MATH.distanceBetween(tempVec3, selectedActor.getSpatialPosition()) * 6;
     }
 
     tempVec3.set(0, 0, 1);

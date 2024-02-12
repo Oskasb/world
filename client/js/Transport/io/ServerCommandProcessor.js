@@ -16,9 +16,19 @@ let remoteClients = {}
 
 function processActorInit(stamp, msg) {
     let status = msg.status;
+
     let initLocalPlayerControlledActor = function(playerActor) {
         console.log("initLocalPlayerControlledActor; ", stamp, msg);
+
+        let items = [];
+        MATH.copyArrayValues(playerActor.getStatus(ENUMS.ActorStatus.EQUIPPED_ITEMS), items)
+        playerActor.setStatusKey(ENUMS.ActorStatus.EQUIPPED_ITEMS, [])
+
         setTimeout(function() {
+
+        //    playerActor.setStatusKey(ENUMS.ActorStatus.EQUIPPED_ITEMS, [])
+            console.log("Equip Items ", items);
+
             GameAPI.getGamePieceSystem().addActorToPlayerParty(playerActor);
             GameAPI.getGamePieceSystem().playerParty.selectPartyActor(playerActor);
             playerActor.call.activateActionKey("ACTION_TRAVEL_WALK", ENUMS.ActorStatus.TRAVEL)
@@ -29,8 +39,9 @@ function processActorInit(stamp, msg) {
             notifyCameraStatus(ENUMS.CameraStatus.LOOK_FROM, ENUMS.CameraControls.CAM_PARTY, true)
             notifyCameraStatus(ENUMS.CameraStatus.POINTER_ACTION, ENUMS.CameraControls.CAM_MOVE, null)
             playerActor.setStatusKey(ENUMS.ActorStatus.ACTIVATION_STATE, ENUMS.ActivationState.ACTIVE)
+            playerActor.setStatusKey(ENUMS.ActorStatus.EQUIP_REQUESTS, items)
             GameAPI.getGamePieceSystem().grabLooseItems(playerActor);
-        }, 500)
+        }, 300)
 
     }
 

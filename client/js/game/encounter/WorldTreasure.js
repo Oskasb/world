@@ -27,24 +27,26 @@ let encounterEvent = {};
 let green =  [0, 0.5, 0.0, 1]
 let triggeredCount = 0;
 
-let indicateTriggerTime = function(actor, treasure) {
-    let radius = 0.5 + MATH.curveQuad(treasure.timeInsideTrigger)
+let indicateTriggerTime = function(actor, treasure, fraction) {
+    let progress = fraction;
+
+    let radius = 0.5 + MATH.curveQuad(1-progress)
     radiusEvent.heads = 1;
-    radiusEvent.speed = 1.5 * MATH.curveQuad(treasure.timeInsideTrigger) + 0.1;
+    radiusEvent.speed = 1.5 * MATH.curveQuad(progress) + 0.1;
     radiusEvent.radius = radius;
     radiusEvent.pos = tempVec
 
 
     radiusEvent.pos.copy(actor.getSpatialPosition());
     radiusEvent.rgba = green;
-    radiusEvent.elevation = 2 - treasure.timeInsideTrigger * 2;
+    radiusEvent.elevation = 2 - progress * 2;
     evt.dispatch(ENUMS.Event.INDICATE_RADIUS, radiusEvent)
     radiusEvent.elevation = 0;
     evt.dispatch(ENUMS.Event.INDICATE_RADIUS, radiusEvent)
 
     radiusEvent.pos.copy(treasure.getPos());
     radiusEvent.rgba = treasure.getTriggerRGBA();
-    radiusEvent.elevation = 2 - treasure.timeInsideTrigger * 2;
+    radiusEvent.elevation = 2 - progress * 2;
     evt.dispatch(ENUMS.Event.INDICATE_RADIUS, radiusEvent)
     radiusEvent.elevation = 0;
     evt.dispatch(ENUMS.Event.INDICATE_RADIUS, radiusEvent)
@@ -68,16 +70,15 @@ function checkTriggerPlayer(treasure) {
         //    testDestinationForTrigger(selectedActor, encounter, radius)
             if (treasure.timeInsideProximity === 0) {
                 selectedActor.actorText.say("I see Treasure")
+
+                if (treasure.engagementArc === null) {
+                    treasure.engagementArc = poolFetch('VisualEngagementArc')
+                    treasure.engagementArc.on(null, selectedActor, null);
+                    treasure.engagementArc.rgba = colorMapFx['TREASURE']
+                }
             }
 
             treasure.timeInsideProximity += tpf;
-
-
-            if (treasure.engagementArc === null) {
-                treasure.engagementArc = poolFetch('VisualEngagementArc')
-                treasure.engagementArc.on(null, selectedActor, null);
-                treasure.engagementArc.rgba = colorMapFx['TREASURE']
-            }
 
             treasure.engagementArc.to.copy(treasure.getPos());
             treasure.engagementArc.from.copy(selectedActor.getSpatialPosition());
@@ -101,12 +102,10 @@ function checkTriggerPlayer(treasure) {
                 let transition = treasure.spatialTransition;
 
 
-
                 //    walkGrid.dynamicWalker.attachFrameLeapTransitionFx(actor)
                 let onArrive = function(pos, spatTransition) {
                     poolReturn(spatTransition);
                     treasure.spatialTransition = null;
-
 
                     if (treasure.engagementArc !== null) {
                         treasure.engagementArc.off();
@@ -125,13 +124,14 @@ function checkTriggerPlayer(treasure) {
 
                 let onFrameUpdate = function(pos, vel, fraction) {
                     treasure.getPos().copy(pos);
+                    updateTriggered(treasure, fraction)
                 }
 
                 let getTargetPos = function() {
                     return selectedActor.getCenterMass();
                 }
 
-                transition.initSpatialTransition(treasure.getPos(), getTargetPos, 2, onArrive, 2, 'curveQuad', onFrameUpdate)
+                transition.initSpatialTransition(treasure.getPos(), getTargetPos, 1, onArrive, 2, 'curveQuad', onFrameUpdate)
 
                 triggeredCount++
             }
@@ -143,10 +143,12 @@ function checkTriggerPlayer(treasure) {
     }
 }
 
-let updateTriggered = function(treasure) {
+let updateTriggered = function(treasure, fraction) {
     let selectedActor = GameAPI.getGamePieceSystem().getSelectedGameActor();
-    treasure.timeInsideTrigger += GameAPI.getFrame().tpf *0.5;
-    indicateTriggerTime(selectedActor, treasure)
+    treasure.timeInsideTrigger += GameAPI.getFrame().tpf;
+    treasure.engagementArc.to.copy(treasure.getPos());
+    treasure.engagementArc.from.copy(selectedActor.getSpatialPosition());
+    indicateTriggerTime(selectedActor, treasure, fraction)
 }
 
 class WorldTreasure {
@@ -200,7 +202,7 @@ class WorldTreasure {
         let onGameUpdate = function(tpf, gameTime) {
             this.obj3d.position.y += Math.sin(GameAPI.getGameTime()*3) * 0.01;
             if (this.triggered) {
-                updateTriggered(this);
+            //    updateTriggered(this);
             } else {
                 checkTriggerPlayer(this, gameTime);
             }
@@ -322,6 +324,12 @@ class WorldTreasure {
             this.encounterIndicator.hideIndicator();
             GameAPI.unregisterGameUpdateCallback(this.call.onGameUpdate)
         }
+
+        if (this.engagementArc !== null) {
+            this.engagementArc.off();
+            this.engagementArc = null;
+        }
+
     //    this.visualEncounterHost.hideEncounterHost();
         this.call.despawnHostItem()
         this.isVisible = false;

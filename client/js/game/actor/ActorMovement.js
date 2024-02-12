@@ -277,13 +277,14 @@ class ActorMovement {
 
         let turn = actor.getControl(ENUMS.Controls.CONTROL_RUN_X)
         let forward = actor.getControl(ENUMS.Controls.CONTROL_RUN_Z)
-        if (!actor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET)) {
-            forward = Math.max(0, forward)
-        }
+    //    if (!actor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET)) {
+    //        forward = Math.max(0, forward)
+    //    }
 
 
         tempVec2.set(turn, 0, forward);
         let inputAmount = tempVec2.length();
+        forward = inputAmount;
         if (inputAmount === 0) return;
 
         if (this.visualArc === null) {

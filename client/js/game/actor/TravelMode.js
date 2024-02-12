@@ -71,8 +71,14 @@ function activateTravelMode(actr, mode, activateCB, deactivateCB) {
     }
 
 
+
     deactivateCB()
     actor = actr;
+
+    if (actor.actorMovement.visualArc) {
+        actor.actorMovement.visualArc.off();
+    }
+
 
     setDestination(actor, getStatusPosition(actor))
 
