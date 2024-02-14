@@ -181,7 +181,7 @@
           "status": {
             "MOVEMENT_SPEED": 3,
             "ACTOR_SPEED": 0,
-            "ACTOR_YAW_RATE": 3,
+            "ACTOR_YAW_RATE": 6,
             "STATUS_FORWARD": 0
           },
           "inputs": [
@@ -269,7 +269,7 @@
           "status": {
             "MOVEMENT_SPEED": 6,
             "ACTOR_SPEED": 0,
-            "ACTOR_YAW_RATE": 4,
+            "ACTOR_YAW_RATE": 3,
             "STATUS_FORWARD": 0
           },
           "inputs": [

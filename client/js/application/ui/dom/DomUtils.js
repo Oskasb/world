@@ -13,7 +13,7 @@ class DomUtils {
     };
 
     checkForStylePrefix = function(prefix) {
-        if (this.refDiv.style[prefix] == "") return prefix;
+        if (this.refDiv.style[prefix] === "") return prefix;
     };
 
     checkStylePrefixList = function(prefixes) {
@@ -68,7 +68,7 @@ class DomUtils {
     };
 
     createDivElement = function(parent, id, html, styleClass) {
-        if (typeof(parent) == "string") parent = document.getElementById(parent);
+        if (typeof(parent) === "string") parent = document.getElementById(parent);
         let newdiv = this.createElement(parent, id, 'div', html, styleClass);
         return newdiv;
     };
@@ -89,7 +89,7 @@ class DomUtils {
 
     createIframeElement = function(parentId, id, source, styleClass, loadedCallback) {
         let  parent = document.getElementById(parentId);
-        let  iframe = createElement(parent, id, 'iframe', "", styleClass)
+        let  iframe = this.createElement(parent, id, 'iframe', "", styleClass)
         iframe.setAttribute('src', source);
         iframe.setAttribute('name', id);
         iframe.onload = function(){
@@ -263,6 +263,10 @@ class DomUtils {
         element.style.visibility = "visible"
     //    applyElementTransform(element, transform);
     };
+
+    addClickFunction(element, clickFunc) {
+        element.addEventListener('click', clickFunc);
+    }
 
 }
 

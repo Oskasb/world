@@ -29,6 +29,7 @@ import {VisualEngagementIndicator} from "../../game/visuals/effects/VisualEngage
 import {VisualEngagementArc} from "../../game/visuals/effects/VisualEngagementArc.js";
 import {VisualGridBorder} from "../../game/visuals/VisualGridBorder.js";
 import {VisualEdgeLine} from "../../game/visuals/VisualEdgeLine.js";
+import {HtmlElement} from "../ui/dom/HtmlElement.js";
 
 let pools = {}
 let stats = {};
@@ -62,7 +63,8 @@ function initPools() {
     registerPool(VisualEngagementIndicator);
     registerPool(VisualEngagementArc);
     registerPool(VisualGridBorder);
-    registerPool(VisualEdgeLine)
+    registerPool(VisualEdgeLine);
+    registerPool(HtmlElement)
 }
 
 function registerPool(DataObj) {

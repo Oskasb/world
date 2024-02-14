@@ -158,7 +158,7 @@
                   "widget_class":"GuiExpandingContainer",
                   "widget_config_id":"button_big_blue",
                   "options":{
-                    "text":"THING",
+                    "text":"SETTINGS",
                     "container_id":"bottom_box",
                     "offset_x": -0.18,
                     "offset_y":0.08,
@@ -167,7 +167,7 @@
                       "value":[
                         {
                           "key": "NAVIGATION_STATE",
-                          "status": "NONE"
+                          "status": "SETTINGS"
                         }
                       ]
                     }

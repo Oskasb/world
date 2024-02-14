@@ -59,6 +59,16 @@ div.canvas_window {
     transform: translate3d(0px, 0px, 0px);
 }
 
+
+iframe.full_screen {
+    top: 0em;
+    left: 0em;
+    width: inherit;
+    height: inherit;
+    position: absolute;
+    color: #ecffdc;
+}
+
 div.canvas_window_landscape {
     top: 0em;
     left: 0em;
@@ -74,3 +84,4 @@ div.canvas_window_portrait {
     bottom: 0em;
     position: absolute;
 }
+

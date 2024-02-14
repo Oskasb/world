@@ -252,8 +252,11 @@ function physicalAlignYGoundTest(pos, store, height, nStore) {
 
 }
 
-function testProbeFitsAtPos(pos) {
+function testProbeFitsAtPos(pos, sideSize) {
     let debug = true;
+
+    let size = sideSize || 0.7;
+    let halfSize = size*0.5;
 
     probeResult.from.copy(pos);
     probeResult.from.y += 0.5;
@@ -266,11 +269,11 @@ function testProbeFitsAtPos(pos) {
     tempVec2.copy(pos)
     tempVec2.y += 0.5;
 
-    tempVec2.x -= 0.35;
+    tempVec2.x -= halfSize;
     probeResult.to.x = tempVec2.x;
     probeResult.to.z = tempVec2.z;
-    probeResult.to.z += 0.35;
-    tempVec2.z -= 0.35;
+    probeResult.to.z += halfSize;
+    tempVec2.z -= halfSize;
 
     hit = rayTest(tempVec2, probeResult.to, tempVec, tempNormal, debug)
     if (hit) {
@@ -281,7 +284,7 @@ function testProbeFitsAtPos(pos) {
     //    tempVec2.x += 0.5;
     probeResult.to.x = tempVec2.x;
     probeResult.to.z = tempVec2.z;
-    tempVec2.x += 0.7;
+    tempVec2.x += size;
 
     hit = rayTest(tempVec2, probeResult.to, tempVec, tempNormal, debug)
     if (hit) {
@@ -290,7 +293,7 @@ function testProbeFitsAtPos(pos) {
 
     probeResult.to.x = tempVec2.x;
     probeResult.to.z = tempVec2.z;
-    tempVec2.z += 0.7;
+    tempVec2.z += size;
     //    tempVec2.z += 0.5;
     hit = rayTest(tempVec2, probeResult.to, tempVec, tempNormal, debug)
     if (hit) {
@@ -299,7 +302,7 @@ function testProbeFitsAtPos(pos) {
 
     probeResult.to.x = tempVec2.x;
     probeResult.to.z = tempVec2.z;
-    tempVec2.x -= 0.7;
+    tempVec2.x -= size;
 
     hit = rayTest(tempVec2, probeResult.to, tempVec, tempNormal, debug)
     if (hit) {

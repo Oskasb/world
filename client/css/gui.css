@@ -1,0 +1,143 @@
+
+@font-face {
+    font-family: 'Russo One';
+    src: url('../css/fonts/RussoOne-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'Berlin Sans Demi';
+    src: url('../css/fonts/BRLNSDB.TTF');
+}
+
+@font-face {
+    font-family: 'Berlin Sans Bold';
+    src: url('../css/fonts/BRLNSB.TTF');
+}
+
+span {
+    display:block;
+    left:0em;
+    right:0em;
+}
+
+div.point {
+    position: absolute;
+}
+
+body {
+    cursor:none;
+    touch-action: none;
+    pointer-events: none;
+    font-family: 'Russo One';
+    font-weight: 400;
+    position: fixed;
+    background-color: #000;
+    font-size: 1pt;
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    user-select:none;
+}
+
+body.overlay_page {
+    top: 0em;
+    left: 0em;
+    right: 0em;
+    bottom: 0em;
+    position: fixed;
+    font-size: 15pt;
+    transform: translate3d(0px, 0px, 0px);
+    background-color: rgba(15,12,64,0.51);
+}
+.overlay_page h2 {
+    color: azure;
+    padding:-1em;
+    padding-left: 0.3em;
+}
+
+.overlay_page p {
+    padding-left: 0.4em;
+    color: azure;
+}
+
+div.button_close {
+    bottom: 3em;
+    right: 3em;
+    width: 6em;
+    height: 4em;
+    position: absolute;
+    background-color: #ff0005;
+}
+
+div.settings_panel {
+    top: 3em;
+    left: 3em;
+    width: auto;
+    height: auto;
+    position: absolute;
+    background-color: rgba(81, 118, 155, 0.51);
+    border-radius: 0.5em;
+    border: #27e7ce;
+    border-style: ridge;
+    border-width: 0.2em;
+}
+
+.control_container {
+    top: 0em;
+    left: 0em;
+    width: 11em;
+    height: 4em;
+    position: relative;
+    padding: 0em;
+    margin: 0.25em;
+    padding-left: 0.5em;
+    background: rgba(111, 175, 170, 0.68);
+    border-radius: 0.5em;
+    border: #27e7ce;
+    border-style: ridge;
+    border-width: 0.2em;
+    display: block;
+    align-items: center;
+    box-shadow: 0px 15px 40px #7E6D5766;
+}
+
+.control_container p {
+    padding: 0em;
+    top: 0.0em;
+    left: 0.0em;
+    position: relative;
+    color: black;
+}
+
+.slider_container {
+    pointer-events: auto;
+    top: 1.5em;
+    left: 0.2em;
+    bottom: 0.2em;
+    right: 0.2em;
+    position: relative;
+    background-color: rgba(20, 73, 66, 0.82);
+    position: absolute;
+    padding: 0.1em;
+    padding-left: 1em;
+    background: #fcfcfc;
+    border-radius: 0.3em;
+    display: flex;
+    align-items: center;
+    box-shadow: 0px 15px 40px #7E6D5766;
+}
+.slider_container p {
+    padding-left: 1em;
+    position: relative;
+    color: black;
+}
+.slider_container h3 {
+    font-size: 0.8em;
+    top: -2.5em;
+    left: 0.2em;
+    padding-left: 0.1em;
+    position: absolute;
+    color: #fdedff;
+    text-shadow: black;
+}

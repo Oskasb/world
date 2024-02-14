@@ -109,7 +109,7 @@ class DynamicTile {
                 this.rigidBodyPointer = fits.ptr;
             }
 
-            fits = testProbeFitsAtPos(this.obj3d.position)
+            fits = testProbeFitsAtPos(this.obj3d.position, 1.2)
 
             if (fits !== true) {
                 this.fitsCharacter = false;

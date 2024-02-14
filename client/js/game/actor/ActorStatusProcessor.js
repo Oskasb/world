@@ -344,6 +344,14 @@ function processActorEncounterExit(actor) {
 
 let lastNavState = ENUMS.NavigationState.NONE;
 let sourceTraveLMode = ENUMS.TravelMode.TRAVEL_MODE_WALK;
+let htmlPages = {
+    settings:null,
+    map:null,
+    inventory:null
+}
+let settingsPage = null;
+
+
 function processActorUiNavigationState(actor) {
     let navState = actor.getStatus(ENUMS.ActorStatus.NAVIGATION_STATE);
 
@@ -352,9 +360,17 @@ function processActorUiNavigationState(actor) {
             sourceTraveLMode = actor.getStatus(ENUMS.ActorStatus.TRAVEL_MODE);
             actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_PASSIVE)
             actor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, false)
+        } else {
+            for (let key in htmlPages) {
+                if (htmlPages[key] !== null) {
+                    htmlPages[key].closeHtmlElement()
+                    poolReturn(htmlPages[key])
+                    htmlPages[key] = null;
+                }
+            }
         }
 
-        lastNavState = navState;
+
         if (navState === ENUMS.NavigationState.WORLD) {
             actor.actorText.say("WORLD");
         //    console.log("Recover Travel Mode", sourceTraveLMode)
@@ -376,8 +392,17 @@ function processActorUiNavigationState(actor) {
             actor.actorText.say("INVENTORY");
         } else if (navState === ENUMS.NavigationState.MAP) {
             actor.actorText.say("MAP");
-        }
+        } else if (navState === ENUMS.NavigationState.SETTINGS) {
+            actor.actorText.say("SETTINGS");
+            let returnState = lastNavState;
+            let onCloseCB = function() {
+                actor.setStatusKey(ENUMS.ActorStatus.NAVIGATION_STATE, returnState)
+            };
 
+            settingsPage = poolFetch('HtmlElement');
+            settingsPage.initHtmlElement('settings', onCloseCB, actor.actorStatus.statusMap)
+        }
+        lastNavState = navState;
         GuiAPI.setNavigationState(navState);
     }
 
