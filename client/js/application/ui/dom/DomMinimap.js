@@ -9,7 +9,7 @@ class DomMinimap {
         let statusMap = {
             posX : 0,
             posZ : 0,
-            zoom : 50
+            zoom : 30
         }
 
         let closeMapCb = function() {

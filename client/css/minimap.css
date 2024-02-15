@@ -63,7 +63,7 @@ div.button_close {
     width: 18%;
     height: 18%;
     border-radius: 50%;
-    border: #ff6363;
+    border: #bebebe;
     border-style: ridge;
     border-width: 5pt;
     position: absolute;
@@ -78,7 +78,7 @@ div.minimap {
     position: absolute;
     background-image: url("/client/assets/images/textures/terrainmap_w01.png");
     border-radius: 50%;
-    border: #27e7ce;
+    border: #d9d9d9;
     border-style: ridge;
     border-width: 3pt;
 }

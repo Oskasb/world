@@ -110,7 +110,7 @@ class HtmlElement {
 
         }.bind(this);
 
-        let reload = setInterval(rebuild, 1000)
+    //    let reload = setInterval(rebuild, 1000)
 
         ThreeAPI.addPrerenderCallback(this.call.update);
 

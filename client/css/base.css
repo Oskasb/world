@@ -70,10 +70,10 @@ iframe.full_screen {
 }
 
 iframe.minimap {
-    top: 10em;
-    right: 10em;
-    width: 120em;
-    height: 120em;
+    top: 20em;
+    right: 20em;
+    width: 150em;
+    height: 150em;
     position: absolute;
     color: #ecffdc;
     border: none;
