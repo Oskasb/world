@@ -6,10 +6,12 @@ import { UiTestSetup } from "./UiTestSetup.js";
 import { PartyUiSystem } from "./systems/PartyUiSystem.js";
 import { ActorActionUiSystem} from "./systems/ActorActionUiSystem.js";
 import {WorldInteractUiSystem} from "./systems/WorldInteractUiSystem.js";
+import {DomMinimap} from "../dom/DomMinimap.js";
+
 
 let partyUiSystem = null;
 let actorActionUpSystem = new ActorActionUiSystem();
-
+let minimap = null;
 
 class UiSetup {
     constructor() {
@@ -32,6 +34,7 @@ class UiSetup {
             let inputReady = function() {
 
                 GuiAPI.getTextSystem().initTextSystem(textSysCb);
+                minimap = new DomMinimap();
             };
 
             GuiAPI.getInputSystem().initInputSystem(inputReady);

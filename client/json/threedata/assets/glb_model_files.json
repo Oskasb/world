@@ -155,6 +155,7 @@
         {"id": "file_castle_pillar",   "config": { "url": "./client/assets/models/buildings/castle/castle_pillar"        }},
         {"id": "file_castle_wall_10",   "config": { "url": "./client/assets/models/buildings/castle/castle_wall_10"        }},
         {"id": "file_castle_wall_10_door",   "config": { "url": "./client/assets/models/buildings/castle/castle_wall_10_door"        }},
+        {"id": "file_castle_wall_10_windows",   "config": { "url": "./client/assets/models/buildings/castle/castle_wall_10_windows"        }},
 
         {"id": "file_castle_floor_10_hull",   "config": { "url": "./client/assets/models/buildings/castle/castle_floor_10_hull"        }},
         {"id": "file_castle_pillar_hull",   "config": { "url": "./client/assets/models/buildings/castle/castle_pillar_hull"        }},

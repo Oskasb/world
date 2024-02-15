@@ -69,6 +69,17 @@ iframe.full_screen {
     color: #ecffdc;
 }
 
+iframe.minimap {
+    top: 10em;
+    right: 10em;
+    width: 120em;
+    height: 120em;
+    position: absolute;
+    color: #ecffdc;
+    border: none;
+    background-color: #f0f8ff00;
+}
+
 div.canvas_window_landscape {
     top: 0em;
     left: 0em;

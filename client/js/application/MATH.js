@@ -248,8 +248,13 @@ MATH.animationFunctions = {
 	coswave:  cosWave
 };
 
-MATH.percentify = function(number, total) {
-	return Math.round((number/total) * 100);
+MATH.percentify = function(number, total, skipRound) {
+	if (skipRound) {
+		return (number/total) * 100;
+	} else {
+		return Math.round((number/total) * 100);
+	}
+
 };
 
 MATH.isOddNumber = function(number) {

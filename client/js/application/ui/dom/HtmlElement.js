@@ -28,6 +28,8 @@ class HtmlElement {
                     if (elem.type === 'range') {
                         statusMap[key] = elem.value;
                         updateValueElem(key, elem.value, iframeDocument)
+                    } else {
+                        elem.innerHTML = statusMap[key];
                     }
                 }
             }
@@ -38,14 +40,23 @@ class HtmlElement {
             iframeDocument = iDoc;
         }
 
+        let getChildElement = function(id) {
+            if (iframeDocument) {
+                return iframeDocument.getElementById(id);
+            }
+
+        }
+
         this.call = {
+            getChildElement:getChildElement,
             setIframe:setIframe,
             update:update
         }
 
     }
 
-    initHtmlElement(url, onCloseCB, statusMap) {
+    initHtmlElement(url, onCloseCB, statusMap, styleClass) {
+        let containerClass = styleClass || 'full_screen'
         this.statusMap = statusMap;
         this.editStatus = {};
         for (let key in statusMap) {
@@ -53,7 +64,7 @@ class HtmlElement {
         }
         this.id = url;
     //    this.container = DomUtils.createDivElement(DomUtils.refDiv, this.id, "", "overlay_page")
-        let file = url+".html";
+        let file = "html/"+url+".html";
     //    this.container.innerHTML='<object type="text/html" data='+file+'></object>';
 
         this.iframe = null;
@@ -66,7 +77,7 @@ class HtmlElement {
             closeButton.style.pointerEvents = "auto";
             closeButton.style.cursor = "pointer";
             DomUtils.addClickFunction(closeButton, onCloseClick)
-            console.log("Iframe Loaded", file, this);
+        //    console.log("Iframe Loaded", file, this);
             for (let key in statusMap) {
                 let elem = iframeDocument.getElementById(key);
                 if (elem) {
@@ -86,13 +97,13 @@ class HtmlElement {
             onCloseCB();
         }.bind(this);
 
-        this.container = DomUtils.createIframeElement('canvas_window', this.id, file, "full_screen", onLoad)
+        this.container = DomUtils.createIframeElement('canvas_window', this.id, file, containerClass, onLoad)
 
         let rebuild = function() {
 
             if (this.container) {
                 DomUtils.removeElement(this.container);
-                this.container = DomUtils.createIframeElement('canvas_window', this.id, file, "full_screen", onLoad)
+                this.container = DomUtils.createIframeElement('canvas_window', this.id, file, containerClass, onLoad)
             } else {
                 clearInterval(reload);
             }
@@ -104,6 +115,8 @@ class HtmlElement {
         ThreeAPI.addPrerenderCallback(this.call.update);
 
     }
+
+
 
     closeHtmlElement() {
         DomUtils.removeElement(this.container);

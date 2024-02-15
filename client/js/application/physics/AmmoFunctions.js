@@ -802,7 +802,12 @@ class AmmoFunctions {
     returnBodyToPool(body) {
     //    console.log("Pool Body", bodyPools, body);
         clearBodyState(body);
-        bodyPools[body.dataKey].returnToPool(body)
+        if (bodyPools[body.dataKey]) {
+            bodyPools[body.dataKey].returnToPool(body)
+        } else {
+            console.log("No Body Pool for ", body);
+        }
+
     }
 
     physicsRayRange = function(world, pos, dir, posRes, normalRes) {

@@ -276,7 +276,7 @@ class ActorMovement {
 
         let twitchiness = actor.getStatus(ENUMS.ActorStatus.CONTROL_TWITCHINESS);
 
-        let turn = actor.getControl(ENUMS.Controls.CONTROL_RUN_X)*twitchiness*0.1
+        let turn = actor.getControl(ENUMS.Controls.CONTROL_RUN_X)
         let forward = actor.getControl(ENUMS.Controls.CONTROL_RUN_Z)
     //    if (!actor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET)) {
     //        forward = Math.max(0, forward)
@@ -301,7 +301,7 @@ class ActorMovement {
 
         let pos = actor.getSpatialPosition()
         tempVec2.add(pos);
-        actor.turnTowardsPos(tempVec2, GameAPI.getFrame().avgTpf * -turn*twitchiness*0.1);
+        actor.turnTowardsPos(tempVec2, GameAPI.getFrame().avgTpf * -MATH.curveCube(turn)*twitchiness*0.1);
 
         let distance = forward * actor.getStatus(ENUMS.ActorStatus.MOVEMENT_SPEED)
 

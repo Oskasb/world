@@ -26,6 +26,7 @@
       "/game/actors/actions/actor_actions.json"              ,
       "/game/visuals/visual_actions.json"                    ,
       "/game/visuals/visual_travel.json"                     ,
+      "/world/locations/location_keep_fisherman.json"        ,
       "/world/locations/location_southport_main.json"        ,
       "/world/locations/location_bridgetown_overlook.json"   ,
       "/world/locations/location_bridgetown_eastbridge.json" ,

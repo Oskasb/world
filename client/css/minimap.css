@@ -1,0 +1,126 @@
+
+@font-face {
+    font-family: 'Russo One';
+    src: url('../css/fonts/RussoOne-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'Berlin Sans Demi';
+    src: url('../css/fonts/BRLNSDB.TTF');
+}
+
+@font-face {
+    font-family: 'Berlin Sans Bold';
+    src: url('../css/fonts/BRLNSB.TTF');
+}
+
+span {
+    display:block;
+    left:0em;
+    right:0em;
+}
+
+div.point {
+    position: absolute;
+}
+
+body {
+    cursor:none;
+    touch-action: none;
+    pointer-events: none;
+    font-family: 'Russo One';
+    font-weight: 400;
+    position: absolute;
+    font-size: 1pt;
+    user-select:none;
+}
+
+body.minimap_container {
+    top: 0em;
+    right: 0em;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    font-size: 8pt;
+    transform: translate3d(0px, 0px, 0px);
+}
+
+.minimap_container h2 {
+    color: azure;
+    top: 0%;
+    padding:0%;
+    padding-left: 5%;
+}
+
+.minimap_container p {
+    padding-left: 0.4em;
+    color: azure;
+}
+
+div.button_close {
+    top: 4%;
+    right: 4%;
+    width: 18%;
+    height: 18%;
+    border-radius: 50%;
+    border: #ff6363;
+    border-style: ridge;
+    border-width: 5pt;
+    position: absolute;
+    background-color: #ff0005;
+}
+
+div.minimap {
+    top: 0%;
+    right: 0%;
+    width: 88%;
+    height: 88%;
+    position: absolute;
+    background-image: url("/client/assets/images/textures/terrainmap_w01.png");
+    border-radius: 50%;
+    border: #27e7ce;
+    border-style: ridge;
+    border-width: 3pt;
+}
+
+.coords_container {
+    position: absolute;
+    bottom: 0%;
+    right: 2%;
+    height: auto;
+    width: 45pt;
+    display: inline-block;
+}
+
+.value_container {
+    pointer-events: auto;
+    height: 1.5em;
+    left: auto;
+    bottom: -22%;
+    width: 100%;
+    background-color: rgba(20, 73, 66, 0.4);
+    position: relative;
+    padding: 0.01em;
+    margin:0%;
+    padding-left: 0.5em;
+    display: inline-block;
+    align-items: center;
+}
+.value_container p {
+    top:-1em;
+    right: 0.2em;
+    padding-left: 2em;
+    font-size: 10pt;
+    position: absolute;
+    color: white;
+    text-shadow: 1px 1px 3px rgba(5, 0, 0, 1);
+}
+.value_container h3 {
+    font-size: 13pt;
+    top:  -1.2em;
+    left: 0.1em;
+    padding-left: 0.1em;
+    position: absolute;
+    color: white;
+    text-shadow: 1px 1px 3px rgba(5, 0, 0, 1);
+}
