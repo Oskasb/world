@@ -1,8 +1,7 @@
 import {HtmlElement} from "./HtmlElement.js";
-import {DomWorldmap} from "./DomWorldmap.js";
 
-class DomMinimap {
-    constructor() {
+class DomWorldmap {
+    constructor(closeCb) {
         let htmlElement = new HtmlElement();
 
 
@@ -10,44 +9,41 @@ class DomMinimap {
         let statusMap = {
             posX : 0,
             posZ : 0,
-            zoom : 60
+            zoom : 5
         }
 
         let closeMapCb = function() {
-            console.log("Close Minimap...")
+            console.log("Close worldmap...")
+            closeCb()
         }
 
         let zoomIn = function() {
-            statusMap.zoom = MATH.clamp(statusMap.zoom * 1.2, 10, 200);
+            statusMap.zoom = MATH.clamp(statusMap.zoom * 1.2, 1, 500);
         }
 
         let zoomOut = function() {
-            statusMap.zoom = MATH.clamp(statusMap.zoom * 0.8, 10, 200);
-        }
-
-        let openWorldMap = function() {
-            new DomWorldmap(rebuild);
+            statusMap.zoom = MATH.clamp(statusMap.zoom * 0.8, 1, 50);
         }
 
         let readyCb = function() {
-            let mapDiv = htmlElement.call.getChildElement('minimap')
+            let mapDiv = htmlElement.call.getChildElement('worldmap')
 
             let zoomInDiv = htmlElement.call.getChildElement('zoom_in')
             let zoomOutDiv = htmlElement.call.getChildElement('zoom_out')
-            DomUtils.addClickFunction(mapDiv, openWorldMap)
+            DomUtils.addClickFunction(mapDiv, rebuild)
             DomUtils.addClickFunction(zoomInDiv, zoomIn)
             DomUtils.addClickFunction(zoomOutDiv, zoomOut)
         }
 
 
-        let rebuild = htmlElement.initHtmlElement('minimap', closeMapCb, statusMap, 'minimap', readyCb);
+        let rebuild = htmlElement.initHtmlElement('worldmap', closeMapCb, statusMap, 'full_screen', readyCb);
 
         let update = function() {
             let cursorPos =  ThreeAPI.getCameraCursor().getPos();
             statusMap.posX = 'x:'+MATH.decimalify(cursorPos.x, 10);
             statusMap.posZ = 'z:'+MATH.decimalify(cursorPos.z, 10);
 
-            let minimapDiv = htmlElement.call.getChildElement('minimap');
+            let minimapDiv = htmlElement.call.getChildElement('worldmap');
             if (minimapDiv) {
             //    console.log(minimapDiv);
                 let zoom = statusMap.zoom;
@@ -82,4 +78,4 @@ class DomMinimap {
 
 
 
-export {DomMinimap}
+export {DomWorldmap}

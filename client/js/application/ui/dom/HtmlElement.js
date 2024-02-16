@@ -55,7 +55,7 @@ class HtmlElement {
 
     }
 
-    initHtmlElement(url, onCloseCB, statusMap, styleClass) {
+    initHtmlElement(url, onCloseCB, statusMap, styleClass, readyCb) {
         let containerClass = styleClass || 'full_screen'
         this.statusMap = statusMap;
         this.editStatus = {};
@@ -73,7 +73,7 @@ class HtmlElement {
             let iframeDocument = this.container.contentDocument || this.container.contentWindow.document;
             this.call.setIframe(iframeDocument);
             let overlay = iframeDocument.getElementById('container');
-            let closeButton = DomUtils.createDivElement(overlay, this.id+'_close', "", "button_close")
+            let closeButton = DomUtils.createDivElement(overlay, this.id+'_close', "X", "button_close")
             closeButton.style.pointerEvents = "auto";
             closeButton.style.cursor = "pointer";
             DomUtils.addClickFunction(closeButton, onCloseClick)
@@ -87,6 +87,11 @@ class HtmlElement {
                     }
                 }
             }
+
+            if (typeof (readyCb) === 'function') {
+                readyCb(this);
+            }
+
 
         }.bind(this)
 
@@ -105,14 +110,18 @@ class HtmlElement {
                 DomUtils.removeElement(this.container);
                 this.container = DomUtils.createIframeElement('canvas_window', this.id, file, containerClass, onLoad)
             } else {
-                clearInterval(reload);
+                if (reload) {
+                    clearInterval(reload);
+                }
             }
 
         }.bind(this);
 
-    //    let reload = setInterval(rebuild, 2000)
+   //     let reload = setInterval(rebuild, 2000)
 
         ThreeAPI.addPrerenderCallback(this.call.update);
+
+        return rebuild;
 
     }
 
