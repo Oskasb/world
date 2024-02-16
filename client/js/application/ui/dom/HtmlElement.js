@@ -73,7 +73,7 @@ class HtmlElement {
             let iframeDocument = this.container.contentDocument || this.container.contentWindow.document;
             this.call.setIframe(iframeDocument);
             let overlay = iframeDocument.getElementById('container');
-            let closeButton = DomUtils.createDivElement(overlay, this.id+'_close', "", "button_close")
+            let closeButton = DomUtils.createDivElement(overlay, this.id+'_close', "X", "button_close")
             closeButton.style.pointerEvents = "auto";
             closeButton.style.cursor = "pointer";
             DomUtils.addClickFunction(closeButton, onCloseClick)

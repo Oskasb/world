@@ -26,8 +26,7 @@ class DomMinimap {
         }
 
         let openWorldMap = function() {
-            let worldMap = new HtmlElement();
-            worldMap.initHtmlElement('worldmap', rebuild, 'full_screen')
+            new DomWorldmap(rebuild);
         }
 
         let readyCb = function() {
