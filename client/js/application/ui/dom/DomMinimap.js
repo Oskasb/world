@@ -20,8 +20,8 @@ class DomMinimap {
 
         let update = function() {
             let cursorPos =  ThreeAPI.getCameraCursor().getPos();
-            statusMap.posX = MATH.decimalify(cursorPos.x, 10);
-            statusMap.posZ = MATH.decimalify(cursorPos.z, 10);
+            statusMap.posX = 'x:'+MATH.decimalify(cursorPos.x, 10);
+            statusMap.posZ = 'z:'+MATH.decimalify(cursorPos.z, 10);
 
             let minimapDiv = htmlElement.call.getChildElement('minimap');
             if (minimapDiv) {
