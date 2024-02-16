@@ -126,6 +126,19 @@ div.minimap {
 
 }
 
+div.heading {
+    position: absolute;
+    top: 46%;
+    right: 46%;
+    width: 4%;
+    height: 4%;
+    border: solid white;
+    border-width: 0 0.4em 0.4em 0;
+    display: inline-block;
+    padding: 0;
+    box-shadow: 0 0px 0px 1px rgba(5, 0, 0, 0.75);
+}
+
 .coords_container {
     position: absolute;
     bottom: 3em;

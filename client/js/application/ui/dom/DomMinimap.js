@@ -51,6 +51,18 @@ class DomMinimap {
                 minimapDiv.style.backgroundPositionX = -zoomOffset*0 + MATH.percentify(zoomOffset*MATH.decimalify(cursorPos.x, 5)+1024, 2048, true)+'%';
                 minimapDiv.style.backgroundPositionY =  zoomOffset*0 + MATH.percentify(zoomOffset*MATH.decimalify(cursorPos.z, 5)+1024, 2048, true)+'%';
             //    DomUtils.setElementClass()
+
+                let selectedActor = GameAPI.getGamePieceSystem().selectedActor;
+                if (selectedActor) {
+                    let angle = selectedActor.getStatus(ENUMS.ActorStatus.STATUS_ANGLE_EAST);
+
+                    let headingDiv = htmlElement.call.getChildElement('heading');
+                    if (headingDiv) {
+                        headingDiv.style.rotate = -MATH.HALF_PI*0.5-angle+'rad';
+                    }
+                }
+
+
             }
 
 
