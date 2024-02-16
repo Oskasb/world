@@ -16,7 +16,26 @@ class DomMinimap {
             console.log("Close Minimap...")
         }
 
-        htmlElement.initHtmlElement('minimap', closeMapCb, statusMap, 'minimap');
+        let zoomIn = function() {
+            statusMap.zoom = MATH.clamp(statusMap.zoom * 1.2, 10, 200);
+        }
+
+        let zoomOut = function() {
+            statusMap.zoom = MATH.clamp(statusMap.zoom * 0.8, 10, 200);
+        }
+
+        let readyCb = function() {
+            let mapDiv = htmlElement.call.getChildElement('minimap')
+
+            let zoomInDiv = htmlElement.call.getChildElement('zoom_in')
+            let zoomOutDiv = htmlElement.call.getChildElement('zoom_out')
+            DomUtils.addClickFunction(mapDiv, rebuild)
+            DomUtils.addClickFunction(zoomInDiv, zoomIn)
+            DomUtils.addClickFunction(zoomOutDiv, zoomOut)
+        }
+
+
+        let rebuild = htmlElement.initHtmlElement('minimap', closeMapCb, statusMap, 'minimap', readyCb);
 
         let update = function() {
             let cursorPos =  ThreeAPI.getCameraCursor().getPos();
@@ -29,8 +48,8 @@ class DomMinimap {
                 let zoom = statusMap.zoom;
                 minimapDiv.style.backgroundSize = zoom*100+'%';
                 let zoomOffset = 1 + (1 / zoom);
-                minimapDiv.style.backgroundPositionX = -zoomOffset*0 + MATH.percentify(zoomOffset*cursorPos.x+1024, 2048, true)+'%';
-                minimapDiv.style.backgroundPositionY =  zoomOffset*0 + MATH.percentify(zoomOffset*cursorPos.z+1024, 2048, true)+'%';
+                minimapDiv.style.backgroundPositionX = -zoomOffset*0 + MATH.percentify(zoomOffset*MATH.decimalify(cursorPos.x, 5)+1024, 2048, true)+'%';
+                minimapDiv.style.backgroundPositionY =  zoomOffset*0 + MATH.percentify(zoomOffset*MATH.decimalify(cursorPos.z, 5)+1024, 2048, true)+'%';
             //    DomUtils.setElementClass()
             }
 

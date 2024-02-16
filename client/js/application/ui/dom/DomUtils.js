@@ -265,6 +265,8 @@ class DomUtils {
     };
 
     addClickFunction(element, clickFunc) {
+        element.style.pointerEvents = "auto";
+        element.style.cursor = "pointer";
         element.addEventListener('click', clickFunc);
     }
 
