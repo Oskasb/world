@@ -1,7 +1,6 @@
 import {HtmlElement} from "./HtmlElement.js";
-import {DomWorldmap} from "./DomWorldmap.js";
 
-class DomMinimap {
+class DomWorldmap {
     constructor() {
         let htmlElement = new HtmlElement();
 
@@ -25,17 +24,12 @@ class DomMinimap {
             statusMap.zoom = MATH.clamp(statusMap.zoom * 0.8, 10, 200);
         }
 
-        let openWorldMap = function() {
-            let worldMap = new HtmlElement();
-            worldMap.initHtmlElement('worldmap', rebuild, 'full_screen')
-        }
-
         let readyCb = function() {
             let mapDiv = htmlElement.call.getChildElement('minimap')
 
             let zoomInDiv = htmlElement.call.getChildElement('zoom_in')
             let zoomOutDiv = htmlElement.call.getChildElement('zoom_out')
-            DomUtils.addClickFunction(mapDiv, openWorldMap)
+            DomUtils.addClickFunction(mapDiv, rebuild)
             DomUtils.addClickFunction(zoomInDiv, zoomIn)
             DomUtils.addClickFunction(zoomOutDiv, zoomOut)
         }
@@ -83,4 +77,4 @@ class DomMinimap {
 
 
 
-export {DomMinimap}
+export {DomWorldmap}
