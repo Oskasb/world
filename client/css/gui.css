@@ -83,6 +83,40 @@ div.settings_panel {
     border-width: 0.2em;
 }
 
+div.interact_panel {
+    top: 3em;
+    left: 3em;
+    width: auto;
+    height: auto;
+    position: absolute;
+    background-color: rgba(81, 118, 155, 0.51);
+    border-radius: 0.5em;
+    border: #27e7ce;
+    border-style: ridge;
+    border-width: 0.2em;
+}
+
+
+
+.option_container {
+    top: 0em;
+    left: 0em;
+    width: 11em;
+    height: 4em;
+    position: relative;
+    padding: 0em;
+    margin: 0.25em;
+    padding-left: 0.5em;
+    background: rgba(111, 175, 170, 0.68);
+    border-radius: 0.5em;
+    border: #27e7ce;
+    border-style: ridge;
+    border-width: 0.2em;
+    display: block;
+    align-items: center;
+    box-shadow: 0px 15px 40px #7E6D5766;
+}
+
 .control_container {
     top: 0em;
     left: 0em;
@@ -132,6 +166,32 @@ div.settings_panel {
     position: relative;
     color: black;
 }
+
+
+div.alignment {
+    top:0.5em;
+    right:0.5em;
+    padding-left: 1em;
+    font-size: 0.8em;
+    position: absolute;
+}
+
+div.HOSTILE {
+    color: #ff511c;
+}
+
+div.FRIENDLY {
+    color: #1eff19;
+}
+
+div.NEUTRAL {
+    color: #ffd829;
+}
+
+div.ITEM {
+    color: #19ffdb;
+}
+
 .slider_container h3 {
     font-size: 0.8em;
     top: -2.5em;

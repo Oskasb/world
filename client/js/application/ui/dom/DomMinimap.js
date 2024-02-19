@@ -65,7 +65,7 @@ function indicateActors(htmlElement, minimapDiv, statusMap) {
     for (let i = 0; i < actors.length; i++) {
         let actor = actors[i];
         let indicator = actorIndicators[i];
-        let actorPos = actor.getSpatialPosition();
+        let actorPos = actor.actorObj3d.position;
 
         tempVec2.set(actorPos.x-cursorPos.x, actorPos.z-cursorPos.z);
         let distance = tempVec2.length(); // is in units m from cursor (Center of minimap)
@@ -81,9 +81,9 @@ function indicateActors(htmlElement, minimapDiv, statusMap) {
             let mapPctX = tempVec2.x*zoomFactor
             let mapPctZ = tempVec2.y*zoomFactor
 
-            if (distance*zoomFactor > 50) {
+            if (distance*zoomFactor > 49) {
                 tempVec2.normalize();
-                tempVec2.multiplyScalar(50);
+                tempVec2.multiplyScalar(49);
                 mapPctX = tempVec2.x;
                 mapPctZ = tempVec2.y;
             }

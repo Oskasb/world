@@ -115,10 +115,18 @@ div.button_zoom {
     border-width: 1pt;
     position: absolute;
     background-color: #beeeff;
+    background-size: 100%;
     box-shadow: 0 0px 0px 2px rgba(5, 0, 0, 0.5);
     margin:0;
     padding: 0;
     font-size: 2.2em;
+}
+
+div.zoom_in {
+    background-image: url("/client/assets/images/textures/gui/button/plus.png");
+}
+div.zoom_out {
+    background-image: url("/client/assets/images/textures/gui/button/minus.png");
 }
 
 h3 {
@@ -181,6 +189,7 @@ div.heading {
     height: 0;
     padding: 2pt;
     border: solid;
+    transform: translate(-6pt, -2pt);
     background-color: rgba(0, 0, 0, 0.75);
     border-width: 0 0.4em 0.4em 0;
     display: block;

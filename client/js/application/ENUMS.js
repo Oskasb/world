@@ -327,6 +327,17 @@ ENUMS.NavigationState = {
         HOSTILE:'HOSTILE'
     }
 
+    ENUMS.Interactions = {
+        FIGHT:'FIGHT',
+        LEAVE:'LEAVE',
+        TALK:'TALK',
+        SNEAK:'SNEAK',
+        TRADER:'TRADE',
+        CRAFT:'CRAFT',
+        STEAL:'STEAL',
+        PICKUP:'PICKUP'
+    }
+
     ENUMS.ItemStatus = {
         ITEM_ID:'ITEM_ID',
         TEMPLATE:'TEMPLATE',

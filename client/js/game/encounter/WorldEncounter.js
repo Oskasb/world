@@ -6,6 +6,7 @@ import {parseConfigDataKey} from "../../application/utils/ConfigUtils.js";
 import {notifyCameraStatus} from "../../3d/camera/CameraFunctions.js";
 import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
 import {getDestination} from "../../../../Server/game/actor/ActorStatusFunctions.js";
+import {DomInteract} from "../../application/ui/dom/DomInteract.js";
 
 let tempVec = new Vector3()
 let calcVec = new Vector3()
@@ -249,7 +250,6 @@ class WorldEncounter {
         }.bind(this)
 
 
-
         let serverEncounterActivated = function(message) {
             this.activted = true;
             let encId = message.encounterId;
@@ -257,31 +257,56 @@ class WorldEncounter {
             let partyList = message.playerParty;
             let partyMatches = GameAPI.getPlayerParty().memberListMatchesPlayerParty(partyList)
             if (partyMatches === false) {
-                console.log("Party is not matching message member list, handle this...")
+                console.log("Party is not matching message member list, this should not happen...")
             }
 
-            evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, {
-                request:ENUMS.ClientRequests.ENCOUNTER_PLAY,
-                encounterId:encId,
-                actorId:selectedActor.getStatus(ENUMS.ActorStatus.ACTOR_ID)
-            })
+            let activate = function() {
+                evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, {
+                    request:ENUMS.ClientRequests.ENCOUNTER_PLAY,
+                    encounterId:encId,
+                    actorId:selectedActor.getStatus(ENUMS.ActorStatus.ACTOR_ID)
+                })
+            }
+
+
+            if (config['activation_options']) {
+                selectedActor.actorText.yell("I got Options")
+            } else {
+                activate()
+            }
+
+
         //    console.log("ServerEncounterActive message: ", message)
         }.bind(this)
 
         let triggerWorldEncounter = function() {
-            this.triggered = true;
+
             let hostActor = this.visualEncounterHost.call.getActor();
             let selectedActor = GameAPI.getGamePieceSystem().getSelectedGameActor();
             hostActor.actorText.yell("Here we go")
-            selectedActor.getGameWalkGrid().setTargetPosition(this.getPos())
-            selectedActor.getGameWalkGrid().cancelActivePath()
-            selectedActor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, '');
-            selectedActor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, false);
-            selectedActor.setStatusKey(ENUMS.ActorStatus.REQUEST_PARTY, '');
-            selectedActor.setStatusKey(ENUMS.ActorStatus.ACTIVATING_ENCOUNTER, this.id);
-            selectedActor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_INACTIVE);
-            ThreeAPI.getCameraCursor().getLookAroundPoint().copy(this.getPos())
-            processEncounterActivation(selectedActor, this);
+
+            let activate = function() {
+                this.triggered = true;
+                selectedActor.getGameWalkGrid().setTargetPosition(this.getPos())
+                selectedActor.getGameWalkGrid().cancelActivePath()
+                selectedActor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, '');
+                selectedActor.setStatusKey(ENUMS.ActorStatus.PARTY_SELECTED, false);
+                selectedActor.setStatusKey(ENUMS.ActorStatus.REQUEST_PARTY, '');
+                selectedActor.setStatusKey(ENUMS.ActorStatus.ACTIVATING_ENCOUNTER, this.id);
+                selectedActor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_INACTIVE);
+                ThreeAPI.getCameraCursor().getLookAroundPoint().copy(this.getPos())
+                processEncounterActivation(selectedActor, this);
+            }.bind(this)
+
+            if (config['trigger_options']) {
+                selectedActor.actorText.yell("I got Options")
+                new DomInteract(this, config['trigger_options'])
+                setTimeout(activate, 500)
+            } else {
+                activate()
+            }
+
+
         }.bind(this)
 
         let startWorldEncounter = function(message) {
