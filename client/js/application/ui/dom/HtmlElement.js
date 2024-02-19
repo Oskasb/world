@@ -72,11 +72,17 @@ class HtmlElement {
         let onLoad = function() {
             let iframeDocument = this.container.contentDocument || this.container.contentWindow.document;
             this.call.setIframe(iframeDocument);
-            let overlay = iframeDocument.getElementById('container');
-            let closeButton = DomUtils.createDivElement(overlay, this.id+'_close', "X", "button_close")
+            let closeAnchor = iframeDocument.getElementById('anchor_close');
+            if (!closeAnchor) {
+                closeAnchor = iframeDocument.getElementById('container');
+            }
+            let closeButton = DomUtils.createDivElement(closeAnchor, this.id+'_close', "", "button_close")
             closeButton.style.pointerEvents = "auto";
             closeButton.style.cursor = "pointer";
-            DomUtils.addClickFunction(closeButton, onCloseClick)
+            if (typeof (onCloseCB) === 'function') {
+                DomUtils.addClickFunction(closeButton, onCloseClick)
+            }
+
         //    console.log("Iframe Loaded", file, this);
             for (let key in statusMap) {
                 let elem = iframeDocument.getElementById(key);
@@ -128,7 +134,9 @@ class HtmlElement {
 
 
     closeHtmlElement() {
-        DomUtils.removeElement(this.container);
+        if (this.container !== null) {
+            DomUtils.removeElement(this.container);
+        }
         this.container = null;
         this.statusMap = null;
         this.editStatus = null;

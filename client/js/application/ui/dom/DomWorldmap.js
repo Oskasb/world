@@ -4,12 +4,10 @@ class DomWorldmap {
     constructor(closeCb) {
         let htmlElement = new HtmlElement();
 
-
-
         let statusMap = {
             posX : 0,
             posZ : 0,
-            zoom : 5
+            zoom : 4
         }
 
         let closeMapCb = function() {
@@ -18,11 +16,11 @@ class DomWorldmap {
         }
 
         let zoomIn = function() {
-            statusMap.zoom = MATH.clamp(statusMap.zoom * 1.2, 1, 500);
+            statusMap.zoom = Math.round(MATH.clamp(statusMap.zoom * 2,  1, 32));
         }
 
         let zoomOut = function() {
-            statusMap.zoom = MATH.clamp(statusMap.zoom * 0.8, 1, 50);
+            statusMap.zoom = Math.round(MATH.clamp(statusMap.zoom * 0.5, 1, 32));
         }
 
         let readyCb = function() {
@@ -34,7 +32,6 @@ class DomWorldmap {
             DomUtils.addClickFunction(zoomInDiv, zoomIn)
             DomUtils.addClickFunction(zoomOutDiv, zoomOut)
         }
-
 
         let rebuild = htmlElement.initHtmlElement('worldmap', closeMapCb, statusMap, 'full_screen', readyCb);
 
@@ -63,9 +60,7 @@ class DomWorldmap {
                     }
                 }
 
-
             }
-
 
         }
 
