@@ -82,7 +82,8 @@ div.button_close {
     background-color: #e1000a;
     color: #410b00;
     box-shadow: 0 0 0 2px rgba(5, 0, 0, 0.5);
-
+    opacity: 100;
+    transition: opacity 1s;
 }
 
 div.anchor_zoom_in {
@@ -108,15 +109,17 @@ div.button_zoom {
     height: 0.9em;
     border-radius: 50%;
     font-size: 3em;
-    border: #bebebe;
+    border-color:#bebebe;
     border-style: solid;
     border-width: 0.08em;
     position: absolute;
-    background-color: #beeeff;
+    background-color: #4beeff;
     background-size: 100%;
-    box-shadow: 0 0px 0px 0.1em rgba(5, 0, 0, 0.5);
+    box-shadow: 0 0 0 0.1em rgba(5, 0, 0, 0.5);
     margin:0;
     padding: 0;
+    opacity: 100;
+    transition: opacity 1s;
 }
 
 div.zoom_in {
@@ -151,8 +154,8 @@ div.minimap {
     border: #d9d9d9;
     border-style: solid;
     border-width: 0.3em;
-    box-shadow: 0 0px 0px 2px rgba(5, 0, 0, 0.5);
-
+    box-shadow: 0 0 1em rgba(5, 0, 0, 0.5);
+    transition: border-radius 2s;
 }
 
 div.indicator_10m {
@@ -167,6 +170,23 @@ div.indicator_10m {
     display: inline-block;
     padding: 0;
     box-shadow: 0 0 0.4em rgba(0, 0, 0, 1);
+}
+
+div.indicator_tile {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    bottom: auto;
+    right: auto;
+    margin: 0;
+    width: 0;
+    height: 0;
+    background-color: rgba(5, 237, 5, 0.25);
+    border-radius: 0;
+    display: inline-block;
+    padding: 0;
+    box-shadow: 0 0 0.4em rgba(0, 0, 0, 1);
+    transform: translate(-0%, -0%)s
 }
 
 div.center {

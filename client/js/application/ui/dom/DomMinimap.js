@@ -2,12 +2,14 @@ import {HtmlElement} from "./HtmlElement.js";
 import {DomWorldmap} from "./DomWorldmap.js";
 import {Vector2} from "../../../../libs/three/math/Vector2.js";
 import {EncounterStatus} from "../../../game/encounter/EncounterStatus.js";
+import {filterForWalkableTiles} from "../../../game/gameworld/ScenarioUtils.js";
 
 let tempVec2 = new Vector2()
 let worldSize = 2048;
 let tenMeterIndicators = [];
 let actorIndicators = [];
 let itemIndocators = [];
+let gridTileIndicators = [];
 
 function calcMapBackgroundOffset(zoom, axisCenter, worldSize) {
     let zoomOffset = 1 + (1 / zoom);
@@ -19,7 +21,7 @@ function calcMapMeterToDivPercent(zoom, worldSize) {
 }
 
 function calcZoomForSize(size, worldSize)  {
-    return size*worldSize*0.01;
+    return worldSize/size;
 }
 
 function updateMinimapCenter(htmlElement, minimapDiv, statusMap, centerPos, inCombat) {
@@ -31,12 +33,68 @@ function updateMinimapCenter(htmlElement, minimapDiv, statusMap, centerPos, inCo
     minimapDiv.style.backgroundPositionX = calcMapBackgroundOffset(zoom, centerPos.x, worldSize)+'%';
     minimapDiv.style.backgroundPositionY = calcMapBackgroundOffset(zoom, centerPos.z, worldSize)+'%';
 
-    if (inCombat) {
-        minimapDiv.style.borderRadius = 10+'%';
-    } else {
-        minimapDiv.style.borderRadius = 50+'%';
+    if (inCombat === 2) {
+        let gameTime = GameAPI.getGameTime();
+        let flash = Math.sin(gameTime*8)*0.5 + 0.5;
+        let shadowSize = flash*1.5+0.2
+        minimapDiv.style.boxShadow = '0 0 '+shadowSize+'em rgba(255, 125, 75, 0.75)';
+        minimapDiv.style.borderColor = "rgb(255, "+flash*180+20+", "+(flash)*100+5+")";
     }
 
+}
+
+
+function addGridTiles(htmlElement, minimapDiv, statusMap, centerPos, encounterGrid) {
+
+    let tiles = filterForWalkableTiles(encounterGrid.gridTiles, 'walkable');
+    let zoomFactor = calcMapMeterToDivPercent(statusMap.zoom, worldSize);
+    while (tiles.length) {
+        let tile = tiles.pop();
+        let pos = tile.getPos();
+        tempVec2.set((pos.x-centerPos.x)*zoomFactor, (pos.z-centerPos.z)*zoomFactor);
+        let indicator = DomUtils.createDivElement(minimapDiv, 'tile'+tempVec2.x+"_"+tempVec2.y, '', 'indicator_tile')
+        indicator.style.top = 47.5 + tempVec2.y + '%';
+        indicator.style.left = 47.5 + tempVec2.x + '%';
+        indicator.style.padding = zoomFactor*0.4+'%';
+    //    indicator.style.transform = "translate("+zoomFactor*0.5+'%'+", "+zoomFactor*0.5+'%'+")";
+        gridTileIndicators.push(indicator);
+    }
+}
+
+function clearGridTiles() {
+    while (gridTileIndicators.length) {
+        DomUtils.removeDivElement(gridTileIndicators.pop())
+    }
+}
+
+function switchCombatMode(htmlElement, minimapDiv, statusMap, centerPos, inCombat) {
+    let closeDiv = htmlElement.call.getChildElement(htmlElement.id+'_close')
+    let zoomInDiv = htmlElement.call.getChildElement('zoom_in')
+    let zoomOutDiv = htmlElement.call.getChildElement('zoom_out')
+    if (inCombat) {
+        minimapDiv.style.borderRadius = 6 + '%';
+
+        closeDiv.style.opacity = 0+"%";
+        closeDiv.style.pointerEvents = "none";
+        zoomInDiv.style.opacity = 0+"%";
+        zoomInDiv.style.pointerEvents = "none";
+        zoomOutDiv.style.opacity = 0+"%";
+        zoomOutDiv.style.pointerEvents = "none";
+        minimapDiv.style.pointerEvents = "none";
+        addGridTiles( htmlElement, minimapDiv, statusMap, centerPos, GameAPI.getActiveEncounterGrid())
+    } else {
+        minimapDiv.style.borderRadius = 50+'%';
+        minimapDiv.style.boxShadow = "0 0 0 0.2em rgba(0, 0, 0, 0.5)";
+        minimapDiv.style.borderColor = "rgb(180, 180, 180)";
+        closeDiv.style.opacity = 100+"%";
+        closeDiv.style.pointerEvents = "auto";
+        zoomInDiv.style.opacity = 100+"%";
+        zoomInDiv.style.pointerEvents = "auto";
+        zoomOutDiv.style.opacity = 100+"%";
+        zoomOutDiv.style.pointerEvents = "auto";
+        minimapDiv.style.pointerEvents = "auto";
+        clearGridTiles()
+    }
 }
 
 function indicateTenMeterScale(tenMeterIndicators, htmlElement, minimapDiv, statusMap) {
@@ -55,7 +113,7 @@ function indicateTenMeterScale(tenMeterIndicators, htmlElement, minimapDiv, stat
 
 }
 
-function indicateActors(htmlElement, minimapDiv, statusMap, centerPos) {
+function indicateActors(htmlElement, minimapDiv, statusMap, centerPos, inCombat) {
     let actors = GameAPI.getGamePieceSystem().getActors()
     while (actors.length < actorIndicators.length) {
         DomUtils.removeDivElement(actorIndicators.pop())
@@ -90,11 +148,13 @@ function indicateActors(htmlElement, minimapDiv, statusMap, centerPos) {
             let mapPctX = tempVec2.x*zoomFactor
             let mapPctZ = tempVec2.y*zoomFactor
 
-            if (distance*zoomFactor > 49) {
-                tempVec2.normalize();
-                tempVec2.multiplyScalar(49);
-                mapPctX = tempVec2.x;
-                mapPctZ = tempVec2.y;
+            if (inCombat === false) {
+                if (distance*zoomFactor > 49) {
+                    tempVec2.normalize();
+                    tempVec2.multiplyScalar(49);
+                    mapPctX = tempVec2.x;
+                    mapPctZ = tempVec2.y;
+                }
             }
 
             indicator.style.top = 47.5 + mapPctZ + '%';
@@ -137,9 +197,13 @@ function indicateActors(htmlElement, minimapDiv, statusMap, centerPos) {
 }
 
 
+
+
 class DomMinimap {
     constructor() {
         let htmlElement = new HtmlElement();
+
+        let inCombat = false;
 
         let statusMap = {
             posX : 0,
@@ -209,33 +273,41 @@ class DomMinimap {
                 let selectedActor = GameAPI.getGamePieceSystem().selectedActor;
 
                 if (selectedActor) {
-                    if (selectedActor.getStatus(ENUMS.ActorStatus.IN_COMBAT)) {
-                        let encGrid = GameAPI.getActiveEncounterGrid()
-                        let gridPos = encGrid.getPos();
-                        let gridWidth = encGrid.maxXYZ.x - encGrid.minXYZ.x;
-                        let gridDepth= encGrid.maxXYZ.z - encGrid.minXYZ.z;
 
-                        let size = gridWidth;
-                        if (gridDepth > gridWidth) {
-                            size = gridDepth;
+                    if (inCombat !== selectedActor.getStatus(ENUMS.ActorStatus.IN_COMBAT)) {
+                        inCombat = selectedActor.getStatus(ENUMS.ActorStatus.IN_COMBAT)
+
+                        if (inCombat) {
+                            let encGrid = GameAPI.getActiveEncounterGrid()
+                            let gridWidth = encGrid.maxXYZ.x - encGrid.minXYZ.x;
+                            let gridDepth= encGrid.maxXYZ.z - encGrid.minXYZ.z;
+
+                            let size = gridWidth;
+                            if (gridDepth > gridWidth) {
+                                size = gridDepth;
+                            }
+
+                            statusMap.zoom = calcZoomForSize(size, worldSize);
                         }
 
-                        statusMap.zoom = calcZoomForSize(size, worldSize);
-                        centerPos = gridPos;
-                        updateMinimapCenter(htmlElement, minimapDiv, statusMap, centerPos, true);
+                        switchCombatMode(htmlElement, minimapDiv, statusMap, centerPos, inCombat);
+                    }
+
+                    if (inCombat) {
+                        let encGrid = GameAPI.getActiveEncounterGrid()
+                        centerPos = encGrid.getPos();
                     } else {
                         centerPos = selectedActor.getSpatialPosition()
-                        updateMinimapCenter(htmlElement, minimapDiv, statusMap, centerPos, false );
                     }
                 } else {
                     centerPos = ThreeAPI.getCameraCursor().getPos()
-                    updateMinimapCenter(htmlElement, minimapDiv, statusMap, centerPos, false);
+
                 }
 
-
+                updateMinimapCenter(htmlElement, minimapDiv, statusMap, centerPos, inCombat);
 
                 indicateTenMeterScale(tenMeterIndicators, htmlElement, minimapDiv, statusMap)
-                indicateActors(htmlElement, minimapDiv, statusMap, centerPos)
+                indicateActors(htmlElement, minimapDiv, statusMap, centerPos, inCombat)
 
             }
 
