@@ -41,7 +41,6 @@ body {
     font-weight: 400;
     position: fixed;
     background-color: #000;
-    font-size: 1pt;
     width: 100%;
     height: 100%;
     margin: 0px;
@@ -70,10 +69,10 @@ iframe.full_screen {
 }
 
 iframe.minimap {
-    top: 20em;
-    right: 20em;
-    width: 150em;
-    height: 150em;
+    top: 60em;
+    right: 60em;
+    width: 200em;
+    height: 200em;
     position: absolute;
     color: #ecffdc;
     border: none;

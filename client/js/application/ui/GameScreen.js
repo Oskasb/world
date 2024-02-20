@@ -41,7 +41,7 @@ class GameScreen {
     };
 
     getResolution = function() {
-        if (this.width < this.height) return this.height;
+        if (this.width > this.height) return this.height;
         return this.width;
     };
 

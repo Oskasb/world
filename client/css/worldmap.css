@@ -20,7 +20,16 @@ span {
     right:0em;
 }
 
-div.point {
+div {
+    top: auto;
+    left: auto;
+    bottom: auto;
+    right: auto;
+    width: auto;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    border-radius: inherit;
     position: absolute;
 }
 
@@ -30,18 +39,21 @@ body {
     pointer-events: none;
     font-family: 'Russo One';
     font-weight: 400;
+    font-size: 0;
     position: absolute;
-    font-size: 1pt;
     user-select:none;
 }
 
-body.map_container {
-    top: 10em;
-    right: 0em;
-    width: 45em;
-    height: 45em;
-    position: fixed;
-    font-size: 8pt;
+body.map_anchor {
+    top: 48em;
+    left: 50%;
+    width: 0;
+    height: 0;
+    margin: 0;
+    right: auto;
+    bottom: auto;
+    padding: 0;
+    position: absolute;
     transform: translate3d(0px, 0px, 0px);
 }
 
@@ -58,18 +70,17 @@ body.map_container {
 }
 
 div.button_close {
-    top: -0.25em;
-    right: -0.25em;
+    top: -45em;
+    right: -45em;
     width: 0;
     height: 0;
     border-radius: 50%;
     border: #bebebe;
     border-style: solid;
     border-width: 1pt;
-    font-size: 2em;
     position: absolute;
     margin:0;
-    padding: 1em;
+    padding: 2em;
     text-align: center;
     background-image: url("/client/assets/images/textures/gui/button/cross.png");
     background-size: 100%;
@@ -125,21 +136,34 @@ div.button_zoom_in {
     text-shadow: 1px 1px 3px rgba(5, 0, 0, 1);
 }
 
-div.worldmap {
-    top: 1em;
-    right: 1em;
-    left: 1em;
-    bottom: 1em;
+div.worldmap_frame {
+    top: -44em;
+    left: -44em;
+    width: 88em;
+    height: 88em;
+    margin: 0;
+    padding: 0;
     position: absolute;
+    border-radius: 2em;
+    border: #868686;
+    border-style: solid;
+    border-width: 0.5em;
+    box-shadow: 0px 0px 3.5em rgba(5, 0, 0, 0.95);
+}
+
+div.map_image {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: 0;
+    border: rgba(0, 0, 0, 0.51);
+    box-shadow: 0 0px 0px 0.2em rgba(255, 255, 255, 0.95);
+    border-style: solid;
+    border-width: 0.2em;
     background-image: url("/client/assets/images/textures/minimap.png");
     background-repeat: no-repeat;
     background-color: #424762;
-    border-radius: 2em;
-    border: #d9d9d9;
-    border-style: solid;
-    border-width: 1pt;
-    box-shadow: 0 0px 0px 2px rgba(5, 0, 0, 0.5);
-
 }
 
 div.heading {

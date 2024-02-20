@@ -18,15 +18,24 @@ function calcMapMeterToDivPercent(zoom, worldSize) {
     return MATH.percentify(zoom, worldSize, true);
 }
 
-function updateMinimapCenter(htmlElement, minimapDiv, statusMap) {
-    let cursorPos =  ThreeAPI.getCameraCursor().getPos();
-    statusMap.posX = 'x:'+MATH.decimalify(cursorPos.x, 10);
-    statusMap.posZ = 'z:'+MATH.decimalify(cursorPos.z, 10);
+function calcZoomForSize(size, worldSize)  {
+    return size*worldSize*0.01;
+}
+
+function updateMinimapCenter(htmlElement, minimapDiv, statusMap, centerPos, inCombat) {
+    statusMap.posX = 'x:'+MATH.numberToDigits(centerPos.x, 1, 4);
+    statusMap.posZ = 'z:'+MATH.numberToDigits(centerPos.z, 1, 4);
 
     let zoom = statusMap.zoom;
     minimapDiv.style.backgroundSize = zoom*100+'%';
-    minimapDiv.style.backgroundPositionX = calcMapBackgroundOffset(zoom, cursorPos.x, worldSize)+'%';
-    minimapDiv.style.backgroundPositionY = calcMapBackgroundOffset(zoom, cursorPos.z, worldSize)+'%';
+    minimapDiv.style.backgroundPositionX = calcMapBackgroundOffset(zoom, centerPos.x, worldSize)+'%';
+    minimapDiv.style.backgroundPositionY = calcMapBackgroundOffset(zoom, centerPos.z, worldSize)+'%';
+
+    if (inCombat) {
+        minimapDiv.style.borderRadius = 10+'%';
+    } else {
+        minimapDiv.style.borderRadius = 50+'%';
+    }
 
 }
 
@@ -39,14 +48,14 @@ function indicateTenMeterScale(tenMeterIndicators, htmlElement, minimapDiv, stat
 
     let zoom = statusMap.zoom;
     let zoomFactor = calcMapMeterToDivPercent(zoom, worldSize);
-    tenMeterIndicators[0].style.top = 50-(10*zoomFactor)+'%';
-    tenMeterIndicators[1].style.top = 50+(10*zoomFactor)+'%';
-    tenMeterIndicators[2].style.left = 50-(10*zoomFactor)+'%';
-    tenMeterIndicators[3].style.left = 50+(10*zoomFactor)+'%';
+    tenMeterIndicators[0].style.top = 49-(10*zoomFactor)+'%';
+    tenMeterIndicators[1].style.top = 49+(10*zoomFactor)+'%';
+    tenMeterIndicators[2].style.left = 49-(10*zoomFactor)+'%';
+    tenMeterIndicators[3].style.left = 49+(10*zoomFactor)+'%';
 
 }
 
-function indicateActors(htmlElement, minimapDiv, statusMap) {
+function indicateActors(htmlElement, minimapDiv, statusMap, centerPos) {
     let actors = GameAPI.getGamePieceSystem().getActors()
     while (actors.length < actorIndicators.length) {
         DomUtils.removeDivElement(actorIndicators.pop())
@@ -58,7 +67,7 @@ function indicateActors(htmlElement, minimapDiv, statusMap) {
 
     let zoom = statusMap.zoom;
     let zoomFactor = calcMapMeterToDivPercent(zoom, worldSize);
-    let cursorPos =  ThreeAPI.getCameraCursor().getPos();
+    let cursorPos = centerPos;
 
     let selectedActor = GameAPI.getGamePieceSystem().selectedActor
 
@@ -88,8 +97,8 @@ function indicateActors(htmlElement, minimapDiv, statusMap) {
                 mapPctZ = tempVec2.y;
             }
 
-            indicator.style.top = 50 + mapPctZ + '%';
-            indicator.style.left = 50 + mapPctX + '%';
+            indicator.style.top = 47.5 + mapPctZ + '%';
+            indicator.style.left = 47.5 + mapPctX + '%';
 
 
             let angle = actor.getStatus(ENUMS.ActorStatus.STATUS_ANGLE_EAST);
@@ -191,14 +200,43 @@ class DomMinimap {
         }
 
         htmlElement.initHtmlElement('minimap', null, statusMap, 'minimap', readyCb);
-
+        let centerPos = null;
         let update = function() {
 
             let minimapDiv = htmlElement.call.getChildElement('minimap');
             if (minimapDiv) {
-                updateMinimapCenter(htmlElement, minimapDiv, statusMap);
+
+                let selectedActor = GameAPI.getGamePieceSystem().selectedActor;
+
+                if (selectedActor) {
+                    if (selectedActor.getStatus(ENUMS.ActorStatus.IN_COMBAT)) {
+                        let encGrid = GameAPI.getActiveEncounterGrid()
+                        let gridPos = encGrid.getPos();
+                        let gridWidth = encGrid.maxXYZ.x - encGrid.minXYZ.x;
+                        let gridDepth= encGrid.maxXYZ.z - encGrid.minXYZ.z;
+
+                        let size = gridWidth;
+                        if (gridDepth > gridWidth) {
+                            size = gridDepth;
+                        }
+
+                        statusMap.zoom = calcZoomForSize(size, worldSize);
+                        centerPos = gridPos;
+                        updateMinimapCenter(htmlElement, minimapDiv, statusMap, centerPos, true);
+                    } else {
+                        centerPos = selectedActor.getSpatialPosition()
+                        updateMinimapCenter(htmlElement, minimapDiv, statusMap, centerPos, false );
+                    }
+                } else {
+                    centerPos = ThreeAPI.getCameraCursor().getPos()
+                    updateMinimapCenter(htmlElement, minimapDiv, statusMap, centerPos, false);
+                }
+
+
+
                 indicateTenMeterScale(tenMeterIndicators, htmlElement, minimapDiv, statusMap)
-                indicateActors(htmlElement, minimapDiv, statusMap)
+                indicateActors(htmlElement, minimapDiv, statusMap, centerPos)
+
             }
 
         }

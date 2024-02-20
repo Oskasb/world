@@ -6,6 +6,14 @@ function updateValueElem(key, value, iframe) {
     }
 }
 
+function windowResized(iframe, width, height) {
+    if (width > height) {
+        iframe.body.style.fontSize = height*0.01+'px';
+    } else {
+        iframe.body.style.fontSize = width*0.01+'px';
+    }
+}
+
 class HtmlElement {
     constructor() {
         this.id = "";
@@ -13,14 +21,22 @@ class HtmlElement {
         this.iframe = null;
         this.statusMap = null;
         this.editStatus = null;
+        let width = null;
+        let height = null;
         let iframeDocument = null;
         let update = function() {
-
-            let statusMap = this.statusMap;
 
             if (!iframeDocument) {
                 return;
             }
+
+            if (width !== innerWidth || height !== innerHeight) {
+                width = innerWidth;
+                height = innerHeight;
+                windowResized(iframeDocument, width, height)
+            }
+
+            let statusMap = this.statusMap;
 
             for (let key in statusMap) {
                 let elem = iframeDocument.getElementById(key);
@@ -37,6 +53,8 @@ class HtmlElement {
         }.bind(this);
 
         let setIframe = function(iDoc) {
+            width = null;
+            height = null;
             iframeDocument = iDoc;
         }
 
@@ -98,6 +116,7 @@ class HtmlElement {
                 readyCb(this);
             }
 
+            ThreeAPI.addPrerenderCallback(this.call.update);
 
         }.bind(this)
 
@@ -125,7 +144,7 @@ class HtmlElement {
 
    //     let reload = setInterval(rebuild, 2000)
 
-        ThreeAPI.addPrerenderCallback(this.call.update);
+
 
         return rebuild;
 
