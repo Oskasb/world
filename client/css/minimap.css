@@ -181,12 +181,15 @@ div.indicator_tile {
     margin: 0;
     width: 0;
     height: 0;
-    background-color: rgba(5, 237, 5, 0.25);
+    background-color: rgba(0, 0, 0, 0.25);
+    border-color: rgba(55, 255, 255, 0.5);
+    border-style: solid;
+    border-width: 0.12em;
     border-radius: 0;
     display: inline-block;
     padding: 0;
-    box-shadow: 0 0 0.4em rgba(0, 0, 0, 1);
-    transform: translate(-0%, -0%)s
+    box-shadow: 0 0 0.14em rgba(55, 255, 255, 0.75);
+    transform: translate(-50%, -50%)
 }
 
 div.center {

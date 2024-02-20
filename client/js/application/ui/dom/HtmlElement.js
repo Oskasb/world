@@ -8,9 +8,9 @@ function updateValueElem(key, value, iframe) {
 
 function windowResized(iframe, width, height) {
     if (width > height) {
-        iframe.body.style.fontSize = height*0.01+'px';
+        iframe.body.style.fontSize = height*0.008+'pt';
     } else {
-        iframe.body.style.fontSize = width*0.01+'px';
+        iframe.body.style.fontSize = width*0.008+'pt';
     }
 }
 

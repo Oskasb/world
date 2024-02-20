@@ -10,7 +10,7 @@ let tenMeterIndicators = [];
 let actorIndicators = [];
 let itemIndocators = [];
 let gridTileIndicators = [];
-
+let preCombatZoom = 0;
 function calcMapBackgroundOffset(zoom, axisCenter, worldSize) {
     let zoomOffset = 1 + (1 / zoom);
     return MATH.percentify(zoomOffset*MATH.decimalify(axisCenter, 5)+worldSize*0.5, worldSize, true);
@@ -33,7 +33,7 @@ function updateMinimapCenter(htmlElement, minimapDiv, statusMap, centerPos, inCo
     minimapDiv.style.backgroundPositionX = calcMapBackgroundOffset(zoom, centerPos.x, worldSize)+'%';
     minimapDiv.style.backgroundPositionY = calcMapBackgroundOffset(zoom, centerPos.z, worldSize)+'%';
 
-    if (inCombat === 2) {
+    if (inCombat === true) {
         let gameTime = GameAPI.getGameTime();
         let flash = Math.sin(gameTime*8)*0.5 + 0.5;
         let shadowSize = flash*1.5+0.2
@@ -53,9 +53,9 @@ function addGridTiles(htmlElement, minimapDiv, statusMap, centerPos, encounterGr
         let pos = tile.getPos();
         tempVec2.set((pos.x-centerPos.x)*zoomFactor, (pos.z-centerPos.z)*zoomFactor);
         let indicator = DomUtils.createDivElement(minimapDiv, 'tile'+tempVec2.x+"_"+tempVec2.y, '', 'indicator_tile')
-        indicator.style.top = 47.5 + tempVec2.y + '%';
-        indicator.style.left = 47.5 + tempVec2.x + '%';
-        indicator.style.padding = zoomFactor*0.4+'%';
+        indicator.style.top = 50 + tempVec2.y + '%';
+        indicator.style.left = 50 + tempVec2.x + '%';
+        indicator.style.padding = zoomFactor*0.35+'%';
     //    indicator.style.transform = "translate("+zoomFactor*0.5+'%'+", "+zoomFactor*0.5+'%'+")";
         gridTileIndicators.push(indicator);
     }
@@ -279,6 +279,7 @@ class DomMinimap {
 
                         if (inCombat) {
                             let encGrid = GameAPI.getActiveEncounterGrid()
+                            centerPos = encGrid.getPos();
                             let gridWidth = encGrid.maxXYZ.x - encGrid.minXYZ.x;
                             let gridDepth= encGrid.maxXYZ.z - encGrid.minXYZ.z;
 
@@ -286,8 +287,10 @@ class DomMinimap {
                             if (gridDepth > gridWidth) {
                                 size = gridDepth;
                             }
-
-                            statusMap.zoom = calcZoomForSize(size, worldSize);
+                            preCombatZoom = statusMap.zoom;
+                            statusMap.zoom = calcZoomForSize(size+1, worldSize);
+                        } else {
+                            statusMap.zoom = preCombatZoom
                         }
 
                         switchCombatMode(htmlElement, minimapDiv, statusMap, centerPos, inCombat);
