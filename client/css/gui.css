@@ -34,39 +34,71 @@ body {
     background-color: #000;
     width: 100%;
     height: 100%;
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
     user-select:none;
-    text-shadow: 0.1em 0.1em 0.4em rgba(5, 0, 0, 1);
+    text-shadow: 0.1em 0.1em 0.15em rgba(0, 0, 0, 1);
 }
 
 body.overlay_page {
-    top: 0em;
-    left: 0em;
-    right: 0em;
-    bottom: 0em;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 0;
     position: fixed;
     transform: translate3d(0px, 0px, 0px);
-    background-color: rgba(15,12,64,0.51);
+    background: none;
 }
+
 .overlay_page h2 {
     color: azure;
-    padding:-1em;
-    padding-left: 0.3em;
+    padding: 0;
+    margin: 0;
+    margin-top: 0.2em;
+    padding-left: 0.4em;
 }
 
 .overlay_page p {
-    padding-left: 0.4em;
+    padding: 0;
+    padding-left: 0.8em;
+    margin: 0;
+    margin-top: 0.2em;
     color: azure;
 }
 
-div.button_close {
-    bottom: 3em;
-    right: 3em;
-    width: 6em;
-    height: 4em;
+div.anchor_close {
     position: absolute;
-    background-color: #ff0005;
+    border: inherit;
+    box-shadow: inherit;
+    top: 0.1em;
+    right: 0.1em;
+    width: 0;
+    height: 0;
+    font-size: 2em;
+
+}
+
+div.button_close {
+    top: -0.55em;
+    right: -0.55em;
+    width: 1.1em;
+    height: 1.1em;
+    border-radius: 50%;
+    border: inherit;
+    border-style: solid;
+    border-width: 0.1em;
+    position: absolute;
+    margin:0;
+    padding: 0;
+    text-align: center;
+    background-image: url("/client/assets/images/textures/gui/button/cross.png");
+    background-size: 100%;
+    background-color: #e1000a;
+    color: #410b00;
+    box-shadow: inherit;
+    opacity: 100;
+    transition: opacity 1s;
 }
 
 div.settings_panel {
@@ -77,40 +109,59 @@ div.settings_panel {
     height: auto;
     position: absolute;
     background-color: rgba(81, 118, 155, 0.51);
-    border-radius: 0.5em;
-    border: #27e7ce;
-    border-style: ridge;
-    border-width: 0.2em;
-}
-
-div.interact_panel {
-    font-size: 2em;
-    top: 3em;
-    left: 3em;
-    width: auto;
-    height: auto;
-    position: absolute;
-    background-color: rgba(81, 118, 155, 0.51);
-    box-shadow: 0 0 0.5em rgba(99, 255, 255, 0.7);
+    box-shadow: 0 0 0.7em rgba(99, 255, 255, 1);
     border-radius: 0.5em;
     border: #27e7ce;
     border-style: solid;
     border-width: 0.2em;
 }
 
+div.interact_panel {
+    font-size: 1.6em;
+    top: 1em;
+    left: 1em;
+    right: 1em;
+    height: auto;
+    position: absolute;
+    background-color: rgba(44, 90, 90, 0.51);
+    box-shadow: 0 0 0.5em rgba(99, 255, 255, 0.7);
+    border-radius: 0.5em;
+    border-color: #27e7ce;
+    border-style: solid;
+    border-width: 0.2em;
+}
 
+div.interact_icon {
+    top: -0.15em;
+    left: 0.1em;
+    width: 1em;
+    height: 1em;
+    font-size: 1.7em;
+    border-radius: 10%;
+    border: none;
+    position: absolute;
+    margin:0;
+    padding: 0;
+    text-align: center;
+    background-image: inherit;
+    background-size: 100%;
+    background-color: none;
+    box-shadow: none;
+    opacity: 100;
+    transition: opacity 1s;
+}
 
 .option_container {
     top: 0em;
     left: 0em;
-    font-size: 1.5em;
-    width: 13em;
+    font-size: 1.3em;
+    width: auto;
     height: auto;
     position: relative;
-    padding: 0em;
+    padding: 0;
+    padding-left: 2.3em;
     margin: 0.3em;
-    padding-left: 0.5em;
-    background: rgba(111, 175, 170, 0.68);
+    background: rgba(38, 85, 80, 0.5);
     border-radius: 0.25em;
     border: #27e7ce;
     border-style: solid;
@@ -119,7 +170,8 @@ div.interact_panel {
     align-items: center;
     box-shadow: 0 0 0.2em rgba(99, 255, 255, 1);
     color: white;
-    text-shadow: 0 0 0.5em rgba(0, 66, 66, 1);
+    text-shadow: 0.1em 0.1em 0.15em rgba(0, 0, 0, 1);
+    background-size: 0;
 }
 
 .control_container {
@@ -138,7 +190,7 @@ div.interact_panel {
     border-width: 0.2em;
     display: block;
     align-items: center;
-    box-shadow: 0px 15px 40px #7E6D5766;
+    box-shadow: 0 0 2em #7E6D5766;
 }
 
 .control_container p {
@@ -173,8 +225,8 @@ input.slider {
 }
 
 div.alignment {
-    top:0.5em;
-    right:0.5em;
+    top:0.3em;
+    right:2.8em;
     padding-left: 1em;
     font-size: 0.8em;
     position: absolute;
@@ -194,6 +246,46 @@ div.NEUTRAL {
 
 div.ITEM {
     color: #19ffdb;
+}
+
+div.FIGHT {
+    color: #ff7a54;
+    background-image: url("/client/assets/images/textures/gui/icons/icon_fight.png");
+}
+
+div.LEAVE {
+    color: #d9c9c9;
+    background-image: url("/client/assets/images/textures/gui/icons/icon_leave.png");
+}
+
+div.TALK {
+    color: #e1f6e4;
+    background-image: url("/client/assets/images/textures/gui/icons/icon_talk.png");
+}
+
+div.SNEAK {
+    color: #fff65b;
+    background-image: url("/client/assets/images/textures/gui/icons/icon_sneak.png");
+}
+
+div.TRADE {
+    color: #41ffc8;
+    background-image: url("/client/assets/images/textures/gui/icons/icon_trade.png");
+}
+
+div.CRAFT {
+    color: #66ff19;
+    background-image: url("/client/assets/images/textures/gui/icons/icon_craft.png");
+}
+
+div.STEAL {
+    color: #c50000;
+    background-image: url("/client/assets/images/textures/gui/icons/icon_steal.png");
+}
+
+div.PICKUP {
+    color: #abff19;
+    background-image: url("/client/assets/images/textures/gui/icons/icon_take.png");
 }
 
 .slider_container p {

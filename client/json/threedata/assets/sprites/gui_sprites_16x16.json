@@ -63,6 +63,10 @@
             "tiles":[[10, 6]]
           },
           {
+            "id":"icon_talk",
+            "tiles":[[11, 6]]
+          },
+          {
             "id":"text_background",
             "tiles":[[1, 1]]
           },

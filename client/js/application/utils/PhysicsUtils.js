@@ -109,7 +109,7 @@ function rayTest(from, to, contactPointStore, contactNormal, debugDraw) {
         contactNormal = tempVec5;
     }
 
-    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:from, to:to, color:'GREEN'});
+//    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:from, to:to, color:'GREEN'});
 
     tempTo.copy(to).sub(from);
     let hit = AmmoAPI.raycastPhysicsWorld(from, tempTo, contactPointStore, contactNormal, debugDraw)

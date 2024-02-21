@@ -60,12 +60,24 @@ div.canvas_window {
 
 
 iframe.full_screen {
-    top: 0em;
-    left: 0em;
+    top: 0;
+    left: 0;
     width: inherit;
     height: inherit;
     position: absolute;
+    border: none;
     color: #ecffdc;
+}
+
+iframe.interact_page {
+    top: 15%;
+    right: 56%;
+    height: 600em;
+    width: 280em;
+    border: 0;
+    position: fixed;
+    transform: translate3d(0px, 0px, 0px);
+    background: none;
 }
 
 iframe.minimap {

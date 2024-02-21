@@ -86,6 +86,11 @@
                     {"interaction": "TALK",  "text": "Hi! I need some food, may I pass?"},
                     {"interaction": "LEAVE", "text": "Sorry to disturb you, just leaving."}
                   ],
+                  "interact_options": [
+                    {"interaction": "FIGHT", "text": "Attack"},
+                    {"interaction": "TALK",  "text": "Hi! I need some food, may I pass?"},
+                    {"interaction": "LEAVE", "text": "Sorry to disturb you, just leaving."}
+                  ],
                   "spawn": {
                     "actors": [
                       {

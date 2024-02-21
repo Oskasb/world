@@ -80,6 +80,11 @@ class ActorMovement {
         }
     }
 
+    clearControlState(actor) {
+        for (let key in ENUMS.Controls) {
+            actor.setControlKey(key, 0);
+        }
+    }
 
     tileSelectionActive(actor) {
         let walkGrid = actor.getGameWalkGrid();

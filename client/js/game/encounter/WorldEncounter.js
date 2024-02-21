@@ -7,16 +7,28 @@ import {notifyCameraStatus} from "../../3d/camera/CameraFunctions.js";
 import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
 import {getDestination} from "../../../../Server/game/actor/ActorStatusFunctions.js";
 import {DomInteract} from "../../application/ui/dom/DomInteract.js";
+import {colorMapFx} from "../visuals/Colors.js";
 
 let tempVec = new Vector3()
 let calcVec = new Vector3()
 
 let radiusEvent = {}
 
+let indicateInteractRadius = function(encounter) {
+    let radius = encounter.config.trigger_radius+2;
+    radiusEvent.heads = Math.ceil(MATH.curveSqrt(radius))+2;
+    radiusEvent.speed = MATH.curveSqrt(radius)+3;
+    radiusEvent.radius = radius;
+    radiusEvent.pos = encounter.getPos();
+    radiusEvent.rgba = colorMapFx.GLITTER_FX
+    radiusEvent.elevation = 0;
+    evt.dispatch(ENUMS.Event.INDICATE_RADIUS, radiusEvent)
+}
+
 let indicateTriggerRadius = function(encounter) {
     let radius = encounter.config.trigger_radius
     radiusEvent.heads = Math.ceil(MATH.curveSqrt(radius))+2;
-    radiusEvent.speed = MATH.curveSqrt(radius)
+    radiusEvent.speed = MATH.curveSqrt(radius)+1;
     radiusEvent.radius = radius;
     radiusEvent.pos = encounter.getPos();
     radiusEvent.rgba = encounter.getTriggerRGBA();
@@ -143,7 +155,32 @@ function checkTriggerPlayer(encounter) {
         let radius = encounter.config.trigger_radius;
         let distance = MATH.distanceBetween(selectedActor.getSpatialPosition(), encounter.getPos())
 
-        if (distance < radius + 10) {
+        if (encounter.config['interact_options']) {
+            if (encounter.config['interact_options'].length > 0) {
+                if (distance < radius + 7 && distance > radius + 0.5) {
+
+                    if (encounter.interactGui === null) {
+                        indicateInteractRadius(encounter);
+                    }
+
+                    if (distance < radius +2) {
+                        if (encounter.interactGui === null) {
+                            encounter.interactGui = new DomInteract(encounter, encounter.config['interact_options'])
+                            selectedActor.turnTowardsPos(encounter.getPos());
+                            selectedActor.setDestination(selectedActor.getSpatialPosition())
+                            selectedActor.actorMovement.clearControlState(selectedActor);
+                        }
+                    } else {
+                        if (encounter.interactGui !== null) {
+                            encounter.interactGui.call.close();
+                        }
+                        encounter.interactGui = null;
+                    }
+                }
+            }
+        }
+
+        if (distance < radius + 5) {
             indicateTriggerRadius(encounter);
             testDestinationForTrigger(selectedActor, encounter, radius)
             if (encounter.timeInsideProximity === 0) {
@@ -163,6 +200,10 @@ function checkTriggerPlayer(encounter) {
         if (distance < radius) {
 
             if (encounter.timeInsideTrigger === 0) {
+
+                if (encounter.interactGui !== null) {
+                    encounter.interactGui.call.close();
+                }
 
                 if (encounter.engagementArc !== null) {
                     encounter.engagementArc.off();
@@ -219,7 +260,7 @@ class WorldEncounter {
 
         this.visualEncounterHost = new VisualEncounterHost(this.obj3d);
         this.encounterIndicator = new EncounterIndicator(this.obj3d)
-
+        this.interactGui = null;
         this.isVisible = false;
 
         let lastLod = null;
@@ -299,7 +340,7 @@ class WorldEncounter {
             }.bind(this)
 
             if (config['trigger_options']) {
-                selectedActor.actorText.yell("I got Options")
+            //    selectedActor.actorText.yell("I got Options")
                 new DomInteract(this, config['trigger_options'])
                 setTimeout(activate, 500)
             } else {

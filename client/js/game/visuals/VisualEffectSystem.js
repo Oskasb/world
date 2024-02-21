@@ -74,7 +74,12 @@ let drawTriggerHead = function(head, heads, radius, triggerCycle, center, rgba, 
         let options = setupOptsSprayUpwards(efct, calcVec)
         efct.setEffectSpriteXY(1, 5);
         efct.activateSpatialTransition(options)
-        efct.setEffectColorRGBA(CombatFxUtils.setRgba(rgba[0], rgba[1], rgba[2], rgba[3]))
+        if (rgba.length === 4) {
+            efct.setEffectColorRGBA(CombatFxUtils.setRgba(rgba[0], rgba[1], rgba[2], rgba[3]))
+        } else {
+            efct.setEffectColorRGBA(rgba)
+        }
+
     };
 
     EffectAPI.buildEffectClassByConfigId('additive_particles_8x8', 'particle_additive_pool',  effectCb)
@@ -128,8 +133,9 @@ function indicateRadius(event) {
     let radius = event.radius;
     let center = event.pos;
     let elevation = event.elevation || 0;
+    let rgba = event.rgba;
     for (let i = 0; i < event.heads; i++) {
-        drawTriggerHead(i, event.heads, radius, cycle, center, event.rgba, elevation)
+        drawTriggerHead(i, event.heads, radius, cycle, center, rgba, elevation)
     }
 
 }

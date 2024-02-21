@@ -29,6 +29,12 @@ class DomInteract {
         function attachInteractionOption(container, option) {
             let optElem = DomUtils.createDivElement(container, 'option_'+option['interaction'], option['text'], 'option_container '+option['interaction'])
 
+            let addIcon = function() {
+                let iconElem = DomUtils.createDivElement(optElem, 'icon_'+option['interaction'], '', 'interact_icon')
+            }
+
+            setTimeout(addIcon, 100)
+
             let actFunc = function() {
                 selectedActor.actorText.say('I will '+option['interaction'])
             }
@@ -55,13 +61,30 @@ class DomInteract {
             */
         }
 
-        let rebuild = htmlElement.initHtmlElement('interact', closeCb, statusMap, 'full_screen', readyCb);
+        let rebuild = htmlElement.initHtmlElement('interact', closeCb, statusMap, 'interact_page', readyCb);
 
         let update = function() {
+            let optsContainer = htmlElement.call.getChildElement('interact_container')
+            if (optsContainer) {
+                let gameTime = GameAPI.getGameTime();
+                let flash = Math.sin(gameTime*2.7)*0.5 + 0.5;
+                let shadowSize = flash*0.55+0.65
+                let color = 'rgba(99, 255, 255, 0.7)';
+                optsContainer.style.boxShadow = '0 0 '+shadowSize+'em '+color;
+            }
 
         }
 
         ThreeAPI.registerPrerenderCallback(update);
+
+        let close = function() {
+            ThreeAPI.unregisterPrerenderCallback(update);
+            htmlElement.closeHtmlElement()
+        }
+
+        this.call = {
+            close:close
+        }
 
     }
 
