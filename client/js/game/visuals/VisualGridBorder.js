@@ -23,6 +23,13 @@ class VisualGridBorder {
         //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:this.minXYZ, max:this.maxXYZ, color:'CYAN'})
         //    drawPathPoints(this.from, this.to, this.pathPointsFX, gameTime, this.actor)
 
+            if (this.encounterGrid !== null) {
+                if (this.encounterGrid.gridTiles.length === 0) {
+                    this.off();
+                    this.encounterGrid = null;
+                }
+            }
+
             while (this.edgeLines.length < this.linesFromTo.length) {
                 let edgeLine = poolFetch('VisualEdgeLine')
                 edgeLine.on();
@@ -45,10 +52,16 @@ class VisualGridBorder {
 
     }
 
-    on(statusKey, center, effectData, gridId) {
+    on(statusKey, center, effectData, gridId, encounterGrid) {
         this.center.copy(center)
 
         let lines = this.linesFromTo;
+
+        if (encounterGrid) {
+            this.encounterGrid = encounterGrid;
+        } else {
+            this.encounterGrid = null;
+        }
 
         let onConfig = function(config) {
             let grid = config['grid'];

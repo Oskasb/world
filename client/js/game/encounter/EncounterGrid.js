@@ -36,24 +36,24 @@ class EncounterGrid {
             forward.set(0, 0, 0);
         }
 
-
         let onConfig = function(config, updateCount) {
             //    console.log("Update Count: ", updateCount, config)
             if (updateCount) {
                 GuiAPI.printDebugText("REFLOW GRID")
                 this.removeEncounterGrid();
             } else {
-                setTimeout(function() {
-                //    onReady(this);
-                }, 0);
+                if (this.visualGridBorder) {
+                    this.visualGridBorder.off();
+                }
             }
             this.applyGridConfig(config, this.center, forward);
+            this.visualGridBorder = poolFetch('VisualGridBorder')
+            this.visualGridBorder.on(null, this.center, null, gridId, this);
             gridLoaded(this);
         }.bind(this)
 
         this.configData.parseConfig(gridId, onConfig)
-        this.visualGridBorder = poolFetch('VisualGridBorder')
-        this.visualGridBorder.on(null, this.center, null, gridId);
+
     }
 
     getPlayerEntranceTile() {

@@ -198,23 +198,21 @@ function checkTriggerPlayer(encounter) {
         }
 
         if (distance < radius) {
+            if (encounter.interactGui !== null) {
+                encounter.interactGui.call.close();
+            }
+
+            if (encounter.engagementArc !== null) {
+                encounter.engagementArc.off();
+                encounter.engagementArc = null;
+            }
+
+            if (encounter.gridBorder !== null) {
+                encounter.gridBorder.off();
+                encounter.gridBorder = null;
+            }
 
             if (encounter.timeInsideTrigger === 0) {
-
-                if (encounter.interactGui !== null) {
-                    encounter.interactGui.call.close();
-                }
-
-                if (encounter.engagementArc !== null) {
-                    encounter.engagementArc.off();
-                    encounter.engagementArc = null;
-                }
-
-                if (encounter.gridBorder !== null) {
-                    encounter.gridBorder.off();
-                    encounter.gridBorder = null;
-                }
-
                 encounterEvent.request = ENUMS.ClientRequests.ENCOUNTER_INIT
                 encounterEvent.actorId = selectedActor.getStatus(ENUMS.ActorStatus.ACTOR_ID);
                 encounterEvent.playerParty = GameAPI.getGamePieceSystem().playerParty.listPartyMemeberIDs();
