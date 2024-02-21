@@ -101,6 +101,12 @@ class HtmlElement {
                 DomUtils.addClickFunction(closeButton, onCloseClick)
             }
 
+            let backdrop = iframeDocument.getElementById('backdrop')
+            if (backdrop) {
+                DomUtils.addClickFunction(backdrop, onCloseClick)
+            }
+
+
         //    console.log("Iframe Loaded", file, this);
             for (let key in statusMap) {
                 let elem = iframeDocument.getElementById(key);

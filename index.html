@@ -181,8 +181,18 @@
 
     // console.log("AMMO: ", AMMO, Ammo)
     window.clickBody = function() {
-
+        console.log("click body")
+        document.body.requestFullscreen()
     }
+
+
+    let bodyTouch = function(e) {
+        console.log("bodyTouch", e);
+        document.body.requestFullscreen()
+    }
+
+    document.body.addEventListener('touchstart', bodyTouch)
+
 
         /*! Normalized address bar hiding for iOS & Android (c) @scottjehl MIT License */
         let bodycheck;

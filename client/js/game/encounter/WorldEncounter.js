@@ -169,6 +169,7 @@ function checkTriggerPlayer(encounter) {
                             selectedActor.turnTowardsPos(encounter.getPos());
                             selectedActor.setDestination(selectedActor.getSpatialPosition())
                             selectedActor.actorMovement.clearControlState(selectedActor);
+                            selectedActor.setStatusKey(ENUMS.ActorStatus.SELECTED_TARGET, hostActor.getStatus(ENUMS.ActorStatus.ACTOR_ID))
                         }
                     } else {
                         if (encounter.interactGui !== null) {

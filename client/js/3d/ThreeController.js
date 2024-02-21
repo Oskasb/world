@@ -76,6 +76,8 @@ class ThreeController {
                 GameScreen.notifyResize();
                 _this.notifyRezize();
             }, 1)
+
+
         };
 
         let fireResize = function() {
