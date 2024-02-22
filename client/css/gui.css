@@ -258,6 +258,11 @@ div.ITEM {
     color: #19ffdb;
 }
 
+div.USE {
+    color: #e8ff53;
+    background-image: url("/client/assets/images/textures/gui/icons/icon_use.png");
+}
+
 div.FIGHT {
     color: #ff7a54;
     background-image: url("/client/assets/images/textures/gui/icons/icon_fight.png");

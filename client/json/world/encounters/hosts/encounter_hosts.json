@@ -24,6 +24,30 @@
             }
           }
         ]
+      },
+      {
+        "id": "cavern_entrance",
+        "data": [
+          {
+            "data_key":"host_data",
+            "config": {
+              "actor": "ACTOR_CAVERN_ENTRANCE",
+              "rot": [0, 1.2, 0],
+              "ALIGNMENT": "NEUTRAL",
+              "indicator": {
+                "sprite": [3, 5],
+                "height": 2.6,
+                "rgba": [1, 1, 0.1, 1],
+                "size": 3
+              },
+              "trigger": {
+                "heads": 3,
+                "radius":1,
+                "speed": 1
+              }
+            }
+          }
+        ]
       }
     ]
   }

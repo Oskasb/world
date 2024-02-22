@@ -378,6 +378,29 @@
         ]
       },
       {
+        "id": "model_cavern_entrance",
+        "data": [
+          {
+            "data_key":"model_data",
+            "config": {
+              "assets": [
+                {
+                  "asset": "asset_cavern_entrance",
+                  "pos": [0, 0, 0],
+                  "rot": [0, 0, 0],
+                  "scale": [0.01, 0.01, 0.01],
+                  "solidity": 0.75,
+                  "visibility": 3,
+                  "boxes": [
+
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
         "id": "model_tree_1",
         "data": [
           {

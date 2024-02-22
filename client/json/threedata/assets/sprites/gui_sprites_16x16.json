@@ -539,6 +539,10 @@
             "tiles":[[1, 13]]
           },
           {
+            "id":"entrance_1",
+            "tiles":[[0, 14]]
+          },
+          {
             "id":"icon_jetpack",
             "tiles":[[4, 10]]
           },

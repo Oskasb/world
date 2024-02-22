@@ -2,6 +2,14 @@
   "GAME":{
     "ACTORS":[
       {
+        "id":"ACTOR_CAVERN_ENTRANCE",
+        "data":{
+          "visual_id": "VISUAL_FIGHTER",
+          "stats_id": "STATS_CAVERN_ENTRANCE",
+          "equip_slots": "SLOTS_FIGHTER"
+        }
+      },
+      {
         "id":"ACTOR_OUTLAW",
         "data":{
           "visual_id": "VISUAL_OUTLAW",

@@ -166,6 +166,10 @@
         {"id": "asset_castle_wall_10_door_hull_3", "config": { "model": "file_castle_wall_10_door_hull_3",  "material": "mat_instancing_basic",     "settings": "model_settings_instancing_1" }},
         {"id": "asset_castle_wall_10_door_hull_4", "config": { "model": "file_castle_wall_10_door_hull_4",  "material": "mat_instancing_basic",     "settings": "model_settings_instancing_1" }},
 
+
+        {"id": "asset_cavern_entrance",     "config": { "model": "file_cavern_entrance",      "material": "mat_instancing_basic",     "settings": "model_settings_instancing_10" }},
+
+
         {"id": "asset_block_4",         "config": { "model": "file_block_4",        "material": "mat_instancing_basic",     "settings": "model_settings_instancing_5" }},
         {"id": "asset_scraper_10",      "config": { "model": "file_scraper_10",     "material": "mat_instancing_basic",     "settings": "model_settings_instancing_5" }},
         {"id": "asset_scraper_17",      "config": { "model": "file_scraper_17",     "material": "mat_instancing_basic",     "settings": "model_settings_instancing_5" }},

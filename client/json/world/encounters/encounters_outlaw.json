@@ -75,20 +75,43 @@
               ],
               "encounters": [
                 {
+                  "pos": [-718, 5, 781],
+                  "visibility": 2,
+                  "grid_id": "grid_5x5",
+                  "host_id": "cavern_entrance",
+                  "indicator_id": "battle_indicator",
+                  "trigger_radius": 0.5,
+                  "trigger_options": [
+                    {"interaction": "FIGHT", "text": "Attack Everything"},
+                    {"interaction": "STEAL", "text": "Stealthily Pillage the place"}
+                  ],
+                  "interact_options": [
+                    {"interaction": "USE",   "text": "Enter"},
+                    {"interaction": "TALK",  "text": "Hey! Anyone in there?"},
+                    {"interaction": "LEAVE", "text": "Not this time."}
+                  ],
+                  "spawn": {
+                    "actors": [
+                      {
+                        "actor": "ACTOR_FIGHTER",
+                        "rot": [0, 1.2, 0],
+                        "on_ground": true,
+                        "tile": [3, 3]
+                      }
+                    ]
+                  }
+                },
+                {
                   "pos": [-731, 2, 799],
                   "visibility": 2,
                   "grid_id": "grid_7x7",
                   "host_id": "bandit_basic",
                   "indicator_id": "battle_indicator",
                   "trigger_radius": 3,
-                  "trigger_options": [
-                    {"interaction": "FIGHT", "text": "Attack"},
-                    {"interaction": "TALK",  "text": "Hi! I need some food, may I pass?"},
-                    {"interaction": "LEAVE", "text": "Sorry to disturb you, just leaving."}
-                  ],
+
                   "interact_options": [
                     {"interaction": "FIGHT", "text": "Attack"},
-                    {"interaction": "TALK",  "text": "Hi! I need some food, may I pass?"},
+                    {"interaction": "TALK",  "text": "Hi! I am really hungry, will you let me pass so I can get to the kitchen?"},
                     {"interaction": "LEAVE", "text": "Sorry to disturb you, just leaving."}
                   ],
                   "spawn": {
