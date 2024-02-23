@@ -308,10 +308,10 @@ class ActorStatus {
         this.statusMap[ENUMS.ActorStatus.DEAD] = false;
         this.statusMap[ENUMS.ActorStatus.NAVIGATION_STATE] = ENUMS.NavigationState.WORLD;
         this.statusMap[ENUMS.ActorStatus.STRONGHOLD_ID] = ""
-        this.statusMap[ENUMS.ActorStatus.CAMERA_FOLLOW_SPEED] = 25;
-        this.statusMap[ENUMS.ActorStatus.CAMERA_LOOK_SPEED] = 25;
+        this.statusMap[ENUMS.ActorStatus.CAMERA_FOLLOW_SPEED] = 20;
+        this.statusMap[ENUMS.ActorStatus.CAMERA_LOOK_SPEED] = 20;
         this.statusMap[ENUMS.ActorStatus.CAMERA_ZOOM] = 15;
-        this.statusMap[ENUMS.ActorStatus.CONTROL_TWITCHINESS] = 6;
+        this.statusMap[ENUMS.ActorStatus.CONTROL_TWITCHINESS] = 4;
         let updateTO = null;
 
         this.request = {request:ENUMS.ClientRequests.APPLY_ACTOR_STATUS, status:this.sendStatus}

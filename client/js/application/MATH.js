@@ -27,6 +27,7 @@ let setTri = function(tri, x, y, z) {
 	tri.z = z
 };
 
+let origin = new Vector3(0, 0, 0);
 let points = [];
 let mag;
 let calcVec = null;
@@ -98,7 +99,7 @@ MATH.TWO_PI = 2.0 * Math.PI;
 MATH.HALF_PI = 0.5 * Math.PI;
 MATH.G = -9.81;
 MATH.sign = Math.sign;
-
+MATH.origin = origin;
 
 MATH.getNowMS = function() {
 	return performance.now();

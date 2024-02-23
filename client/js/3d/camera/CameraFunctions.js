@@ -1,6 +1,7 @@
 import {Vector3} from "../../../libs/three/math/Vector3.js";
 import * as CursorUtils from "./CursorUtils.js";
 import { rayTest} from "../../application/utils/PhysicsUtils.js";
+import {Object3D} from "../../../libs/three/core/Object3D.js";
 
 let CAM_MODES = {
     CAM_AUTO:CAM_AUTO,
@@ -21,6 +22,9 @@ let CAM_POINTS = {
     CAM_SEQUENCER:CAM_SEQUENCER
 }
 
+let orbitObj = new Object3D();
+let camObj = new Object3D();
+camObj.position.y = 1.5;
 let lerpFactor = 0.1;
 let obscureTestVec3 = new Vector3();
 let tempVec = new Vector3();
@@ -185,7 +189,7 @@ function applyPointerMove() {
 }
 
 function applyPointerRelease() {
-
+    orbitObj.quaternion.set(0, 0, 0, 1);
     let walkGrid = selectedActor.getGameWalkGrid();
     if (walkGrid.getActivePathTiles().length < 2) {
         selectedActor.actorText.say("Path too short")
@@ -344,9 +348,9 @@ let calcShouldCamPosition = function(actor, distance, storeVec) {
 }
 
 let calcPositionAhead = function(actor, distance, storeVec) {
-    storeVec.set(0, 0, 1);
-    storeVec.normalize();
-    storeVec.multiplyScalar(distance);
+  //  storeVec.set(0, 0, 1);
+  //  storeVec.normalize();
+    storeVec.set(0, 0, distance);
     storeVec.applyQuaternion(actor.getSpatialQuaternion())
     storeVec.add(actor.getSpatialPosition())
     storeVec.y += actor.getStatus(ENUMS.ActorStatus.HEIGHT)*0.5
@@ -752,6 +756,34 @@ function CAM_MOVE() {
     let distance = 0;
 
     if (pointerAction) {
+    //    selectedActor.actorText.say(MATH.decimalify(pointerDragVector.x, 10) +' '+ MATH.decimalify(pointerDragVector.z, 10))
+        orbitObj.quaternion.set(0, 0, 0, 1);
+
+        orbitObj.rotateY(pointerDragVector.x*0.005)
+        camObj.quaternion.multiply(orbitObj.quaternion);
+        tempVec.set(0, 0, -1);
+        tempVec.applyQuaternion(camObj.quaternion);
+
+        let elevate = pointerDragVector.z
+
+    //    selectedActor.actorText.say(pitch+' '+MATH.decimalify(elevate, 10)+'  '+MATH.decimalify(pointerDragVector.z, 10))
+    //    orbitObj.rotateX(elevate*0.01)
+    //    orbitObj.lookAt(MATH.origin)
+
+        camObj.position.y = MATH.clamp(camObj.position.y + elevate * 0.003, -0.2, 3);
+     //   camObj.lookAt(MATH.origin);
+
+       /*
+            notifyCameraStatus(ENUMS.CameraStatus.POINTER_ACTION, ENUMS.CameraControls.CAM_TRANSLATE, true)
+            distance += CursorUtils.processOrbitCursorInput(cursorObj3d, dragToVec3, offsetPos, cameraCursor.getForward(), pointerDragVector, zoomDistance)
+            camPosVec.copy(cursorObj3d.position);
+            camPosVec.add(offsetPos);
+            //    CursorUtils.drawInputCursorState(cursorObj3d, dragToVec3, camTargetPos, cameraCursor.getForward(), camLookAtVec)
+            tempVec.copy(cursorObj3d.position)
+            lerpCameraLookAt(tempVec, tpf*2)
+            camLookAtVec.y+=0.9;
+        */
+
         applyPointerMove();
     } else if (pointerActive) {
         applyPointerRelease()
@@ -759,6 +791,7 @@ function CAM_MOVE() {
 
     if (isTileSelecting) {
         distance = tileSelector.extendedDistance;
+        selectedActor.actorText.say('tile select')
     } else {
         selectedActor.getDestination(tempVec3);
 
@@ -766,14 +799,32 @@ function CAM_MOVE() {
     }
 
     if (lookAtActive) {
-        zoomDistance = 0.1*zoom + distance*0.6;
+        zoomDistance = 0.1 + MATH.curveQuad(distance*0.2);
         lerpCameraLookAt(CAM_POINTS[lookAtControlKey](targetActor), tpf*2);
     }
 
     if (lookFromActive) {
         zoomDistance = 0.5*zoom + distance*0.4;
         let testObscured = true;
+
+
+        tempVec.set(0, 0, 1);
+        tempVec.applyQuaternion(orbitObj.quaternion);
+        tempVec.add(selectedActor.getSpatialPosition())
+        evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:selectedActor.getSpatialPosition(), to:tempVec, color:'YELLOW'});
+        tempVec.set(0, 0, 1);
+        tempVec.applyQuaternion(camObj.quaternion);
+        tempVec.add(selectedActor.getSpatialPosition())
+        evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:selectedActor.getSpatialPosition(), to:tempVec, color:'CYAN'});
+        tempVec2.addVectors(tempVec, camObj.position)
+        evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:tempVec, to:tempVec2, color:'CYAN'});
+        tempVec2.sub(selectedActor.getSpatialPosition());
+        tempVec2.multiplyScalar(zoomDistance);
+        tempVec2.add(selectedActor.getSpatialPosition())
+        evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:selectedActor.getSpatialPosition(), to:tempVec2, color:'GREEN'});
+        camPosVec.lerp(tempVec2, tpf * camFollowSpeed);
         lerpCameraPosition(CAM_POINTS[lookFromControlKey](selectedActor), tpf*2, testObscured );
+
     }
 
 

@@ -290,7 +290,7 @@ class ActorMovement {
 
         tempVec2.set(turn, 0, forward);
         let inputAmount = tempVec2.length();
-        forward = inputAmount;
+        forward = Math.min(inputAmount, 1);
         if (inputAmount === 0) return;
 
         if (this.visualArc === null) {
