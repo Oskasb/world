@@ -86,7 +86,7 @@
                     {"interaction": "STEAL", "text": "Stealthily Pillage the place"}
                   ],
                   "interact_options": [
-                    {"interaction": "USE",   "text": "Enter"},
+                    {"interaction": "ENTER", "text": "Enter"},
                     {"interaction": "TALK",  "text": "Hey! Anyone in there?"},
                     {"interaction": "LEAVE", "text": "Not this time."}
                   ],

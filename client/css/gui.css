@@ -131,7 +131,7 @@ div.settings_panel {
 }
 
 div.interact_panel {
-    font-size: 1.6em;
+    font-size: 1.9em;
     top: 1em;
     left: 1em;
     right: 1em;
@@ -259,12 +259,17 @@ div.ITEM {
 }
 
 div.USE {
-    color: #e8ff53;
+    color: #c5ff50;
     background-image: url("/client/assets/images/textures/gui/icons/icon_use.png");
 }
 
+div.ENTER {
+    color: #f8bc47;
+    background-image: url("/client/assets/images/textures/gui/icons/icon_enter.png");
+}
+
 div.FIGHT {
-    color: #ff7a54;
+    color: #ff5f30;
     background-image: url("/client/assets/images/textures/gui/icons/icon_fight.png");
 }
 

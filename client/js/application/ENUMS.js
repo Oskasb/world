@@ -329,6 +329,7 @@ ENUMS.NavigationState = {
 
     ENUMS.Interactions = {
         USE:'USE',
+        ENTER:'ENTER',
         FIGHT:'FIGHT',
         LEAVE:'LEAVE',
         TALK:'TALK',
