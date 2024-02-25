@@ -230,6 +230,10 @@ class GameAPI {
 
     }
 
+    getPlayer() {
+        return this.gameMain.playerMain;
+    }
+
     getItemById(itemId) {
         let items = gamePieceSystem.getItems();
 

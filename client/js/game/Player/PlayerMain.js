@@ -2,6 +2,7 @@ import { PlayerStash } from "./PlayerStash.js";
 import { PartyLeaderSystem } from "../../application/ui/gui/systems/PartyLeaderSystem.js";
 import { TargetIndicator } from "../../application/ui/gui/game/TargetIndicator.js";
 import { Vector3 } from "../../../libs/three/math/Vector3.js";
+import {Status} from "../../../../Server/game/status/Status.js";
 
 let tempVec3 = new Vector3()
 
@@ -11,8 +12,14 @@ let cheatInventory = [
     "BOOTS_SCALE", "GLOVES_SCALE", "SWORD_FANCY"
 ]
 
+
+let statusMap = {
+    PLAYER_ZOOM:2
+}
+
 class PlayerMain {
     constructor() {
+        this.status = new Status(statusMap);
         this.heroPageActive = false;
         this.tempVec = new THREE.Vector3();
         this.playerStash = new PlayerStash();
@@ -219,6 +226,14 @@ class PlayerMain {
 
     }
 
+
+    setStatusKey(key, status) {
+        this.status.setStatusKey(key, status);
+    }
+
+    getStatus(key) {
+        return this.status.getStatus(key);
+    }
 
     setPlayerCharacter(character, oldMain) {
         if (oldMain) {

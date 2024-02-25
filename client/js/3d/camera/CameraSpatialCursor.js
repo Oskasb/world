@@ -100,7 +100,10 @@ let updateActorTurnMovement = function() {
     camPosVec.lerp(camHomePos, lerpFactor*2)
 }
 
-
+let activePointers = 0;
+let pointerTwo = null;
+let pointerOne = null;
+let startAtZoom = 0;
 
 class CameraSpatialCursor {
     constructor() {
@@ -128,13 +131,33 @@ class CameraSpatialCursor {
             pointerActive = true;
 
             if (isFirstPressFrame) {
-        //        console.log("isFirstPressFrame", isFirstPressFrame)
+
+                activePointers++;
+                if (activePointers === 1) {
+                    pointerOne = pointer;
+                    pointerTwo = null;
+                }
+
+                if (activePointers === 2) {
+                    pointerTwo = pointer;
+                    startAtZoom = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_ZOOM)
+                    console.log("Pointer Two:", pointer)
+                }
+                console.log("isFirstPressFrame", pointerOne, pointerTwo)
                 notifyCameraStatus(ENUMS.CameraStatus.POINTER_ACTION, null, true)
                 camPosVec.copy(ThreeAPI.getCamera().position);
                 dragToVec3.copy( cursorObj3d.position)
             }
 
             if (released) {
+                if (pointer === pointerTwo) {
+                    pointerTwo = null;
+                }
+                if (pointer === pointerOne) {
+                    pointerOne = null;
+                    pointerTwo = null;
+                }
+                activePointers--
                 notifyCameraStatus(ENUMS.CameraStatus.POINTER_ACTION, null, false)
             }
 
@@ -146,6 +169,15 @@ class CameraSpatialCursor {
             dragToVec3.copy(pointerDragVector)
             dragToVec3.applyQuaternion(cursorObj3d.quaternion);
             dragToVec3.add(cursorObj3d.position)
+
+            if (pointerOne !== null && pointerTwo !== null) {
+                calcVec.copy(cursorObj3d.position)
+                let zoomChange = (pointerTwo.dragDistance[0] - pointerOne.dragDistance[0])*0.005;
+                let newZoom = startAtZoom-zoomChange
+                calcVec.y += newZoom;
+                GameAPI.getPlayer().setStatusKey(ENUMS.PlayerStatus.PLAYER_ZOOM, MATH.clamp(newZoom, 0.5, 2));
+                evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:cursorObj3d.position, to:calcVec, color:'CYAN'});
+            }
 
             if (camParams.mode === camModes.gameVehicle) {
                 let selectedActor = GameAPI.getGamePieceSystem().getSelectedGameActor();

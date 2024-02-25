@@ -747,7 +747,7 @@ function CAM_MOVE() {
 
     let targetActor = GameAPI.getActorById(selectedActor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET))
 
-    let zoom = selectedActor.getStatus(ENUMS.ActorStatus.CAMERA_ZOOM)
+    let zoom = selectedActor.getStatus(ENUMS.ActorStatus.CAMERA_ZOOM) * GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_ZOOM);
 
     if (!targetActor) {
         targetActor = selectedActor;
@@ -759,9 +759,9 @@ function CAM_MOVE() {
     //    selectedActor.actorText.say(MATH.decimalify(pointerDragVector.x, 10) +' '+ MATH.decimalify(pointerDragVector.z, 10))
         orbitObj.quaternion.set(0, 0, 0, 1);
 
-        orbitObj.rotateY(pointerDragVector.x*0.005)
+        orbitObj.rotateY(-pointerDragVector.x*0.005)
         camObj.quaternion.multiply(orbitObj.quaternion);
-        tempVec.set(0, 0, -1);
+        tempVec.set(0, 0, 1);
         tempVec.applyQuaternion(camObj.quaternion);
 
         let elevate = pointerDragVector.z
@@ -800,7 +800,9 @@ function CAM_MOVE() {
 
     if (lookAtActive) {
         zoomDistance = 0.1 + MATH.curveQuad(distance*0.2);
-        lerpCameraLookAt(CAM_POINTS[lookAtControlKey](targetActor), tpf*2);
+        let lookAt = CAM_POINTS[lookAtControlKey](targetActor);
+        lookAt.y += camObj.position.y
+        lerpCameraLookAt(lookAt, tpf*2);
     }
 
     if (lookFromActive) {

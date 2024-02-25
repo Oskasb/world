@@ -145,7 +145,8 @@ let ENUMS = {}
     ENUMS.PlayerStatus = {
         PLAYER_ID:'PLAYER_ID',
         CLIENT_STAMP:'CLIENT_STAMP',
-        STRONGHOLD_ID:'STRONGHOLD_ID'
+        STRONGHOLD_ID:'STRONGHOLD_ID',
+        PLAYER_ZOOM:'PLAYER_ZOOM'
     };
 
     ENUMS.StrongholdStatus = {

@@ -186,12 +186,15 @@
     }
 
 
-    let bodyTouch = function(e) {
-        console.log("bodyTouch", e);
-        document.body.requestFullscreen()
+    if (window.isMobile) {
+        let bodyTouch = function(e) {
+            console.log("bodyTouch", e);
+            document.body.requestFullscreen()
+        }
+
+        document.body.addEventListener('touchend', bodyTouch)
     }
 
-    document.body.addEventListener('touchend', bodyTouch)
     //document.body.addEventListener('touchstart', bodyTouch)
 
     </script>
