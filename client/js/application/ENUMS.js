@@ -96,7 +96,9 @@ let ENUMS = {}
         DEBUG_STATUS_TOGGLE:        78,
         ENCOUNTER_COMPLETED:        79,
         CLEAR_UI:                   80,
-        SET_ACTOR_STATUS:           81
+        SET_ACTOR_STATUS:           81,
+        ENTER_UNDERWORLD:           82
+
     };
 
     ENUMS.Protocol = {
@@ -279,7 +281,8 @@ let ENUMS = {}
         CAMERA_FOLLOW_SPEED:'CAMERA_FOLLOW_SPEED',
         CAMERA_LOOK_SPEED:'CAMERA_LOOK_SPEED',
         CAMERA_ZOOM:'CAMERA_ZOOM',
-        CONTROL_TWITCHINESS:'CONTROL_TWITCHINESS'
+        CONTROL_TWITCHINESS:'CONTROL_TWITCHINESS',
+        WORLD_LEVEL:'WORLD_LEVEL'
     };
 
 ENUMS.CombatStatus = {

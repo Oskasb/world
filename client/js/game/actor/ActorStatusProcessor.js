@@ -409,6 +409,19 @@ function processActorUiNavigationState(actor) {
 
 }
 
+let lastWorldLevel = 20;
+function processWorldTransition(actor) {
+    let worldLevel = actor.getStatus(ENUMS.ActorStatus.WORLD_LEVEL)
+    if (worldLevel !== lastWorldLevel) {
+        let fromLevel = lastWorldLevel;
+        actor.actorText.say("Enter world level "+worldLevel)
+        lastWorldLevel = worldLevel;
+        GameAPI.leaveActiveGameWorld();
+        GameAPI.activateWorldLevel(worldLevel);
+    }
+
+}
+
 class ActorStatusProcessor {
     constructor() {
         this.indicators = {};
@@ -494,6 +507,7 @@ class ActorStatusProcessor {
             updateRigidBodyContact(actor);
             updateViewPhysicalObstruction(actor);
             processActorEncounterExit(actor);
+            processWorldTransition(actor)
         }
         processAnimationState(actor);
         this.indicateSelectionStatus(actor);

@@ -18,14 +18,19 @@ let heightIntersects = [];
 
 let encounterConfigs = null;
 
-let initWorldModels = function(config) {
 
-  //  console.log("World Models; ", config);
-
+function removeWorldModels() {
     while (worldModels.length) {
         let model = worldModels.pop()
         model.call.removeWorldModel(model)
     }
+}
+
+let initWorldModels = function(config) {
+
+  //  console.log("World Models; ", config);
+
+    removeWorldModels()
 
     let modelsData = function(models) {
         for (let i = 0; i < models.length;i++) {
@@ -154,8 +159,6 @@ class WorldModels {
         deactivateWorldEncounters()
     }
 
-
-
     activateEncounters() {
         activateWorldEncounters(activateEvent)
     }
@@ -220,6 +223,11 @@ class WorldModels {
 
         return boxHeight;
 
+    }
+
+    removeActiveWorldModels() {
+        removeWorldModels();
+        deactivateWorldEncounters();
     }
 
 }

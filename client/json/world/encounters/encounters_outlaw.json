@@ -86,20 +86,10 @@
                     {"interaction": "STEAL", "text": "Stealthily Pillage the place"}
                   ],
                   "interact_options": [
-                    {"interaction": "ENTER", "text": "Enter"},
+                    {"interaction": "ENTER", "text": "Enter", "dispatch": {"event":"ENTER_UNDERWORLD", "value":{"world_level": 10}}},
                     {"interaction": "TALK",  "text": "Hey! Anyone in there?"},
                     {"interaction": "LEAVE", "text": "Not this time."}
-                  ],
-                  "spawn": {
-                    "actors": [
-                      {
-                        "actor": "ACTOR_FIGHTER",
-                        "rot": [0, 1.2, 0],
-                        "on_ground": true,
-                        "tile": [3, 3]
-                      }
-                    ]
-                  }
+                  ]
                 },
                 {
                   "pos": [-731, 2, 799],
