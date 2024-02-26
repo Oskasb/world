@@ -204,12 +204,11 @@ function makeGradientString(angle, edgeRgba, centerRgba) {
     let edgeAnglePos = angle;
     let edgeAngleNeg = (360-angle)
 
-    let edge = 3;
-    let fade = 1;
-
+    let edge = 0.2;
+    let fade = 3;
 
     let grad = "conic-gradient("+centerRgba+" "+(edgeAnglePos-fade)+"deg, "+edgeRgba+" "+edgeAnglePos+"deg, rgba(0, 0, 0, 0) "+(edgeAnglePos+edge)+"deg, rgba(0, 0, 0, 0) "+(edgeAngleNeg-edge)+"deg,"+edgeRgba+" "+edgeAngleNeg+"deg, "+centerRgba+" "+(edgeAngleNeg+fade)+"deg)";
-    console.log(grad)
+ //   console.log(grad)
      return grad
 
 }
@@ -263,7 +262,7 @@ function indicateCameraFrustum(htmlElement, minimapDiv, statusMap, centerPos) {
 
     if (lastAspect !== GuiAPI.aspect) {
         lastAspect = GuiAPI.aspect;
-        cameraIndicator.style.backgroundImage = makeGradientString(MATH.curveSqrt( lastAspect*0.4)*45, "rgba(127, 255, 255, 0.8)", "rgba(127, 255, 255, 0.2)")
+        cameraIndicator.style.backgroundImage = makeGradientString(MATH.curveSqrt( lastAspect*0.4)*45, "rgba(127, 255, 255, 0.8)", "rgba(127, 255, 255, 0.15)")
     }
 
     let scale = zoom / 30
