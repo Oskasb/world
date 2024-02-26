@@ -61,6 +61,10 @@ let isTileSelecting = false;
 let camFollowSpeed = 10;
 let camLookSpeed = 10;
 let camZoom = 10;
+let startDragX = 0;
+    let startDragY = 0;
+let dragDeltaX = 0;
+let dragDeltaY = 0;
 
 function updateCamParams(camParams) {
     tpf = camParams.tpf;
@@ -79,6 +83,18 @@ function updateCamParams(camParams) {
 
     isFirstPressFrame = cameraCursor.isFirstPressFrame;
     pointerReleased= cameraCursor.pointerReleased;
+
+    if (isFirstPressFrame) {
+        startDragX = pointerDragVector.x;
+        startDragY = pointerDragVector.z;
+        dragDeltaX = 0;
+        dragDeltaY = 0;
+    } else {
+        dragDeltaX = pointerDragVector.x -startDragX;
+        dragDeltaY = pointerDragVector.z -startDragY;
+        startDragX = pointerDragVector.x;
+        startDragY = pointerDragVector.z;
+    }
 
     if (selectedActor) {
         let walkGrid = selectedActor.getGameWalkGrid();
@@ -357,7 +373,7 @@ let calcPositionAhead = function(actor, distance, storeVec) {
 }
 
 let calcPartyCenter = function(actor, distance, storeVec) {
-    storeVec.set(side * 0.08, 0.5, -0.75);
+    storeVec.set(side * 0.08, 0.4, -0.75);
     storeVec.normalize();
     storeVec.multiplyScalar(distance);
     storeVec.applyQuaternion(actor.getSpatialQuaternion())
@@ -759,18 +775,18 @@ function CAM_MOVE() {
     //    selectedActor.actorText.say(MATH.decimalify(pointerDragVector.x, 10) +' '+ MATH.decimalify(pointerDragVector.z, 10))
         orbitObj.quaternion.set(0, 0, 0, 1);
 
-        orbitObj.rotateY(-pointerDragVector.x*0.005)
+        orbitObj.rotateY(dragDeltaX*0.05);
         camObj.quaternion.multiply(orbitObj.quaternion);
-        tempVec.set(0, 0, 1);
+        tempVec.set(0, 0, -1);
         tempVec.applyQuaternion(camObj.quaternion);
 
-        let elevate = pointerDragVector.z
+        let elevate = dragDeltaY
 
     //    selectedActor.actorText.say(pitch+' '+MATH.decimalify(elevate, 10)+'  '+MATH.decimalify(pointerDragVector.z, 10))
     //    orbitObj.rotateX(elevate*0.01)
     //    orbitObj.lookAt(MATH.origin)
 
-        camObj.position.y = MATH.clamp(camObj.position.y + elevate * 0.003, -0.2, 3);
+        camObj.position.y = MATH.clamp(camObj.position.y + elevate * 0.05, -0.1, 2);
      //   camObj.lookAt(MATH.origin);
 
        /*
@@ -801,7 +817,7 @@ function CAM_MOVE() {
     if (lookAtActive) {
         zoomDistance = 0.1 + MATH.curveQuad(distance*0.2);
         let lookAt = CAM_POINTS[lookAtControlKey](targetActor);
-        lookAt.y += camObj.position.y
+        lookAt.y += camObj.position.y*0.4
         lerpCameraLookAt(lookAt, tpf*2);
     }
 

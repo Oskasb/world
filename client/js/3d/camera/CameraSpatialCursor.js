@@ -104,6 +104,7 @@ let activePointers = 0;
 let pointerTwo = null;
 let pointerOne = null;
 let startAtZoom = 0;
+let startAtDistance = 0;
 
 class CameraSpatialCursor {
     constructor() {
@@ -141,6 +142,13 @@ class CameraSpatialCursor {
                 if (activePointers === 2) {
                     pointerTwo = pointer;
                     startAtZoom = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_ZOOM)
+                    if (!pointerOne) {
+                        console.log("Lost pointerOne")
+                        pointerTwo = null;
+                    } else {
+                        startAtDistance = MATH.distanceBetween(pointerOne.pos, pointerTwo.pos);
+                    }
+
                     console.log("Pointer Two:", pointer)
                 }
                 console.log("isFirstPressFrame", pointerOne, pointerTwo)
@@ -172,10 +180,12 @@ class CameraSpatialCursor {
 
             if (pointerOne !== null && pointerTwo !== null) {
                 calcVec.copy(cursorObj3d.position)
-                let zoomChange = (pointerTwo.dragDistance[0] - pointerOne.dragDistance[0])*0.005;
-                let newZoom = startAtZoom-zoomChange
+            //    let zoomChange = (pointerTwo.dragDistance[0] - pointerOne.dragDistance[0])*0.005;
+                let distance = MATH.distanceBetween(pointerOne.pos, pointerTwo.pos);
+                let dtDist = distance - startAtDistance
+                let newZoom = startAtZoom+dtDist
                 calcVec.y += newZoom;
-                GameAPI.getPlayer().setStatusKey(ENUMS.PlayerStatus.PLAYER_ZOOM, MATH.clamp(newZoom, 0.5, 2));
+                GameAPI.getPlayer().setStatusKey(ENUMS.PlayerStatus.PLAYER_ZOOM, MATH.clamp(newZoom, 0.25, 4));
                 evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:cursorObj3d.position, to:calcVec, color:'CYAN'});
             }
 

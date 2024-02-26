@@ -14,7 +14,7 @@ let cheatInventory = [
 
 
 let statusMap = {
-    PLAYER_ZOOM:2
+    PLAYER_ZOOM:1
 }
 
 class PlayerMain {
