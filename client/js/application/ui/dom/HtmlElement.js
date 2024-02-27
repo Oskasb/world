@@ -88,6 +88,18 @@ class HtmlElement {
         this.iframe = null;
 
         let onLoad = function() {
+            this.container.style.opacity = 0;
+            //    container.style.rotate = "360deg";
+            this.container.style.transform = "rotate3d(1, 0, 0, 1.0rad) translate3d(0, 400em, 0)";
+
+            let container = this.container;
+
+            setTimeout(function() {
+                container.style.transition = "all 1s ease-in-out"
+                container.style.opacity = 1;
+                container.style.transform = "rotate3d(0, 0, 0, 1.0rad) translate3d(0, 0, 0)";
+            }, 1)
+
             let iframeDocument = this.container.contentDocument || this.container.contentWindow.document;
             this.call.setIframe(iframeDocument);
             let closeAnchor = iframeDocument.getElementById('anchor_close');
@@ -160,7 +172,15 @@ class HtmlElement {
 
     closeHtmlElement() {
         if (this.container !== null) {
-            DomUtils.removeElement(this.container);
+            let container = this.container
+
+            setTimeout(function() {
+                DomUtils.removeElement(container);
+            }, 1000)
+        //    container.style.scale = 0;
+            container.style.opacity = 0;
+        //    container.style.rotate = "360deg";
+            container.style.transform = "rotate3d(1, 0, 0, 1.0rad) translate3d(0, 400em, 0)";
         }
         this.container = null;
         this.statusMap = null;

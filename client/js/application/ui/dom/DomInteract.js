@@ -44,6 +44,7 @@ class DomInteract {
                         value.worldEncounter = worldEncounter;
                     }
                     evt.dispatch(ENUMS.Event[eventId], value);
+                    close();
                 } else {
                     selectedActor.actorText.say('No bound event '+option['interaction'])
 
