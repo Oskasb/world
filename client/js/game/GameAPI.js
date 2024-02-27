@@ -240,6 +240,7 @@ class GameAPI {
             dst.y = ThreeAPI.terrainAt(dst);
             selectedActor.setSpatialPosition(dst);
 
+            terrainSys.rebuildGround();
         }
 // check ThreeAPI.buildAsset not working here
         client.dynamicMain.requestAssetInstance(assetId, onLoad)
