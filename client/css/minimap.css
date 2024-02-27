@@ -147,16 +147,25 @@ div.minimap {
     bottom: 1em;
     left: 1em;
     position: absolute;
+    mask-image: radial-gradient(rgba(255, 255, 255, 1) 35%, rgba(255, 255, 255, 0.7) 60%, rgba(255, 255, 255, 0.3) 67%, rgba(255, 255, 255, 1) 68%);
     background-image: url("/client/assets/images/textures/minimap.png");
     background-repeat: no-repeat;
     background-color: #424762;
     border-radius: 50%;
     border: #d9d9d9;
     border-style: solid;
-    border-width: 0.3em;
+    border-width: 0.25em;
     box-shadow: 0 0 1em rgba(5, 0, 0, 0.5);
     transition: border-radius 2s;
     overflow: hidden;
+}
+
+div.level_20 {
+    background-image: url("/client/assets/images/textures/minimap.png");
+}
+
+div.level_10 {
+    background-image: url("/client/assets/images/textures/terrainmap_w01_10.png");
 }
 
 div.indicator_10m {

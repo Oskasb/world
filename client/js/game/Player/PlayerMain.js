@@ -187,6 +187,11 @@ class PlayerMain {
             console.log("Enter Underworld", e)
             let actor = GameAPI.getGamePieceSystem().selectedActor;
             actor.setStatusKey(ENUMS.ActorStatus.WORLD_LEVEL, e.world_level);
+
+            if (e.worldEncounter) {
+                e.worldEncounter.hideWorldEncounter()
+            }
+
             if (e.pos) {
                 actor.setDestination(e.pos);
             }

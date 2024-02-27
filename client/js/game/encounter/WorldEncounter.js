@@ -484,6 +484,7 @@ class WorldEncounter {
             this.encounterIndicator.hideIndicator();
             GameAPI.unregisterGameUpdateCallback(this.call.onGameUpdate)
         }
+
         this.visualEncounterHost.hideEncounterHost();
         this.isVisible = false;
     }

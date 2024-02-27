@@ -11,6 +11,10 @@ let actorIndicators = [];
 let itemIndocators = [];
 let gridTileIndicators = [];
 let preCombatZoom = 0;
+
+let defaultWorldLevel = "20";
+let activeWorldLevel = null;
+
 function calcMapBackgroundOffset(zoom, axisCenter, worldSize) {
     let zoomOffset = 1 + (1 / zoom);
     return MATH.percentify(zoomOffset*MATH.decimalify(axisCenter, 5)+worldSize*0.5, worldSize, true);
@@ -188,6 +192,9 @@ function indicateActors(htmlElement, minimapDiv, statusMap, centerPos, inCombat)
                     indicator.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
                     indicator.style.boxShadow = "0 0 2px rgba(5, 0, 0, 0.75)";
                 }
+
+
+
             }
 
         }
@@ -326,6 +333,7 @@ class DomMinimap {
             htmlElement.closeHtmlElement()
             htmlElement.initHtmlElement('minimap', null, statusMap, 'minimap', readyCb);
             setTimeout(function() {
+                activeWorldLevel = null;
                 if (cameraIndicator !== null) {
                     DomUtils.removeDivElement(cameraIndicator)
                     cameraIndicator = null;
@@ -350,7 +358,9 @@ class DomMinimap {
             let minimapDiv = htmlElement.call.getChildElement('minimap');
             if (minimapDiv) {
 
+                let worldLevel = activeWorldLevel;
                 let selectedActor = GameAPI.getGamePieceSystem().selectedActor;
+
 
                 if (selectedActor) {
 
@@ -382,9 +392,20 @@ class DomMinimap {
                     } else {
                         centerPos = selectedActor.getSpatialPosition()
                     }
-                } else {
-                    centerPos = ThreeAPI.getCameraCursor().getPos()
 
+                    worldLevel = selectedActor.getStatus(ENUMS.ActorStatus.WORLD_LEVEL);
+
+                } else {
+                    worldLevel = defaultWorldLevel;
+                    centerPos = ThreeAPI.getCameraCursor().getPos()
+                }
+
+                if (worldLevel !== activeWorldLevel) {
+                    if (activeWorldLevel !== null) {
+                        DomUtils.removeElementClass(minimapDiv, 'level_'+activeWorldLevel)
+                    }
+                    DomUtils.addElementClass(minimapDiv, 'level_'+worldLevel)
+                    activeWorldLevel = worldLevel;
                 }
 
                 updateMinimapCenter(htmlElement, minimapDiv, statusMap, centerPos, inCombat);

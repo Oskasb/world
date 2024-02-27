@@ -105,7 +105,7 @@ class VegetationLodGrid {
         }
 
         this.dynamicLodGrid.deactivateLodGrid();
-        poolReturn(this.dynamicLodGrid);
+    //    poolReturn(this.dynamicLodGrid);
     }
 
 }

@@ -41,6 +41,7 @@ class DomInteract {
                     let value = option.dispatch.value;
                     if (!value.pos) {
                         value.pos = hostActor.getSpatialPosition();
+                        value.worldEncounter = worldEncounter;
                     }
                     evt.dispatch(ENUMS.Event[eventId], value);
                 } else {

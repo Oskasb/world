@@ -316,12 +316,15 @@ let oceanModel = function(model) {
 function setHeightDataImage(imgData) {
     let width = imgData.width;
     let height = imgData.height;
+   // heightmapContext.
+    heightmapContext.globalCompositeOperation = "source-over"
     heightmapContext.drawImage(imgData, 0, 0, width, height);
 }
 
 function setTerrainDataImage(imgData) {
     let width = imgData.width;
     let height = imgData.height;
+    terrainContext.globalCompositeOperation = "source-over"
     terrainContext.drawImage(imgData, 0, 0, width, height);
 }
 
@@ -363,7 +366,7 @@ class TerrainBigGeometry {
 
     getGroundData() {
         if (groundUpdate) {
-            //    terrainmap = terrainContext.getImageData(0, 0, terrainWidth, terrainHeight).data;
+            terrainmap = terrainContext.getImageData(0, 0, terrainWidth, terrainHeight).data;
             groundUpdate = false;
         }
         return terrainmap;

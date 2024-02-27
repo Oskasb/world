@@ -209,6 +209,7 @@ class GameAPI {
     }
 
     leaveActiveGameWorld() {
+     //   gameEncounterSystem.
         this.worldModels.removeActiveWorldModels();
         let terrainSys = ThreeAPI.getTerrainSystem();
         let terrain = terrainSys.getTerrain();
@@ -239,6 +240,7 @@ class GameAPI {
             dst.y = ThreeAPI.terrainAt(dst);
             selectedActor.setSpatialPosition(dst);
 
+            terrainSys.rebuildGround();
         }
 // check ThreeAPI.buildAsset not working here
         client.dynamicMain.requestAssetInstance(assetId, onLoad)
