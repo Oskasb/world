@@ -318,7 +318,6 @@ class TerrainBigGeometry {
         this.call = {
             updateBigGeo:updateBigGeo
         }
-
     }
 
     getVisibleCount() {
@@ -350,6 +349,11 @@ class TerrainBigGeometry {
         terrainMaterial.needsUpdate = true;
         groundUpdate = true;
     }
+
+    getTerrainMaterial() {
+        return terrainMaterial;
+    }
+
 
     updateHeightmapCanvasTexture() {
         //    if (MATH.isEvenNumber(GameAPI.getFrame().frame * 0.25)) {

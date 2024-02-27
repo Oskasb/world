@@ -212,6 +212,14 @@ class TerrainGeometry{
                 MATH.callAll(this.lodUpdateCallbaks, this.levelOfDetail);
     }
 
+    clearTerrainGeometry() {
+        this.levelOfDetail = -1;
+        this.terrainSectionInfo.deactivateTerrainSection();
+        this.terrainElementModels.dectivateTerrainElementodels();
+    //    MATH.emptyArray(this.lodUpdateCallbaks);
+
+    }
+
     getOrigin() {
         return this.obj3d.position;
     }

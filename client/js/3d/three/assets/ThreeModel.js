@@ -26,7 +26,7 @@ class ThreeModel {
         let _this = this;
 
         let materialLoaded = function(asset) {
-        //    console.log('materialLoaded', asset.mat);
+            console.log('materialLoaded', asset.mat);
             _this.material = asset;
 
             if (this.geometryInstancingSettings()) {
@@ -40,7 +40,7 @@ class ThreeModel {
         let settings = this.settings;
 
         let modelSettingsLoaded = function(asset) {
-        //       console.log('modelSettingsLoaded', asset, config);
+               console.log('modelSettingsLoaded', asset, config);
             for (let key in asset.settings) {
                 settings[key] = asset.settings[key];
             }
@@ -48,6 +48,7 @@ class ThreeModel {
         }.bind(this);
 
         let modelFilesLoaded = function(src, asset) {
+        //    console.log("modelFilesLoaded")
             ThreeAPI.loadThreeAsset('MODEL_SETTINGS_', config.settings, modelSettingsLoaded);
         }.bind(this);
 
@@ -92,6 +93,7 @@ class ThreeModel {
 
         var loadCheck = function() {
             if (rqs === rds) {
+        //        console.log("loadCheck OK", config)
                 callback()
             }
         };
@@ -103,6 +105,7 @@ class ThreeModel {
         }.bind(this);
 
         var fileLoaded = function(asset) {
+    //        console.log("fileLoaded", asset)
             rds++;
             this.model = asset;
             loadCheck()
@@ -146,6 +149,7 @@ class ThreeModel {
             ThreeAPI.loadThreeAsset('RIGS_', config['rig'], loadRig);
         }
 
+   //     console.log("loadThreeAsset", config.model)
         ThreeAPI.loadThreeAsset('FILES_GLB_', config.model, fileLoaded);
         rqs++;
         loadCheck();

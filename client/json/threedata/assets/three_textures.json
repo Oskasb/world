@@ -30,8 +30,11 @@
         {"id": "tx_heightmap_64"    ,  "config": {  "img" : "img_heightmap_64"        , "settings": "tx_settings_tiles_8x8"       }} ,
 
         {"id": "tx_terrainmap_world_01","config": { "img" : "img_terrainmap_world_01" , "settings": "tx_settings_tiles_32x32"     }} ,
-
         {"id": "tx_heightmap_world_01","config": {  "img" : "img_heightmap_world_01"  , "settings": "tx_settings_tiles_32x32"     }} ,
+
+        {"id": "tx_terrainmap_world_01_10","config": { "img" : "img_terrainmap_world_01_10" , "settings": "tx_settings_tiles_32x32"     }} ,
+        {"id": "tx_heightmap_world_01_10", "config": { "img" : "img_heightmap_world_01_10"  , "settings": "tx_settings_tiles_32x32"     }} ,
+
         {"id": "terrain_darkrock"   ,  "config": {  "img" : "img_terrain_darkrock"    , "settings": "tx_settings_terrain"         }} ,
         {"id": "terrain_striperock" ,  "config": {  "img" : "img_terrain_striperock"  , "settings": "tx_settings_terrain"         }} ,
         {"id": "terrain_mud"        ,  "config": {  "img" : "img_terrain_mud"         , "settings": "tx_settings_terrain"         }} ,

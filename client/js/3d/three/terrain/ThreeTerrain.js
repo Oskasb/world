@@ -36,96 +36,6 @@ let terrainBigGeometry = new TerrainBigGeometry();
 let tempVec1 = new Vector3();
 let tempVec2 = new Vector3()
 
-let transformModel = function(trf, model) {
-    model.position.x = trf.pos[0];
-    model.position.y = trf.pos[1];
-    model.position.z = trf.pos[2];
-    model.rotation.x = trf.rot[0]*Math.PI;
-    model.rotation.y = trf.rot[1]*Math.PI;
-    model.rotation.z = trf.rot[2]*Math.PI;
-    model.scale.x =    trf.scale[0];
-    model.scale.y =    trf.scale[1];
-    model.scale.z =    trf.scale[2];
-};
-
-let setMaterialRepeat = function(materialId, txMap, modelId) {
-
-    let materials = terrainList[modelId].materials;
-
-    for (let i = 0; i < materials.length; i++) {
-        if (materials[i].id === materialId) {
-            txMap.repeat.x = materials[i].repeat[0];
-            txMap.repeat.y = materials[i].repeat[1];
-        }
-    }
-};
-
-let getTerrainMaterial = function(terrainId) {
-    return terrainMaterial.getMaterialById(terrainId);
-};
-
-let createTerrain = function(callback, applies, array1d) {
-
-    let material = getTerrainMaterial(applies.three_terrain);
-
-    let opts = {
-        after: null,
-        easing: THREE.Terrain.EaseInOut,
-        heightmap: THREE.Terrain.DiamondSquare,
-        material: material,
-        maxHeight: applies.max_height,
-        minHeight: applies.min_height,
-        optimization: THREE.Terrain.NONE,
-        frequency: applies.frequency,
-        steps: applies.steps,
-        stretch: true,
-        turbulent: false,
-        useBufferGeometry: false,
-        xSegments: applies.terrain_segments,
-        xSize: applies.terrain_size,
-        ySegments: applies.terrain_segments,
-        ySize: applies.terrain_size
-    };
-
-    let terrain;
-
-    if (array1d) {
-        if (array1d.length === 5) {
-            opts.xSegments = 3;
-            opts.ySegments = 3;
-            terrain = new THREE.Terrain(opts);
-            let vertexBuffer = new THREE.BufferAttribute( array1d[0] ,3 );
-            terrain.children[0].geometry = new THREE.BufferGeometry();
-            terrain.children[0].geometry.addAttribute('position', vertexBuffer);
-            terrain.children[0].geometry.addAttribute('normal', new THREE.BufferAttribute( array1d[1] ,3 ));
-            terrain.children[0].geometry.addAttribute('color', new THREE.BufferAttribute( array1d[2] ,3 ));
-            terrain.children[0].geometry.addAttribute('uv', new THREE.BufferAttribute( array1d[3] ,2 ))
-            array1d = array1d[4];
-        } else {
-            terrain = new THREE.Terrain(opts);
-            THREE.Terrain.fromArray1D(terrain.children[0].geometry.vertices, array1d);
-            terrain.children[0].geometry.computeFaceNormals();
-            terrain.children[0].geometry.computeVertexNormals();
-            terrain.children[0].geometry = new THREE.BufferGeometry().fromGeometry( terrain.children[0].geometry );
-        }
-
-    } else {
-        terrain = new THREE.Terrain(opts);
-    }
-
-    terrain.children[0].needsUpdate = true;
-    terrain.children[0].position.x += applies.terrain_size*0.5;
-    terrain.children[0].position.y -= applies.terrain_size*0.5;
-
-    terrain.size = applies.terrain_size;
-    terrain.segments = applies.terrain_segments;
-    terrain.array1d = array1d;
-    terrain.height = applies.max_height - applies.min_height;
-    terrain.vegetation = applies.vegetation_system;
-
-    callback(terrain);
-};
-
 let checkPositionWithin = function(pos, terrainModel, parentObj) {
 
     if (!parentObj.parent) return;
@@ -167,7 +77,6 @@ let getThreeTerrainHeightAt = function(pos, normalStore, groundData) {
     }
 
     let params = terrainBigGeometry.getTerrainParams()
-
     return TerrainFunctions.getHeightAt(pos, terrainBigGeometry.getHeightmapData(), params.tx_width, params.tx_width - 1, normalStore, terrainScale, terrainOrigin, groundData);
 };
 
@@ -221,7 +130,6 @@ let constructGeometries = function(heightMapData, transform, groundConfig, secti
         }
     }
 
-
 };
 
 let getTerrainGeoAtPos = function(posVec3) {
@@ -259,25 +167,6 @@ let getTerrainGeosAtTile = function(tile, storeList) {
         }
     }
 }
-
-let color = {};
-let debugDrawNearby = function(index) {
-    calcVec.set(0.5 * Math.sin(GameAPI.getGameTime()), 0 , 0.5 * Math.cos(GameAPI.getGameTime()));
-    calcVec.multiplyScalar( 1.0 + index*0.4)
-    posVec.add(calcVec);
-    posVec.y = getHeightAndNormal(posVec, normVec);
-    normVec.add(posVec);
-    ThreeAPI.groundAt(posVec, color);
-    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:posVec, color:color, size:0.2});
-    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:posVec, to:normVec, color:'ORANGE'});
-}
-
-
-let lastFrameGridExtentsChecks = [-1, 0, 0, 0]; // xMin, yMin, xMax, yMax
-let frameGridExtentsChecks = [0, 0, 0, 0];
-
-
-
 
 let getHeightAndNormal = function(pos, normal, groundData) {
     return getThreeTerrainHeightAt(pos, normal, groundData)
@@ -408,9 +297,16 @@ function getTerrainBigGeo() {
     return terrainBigGeometry;
 }
 
+function clearTerrainGeometries() {
+    for (let i = 0; i < terrainGeometries.length; i++) {
+        for (let j = 0; j < terrainGeometries[i].length;j++) {
+            terrainGeometries[i][j].clearTerrainGeometry();
+        }
+    }
+}
+
 class ThreeTerrain {
     constructor() {
-
 
         this.call = {
             getTerrainBigGeo:getTerrainBigGeo,
@@ -421,7 +317,8 @@ class ThreeTerrain {
             shadeTerrainDataCanvas:shadeTerrainDataCanvas,
             subscribeToLodUpdate:subscribeToLodUpdate,
             removeLodUpdateCB:removeLodUpdateCB,
-            getTerrainScale:getTerrainScale
+            getTerrainScale:getTerrainScale,
+            clearTerrainGeometries:clearTerrainGeometries
         }
     }
 
@@ -541,23 +438,7 @@ class ThreeTerrain {
     updateThreeTerrainGeometry = function() {
 
         updateFrame = GameAPI.getFrame().frame;
-
-        let visibleCount = visibleGeoTiles.length;
-
-    //    scrubTerrainForError();
-
-        let terrainId = 'main_world'
-
-        let dimensions = terrainList[terrainId]["height_map"]["dimensions"]
-
-        let maxDistFromZero = dimensions['tx_width'] * 0.5 - 50;
-
-
         CursorUtils.processTerrainLodCenter(lodCenter, terrainCenter)
-
-     //   MATH.clampVectorXZ(lodCenter, -maxDistFromZero, maxDistFromZero, -maxDistFromZero, maxDistFromZero)
-      //  MATH.clampVectorXZ(terrainCenter, -maxDistFromZero, maxDistFromZero, -maxDistFromZero, maxDistFromZero)
-
         dynamicLodGrid.updateDynamicLodGrid(terrainCenter, tileUpdateCB, 0, 1);
 
         drawTilesByLodGrid(updateFrame)

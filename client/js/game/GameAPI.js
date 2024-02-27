@@ -210,10 +210,33 @@ class GameAPI {
 
     leaveActiveGameWorld() {
         this.worldModels.removeActiveWorldModels();
+        let terrainSys = ThreeAPI.getTerrainSystem();
+        let terrain = terrainSys.getTerrain();
+        terrain.call.clearTerrainGeometries();
     }
 
     activateWorldLevel(worldLevel) {
         console.log('activateWorldLevel', worldLevel)
+        let terrainSys = ThreeAPI.getTerrainSystem();
+        let worldLevelConfig = this.gameMain.getWorldLevelConfig(worldLevel);
+
+        let terrain = terrainSys.getTerrain();
+        let terrainBigGeometry = terrain.call.getTerrainBigGeo();
+    //    terrainSys.rebuildGround();
+
+        let terrainMat = terrainBigGeometry.getTerrainMaterial();
+
+        let heightmap = terrainMat.heightmap;
+        let terrainmap = terrainMat.terrainmap;
+        let assetId = worldLevelConfig.asset
+        console.log("Apply World Level config ", assetId, [heightmap, terrainmap, worldLevelConfig])
+
+        let onLoad = function(asset) {
+            console.log("World Level Asset", asset);
+        }
+// check ThreeAPI.buildAsset not working here
+        client.dynamicMain.requestAssetInstance(assetId, onLoad)
+
     }
 
     getWorldEncounterByHost(id) {

@@ -74,11 +74,11 @@ class AssetLoader {
                 let cachedAsset = PipelineAPI.readCachedConfigKey('ASSET', assetKey);
                 if (cachedAsset === assetKey) {
                 //    PipelineAPI.cacheCategoryKey('ASSET', assetKey, lcallback);
-                //    console.log("Request LoadSequencer", assetKey);
+            //        console.log("Request LoadSequencer", assetKey);
                     loadSequencer.sequenceAssetLoad(assets, assetMap, assetType, assetId, lcallback);
                 } else {
                     //    PipelineAPI.removeCategoryKeySubscriber('ASSET', assetKey, lcallback)
-                //    console.log('asset cached', assetKey);
+            //        console.log('asset cached', assetKey);
                     lcallback(cachedAsset);
                 }
             };

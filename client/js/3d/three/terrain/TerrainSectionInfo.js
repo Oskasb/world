@@ -98,6 +98,18 @@ class TerrainSectionInfo {
         }
     }
 
+    deactivateTerrainSection() {
+        this.deactivateTerrainSectionPhysics();
+
+        for (let i = 0; i < this.lodLevels.length; i++) {
+            let level = this.lodLevels[i];
+            if (level) {
+                MATH.emptyArray(level);
+            }
+        }
+
+    }
+
 }
 
 export { TerrainSectionInfo }

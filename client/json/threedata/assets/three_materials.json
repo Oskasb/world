@@ -173,7 +173,6 @@
               {"key":"heightmap"      , "id":"tx_heightmap_world_01"   },
               {"key":"tx0"            , "id":"tx_ground_tiles16x16"      },
               {"key":"tx0nm"          , "id":"tx_ground_tiles16x16nm"    }
-
             ]
           }
         },
@@ -184,6 +183,19 @@
             "textures":[
               {"key":"envMap"         , "id":"ref_sphere"              } ,
               {"key":"heightmap"      , "id":"tx_heightmap_world_01"   },
+              {"key":"tx0"            , "id":"tx_ground_tiles16x16"      },
+              {"key":"tx0nm"          , "id":"tx_ground_tiles16x16nm"    }
+            ]
+          }
+        },
+        {
+          "id":"material_big_terrain_10",
+          "config":{
+            "settings": "mat_settings_terrain_big",
+            "textures":[
+              {"key":"envMap"         , "id":"ref_sphere"                },
+              {"key":"terrainmap"     , "id":"tx_terrainmap_world_01_10"  },
+              {"key":"heightmap"      , "id":"tx_heightmap_world_01_10"   },
               {"key":"tx0"            , "id":"tx_ground_tiles16x16"      },
               {"key":"tx0nm"          , "id":"tx_ground_tiles16x16nm"    }
             ]

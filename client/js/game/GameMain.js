@@ -8,7 +8,18 @@ import { PhysicalWorld } from "./gameworld/PhysicalWorld.js";
 
 let tempVec3 = new Vector3()
 let gameWalkGrid = null
+let worldLevels = {};
 
+function worldLevelsUpdate(data) {
+    for (let i = 0; i < data.levels.length; i++) {
+        worldLevels[data.levels[i].id] = data.levels[i];
+    }
+    console.log("World Levels", worldLevels);
+}
+setTimeout(function() {
+    let worldLevelsConfig = new ConfigData("WORLD_SYSTEMS", "WORLD_LEVELS");
+    worldLevelsConfig.addUpdateCallback(worldLevelsUpdate);
+}, 1000)
 
 class GameMain {
     constructor() {
@@ -47,7 +58,7 @@ class GameMain {
         this.activeScenario = null;
         this.callbacks = {};
         this.gameTime = 0;
-        this.configData = new ConfigData("WORLD_SYSTEMS", "GAME_SCENARIOS");
+        this.configData = new ConfigData("WORLD_SYSTEMS", "WORLD_LEVELS");
         this.navPointConfigData = new ConfigData("WORLD_SYSTEMS", "WORLD_NAV_POINTS");
 
         let updateNavpoint = function() {
@@ -84,6 +95,13 @@ class GameMain {
             setActiveNavPointGroup:setActiveNavPointGroup,
             renderActiveNavPointGroup:renderActiveNavPointGroup
         }
+    }
+
+    getWorldLevelConfig(id) {
+        if (!worldLevels[id]) {
+            console.log("No world level config for id: ", id, worldLevels);
+        }
+        return worldLevels[id];
     }
 
     setupCallbacks = function () {

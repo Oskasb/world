@@ -5,6 +5,7 @@ import {poolReturn, poolFetch} from "../../../application/utils/PoolUtils.js";
 let tempObj = new Object3D();
 let index = 0;
 let modelCount = 0;
+let maxLodLevel = 7;
 
 let palettes = [
     'NATURE_DESERT',
@@ -36,7 +37,7 @@ class TerrainElementModel {
         this.index = index;
         index++;
         this.terrainGeometry = terrainGeo;
-        this.levelOfDetail = 7;
+        this.levelOfDetail = maxLodLevel;
         this.lodMap = null;
         this.lodLevelInstances = [];
         this.minY = 9999;
@@ -167,6 +168,13 @@ class TerrainElementModel {
         }
         this.levelOfDetail = lodLevel;
     }
+
+    dectivateTerrainElementodels() {
+        for (let i = 0; i < maxLodLevel; i++) {
+            this.clearLodLevel(i);
+        }
+    }
+
 }
 
 export { TerrainElementModel }

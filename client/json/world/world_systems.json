@@ -1,39 +1,13 @@
 [{
   "WORLD_SYSTEMS":{
-    "GAME_SCENARIOS":[
+    "WORLD_LEVELS":
       {
-        "id": "home_scenario",
-        "config": {
-          "scenario_static":"home_scenario_static",
-          "dynamic_scenarios": [
-            "home_hovel_dynamic",
-            "home_world_dynamic",
-            "home_stash_dynamic",
-            "home_hero_dynamic",
-            "hero_allies_dynamic",
-            "world_manor_dynamic",
-            "world_town_dynamic",
-            "town_merchant_dynamic",
-            "town_inn_dynamic",
-            "world_woods_dynamic",
-            "manor_village_dynamic",
-            "village_house_dynamic",
-            "village_cottage_dynamic",
-            "encounter_front_yard_home_dynamic",
-            "encounter_friends_home_dynamic"
+        "id": "world_levels",
+          "levels": [
+            {"id": 20, "asset":"asset_ground_big",    "minimap": "minimap"},
+            {"id": 10, "asset":"asset_ground_big_10", "minimap": "minimap"}
           ]
-        }
       },
-      {
-        "id": "cave_scenario",
-        "config": {
-          "scenario_static": "cave_scenario_static",
-          "dynamic_scenarios": [
-            "encounter_cave_basic_dynamic"
-          ]
-        }
-      }
-    ],
     "WORLD_NAV_POINTS": [
       {"id":"world_dynamic_navpoints",
       "config":{

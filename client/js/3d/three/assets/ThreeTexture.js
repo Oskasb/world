@@ -83,7 +83,7 @@ class ThreeTexture {
         let _this = this;
 
         let imgLoaded = function(asset) {
-
+            console.log("imgLoaded: ", asset)
             if (_this.config.settings.retain_canvas) {
 
 
@@ -126,7 +126,7 @@ class ThreeTexture {
         }.bind(this);
 
         let txSettingsLoaded = function(asset, xx) {
-      //              console.log("txSettingsLoaded", asset, xx, config);
+                    console.log("txSettingsLoaded", asset, xx, config);
             for (let key in asset.config) {
                 this.config[key] = asset.config[key];
             }
