@@ -209,6 +209,7 @@ class GameAPI {
     }
 
     leaveActiveGameWorld() {
+     //   gameEncounterSystem.
         this.worldModels.removeActiveWorldModels();
         let terrainSys = ThreeAPI.getTerrainSystem();
         let terrain = terrainSys.getTerrain();
