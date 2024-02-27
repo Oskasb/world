@@ -208,6 +208,13 @@ class GameAPI {
 
     }
 
+    leaveActiveGameWorld() {
+        this.worldModels.removeActiveWorldModels();
+    }
+
+    activateWorldLevel(worldLevel) {
+        console.log('activateWorldLevel', worldLevel)
+    }
 
     getWorldEncounterByHost(id) {
         return this.worldModels.getEncounterByHostActorId(id);

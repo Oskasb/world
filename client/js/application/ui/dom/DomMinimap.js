@@ -161,8 +161,8 @@ function indicateActors(htmlElement, minimapDiv, statusMap, centerPos, inCombat)
             indicator.style.left = 47.5 + mapPctX + '%';
 
 
-            let angle = actor.getStatus(ENUMS.ActorStatus.STATUS_ANGLE_EAST);
-            angle = -MATH.eulerFromQuaternion(actor.getSpatialQuaternion(actor.actorObj3d.quaternion)).y + MATH.HALF_PI * 0.5 // Math.PI //;
+        //    let angle = actor.getStatus(ENUMS.ActorStatus.STATUS_ANGLE_EAST);
+            let angle = -MATH.eulerFromQuaternion(actor.getSpatialQuaternion(actor.actorObj3d.quaternion)).y + MATH.HALF_PI * 0.5 // Math.PI //;
 
             //    let headingDiv = htmlElement.call.getChildElement('heading');
             //    if (headingDiv) {
@@ -196,13 +196,88 @@ function indicateActors(htmlElement, minimapDiv, statusMap, centerPos, inCombat)
 
 }
 
+let cameraIndicator = null;
+let camAngle = 0;
+let lastAspect = 0;
+let lastScale = 0;
+function makeGradientString(angle, edgeRgba, centerRgba) {
+    let edgeAnglePos = angle;
+    let edgeAngleNeg = (360-angle)
+
+    let edge = 0.2;
+    let fade = 3;
+
+    let grad = "conic-gradient("+centerRgba+" "+(edgeAnglePos-fade)+"deg, "+edgeRgba+" "+edgeAnglePos+"deg, rgba(0, 0, 0, 0) "+(edgeAnglePos+edge)+"deg, rgba(0, 0, 0, 0) "+(edgeAngleNeg-edge)+"deg,"+edgeRgba+" "+edgeAngleNeg+"deg, "+centerRgba+" "+(edgeAngleNeg+fade)+"deg)";
+ //   console.log(grad)
+     return grad
+
+}
+
+function indicateCameraFrustum(htmlElement, minimapDiv, statusMap, centerPos) {
+
+    if (cameraIndicator === null) {
+        cameraIndicator = DomUtils.createDivElement(minimapDiv, 'indicator_camera', '', 'camera')
+    }
+
+    let cam = ThreeAPI.getCamera()
+    let zoom = statusMap.zoom;
+    let zoomFactor = calcMapMeterToDivPercent(zoom, worldSize);
+    let actorPos = cam.position;
+
+    tempVec2.set(actorPos.x-centerPos.x, actorPos.z-centerPos.z);
+    let distance = tempVec2.length(); // is in units m from cursor (Center of minimap)
 
 
+
+
+        let mapPctX = tempVec2.x*zoomFactor
+        let mapPctZ = tempVec2.y*zoomFactor
+/*
+        if (inCombat === false) {
+            if (distance*zoomFactor > 49) {
+                tempVec2.normalize();
+                tempVec2.multiplyScalar(49);
+                mapPctX = tempVec2.x;
+                mapPctZ = tempVec2.y;
+            }
+        }
+*/
+    cameraIndicator.style.top = mapPctZ + '%';
+    cameraIndicator.style.left = mapPctX + '%';
+
+    let tX = 50 + mapPctX;
+    let tZ =  50 + mapPctZ;
+
+ //   cameraIndicator.style.transform = "translate("+tZ+"%, "+tX+"%)";
+
+        //    let angle = actor.getStatus(ENUMS.ActorStatus.STATUS_ANGLE_EAST);
+        let angle = -MATH.eulerFromQuaternion(cam.quaternion).y //+ MATH.HALF_PI * 0.5 // Math.PI //;
+
+        //    let headingDiv = htmlElement.call.getChildElement('heading');
+        //    if (headingDiv) {
+    cameraIndicator.style.rotate = angle + 'rad';
+
+        //    console.log(angle)
+ //   cameraIndicator.style.borderColor = "rgba(88, 255, 255, 1)";
+
+    if (lastAspect !== GuiAPI.aspect) {
+        lastAspect = GuiAPI.aspect;
+        cameraIndicator.style.backgroundImage = makeGradientString(MATH.curveSqrt( lastAspect*0.4)*45, "rgba(127, 255, 255, 0.8)", "rgba(127, 255, 255, 0.15)")
+    }
+
+    let scale = zoom / 30
+
+    if (lastScale !== scale) {
+        lastScale = scale;
+        cameraIndicator.style.scale = scale;
+    }
+
+
+}
 
 class DomMinimap {
     constructor() {
         let htmlElement = new HtmlElement();
-
         let inCombat = false;
 
         let statusMap = {
@@ -251,6 +326,11 @@ class DomMinimap {
             htmlElement.closeHtmlElement()
             htmlElement.initHtmlElement('minimap', null, statusMap, 'minimap', readyCb);
             setTimeout(function() {
+                if (cameraIndicator !== null) {
+                    DomUtils.removeDivElement(cameraIndicator)
+                    cameraIndicator = null;
+                }
+
                 while (actorIndicators.length) {
                     DomUtils.removeDivElement(actorIndicators.pop())
                 }
@@ -311,7 +391,7 @@ class DomMinimap {
 
                 indicateTenMeterScale(tenMeterIndicators, htmlElement, minimapDiv, statusMap)
                 indicateActors(htmlElement, minimapDiv, statusMap, centerPos, inCombat)
-
+                indicateCameraFrustum(htmlElement, minimapDiv, statusMap, centerPos)
             }
 
         }

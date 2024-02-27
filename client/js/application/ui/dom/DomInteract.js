@@ -36,7 +36,17 @@ class DomInteract {
             setTimeout(addIcon, 100)
 
             let actFunc = function() {
-                selectedActor.actorText.say('I will '+option['interaction'])
+                if (option['dispatch']) {
+                    let eventId = option.dispatch.event;
+                    let value = option.dispatch.value;
+                    if (!value.pos) {
+                        value.pos = hostActor.getSpatialPosition();
+                    }
+                    evt.dispatch(ENUMS.Event[eventId], value);
+                } else {
+                    selectedActor.actorText.say('No bound event '+option['interaction'])
+
+                }
             }
 
             DomUtils.addClickFunction(optElem, actFunc)

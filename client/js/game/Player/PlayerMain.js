@@ -183,6 +183,16 @@ class PlayerMain {
             GameAPI.gameMain.activateGameNavPoints(event);
         }
 
+        let enterUnderworld = function(e) {
+            console.log("Enter Underworld", e)
+            let actor = GameAPI.getGamePieceSystem().selectedActor;
+            actor.setStatusKey(ENUMS.ActorStatus.WORLD_LEVEL, e.world_level);
+            if (e.pos) {
+                actor.setDestination(e.pos);
+            }
+
+        }
+
         let callbacks = {
             handleEquip : equipItem,
             handleUnequip : unequipItem,
@@ -200,7 +210,8 @@ class PlayerMain {
             applyCheatPimp:applyCheatPimp,
             switchGuiPage:switchGuiPage,
             setCompanionAsLeader:setCompanionAsLeader,
-            activateNavPoints:activateNavPoints
+            activateNavPoints:activateNavPoints,
+            enterUnderworld:enterUnderworld
         }
 
         this.callbacks = callbacks;
@@ -222,7 +233,7 @@ class PlayerMain {
         evt.on(ENUMS.Event.SWITCH_GUI_PAGE, callbacks.switchGuiPage);
         evt.on(ENUMS.Event.SET_COMPANION_AS_LEADER, callbacks.setCompanionAsLeader);
         evt.on(ENUMS.Event.ACTIVATE_NAV_POINTS, callbacks.activateNavPoints);
-
+        evt.on(ENUMS.Event.ENTER_UNDERWORLD, callbacks.enterUnderworld);
 
     }
 
