@@ -26,7 +26,7 @@ class ThreeModel {
         let _this = this;
 
         let materialLoaded = function(asset) {
-            console.log('materialLoaded', asset.mat);
+       //     console.log('materialLoaded', asset.mat);
             _this.material = asset;
 
             if (this.geometryInstancingSettings()) {
@@ -40,7 +40,7 @@ class ThreeModel {
         let settings = this.settings;
 
         let modelSettingsLoaded = function(asset) {
-               console.log('modelSettingsLoaded', asset, config);
+           //    console.log('modelSettingsLoaded', asset, config);
             for (let key in asset.settings) {
                 settings[key] = asset.settings[key];
             }

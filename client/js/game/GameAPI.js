@@ -232,7 +232,13 @@ class GameAPI {
         console.log("Apply World Level config ", assetId, [heightmap, terrainmap, worldLevelConfig])
 
         let onLoad = function(asset) {
-            console.log("World Level Asset", asset);
+            let material = asset.originalModel.getModelMaterial();
+            terrainBigGeometry.applyGroundMaterial(material);
+            let selectedActor = gamePieceSystem.selectedActor
+            let dst = selectedActor.getDestination();
+            dst.y = ThreeAPI.terrainAt(dst);
+            selectedActor.setSpatialPosition(dst);
+
         }
 // check ThreeAPI.buildAsset not working here
         client.dynamicMain.requestAssetInstance(assetId, onLoad)

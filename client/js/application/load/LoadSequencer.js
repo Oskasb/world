@@ -18,7 +18,7 @@ class LoadSequencer {
         let configLoaded = function(src, data) {
 
             let acallback = function(asset) {
-                    console.log('asset loaded:', asset, assetKey, assetStore)
+       //             console.log('asset loaded:', asset, assetKey, assetStore)
                 PipelineAPI.setCategoryKeyValue('ASSET', assetKey, asset);
                 if ( assetStore[assetKey]) {
                     //       console.log("Asset Already stored...", assetKey)
@@ -29,12 +29,12 @@ class LoadSequencer {
             };
 
             if (assetStore[assetKey]) {
-                     console.log('ALREADY loaded asset:', assetKey, assetStore[assetKey])
+        //             console.log('ALREADY loaded asset:', assetKey, assetStore[assetKey])
                 callback(assetStore[assetKey])
             } else {
-                console.log('load asset:', assetKey)
+           //     console.log('load asset:', assetKey)
                 let onLoaded = function(asset) {
-                    console.log('onLoaded asset:', asset)
+            //        console.log('onLoaded asset:', asset)
                     acallback(asset);
                     while(loadQueue[assetKey].length) {
                         loadQueue[assetKey].pop()(assetStore[assetKey])
@@ -55,7 +55,7 @@ class LoadSequencer {
 
         let cachedConfig = PipelineAPI.readCachedConfigKey('CONFIGS', assetKey);
         if (cachedConfig === assetKey) {
-                  console.log("Cache not ready: ", cachedConfig);
+            //      console.log("Cache not ready: ", cachedConfig);
             new PipelineObject('CONFIGS', assetKey, configLoaded)
             //   PipelineAPI.cacheCategoryKey('CONFIGS', assetKey, configLoaded);
         } else {

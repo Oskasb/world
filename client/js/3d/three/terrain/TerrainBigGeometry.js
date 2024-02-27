@@ -313,11 +313,40 @@ let oceanModel = function(model) {
     oceanMaterial = model.originalModel.material.mat;
 }
 
+function setHeightDataImage(imgData) {
+    let width = imgData.width;
+    let height = imgData.height;
+    heightmapContext.drawImage(imgData, 0, 0, width, height);
+}
+
+function setTerrainDataImage(imgData) {
+    let width = imgData.width;
+    let height = imgData.height;
+    terrainContext.drawImage(imgData, 0, 0, width, height);
+}
+
 class TerrainBigGeometry {
     constructor() {
         this.call = {
             updateBigGeo:updateBigGeo
         }
+    }
+
+
+
+    applyGroundMaterial(material) {
+        let newHeightmap = material.heightmap;
+        let newTerrainMap = material.terrainmap;
+
+        let heightImageData = newHeightmap.source.data;
+        let terrainImageData = newTerrainMap.source.data;
+        setHeightDataImage(heightImageData);
+        setTerrainDataImage(terrainImageData);
+        console.log("applyGroundMaterial", [terrainMaterial, newHeightmap, newTerrainMap]);
+
+        this.updateGroundCanvasTexture()
+        this.updateHeightmapCanvasTexture()
+        updateBigGeo(0.01);
     }
 
     getVisibleCount() {
