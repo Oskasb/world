@@ -8,7 +8,6 @@ import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
 import {aaBoxTestVisibility, borrowBox, cubeTestVisibility} from "../../application/utils/ModelUtils.js";
 import {colorMapFx} from "../visuals/Colors.js";
 import {
-    detectFreeSpaceAbovePoint,
     physicalAlignYGoundTest,
     rayTest,
     testProbeFitsAtPos

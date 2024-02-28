@@ -1,4 +1,5 @@
 import {CAM_MODES, updateCamParams} from "./CameraFunctions.js";
+import {ENUMS} from "../../application/ENUMS.js";
 
 let statusList = [];
 let statusControls = {}

@@ -4,8 +4,7 @@ import { Object3D } from "../../../libs/three/core/Object3D.js";
 import * as CursorUtils from "./CursorUtils.js";
 import {notifyCameraStatus, viewEncounterSelection} from "./CameraFunctions.js";
 import { CameraControls} from "./CameraControls.js";
-import { rayTest} from "../../application/utils/PhysicsUtils.js";
-
+import {ENUMS} from "../../application/ENUMS.js";
 
 let cameraControls = new CameraControls()
 let cameraStatus = {}

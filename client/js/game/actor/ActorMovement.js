@@ -298,7 +298,6 @@ class ActorMovement {
             this.visualArc.on(null, actor, null);
         }
 
-
             tempVec2.applyQuaternion(ThreeAPI.getCamera().quaternion);
             tempVec2.y = 0;
             let alignLength = tempVec2.length();

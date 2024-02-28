@@ -1,6 +1,5 @@
 import {Vector3} from "../../../libs/three/math/Vector3.js";
 import * as CursorUtils from "./CursorUtils.js";
-import { rayTest} from "../../application/utils/PhysicsUtils.js";
 import {Object3D} from "../../../libs/three/core/Object3D.js";
 
 let CAM_MODES = {

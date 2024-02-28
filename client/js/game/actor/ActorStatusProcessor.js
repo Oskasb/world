@@ -173,42 +173,48 @@ let obstructHhitCb = function(hit) {
     let ptr = hit.ptr;
 
     if (ptr === getTerrainBodyPointer()) {
-        viewObstuctionTest(hit.position, ThreeAPI.getCamera().position, obstructHhitCb);
-        return;
+    //    viewObstuctionTest(hit.position, ThreeAPI.getCamera().position, obstructHhitCb);
+        return hit;
     }
 
     let physicalModel = getModelByBodyPointer(ptr);
 
     if (!physicalModel) {
-        return;
+        return hit;
     }
 
     let model = physicalModel.call.getModel();
 
     if (!model) {
-        viewObstuctionTest(hit.position, ThreeAPI.getCamera().position, obstructHhitCb);
-        return;
+        return hit;
+    //    return viewObstuctionTest(hit.position, ThreeAPI.getCamera().position, obstructHhitCb);
     }
 
     if (world.viewObstuctingModels.indexOf(model) === -1) {
         world.viewObstuctingModels.push(model)
         model.call.viewObstructing(true)
     }
-
-    viewObstuctionTest(hit.position, ThreeAPI.getCamera().position, obstructHhitCb)
+    return viewObstuctionTest(hit.position, ThreeAPI.getCamera().position, obstructHhitCb)
 
 }
 
     function viewObstuctionTest(from, to, hitCb) {
-        let hit = rayTest(from, to, tempVec2, null, true);
+        frameTests++;
+        if (frameTests > maxTests) {
+            console.log("View Obstruct test max")
+            return;
+        }
+        let hit = rayTest(from, to, tempVec2, null, false);
         if (hit) {
-            hitCb(hit);
+            return hitCb(hit);
         }
     }
 
     let obstructingModels = [];
-
+let maxTests = 5;
+let frameTests = 0;
 function updateViewPhysicalObstruction(actor) {
+    frameTests = 0;
     let world = getPhysicalWorld();
   //  let viewObstuctingModels
     MATH.copyArrayValues(world.viewObstuctingModels, obstructingModels);
@@ -217,12 +223,22 @@ function updateViewPhysicalObstruction(actor) {
     tempVec.y += actor.getStatus(ENUMS.ActorStatus.HEIGHT) * 0.25;
     let camPos = ThreeAPI.getCamera().position;
 
-    viewObstuctionTest(tempVec, camPos, obstructHhitCb)
+    let hit = viewObstuctionTest(tempVec, camPos, obstructHhitCb)
 
     for (let i = 0; i < obstructingModels.length; i++) {
         let model = obstructingModels[i];
         if (world.viewObstuctingModels.indexOf(model) === -1) {
             model.call.viewObstructing(false);
+        }
+    }
+
+    if (hit) {
+        let ptr = hit.ptr;
+
+        if (ptr === getTerrainBodyPointer()) {
+            camPos.copy(hit.position);
+            //    viewObstuctionTest(hit.position, ThreeAPI.getCamera().position, obstructHhitCb);
+            return hit;
         }
     }
 

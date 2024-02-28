@@ -171,6 +171,7 @@ div.interact_icon {
     font-size: 1.3em;
     width: auto;
     height: auto;
+    min-height:1.8em;
     position: relative;
     padding: 0;
     padding-left: 2.3em;
