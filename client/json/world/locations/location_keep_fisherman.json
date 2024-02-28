@@ -15,7 +15,7 @@
                   "scale": [1, 1, 1],
                   "on_ground": true,
                   "visibility": 3,
-                  "palette": "TOWN_DARK_2"
+                  "palette": "DEFAULT"
                 },
                 {
                   "model": "model_cottage",
