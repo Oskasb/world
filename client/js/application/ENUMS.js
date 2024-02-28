@@ -97,7 +97,7 @@ let ENUMS = {}
         ENCOUNTER_COMPLETED:        79,
         CLEAR_UI:                   80,
         SET_ACTOR_STATUS:           81,
-        ENTER_UNDERWORLD:           82
+        ENTER_PORTAL:               82
 
     };
 

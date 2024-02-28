@@ -86,7 +86,9 @@
                     {"interaction": "STEAL", "text": "Stealthily Pillage the place"}
                   ],
                   "interact_options": [
-                    {"interaction": "ENTER", "text": "Enter", "dispatch": {"event":"ENTER_UNDERWORLD", "value":{"world_level": 10}}},
+                    {"interaction": "ENTER", "text": "Enter", "dispatch": [
+                      {"event":"ENTER_PORTAL", "value":{"world_level": 10, "world_encounters": ["outlaw_cavern_encounters"]}}
+                    ]},
                     {"interaction": "TALK",  "text": "Hey! Anyone in there?"},
                     {"interaction": "LEAVE", "text": "Not this time."}
                   ]
@@ -135,6 +137,163 @@
                 },
                 {
                   "pos": [-740, 2, 794],
+                  "visibility": 2,
+                  "grid_id": "grid_5x5",
+                  "host_id": "bandit_basic",
+                  "indicator_id": "battle_indicator",
+                  "trigger_radius": 2,
+                  "spawn": {
+                    "actors": [
+                      {
+                        "actor": "ACTOR_FIGHTER",
+                        "rot": [0, 0.2, 0],
+                        "on_ground": true,
+                        "tile": [2, 3]
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "outlaw_cavern_encounters",
+        "data": [
+          {
+            "data_key":"encounter_data",
+            "config": {
+              "treasures": [
+                {
+                  "pos": [-728, 2, 791],
+                  "visibility": 2,
+                  "indicator_id": "treasure_indicator",
+                  "trigger_radius": 2,
+                  "spawn": {
+                    "items": [
+                      {
+                        "item": "ITEM_HATCHET",
+                        "scale": [1.5, 1.5, 1.5],
+                        "rot": [-1, 0, 0],
+                        "spin": [0, 1.5, 0.0]
+                      }
+                    ]
+                  }
+                },
+                {
+                  "pos": [-729, 2, 794],
+                  "visibility": 2,
+                  "indicator_id": "treasure_indicator",
+                  "trigger_radius": 1,
+                  "spawn": {
+                    "items": [
+                      {
+                        "item": "ITEM_HELMET_VIKING_WHITE",
+                        "scale": [1.5, 1.5, 1.5],
+                        "rot": [-2, 0, 0],
+                        "spin": [0, 1.5, 0.0]
+                      }
+                    ]
+                  }
+                },
+                {
+                  "pos": [-732, 2, 793],
+                  "visibility": 2,
+                  "indicator_id": "treasure_indicator",
+                  "trigger_radius": 1,
+                  "spawn": {
+                    "items": [
+                      {
+                        "item": "ITEM_BOOTS_SCALE",
+                        "scale": [1.2, 1.2, 1.2],
+                        "rot": [0.3, 0, 0],
+                        "spin": [0, 1.5, 0.0]
+                      }
+                    ]
+                  }
+                },
+                {
+                  "pos": [-742, 2, 802],
+                  "visibility": 2,
+                  "indicator_id": "treasure_indicator",
+                  "trigger_radius": 1,
+                  "spawn": {
+                    "items": [
+                      {
+                        "item": "ITEM_GLOVES_SCALE",
+                        "scale": [1.2, 1.2, 1.2],
+                        "rot": [-0.2, 0, 0],
+                        "spin": [0.0, 1.5, 0.0]
+                      }
+                    ]
+                  }
+                }
+              ],
+              "encounters": [
+                {
+                  "pos": [-725, 5, 787],
+                  "visibility": 2,
+                  "grid_id": "grid_5x5",
+                  "host_id": "cavern_entrance",
+                  "indicator_id": "battle_indicator",
+                  "trigger_radius": 0.5,
+                  "trigger_options": [
+                    {"interaction": "FIGHT", "text": "Attack Everything"},
+                    {"interaction": "STEAL", "text": "Stealthily Pillage the place"}
+                  ],
+                  "interact_options": [
+                    {"interaction": "ENTER", "text": "Exit", "dispatch":  {
+                      "event":"ENTER_PORTAL", "value":{"world_level": 20, "world_encounters": ["outlaw_start_encounters"]}}
+                    },
+                    {"interaction": "TALK",  "text": "Hey! Anyone out there?"},
+                    {"interaction": "LEAVE", "text": "Not this time."}
+                  ]
+                },
+                {
+                  "pos": [-709, 2, 778],
+                  "visibility": 2,
+                  "grid_id": "grid_7x7",
+                  "host_id": "bandit_basic",
+                  "indicator_id": "battle_indicator",
+                  "trigger_radius": 3,
+
+                  "interact_options": [
+                    {"interaction": "FIGHT", "text": "Attack"},
+                    {"interaction": "TALK",  "text": "Hi! I am really hungry, will you let me pass so I can get to the kitchen?"},
+                    {"interaction": "LEAVE", "text": "Sorry to disturb you, just leaving."}
+                  ],
+                  "spawn": {
+                    "actors": [
+                      {
+                        "actor": "ACTOR_FIGHTER",
+                        "rot": [0, 1.2, 0],
+                        "on_ground": true,
+                        "tile": [3, 3]
+                      }
+                    ]
+                  }
+                },
+                {
+                  "pos": [-704, 2, 766],
+                  "visibility": 2,
+                  "grid_id": "grid_5x5",
+                  "host_id": "bandit_basic",
+                  "indicator_id": "battle_indicator",
+                  "trigger_radius": 2,
+                  "spawn": {
+                    "actors": [
+                      {
+                        "actor": "ACTOR_FIGHTER",
+                        "rot": [0, 2.2, 0],
+                        "on_ground": true,
+                        "tile": [2, 2]
+                      }
+                    ]
+                  }
+                },
+                {
+                  "pos": [-720, 2, 759],
                   "visibility": 2,
                   "grid_id": "grid_5x5",
                   "host_id": "bandit_basic",

@@ -54,6 +54,8 @@ class ThreeModel {
 
         this.loadModelFiles(config, modelFilesLoaded)
 
+
+
     };
 
     geometryInstancingSettings = function() {

@@ -89,49 +89,49 @@ paletteMap['ITEMS_WHITE'] = {
 };
 paletteMap['NATURE'] = {
     colors:{x:ENUMS.ColorCurve.grad_yellow_2, y:ENUMS.ColorCurve.grad_red_2, z: ENUMS.ColorCurve.grad_yellow_1, w:ENUMS.ColorCurve.grad_green_2},
-    settings:{x:0.6, y:0.9, z: 1, w:0.5}
+    settings:{x:1, y:0.9, z: 1, w:0.5}
 };
 paletteMap['NATURE_DESERT'] = {
     colors:{x:ENUMS.ColorCurve.grad_orange_1, y:ENUMS.ColorCurve.grad_red_2, z: ENUMS.ColorCurve.grad_orange_1, w:ENUMS.ColorCurve.grad_yellow_2},
-    settings:{x:0.6, y:0.9, z: 1, w:1.0}
+    settings:{x:1, y:0.9, z: 1, w:1.0}
 };
 paletteMap['NATURE_DESERT_2'] = {
     colors:{x:ENUMS.ColorCurve.grad_red_1, y:ENUMS.ColorCurve.grad_yellow_1, z: ENUMS.ColorCurve.nearBlack, w:ENUMS.ColorCurve.grad_red_2},
-    settings:{x:0.6, y:0.9, z: 1, w:1.0}
+    settings:{x:1, y:0.9, z: 1, w:1.0}
 };
 
 paletteMap['NATURE_SUMMER'] = {
     colors:{x:ENUMS.ColorCurve.grad_yellow_1, y:ENUMS.ColorCurve.grad_red_2, z: ENUMS.ColorCurve.grad_green_2, w:ENUMS.ColorCurve.grad_pea_1},
-    settings:{x:0.6, y:0.9, z: 0.5, w:0.5}
+    settings:{x:1, y:0.9, z: 0.5, w:0.5}
 };
 paletteMap['NATURE_SUMMER_2'] = {
     colors:{x:ENUMS.ColorCurve.grad_yellow_2, y:ENUMS.ColorCurve.grad_red_2, z: ENUMS.ColorCurve.grad_yellow_1, w:ENUMS.ColorCurve.grad_green_2},
-    settings:{x:0.6, y:0.9, z: 0.7, w:0.5}
+    settings:{x:1, y:0.9, z: 0.7, w:0.5}
 };
 
 paletteMap['NATURE_FALL'] = {
     colors:{x:ENUMS.ColorCurve.grad_orange_1, y:ENUMS.ColorCurve.grad_red_1, z: ENUMS.ColorCurve.grad_yellow_1, w:ENUMS.ColorCurve.grad_red_1},
-    settings:{x:0.6, y:0.9, z: 0.7, w:0.5}
+    settings:{x:1, y:0.9, z: 0.7, w:0.5}
 };
 paletteMap['NATURE_FALL_2'] = {
     colors:{x:ENUMS.ColorCurve.grad_red_2, y:ENUMS.ColorCurve.grad_red_2, z: ENUMS.ColorCurve.grad_orange_1, w:ENUMS.ColorCurve.grad_orange_1},
-    settings:{x:0.6, y:0.9, z: 0.9, w:0.5}
+    settings:{x:1, y:0.9, z: 0.9, w:0.5}
 };
 paletteMap['NATURE_FALL_LATE'] = {
     colors:{x:ENUMS.ColorCurve.grad_orange_1, y:ENUMS.ColorCurve.grad_orange_1, z: ENUMS.ColorCurve.grad_yellow_1, w:ENUMS.ColorCurve.grad_orange_1},
-    settings:{x:0.6, y:0.9, z: 1, w:-1.3}
+    settings:{x:1, y:0.9, z: 1, w:-1.3}
 };
 paletteMap['NATURE_FALL_LATE_2'] = {
     colors:{x:ENUMS.ColorCurve.grad_red_1, y:ENUMS.ColorCurve.grad_orange_1, z: ENUMS.ColorCurve.nearBlack, w:ENUMS.ColorCurve.grad_red_1},
-    settings:{x:0.6, y:0.9, z: 1, w:-1.3}
+    settings:{x:1, y:0.9, z: 1, w:-1.3}
 };
 paletteMap['NATURE_WINTER'] = {
     colors:{x:ENUMS.ColorCurve.quickIn, y:ENUMS.ColorCurve.grad_blue_1, z: ENUMS.ColorCurve.grad_grey, w:ENUMS.ColorCurve.grad_sky_1},
-    settings:{x:0.6, y:0.9, z: 1, w:0.0}
+    settings:{x:1, y:0.9, z: 1, w:0.0}
 };
 paletteMap['NATURE_WINTER_2'] = {
     colors:{x:ENUMS.ColorCurve.nearWhite, y:ENUMS.ColorCurve.grad_grey, z: ENUMS.ColorCurve.nearBlack, w:ENUMS.ColorCurve.grad_blue_2},
-    settings:{x:0.6, y:1.0, z: 1, w:0.0}
+    settings:{x:1, y:1.0, z: 1, w:0.0}
 };
 paletteMap['TOWN_RED'] = {
     colors:{x:ENUMS.ColorCurve.grad_yellow_3, y:ENUMS.ColorCurve.grad_orange_1, z: ENUMS.ColorCurve.grad_yellow_2, w:ENUMS.ColorCurve.grad_red_1},

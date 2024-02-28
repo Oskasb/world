@@ -54,6 +54,8 @@ let initWorldModels = function(config) {
 }
 
 let deactivateWorldEncounters = function () {
+    GuiAPI.getWorldInteractionUi().deactivateWorldInteractUi()
+
     while (worldEncounters.length) {
         let encounter = worldEncounters.pop()
         encounter.deactivateWorldEncounter()
@@ -126,6 +128,7 @@ let activateWorldEncounters = function(event) {
     let locationData = function(data, listId) {
         for (let i = 0; i < data.length;i++) {
             if (data[i].config['encounters']) {
+                console.log("locationData: ", data[i].config['encounters'])
                 encountersData(data[i].config.encounters, i, listId);
             }
             if (data[i].config['treasures']) {
@@ -139,6 +142,7 @@ let activateWorldEncounters = function(event) {
             locationData(encounterConfigs[i].data, encounterConfigs[i].id);
         }
     }
+
 }
 
 let initWorldEncounters = function(config) {

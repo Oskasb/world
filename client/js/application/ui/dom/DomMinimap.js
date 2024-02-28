@@ -76,8 +76,8 @@ function switchCombatMode(htmlElement, minimapDiv, statusMap, centerPos, inComba
     let zoomInDiv = htmlElement.call.getChildElement('zoom_in')
     let zoomOutDiv = htmlElement.call.getChildElement('zoom_out')
     if (inCombat) {
-        minimapDiv.style.borderRadius = 6 + '%';
-
+    //    minimapDiv.style.borderRadius = 6 + '%';
+        DomUtils.addElementClass(minimapDiv, 'minimap_combat')
         closeDiv.style.opacity = 0+"%";
         closeDiv.style.pointerEvents = "none";
         zoomInDiv.style.opacity = 0+"%";
@@ -87,9 +87,10 @@ function switchCombatMode(htmlElement, minimapDiv, statusMap, centerPos, inComba
         minimapDiv.style.pointerEvents = "none";
         addGridTiles( htmlElement, minimapDiv, statusMap, centerPos, GameAPI.getActiveEncounterGrid())
     } else {
-        minimapDiv.style.borderRadius = 50+'%';
+    //    minimapDiv.style.borderRadius = 50+'%';
         minimapDiv.style.boxShadow = "0 0 0 0.2em rgba(0, 0, 0, 0.5)";
         minimapDiv.style.borderColor = "rgb(180, 180, 180)";
+        DomUtils.removeElementClass(minimapDiv, 'minimap_combat')
         closeDiv.style.opacity = 100+"%";
         closeDiv.style.pointerEvents = "auto";
         zoomInDiv.style.opacity = 100+"%";

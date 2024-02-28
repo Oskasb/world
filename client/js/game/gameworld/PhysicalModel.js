@@ -24,6 +24,7 @@ class PhysicalModel {
         this.debugColor = 'BLUE'
         this.obj3d = new Object3D();
         let model = null;
+        let instance = null;
         this.shapes = [];
         this.rigidBodies = [];
         this.assetId = null;
@@ -49,10 +50,22 @@ class PhysicalModel {
         }.bind(this)
 
         let setModel = function(m) {
+            instance = null;
             model = m;
         }.bind(this)
 
+        let setInstance = function(i) {
+            model = null;
+            instance = i;
+        }.bind(this)
+
+        let getInstance = function() {
+            return instance;
+        }.bind(this)
+
         this.call = {
+            setInstance:setInstance,
+            getInstance:getInstance,
             setModel:setModel,
             getModel:getModel
         }

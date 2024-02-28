@@ -3,6 +3,7 @@ import { PartyLeaderSystem } from "../../application/ui/gui/systems/PartyLeaderS
 import { TargetIndicator } from "../../application/ui/gui/game/TargetIndicator.js";
 import { Vector3 } from "../../../libs/three/math/Vector3.js";
 import {Status} from "../../../../Server/game/status/Status.js";
+import {evt} from "../../application/event/evt.js";
 
 let tempVec3 = new Vector3()
 
@@ -183,10 +184,21 @@ class PlayerMain {
             GameAPI.gameMain.activateGameNavPoints(event);
         }
 
-        let enterUnderworld = function(e) {
-            console.log("Enter Underworld", e)
+        let worldLoaded = function() {
+            if (typeof (loadEncounters) === 'function') {
+                loadEncounters();
+            }
+        }
+
+        let loadEncounters;
+
+        let enterPortal = function(e) {
+            console.log("Portal Event", e)
             let actor = GameAPI.getGamePieceSystem().selectedActor;
             actor.setStatusKey(ENUMS.ActorStatus.WORLD_LEVEL, e.world_level);
+
+            let world_encounters = []
+            MATH.copyArrayValues(e.world_encounters, world_encounters);
 
             if (e.worldEncounter) {
                 e.worldEncounter.hideWorldEncounter()
@@ -194,6 +206,11 @@ class PlayerMain {
 
             if (e.pos) {
                 actor.setDestination(e.pos);
+            }
+            evt.dispatch(ENUMS.Event.LOAD_ADVENTURE_ENCOUNTERS, {world_encounters:[]})
+
+            loadEncounters = function() {
+                evt.dispatch(ENUMS.Event.LOAD_ADVENTURE_ENCOUNTERS, {world_encounters:world_encounters})
             }
 
         }
@@ -216,7 +233,8 @@ class PlayerMain {
             switchGuiPage:switchGuiPage,
             setCompanionAsLeader:setCompanionAsLeader,
             activateNavPoints:activateNavPoints,
-            enterUnderworld:enterUnderworld
+            enterPortal:enterPortal,
+            worldLoaded:worldLoaded
         }
 
         this.callbacks = callbacks;
@@ -238,7 +256,7 @@ class PlayerMain {
         evt.on(ENUMS.Event.SWITCH_GUI_PAGE, callbacks.switchGuiPage);
         evt.on(ENUMS.Event.SET_COMPANION_AS_LEADER, callbacks.setCompanionAsLeader);
         evt.on(ENUMS.Event.ACTIVATE_NAV_POINTS, callbacks.activateNavPoints);
-        evt.on(ENUMS.Event.ENTER_UNDERWORLD, callbacks.enterUnderworld);
+        evt.on(ENUMS.Event.ENTER_PORTAL, callbacks.enterPortal);
 
     }
 

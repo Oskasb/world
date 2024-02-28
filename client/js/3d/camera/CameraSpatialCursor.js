@@ -150,7 +150,7 @@ class CameraSpatialCursor {
 
                     console.log("Pointer Two:", pointer)
                 }
-                console.log("isFirstPressFrame", pointerOne, pointerTwo)
+           //     console.log("isFirstPressFrame", pointerOne, pointerTwo)
                 notifyCameraStatus(ENUMS.CameraStatus.POINTER_ACTION, null, true)
                 camPosVec.copy(ThreeAPI.getCamera().position);
                 dragToVec3.copy( cursorObj3d.position)
