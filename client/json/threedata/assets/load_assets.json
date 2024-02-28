@@ -12,7 +12,7 @@
       "TEXTURES"
     ],
     "POLL_INDEX":[
-
+      "/world/locations/location_keep_fisherman.json"        ,
       "/world/locations/caverns_10/location_caverns_10_bandit_keep.json"   ,
       "/world/locations/location_bandit_keep.json"           ,
       "/world/encounters/encounters_outlaw.json"               ,

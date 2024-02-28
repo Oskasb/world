@@ -251,12 +251,31 @@
                   ]
                 },
                 {
+                  "pos": [-827.5, 16.2, 743.5],
+                  "visibility": 2,
+                  "grid_id": "grid_5x5",
+                  "host_id": "cavern_entrance",
+                  "indicator_id": "battle_indicator",
+                  "trigger_radius": 0.5,
+                  "trigger_options": [
+                    {"interaction": "FIGHT", "text": "Attack Everything"},
+                    {"interaction": "STEAL", "text": "Stealthily Pillage the place"}
+                  ],
+                  "interact_options": [
+                    {"interaction": "ENTER", "text": "Exit", "dispatch":  {
+                      "event":"ENTER_PORTAL", "value":{"world_level": 20, "world_encounters": ["outlaw_start_encounters"]}}
+                    },
+                    {"interaction": "TALK",  "text": "Hey! Anyone out there?"},
+                    {"interaction": "LEAVE", "text": "Not this time."}
+                  ]
+                },
+                {
                   "pos": [-709, 2, 778],
                   "visibility": 2,
                   "grid_id": "grid_7x7",
                   "host_id": "bandit_basic",
                   "indicator_id": "battle_indicator",
-                  "trigger_radius": 3,
+                  "trigger_radius": 2,
 
                   "interact_options": [
                     {"interaction": "FIGHT", "text": "Attack"},
