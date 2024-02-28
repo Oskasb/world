@@ -199,6 +199,7 @@ class PlayerMain {
 
             let world_encounters = []
             MATH.copyArrayValues(e.world_encounters, world_encounters);
+            let worldLevel = e.world_level;
 
             if (e.worldEncounter) {
                 e.worldEncounter.hideWorldEncounter()
@@ -210,7 +211,7 @@ class PlayerMain {
             evt.dispatch(ENUMS.Event.LOAD_ADVENTURE_ENCOUNTERS, {world_encounters:[]})
 
             loadEncounters = function() {
-                evt.dispatch(ENUMS.Event.LOAD_ADVENTURE_ENCOUNTERS, {world_encounters:world_encounters})
+                evt.dispatch(ENUMS.Event.LOAD_ADVENTURE_ENCOUNTERS, {world_encounters:world_encounters, world_level:worldLevel})
             }
 
         }

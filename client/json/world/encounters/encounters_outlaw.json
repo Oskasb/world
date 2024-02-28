@@ -232,7 +232,7 @@
               ],
               "encounters": [
                 {
-                  "pos": [-725, 5, 787],
+                  "pos": [-724, 6.2, 783],
                   "visibility": 2,
                   "grid_id": "grid_5x5",
                   "host_id": "cavern_entrance",

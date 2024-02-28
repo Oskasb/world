@@ -241,9 +241,8 @@ class GameAPI {
             dst.y = ThreeAPI.terrainAt(dst);
             selectedActor.setSpatialPosition(dst);
 
-            terrainSys.rebuildGround();
-
-            setTimeout(playerMain.callbacks.worldLoaded, 2000);
+            setTimeout(terrainSys.rebuildGround, 200);
+            setTimeout(playerMain.callbacks.worldLoaded, 600);
 
         }
 // check ThreeAPI.buildAsset not working here

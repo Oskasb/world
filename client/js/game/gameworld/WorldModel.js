@@ -74,17 +74,12 @@ class WorldModel {
     removeLocationModels() {
 
         while (this.locationModels.length) {
-
             let model = this.locationModels.pop();
-            model.clearLocationBoxes();
-            if (model.lodLevel) {
-                ThreeAPI.clearTerrainLodUpdateCallback(model.call.lodUpdated)
-            }
-            model.call.hideLocationModel(model);
-
+            model.removeLocationModel();
         }
-    }
+    //    ThreeAPI.clearTerrainLodUpdateCallback(this.call.lodUpdated)
 
+    }
 
 }
 

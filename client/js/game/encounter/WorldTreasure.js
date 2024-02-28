@@ -259,7 +259,7 @@ class WorldTreasure {
                     }
                     MATH.rotXYZFromArray(obj3d, rot);
                     treasure.items.push(item);
-                    console.log("Spawn Loot: ", item, treasure)
+                //    console.log("Spawn Loot: ", item, treasure)
                     item.call.setUpdateCallback();
                     item.call.setUpdateCallback(itemUpdateCb);
                     item.show();
@@ -297,7 +297,7 @@ class WorldTreasure {
         return this.obj3d.position;
     }
     activateWorldTreasure() {
-        console.log("Activate Treasure ", this)
+    //    console.log("Activate Treasure ", this)
         ThreeAPI.registerTerrainLodUpdateCallback(this.getPos(), this.call.lodUpdated)
     }
 
