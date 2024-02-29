@@ -32,7 +32,7 @@ let setlocationModelConfigs = function(config) {
     initWorldModels()
 }
 
-let lastWorldLevel = 20;
+let lastWorldLevel = "20";
 let initWorldModels = function(worldLevel) {
 
     if (!worldLevel) {
@@ -56,7 +56,7 @@ let initWorldModels = function(worldLevel) {
     let locationData = function(data) {
         for (let i = 0; i < data.length;i++) {
 
-            if (worldLevel === 20) {
+            if (worldLevel === "20") {
                 if (!data[i].config['world_level']) {
                     modelsData(data[i].config.models);
                 }

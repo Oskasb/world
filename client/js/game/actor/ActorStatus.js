@@ -312,7 +312,7 @@ class ActorStatus {
         this.statusMap[ENUMS.ActorStatus.CAMERA_LOOK_SPEED] = 10;
         this.statusMap[ENUMS.ActorStatus.CAMERA_ZOOM] = 15;
         this.statusMap[ENUMS.ActorStatus.CONTROL_TWITCHINESS] = 4;
-        this.statusMap[ENUMS.ActorStatus.WORLD_LEVEL] = 20;
+        this.statusMap[ENUMS.ActorStatus.WORLD_LEVEL] = "20";
 
         let updateTO = null;
         this.request = {request:ENUMS.ClientRequests.APPLY_ACTOR_STATUS, status:this.sendStatus}

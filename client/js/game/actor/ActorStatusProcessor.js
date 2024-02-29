@@ -460,7 +460,7 @@ function processActorUiNavigationState(actor) {
 
 }
 
-let lastWorldLevel = 20;
+let lastWorldLevel = "20";
 function processWorldTransition(actor) {
     let worldLevel = actor.getStatus(ENUMS.ActorStatus.WORLD_LEVEL)
     if (worldLevel !== lastWorldLevel) {

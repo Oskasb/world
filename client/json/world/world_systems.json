@@ -4,8 +4,10 @@
       {
         "id": "world_levels",
           "levels": [
-            {"id": 20, "asset":"asset_ground_big",    "minimap": "minimap"},
-            {"id": 10, "asset":"asset_ground_big_10", "minimap": "minimap"}
+            {"id": "20", "asset":"asset_ground_big",    "minimap": "minimap"},
+            {"id": "10", "asset":"asset_ground_big_10", "minimap": "minimap"},
+            {"id": "09", "asset":"asset_ground_big_09", "minimap": "minimap"},
+            {"id": "08", "asset":"asset_ground_big_08", "minimap": "minimap"}
           ]
       },
     "WORLD_NAV_POINTS": [

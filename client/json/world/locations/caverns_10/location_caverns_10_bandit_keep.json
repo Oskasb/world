@@ -7,7 +7,7 @@
           {
             "data_key":"location_data",
             "config": {
-              "world_level": 10,
+              "world_level": "10",
               "models": [
                 {
                   "model": "model_fence_small",

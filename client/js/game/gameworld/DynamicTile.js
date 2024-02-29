@@ -220,6 +220,7 @@ class DynamicTile {
 
         let dynamicGridTile = this;
         let pos = this.getPos()
+        pos.y = lodCenter.y;
         //    let lodDistance = pos.distanceTo(ThreeAPI.getCamera().position)
            let lodDistance = pos.distanceTo(lodCenter)
         if (lodDistance > maxDistance*0.3) {

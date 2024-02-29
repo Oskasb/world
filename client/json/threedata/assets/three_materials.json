@@ -202,6 +202,32 @@
           }
         },
         {
+          "id":"material_big_terrain_09",
+          "config":{
+            "settings": "mat_settings_terrain_big",
+            "textures":[
+              {"key":"envMap"         , "id":"ref_sphere"                },
+              {"key":"terrainmap"     , "id":"tx_terrainmap_world_01_09"  },
+              {"key":"heightmap"      , "id":"tx_heightmap_world_01_09"   },
+              {"key":"tx0"            , "id":"tx_ground_tiles16x16"      },
+              {"key":"tx0nm"          , "id":"tx_ground_tiles16x16nm"    }
+            ]
+          }
+        },
+        {
+          "id":"material_big_terrain_08",
+          "config":{
+            "settings": "mat_settings_terrain_big",
+            "textures":[
+              {"key":"envMap"         , "id":"ref_sphere"                },
+              {"key":"terrainmap"     , "id":"tx_terrainmap_world_01_08"  },
+              {"key":"heightmap"      , "id":"tx_heightmap_world_01_08"   },
+              {"key":"tx0"            , "id":"tx_ground_tiles16x16"      },
+              {"key":"tx0nm"          , "id":"tx_ground_tiles16x16nm"    }
+            ]
+          }
+        },
+        {
           "id":"material_instanced_terrain",
           "config":{
             "settings": "mat_settings_terrain_instanced",

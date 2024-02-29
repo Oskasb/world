@@ -117,8 +117,8 @@ let setupHeightmapData = function(originalModelMat) {
     oceanMaterial.uniforms.heightmaptiles.value.z = 2048;
     oceanMaterial.needsUpdate = true;
 
-    registerWorldLevel(20);
-    addWorldLevelMaterial(20, terrainMaterial)
+    registerWorldLevel("20");
+    addWorldLevelMaterial("20", terrainMaterial)
     /*
         setTimeout(function() {
             terrainmap = terrainContext.getImageData(0, 0, terrainWidth, terrainHeight).data;
