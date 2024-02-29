@@ -129,7 +129,7 @@
                 "tile_size" : 0.8,
                 "tile_range" : 7,
                 "tile_spacing" : 5,
-                "max_plants":120,
+                "max_plants":100,
                 "plants":[
                   "snow_small",
                   "leafy_small",
@@ -157,7 +157,7 @@
                 "tile_size" : 0.8,
                 "tile_range" : 5,
                 "tile_spacing" : 27,
-                "max_plants":80,
+                "max_plants":40,
                 "plants":[
                   "snow_small",
                   "flower_1_red",
