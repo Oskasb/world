@@ -69,7 +69,7 @@ class GameAdventureSystem {
         let actorId = event['actor_id'];
         let pageId = event['page_id'];
         let worldEncounters = event['world_encounters'];
-
+        worldEncounters.push('portals_20')
         evt.dispatch(ENUMS.Event.LOAD_ADVENTURE_ENCOUNTERS, {world_encounters:[]})
 
         if (this.startActor) {

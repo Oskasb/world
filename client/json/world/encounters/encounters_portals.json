@@ -1,0 +1,213 @@
+[{
+  "WORLD_ENCOUNTERS":{
+    "ENCOUNTERS":[
+      {
+        "id": "portals_20",
+        "data": [
+          {
+            "data_key":"encounter_data",
+            "config": {
+              "encounters": [
+                {
+                  "pos": [-735.5, 5, 535.9],
+                  "visibility": 2,
+                  "grid_id": "grid_5x5",
+                  "host_id": "cavern_entrance",
+                  "indicator_id": "battle_indicator",
+                  "trigger_radius": 0.0,
+                  "trigger_options": [
+                    {"interaction": "FIGHT", "text": "Attack Everything"},
+                    {"interaction": "STEAL", "text": "Stealthily Pillage the place"}
+                  ],
+                  "interact_options": [
+                    {"interaction": "ENTER", "text": "Enter Sewers", "dispatch": [
+                      {"event":"ENTER_PORTAL", "value":{"world_level": 10, "world_encounters": ["portals_10","outlaw_cavern_encounters"]}}
+                    ]},
+                    {"interaction": "TALK",  "text": "This place smells bad."},
+                    {"interaction": "LEAVE", "text": "Not this time."}
+                  ]
+                },
+                {
+                  "pos": [-820, 5, 606],
+                  "visibility": 2,
+                  "grid_id": "grid_5x5",
+                  "host_id": "cavern_entrance",
+                  "indicator_id": "battle_indicator",
+                  "trigger_radius": 0.5,
+                  "trigger_options": [
+                    {"interaction": "FIGHT", "text": "Attack Everything"},
+                    {"interaction": "STEAL", "text": "Stealthily Pillage the place"}
+                  ],
+                  "interact_options": [
+                    {"interaction": "ENTER", "text": "Enter", "dispatch": [
+                      {"event":"ENTER_PORTAL", "value":{"world_level": 10, "world_encounters": ["portals_10","outlaw_cavern_encounters"]}}
+                    ]},
+                    {"interaction": "TALK",  "text": "Hey! Anyone in there?"},
+                    {"interaction": "LEAVE", "text": "Not this time."}
+                  ]
+                },
+                {
+                  "pos": [-718, 5, 781],
+                  "visibility": 2,
+                  "grid_id": "grid_5x5",
+                  "host_id": "cavern_entrance",
+                  "indicator_id": "battle_indicator",
+                  "trigger_radius": 0.5,
+                  "trigger_options": [
+                    {"interaction": "FIGHT", "text": "Attack Everything"},
+                    {"interaction": "STEAL", "text": "Stealthily Pillage the place"}
+                  ],
+                  "interact_options": [
+                    {"interaction": "ENTER", "text": "Enter", "dispatch": [
+                      {"event":"ENTER_PORTAL", "value":{"world_level": 10, "world_encounters": ["portals_10","outlaw_cavern_encounters"]}}
+                    ]},
+                    {"interaction": "TALK",  "text": "Hey! Anyone in there?"},
+                    {"interaction": "LEAVE", "text": "Not this time."}
+                  ]
+                },
+                {
+                  "pos": [-823, 5, 741],
+                  "visibility": 2,
+                  "grid_id": "grid_5x5",
+                  "host_id": "cavern_entrance",
+                  "indicator_id": "battle_indicator",
+                  "trigger_radius": 0.5,
+                  "trigger_options": [
+                    {"interaction": "FIGHT", "text": "Attack Everything"},
+                    {"interaction": "STEAL", "text": "Stealthily Pillage the place"}
+                  ],
+                  "interact_options": [
+                    {"interaction": "ENTER", "text": "Enter", "dispatch": [
+                      {"event":"ENTER_PORTAL", "value":{"world_level": 10, "world_encounters": ["portals_10","outlaw_cavern_encounters"]}}
+                    ]},
+                    {"interaction": "TALK",  "text": "Hey! Anyone in there?"},
+                    {"interaction": "LEAVE", "text": "Not this time."}
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "portals_10",
+        "data": [
+          {
+            "data_key":"encounter_data",
+            "config": {
+              "encounters": [
+                {
+                  "pos": [-720.2, 6.2, 784.5],
+                  "visibility": 2,
+                  "grid_id": "grid_5x5",
+                  "host_id": "cavern_entrance",
+                  "indicator_id": "battle_indicator",
+                  "trigger_radius": 0.5,
+                  "trigger_options": [
+                    {"interaction": "FIGHT", "text": "Attack Everything"},
+                    {"interaction": "STEAL", "text": "Stealthily Pillage the place"}
+                  ],
+                  "interact_options": [
+                    {"interaction": "ENTER", "text": "Exit", "dispatch":  {
+                      "event":"ENTER_PORTAL", "value":{"world_level": 20, "world_encounters": ["portals_20", "outlaw_start_encounters"]}}
+                    },
+                    {"interaction": "TALK",  "text": "Hey! Anyone out there?"},
+                    {"interaction": "LEAVE", "text": "Not this time."}
+                  ]
+                },
+                {
+                  "pos": [-827.5, 16.2, 743.5],
+                  "visibility": 2,
+                  "grid_id": "grid_5x5",
+                  "host_id": "cavern_entrance",
+                  "indicator_id": "battle_indicator",
+                  "trigger_radius": 0.5,
+                  "trigger_options": [
+                    {"interaction": "FIGHT", "text": "Attack Everything"},
+                    {"interaction": "STEAL", "text": "Stealthily Pillage the place"}
+                  ],
+                  "interact_options": [
+                    {"interaction": "ENTER", "text": "Exit", "dispatch":  {
+                      "event":"ENTER_PORTAL", "value":{"world_level": 20, "world_encounters": ["portals_20", "outlaw_start_encounters"]}}
+                    },
+                    {"interaction": "TALK",  "text": "Hey! Anyone out there?"},
+                    {"interaction": "LEAVE", "text": "Not this time."}
+                  ]
+                },
+                {
+                  "pos": [-819.5, 6.2, 599.0],
+                  "visibility": 2,
+                  "grid_id": "grid_5x5",
+                  "host_id": "cavern_entrance",
+                  "indicator_id": "battle_indicator",
+                  "trigger_radius": 0.5,
+                  "trigger_options": [
+                    {"interaction": "FIGHT", "text": "Attack Everything"},
+                    {"interaction": "STEAL", "text": "Stealthily Pillage the place"}
+                  ],
+                  "interact_options": [
+                    {"interaction": "ENTER", "text": "Exit", "dispatch":  {
+                      "event":"ENTER_PORTAL", "value":{"world_level": 20, "world_encounters": ["portals_20", "outlaw_start_encounters"]}}
+                    },
+                    {"interaction": "TALK",  "text": "Hey! Anyone out there?"},
+                    {"interaction": "LEAVE", "text": "Not this time."}
+                  ]
+                },
+                {
+                  "pos": [-765.5, 6.2, 652.6],
+                  "visibility": 2,
+                  "grid_id": "grid_5x5",
+                  "host_id": "cavern_entrance",
+                  "indicator_id": "battle_indicator",
+                  "trigger_radius": 0.5,
+                  "trigger_options": [
+                    {"interaction": "FIGHT", "text": "Attack Everything"},
+                    {"interaction": "STEAL", "text": "Stealthily Pillage the place"}
+                  ],
+                  "interact_options": [
+                    {"interaction": "ENTER", "text": "Climb Down", "dispatch":  {
+                      "event":"ENTER_PORTAL", "value":{"world_level": 9, "world_encounters": ["portals_09", "outlaw_start_encounters"]}}
+                    },
+                    {"interaction": "TALK",  "text": "Anyone down there?"},
+                    {"interaction": "LEAVE", "text": "Too scary for me."}
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "portals_09",
+        "data": [
+          {
+            "data_key":"encounter_data",
+            "config": {
+              "encounters": [
+                {
+                  "pos": [-765.5, 6.2, 652.6],
+                  "visibility": 2,
+                  "grid_id": "grid_5x5",
+                  "host_id": "cavern_entrance",
+                  "indicator_id": "battle_indicator",
+                  "trigger_radius": 0.5,
+                  "trigger_options": [
+                    {"interaction": "FIGHT", "text": "Attack Everything"},
+                    {"interaction": "STEAL", "text": "Stealthily Pillage the place"}
+                  ],
+                  "interact_options": [
+                    {"interaction": "ENTER", "text": "Climb Up", "dispatch":  {
+                      "event":"ENTER_PORTAL", "value":{"world_level": 10, "world_encounters": ["portals_10", "outlaw_start_encounters"]}}
+                    },
+                    {"interaction": "TALK",  "text": "Going up again..."},
+                    {"interaction": "LEAVE", "text": "Too scary for me."}
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  }
+}]
