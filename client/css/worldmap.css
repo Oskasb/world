@@ -136,6 +136,29 @@ div.button_zoom_in {
     text-shadow: 1px 1px 3px rgba(5, 0, 0, 1);
 }
 
+div.button_reload {
+    background-image: url("/client/assets/images/textures/gui/systempanel/left_arrow.png");
+    top: 6%;
+    right: -2%;
+    width: 0em;
+    height: 0em;
+    border-radius: 50%;
+    border: #bebebe;
+    border-style: solid;
+    border-width: 0.1em;
+    position: absolute;
+    background-color: #188600;
+
+    background-size: 100%;
+    box-shadow: 0 0px 0px 2px rgba(5, 0, 0, 0.5);
+    margin:0;
+    padding: 0.75em;
+    font-size: 3.2em;
+    text-align: center;
+    color: #000000;
+    text-shadow: 1px 1px 3px rgba(5, 0, 0, 1);
+}
+
 div.worldmap_frame {
     top: -44em;
     left: -44em;
@@ -168,24 +191,39 @@ div.map_image {
 
 div.heading {
     position: absolute;
-    top: 47%;
-    right: 47%;
-    width: 3%;
-    height: 3%;
-    border: solid white;
-    background-color: rgba(0, 186, 40, 0.9);
-    border-width: 0 0.3em 0.3em 0;
-    display: inline-block;
+    top: 50%;
+    right: 50%;
+    margin: 0;
+    width: 0;
+    height: 0;
+    padding: 0.35em;
+    border: solid;
+    background-color: rgba(0, 0, 0, 0.75);
+    border-color: rgba(55, 255, 255, 0.85);
+    border-width: 0.2em;
+    border-radius:  50%;
+    display: block;
+    box-shadow: 0 0 2px rgba(5, 0, 0, 0.75);
+    transform: translate(-50%, -50%);
+}
+
+.click_container {
+    position: absolute;
+    bottom: 1em;
+    left: 1em;
+    height: 1.3em;
+    width: 48em;
+    margin: 0;
     padding: 0;
-    box-shadow: 0 0px 0px 1px rgba(5, 0, 0, 0.75);
+    display: inline-block;
 }
 
 .coords_container {
     position: absolute;
-    bottom: 2em;
+    bottom: 1em;
     right: 1em;
     height: 1.3em;
-    width: 18em;
+    width: 25em;
     margin: 0;
     padding: 0;
     display: inline-block;
@@ -194,7 +232,7 @@ div.heading {
 .value_container {
     height: 100%;
     bottom: 2%;
-    width: 30%;
+    width: 5em;
     position: relative;
     margin: 0;
     padding: 0;

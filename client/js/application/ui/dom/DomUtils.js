@@ -278,6 +278,18 @@ class DomUtils {
         element.addEventListener('click', clickFunc);
     }
 
+    addHoverFunction(element, cb) {
+        element.style.pointerEvents = "auto";
+        element.style.cursor = "pointer";
+        element.addEventListener('mouseover', cb);
+    }
+
+    addMouseMoveFunction(element, cb) {
+        element.style.pointerEvents = "auto";
+        element.style.cursor = "pointer";
+        element.addEventListener('mousemove', cb);
+    }
+
 }
 
 export { DomUtils };
