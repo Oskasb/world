@@ -88,7 +88,24 @@ class HtmlElement {
         this.iframe = null;
 
         let onLoad = function() {
+
+            //    container.style.rotate = "360deg";
+
+
+            let container = this.container;
+
+            setTimeout(function() {
+                container.style.visibility = "visible";
+                container.style.transition = "all 1.0s cubic-bezier(0.1, 0.4, 0.1, 1.2)"
+                container.style.opacity = 1;
+                container.style.scale = 1;
+                container.style.transform = "rotate3d(0, 0, 0, 1.0rad) translate3d(0, 0, 0)";
+            }, 1)
+
             let iframeDocument = this.container.contentDocument || this.container.contentWindow.document;
+        //    DomUtils.applyStyleToAllDivs(iframeDocument, 'transform', "translate3d(0, 0, 2pt)")
+            this.container.style.transform = "rotate3d(1, 0, 0, 1.0rad) translate3d(0, 400em, 0)";
+            this.container.style.scale = 0;
             this.call.setIframe(iframeDocument);
             let closeAnchor = iframeDocument.getElementById('anchor_close');
             if (!closeAnchor) {
@@ -134,7 +151,8 @@ class HtmlElement {
         }.bind(this);
 
         this.container = DomUtils.createIframeElement('canvas_window', this.id, file, containerClass, onLoad)
-
+        this.container.style.visibility = "hidden";
+        this.container.style.opacity = 0;
         let rebuild = function() {
 
             if (this.container) {
@@ -160,7 +178,15 @@ class HtmlElement {
 
     closeHtmlElement() {
         if (this.container !== null) {
-            DomUtils.removeElement(this.container);
+            let container = this.container
+
+            setTimeout(function() {
+                DomUtils.removeElement(container);
+            }, 1000)
+            container.style.scale = 0;
+            container.style.opacity = 0;
+        //    container.style.rotate = "360deg";
+            container.style.transform = "rotate3d(1, 0, 0, 1.0rad) translate3d(0, 400em, 0)";
         }
         this.container = null;
         this.statusMap = null;

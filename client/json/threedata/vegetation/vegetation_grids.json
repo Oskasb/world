@@ -8,7 +8,7 @@
             "lod_levels_": [
               {
                 "debug": false,
-                "hide_tiles": false,
+                "hide_tiles": true,
                 "elevation" : 0.1,
                 "tile_size" : 0.9,
                 "tile_range" : 5,
@@ -49,12 +49,12 @@
                 ]
               },
               {
-                "hide_tiles": true,
+                "hide_tiles": false,
                 "elevation" : 0.1,
                 "tile_size" : 0.8,
                 "tile_range" : 7,
-                "tile_spacing" : 9,
-                "max_plants":25,
+                "tile_spacing" : 5,
+                "max_plants":21,
                 "plants":[
                   "grass_tall_sparse_1",
                   "grass_tall_sparse_2",
@@ -72,7 +72,7 @@
                 "elevation" : 0.1,
                 "tile_size" : 0.8,
                 "tile_range" : 5,
-                "tile_spacing" : 17,
+                "tile_spacing" : 13,
                 "max_plants":18,
                 "plants":[
                   "flower_1_red",
@@ -128,7 +128,7 @@
                 "elevation" : 0.1,
                 "tile_size" : 0.8,
                 "tile_range" : 7,
-                "tile_spacing" : 9,
+                "tile_spacing" : 5,
                 "max_plants":100,
                 "plants":[
                   "snow_small",
@@ -156,8 +156,8 @@
                 "elevation" : 0.1,
                 "tile_size" : 0.8,
                 "tile_range" : 5,
-                "tile_spacing" : 21,
-                "max_plants":110,
+                "tile_spacing" : 27,
+                "max_plants":40,
                 "plants":[
                   "snow_small",
                   "flower_1_red",

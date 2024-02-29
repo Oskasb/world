@@ -35,15 +35,28 @@ class DomInteract {
 
             setTimeout(addIcon, 100)
 
+            function triggerEvent(dispatch) {
+                let eventId = dispatch.event;
+                let value = dispatch.value;
+                if (!value.pos) {
+                    value.pos = hostActor.getSpatialPosition();
+                    value.worldEncounter = worldEncounter;
+                }
+                evt.dispatch(ENUMS.Event[eventId], value);
+            }
+
             let actFunc = function() {
                 if (option['dispatch']) {
-                    let eventId = option.dispatch.event;
-                    let value = option.dispatch.value;
-                    if (!value.pos) {
-                        value.pos = hostActor.getSpatialPosition();
-                        value.worldEncounter = worldEncounter;
+                    let dispatch = option['dispatch'];
+                    if (dispatch.length) {
+                        for (let i = 0; i < dispatch.length; i++) {
+                            triggerEvent(dispatch[i])
+                        }
+                    } else {
+                        triggerEvent(dispatch)
                     }
-                    evt.dispatch(ENUMS.Event[eventId], value);
+
+                    close();
                 } else {
                     selectedActor.actorText.say('No bound event '+option['interaction'])
 

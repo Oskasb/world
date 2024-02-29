@@ -12,11 +12,18 @@
       "TEXTURES"
     ],
     "POLL_INDEX":[
-      "/game/actors/actions/statistical/statistical_actions.json"              ,
-      "/physics/physics_parameters.json"                    ,
+      "/world/locations/location_keep_fisherman.json"        ,
+      "/world/locations/caverns_10/location_caverns_10_bandit_keep.json"   ,
       "/world/locations/location_bandit_keep.json"           ,
       "/world/encounters/encounters_outlaw.json"               ,
       "/world/locations/models/models_bandit_keep.json"         ,
+      "/threedata/shaders/three_terrain_shader.json"
+
+    ],
+    "NOT_POLL_INDEX":[
+
+      "/game/actors/actions/statistical/statistical_actions.json"              ,
+      "/physics/physics_parameters.json"                    ,
       "/ui/pages/start/gui_page_start.json"                  ,
       "/ui/pages/start/gui_page_start_princess.json"                  ,
       "/ui/pages/start/gui_page_start_alien.json"                  ,
@@ -54,9 +61,6 @@
       "/world/locations/location_exit_bridge.json"            ,
       "/threedata/terrain/ground_elements.json"  ,
       "/threedata/shaders/three_shader_programs.json"        ,
-      "/threedata/shaders/three_terrain_shader.json"
-    ],
-    "NOT_POLL_INDEX":[
       "/threedata/assets/asset_environment.json"             ,
       "/threedata/assets/three_model_rigs.json"              ,
       "/threedata/assets/three_models.json"                   ,

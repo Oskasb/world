@@ -4,6 +4,7 @@ import { WorldModel} from "./WorldModel.js";
 import { WorldEncounter } from "../encounter/WorldEncounter.js";
 import { WorldTreasure} from "../encounter/WorldTreasure.js";
 
+let locationModelConfigs;
 let worldModels = [];
 let worldBoxes = [];
 let worldEncounters = [];
@@ -26,9 +27,22 @@ function removeWorldModels() {
     }
 }
 
-let initWorldModels = function(config) {
+let setlocationModelConfigs = function(config) {
+    locationModelConfigs = config;
+    initWorldModels()
+}
 
-  //  console.log("World Models; ", config);
+let lastWorldLevel = 20;
+let initWorldModels = function(worldLevel) {
+
+    if (!worldLevel) {
+        worldLevel = lastWorldLevel;
+    } else {
+        lastWorldLevel = worldLevel;
+    }
+
+    let config = locationModelConfigs;
+    console.log("worldLevel Models; ", worldLevel, config);
 
     removeWorldModels()
 
@@ -41,7 +55,15 @@ let initWorldModels = function(config) {
 
     let locationData = function(data) {
         for (let i = 0; i < data.length;i++) {
-            if (data[i].config['models']) {
+
+            if (worldLevel === 20) {
+                if (!data[i].config['world_level']) {
+                    modelsData(data[i].config.models);
+                }
+            }
+
+            if (data[i].config['world_level'] === worldLevel) {
+                console.log("Specific World LEvel Models", worldLevel, data[i])
                 modelsData(data[i].config.models);
             }
         }
@@ -54,6 +76,8 @@ let initWorldModels = function(config) {
 }
 
 let deactivateWorldEncounters = function () {
+    GuiAPI.getWorldInteractionUi().deactivateWorldInteractUi()
+
     while (worldEncounters.length) {
         let encounter = worldEncounters.pop()
         encounter.deactivateWorldEncounter()
@@ -77,8 +101,16 @@ let activateSkippedEncounter = function(encId, cb) {
 }
 
 let activateWorldEncounters = function(event) {
+
+    if (event.world_level) {
+        initWorldModels(event.world_level)
+    }
+
     deactivateWorldEncounters();
-    GuiAPI.getWorldInteractionUi().initWorldInteractUi();
+
+    setTimeout(GuiAPI.getWorldInteractionUi().initWorldInteractUi, 1000)
+
+//    GuiAPI.getWorldInteractionUi().initWorldInteractUi();
     let activeActor = GameAPI.getGamePieceSystem().selectedActor;
     if (activeActor) {
         activeActor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_WALK);
@@ -108,7 +140,7 @@ let activateWorldEncounters = function(event) {
     let treasuresData = function(treasures, index, listId) {
         for (let i = 0; i < treasures.length;i++) {
             let treasureId = "trsr_"+listId+"_"+index+"_"+i;
-            console.log("Load World Treasure: ", treasureId, treasures[i])
+       //     console.log("Load World Treasure: ", treasureId, treasures[i])
             let onReady = function(treasure) {
                 worldTreasures.push(treasure);
                 treasure.activateWorldTreasure()
@@ -126,6 +158,7 @@ let activateWorldEncounters = function(event) {
     let locationData = function(data, listId) {
         for (let i = 0; i < data.length;i++) {
             if (data[i].config['encounters']) {
+       //         console.log("locationData: ", data[i].config['encounters'])
                 encountersData(data[i].config.encounters, i, listId);
             }
             if (data[i].config['treasures']) {
@@ -139,6 +172,7 @@ let activateWorldEncounters = function(event) {
             locationData(encounterConfigs[i].data, encounterConfigs[i].id);
         }
     }
+
 }
 
 let initWorldEncounters = function(config) {
@@ -149,7 +183,7 @@ let initWorldEncounters = function(config) {
 
 class WorldModels {
     constructor() {
-        this.configData =  new ConfigData("WORLD_LOCATIONS","MODELS", null, null, null, initWorldModels)
+        this.configData =  new ConfigData("WORLD_LOCATIONS","MODELS", null, null, null, setlocationModelConfigs)
         this.configData =  new ConfigData("WORLD_ENCOUNTERS","ENCOUNTERS", null, null, null, initWorldEncounters)
 
         evt.on(ENUMS.Event.LOAD_ADVENTURE_ENCOUNTERS, activateWorldEncounters)

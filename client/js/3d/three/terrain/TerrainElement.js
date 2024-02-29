@@ -70,6 +70,10 @@ class TerrainElement {
         }
 
         let addInstance = function(instance) {
+            this.instance = instance;
+            if (this.physicalModel) {
+                this.physicalModel.call.setInstance(instance);
+            }
             instance.stationary = true;
             instance.spatial.stickToObj3D(this.obj3d);
             ThreeAPI.getScene().remove(instance.spatial.obj3d)
@@ -79,21 +83,24 @@ class TerrainElement {
         client.dynamicMain.requestAssetInstance(assetId, addInstance)
     }
 
-
     deactivateElementPhysics() {
         if (this.physicalModel) {
+            this.physicalModel.call.setInstance(null);
             removePhysicalModel(this.physicalModel);
             this.physicalModel = null;
         }
-
     }
 
     activateElementPhysics() {
         if (!this.physicalModel) {
-            this.physicalModel = addPhysicsToModel(this.assetId, this.obj3d)
+            this.physicalModel = addPhysicsToModel(this.assetId, this.obj3d);
+            if (this.instance) {
+                this.physicalModel.call.setInstance(this.instance);
+            } else {
+                console.log("No instance for physical model", this)
+            }
         }
     }
-
 
 }
 

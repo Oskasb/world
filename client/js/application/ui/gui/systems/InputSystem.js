@@ -1,4 +1,5 @@
 import { Vector3 } from "../../../../../libs/three/math/Vector3.js";
+import {ENUMS} from "../../../ENUMS.js";
 
 let tempVec3 = new Vector3();
 
@@ -132,8 +133,6 @@ class InputSystem {
                             currentPressedElement.notifyInputOutside(inputIndex);
                             guiPointer.setPointerInteractiveElement(null);
                             guiPointer.setPointerHovering(true)
-                        } else {
-
                         }
                     } else {
                         interactiveElem.notifyHoverStateOn(inputIndex);
@@ -167,7 +166,11 @@ class InputSystem {
                 if (interactiveElem) {
                     interactiveElem.notifyHoverStateOn(inputIndex);
                 } else {
-                    // handle world space hover here....
+                        let wheelDelta = guiPointer.inputState.wheelDelta;
+                        if (wheelDelta !== 0) {
+                            let zoom = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_ZOOM)
+                            GameAPI.getPlayer().setStatusKey(ENUMS.PlayerStatus.PLAYER_ZOOM, MATH.clamp(zoom-wheelDelta, 0.25, 4))
+                        }
                 }
 
             }

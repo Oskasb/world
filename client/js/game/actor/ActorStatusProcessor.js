@@ -173,21 +173,26 @@ let obstructHhitCb = function(hit) {
     let ptr = hit.ptr;
 
     if (ptr === getTerrainBodyPointer()) {
-        viewObstuctionTest(hit.position, ThreeAPI.getCamera().position, obstructHhitCb);
-        return;
+    //    viewObstuctionTest(hit.position, ThreeAPI.getCamera().position, obstructHhitCb);
+        return hit;
     }
 
     let physicalModel = getModelByBodyPointer(ptr);
 
     if (!physicalModel) {
-        return;
+        console.log("Hit nothing ", ptr)
+        return hit;
     }
 
     let model = physicalModel.call.getModel();
 
     if (!model) {
-        viewObstuctionTest(hit.position, ThreeAPI.getCamera().position, obstructHhitCb);
-        return;
+        model = physicalModel.call.getInstance();
+        if (!model) {
+        //    console.log("no instance hit (box model)", ptr, physicalModel)
+            return hit;
+        }
+    //    console.log("instance hit ", model)
     }
 
     if (world.viewObstuctingModels.indexOf(model) === -1) {
@@ -195,34 +200,80 @@ let obstructHhitCb = function(hit) {
         model.call.viewObstructing(true)
     }
 
-    viewObstuctionTest(hit.position, ThreeAPI.getCamera().position, obstructHhitCb)
+    return viewObstuctionTest(hit.position, ThreeAPI.getCamera().position, obstructHhitCb)
 
 }
 
     function viewObstuctionTest(from, to, hitCb) {
-        let hit = rayTest(from, to, tempVec2, null, true);
+        frameTests++;
+        if (frameTests > maxTests) {
+        //    console.log("View Obstruct test max")
+            return;
+        }
+        let hit = rayTest(from, to, tempVec2, null, false);
         if (hit) {
-            hitCb(hit);
+            return hitCb(hit);
         }
     }
 
     let obstructingModels = [];
-
+let maxTests = 8;
+let frameTests = 0;
+let planeElev = 0.5;
+let planeSize = 0.8
 function updateViewPhysicalObstruction(actor) {
+
     let world = getPhysicalWorld();
+    let camPos = ThreeAPI.getCamera().position;
   //  let viewObstuctingModels
     MATH.copyArrayValues(world.viewObstuctingModels, obstructingModels);
     MATH.emptyArray(world.viewObstuctingModels);
-    actor.getSpatialPosition(tempVec);
-    tempVec.y += actor.getStatus(ENUMS.ActorStatus.HEIGHT) * 0.25;
-    let camPos = ThreeAPI.getCamera().position;
 
+    actor.getSpatialPosition(tempVec);
+    tempVec.y += planeElev;
+    tempVec.z += planeSize;
+    frameTests = 0;
+    maxTests = 5;
     viewObstuctionTest(tempVec, camPos, obstructHhitCb)
+
+    actor.getSpatialPosition(tempVec);
+    tempVec.y += planeElev;
+    tempVec.z -= planeSize;
+    frameTests = 0;
+    viewObstuctionTest(tempVec, camPos, obstructHhitCb)
+
+    actor.getSpatialPosition(tempVec);
+    tempVec.y += planeElev;
+    tempVec.x += planeSize;
+    frameTests = 0;
+    viewObstuctionTest(tempVec, camPos, obstructHhitCb)
+
+    actor.getSpatialPosition(tempVec);
+    tempVec.y += planeElev;
+    tempVec.x -= planeSize;
+    frameTests = 0;
+    viewObstuctionTest(tempVec, camPos, obstructHhitCb)
+
+    actor.getSpatialPosition(tempVec);
+    tempVec.y += actor.getStatus(ENUMS.ActorStatus.HEIGHT) * 1.2;
+    frameTests = 0;
+    maxTests = 8;
+    let hit = viewObstuctionTest(tempVec, camPos, obstructHhitCb)
 
     for (let i = 0; i < obstructingModels.length; i++) {
         let model = obstructingModels[i];
         if (world.viewObstuctingModels.indexOf(model) === -1) {
             model.call.viewObstructing(false);
+        }
+    }
+
+    if (hit) {
+        let ptr = hit.ptr;
+
+        if (ptr === getTerrainBodyPointer()) {
+            camPos.copy(hit.position);
+            //    viewObstuctionTest(hit.position, ThreeAPI.getCamera().position, obstructHhitCb);
+            return hit;
         }
     }
 

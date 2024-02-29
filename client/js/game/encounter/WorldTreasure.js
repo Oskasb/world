@@ -80,8 +80,11 @@ function checkTriggerPlayer(treasure) {
 
             treasure.timeInsideProximity += tpf;
 
-            treasure.engagementArc.to.copy(treasure.getPos());
-            treasure.engagementArc.from.copy(selectedActor.getSpatialPosition());
+            if (treasure.engagementArc !== null) {
+                treasure.engagementArc.to.copy(treasure.getPos());
+                treasure.engagementArc.from.copy(selectedActor.getSpatialPosition());
+            }
+
 
         } else {
 
@@ -259,7 +262,7 @@ class WorldTreasure {
                     }
                     MATH.rotXYZFromArray(obj3d, rot);
                     treasure.items.push(item);
-                    console.log("Spawn Loot: ", item, treasure)
+                //    console.log("Spawn Loot: ", item, treasure)
                     item.call.setUpdateCallback();
                     item.call.setUpdateCallback(itemUpdateCb);
                     item.show();
@@ -297,7 +300,7 @@ class WorldTreasure {
         return this.obj3d.position;
     }
     activateWorldTreasure() {
-        console.log("Activate Treasure ", this)
+    //    console.log("Activate Treasure ", this)
         ThreeAPI.registerTerrainLodUpdateCallback(this.getPos(), this.call.lodUpdated)
     }
 

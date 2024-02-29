@@ -1,6 +1,5 @@
 import {Vector3} from "../../../libs/three/math/Vector3.js";
 import * as CursorUtils from "./CursorUtils.js";
-import { rayTest} from "../../application/utils/PhysicsUtils.js";
 import {Object3D} from "../../../libs/three/core/Object3D.js";
 
 let CAM_MODES = {
@@ -242,7 +241,14 @@ function lerpCameraPosition(towardsPos, alpha, testObscured) {
 
     }
 */
-    camPosVec.lerp(towardsPos, alpha * camFollowSpeed*0.1)
+
+    let distance = MATH.distanceBetween(camPosVec, towardsPos);
+
+    if (distance > 4) {
+        alpha += MATH.curveQuad((distance-4)*0.02);
+    }
+
+    camPosVec.lerp(towardsPos, MATH.clamp(alpha * camFollowSpeed*0.1, 0.001, 0.5))
 
     if (testObscured) {
     //    rayTest(camLookAtVec, camPosVec, camPosVec);
@@ -251,7 +257,13 @@ function lerpCameraPosition(towardsPos, alpha, testObscured) {
 }
 
 function lerpCameraLookAt(towardsPos, alpha) {
-    camLookAtVec.lerp(towardsPos, alpha * camLookSpeed*0.1)
+
+    let distance = MATH.distanceBetween(camLookAtVec, towardsPos);
+    if (distance > 5) {
+        alpha += MATH.curveQuad((distance-5)*0.06);
+    }
+    camLookAtVec.lerp(towardsPos, MATH.clamp(alpha * camFollowSpeed*0.1, 0.001, 0.5))
+
 }
 
 
@@ -755,6 +767,7 @@ function CAM_ENCOUNTER() {
     }
 }
 
+
 function CAM_MOVE() {
 
     if (!selectedActor) {
@@ -782,23 +795,7 @@ function CAM_MOVE() {
 
         let elevate = dragDeltaY
 
-    //    selectedActor.actorText.say(pitch+' '+MATH.decimalify(elevate, 10)+'  '+MATH.decimalify(pointerDragVector.z, 10))
-    //    orbitObj.rotateX(elevate*0.01)
-    //    orbitObj.lookAt(MATH.origin)
-
         camObj.position.y = MATH.clamp(camObj.position.y + elevate * 0.05, -0.1, 2);
-     //   camObj.lookAt(MATH.origin);
-
-       /*
-            notifyCameraStatus(ENUMS.CameraStatus.POINTER_ACTION, ENUMS.CameraControls.CAM_TRANSLATE, true)
-            distance += CursorUtils.processOrbitCursorInput(cursorObj3d, dragToVec3, offsetPos, cameraCursor.getForward(), pointerDragVector, zoomDistance)
-            camPosVec.copy(cursorObj3d.position);
-            camPosVec.add(offsetPos);
-            //    CursorUtils.drawInputCursorState(cursorObj3d, dragToVec3, camTargetPos, cameraCursor.getForward(), camLookAtVec)
-            tempVec.copy(cursorObj3d.position)
-            lerpCameraLookAt(tempVec, tpf*2)
-            camLookAtVec.y+=0.9;
-        */
 
         applyPointerMove();
     } else if (pointerActive) {

@@ -236,6 +236,14 @@ class DomUtils {
         }
     };
 
+    applyStyleToAllDivs = function(doc, styleName, styleValue) {
+        let tags = doc.getElementsByTagName("div");
+        let total = tags.length;
+        for (let i = 0; i < total; i++ ) {
+            tags[i].style[styleName] = styleValue;
+        }
+    };
+
     quickHideElement = function(element) {
         element.style.display = "none"
         element.style.visibility = "hidden"

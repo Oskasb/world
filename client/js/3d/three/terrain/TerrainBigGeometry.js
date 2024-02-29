@@ -30,11 +30,14 @@ let terrainUpdate = false;
 let terrainConfig = null;
 
 let terrainParams = {}
-
+let terrainCanvas;
 let groundInstances = [];
 let oceanInstances = [];
 
 let globalUpdateFrame = 0;
+
+let worldLevels = {}
+
 let setupHeightmapData = function(originalModelMat) {
     terrainMaterial = originalModelMat;
     let terrainmapTx = terrainMaterial.terrainmap;
@@ -42,7 +45,7 @@ let setupHeightmapData = function(originalModelMat) {
     terrainWidth = terrainData.width;
     terrainHeight = terrainData.height;
 
-    let terrainCanvas = document.createElement('canvas');
+    terrainCanvas = document.createElement('canvas');
     terrainContext = terrainCanvas.getContext('2d',  { willReadFrequently: true })
     terrainContext.getContextAttributes().willReadFrequently = true;
 //    console.log(terrainContext, terrainContext.getContextAttributes())
@@ -114,6 +117,8 @@ let setupHeightmapData = function(originalModelMat) {
     oceanMaterial.uniforms.heightmaptiles.value.z = 2048;
     oceanMaterial.needsUpdate = true;
 
+    registerWorldLevel(20);
+    addWorldLevelMaterial(20, terrainMaterial)
     /*
         setTimeout(function() {
             terrainmap = terrainContext.getImageData(0, 0, terrainWidth, terrainHeight).data;
@@ -313,19 +318,50 @@ let oceanModel = function(model) {
     oceanMaterial = model.originalModel.material.mat;
 }
 
-function setHeightDataImage(imgData) {
-    let width = imgData.width;
-    let height = imgData.height;
-   // heightmapContext.
-    heightmapContext.globalCompositeOperation = "source-over"
-    heightmapContext.drawImage(imgData, 0, 0, width, height);
+function registerWorldLevel(worldLevel) {
+    if (!worldLevels[worldLevel]) {
+        worldLevels[worldLevel] = {
+            heightCanvas : document.createElement('canvas'),
+            terrainCanvas : document.createElement('canvas'),
+        };
+
+        worldLevels[worldLevel].heightCanvas.width = width
+        worldLevels[worldLevel].heightCanvas.height = height
+        worldLevels[worldLevel].terrainCanvas.width = terrainCanvas.width
+        worldLevels[worldLevel].terrainCanvas.height = terrainCanvas.height
+        worldLevels[worldLevel].heightCtx = worldLevels[worldLevel].heightCanvas.getContext('2d')
+        worldLevels[worldLevel].terrainCtx = worldLevels[worldLevel].terrainCanvas.getContext('2d')
+    }
 }
 
-function setTerrainDataImage(imgData) {
+function fillContextWithImage(ctx, imgData) {
     let width = imgData.width;
     let height = imgData.height;
-    terrainContext.globalCompositeOperation = "source-over"
-    terrainContext.drawImage(imgData, 0, 0, width, height);
+    ctx.globalCompositeOperation = "source-over"
+    ctx.drawImage(imgData, 0, 0, width, height);
+}
+
+function addWorldLevelMaterial(worldLevel, material) {
+    console.log("addWorldLevelMaterial", material)
+    let wLevel = worldLevels[worldLevel];
+    let heightCtx = wLevel.heightCtx;
+    let terrainCtx = wLevel.terrainCtx;
+
+    let newHeightmap = material.heightmap;
+    let newTerrainMap = material.terrainmap;
+
+    let heightImageData = newHeightmap.source.data; // source.data is a canvas
+    let terrainImageData = newTerrainMap.source.data;
+    fillContextWithImage(heightCtx, heightImageData);
+    fillContextWithImage(terrainCtx, terrainImageData);
+}
+
+function setHeightDataImage(imgData, worldLevel) {
+    fillContextWithImage(heightmapContext, imgData)
+}
+
+function setTerrainDataImage(imgData, worldLevel) {
+    fillContextWithImage(terrainContext, imgData)
 }
 
 class TerrainBigGeometry {
@@ -336,16 +372,23 @@ class TerrainBigGeometry {
     }
 
 
+    applyGroundMaterial(material, worldLevel) {
 
-    applyGroundMaterial(material) {
-        let newHeightmap = material.heightmap;
-        let newTerrainMap = material.terrainmap;
+        if (!worldLevels[worldLevel]) {
+            registerWorldLevel(worldLevel)
+            addWorldLevelMaterial(worldLevel, material);
+            console.log("WorldLevels ", worldLevels);
+        }
 
-        let heightImageData = newHeightmap.source.data;
-        let terrainImageData = newTerrainMap.source.data;
+        let wLevel = worldLevels[worldLevel];
+    //    let newHeightmap = material.heightmap;
+    //    let newTerrainMap = material.terrainmap;
+
+        let heightImageData = wLevel.heightCanvas;
+        let terrainImageData = wLevel.terrainCanvas;
         setHeightDataImage(heightImageData);
         setTerrainDataImage(terrainImageData);
-        console.log("applyGroundMaterial", [terrainMaterial, newHeightmap, newTerrainMap]);
+        console.log("applyGroundMaterial", [terrainMaterial, worldLevel, worldLevels]);
 
         this.updateGroundCanvasTexture()
         this.updateHeightmapCanvasTexture()

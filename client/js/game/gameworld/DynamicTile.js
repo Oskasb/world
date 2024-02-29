@@ -8,7 +8,6 @@ import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
 import {aaBoxTestVisibility, borrowBox, cubeTestVisibility} from "../../application/utils/ModelUtils.js";
 import {colorMapFx} from "../visuals/Colors.js";
 import {
-    detectFreeSpaceAbovePoint,
     physicalAlignYGoundTest,
     rayTest,
     testProbeFitsAtPos
@@ -56,7 +55,7 @@ class DynamicTile {
 
 
         this.obj3d = new Object3D();
-        this.text.call.setPosVec(this.obj3d.position);
+
         this.obj3d.lookAt(up);
         this.tileX = 0;
         this.tileZ = 0;
@@ -223,8 +222,10 @@ class DynamicTile {
         let pos = this.getPos()
         //    let lodDistance = pos.distanceTo(ThreeAPI.getCamera().position)
            let lodDistance = pos.distanceTo(lodCenter)
-        if (lodDistance > maxDistance*0.4) {
-            lodDistance = maxDistance*0.4 + lodDistance * 0.15;
+        if (lodDistance > maxDistance*0.3) {
+            lodDistance = maxDistance*0.3 + lodDistance * 0.15;
+        } else {
+            lodDistance = 0;
         }
         let rgba = this.rgba
         let tileSize = this.spacing * (margin || 1);
@@ -255,6 +256,7 @@ class DynamicTile {
 
                 if (this.debug) {
                     if (MATH.decimalify(nearness, 10) !== MATH.decimalify(this.nearness, 10)) {
+                        this.text.call.setPosVec(this.obj3d.position);
                         this.text.say(nearness)
                     }
                     let color = {x:MATH.sillyRandom(lodLevel), y:Math.sin(lodLevel*1.8), z:Math.cos(lodLevel), w:1}

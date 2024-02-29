@@ -156,8 +156,19 @@ div.minimap {
     border-style: solid;
     border-width: 0.25em;
     box-shadow: 0 0 1em rgba(5, 0, 0, 0.5);
-    transition: border-radius 2s;
+    transition-property: border-radius, mask-image;
+    transition-duration: 2s;
+    transition-timing-function: ease-out;
     overflow: hidden;
+}
+
+div.minimap_combat {
+    mask-image: radial-gradient(rgba(255, 255, 255, 0.9) 45%, rgba(255, 255, 255, 0.6) 70%, rgba(255, 255, 255, 0.9) 100%);
+    border-radius: 6%;
+}
+
+div.minimap_travel {
+
 }
 
 div.level_20 {

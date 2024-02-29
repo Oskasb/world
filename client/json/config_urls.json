@@ -8,7 +8,9 @@
       "/world/encounters/hosts/encounter_hosts.json"         ,
       "/world/encounters/hosts/treasure_hosts.json"          ,
       "/world/encounters/encounters_home.json"               ,
-      "/world/encounters/encounters_outlaw.json"               ,
+      "/world/encounters/encounters_outlaw.json",
+
+      "/world/locations/caverns_10/location_caverns_10_bandit_keep.json"   ,
       "/world/locations/location_alien_crash_site.json"      ,
       "/world/locations/location_bandit_keep.json"           ,
       "/world/locations/location_keep_fisherman.json"        ,

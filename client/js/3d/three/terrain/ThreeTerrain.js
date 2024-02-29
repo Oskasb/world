@@ -100,9 +100,7 @@ let constructGeometries = function(heightMapData, transform, groundConfig, secti
     let tiles = (txWidth / (mesh_segments+1));
  //   console.log("Constructs HM Geos", gridMeshAssetId, txWidth, mesh_segments, tiles);
 
-
     MATH.vec3FromArray(terrainOrigin, transform['pos']);
-
     MATH.vec3FromArray(terrainScale, transform['scale']);
 
     let segmentScale = new Vector3();
@@ -303,6 +301,22 @@ function clearTerrainGeometries() {
             terrainGeometries[i][j].clearTerrainGeometry();
         }
     }
+//    dynamicLodGrid.deactivateLodGrid()
+}
+
+let terrainData;
+let terrainId = 'main_world'
+
+let populateTerrainGeometries = function() {
+    console.log("populateTerrainGeometries..", terrainData)
+    constructGeometries(terrainData['height_map'], terrainData['transform'], terrainData['ground'], terrainData['section_info']);
+
+    let data = terrainData;
+    terrainList[terrainId] = data;
+    gridConfig = data['grid']
+
+    dynamicLodGrid.activateLodGrid({lodLevels:data['section_info']['lod_levels'].length, tile_range:gridConfig['tile_range'], tile_spacing:gridConfig['tile_spacing'], hide_tiles:gridConfig['hide_tiles'], center_offset:true, debug:false})
+
 }
 
 class ThreeTerrain {
@@ -318,17 +332,15 @@ class ThreeTerrain {
             subscribeToLodUpdate:subscribeToLodUpdate,
             removeLodUpdateCB:removeLodUpdateCB,
             getTerrainScale:getTerrainScale,
-            clearTerrainGeometries:clearTerrainGeometries
+            clearTerrainGeometries:clearTerrainGeometries,
+            populateTerrainGeometries:populateTerrainGeometries
         }
     }
 
     loadData = function(matLoadedCB) {
 
-        let terrainId = 'main_world'
         terrainMaterial = new TerrainMaterial(ThreeAPI);
-
         dynamicLodGrid = new DynamicLodGrid();
-
 
         let terrainListLoaded = function(data) {
         //    console.log("TERRAINS", data);
@@ -336,9 +348,18 @@ class ThreeTerrain {
             //    terrainMaterial.addTerrainMaterial(terrainId, data['textures'], data['shader']);
             //    console.log("terrainListLoaded", data, terrainMaterial, terrainMaterial.getMaterialById(terrainId));
             gridConfig = data['grid']
-            constructGeometries(data['height_map'], data['transform'], data['ground'], data['section_info']);
+            terrainData = data;
+
+        //    populateTerrainGeometries = function() {
+        //        console.log("populateTerrainGeometries")
+            //    constructGeometries(data['height_map'], data['transform'], data['ground'], data['section_info']);
+        //    }
+
             terrainBigGeometry.initBigTerrainGeometry(terrainCenter, data['height_map'], data['transform'], data['ground'], data['section_info']);
+
             dynamicLodGrid.activateLodGrid({lodLevels:data['section_info']['lod_levels'].length, tile_range:gridConfig['tile_range'], tile_spacing:gridConfig['tile_spacing'], hide_tiles:gridConfig['hide_tiles'], center_offset:true, debug:false})
+
+
             matLoadedCB();
         }
 

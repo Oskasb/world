@@ -17,10 +17,33 @@ class InstancedModel {
             onUpdateEvent :onUpdateEvent
         };
 
-        this.active = ENUMS.InstanceState.INITIATING;
+        this.attribsV4 = {}
 
+        this.active = ENUMS.InstanceState.INITIATING;
         this.boneMap = {};
         this.attachments = [];
+
+        let viewObstructing = function(bool) {
+        //    console.log("View Obstruct", originalAsset.id)
+
+            let source =  this.attribsV4['sprite'];
+            if (!source) {
+                console.log("no sprite attrib, expected sprite.x for solidity");
+                return;
+            }
+
+            if (bool) {
+                source.x = 0.1;
+            } else {
+                source.x = 1;
+            }
+            this.setAttributev4('sprite', source);
+        }.bind(this);
+
+        this.call = {
+            viewObstructing:viewObstructing
+        }
+
     };
 
     getAssetId = function() {
@@ -65,6 +88,13 @@ class InstancedModel {
     };
 
     setAttributev4(attribName, vec4) {
+        if (!this.attribsV4[attribName]) {
+            this.attribsV4[attribName] = {x:0, y:0, z:0, w:0}
+        }
+        this.attribsV4[attribName].x = vec4.x;
+        this.attribsV4[attribName].y = vec4.y;
+        this.attribsV4[attribName].z = vec4.z;
+        this.attribsV4[attribName].w = vec4.w;
         this.getGeometryInstance().setAttributeVec4(attribName, vec4)
     };
 

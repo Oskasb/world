@@ -53,7 +53,6 @@ class LocationModel {
         inheritConfigTransform(this.obj3d, this.config);
 
 
-
         if (config.boxes) {
             let boxes = config.boxes;
 
@@ -158,7 +157,7 @@ class LocationModel {
         let viewObstructing = function(bool) {
         //    console.log("View Obstruct")
             if (bool) {
-                this.palette.setSeeThroughSolidity(0.5)
+                this.palette.setSeeThroughSolidity(0.1)
             } else {
                 this.palette.setSeeThroughSolidity(this.solidity)
             }
@@ -198,9 +197,18 @@ class LocationModel {
         while (this.boxes.length) {
             let box = this.boxes.pop()
             ThreeAPI.clearTerrainLodUpdateCallback(box.call.lodUpdated)
+            box.call.lodUpdated(-1);
             box.call.removeWorldBox(box);
         }
     }
+
+    removeLocationModel() {
+        this.clearLocationBoxes();
+        this.call.lodUpdated(-1);
+        ThreeAPI.clearTerrainLodUpdateCallback(this.call.lodUpdated)
+        hideLocationModel(this);
+    }
+
 
 }
 
