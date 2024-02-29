@@ -89,15 +89,7 @@
                   "visibility": 3,
                   "palette": "TOWN_DARK_2"
                 },
-                {
-                  "model": "model_cavern_entrance",
-                  "pos": [-719, 6.2, 781],
-                  "rot": [0, 0.15, 0],
-                  "scale": [1, 1, 1],
-                  "on_ground": true,
-                  "visibility": 3,
-                  "palette": "TOWN_DARK_2"
-                },
+
                 {
                   "model": "model_tree_1",
                   "pos": [-722.5, 6.2, 792],

@@ -216,6 +216,25 @@ class PlayerMain {
 
         }
 
+        let encounterConverse = function(e) {
+            console.log("encounterConverse", e);
+            let wEnc = e.worldEncounter;
+            if (e.skip === true) {
+                let host = wEnc.getHostActor();
+                host.actorText.say("Okay! Bye.")
+                let pos = host.getSpatialPosition();
+                let selectedActor = GameAPI.getGamePieceSystem().selectedActor;
+                let forward = selectedActor.getForward()
+                forward.multiplyScalar(2);
+                pos.add(forward);
+                host.transitionTo(pos, 1);
+                setTimeout(function() {
+                    wEnc.deactivateWorldEncounter();
+                }, 1000);
+            }
+
+        }
+
         let callbacks = {
             handleEquip : equipItem,
             handleUnequip : unequipItem,
@@ -235,6 +254,7 @@ class PlayerMain {
             setCompanionAsLeader:setCompanionAsLeader,
             activateNavPoints:activateNavPoints,
             enterPortal:enterPortal,
+            encounterConverse:encounterConverse,
             worldLoaded:worldLoaded
         }
 
@@ -258,7 +278,7 @@ class PlayerMain {
         evt.on(ENUMS.Event.SET_COMPANION_AS_LEADER, callbacks.setCompanionAsLeader);
         evt.on(ENUMS.Event.ACTIVATE_NAV_POINTS, callbacks.activateNavPoints);
         evt.on(ENUMS.Event.ENTER_PORTAL, callbacks.enterPortal);
-
+        evt.on(ENUMS.Event.ENCOUNTER_CONVERSE, callbacks.encounterConverse);
     }
 
 
