@@ -1,10 +1,6 @@
-import {DynamicGrid} from "../../../../game/gameworld/DynamicGrid.js";
 import {DynamicLodGrid} from "../../../../application/utils/DynamicLodGrid.js";
-import {cubeTestVisibility} from "../../../../application/utils/ModelUtils.js";
-import {VegetationTile} from "./VegetationTile.js";
 import {VegetationPatch} from "./VegetationPatch.js";
 import {poolFetch, poolReturn, registerPool} from "../../../../application/utils/PoolUtils.js";
-import {Vector3} from "../../../../../libs/three/math/Vector3.js";
 
 let updateFrame = 0;
 let releases = [];

@@ -107,7 +107,10 @@ let activateWorldEncounters = function(event) {
     }
 
     deactivateWorldEncounters();
-    GuiAPI.getWorldInteractionUi().initWorldInteractUi();
+
+    setTimeout(GuiAPI.getWorldInteractionUi().initWorldInteractUi, 1000)
+
+//    GuiAPI.getWorldInteractionUi().initWorldInteractUi();
     let activeActor = GameAPI.getGamePieceSystem().selectedActor;
     if (activeActor) {
         activeActor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_WALK);

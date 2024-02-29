@@ -80,8 +80,11 @@ function checkTriggerPlayer(treasure) {
 
             treasure.timeInsideProximity += tpf;
 
-            treasure.engagementArc.to.copy(treasure.getPos());
-            treasure.engagementArc.from.copy(selectedActor.getSpatialPosition());
+            if (treasure.engagementArc !== null) {
+                treasure.engagementArc.to.copy(treasure.getPos());
+                treasure.engagementArc.from.copy(selectedActor.getSpatialPosition());
+            }
+
 
         } else {
 

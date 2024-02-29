@@ -6,8 +6,9 @@ import { Vector3 } from "../../../libs/three/math/Vector3.js";
 class DynamicLodGrid {
     constructor() {
         this.lastLodCenter = new Vector3();
-        this.dynamicGrid = poolFetch( 'DynamicGrid')
+        this.dynamicGrid = null;
         this.lodElements = [];
+        this.dynamicGrid = poolFetch( 'DynamicGrid')
     }
 
 
@@ -41,6 +42,10 @@ class DynamicLodGrid {
     updateDynamicLodGrid(lodCenter, tileUpdateCallback, coarseness, margin, preUpdateTime) {
     //    if (this.lastLodCenter.distanceToSquared(lodCenter) > 0.01) {
 
+        if (this.dynamicGrid === null) {
+            return;
+        }
+
             let centerTile = this.dynamicGrid.getTileAtPosition(lodCenter);
             if (!centerTile) {
                 console.log("Bad tile", lodCenter)
@@ -63,6 +68,7 @@ class DynamicLodGrid {
 
         this.dynamicGrid.deactivateDynamicGrid();
         poolReturn(this.dynamicGrid);
+        this.dynamicGrid = null;
     }
 
     rebuildLodGrid() {
