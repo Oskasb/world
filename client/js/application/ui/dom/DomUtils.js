@@ -292,6 +292,22 @@ class DomUtils {
         element.addEventListener('touchmove', cb);
     }
 
+    addPressStartFunction(element, cb) {
+        element.style.pointerEvents = "auto";
+        element.style.cursor = "pointer";
+        element.addEventListener('mousedown', cb);
+        element.addEventListener('touchstart', cb);
+    }
+
+    addPressEndFunction(element, cb) {
+        element.style.pointerEvents = "auto";
+        element.style.cursor = "pointer";
+        element.addEventListener('mouseup', cb);
+        element.addEventListener('touchend', cb);
+        element.addEventListener('mouseout', cb);
+        element.addEventListener('touchcancel', cb);
+    }
+
 }
 
 export { DomUtils };
