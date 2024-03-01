@@ -1,8 +1,10 @@
 import {HtmlElement} from "./HtmlElement.js";
 import {poolFetch, poolReturn} from "../../utils/PoolUtils.js";
 import {Object3D} from "../../../../libs/three/core/Object3D.js";
+import {Vector3} from "../../../../libs/three/math/Vector3.js";
 let worldSize = 2048;
 let tempObj = new Object3D();
+let pointerVec3 = new Vector3();
 function calcMapBackgroundOffset(zoom, axisCenter, worldSize) {
     let zoomOffset = 1 + (1 / zoom);
     return MATH.percentify(zoomOffset*MATH.decimalify(axisCenter, 5)+worldSize*0.5, worldSize, true);
@@ -16,7 +18,8 @@ function calcZoomForSize(size, worldSize)  {
     return worldSize/size;
 }
 
-function positionDiv(div, posVec, zoomFactor) {
+function positionDiv(div, posVec, zoom) {
+    let zoomFactor = calcMapMeterToDivPercent(1, worldSize);
     let mapPctX = posVec.x*zoomFactor
     let mapPctZ = posVec.z*zoomFactor
 
@@ -30,8 +33,11 @@ class DomWorldmap {
         let transition = null;
         let mapDiv = null;
         let cursorDiv = null;
+        let posDiv = null;
         let cameraDiv = null;
         let statusMap = {
+            offsetX:0,
+            offsetY:0,
             posX : 0,
             posZ : 0,
             zoom : 4,
@@ -118,11 +124,14 @@ class DomWorldmap {
         let mapHover = function(e) {
         //    console.log("Map Hover", e)
             elemECoords(e);
+            pointerVec3.copy(ThreeAPI.tempVec3);
+            update();
         }
 
         let readyCb = function() {
             mapDiv = htmlElement.call.getChildElement('worldmap')
             cursorDiv = htmlElement.call.getChildElement('cursor')
+            posDiv = htmlElement.call.getChildElement('position')
             cameraDiv = htmlElement.call.getChildElement('camera')
             let reloadDiv = htmlElement.call.getChildElement('reload')
 
@@ -139,42 +148,34 @@ class DomWorldmap {
 
         let update = function() {
             let cursorPos =  ThreeAPI.getCameraCursor().getLookAroundPoint();
-            statusMap.posX = 'x:'+MATH.decimalify(cursorPos.x, 10);
-            statusMap.posZ = 'z:'+MATH.decimalify(cursorPos.z, 10);
-
-
+            statusMap.posX = 'x:'+MATH.decimalify(cursorPos.x, 100);
+            statusMap.posZ = 'z:'+MATH.decimalify(cursorPos.z, 100);
 
             if (mapDiv) {
                 let cam = ThreeAPI.getCamera()
             //    console.log(minimapDiv);
                 let zoom = statusMap.zoom;
-                let zoomFactor = calcMapMeterToDivPercent(zoom, worldSize);
+
                 mapDiv.style.backgroundSize = zoom*100+'%';
                 let zoomOffset = 1 + (1 / zoom);
-                mapDiv.style.backgroundPositionX = -zoomOffset*0 + MATH.percentify(zoomOffset*MATH.decimalify(cursorPos.x, 5)+1024, 2048, true)+'%';
-                mapDiv.style.backgroundPositionY =  zoomOffset*0 + MATH.percentify(zoomOffset*MATH.decimalify(cursorPos.z, 5)+1024, 2048, true)+'%';
+                statusMap.offsetX = MATH.decimalify( MATH.percentify(zoomOffset*MATH.decimalify(cursorPos.x, 5)+1024, 2048, true), 100);;
+                statusMap.offsetY =  MATH.decimalify( MATH.percentify(zoomOffset*MATH.decimalify(cursorPos.z, 5)+1024, 2048, true), 100);;
+                mapDiv.style.backgroundPositionX = statusMap.offsetX+'%';
+                mapDiv.style.backgroundPositionY = statusMap.offsetY+'%';
             //    DomUtils.setElementClass()
 
                 let selectedActor = GameAPI.getGamePieceSystem().selectedActor;
                 if (selectedActor) {
                     let angle = selectedActor.getStatus(ENUMS.ActorStatus.STATUS_ANGLE_EAST);
-
                     let headingDiv = htmlElement.call.getChildElement('heading');
                     if (headingDiv) {
                         headingDiv.style.rotate = -MATH.HALF_PI*0.5-angle+'rad';
                     }
                 }
 
-                positionDiv(cursorDiv, cursorPos, zoomFactor)
-                positionDiv(cameraDiv, cam.position, zoomFactor)
-            //    tempObj.position.copy(cam.position);
-            //    tempObj.position.y = cursorPos.y;
-            //    tempObj.lookAt(cursorPos)
-            //    let angle = -MATH.eulerFromQuaternion(tempObj.quaternion).y //+ MATH.HALF_PI * 0.5 // Math.PI //;
-            //    cameraDiv.style.rotate = MATH.angleInsideCircle(angle) + 'rad';
-
-
-
+                positionDiv(posDiv, cursorPos, zoom);
+                positionDiv(cursorDiv, pointerVec3, zoom);
+                positionDiv(cameraDiv, cam.position, zoom);
 
             }
 
@@ -183,7 +184,6 @@ class DomWorldmap {
         ThreeAPI.registerPrerenderCallback(update);
 
     }
-
 
 }
 

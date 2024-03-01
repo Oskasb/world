@@ -189,7 +189,25 @@ div.map_image {
     background-color: #424762;
 }
 
-div.heading {
+div.cursor {
+    position: absolute;
+    top: 50%;
+    right: 50%;
+    margin: 0;
+    width: 0;
+    height: 0;
+    padding: 0.35em;
+    border: solid;
+    background-color: rgba(155, 255, 255, 0.25);
+    border-color: rgba(55, 255, 255, 0.35);
+    border-width: 0.2em;
+    border-radius:  50%;
+    display: block;
+    box-shadow: 0 0 0.8em rgba(155, 255, 255, 1);
+    transform: translate(-50%, -50%);
+}
+
+div.position {
     position: absolute;
     top: 50%;
     right: 50%;
