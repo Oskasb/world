@@ -316,6 +316,7 @@ div.position {
     display: block;
     box-shadow: 0 0 0.8em rgba(155, 255, 255, 1);
     transform-origin: center;
+    transform: translate(-50%, -50%);
 }
 
 div.camera {
@@ -336,6 +337,7 @@ div.camera {
     display: block;
     box-shadow: 0 0 0.8em rgba(155, 255, 255, 1);
     transform-origin: center;
+    transform: translate(-50%, -50%);
 }
 
 
