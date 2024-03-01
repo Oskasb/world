@@ -281,13 +281,15 @@ class DomUtils {
     addHoverFunction(element, cb) {
         element.style.pointerEvents = "auto";
         element.style.cursor = "pointer";
-        element.addEventListener('mouseover', cb);
+        element.addEventListener('mouseover',  cb);
+        element.addEventListener('touchstart', cb);
     }
 
     addMouseMoveFunction(element, cb) {
         element.style.pointerEvents = "auto";
         element.style.cursor = "pointer";
         element.addEventListener('mousemove', cb);
+        element.addEventListener('touchmove', cb);
     }
 
 }

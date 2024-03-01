@@ -4,10 +4,28 @@
 <body id="container" class="map_anchor">
 
 <div id="map_container" class="worldmap_frame">
-    <div id="worldmap" class="map_image"> </div>
-    <div id="position" class="position"></div>
+    <div id="worldmap" class="map_host">
+        <div id="map_frame" class="map_frame">
+            <div id="map_image" class="map_image"></div>
+        </div>
+        <div id="map_width" class="map_width">
+            <div class="value_container">
+                <p id="width"></p>
+            </div>
+        </div>
+        <div id="map_height" class="map_height">
+            <div class="value_container">
+                <p id="height"></p>
+            </div>
+        </div>
+        <div id="offset_x" class="map_offset_line map_offset_line_x">        </div>
+        <div id="offset_z" class="map_offset_line">        </div>
+        <div id="position" class="position"></div>
+        <div id="camera" class="camera"></div>
+    </div>
+
     <div id="cursor" class="cursor"></div>
-    <div id="camera" class="camera"></div>
+
         <div id="zoom_in" class="button_zoom_in"></div>
         <div id="zoom_out" class="button_zoom_out"></div>
         <div id="reload" class="button_reload"></div>

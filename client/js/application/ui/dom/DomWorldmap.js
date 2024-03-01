@@ -5,6 +5,11 @@ import {Vector3} from "../../../../libs/three/math/Vector3.js";
 let worldSize = 2048;
 let tempObj = new Object3D();
 let pointerVec3 = new Vector3();
+let tempVec = new Vector3();
+
+let gridLinesX = [];
+let gridLinesZ = [];
+
 function calcMapBackgroundOffset(zoom, axisCenter, worldSize) {
     let zoomOffset = 1 + (1 / zoom);
     return MATH.percentify(zoomOffset*MATH.decimalify(axisCenter, 5)+worldSize*0.5, worldSize, true);
@@ -18,7 +23,7 @@ function calcZoomForSize(size, worldSize)  {
     return worldSize/size;
 }
 
-function positionDiv(div, posVec, zoom) {
+function positionDiv(div, posVec) {
     let zoomFactor = calcMapMeterToDivPercent(1, worldSize);
     let mapPctX = posVec.x*zoomFactor
     let mapPctZ = posVec.z*zoomFactor
@@ -27,15 +32,81 @@ function positionDiv(div, posVec, zoom) {
     div.style.left = 50 + mapPctX + '%';
 }
 
+function alignDivToX(div, posX, zoom, offsetX) {
+    let zoomFactor = calcMapMeterToDivPercent(zoom, worldSize);
+    let mapPctX = posX*zoomFactor
+    div.style.left = mapPctX + '%';
+}
+
+function alignDivToZ(div, posZ, zoom) {
+    let zoomFactor = calcMapMeterToDivPercent(zoom, worldSize);
+    let mapPctZ = posZ*zoomFactor
+    div.style.top = 50 + mapPctZ + '%';
+}
+
+function updateLineDivs(lineCount, mapDiv) {
+    while (gridLinesX.length > lineCount) {
+        DomUtils.removeDivElement(gridLinesX.pop())
+    }
+    while (gridLinesZ.length > lineCount) {
+        DomUtils.removeDivElement(gridLinesZ.pop())
+    }
+    while (gridLinesX.length < lineCount) {
+        let line = DomUtils.createDivElement(mapDiv, 'grid_x_'+gridLinesX.length, "", 'map_grid_line map_grid_line_x')
+        gridLinesX.push(line);
+    }
+    while (gridLinesZ.length < lineCount) {
+        let line = DomUtils.createDivElement(mapDiv, 'grid_z_'+gridLinesZ.length, "", 'map_grid_line')
+        gridLinesZ.push(line);
+    }
+}
+
+
+
+function positionLineDivs(mapDiv, cursorPos, lineSpacing, mapWidth, mapHeight, offsetX, offsetY, zoom) {
+//    console.log(offsetX);
+    let xLines = gridLinesX.length
+    for (let i = 0; i < xLines; i++) {
+        let x =  Math.round((i * lineSpacing -mapWidth*0.5)/lineSpacing)*lineSpacing //- mapWidth
+    //    tempVec.set(x, 0, 0)
+        alignDivToX(gridLinesX[i], x, zoom, offsetX)
+    //    positionDiv(gridLinesX[i], tempVec)
+    }
+
+
+    let zLines = gridLinesZ.length
+    for (let i = 0; i < zLines; i++) {
+        let z = Math.round((i * lineSpacing  -mapWidth*0.5)/lineSpacing)*lineSpacing //- mapWidth
+        alignDivToZ(gridLinesZ[i], z, zoom)
+    }
+
+}
+
+function updateGridLines(mapDiv, cursorPos, lineSpacing, mapWidth, mapHeight, offsetX, offsetY, zoom) {
+    let lineCount = Math.ceil(mapWidth / lineSpacing);
+    updateLineDivs(lineCount, mapDiv)
+    positionLineDivs(mapDiv, cursorPos, lineSpacing, mapWidth, mapHeight, offsetX, offsetY, zoom)
+
+
+}
+
 class DomWorldmap {
     constructor(closeCb) {
         let htmlElement = new HtmlElement();
         let transition = null;
         let mapDiv = null;
+        let mapImageDiv = null;
         let cursorDiv = null;
         let posDiv = null;
         let cameraDiv = null;
+        let lineSpacing = 100;
+
+        let offsetXDiv = null;
+        let offsetZDiv = null;
+
         let statusMap = {
+            width:0,
+            height:0,
             offsetX:0,
             offsetY:0,
             posX : 0,
@@ -129,10 +200,21 @@ class DomWorldmap {
         }
 
         let readyCb = function() {
-            mapDiv = htmlElement.call.getChildElement('worldmap')
+            while (gridLinesX.length) {
+                DomUtils.removeDivElement(gridLinesX.pop())
+            }
+            while (gridLinesZ.length) {
+                DomUtils.removeDivElement(gridLinesZ.pop())
+            }
+            mapDiv = htmlElement.call.getChildElement('map_frame')
+            mapImageDiv = htmlElement.call.getChildElement('map_image')
             cursorDiv = htmlElement.call.getChildElement('cursor')
             posDiv = htmlElement.call.getChildElement('position')
             cameraDiv = htmlElement.call.getChildElement('camera')
+
+            offsetXDiv = htmlElement.call.getChildElement('offset_x')
+            offsetZDiv = htmlElement.call.getChildElement('offset_z')
+
             let reloadDiv = htmlElement.call.getChildElement('reload')
 
             let zoomInDiv = htmlElement.call.getChildElement('zoom_in')
@@ -146,6 +228,9 @@ class DomWorldmap {
 
         let rebuild = htmlElement.initHtmlElement('worldmap', closeMapCb, statusMap, 'full_screen', readyCb);
 
+        let mapHeight = worldSize;
+        let mapWidth = worldSize;
+
         let update = function() {
             let cursorPos =  ThreeAPI.getCameraCursor().getLookAroundPoint();
             statusMap.posX = 'x:'+MATH.decimalify(cursorPos.x, 100);
@@ -155,13 +240,32 @@ class DomWorldmap {
                 let cam = ThreeAPI.getCamera()
             //    console.log(minimapDiv);
                 let zoom = statusMap.zoom;
+                mapImageDiv.style.scale = zoom;
+                mapHeight = worldSize / zoom;
+                mapWidth = worldSize / zoom;
+                statusMap['height'] = mapHeight+'m';
+                statusMap['width'] = mapWidth+'m';
+
+
 
                 mapDiv.style.backgroundSize = zoom*100+'%';
                 let zoomOffset = 1 + (1 / zoom);
-                statusMap.offsetX = MATH.decimalify( MATH.percentify(zoomOffset*MATH.decimalify(cursorPos.x, 5)+1024, 2048, true), 100);;
-                statusMap.offsetY =  MATH.decimalify( MATH.percentify(zoomOffset*MATH.decimalify(cursorPos.z, 5)+1024, 2048, true), 100);;
-                mapDiv.style.backgroundPositionX = statusMap.offsetX+'%';
-                mapDiv.style.backgroundPositionY = statusMap.offsetY+'%';
+                statusMap.offsetX = MATH.decimalify( MATH.percentify(zoomOffset*MATH.decimalify(cursorPos.x, 5)+worldSize*0.5, worldSize, true), 100);;
+                statusMap.offsetY = MATH.decimalify( MATH.percentify(zoomOffset*MATH.decimalify(cursorPos.z, 5)+worldSize*0.5, worldSize, true), 100);;
+
+                let xPcnt = MATH.percentify(-cursorPos.x, worldSize, true)
+                let zPcnt = MATH.percentify(-cursorPos.z, worldSize, true)
+
+                statusMap.os_x = (statusMap.offsetX-50)*0.005*worldSize;
+                statusMap.os_z = (statusMap.offsetY-50)*0.005*worldSize;
+                alignDivToX(offsetXDiv, 0, zoom, statusMap.os_x)
+                alignDivToZ(offsetZDiv, 0, zoom, statusMap.os_z)
+
+                mapImageDiv.style.transform = "translate("+xPcnt+"%, "+zPcnt+"%)"; // xPcnt+"%";
+            //    mapImageDiv.style.left = xPcnt+"%";
+            //    mapImageDiv.style.bottom = zPcnt+"%";  // statusMap.offsetX+'%';
+
+                updateGridLines(mapDiv, cursorPos, lineSpacing, mapWidth, mapHeight, statusMap.offsetX, statusMap.offsetY, zoom)
             //    DomUtils.setElementClass()
 
                 let selectedActor = GameAPI.getGamePieceSystem().selectedActor;
@@ -173,9 +277,15 @@ class DomWorldmap {
                     }
                 }
 
-                positionDiv(posDiv, cursorPos, zoom);
+            //    positionDiv(posDiv, cursorPos, zoom);
+                alignDivToX(posDiv, 0+worldSize*0.5, 1, statusMap.os_x)
+                alignDivToZ(posDiv, 0, 1, statusMap.os_z)
                 positionDiv(cursorDiv, pointerVec3, zoom);
-                positionDiv(cameraDiv, cam.position, zoom);
+                tempVec.copy(cam.position).sub(cursorPos)
+                tempVec.multiplyScalar(zoom)
+            //    positionDiv(cameraDiv, tempVec, zoom);
+                alignDivToX(cameraDiv, tempVec.x+worldSize*0.5, 1, statusMap.os_x)
+                alignDivToZ(cameraDiv, tempVec.z, 1, statusMap.os_z)
 
             }
 

@@ -162,8 +162,8 @@ div.button_reload {
 div.worldmap_frame {
     top: -44em;
     left: -44em;
-    width: 88em;
-    height: 88em;
+    width: 84em;
+    height: 84em;
     margin: 0;
     padding: 0;
     position: absolute;
@@ -174,7 +174,8 @@ div.worldmap_frame {
     box-shadow: 0px 0px 3.5em rgba(5, 0, 0, 0.95);
 }
 
-div.map_image {
+div.map_host {
+
     top: 0;
     right: 0;
     bottom: 0;
@@ -184,9 +185,99 @@ div.map_image {
     box-shadow: 0 0px 0px 0.2em rgba(255, 255, 255, 0.95);
     border-style: solid;
     border-width: 0.2em;
+    background-color: #424762;
+}
+
+div.map_image {
+    position: absolute;
+    top: auto;
+    left: auto;
+    bottom:auto;
+    right:auto;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    border: none;
     background-image: url("/client/assets/images/textures/minimap.png");
     background-repeat: no-repeat;
     background-color: #424762;
+    background-size: 100%;
+    transform-origin: center;
+}
+div.map_frame {
+    overflow:hidden;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: 0;
+    border: none;
+    box-shadow: none;
+}
+div.map_height {
+    pointer-events: none;
+    top: 0;
+    left: -2.8em;
+    bottom: 0;
+    width: 2em;
+    margin: 0;
+
+    border-style: solid;
+    border-radius: 0;
+    border-color: rgba(255, 255, 255, 0.95);
+    border-width: 0.15em 0.15em 0.15em 0;
+    background: none;
+}
+
+div.map_width {
+    pointer-events: none;
+    right: 0;
+    left: 0;
+    bottom: -2.8em;
+    height: 2em;
+    margin: 0;
+
+    border-style: solid;
+    border-radius: 0;
+    border-color: rgba(255, 255, 255, 0.95);
+    border-width: 0.15em 0.15em 0em 0.15em;
+    background: none;
+}
+
+div.map_grid_line {
+    pointer-events: none;
+    top: 50%;
+    left: 0;
+    height: 0;
+    width: 100%;
+    padding:0.012em;
+    margin: 0;
+    border: none;
+    background-color: rgba(225, 255, 255, 0.25);
+    transform-origin: center;
+}
+
+div.map_grid_line_x {
+    left: 0%;
+    rotate: 90deg;
+}
+
+div.map_offset_line {
+    pointer-events: none;
+    top: 50%;
+    left: 0;
+    height: 0;
+    width: 100%;
+    padding:0.016em;
+    margin: 0;
+    border: none;
+    background-color: rgba(225, 255, 255, 0.45);
+    transform-origin: center;
+}
+
+div.map_offset_line_x {
+    left: 0%;
+    rotate: 90deg;
 }
 
 div.cursor {
@@ -209,8 +300,10 @@ div.cursor {
 
 div.position {
     position: absolute;
-    top: 50%;
-    right: 50%;
+    top: auto;
+    left: auto;
+    bottom:auto;
+    right:auto;
     margin: 0;
     width: 0;
     height: 0;
@@ -222,13 +315,15 @@ div.position {
     border-radius:  50%;
     display: block;
     box-shadow: 0 0 0.8em rgba(155, 255, 255, 1);
-    transform: translate(-50%, -50%);
+    transform-origin: center;
 }
 
 div.camera {
     position: absolute;
-    top: 50%;
-    right: 50%;
+    top: auto;
+    left: auto;
+    bottom:auto;
+    right:auto;
     margin: 0;
     width: 0;
     height: 0;
@@ -240,7 +335,7 @@ div.camera {
     border-radius:  50%;
     display: block;
     box-shadow: 0 0 0.8em rgba(155, 255, 255, 1);
-    transform: translate(-50%, -50%);
+    transform-origin: center;
 }
 
 
