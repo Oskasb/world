@@ -196,16 +196,35 @@ div.heading {
     margin: 0;
     width: 0;
     height: 0;
-    padding: 0.35em;
+    padding: 0.15em;
     border: solid;
-    background-color: rgba(0, 0, 0, 0.75);
-    border-color: rgba(55, 255, 255, 0.85);
+    background-color: rgba(155, 255, 255, 0.25);
+    border-color: rgba(55, 255, 255, 0.75);
     border-width: 0.2em;
     border-radius:  50%;
     display: block;
-    box-shadow: 0 0 2px rgba(5, 0, 0, 0.75);
+    box-shadow: 0 0 0.8em rgba(155, 255, 255, 1);
     transform: translate(-50%, -50%);
 }
+
+div.camera {
+    position: absolute;
+    top: 50%;
+    right: 50%;
+    margin: 0;
+    width: 0;
+    height: 0;
+    padding: 0.07em;
+    border: solid;
+    background-color: rgba(215, 255, 255, 0.95);
+    border-color: rgba(55, 255, 255, 0.55);
+    border-width: 0.1em;
+    border-radius:  50%;
+    display: block;
+    box-shadow: 0 0 0.8em rgba(155, 255, 255, 1);
+    transform: translate(-50%, -50%);
+}
+
 
 .click_container {
     position: absolute;
