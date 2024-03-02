@@ -70,19 +70,28 @@ function positionLineDivs(mapDiv, cursorPos, lineSpacing, mapWidth, mapHeight, o
     let xMax = xMin+mapWidth;
     let zMin = cursorPos.z -mapHeight*0.5;
     let zMax = zMin+mapHeight;
+
+    let rem = Math.floor(MATH.remainder(-cursorPos.x/lineSpacing)*lineSpacing);
+    let midX = Math.ceil(cursorPos.x/lineSpacing)*lineSpacing;
     for (let i = 0; i < xLines; i++) {
-       let x =  Math.round((i * lineSpacing -mapWidth*0.5)/lineSpacing)*lineSpacing //- mapWidth
+
+        let lineX = Math.floor((i * lineSpacing -mapWidth*0.5)/lineSpacing)*lineSpacing
+       let x =  rem + lineX //- mapWidth
         //   let x = Math.ceil((xMin/lineSpacing)*i)*lineSpacing;
     //    tempVec.set(x, 0, 0)
         alignDivToX(gridLinesX[i], x, zoom, offsetX)
+        gridLinesX[i].innerHTML = Math.floor(midX + lineX);
     //    positionDiv(gridLinesX[i], tempVec)
     }
 
-
+    rem = Math.floor(MATH.remainder(-cursorPos.z/lineSpacing)*lineSpacing);
+    let midZ = Math.ceil(cursorPos.z/lineSpacing)*lineSpacing;
     let zLines = gridLinesZ.length
     for (let i = 0; i < zLines; i++) {
-        let z = Math.round((i * lineSpacing  -mapWidth*0.5)/lineSpacing)*lineSpacing //- mapWidth
+        let lineZ = Math.floor((i * lineSpacing  -mapWidth*0.5)/lineSpacing)*lineSpacing
+        let z = rem + lineZ //- mapWidth
         alignDivToZ(gridLinesZ[i], z, zoom)
+        gridLinesZ[i].innerHTML = Math.floor(midZ + lineZ);
     }
 
 }
@@ -338,6 +347,8 @@ class DomWorldmap {
                 statusMap.os_z = (statusMap.offsetY-50)*0.005*worldSize;
                 alignDivToX(offsetXDiv, 0, zoom, statusMap.os_x)
                 alignDivToZ(offsetZDiv, 0, zoom, statusMap.os_z)
+                offsetXDiv.innerHTML = "x:"+MATH.numberToDigits(cursorPos.x, 0, 2);
+                offsetZDiv.innerHTML = "z:"+MATH.numberToDigits(cursorPos.z, 0, 2);
 
                 mapImageDiv.style.transform = "translate("+xPcnt+"%, "+zPcnt+"%)"; // xPcnt+"%";
             //    mapImageDiv.style.left = xPcnt+"%";

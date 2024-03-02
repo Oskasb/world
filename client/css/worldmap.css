@@ -273,11 +273,14 @@ div.map_grid_line {
     left: 0;
     height: 0;
     width: 100%;
+    font-size: 1.4em;
     padding:0.012em;
     margin: 0;
     border: none;
     background-color: rgba(225, 255, 255, 0.25);
     transform-origin: center;
+    color: rgba(210, 255, 243, 0.65);
+    text-shadow: 1px 1px 3px rgba(5, 55, 55, 1);
 }
 
 div.map_grid_line_x {
@@ -290,12 +293,15 @@ div.map_offset_line {
     top: 50%;
     left: 0;
     height: 0;
-    width: 100%;
+    width: 90%;
+    font-size: 1.6em;
     padding:0.016em;
-    margin: 0;
+    margin-left: 5%;
     border: none;
     background-color: rgba(225, 255, 255, 0.45);
     transform-origin: center;
+    color: rgb(255, 228, 158);
+    text-shadow: 1px 1px 3px rgba(5, 55, 55, 1);
 }
 
 div.map_offset_line_x {
