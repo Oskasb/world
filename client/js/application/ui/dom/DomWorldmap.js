@@ -66,8 +66,13 @@ function updateLineDivs(lineCount, mapDiv) {
 function positionLineDivs(mapDiv, cursorPos, lineSpacing, mapWidth, mapHeight, offsetX, offsetY, zoom) {
 //    console.log(offsetX);
     let xLines = gridLinesX.length
+    let xMin = cursorPos.x - mapWidth*0.5;
+    let xMax = xMin+mapWidth;
+    let zMin = cursorPos.z -mapHeight*0.5;
+    let zMax = zMin+mapHeight;
     for (let i = 0; i < xLines; i++) {
-        let x =  Math.round((i * lineSpacing -mapWidth*0.5)/lineSpacing)*lineSpacing //- mapWidth
+       let x =  Math.round((i * lineSpacing -mapWidth*0.5)/lineSpacing)*lineSpacing //- mapWidth
+        //   let x = Math.ceil((xMin/lineSpacing)*i)*lineSpacing;
     //    tempVec.set(x, 0, 0)
         alignDivToX(gridLinesX[i], x, zoom, offsetX)
     //    positionDiv(gridLinesX[i], tempVec)
@@ -136,16 +141,36 @@ class DomWorldmap {
         }
 
 
+        function getEventAxis(e, axis) {
+            if (e['layer'+axis]) {
+                return e['layer'+axis]
+            }
+
+            if (typeof(e.targetTouches)==='object') {
+                if (e.targetTouches.length === 1) {
+                    let touch = e.targetTouches[0];
+                    return touch['client'+axis]
+                }
+            }
+            return 0;
+
+        }
+
+
+
         let elemECoords = function(e){
             let elem = e.target;
             let totWidth = elem.clientWidth;
             let totHeight = elem.clientHeight;
-            let pctX = MATH.percentify(e.layerX, totWidth, true)
-            let pctY = MATH.percentify(e.layerY, totHeight, true)
+
+            let pointerX = getEventAxis(e,'X')
+            let pointerY = getEventAxis(e,'Y')
+            let pctX = MATH.percentify(pointerX, totWidth, true)
+            let pctY = MATH.percentify(pointerY, totHeight, true)
             statusMap['pcntX'] = MATH.decimalify(pctX, 10)+"%";
             statusMap['pcntY'] = MATH.decimalify(pctY, 10)+"%";
-            let x = MATH.decimalify(MATH.calcFraction(0, totWidth, e.layerX)*worldSize - worldSize*0.5, 10);
-            let z = MATH.decimalify(MATH.calcFraction(0, totHeight, e.layerY)*worldSize - worldSize*0.5, 10);
+            let x = MATH.decimalify(MATH.calcFraction(0, totWidth, pointerX)*worldSize - worldSize*0.5, 10);
+            let z = MATH.decimalify(MATH.calcFraction(0, totHeight, pointerY)*worldSize - worldSize*0.5, 10);
             statusMap['x'] = "x:"+x;
             statusMap['z'] = "z:"+z ;
             ThreeAPI.tempVec3.set(x, 0, z)
@@ -218,8 +243,8 @@ class DomWorldmap {
                 frameDragY = dragDeltaY-lastDragY;
                 lastDragX = frameDragX;
                 lastDragY = frameDragY;
-                ThreeAPI.getCameraCursor().getLookAroundPoint().x += frameDragX*0.1/statusMap.zoom;
-                ThreeAPI.getCameraCursor().getLookAroundPoint().z += frameDragY*0.1/statusMap.zoom;
+                ThreeAPI.getCameraCursor().getLookAroundPoint().x = MATH.clamp(ThreeAPI.getCameraCursor().getLookAroundPoint().x -frameDragX*0.02/statusMap.zoom, -worldSize*0.5, worldSize*0.5);
+                ThreeAPI.getCameraCursor().getLookAroundPoint().z = MATH.clamp( ThreeAPI.getCameraCursor().getLookAroundPoint().z -frameDragY*0.02/statusMap.zoom, -worldSize*0.5, worldSize*0.5);
                 ThreeAPI.getCameraCursor().getLookAroundPoint().y = ThreeAPI.terrainAt(ThreeAPI.getCameraCursor().getLookAroundPoint())
             } else {
                 update();

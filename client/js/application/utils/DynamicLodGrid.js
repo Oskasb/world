@@ -49,6 +49,7 @@ class DynamicLodGrid {
             let centerTile = this.dynamicGrid.getTileAtPosition(lodCenter);
             if (!centerTile) {
                 console.log("Bad tile", lodCenter)
+                return;
             }
 
             let updated = this.dynamicGrid.updateDynamicGrid(centerTile.tileX, centerTile.tileZ)
