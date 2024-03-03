@@ -1,8 +1,10 @@
 import {HtmlElement} from "./HtmlElement.js";
 import {DomWorldmap} from "./DomWorldmap.js";
 import {Vector2} from "../../../../libs/three/math/Vector2.js";
+import {Vector3} from "../../../../libs/three/math/Vector3.js";
 import {EncounterStatus} from "../../../game/encounter/EncounterStatus.js";
 import {filterForWalkableTiles} from "../../../game/gameworld/ScenarioUtils.js";
+import {poolFetch, poolReturn} from "../../utils/PoolUtils.js";
 
 let tempVec2 = new Vector2()
 let worldSize = 2048;
@@ -10,6 +12,7 @@ let tenMeterIndicators = [];
 let actorIndicators = [];
 let itemIndocators = [];
 let gridTileIndicators = [];
+let pathIndicators = [];
 let preCombatZoom = 0;
 
 let defaultWorldLevel = "20";
@@ -283,12 +286,64 @@ function indicateCameraFrustum(htmlElement, minimapDiv, statusMap, centerPos) {
 
 }
 
+function populateTravelPath(minimapDiv) {
+    while (pathIndicators.length) {
+        let ind = pathIndicators.pop();
+        DomUtils.removeDivElement(ind.div);
+        poolReturn(ind.pos);
+    }
+
+    while (pathIndicators.length < 8) {
+        
+        let ind = {
+            div: DomUtils.createDivElement(minimapDiv, 'path_'+pathIndicators.length, '', 'indicator_path'),
+            pos: poolFetch('Vector3'),
+            time:GameAPI.getGameTime()
+        };
+        pathIndicators.push(ind);
+    }
+    
+}
+
+function markTravelPath(pos, timeElapsed) {
+    console.log("markTravelPath", pos)
+    let indicator = pathIndicators.pop();
+    pathIndicators.unshift(indicator);
+    indicator.pos.copy(pos);
+    indicator.time = timeElapsed;
+}
+
+function updateTravelPath(pos, statusMap) {
+    let zoom = statusMap.zoom;
+    let zoomFactor = calcMapMeterToDivPercent(zoom, worldSize);
+    for (let i = 0; i < pathIndicators.length; i++) {
+        let ind = pathIndicators[i];
+        let x = ind.pos.x - statusMap.x;
+        let z = ind.pos.z - statusMap.z;
+        ind.div.style.top  = (50+z*zoomFactor)+'%';
+        ind.div.style.left = (50+x*zoomFactor)+'%';
+    }
+}
+
+function updatePathTime(markTime, timeElapsed) {
+    let now = timeElapsed;
+    for (let i = 0; i < pathIndicators.length; i++) {
+        let ind = pathIndicators[i];
+        let startTime = ind.time;
+        let fraction = 1 - MATH.calcFraction(startTime, startTime+markTime*pathIndicators.length, now);
+        ind.div.style.opacity  = fraction;
+    }
+}
+
 class DomMinimap {
     constructor() {
         let htmlElement = new HtmlElement();
         let inCombat = false;
 
         let statusMap = {
+            x :0,
+            y: 0,
+            z :0,
             posX : 0,
             posZ : 0,
             zoom : 60
@@ -327,6 +382,7 @@ class DomMinimap {
             DomUtils.addClickFunction(closeDiv, rebuild)
             DomUtils.addClickFunction(zoomInDiv, zoomIn)
             DomUtils.addClickFunction(zoomOutDiv, zoomOut)
+            populateTravelPath(mapDiv);
         }
 
         let rebuild = function() {
@@ -335,6 +391,7 @@ class DomMinimap {
             htmlElement.initHtmlElement('minimap', null, statusMap, 'minimap', readyCb);
             setTimeout(function() {
                 activeWorldLevel = null;
+
                 if (cameraIndicator !== null) {
                     DomUtils.removeDivElement(cameraIndicator)
                     cameraIndicator = null;
@@ -353,7 +410,14 @@ class DomMinimap {
         }
 
         htmlElement.initHtmlElement('minimap', null, statusMap, 'minimap', readyCb);
-        let centerPos = null;
+        let centerPos = ThreeAPI.getCameraCursor().getLookAroundPoint()
+
+        let frameTravelDistance = 0;
+        let travelTime = 0;
+        let lastFramePos = new Vector3();
+        let lastZoom = statusMap.zoom;
+        let markTime = 0.25;
+        let timeElapsed = 0;
         let update = function() {
 
             let minimapDiv = htmlElement.call.getChildElement('minimap');
@@ -398,9 +462,13 @@ class DomMinimap {
 
                 } else {
                     worldLevel = defaultWorldLevel;
-                    centerPos = ThreeAPI.getCameraCursor().getPos()
+                    centerPos = ThreeAPI.getCameraCursor().getLookAroundPoint()
                 }
 
+                statusMap.x = centerPos.x;
+                statusMap.y = centerPos.y;
+                statusMap.z = centerPos.z;
+                
                 if (worldLevel !== activeWorldLevel) {
                     if (activeWorldLevel !== null) {
                         DomUtils.removeElementClass(minimapDiv, 'level_'+activeWorldLevel)
@@ -409,8 +477,24 @@ class DomMinimap {
                     activeWorldLevel = worldLevel;
                 }
 
-                updateMinimapCenter(htmlElement, minimapDiv, statusMap, centerPos, inCombat);
+                frameTravelDistance = MATH.distanceBetween(lastFramePos, centerPos);
+                lastFramePos.copy(centerPos);
+                if (frameTravelDistance !== 0) {
 
+                    travelTime += GameAPI.getFrame().tpf;
+                    timeElapsed+=GameAPI.getFrame().tpf
+                    if (travelTime > markTime) {
+                        travelTime -= markTime;
+                        markTravelPath(lastFramePos, timeElapsed)
+                    }
+                    updatePathTime(markTime, timeElapsed)
+                }
+                if (frameTravelDistance !== 0 || statusMap.zoom !== lastZoom) {
+                    lastZoom = statusMap.zoom;
+                    updateTravelPath(lastFramePos, statusMap)
+                }
+
+                updateMinimapCenter(htmlElement, minimapDiv, statusMap, centerPos, inCombat);
                 indicateTenMeterScale(tenMeterIndicators, htmlElement, minimapDiv, statusMap)
                 indicateActors(htmlElement, minimapDiv, statusMap, centerPos, inCombat)
                 indicateCameraFrustum(htmlElement, minimapDiv, statusMap, centerPos)

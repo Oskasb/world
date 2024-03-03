@@ -201,6 +201,23 @@ div.indicator_10m {
     box-shadow: 0 0 0.4em rgba(0, 0, 0, 1);
 }
 
+div.indicator_path {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: 0;
+    width: 0.15em;
+    height: 0.15em;
+    background-color: rgba(235, 255, 255, 1);
+    border-style: solid;
+    border-color: rgba(25, 195, 255, 1);
+    border-width: 0.08em;
+    border-radius: 50%;
+    display: inline-block;
+    padding: 0;
+    box-shadow: 0 0 0.5em rgba(185, 255, 255, 1);
+}
+
 div.indicator_tile {
     position: absolute;
     top: 50%;
