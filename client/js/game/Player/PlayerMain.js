@@ -4,6 +4,7 @@ import { TargetIndicator } from "../../application/ui/gui/game/TargetIndicator.j
 import { Vector3 } from "../../../libs/three/math/Vector3.js";
 import {Status} from "../../../../Server/game/status/Status.js";
 import {evt} from "../../application/event/evt.js";
+import {ENUMS} from "../../application/ENUMS.js";
 
 let tempVec3 = new Vector3()
 
@@ -15,7 +16,8 @@ let cheatInventory = [
 
 
 let statusMap = {
-    PLAYER_ZOOM:1
+    PLAYER_ZOOM:1,
+    PLAYER_WORLD_LEVEL: "20"
 }
 
 class PlayerMain {
@@ -195,7 +197,9 @@ class PlayerMain {
         let enterPortal = function(e) {
             console.log("Portal Event", e)
             let actor = GameAPI.getGamePieceSystem().selectedActor;
-            actor.setStatusKey(ENUMS.ActorStatus.WORLD_LEVEL, e.world_level);
+
+
+            GameAPI.getPlayer().setStatusKey(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL, e.world_level);
 
             let world_encounters = []
             MATH.copyArrayValues(e.world_encounters, world_encounters);

@@ -32,6 +32,16 @@
         {"id": "tx_terrainmap_world_01","config": { "img" : "img_terrainmap_world_01" , "settings": "tx_settings_tiles_32x32"     }} ,
         {"id": "tx_heightmap_world_01","config": {  "img" : "img_heightmap_world_01"  , "settings": "tx_settings_tiles_32x32"     }} ,
 
+
+        {"id": "tx_terrainmap_world_01_13","config": { "img" : "img_terrainmap_world_01_13" , "settings": "tx_settings_tiles_32x32"     }} ,
+        {"id": "tx_heightmap_world_01_13", "config": { "img" : "img_heightmap_world_01_13"  , "settings": "tx_settings_tiles_32x32"     }} ,
+
+        {"id": "tx_terrainmap_world_01_12","config": { "img" : "img_terrainmap_world_01_12" , "settings": "tx_settings_tiles_32x32"     }} ,
+        {"id": "tx_heightmap_world_01_12", "config": { "img" : "img_heightmap_world_01_12"  , "settings": "tx_settings_tiles_32x32"     }} ,
+
+        {"id": "tx_terrainmap_world_01_11","config": { "img" : "img_terrainmap_world_01_11" , "settings": "tx_settings_tiles_32x32"     }} ,
+        {"id": "tx_heightmap_world_01_11", "config": { "img" : "img_heightmap_world_01_11"  , "settings": "tx_settings_tiles_32x32"     }} ,
+
         {"id": "tx_terrainmap_world_01_10","config": { "img" : "img_terrainmap_world_01_10" , "settings": "tx_settings_tiles_32x32"     }} ,
         {"id": "tx_heightmap_world_01_10", "config": { "img" : "img_heightmap_world_01_10"  , "settings": "tx_settings_tiles_32x32"     }} ,
 
@@ -39,6 +49,28 @@
         {"id": "tx_heightmap_world_01_09", "config": { "img" : "img_heightmap_world_01_09"  , "settings": "tx_settings_tiles_32x32"     }} ,
         {"id": "tx_terrainmap_world_01_08","config": { "img" : "img_terrainmap_world_01_08" , "settings": "tx_settings_tiles_32x32"     }} ,
         {"id": "tx_heightmap_world_01_08", "config": { "img" : "img_heightmap_world_01_08"  , "settings": "tx_settings_tiles_32x32"     }} ,
+
+        {"id": "tx_terrainmap_world_01_07","config": { "img" : "img_terrainmap_world_01_07" , "settings": "tx_settings_tiles_32x32"     }} ,
+        {"id": "tx_heightmap_world_01_07", "config": { "img" : "img_heightmap_world_01_07"  , "settings": "tx_settings_tiles_32x32"     }} ,
+
+        {"id": "tx_terrainmap_world_01_06","config": { "img" : "img_terrainmap_world_01_06" , "settings": "tx_settings_tiles_32x32"     }} ,
+        {"id": "tx_heightmap_world_01_06", "config": { "img" : "img_heightmap_world_01_06"  , "settings": "tx_settings_tiles_32x32"     }} ,
+
+        {"id": "tx_terrainmap_world_01_05","config": { "img" : "img_terrainmap_world_01_05" , "settings": "tx_settings_tiles_32x32"     }} ,
+        {"id": "tx_heightmap_world_01_05", "config": { "img" : "img_heightmap_world_01_05"  , "settings": "tx_settings_tiles_32x32"     }} ,
+
+        {"id": "tx_terrainmap_world_01_04","config": { "img" : "img_terrainmap_world_01_04" , "settings": "tx_settings_tiles_32x32"     }} ,
+        {"id": "tx_heightmap_world_01_04", "config": { "img" : "img_heightmap_world_01_04"  , "settings": "tx_settings_tiles_32x32"     }} ,
+
+        {"id": "tx_terrainmap_world_01_03","config": { "img" : "img_terrainmap_world_01_03" , "settings": "tx_settings_tiles_32x32"     }} ,
+        {"id": "tx_heightmap_world_01_03", "config": { "img" : "img_heightmap_world_01_03"  , "settings": "tx_settings_tiles_32x32"     }} ,
+
+        {"id": "tx_terrainmap_world_01_02","config": { "img" : "img_terrainmap_world_01_02" , "settings": "tx_settings_tiles_32x32"     }} ,
+        {"id": "tx_heightmap_world_01_02", "config": { "img" : "img_heightmap_world_01_02"  , "settings": "tx_settings_tiles_32x32"     }} ,
+
+        {"id": "tx_terrainmap_world_01_01","config": { "img" : "img_terrainmap_world_01_01" , "settings": "tx_settings_tiles_32x32"     }} ,
+        {"id": "tx_heightmap_world_01_01", "config": { "img" : "img_heightmap_world_01_01"  , "settings": "tx_settings_tiles_32x32"     }} ,
+
 
         {"id": "terrain_darkrock"   ,  "config": {  "img" : "img_terrain_darkrock"    , "settings": "tx_settings_terrain"         }} ,
         {"id": "terrain_striperock" ,  "config": {  "img" : "img_terrain_striperock"  , "settings": "tx_settings_terrain"         }} ,

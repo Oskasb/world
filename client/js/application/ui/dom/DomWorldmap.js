@@ -2,17 +2,95 @@ import {HtmlElement} from "./HtmlElement.js";
 import {poolFetch, poolReturn} from "../../utils/PoolUtils.js";
 import {Object3D} from "../../../../libs/three/core/Object3D.js";
 import {Vector3} from "../../../../libs/three/math/Vector3.js";
+import {ENUMS} from "../../ENUMS.js";
 let worldSize = 2048;
 let tempObj = new Object3D();
 let pointerVec3 = new Vector3();
 let tempVec = new Vector3();
+let tempVec2 = new Vector3();
 
 let gridLinesX = [];
 let gridLinesZ = [];
+let actorIndicators = [];
+let defaultWorldLevel = "20";
+let activeWorldLevel = null;
+
+let worldLevelDivs = [];
 
 function calcMapBackgroundOffset(zoom, axisCenter, worldSize) {
     let zoomOffset = 1 + (1 / zoom);
     return MATH.percentify(zoomOffset*MATH.decimalify(axisCenter, 5)+worldSize*0.5, worldSize, true);
+}
+
+
+function indicateActors(htmlElement, minimapDiv, statusMap, centerPos) {
+    let actors = GameAPI.getGamePieceSystem().getActors()
+    while (actors.length < actorIndicators.length) {
+        DomUtils.removeDivElement(actorIndicators.pop())
+    }
+    while (actors.length > actorIndicators.length) {
+        let indicator = DomUtils.createDivElement(minimapDiv, 'indicator_actor_'+actorIndicators.length, '', 'actor')
+        actorIndicators.push(indicator);
+    }
+
+    let zoom = statusMap.zoom;
+    let cursorPos = centerPos;
+
+    let selectedActor = GameAPI.getGamePieceSystem().selectedActor
+
+    for (let i = 0; i < actors.length; i++) {
+        let actor = actors[i];
+        let indicator = actorIndicators[i];
+        let actorPos = actor.actorObj3d.position;
+
+        tempVec2.set(actorPos.x-cursorPos.x, actorPos.z-cursorPos.z);
+        let distance = tempVec2.length(); // is in units m from cursor (Center of minimap)
+
+        if (distance > 0.48*worldSize/zoom) {
+            indicator.style.display = 'none';
+        } else {
+            if (indicator.style.display === 'none') {
+                indicator.style.display = 'block';
+            }
+
+            worldPosDiv(actorPos, cursorPos, indicator, zoom);
+
+            //    let angle = actor.getStatus(ENUMS.ActorStatus.STATUS_ANGLE_EAST);
+            let angle = -MATH.eulerFromQuaternion(actor.getSpatialQuaternion(actor.actorObj3d.quaternion)).y + MATH.HALF_PI * 0.5 // Math.PI //;
+
+            //    let headingDiv = htmlElement.call.getChildElement('heading');
+            //    if (headingDiv) {
+            indicator.style.rotate = angle + 'rad';
+
+            //    console.log(angle)
+
+            if (actor === selectedActor) {
+                indicator.style.borderColor = "rgba(255, 255, 255, 1)";
+            } else if (actor.getStatus(ENUMS.ActorStatus.ALIGNMENT) === ENUMS.Alignment.FRIENDLY) {
+                indicator.style.borderColor = "rgba(76, 255, 76, 1)";
+            } else if (actor.getStatus(ENUMS.ActorStatus.ALIGNMENT) === ENUMS.Alignment.HOSTILE) {
+                indicator.style.borderColor = "rgba(255, 76, 76, 1)";
+            } else {
+                indicator.style.borderColor = "rgba(255, 255, 0, 1)";
+            }
+
+            if (selectedActor) {
+                if (actor.getStatus(ENUMS.ActorStatus.ACTOR_ID) === selectedActor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET)) {
+                    indicator.style.backgroundColor = "rgba(128, 128, 78, 1)";
+                    indicator.style.boxShadow = "0 0 5px rgba(255, 255, 175, 0.75)";
+                } else {
+                    indicator.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+                    indicator.style.boxShadow = "0 0 2px rgba(5, 0, 0, 0.75)";
+                }
+
+
+
+            }
+
+        }
+
+    }
+
 }
 
 function calcMapMeterToDivPercent(zoom, worldSize) {
@@ -113,11 +191,8 @@ function positionLineDivs(mapDiv, cursorPos, lineSpacing, mapWidth, mapHeight, o
 
 function updateGridLines(mapDiv, cursorPos, lineSpacing, mapWidth, mapHeight, offsetX, offsetY, zoom) {
     let lineCount = Math.ceil(mapWidth / lineSpacing);
-    console.log(lineCount)
     updateLineDivs(lineCount, mapDiv)
     positionLineDivs(mapDiv, cursorPos, lineSpacing, mapWidth, mapHeight, offsetX, offsetY, zoom)
-
-
 }
 
 function clearGridLines() {
@@ -127,6 +202,41 @@ function clearGridLines() {
     while (gridLinesZ.length) {
         DomUtils.removeDivElement(gridLinesZ.pop())
     }
+}
+
+function attachWorldLevelNavigation(container) {
+   // let terrainSys = ThreeAPI.getTerrainSystem();
+    let worldLevelConfigs = GameAPI.gameMain.getWorldLevelConfig();
+    console.log("worldLevelConfigs",worldLevelConfigs)
+
+    let levelList = [];
+
+    for (let key in worldLevelConfigs) {
+        levelList[parseInt(worldLevelConfigs[key].id)] = worldLevelConfigs[key]
+    }
+
+    while (levelList.length) {
+        let levelConf = levelList.pop();
+
+        if (levelConf) {
+            function clickLevel() {
+                defaultWorldLevel = levelConf.id;
+                GameAPI.getPlayer().setStatusKey(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL, levelConf.id);
+
+                let selectedActor = GameAPI.getGamePieceSystem().selectedActor;
+                if (!selectedActor) {
+                    GameAPI.leaveActiveGameWorld();
+                    GameAPI.activateWorldLevel(levelConf.id);
+                }
+
+            }
+
+            let div = DomUtils.createDivElement(container, "wls_"+levelConf.id, levelConf.id, "world_level_select")
+            DomUtils.addClickFunction(div, clickLevel);
+            worldLevelDivs.push(div);
+        }
+    }
+
 }
 
 class DomWorldmap {
@@ -162,7 +272,8 @@ class DomWorldmap {
             z:"",
             dstX:0,
             dstY:0,
-            dstZ:0
+            dstZ:0,
+            worldLevel:0
         }
 
 
@@ -348,7 +459,20 @@ class DomWorldmap {
 
         let readyCb = function() {
             clearGridLines()
+            activeWorldLevel = null;
+
+            while (worldLevelDivs.length) {
+                DomUtils.removeDivElement(worldLevelDivs.pop())
+            }
+
+            while (actorIndicators.length) {
+                DomUtils.removeDivElement(actorIndicators.pop())
+            }
+
             mapDiv = htmlElement.call.getChildElement('map_frame')
+
+
+
             mapImageDiv = htmlElement.call.getChildElement('map_image')
             destinationDiv = htmlElement.call.getChildElement('destination')
             cursorDiv = htmlElement.call.getChildElement('cursor')
@@ -358,7 +482,7 @@ class DomWorldmap {
             offsetXDiv = htmlElement.call.getChildElement('offset_x')
             offsetZDiv = htmlElement.call.getChildElement('offset_z')
             teleportDiv = htmlElement.call.getChildElement('teleport')
-
+            let levelsContainer = htmlElement.call.getChildElement('levels_container')
             let reloadDiv = htmlElement.call.getChildElement('reload')
             let zoomInDiv = htmlElement.call.getChildElement('zoom_in')
             let zoomOutDiv = htmlElement.call.getChildElement('zoom_out')
@@ -370,6 +494,7 @@ class DomWorldmap {
             DomUtils.addClickFunction(zoomInDiv, zoomIn)
             DomUtils.addClickFunction(zoomOutDiv, zoomOut)
             DomUtils.addClickFunction(teleportDiv, teleport)
+            attachWorldLevelNavigation(levelsContainer);
             ThreeAPI.unregisterPrerenderCallback(update);
             ThreeAPI.registerPrerenderCallback(update);
         }
@@ -385,6 +510,9 @@ class DomWorldmap {
             statusMap.posZ = 'z:'+MATH.decimalify(cursorPos.z, 100);
 
             if (mapDiv) {
+                let worldLevel = activeWorldLevel;
+
+
                 let cam = ThreeAPI.getCamera()
             //    console.log(minimapDiv);
                 let zoom = statusMap.zoom;
@@ -430,6 +558,18 @@ class DomWorldmap {
                     teleportDiv.style.visibility = 'hidden'
                 }
 
+                worldLevel = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
+
+                if (worldLevel !== activeWorldLevel) {
+                    statusMap.worldLevel = GameAPI.gameMain.getWorldLevelConfig(worldLevel).name;
+
+                    if (activeWorldLevel !== null) {
+                        DomUtils.removeElementClass(mapImageDiv, 'level_'+activeWorldLevel)
+                    }
+                    DomUtils.addElementClass(mapImageDiv, 'level_'+worldLevel)
+                    activeWorldLevel = worldLevel;
+                }
+
             //    positionDiv(posDiv, cursorPos, zoom);
                 alignDivToX(posDiv, worldSize*0.5, 1, statusMap.os_x)
                 alignDivToZ(posDiv, 0, 1, statusMap.os_z)
@@ -438,6 +578,10 @@ class DomWorldmap {
                 worldPosDiv(cam.position, cursorPos, cameraDiv, zoom)
                 tempVec.set(statusMap.dstX, statusMap.dstY, statusMap.dstZ);
                 worldPosDiv(tempVec, cursorPos, destinationDiv, zoom)
+                indicateActors(htmlElement, mapDiv, statusMap, cursorPos)
+
+
+
             }
 
         }

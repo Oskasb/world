@@ -462,8 +462,11 @@ function processActorUiNavigationState(actor) {
 
 let lastWorldLevel = "20";
 function processWorldTransition(actor) {
-    let worldLevel = actor.getStatus(ENUMS.ActorStatus.WORLD_LEVEL)
+
+    let worldLevel =  GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL);
+
     if (worldLevel !== lastWorldLevel) {
+        actor.setStatusKey(ENUMS.ActorStatus.WORLD_LEVEL, worldLevel)
         let fromLevel = lastWorldLevel;
         actor.actorText.say("Enter world level "+worldLevel)
         lastWorldLevel = worldLevel;

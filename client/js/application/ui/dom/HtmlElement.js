@@ -91,16 +91,7 @@ class HtmlElement {
 
             //    container.style.rotate = "360deg";
 
-
-            let container = this.container;
-
-            setTimeout(function() {
-                container.style.visibility = "visible";
-                container.style.transition = "all 1.0s cubic-bezier(0.1, 0.4, 0.1, 1.2)"
-                container.style.opacity = 1;
-                container.style.scale = 1;
-                container.style.transform = "rotate3d(0, 0, 0, 1.0rad) translate3d(0, 0, 0)";
-            }, 1)
+            this.showHtmlElement()
 
             let iframeDocument = this.container.contentDocument || this.container.contentWindow.document;
         //    DomUtils.applyStyleToAllDivs(iframeDocument, 'transform', "translate3d(0, 0, 2pt)")
@@ -174,20 +165,34 @@ class HtmlElement {
 
     }
 
+    showHtmlElement() {
+        let container = this.container;
+        setTimeout(function() {
+            container.style.visibility = "visible";
+            container.style.transition = "all 1.0s cubic-bezier(0.1, 0.4, 0.1, 1.2)"
+            container.style.opacity = 1;
+            container.style.scale = 1;
+            container.style.transform = "rotate3d(0, 0, 0, 1.0rad) translate3d(0, 0, 0)";
+        }, 1)
+    }
+
+    hideHtmlElement() {
+        if (this.container !== null) {
+            let container = this.container
+            container.style.scale = 0;
+            container.style.opacity = 0;
+            container.style.transform = "rotate3d(1, 0, 0, 1.0rad) translate3d(0, 400em, 0)";
+        }
+    }
 
 
     closeHtmlElement() {
-        if (this.container !== null) {
-            let container = this.container
+        this.hideHtmlElement();
+        let container = this.container
 
-            setTimeout(function() {
-                DomUtils.removeElement(container);
-            }, 1000)
-            container.style.scale = 0;
-            container.style.opacity = 0;
-        //    container.style.rotate = "360deg";
-            container.style.transform = "rotate3d(1, 0, 0, 1.0rad) translate3d(0, 400em, 0)";
-        }
+        setTimeout(function() {
+            DomUtils.removeElement(container);
+        }, 1000)
         this.container = null;
         this.statusMap = null;
         this.editStatus = null;

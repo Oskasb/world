@@ -30,12 +30,45 @@
 
         {"id": "img_terrainmap_world_01" , "config": { "url":"./client/assets/images/textures/terrainmap_w01.png"    }},
         {"id": "img_heightmap_world_01"  , "config": { "url":"./client/assets/images/textures/heightmap_w01.png"     }},
+
+        {"id": "img_terrainmap_world_01_13" , "config": { "url":"./client/assets/images/textures/terrainmap_w01_13.png"    }},
+        {"id": "img_heightmap_world_01_13"  , "config": { "url":"./client/assets/images/textures/heightmap_w01_13.png"     }},
+
+        {"id": "img_terrainmap_world_01_12" , "config": { "url":"./client/assets/images/textures/terrainmap_w01_12.png"    }},
+        {"id": "img_heightmap_world_01_12"  , "config": { "url":"./client/assets/images/textures/heightmap_w01_12.png"     }},
+
+        {"id": "img_terrainmap_world_01_11" , "config": { "url":"./client/assets/images/textures/terrainmap_w01_11.png"    }},
+        {"id": "img_heightmap_world_01_11"  , "config": { "url":"./client/assets/images/textures/heightmap_w01_11.png"     }},
+
         {"id": "img_terrainmap_world_01_10" , "config": { "url":"./client/assets/images/textures/terrainmap_w01_10.png"    }},
         {"id": "img_heightmap_world_01_10"  , "config": { "url":"./client/assets/images/textures/heightmap_w01_10.png"     }},
         {"id": "img_terrainmap_world_01_09" , "config": { "url":"./client/assets/images/textures/terrainmap_w01_09.png"    }},
         {"id": "img_heightmap_world_01_09"  , "config": { "url":"./client/assets/images/textures/heightmap_w01_09.png"     }},
         {"id": "img_terrainmap_world_01_08" , "config": { "url":"./client/assets/images/textures/terrainmap_w01_08.png"    }},
         {"id": "img_heightmap_world_01_08"  , "config": { "url":"./client/assets/images/textures/heightmap_w01_08.png"     }},
+
+        {"id": "img_terrainmap_world_01_07" , "config": { "url":"./client/assets/images/textures/terrainmap_w01_07.png"    }},
+        {"id": "img_heightmap_world_01_07"  , "config": { "url":"./client/assets/images/textures/heightmap_w01_07.png"     }},
+
+        {"id": "img_terrainmap_world_01_06" , "config": { "url":"./client/assets/images/textures/terrainmap_w01_06.png"    }},
+        {"id": "img_heightmap_world_01_06"  , "config": { "url":"./client/assets/images/textures/heightmap_w01_06.png"     }},
+
+        {"id": "img_terrainmap_world_01_05" , "config": { "url":"./client/assets/images/textures/terrainmap_w01_05.png"    }},
+        {"id": "img_heightmap_world_01_05"  , "config": { "url":"./client/assets/images/textures/heightmap_w01_05.png"     }},
+
+        {"id": "img_terrainmap_world_01_04" , "config": { "url":"./client/assets/images/textures/terrainmap_w01_04.png"    }},
+        {"id": "img_heightmap_world_01_04"  , "config": { "url":"./client/assets/images/textures/heightmap_w01_04.png"     }},
+
+        {"id": "img_terrainmap_world_01_03" , "config": { "url":"./client/assets/images/textures/terrainmap_w01_03.png"    }},
+        {"id": "img_heightmap_world_01_03"  , "config": { "url":"./client/assets/images/textures/heightmap_w01_03.png"     }},
+
+        {"id": "img_terrainmap_world_01_02" , "config": { "url":"./client/assets/images/textures/terrainmap_w01_02.png"    }},
+        {"id": "img_heightmap_world_01_02"  , "config": { "url":"./client/assets/images/textures/heightmap_w01_02.png"     }},
+
+        {"id": "img_terrainmap_world_01_01" , "config": { "url":"./client/assets/images/textures/terrainmap_w01_01.png"    }},
+        {"id": "img_heightmap_world_01_01"  , "config": { "url":"./client/assets/images/textures/heightmap_w01_01.png"     }},
+
+
         {"id": "img_terrain_darkrock"    , "config": { "url":"./client/assets/images/textures/tiles/darkrock.png"    }},
         {"id": "img_terrain_striperock"  , "config": { "url":"./client/assets/images/textures/tiles/striperock.png"  }},
         {"id": "img_terrain_mud"         , "config": { "url":"./client/assets/images/textures/tiles/mud.png"         }},

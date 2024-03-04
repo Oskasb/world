@@ -189,6 +189,45 @@
           }
         },
         {
+          "id":"material_big_terrain_13",
+          "config":{
+            "settings": "mat_settings_terrain_big",
+            "textures":[
+              {"key":"envMap"         , "id":"ref_sphere"                },
+              {"key":"terrainmap"     , "id":"tx_terrainmap_world_01_13"  },
+              {"key":"heightmap"      , "id":"tx_heightmap_world_01_13"   },
+              {"key":"tx0"            , "id":"tx_ground_tiles16x16"      },
+              {"key":"tx0nm"          , "id":"tx_ground_tiles16x16nm"    }
+            ]
+          }
+        },
+        {
+          "id":"material_big_terrain_12",
+          "config":{
+            "settings": "mat_settings_terrain_big",
+            "textures":[
+              {"key":"envMap"         , "id":"ref_sphere"                },
+              {"key":"terrainmap"     , "id":"tx_terrainmap_world_01_12"  },
+              {"key":"heightmap"      , "id":"tx_heightmap_world_01_12"   },
+              {"key":"tx0"            , "id":"tx_ground_tiles16x16"      },
+              {"key":"tx0nm"          , "id":"tx_ground_tiles16x16nm"    }
+            ]
+          }
+        },
+        {
+          "id":"material_big_terrain_11",
+          "config":{
+            "settings": "mat_settings_terrain_big",
+            "textures":[
+              {"key":"envMap"         , "id":"ref_sphere"                },
+              {"key":"terrainmap"     , "id":"tx_terrainmap_world_01_11"  },
+              {"key":"heightmap"      , "id":"tx_heightmap_world_01_11"   },
+              {"key":"tx0"            , "id":"tx_ground_tiles16x16"      },
+              {"key":"tx0nm"          , "id":"tx_ground_tiles16x16nm"    }
+            ]
+          }
+        },
+        {
           "id":"material_big_terrain_10",
           "config":{
             "settings": "mat_settings_terrain_big",
@@ -222,6 +261,97 @@
               {"key":"envMap"         , "id":"ref_sphere"                },
               {"key":"terrainmap"     , "id":"tx_terrainmap_world_01_08"  },
               {"key":"heightmap"      , "id":"tx_heightmap_world_01_08"   },
+              {"key":"tx0"            , "id":"tx_ground_tiles16x16"      },
+              {"key":"tx0nm"          , "id":"tx_ground_tiles16x16nm"    }
+            ]
+          }
+        },
+        {
+          "id":"material_big_terrain_07",
+          "config":{
+            "settings": "mat_settings_terrain_big",
+            "textures":[
+              {"key":"envMap"         , "id":"ref_sphere"                },
+              {"key":"terrainmap"     , "id":"tx_terrainmap_world_01_07"  },
+              {"key":"heightmap"      , "id":"tx_heightmap_world_01_07"   },
+              {"key":"tx0"            , "id":"tx_ground_tiles16x16"      },
+              {"key":"tx0nm"          , "id":"tx_ground_tiles16x16nm"    }
+            ]
+          }
+        },
+        {
+          "id":"material_big_terrain_06",
+          "config":{
+            "settings": "mat_settings_terrain_big",
+            "textures":[
+              {"key":"envMap"         , "id":"ref_sphere"                },
+              {"key":"terrainmap"     , "id":"tx_terrainmap_world_01_06"  },
+              {"key":"heightmap"      , "id":"tx_heightmap_world_01_06"   },
+              {"key":"tx0"            , "id":"tx_ground_tiles16x16"      },
+              {"key":"tx0nm"          , "id":"tx_ground_tiles16x16nm"    }
+            ]
+          }
+        },
+        {
+          "id":"material_big_terrain_05",
+          "config":{
+            "settings": "mat_settings_terrain_big",
+            "textures":[
+              {"key":"envMap"         , "id":"ref_sphere"                },
+              {"key":"terrainmap"     , "id":"tx_terrainmap_world_01_05"  },
+              {"key":"heightmap"      , "id":"tx_heightmap_world_01_05"   },
+              {"key":"tx0"            , "id":"tx_ground_tiles16x16"      },
+              {"key":"tx0nm"          , "id":"tx_ground_tiles16x16nm"    }
+            ]
+          }
+        },
+        {
+          "id":"material_big_terrain_04",
+          "config":{
+            "settings": "mat_settings_terrain_big",
+            "textures":[
+              {"key":"envMap"         , "id":"ref_sphere"                },
+              {"key":"terrainmap"     , "id":"tx_terrainmap_world_01_04"  },
+              {"key":"heightmap"      , "id":"tx_heightmap_world_01_04"   },
+              {"key":"tx0"            , "id":"tx_ground_tiles16x16"      },
+              {"key":"tx0nm"          , "id":"tx_ground_tiles16x16nm"    }
+            ]
+          }
+        },
+        {
+          "id":"material_big_terrain_03",
+          "config":{
+            "settings": "mat_settings_terrain_big",
+            "textures":[
+              {"key":"envMap"         , "id":"ref_sphere"                },
+              {"key":"terrainmap"     , "id":"tx_terrainmap_world_01_03"  },
+              {"key":"heightmap"      , "id":"tx_heightmap_world_01_03"   },
+              {"key":"tx0"            , "id":"tx_ground_tiles16x16"      },
+              {"key":"tx0nm"          , "id":"tx_ground_tiles16x16nm"    }
+            ]
+          }
+        },
+        {
+          "id":"material_big_terrain_02",
+          "config":{
+            "settings": "mat_settings_terrain_big",
+            "textures":[
+              {"key":"envMap"         , "id":"ref_sphere"                },
+              {"key":"terrainmap"     , "id":"tx_terrainmap_world_01_02"  },
+              {"key":"heightmap"      , "id":"tx_heightmap_world_01_02"   },
+              {"key":"tx0"            , "id":"tx_ground_tiles16x16"      },
+              {"key":"tx0nm"          , "id":"tx_ground_tiles16x16nm"    }
+            ]
+          }
+        },
+        {
+          "id":"material_big_terrain_01",
+          "config":{
+            "settings": "mat_settings_terrain_big",
+            "textures":[
+              {"key":"envMap"         , "id":"ref_sphere"                },
+              {"key":"terrainmap"     , "id":"tx_terrainmap_world_01_01"  },
+              {"key":"heightmap"      , "id":"tx_heightmap_world_01_01"   },
               {"key":"tx0"            , "id":"tx_ground_tiles16x16"      },
               {"key":"tx0nm"          , "id":"tx_ground_tiles16x16nm"    }
             ]

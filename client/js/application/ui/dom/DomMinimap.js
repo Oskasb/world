@@ -5,6 +5,7 @@ import {Vector3} from "../../../../libs/three/math/Vector3.js";
 import {EncounterStatus} from "../../../game/encounter/EncounterStatus.js";
 import {filterForWalkableTiles} from "../../../game/gameworld/ScenarioUtils.js";
 import {poolFetch, poolReturn} from "../../utils/PoolUtils.js";
+import {ENUMS} from "../../ENUMS.js";
 
 let tempVec2 = new Vector2()
 let worldSize = 2048;
@@ -349,10 +350,7 @@ class DomMinimap {
         }
 
         let closeMapCb = function() {
-        //    while (tenMeterIndicators.length) {
-        //        DomUtils.removeDivElement(tenMeterIndicators.pop())
-        //    }
-            rebuild()
+            htmlElement.showHtmlElement()
             console.log("Close Minimap...")
         }
 
@@ -365,10 +363,10 @@ class DomMinimap {
         }
 
         let openWorldMap = function() {
-            while (tenMeterIndicators.length) {
-                DomUtils.removeDivElement(tenMeterIndicators.pop())
-            }
-            htmlElement.closeHtmlElement()
+        //    while (tenMeterIndicators.length) {
+        //        DomUtils.removeDivElement(tenMeterIndicators.pop())
+        //    }
+            htmlElement.hideHtmlElement()
             new DomWorldmap(closeMapCb);
         }
 
@@ -383,6 +381,7 @@ class DomMinimap {
             DomUtils.addClickFunction(zoomOutDiv, zoomOut)
             populateTravelPath(mapDiv);
         }
+
 
         let rebuild = function() {
 
@@ -405,7 +404,7 @@ class DomMinimap {
 
             }, 200);
 
-            console.log("Close Minimap...")
+            console.log("Rebuild Minimap...")
         }
 
         htmlElement.initHtmlElement('minimap', null, statusMap, 'minimap', readyCb);
@@ -457,7 +456,7 @@ class DomMinimap {
                         centerPos = selectedActor.getSpatialPosition()
                     }
 
-                    worldLevel = selectedActor.getStatus(ENUMS.ActorStatus.WORLD_LEVEL);
+                    worldLevel = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
 
                 } else {
                     worldLevel = defaultWorldLevel;

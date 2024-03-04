@@ -237,21 +237,19 @@ class GameAPI {
             let material = asset.originalModel.getModelMaterial();
             terrainBigGeometry.applyGroundMaterial(material, worldLevel);
             let selectedActor = gamePieceSystem.selectedActor
-            let dst = selectedActor.getDestination();
-            dst.y = ThreeAPI.terrainAt(dst);
-            selectedActor.setSpatialPosition(dst);
+
+            if (selectedActor) {
+                let dst = selectedActor.getDestination();
+                dst.y = ThreeAPI.terrainAt(dst);
+                selectedActor.setSpatialPosition(dst);
+            }
+
             ThreeAPI.getTerrainSystem().getTerrain().call.populateTerrainGeometries();
             setTimeout(terrainSys.rebuildGround, 200);
             setTimeout(playerMain.callbacks.worldLoaded, 600);
 
-        //    if (worldLevel === 20) {
-                setTimeout(function() {
-                //    ThreeAPI.getTerrainSystem().getTerrain().call.populateTerrainGeometries();
-                }, 1000)
-
-        //    }
         }
-// check ThreeAPI.buildAsset not working here
+
         client.dynamicMain.requestAssetInstance(assetId, onLoad)
 
     }

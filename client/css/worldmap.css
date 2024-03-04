@@ -1,25 +1,4 @@
 
-@font-face {
-    font-family: 'Russo One';
-    src: url('../css/fonts/RussoOne-Regular.ttf');
-}
-
-@font-face {
-    font-family: 'Berlin Sans Demi';
-    src: url('../css/fonts/BRLNSDB.TTF');
-}
-
-@font-face {
-    font-family: 'Berlin Sans Bold';
-    src: url('../css/fonts/BRLNSB.TTF');
-}
-
-span {
-    display:block;
-    left:0em;
-    right:0em;
-}
-
 div {
     top: auto;
     left: auto;
@@ -33,45 +12,9 @@ div {
     position: absolute;
 }
 
-body {
-    cursor:none;
-    touch-action: none;
-    pointer-events: none;
-    font-family: 'Russo One';
-    font-weight: 400;
-    font-size: 0;
-    position: absolute;
-    user-select:none;
-}
-
-body.map_anchor {
-    top: 48em;
-    left: 50%;
-    width: 0;
-    height: 0;
-    margin: 0;
-    right: auto;
-    bottom: auto;
-    padding: 0;
-    position: absolute;
-    transform: translate3d(0px, 0px, 0px);
-}
-
-.minimap_container h2 {
-    color: azure;
-    top: 0%;
-    padding:0%;
-    padding-left: 5%;
-}
-
-.minimap_container p {
-    padding-left: 0.4em;
-    color: azure;
-}
-
 div.button_close {
-    top: -45em;
-    right: -45em;
+    top: -43em;
+    right: -38em;
     width: 0;
     height: 0;
     border-radius: 50%;
@@ -88,6 +31,20 @@ div.button_close {
     color: #410b00;
     text-shadow: -1px -1px 3px rgb(255, 117, 43);
     box-shadow: 0 0px 0px 2px rgba(5, 0, 0, 0.5);
+}
+
+body.map_anchor {
+    top: 48em;
+    left: 50%;
+    width: 0;
+    height: 0;
+    margin: 0;
+    right: auto;
+    bottom: auto;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    transform: translate3d(0px, 0px, 0px);
 }
 
 div.button_zoom_out {
@@ -183,10 +140,10 @@ div.button_teleport {
 }
 
 div.worldmap_frame {
-    top: -44em;
-    left: -44em;
-    width: 84em;
-    height: 84em;
+    top: -42em;
+    left: -38em;
+    width: 74em;
+    height: 74em;
     margin: 0;
     padding: 0;
     position: absolute;
@@ -221,12 +178,12 @@ div.map_image {
     height: 100%;
     margin: 0;
     border: none;
-    background-image: url("/client/assets/images/textures/minimap.png");
+    border-radius:0;
     background-repeat: no-repeat;
-    background-color: #424762;
     background-size: 100%;
     transform-origin: center;
 }
+
 div.map_frame {
     overflow:hidden;
     top: 0;
@@ -410,6 +367,49 @@ div.camera {
     margin: 0;
     padding: 0;
     display: inline-block;
+}
+
+
+.levels_container {
+    height: auto;
+    top: 8em;
+    left: 4em;
+    width: auto;
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    align-items: center;
+}
+
+div.world_level_select {
+    height: 2em;
+    top: 0em;
+    left: 0em;
+    width: 2em;
+    position: relative;
+    margin: 0.2em;
+    padding: 0;
+    display: block;
+    align-items: center;
+    color: white;
+}
+
+.header_container {
+    height: auto;
+    top: 4em;
+    left: 4em;
+    width: auto;
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    align-items: center;
+}
+
+.header_container h2 {
+    color: white;
+    text-shadow: 1px 1px 3px rgba(5, 0, 0, 1);
 }
 
 .value_container {

@@ -98,11 +98,15 @@ class GameMain {
     }
 
     getWorldLevelConfig(id) {
+        if (!id) {
+            return worldLevels;
+        }
         if (!worldLevels[id]) {
             console.log("No world level config for id: ", id, worldLevels);
         }
         return worldLevels[id];
     }
+
 
     setupCallbacks = function () {
         let callbacks = this.callbacks;

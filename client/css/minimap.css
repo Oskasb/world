@@ -147,7 +147,7 @@ div.minimap {
     bottom: 1em;
     left: 1em;
     position: absolute;
-    mask-image: radial-gradient(rgba(255, 255, 255, 1) 35%, rgba(255, 255, 255, 0.7) 60%, rgba(255, 255, 255, 0.3) 67%, rgba(255, 255, 255, 1) 68%);
+    mask-image: radial-gradient(rgba(255, 255, 255, 25) 2%, rgba(255, 255, 255, 0.9) 50%, rgba(255, 255, 255, 0.8) 61%, rgba(255, 255, 255, 0.2) 68%, rgba(255, 255, 255, 1) 69%);
     background-image: url("/client/assets/images/textures/minimap.png");
     background-repeat: no-repeat;
     background-color: #424762;
