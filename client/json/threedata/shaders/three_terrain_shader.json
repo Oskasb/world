@@ -755,7 +755,7 @@
           "vec4 directReflection  = reflectionColor  * directFactor * (directFactor * (5.0 -(angle*(rough*2.9))));",
           "vec4 surfaceReflection = reflectionColor * smoothnessFactor * ((0.5 *smooth*metal) * (1.0-angle) + (0.5 * (smooth*(1.0/(1.0+metal*5.0))) * angle));",
           "vec4 finalReflection = vec4(metalReflection, 1.0) + (1.0 - (metal * (1.0))) * (directReflection + surfaceReflection) + fresnelReflection*(smooth+metal);",
-          "finalReflection = vec4(finalReflection.rgb*normalize(ambientLightColor.rgb*sunLightColor), 1.0) *  (rimFactor *  1.0 + colorFactor * 0.5);",
+          "finalReflection = vec4(finalReflection.rgb * normalize(ambientLightColor.rgb+sunLightColor), 1.0) *  (rimFactor *  1.0 + colorFactor * 0.5);",
 
           "float intensity = min(max( 0.5*rough + dot(fragNormal, sunLightDirection )*(0.5 + smooth), -0.0), 1.0);",
 
@@ -765,7 +765,7 @@
 
           "vec3 litDiffuse = diffuseColor * sunDir.rgb * 1.0 / (1.0 + fresnelIntensity*(8.0 * slope));",
           "vec3 ambientColor = ambientLightColor * diffuseColor;",
-          "vec3 ambientDiffuse = ambientColor * (0.5+(0.75*slope));",
+          "vec3 ambientDiffuse = ambientColor * (0.75+(0.25*slope));",
           "vec3 combinedEnvLight = (litDiffuse+ambientDiffuse) * (1.0 / (1.0 + angle*angle*5.0 * slope));",
 
           "vec3 rimLight = (  sunDir.rgb *(smooth*1.0 + (metal*rough))) * rimFactor*2.0 * colorFactor;",
@@ -774,7 +774,7 @@
           "vec3 specularLights = specularDiffuseLight+specularSunLight+rimLight;",
 
           "float shadowing = 1.0 - heightMapSample.b*0.55;",
-          "vec4 lightColor = vec4((combinedEnvLight+specularLights.rgb) * (1.0 - (slope*0.5)), 1.0) * shadowing + finalReflection;",
+          "vec4 lightColor = vec4((combinedEnvLight+specularLights.rgb) * (1.0 - (slope*0.55)), 1.0) * shadowing + finalReflection;",
           "intensity = max( 0.01 + dot(txNmBase.rgb, sunLightDirection ) * 0.99, 0.0) * shadowing;",
           "gl_FragColor = (shadowing * lightColor * (intensity*0.25 + 0.75) + txColor * lightColor*intensity*2.0) * shadowing;",
           "float fogFactor = min(fogDensity * fogDepth, 1.0);",

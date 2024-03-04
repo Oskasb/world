@@ -659,7 +659,7 @@
 
             "vec3 fromAbove = vec3(0.0, 1.0, 0.0);",
 
-            "float ambInt = 0.3 + dot(faceNormal, fromAbove ) * 0.2;",
+            "float ambInt = -0.85 + dot(faceNormal, fromAbove ) * 0.85;",
 
             "vColor.r = ambientLightColor.r * ambInt;",
             "vColor.g = ambientLightColor.g * ambInt;",
@@ -857,7 +857,7 @@
           "vec3 lightColor = sunDir;",
           "vec3 litDiffuse = lightColor * diffuseColor *0.65;",
           "vec3 ambientColor = vColor.rgb ;",
-          "vec3 ambientDiffuse = ambientColor * (1.0-intensity);",
+          "vec3 ambientDiffuse = ambientColor * (1.0-intensity*1.5) * 0.5;",
           "vec3 combinedEnvLight = litDiffuse+ambientDiffuse;",
           "vec3 rimLight = ( combinedEnvLight *(0.1+smooth*1.0 + (metal*rough*0.0))) * ((fresnelFactor * (1.0+rough*4.2)))*sunToCameraAngle *7.0;",
           "vec3 specularSunLight = sunDir * specularIntensity * (smooth*0.5 + 0.02*rough);",
