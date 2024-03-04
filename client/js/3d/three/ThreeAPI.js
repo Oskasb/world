@@ -258,8 +258,9 @@ class ThreeAPI {
 
     digIntoGroundAt = function(pos, size, elevationChange) {
         let groundHeight = this.terrainAt(this.getCameraCursor().getPos(), null, groundHeightData)
-        let heightFraction = elevationChange / terrainSystem.getTerrainHeight()
+        let heightFraction = elevationChange / terrainSystem.getTerrainHeight();
         let targetIntensity = groundHeightData[0] + heightFraction;
+        console.log(targetIntensity, groundHeightData[0] , heightFraction, elevationChange , terrainSystem.getTerrainHeight())
         terrainSystem.shadeTerrainGround(pos, size, 0, "source-over", targetIntensity)
         terrainSystem.rebuildGround()
     }
