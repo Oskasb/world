@@ -456,13 +456,11 @@ class DomMinimap {
                         centerPos = selectedActor.getSpatialPosition()
                     }
 
-                    worldLevel = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
-
                 } else {
-                    worldLevel = defaultWorldLevel;
                     centerPos = ThreeAPI.getCameraCursor().getLookAroundPoint()
                 }
 
+                worldLevel = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
                 statusMap.x = centerPos.x;
                 statusMap.y = centerPos.y;
                 statusMap.z = centerPos.z;

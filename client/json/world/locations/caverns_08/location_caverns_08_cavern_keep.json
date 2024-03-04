@@ -1,0 +1,46 @@
+[{
+  "WORLD_LOCATIONS":{
+    "MODELS":[
+      {
+        "id": "caverns_08_cavern_keep",
+        "data": [
+          {
+            "data_key":"location_data",
+            "config": {
+              "world_level": "08",
+              "models": [
+                {
+                  "model": "model_bandit_keep_main_floor_0",
+                  "pos": [-550, 2, 614],
+                  "rot": [0, 0, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": true,
+                  "visibility": 3,
+                  "palette": "DEFAULT"
+                },
+                {
+                  "model": "model_bandit_keep_main_pillars_0",
+                  "pos": [-550, 2, 614],
+                  "rot": [0, 0, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": true,
+                  "visibility": 3,
+                  "palette": "TOWN_DARK_2"
+                },
+                {
+                  "model": "model_bandit_keep_main_walls_0",
+                  "pos": [-550, 2, 614],
+                  "rot": [0, 0, 0],
+                  "scale": [1, 1, 1],
+                  "on_ground": true,
+                  "visibility": 3,
+                  "palette": "TOWN_DARK_2"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  }
+}]

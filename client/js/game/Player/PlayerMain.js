@@ -201,10 +201,13 @@ class PlayerMain {
 
             GameAPI.getPlayer().setStatusKey(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL, e.world_level);
 
+            let envId= GameAPI.gameMain.getWorldLevelConfig(e.world_level).env;
+            evt.dispatch(ENUMS.Event.ADVANCE_ENVIRONMENT,  {envId:envId, time:0.5});
+
             let world_encounters = []
             MATH.copyArrayValues(e.world_encounters, world_encounters);
             let worldLevel = e.world_level;
-
+            world_encounters.push("portals_"+e.world_level)
             if (e.worldEncounter) {
                 e.worldEncounter.hideWorldEncounter()
             }

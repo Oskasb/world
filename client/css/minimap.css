@@ -171,22 +171,6 @@ div.minimap_travel {
 
 }
 
-div.level_20 {
-    background-image: url("/client/assets/images/textures/minimap.png");
-}
-
-div.level_10 {
-    background-image: url("/client/assets/images/textures/terrainmap_w01_10.png");
-}
-
-div.level_09 {
-    background-image: url("/client/assets/images/textures/terrainmap_w01_09.png");
-}
-
-div.level_08 {
-    background-image: url("/client/assets/images/textures/terrainmap_w01_08.png");
-}
-
 div.indicator_10m {
     position: absolute;
     top: 50%;

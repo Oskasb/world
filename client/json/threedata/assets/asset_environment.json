@@ -108,14 +108,14 @@
         {
           "id":"cave_dusty",
           "sky":{
-            "inclination":       0.05,
-            "azimuth":           0.15,
+            "inclination":      0.05,
+            "azimuth":          0.25,
             "distance":          1000000
           },
           "configs":[
-            {"id":"sun",     "color":[0.99,  0.78,  0.16]},
-            {"id":"ambient", "color":[0.45,  0.44,  0.81]},
-            {"id":"fog",     "color":[0.01,  0.02,  0.01], "density":0.125}
+            {"id":"sun",     "color":[1.29,  0.18,  0.16]},
+            {"id":"ambient", "color":[0.01,  0.64,  0.11]},
+            {"id":"fog",     "color":[0.02,  0.09,  0.0], "density":0.035}
           ]
         },
         {

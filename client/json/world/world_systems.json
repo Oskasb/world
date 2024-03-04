@@ -4,20 +4,20 @@
       {
         "id": "world_levels",
           "levels": [
-            {"id": "20", "asset":"asset_ground_big",    "minimap": "minimap", "name": "Cradena"},
-            {"id": "13", "asset":"asset_ground_big_13", "minimap": "minimap", "name": "Topmost Caves"},
-            {"id": "12", "asset":"asset_ground_big_12", "minimap": "minimap", "name": "Peak Caves"},
-            {"id": "11", "asset":"asset_ground_big_11", "minimap": "minimap", "name": "Hillside Caves"},
-            {"id": "10", "asset":"asset_ground_big_10", "minimap": "minimap", "name": "Upper Caverns"},
-            {"id": "09", "asset":"asset_ground_big_09", "minimap": "minimap", "name": "Lower Caverns"},
-            {"id": "08", "asset":"asset_ground_big_08", "minimap": "minimap", "name": "Deep Caverns"},
-            {"id": "07", "asset":"asset_ground_big_07", "minimap": "minimap", "name": "First Underworld"},
-            {"id": "06", "asset":"asset_ground_big_06", "minimap": "minimap", "name": "Second Underworld"},
-            {"id": "05", "asset":"asset_ground_big_05", "minimap": "minimap", "name": "Third Underworld"},
-            {"id": "04", "asset":"asset_ground_big_04", "minimap": "minimap", "name": "The Pits"},
-            {"id": "03", "asset":"asset_ground_big_03", "minimap": "minimap", "name": "Subjugation"},
-            {"id": "02", "asset":"asset_ground_big_02", "minimap": "minimap", "name": "The Inferno"},
-            {"id": "01", "asset":"asset_ground_big_01", "minimap": "minimap", "name": "Prison of the Gods"}
+            {"id": "20", "asset":"asset_ground_big",    "name": "Cradena", "env": "sunny_day"},
+            {"id": "13", "asset":"asset_ground_big_13", "name": "Topmost Caves", "env": "cave_dusty"},
+            {"id": "12", "asset":"asset_ground_big_12", "name": "Peak Caves", "env": "cave_dusty"},
+            {"id": "11", "asset":"asset_ground_big_11", "name": "Hillside Caves", "env": "cave_dusty"},
+            {"id": "10", "asset":"asset_ground_big_10", "name": "Upper Caverns", "env": "cave_dusty"},
+            {"id": "09", "asset":"asset_ground_big_09", "name": "Lower Caverns", "env": "cave_dusty"},
+            {"id": "08", "asset":"asset_ground_big_08", "name": "Deep Caverns", "env": "cave_dusty"},
+            {"id": "07", "asset":"asset_ground_big_07", "name": "First Underworld", "env": "cave_dusty"},
+            {"id": "06", "asset":"asset_ground_big_06", "name": "Second Underworld", "env": "cave_dusty"},
+            {"id": "05", "asset":"asset_ground_big_05", "name": "Third Underworld", "env": "cave_dusty"},
+            {"id": "04", "asset":"asset_ground_big_04", "name": "The Pits", "env": "cave_dusty"},
+            {"id": "03", "asset":"asset_ground_big_03", "name": "Subjugation", "env": "cave_dusty"},
+            {"id": "02", "asset":"asset_ground_big_02", "name": "The Inferno", "env": "cave_dusty"},
+            {"id": "01", "asset":"asset_ground_big_01", "name": "Prison of the Gods", "env": "cave_dusty"}
           ]
       },
     "WORLD_NAV_POINTS": [
