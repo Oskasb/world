@@ -306,7 +306,6 @@ function populateTravelPath(minimapDiv) {
 }
 
 function markTravelPath(pos, timeElapsed) {
-    console.log("markTravelPath", pos)
     let indicator = pathIndicators.pop();
     pathIndicators.unshift(indicator);
     indicator.pos.copy(pos);

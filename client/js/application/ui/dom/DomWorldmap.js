@@ -23,16 +23,20 @@ function calcZoomForSize(size, worldSize)  {
     return worldSize/size;
 }
 
-function positionDiv(div, posVec) {
+function axisPosToPercent(axisPos) {
     let zoomFactor = calcMapMeterToDivPercent(1, worldSize);
-    let mapPctX = posVec.x*zoomFactor
-    let mapPctZ = posVec.z*zoomFactor
+    return axisPos*zoomFactor
+}
+
+function positionDiv(div, posVec) {
+    let mapPctX = axisPosToPercent(posVec.x)
+    let mapPctZ = axisPosToPercent(posVec.z)
 
     div.style.top = 50 + mapPctZ + '%';
     div.style.left = 50 + mapPctX + '%';
 }
 
-function alignDivToX(div, posX, zoom, offsetX) {
+function alignDivToX(div, posX, zoom) {
     let zoomFactor = calcMapMeterToDivPercent(zoom, worldSize);
     let mapPctX = posX*zoomFactor
     div.style.left = mapPctX + '%';
@@ -43,6 +47,17 @@ function alignDivToZ(div, posZ, zoom) {
     let mapPctZ = posZ*zoomFactor
     div.style.top = 50 + mapPctZ + '%';
 }
+
+
+function worldPosDiv(worldPos, cursorPos, div, zoom) {
+    tempVec.copy(worldPos).sub(cursorPos)
+    tempVec.multiplyScalar(zoom)
+//    positionDiv(cameraDiv, tempVec, zoom);
+    alignDivToX(div, tempVec.x+worldSize*0.5, 1)
+    alignDivToZ(div, tempVec.z, 1)
+}
+
+
 
 function updateLineDivs(lineCount, mapDiv) {
     while (gridLinesX.length > lineCount) {
@@ -98,10 +113,20 @@ function positionLineDivs(mapDiv, cursorPos, lineSpacing, mapWidth, mapHeight, o
 
 function updateGridLines(mapDiv, cursorPos, lineSpacing, mapWidth, mapHeight, offsetX, offsetY, zoom) {
     let lineCount = Math.ceil(mapWidth / lineSpacing);
+    console.log(lineCount)
     updateLineDivs(lineCount, mapDiv)
     positionLineDivs(mapDiv, cursorPos, lineSpacing, mapWidth, mapHeight, offsetX, offsetY, zoom)
 
 
+}
+
+function clearGridLines() {
+    while (gridLinesX.length) {
+        DomUtils.removeDivElement(gridLinesX.pop())
+    }
+    while (gridLinesZ.length) {
+        DomUtils.removeDivElement(gridLinesZ.pop())
+    }
 }
 
 class DomWorldmap {
@@ -111,6 +136,7 @@ class DomWorldmap {
         let mapDiv = null;
         let mapImageDiv = null;
         let cursorDiv = null;
+        let destinationDiv = null;
         let posDiv = null;
         let cameraDiv = null;
         let teleportDiv = null;
@@ -133,11 +159,17 @@ class DomWorldmap {
             pcntY:"",
             x:"",
             y:"",
-            z:""
+            z:"",
+            dstX:0,
+            dstY:0,
+            dstZ:0
         }
+
+
 
         let closeMapCb = function() {
             console.log("Close worldmap...")
+            ThreeAPI.unregisterPrerenderCallback(update);
             closeCb()
         }
 
@@ -199,7 +231,7 @@ class DomWorldmap {
             poolReturn(spatTrans);
             let selectedActor = GameAPI.getGamePieceSystem().selectedActor;
             if (selectedActor) {
-                selectedActor.setSpatialPosition(endPos)
+        //        selectedActor.setSpatialPosition(endPos)
                 // selectedActor.transitionTo(endPos, 1);
             }
             transition = null;
@@ -216,33 +248,55 @@ class DomWorldmap {
         let mapClick = function(e) {
             elemECoords(e);
             console.log("Map Click", ThreeAPI.tempVec3, e)
+            positionDiv(destinationDiv, pointerVec3, statusMap.zoom);
+
+
+            tempVec.copy(pointerVec3);
+            tempVec.multiplyScalar(1/statusMap.zoom)
+            tempVec.add(ThreeAPI.getCameraCursor().getLookAroundPoint())
+            tempVec.y = ThreeAPI.terrainAt(tempVec);
+            statusMap.dstX = tempVec.x;
+            statusMap.dstY = tempVec.y;
+            statusMap.dstZ = tempVec.z;
+            destinationDiv.style.transition = "font-size 1.2s ease-out";
+            destinationDiv.style.fontSize = "1em";
+            //    positionDiv(cameraDiv, tempVec, zoom);
+        //    alignDivToX(cameraDiv, tempVec.x+worldSize*0.5, 1, statusMap.os_x)
+        //    alignDivToZ(cameraDiv, tempVec.z, 1, statusMap.os_z)
 
             if (transition !== null) {
                 transition.cancelSpatialTransition()
             }
 
-       //     transition = poolFetch('SpatialTransition')
-       //     let distance = MATH.distanceBetween(ThreeAPI.getCameraCursor().getLookAroundPoint(), ThreeAPI.tempVec3)
-       //     transition.initSpatialTransition(ThreeAPI.getCameraCursor().getLookAroundPoint() , ThreeAPI.tempVec3, 2, onArrive, MATH.curveSqrt(distance*0.4) + distance*0.1)
-        //    ThreeAPI.getCameraCursor().getLookAroundPoint().copy(ThreeAPI.tempVec3);
-        //    statusMap['layerX'] = e.layerX;
-        //    statusMap['layerY'] = e.layerY;
-        //    let elem = e.target;
-        //    let totWidth = elem.clientWidth;
-        //    let totHeight = elem.clientHeight;
-        //    statusMap['pcntX'] = MATH.percentify(e.layerX, totWidth);
-        //    statusMap['pcntY'] = MATH.percentify(e.layerY, totHeight);
+            transition = poolFetch('SpatialTransition')
+            let distance = MATH.distanceBetween(ThreeAPI.getCameraCursor().getLookAroundPoint(), tempVec)
+            transition.initSpatialTransition(ThreeAPI.getCameraCursor().getLookAroundPoint() , tempVec, 1, onArrive, MATH.curveSqrt(distance*0.4) + distance*0.1)
+
         }
 
         let frameDragX = 0;
         let frameDragY = 0;
         let lastDragX = 0
         let lastDragY = 0;
+
+        function positionDestinationPointer() {
+            tempVec.copy(pointerVec3);
+            tempVec.multiplyScalar(1/statusMap.zoom)
+            tempVec.add(ThreeAPI.getCameraCursor().getLookAroundPoint())
+            statusMap.dstX = tempVec.x;
+            statusMap.dstY = tempVec.y;
+            statusMap.dstZ = tempVec.z;
+        }
+
         let mapHover = function(e) {
         //    console.log("Map Hover",dragListen, e)
             elemECoords(e);
             pointerVec3.copy(ThreeAPI.tempVec3);
+
+
+
             if (dragListen === true) {
+                /*
                 if (transition !== null) {
                     transition.cancelSpatialTransition()
                 }
@@ -255,7 +309,11 @@ class DomWorldmap {
                 ThreeAPI.getCameraCursor().getLookAroundPoint().x = MATH.clamp(ThreeAPI.getCameraCursor().getLookAroundPoint().x -frameDragX*0.02/statusMap.zoom, -worldSize*0.5, worldSize*0.5);
                 ThreeAPI.getCameraCursor().getLookAroundPoint().z = MATH.clamp( ThreeAPI.getCameraCursor().getLookAroundPoint().z -frameDragY*0.02/statusMap.zoom, -worldSize*0.5, worldSize*0.5);
                 ThreeAPI.getCameraCursor().getLookAroundPoint().y = ThreeAPI.terrainAt(ThreeAPI.getCameraCursor().getLookAroundPoint())
+            */
+                positionDestinationPointer()
+
             } else {
+
                 update();
             }
             
@@ -265,6 +323,8 @@ class DomWorldmap {
         let startDragY = 0;
         let dragListen = false;
 
+
+
         let mapPressStart = function(e) {
             elemECoords(e);
             frameDragX = 0;
@@ -273,7 +333,10 @@ class DomWorldmap {
             lastDragY = 0;
             startDragX = ThreeAPI.tempVec3.x;
             startDragY = ThreeAPI.tempVec3.z;
+            destinationDiv.style.transition = "font-size 0.1s ease-in";
+            destinationDiv.style.fontSize = "2em";
             dragListen = true;
+            positionDestinationPointer()
         }
 
         let mapPressEnd = function(e) {
@@ -284,14 +347,10 @@ class DomWorldmap {
         }
 
         let readyCb = function() {
-            while (gridLinesX.length) {
-                DomUtils.removeDivElement(gridLinesX.pop())
-            }
-            while (gridLinesZ.length) {
-                DomUtils.removeDivElement(gridLinesZ.pop())
-            }
+            clearGridLines()
             mapDiv = htmlElement.call.getChildElement('map_frame')
             mapImageDiv = htmlElement.call.getChildElement('map_image')
+            destinationDiv = htmlElement.call.getChildElement('destination')
             cursorDiv = htmlElement.call.getChildElement('cursor')
             posDiv = htmlElement.call.getChildElement('position')
             cameraDiv = htmlElement.call.getChildElement('camera')
@@ -311,6 +370,8 @@ class DomWorldmap {
             DomUtils.addClickFunction(zoomInDiv, zoomIn)
             DomUtils.addClickFunction(zoomOutDiv, zoomOut)
             DomUtils.addClickFunction(teleportDiv, teleport)
+            ThreeAPI.unregisterPrerenderCallback(update);
+            ThreeAPI.registerPrerenderCallback(update);
         }
 
         let rebuild = htmlElement.initHtmlElement('worldmap', closeMapCb, statusMap, 'full_screen', readyCb);
@@ -370,20 +431,18 @@ class DomWorldmap {
                 }
 
             //    positionDiv(posDiv, cursorPos, zoom);
-                alignDivToX(posDiv, 0+worldSize*0.5, 1, statusMap.os_x)
+                alignDivToX(posDiv, worldSize*0.5, 1, statusMap.os_x)
                 alignDivToZ(posDiv, 0, 1, statusMap.os_z)
                 positionDiv(cursorDiv, pointerVec3, zoom);
-                tempVec.copy(cam.position).sub(cursorPos)
-                tempVec.multiplyScalar(zoom)
-            //    positionDiv(cameraDiv, tempVec, zoom);
-                alignDivToX(cameraDiv, tempVec.x+worldSize*0.5, 1, statusMap.os_x)
-                alignDivToZ(cameraDiv, tempVec.z, 1, statusMap.os_z)
 
+                worldPosDiv(cam.position, cursorPos, cameraDiv, zoom)
+                tempVec.set(statusMap.dstX, statusMap.dstY, statusMap.dstZ);
+                worldPosDiv(tempVec, cursorPos, destinationDiv, zoom)
             }
 
         }
 
-        ThreeAPI.registerPrerenderCallback(update);
+
 
     }
 
