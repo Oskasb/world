@@ -12,8 +12,17 @@
                   "widget_class":"GuiExpandingContainer",
                   "widget_config_id":"widget_hidden_container",
                   "options": {
-                    "offset_x": -0.18,
-                    "offset_y": -0.15
+                    "offset_x": -0.20,
+                    "offset_y": 0.442
+                  }
+                },
+                {
+                  "widget_id":"page_system_container_cpu",
+                  "widget_class":"GuiExpandingContainer",
+                  "widget_config_id":"widget_hidden_container",
+                  "options": {
+                    "offset_x": 0.15,
+                    "offset_y": 0.442
                   }
                 },
                 {
@@ -31,7 +40,21 @@
                           "label": "Tpf Avg",
                           "digits": 0,
                           "unit": "ms"
-                        },
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "widget_id": "container_system_stats",
+                  "widget_class": "GuiStatsPanel",
+                  "widget_config_id":"widget_stats_container",
+                  "options": {
+                    "container_id": "page_system_container_cpu",
+                    "offset_x": -0.2,
+                    "offset_y": -0.0,
+                    "track_config": {"category": "DEBUG","key": "SYSTEM",
+                      "samplers": [
                         {
                           "key": "cpuLoad",
                           "label": "Cpu Load",
