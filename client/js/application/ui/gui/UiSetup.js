@@ -7,11 +7,12 @@ import { PartyUiSystem } from "./systems/PartyUiSystem.js";
 import { ActorActionUiSystem} from "./systems/ActorActionUiSystem.js";
 import {WorldInteractUiSystem} from "./systems/WorldInteractUiSystem.js";
 import {DomMinimap} from "../dom/DomMinimap.js";
-
+import {StatusUiSystem} from "./systems/StatusUiSystem.js";
 
 let partyUiSystem = null;
 let actorActionUpSystem = new ActorActionUiSystem();
 let minimap = null;
+let statusUiSystem = new StatusUiSystem();
 
 class UiSetup {
     constructor() {
@@ -29,7 +30,7 @@ class UiSetup {
             partyUiSystem = new PartyUiSystem()
             let textSysCb = function() {
                 callback('textSysCb loaded');
-
+                statusUiSystem.initStatusUiSystem()
             };
             let inputReady = function() {
 

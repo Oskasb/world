@@ -129,7 +129,8 @@ class DebugView {
         }
 
         evt.on(ENUMS.Event.DEBUG_STATUS_TOGGLE, onToggleStatus);
-
+        setupDebug();
+        ThreeAPI.addPostrenderCallback(updateSystemDebug)
     }
 
     renderInspectionFrame() {
@@ -189,13 +190,13 @@ class DebugView {
 
             this.deactivateDebugView()
 
-            ThreeAPI.unregisterPostrenderCallback(updateSystemDebug)
+        //    ThreeAPI.unregisterPostrenderCallback(updateSystemDebug)
             return;
         }
-        setupDebug();
+
         this.camButtons = new CameraUiSystem();
         this.camButtons.initCameraUi();
-        ThreeAPI.addPostrenderCallback(updateSystemDebug)
+    //    ThreeAPI.addPostrenderCallback(updateSystemDebug)
         if (client.page) {
             GuiAPI.closePage(client.page)
             client.page = null;
