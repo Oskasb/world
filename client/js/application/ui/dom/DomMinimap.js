@@ -148,7 +148,9 @@ function indicateActors(htmlElement, minimapDiv, statusMap, centerPos, inCombat)
 
 
         if (distance > 150) {
-            indicator.style.display = 'none';
+            if (indicator.style.display !== 'none') {
+                indicator.style.display = 'none';
+            }
         } else {
             if (indicator.style.display === 'none') {
                 indicator.style.display = 'block';
@@ -165,40 +167,57 @@ function indicateActors(htmlElement, minimapDiv, statusMap, centerPos, inCombat)
                     mapPctZ = tempVec2.y;
                 }
             }
-
-            indicator.style.top = 47.5 + mapPctZ + '%';
-            indicator.style.left = 47.5 + mapPctX + '%';
-
+            let top = 47.5 + mapPctZ + '%';
+            let left = 47.5 + mapPctX + '%';
+            if (indicator.style.top !== top) {
+                indicator.style.top = top
+            }
+            if (indicator.style.left !== left) {
+                indicator.style.left = left
+            }
 
         //    let angle = actor.getStatus(ENUMS.ActorStatus.STATUS_ANGLE_EAST);
             let angle = -MATH.eulerFromQuaternion(actor.getSpatialQuaternion(actor.actorObj3d.quaternion)).y + MATH.HALF_PI * 0.5 // Math.PI //;
 
             //    let headingDiv = htmlElement.call.getChildElement('heading');
             //    if (headingDiv) {
-            indicator.style.rotate = angle + 'rad';
+            let rot = angle+"rad";
+            if (indicator.style.rotate !== rot) {
+                indicator.style.rotate = angle+'rad';
+            }
+
 
             //    console.log(angle)
 
+            let rgba = "rgba(255, 255, 255, 1)"
             if (actor === selectedActor) {
-                indicator.style.borderColor = "rgba(255, 255, 255, 1)";
+                rgba = "rgba(255, 255, 255, 1)";
             } else if (actor.getStatus(ENUMS.ActorStatus.ALIGNMENT) === ENUMS.Alignment.FRIENDLY) {
-                indicator.style.borderColor = "rgba(76, 255, 76, 1)";
+                rgba = "rgba(76, 255, 76, 1)";
             } else if (actor.getStatus(ENUMS.ActorStatus.ALIGNMENT) === ENUMS.Alignment.HOSTILE) {
-                indicator.style.borderColor = "rgba(255, 76, 76, 1)";
+                rgba = "rgba(255, 76, 76, 1)";
             } else {
-                indicator.style.borderColor = "rgba(255, 255, 0, 1)";
+                rgba = "rgba(255, 255, 0, 1)";
+            }
+
+            if (indicator.style.borderColor !== rgba) {
+                indicator.style.borderColor = rgba
             }
 
             if (selectedActor) {
+
+                rgba = "rgba(0, 0, 0, 0.5)";
+                let boxShadow = "0 0 2px rgba(5, 0, 0, 0.75)";
+
                 if (actor.getStatus(ENUMS.ActorStatus.ACTOR_ID) === selectedActor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET)) {
-                    indicator.style.backgroundColor = "rgba(128, 128, 78, 1)";
-                    indicator.style.boxShadow = "0 0 5px rgba(255, 255, 175, 0.75)";
-                } else {
-                    indicator.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
-                    indicator.style.boxShadow = "0 0 2px rgba(5, 0, 0, 0.75)";
+                    rgba = "rgba(128, 128, 78, 1)";
+                    boxShadow = "0 0 5px rgba(255, 255, 175, 0.75)"
                 }
 
-
+                if (indicator.style.backgroundColor !== rgba) {
+                    indicator.style.backgroundColor = rgba;
+                    indicator.style.boxShadow = boxShadow;
+                }
 
             }
 
@@ -371,6 +390,7 @@ class DomMinimap {
         }
 
         let readyCb = function() {
+            lastAspect = 0;
             let mapDiv = htmlElement.call.getChildElement('minimap')
             let closeDiv = htmlElement.call.getChildElement(htmlElement.id+'_close')
             let zoomInDiv = htmlElement.call.getChildElement('zoom_in')
@@ -416,14 +436,20 @@ class DomMinimap {
         let lastZoom = statusMap.zoom;
         let markTime = 0.5;
         let timeElapsed = 0;
+        let mapUpdated = true;
         let update = function() {
 
             let minimapDiv = htmlElement.call.getChildElement('minimap');
             if (minimapDiv) {
-
+                frameTravelDistance = MATH.distanceBetween(lastFramePos, centerPos);
                 let worldLevel = activeWorldLevel;
                 let selectedActor = GameAPI.getGamePieceSystem().selectedActor;
 
+                if (frameTravelDistance !== 0 || lastZoom !== statusMap.zoom) {
+                    mapUpdated = true;
+                } else {
+                    mapUpdated = false;
+                }
 
                 if (selectedActor) {
 
@@ -485,13 +511,13 @@ class DomMinimap {
                     }
                     updatePathTime(markTime, timeElapsed)
                 }
-                if (frameTravelDistance !== 0 || statusMap.zoom !== lastZoom) {
+                if (mapUpdated === true) {
                     lastZoom = statusMap.zoom;
-                    updateTravelPath(lastFramePos, statusMap)
+                    updateTravelPath(lastFramePos, statusMap);
+                    updateMinimapCenter(htmlElement, minimapDiv, statusMap, centerPos, inCombat);
+                    indicateTenMeterScale(tenMeterIndicators, htmlElement, minimapDiv, statusMap)
                 }
 
-                updateMinimapCenter(htmlElement, minimapDiv, statusMap, centerPos, inCombat);
-                indicateTenMeterScale(tenMeterIndicators, htmlElement, minimapDiv, statusMap)
                 indicateActors(htmlElement, minimapDiv, statusMap, centerPos, inCombat)
                 indicateCameraFrustum(htmlElement, minimapDiv, statusMap, centerPos)
             }

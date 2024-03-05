@@ -183,7 +183,7 @@
         {"id": "model_settings_vegetation" ,
           "config": {
             "instancing": {
-              "instances": 3000,
+              "instances": 1500,
               "attributes": ["offset", "vertexColor", "scale3d", "orientation", "sprite", "texelRowSelect", "lifecycle"],
               "cameraspace": false
             },
