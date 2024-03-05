@@ -67,8 +67,8 @@ div.anchor_close {
 div.button_close {
     top: -0.55em;
     right: -0.55em;
-    width: 1.1em;
-    height: 1.1em;
+    width: 1.6em;
+    height: 1.6em;
     border-radius: 50%;
     border: #bebebe;
     border-style: solid;
@@ -88,7 +88,7 @@ div.button_close {
 
 div.anchor_zoom_in {
     position: absolute;
-    bottom: 4.5em;
+    bottom: 6.5em;
     left: 3em;
     width: 0;
     height: 0;
@@ -96,19 +96,19 @@ div.anchor_zoom_in {
 
 div.anchor_zoom_out {
     position: absolute;
-    bottom: 2em;
+    bottom: 3em;
     left: 6em;
     width: 0;
     height: 0;
 }
 
 div.button_zoom {
-    top: -0.45em;
-    right: -0.45em;
-    width: 0.9em;
-    height: 0.9em;
+    top: -2.45em;
+    right: -1.45em;
+    width: 4.0em;
+    height: 4.0em;
     border-radius: 50%;
-    font-size: 3em;
+    font-size: 1em;
     border-color:#bebebe;
     border-style: solid;
     border-width: 0.08em;
@@ -120,13 +120,6 @@ div.button_zoom {
     padding: 0;
     opacity: 100;
     transition: opacity 1s;
-}
-
-div.zoom_in {
-    background-image: url("/client/assets/images/textures/gui/button/plus.png");
-}
-div.zoom_out {
-    background-image: url("/client/assets/images/textures/gui/button/minus.png");
 }
 
 h3 {

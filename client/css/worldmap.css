@@ -23,7 +23,7 @@ div.button_close {
     border-width: 1pt;
     position: absolute;
     margin:0;
-    padding: 2em;
+    padding: 3em;
     text-align: center;
     background-image: url("/client/assets/images/textures/gui/button/cross.png");
     background-size: 100%;
@@ -50,7 +50,7 @@ body.map_anchor {
 div.button_zoom_out {
     background-image: url("/client/assets/images/textures/gui/button/minus.png");
     top: 88%;
-    right: -2%;
+    right: -6%;
     width: 0em;
     height: 0em;
     border-radius: 50%;
@@ -63,8 +63,8 @@ div.button_zoom_out {
     background-size: 100%;
     box-shadow: 0 0px 0px 2px rgba(5, 0, 0, 0.5);
     margin:0;
-    padding: 0.75em;
-    font-size: 3.2em;
+    padding: 3.15em;
+    font-size: 1em;
     text-align: center;
     color: #000000;
     text-shadow: 1px 1px 3px rgba(5, 0, 0, 1);
@@ -72,8 +72,8 @@ div.button_zoom_out {
 
 div.button_zoom_in {
     background-image: url("/client/assets/images/textures/gui/button/plus.png");
-    top: 81%;
-    right: -2%;
+    top: 76%;
+    right: -6%;
     width: 0em;
     height: 0em;
     border-radius: 50%;
@@ -86,8 +86,8 @@ div.button_zoom_in {
     background-size: 100%;
     box-shadow: 0 0px 0px 2px rgba(5, 0, 0, 0.5);
     margin:0;
-    padding: 0.75em;
-    font-size: 3.2em;
+    padding: 3.15em;
+    font-size: 1em;
     text-align: center;
     color: #000000;
     text-shadow: 1px 1px 3px rgba(5, 0, 0, 1);
@@ -95,8 +95,8 @@ div.button_zoom_in {
 
 div.button_reload {
     background-image: url("/client/assets/images/textures/gui/systempanel/left_arrow.png");
-    top: 6%;
-    right: -2%;
+    top: 9%;
+    right: -5%;
     width: 0em;
     height: 0em;
     border-radius: 50%;

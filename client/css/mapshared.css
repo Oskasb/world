@@ -43,43 +43,6 @@ body.minimap_container {
     position: fixed;
 }
 
-
-div.anchor_zoom_in {
-    position: absolute;
-    bottom: 4.5em;
-    left: 3em;
-    width: 0;
-    height: 0;
-}
-
-div.anchor_zoom_out {
-    position: absolute;
-    bottom: 2em;
-    left: 6em;
-    width: 0;
-    height: 0;
-}
-
-div.button_zoom {
-    top: -0.45em;
-    right: -0.45em;
-    width: 0.9em;
-    height: 0.9em;
-    border-radius: 50%;
-    font-size: 3em;
-    border-color:#bebebe;
-    border-style: solid;
-    border-width: 0.08em;
-    position: absolute;
-    background-color: #4beeff;
-    background-size: 100%;
-    box-shadow: 0 0 0 0.1em rgba(5, 0, 0, 0.5);
-    margin:0;
-    padding: 0;
-    opacity: 100;
-    transition: opacity 1s;
-}
-
 div.zoom_in {
     background-image: url("/client/assets/images/textures/gui/button/plus.png");
 }
