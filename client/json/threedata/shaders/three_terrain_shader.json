@@ -739,6 +739,187 @@
           "float angle = min(max(0.51 +0.49*dot(cameraToFrag, fragNormal), 0.0), 1.0);",
           "float metalDirect = min(pow(2.0 - angle*2.0, 1.0 + smooth*5.0), 4.0/(1.0 +angle * 8.0));",
           "float fresnelIntensity = max(angle*(1.0 + smooth) - max(((angle-0.5)*(smooth*4.0 + rough*1.0) -0.0), 0.0), 0.0);",
+          "float directFactor =   pow ( (1.0-angle*0.95) *(0.25 + smooth*0.85), rough*2.2 + 15.0*smooth);",
+
+          "float intensity = min(max( 0.5*rough + dot(fragNormal, sunLightDirection )*(0.5 + smooth), -0.0), 1.0);",
+
+          "vec3 sunDir = sunLightColor * intensity * (rough+intensity*smooth);",
+          "vec3 sunToSurfaceAngle = cross(fragNormal, sunLightDirection);",
+          "float specularIntensity = max( -smooth*0.5 + dot(surfaceAngle, sunToSurfaceAngle  ) * (1.0+smooth) * (intensity+rough*0.5), -0.0);",
+
+          "vec3 litDiffuse = diffuseColor * sunDir.rgb * 1.0 / (1.0 + fresnelIntensity*(8.0 * slope));",
+          "vec3 ambientColor = ambientLightColor * diffuseColor;",
+          "vec3 ambientDiffuse = ambientColor * (0.75+(0.25*slope));",
+          "vec3 combinedEnvLight = (litDiffuse+ambientDiffuse) * (1.0 / (1.0 + angle*angle*5.0 * slope));",
+
+          "vec3 specularSunLight = sunDir * specularIntensity * angle*angle*(0.5*fresnelIntensity) * colorFactor;",
+          "vec3 specularDiffuseLight = litDiffuse * specularIntensity * colorFactor;",
+          "vec3 specularLights = specularDiffuseLight+specularSunLight;",
+
+          "float shadowing = 1.0 - heightMapSample.b*0.55;",
+          "vec4 lightColor = vec4((combinedEnvLight+specularLights.rgb) * (1.0 - (slope*0.55)), 1.0) * shadowing;",
+          "intensity = max( 0.01 + dot(txNmBase.rgb, sunLightDirection ) * 0.99, 0.0) * shadowing;",
+          "gl_FragColor = (shadowing * lightColor * (intensity*0.25 + 0.75) + txColor * lightColor*intensity*2.0) * shadowing;",
+          "float fogFactor = min(fogDensity * fogDepth, 1.0);",
+          "gl_FragColor.rgb = mix(gl_FragColor.rgb, fogColor,  fogFactor );",
+          "gl_FragColor.rgb = gl_FragColor.rgb;",
+          "}",
+          ""
+
+        ],
+        "fragmentBigTerrain_all":[
+          "precision highp float;",
+
+          "uniform vec3 cameraPosition;",
+          "uniform vec3 sunLightDirection;",
+          "uniform vec3 ambientLightColor;",
+          "uniform vec3 sunLightColor;",
+          "uniform vec3 fogColor;",
+          "uniform float fogDensity;",
+          "uniform sampler2D terrainmap;",
+          "uniform sampler2D heightmap;",
+          "uniform sampler2D tx0;",
+          "uniform sampler2D tx0nm;",
+          "uniform sampler2D envMap;",
+          "uniform sampler2D materialErm;",
+          "uniform vec2 tx0tiles;",
+          "varying vec2 vUv;",
+          "varying float fogDepth;",
+          "varying float vFragDepth;",
+          "varying vec3 vPosition;",
+          "varying vec2 tileOffset;",
+          "varying vec2 tileScale;",
+          "varying vec3 terrainPosition;",
+          "varying vec2 scaledVPos;",
+          "varying float elevationFactor;",
+          "void main(){",
+
+
+          "float smooth = 0.7;",
+          "float rough = 0.9;",
+          "float metal = 0.7;",
+          "vec2 terrainSampler = scaledVPos;",
+          "terrainSampler.x -= 1.0/4096.0;",
+          "vec4 terrainMapSample = texture2D( terrainmap, terrainSampler);",
+          "vec4 heightMapSample = texture2D( heightmap, terrainSampler);",
+
+          "float biomeColumn = floor(terrainMapSample.r * 1.99);",
+          "int gIndex = int(min((terrainMapSample.r - (biomeColumn*0.5))*8.0, 4.0));",
+          "float biomeIndex = float(gIndex);",
+
+          "float shift = 0.75/2048.0;",
+
+          "vec2 normalSamplerP0 = vec2(terrainSampler.x +shift*0.5 , terrainSampler.y +shift*0.5);",
+          "vec4 normalSampleP0 = texture2D( heightmap, normalSamplerP0);",
+
+          "vec2 normalSamplerP1 = vec2(normalSamplerP0.x - shift*1.0, normalSamplerP0.y);",
+          "vec4 normalSampleP1 = texture2D( heightmap, normalSamplerP1);",
+
+          "vec2 normalSamplerP2 = vec2(normalSamplerP0.x, normalSamplerP0.y - shift*1.0);",
+          "vec4 normalSampleP2 = texture2D( heightmap, normalSamplerP2);",
+
+          "vec3 triPoint0 = vec3( normalSamplerP0.x, normalSampleP0.x*0.01, normalSamplerP0.y);",
+          "vec3 triPoint1 = vec3( normalSamplerP1.x, normalSampleP1.x*0.01, normalSamplerP1.y);",
+          "vec3 triPoint2 = vec3( normalSamplerP2.x, normalSampleP2.x*0.01, normalSamplerP2.y);",
+
+          "vec3 tangent = triPoint2 - triPoint0;",
+          "vec3 biTangent = triPoint1 - triPoint0;",
+          "vec3 fragNormal = normalize(cross(tangent, biTangent));",
+
+          "float sunIntensity = max( -0.25 + dot(fragNormal, sunLightDirection ) * 1.0, 0.0);",
+          "vec3 sunFragDir = sunLightColor * sunIntensity;",
+
+          "float ambIntensity = 0.75;",
+
+          "vec4 fragLight = vec4(0.0, 0.0, 0.0, 0.0);",
+
+          "fragLight.r = sunFragDir.r + ambientLightColor.r * ambIntensity ;",
+          "fragLight.g = sunFragDir.g + ambientLightColor.g * ambIntensity;",
+          "fragLight.b = sunFragDir.b + ambientLightColor.b * ambIntensity;",
+          "fragLight.a = 1.0;",
+
+
+          "vec2 tileScale = 1.0/tx0tiles;",
+          "float tileCount = tx0tiles.x*16.0;",
+
+          "float tileXuv = (max(0.001, min(mod(vUv.x*elevationFactor, 1.0), 0.999)) * tileCount);",
+          "float tileYuv = (max(0.001, min(mod(vUv.y*elevationFactor, 1.0), 0.999)) * tileCount);",
+          "float uvX = ((tileXuv * 1.0 - floor(tileXuv * 1.0005)*0.99995)) * 1.0;",
+          "float uvY = ((tileYuv * 1.0 - floor(tileYuv * 1.0005)*0.99995)) * 1.0;",
+          "float pixelShrink = 0.07;",
+          "vec2 tileUv = vec2(pixelShrink + uvX*(1.0-pixelShrink*2.0), pixelShrink + uvY*(1.0-pixelShrink*2.0));",
+          "vec2 scaledUv = tileUv*tileScale;",
+
+          "float sampledHeight = heightMapSample.r;",
+          "float sampleBlue = terrainMapSample.b;",
+          "float sampleGreen = terrainMapSample.g;",
+
+          "float biomeOffset =  biomeIndex*3.0;",
+
+          "float rockRow = 1.0 + biomeOffset;",
+          "float slopeScale = 0.98;",
+          "float natureRow = 2.0 + biomeOffset;",
+          "float natureStep = 0.03;",
+
+          "float slope = cos(fragNormal.y*1.571)*3.14;",
+
+          "slope = slope * 0.998 + 0.03*slope*sin(scaledVPos.x * 200.0)  + 0.03*slope*cos(scaledVPos.y * 200.0);",
+          "slope = slope * 0.998 + 0.03*slope*sin(scaledVPos.y * 742.0)  + 0.03*slope*cos(scaledVPos.x * 742.0);",
+
+          "float scatter = (cos(scaledUv.x*313.0) + sin(scaledUv.y*313.0))*0.0015;",
+
+          "vec2 tile01 = vec2(min(floor((sampleGreen+scatter) * 10.0), 7.0), natureRow);",
+          "tile01.x += biomeColumn*8.0;",
+          "vec2 tile01Offset = vec2(tile01.x * tileScale.x, (tile01.y-1.0) * tileScale.y);",
+
+          "vec2 tile01Uv = vec2(scaledUv + tile01Offset);",
+          "vec4 natureColor = texture2D(tx0, tile01Uv);",
+          "vec4 natureNormal = texture2D(tx0nm, tile01Uv);",
+
+          "float natureMix = min(max(-natureStep*0.25 + sampleGreen, 0.0)/natureStep*1.0, 1.0);",
+
+          "vec2 tileSlopeMod = vec2(min(floor(max(sqrt(slope -0.01) +scatter*4.0, 0.01) * 10.0), 7.0), rockRow);",
+          "tileSlopeMod.x += biomeColumn*8.0;",
+          "vec2 tileSlopeModOffset = vec2(tileSlopeMod.x * tileScale.x, (tileSlopeMod.y-1.0) * tileScale.y);",
+
+          "vec2 tileSlopeModUv = vec2(scaledUv + tileSlopeModOffset);",
+          "vec4 txColorSlopeMod01 = texture2D( tx0, tileSlopeModUv);",
+          "vec4 txNmSlopeMod01 = texture2D( tx0nm, tileSlopeModUv);",
+          "vec4 txColor = txColorSlopeMod01;",
+          "vec4 txNmBase =  txNmSlopeMod01;",
+
+          "txColor = mix( txColor, natureColor,  natureMix);",
+          "txNmBase = mix( txNmBase, natureNormal,  natureMix);",
+
+          "float civRow = 3.0 + biomeOffset;",
+          "float civStep = 0.04;",
+
+          "tile01 = vec2(min(floor((sampleBlue+scatter*8.0) * 10.0), 7.0), civRow);",
+          "tile01.x += biomeColumn*8.0;",
+          "tile01Offset = vec2(tile01.x * tileScale.x, (tile01.y-1.0) * tileScale.y);",
+          "tile01Uv = vec2(scaledUv + tile01Offset);",
+          "vec4 civColor = texture2D(tx0, tile01Uv);",
+          "vec4 civNormal = texture2D(tx0nm, tile01Uv);",
+
+          "float civMix = min(max(-civStep*1.2 + sampleBlue, 0.0)/civStep*1.0, 1.0);",
+          "txColor = mix(txColor, civColor,  civMix);",
+          "txNmBase = mix(txNmBase, civNormal,  civMix);",
+
+          "float waterline = min(1.0 - min(((vPosition.y+scatter*22.0)*2.0-slope*2.0*scatter*23.0) * 2.0, 1.0), 1.0);",
+          "txColor = txColor - txColor*waterline*0.65 ;",
+          "vec3 diffuseColor = vec3(txColor.rgb);",
+
+          "float colorFactor =  min((diffuseColor.r + diffuseColor.g + diffuseColor.b) * 0.5 + (diffuseColor.r * diffuseColor.g * diffuseColor.b), 1.0);",
+
+          "vec3 transposedFragPos = vPosition + fragNormal.xyz*1.0;",
+          "vec3 cameraToFrag = normalize(transposedFragPos-cameraPosition);",
+          "vec3 surfaceAngle = normalize(fragNormal * cameraToFrag);",
+          "vec3 cameraAngle = cross(surfaceAngle, cameraToFrag);",
+          "vec3 surfaceToCameraVec3 = cross(surfaceAngle, cameraAngle);",
+          "float sunToCameraAngle = 0.5 +0.46*dot(cameraToFrag, sunLightDirection);",
+          "float angle = min(max(0.51 +0.49*dot(cameraToFrag, fragNormal), 0.0), 1.0);",
+          "float metalDirect = min(pow(2.0 - angle*2.0, 1.0 + smooth*5.0), 4.0/(1.0 +angle * 8.0));",
+          "float fresnelIntensity = max(angle*(1.0 + smooth) - max(((angle-0.5)*(smooth*4.0 + rough*1.0) -0.0), 0.0), 0.0);",
           "float fresnelFactor =  pow(fresnelIntensity*(0.75 + smooth*0.6), rough + 30.0*smooth);",
           "float directFactor =   pow ( (1.0-angle*0.95) *(0.25 + smooth*0.85), rough*2.2 + 15.0*smooth);",
           "float angleFactor = abs(fresnelFactor + directFactor);",
@@ -784,7 +965,6 @@
           ""
 
         ],
-
 
         "_skip": [
           "vec2 normalSamplerP0 = vec2(terrainSampler.x +shift*0.5 , terrainSampler.y +shift*0.5);",
