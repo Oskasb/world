@@ -7,15 +7,29 @@ let defaultAdsr = {
     release: {duration:1.1, to: 0, easing:"cubic-bezier(0.3, -0.2, 0.4, 0.5)"}
 }
 
+
+
 class DomTransition {
     constructor() {
         let htmlElement = new HtmlElement();
+console.log(client.env);
+
+        let defaultData = [
+            {label:'mobile', value: window.isMobile},
+            {label:'userAgent', value: client.env.userAgent},
+            {label:'debugInfo', value: window.SYSTEM_SETUP.debugInfo},
+            {label:'glRenderer', value: window.SYSTEM_SETUP.glRenderer},
+            {label:'vendor', value: window.SYSTEM_SETUP.vendor}
+        ]
 
         let adsrEnvelope;
         let callback;
         let statusMap = {
-            transition : "",
+            transition : "WELCOME",
+            datalist: ""
         }
+
+        let datalist = []
 
         let closeCb = function() {
             console.log("Close...")
@@ -29,7 +43,7 @@ class DomTransition {
             bottomDiv.style.transitionDuration = 0+"s";
             bottomDiv.style.transform = "translate3d(0, 100%, 0)"
             setTimeout(function() {
-                activate(statusMap.transition, callback, adsrEnvelope)
+                activate(statusMap.transition, defaultData, callback, adsrEnvelope)
             }, 1);
         }
 
@@ -69,7 +83,14 @@ class DomTransition {
             div.style.transform = "translate3d(0, 0, 0)"
         }
 
-        let activate = function(label, callback, adsr) {
+        let activate = function(label, data, callback, adsr) {
+            if (data) {
+                if (data.length) {
+                    MATH.emptyArray(datalist);
+                    MATH.copyArrayValues(data, datalist)
+                }
+            }
+
             htmlElement.container.style.visibility = 'visible';
             statusMap.transition = label || "TRANSITION";
             adsrEnvelope = adsr || defaultAdsr;
@@ -79,6 +100,15 @@ class DomTransition {
             topDiv.style.transitionTimingFunction = adsrEnvelope.attack.easing;
             bottomDiv.style.transitionDuration = 1.275*adsrEnvelope.attack.duration+"s";
             bottomDiv.style.transitionTimingFunction = adsrEnvelope.attack.easing;
+            statusMap.datalist = "";
+            for (let i = 0; i < datalist.length; i++) {
+                if (datalist[i].label) {
+                    statusMap.datalist += datalist[i].label+":"+datalist[i].value+"<br>"
+                } else {
+                    statusMap.datalist += datalist[i]+"<br>";
+                }
+
+            }
 
             setTimeout(function() {
                 transformToCenter(centerDiv);

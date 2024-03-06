@@ -35,6 +35,9 @@ let setupDebug = function() {
             evt.dispatch(ENUMS.Event.DEBUG_TEXT, {value: vendor})
             evt.dispatch(ENUMS.Event.DEBUG_TEXT, {value: glRenderer})
         }, 100)
+        window.SYSTEM_SETUP.debugInfo = debugInfo;
+        window.SYSTEM_SETUP.vendor = vendor;
+        window.SYSTEM_SETUP.glRenderer = glRenderer;
     }
     console.log(vendor, glRenderer);
 }
