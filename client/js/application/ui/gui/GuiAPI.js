@@ -8,6 +8,7 @@ import { OnScreenText } from "./game/OnScreenText.js";
 import {WorldInteractUiSystem} from "./systems/WorldInteractUiSystem.js";
 import {WorldEncounterUISystem} from "./systems/WorldEncounterUISystem.js";
 import {NavigationStatePageSystem} from "./systems/NavigationStatePageSystem.js";
+import {DomTransition} from "../dom/DomTransition.js";
 
 let guiTime = 0;
 let worldInteractUiSystem = new WorldInteractUiSystem()
@@ -17,7 +18,7 @@ let partyNavUiSystem = new NavigationStatePageSystem(ENUMS.NavigationState.PARTY
 let homeNavUiSystem = new NavigationStatePageSystem(ENUMS.NavigationState.HOME, 'page_scene_home');
 let invNavUiSystem = new NavigationStatePageSystem(ENUMS.NavigationState.INVENTORY, 'page_scene_home');
 let mapNavUiSystem = new NavigationStatePageSystem(ENUMS.NavigationState.MAP, 'page_scene_home');
-
+let domTransition;
 class GuiAPI {
     constructor() {
         let inMenueFlag = false;
@@ -122,7 +123,7 @@ class GuiAPI {
         homeNavUiSystem.initNavigationPageSystem();
         invNavUiSystem.initNavigationPageSystem();
         mapNavUiSystem.initNavigationPageSystem();
-
+        domTransition = new DomTransition();
     };
 
     getWorldInteractionUi() {
@@ -131,6 +132,10 @@ class GuiAPI {
 
     activatePage(pageId, callback) {
         return this.guiPageSystem.activateGuiPage(pageId, callback)
+    }
+
+    activateDomTransition(transitionName, callback, adsr) {
+
     }
 
     screenText(string, msgType, duration) {
