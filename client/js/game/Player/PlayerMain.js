@@ -202,6 +202,8 @@ class PlayerMain {
             GameAPI.getPlayer().setStatusKey(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL, e.world_level);
 
             let envId= GameAPI.gameMain.getWorldLevelConfig(e.world_level).env;
+            let name = GameAPI.gameMain.getWorldLevelConfig(e.world_level).name;
+            GuiAPI.activateDomTransition(name)
             evt.dispatch(ENUMS.Event.ADVANCE_ENVIRONMENT,  {envId:envId, time:0.5});
 
             let world_encounters = []

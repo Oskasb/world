@@ -124,6 +124,10 @@ class GuiAPI {
         invNavUiSystem.initNavigationPageSystem();
         mapNavUiSystem.initNavigationPageSystem();
         domTransition = new DomTransition();
+
+        setTimeout(function() {
+            GuiAPI.activateDomTransition("WELCOME")
+        }, 1000)
     };
 
     getWorldInteractionUi() {
@@ -135,7 +139,7 @@ class GuiAPI {
     }
 
     activateDomTransition(transitionName, callback, adsr) {
-
+        domTransition.call.activate(transitionName, callback, adsr)
     }
 
     screenText(string, msgType, duration) {
