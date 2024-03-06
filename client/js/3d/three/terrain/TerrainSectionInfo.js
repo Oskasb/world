@@ -3,6 +3,8 @@ import {Vector3} from "../../../../libs/three/math/Vector3.js";
 
 let calcVec = new Vector3()
 
+
+
 class TerrainSectionInfo {
     constructor(terrainGeo, sectionInfoConfig) {
         this.terrainGeometry = terrainGeo;
@@ -30,7 +32,7 @@ class TerrainSectionInfo {
 
             for (let j = 0; j < yElems; j++) {
                 let yFrac = MATH.calcFraction(0, yElems, j);
-                let seed = i+j+this.minExtents.x+this.minExtents.z
+                let seed = MATH.remainder((i+j+Math.abs(this.minExtents.x*2)+Math.abs(this.minExtents.z*0.2)+yFrac)*1000)+1
                 calcVec.x = this.minExtents.x + xFrac*size + 1*MATH.sillyRandom(seed)*size/xElems;
                 calcVec.z = this.minExtents.z + yFrac*size + 1*MATH.sillyRandom(seed+1)*size/yElems;
                 let terrainElement = new TerrainElement(lodLevel);

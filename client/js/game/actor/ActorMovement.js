@@ -1,4 +1,4 @@
-import {SpatialTransition} from "../piece_functions/SpatialTransition.js";
+import {SpatialTransition} from "../../application/utils/SpatialTransition.js";
 import {VisualPath} from "../visuals/VisualPath.js";
 import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
 import {processEncounterGridTilePath} from "../gameworld/ScenarioUtils.js";

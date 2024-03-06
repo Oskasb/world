@@ -1,4 +1,4 @@
-import { SpatialTransition } from "../piece_functions/SpatialTransition.js";
+import { SpatialTransition } from "../../application/utils/SpatialTransition.js";
 import {notifyCameraStatus} from "../../3d/camera/CameraFunctions.js";
 import {evt} from "../../application/event/evt.js";
 

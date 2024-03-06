@@ -2,12 +2,18 @@ import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
 import {notifyCameraStatus} from "../../3d/camera/CameraFunctions.js";
 import {Vector3} from "../../../libs/three/math/Vector3.js";
 import {CameraStatusProcessor} from "../../application/utils/CameraStatusProcessor.js";
-import {getModelByBodyPointer, getPhysicalWorld, rayTest} from "../../application/utils/PhysicsUtils.js";
+import {
+    getModelByBodyPointer,
+    getPhysicalWorld,
+    rayAllIntersects,
+    rayTest
+} from "../../application/utils/PhysicsUtils.js";
 import {ENUMS} from "../../application/ENUMS.js";
 import {hasCombatState} from "../../../../Server/game/actor/ActorStatusFunctions.js";
 
 let tempVec = new Vector3()
 let tempVec2 = new Vector3();
+let tempVec3 = new Vector3();
 let cameraStatusProcessor = new CameraStatusProcessor()
 
 function registerPathPoints(actor) {
@@ -170,7 +176,7 @@ function processActorCombatStatus(actor) {
 
 let obstructHhitCb = function(hit) {
     let world = getPhysicalWorld();
-    let ptr = hit.ptr;
+    let ptr = hit.kB;
 
     if (ptr === getTerrainBodyPointer()) {
     //    viewObstuctionTest(hit.position, ThreeAPI.getCamera().position, obstructHhitCb);
@@ -192,7 +198,6 @@ let obstructHhitCb = function(hit) {
         //    console.log("no instance hit (box model)", ptr, physicalModel)
             return hit;
         }
-    //    console.log("instance hit ", model)
     }
 
     if (world.viewObstuctingModels.indexOf(model) === -1) {
@@ -200,19 +205,20 @@ let obstructHhitCb = function(hit) {
         model.call.viewObstructing(true)
     }
 
-    return viewObstuctionTest(hit.position, ThreeAPI.getCamera().position, obstructHhitCb)
-
 }
 
+    let lastFrom = null;
+
     function viewObstuctionTest(from, to, hitCb) {
+
         frameTests++;
         if (frameTests > maxTests) {
-        //    console.log("View Obstruct test max")
+            console.log("View Obstruct test max")
             return;
         }
-        let hit = rayTest(from, to, tempVec2, null, false);
-        if (hit) {
-            return hitCb(hit);
+        let hits = rayAllIntersects(from, to);
+        while (hits.length) {
+            hitCb(hits.pop());
         }
     }
 
@@ -224,41 +230,48 @@ let planeSize = 0.8
 function updateViewPhysicalObstruction(actor) {
 
     let world = getPhysicalWorld();
-    let camPos = ThreeAPI.getCamera().position;
+    tempVec2.copy(ThreeAPI.getCamera().position);
   //  let viewObstuctingModels
     MATH.copyArrayValues(world.viewObstuctingModels, obstructingModels);
     MATH.emptyArray(world.viewObstuctingModels);
 
     actor.getSpatialPosition(tempVec);
+    planeElev = actor.getStatus(ENUMS.ActorStatus.HEIGHT) * 0.6;
     tempVec.y += planeElev;
     tempVec.z += planeSize;
+    tempVec2.z += planeSize;
     frameTests = 0;
     maxTests = 5;
-    viewObstuctionTest(tempVec, camPos, obstructHhitCb)
+    viewObstuctionTest(tempVec, tempVec2, obstructHhitCb)
 
-    actor.getSpatialPosition(tempVec);
-    tempVec.y += planeElev;
-    tempVec.z -= planeSize;
+//    actor.getSpatialPosition(tempVec);
+//    tempVec.y += planeElev;
+    tempVec.z -= planeSize*2;
+    tempVec2.z -= planeSize*2;
     frameTests = 0;
-    viewObstuctionTest(tempVec, camPos, obstructHhitCb)
+    viewObstuctionTest(tempVec, tempVec2, obstructHhitCb)
 
-    actor.getSpatialPosition(tempVec);
-    tempVec.y += planeElev;
+//    actor.getSpatialPosition(tempVec);
+//    tempVec.y += planeElev;
     tempVec.x += planeSize;
+    tempVec2.x += planeSize;
     frameTests = 0;
-    viewObstuctionTest(tempVec, camPos, obstructHhitCb)
+    viewObstuctionTest(tempVec, tempVec2, obstructHhitCb)
+
+//    actor.getSpatialPosition(tempVec);
+//    tempVec.y += planeElev;
+    tempVec.z += planeSize*2;
+    tempVec.x -= planeSize*2;
+    tempVec2.z += planeSize*2;
+    tempVec2.x -= planeSize*2;
+    frameTests = 0;
+    viewObstuctionTest(tempVec, tempVec2, obstructHhitCb)
 
     actor.getSpatialPosition(tempVec);
-    tempVec.y += planeElev;
-    tempVec.x -= planeSize;
-    frameTests = 0;
-    viewObstuctionTest(tempVec, camPos, obstructHhitCb)
-
-    actor.getSpatialPosition(tempVec);
-    tempVec.y += actor.getStatus(ENUMS.ActorStatus.HEIGHT) * 1.2;
+//    tempVec.y += actor.getStatus(ENUMS.ActorStatus.HEIGHT) * 1.2;
     frameTests = 0;
     maxTests = 8;
-    let hit = viewObstuctionTest(tempVec, camPos, obstructHhitCb)
+    let hit = viewObstuctionTest(tempVec, ThreeAPI.getCamera().position, obstructHhitCb)
 
     for (let i = 0; i < obstructingModels.length; i++) {
         let model = obstructingModels[i];
@@ -271,7 +284,7 @@ function updateViewPhysicalObstruction(actor) {
         let ptr = hit.ptr;
 
         if (ptr === getTerrainBodyPointer()) {
-            camPos.copy(hit.position);
+            ThreeAPI.getCamera().position.copy(hit.position);
             //    viewObstuctionTest(hit.position, ThreeAPI.getCamera().position, obstructHhitCb);
             return hit;
         }

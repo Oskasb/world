@@ -26,6 +26,7 @@ let VECTOR_AUX2;
 let rayCallback;
 let rayFromVec;
 let rayToVec;
+let rayHits = [];
 
 let Ammo;
 let ammoHeightData;
@@ -650,7 +651,7 @@ function createTerrainShape(data, sideSize, terrainMaxHeight, terrainMinHeight, 
 }
 
 let gravity = -9.81;
-
+let allHitsRayResultCallback;
 class AmmoFunctions {
     constructor(ammo) {
         Ammo = ammo;
@@ -658,6 +659,7 @@ class AmmoFunctions {
         rayFromVec = new Ammo.btVector3();
         rayToVec = new Ammo.btVector3();
         rayCallback = new Ammo.ClosestRayResultCallback(rayFromVec, rayToVec);
+        allHitsRayResultCallback = new Ammo.AllHitsRayResultCallback(rayFromVec, rayToVec)
         TRANSFORM_AUX = new Ammo.btTransform();
         VECTOR_AUX = new Ammo.btVector3();
         VECTOR_AUX2 = new Ammo.btVector3();
@@ -809,7 +811,38 @@ class AmmoFunctions {
         }
 
     }
+    physicsRayGetIntersections(world, pos, dir) {
+        rayFromVec.setX(pos.x);
+        rayFromVec.setY(pos.y);
+        rayFromVec.setZ(pos.z);
 
+        rayToVec.setX(dir.x + pos.x);
+        rayToVec.setY(dir.y + pos.y);
+        rayToVec.setZ(dir.z + pos.z);
+        allHitsRayResultCallback.get_m_rayFromWorld().setValue(pos.x, pos.y, pos.z);
+        allHitsRayResultCallback.get_m_rayToWorld().setValue(dir.x + pos.x, dir.y +pos.y, dir.z+pos.z);
+        //    rayCallback.set_m_collisionObject(null);
+
+        allHitsRayResultCallback.set_m_closestHitFraction(1);
+
+        world.rayTest(rayFromVec, rayToVec, allHitsRayResultCallback);
+
+        let fraction = allHitsRayResultCallback.get_m_closestHitFraction();
+        let objs = allHitsRayResultCallback.get_m_collisionObjects()
+        MATH.emptyArray(rayHits);
+
+        if (objs.size() !== 0) {
+            let size = objs.size();
+            for (let i = 0; i < size; i++) {
+                rayHits.push(objs.at(i));
+            }
+            objs.__destroy__();
+            // console.log(allHitsRayResultCallback, flags, obj, objs, objs.size());
+        //    console.log(rayHits);
+        }
+        return rayHits;
+    //    hit.fraction = fraction;
+    }
     physicsRayRange = function(world, pos, dir, posRes, normalRes) {
 
         rayFromVec.setX(pos.x);

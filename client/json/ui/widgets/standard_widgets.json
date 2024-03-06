@@ -550,6 +550,14 @@
               }
             },
             {
+              "id":"widget_stats_container_tiny",
+              "layout":"layout_stats_container_tiny",
+              "surface": {
+                "nineslice": "nineslice_surface_debug_tiny",
+                "feedback": "feedback_surface_container_tiny"
+              }
+            },
+            {
               "id":"widget_stats_container",
               "layout":"layout_stats_container",
               "surface": {
@@ -688,6 +696,32 @@
             {
               "id":"widget_stats_value_box",
               "layout":"layout_stats_value_box",
+              "text": {
+                "sprite_font": "sprite_font_debug",
+                "feedback": "feedback_info_text"
+              },
+              "surface": {
+                "nineslice": "nineslice_surface_small_text",
+                "feedback": "feedback_surface_stat_label"
+              }
+            },
+            {
+              "id":"widget_stats_key_box_tiny",
+              "layout":"layout_stats_key_box_tiny",
+              "text": {
+                "sprite_font": "sprite_font_debug",
+                "feedback": "feedback_info_text"
+              },
+              "surface": {
+                "nineslice": "nineslice_surface_small_text",
+                "feedback": "feedback_surface_stat_label"
+              }
+            },
+
+
+            {
+              "id":"widget_stats_value_box_tiny",
+              "layout":"layout_stats_value_box_tiny",
               "text": {
                 "sprite_font": "sprite_font_debug",
                 "feedback": "feedback_info_text"

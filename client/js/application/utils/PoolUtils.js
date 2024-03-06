@@ -11,7 +11,7 @@ import {VisualIndicator} from "../../game/visuals/VisualIndicator.js";
 import {Vector3} from "../../../libs/three/math/Vector3.js";
 import {GuiScreenSpaceText} from "../ui/gui/widgets/GuiScreenSpaceText.js";
 import {PathPoint} from "../../game/gameworld/PathPoint.js";
-import {SpatialTransition} from "../../game/piece_functions/SpatialTransition.js";
+import {SpatialTransition} from "./SpatialTransition.js";
 
 import { VisualTrajectory } from "../../game/visuals/effects/VisualTrajectory.js";
 import { VisualPointFX } from "../../game/visuals/VisualPointFX.js";
@@ -29,6 +29,7 @@ import {VisualEngagementArc} from "../../game/visuals/effects/VisualEngagementAr
 import {VisualGridBorder} from "../../game/visuals/VisualGridBorder.js";
 import {VisualEdgeLine} from "../../game/visuals/VisualEdgeLine.js";
 import {HtmlElement} from "../ui/dom/HtmlElement.js";
+import {ScalarTransition} from "./ScalarTransition.js";
 
 let pools = {}
 let stats = {};
@@ -62,7 +63,8 @@ function initPools() {
     registerPool(VisualEngagementArc);
     registerPool(VisualGridBorder);
     registerPool(VisualEdgeLine);
-    registerPool(HtmlElement)
+    registerPool(HtmlElement);
+    registerPool(ScalarTransition)
 }
 
 function registerPool(DataObj) {

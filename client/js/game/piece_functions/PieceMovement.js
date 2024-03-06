@@ -1,4 +1,4 @@
-import { SpatialTransition } from "./SpatialTransition.js";
+import { SpatialTransition } from "../../application/utils/SpatialTransition.js";
 import { Vector3 } from "../../../libs/three/math/Vector3.js";
 
 let tempVec3 = new Vector3();

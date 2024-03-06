@@ -141,31 +141,61 @@ class LocationModel {
 
         }.bind(this)
 
-        let playerContact = function(bool) {
-            if (bool) {
-                this.palette.setSeeThroughSolidity(0.25)
-            } else {
-                this.palette.setSeeThroughSolidity(this.solidity)
+
+        let scalarTransition = null;
+        let obstructing = false;
+        let frameSolidity = this.solidity;
+
+
+        let transitionEnded = function(value, transition) {
+            if (transition) {
+                scalarTransition = null;
+                poolReturn(transition);
             }
+            if (scalarTransition !== null) {
+                scalarTransition.cancelScalarTransition();
+            }
+        }
+
+        let applySolidity = function(value) {
+            frameSolidity = value;
+            this.palette.setSeeThroughSolidity(frameSolidity)
             if (this.instance) {
                 this.palette.applyPaletteToInstance(this.instance)
             } else {
                 console.log("palette expects instance")
+            }
+
+            this.palette.setSeeThroughSolidity(frameSolidity)
+        }.bind(this);
+
+        let transitSolidity = function(to, time) {
+
+                if (scalarTransition !== null) {
+                    transitionEnded();
+                }
+
+                scalarTransition = poolFetch('ScalarTransition');
+                scalarTransition.initScalarTransition(frameSolidity, to, time, transitionEnded, 'curveQuad', applySolidity)
+        }
+
+        let setObstructed = function(bool) {
+            if (obstructing !== bool) {
+                obstructing = bool;
+                if (bool) {
+                    transitSolidity(0.5, 0.7);
+                } else {
+                    transitSolidity(this.solidity, 0.7);
+                }
             }
         }.bind(this);
 
+        let playerContact = function(bool) {
+            setObstructed(bool)
+        }.bind(this);
+
         let viewObstructing = function(bool) {
-        //    console.log("View Obstruct")
-            if (bool) {
-                this.palette.setSeeThroughSolidity(0.1)
-            } else {
-                this.palette.setSeeThroughSolidity(this.solidity)
-            }
-            if (this.instance) {
-                this.palette.applyPaletteToInstance(this.instance)
-            } else {
-                console.log("palette expects instance")
-            }
+            setObstructed(bool)
         }.bind(this);
 
 

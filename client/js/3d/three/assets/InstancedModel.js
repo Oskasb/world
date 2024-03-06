@@ -1,5 +1,6 @@
 import {InstanceAnimator} from './InstanceAnimator.js';
 import {InstanceDynamicJoint} from './InstanceDynamicJoint.js';
+import {poolFetch, poolReturn} from "../../../application/utils/PoolUtils.js";
 
 class InstancedModel {
     constructor(originalAsset) {
@@ -23,21 +24,50 @@ class InstancedModel {
         this.boneMap = {};
         this.attachments = [];
 
-        let viewObstructing = function(bool) {
-        //    console.log("View Obstruct", originalAsset.id)
+        let scalarTransition = null;
+        let obstructing = false;
+        let frameSolidity = 1;
 
+        let applySolidity = function(value) {
+            frameSolidity = value;
             let source =  this.attribsV4['sprite'];
             if (!source) {
                 console.log("no sprite attrib, expected sprite.x for solidity");
                 return;
             }
-
-            if (bool) {
-                source.x = 0.1;
-            } else {
-                source.x = 1;
-            }
+            source.x = frameSolidity;
+            console.log(frameSolidity)
             this.setAttributev4('sprite', source);
+        }.bind(this);
+
+        let transitionEnded = function(value, transition) {
+            if (transition) {
+                scalarTransition = null;
+                poolReturn(transition);
+            }
+            if (scalarTransition !== null) {
+                scalarTransition.cancelScalarTransition();
+            }
+        }
+
+        let viewObstructing = function(bool) {
+
+
+            if (bool !== obstructing) {
+                console.log("View Obstruct", bool, originalAsset.id)
+                if (scalarTransition !== null) {
+                    transitionEnded();
+                }
+
+                obstructing = bool;
+                let solidity = 1;
+                if (bool) {
+                    solidity = 0.5;
+                }
+                scalarTransition = poolFetch('ScalarTransition');
+                scalarTransition.initScalarTransition(frameSolidity, solidity, 0.7, transitionEnded, 'curveSigmoid', applySolidity)
+            }
+
         }.bind(this);
 
         this.call = {

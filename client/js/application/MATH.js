@@ -576,7 +576,9 @@ MATH.lineDistance = function(fromX, fromY, toX, toY) {
 };
 
 MATH.sillyRandom = function(seed) {
-	return MATH.remainder(Math.sin(seed) * 9999.991 + Math.cos(seed));
+//	seed = Math.imul(48271, seed) | 0 % 2147483647
+//	return (seed & 2147483647) / 2147483648
+	 return MATH.remainder(Math.abs(Math.sin(seed*7.131) * 99.151 + Math.cos(seed*0.0152)));
 };
 
 MATH.sillyRandomBetween = function(min, max, seed) {

@@ -129,7 +129,11 @@ function rayTest(from, to, contactPointStore, contactNormal, debugDraw) {
     }
 
     return hit;
+}
 
+function rayAllIntersects(from, to) {
+    tempTo.copy(to).sub(from);
+    return AmmoAPI.raycastAllIntersectingBodies(from, tempTo)
 }
 
 function bodyTransformToObj3d(body, obj3d, debugDraw) {
@@ -319,6 +323,7 @@ export {
     getPhysicalWorld,
     detectFreeSpaceAbovePoint,
     rayTest,
+    rayAllIntersects,
     bodyTransformToObj3d,
     addPhysicsToModel,
     removePhysicalModel,

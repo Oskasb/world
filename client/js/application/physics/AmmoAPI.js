@@ -164,6 +164,11 @@ class AmmoAPI {
         }
     };
 
+
+    raycastAllIntersectingBodies = function(position, direction, hitPositionStore, hitNormalStore) {
+        return ammoFunctions.physicsRayGetIntersections(world, position, direction);
+    };
+
     getAuxTransform() {
         return ammoFunctions.getAuxTransform();
     }

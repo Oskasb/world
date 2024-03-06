@@ -117,6 +117,15 @@
               }
             },
             {
+              "id":"feedback_surface_container_tiny",
+              "config": {
+                "NONE": {
+                  "color_rgba": {"r": 0.35, "g": 0.45, "b": 0.75, "a": 0.55},
+                  "sprite": "container_box_framed"
+                }
+              }
+            },
+            {
               "id":"feedback_surface_hint",
               "config": {
                 "NONE": {

@@ -1,7 +1,7 @@
 import {configDataList} from "../../application/utils/ConfigUtils.js";
 import {PlayerMovementInputs} from "../Player/PlayerMovementInputs.js";
 import {ControlFunctions} from "../piece_functions/ControlFunctions.js";
-import {SpatialTransition} from "../piece_functions/SpatialTransition.js";
+import {SpatialTransition} from "../../application/utils/SpatialTransition.js";
 import {PathPoint} from "../gameworld/PathPoint.js";
 import {poolFetch} from "../../application/utils/PoolUtils.js";
 import {getStatusPosition, setDestination} from "../../../../Server/game/actor/ActorStatusFunctions.js";
