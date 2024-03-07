@@ -214,17 +214,7 @@ function checkTriggerPlayer(encounter) {
             }
 
             if (encounter.timeInsideTrigger === 0) {
-                encounterEvent.request = ENUMS.ClientRequests.ENCOUNTER_INIT
-                encounterEvent.actorId = selectedActor.getStatus(ENUMS.ActorStatus.ACTOR_ID);
-                encounterEvent.playerParty = GameAPI.getGamePieceSystem().playerParty.listPartyMemeberIDs();
-                encounterEvent.worldEncounterId = encounter.id;
-                encounterEvent.encounterId = client.getStamp()+encounter.id+'_'+triggeredCount;
-                encounterEvent.pos = encounter.getPos();
-                encounterEvent.grid_id = encounter.config.grid_id;
-                encounterEvent.spawn = encounter.config.spawn;
-                encounterEvent.cam_pos = encounter.getTriggeredCameraHome();
-                evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, encounterEvent)
-                triggeredCount++
+                requestEncounterActivation(encounter)
             }
 
             encounter.timeInsideTrigger += tpf;
@@ -238,6 +228,21 @@ let updateTriggered = function(encounter) {
     let selectedActor = GameAPI.getGamePieceSystem().getSelectedGameActor();
     encounter.timeInsideTrigger += GameAPI.getFrame().tpf *0.5;
     indicateTriggerTime(selectedActor, encounter)
+}
+
+function requestEncounterActivation(encounter) {
+    let selectedActor = GameAPI.getGamePieceSystem().getSelectedGameActor();
+    encounterEvent.request = ENUMS.ClientRequests.ENCOUNTER_INIT
+    encounterEvent.actorId = selectedActor.getStatus(ENUMS.ActorStatus.ACTOR_ID);
+    encounterEvent.playerParty = GameAPI.getGamePieceSystem().playerParty.listPartyMemeberIDs();
+    encounterEvent.worldEncounterId = encounter.id;
+    encounterEvent.encounterId = client.getStamp()+encounter.id+'_'+triggeredCount;
+    encounterEvent.pos = encounter.getPos();
+    encounterEvent.grid_id = encounter.config.grid_id;
+    encounterEvent.spawn = encounter.config.spawn;
+    encounterEvent.cam_pos = encounter.getTriggeredCameraHome();
+    evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, encounterEvent)
+    triggeredCount++
 }
 
 class WorldEncounter {
@@ -408,6 +413,10 @@ class WorldEncounter {
             parseConfigDataKey("ENCOUNTER_INDICATORS", "INDICATORS",  'indicator_data', this.config.indicator_id, onIndicatorData)
         }
 
+    }
+
+    requestEncounterBattle() {
+        requestEncounterActivation(this);
     }
 
     requestActivationBy(actor) {

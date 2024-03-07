@@ -198,12 +198,19 @@ class PlayerMain {
             console.log("Portal Event", e)
             let actor = GameAPI.getGamePieceSystem().selectedActor;
 
+            let config =GameAPI.gameMain.getWorldLevelConfig(e.world_level)
+            let envId= config.env;
+            let name = config.name;
 
-            GameAPI.getPlayer().setStatusKey(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL, e.world_level);
+            let transitionReady = function() {
+                if (e.pos) {
+                    actor.setDestination(e.pos);
+                }
+                GameAPI.getPlayer().setStatusKey(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL, e.world_level);
+            }
 
-            let envId= GameAPI.gameMain.getWorldLevelConfig(e.world_level).env;
-            let name = GameAPI.gameMain.getWorldLevelConfig(e.world_level).name;
-            GuiAPI.activateDomTransition(name)
+            GuiAPI.activateDomTransition(name, config, transitionReady )
+
             evt.dispatch(ENUMS.Event.ADVANCE_ENVIRONMENT,  {envId:envId, time:0.5});
 
             let world_encounters = []
@@ -214,9 +221,7 @@ class PlayerMain {
                 e.worldEncounter.hideWorldEncounter()
             }
 
-            if (e.pos) {
-                actor.setDestination(e.pos);
-            }
+
             evt.dispatch(ENUMS.Event.LOAD_ADVENTURE_ENCOUNTERS, {world_encounters:[]})
 
             loadEncounters = function() {
@@ -228,6 +233,8 @@ class PlayerMain {
         let encounterConverse = function(e) {
             console.log("encounterConverse", e);
             let wEnc = e.worldEncounter;
+
+
             if (e.skip === true) {
                 let host = wEnc.getHostActor();
                 host.actorText.say("Okay! Bye.")
@@ -241,7 +248,33 @@ class PlayerMain {
                     wEnc.deactivateWorldEncounter();
                 }, 1000);
             }
+        }
 
+        let encounterEngage = function(e) {
+            console.log("encounterConverse", e);
+            let wEnc = e.worldEncounter;
+            let config = wEnc.config;
+
+            let host = wEnc.getHostActor();
+            host.actorText.say("Ha ha! Good Luck wimp.")
+            let ready = function(domTransition) {
+                wEnc.requestEncounterBattle()
+                domTransition.call.release();
+            }
+
+            GuiAPI.activateDomTransition('BATTLE', config, ready)
+            if (e.skip === true) {
+
+                let pos = host.getSpatialPosition();
+                let selectedActor = GameAPI.getGamePieceSystem().selectedActor;
+                let forward = selectedActor.getForward()
+                forward.multiplyScalar(2);
+                pos.add(forward);
+                host.transitionTo(pos, 1);
+                setTimeout(function() {
+                    wEnc.deactivateWorldEncounter();
+                }, 1000);
+            }
         }
 
         let callbacks = {
@@ -264,6 +297,7 @@ class PlayerMain {
             activateNavPoints:activateNavPoints,
             enterPortal:enterPortal,
             encounterConverse:encounterConverse,
+            encounterEngage:encounterEngage,
             worldLoaded:worldLoaded
         }
 
@@ -288,6 +322,7 @@ class PlayerMain {
         evt.on(ENUMS.Event.ACTIVATE_NAV_POINTS, callbacks.activateNavPoints);
         evt.on(ENUMS.Event.ENTER_PORTAL, callbacks.enterPortal);
         evt.on(ENUMS.Event.ENCOUNTER_CONVERSE, callbacks.encounterConverse);
+        evt.on(ENUMS.Event.ENCOUNTER_ENGAGE, callbacks.encounterEngage);
     }
 
 

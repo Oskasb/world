@@ -61,8 +61,8 @@
             "distance":        1000000000
           },
           "configs":[
-            {"id":"sun",     "color":[1.45, 1.23,  0.65]},
-            {"id":"ambient", "color":[0.15, 0.22,  0.65]},
+            {"id":"sun",     "color":[1.55, 1.23,  0.95]},
+            {"id":"ambient", "color":[0.01, 0.22,  0.3]},
             {"id":"fog",     "color":[1.0,  1.0,  0.9], "density":0.012}
           ]
         },
@@ -74,8 +74,8 @@
             "distance":      1000000000
           },
           "configs":[
-            {"id":"sun",     "color":[1.2,  1.2,  0.55]},
-            {"id":"ambient", "color":[0.20,  0.235,  0.75]},
+            {"id":"sun",     "color":[1.45,  1.2,  0.75]},
+            {"id":"ambient", "color":[0.10,  0.3,  0.4]},
             {"id":"fog",     "color":[0.86,  1.07,  1.30], "density":0.013}
           ]
         },

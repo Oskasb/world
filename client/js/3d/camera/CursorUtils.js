@@ -130,7 +130,7 @@ function drawInputCursorState(cursorObj3d, dragToVec3, camTargetPos, cursorForwa
 
     let cursorPos = cursorObj3d.position
 
-    GuiAPI.printDebugText('x:'+MATH.decimalify(cursorPos.x, 100)+' y:'+MATH.decimalify(cursorPos.y, 100)+' z:'+MATH.decimalify(cursorPos.z, 100))
+//    GuiAPI.printDebugText('x:'+MATH.decimalify(cursorPos.x, 100)+' y:'+MATH.decimalify(cursorPos.y, 100)+' z:'+MATH.decimalify(cursorPos.z, 100))
 /*
     evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE,  {from:cursorPos, to:dragToVec3, color:'BLUE'});
     evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE,  {from:cursorPos, to:calcVec, color:'RED'});
@@ -184,7 +184,7 @@ function processTerrainLodCenter(lodCenter, terrainCenter) {
         /*
          */
     // GuiAPI.printDebugText( tempVec3.x)
-    GuiAPI.printDebugText('x:'+MATH.decimalify(tempVec3.x, 10)+' y:'+MATH.decimalify(tempVec3.y, 10)+' z:'+MATH.decimalify(tempVec3.z, 10))
+  //  GuiAPI.printDebugText('x:'+MATH.decimalify(tempVec3.x, 10)+' y:'+MATH.decimalify(tempVec3.y, 10)+' z:'+MATH.decimalify(tempVec3.z, 10))
   //  evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:tempVec3, color:'YELLOW', size:1.0})
     //   evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:calcVec, color:color, size:0.3})
     /*

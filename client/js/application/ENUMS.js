@@ -99,7 +99,12 @@ let ENUMS = {}
         SET_ACTOR_STATUS:           81,
         ENTER_PORTAL:               82,
         ENCOUNTER_CONVERSE:         83,
-
+        ENCOUNTER_ENGAGE:           84,
+        ENCOUNTER_PARTY:            85,
+        ENCOUNTER_CHARM:            86,
+        ENCOUNTER_INTIMIDATE:       87,
+        ENCOUNTER_TRADE:            88,
+        ENCOUNTER_QUEST:            89
     };
 
     ENUMS.Protocol = {
