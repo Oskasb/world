@@ -61,7 +61,31 @@ function indicateSpawns(htmlElement, mapDiv, statusMap, cursorPos){
         let div = spawnDivs[i];
         let spawnPoint = visibleSpawns[i];
         let pos = spawnPoint.getPos();
-        worldPosDiv(pos, cursorPos, div, zoom)
+        worldPosDiv(pos, cursorPos, div, zoom);
+        let lodLevel = spawnPoint.call.getLodLevel()
+        if (lodLevel === 0) {
+            div.style.borderColor = "rgb(255,187,228)";
+        } else if (lodLevel === 1) {
+            div.style.borderColor = "rgb(233,55,255)";
+        } else if (lodLevel === 2) {
+            div.style.borderColor = "rgb(156,7,255)";
+        } else if (lodLevel === 3) {
+            div.style.borderColor = "rgb(43,85,255)";
+        } else if (lodLevel === 4) {
+            div.style.borderColor = "rgb(12,219,255)";
+        } else if (lodLevel === 5) {
+            div.style.borderColor = "rgb(29,238,77)";
+        } else if (lodLevel === -1) {
+            div.style.borderColor = "rgb(0, 0, 0)";
+        } else {
+            div.style.borderColor = "rgb(140,0,0)";
+        }
+
+        if (zoom > 10) {
+            div.innerHTML = '<p>'+spawnPoint.index+'</p>'
+        } else {
+            div.innerHTML = ''
+        }
     }
 }
 
@@ -325,6 +349,7 @@ function attachWorldLevelNavigation(container) {
 
         if (levelConf) {
             function clickLevel() {
+                clearLocationDivs()
                 defaultWorldLevel = levelConf.id;
                 GameAPI.getPlayer().setStatusKey(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL, levelConf.id);
                 evt.dispatch(ENUMS.Event.ENTER_PORTAL, {"world_level": levelConf.id, "world_encounters": []})

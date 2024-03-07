@@ -34,10 +34,17 @@ let setlocationModelConfigs = function(config) {
     initWorldModels()
 }
 
-function  populateDynamicSpawnPoints(worldLevel) {
+function clearDynamicSpawnPoints() {
     while (dynamicSpawnPoints.length) {
-        poolReturn(dynamicSpawnPoints.pop());
+        let sPoint = dynamicSpawnPoints.pop()
+        sPoint.deactivateSpawnPoint()
+        poolReturn(sPoint);
     }
+}
+
+function populateDynamicSpawnPoints(worldLevel) {
+
+    clearDynamicSpawnPoints()
     let config = GameAPI.gameMain.getWorldLevelConfig(worldLevel);
     let spawns = config['spawns'] || 100;
     let lvlMin = config['level_min'] || 1;
@@ -297,6 +304,7 @@ class WorldModels {
     }
 
     removeActiveWorldModels() {
+        clearDynamicSpawnPoints();
         removeWorldModels();
         deactivateWorldEncounters();
     }

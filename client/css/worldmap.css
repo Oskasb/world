@@ -418,18 +418,40 @@ div.spawn_point {
     bottom:auto;
     right:auto;
     margin: 0;
-    width: auto;
-    height: auto;
-    padding: 0.08em;
+    width: 0;
+    height: 0;
+    padding: 0.12em;
     border: solid;
     background-color: rgb(255, 37, 37);
-    border-color: rgb(255, 0, 0);
+    border-color: rgb(95, 0, 0);
     border-width: 0.1em;
     border-radius:  50%;
     display: block;
     transform-origin: center;
     transform: translate3d(-50%, -50%, 0%);
 }
+
+div.spawn_point p {
+    pointer-events: none;
+    position: absolute;
+    top: auto;
+    left: auto;
+    font-size: 1.5em;
+    bottom:0;
+    right:0;
+    margin: 0;
+    width: auto;
+    height: auto;
+    padding: 0.12em;
+    border: solid;
+    border-width: 0.1em;
+    border-radius:  15%;
+    color: #65f9ff;
+    display: inline-block;
+    transform-origin: center;
+    transform: translate3d(0, -0.1em, 0);
+}
+
 
 .click_container {
     position: absolute;
