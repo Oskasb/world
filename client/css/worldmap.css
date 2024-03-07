@@ -401,8 +401,29 @@ div.location {
     height: auto;
     padding: 0.08em;
     border: solid;
-    background-color: rgba(251, 234, 255, 0.95);
-    border-color: rgba(248, 55, 255, 0.55);
+    background-color: rgb(251, 234, 255);
+    border-color: rgb(248, 55, 255);
+    border-width: 0.1em;
+    border-radius:  50%;
+    display: block;
+    transform-origin: center;
+    transform: translate3d(-50%, -50%, 0%);
+}
+
+div.spawn_point {
+    pointer-events: none;
+    position: absolute;
+    top: auto;
+    left: auto;
+    bottom:auto;
+    right:auto;
+    margin: 0;
+    width: auto;
+    height: auto;
+    padding: 0.08em;
+    border: solid;
+    background-color: rgb(255, 37, 37);
+    border-color: rgb(255, 0, 0);
     border-width: 0.1em;
     border-radius:  50%;
     display: block;

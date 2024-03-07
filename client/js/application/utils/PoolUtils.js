@@ -30,6 +30,7 @@ import {VisualGridBorder} from "../../game/visuals/VisualGridBorder.js";
 import {VisualEdgeLine} from "../../game/visuals/VisualEdgeLine.js";
 import {HtmlElement} from "../ui/dom/HtmlElement.js";
 import {ScalarTransition} from "./ScalarTransition.js";
+import {DynamicSpawnPoint} from "../../game/gamescenarios/DynamicSpawnPoint.js";
 
 let pools = {}
 let stats = {};
@@ -64,7 +65,8 @@ function initPools() {
     registerPool(VisualGridBorder);
     registerPool(VisualEdgeLine);
     registerPool(HtmlElement);
-    registerPool(ScalarTransition)
+    registerPool(ScalarTransition);
+    registerPool(DynamicSpawnPoint);
 }
 
 function registerPool(DataObj) {

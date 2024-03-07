@@ -323,6 +323,7 @@ class PlayerMain {
         evt.on(ENUMS.Event.ENTER_PORTAL, callbacks.enterPortal);
         evt.on(ENUMS.Event.ENCOUNTER_CONVERSE, callbacks.encounterConverse);
         evt.on(ENUMS.Event.ENCOUNTER_ENGAGE, callbacks.encounterEngage);
+
     }
 
 

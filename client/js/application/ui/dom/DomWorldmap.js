@@ -24,6 +24,52 @@ function calcMapBackgroundOffset(zoom, axisCenter, worldSize) {
     return MATH.percentify(zoomOffset*MATH.decimalify(axisCenter, 5)+worldSize*0.5, worldSize, true);
 }
 
+let visibleSpawns = [];
+function indicateSpawns(htmlElement, mapDiv, statusMap, cursorPos){
+    MATH.emptyArray(visibleSpawns);
+    let spawnPoints = GameAPI.worldModels.getDynamicSpawnPoints();
+//    console.log(statusMap, [worldModels], locationData);
+    let zoom = statusMap.zoom;
+    let size = worldSize/zoom;
+    let minX = cursorPos.x -size*0.5;
+    let maxX = minX+size;
+    let minZ = cursorPos.z -size*0.5;
+    let maxZ = minZ+size;
+
+    for (let i= 0; i<spawnPoints.length; i++) {
+        let spawnPoint = spawnPoints[i];
+        if (spawnPoint.isActive) {
+            let pos = spawnPoint.getPos();
+            if(pos.x > minX && pos.x < maxX) {
+                if (pos.z > minZ && pos.z < maxZ) {
+                    visibleSpawns.push(spawnPoint);
+                }
+            }
+        }
+    }
+
+    while (spawnDivs.length < visibleSpawns.length) {
+        let div = DomUtils.createDivElement(mapDiv, 'spawn_p_'+spawnDivs.length, '', 'spawn_point')
+        spawnDivs.push(div);
+    }
+
+    while (spawnDivs.length > visibleSpawns.length) {
+        DomUtils.removeDivElement(spawnDivs.pop());
+    }
+
+    for (let i = 0; i < spawnDivs.length; i++) {
+        let div = spawnDivs[i];
+        let spawnPoint = visibleSpawns[i];
+        let pos = spawnPoint.getPos();
+        worldPosDiv(pos, cursorPos, div, zoom)
+    }
+}
+
+function  clearSpawnsDivs() {
+    while(spawnDivs.length) {
+        DomUtils.removeDivElement(spawnDivs.pop());
+    }
+}
 function clearLocationDivs() {
     while(locationDivs.length) {
         DomUtils.removeDivElement(locationDivs.pop());
@@ -33,7 +79,6 @@ function clearLocationDivs() {
 let visibleModels = [];
 function indicateLocations(htmlElement, mapDiv, statusMap, cursorPos) {
     MATH.emptyArray(visibleModels);
-    let locationData = GameAPI.worldModels.getActiveLocationData();
     let worldModels = GameAPI.worldModels.getActiveWorldModels();
 //    console.log(statusMap, [worldModels], locationData);
     let zoom = statusMap.zoom;
@@ -521,6 +566,7 @@ class DomWorldmap {
         let showSpawns = false;
         let showLocations = false;
         let toggleSpawns = function(e) {
+            console.log(GameAPI.worldModels.getDynamicSpawnPoints());
             showSpawns = !showSpawns;
         }
 
@@ -567,7 +613,7 @@ class DomWorldmap {
             DomUtils.addClickFunction(zoomOutDiv, zoomOut)
             DomUtils.addClickFunction(teleportDiv, teleport)
             DomUtils.addClickFunction(locationsDiv, toggleLocations)
-            DomUtils.addClickFunction(spawnsDiv, toggleLocations)
+            DomUtils.addClickFunction(spawnsDiv, toggleSpawns)
             attachWorldLevelNavigation(levelsContainer);
             ThreeAPI.unregisterPrerenderCallback(update);
             ThreeAPI.registerPrerenderCallback(update);
@@ -635,6 +681,7 @@ class DomWorldmap {
                 worldLevel = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
 
                 if (worldLevel !== activeWorldLevel) {
+                    clearSpawnsDivs()
                     clearLocationDivs()
                     statusMap.worldLevel = GameAPI.gameMain.getWorldLevelConfig(worldLevel).name;
 
@@ -662,6 +709,12 @@ class DomWorldmap {
 
                 }
 
+                if (showSpawns) {
+                    indicateSpawns(htmlElement, mapDiv, statusMap, cursorPos)
+                } else {
+                    clearSpawnsDivs();
+
+                }
 
             }
 

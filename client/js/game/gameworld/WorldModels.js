@@ -3,6 +3,7 @@ import * as ScenarioUtils from "../gameworld/ScenarioUtils.js";
 import { WorldModel} from "./WorldModel.js";
 import { WorldEncounter } from "../encounter/WorldEncounter.js";
 import { WorldTreasure} from "../encounter/WorldTreasure.js";
+import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
 
 let locationModelConfigs;
 let worldModels = [];
@@ -11,6 +12,7 @@ let worldEncounters = [];
 let worldTreasures = [];
 let skippedTreasures = {};
 let skippedEncounters = {};
+let dynamicSpawnPoints = [];
 
 let activateEvent = {world_encounters:[]};
 
@@ -32,6 +34,23 @@ let setlocationModelConfigs = function(config) {
     initWorldModels()
 }
 
+function  populateDynamicSpawnPoints(worldLevel) {
+    while (dynamicSpawnPoints.length) {
+        poolReturn(dynamicSpawnPoints.pop());
+    }
+    let config = GameAPI.gameMain.getWorldLevelConfig(worldLevel);
+    let spawns = config['spawns'] || 100;
+    let lvlMin = config['level_min'] || 1;
+    let lvlMax = config['level_max'] || 50;
+    let yMax = config['y_max'] || 50;
+    for (let i = 0; i < spawns; i++) {
+        let point = poolFetch('DynamicSpawnPoint');
+        point.initDynamicSpawnPoint(i, spawns, worldLevel, yMax, lvlMin, lvlMax);
+        dynamicSpawnPoints.push(point);
+    }
+
+}
+
 let worldLevelLocations = []
 let lastWorldLevel = "20";
 let initWorldModels = function(worldLevel) {
@@ -46,6 +65,7 @@ let initWorldModels = function(worldLevel) {
     console.log("worldLevel Models; ", worldLevel, config);
 
     removeWorldModels()
+    populateDynamicSpawnPoints(worldLevel);
     MATH.emptyArray(worldLevelLocations);
     let modelsData = function(models) {
         for (let i = 0; i < models.length;i++) {
@@ -65,7 +85,7 @@ let initWorldModels = function(worldLevel) {
             }
 
             if (data[i].config['world_level'] === worldLevel) {
-                console.log("Specific World LEvel Models", worldLevel, data[i])
+                console.log("Specific World Level Models", worldLevel, data[i])
                 modelsData(data[i].config.models);
                 worldLevelLocations.push(data[i])
             }
@@ -192,6 +212,8 @@ class WorldModels {
         evt.on(ENUMS.Event.LOAD_ADVENTURE_ENCOUNTERS, activateWorldEncounters)
     }
 
+
+
     deactivateEncounters() {
         deactivateWorldEncounters()
     }
@@ -202,6 +224,10 @@ class WorldModels {
 
     getActiveWorldModels() {
         return worldModels;
+    }
+
+    getDynamicSpawnPoints() {
+        return dynamicSpawnPoints;
     }
 
     activateEncounters() {

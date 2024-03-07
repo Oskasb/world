@@ -245,6 +245,7 @@ class GameAPI {
             }
 
             ThreeAPI.getTerrainSystem().getTerrain().call.populateTerrainGeometries();
+
             setTimeout(terrainSys.rebuildGround, 200);
             setTimeout(playerMain.callbacks.worldLoaded, 600);
 
