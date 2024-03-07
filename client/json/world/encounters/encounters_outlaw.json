@@ -86,6 +86,9 @@
                     {"interaction": "FIGHT", "text": "Attack", "dispatch":  {
                       "event":"ENCOUNTER_ENGAGE", "value":{}}
                     },
+                    {"interaction": "PARTY", "text": "Seek Party (NYI)", "dispatch":  {
+                      "event":"ENCOUNTER_PARTY", "value":{}}
+                    },
                     {"interaction": "TALK",  "text": "Hi! Please go away so I can pass", "dispatch":  {
                       "event":"ENCOUNTER_CONVERSE", "value":{"skip": true}}
                     },

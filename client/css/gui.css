@@ -176,7 +176,7 @@ div.bottom_container {
     right: 0;
     height: 55%;
     position: absolute;
-    background: linear-gradient(rgba(25,55,55,0) 0%, rgba(3,45,45, 0.7) 7%, rgba(1,35,25, 0.95) 50%, rgba(0,1,4,1) 100%);
+    background: linear-gradient(rgba(25,55,55,0) 0%, rgba(83,145,145, 0.7) 7%, rgba(1,55,175, 0.85) 50%, rgba(0,1,4,1) 100%);
     transition-property: transform;
 }
 
@@ -188,7 +188,7 @@ div.top_container {
     position: absolute;
     margin: 0;
     padding: 0;
-    background: linear-gradient(rgba(0,1,4,1) 0%,  rgba(1,35,25, 0.95) 50%, rgba(3,45,45, 0.7) 93%, rgba(25,55,55,0) 100%);
+    background: linear-gradient(rgba(0,1,4,1) 0%,  rgba(1,85,175, 0.85) 50%, rgba(93,165,165, 0.7) 93%, rgba(55,85,85,0) 100%);
     transition-property: transform;
 }
 
@@ -208,14 +208,14 @@ div.data_text h3 {
     font-family: "Russo One";
     position:relative;
     color: azure;
-    tex-shadow: 1px 1px 0.25em rgba(0, 0, 0, 1);
+    tex-shadow: 2px 2px 0.25em rgba(0, 0, 0, 1);
     bottom: 0em;
     left: 1em;
     padding: 0;
     margin-top: -0em;
     margin-left: -4em;
     width: 6em;
-    height:1em;
+    height:1.3em;
     text-align: left;
     display: inline-block;
     overflow: hidden;
@@ -225,12 +225,12 @@ div.data_text p {
     position:relative;
     width: 90%;
     color: azure;
-    tex-shadow: 1px 1px 0.25em rgba(0, 0, 0, 1);
+    tex-shadow: 2px 2px 0.25em rgba(0, 0, 0, 1);
     bottom: 0.2em;
     height: auto;
     left: 0em;
     right: 0em;
-    margin-top: -2.2em;
+    margin-top: -2.6em;
     margin-left: 5em;
     padding: 0;
     text-align: left;
@@ -387,6 +387,11 @@ div.ENTER {
 div.FIGHT {
     color: #ff5f30;
     background-image: url("/client/assets/images/textures/gui/icons/icon_fight.png");
+}
+
+div.PARTY {
+    color: #cb30ff;
+    background-image: url("/client/assets/images/textures/gui/icons/icon_party.png");
 }
 
 div.LEAVE {

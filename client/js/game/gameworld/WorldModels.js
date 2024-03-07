@@ -32,6 +32,7 @@ let setlocationModelConfigs = function(config) {
     initWorldModels()
 }
 
+let worldLevelLocations = []
 let lastWorldLevel = "20";
 let initWorldModels = function(worldLevel) {
 
@@ -45,7 +46,7 @@ let initWorldModels = function(worldLevel) {
     console.log("worldLevel Models; ", worldLevel, config);
 
     removeWorldModels()
-
+    MATH.emptyArray(worldLevelLocations);
     let modelsData = function(models) {
         for (let i = 0; i < models.length;i++) {
             let model = new WorldModel(models[i])
@@ -59,12 +60,14 @@ let initWorldModels = function(worldLevel) {
             if (worldLevel === "20") {
                 if (!data[i].config['world_level']) {
                     modelsData(data[i].config.models);
+                    worldLevelLocations.push(data[i])
                 }
             }
 
             if (data[i].config['world_level'] === worldLevel) {
                 console.log("Specific World LEvel Models", worldLevel, data[i])
                 modelsData(data[i].config.models);
+                worldLevelLocations.push(data[i])
             }
         }
     }
@@ -191,6 +194,14 @@ class WorldModels {
 
     deactivateEncounters() {
         deactivateWorldEncounters()
+    }
+
+    getActiveLocationData() {
+        return worldLevelLocations
+    }
+
+    getActiveWorldModels() {
+        return worldModels;
     }
 
     activateEncounters() {

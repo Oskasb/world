@@ -16,13 +16,73 @@ let defaultWorldLevel = "20";
 let activeWorldLevel = null;
 
 let worldLevelDivs = [];
+let locationDivs = [];
+let spawnDivs = [];
 
 function calcMapBackgroundOffset(zoom, axisCenter, worldSize) {
     let zoomOffset = 1 + (1 / zoom);
     return MATH.percentify(zoomOffset*MATH.decimalify(axisCenter, 5)+worldSize*0.5, worldSize, true);
 }
 
+function clearLocationDivs() {
+    while(locationDivs.length) {
+        DomUtils.removeDivElement(locationDivs.pop());
+    }
+}
 
+let visibleModels = [];
+function indicateLocations(htmlElement, mapDiv, statusMap, cursorPos) {
+    MATH.emptyArray(visibleModels);
+    let locationData = GameAPI.worldModels.getActiveLocationData();
+    let worldModels = GameAPI.worldModels.getActiveWorldModels();
+//    console.log(statusMap, [worldModels], locationData);
+    let zoom = statusMap.zoom;
+    let size = worldSize/zoom;
+    let minX = cursorPos.x -size*0.5;
+    let maxX = minX+size;
+    let minZ = cursorPos.z -size*0.5;
+    let maxZ = minZ+size;
+
+    for (let i= 0; i<worldModels.length; i++) {
+        let model = worldModels[i];
+        let pos = model.getPos();
+        if(pos.x > minX && pos.x < maxX) {
+            if (pos.z > minZ && pos.z < maxZ) {
+                if (zoom > 7) {
+                    for (let j = 0; j < model.locationModels.length; j++) {
+                        visibleModels.push(model.locationModels[j])
+                        if (zoom >30) {
+                            let boxes = model.locationModels[j].boxes;
+                            for (let k = 0; k<boxes.length; k++) {
+                                visibleModels.push(boxes[k]);
+                            }
+                        }
+                    }
+                } else {
+                    visibleModels.push(model);
+                }
+
+            }
+        }
+    }
+
+    while (locationDivs.length < visibleModels.length) {
+        let div = DomUtils.createDivElement(mapDiv, 'loc_'+locationDivs.length, '', 'location')
+        locationDivs.push(div);
+    }
+
+    while (locationDivs.length > visibleModels.length) {
+        DomUtils.removeDivElement(locationDivs.pop());
+    }
+
+    for (let i = 0; i < locationDivs.length; i++) {
+        let div = locationDivs[i];
+        let model = visibleModels[i];
+        let pos = model.getPos();
+        worldPosDiv(pos, cursorPos, div, zoom)
+    }
+
+}
 function indicateActors(htmlElement, minimapDiv, statusMap, centerPos) {
     let actors = GameAPI.getGamePieceSystem().getActors()
     while (actors.length < actorIndicators.length) {
@@ -457,6 +517,18 @@ class DomWorldmap {
             dragListen = false;
         }
 
+
+        let showSpawns = false;
+        let showLocations = false;
+        let toggleSpawns = function(e) {
+            showSpawns = !showSpawns;
+        }
+
+        let toggleLocations = function(e) {
+            console.log(GameAPI.worldModels.getActiveWorldModels());
+            showLocations = !showLocations;
+        }
+
         let readyCb = function() {
             clearGridLines()
             activeWorldLevel = null;
@@ -471,8 +543,6 @@ class DomWorldmap {
 
             mapDiv = htmlElement.call.getChildElement('map_frame')
 
-
-
             mapImageDiv = htmlElement.call.getChildElement('map_image')
             destinationDiv = htmlElement.call.getChildElement('destination')
             cursorDiv = htmlElement.call.getChildElement('cursor')
@@ -482,6 +552,8 @@ class DomWorldmap {
             offsetXDiv = htmlElement.call.getChildElement('offset_x')
             offsetZDiv = htmlElement.call.getChildElement('offset_z')
             teleportDiv = htmlElement.call.getChildElement('teleport')
+            let locationsDiv = htmlElement.call.getChildElement('locations')
+            let spawnsDiv = htmlElement.call.getChildElement('spawns')
             let levelsContainer = htmlElement.call.getChildElement('levels_container')
             let reloadDiv = htmlElement.call.getChildElement('reload')
             let zoomInDiv = htmlElement.call.getChildElement('zoom_in')
@@ -494,6 +566,8 @@ class DomWorldmap {
             DomUtils.addClickFunction(zoomInDiv, zoomIn)
             DomUtils.addClickFunction(zoomOutDiv, zoomOut)
             DomUtils.addClickFunction(teleportDiv, teleport)
+            DomUtils.addClickFunction(locationsDiv, toggleLocations)
+            DomUtils.addClickFunction(spawnsDiv, toggleLocations)
             attachWorldLevelNavigation(levelsContainer);
             ThreeAPI.unregisterPrerenderCallback(update);
             ThreeAPI.registerPrerenderCallback(update);
@@ -561,6 +635,7 @@ class DomWorldmap {
                 worldLevel = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
 
                 if (worldLevel !== activeWorldLevel) {
+                    clearLocationDivs()
                     statusMap.worldLevel = GameAPI.gameMain.getWorldLevelConfig(worldLevel).name;
 
                     if (activeWorldLevel !== null) {
@@ -580,6 +655,12 @@ class DomWorldmap {
                 worldPosDiv(tempVec, cursorPos, destinationDiv, zoom)
                 indicateActors(htmlElement, mapDiv, statusMap, cursorPos)
 
+                if (showLocations) {
+                    indicateLocations(htmlElement, mapDiv, statusMap, cursorPos)
+                } else {
+                    clearLocationDivs();
+
+                }
 
 
             }

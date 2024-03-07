@@ -70,6 +70,7 @@ iframe.full_screen {
     height: inherit;
     position: absolute;
     border: none;
+    z-index: 100;
     color: #ecffdc;
 }
 

@@ -59,13 +59,6 @@ class GameMain {
         this.callbacks = {};
         this.gameTime = 0;
         this.configData = new ConfigData("WORLD_SYSTEMS", "WORLD_LEVELS");
-        this.navPointConfigData = new ConfigData("WORLD_SYSTEMS", "WORLD_NAV_POINTS");
-
-        let updateNavpoint = function() {
-            this.applyNavPoint();
-        }.bind(this)
-
-        this.navPointConfigData.addUpdateCallback(updateNavpoint);
 
         this.gameWorld = new GameWorld();
         this.phyiscalWorld = new PhysicalWorld();
@@ -186,26 +179,6 @@ class GameMain {
         return MATH.quickSplice(this.onUpdateCallbacks, callback);
     }
 
-
-    applyNavPoint() {
-
-        if (!this.dynamicId) return;
-
-        let navPointData = this.navPointConfigData.parseConfigData()['world_dynamic_navpoints'];
-        let navConf = navPointData.config;
-        let navPoint = navConf[this.dynamicId]['camera'];
-
-        let camCallback = function() {
-            if (this.activeScenario) {
-                if (this.activeScenario.activateDynamicScenario) {
-                    this.activeScenario.activateDynamicScenario()
-                }
-            }
-        }.bind(this);
-        navPoint.callback = camCallback;
-
-        evt.dispatch(ENUMS.Event.SET_CAMERA_TARGET, navPoint);
-    }
 
 
     addGameTurnCallback(callback) {
