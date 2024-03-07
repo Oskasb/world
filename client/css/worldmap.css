@@ -390,6 +390,7 @@ div.camera {
 }
 
 div.location {
+    pointer-events: none;
     position: absolute;
     top: auto;
     left: auto;

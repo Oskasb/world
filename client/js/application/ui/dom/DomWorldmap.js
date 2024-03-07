@@ -345,11 +345,11 @@ class DomWorldmap {
         }
 
         let zoomIn = function() {
-            statusMap.zoom = Math.round(MATH.clamp(statusMap.zoom * 2,  1, 32));
+            statusMap.zoom = Math.round(MATH.clamp(statusMap.zoom * 2,  1, 128));
         }
 
         let zoomOut = function() {
-            statusMap.zoom = Math.round(MATH.clamp(statusMap.zoom * 0.5, 1, 32));
+            statusMap.zoom = Math.round(MATH.clamp(statusMap.zoom * 0.5, 1, 128));
         }
 
 
