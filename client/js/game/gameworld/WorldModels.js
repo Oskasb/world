@@ -58,21 +58,44 @@ function populateDynamicSpawnPoints(worldLevel) {
 
 }
 
+function activateDynamicSpawnPoints() {
+    for (let i = 0; i < dynamicSpawnPoints.length; i++) {
+        let sPoint = dynamicSpawnPoints[i]
+        if (sPoint.isActive === false) {
+            sPoint.activateSpawnPoint();
+        }
+    }
+}
+
+function deactivateDynamicSpawnPoints() {
+    for (let i = 0; i < dynamicSpawnPoints.length; i++) {
+        let sPoint = dynamicSpawnPoints[i]
+        if (sPoint.isActive === true) {
+            sPoint.deactivateSpawnPoint();
+        }
+    }
+}
+
 let worldLevelLocations = []
 let lastWorldLevel = "20";
 let initWorldModels = function(worldLevel) {
 
-    if (!worldLevel) {
-        worldLevel = lastWorldLevel;
+    if (worldLevel !== lastWorldLevel || dynamicSpawnPoints.length === 0) {
+        if (!worldLevel) {
+            worldLevel = lastWorldLevel;
+        } else {
+            lastWorldLevel = worldLevel;
+        }
+        populateDynamicSpawnPoints(worldLevel);
     } else {
-        lastWorldLevel = worldLevel;
+        activateDynamicSpawnPoints()
     }
 
     let config = locationModelConfigs;
     console.log("worldLevel Models; ", worldLevel, config);
 
     removeWorldModels()
-    populateDynamicSpawnPoints(worldLevel);
+
     MATH.emptyArray(worldLevelLocations);
     let modelsData = function(models) {
         for (let i = 0; i < models.length;i++) {
@@ -107,7 +130,7 @@ let initWorldModels = function(worldLevel) {
 
 let deactivateWorldEncounters = function () {
     GuiAPI.getWorldInteractionUi().deactivateWorldInteractUi()
-
+    deactivateDynamicSpawnPoints();
     while (worldEncounters.length) {
         let encounter = worldEncounters.pop()
         encounter.deactivateWorldEncounter()
@@ -132,11 +155,13 @@ let activateSkippedEncounter = function(encId, cb) {
 
 let activateWorldEncounters = function(event) {
 
+    deactivateWorldEncounters();
+
     if (event.world_level) {
         initWorldModels(event.world_level)
+    } else {
+        activateDynamicSpawnPoints()
     }
-
-    deactivateWorldEncounters();
 
     setTimeout(GuiAPI.getWorldInteractionUi().initWorldInteractUi, 1000)
 

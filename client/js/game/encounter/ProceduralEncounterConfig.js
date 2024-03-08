@@ -18,7 +18,7 @@ let example =                 {
     }
 }
 
-class ProceduralEncouterConfig {
+class ProceduralEncounterConfig {
     constructor() {
         this.config = {
             "pos": [0, 0, 0],
@@ -59,4 +59,4 @@ class ProceduralEncouterConfig {
 
 }
 
-export { ProceduralEncouterConfig }
+export { ProceduralEncounterConfig }

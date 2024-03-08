@@ -185,7 +185,7 @@ function detectFreeSpaceAbovePoint(point, marginHeight, contactPoint, contactNor
         if (step > maxSteps) {
             return hit;
         } else {
-            console.log(step);
+    //        console.log(step);
             return detectFreeSpaceAbovePoint(contactPoint, marginHeight, contactPoint, contactNormal, maxSteps, debugDraw)
         }
     }
