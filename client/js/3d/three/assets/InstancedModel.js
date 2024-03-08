@@ -25,7 +25,7 @@ class InstancedModel {
         this.attachments = [];
 
         let scalarTransition = null;
-        let obstructing = false;
+        let obstructing = null;
         let frameSolidity = 1;
 
         let applySolidity = function(value) {
@@ -36,7 +36,6 @@ class InstancedModel {
                 return;
             }
             source.x = frameSolidity;
-            console.log(frameSolidity)
             this.setAttributev4('sprite', source);
         }.bind(this);
 

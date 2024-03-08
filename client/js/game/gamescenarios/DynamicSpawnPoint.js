@@ -1,9 +1,16 @@
 import {Object3D} from "../../../libs/three/core/Object3D.js";
 import {Vector3} from "../../../libs/three/math/Vector3.js";
+import {VisualModelPalette} from "../visuals/VisualModelPalette.js";
+import {paletteMap} from "../visuals/Colors.js";
 
 let worldSize = 2048;
 let tempNormal = new Vector3()
 let tempVec = new Vector3()
+
+let paletteKeys = [];
+for (let key in paletteMap) {
+    paletteKeys.push(key);
+}
 
 let aroundTests = 8;
 function checkAroundPoint(sPoint) {
@@ -21,8 +28,8 @@ function checkAroundPoint(sPoint) {
 }
 
 function findSpawnPosition(sPoint) {
-    sPoint.obj3d.position.x = worldSize*(MATH.sillyRandom(sPoint.index + sPoint.retries*0.0011 + sPoint.worldLevel)-0.5);
-    sPoint.obj3d.position.z = worldSize*(MATH.sillyRandom(sPoint.index + sPoint.retries*0.0013 + sPoint.worldLevel + 1)-0.5);
+    sPoint.obj3d.position.x = Math.floor(worldSize*(MATH.sillyRandom(sPoint.index + sPoint.retries*0.0011 + sPoint.worldLevel)-0.5));
+    sPoint.obj3d.position.z = Math.floor(worldSize*(MATH.sillyRandom(sPoint.index + sPoint.retries*0.0013 + sPoint.worldLevel + 1)-0.5));
     let y = ThreeAPI.terrainAt(sPoint.obj3d.position, tempNormal);
 
     if (y > 0.5 && y < sPoint.yMax) {
@@ -57,15 +64,21 @@ function retry(sPoint) {
 class DynamicSpawnPoint {
     constructor() {
         this.obj3d = new Object3D();
+        this.obj3d.scale.multiplyScalar(0.01);
         this.retries = 0;
         let isVisible = false;
         let lodLevel = -1;
         let instance = null;
 
+        let palette = new VisualModelPalette()
+
         let update = function() {
+
             this.obj3d.rotateY(GameAPI.getFrame().avgTpf);
             if (instance) {
-                instance.spatial.stickToObj3D(this.obj3d);
+                instance.spatial.obj3d.copy(this.obj3d);
+                instance.spatial.obj3d.position.y += 2;
+                instance.spatial.stickToObj3D(instance.spatial.obj3d);
             }
         }.bind(this)
 
@@ -74,6 +87,10 @@ class DynamicSpawnPoint {
                 ins.decommissionInstancedModel();
             } else {
                 instance = ins;
+
+                let selection = MATH.getRandomArrayEntry(paletteKeys);
+                palette.applyPaletteSelection(selection, instance)
+                instance.call.viewObstructing(false)
             }
 
         }
@@ -82,7 +99,7 @@ class DynamicSpawnPoint {
             if (isVisible === false) {
                 isVisible = true;
                 GameAPI.registerGameUpdateCallback(update)
-                client.dynamicMain.requestAssetInstance('asset_cross3d', addInstance)
+                client.dynamicMain.requestAssetInstance('asset_indicator_spawn', addInstance)
             }
         }
 
