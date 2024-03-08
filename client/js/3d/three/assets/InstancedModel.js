@@ -53,7 +53,7 @@ class InstancedModel {
 
 
             if (bool !== obstructing) {
-                console.log("View Obstruct", bool, originalAsset.id)
+            //    console.log("View Obstruct", bool, originalAsset.id)
                 if (scalarTransition !== null) {
                     transitionEnded();
                 }

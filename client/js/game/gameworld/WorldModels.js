@@ -255,6 +255,9 @@ class WorldModels {
     }
 
     getEncounterById(id) {
+        if (!id) {
+            return worldEncounters;
+        }
         for (let i = 0; i < worldEncounters.length; i++) {
             if (id === worldEncounters[i].id) {
                 return worldEncounters[i]
