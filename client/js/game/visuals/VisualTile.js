@@ -158,7 +158,7 @@ class VisualTile {
 
                 slope = dynamicTile.groundNormal.angleTo(up);
 
-                if (slope > 0.75) {
+                if (slope > 0.65) {
                     spriteX = 6;
                     spriteY = 2;
                     r = 0.12;
@@ -176,15 +176,14 @@ class VisualTile {
                         g = 0.2;
                         b = 0;
                     }
-                    if (dynamicTile.groundData.y > 0.32) {
+                    if (dynamicTile.groundData.y > 0.5) {
                         r = 0.12;
                         g = 0.07;
                         b = 0;
                         spriteX = 6;
                         spriteY = 3;
-
                     }
-                    if (dynamicTile.groundData.y > 0.99) {
+                    if (dynamicTile.groundData.y > 0.999) {
                         spriteX = 6;
                         spriteY = 4;
                         r = 0.05;

@@ -177,6 +177,11 @@ div.button_phys {
     top: 56%;
 }
 
+div.button_lod {
+    background: radial-gradient(circle, rgb(163, 228, 255) 0%, rgb(69, 143, 255) 42%, rgb(1, 4, 169) 83%, rgb(25, 0, 55) 99%);
+    top: 62%;
+}
+
 div.worldmap_frame {
     top: -42em;
     left: -38em;
@@ -415,11 +420,11 @@ div.spawn_point {
     margin: 0;
     width: 0;
     height: 0;
-    padding: 0.12em;
+    padding: 0.15em;
     border: solid;
     background-color: rgb(255, 37, 37);
     border-color: rgb(95, 0, 0);
-    border-width: 0.1em;
+    border-width: 0.14em;
     border-radius:  50%;
     display: block;
     transform-origin: center;
@@ -506,8 +511,42 @@ div.grid_tile {
     border-width: 0.06em;
     border-radius:  0;
     display: block;
+    color: #2bff3d;
     transform-origin: center;
     transform: translate3d(-50%, -50%, 0%);
+}
+
+div.lod_-1 {
+    border-color: rgba(0, 0, 157, 0.75);
+
+}
+
+div.lod_0 {
+    border-color: rgb(251, 255, 145);
+}
+
+div.lod_1 {
+    border-color: rgb(67, 255, 92);
+}
+
+div.lod_2 {
+    border-color: rgb(48, 176, 255);
+}
+
+div.lod_3 {
+    border-color: rgb(19, 2, 255);
+}
+
+div.lod_4 {
+    border-color: rgb(171, 26, 255);
+}
+
+div.lod_5 {
+    border-color: rgb(220, 3, 68);
+}
+
+div.lod_6 {
+    border-color: rgb(222, 119, 0);
 }
 
 div.grid_tile p {
@@ -523,7 +562,7 @@ div.grid_tile p {
     height: auto;
     padding: 0;
     border: none;
-    color: #2bff3d;
+    color: inherit;
     display: inline-block;
     transform-origin: center;
     transform: translate3d(0, 0.5em, 0);

@@ -1,9 +1,11 @@
 import {DynamicLodGrid} from "../../../../application/utils/DynamicLodGrid.js";
 import {VegetationPatch} from "./VegetationPatch.js";
 import {poolFetch, poolReturn, registerPool} from "../../../../application/utils/PoolUtils.js";
+import {Vector3} from "../../../../../libs/three/math/Vector3.js";
 
 let updateFrame = 0;
 let releases = [];
+let lodCenterVec3 = new Vector3();
 
 function getPatchByPosition(vegPatches, pos) {
     let patch = null;
@@ -88,9 +90,13 @@ class VegetationLodGrid {
         }
     }
 
-    updateVegLodGrid(lodCenter, frame, preUpdateTime) {
+    updateVegLodGrid(frame, preUpdateTime) {
         updateFrame = frame;
-        this.dynamicLodGrid.updateDynamicLodGrid(lodCenter, this.call.updateVisibility, 0, 1, preUpdateTime)
+        let halfSize = this.dynamicLodGrid.maxDistance*0.45;
+        lodCenterVec3.set(0, 0, -halfSize)
+        lodCenterVec3.applyQuaternion(ThreeAPI.getCamera().quaternion);
+        lodCenterVec3.add(ThreeAPI.getCamera().position)
+        this.dynamicLodGrid.updateDynamicLodGrid(lodCenterVec3, this.call.updateVisibility, 0, 1, preUpdateTime)
         this.releaseHiddenTiles()
     }
 

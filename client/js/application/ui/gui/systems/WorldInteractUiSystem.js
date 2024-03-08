@@ -298,6 +298,19 @@ function closeWorldInteractUi() {
     while (actorButtons.length) {
         removeActorButton(actorButtons.pop())
     }
+
+    while (hintedActors.length) {
+        let actor = hintedActors.pop();
+        removeActorFromHint(actor);
+    }
+
+    while (actorHints.length) {
+        console.log("actorHints remaining...")
+        let hint = actorHints.pop();
+        hint.actor = null;
+        hint.recoverGuiWidget()
+    }
+
 }
 
 let updateWorldInteractUiSystem = function(tpf, time) {

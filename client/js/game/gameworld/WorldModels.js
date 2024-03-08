@@ -37,7 +37,7 @@ let setlocationModelConfigs = function(config) {
 function clearDynamicSpawnPoints() {
     while (dynamicSpawnPoints.length) {
         let sPoint = dynamicSpawnPoints.pop()
-        sPoint.deactivateSpawnPoint()
+        sPoint.removeSpawnPoint()
         poolReturn(sPoint);
     }
 }

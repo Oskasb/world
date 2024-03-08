@@ -246,11 +246,11 @@ class Vegetation {
         sector.deactivateSectorPlants();
     };
 
-    updateVegetation(lodCenter) {
+    updateVegetation() {
         preUpdateTime = performance.now();
         let frame = GameAPI.getFrame().frame;
         for (let i = 0; i < this.vegetationLodGrids.length; i++) {
-            this.vegetationLodGrids[i].updateVegLodGrid(lodCenter, frame, preUpdateTime)
+            this.vegetationLodGrids[i].updateVegLodGrid(frame, preUpdateTime)
         }
 
         this.instantiator.updateInstantiatorBuffers();

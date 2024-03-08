@@ -11,16 +11,16 @@
               "config":{
                 "grid": {
                   "hide_tiles": true,
-                  "tile_range": 15,
-                  "tile_spacing": 30
+                  "tile_range": 12,
+                  "tile_spacing": 24
                 },
                 "section_info": {
                   "lod_levels": [
-                    {"grid": [3, 3]},
-                    {"grid": [3, 2]},
-                    {"grid": [2, 1]},
-                    {"grid": [2, 1]},
+                    {"grid": [2, 3]},
+                    {"grid": [2, 2]},
                     {"grid": [1, 2]},
+                    {"grid": [1, 1]},
+                    {"grid": [1, 1]},
                     {"grid": [1, 1]}
                   ]
                 },

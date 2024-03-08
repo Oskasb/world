@@ -28,6 +28,7 @@ let locationDivs = [];
 let spawnDivs = [];
 let vegetationDivs = [];
 let physicsDivs = [];
+let lodGridDivs = [];
 
 function clearDivArray(array) {
     while(array.length) {
@@ -35,9 +36,64 @@ function clearDivArray(array) {
     }
 }
 
+let visibleLods = [];
+
+
+function indicateLodGrid(htmlElement, mapDiv, statusMap, cursorPos){
+    MATH.emptyArray(visibleLods);
+    let grid = ThreeAPI.getTerrainSystem().getTerrain().getLodGrid()
+        let tiles = grid.getTiles();
+        for (let j = 0; j < tiles.length; j++) {
+            for (let k = 0; k < tiles[j].length; k++) {
+                let tile = tiles[j][k];
+                let spacing = tile.spacing
+                let pos = tile.getPos();
+                if(pos.x+spacing > minX && pos.x-spacing < maxX) {
+                    if (pos.z+spacing > minZ && pos.z-spacing < maxZ) {
+                        visibleLods.push(tile);
+                    }
+                }
+            }
+        }
+
+
+    while (lodGridDivs.length < visibleLods.length) {
+        let div = DomUtils.createDivElement(mapDiv, 'lods_'+lodGridDivs.length, '', 'grid_tile')
+        lodGridDivs.push(div);
+    }
+
+    while (lodGridDivs.length > visibleLods.length) {
+        DomUtils.removeDivElement(lodGridDivs.pop());
+    }
+
+    for (let i = 0; i < lodGridDivs.length; i++) {
+        let div = lodGridDivs[i];
+        let pos = visibleLods[i].getPos();
+        let lod = visibleLods[i].lodLevel
+        let spacing = visibleLods[i].spacing
+        worldPosDiv(pos, cursorPos, div, zoom);
+        div.style.width = spacing*zoom*0.046+"%";
+        div.style.height = spacing*zoom*0.046+"%";
+        let lodClass = "lod_"+lod
+        div.className = "grid_tile";
+        DomUtils.addElementClass(div, lodClass);
+    /*
+        let r = Math.floor(255*(1-(lod+1)*0.2))
+        let g = Math.floor(155+Math.cos(lod)*200)
+        let b = Math.floor(255*((lod+1)*0.2))
+        let a = 0.3
+        div.style.borderColor = "rgba("+r+", 255, "+b+", "+a+")"
+     */
+        if (zoom > 7) {
+            div.innerHTML = '<p>'+lod+'</p>'
+        } else {
+            div.innerHTML = ''
+        }
+    }
+}
+
+
 let visibleVegs = [];
-
-
 function indicateVegetation(htmlElement, mapDiv, statusMap, cursorPos){
     MATH.emptyArray(visibleVegs);
     console.log()
@@ -76,11 +132,9 @@ function indicateVegetation(htmlElement, mapDiv, statusMap, cursorPos){
         worldPosDiv(pos, cursorPos, div, zoom);
         div.style.width = spacing*zoom*0.046+"%";
         div.style.height = spacing*zoom*0.046+"%";
-        let r = Math.floor(255*(1-(lod+1)*0.2))
-        let g = Math.floor(155+Math.cos(lod)*200)
-        let b = Math.floor(255*((lod+1)*0.2))
-        let a = 0.3
-        div.style.borderColor = "rgba("+r+", 255, "+b+", "+a+")"
+        let lodClass = "lod_"+lod
+        div.className = "grid_tile";
+        DomUtils.addElementClass(div, lodClass);
         if (zoom > 5) {
             div.innerHTML = '<p>'+lod+'</p>'
         } else {
@@ -683,7 +737,12 @@ class DomWorldmap {
         let showLocations = false;
         let showPhysics = false;
         let showVegetation = false;
+        let showLodGrid = false;
 
+        let toggleLodGrid = function(e) {
+            console.log(ThreeAPI.getTerrainSystem().getTerrain());
+            showLodGrid = !showLodGrid;
+        }
         let togglePhysics = function(e) {
             console.log(getPhysicalWorld());
             showPhysics = !showPhysics;
@@ -731,6 +790,7 @@ class DomWorldmap {
             let vegsDiv = htmlElement.call.getChildElement('vegetation')
             let locationsDiv = htmlElement.call.getChildElement('locations')
             let spawnsDiv = htmlElement.call.getChildElement('spawns')
+            let lodsDiv = htmlElement.call.getChildElement('lod')
 
             let levelsContainer = htmlElement.call.getChildElement('levels_container')
             let reloadDiv = htmlElement.call.getChildElement('reload')
@@ -748,6 +808,7 @@ class DomWorldmap {
             DomUtils.addClickFunction(vegsDiv, toggleVegs)
             DomUtils.addClickFunction(locationsDiv, toggleLocations)
             DomUtils.addClickFunction(spawnsDiv, toggleSpawns)
+            DomUtils.addClickFunction(lodsDiv, toggleLodGrid)
             attachWorldLevelNavigation(levelsContainer);
             ThreeAPI.unregisterPrerenderCallback(update);
             ThreeAPI.registerPrerenderCallback(update);
@@ -867,6 +928,11 @@ class DomWorldmap {
                     clearDivArray(vegetationDivs);
                 }
 
+                if (showLodGrid) {
+                    indicateLodGrid(htmlElement, mapDiv, statusMap, cursorPos)
+                } else {
+                    clearDivArray(lodGridDivs);
+                }
 
             }
 

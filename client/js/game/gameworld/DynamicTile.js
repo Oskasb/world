@@ -220,12 +220,12 @@ class DynamicTile {
 
         let dynamicGridTile = this;
         tempVec.copy(this.getPos())
-        tempVec.y = lodCenter.y;
-        //    let lodDistance = pos.distanceTo(ThreeAPI.getCamera().position)
-           let lodDistance = tempVec.distanceTo(lodCenter)
-        let centerFactor = 0.1;
+        tempVec.y = ThreeAPI.getCamera().position.y;
+        let lodDistance = tempVec.distanceTo(ThreeAPI.getCamera().position)
+        //       let lodDistance = tempVec.distanceTo(lodCenter)
+        let centerFactor = 0.12;
         if (lodDistance > maxDistance*centerFactor) {
-            lodDistance = maxDistance*centerFactor + (lodDistance * 1-centerFactor);
+            lodDistance = maxDistance*centerFactor + (lodDistance * (1-centerFactor*1));
         } else {
             lodDistance = 0;
         }
@@ -235,7 +235,7 @@ class DynamicTile {
         tempVec.y -= tileSize
         let isVisible = aaBoxTestVisibility(tempVec,  tileSize, tileSize*4, tileSize)
         let borrowedBox = borrowBox();
-        let farness = MATH.calcFraction(0, maxDistance, lodDistance * 1.5)  //MATH.clamp( (camDist / maxDistance) * 1.0, 0, 1)
+        let farness = MATH.calcFraction(0, maxDistance, lodDistance * 1.1)  //MATH.clamp( (camDist / maxDistance) * 1.0, 0, 1)
         if (farness > 1) {
         //    console.log("Farness overrun", farness)
             farness = 1;
@@ -243,7 +243,7 @@ class DynamicTile {
         }
 
         let nearness = MATH.decimalify(MATH.clamp(2-farness*(1.2+MATH.curveCube(farness)), 0, 1), 10);
-        let lodLevel = Math.floor((MATH.curveCube(farness)*0.5 + MATH.curveSqrt(farness)*0.5) * (lodLevels-1));
+        let lodLevel = Math.floor((MATH.curveCube(farness)*0.75 + MATH.curveSqrt(farness)*0.25) * (lodLevels+1));
 
 
         this.isVisible = false;

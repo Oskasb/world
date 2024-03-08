@@ -42,7 +42,7 @@ class ProceduralEncounterConfig {
                         "actor": "ACTOR_FIGHTER",
                         "rot": [0, 1.2, 0],
                         "on_ground": true,
-                        "tile": [3, 3]
+                        "tile": [4, 4]
                     },
                 ]
             }

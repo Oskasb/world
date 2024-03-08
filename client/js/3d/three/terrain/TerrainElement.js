@@ -26,7 +26,7 @@ class TerrainElement {
 
     setTerrainElementPosition(posVec3) {
         let seed = Math.abs( Math.sin(posVec3.x*0.013)+Math.cos(posVec3.z*0.017))*10000+1
-        let scale = MATH.decimalify(MATH.sillyRandomBetween(0.3, 1.2, seed), 4);
+        let scale = MATH.decimalify(MATH.sillyRandomBetween(0.8, 1.3, seed), 4);
     //    console.log(scale)
         let rotZ = scale*1000;
         posVec3.y = ThreeAPI.terrainAt(posVec3, calcVec);

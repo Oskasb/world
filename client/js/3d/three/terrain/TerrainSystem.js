@@ -53,7 +53,7 @@ class TerrainSystem {
 
             let shadeCompleted = function() {
                 activateTerrainSystem();
-                vegetationSystem.activateVegetationSystem(threeTerrain.call.getLodCenter())
+                vegetationSystem.activateVegetationSystem()
 
                 setTimeout(function() {
                     setTimeout(function() {

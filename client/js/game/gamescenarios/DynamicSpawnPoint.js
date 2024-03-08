@@ -40,7 +40,7 @@ function findSpawnPosition(sPoint) {
             sPoint.obj3d.position.y = y;
             let okAround = checkAroundPoint(sPoint)
             if (okAround) {
-
+                ThreeAPI.groundAt(sPoint.getPos(), sPoint.terrainData)
                 sPoint.activateSpawnPoint()
                 return;
             }
@@ -71,6 +71,7 @@ class DynamicSpawnPoint {
         this.retries = 0;
         this.groundHeightData = [0, 0, 0, 0];
         this.terrainData = {};
+        this.lodActive = false;
         let isVisible = false;
         let lodLevel = -1;
         let instance = null;
@@ -88,11 +89,7 @@ class DynamicSpawnPoint {
             }
         }.bind(this)
 
-        let deactivate = function() {
-            this.isActive = false;
-
-            ThreeAPI.clearTerrainLodUpdateCallback(lodUpdated);
-
+        let clearEncounter = function() {
             if (encounterConfig !== null) {
                 poolReturn(encounterConfig);
                 encounterConfig = null;
@@ -103,6 +100,16 @@ class DynamicSpawnPoint {
                 MATH.splice(worldEncounters, proceduralEncounter);
                 proceduralEncounter.deactivateWorldEncounter();
             }
+        }
+
+        let deactivate = function() {
+            if (this.isActive === false) {
+                return;
+            }
+            this.isActive = false;
+            this.lodActive = false
+            ThreeAPI.clearTerrainLodUpdateCallback(lodUpdated);
+            clearEncounter()
 
         }.bind(this)
 
@@ -150,6 +157,9 @@ class DynamicSpawnPoint {
         let completedEncounters = GameAPI.gameAdventureSystem.getCompletedEncounters();
 
         let lodUpdated = function(lodL) {
+            if (this.isActive === false) {
+                return;
+            }
             lodLevel = lodL;
 
             if (lodLevel === 0) {
@@ -179,7 +189,7 @@ class DynamicSpawnPoint {
                 }
 
                 if (encounterConfig !== null) {
-                    deactivate()
+                    clearEncounter()
                 }
             }
 
@@ -215,13 +225,16 @@ class DynamicSpawnPoint {
 
     activateSpawnPoint() {
         this.isActive = true;
-        this.call.lodUpdated(-1);
+        this.lodActive = true;
         ThreeAPI.registerTerrainLodUpdateCallback(this.getPos(), this.call.lodUpdated);
-        ThreeAPI.groundAt(this.getPos(), this.terrainData)
     }
 
     deactivateSpawnPoint() {
         this.call.lodUpdated(-1);
+        this.isActive = false;
+    }
+
+    removeSpawnPoint() {
         this.call.deactivate()
     }
 

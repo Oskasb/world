@@ -188,7 +188,9 @@ class TerrainGeometry{
     }
 
     addLodUpdateCallback = function(cb) {
-        this.lodUpdateCallbaks.push(cb)
+        if (this.lodUpdateCallbaks.indexOf(cb) === -1) {
+            this.lodUpdateCallbaks.push(cb)
+        }
         cb(this.levelOfDetail);
     }
 
