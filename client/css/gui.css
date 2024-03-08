@@ -169,6 +169,27 @@ div.interact_panel {
     border-width: 0.2em;
 }
 
+div.loot_panel {
+    pointer-events: auto;
+    font-size: 1.5em;
+    top: 1em;
+    left: 1em;
+    right: 1em;
+    height: auto;
+    position: absolute;
+  //  background-color: rgba(44, 90, 90, 0.51);
+
+    border-radius: 0.5em;
+    border-style: solid;
+    border-width: 0.2em;
+}
+
+div.loot_panel h2 {
+    color:inherit;
+    text-shadow: inherit;
+    font-size: 1.3em;
+}
+
 div.bottom_container {
     font-size: 1em;
     top: 55%;
@@ -358,6 +379,26 @@ div.alignment {
     position: absolute;
 }
 
+div.item_type {
+    bottom:0.3em;
+    right:0.8em;
+    padding-left: 1em;
+    font-size: 0.8em;
+    position: absolute;
+    color: #bfe7e7;
+}
+
+div.item_label {
+    top:0.3em;
+    left:0.3em;
+    height: 1.3em;
+    padding: 0.5em;
+    font-size: 0.8em;
+    position: relative;
+    color: inherit;
+    display: inline-block;
+}
+
 div.HOSTILE {
     color: #ff511c;
 }
@@ -428,6 +469,55 @@ div.PICKUP {
     color: #abff19;
     background-image: url("/client/assets/images/textures/gui/icons/icon_take.png");
 }
+
+div.PLAIN {
+    color: #9f978f;
+    text-shadow: 0.1em 0.1em 0.15em rgba(0, 0, 0, 1);
+    background: linear-gradient(rgb(37, 36, 34) 0%, rgb(38, 37, 35) 7%, rgb(37, 36, 32) 50%, rgb(21, 21, 18) 100%);
+    box-shadow: 0 0 0.5em rgba(0, 0, 0, 0.7);
+    border-color: #7e7872;
+}
+
+div.COMMON {
+    color: #e3e3e3;
+    text-shadow: 0.15em 0.15em 0.25em rgba(0, 0, 0, 1);
+    background: linear-gradient(rgb(208, 208, 208) 0%, rgb(103, 103, 103) 7%, rgb(63, 63, 63) 50%, rgb(49, 49, 49) 100%);
+    box-shadow: 0 0 0.5em rgba(0, 0, 0, 0.7);
+    border-color: #d2d2d2;
+}
+
+div.UNCOMMON {
+    color: #08ff00;
+    text-shadow: 0.1em 0.1em 0.15em rgb(0, 73, 2);
+    background: linear-gradient(rgb(58, 255, 41) 0%, rgb(35, 93, 21) 7%, rgb(27, 65, 19) 50%, rgb(11, 26, 5) 100%);
+    border-color: #69b473;
+    box-shadow: 0 0 0.7em rgb(0, 177, 4);
+}
+
+div.RARE {
+    color: #c2e6ff;
+    text-shadow: 0.1em 0.1em 0.35em rgb(1, 20, 49);
+    background: linear-gradient(rgb(33, 103, 255) 0%, rgb(49, 50, 100) 7%, rgb(18, 18, 56) 40%, rgb(0, 7, 35) 100%);
+    border-color: #5d7c9f;
+    box-shadow: 0 0 1.1em rgb(76, 138, 255);
+}
+
+div.EPIC {
+    color: #ee00ff;
+    text-shadow: 0em 0em 0.25em rgb(234, 172, 255);
+    background: linear-gradient(rgb(239, 0, 255) 0%, rgb(49, 16, 58) 7%, rgb(79, 41, 101) 70%, rgb(98, 38, 103) 100%);
+    border-color: #db92ff;
+    box-shadow: 0 0 1.5em rgb(230, 0, 255);
+}
+
+div.LEGENDARY {
+    color: #ffc400;
+    text-shadow: 0em 0em 0.25em rgb(255, 241, 171);
+    background: linear-gradient(rgb(255, 185, 0) 0%, rgb(93, 71, 0) 7%, rgb(35, 23, 0) 70%, rgb(30, 17, 0) 100%);
+    border-color: #ff9a00;
+    box-shadow: 0 0 1.0em rgb(255, 220, 22);
+}
+
 
 .slider_container p {
     right: 0.7em;

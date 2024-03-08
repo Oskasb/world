@@ -149,7 +149,7 @@ class DynamicSpawnPoint {
         let onReady = function(encounter) {
             encounter.activateWorldEncounter()
             encounter.getHostActor().turnTowardsPos(ThreeAPI.getCamera().position);
-            console.log("wEnc ready", encounter);
+        //    console.log("wEnc ready", encounter);
         }
 
         let proceduralEncounter = null;

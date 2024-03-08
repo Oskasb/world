@@ -119,6 +119,7 @@ function checkTriggerPlayer(treasure) {
                     let items = treasure.items;
                     for (let i = 0; i < items.length; i++) {
                         selectedActor.processItemLooted(items[i]);
+                        GuiAPI.notifyItemLooted(selectedActor, items[i]);
                     }
                     let lootedTreasures = GameAPI.gameAdventureSystem.getLootedTreasures();
                     lootedTreasures.push(treasure.id);

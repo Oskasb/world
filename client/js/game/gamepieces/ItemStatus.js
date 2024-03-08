@@ -13,7 +13,8 @@ class ItemStatus {
         this.statusMap[ENUMS.ItemStatus.EQUIPPED_SLOT] = '';
         this.statusMap[ENUMS.ItemStatus.MODIFIERS] = [];
         this.statusMap[ENUMS.ItemStatus.ACTIVATION_STATE] = ENUMS.ActivationState.INACTIVE;
-
+        this.statusMap[ENUMS.ItemStatus.RARITY] = ENUMS.rarity.COMMON;
+        this.statusMap[ENUMS.ItemStatus.QUALITY] = ENUMS.quality.POOR;
 
         this.isRemote = false;
         let setStatusByKey = function(key, status) {

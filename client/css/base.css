@@ -85,6 +85,17 @@ iframe.interact_page {
     background: none;
 }
 
+iframe.loot_notice {
+    top: 15%;
+    right: 52%;
+    height: auto;
+    width: 260em;
+    border: 0;
+    position: fixed;
+    transform: translate3d(0px, 0px, 0px);
+    background: none;
+}
+
 iframe.minimap {
     top: 60em;
     right: 60em;

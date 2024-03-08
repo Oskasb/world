@@ -8,7 +8,12 @@
           "equip_slot": "SLOT_HEAD",
           "status_add_modifiers": [
             {"status": "MAX_HP", "value":0}
-          ]
+          ],
+          "status": {
+            "NAME":"Viking Helmet",
+            "ITEM_LEVEL": 1,
+            "ITEM_TYPE" : "ARMOR"
+          }
         }
       },
       {
@@ -18,7 +23,12 @@
           "equip_slot": "SLOT_HEAD",
           "status_add_modifiers": [
             {"status": "MAX_HP", "value":0}
-          ]
+          ],
+          "status": {
+            "NAME":"Viking Helmet",
+            "ITEM_LEVEL": 1,
+            "ITEM_TYPE" : "ARMOR"
+          }
         }
       },
       {
@@ -28,7 +38,12 @@
           "equip_slot": "SLOT_HEAD",
           "status_add_modifiers": [
             {"status": "MAX_HP", "value":0}
-          ]
+          ],
+          "status": {
+            "NAME":"Helmet",
+            "ITEM_LEVEL": 1,
+            "ITEM_TYPE" : "ARMOR"
+          }
         }
       },
       {
@@ -38,7 +53,12 @@
           "equip_slot": "SLOT_WAIST",
           "status_add_modifiers": [
             {"status": "MAX_HP", "value":0}
-          ]
+          ],
+          "status": {
+            "NAME":"Helmet",
+            "ITEM_LEVEL": 1,
+            "ITEM_TYPE" : "ARMOR"
+          }
         }
       },
       {
@@ -48,7 +68,13 @@
           "equip_slot": "SLOT_HEAD",
           "status_add_modifiers": [
             {"status": "MAX_HP", "value":0}
-          ]
+          ],
+          "status": {
+            "NAME":"Helmet",
+            "ITEM_LEVEL": 1,
+            "ITEM_TYPE" : "ARMOR",
+            "RARITY": "COMMON"
+          }
         }
       },
       {
@@ -58,7 +84,12 @@
           "equip_slot": "SLOT_WAIST",
           "status_add_modifiers": [
             {"status": "MAX_HP", "value":0}
-          ]
+          ],
+          "status": {
+            "NAME":"Belt",
+            "ITEM_LEVEL": 1,
+            "ITEM_TYPE" : "ARMOR"
+          }
         }
       },
       {
@@ -68,7 +99,12 @@
           "equip_slot": "SLOT_WAIST",
           "status_add_modifiers": [
             {"status": "MAX_HP", "value":0}
-          ]
+          ],
+          "status": {
+            "NAME":"Belt",
+            "ITEM_LEVEL": 1,
+            "ITEM_TYPE" : "ARMOR"
+          }
         }
       },
       {
@@ -78,7 +114,12 @@
           "equip_slot": "SLOT_HANDS",
           "status_add_modifiers": [
             {"status": "MAX_HP", "value":0}
-          ]
+          ],
+          "status": {
+            "NAME":"Belt",
+            "ITEM_LEVEL": 1,
+            "ITEM_TYPE" : "ARMOR"
+          }
         }
       },
       {
@@ -88,7 +129,13 @@
           "equip_slot": "SLOT_FEET",
           "status_add_modifiers": [
             {"status": "MAX_HP", "value":0}
-          ]
+          ],
+          "status": {
+            "NAME":"Belt",
+            "ITEM_LEVEL": 1,
+            "ITEM_TYPE" : "ARMOR",
+            "RARITY": "UNCOMMON"
+          }
         }
       },
       {
@@ -98,7 +145,17 @@
           "equip_slot": "SLOT_LEGS",
           "status_add_modifiers": [
             {"status": "MAX_HP", "value":0}
-          ]
+          ],
+          "status": {
+            "NAME":"Belt",
+            "ITEM_LEVEL": 1,
+            "ITEM_TYPE" : "ARMOR"
+          },
+          "status": {
+            "NAME":"Belt",
+            "ITEM_LEVEL": 1,
+            "ITEM_TYPE" : "ARMOR"
+          }
         }
       },
       {
@@ -108,7 +165,12 @@
           "equip_slot": "SLOT_CHEST",
           "status_add_modifiers": [
             {"status": "MAX_HP", "value":0}
-          ]
+          ],
+          "status": {
+            "NAME":"Belt",
+            "ITEM_LEVEL": 1,
+            "ITEM_TYPE" : "ARMOR"
+          }
         }
       },
       {
@@ -118,7 +180,12 @@
           "equip_slot": "SLOT_BODY",
           "status_add_modifiers": [
             {"status": "MAX_HP", "value":0}
-          ]
+          ],
+          "status": {
+            "NAME":"Belt",
+            "ITEM_LEVEL": 1,
+            "ITEM_TYPE" : "ARMOR"
+          }
         }
       },
       {
@@ -138,7 +205,12 @@
           "equip_slot": "SLOT_HANDS",
           "status_add_modifiers": [
             {"status": "MAX_HP", "value":0}
-          ]
+          ],
+          "status": {
+            "NAME":"Belt",
+            "ITEM_LEVEL": 1,
+            "ITEM_TYPE" : "ARMOR"
+          }
         }
       },
       {
@@ -148,7 +220,12 @@
           "equip_slot": "SLOT_FEET",
           "status_add_modifiers": [
             {"status": "MAX_HP", "value":0}
-          ]
+          ],
+          "status": {
+            "NAME":"Belt",
+            "ITEM_LEVEL": 1,
+            "ITEM_TYPE" : "ARMOR"
+          }
         }
       },
       {
@@ -158,7 +235,12 @@
           "equip_slot": "SLOT_LEGS",
           "status_add_modifiers": [
             {"status": "MAX_HP", "value":0}
-          ]
+          ],
+          "status": {
+            "NAME":"Belt",
+            "ITEM_LEVEL": 1,
+            "ITEM_TYPE" : "ARMOR"
+          }
         }
       },
       {
@@ -168,7 +250,12 @@
           "equip_slot": "SLOT_CHEST",
           "status_add_modifiers": [
             {"status": "MAX_HP", "value":0}
-          ]
+          ],
+          "status": {
+            "NAME":"Belt",
+            "ITEM_LEVEL": 1,
+            "ITEM_TYPE" : "ARMOR"
+          }
         }
       },
       {
@@ -178,7 +265,12 @@
           "equip_slot": "SLOT_BODY",
           "status_add_modifiers": [
             {"status": "MAX_HP", "value":0}
-          ]
+          ],
+          "status": {
+            "NAME":"Armor",
+            "ITEM_LEVEL": 1,
+            "ITEM_TYPE" : "ARMOR"
+          }
         }
       },
       {
@@ -188,7 +280,12 @@
           "equip_slot": "SLOT_BODY",
           "status_add_modifiers": [
             {"status": "MAX_HP", "value":0}
-          ]
+          ],
+          "status": {
+            "NAME":"Armor",
+            "ITEM_LEVEL": 1,
+            "ITEM_TYPE" : "ARMOR"
+          }
         }
       },
 
@@ -199,7 +296,12 @@
           "equip_slot": "SLOT_HANDS",
           "status_add_modifiers": [
             {"status": "MAX_HP", "value":0}
-          ]
+          ],
+          "status": {
+            "NAME":"Armor",
+            "ITEM_LEVEL": 1,
+            "ITEM_TYPE" : "ARMOR"
+          }
         }
       },
       {
@@ -209,7 +311,12 @@
           "equip_slot": "SLOT_FEET",
           "status_add_modifiers": [
             {"status": "MAX_HP", "value":0}
-          ]
+          ],
+          "status": {
+            "NAME":"Armor",
+            "ITEM_LEVEL": 1,
+            "ITEM_TYPE" : "ARMOR"
+          }
         }
       },
       {
@@ -219,7 +326,12 @@
           "equip_slot": "SLOT_LEGS",
           "status_add_modifiers": [
             {"status": "MAX_HP", "value":0}
-          ]
+          ],
+          "status": {
+            "NAME":"Armor",
+            "ITEM_LEVEL": 1,
+            "ITEM_TYPE" : "ARMOR"
+          }
         }
       },
       {
@@ -229,8 +341,14 @@
           "equip_slot": "SLOT_CHEST",
           "status_add_modifiers": [
             {"status": "MAX_HP", "value":0}
-          ]
+          ],
+          "status": {
+            "NAME":"Armor",
+            "ITEM_LEVEL": 1,
+            "ITEM_TYPE" : "ARMOR"
+          }
         }
+
       },
       {
         "id": "ITEM_SHIRT_CHAIN_RED",
@@ -239,7 +357,12 @@
           "equip_slot": "SLOT_BODY",
           "status_add_modifiers": [
             {"status": "MAX_HP", "value":0}
-          ]
+          ],
+          "status": {
+            "NAME":"Armor",
+            "ITEM_LEVEL": 1,
+            "ITEM_TYPE" : "ARMOR"
+          }
         }
       },
       {
@@ -249,7 +372,12 @@
           "equip_slot": "SLOT_BODY",
           "status_add_modifiers": [
             {"status": "MAX_HP", "value":0}
-          ]
+          ],
+          "status": {
+            "NAME":"Armor",
+            "ITEM_LEVEL": 1,
+            "ITEM_TYPE" : "ARMOR"
+          }
         }
       },
 
@@ -260,7 +388,12 @@
           "equip_slot": "SLOT_HEAD",
           "status_add_modifiers": [
 
-          ]
+          ],
+          "status": {
+            "NAME":"Armor",
+            "ITEM_LEVEL": 1,
+            "ITEM_TYPE" : "ARMOR"
+          }
         }
       },
       {
@@ -270,7 +403,12 @@
           "equip_slot": "SLOT_HEAD",
           "status_add_modifiers": [
 
-          ]
+          ],
+          "status": {
+            "NAME":"Armor",
+            "ITEM_LEVEL": 1,
+            "ITEM_TYPE" : "ARMOR"
+          }
         }
       },
       {
@@ -280,7 +418,12 @@
           "equip_slot": "SLOT_HEAD",
           "status_add_modifiers": [
 
-          ]
+          ],
+          "status": {
+            "NAME":"Armor",
+            "ITEM_LEVEL": 1,
+            "ITEM_TYPE" : "ARMOR"
+          }
         }
       },
       {
@@ -290,7 +433,12 @@
           "equip_slot": "SLOT_HEAD",
           "status_add_modifiers": [
 
-          ]
+          ],
+          "status": {
+            "NAME":"Armor",
+            "ITEM_LEVEL": 1,
+            "ITEM_TYPE" : "ARMOR"
+          }
         }
       }
     ]

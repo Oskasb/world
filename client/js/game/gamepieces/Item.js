@@ -14,6 +14,14 @@ class Item {
         this.config = config;
         this.visualGamePiece = visualGamePiece;
         this.status = new ItemStatus(this.id, configId);
+
+        let defaultSatus = config['status'];
+        if (typeof(defaultSatus) === 'object') {
+            for (let key in defaultSatus) {
+                this.status.statusMap[key] = defaultSatus[key];
+            }
+        }
+
         this.visualGamePiece.call.setPiece(this)
 
         let addModifiers = {};

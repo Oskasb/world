@@ -358,8 +358,41 @@ ENUMS.NavigationState = {
         PALETTE_VALUES:'PALETTE_VALUES',
         EQUIPPED_SLOT:'EQUIPPED_SLOT',
         MODIFIERS:'MODIFIERS',
-        ACTIVATION_STATE:'ACTIVATION_STATE'
+        ACTIVATION_STATE:'ACTIVATION_STATE',
+        NAME:'NAME',
+        ITEM_LEVEL:'ITEM_LEVEL',
+        ITEM_TYPE:'ITEM_TYPE',
+        QUALITY:'QUALITY',
+        RARITY:'RARITY'
     }
+
+    ENUMS.itemTypes = {
+        WEAPON:'WEAPON',
+        ARMOR:'ARMOR',
+        CURRENCY:'CURRENCY',
+        MATERIAL:'MATERIAL',
+        QUEST:'QUEST',
+        VEHICLE:'VEHICLE',
+        MOUNT:'MOUNT',
+        GADGET:'GADGET'
+    }
+
+    ENUMS.quality = {
+        POOR:'POOR',
+        BASIC:'BASIC',
+        GOOD:'GOOD',
+        SUPERB:'SUPERB',
+        EXCEPTIONAL:'EXCEPTIONAL'
+    }
+
+ENUMS.rarity = {
+    PLAIN:'PLAIN',
+    COMMON:'COMMON',
+    UNCOMMON:'UNCOMMON',
+    RARE:'RARE',
+    EPIC:'EPIC',
+    LEGENDARY:'LEGENDARY'
+}
 
     ENUMS.ActionStatus = {
         ACTOR_ID:'ACTOR_ID',

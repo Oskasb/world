@@ -9,6 +9,7 @@ import {WorldInteractUiSystem} from "./systems/WorldInteractUiSystem.js";
 import {WorldEncounterUISystem} from "./systems/WorldEncounterUISystem.js";
 import {NavigationStatePageSystem} from "./systems/NavigationStatePageSystem.js";
 import {DomTransition} from "../dom/DomTransition.js";
+import {poolFetch} from "../../utils/PoolUtils.js";
 
 let guiTime = 0;
 let worldInteractUiSystem = new WorldInteractUiSystem()
@@ -124,6 +125,12 @@ class GuiAPI {
         invNavUiSystem.initNavigationPageSystem();
         mapNavUiSystem.initNavigationPageSystem();
         domTransition = new DomTransition();
+    };
+
+    notifyItemLooted(actor, item) {
+        let notice = poolFetch('DomLootNotice')
+        console.log(notice)
+        notice.call.notify(actor, item);
     };
 
     getWorldInteractionUi() {
