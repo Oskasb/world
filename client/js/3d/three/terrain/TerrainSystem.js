@@ -124,6 +124,10 @@ class TerrainSystem {
         vegetationSystem.processGroundDataUpdate()
     }
 
+    getVegetationSystem() {
+        return vegetationSystem
+    }
+
 }
 
 export {TerrainSystem}

@@ -25,6 +25,9 @@ class VegetationSystem {
         vegetation.resetVegetationGrids()
     }
 
+    getVegetation() {
+        return vegetation;
+    }
 
 }
 

@@ -219,19 +219,21 @@ class DynamicTile {
         }
 
         let dynamicGridTile = this;
-        let pos = this.getPos()
-        pos.y = lodCenter.y;
+        tempVec.copy(this.getPos())
+        tempVec.y = lodCenter.y;
         //    let lodDistance = pos.distanceTo(ThreeAPI.getCamera().position)
-           let lodDistance = pos.distanceTo(lodCenter)
-        if (lodDistance > maxDistance*0.3) {
-            lodDistance = maxDistance*0.3 + lodDistance * 0.15;
+           let lodDistance = tempVec.distanceTo(lodCenter)
+        let centerFactor = 0.1;
+        if (lodDistance > maxDistance*centerFactor) {
+            lodDistance = maxDistance*centerFactor + (lodDistance * 1-centerFactor);
         } else {
             lodDistance = 0;
         }
         let rgba = this.rgba
         let tileSize = this.spacing * (margin || 1);
-
-        let isVisible = aaBoxTestVisibility(pos,  tileSize, tileSize*2, tileSize)
+        tempVec.copy(this.getPos())
+        tempVec.y -= tileSize
+        let isVisible = aaBoxTestVisibility(tempVec,  tileSize, tileSize*4, tileSize)
         let borrowedBox = borrowBox();
         let farness = MATH.calcFraction(0, maxDistance, lodDistance * 1.5)  //MATH.clamp( (camDist / maxDistance) * 1.0, 0, 1)
         if (farness > 1) {

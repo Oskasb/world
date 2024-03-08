@@ -138,48 +138,43 @@ div.button_teleport {
     text-shadow: 1px 1px 3px rgba(5, 0, 0, 1);
 }
 
-div.button_locations {
-    background: url("/client/assets/images/textures/gui/icons/icon_enter.png"), radial-gradient(circle, rgba(245,202,255,1) 0%, rgba(255,45,215,1) 47%, rgba(125,0,42,1) 83%);
 
-    top: 31%;
-    right: -6%;
-    width: 0em;
-    height: 0em;
-    border-radius: 50%;
+
+div.dev_button {
+    right: -4em;
+    width: 4em;
+    height: 1em;
+    border-radius: 0.5em;
     border: #bebebe;
     border-style: solid;
     border-width: 0.1em;
     position: absolute;
     background-size: 100%;
-    box-shadow: 0 0px 0px 2px rgba(5, 0, 0, 0.5);
+    box-shadow: 0 0 0 0.05em rgba(5, 0, 0, 0.5);
     margin:0;
-    padding: 1.75em;
-    font-size: 2.2em;
+    padding: 0.1em;
+    font-size: 2.5em;
     text-align: center;
-    color: #3cef00;
-    text-shadow: 1px 1px 3px rgba(5, 0, 0, 1);
+    color: rgba(0, 0, 0, 0.65);
+    text-shadow: 0 0 0.4em rgb(255, 255, 255);
 }
 
+div.button_locations {
+    background: radial-gradient(circle, rgba(245,202,255,1) 0%, rgba(255,45,215,1) 47%, rgba(125,0,42,1) 83%, rgba(55,1,0,1) 99%);
+    top: 38%;
+}
 div.button_spawns {
-    background: url("/client/assets/images/textures/gui/icons/icon_enter.png"), radial-gradient(circle, rgba(255,198,118,1) 0%, rgba(255,89,0,1) 42%, rgba(107,25,0,1) 77%);
-
+    background: radial-gradient(circle, rgba(255,198,118,1) 0%, rgba(255,89,0,1) 42%, rgba(107,25,0,1) 83%, rgba(55,1,0,1) 99%);
     top: 44%;
-    right: -6%;
-    width: 0em;
-    height: 0em;
-    border-radius: 50%;
-    border: #bebebe;
-    border-style: solid;
-    border-width: 0.1em;
-    position: absolute;
-    background-size: 100%;
-    box-shadow: 0 0px 0px 2px rgba(5, 0, 0, 0.5);
-    margin:0;
-    padding: 1.75em;
-    font-size: 2.2em;
-    text-align: center;
-    color: #65f9ff;
-    text-shadow: 1px 1px 3px rgba(5, 0, 0, 1);
+}
+div.button_veg {
+    background: radial-gradient(circle, rgb(226, 255, 202) 0%, rgb(115, 255, 45) 47%, rgb(8, 125, 0) 83%, rgb(0, 55, 17) 99%);
+    top: 50%;
+}
+
+div.button_phys {
+    background: radial-gradient(circle, rgb(255, 245, 178) 0%, rgb(255, 224, 69) 42%, rgb(178, 144, 0) 83%, rgb(55, 38, 0) 99%);
+    top: 56%;
 }
 
 div.worldmap_frame {
@@ -452,6 +447,87 @@ div.spawn_point p {
     transform: translate3d(0, -0.1em, 0);
 }
 
+div.physical_point {
+    pointer-events: none;
+    position: absolute;
+    top: auto;
+    left: auto;
+    bottom:auto;
+    right:auto;
+    margin: 0;
+    width: 0;
+    height: 0;
+    padding: 0.12em;
+    border: solid;
+    background-color: rgb(255, 224, 66);
+    border-color: rgb(95, 62, 0);
+    border-width: 0.1em;
+    border-radius:  50%;
+    display: block;
+    transform-origin: center;
+    transform: translate3d(-50%, -50%, 0%);
+}
+
+div.physical_point p {
+    pointer-events: none;
+    position: absolute;
+    top: auto;
+    left: auto;
+    font-size: 1.5em;
+    bottom:0;
+    right:0;
+    margin: 0;
+    width: auto;
+    height: auto;
+    padding: 0.12em;
+    border: solid;
+    border-width: 0.1em;
+    border-radius:  15%;
+    color: #ffc54e;
+    display: inline-block;
+    transform-origin: center;
+    transform: translate3d(0, -0.1em, 0);
+}
+
+div.grid_tile {
+    pointer-events: none;
+    position: absolute;
+    top: auto;
+    left: auto;
+    bottom:auto;
+    right:auto;
+    margin: 1em;
+    width: 0;
+    height: 0;
+    padding: 0;
+    border: solid;
+    background: none;
+    border-color: rgba(0, 255, 57, 0.5);
+    border-width: 0.06em;
+    border-radius:  0;
+    display: block;
+    transform-origin: center;
+    transform: translate3d(-50%, -50%, 0%);
+}
+
+div.grid_tile p {
+    pointer-events: none;
+    position: absolute;
+    top: auto;
+    left: auto;
+    font-size: 1.0em;
+    bottom:30%;
+    right:40%;
+    margin: 0;
+    width: auto;
+    height: auto;
+    padding: 0;
+    border: none;
+    color: #2bff3d;
+    display: inline-block;
+    transform-origin: center;
+    transform: translate3d(0, 0.5em, 0);
+}
 
 .click_container {
     position: absolute;

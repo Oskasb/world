@@ -3,11 +3,19 @@ import {poolFetch, poolReturn} from "../../utils/PoolUtils.js";
 import {Object3D} from "../../../../libs/three/core/Object3D.js";
 import {Vector3} from "../../../../libs/three/math/Vector3.js";
 import {ENUMS} from "../../ENUMS.js";
+import {bodyTransformToObj3d, getBodyPointer, getPhysicalWorld} from "../../utils/PhysicsUtils.js";
 let worldSize = 2048;
 let tempObj = new Object3D();
 let pointerVec3 = new Vector3();
 let tempVec = new Vector3();
 let tempVec2 = new Vector3();
+
+let zoom;
+let size;
+let minX;
+let maxX;
+let minZ;
+let maxZ;
 
 let gridLinesX = [];
 let gridLinesZ = [];
@@ -18,23 +26,121 @@ let activeWorldLevel = null;
 let worldLevelDivs = [];
 let locationDivs = [];
 let spawnDivs = [];
+let vegetationDivs = [];
+let physicsDivs = [];
 
-function calcMapBackgroundOffset(zoom, axisCenter, worldSize) {
-    let zoomOffset = 1 + (1 / zoom);
-    return MATH.percentify(zoomOffset*MATH.decimalify(axisCenter, 5)+worldSize*0.5, worldSize, true);
+function clearDivArray(array) {
+    while(array.length) {
+        DomUtils.removeDivElement(array.pop());
+    }
+}
+
+let visibleVegs = [];
+
+
+function indicateVegetation(htmlElement, mapDiv, statusMap, cursorPos){
+    MATH.emptyArray(visibleVegs);
+    console.log()
+    let vegetation = ThreeAPI.getTerrainSystem().getVegetationSystem().getVegetation();
+    let grids = vegetation.vegetationLodGrids;
+    for (let i = 0; i < grids.length; i++) {
+        let tiles = grids[i].dynamicLodGrid.getTiles();
+        for (let j =0; j < tiles.length; j++) {
+            for (let k = 0; k < tiles[j].length; k++) {
+                let tile = tiles[j][k];
+                let spacing = tile.spacing
+                let pos = tile.getPos();
+                if(pos.x+spacing > minX && pos.x-spacing < maxX) {
+                    if (pos.z+spacing > minZ && pos.z-spacing < maxZ) {
+                        visibleVegs.push(tile);
+                    }
+                }
+            }
+        }
+    }
+
+    while (vegetationDivs.length < visibleVegs.length) {
+        let div = DomUtils.createDivElement(mapDiv, 'vegs_'+vegetationDivs.length, '', 'grid_tile')
+        vegetationDivs.push(div);
+    }
+
+    while (vegetationDivs.length > visibleVegs.length) {
+        DomUtils.removeDivElement(vegetationDivs.pop());
+    }
+
+    for (let i = 0; i < vegetationDivs.length; i++) {
+        let div = vegetationDivs[i];
+        let pos = visibleVegs[i].getPos();
+        let lod = visibleVegs[i].lodLevel
+        let spacing = visibleVegs[i].spacing
+        worldPosDiv(pos, cursorPos, div, zoom);
+        div.style.width = spacing*zoom*0.046+"%";
+        div.style.height = spacing*zoom*0.046+"%";
+        let r = Math.floor(255*(1-(lod+1)*0.2))
+        let g = Math.floor(155+Math.cos(lod)*200)
+        let b = Math.floor(255*((lod+1)*0.2))
+        let a = 0.3
+        div.style.borderColor = "rgba("+r+", 255, "+b+", "+a+")"
+        if (zoom > 5) {
+            div.innerHTML = '<p>'+lod+'</p>'
+        } else {
+            div.innerHTML = ''
+        }
+    }
+}
+
+let visiblePhysicals = [];
+function indicatePhysics(htmlElement, mapDiv, statusMap, cursorPos){
+    MATH.emptyArray(visiblePhysicals);
+
+    let world = getPhysicalWorld();
+    let models = world.physicalModels;
+
+    for (let i = 0; i < models.length; i++){
+        let model = models[i];
+        let bodies = model.rigidBodies;
+        for (let j = 0; j < bodies.length;j++) {
+            let body = bodies[j];
+            bodyTransformToObj3d(body, tempObj);
+            let pos = tempObj.position
+            if(pos.x > minX && pos.x < maxX) {
+                if (pos.z > minZ && pos.z < maxZ) {
+                    visiblePhysicals.push(body);
+                }
+            }
+        }
+    }
+
+
+    while (physicsDivs.length < visiblePhysicals.length) {
+        let div = DomUtils.createDivElement(mapDiv, 'phys_'+physicsDivs.length, '', 'physical_point')
+        physicsDivs.push(div);
+    }
+
+    while (physicsDivs.length > visiblePhysicals.length) {
+        DomUtils.removeDivElement(physicsDivs.pop());
+    }
+
+    for (let i = 0; i < physicsDivs.length; i++) {
+        let div = physicsDivs[i];
+        let body = visiblePhysicals[i];
+        bodyTransformToObj3d(body, tempObj);
+        let pos = tempObj.position;
+        worldPosDiv(pos, cursorPos, div, zoom);
+
+        if (zoom > 100) {
+            let ptr = getBodyPointer(body)
+            div.innerHTML = '<p>'+ptr+'</p>'
+        } else {
+            div.innerHTML = ''
+        }
+    }
 }
 
 let visibleSpawns = [];
 function indicateSpawns(htmlElement, mapDiv, statusMap, cursorPos){
     MATH.emptyArray(visibleSpawns);
     let spawnPoints = GameAPI.worldModels.getDynamicSpawnPoints();
-//    console.log(statusMap, [worldModels], locationData);
-    let zoom = statusMap.zoom;
-    let size = worldSize/zoom;
-    let minX = cursorPos.x -size*0.5;
-    let maxX = minX+size;
-    let minZ = cursorPos.z -size*0.5;
-    let maxZ = minZ+size;
 
     for (let i= 0; i<spawnPoints.length; i++) {
         let spawnPoint = spawnPoints[i];
@@ -89,28 +195,13 @@ function indicateSpawns(htmlElement, mapDiv, statusMap, cursorPos){
     }
 }
 
-function  clearSpawnsDivs() {
-    while(spawnDivs.length) {
-        DomUtils.removeDivElement(spawnDivs.pop());
-    }
-}
-function clearLocationDivs() {
-    while(locationDivs.length) {
-        DomUtils.removeDivElement(locationDivs.pop());
-    }
-}
+
 
 let visibleModels = [];
 function indicateLocations(htmlElement, mapDiv, statusMap, cursorPos) {
     MATH.emptyArray(visibleModels);
     let worldModels = GameAPI.worldModels.getActiveWorldModels();
 //    console.log(statusMap, [worldModels], locationData);
-    let zoom = statusMap.zoom;
-    let size = worldSize/zoom;
-    let minX = cursorPos.x -size*0.5;
-    let maxX = minX+size;
-    let minZ = cursorPos.z -size*0.5;
-    let maxZ = minZ+size;
 
     for (let i= 0; i<worldModels.length; i++) {
         let model = worldModels[i];
@@ -349,7 +440,7 @@ function attachWorldLevelNavigation(container) {
 
         if (levelConf) {
             function clickLevel() {
-                clearLocationDivs()
+                clearDivArray(locationDivs)
                 defaultWorldLevel = levelConf.id;
                 GameAPI.getPlayer().setStatusKey(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL, levelConf.id);
                 evt.dispatch(ENUMS.Event.ENTER_PORTAL, {"world_level": levelConf.id, "world_encounters": []})
@@ -590,6 +681,19 @@ class DomWorldmap {
 
         let showSpawns = false;
         let showLocations = false;
+        let showPhysics = false;
+        let showVegetation = false;
+
+        let togglePhysics = function(e) {
+            console.log(getPhysicalWorld());
+            showPhysics = !showPhysics;
+        }
+
+        let toggleVegs = function(e) {
+            console.log(ThreeAPI.getTerrainSystem().getVegetationSystem().getVegetation());
+            showVegetation = !showVegetation;
+        }
+
         let toggleSpawns = function(e) {
             console.log(GameAPI.worldModels.getDynamicSpawnPoints());
             showSpawns = !showSpawns;
@@ -623,8 +727,11 @@ class DomWorldmap {
             offsetXDiv = htmlElement.call.getChildElement('offset_x')
             offsetZDiv = htmlElement.call.getChildElement('offset_z')
             teleportDiv = htmlElement.call.getChildElement('teleport')
+            let physicsDiv = htmlElement.call.getChildElement('physics')
+            let vegsDiv = htmlElement.call.getChildElement('vegetation')
             let locationsDiv = htmlElement.call.getChildElement('locations')
             let spawnsDiv = htmlElement.call.getChildElement('spawns')
+
             let levelsContainer = htmlElement.call.getChildElement('levels_container')
             let reloadDiv = htmlElement.call.getChildElement('reload')
             let zoomInDiv = htmlElement.call.getChildElement('zoom_in')
@@ -637,6 +744,8 @@ class DomWorldmap {
             DomUtils.addClickFunction(zoomInDiv, zoomIn)
             DomUtils.addClickFunction(zoomOutDiv, zoomOut)
             DomUtils.addClickFunction(teleportDiv, teleport)
+            DomUtils.addClickFunction(physicsDiv, togglePhysics)
+            DomUtils.addClickFunction(vegsDiv, toggleVegs)
             DomUtils.addClickFunction(locationsDiv, toggleLocations)
             DomUtils.addClickFunction(spawnsDiv, toggleSpawns)
             attachWorldLevelNavigation(levelsContainer);
@@ -654,20 +763,23 @@ class DomWorldmap {
             statusMap.posX = 'x:'+MATH.decimalify(cursorPos.x, 100);
             statusMap.posZ = 'z:'+MATH.decimalify(cursorPos.z, 100);
 
+            zoom = statusMap.zoom;
+            size = worldSize/zoom;
+            minX = cursorPos.x -size*0.5;
+            maxX = minX+size;
+            minZ = cursorPos.z -size*0.5;
+            maxZ = minZ+size;
+
             if (mapDiv) {
                 let worldLevel = activeWorldLevel;
 
-
                 let cam = ThreeAPI.getCamera()
             //    console.log(minimapDiv);
-                let zoom = statusMap.zoom;
                 mapImageDiv.style.scale = zoom;
                 mapHeight = worldSize / zoom;
                 mapWidth = worldSize / zoom;
                 statusMap['height'] = mapHeight+'m';
                 statusMap['width'] = mapWidth+'m';
-
-
 
                 mapDiv.style.backgroundSize = zoom*100+'%';
                 let zoomOffset = 1 + (1 / zoom);
@@ -706,8 +818,11 @@ class DomWorldmap {
                 worldLevel = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
 
                 if (worldLevel !== activeWorldLevel) {
-                    clearSpawnsDivs()
-                    clearLocationDivs()
+                    clearDivArray(spawnDivs);
+                    clearDivArray(locationDivs);
+                    clearDivArray(vegetationDivs);
+                    clearDivArray(physicsDivs);
+
                     statusMap.worldLevel = GameAPI.gameMain.getWorldLevelConfig(worldLevel).name;
 
                     if (activeWorldLevel !== null) {
@@ -730,16 +845,28 @@ class DomWorldmap {
                 if (showLocations) {
                     indicateLocations(htmlElement, mapDiv, statusMap, cursorPos)
                 } else {
-                    clearLocationDivs();
 
+                    clearDivArray(locationDivs);
                 }
 
                 if (showSpawns) {
                     indicateSpawns(htmlElement, mapDiv, statusMap, cursorPos)
                 } else {
-                    clearSpawnsDivs();
-
+                    clearDivArray(spawnDivs);
                 }
+
+                if (showPhysics) {
+                    indicatePhysics(htmlElement, mapDiv, statusMap, cursorPos)
+                } else {
+                    clearDivArray(physicsDivs);
+                }
+
+                if (showVegetation) {
+                    indicateVegetation(htmlElement, mapDiv, statusMap, cursorPos)
+                } else {
+                    clearDivArray(vegetationDivs);
+                }
+
 
             }
 

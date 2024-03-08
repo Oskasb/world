@@ -192,6 +192,10 @@ function detectFreeSpaceAbovePoint(point, marginHeight, contactPoint, contactNor
     step = 0;
 }
 
+function getBodyPointer(body) {
+    return body.kB;
+}
+
 function getBodyByPointer(ptr) {
     let world = getPhysicalWorld();
 
@@ -330,6 +334,7 @@ export {
     debugDrawPhysicalWorld,
     transformBody,
     physicalIntersection,
+    getBodyPointer,
     getBodyByPointer,
     getModelByBodyPointer,
     physicalAlignYGoundTest,
