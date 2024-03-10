@@ -33,20 +33,22 @@ function findSpawnPosition(sPoint) {
     sPoint.obj3d.position.x = Math.floor(worldSize*(MATH.sillyRandom(sPoint.index + sPoint.retries*0.0011 + sPoint.worldLevel)-0.5));
     sPoint.obj3d.position.z = Math.floor(worldSize*(MATH.sillyRandom(sPoint.index + sPoint.retries*0.0013 + sPoint.worldLevel + 1)-0.5));
     let y = ThreeAPI.terrainAt(sPoint.obj3d.position, tempNormal, sPoint.groundHeightData);
+    if (sPoint.groundHeightData[1] > 0.01) {
+        if (y > 0.5 && y < sPoint.yMax) {
 
-    if (y > 0.5 && y < sPoint.yMax) {
+            if (tempNormal.y > 0.8) {
+                sPoint.obj3d.position.y = y;
+                let okAround = checkAroundPoint(sPoint)
+                if (okAround) {
+                    ThreeAPI.groundAt(sPoint.getPos(), sPoint.terrainData)
+                    sPoint.activateSpawnPoint()
+                    return;
+                }
 
-        if (tempNormal.y > 0.8) {
-            sPoint.obj3d.position.y = y;
-            let okAround = checkAroundPoint(sPoint)
-            if (okAround) {
-                ThreeAPI.groundAt(sPoint.getPos(), sPoint.terrainData)
-                sPoint.activateSpawnPoint()
-                return;
             }
-
         }
     }
+
     sPoint.retries++;
     retry(sPoint);
 }

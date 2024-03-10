@@ -17,7 +17,7 @@
             {"id": "04", "asset":"asset_ground_big_04", "name": "The Pits",          "env": "cave_dusty",  "spawns":  740, "level_min": 30,"level_max": 50, "y_max": 25},
             {"id": "03", "asset":"asset_ground_big_03", "name": "Subjugation",       "env": "cave_dusty",  "spawns":  240, "level_min": 35,"level_max": 50, "y_max": 25},
             {"id": "02", "asset":"asset_ground_big_02", "name": "The Inferno",       "env": "cave_dusty",  "spawns":  940, "level_min": 40,"level_max": 50, "y_max": 25},
-            {"id": "01", "asset":"asset_ground_big_01", "name": "Prison of the Gods","env": "cave_dusty",  "spawns":  1240,"level_min": 45,"level_max": 50, "y_max": 25}
+            {"id": "01", "asset":"asset_ground_big_01", "name": "Prison of the Gods","env": "cave_dusty",  "spawns":  1240,"level_min": 45,"level_max": 50, "y_max": 90}
           ]
       }
   }
