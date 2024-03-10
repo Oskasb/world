@@ -6,6 +6,7 @@ class DomInteract {
         let hostActor = worldEncounter.getHostActor()
 
         let encounterAlignment = hostActor.getStatus(ENUMS.ActorStatus.ALIGNMENT)
+        let encounterLevel = hostActor.getStatus(ENUMS.ActorStatus.ACTOR_LEVEL)
 
         let statusMap = {
             posX : 0,
@@ -72,7 +73,9 @@ class DomInteract {
             header.innerHTML = hostActor.getStatus(ENUMS.ActorStatus.NAME)
 
             let alignment = htmlElement.call.getChildElement('alignment')
-            alignment.innerHTML = ""+encounterAlignment;
+            statusMap.alignment = encounterAlignment;
+            statusMap.level = "Level:"+encounterLevel
+        //    alignment.innerHTML = ""+encounterAlignment;
             alignment.className ="alignment "+encounterAlignment;
             DomUtils.addClickFunction(header, rebuild)
             for (let i = 0; i < interactionOptions.length; i++) {

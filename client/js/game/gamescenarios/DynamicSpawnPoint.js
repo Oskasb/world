@@ -40,6 +40,10 @@ function findSpawnPosition(sPoint) {
                 sPoint.obj3d.position.y = y;
                 let okAround = checkAroundPoint(sPoint)
                 if (okAround) {
+                    let diffFactor = MATH.calcFraction(0.01, 1, sPoint.groundHeightData[1]);
+                    let diffSpan = sPoint.lvlMax - sPoint.lvlMin;
+                    let encLevel = sPoint.lvlMin + Math.round(diffSpan*diffFactor);
+                    sPoint.encounterLevel = encLevel;
                     ThreeAPI.groundAt(sPoint.getPos(), sPoint.terrainData)
                     sPoint.activateSpawnPoint()
                     return;
@@ -73,6 +77,7 @@ class DynamicSpawnPoint {
         this.retries = 0;
         this.groundHeightData = [0, 0, 0, 0];
         this.terrainData = {};
+        this.encounterLevel = 1;
         this.lodActive = false;
         let isVisible = false;
         let lodLevel = -1;
@@ -171,7 +176,7 @@ class DynamicSpawnPoint {
                 if (encounterConfig === null) {
                     if (completedEncounters.indexOf(encId) === -1) {
                         encounterConfig = poolFetch('ProceduralEncounterConfig');
-                        encounterConfig.generateConfig(this.obj3d.position, this.groundHeightData, this.terrainData)
+                        encounterConfig.generateConfig(this.obj3d.position, this.encounterLevel, this.groundHeightData, this.terrainData)
                         let worldEncounters = GameAPI.worldModels.getEncounterById()
                         proceduralEncounter = new WorldEncounter(encId, encounterConfig.config, onReady)
                         worldEncounters.push(proceduralEncounter);
@@ -217,6 +222,8 @@ class DynamicSpawnPoint {
         this.maxPoints = maxPoints;
         this.worldLevel = worldLevel;
         this.yMax = yMax;
+        this.lvlMin = lvlMin;
+        this.lvlMax = lvlMax;
         this.id = 'dyn_sp_'+index+'_wl_'+worldLevel;
         findSpawnPosition(this);
     }

@@ -255,6 +255,7 @@ class WorldEncounter {
         this.timeInsideProximity = 0;
         this.requestingActor = null;
         this.engagementArc = null;
+        this.encounterLevel = config['level'] || 1;
         this.gridBorder = null;
         this.config = config;
         this.camHomePos = new Vector3();
@@ -392,6 +393,7 @@ class WorldEncounter {
         //    console.log("config host_id: ", this.config.host_id)
 
             let actorReady = function(actor) {
+                actor.setStatusKey(ENUMS.ActorStatus.ACTOR_LEVEL, this.encounterLevel);
                 onReady(this)
             }.bind(this)
 
