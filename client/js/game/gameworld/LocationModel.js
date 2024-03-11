@@ -176,7 +176,7 @@ class LocationModel {
                 }
 
                 scalarTransition = poolFetch('ScalarTransition');
-                scalarTransition.initScalarTransition(frameSolidity, to, time, transitionEnded, 'curveQuad', applySolidity)
+                scalarTransition.initScalarTransition(frameSolidity, to, time, transitionEnded, 'curveSqrt', applySolidity)
         }
 
         let setObstructed = function(bool) {
