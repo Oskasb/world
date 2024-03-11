@@ -1,4 +1,5 @@
 import {HtmlElement} from "./HtmlElement.js";
+import {poolReturn} from "../../utils/PoolUtils.js";
 
 let noticeQueue = [];
 
@@ -27,6 +28,9 @@ class DomLootNotice {
 
         let hide = function() {
             htmlElement.hideHtmlElement()
+            setTimeout(function() {
+                close();
+            }, 1500)
         }
 
             let readyCb = function () {
@@ -73,7 +77,8 @@ class DomLootNotice {
         let close = function () {
             ThreeAPI.unregisterPrerenderCallback(update);
             htmlElement.closeHtmlElement()
-        }
+            poolReturn(this);
+        }.bind(this);
 
         this.call = {
             close: close,

@@ -189,11 +189,7 @@ class HtmlElement {
 
     closeHtmlElement() {
         this.hideHtmlElement();
-        let container = this.container
-
-        setTimeout(function() {
-            DomUtils.removeElement(container);
-        }, 1000)
+        DomUtils.removeElement(this.container);
         this.container = null;
         this.statusMap = null;
         this.editStatus = null;

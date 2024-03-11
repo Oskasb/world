@@ -118,7 +118,8 @@
           "status": {
             "NAME":"Belt",
             "ITEM_LEVEL": 1,
-            "ITEM_TYPE" : "ARMOR"
+            "ITEM_TYPE" : "ARMOR",
+            "RARITY":"EPIC"
           }
         }
       },

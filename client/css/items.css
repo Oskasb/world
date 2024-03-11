@@ -6,8 +6,7 @@ div.item_container {
     width: 70pt;
     height: 70pt;
     font-size: 1em;
-    border-radius: 10%;
-    border: none;
+    border-radius: 7pt;
     position: absolute;
     margin:0;
     padding: 0;
@@ -15,18 +14,18 @@ div.item_container {
     background-image: inherit;
     background-size: 100%;
     background-color: none;
-    box-shadow: none;
     opacity: 100;
     transition: opacity 1s;
     color: black;
 
-    background: radial-gradient(circle, rgb(82, 82, 82) 0%, rgb(110, 110, 110) 99%);
-    border: solid #c9c9c9;
-    box-shadow: 0 0px 0px 2px rgba(5, 0, 0, 0.5);
+    background: radial-gradient(circle, rgb(121, 121, 121) 0%, rgb(47, 47, 47) 99%);
+    border: solid rgba(0, 0, 0, 0.5);
+    border-size: 1pt;
+    box-shadow: 0 0 4px rgba(255, 250, 250, 0.95);
 }
 div.item_container p {
-    color: white;
-    text-shadow: -1px -1px 3px rgb(0, 0, 0);
+    color: rgba(0, 0, 0, 0.95);
+    text-shadow: 0 0 16px rgb(255, 255, 255);
     top: 20%;
     font-size: 15pt;
     display: inline-block;
@@ -36,27 +35,6 @@ div.item_container p {
     padding-top: 20%;
     margin: 0;
 }
-
-div.item_icon {
-    top: -0.15em;
-    left: 0.1em;
-    width: 1em;
-    height: 1em;
-    font-size: 1.7em;
-    border-radius: 10%;
-    border: none;
-    position: absolute;
-    margin:0;
-    padding: 0;
-    text-align: center;
-    background-image: inherit;
-    background-size: 100%;
-    background-color: none;
-    box-shadow: none;
-    opacity: 100;
-    transition: opacity 1s;
-}
-
 
 div.SLOT_HAND_R {
     top: 87%;
