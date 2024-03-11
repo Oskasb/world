@@ -9,6 +9,7 @@ import {WorldInteractUiSystem} from "./systems/WorldInteractUiSystem.js";
 import {WorldEncounterUISystem} from "./systems/WorldEncounterUISystem.js";
 import {NavigationStatePageSystem} from "./systems/NavigationStatePageSystem.js";
 import {DomTransition} from "../dom/DomTransition.js";
+import {DomCharacter} from "../dom/DomCharacter.js";
 import {poolFetch} from "../../utils/PoolUtils.js";
 
 let guiTime = 0;
@@ -20,6 +21,7 @@ let homeNavUiSystem = new NavigationStatePageSystem(ENUMS.NavigationState.HOME, 
 let invNavUiSystem = new NavigationStatePageSystem(ENUMS.NavigationState.INVENTORY, 'page_scene_home');
 let mapNavUiSystem = new NavigationStatePageSystem(ENUMS.NavigationState.MAP, 'page_scene_home');
 let domTransition;
+let domCharacter;
 class GuiAPI {
     constructor() {
         let inMenueFlag = false;
@@ -125,6 +127,7 @@ class GuiAPI {
         invNavUiSystem.initNavigationPageSystem();
         mapNavUiSystem.initNavigationPageSystem();
         domTransition = new DomTransition();
+        domCharacter = new DomCharacter();
     };
 
     notifyItemLooted(actor, item) {
@@ -132,6 +135,10 @@ class GuiAPI {
         console.log(notice)
         notice.call.notify(actor, item);
     };
+
+    inspectActor(actor) {
+        domCharacter.call.activate(actor);
+    }
 
     getWorldInteractionUi() {
         return worldInteractUiSystem

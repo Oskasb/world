@@ -442,6 +442,7 @@ function processActorUiNavigationState(actor) {
         } else if (navState === ENUMS.NavigationState.PARTY) {
             actor.actorText.say("PARTY");
         } else if (navState === ENUMS.NavigationState.CHARACTER) {
+            GuiAPI.inspectActor(actor);
             actor.actorText.say("CHARACTER");
         } else if (navState === ENUMS.NavigationState.HOME) {
             let shId = actor.getStatus(ENUMS.ActorStatus.STRONGHOLD_ID);

@@ -169,6 +169,7 @@ class HtmlElement {
         let container = this.container;
         setTimeout(function() {
             container.style.visibility = "visible";
+            container.style.display = "";
             container.style.transition = "all 1.0s cubic-bezier(0.1, 0.4, 0.1, 1.2)"
             container.style.opacity = 1;
             container.style.scale = 1;

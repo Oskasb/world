@@ -120,7 +120,7 @@ class DomTransition {
                 }
             }
             setInitTransforms();
-            htmlElement.container.style.visibility = 'visible';
+            htmlElement.container.style.display = '';
             statusMap.transition = label || "TRANSITION";
             adsrEnvelope = adsr || defaultAdsr;
             statusMap.datalist = "";
@@ -168,8 +168,8 @@ class DomTransition {
        //     bottomDiv.style.transitionDuration = 0+"s";
             bottomDiv.style.transform = "translate3d(0, 100%, 0)"
             setTimeout(function() {
-                htmlElement.container.style.visibility = 'hidden';
-            }, adsrEnvelope.release.duration+500)
+                htmlElement.container.style.display = 'none';
+            }, adsrEnvelope.release.duration*1000+200)
         }
 
         this.call = {
