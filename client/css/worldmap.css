@@ -423,9 +423,9 @@ div.spawn_point {
     height: 0;
     padding: 0.15em;
     border: solid;
-    background-color: rgb(255, 37, 37);
-    border-color: rgb(95, 0, 0);
-    border-width: 0.14em;
+    background-color: rgb(255, 67, 31);
+    border-color: rgb(225, 0, 0);
+    border-width: 0.2em;
     border-radius:  50%;
     display: block;
     transform-origin: center;
@@ -437,7 +437,7 @@ div.spawn_point p {
     position: absolute;
     top: auto;
     left: auto;
-    font-size: 1.2em;
+    font-size: 1.7em;
     bottom:0;
     right:0;
     margin: 0;
