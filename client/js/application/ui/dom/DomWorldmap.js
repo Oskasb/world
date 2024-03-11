@@ -241,8 +241,14 @@ function indicateSpawns(htmlElement, mapDiv, statusMap, cursorPos){
             div.style.borderColor = "rgb(140,0,0)";
         }
 
-        if (zoom > 10) {
-            div.innerHTML = '<p>'+spawnPoint.index+'</p>'
+        if (zoom > 20) {
+            let x = MATH.decimalify(spawnPoint.terrainData.x, 100);
+            let y = MATH.decimalify(spawnPoint.terrainData.y, 100);
+            let z = MATH.decimalify(spawnPoint.terrainData.z, 100);
+            let w = MATH.decimalify(spawnPoint.terrainData.w, 100);
+            div.innerHTML = '<p>Level: '+spawnPoint.encounterLevel+'<br>x: '+x+'<br> y: '+y+'<br>z: '+z+'<br>w: '+w+'</p>'
+        } else if (zoom > 10) {
+            div.innerHTML = '<p>Level: '+spawnPoint.encounterLevel+'</p>'
         } else {
             div.innerHTML = ''
         }
@@ -357,9 +363,14 @@ function indicateActors(htmlElement, minimapDiv, statusMap, centerPos) {
                     indicator.style.boxShadow = "0 0 2px rgba(5, 0, 0, 0.75)";
                 }
 
-
-
             }
+
+            if (zoom > 60) {
+                indicator.innerHTML = '<p>'+actor.getStatus(ENUMS.ActorStatus.NAME)+'<br>Level: '+actor.getStatus(ENUMS.ActorStatus.ACTOR_LEVEL)+'</p>';
+            } else {
+                indicator.innerHTML = '';
+            }
+
 
         }
 

@@ -195,3 +195,26 @@ div.actor {
     display: block;
     box-shadow: 0 0 2px rgba(5, 0, 0, 0.75);
 }
+
+div.actor p {
+    pointer-events: none;
+    position: absolute;
+    top: auto;
+    left: auto;
+    font-size: 1.2em;
+    bottom:0;
+    right:0;
+    margin: 0;
+    width: auto;
+    min-width: 5em;
+    height: auto;
+    padding: 0.12em;
+    border: solid;
+    border-width: 0.1em;
+    border-radius:  15%;
+    color: #edff00;
+    display: inline-block;
+    transform-origin: center;
+    transform: translate3d(0, -0.1em, 0);
+    rotate: revert;
+}

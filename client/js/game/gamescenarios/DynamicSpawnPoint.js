@@ -14,12 +14,12 @@ for (let key in paletteMap) {
     paletteKeys.push(key);
 }
 
-let aroundTests = 8;
+let aroundTests = 4;
 function checkAroundPoint(sPoint) {
     for (let i = 0; i < aroundTests; i++) {
         let dir = MATH.calcFraction(0, aroundTests, i)*MATH.TWO_PI;
-        tempVec.x = Math.sin(dir)*1.5;
-        tempVec.z = Math.cos(dir)*1.5;
+        tempVec.x = Math.sin(dir)*1.0;
+        tempVec.z = Math.cos(dir)*1.0;
         tempVec.add(sPoint.getPos());
         let y = ThreeAPI.terrainAt(tempVec);
         if (Math.abs(y - sPoint.getPos().y) > 1) {
@@ -30,8 +30,9 @@ function checkAroundPoint(sPoint) {
 }
 
 function findSpawnPosition(sPoint) {
-    sPoint.obj3d.position.x = Math.floor(worldSize*(MATH.sillyRandom(sPoint.index + sPoint.retries*0.0011 + sPoint.worldLevel)-0.5));
-    sPoint.obj3d.position.z = Math.floor(worldSize*(MATH.sillyRandom(sPoint.index + sPoint.retries*0.0013 + sPoint.worldLevel + 1)-0.5));
+    let fraction = sPoint.index / sPoint.maxPoints;
+    sPoint.obj3d.position.x = Math.floor(worldSize*(MATH.sillyRandom(sPoint.index + sPoint.retries + sPoint.worldLevel + fraction)-0.5));
+    sPoint.obj3d.position.z = Math.floor(worldSize*(MATH.sillyRandom(sPoint.index + sPoint.retries + sPoint.worldLevel + 1 + fraction)-0.5));
     let y = ThreeAPI.terrainAt(sPoint.obj3d.position, tempNormal, sPoint.groundHeightData);
     if (sPoint.groundHeightData[1] > 0.01) {
         if (y > 0.5 && y < sPoint.yMax) {
@@ -62,7 +63,7 @@ function retry(sPoint) {
         setTimeout(function() {
             console.log("retries", sPoint.retries);
             findSpawnPosition(sPoint);
-        }, 100);
+        }, 1);
     } else {
         findSpawnPosition(sPoint);
     }
