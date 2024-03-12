@@ -188,7 +188,7 @@ class HtmlElement {
 
 
     closeHtmlElement() {
-        this.hideHtmlElement();
+    //    this.hideHtmlElement();
         DomUtils.removeElement(this.container);
         this.container = null;
         this.statusMap = null;

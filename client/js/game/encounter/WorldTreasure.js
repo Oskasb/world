@@ -150,8 +150,10 @@ function checkTriggerPlayer(treasure) {
 let updateTriggered = function(treasure, fraction) {
     let selectedActor = GameAPI.getGamePieceSystem().getSelectedGameActor();
     treasure.timeInsideTrigger += GameAPI.getFrame().tpf;
-    treasure.engagementArc.to.copy(treasure.getPos());
-    treasure.engagementArc.from.copy(selectedActor.getSpatialPosition());
+    if (treasure.engagementArc !== null) {
+        treasure.engagementArc.to.copy(treasure.getPos());
+        treasure.engagementArc.from.copy(selectedActor.getSpatialPosition());
+    }
     indicateTriggerTime(selectedActor, treasure, fraction)
 }
 

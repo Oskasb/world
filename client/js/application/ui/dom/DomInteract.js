@@ -106,7 +106,9 @@ class DomInteract {
 
         let close = function() {
             ThreeAPI.unregisterPrerenderCallback(update);
-            htmlElement.closeHtmlElement()
+            htmlElement.hideHtmlElement()
+            setTimeout(htmlElement.closeHtmlElement,1500)
+        //    htmlElement.closeHtmlElement()
         }
 
         this.call = {

@@ -42,11 +42,12 @@ class DomLootNotice {
                 setTimeout(hide, 1500)
             }
 
-            let rebuild = htmlElement.initHtmlElement('loot_notice', closeCb, statusMap, 'loot_notice', readyCb);
+            let rebuild // = htmlElement.initHtmlElement('loot_notice', closeCb, statusMap, 'loot_notice', readyCb);
 
             let notify = function(actor, item) {
                 if (actor === GameAPI.getGamePieceSystem().selectedActor) {
                     console.log("loot notice", item)
+                    rebuild = htmlElement.initHtmlElement('loot_notice', closeCb, statusMap, 'loot_notice', readyCb);
                 //    let visualPiece = item.visualGamePiece
                     statusMap.header = item.getStatus(ENUMS.ItemStatus.NAME);
                     statusMap.item_type = item.getStatus(ENUMS.ItemStatus.ITEM_TYPE);
