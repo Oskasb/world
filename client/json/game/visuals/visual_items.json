@@ -170,7 +170,9 @@
       {
         "id": "VISUAL_HATCHET",
         "data": {
-          "model_asset":"asset_hatchet_nice"
+          "model_asset":"asset_hatchet_nice",
+          "icon_class": "weapon_1h_axe_hatchet",
+          "palette": "DEFAULT"
         }
       },
       {
@@ -261,7 +263,8 @@
         "id": "VISUAL_HELMET_VIKING_WHITE",
         "data": {
           "model_asset":"asset_helmetviking",
-          "palette":"ITEMS_WHITE"
+          "palette":"ITEMS_WHITE",
+          "icon_class": "helmet_viking_white"
         }
       },
       {
@@ -371,12 +374,14 @@
       },      {
         "id": "VISUAL_GLOVES_SCALE",
         "data": {
-          "model_asset":"asset_scale_gloves"
+          "model_asset":"asset_scale_gloves",
+          "icon_class": "gloves_scale_white"
         }
       },      {
         "id": "VISUAL_BOOTS_SCALE",
         "data": {
-          "model_asset":"asset_scale_boots"
+          "model_asset":"asset_scale_boots",
+          "icon_class": "boots_scale_white"
         }
       },
 

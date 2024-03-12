@@ -120,11 +120,16 @@ class DomCharacter {
 
                 let elemRect = target.getBoundingClientRect();
                 //    let offset   = elemRect.top - bodyRect.top;
-
+                let width = elemRect.width;
+                let height = elemRect.height;
+               // console.log("")
                 let pTop = elemRect.top - bodyRect.top;
                 let pLeft = elemRect.left - bodyRect.left;
                 div.style.top = pTop+'px';
                 div.style.left = pLeft+'px';
+                div.style.fontSize = target.style.fontSize;
+                div.style.width = width+'px';
+                div.style.height = height+'px';
             }
 
         }

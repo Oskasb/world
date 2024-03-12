@@ -378,7 +378,7 @@ let calcShouldCamPosition = function(actor, distance, storeVec) {
 let calcPositionAhead = function(actor, distance, storeVec) {
   //  storeVec.set(0, 0, 1);
   //  storeVec.normalize();
-    storeVec.set(0, 0, distance);
+    storeVec.set(0, 0.25 + distance*0.3, distance);
     storeVec.applyQuaternion(actor.getSpatialQuaternion())
     storeVec.add(actor.getSpatialPosition())
     storeVec.y += actor.getStatus(ENUMS.ActorStatus.HEIGHT)*0.5

@@ -1,30 +1,29 @@
 div.item_icon {
     position:absolute;
-    width:64pt;
-    height: 64pt;
-    border-radius: 6pt;
+    border-radius: 10%;
     background-size: 100%;
-    border-width: 3pt;
+    border-width: 0.6em;
+    transform: translate3d(-0.6em, -0.6em, 0);
+    scale:88%;
+    margin: 0;
     border-style: solid;
-    top: 0;
     background-image: url("/client/assets/images/textures/gui/items/icon_nyi.png");
-    transform: translate3d(2pt, 2pt, 0);
 }
 
 div.weapon_1h_axe_hatchet {
     background-image: url("/client/assets/images/textures/gui/items/weapon_1h_axe_hatchet.png");
 }
 
-div.ICON_NYI {
+div.helmet_viking_white {
     background-image: url("/client/assets/images/textures/gui/items/helmet_viking_white.png");
 }
 
 
-div.ICON_NYI {
+div.boots_scale_white {
     background-image: url("/client/assets/images/textures/gui/items/boots_scale_white.png");
 }
 
 
-div.ICON_NYI {
+div.gloves_scale_white {
     background-image: url("/client/assets/images/textures/gui/items/gloves_scale_white.png");
 }

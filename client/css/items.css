@@ -3,10 +3,10 @@ div.item_container {
     top: auto;
     left: auto;
     right: auto;
-    width: 70pt;
-    height: 70pt;
+    width: 9em;
+    height: 9em;
     font-size: 1em;
-    border-radius: 7pt;
+    border-radius: 1em;
     position: absolute;
     margin:0;
     padding: 0;
@@ -15,19 +15,18 @@ div.item_container {
     background-size: 100%;
     background-color: none;
     opacity: 100;
-    transition: opacity 1s;
     color: black;
 
     background: radial-gradient(circle, rgb(121, 121, 121) 0%, rgb(47, 47, 47) 99%);
-    border: solid rgba(0, 0, 0, 0.5);
-    border-size: 1pt;
-    box-shadow: 0 0 4px rgba(255, 250, 250, 0.95);
+    border: solid rgba(0, 0, 0, 0.25);
+    border-width: 0.7em;
+    box-shadow: 0 0 1.5em rgba(115, 180, 250, 0.5);
 }
 div.item_container p {
     color: rgba(0, 0, 0, 0.95);
     text-shadow: 0 0 16px rgb(255, 255, 255);
     top: 20%;
-    font-size: 15pt;
+    font-size: 2em;
     display: inline-block;
     width: 100%;
     text-align: center;
@@ -37,80 +36,84 @@ div.item_container p {
 }
 
 div.SLOT_HAND_R {
-    top: 87%;
-    right : 30%;
+    font-size: 1.2em;
+    top: 85%;
+    right : 26%;
 }
 
 div.SLOT_HAND_L {
-    top: 87%;
-    left : 30%;
+    font-size: 1.2em;
+    top: 85%;
+    left : 26%;
 }
 
 div.SLOT_HEAD {
     top: 10%;
-    left : 5%;
+    left : 2%;
 }
 
 div.SLOT_CHEST {
     top: 22%;
-    left : 5%;
+    left : 2%;
 }
 
 
 div.SLOT_BODY {
     top: 34%;
-    left : 5%;
+    left : 2%;
 }
 
 div.SLOT_WAIST {
     top:46%;
-    left : 5%;
+    left : 2%;
 }
 
 div.SLOT_WRIST {
     top: 58%;
-    left: 5%;
+    left: 2%;
 }
 
 div.SLOT_HANDS {
     top: 70%;
-    left : 5%;
+    left : 2%;
 }
 
 div.SLOT_WRIST_L {
-    top:84%;
-    left : 8%;
+    font-size: 0.8em;
+    top:72%;
+    right : 1%;
 }
 
 div.SLOT_WRIST_R {
-    top: 84%;
-    right : 8%;
+    font-size: 0.8em;
+    top: 72%;
+    right : 17%;
 }
 
 
 div.SLOT_NECK {
     top: 10%;
-    right : 5%;
+    right : 2%;
 }
 
 div.SLOT_BACK {
     top: 22%;
-    right : 5%;
+    right : 2%;
 }
 
 div.SLOT_SKIRT {
     top: 34%;
-    right : 5%;
+    right : 2%;
 }
 
 div.SLOT_LEGS {
     top: 46%;
-    right : 5%;
+    right : 2%;
 }
 
 div.SLOT_FEET {
     top: 58%;
-    right : 5%;
+    right : 2%;
 }
 
 
