@@ -2,6 +2,11 @@ import {HtmlElement} from "./HtmlElement.js";
 
 class DomInteract {
     constructor(worldEncounter, interactionOptions) {
+        let closeTimeout = null;
+        if (closeTimeout !== null) {
+            clearTimeout(closeTimeout);
+            closeTimeout = null;
+        }
         let htmlElement = new HtmlElement();
         let hostActor = worldEncounter.getHostActor()
 
@@ -104,10 +109,14 @@ class DomInteract {
 
         ThreeAPI.registerPrerenderCallback(update);
 
+        let clearIframe = function() {
+            htmlElement.closeHtmlElement()
+        }
+
         let close = function() {
             ThreeAPI.unregisterPrerenderCallback(update);
             htmlElement.hideHtmlElement()
-            setTimeout(htmlElement.closeHtmlElement,1500)
+            closeTimeout = setTimeout(clearIframe,1500)
         //    htmlElement.closeHtmlElement()
         }
 

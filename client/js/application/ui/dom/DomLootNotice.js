@@ -5,7 +5,11 @@ let noticeQueue = [];
 
 class DomLootNotice {
     constructor() {
-
+        let closeTimeout = null;
+        if (closeTimeout !== null) {
+            clearTimeout(closeTimeout);
+            closeTimeout = null;
+        }
         let htmlElement = new HtmlElement();
 
         let statusMap = {}
@@ -74,10 +78,13 @@ class DomLootNotice {
             }
 
             ThreeAPI.registerPrerenderCallback(update);
-
+        let clearIframe = function() {
+            htmlElement.closeHtmlElement()
+        }
         let close = function () {
             ThreeAPI.unregisterPrerenderCallback(update);
-            htmlElement.closeHtmlElement()
+            htmlElement.hideHtmlElement()
+            closeTimeout = setTimeout(clearIframe,1500)
             poolReturn(this);
         }.bind(this);
 
