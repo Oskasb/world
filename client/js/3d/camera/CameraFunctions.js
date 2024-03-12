@@ -64,6 +64,7 @@ let startDragX = 0;
     let startDragY = 0;
 let dragDeltaX = 0;
 let dragDeltaY = 0;
+let camDragFactor = 30;
 
 function updateCamParams(camParams) {
     tpf = camParams.tpf;
@@ -105,7 +106,7 @@ function updateCamParams(camParams) {
         camFollowSpeed = selectedActor.getStatus(ENUMS.ActorStatus.CAMERA_FOLLOW_SPEED)
         camLookSpeed = selectedActor.getStatus(ENUMS.ActorStatus.CAMERA_LOOK_SPEED)
         camZoom= selectedActor.getStatus(ENUMS.ActorStatus.CAMERA_ZOOM)
-
+        camDragFactor= selectedActor.getStatus(ENUMS.ActorStatus.CAM_DRAG_FACTOR)
     }
 
     zoomDistance = cameraCursor.getZoomDistance() * camZoom*0.1;
@@ -788,12 +789,12 @@ function CAM_MOVE() {
     //    selectedActor.actorText.say(MATH.decimalify(pointerDragVector.x, 10) +' '+ MATH.decimalify(pointerDragVector.z, 10))
         orbitObj.quaternion.set(0, 0, 0, 1);
 
-        orbitObj.rotateY(dragDeltaX*0.05);
+        orbitObj.rotateY(dragDeltaX*0.005 * camDragFactor);
         camObj.quaternion.multiply(orbitObj.quaternion);
         tempVec.set(0, 0, -1);
         tempVec.applyQuaternion(camObj.quaternion);
 
-        let elevate = dragDeltaY
+        let elevate = dragDeltaY * camDragFactor*0.05
 
         camObj.position.y = MATH.clamp(camObj.position.y + elevate * 0.05, -0.1, 2);
 
