@@ -142,6 +142,7 @@ class HtmlElement {
         }.bind(this);
 
         this.container = DomUtils.createIframeElement('canvas_window', this.id, file, containerClass, onLoad)
+        this.container.style.display = "none";
         this.container.style.visibility = "hidden";
         this.container.style.opacity = 0;
         let rebuild = function() {
@@ -168,8 +169,8 @@ class HtmlElement {
     showHtmlElement() {
         let container = this.container;
         setTimeout(function() {
-            container.style.visibility = "visible";
             container.style.display = "";
+            container.style.visibility = "visible";
             container.style.transition = "all 1.0s cubic-bezier(0.1, 0.4, 0.1, 1.2)"
             container.style.opacity = 1;
             container.style.scale = 1;

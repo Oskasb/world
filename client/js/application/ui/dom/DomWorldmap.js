@@ -454,7 +454,7 @@ function positionLineDivs(mapDiv, cursorPos, lineSpacing, mapWidth, mapHeight, o
     for (let i = 0; i < xLines; i++) {
 
         let lineX = Math.floor((i * lineSpacing -mapWidth*0.5)/lineSpacing)*lineSpacing
-       let x =  rem + lineX //- mapWidth
+       let x =  rem + lineX + MATH.remainder(-cursorPos.x)//- mapWidth
         //   let x = Math.ceil((xMin/lineSpacing)*i)*lineSpacing;
     //    tempVec.set(x, 0, 0)
         alignDivToX(gridLinesX[i], x, zoom, offsetX)
@@ -467,7 +467,7 @@ function positionLineDivs(mapDiv, cursorPos, lineSpacing, mapWidth, mapHeight, o
     let zLines = gridLinesZ.length
     for (let i = 0; i < zLines; i++) {
         let lineZ = Math.floor((i * lineSpacing  -mapWidth*0.5)/lineSpacing)*lineSpacing
-        let z = rem + lineZ //- mapWidth
+        let z = rem + lineZ + MATH.remainder(-cursorPos.z)//- mapWidth
         alignDivToZ(gridLinesZ[i], z, zoom)
         gridLinesZ[i].innerHTML = Math.floor(midZ + lineZ);
     }
@@ -475,8 +475,14 @@ function positionLineDivs(mapDiv, cursorPos, lineSpacing, mapWidth, mapHeight, o
 }
 
 function updateGridLines(mapDiv, cursorPos, lineSpacing, mapWidth, mapHeight, offsetX, offsetY, zoom) {
+    if (zoom > 10) {
+        lineSpacing*=0.1;
+        if (zoom > 100) {
+            lineSpacing*=0.1;
+        }
+    }
     let lineCount = Math.ceil(mapWidth / lineSpacing);
-    updateLineDivs(lineCount, mapDiv)
+    updateLineDivs(Math.max(2, lineCount), mapDiv)
     positionLineDivs(mapDiv, cursorPos, lineSpacing, mapWidth, mapHeight, offsetX, offsetY, zoom)
 }
 
