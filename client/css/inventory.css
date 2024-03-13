@@ -1,0 +1,32 @@
+div.inventory_container {
+    z-index: 200;
+    font-size: 1em;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: auto;
+    width: auto;
+    padding: 0;
+    margin: 0.2em;
+    position: absolute;
+    border: solid #232323;
+    transition-property: transform;
+    background: radial-gradient(circle, rgba(0, 0, 0, 0.0) 50%, rgba(0, 126, 188, 0.52) 99%);
+    box-shadow: 0px 0px 4em rgba(0, 0, 0, 1);
+}
+
+div.inventory_container h1 {
+    margin: 0;
+    margin-left: 1.5em;
+    padding: 0;
+    color:white;
+    font-size: 4em;
+}
+
+div.inv_slot {
+    margin: 0.2em;
+    width: 8.2em;
+    height: 8.2em;
+    position: relative;
+    display: inline-block;
+}

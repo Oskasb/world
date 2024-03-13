@@ -18,7 +18,6 @@ function windowResized(iframe, width, height) {
 
 class HtmlElement {
     constructor() {
-        index++;
         this.id = "";
         this.container = null;
         this.iframe = null;
@@ -88,11 +87,17 @@ class HtmlElement {
 
     initHtmlElement(url, onCloseCB, statusMap, styleClass, readyCb) {
         let containerClass = styleClass || 'full_screen'
+
+        if (this.container !== null) {
+            this.closeHtmlElement();
+        }
+
         this.statusMap = statusMap;
         this.editStatus = {};
         for (let key in statusMap) {
             this.editStatus[key] = statusMap[key];
         }
+        index++;
         this.id = url+"_"+index;
     //    this.container = DomUtils.createDivElement(DomUtils.refDiv, this.id, "", "overlay_page")
         let file = "html/"+url+".html";
@@ -115,10 +120,11 @@ class HtmlElement {
             if (!closeAnchor) {
                 closeAnchor = iframeDocument.getElementById('container');
             }
-            let closeButton = DomUtils.createDivElement(closeAnchor, this.id+'_close', "", "button_close")
-            closeButton.style.pointerEvents = "auto";
-            closeButton.style.cursor = "pointer";
+
             if (typeof (onCloseCB) === 'function') {
+                let closeButton = DomUtils.createDivElement(closeAnchor, this.id+'_close', "", "button_close")
+                closeButton.style.pointerEvents = "auto";
+                closeButton.style.cursor = "pointer";
                 DomUtils.addClickFunction(closeButton, onCloseClick)
             }
 
@@ -150,7 +156,7 @@ class HtmlElement {
         let onCloseClick = function(e) {
             console.log("Close Clicked", e, this);
 
-            this.closeHtmlElement();
+            this.hideHtmlElement();
             onCloseCB();
         }.bind(this);
 
@@ -181,8 +187,9 @@ class HtmlElement {
 
     showHtmlElement() {
         let container = this.container;
+        container.style.transform = "rotate3d(0, 0, 0, 1.0rad) translate3d(0, 0, 0)";
+        container.style.display = "";
         setTimeout(function() {
-            container.style.display = "";
             container.style.visibility = "visible";
             container.style.transition = "all 1.0s cubic-bezier(0.1, 0.4, 0.1, 1.2)"
             container.style.opacity = 1;

@@ -481,8 +481,8 @@ function updateGridLines(mapDiv, cursorPos, lineSpacing, mapWidth, mapHeight, of
             lineSpacing*=0.1;
         }
     }
-    let lineCount = Math.ceil(mapWidth / lineSpacing);
-    updateLineDivs(Math.max(2, lineCount), mapDiv)
+    let lineCount = Math.ceil(mapWidth / lineSpacing) +1;
+    updateLineDivs(lineCount, mapDiv)
     positionLineDivs(mapDiv, cursorPos, lineSpacing, mapWidth, mapHeight, offsetX, offsetY, zoom)
 }
 
@@ -568,12 +568,15 @@ class DomWorldmap {
             worldLevel:0
         }
 
-
+        let remove = function() {
+            htmlElement.closeHtmlElement()
+        }
 
         let closeMapCb = function() {
             console.log("Close worldmap...")
             ThreeAPI.unregisterPrerenderCallback(update);
             closeCb()
+            setTimeout(remove, 1500);
         }
 
         let zoomIn = function() {

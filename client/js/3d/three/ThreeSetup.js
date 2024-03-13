@@ -314,7 +314,7 @@ class ThreeSetup {
     };
 
     attachPrerenderCallback = function(callback) {
-        if (this.prerenderCallbacks.indexOf(callback) != -1) {
+        if (this.prerenderCallbacks.indexOf(callback) !== -1) {
             console.log("Callback already installed");
             return;
         }

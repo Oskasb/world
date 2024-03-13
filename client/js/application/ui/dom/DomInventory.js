@@ -8,7 +8,7 @@ let defaultAdsr = {
     release: {duration:0.4, to: 0, easing:"cubic-bezier(0.4, -0.2, 0.7, -0.2)"}
 }
 
-class DomCharacter {
+class DomInventory {
     constructor() {
         let actor = null;
         let htmlElement = new HtmlElement();
@@ -26,12 +26,8 @@ class DomCharacter {
         }
 
         let setInitTransforms = function() {
-            headerDiv.style.transitionDuration = 0+"s";
-            headerDiv.style.transform = "translate3d(130%, 0, 0)"
-            topDiv.style.transitionDuration = 0+"s";
-            topDiv.style.transform = "translate3d(0, -100%, 0)"
-            bottomDiv.style.transitionDuration = 0+"s";
-            bottomDiv.style.transform = "translate3d(0, 100%, 0)"
+            let rootElem = htmlElement.call.getRootElement();
+            rootElem.style.transform = "translate3d(50%, -68%, 0)";
         }
 
         let retrigger = function() {
@@ -41,37 +37,9 @@ class DomCharacter {
             }, 1500);
         }
 
-        let headerDiv;
-        let topDiv;
-        let bottomDiv;
-        let invDiv;
-
-
-        let inv = null;
-        let openInventory = function() {
-            if (inv !== null) {
-                DomUtils.removeElementClass(invDiv, 'bar_button_active')
-                inv.call.release()
-                inv = null;
-            } else {
-                DomUtils.addElementClass(invDiv, 'bar_button_active')
-                inv = poolFetch('DomInventory');
-                inv.call.activate(actor);
-            }
-
-        }
-
         let readyCb = function() {
-            invDiv = htmlElement.call.getChildElement('button_inventory');
-            headerDiv = htmlElement.call.getChildElement('header_container');
-            topDiv = htmlElement.call.getChildElement('top_container');
-            bottomDiv = htmlElement.call.getChildElement('bottom_container');
             let reloadDiv = htmlElement.call.getChildElement('reload');
-            DomUtils.addClickFunction(invDiv, openInventory)
             DomUtils.addClickFunction(reloadDiv, retrigger)
-            DomUtils.addClickFunction(headerDiv, release)
-            DomUtils.addClickFunction(topDiv, release)
-            DomUtils.addClickFunction(bottomDiv, release)
         }
 
         let rebuild;
@@ -86,9 +54,10 @@ class DomCharacter {
         }
 
         let update = function() {
+            return;
+
             if (actor === null) {
                 console.log("No actor")
-                return;
             }
 
             let items = actor.actorEquipment.items;
@@ -128,53 +97,28 @@ class DomCharacter {
             poolReturn(htmlElement);
         }
 
-        let transformToCenter = function(div) {
-            div.style.transform = "translate3d(0, 0, 0)"
-        }
-
         let htmlReady = function() {
             readyCb()
-
-            setInitTransforms();
             htmlElement.container.style.visibility = 'visible';
             statusMap.id = actor.getStatus(ENUMS.ActorStatus.ACTOR_ID);
             statusMap.name = actor.getStatus(ENUMS.ActorStatus.NAME);
 
             setTimeout(function() {
-                headerDiv.style.transitionDuration = adsrEnvelope.attack.duration+"s";
-                headerDiv.style.transitionTimingFunction = adsrEnvelope.attack.easing;
-                topDiv.style.transitionDuration = 0.665*adsrEnvelope.attack.duration+"s";
-                topDiv.style.transitionTimingFunction = adsrEnvelope.attack.easing;
-                bottomDiv.style.transitionDuration = 0.475*adsrEnvelope.attack.duration+"s";
-                bottomDiv.style.transitionTimingFunction = adsrEnvelope.attack.easing;
-                transformToCenter(headerDiv);
-                transformToCenter(topDiv);
-                transformToCenter(bottomDiv)
                 ThreeAPI.registerPrerenderCallback(update);
+                setInitTransforms();
             },1)
         }
 
         let activate = function(actr) {
-            console.log("inspect Actor", actr)
+            console.log("Actor inventory", actr)
             adsrEnvelope = defaultAdsr;
             actor = actr;
             htmlElement = poolFetch('HtmlElement');
-            rebuild = htmlElement.initHtmlElement('character', closeCb, statusMap, 'full_screen', htmlReady);
+            rebuild = htmlElement.initHtmlElement('inventory', closeCb, statusMap, 'inventory', htmlReady);
         }
 
         let release = function() {
-            //     centerDiv.style.transitionDuration = 0+"s";
-            headerDiv.style.transitionDuration = adsrEnvelope.release.duration+"s";
-            headerDiv.style.transitionTimingFunction = adsrEnvelope.release.easing;
-            topDiv.style.transitionDuration = 0.775*adsrEnvelope.release.duration+"s";
-            topDiv.style.transitionTimingFunction = adsrEnvelope.release.easing;
-            bottomDiv.style.transitionDuration = 0.575*adsrEnvelope.release.duration+"s";
-            bottomDiv.style.transitionTimingFunction = adsrEnvelope.release.easing;
-            headerDiv.style.transform = "translate3d(-130%, 0, 0)"
-            //     topDiv.style.transitionDuration = 0+"s";
-            topDiv.style.transform = "translate3d(0, -100%, 0)"
-            //     bottomDiv.style.transitionDuration = 0+"s";
-            bottomDiv.style.transform = "translate3d(0, 100%, 0)"
+            htmlElement.hideHtmlElement();
             setTimeout(function() {
                 close();
             }, adsrEnvelope.release.duration*1000+200)
@@ -188,4 +132,4 @@ class DomCharacter {
     }
 }
 
-export {DomCharacter}
+export {DomInventory}

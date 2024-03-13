@@ -89,6 +89,18 @@ iframe.world_map {
 
 }
 
+iframe.inventory {
+    z-index: 200;
+    top: 50%;
+    right: 50%;
+    width: 300em;
+    height: 450em;
+    position: absolute;
+    color: #ecffdc;
+    border: none;
+    background-color: #f0f8ff00;
+}
+
 iframe.item {
     bottom: 0;
     left: 50%;

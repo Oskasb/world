@@ -76,14 +76,14 @@ function clearGridTiles() {
 }
 
 function switchCombatMode(htmlElement, minimapDiv, statusMap, centerPos, inCombat) {
-    let closeDiv = htmlElement.call.getChildElement(htmlElement.id+'_close')
+ //   let closeDiv = htmlElement.call.getChildElement(htmlElement.id+'_close')
     let zoomInDiv = htmlElement.call.getChildElement('zoom_in')
     let zoomOutDiv = htmlElement.call.getChildElement('zoom_out')
     if (inCombat) {
     //    minimapDiv.style.borderRadius = 6 + '%';
         DomUtils.addElementClass(minimapDiv, 'minimap_combat')
-        closeDiv.style.opacity = 0+"%";
-        closeDiv.style.pointerEvents = "none";
+   //     closeDiv.style.opacity = 0+"%";
+   //     closeDiv.style.pointerEvents = "none";
         zoomInDiv.style.opacity = 0+"%";
         zoomInDiv.style.pointerEvents = "none";
         zoomOutDiv.style.opacity = 0+"%";
@@ -95,8 +95,8 @@ function switchCombatMode(htmlElement, minimapDiv, statusMap, centerPos, inComba
         minimapDiv.style.boxShadow = "0 0 0 0.2em rgba(0, 0, 0, 0.5)";
         minimapDiv.style.borderColor = "rgb(180, 180, 180)";
         DomUtils.removeElementClass(minimapDiv, 'minimap_combat')
-        closeDiv.style.opacity = 100+"%";
-        closeDiv.style.pointerEvents = "auto";
+    //    closeDiv.style.opacity = 100+"%";
+    //    closeDiv.style.pointerEvents = "auto";
         zoomInDiv.style.opacity = 100+"%";
         zoomInDiv.style.pointerEvents = "auto";
         zoomOutDiv.style.opacity = 100+"%";
@@ -392,11 +392,11 @@ class DomMinimap {
         let readyCb = function() {
             lastAspect = 0;
             let mapDiv = htmlElement.call.getChildElement('minimap')
-            let closeDiv = htmlElement.call.getChildElement(htmlElement.id+'_close')
+        //    let closeDiv = htmlElement.call.getChildElement(htmlElement.id+'_close')
             let zoomInDiv = htmlElement.call.getChildElement('zoom_in')
             let zoomOutDiv = htmlElement.call.getChildElement('zoom_out')
             DomUtils.addClickFunction(mapDiv, openWorldMap)
-            DomUtils.addClickFunction(closeDiv, rebuild)
+        //    DomUtils.addClickFunction(closeDiv, rebuild)
             DomUtils.addClickFunction(zoomInDiv, zoomIn)
             DomUtils.addClickFunction(zoomOutDiv, zoomOut)
             populateTravelPath(mapDiv);

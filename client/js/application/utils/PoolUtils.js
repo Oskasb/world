@@ -34,6 +34,7 @@ import {DynamicSpawnPoint} from "../../game/gamescenarios/DynamicSpawnPoint.js";
 import {ProceduralEncounterConfig} from "../../game/encounter/ProceduralEncounterConfig.js";
 import {DomLootNotice} from "../ui/dom/DomLootNotice.js";
 import {DomItem} from "../ui/dom/DomItem.js";
+import {DomInventory} from "../ui/dom/DomInventory.js";
 
 
 let pools = {}
@@ -74,6 +75,7 @@ function initPools() {
     registerPool(ProceduralEncounterConfig);
     registerPool(DomLootNotice)
     registerPool(DomItem)
+    registerPool(DomInventory)
 }
 
 function registerPool(DataObj) {

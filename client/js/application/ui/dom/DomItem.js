@@ -49,6 +49,8 @@ class DomItem {
             rootElement = htmlElement.call.getRootElement();
             setTargetCoordinates(height*0.5,width *0.5)
             let container = htmlElement.call.getChildElement('container')
+            container.style.visibility = "visible";
+            container.style.display = "";
             DomUtils.addClickFunction(container, rebuild)
 
         //    let slotId = item.getStatus(ENUMS.ItemStatus.EQUIPPED_SLOT);
@@ -58,6 +60,7 @@ class DomItem {
             let visualPiece=item.visualGamePiece;
             let visualConf = visualPiece.config;
             let iconClass = visualConf['icon_class'];
+
             if (!iconClass) {
                 iconClass = 'NYI_ICON'
             }
@@ -73,13 +76,12 @@ class DomItem {
         let setItem = function(itm) {
             item = itm;
             statusMap['ITEM_ID'] = item.getStatus(ENUMS.ItemStatus.ITEM_ID);
-            htmlElement.initHtmlElement('item', closeCb, statusMap, 'item', readyCb);
+            htmlElement.initHtmlElement('item', null, statusMap, 'item', readyCb);
         }
 
         let getItem = function() {
             return item;
         }
-
 
         let setTargetCoordinates = function(top, left) {
             rootElement.style.transform = "translate3d(-50%, -50%, 0)";
@@ -94,7 +96,12 @@ class DomItem {
         }
 
         let clearIframe = function() {
-            htmlElement.closeHtmlElement()
+            htmlElement.closeHtmlElement();
+            console.log("Clear DomItem ", htmlElement)
+            let rootElem = htmlElement.call.getRootElement()
+            if (rootElem) {
+                DomUtils.removeDivElement(rootElem);
+            }
         }
 
         let close = function() {

@@ -137,6 +137,46 @@ div.button_reload {
     text-shadow: 1px 1px 3px rgba(5, 0, 0, 1);
 }
 
+div.bar_button {
+    position: relative;
+    margin: 1em;
+    width: 12em;
+    height: 12em;
+    border-radius: 15%;
+    border: rgba(125, 255, 225, 0.6);
+    border-style: solid;
+    border-width: 0.5em;
+    background-color: rgba(1, 30, 60, 0.51);
+    background-size: 100%;
+    box-shadow: 0 0 0.3em rgba(5, 0, 0, 0.9);
+    padding: 0;
+}
+
+div.bar_button_active {
+    border-color: rgba(125, 255, 225, 1);
+    background-color: rgba(81, 130, 160, 0.51);
+}
+
+
+
+div.bar_button p {
+    padding: 0;
+    margin-top: 75%;
+    top: auto;
+    bottom: 1em;
+    font-size: 1.8em;
+    text-align: center;
+    color: #ffffff;
+    text-shadow: 0.2em 0.2em 0.3em rgb(0, 0, 0);
+}
+
+div.icon_inventory {
+    background-image: url("/client/assets/images/textures/gui/icons/icon_inv.png");
+}
+
+div.icon_stash {
+    background-image: url("/client/assets/images/textures/gui/icons/icon_stash.png");
+}
 
 div.settings_panel {
     pointer-events: auto;
@@ -152,6 +192,25 @@ div.settings_panel {
     border: #27e7ce;
     border-style: solid;
     border-width: 0.2em;
+}
+
+div.panel_icon {
+    position:absolute;
+    z-index: 800;
+    top: 0.2em;
+    left: 0.2em;
+    bottom: auto;
+    right: auto;
+    height: 5em;
+    width: 5em;
+    border: 0.3em solid;
+    border-radius: 12%;
+    background-color: rgba(88, 130, 182, 0.5);
+    border-color: rgba(0, 232, 255, 0.56);
+    background-size: 100%;
+    margin: 0;
+
+    transform: translate3d(-0%, -0%, 0);
 }
 
 div.interact_panel {
@@ -177,7 +236,7 @@ div.loot_panel {
     right: 1em;
     height: auto;
     position: absolute;
-  //  background-color: rgba(44, 90, 90, 0.51);
+    background-color: rgba(44, 90, 90, 0.51);
 
     border-radius: 0.5em;
     border-style: solid;
