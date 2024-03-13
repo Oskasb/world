@@ -13,7 +13,7 @@ class DomInventory {
         let actor = null;
         let htmlElement = new HtmlElement();
         let itemDivs = [];
-
+        let buttonDiv = null;
         let adsrEnvelope;
 
         let statusMap = {
@@ -109,8 +109,11 @@ class DomInventory {
             },1)
         }
 
-        let activate = function(actr) {
+
+        let activate = function(actr, btnDiv) {
+            buttonDiv = btnDiv;
             console.log("Actor inventory", actr)
+            DomUtils.addElementClass(buttonDiv, 'bar_button_active')
             adsrEnvelope = defaultAdsr;
             actor = actr;
             htmlElement = poolFetch('HtmlElement');
@@ -119,6 +122,10 @@ class DomInventory {
 
         let release = function() {
             htmlElement.hideHtmlElement();
+            if (buttonDiv !== null) {
+                DomUtils.removeElementClass(buttonDiv, 'bar_button_active')
+            }
+            buttonDiv = null;
             setTimeout(function() {
                 close();
             }, adsrEnvelope.release.duration*1000+200)

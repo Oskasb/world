@@ -153,8 +153,8 @@ div.bar_button {
 }
 
 div.bar_button_active {
-    border-color: rgba(125, 255, 225, 1);
-    background-color: rgba(81, 130, 160, 0.51);
+    border-color: rgba(185, 255, 245, 1);
+    background-color: rgba(181, 230, 250, 0.6);
 }
 
 
@@ -205,11 +205,10 @@ div.panel_icon {
     width: 5em;
     border: 0.3em solid;
     border-radius: 12%;
-    background-color: rgba(88, 130, 182, 0.5);
+    background-color: rgba(128, 180, 222, 0.5);
     border-color: rgba(0, 232, 255, 0.56);
     background-size: 100%;
     margin: 0;
-
     transform: translate3d(-0%, -0%, 0);
 }
 

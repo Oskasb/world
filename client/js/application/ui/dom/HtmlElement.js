@@ -155,7 +155,6 @@ class HtmlElement {
 
         let onCloseClick = function(e) {
             console.log("Close Clicked", e, this);
-
             this.hideHtmlElement();
             onCloseCB();
         }.bind(this);
@@ -210,7 +209,9 @@ class HtmlElement {
 
     closeHtmlElement() {
     //    this.hideHtmlElement();
-        DomUtils.removeElement(this.container);
+        if (this.container !== null) {
+            DomUtils.removeElement(this.container);
+        }
         this.container = null;
         this.statusMap = null;
         this.editStatus = null;

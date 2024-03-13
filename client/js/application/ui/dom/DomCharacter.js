@@ -50,13 +50,13 @@ class DomCharacter {
         let inv = null;
         let openInventory = function() {
             if (inv !== null) {
-                DomUtils.removeElementClass(invDiv, 'bar_button_active')
+            //    DomUtils.removeElementClass(invDiv, 'bar_button_active')
                 inv.call.release()
                 inv = null;
             } else {
-                DomUtils.addElementClass(invDiv, 'bar_button_active')
+            //    DomUtils.addElementClass(invDiv, 'bar_button_active')
                 inv = poolFetch('DomInventory');
-                inv.call.activate(actor);
+                inv.call.activate(actor, invDiv);
             }
 
         }
@@ -163,6 +163,10 @@ class DomCharacter {
         }
 
         let release = function() {
+            if (inv !== null) {
+                inv.call.release()
+                inv = null;
+            }
             //     centerDiv.style.transitionDuration = 0+"s";
             headerDiv.style.transitionDuration = adsrEnvelope.release.duration+"s";
             headerDiv.style.transitionTimingFunction = adsrEnvelope.release.easing;
