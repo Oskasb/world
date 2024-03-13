@@ -33,6 +33,7 @@ import {ScalarTransition} from "./ScalarTransition.js";
 import {DynamicSpawnPoint} from "../../game/gamescenarios/DynamicSpawnPoint.js";
 import {ProceduralEncounterConfig} from "../../game/encounter/ProceduralEncounterConfig.js";
 import {DomLootNotice} from "../ui/dom/DomLootNotice.js";
+import {DomItem} from "../ui/dom/DomItem.js";
 
 
 let pools = {}
@@ -72,6 +73,7 @@ function initPools() {
     registerPool(DynamicSpawnPoint);
     registerPool(ProceduralEncounterConfig);
     registerPool(DomLootNotice)
+    registerPool(DomItem)
 }
 
 function registerPool(DataObj) {

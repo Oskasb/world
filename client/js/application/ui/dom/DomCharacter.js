@@ -13,18 +13,11 @@ class DomCharacter {
         let actor = null;
         let htmlElement = new HtmlElement();
         let itemDivs = [];
-        let defaultData = [
-            {label:'Mobile', value: window.isMobile},
-            {label:'userAgent', value: client.env.userAgent},
-            {label:'GL', value: window.SYSTEM_SETUP.glRenderer},
-            {label:'vendor', value: window.SYSTEM_SETUP.vendor}
-        ]
-        console.log(defaultData, client.env);
+
         let adsrEnvelope;
-        let callback;
+
         let statusMap = {
-            name : "..",
-            datalist: ""
+            name : ".."
         }
 
         let closeCb = function() {
@@ -57,7 +50,6 @@ class DomCharacter {
             topDiv = htmlElement.call.getChildElement('top_container');
             bottomDiv = htmlElement.call.getChildElement('bottom_container');
             let reloadDiv = htmlElement.call.getChildElement('reload');
-            let transitionDiv = htmlElement.call.getChildElement('transition');
             DomUtils.addClickFunction(reloadDiv, retrigger)
             DomUtils.addClickFunction(headerDiv, release)
             DomUtils.addClickFunction(topDiv, release)
@@ -68,7 +60,9 @@ class DomCharacter {
 
         let clearItemDivs = function() {
             while(itemDivs.length) {
-                DomUtils.removeDivElement(itemDivs.pop())
+                let domItem = itemDivs.pop();
+                domItem.call.close();
+                poolReturn(domItem);
             }
         }
 
@@ -87,54 +81,25 @@ class DomCharacter {
             if (itemDivs.length < items.length) {
                 for (let i = 0; i < items.length; i++) {
                     let item = items[i]
-                    let slotId = item.getStatus(ENUMS.ItemStatus.EQUIPPED_SLOT);
-                    let parent = htmlElement.call.getChildElement("container");
-
-                    let itemDiv = DomUtils.createDivElement(parent, "item_"+slotId, '', 'item_icon');
-                    let visualPiece=item.visualGamePiece;
-                    let visualConf = visualPiece.config;
-                    let iconClass = visualConf['icon_class'];
-                    if (!iconClass) {
-                        iconClass = 'NYI_ICON'
-                    }
-                    DomUtils.addElementClass(itemDiv, iconClass);
-                    let rarity = item.getStatus(ENUMS.ItemStatus.RARITY);
-                    DomUtils.addElementClass(itemDiv, rarity);
+                    let itemDiv = poolFetch('DomItem');
+                    itemDiv.call.setItem(item);
                     itemDivs.push(itemDiv);
                 }
             }
 
-            let bodyRect = document.body.getBoundingClientRect();
-
             for (let i = 0; i < itemDivs.length; i++) {
-                let div = itemDivs[i];
-                let item = items[i];
+                let domItem = itemDivs[i];
+                let item = domItem.call.getItem();
                 let slotId = item.getStatus(ENUMS.ItemStatus.EQUIPPED_SLOT);
                 let target = htmlElement.call.getChildElement(slotId);
 
                 if (!target) {
-                 //   console.log("No parent div for slot: ", slotId, item);
+                    console.log("No parent div for slot: ", slotId, item);
                 } else {
-                //    console.log("Target: ", target);
+                    domItem.call.setTargetElement(target)
                 }
-
-                let elemRect = target.getBoundingClientRect();
-                //    let offset   = elemRect.top - bodyRect.top;
-                let width = elemRect.width;
-                let height = elemRect.height;
-               // console.log("")
-                let pTop = elemRect.top - bodyRect.top;
-                let pLeft = elemRect.left - bodyRect.left;
-                div.style.top = pTop+'px';
-                div.style.left = pLeft+'px';
-                div.style.fontSize = target.style.fontSize;
-                div.style.width = width+'px';
-                div.style.height = height+'px';
             }
-
         }
-
-
 
         let close = function() {
             clearItemDivs();
@@ -144,11 +109,9 @@ class DomCharacter {
             poolReturn(htmlElement);
         }
 
-
         let transformToCenter = function(div) {
             div.style.transform = "translate3d(0, 0, 0)"
         }
-
 
         let htmlReady = function() {
             readyCb()
@@ -161,7 +124,7 @@ class DomCharacter {
             setTimeout(function() {
                 headerDiv.style.transitionDuration = adsrEnvelope.attack.duration+"s";
                 headerDiv.style.transitionTimingFunction = adsrEnvelope.attack.easing;
-                topDiv.style.transitionDuration = 0.675*adsrEnvelope.attack.duration+"s";
+                topDiv.style.transitionDuration = 0.665*adsrEnvelope.attack.duration+"s";
                 topDiv.style.transitionTimingFunction = adsrEnvelope.attack.easing;
                 bottomDiv.style.transitionDuration = 0.475*adsrEnvelope.attack.duration+"s";
                 bottomDiv.style.transitionTimingFunction = adsrEnvelope.attack.easing;
@@ -171,8 +134,6 @@ class DomCharacter {
                 ThreeAPI.registerPrerenderCallback(update);
             },1)
         }
-
-
 
         let activate = function(actr) {
             console.log("inspect Actor", actr)
@@ -205,13 +166,7 @@ class DomCharacter {
             activate:activate,
             release:release
         }
-
-
     }
-
-
 }
-
-
 
 export {DomCharacter}

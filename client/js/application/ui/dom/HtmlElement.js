@@ -1,4 +1,6 @@
 
+let index = 0;
+
 function updateValueElem(key, value, iframe) {
     let valueText = iframe.getElementById(key+'_value');
     if (valueText) {
@@ -16,6 +18,7 @@ function windowResized(iframe, width, height) {
 
 class HtmlElement {
     constructor() {
+        index++;
         this.id = "";
         this.container = null;
         this.iframe = null;
@@ -58,6 +61,14 @@ class HtmlElement {
             iframeDocument = iDoc;
         }
 
+        let getIframe = function() {
+            return iframeDocument;
+        }
+
+        let getRootElement = function() {
+            return DomUtils.getElementById(this.id)
+        }.bind(this);
+
         let getChildElement = function(id) {
             if (iframeDocument) {
                 return iframeDocument.getElementById(id);
@@ -68,6 +79,8 @@ class HtmlElement {
         this.call = {
             getChildElement:getChildElement,
             setIframe:setIframe,
+            getIframe:getIframe,
+            getRootElement:getRootElement,
             update:update
         }
 
@@ -80,7 +93,7 @@ class HtmlElement {
         for (let key in statusMap) {
             this.editStatus[key] = statusMap[key];
         }
-        this.id = url;
+        this.id = url+"_"+index;
     //    this.container = DomUtils.createDivElement(DomUtils.refDiv, this.id, "", "overlay_page")
         let file = "html/"+url+".html";
     //    this.container.innerHTML='<object type="text/html" data='+file+'></object>';

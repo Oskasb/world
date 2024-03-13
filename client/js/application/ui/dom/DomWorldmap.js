@@ -831,7 +831,7 @@ class DomWorldmap {
             ThreeAPI.registerPrerenderCallback(update);
         }
 
-        let rebuild = htmlElement.initHtmlElement('worldmap', closeMapCb, statusMap, 'full_screen', readyCb);
+        let rebuild = htmlElement.initHtmlElement('worldmap', closeMapCb, statusMap, 'world_map', readyCb);
 
         let mapHeight = worldSize;
         let mapWidth = worldSize;

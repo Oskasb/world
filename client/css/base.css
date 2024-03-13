@@ -74,6 +74,34 @@ iframe.full_screen {
     color: #ecffdc;
 }
 
+iframe.world_map {
+    top: 10em;
+    left: 10em;
+    width: 820em;
+    height: 800em;
+    position: absolute;
+    border: 4em solid rgba(255, 244, 219, 0.5);
+    border-radius: 24em;
+    z-index: 100;
+    color: #ecffdc;
+    background: linear-gradient(rgba(187, 102, 17, 0.5) 0, rgba(110, 63, 5, 0.5) 8em, rgba(52, 34, 0, 0.5) 99%);
+    box-shadow: 0px 0px 12em rgba(5, 0, 0, 0.95);
+
+}
+
+iframe.item {
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 0;
+    position: absolute;
+    border-radius: 10%;
+    z-index: 1000;
+    border: 2em solid rgba(0, 0, 0, 0.41);
+    box-shadow: 0px 0px 4em rgba(0, 0, 0, 0.9);
+    transform: translate3d(-50%, -50%, 0);
+}
+
 iframe.interact_page {
     top: 12%;
     right: 52%;

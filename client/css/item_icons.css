@@ -1,14 +1,46 @@
+body.item_container {
+    overflow:hidden;
+    position:absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    border-radius: 10%;
+    margin: 0;
+    border: none;
+}
+
+div.item_backplate {
+    overflow:hidden;
+    position:absolute;
+    top: 5%;
+    left: 5%;
+    bottom: 5%;
+    right: 5%;
+    height: 90%;
+    width: 90%;
+    border-radius: 9%;
+    background-size: 100%;
+    transform: translate3d(-0.3em, -0.3em, 0);
+    margin: 0;
+    border: 0.3em solid;
+}
 
 div.item_icon {
     position:absolute;
-    border-radius: 10%;
+    top: 50%;
+    left: 50%;
+    bottom: auto;
+    right: auto;
+    height: 96%;
+    width: 96%;
+    border-radius: 9%;
     background-size: 100%;
-    border-width: 0.6em;
-    transform: translate3d(-0.6em, -0.6em, 0);
-    scale:88%;
     margin: 0;
-    border-style: solid;
+    border: 0.3em solid;
+    border-color: rgba(0, 0, 0, 0.52);
     background-image: url("/client/assets/images/textures/gui/items/icon_nyi.png");
+    transform: translate3d(-50%, -50%, 0);
 }
 
 div.weapon_1h_axe_hatchet {

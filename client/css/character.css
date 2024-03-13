@@ -14,6 +14,16 @@ div.character_panel {
     z-index: 100;
 }
 
+div.anchor_close {
+    position: absolute;
+    top: -0.05em;
+    right: -0.05em;
+    border: 0.3em solid #739ca1;
+    width: 0;
+    height: 0;
+    font-size: 4em;
+}
+
 div.character_panel h1 {
     font-size: 8em;
     color: azure;
@@ -29,6 +39,7 @@ div.equipment_container {
     font-size: 1em;
     top: 50%;
     left: 50%;
+    height: 92em;
     height: 92em;
     width: 56em;
     padding: 0;
