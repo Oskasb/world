@@ -104,7 +104,8 @@ let ENUMS = {}
         ENCOUNTER_CHARM:            86,
         ENCOUNTER_INTIMIDATE:       87,
         ENCOUNTER_TRADE:            88,
-        ENCOUNTER_QUEST:            89
+        ENCOUNTER_QUEST:            89,
+        UI_ITEM_DRAG:               90
     };
 
     ENUMS.Protocol = {

@@ -1,3 +1,12 @@
+let rect = {
+    centerX:0,
+    centerY:0,
+    width:0,
+    height:0,
+    x:0,
+    y:0
+};
+
 class DomUtils {
     constructor() {
         this.refDiv = document.getElementById("canvas_window");
@@ -5,6 +14,28 @@ class DomUtils {
 
     getWindowBoundingRect() {
         return document.body.getBoundingClientRect();
+    }
+
+    xyInsideRect(x, y, rect) {
+        if (rect.x < x && rect.x+rect.width > x) {
+            if (rect.y < y && rect.y+rect.height > y) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    getElementCenter(element, iframeBody) {
+        let bodyRect = this.getWindowBoundingRect();
+        let rootRect = iframeBody.getBoundingClientRect();
+        let elemRect = element.getBoundingClientRect();
+        rect.width = elemRect.width;
+        rect.height = elemRect.height;
+        rect.y  = elemRect.top  + rootRect.top  - bodyRect.top;
+        rect.x = elemRect.left + rootRect.left - bodyRect.left;
+        rect.centerY  = elemRect.height * 0.5 + elemRect.top + rootRect.top  - bodyRect.top;
+        rect.centerX = elemRect.width * 0.5 + elemRect.left + rootRect.left - bodyRect.left;
+        return rect;
     }
 
     getElementById = function(id) {
@@ -299,6 +330,13 @@ class DomUtils {
         element.addEventListener('touchmove', cb);
     }
 
+    addPointerExitFunction(element, cb) {
+        element.style.pointerEvents = "auto";
+        element.style.cursor = "pointer";
+        element.addEventListener('touchend', cb);
+        element.addEventListener('mouseout', cb);
+    }
+
     addPressStartFunction(element, cb) {
         element.style.pointerEvents = "auto";
         element.style.cursor = "pointer";
@@ -314,6 +352,8 @@ class DomUtils {
         element.addEventListener('mouseout', cb);
         element.addEventListener('touchcancel', cb);
     }
+
+
 
 }
 

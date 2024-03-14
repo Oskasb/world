@@ -8,21 +8,49 @@ let defaultAdsr = {
     release: {duration:0.4, to: 0, easing:"cubic-bezier(0.4, -0.2, 0.7, -0.2)"}
 }
 
+let dragListener = null
+let dragEvent = null;
+let dragListening = false;
+
 class DomInventory {
     constructor() {
+        let dragItem = null;
         let actor = null;
+
+        if (dragListener === null) {
+            dragListener = function(e) {
+                console.log("Drag", e)
+                if (e !== null) {
+                    dragListening = true;
+                    dragEvent = e;
+                    dragItem = e.item;
+                } else {
+                    dragListening = false;
+                    if (dragTargetSlot !== null) {
+                        let slotId = dragTargetSlot.id;
+                        console.log("Drag To Slot", slotId, dragTargetSlot, dragItem);
+                        actor.actorInventory.addInventoryItem(dragItem, slotId);
+
+                    }
+                }
+            }
+            evt.on(ENUMS.Event.UI_ITEM_DRAG, dragListener)
+        }
+
         let htmlElement = new HtmlElement();
         let invItems = {};
         let slottedItems = {};
         let buttonDiv = null;
         let adsrEnvelope;
-
+        let slotElements = {};
+        let dragTargetSlot = null;
+        let rootElem;
         let statusMap = {
             name : ".."
         }
 
         let setInitTransforms = function() {
-            let rootElem = htmlElement.call.getRootElement();
+            rootElem = htmlElement.call.getRootElement();
             rootElem.style.transform = "translate3d(50%, -68%, 0)";
         }
 
@@ -33,7 +61,27 @@ class DomInventory {
             }, 1500);
         }
 
+        let mouseMove = function(e) {
+        //    console.log("mouse Move ", e.target);
+            e.target.style.borderColor = "rgba(155, 225, 255, 0.2)";
+        }
+
+        let mouseOut = function(e) {
+        //    console.log("mouse Out ", e.target);
+            e.target.style.borderColor = "";
+        }
+
         let readyCb = function() {
+
+            let items = actor.actorInventory.items;
+
+            for (let key in items) {
+                let slot = htmlElement.call.getChildElement(key);
+                slotElements[key] = slot;
+                DomUtils.addMouseMoveFunction(slot, mouseMove)
+                DomUtils.addPointerExitFunction(slot, mouseOut)
+            }
+
             let reloadDiv = htmlElement.call.getChildElement('reload');
             DomUtils.addClickFunction(reloadDiv, retrigger)
         }
@@ -52,12 +100,53 @@ class DomInventory {
             }
         }
 
+        let getDragOverSlot = function() {
+            let dragX = dragEvent.x;
+            let dragY = dragEvent.y;
+            for (let key in slotElements) {
+                let slot = slotElements[key];
+                let rect = DomUtils.getElementCenter(slot, rootElem);
+                let inside = DomUtils.xyInsideRect(dragX, dragY, rect);
+                if (inside === true) {
+                    return slot
+                }
+            }
+            return null;
+        }
+
         let update = function() {
 
             if (actor === null) {
                 console.log("No actor")
                 return;
             }
+
+            if (dragListening === true) {
+
+                if (dragEvent !== null) {
+                    let slot = getDragOverSlot()
+                    if (slot !== null) {
+                    //    console.log("Drag Listening", slot)
+                        if (dragTargetSlot !== slot) {
+                            if (dragTargetSlot !== null) {
+                                dragTargetSlot.style.borderColor = "";
+                            }
+                            slot.style.borderColor = "white";
+                            dragTargetSlot = slot;
+                        }
+                    } else {
+                        if (dragTargetSlot !== null) {
+                            dragTargetSlot.style.borderColor = "";
+                            dragTargetSlot = null;
+                        }
+                    }
+
+                } else {
+
+                }
+
+            }
+
 
             let items = actor.actorInventory.items;
 
@@ -111,6 +200,8 @@ class DomInventory {
             htmlElement.container.style.visibility = 'visible';
             statusMap.id = actor.getStatus(ENUMS.ActorStatus.ACTOR_ID);
             statusMap.name = actor.getStatus(ENUMS.ActorStatus.NAME);
+
+
 
             setTimeout(function() {
                 ThreeAPI.registerPrerenderCallback(update);

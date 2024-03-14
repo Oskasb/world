@@ -1,7 +1,9 @@
 import {HtmlElement} from "./HtmlElement.js";
 import {poolFetch, poolReturn} from "../../utils/PoolUtils.js";
+import {ENUMS} from "../../ENUMS.js";
 
 let activeDomItems = [];
+let dragEvent = {};
 
 class DomItem {
     constructor() {
@@ -24,29 +26,41 @@ class DomItem {
             if (targetRoot === null) {
                 return;
             }
-            let bodyRect = DomUtils.getWindowBoundingRect();
-            let rootRect = targetRoot.getBoundingClientRect();
-            let elemRect = targetElement.getBoundingClientRect();
-            let elemTraverse = targetElement;
-            //    let offset   = elemRect.top - bodyRect.top;
-            let width = elemRect.width;
-            let height = elemRect.height;
-            // console.log("")
-            let pTop  = elemRect.top  + rootRect.top  - bodyRect.top;
-            let pLeft = elemRect.left + rootRect.left - bodyRect.left;
 
-            rootElement.style.fontSize = targetElement.style.fontSize;
-            rootElement.style.width = width+'px';
-            rootElement.style.height = height+'px';
-/*
-            while(elemTraverse !== null){
-                pLeft += elemTraverse.offsetLeft;
-                pTop += elemTraverse.offsetTop;
-                elemTraverse = elemTraverse.offsetParent;
-            }
-*/
-            setTargetCoordinates(pTop+height*0.5, pLeft+width*0.5)
+            let rect = DomUtils.getElementCenter(targetElement, targetRoot)
+
+            let pTop  = rect.y;
+            let pLeft = rect.x;
+
+                rootElement.style.fontSize = targetElement.style.fontSize;
+                rootElement.style.width = rect.width+'px';
+                rootElement.style.height = rect.height+'px';
+
+                let dragScaleY = 1 // bodyRect.height / rootElement.offsetHeight;
+                let dragScaleX = 1 // bodyRect.width / rootElement.offsetWidth;
+
+                let targetY = dragScaleY*dragY+pTop+rect.height*0.5;
+                let targetX = dragScaleX*dragX+pLeft+rect.width*0.5
+
+                setTargetCoordinates(targetY, targetX);
+                if (dragActive === true) {
+                    dragEvent.x = targetX;
+                    dragEvent.y = targetY;
+                    dragEvent.item = getItem();
+                    evt.dispatch(ENUMS.Event.UI_ITEM_DRAG, dragEvent)
+                }
+
         }
+
+        let dragY = 0;
+        let dragX = 0;
+        let startDragX = 0;
+        let startDragY = 0;
+        let startOffsetTop = 0;
+        let startOffsetLeft = 0;
+        let dragDistanceY = 0;
+        let dragDistanceX = 0;
+
 
         let rebuild = function() {
             clearIframe();
@@ -67,12 +81,57 @@ class DomItem {
         }
 
         let inspectItem = function() {
+
+            if (Math.abs(dragDistanceY) + Math.abs(dragDistanceX) > 5) {
+                dragDistanceY = 0;
+                dragDistanceX = 0;
+                return;
+            }
+
             let newCard = poolFetch('DomItemCard');
             closeItemCard();
             itemCard = newCard;
             itemCard.call.setItem(getItem(), closeItemCard);
             itemCard.call.setTargetElement(container, htmlElement.call.getRootElement())
+        }
 
+
+
+        let mouseMove = function(e) {
+            if (dragActive === true) {
+            //    console.log("mouse Move", e.pageX, e.pageY);
+                dragDistanceY = rootElement.offsetTop-startOffsetTop;
+                dragDistanceX = rootElement.offsetLeft-startOffsetLeft
+                dragY = e.pageY -startDragY + dragDistanceY;
+                dragX = e.pageX -startDragX + dragDistanceX;
+            }
+        }
+
+        let dragActive = false;
+
+        let sourceTransition = null;
+
+        let startDrag = function(e) {
+            dragY = 0;
+            dragX = 0;
+            dragActive = true;
+            startDragY = e.pageY;
+            startDragX = e.pageX;
+            startOffsetTop = rootElement.offsetTop;
+            startOffsetLeft = rootElement.offsetLeft;
+            console.log("Drag Item", e, client);
+            rootElement.style.zIndex = 5000;
+            sourceTransition = rootElement.style.transition;
+            rootElement.style.transition = "";
+        }
+
+        let endDrag = function() {
+            dragActive = false;
+            rootElement.style.zIndex = '';
+            rootElement.style.transition = sourceTransition;
+            evt.dispatch(ENUMS.Event.UI_ITEM_DRAG, null)
+            dragY = 0;
+            dragX = 0;
         }
 
         let readyCb = function() {
@@ -85,6 +144,9 @@ class DomItem {
             container.style.visibility = "visible";
             container.style.display = "";
             DomUtils.addClickFunction(container, inspectItem)
+            DomUtils.addPressStartFunction(container, startDrag)
+            DomUtils.addPressEndFunction(container, endDrag)
+            DomUtils.addMouseMoveFunction(container, mouseMove)
 
         //    let slotId = item.getStatus(ENUMS.ItemStatus.EQUIPPED_SLOT);
             let backplate = htmlElement.call.getChildElement("backplate");
