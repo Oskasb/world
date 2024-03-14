@@ -36,6 +36,7 @@ class HtmlElement {
                 width = innerWidth;
                 height = innerHeight;
                 windowResized(iframeDocument, width, height)
+                this.container.style.fontSize = DomUtils.rootFontSize();
             }
 
             let statusMap = this.statusMap;
@@ -114,6 +115,7 @@ class HtmlElement {
             let iframeDocument = this.container.contentDocument || this.container.contentWindow.document;
         //    DomUtils.applyStyleToAllDivs(iframeDocument, 'transform', "translate3d(0, 0, 2pt)")
             this.container.style.transform = "rotate3d(1, 0, 0, 1.0rad) translate3d(0, 400em, 0)";
+
             this.container.style.scale = 0;
             this.call.setIframe(iframeDocument);
             let closeAnchor = iframeDocument.getElementById('anchor_close');

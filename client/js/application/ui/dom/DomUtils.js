@@ -7,6 +7,9 @@ class DomUtils {
         return document.getElementById(id);
     };
 
+    rootFontSize() {
+        return this.refDiv.style.fontSize;
+    }
 
     removeDivElement = function(div) {
         if (div.parentNode) div.parentNode.removeChild(div);
