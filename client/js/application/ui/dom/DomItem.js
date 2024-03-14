@@ -8,6 +8,7 @@ class DomItem {
         let htmlElement = new HtmlElement();
         let item = null;
         let targetElement = null;
+        let targetRoot = null;
         let rootElement = null;
 
         let statusMap = {
@@ -19,18 +20,30 @@ class DomItem {
         }
 
         let update = function() {
-            let bodyRect = document.body.getBoundingClientRect();
+            if (targetRoot === null) {
+                return;
+            }
+            let bodyRect = DomUtils.getWindowBoundingRect();
+            let rootRect = targetRoot.getBoundingClientRect();
             let elemRect = targetElement.getBoundingClientRect();
+            let elemTraverse = targetElement;
             //    let offset   = elemRect.top - bodyRect.top;
             let width = elemRect.width;
             let height = elemRect.height;
             // console.log("")
-            let pTop = elemRect.top - bodyRect.top;
-            let pLeft = elemRect.left - bodyRect.left;
+            let pTop  = elemRect.top  + rootRect.top  - bodyRect.top;
+            let pLeft = elemRect.left + rootRect.left - bodyRect.left;
 
             rootElement.style.fontSize = targetElement.style.fontSize;
             rootElement.style.width = width+'px';
             rootElement.style.height = height+'px';
+/*
+            while(elemTraverse !== null){
+                pLeft += elemTraverse.offsetLeft;
+                pTop += elemTraverse.offsetTop;
+                elemTraverse = elemTraverse.offsetParent;
+            }
+*/
             setTargetCoordinates(pTop+height*0.5, pLeft+width*0.5)
         }
 
@@ -38,15 +51,15 @@ class DomItem {
             clearIframe();
         //    setTimeout(function() {
                 setItem(item);
-                setTargetElement(targetElement);
+                setTargetElement(targetElement, targetRoot);
          //   }, 500)
         }
 
         let readyCb = function() {
-            let bodyRect = document.body.getBoundingClientRect();
+            rootElement = htmlElement.call.getRootElement();
+            let bodyRect = DomUtils.getWindowBoundingRect();
             let width = bodyRect.width;
             let height = bodyRect.height;
-            rootElement = htmlElement.call.getRootElement();
             setTargetCoordinates(height*0.5,width *0.5)
             let container = htmlElement.call.getChildElement('container')
             container.style.visibility = "visible";
@@ -89,9 +102,9 @@ class DomItem {
             rootElement.style.left = left+'px';
         }
 
-        let setTargetElement = function(target) {
+        let setTargetElement = function(target, root) {
             targetElement = target;
-
+            targetRoot = root;
 
         }
 

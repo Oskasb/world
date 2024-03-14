@@ -48,15 +48,20 @@ class DomCharacter {
 
 
         let inv = null;
-        let openInventory = function() {
+
+        let closeInv = function() {
             if (inv !== null) {
-            //    DomUtils.removeElementClass(invDiv, 'bar_button_active')
                 inv.call.release()
                 inv = null;
+            }
+        }
+
+        let openInventory = function() {
+            if (inv !== null) {
+                closeInv();
             } else {
-            //    DomUtils.addElementClass(invDiv, 'bar_button_active')
                 inv = poolFetch('DomInventory');
-                inv.call.activate(actor, invDiv);
+                inv.call.activate(actor, invDiv, closeInv);
             }
 
         }
@@ -115,7 +120,7 @@ class DomCharacter {
                 if (!target) {
                     console.log("No parent div for slot: ", slotId, item);
                 } else {
-                    domItem.call.setTargetElement(target)
+                    domItem.call.setTargetElement(target, htmlElement.call.getRootElement())
                 }
             }
         }

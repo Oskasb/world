@@ -490,6 +490,21 @@ function processWorldTransition(actor) {
 
 }
 
+
+
+function processInventoryStatus(actor) {
+    let invStatus = actor.getStatus(ENUMS.ActorStatus.INVENTORY_ITEMS);
+    let inv = actor.actorInventory;
+    for (let i = 0; i < invStatus.length; i++) {
+        if (invStatus[i] !== inv.inventoryStatus[i]) {
+            let item = GameAPI.getItemById(invStatus[i]);
+            actor.actorText.say("Synch Inventory "+i)
+            inv.addInventoryItem(item, i)
+        }
+    }
+}
+
+
 class ActorStatusProcessor {
     constructor() {
         this.indicators = {};
@@ -575,7 +590,8 @@ class ActorStatusProcessor {
             updateRigidBodyContact(actor);
             updateViewPhysicalObstruction(actor);
             processActorEncounterExit(actor);
-            processWorldTransition(actor)
+            processWorldTransition(actor);
+            processInventoryStatus(actor)
         }
         processAnimationState(actor);
         this.indicateSelectionStatus(actor);

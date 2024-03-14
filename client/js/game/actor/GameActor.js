@@ -10,6 +10,7 @@ import { ActorText } from "../../application/ui/gui/game/ActorText.js";
 import { ActorMovement } from "./ActorMovement.js";
 import { TravelMode } from "./TravelMode.js";
 import { ActorEquipment } from "./ActorEquipment.js";
+import { ActorInventory } from "./ActorInventory.js";
 import { ActorStatusProcessor } from "./ActorStatusProcessor.js";
 import {StatusFeedback} from "../visuals/StatusFeedback.js";
 
@@ -40,6 +41,7 @@ class GameActor {
         this.actorStatusProcessor = new ActorStatusProcessor();
         this.actorText = new ActorText(this);
         this.actorStatus = new ActorStatus(this);
+        this.actorInventory = new ActorInventory(this);
         this.statusFeedback = new StatusFeedback();
         this.controlState = new ControlState();
         this.travelMode = new TravelMode();
@@ -174,6 +176,17 @@ class GameActor {
             return action;
         }.bind(this);
 
+        let inventoryItemAdded = function(itemId, switchItemId) {
+            if (itemId === null) {
+                this.actorText.say('No room for more')
+            } else {
+                this.actorText.say('Got that loot')
+                if (switchItemId !== "") {
+                    console.log("Switch Inv Item: ", switchItemId);
+                }
+            }
+        }.bind(this);
+
         this.call = {
             setRemote:setRemote,
             getRemote:getRemote,
@@ -187,7 +200,8 @@ class GameActor {
             updateGameActor:updateGameActor,
             getActorPos:getActorPos,
             setSpatialTransition:setSpatialTransition,
-            getActiveSpatialTransition:getActiveSpatialTransition
+            getActiveSpatialTransition:getActiveSpatialTransition,
+            inventoryItemAdded:inventoryItemAdded
         }
     }
 
@@ -350,6 +364,7 @@ class GameActor {
 
     unequipItem(item) {
         this.actorEquipment.call.unequipActorItem(item);
+        this.actorInventory.addInventoryItem(item, null, this.call.inventoryItemAdded)
     }
 
     getVisualGamePiece() {
@@ -570,6 +585,7 @@ class GameActor {
                 this.setSpatialPosition(this.framePos);
 
             } else {
+
                 if (this.lastFramePos.length() === 0) {
                     this.lastFramePos.copy(this.framePos);
                 }
@@ -578,6 +594,7 @@ class GameActor {
                 tempVec.sub(this.lastFramePos);
                 this.setSpatialPosition(this.framePos);
                 let speed = tempVec.length();
+
                 if (speed > 100) {
                     console.log("bad speed")
                 }

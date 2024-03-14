@@ -92,6 +92,9 @@ class GameAdventureSystem {
                 actor.equipItem(item);
             }
 
+            let addToInvCb = function(item) {
+                actor.actorInventory.addInventoryItem(item);
+            }
 
             let delayed = function() {
                 let status = event['status']
@@ -111,6 +114,13 @@ class GameAdventureSystem {
                     }
                 }
 
+                let inventoryItems = event['inventory_items']
+
+                if (inventoryItems) {
+                    for (let i = 0; i < inventoryItems.length; i++) {
+                        evt.dispatch(ENUMS.Event.LOAD_ITEM, {id: inventoryItems[i], callback:addToInvCb})
+                    }
+                }
 
             }
 

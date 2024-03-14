@@ -3,6 +3,10 @@ class DomUtils {
         this.refDiv = document.getElementById("canvas_window");
     }
 
+    getWindowBoundingRect() {
+        return document.body.getBoundingClientRect();
+    }
+
     getElementById = function(id) {
         return document.getElementById(id);
     };

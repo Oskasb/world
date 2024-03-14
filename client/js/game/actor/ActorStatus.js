@@ -271,6 +271,7 @@ class ActorStatus {
         this.statusMap[ENUMS.ActorStatus.SPATIAL_DELTA] = 0.2;
         this.statusMap[ENUMS.ActorStatus.EQUIP_REQUESTS] = [];
         this.statusMap[ENUMS.ActorStatus.EQUIPPED_ITEMS] = [];
+        this.statusMap[ENUMS.ActorStatus.INVENTORY_ITEMS] = [];
         this.statusMap[ENUMS.ActorStatus.PATH_POINTS] = [];
         this.statusMap[ENUMS.ActorStatus.PASSIVE_ACTIONS] = [];
         this.statusMap[ENUMS.ActorStatus.ACTIONS] = [];

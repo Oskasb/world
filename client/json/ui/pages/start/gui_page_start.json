@@ -33,7 +33,9 @@
                         "actor_id":"ACTOR_OUTLAW",
                         "page_id": "page_start_outlaw",
                         "world_encounters": ["outlaw_start_encounters"],
+                        "inventory_items": ["ITEM_DRAKEN_GOLDRED"],
                         "equipped_items": [],
+
                         "status": {
                           "ALIGNMENT": "FRIENDLY",
                           "STRONGHOLD_ID": "FARM_HOVEL"
@@ -65,6 +67,7 @@
                           "pirate_start_encounters",
                           "alien_start_encounters"
                         ],
+                        "inventory_items": ["ITEM_DRAKEN_GOLDRED"],
                         "equipped_items": [
                           "ITEM_HELMET_VIKING_GOLDRED",
                           "ITEM_AXE_SLICER_GOLDRED",
@@ -109,6 +112,7 @@
                           "pirate_start_encounters",
                           "alien_start_encounters"
                         ],
+                        "inventory_items": ["ITEM_DRAKEN_GOLDRED"],
                         "equipped_items": [
                           "ITEM_HELMET_VIKING_WHITE",
                           "ITEM_AXE_SLICER_WHITE",
@@ -148,6 +152,7 @@
                         "actor_id":"ACTOR_FARMER",
                         "page_id": "page_start_farmer",
                         "world_encounters": ["farmer_start_encounters"],
+                        "inventory_items": ["ITEM_DRAKEN_GOLDRED"],
                         "equipped_items": ["ITEM_HAT_LEATHER", "ITEM_SWORD_FANCY", "ITEM_SHIRT_CHAIN"],
                         "status": {
                           "ALIGNMENT": "FRIENDLY",
@@ -173,6 +178,7 @@
                         "actor_id":"ACTOR_PRINCESS",
                         "page_id": "page_start_princess",
                         "world_encounters": ["princess_start_encounters"],
+                        "inventory_items": ["ITEM_DRAKEN_GOLDRED"],
                         "equipped_items": ["ITEM_HAT_WHITE", "ITEM_DRAKEN", "ITEM_SWORD_FANCY"],
                         "status": {
                           "ALIGNMENT": "FRIENDLY",
@@ -198,6 +204,7 @@
                         "actor_id":"ACTOR_PIRATE",
                         "page_id": "page_start_pirate",
                         "world_encounters": ["pirate_start_encounters"],
+                        "inventory_items": ["ITEM_DRAKEN_GOLDRED"],
                         "equipped_items": ["ITEM_HAT_RED", "ITEM_SWORD_FANCY"],
                         "status": {
                           "ALIGNMENT": "FRIENDLY",
@@ -223,6 +230,7 @@
                         "actor_id":"ACTOR_ALIEN",
                         "page_id": "page_start_alien",
                         "world_encounters": ["alien_start_encounters"],
+                        "inventory_items": ["ITEM_DRAKEN_GOLDRED"],
                         "equipped_items": ["ITEM_JETPACK", "ITEM_WRIST_COMPUTER"],
                         "status": {
                           "ALIGNMENT": "FRIENDLY",

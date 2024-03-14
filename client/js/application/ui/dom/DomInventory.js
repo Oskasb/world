@@ -12,17 +12,13 @@ class DomInventory {
     constructor() {
         let actor = null;
         let htmlElement = new HtmlElement();
-        let itemDivs = [];
+        let invItems = {};
+        let slottedItems = {};
         let buttonDiv = null;
         let adsrEnvelope;
 
         let statusMap = {
             name : ".."
-        }
-
-        let closeCb = function() {
-            release();
-            console.log("Close...")
         }
 
         let setInitTransforms = function() {
@@ -45,48 +41,58 @@ class DomInventory {
         let rebuild;
 
         let clearItemDivs = function() {
-            while(itemDivs.length) {
+            while(invItems.length) {
                 console.log("Return DomItem")
-                let domItem = itemDivs.pop();
+                let domItem = invItems.pop();
                 domItem.call.close();
                 poolReturn(domItem);
             }
         }
 
         let update = function() {
-            return;
 
             if (actor === null) {
                 console.log("No actor")
+                return;
             }
 
-            let items = actor.actorEquipment.items;
+            let items = actor.actorInventory.items;
 
-            if (itemDivs.length !== 0 && itemDivs.length !== items.length) {
-                clearItemDivs()
-            }
-
-            if (itemDivs.length < items.length) {
-                for (let i = 0; i < items.length; i++) {
-                    let item = items[i]
-                    let itemDiv = poolFetch('DomItem');
-                    itemDiv.call.setItem(item);
-                    itemDivs.push(itemDiv);
+            for (let key in slottedItems) {
+                if (items[key].item === null) {
+                    slottedItems[key] = null;
                 }
             }
 
-            for (let i = 0; i < itemDivs.length; i++) {
-                let domItem = itemDivs[i];
-                let item = domItem.call.getItem();
-                let slotId = item.getStatus(ENUMS.ItemStatus.EQUIPPED_SLOT);
-                let target = htmlElement.call.getChildElement(slotId);
+            for (let key in items) {
+                let item = items[key].item;
+                if (item !== null) {
+                    if (!slottedItems[key]) {
+                        slottedItems[key] = item;
+                    }
+                }
+            }
 
-                if (!target) {
-                    console.log("No parent div for slot: ", slotId, item);
+            for (let key in slottedItems) {
+                let item = slottedItems[key];
+
+                if (typeof (invItems[key]) === 'object') {
+                    if (invItems[key].call.getItem() !== item) {
+                        invItems[key].call.close();
+                        invItems[key] = null;
+                    } else {
+
+                    }
                 } else {
-                    domItem.call.setTargetElement(target)
+                    let domItem = poolFetch('DomItem');
+                    domItem.call.setItem(item);
+                    let target = htmlElement.call.getChildElement(key);
+                    console.log("Target Elem: ", target)
+                    domItem.call.setTargetElement(target, htmlElement.call.getRootElement())
+                    invItems[key] = domItem;
                 }
             }
+
         }
 
         let close = function() {
@@ -110,14 +116,14 @@ class DomInventory {
         }
 
 
-        let activate = function(actr, btnDiv) {
+        let activate = function(actr, btnDiv, onClose) {
             buttonDiv = btnDiv;
             console.log("Actor inventory", actr)
             DomUtils.addElementClass(buttonDiv, 'bar_button_active')
             adsrEnvelope = defaultAdsr;
             actor = actr;
             htmlElement = poolFetch('HtmlElement');
-            rebuild = htmlElement.initHtmlElement('inventory', closeCb, statusMap, 'inventory', htmlReady);
+            rebuild = htmlElement.initHtmlElement('inventory', onClose, statusMap, 'inventory', htmlReady);
         }
 
         let release = function() {

@@ -1,4 +1,3 @@
-import { ConfigData } from "../../application/utils/ConfigData.js";
 import { ItemSlot } from "../gamepieces/ItemSlot.js";
 
 let parsedConfigData;
@@ -21,7 +20,6 @@ class ActorEquipment {
                         equipmentAddModifiers.push(addModifiers)
                     }
                 }
-        //        console.log("Add modifiers:", equipmentAddModifiers)
         }
 
 
