@@ -35,6 +35,7 @@ import {ProceduralEncounterConfig} from "../../game/encounter/ProceduralEncounte
 import {DomLootNotice} from "../ui/dom/DomLootNotice.js";
 import {DomItem} from "../ui/dom/DomItem.js";
 import {DomInventory} from "../ui/dom/DomInventory.js";
+import {DomItemCard} from "../ui/dom/DomItemCard.js";
 
 
 let pools = {}
@@ -76,6 +77,7 @@ function initPools() {
     registerPool(DomLootNotice)
     registerPool(DomItem)
     registerPool(DomInventory)
+    registerPool(DomItemCard)
 }
 
 function registerPool(DataObj) {

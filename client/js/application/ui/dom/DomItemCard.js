@@ -1,9 +1,8 @@
 import {HtmlElement} from "./HtmlElement.js";
-import {poolFetch, poolReturn} from "../../utils/PoolUtils.js";
 
 let activeDomItems = [];
 
-class DomItem {
+class DomItemCard {
     constructor() {
 
         let htmlElement = new HtmlElement();
@@ -11,7 +10,7 @@ class DomItem {
         let targetElement = null;
         let targetRoot = null;
         let rootElement = null;
-        let container = null;
+
         let statusMap = {
 
         }
@@ -27,25 +26,16 @@ class DomItem {
             let bodyRect = DomUtils.getWindowBoundingRect();
             let rootRect = targetRoot.getBoundingClientRect();
             let elemRect = targetElement.getBoundingClientRect();
-            let elemTraverse = targetElement;
-            //    let offset   = elemRect.top - bodyRect.top;
+
             let width = elemRect.width;
             let height = elemRect.height;
-            // console.log("")
-            let pTop  = elemRect.top  + rootRect.top  - bodyRect.top;
+
+            let pTop  = bodyRect.height - rootRect.top - bodyRect.top;
             let pLeft = elemRect.left + rootRect.left - bodyRect.left;
 
-            rootElement.style.fontSize = targetElement.style.fontSize;
-            rootElement.style.width = width+'px';
-            rootElement.style.height = height+'px';
-/*
-            while(elemTraverse !== null){
-                pLeft += elemTraverse.offsetLeft;
-                pTop += elemTraverse.offsetTop;
-                elemTraverse = elemTraverse.offsetParent;
-            }
-*/
-            setTargetCoordinates(pTop+height*0.5, pLeft+width*0.5)
+            rootElement.style.fontSize = DomUtils.rootFontSize();
+
+            setTargetCoordinates(pTop, pLeft+width*0.5)
         }
 
         let rebuild = function() {
@@ -56,30 +46,16 @@ class DomItem {
          //   }, 500)
         }
 
-        let itemCard = null;
-
-        let inspectItem = function() {
-            let newCard = poolFetch('DomItemCard');
-            if (itemCard !== null) {
-                itemCard.call.close();
-                poolReturn(itemCard);
-            }
-            itemCard = newCard;
-            itemCard.call.setItem(getItem());
-            itemCard.call.setTargetElement(container, htmlElement.call.getRootElement())
-
-        }
-
         let readyCb = function() {
             rootElement = htmlElement.call.getRootElement();
             let bodyRect = DomUtils.getWindowBoundingRect();
             let width = bodyRect.width;
             let height = bodyRect.height;
             setTargetCoordinates(height*0.5,width *0.5)
-            container = htmlElement.call.getChildElement('container')
+            let container = htmlElement.call.getChildElement('container')
             container.style.visibility = "visible";
             container.style.display = "";
-            DomUtils.addClickFunction(container, inspectItem)
+            DomUtils.addClickFunction(container, rebuild)
 
         //    let slotId = item.getStatus(ENUMS.ItemStatus.EQUIPPED_SLOT);
             let backplate = htmlElement.call.getChildElement("backplate");
@@ -96,31 +72,37 @@ class DomItem {
             let rarity = item.getStatus(ENUMS.ItemStatus.RARITY);
             DomUtils.addElementClass(backplate, rarity);
             DomUtils.addElementClass(itemDiv, iconClass);
-
             ThreeAPI.registerPrerenderCallback(update);
-
         }
 
         let setItem = function(itm) {
             item = itm;
             statusMap['ITEM_ID'] = item.getStatus(ENUMS.ItemStatus.ITEM_ID);
-            htmlElement.initHtmlElement('item', null, statusMap, 'item', readyCb);
+            statusMap['NAME'] = item.getStatus(ENUMS.ItemStatus.NAME);
+            statusMap['ITEM_LEVEL'] = item.getStatus(ENUMS.ItemStatus.ITEM_LEVEL);
+            statusMap['ITEM_TYPE'] = item.getStatus(ENUMS.ItemStatus.ITEM_TYPE);
+            statusMap['QUALITY'] = item.getStatus(ENUMS.ItemStatus.QUALITY);
+            statusMap['RARITY'] = item.getStatus(ENUMS.ItemStatus.RARITY);
+            statusMap['ACTIVATION_STATE'] = item.getStatus(ENUMS.ItemStatus.ACTIVATION_STATE);
+            statusMap['EQUIPPED_SLOT'] = item.getStatus(ENUMS.ItemStatus.EQUIPPED_SLOT);
+            statusMap['PALETTE_VALUES'] = item.getStatus(ENUMS.ItemStatus.PALETTE_VALUES);
+            statusMap['MODIFIERS'] = item.getStatus(ENUMS.ItemStatus.MODIFIERS);
+            htmlElement.initHtmlElement('item_card', closeCb, statusMap, 'item_card', readyCb);
         }
 
         let getItem = function() {
             return item;
         }
 
-        let setTargetCoordinates = function(top, left) {
-            rootElement.style.transform = "translate3d(-50%, -50%, 0)";
-            rootElement.style.top = top+'px';
+        let setTargetCoordinates = function(bottom, left) {
+            rootElement.style.transform = "translate3d(-50%, 0, 0)";
+            rootElement.style.bottom = bottom+'px';
             rootElement.style.left = left+'px';
         }
 
         let setTargetElement = function(target, root) {
             targetElement = target;
             targetRoot = root;
-
         }
 
         let clearIframe = function() {
@@ -152,4 +134,4 @@ class DomItem {
 
 
 
-export {DomItem}
+export {DomItemCard}

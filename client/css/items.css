@@ -1,5 +1,77 @@
-div.item_card {
+.item_card_container {
+    top: 0.7em;
+    left: 0.5em;
+    right: auto;
+    width: 29.5em;
+    height:auto;
+    min-height: 9em;
+    font-size: 1em;
+    border-radius: 0.5em;
+    position: absolute;
+    margin:0;
+    padding: 0;
+    text-align: center;
+    background-image: inherit;
+    background-size: 100%;
+    background-color: none;
+    opacity: 100;
+    color: black;
+    overflow: hidden;
+    background: radial-gradient(circle, rgb(121, 121, 121) 0%, rgb(47, 47, 47) 99%);
+    border: 0.2em solid;
+    border-color: rgb(255, 255, 255);
+    box-shadow: 0 0 1.5em rgba(115, 180, 250, 0.5);
+}
 
+.item_card_container h1 {
+    color: rgba(245, 245, 245, 0.95);
+    text-shadow: 0 0 16px rgb(255, 255, 255);
+    top: 0em;
+    font-size: 2em;
+    position: absolute;
+    display: inline-block;
+    width: auto;
+    left: 3em;
+    text-align: left;
+    padding: 0;
+    padding-top: 0;
+    margin: 0;
+}
+
+.item_card_container p {
+    color: rgba(245, 245, 245, 0.95);
+    text-shadow: 0 0 16px rgb(255, 255, 255);
+    top: 20%;
+    font-size: 2em;
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    padding: 0;
+    padding-top: 0;
+    margin: 0;
+}
+
+div.icon_container {
+    top: -0.5em;
+    left: -0.5em;
+    right: auto;
+    width: 6em;
+    height: 6em;
+    font-size: 1em;
+    border-radius: 1em;
+    position: absolute;
+    margin:0;
+    padding: 0;
+    text-align: center;
+    background-image: inherit;
+    background-size: 100%;
+    background-color: none;
+    opacity: 100;
+    color: black;
+
+    background: radial-gradient(circle, rgb(121, 121, 121) 0%, rgb(47, 47, 47) 99%);
+    border: none;
+    box-shadow: 0 0 0.5em rgba(0, 0, 0, 0.05);
 }
 
 div.item_container {
@@ -25,6 +97,7 @@ div.item_container {
     border-width: 0.7em;
     box-shadow: 0 0 1.5em rgba(115, 180, 250, 0.5);
 }
+
 div.item_container p {
     color: rgba(0, 0, 0, 0.95);
     text-shadow: 0 0 16px rgb(255, 255, 255);
