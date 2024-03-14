@@ -15,10 +15,6 @@ class DomItemCard {
 
         }
 
-        let closeCb = function() {
-            console.log("Close...")
-        }
-
         let update = function() {
             if (targetRoot === null) {
                 return;
@@ -75,9 +71,10 @@ class DomItemCard {
             ThreeAPI.registerPrerenderCallback(update);
         }
 
-        let setItem = function(itm) {
+        let setItem = function(itm, closeItemCard) {
             item = itm;
             statusMap['ITEM_ID'] = item.getStatus(ENUMS.ItemStatus.ITEM_ID);
+            statusMap['TEMPLATE'] = item.getStatus(ENUMS.ItemStatus.TEMPLATE);
             statusMap['NAME'] = item.getStatus(ENUMS.ItemStatus.NAME);
             statusMap['ITEM_LEVEL'] = item.getStatus(ENUMS.ItemStatus.ITEM_LEVEL);
             statusMap['ITEM_TYPE'] = item.getStatus(ENUMS.ItemStatus.ITEM_TYPE);
@@ -87,7 +84,8 @@ class DomItemCard {
             statusMap['EQUIPPED_SLOT'] = item.getStatus(ENUMS.ItemStatus.EQUIPPED_SLOT);
             statusMap['PALETTE_VALUES'] = item.getStatus(ENUMS.ItemStatus.PALETTE_VALUES);
             statusMap['MODIFIERS'] = item.getStatus(ENUMS.ItemStatus.MODIFIERS);
-            htmlElement.initHtmlElement('item_card', closeCb, statusMap, 'item_card', readyCb);
+            statusMap['SLOT_ID'] = item.getEquipSlotId()
+            htmlElement.initHtmlElement('item_card', closeItemCard, statusMap, 'item_card', readyCb);
         }
 
         let getItem = function() {

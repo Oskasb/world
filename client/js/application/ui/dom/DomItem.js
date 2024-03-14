@@ -58,14 +58,19 @@ class DomItem {
 
         let itemCard = null;
 
-        let inspectItem = function() {
-            let newCard = poolFetch('DomItemCard');
+        let closeItemCard = function() {
             if (itemCard !== null) {
                 itemCard.call.close();
                 poolReturn(itemCard);
+                itemCard = null;
             }
+        }
+
+        let inspectItem = function() {
+            let newCard = poolFetch('DomItemCard');
+            closeItemCard();
             itemCard = newCard;
-            itemCard.call.setItem(getItem());
+            itemCard.call.setItem(getItem(), closeItemCard);
             itemCard.call.setTargetElement(container, htmlElement.call.getRootElement())
 
         }
@@ -136,6 +141,7 @@ class DomItem {
             item = null;
             ThreeAPI.unregisterPrerenderCallback(update);
             clearIframe();
+            closeItemCard();
         }
 
         this.call = {

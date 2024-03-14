@@ -1,5 +1,6 @@
 class ActorInventory {
     constructor(actor) {
+        this.actor = actor;
         this.inventoryStatus = [
             "", "", "",
             "", "", "",
@@ -43,7 +44,9 @@ class ActorInventory {
 
 
         let switchItem = this.items[slotKey].item;
-        this.inventoryStatus[this.items[slotKey].index] = item.getStatus(ENUMS.ItemStatus.ITEM_ID);
+
+        let invStatus = this.actor.getStatus(ENUMS.ActorStatus.INVENTORY_ITEMS);
+        invStatus[this.items[slotKey].index] = item.getStatus(ENUMS.ItemStatus.ITEM_ID);
         this.items[slotKey].item = item;
         if (typeof (callback) === 'function') {
             callback(item, switchItem);

@@ -349,10 +349,20 @@ class GameActor {
     }
 
     processItemLooted(item) {
-        let requests = this.getStatus(ENUMS.ActorStatus.EQUIP_REQUESTS)
-        requests.push(item.getStatus(ENUMS.ItemStatus.TEMPLATE));
-        console.log("loot: ", requests);
-        this.setStatusKey(ENUMS.ActorStatus.EQUIP_REQUESTS, requests);
+
+        let slotId = item.getEquipSlotId();
+        let existingItem = this.actorEquipment.getEquippedItemBySlotId(slotId);
+        if (existingItem !== null) {
+            console.log("Add to Inv", item)
+            this.actorInventory.addInventoryItem(item, null, this.call.inventoryItemAdded);
+        } else {
+            let requests = this.getStatus(ENUMS.ActorStatus.EQUIP_REQUESTS)
+            requests.push(item.getStatus(ENUMS.ItemStatus.TEMPLATE));
+            console.log("loot: ", requests);
+            this.setStatusKey(ENUMS.ActorStatus.EQUIP_REQUESTS, requests);
+        }
+
+
     }
 
     equipItem(item) {

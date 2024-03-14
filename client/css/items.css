@@ -5,6 +5,18 @@
     width: 29.5em;
     height:auto;
     min-height: 9em;
+    position: absolute;
+    margin:0;
+    padding: 0;
+}
+
+div.item_card_panel {
+    top: 0;
+    left: 0;
+    right: auto;
+    width: 100%;
+    height:auto;
+    min-height: 9em;
     font-size: 1em;
     border-radius: 0.5em;
     position: absolute;
@@ -16,14 +28,13 @@
     background-color: none;
     opacity: 100;
     color: black;
-    overflow: hidden;
     background: radial-gradient(circle, rgb(121, 121, 121) 0%, rgb(47, 47, 47) 99%);
     border: 0.2em solid;
     border-color: rgb(255, 255, 255);
     box-shadow: 0 0 1.5em rgba(115, 180, 250, 0.5);
 }
 
-.item_card_container h1 {
+div.item_card_panel h1 {
     color: rgba(245, 245, 245, 0.95);
     text-shadow: 0 0 16px rgb(255, 255, 255);
     top: 0em;
@@ -38,7 +49,7 @@
     margin: 0;
 }
 
-.item_card_container p {
+div.item_card_panel p {
     color: rgba(245, 245, 245, 0.95);
     text-shadow: 0 0 16px rgb(255, 255, 255);
     top: 20%;
@@ -73,6 +84,25 @@ div.icon_container {
     border: none;
     box-shadow: 0 0 0.5em rgba(0, 0, 0, 0.05);
 }
+
+div.item_properties {
+    top: 2em;
+    left: 6em;
+    position: absolute;
+    color: white;
+}
+
+div.item_property {
+    top:0.3em;
+    left:0.3em;
+    height: 1.3em;
+    padding: 0.5em;
+    font-size: 0.8em;
+    position: relative;
+    color: inherit;
+    display: inline-block;
+}
+
 
 div.item_container {
     top: auto;

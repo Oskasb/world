@@ -497,9 +497,13 @@ function processInventoryStatus(actor) {
     let inv = actor.actorInventory;
     for (let i = 0; i < invStatus.length; i++) {
         if (invStatus[i] !== inv.inventoryStatus[i]) {
-            let item = GameAPI.getItemById(invStatus[i]);
+            if (invStatus[i] === "") {
+            } else {
+                let item = GameAPI.getItemById(invStatus[i]);
+                inv.addInventoryItem(item, i)
+            }
             actor.actorText.say("Synch Inventory "+i)
-            inv.addInventoryItem(item, i)
+            inv.inventoryStatus[i] = invStatus[i];
         }
     }
 }

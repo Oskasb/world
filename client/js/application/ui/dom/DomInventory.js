@@ -41,11 +41,14 @@ class DomInventory {
         let rebuild;
 
         let clearItemDivs = function() {
-            while(invItems.length) {
-                console.log("Return DomItem")
-                let domItem = invItems.pop();
-                domItem.call.close();
-                poolReturn(domItem);
+            console.log("clearItemDivs")
+            for (let key in invItems) {
+                if (invItems[key] !== null) {
+                    let domItem = invItems[key];
+                    domItem.call.close();
+                    poolReturn(domItem);
+                    invItems[key] = null;
+                }
             }
         }
 

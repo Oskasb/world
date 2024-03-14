@@ -156,6 +156,7 @@ class ActorEquipment {
             }
         }
         console.log("Item not equipped here.. ", slotId)
+        return null;
     }
 
 
