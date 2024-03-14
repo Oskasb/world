@@ -8,6 +8,7 @@ let dragEvent = {};
 class DomItem {
     constructor() {
 
+        let domItem = this;
         let htmlElement = new HtmlElement();
         let item = null;
         let targetElement = null;
@@ -47,6 +48,7 @@ class DomItem {
                     dragEvent.x = targetX;
                     dragEvent.y = targetY;
                     dragEvent.item = getItem();
+                    dragEvent.domItem = domItem;
                     evt.dispatch(ENUMS.Event.UI_ITEM_DRAG, dragEvent)
                 }
 

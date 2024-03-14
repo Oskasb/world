@@ -66,6 +66,15 @@ class DomCharacter {
 
         }
 
+
+        function dragListener(e) {
+            if (inv !== null) {
+                inv.call.handleItemDragEvent(e);
+            }
+        }
+
+        evt.on(ENUMS.Event.UI_ITEM_DRAG, dragListener)
+
         let readyCb = function() {
             invDiv = htmlElement.call.getChildElement('button_inventory');
             headerDiv = htmlElement.call.getChildElement('header_container');
@@ -119,6 +128,9 @@ class DomCharacter {
 
                 if (!target) {
                     console.log("No parent div for slot: ", slotId, item);
+            //        MATH.splice(itemDivs, itemDivs[i]);
+            //        i--;
+                //    clearItemDivs()
                 } else {
                     domItem.call.setTargetElement(target, htmlElement.call.getRootElement())
                 }

@@ -44,11 +44,16 @@ class ActorInventory {
             }
         }
 
-
         let switchItem = this.items[slotKey].item;
-
         let invStatus = this.actor.getStatus(ENUMS.ActorStatus.INVENTORY_ITEMS);
-        invStatus[this.items[slotKey].index] = item.getStatus(ENUMS.ItemStatus.ITEM_ID);
+
+        if (item === null) {
+            invStatus[this.items[slotKey].index] = "";
+        } else {
+            invStatus[this.items[slotKey].index] = item.getStatus(ENUMS.ItemStatus.ITEM_ID);
+            item.setStatusKey(ENUMS.ItemStatus.EQUIPPED_SLOT, slotKey);
+        }
+
         this.items[slotKey].item = item;
         if (typeof (callback) === 'function') {
             callback(item, switchItem);
@@ -59,7 +64,14 @@ class ActorInventory {
         return this.items["SLOT_"+slotIndex].item;
     }
 
+    getItemAtSlot(slotId) {
+        if (typeof (this.items[slotId]) === 'object') {
+            return this.items[slotId].item;
+        } else {
+            return null;
+        }
 
+    }
 
 }
 

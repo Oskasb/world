@@ -16,7 +16,39 @@ class DomInventory {
     constructor() {
         let dragItem = null;
         let actor = null;
+        let sourceSlot
+        let switchCB = function(dragItem, switchItem) {
+            if (switchItem !== null) {
+                actor.actorInventory.addInventoryItem(switchItem, sourceSlot, null);
+            }
+        }
 
+        let handleItemDragEvent = function(e) {
+            if (e !== null) {
+                dragListening = true;
+                dragEvent = e;
+                dragItem = e.item;
+            } else {
+                dragListening = false;
+                if (dragTargetSlot !== null) {
+                    let slotId = dragTargetSlot.id;
+                    console.log("Drag To Slot", slotId, dragTargetSlot, dragItem);
+                    sourceSlot = dragItem.getStatus(ENUMS.ItemStatus.EQUIPPED_SLOT);
+                    let invItem = actor.actorInventory.getItemAtSlot(sourceSlot);
+                    if (invItem !== dragItem) {
+                        console.log("Not switching inv items.. ")
+                        let equippedItem = actor.actorEquipment.getEquippedItemBySlotId(sourceSlot);
+                        if (equippedItem !== null) {
+                            actor.actorEquipment.call.unequipActorItem(equippedItem);
+                        }
+                    } else {
+                        actor.actorInventory.addInventoryItem(null, sourceSlot, null);
+                    }
+                    actor.actorInventory.addInventoryItem(dragItem, slotId, switchCB);
+                }
+            }
+        }
+    /*
         if (dragListener === null) {
             dragListener = function(e) {
                 console.log("Drag", e)
@@ -29,14 +61,22 @@ class DomInventory {
                     if (dragTargetSlot !== null) {
                         let slotId = dragTargetSlot.id;
                         console.log("Drag To Slot", slotId, dragTargetSlot, dragItem);
-                        actor.actorInventory.addInventoryItem(dragItem, slotId);
+                        let sourceSlot = dragItem.getStatus(ENUMS.ItemStatus.EQUIPPED_SLOT);
+                        let invItem = actor.actorInventory.getItemAtSlot(sourceSlot);
+                        if (invItem !== dragItem) {
+                            console.log("Not switching inv items.. ")
+                        } else {
+                            actor.actorInventory.addInventoryItem(null, sourceSlot, null);
+                        }
+
+                        actor.actorInventory.addInventoryItem(dragItem, slotId, switchCB);
 
                     }
                 }
             }
             evt.on(ENUMS.Event.UI_ITEM_DRAG, dragListener)
         }
-
+    */
         let htmlElement = new HtmlElement();
         let invItems = {};
         let slottedItems = {};
@@ -169,12 +209,18 @@ class DomInventory {
                 let item = slottedItems[key];
 
                 if (typeof (invItems[key]) === 'object') {
-                    if (invItems[key].call.getItem() !== item) {
-                        invItems[key].call.close();
-                        invItems[key] = null;
-                    } else {
+                    if (invItems[key] !== null) {
+                        if (invItems[key].call.getItem() !== item) {
+                            invItems[key].call.close();
+                            invItems[key] = null;
+                        } else {
+                            let slotId = item.getStatus(ENUMS.ItemStatus.EQUIPPED_SLOT);
+                            let target = htmlElement.call.getChildElement(slotId);
+                            invItems[key].call.setTargetElement(target, htmlElement.call.getRootElement())
+                        }
 
                     }
+
                 } else {
                     let domItem = poolFetch('DomItem');
                     domItem.call.setItem(item);
@@ -234,7 +280,8 @@ class DomInventory {
         this.call = {
             close:close,
             activate:activate,
-            release:release
+            release:release,
+            handleItemDragEvent:handleItemDragEvent
         }
     }
 }
