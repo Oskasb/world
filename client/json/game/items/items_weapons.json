@@ -26,9 +26,11 @@
             {"status": "ACTIONS", "value":"ACTION_SWORD_SLASH"}
           ],
           "status": {
-            "NAME":"Golden Axe",
-            "ITEM_LEVEL": 30,
-            "ITEM_TYPE" : "WEAPON"
+            "NAME":"Fiery Slicer",
+            "ITEM_LEVEL": 53,
+            "ITEM_TYPE" : "WEAPON",
+            "RARITY": "LEGENDARY",
+            "QUALITY": "EXCEPTIONAL"
           }
         }
       },

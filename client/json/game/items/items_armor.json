@@ -25,9 +25,11 @@
             {"status": "MAX_HP", "value":0}
           ],
           "status": {
-            "NAME":"Viking Helmet",
-            "ITEM_LEVEL": 1,
-            "ITEM_TYPE" : "ARMOR"
+            "NAME":"Fire God Helmet",
+            "ITEM_LEVEL": 53,
+            "ITEM_TYPE" : "ARMOR",
+            "RARITY": "LEGENDARY",
+            "QUALITY": "EXCEPTIONAL"
           }
         }
       },
@@ -101,9 +103,11 @@
             {"status": "MAX_HP", "value":0}
           ],
           "status": {
-            "NAME":"Belt",
-            "ITEM_LEVEL": 1,
-            "ITEM_TYPE" : "ARMOR"
+            "NAME":"Fire God Belt",
+            "ITEM_LEVEL": 53,
+            "ITEM_TYPE" : "ARMOR",
+            "RARITY": "LEGENDARY",
+            "QUALITY": "EXCEPTIONAL"
           }
         }
       },
@@ -140,18 +144,13 @@
         }
       },
       {
-        "id": "ITEM_LEGS_SCALE",
+        "id": "ITEM_SKIRT_SCALE",
         "data": {
           "visual_id":"VISUAL_LEGS_SCALE",
-          "equip_slot": "SLOT_LEGS",
+          "equip_slot": "SLOT_SKIRT",
           "status_add_modifiers": [
             {"status": "MAX_HP", "value":0}
           ],
-          "status": {
-            "NAME":"Belt",
-            "ITEM_LEVEL": 1,
-            "ITEM_TYPE" : "ARMOR"
-          },
           "status": {
             "NAME":"Belt",
             "ITEM_LEVEL": 1,
@@ -230,10 +229,10 @@
         }
       },
       {
-        "id": "ITEM_LEGS_SCALE_PURPLE",
+        "id": "ITEM_SKIRT_SCALE_PURPLE",
         "data": {
           "visual_id":"VISUAL_LEGS_SCALE_PURPLE",
-          "equip_slot": "SLOT_LEGS",
+          "equip_slot": "SLOT_SKIRT",
           "status_add_modifiers": [
             {"status": "MAX_HP", "value":0}
           ],
@@ -299,9 +298,11 @@
             {"status": "MAX_HP", "value":0}
           ],
           "status": {
-            "NAME":"Armor",
-            "ITEM_LEVEL": 1,
-            "ITEM_TYPE" : "ARMOR"
+            "NAME":"Fire God Gloves",
+            "ITEM_LEVEL": 53,
+            "ITEM_TYPE" : "ARMOR",
+            "RARITY": "LEGENDARY",
+            "QUALITY": "EXCEPTIONAL"
           }
         }
       },
@@ -314,24 +315,28 @@
             {"status": "MAX_HP", "value":0}
           ],
           "status": {
-            "NAME":"Armor",
-            "ITEM_LEVEL": 1,
-            "ITEM_TYPE" : "ARMOR"
+            "NAME":"Fire God Boots",
+            "ITEM_LEVEL": 53,
+            "ITEM_TYPE" : "ARMOR",
+            "RARITY": "LEGENDARY",
+            "QUALITY": "EXCEPTIONAL"
           }
         }
       },
       {
-        "id": "ITEM_LEGS_SCALE_RED",
+        "id": "ITEM_SKIRT_SCALE_RED",
         "data": {
           "visual_id":"VISUAL_LEGS_SCALE_RED",
-          "equip_slot": "SLOT_LEGS",
+          "equip_slot": "SLOT_SKIRT",
           "status_add_modifiers": [
             {"status": "MAX_HP", "value":0}
           ],
           "status": {
-            "NAME":"Armor",
-            "ITEM_LEVEL": 1,
-            "ITEM_TYPE" : "ARMOR"
+            "NAME":"Fire God Scale Kilt",
+            "ITEM_LEVEL": 53,
+            "ITEM_TYPE" : "ARMOR",
+            "RARITY": "LEGENDARY",
+            "QUALITY": "EXCEPTIONAL"
           }
         }
       },
@@ -344,9 +349,11 @@
             {"status": "MAX_HP", "value":0}
           ],
           "status": {
-            "NAME":"Armor",
-            "ITEM_LEVEL": 1,
-            "ITEM_TYPE" : "ARMOR"
+            "NAME":"Fire God Scales",
+            "ITEM_LEVEL": 53,
+            "ITEM_TYPE" : "ARMOR",
+            "RARITY": "LEGENDARY",
+            "QUALITY": "EXCEPTIONAL"
           }
         }
 
@@ -360,9 +367,11 @@
             {"status": "MAX_HP", "value":0}
           ],
           "status": {
-            "NAME":"Armor",
-            "ITEM_LEVEL": 1,
-            "ITEM_TYPE" : "ARMOR"
+            "NAME":"Fire God Chain",
+            "ITEM_LEVEL": 53,
+            "ITEM_TYPE" : "ARMOR",
+            "RARITY": "LEGENDARY",
+            "QUALITY": "EXCEPTIONAL"
           }
         }
       },
@@ -375,9 +384,11 @@
             {"status": "MAX_HP", "value":0}
           ],
           "status": {
-            "NAME":"Armor",
-            "ITEM_LEVEL": 1,
-            "ITEM_TYPE" : "ARMOR"
+            "NAME":"Fire God Greaves",
+            "ITEM_LEVEL": 53,
+            "ITEM_TYPE" : "ARMOR",
+            "RARITY": "LEGENDARY",
+            "QUALITY": "EXCEPTIONAL"
           }
         }
       },
