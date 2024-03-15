@@ -1,11 +1,14 @@
 body.item_container {
     overflow:hidden;
     position:absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
+    top: 0.2em;
+    left: 0.2em;
+    bottom: 0.2em;
+    right: 0.2em;
+    width: auto;
+    height: auto;
     border-radius: 10%;
+    background:none;
     margin: 0;
     border: none;
 }

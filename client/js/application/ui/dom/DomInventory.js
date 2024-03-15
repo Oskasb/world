@@ -8,7 +8,6 @@ let defaultAdsr = {
     release: {duration:0.4, to: 0, easing:"cubic-bezier(0.4, -0.2, 0.7, -0.2)"}
 }
 
-let dragListener = null
 let dragEvent = null;
 let dragListening = false;
 
@@ -32,7 +31,7 @@ class DomInventory {
                 dragListening = false;
                 if (dragTargetSlot !== null) {
                     let slotId = dragTargetSlot.id;
-                    console.log("Drag To Slot", slotId, dragTargetSlot, dragItem);
+                    console.log("Drag To Inv Slot", slotId, dragTargetSlot, dragItem);
                     sourceSlot = dragItem.getStatus(ENUMS.ItemStatus.EQUIPPED_SLOT);
                     let invItem = actor.actorInventory.getItemAtSlot(sourceSlot);
                     if (invItem !== dragItem) {
@@ -48,35 +47,7 @@ class DomInventory {
                 }
             }
         }
-    /*
-        if (dragListener === null) {
-            dragListener = function(e) {
-                console.log("Drag", e)
-                if (e !== null) {
-                    dragListening = true;
-                    dragEvent = e;
-                    dragItem = e.item;
-                } else {
-                    dragListening = false;
-                    if (dragTargetSlot !== null) {
-                        let slotId = dragTargetSlot.id;
-                        console.log("Drag To Slot", slotId, dragTargetSlot, dragItem);
-                        let sourceSlot = dragItem.getStatus(ENUMS.ItemStatus.EQUIPPED_SLOT);
-                        let invItem = actor.actorInventory.getItemAtSlot(sourceSlot);
-                        if (invItem !== dragItem) {
-                            console.log("Not switching inv items.. ")
-                        } else {
-                            actor.actorInventory.addInventoryItem(null, sourceSlot, null);
-                        }
 
-                        actor.actorInventory.addInventoryItem(dragItem, slotId, switchCB);
-
-                    }
-                }
-            }
-            evt.on(ENUMS.Event.UI_ITEM_DRAG, dragListener)
-        }
-    */
         let htmlElement = new HtmlElement();
         let invItems = {};
         let slottedItems = {};
@@ -162,7 +133,6 @@ class DomInventory {
             }
 
             if (dragListening === true) {
-
                 if (dragEvent !== null) {
                     let slot = getDragOverSlot()
                     if (slot !== null) {
@@ -180,11 +150,7 @@ class DomInventory {
                             dragTargetSlot = null;
                         }
                     }
-
-                } else {
-
                 }
-
             }
 
 

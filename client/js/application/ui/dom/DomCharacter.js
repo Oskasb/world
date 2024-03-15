@@ -8,8 +8,64 @@ let defaultAdsr = {
     release: {duration:0.4, to: 0, easing:"cubic-bezier(0.4, -0.2, 0.7, -0.2)"}
 }
 
+let dragEvent = null;
+let dragListening = false;
+
 class DomCharacter {
     constructor() {
+
+        let dragItem = null;
+        let sourceSlot
+        let dragTargetSlot = null;
+
+        let switchCB = function(dragItem, switchItem) {
+            if (switchItem !== null) {
+                actor.actorInventory.addInventoryItem(switchItem, sourceSlot, null);
+            }
+        }
+
+        let handleItemDragEvent = function(e) {
+            if (e !== null) {
+                dragListening = true;
+                dragEvent = e;
+                dragItem = e.item;
+            } else {
+                dragListening = false;
+
+                if (dragItem !== null) {
+                    let slotId = dragItem.getEquipSlotId();
+                    let slot = htmlElement.call.getChildElement(slotId);
+
+                    if (slot) {
+                        slot.style.borderColor = ""
+                        slot.style.boxShadow =  "";
+                    }
+                }
+
+                if (dragTargetSlot !== null) {
+
+                    let slotId = dragTargetSlot.id;
+                    console.log("Drag To Inv Slot", slotId, dragTargetSlot, dragItem);
+                    sourceSlot = dragItem.getStatus(ENUMS.ItemStatus.EQUIPPED_SLOT);
+                    let invItem = actor.actorInventory.getItemAtSlot(sourceSlot);
+                    if (invItem !== dragItem) {
+                        console.log("Not switching inv items.. ")
+                        let equippedItem = actor.actorEquipment.getEquippedItemBySlotId(sourceSlot);
+                        if (equippedItem !== null) {
+                            actor.actorEquipment.call.unequipActorItem(equippedItem);
+                        }
+                    } else {
+                        actor.actorInventory.addInventoryItem(null, sourceSlot, null);
+                    }
+                    let switchItem = actor.actorEquipment.getEquippedItemBySlotId(slotId);
+                    if (switchItem !== null) {
+                        actor.actorInventory.addInventoryItem(switchItem, sourceSlot);
+                    }
+                    actor.equipItem(dragItem);
+                }
+            }
+        }
+
         let actor = null;
         let htmlElement = new HtmlElement();
         let itemDivs = [];
@@ -71,6 +127,7 @@ class DomCharacter {
             if (inv !== null) {
                 inv.call.handleItemDragEvent(e);
             }
+            handleItemDragEvent(e);
         }
 
         evt.on(ENUMS.Event.UI_ITEM_DRAG, dragListener)
@@ -90,6 +147,29 @@ class DomCharacter {
 
         let rebuild;
 
+
+        let getDragOverSlot = function() {
+            let dragX = dragEvent.x;
+            let dragY = dragEvent.y;
+            let item = dragEvent.item;
+            let slotId = item.getEquipSlotId();
+        //    for (let key in slotElements) {
+                let slot = htmlElement.call.getChildElement(slotId);
+                if (slot) {
+                    let rect = DomUtils.getElementCenter(slot, htmlElement.call.getRootElement());
+                    let inside = DomUtils.xyInsideRect(dragX, dragY, rect);
+                    if (inside === true) {
+                        return slot
+                    } else {
+                        slot.style.borderColor = "rgba(155, 200, 255, 0.95)"
+                        slot.style.boxShadow =  "0 0 1.3em rgba(85, 200, 255, 1)";
+                    }
+                }
+
+        //    }
+            return null;
+        }
+
         let clearItemDivs = function() {
             while(itemDivs.length) {
                 console.log("Return DomItem")
@@ -103,6 +183,27 @@ class DomCharacter {
             if (actor === null) {
                 console.log("No actor")
                 return;
+            }
+
+            if (dragListening === true) {
+                if (dragEvent !== null) {
+                    let slot = getDragOverSlot()
+                    if (slot !== null) {
+                        //    console.log("Drag Listening", slot)
+                        if (dragTargetSlot !== slot) {
+                            if (dragTargetSlot !== null) {
+                                dragTargetSlot.style.borderColor = "";
+                            }
+                            slot.style.borderColor = "white";
+                            dragTargetSlot = slot;
+                        }
+                    } else {
+                        if (dragTargetSlot !== null) {
+                            dragTargetSlot.style.borderColor = "";
+                            dragTargetSlot = null;
+                        }
+                    }
+                }
             }
 
             let items = actor.actorEquipment.items;
