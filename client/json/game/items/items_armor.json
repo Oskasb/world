@@ -193,7 +193,7 @@
         "id": "ITEM_LEGS_CHAIN",
         "data": {
           "visual_id":"VISUAL_LEGS_CHAIN",
-          "equip_slot": "SLOT_BODY",
+          "equip_slot": "SLOT_LEGS",
           "status_add_modifiers": [
             {"status": "MAX_HP", "value":0}
           ]
@@ -278,7 +278,7 @@
         "id": "ITEM_LEGS_CHAIN_PURPLE",
         "data": {
           "visual_id":"VISUAL_LEGS_CHAIN_PURPLE",
-          "equip_slot": "SLOT_BODY",
+          "equip_slot": "SLOT_LEGS",
           "status_add_modifiers": [
             {"status": "MAX_HP", "value":0}
           ],
@@ -370,7 +370,7 @@
         "id": "ITEM_LEGS_CHAIN_RED",
         "data": {
           "visual_id":"VISUAL_LEGS_CHAIN_RED",
-          "equip_slot": "SLOT_BODY",
+          "equip_slot": "SLOT_LEGS",
           "status_add_modifiers": [
             {"status": "MAX_HP", "value":0}
           ],

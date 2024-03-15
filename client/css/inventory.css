@@ -8,6 +8,7 @@ div.inventory_container {
     width: auto;
     padding: 0;
     margin: 0.2em;
+    margin-right: -0.2em;
     position: absolute;
     border: solid #232323;
     transition-property: transform;

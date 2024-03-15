@@ -28,6 +28,10 @@ class DomItem {
                 return;
             }
 
+            if (targetElement === null) {
+                return;
+            }
+
             let rect = DomUtils.getElementCenter(targetElement, targetRoot)
 
             let pTop  = rect.y;
@@ -99,13 +103,24 @@ class DomItem {
 
 
 
+        let moveX = 0;
+        let moveY = 0;
         let mouseMove = function(e) {
             if (dragActive === true) {
             //    console.log("mouse Move", e.pageX, e.pageY);
                 dragDistanceY = rootElement.offsetTop-startOffsetTop;
                 dragDistanceX = rootElement.offsetLeft-startOffsetLeft
-                dragY = e.pageY -startDragY + dragDistanceY;
-                dragX = e.pageX -startDragX + dragDistanceX;
+
+                if (e.touches) {
+                    moveY = e.touches[0].pageY;
+                    moveX = e.touches[0].pageX;
+                } else {
+                    moveY = e.pageY;
+                    moveX = e.pageX;
+                }
+
+                dragY = moveY -startDragY + dragDistanceY;
+                dragX = moveX -startDragX + dragDistanceX;
             }
         }
 
@@ -117,8 +132,14 @@ class DomItem {
             dragY = 0;
             dragX = 0;
             dragActive = true;
-            startDragY = e.pageY;
-            startDragX = e.pageX;
+            if (e.touches) {
+                startDragY = e.touches[0].pageY;
+                startDragX = e.touches[0].pageX;
+            } else {
+                startDragY = e.pageY;
+                startDragX = e.pageX;
+            }
+
             startOffsetTop = rootElement.offsetTop;
             startOffsetLeft = rootElement.offsetLeft;
             console.log("Drag Item", e, client);

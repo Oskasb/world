@@ -137,6 +137,10 @@ class ActorEquipment {
             let dynamicJoint = this.pieceAttacher.getAttachmentJoint(jointKey);
 
             if (jointKey !== 'SKIN') {
+                if (!dynamicJoint) {
+                    console.log("No Joint", jointKey, slotId, this.pieceAttacher);
+                    return
+                }
                 let jointOffsets = this.pieceAttacher.getAttachmentJointOffsets(jointKey);
                 dynamicJoint.callbacks.applyBoneMap(this.getModel().boneMap);
                 dynamicJoint.applyJointOffsets(jointOffsets);
