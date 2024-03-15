@@ -197,6 +197,7 @@ class DomCharacter {
             statusMap.MAX_HP = actor.getStatus(ENUMS.ActorStatus.MAX_HP);
             statusMap.HP = actor.getStatus(ENUMS.ActorStatus.HP);
             statusMap.WORLD_LEVEL = actor.getStatus(ENUMS.ActorStatus.WORLD_LEVEL);
+            statusMap.TRAVEL = actor.getStatus(ENUMS.ActorStatus.TRAVEL);
             statusMap.STRONGHOLD_ID = actor.getStatus(ENUMS.ActorStatus.STRONGHOLD_ID);
 
             if (dragListening === true) {

@@ -57,14 +57,14 @@ class HtmlElement {
                                 for (let i = 0; i < value.length; i++) {
                                     let data = value[i];
                                     if (typeof (data) === 'number') {
-                                        innerHtml += ':'+data
+                                        innerHtml += ': '+data
                                     } else if (typeof (data) === 'string') {
                                         if (i === 0) {
                                             innerHtml += data
                                         } else {
                                             innerHtml += '<br>'+data
                                         }
-                                        
+
                                     } else {
                                         innerHtml += data+'<br>';
                                     }
