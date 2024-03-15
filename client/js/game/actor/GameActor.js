@@ -362,7 +362,6 @@ class GameActor {
             this.setStatusKey(ENUMS.ActorStatus.EQUIP_REQUESTS, requests);
         }
 
-
     }
 
     equipItem(item) {

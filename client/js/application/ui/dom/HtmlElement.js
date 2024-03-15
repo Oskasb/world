@@ -48,7 +48,35 @@ class HtmlElement {
                         statusMap[key] = elem.value;
                         updateValueElem(key, elem.value, iframeDocument)
                     } else {
-                        elem.innerHTML = statusMap[key];
+                        let value = statusMap[key]
+                        let innerHtml = value;
+                        if (typeof (value) === 'object') {
+                            innerHtml = "";
+                            if (typeof (value.length) === 'number') {
+
+                                for (let i = 0; i < value.length; i++) {
+                                    let data = value[i];
+                                    if (typeof (data) === 'number') {
+                                        innerHtml += ':'+data
+                                    } else if (typeof (data) === 'string') {
+                                        if (i === 0) {
+                                            innerHtml += data
+                                        } else {
+                                            innerHtml += '<br>'+data
+                                        }
+                                        
+                                    } else {
+                                        innerHtml += data+'<br>';
+                                    }
+
+                                }
+                            } else {
+                                for (let key in value) {
+                                    innerHtml += key+': '+value[i]+'<br>'
+                                }
+                            }
+                        }
+                        elem.innerHTML = innerHtml;
                     }
                 }
             }

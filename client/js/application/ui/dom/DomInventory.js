@@ -19,6 +19,7 @@ class DomInventory {
         let switchCB = function(dragItem, switchItem) {
             if (switchItem !== null) {
                 actor.actorInventory.addInventoryItem(switchItem, sourceSlot, null);
+                switchItem = null;
             }
         }
 

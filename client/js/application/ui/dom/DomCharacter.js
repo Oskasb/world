@@ -73,7 +73,7 @@ class DomCharacter {
         let adsrEnvelope;
 
         let statusMap = {
-            name : ".."
+            NAME : ".."
         }
 
         let closeCb = function() {
@@ -185,6 +185,20 @@ class DomCharacter {
                 return;
             }
 
+            statusMap.NAME = actor.getStatus(ENUMS.ActorStatus.NAME);
+            statusMap.ACTOR_LEVEL = actor.getStatus(ENUMS.ActorStatus.ACTOR_LEVEL);
+            statusMap.CONFIG_ID = actor.getStatus(ENUMS.ActorStatus.CONFIG_ID);
+            statusMap.PLAYER_STAMP = actor.getStatus(ENUMS.ActorStatus.PLAYER_STAMP);
+            statusMap.CLIENT_STAMP = actor.getStatus(ENUMS.ActorStatus.CLIENT_STAMP);
+            statusMap.ALIGNMENT = actor.getStatus(ENUMS.ActorStatus.ALIGNMENT);
+            statusMap.ACTIONS = actor.getStatus(ENUMS.ActorStatus.ACTIONS);
+            statusMap.PASSIVE_ACTIONS = actor.getStatus(ENUMS.ActorStatus.PASSIVE_ACTIONS);
+            statusMap.MOVEMENT_SPEED = actor.getStatus(ENUMS.ActorStatus.MOVEMENT_SPEED);
+            statusMap.MAX_HP = actor.getStatus(ENUMS.ActorStatus.MAX_HP);
+            statusMap.HP = actor.getStatus(ENUMS.ActorStatus.HP);
+            statusMap.WORLD_LEVEL = actor.getStatus(ENUMS.ActorStatus.WORLD_LEVEL);
+            statusMap.STRONGHOLD_ID = actor.getStatus(ENUMS.ActorStatus.STRONGHOLD_ID);
+
             if (dragListening === true) {
                 if (dragEvent !== null) {
                     let slot = getDragOverSlot()
@@ -256,7 +270,7 @@ class DomCharacter {
             setInitTransforms();
             htmlElement.container.style.visibility = 'visible';
             statusMap.id = actor.getStatus(ENUMS.ActorStatus.ACTOR_ID);
-            statusMap.name = actor.getStatus(ENUMS.ActorStatus.NAME);
+
 
             setTimeout(function() {
                 headerDiv.style.transitionDuration = adsrEnvelope.attack.duration+"s";

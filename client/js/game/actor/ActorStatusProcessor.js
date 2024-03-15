@@ -490,7 +490,31 @@ function processWorldTransition(actor) {
 
 }
 
+let unequipList = [];
 
+function processActorEquipment(actor) {
+    let equippedStatus = actor.getStatus(ENUMS.ActorStatus.EQUIPPED_ITEMS);
+    let equipRequests = actor.getStatus(ENUMS.ActorStatus.EQUIP_REQUESTS)
+    let items = actor.actorEquipment.items;
+    for (let i = 0; i < items.length; i++) {
+        let item = items[i];
+        let templateId = item.getStatus(ENUMS.ItemStatus.TEMPLATE);
+        if (equippedStatus.indexOf(templateId) === -1) {
+            console.log("Unequip Item", )
+            unequipList.push(item);
+        }
+
+        if (equipRequests.indexOf(templateId) !== -1) {
+            MATH.splice(equipRequests, templateId);
+        }
+
+    }
+
+    while (unequipList.length) {
+        actor.actorEquipment.call.unequipActorItem(unequipList.pop());
+    }
+
+}
 
 function processInventoryStatus(actor) {
     let invStatus = actor.getStatus(ENUMS.ActorStatus.INVENTORY_ITEMS);
@@ -586,6 +610,7 @@ class ActorStatusProcessor {
         processActorSizeStatus(actor);
         processActorCombatStatus(actor);
         processActorEncounterInit(actor);
+        processActorEquipment(actor);
         if (actor.isPlayerActor()) {
             cameraStatusProcessor.processCameraStatus(actor)
             processActorUiNavigationState(actor);
