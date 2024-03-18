@@ -125,6 +125,7 @@ class ServerActor {
     }
 
     unequipItemBySlot(slotId) {
+        console.log("unequipItemBySlot server", slotId);
         let item = this.getEquippedItemBySlotId(slotId)
         if (item) {
             MATH.splice(this.equippedItems, item);

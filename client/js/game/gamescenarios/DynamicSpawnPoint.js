@@ -61,7 +61,7 @@ function findSpawnPosition(sPoint) {
 function retry(sPoint) {
     if (Math.random() < 0.1) {
         setTimeout(function() {
-            console.log("retries", sPoint.retries);
+        //    console.log("retries", sPoint.retries);
             findSpawnPosition(sPoint);
         }, 1);
     } else {

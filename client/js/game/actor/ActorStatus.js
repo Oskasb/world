@@ -161,7 +161,21 @@ let detailsMap = [
     ENUMS.ActorStatus.IS_LEAPING,
   //  ENUMS.ActorStatus.TURN_STATE,
     ENUMS.ActorStatus.REQUEST_TURN_STATE,
-    ENUMS.ActorStatus.COMBAT_STATUS
+    ENUMS.ActorStatus.COMBAT_STATUS,
+    ENUMS.ActorStatus.SLOT_HEAD,
+    ENUMS.ActorStatus.SLOT_BODY,
+    ENUMS.ActorStatus.SLOT_CHEST,
+    ENUMS.ActorStatus.SLOT_WRIST,
+    ENUMS.ActorStatus.SLOT_HANDS,
+    ENUMS.ActorStatus.SLOT_WAIST,
+    ENUMS.ActorStatus.SLOT_LEGS,
+    ENUMS.ActorStatus.SLOT_SKIRT,
+    ENUMS.ActorStatus.SLOT_FEET,
+    ENUMS.ActorStatus.SLOT_HAND_R,
+    ENUMS.ActorStatus.SLOT_HAND_L,
+    ENUMS.ActorStatus.SLOT_BACK,
+    ENUMS.ActorStatus.SLOT_WRIST_L,
+    ENUMS.ActorStatus.SLOT_WRIST_R
 ];
 
 let spatialMap = [
@@ -218,21 +232,7 @@ let skipMap = [
     ENUMS.ActorStatus.QUAT_X,
     ENUMS.ActorStatus.QUAT_Y,
     ENUMS.ActorStatus.QUAT_Z,
-    ENUMS.ActorStatus.QUAT_W,
-    ENUMS.ActorStatus.SLOT_HEAD,
-    ENUMS.ActorStatus.SLOT_BODY,
-    ENUMS.ActorStatus.SLOT_CHEST,
-    ENUMS.ActorStatus.SLOT_WRIST,
-    ENUMS.ActorStatus.SLOT_HANDS,
-    ENUMS.ActorStatus.SLOT_WAIST,
-    ENUMS.ActorStatus.SLOT_LEGS,
-    ENUMS.ActorStatus.SLOT_SKIRT,
-    ENUMS.ActorStatus.SLOT_FEET,
-    ENUMS.ActorStatus.SLOT_HAND_R,
-    ENUMS.ActorStatus.SLOT_HAND_L,
-    ENUMS.ActorStatus.SLOT_BACK,
-    ENUMS.ActorStatus.SLOT_WRIST_L,
-    ENUMS.ActorStatus.SLOT_WRIST_R
+    ENUMS.ActorStatus.QUAT_W
 ]
 
 function sendSpatial(status, statusMap) {

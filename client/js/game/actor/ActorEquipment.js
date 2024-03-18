@@ -1,4 +1,5 @@
 import { ItemSlot } from "../gamepieces/ItemSlot.js";
+import {ENUMS} from "../../application/ENUMS.js";
 
 let parsedConfigData;
 
@@ -97,11 +98,26 @@ class ActorEquipment {
             }
             item.hide();
 
+            let currentSlotStatus = this.actor.getStatus(ENUMS.ActorStatus[slotId]);
+
+            if (currentSlotStatus === item.getStatus(ENUMS.ItemStatus.ITEM_ID)) {
+                this.actor.setStatusKey(ENUMS.ActorStatus[slotId], "")
+            }
+
+
+
             if (passive !== true) {
+
                 let requests = this.actor.getStatus(ENUMS.ActorStatus.EQUIP_REQUESTS)
-                requests.push(item.getEquipSlotId());
-                requests.push("");
-                this.actor.setStatusKey(ENUMS.ActorStatus.EQUIP_REQUESTS, requests);
+
+            //    if (requests.indexOf(slotId) === -1) {
+                    requests.push(slotId);
+                    requests.push("");
+                    this.actor.setStatusKey(ENUMS.ActorStatus.EQUIP_REQUESTS, requests);
+           //     }
+                MATH.splice(this.actor.getStatus(ENUMS.ActorStatus.EQUIPPED_ITEMS), item.getStatus(ENUMS.ItemStatus.TEMPLATE));
+            } else {
+
             }
 
         }.bind(this)

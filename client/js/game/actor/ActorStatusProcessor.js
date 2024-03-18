@@ -520,39 +520,57 @@ function processActorEquipment(actor) {
 
     let equipment = actor.actorEquipment;
 
+    let isLoading = false;
+
     for (let i = 0; i < equipment.slots.length;i++) {
         let slotId = equipment.slots[i]['slot_id'];
         let slotItem = equipment.getEquippedItemBySlotId(slotId);
+        let slotItemId = "";
+        if (slotItem !== null) {
+            slotItemId = slotItem.getStatus(ENUMS.ItemStatus.ITEM_ID);
+        }
+
         let equippedId = actor.getStatus(ENUMS.ActorStatus[slotId]);
 
         if (equipRequests.indexOf(slotId) !== -1) {
-            equipRequests[equipRequests.indexOf(slotId) +1] = "remove";
-            MATH.splice(equipRequests, slotId);
-            MATH.splice(equipRequests, "remove");
+            if (equipRequests[equipRequests.indexOf(slotId) +1] === equippedId) {
+                console.log("Clear Equip Request ", slotId)
+                equipRequests[equipRequests.indexOf(slotId) +1] = "remove";
+                MATH.splice(equipRequests, slotId);
+                MATH.splice(equipRequests, "remove");
+            }
         }
 
-        if (slotItem !== null) {
-            if (equippedId !== slotItem.getStatus(ENUMS.ItemStatus.ITEM_ID)) {
-                console.log("Item changed by server", slotItem, equippedId);
+        if (slotItemId !== equippedId) {
 
+            if (slotItemId !== "") {
+                console.log("Diff: ", slotItemId, equippedId)
                 equipment.call.unequipActorItem(slotItem, true);
+                console.log("Item UNequipped by server", slotId, slotItem);
+            } else {
+                console.log("Empty Slot", slotId, slotItemId, equippedId)
+            }
 
-                if (equippedId === "") {
-                    console.log("Item unequipped by server", equippedId);
+            if (equippedId === "") {
+                console.log("Slot Cleared by server", slotId);
+            } else {
+             //   equipment.call.unequipActorItem(slotItem, true);
+                let item = GameAPI.getItemById(equippedId);
+                if (!item) {
+                    isLoading = true;
                 } else {
-                    console.log("Item switched by server", equippedId);
-                    let item = GameAPI.getItemById(equippedId);
                     equipment.call.equipActorItem(item);
                 }
-
-            }
-        } else {
-            if (equippedId !== "") {
-                console.log("Item equipped by server", equippedId);
-                let item = GameAPI.getItemById(equippedId);
-                equipment.call.equipActorItem(item);
             }
         }
+
+
+        if (isLoading) {
+            if (Math.random() < 0.05) {
+                actor.actorText.say("Loading Items")
+            }
+        }
+
     }
 }
 

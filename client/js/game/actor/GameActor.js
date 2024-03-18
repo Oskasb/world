@@ -371,9 +371,13 @@ class GameActor {
         equippedList.push(item.configId);
         item.setStatusKey(ENUMS.ItemStatus.ACTOR_ID, this.getStatus(ENUMS.ActorStatus.ACTOR_ID));
         let requests = this.getStatus(ENUMS.ActorStatus.EQUIP_REQUESTS)
-        requests.push(item.getEquipSlotId());
-        requests.push(item.getStatus(ENUMS.ItemStatus.TEMPLATE));
-        this.setStatusKey(ENUMS.ActorStatus.EQUIP_REQUESTS, requests);
+    //    if (requests.indexOf(item.getStatus(ENUMS.ItemStatus.TEMPLATE)) === -1) {
+            requests.push(item.getEquipSlotId());
+            requests.push(item.getStatus(ENUMS.ItemStatus.TEMPLATE));
+            this.setStatusKey(ENUMS.ActorStatus.EQUIP_REQUESTS, requests);
+     //   }
+
+
     }
 
     unequipItem(item) {

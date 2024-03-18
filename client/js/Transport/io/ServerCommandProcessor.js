@@ -17,14 +17,18 @@ let remoteClients = {}
 function processActorInit(stamp, msg) {
     let status = msg.status;
 
-    let initLocalPlayerControlledActor = function(playerActor) {
+    let initLocalPlayerControlledActor = function(playerActor, startingItems) {
         console.log("initLocalPlayerControlledActor; ", stamp, msg);
 
         let items = [];
         let equiped = playerActor.getStatus(ENUMS.ActorStatus.EQUIPPED_ITEMS)
-
-        for (let i = 0; i < equiped.length; i++) {
-            let template = equiped[i];
+/*
+        while (startingItems.length) {
+            playerActor.equipItem(startingItems.pop())
+        }
+*/
+        for (let i = 0; i < startingItems.length; i++) {
+            let template = startingItems[i].getStatus(ENUMS.ItemStatus.TEMPLATE);
             let slotId = GameAPI.getGamePieceSystem().getItemConfig(template)['equip_slot'];
         //    console.log(slotId);;
             items.push(slotId);
@@ -48,8 +52,16 @@ function processActorInit(stamp, msg) {
             notifyCameraStatus(ENUMS.CameraStatus.LOOK_FROM, ENUMS.CameraControls.CAM_PARTY, true)
             notifyCameraStatus(ENUMS.CameraStatus.POINTER_ACTION, ENUMS.CameraControls.CAM_MOVE, null)
             playerActor.setStatusKey(ENUMS.ActorStatus.ACTIVATION_STATE, ENUMS.ActivationState.ACTIVE)
-            playerActor.setStatusKey(ENUMS.ActorStatus.EQUIP_REQUESTS, items)
-            GameAPI.getGamePieceSystem().grabLooseItems(playerActor);
+
+           setTimeout(function() {
+               playerActor.setStatusKey(ENUMS.ActorStatus.EQUIP_REQUESTS, items)
+               setTimeout(function() {
+                   playerActor.setStatusKey(ENUMS.ActorStatus.EQUIP_REQUESTS, [])
+               }, 200)
+           }, 500)
+
+
+        //    GameAPI.getGamePieceSystem().grabLooseItems(playerActor);
         }, 300)
 
     }
@@ -64,7 +76,7 @@ function processActorInit(stamp, msg) {
 
         let onActivated = function(actor) {
             if (actor.getStatus(ENUMS.ActorStatus.ACTOR_ID) === GameAPI.getGamePieceSystem().playerActorId) {
-                initLocalPlayerControlledActor(actor);
+                initLocalPlayerControlledActor(actor, GameAPI.getGamePieceSystem().startingItems);
             } else {
                 console.log("Remotely operated actor activated", actor);
             }

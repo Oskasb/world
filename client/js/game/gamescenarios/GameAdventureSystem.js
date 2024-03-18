@@ -6,6 +6,7 @@ let spatialTransition
 
 let completedEncounters = [];
 let lootedTreasured = [];
+let startingItems = [];
 
 function encounterCompleted(event) {
     console.log("Enc Completed", event);
@@ -27,8 +28,11 @@ class GameAdventureSystem {
     getLootedTreasures() {
         return lootedTreasured;
     }
-    selectAdventure(event) {
 
+
+
+    selectAdventure(event) {
+        let equippedItems;
         let actor = this.startActor;
         notifyCameraStatus(ENUMS.CameraStatus.CAMERA_MODE, ENUMS.CameraControls.CAM_AUTO, true)
         notifyCameraStatus(ENUMS.CameraStatus.LOOK_AT, ENUMS.CameraControls.CAM_TARGET, false)
@@ -49,6 +53,7 @@ class GameAdventureSystem {
         //    GameAPI.getGamePieceSystem().addActorToPlayerParty(this.startActor);
         //    GameAPI.getGamePieceSystem().playerParty.selectPartyActor(this.startActor);
             GameAPI.getGamePieceSystem().playerActorId = actor.id;
+            GameAPI.getGamePieceSystem().startingItems = startingItems;
             //    this.startActor.travelMode.mode = null;
             GuiAPI.closePage(this.page);
             GuiAPI.closePage(client.page)
@@ -85,8 +90,11 @@ class GameAdventureSystem {
 
         let actorLoaded = function(actor) {
 
+            MATH.emptyArray(startingItems);
+
             let equipCb = function(item) {
                 console.log("Equip CB", item)
+                startingItems.push(item);
                 actor.equipItem(item);
             }
 
@@ -104,7 +112,7 @@ class GameAdventureSystem {
 
 
 
-                let equippedItems = event['equipped_items']
+                equippedItems = event['equipped_items']
 
                 if (equippedItems) {
                     for (let i = 0; i < equippedItems.length; i++) {

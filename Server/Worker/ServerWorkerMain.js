@@ -4,7 +4,7 @@ import {ConnectedClient} from "../game/player/ConnectedClient.js";
 import {GameServer} from "../game/GameServer.js";
 import {setGameServer} from "../game/utils/GameServerFunctions.js";
 
-let runLocally = true
+let runLocally = false
 
 
 let workerConnection = new WorkerConnection()

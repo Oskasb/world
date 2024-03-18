@@ -29,7 +29,7 @@ function fitPatchToLodTile(freePatches, vegPatches, lodTile, preUpdateTime) {
     if (!patch) {
         patch = freePatches.pop();
         if (!patch) {
-            console.log("No free Patch...")
+        //    console.log("No free Patch...")
             return;
         }
         patch.setPatchPosition(pos)

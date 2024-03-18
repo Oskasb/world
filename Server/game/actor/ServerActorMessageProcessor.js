@@ -61,7 +61,7 @@ class ServerActorMessageProcessor {
 
 
     processServerActorStatusMessage(status, msg) {
-        console.log("processServerActorStatusMessage", status, msg);
+    //    console.log("processServerActorStatusMessage", status, msg);
         if (msg[1] !== status.getStatus(ENUMS.ActorStatus.ACTOR_ID)) {
             console.log("Incorrect actor for status")
         } else {
@@ -83,10 +83,8 @@ class ServerActorMessageProcessor {
                             console.log("updateEquippedItems ACTIVATING", initRequests)
                             this.updateEquippedItems(status, initRequests);
 
-
-
                             status.setStatusKey(ENUMS.ActorStatus.EQUIP_REQUESTS, []);
-                          console.log("Actor ACTIVATING")
+                        //  console.log("Actor ACTIVATING")
                         }
                     }
 
@@ -95,25 +93,13 @@ class ServerActorMessageProcessor {
                         //    console.log("Server Status updated", statusKey, newValue, currentStatus);
                             this.updateEquippedItems(status, newValue);
                             let serverActor = getServerActorByActorId(status.getStatus(ENUMS.ActorStatus.ACTOR_ID))
-                        //    console.log("processServerActorStatusMessage", status, msg);
-                            let message = serverActor.buildServerActorStatusMessage(ENUMS.ClientRequests.APPLY_ACTOR_STATUS, ENUMS.ServerCommands.ACTOR_UPDATE)
-                        //    console.log("Send Equip Request update", message);
+                            console.log("updateEquippedItems ACTIVE", status, msg);
+                        //    let message = serverActor.buildServerActorStatusMessage(ENUMS.ClientRequests.APPLY_ACTOR_STATUS, ENUMS.ServerCommands.ACTOR_UPDATE)
+                            status.setStatusKey(ENUMS.ActorStatus.EQUIP_REQUESTS, []);
+                        //    dispatchMessage(message)
 
-                        //    actorMessage.stamp = actor.getStatus(ENUMS.ActorStatus.CLIENT_STAMP);
-                       //     actorMessage.status = messageFromStatusMap(actor.getStatusMap(), ENUMS.ActorStatus.ACTOR_ID);
-
-                            dispatchMessage(message)
-                        //    serverActor.messageClient(message);
-                        //    newValue = []
-                        }
-                        /*
-                        if (statusKey === ENUMS.ActorStatus.EQUIPPED_ITEMS) {
-                            console.log("Server EQUIPPED_ITEMS updated", statusKey, newValue, currentStatus);
-                            this.pruneUnequippedItems(status, newValue);
-                            //    newValue = []
                         }
 
-                         */
                     }
 
                     if (statusKey === ENUMS.ActorStatus.REQUEST_TURN_STATE) {
