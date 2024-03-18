@@ -349,8 +349,8 @@ class DomUtils {
         element.style.cursor = "pointer";
         element.addEventListener('mouseup', cb);
         element.addEventListener('touchend', cb);
-        element.addEventListener('mouseout', cb);
-        element.addEventListener('touchcancel', cb);
+    //    element.addEventListener('mouseout', cb);
+    //    element.addEventListener('touchcancel', cb);
     }
 
 

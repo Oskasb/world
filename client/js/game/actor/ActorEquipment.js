@@ -17,9 +17,13 @@ class ActorEquipment {
                 for (let i = 0; i < items.length; i++) {
                     let addModifiers = items[i].call.getAddModifiers();
                     for (let key in addModifiers) {
-                        equipmentAddModifiers.push(addModifiers)
+                        let modifier = {};
+                        modifier[key] = addModifiers[key];
+                        equipmentAddModifiers.push(modifier)
+                    //    console.log("addModifiers: ", key, addModifiers)
                     }
                 }
+            //    console.log("Equipmen Mods: ", equipmentAddModifiers)
         }
 
 
@@ -33,8 +37,13 @@ class ActorEquipment {
 
 
         let equipActorItem = function(item) {
-        //    console.log("EQUIP ITEM: ", item)
-            this.items.push(item)
+    //        console.log("EQUIP ITEM: ", item)
+            if (this.items.indexOf(item) !== -1) {
+                console.log("Item already equipped, boo", item);
+            } else {
+                this.items.push(item)
+            }
+
             //    this.applyItemStatusModifiers(item, 1);
             //    item.setEquippedToPiece(this.gamePiece)
             updateAddModifiers(this.items)
@@ -44,6 +53,8 @@ class ActorEquipment {
             let slotId = item.getEquipSlotId();
         //    console.log("Equip Actor Item ", item, slotId)
             item.setStatusKey(ENUMS.ItemStatus.EQUIPPED_SLOT, slotId);
+
+            this.actor.setStatusKey(ENUMS.ActorStatus[slotId], item.getStatus(ENUMS.ItemStatus.ITEM_ID));
 
         //    let slot = MATH.getFromArrayByKeyValue(this.slots, 'slot_id', slotId);
 
@@ -66,7 +77,7 @@ class ActorEquipment {
         }.bind(this);
 
 
-        let unequipActorItem = function(item) {
+        let unequipActorItem = function(item, passive) {
         //    console.log("UnEquip Actor Item ", item)
             if (this.items.indexOf(item) !== -1) {
                 MATH.splice(this.items, item);
@@ -85,6 +96,14 @@ class ActorEquipment {
                 dynamicJoint.detachAttachedEntity(item.getSpatial());
             }
             item.hide();
+
+            if (passive !== true) {
+                let requests = this.actor.getStatus(ENUMS.ActorStatus.EQUIP_REQUESTS)
+                requests.push(item.getEquipSlotId());
+                requests.push("");
+                this.actor.setStatusKey(ENUMS.ActorStatus.EQUIP_REQUESTS, requests);
+            }
+
         }.bind(this)
 
         let getEquipmentStatusKey = function(key, store) {
@@ -159,7 +178,7 @@ class ActorEquipment {
                 return this.items[i];
             }
         }
-        console.log("Item not equipped here.. ", slotId)
+    //    console.log("Item not equipped here.. ", slotId)
         return null;
     }
 

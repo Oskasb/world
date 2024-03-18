@@ -6,6 +6,7 @@ import {setGameServer} from "../game/utils/GameServerFunctions.js";
 
 let runLocally = true
 
+
 let workerConnection = new WorkerConnection()
 let connectedClients = []; // will hold only the localClient here, but the list will have many on the node server
 let gameServer = new GameServer(connectedClients)

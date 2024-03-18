@@ -10,6 +10,7 @@ import {
 } from "../../application/utils/PhysicsUtils.js";
 import {ENUMS} from "../../application/ENUMS.js";
 import {hasCombatState} from "../../../../Server/game/actor/ActorStatusFunctions.js";
+import {ItemSlot} from "../gamepieces/ItemSlot.js";
 
 let tempVec = new Vector3()
 let tempVec2 = new Vector3();
@@ -493,27 +494,66 @@ function processWorldTransition(actor) {
 let unequipList = [];
 
 function processActorEquipment(actor) {
+
+
     let equippedStatus = actor.getStatus(ENUMS.ActorStatus.EQUIPPED_ITEMS);
     let equipRequests = actor.getStatus(ENUMS.ActorStatus.EQUIP_REQUESTS)
-    let items = actor.actorEquipment.items;
-    for (let i = 0; i < items.length; i++) {
-        let item = items[i];
-        let templateId = item.getStatus(ENUMS.ItemStatus.TEMPLATE);
-        if (equippedStatus.indexOf(templateId) === -1) {
-            console.log("Unequip Item", )
-            unequipList.push(item);
-        }
 
-        if (equipRequests.indexOf(templateId) !== -1) {
-            MATH.splice(equipRequests, templateId);
+/*
+    if (equipRequests.length !== 0) {
+        console.log("equipRequests", equipRequests)
+        for (let i = 0; i < equipRequests.length; i++) {
+            let slotId = equipRequests[i];
+            i++;
+            let templateId = equipRequests[i];
+            if (templateId !== "") {
+                if (equippedStatus.indexOf(templateId) !== -1) {
+                //    actor.equipItem(templateId)
+                    // equippedStatus.push(templateId);
+                }
+            }
         }
-
     }
 
-    while (unequipList.length) {
-        actor.actorEquipment.call.unequipActorItem(unequipList.pop());
-    }
+*/
 
+
+    let equipment = actor.actorEquipment;
+
+    for (let i = 0; i < equipment.slots.length;i++) {
+        let slotId = equipment.slots[i]['slot_id'];
+        let slotItem = equipment.getEquippedItemBySlotId(slotId);
+        let equippedId = actor.getStatus(ENUMS.ActorStatus[slotId]);
+
+        if (equipRequests.indexOf(slotId) !== -1) {
+            equipRequests[equipRequests.indexOf(slotId) +1] = "remove";
+            MATH.splice(equipRequests, slotId);
+            MATH.splice(equipRequests, "remove");
+        }
+
+        if (slotItem !== null) {
+            if (equippedId !== slotItem.getStatus(ENUMS.ItemStatus.ITEM_ID)) {
+                console.log("Item changed by server", slotItem, equippedId);
+
+                equipment.call.unequipActorItem(slotItem, true);
+
+                if (equippedId === "") {
+                    console.log("Item unequipped by server", equippedId);
+                } else {
+                    console.log("Item switched by server", equippedId);
+                    let item = GameAPI.getItemById(equippedId);
+                    equipment.call.equipActorItem(item);
+                }
+
+            }
+        } else {
+            if (equippedId !== "") {
+                console.log("Item equipped by server", equippedId);
+                let item = GameAPI.getItemById(equippedId);
+                equipment.call.equipActorItem(item);
+            }
+        }
+    }
 }
 
 function processInventoryStatus(actor) {

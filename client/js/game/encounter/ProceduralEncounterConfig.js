@@ -50,7 +50,7 @@ class ProceduralEncounterConfig {
     }
 
     generateConfig(pos, encounterLevel, groundData, terrainData) {
-        console.log("generateConfig", pos, groundData, terrainData);
+    //    console.log("generateConfig", pos, groundData, terrainData);
         this.config['pos'][0] = pos.x;
         this.config['pos'][1] = pos.y;
         this.config['pos'][2] = pos.z;

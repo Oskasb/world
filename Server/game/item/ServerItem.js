@@ -6,8 +6,9 @@ import {ENUMS} from "../../../client/js/application/ENUMS.js";
 let index = 0;
 
 class ServerItem {
-    constructor(itemTemplate, stamp) {
-        this.id = "item_"+index+"_"+stamp
+    constructor(itemTemplate, stamp, slotId) {
+        this.id = "item_"+index+"_"+stamp;
+        this.slotId = slotId;
         this.stamp = stamp;
         index++
         this.status = new Status();

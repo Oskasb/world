@@ -1,13 +1,17 @@
 import {ENUMS} from "../../../client/js/application/ENUMS.js";
 import {MATH} from "../../../client/js/application/MATH.js";
 import {ServerItem} from "../item/ServerItem.js";
-import {getServerActorByActorId, getServerStamp, registerServerItem} from "../utils/GameServerFunctions.js";
+import {
+    dispatchMessage,
+    getServerActorByActorId,
+    getServerStamp, messageFromStatusMap,
+    registerServerItem
+} from "../utils/GameServerFunctions.js";
 
 class ServerActorMessageProcessor {
     constructor() {
 
     }
-
 
     updateEquippedItems(status, itemTemplateList) {
         let currentItems = status.getStatus(ENUMS.ActorStatus.EQUIPPED_ITEMS);
@@ -15,20 +19,35 @@ class ServerActorMessageProcessor {
             currentItems = [];
         }
 
-    //    console.log("UPDATE EQUIPPED ITEMS: ", itemTemplateList)
+        console.log("UPDATE EQUIPPED ITEMS: ", itemTemplateList)
+
+        let serverActor = getServerActorByActorId(status.getStatus(ENUMS.ActorStatus.ACTOR_ID))
 
         for (let i = 0; i < itemTemplateList.length; i++) {
-            if (currentItems.indexOf(itemTemplateList[i]) === -1) {
-                let serverItem = new ServerItem(itemTemplateList[i], status.getStatus(ENUMS.ActorStatus.CLIENT_STAMP));
-                registerServerItem(serverItem)
-                let serverActor = getServerActorByActorId(status.getStatus(ENUMS.ActorStatus.ACTOR_ID))
 
-                serverActor.equipServerItem(serverItem)
-            //    if (status.getStatus(ENUMS.ActorStatus.PLAYER_STAMP) === getServerStamp()) {
+            let slotId = itemTemplateList[i];
+            i++;
+            let templateId = itemTemplateList[i];
+
+            if (templateId === "") {
+                serverActor.unequipItemBySlot(slotId)
+            } else {
+                if (currentItems.indexOf(templateId) === -1) {
+                    let serverItem = new ServerItem(itemTemplateList[i], status.getStatus(ENUMS.ActorStatus.CLIENT_STAMP), slotId);
+                    registerServerItem(serverItem)
+
+                    serverActor.equipServerItem(serverItem)
+                    //    if (status.getStatus(ENUMS.ActorStatus.PLAYER_STAMP) === getServerStamp()) {
                     serverItem.dispatchItemStatus(ENUMS.ClientRequests.LOAD_SERVER_ITEM, ENUMS.ServerCommands.ITEM_INIT)
-            //    }
+                    //    }
+                } else {
+                    console.log("Template Already equipped on Server ", templateId)
+                }
             }
+
         }
+
+
 
     }
 
@@ -40,8 +59,9 @@ class ServerActorMessageProcessor {
 
     }
 
+
     processServerActorStatusMessage(status, msg) {
-    //    console.log("processServerActorStatusMessage", status, msg);
+        console.log("processServerActorStatusMessage", status, msg);
         if (msg[1] !== status.getStatus(ENUMS.ActorStatus.ACTOR_ID)) {
             console.log("Incorrect actor for status")
         } else {
@@ -60,18 +80,40 @@ class ServerActorMessageProcessor {
                         if (newValue === ENUMS.ActivationState.ACTIVATING) {
                             let initRequests = status.getStatus(ENUMS.ActorStatus.EQUIP_REQUESTS);
 
+                            console.log("updateEquippedItems ACTIVATING", initRequests)
                             this.updateEquippedItems(status, initRequests);
+
+
+
                             status.setStatusKey(ENUMS.ActorStatus.EQUIP_REQUESTS, []);
-                        //    console.log("Actor ACTIVATING")
+                          console.log("Actor ACTIVATING")
                         }
                     }
 
                     if (status.getStatus(ENUMS.ActorStatus.ACTIVATION_STATE) === ENUMS.ActivationState.ACTIVE) {
                         if (statusKey === ENUMS.ActorStatus.EQUIP_REQUESTS) {
-                            console.log("Server Status updated", statusKey, newValue, currentStatus);
+                        //    console.log("Server Status updated", statusKey, newValue, currentStatus);
                             this.updateEquippedItems(status, newValue);
+                            let serverActor = getServerActorByActorId(status.getStatus(ENUMS.ActorStatus.ACTOR_ID))
+                        //    console.log("processServerActorStatusMessage", status, msg);
+                            let message = serverActor.buildServerActorStatusMessage(ENUMS.ClientRequests.APPLY_ACTOR_STATUS, ENUMS.ServerCommands.ACTOR_UPDATE)
+                        //    console.log("Send Equip Request update", message);
+
+                        //    actorMessage.stamp = actor.getStatus(ENUMS.ActorStatus.CLIENT_STAMP);
+                       //     actorMessage.status = messageFromStatusMap(actor.getStatusMap(), ENUMS.ActorStatus.ACTOR_ID);
+
+                            dispatchMessage(message)
+                        //    serverActor.messageClient(message);
                         //    newValue = []
                         }
+                        /*
+                        if (statusKey === ENUMS.ActorStatus.EQUIPPED_ITEMS) {
+                            console.log("Server EQUIPPED_ITEMS updated", statusKey, newValue, currentStatus);
+                            this.pruneUnequippedItems(status, newValue);
+                            //    newValue = []
+                        }
+
+                         */
                     }
 
                     if (statusKey === ENUMS.ActorStatus.REQUEST_TURN_STATE) {

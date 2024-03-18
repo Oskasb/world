@@ -38,6 +38,7 @@ class Item {
                 }
                 modStatus[i*2] = addMods[i].status;
                 modStatus[i*2 + 1] = addMods[i].value;
+             //   console.log("Add Modifier ", addMods, modStatus, addModifiers)
             }
         }
         let getAddModifiers = function() {

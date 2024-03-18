@@ -21,7 +21,16 @@ function processActorInit(stamp, msg) {
         console.log("initLocalPlayerControlledActor; ", stamp, msg);
 
         let items = [];
-        MATH.copyArrayValues(playerActor.getStatus(ENUMS.ActorStatus.EQUIPPED_ITEMS), items)
+        let equiped = playerActor.getStatus(ENUMS.ActorStatus.EQUIPPED_ITEMS)
+
+        for (let i = 0; i < equiped.length; i++) {
+            let template = equiped[i];
+            let slotId = GameAPI.getGamePieceSystem().getItemConfig(template)['equip_slot'];
+        //    console.log(slotId);;
+            items.push(slotId);
+            items.push(template);
+        }
+
         playerActor.setStatusKey(ENUMS.ActorStatus.EQUIPPED_ITEMS, [])
 
         setTimeout(function() {
@@ -80,8 +89,7 @@ function processItemInit(msg) {
 
         for (let key in status) {
             item.setStatusKey(key, status[key]);
-        }
-    //    console.log("itemLoaded: ", item, status)
+        }console.log("itemLoaded: ", item, status)
         ThreeAPI.addPostrenderCallback(item.status.call.pulseStatusUpdate)
         let equippedToActorId = item.getStatus(ENUMS.ItemStatus.ACTOR_ID);
         let actor = GameAPI.getActorById(equippedToActorId);

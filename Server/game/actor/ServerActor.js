@@ -91,8 +91,56 @@ class ServerActor {
             serverItem.setStatusKey(ENUMS.ItemStatus.ACTOR_ID, this.status.getStatus(ENUMS.ActorStatus.ACTOR_ID))
             serverItem.setStatusKey(ENUMS.ItemStatus.ITEM_ID, serverItem.id)
         //    console.log("Server Equip: to actor_id",serverItem.id, this.status.getStatus(ENUMS.ActorStatus.ACTOR_ID))
+            this.setStatusKey(ENUMS.ActorStatus[serverItem.slotId], serverItem.id)
+            console.log("Equip Slot", ENUMS.ActorStatus[serverItem.slotId], serverItem.id)
         } else {
             console.log("Item already equipped", serverItem, this)
+        }
+    }
+
+    getEquippedItemByTemplate(templateId) {
+        for (let i = 0; i < this.equippedItems.length; i++) {
+            let eqItem = this.equippedItems[i];
+            if (eqItem.getStatus(ENUMS.ItemStatus.TEMPLATE) === templateId) {
+                return eqItem;
+            }
+        }
+    }
+
+    getEquippedItemBySlotId(slotId) {
+
+        let itemId = this.getStatus(ENUMS.ActorStatus[slotId]);
+        if (itemId !== "") {
+            console.log("Get Slot Item ", itemId);
+        }
+
+        for (let i = 0; i < this.equippedItems.length; i++) {
+            let eqItem = this.equippedItems[i];
+            if (eqItem.getStatus(ENUMS.ItemStatus.EQUIPPED_SLOT) === slotId) {
+                console.log("Got Item ", eqItem.getStatus(ENUMS.ItemStatus.ITEM_ID));
+                return eqItem;
+            }
+        }
+
+    }
+
+    unequipItemBySlot(slotId) {
+        let item = this.getEquippedItemBySlotId(slotId)
+        if (item) {
+            MATH.splice(this.equippedItems, item);
+
+            let currentItemId = this.getStatus(ENUMS.ActorStatus[slotId])
+            if (currentItemId !== "") {
+                console.log("Unequip from slot ", slotId, currentItemId);
+                this.setStatusKey(ENUMS.ActorStatus[slotId], "");
+            }
+
+            let eqStatus = this.getStatus(ENUMS.ActorStatus.EQUIPPED_ITEMS);
+            MATH.splice(eqStatus, item.getStatus(ENUMS.ItemStatus.TEMPLATE));
+
+        //    console.log("Unequip Server Item ", item);
+        } else {
+            console.log("Server slotId not Equipped, bad call", slotId);
         }
     }
 
@@ -140,7 +188,7 @@ class ServerActor {
 
             let sendStatus = update.status;
 
-        //    console.log(update)
+           console.log("buildServerActorStatusMessage update", update)
 
             let message = {
                 request:request,

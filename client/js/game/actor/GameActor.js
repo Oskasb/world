@@ -357,6 +357,7 @@ class GameActor {
             this.actorInventory.addInventoryItem(item, null, this.call.inventoryItemAdded);
         } else {
             let requests = this.getStatus(ENUMS.ActorStatus.EQUIP_REQUESTS)
+            requests.push(item.getEquipSlotId());
             requests.push(item.getStatus(ENUMS.ItemStatus.TEMPLATE));
             console.log("loot: ", requests);
             this.setStatusKey(ENUMS.ActorStatus.EQUIP_REQUESTS, requests);
@@ -369,11 +370,16 @@ class GameActor {
         let equippedList = this.getStatus(ENUMS.ActorStatus.EQUIPPED_ITEMS);
         equippedList.push(item.configId);
         item.setStatusKey(ENUMS.ItemStatus.ACTOR_ID, this.getStatus(ENUMS.ActorStatus.ACTOR_ID));
+        let requests = this.getStatus(ENUMS.ActorStatus.EQUIP_REQUESTS)
+        requests.push(item.getEquipSlotId());
+        requests.push(item.getStatus(ENUMS.ItemStatus.TEMPLATE));
+        this.setStatusKey(ENUMS.ActorStatus.EQUIP_REQUESTS, requests);
     }
 
     unequipItem(item) {
         this.actorEquipment.call.unequipActorItem(item);
         this.actorInventory.addInventoryItem(item, null, this.call.inventoryItemAdded)
+
     }
 
     getVisualGamePiece() {

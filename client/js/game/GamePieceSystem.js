@@ -31,9 +31,14 @@ let registerActor = function(actor) {
     }
 }
 
+
+function getItemConfigByTemplate(templateId) {
+    return itemConfigs[templateId];
+}
+
 let loadItem = function(event) {
 
-    let itemConfig = itemConfigs[event['id']]
+    let itemConfig = getItemConfigByTemplate([event['id']]);
     let visualConfig = visualConfigs[itemConfig['visual_id']];
     let visualPiece = new VisualGamePiece(visualConfig);
 
@@ -158,6 +163,10 @@ class GamePieceSystem {
 
     getItems() {
         return items;
+    }
+
+    getItemConfig(template) {
+        return getItemConfigByTemplate(template);
     }
 
     detachRemoteByActor(actor) {

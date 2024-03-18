@@ -41,12 +41,12 @@ div.param {
     left: 0;
     margin-left: 11.5em;
     width: 32em;
-    background: linear-gradient(rgb(168, 255, 255) 0%, rgba(2, 40, 40, 0.04) 7%, rgba(0, 23, 82, 0.24) 50%, rgba(0, 233, 243, 0.55) 100%);
+    background: linear-gradient(rgba(168, 255, 248, 0.66) 0%, rgba(2, 40, 40, 0.22) 7%, rgba(0, 45, 82, 0.3) 50%, rgba(0, 134, 206, 0.51) 100%);
     display: inline-block;
 }
 
 div.param h3 {
-    font-size: 1.0em;
+    font-size: 1.2em;
     left: 0.1em;
     right: auto;
     top: auto;
@@ -54,7 +54,7 @@ div.param h3 {
     min-width: 10em;
     min-height: 100%;
     color: #ffdfb2;
-    text-shadow: 0 0 0.5em rgb(0, 0, 0);
+    text-shadow: 0.05em 0.05em 0.15em rgb(0, 0, 0);
     padding: 0;
     margin: 0;
     margin-top: 0.4em;
@@ -64,13 +64,13 @@ div.param h3 {
 }
 
 div.param p {
-    font-size: 1.0em;
+    font-size: 1.2em;
     width: 60%;
     top:0;
     right: 0;
     left: auto;
-    color: #90f2ff;
-    text-shadow: 0 0 0.5em rgb(0, 0, 0);
+    color: #c7f3ff;
+    text-shadow: 0.05em 0.05em 0.15em rgb(0, 0, 0);
     padding: 0;
     margin: 0;
     margin-top: 0.4em;

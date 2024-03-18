@@ -37,10 +37,7 @@ class GameAdventureSystem {
             //    actor.activateWalkGrid(3);
             actor.call.activateActionKey("ACTION_TRAVEL_WALK", ENUMS.ActorStatus.TRAVEL)
 
-        //    let items = [];
-        //    MATH.copyArrayValues(actor.getStatus(ENUMS.ActorStatus.EQUIPPED_ITEMS), items)
-        //    actor.setStatusKey(ENUMS.ActorStatus.EQUIP_REQUESTS, items)
-        //    actor.setStatusKey(ENUMS.ActorStatus.EQUIPPED_ITEMS, [])
+
             evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, {request:ENUMS.ClientRequests.UPDATE_STRONGHOLD, status:{TEMPLATE:actor.getStatus(ENUMS.ActorStatus.STRONGHOLD_ID)}})
 
             setTimeout(function() {
@@ -89,6 +86,7 @@ class GameAdventureSystem {
         let actorLoaded = function(actor) {
 
             let equipCb = function(item) {
+                console.log("Equip CB", item)
                 actor.equipItem(item);
             }
 

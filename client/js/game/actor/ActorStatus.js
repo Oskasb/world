@@ -118,7 +118,21 @@ let hardStateMap = [
     ENUMS.ActorStatus.STAND_STATE,
     ENUMS.ActorStatus.MOVE_STATE,
     ENUMS.ActorStatus.BODY_STATE,
-    ENUMS.ActorStatus.STRONGHOLD_ID
+    ENUMS.ActorStatus.STRONGHOLD_ID,
+    ENUMS.ActorStatus.SLOT_HEAD,
+    ENUMS.ActorStatus.SLOT_BODY,
+    ENUMS.ActorStatus.SLOT_CHEST,
+    ENUMS.ActorStatus.SLOT_WRIST,
+    ENUMS.ActorStatus.SLOT_HANDS,
+    ENUMS.ActorStatus.SLOT_WAIST,
+    ENUMS.ActorStatus.SLOT_LEGS,
+    ENUMS.ActorStatus.SLOT_SKIRT,
+    ENUMS.ActorStatus.SLOT_FEET,
+    ENUMS.ActorStatus.SLOT_HAND_R,
+    ENUMS.ActorStatus.SLOT_HAND_L,
+    ENUMS.ActorStatus.SLOT_BACK,
+    ENUMS.ActorStatus.SLOT_WRIST_L,
+    ENUMS.ActorStatus.SLOT_WRIST_R
 ];
 
 let detailsMap = [
@@ -204,7 +218,21 @@ let skipMap = [
     ENUMS.ActorStatus.QUAT_X,
     ENUMS.ActorStatus.QUAT_Y,
     ENUMS.ActorStatus.QUAT_Z,
-    ENUMS.ActorStatus.QUAT_W
+    ENUMS.ActorStatus.QUAT_W,
+    ENUMS.ActorStatus.SLOT_HEAD,
+    ENUMS.ActorStatus.SLOT_BODY,
+    ENUMS.ActorStatus.SLOT_CHEST,
+    ENUMS.ActorStatus.SLOT_WRIST,
+    ENUMS.ActorStatus.SLOT_HANDS,
+    ENUMS.ActorStatus.SLOT_WAIST,
+    ENUMS.ActorStatus.SLOT_LEGS,
+    ENUMS.ActorStatus.SLOT_SKIRT,
+    ENUMS.ActorStatus.SLOT_FEET,
+    ENUMS.ActorStatus.SLOT_HAND_R,
+    ENUMS.ActorStatus.SLOT_HAND_L,
+    ENUMS.ActorStatus.SLOT_BACK,
+    ENUMS.ActorStatus.SLOT_WRIST_L,
+    ENUMS.ActorStatus.SLOT_WRIST_R
 ]
 
 function sendSpatial(status, statusMap) {
@@ -316,6 +344,20 @@ class ActorStatus {
         this.statusMap[ENUMS.ActorStatus.CAM_DRAG_FACTOR] = 30;
         this.statusMap[ENUMS.ActorStatus.WORLD_LEVEL] = "20";
         this.statusMap[ENUMS.ActorStatus.ACTOR_LEVEL] = 1;
+        this.statusMap[ENUMS.ActorStatus.SLOT_HEAD] = "";
+        this.statusMap[ENUMS.ActorStatus.SLOT_BODY] = "";
+        this.statusMap[ENUMS.ActorStatus.SLOT_CHEST] = "";
+        this.statusMap[ENUMS.ActorStatus.SLOT_WRIST] = "";
+        this.statusMap[ENUMS.ActorStatus.SLOT_HANDS] = "";
+        this.statusMap[ENUMS.ActorStatus.SLOT_WAIST] = "";
+        this.statusMap[ENUMS.ActorStatus.SLOT_LEGS] = "";
+        this.statusMap[ENUMS.ActorStatus.SLOT_SKIRT] = "";
+        this.statusMap[ENUMS.ActorStatus.SLOT_FEET] = "";
+        this.statusMap[ENUMS.ActorStatus.SLOT_HAND_R] = "";
+        this.statusMap[ENUMS.ActorStatus.SLOT_HAND_L] = "";
+        this.statusMap[ENUMS.ActorStatus.SLOT_BACK] = "";
+        this.statusMap[ENUMS.ActorStatus.SLOT_WRIST_L] = "";
+        this.statusMap[ENUMS.ActorStatus.SLOT_WRIST_R] = "";
 
         let updateTO = null;
         this.request = {request:ENUMS.ClientRequests.APPLY_ACTOR_STATUS, status:this.sendStatus}
@@ -337,16 +379,21 @@ class ActorStatus {
 
     applyServerCommandStatus(message) {
     //    console.log("Apply Server Command msg ", message);
-        let map = statusMapFromMsg(message)
+        let map = message;
+        if (typeof (message.length) === 'number') {
+            map = statusMapFromMsg(message)
+        }
 
         for (let key in map) {
             if (testHardState(key) === true) {
-
+            //    console.log("Apply Server Command msg testHardState", key, map[key]);
                 if (this.statusMap[key] !== map[key]) {
                     this.actor.statusFeedback.setStatusKey(key, map[key], this.actor)
                 }
 
                 this.statusMap[key] = map[key];
+            } else {
+            //    console.log("Not hard state testHardState", key, map[key]);
             }
         }
 

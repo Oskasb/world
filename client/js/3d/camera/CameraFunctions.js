@@ -794,7 +794,7 @@ function CAM_MOVE() {
         tempVec.set(0, 0, -1);
         tempVec.applyQuaternion(camObj.quaternion);
 
-        let elevate = dragDeltaY * camDragFactor*0.05
+        let elevate = -dragDeltaY * camDragFactor*0.05
 
         camObj.position.y = MATH.clamp(camObj.position.y + elevate * 0.05, -0.1, 2);
 
