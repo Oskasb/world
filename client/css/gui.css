@@ -212,6 +212,31 @@ div.panel_icon {
     transform: translate3d(-0%, -0%, 0);
 }
 
+div.edit_button {
+    position:absolute;
+    z-index: 10;
+    top: auto;
+    font-size: 2em;
+    right: 0.5em;
+    bottom: 0.5em;
+    left: auto;
+    height: 1.1em;
+    width: 4em;
+    border: 0.1em solid;
+    border-radius: 0.2em;
+    background-color: rgb(255, 162, 41);
+    border-color: rgba(255, 242, 101, 1);
+    box-shadow: 0 0 0.5em rgba(0, 21, 81, 1);
+    background-size: 100%;
+    margin: 0;
+    padding: 0;
+    transform: translate3d(-0%, -0%, 0);
+    color: #000000;
+    text-shadow: 0.02em 0.02em 0.2em rgb(255, 255, 255);
+    display: block;
+    text-align: center;
+}
+
 div.interact_panel {
     font-size: 1.9em;
     top: 1em;
@@ -453,6 +478,15 @@ div.item_type {
     font-size: 0.8em;
     position: absolute;
     color: #bfe7e7;
+}
+
+div.item_id {
+    bottom:2.2em;
+    right:0.8em;
+    padding-left: 1em;
+    font-size: 0.8em;
+    position: absolute;
+    color: #e0ff93;
 }
 
 div.item_label {

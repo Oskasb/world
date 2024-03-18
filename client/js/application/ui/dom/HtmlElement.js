@@ -45,7 +45,13 @@ class HtmlElement {
                 let elem = iframeDocument.getElementById(key);
                 if (elem) {
                     if (elem.type === 'range') {
-                        statusMap[key] = elem.value;
+                        if (typeof (statusMap[key]) === 'number') {
+                            statusMap[key] = parseFloat(elem.value);
+                        } else {
+                            statusMap[key] = elem.value;
+                        }
+
+                    //    console.log(statusMap, key, statusMap[key]);
                         updateValueElem(key, elem.value, iframeDocument)
                     } else {
                         let value = statusMap[key]

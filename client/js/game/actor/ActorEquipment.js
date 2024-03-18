@@ -82,6 +82,8 @@ class ActorEquipment {
         //    console.log("UnEquip Actor Item ", item)
             if (this.items.indexOf(item) !== -1) {
                 MATH.splice(this.items, item);
+            } else {
+                console.log("item already unequiped", item);
             }
 
             updateAddModifiers(this.items)
@@ -101,6 +103,7 @@ class ActorEquipment {
             let currentSlotStatus = this.actor.getStatus(ENUMS.ActorStatus[slotId]);
 
             if (currentSlotStatus === item.getStatus(ENUMS.ItemStatus.ITEM_ID)) {
+                console.log("Unequip currently equipped itemId", slotId)
                 this.actor.setStatusKey(ENUMS.ActorStatus[slotId], "")
             }
 

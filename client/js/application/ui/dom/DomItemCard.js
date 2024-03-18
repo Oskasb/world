@@ -1,4 +1,6 @@
 import {HtmlElement} from "./HtmlElement.js";
+import {ENUMS} from "../../ENUMS.js";
+import {poolFetch, poolReturn} from "../../utils/PoolUtils.js";
 
 let activeDomItems = [];
 
@@ -30,6 +32,15 @@ class DomItemCard {
             let pLeft = elemRect.left + rootRect.left - bodyRect.left;
 
             rootElement.style.fontSize = DomUtils.rootFontSize();
+        //    statusMap['PALETTE_VALUES'] = item.getStatus(ENUMS.ItemStatus.PALETTE_VALUES);
+
+
+            let instance = item.getVisualGamePiece().call.getInstance()
+            if (instance) {
+
+                item.getVisualGamePiece().visualModelPalette.setFromValuearray(statusMap['PALETTE_VALUES']);
+                item.getVisualGamePiece().visualModelPalette.applyPaletteToInstance(instance)
+            }
 
             setTargetCoordinates(pTop, pLeft+width*0.5)
         }
@@ -42,6 +53,43 @@ class DomItemCard {
          //   }, 500)
         }
 
+        let paletteEdit = null;
+
+        let paletteEditReady = function(ple) {
+            console.log("paletteEditReady", ple)
+        }
+
+        let editPalette = function() {
+
+        //    let palette = item.getStatus(ENUMS.ItemStatus.PALETTE_VALUES);
+
+            if (paletteEdit !== null) {
+                paletteEdit.closeDomPalette()
+                poolReturn(paletteEdit);
+                paletteEdit = null;
+                return;
+            } else {
+                paletteEdit = poolFetch('DomPalette');
+                paletteEdit.initDomPalette(statusMap['PALETTE_VALUES'], paletteEditReady)
+            }
+
+            /*
+
+            palette[0] = Math.round(Math.random()*100);
+            palette[1] = Math.round(Math.random()*100);
+            palette[2] = Math.round(Math.random()*100);
+            palette[3] = Math.round(Math.random()*100);
+
+
+        //    statusMap['PALETTE_VALUES'] = item.getStatus(ENUMS.ItemStatus.PALETTE_VALUES);
+            item.getVisualGamePiece().visualModelPalette.setFromValuearray(palette);
+            let instance = item.getVisualGamePiece().call.getInstance()
+            if (instance) {
+                item.getVisualGamePiece().visualModelPalette.applyPaletteToInstance(instance)
+            }
+            */
+        }
+
         let readyCb = function() {
             rootElement = htmlElement.call.getRootElement();
             let bodyRect = DomUtils.getWindowBoundingRect();
@@ -51,7 +99,16 @@ class DomItemCard {
             let container = htmlElement.call.getChildElement('container')
             container.style.visibility = "visible";
             container.style.display = "";
-            DomUtils.addClickFunction(container, rebuild)
+        //    DomUtils.addClickFunction(container, rebuild)
+
+            let paletteDiv = htmlElement.call.getChildElement("palette_edit");
+            if (statusMap['PALETTE_VALUES'].length) {
+                console.log(statusMap['PALETTE_VALUES'])
+                DomUtils.addClickFunction(paletteDiv, editPalette);
+
+            } else {
+                paletteDiv.style.display = "none";
+            }
 
         //    let slotId = item.getStatus(ENUMS.ItemStatus.EQUIPPED_SLOT);
             let backplate = htmlElement.call.getChildElement("backplate");

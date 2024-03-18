@@ -45,8 +45,13 @@ class DomCharacter {
                 if (dragTargetSlot !== null) {
 
                     let slotId = dragTargetSlot.id;
-                    console.log("Drag To Inv Slot", slotId, dragTargetSlot, dragItem);
                     sourceSlot = dragItem.getStatus(ENUMS.ItemStatus.EQUIPPED_SLOT);
+                    if (sourceSlot === slotId) {
+                        console.log("Drag back to origin")
+                        return;
+                    }
+
+                    console.log("Drag To Inv Slot", slotId, dragTargetSlot, dragItem);
                     let invItem = actor.actorInventory.getItemAtSlot(sourceSlot);
                     if (invItem !== dragItem) {
                         console.log("Not switching inv items.. ")

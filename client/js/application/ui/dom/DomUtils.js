@@ -326,8 +326,8 @@ class DomUtils {
     addMouseMoveFunction(element, cb) {
         element.style.pointerEvents = "auto";
         element.style.cursor = "pointer";
-        element.addEventListener('mousemove', cb);
-        element.addEventListener('touchmove', cb);
+        element.addEventListener('mousemove', cb, { passive: true});
+        element.addEventListener('touchmove', cb, { passive: true});
     }
 
     addPointerExitFunction(element, cb) {

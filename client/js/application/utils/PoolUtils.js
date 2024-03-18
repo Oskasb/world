@@ -36,6 +36,7 @@ import {DomLootNotice} from "../ui/dom/DomLootNotice.js";
 import {DomItem} from "../ui/dom/DomItem.js";
 import {DomInventory} from "../ui/dom/DomInventory.js";
 import {DomItemCard} from "../ui/dom/DomItemCard.js";
+import {DomPalette} from "../ui/dom/DomPalette.js";
 
 
 let pools = {}
@@ -78,6 +79,7 @@ function initPools() {
     registerPool(DomItem)
     registerPool(DomInventory)
     registerPool(DomItemCard)
+    registerPool(DomPalette)
 }
 
 function registerPool(DataObj) {

@@ -92,7 +92,7 @@ class ServerActorMessageProcessor {
                         if (statusKey === ENUMS.ActorStatus.EQUIP_REQUESTS) {
                         //    console.log("Server Status updated", statusKey, newValue, currentStatus);
                             this.updateEquippedItems(status, newValue);
-                            let serverActor = getServerActorByActorId(status.getStatus(ENUMS.ActorStatus.ACTOR_ID))
+                        //    let serverActor = getServerActorByActorId(status.getStatus(ENUMS.ActorStatus.ACTOR_ID))
                             console.log("updateEquippedItems ACTIVE", status, msg);
                         //    let message = serverActor.buildServerActorStatusMessage(ENUMS.ClientRequests.APPLY_ACTOR_STATUS, ENUMS.ServerCommands.ACTOR_UPDATE)
                             status.setStatusKey(ENUMS.ActorStatus.EQUIP_REQUESTS, []);
