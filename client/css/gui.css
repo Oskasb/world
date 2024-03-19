@@ -435,7 +435,7 @@ div.item_edit {
 }
 
 div.color_edit {
-    height: 2.7em;
+    height: 4em;
     margin:0;
     padding: 0;
 }
@@ -697,7 +697,7 @@ div.LEGENDARY {
 div.color_container {
     font-size: 1em;
     width: auto;
-    top: 0.1em;
+    top: 1.4em;
     left: 0.1em;
     right: 0.1em;
     bottom: 0.1em;
@@ -706,6 +706,21 @@ div.color_container {
     padding: 0;
     position: absolute;
     color: #fdedff;
+}
+
+div.color_container h2 {
+    font-size: 1.2em;
+    width: auto;
+    top: -1.1em;
+    left: 0.1em;
+    right: 0.1em;
+    bottom: auto;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    color: #fdedff;
+    text-shadow: 0.04em 0.04em 0.12em rgb(0, 0, 99);
 }
 
 .color_container input {

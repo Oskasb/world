@@ -55,6 +55,9 @@ class HtmlElement {
 
                     //    console.log(statusMap, key, statusMap[key]);
                         updateValueElem(key, elem.value, iframeDocument)
+                    } else if (elem.type === 'color') {
+                            MATH.hexToRGB(elem.value, statusMap[key], 2)
+                            statusMap[key] = parseFloat(elem.value);
                     } else {
                         let value = statusMap[key]
                         let innerHtml = value;
@@ -179,6 +182,10 @@ class HtmlElement {
                     if (elem.type === 'range') {
                         elem.value = statusMap[key];
                         updateValueElem(key, elem.value, iframeDocument)
+                    }
+                    if (elem.type === 'color') {
+                        elem.value = MATH.rgbToHex(statusMap[key][0], statusMap[key][1],statusMap[key][2]);
+                    //    updateColorElem(key, elem.value, iframeDocument)
                     }
                 }
             }
