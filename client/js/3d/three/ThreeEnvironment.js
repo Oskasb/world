@@ -5,6 +5,11 @@ let statusMap = {
     fog:{density:0, near:1, far: 100000}
 };
 
+let lastStatus = {};
+lastStatus['fogColor'] = [];
+lastStatus['ambColor'] = [];
+lastStatus['sunColor'] = [];
+
 class ThreeEnvironment {
     constructor() {
 
@@ -144,6 +149,10 @@ class ThreeEnvironment {
         statusMap['fogColor'] = fogColor;
         statusMap['ambColor'] = ambColor;
         statusMap['sunColor'] = sunColor;
+
+        MATH.copyArrayValues(fogColor, lastStatus['fogColor']);
+        MATH.copyArrayValues(ambColor, lastStatus['ambColor']);
+        MATH.copyArrayValues(sunColor, lastStatus['sunColor']);
 
         for (let key in config) {
 
@@ -319,8 +328,23 @@ class ThreeEnvironment {
 
     calcTransitionProgress = function(tpf) {
         statusMap.transitionProgress += tpf;
-        if (statusMap.transitionProgress > 2) {
-            statusMap.transitionProgress = 0.99;
+        if (statusMap.transitionProgress > 1) {
+        //    statusMap.transitionProgress = 0.99;
+            if (MATH.stupidChecksumArray(lastStatus['fogColor']) === statusMap['fogColor']) {
+                if (MATH.stupidChecksumArray(lastStatus['ambColor']) === statusMap['ambColor']) {
+                    if (MATH.stupidChecksumArray(lastStatus['sunColor']) === statusMap['sunColor']) {
+
+                     } else {
+                        statusMap.transitionProgress = 0.99;
+                    }
+                } else {
+                    statusMap.transitionProgress = 0.99;
+                }
+            } else {
+                statusMap.transitionProgress = 0.99;
+            }
+            
+
         }
         return MATH.calcFraction(0, this.transitionTime, statusMap.transitionProgress);
     };
@@ -358,6 +382,7 @@ class ThreeEnvironment {
             return;
         }
 */
+
         let useSky = this.currentSkyConfig;
         if (fraction > 1.01) {
 
