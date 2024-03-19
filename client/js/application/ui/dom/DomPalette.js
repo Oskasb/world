@@ -5,12 +5,14 @@ class DomPalette {
 
     }
 
-    initDomPalette(paletteValue, readyCb) {
+    initDomPalette(paletteValue, readyCb, closeCb) {
         this.htmlElement = poolFetch('HtmlElement')
-        this.htmlElement.initHtmlElement('palette', null, paletteValue, 'full_screen', readyCb);
+        this.htmlElement.initHtmlElement('palette', closeCb, paletteValue, 'palette_frame', readyCb);
+        this.htmlElement.hideOtherRootElements();
     }
 
     closeDomPalette() {
+        this.htmlElement.revealHiddenRootElements();
         this.htmlElement.closeHtmlElement();
         poolReturn(this.htmlElement);
         this.htmlElement = null;

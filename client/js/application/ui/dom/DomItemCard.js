@@ -56,8 +56,11 @@ class DomItemCard {
         let paletteEdit = null;
 
         let paletteEditReady = function(ple) {
+
             console.log("paletteEditReady", ple)
         }
+
+
 
         let editPalette = function() {
 
@@ -67,10 +70,11 @@ class DomItemCard {
                 paletteEdit.closeDomPalette()
                 poolReturn(paletteEdit);
                 paletteEdit = null;
+
                 return;
             } else {
                 paletteEdit = poolFetch('DomPalette');
-                paletteEdit.initDomPalette(statusMap['PALETTE_VALUES'], paletteEditReady)
+                paletteEdit.initDomPalette(statusMap['PALETTE_VALUES'], paletteEditReady, editPalette)
             }
 
             /*

@@ -3,78 +3,62 @@
 <script src="../client/js/application/ui/dom/DomItemCard.js"></script>
 <link rel="stylesheet" type="text/css" href="../client/css/gui.css" />
 
-<body id="container" class="overlay_page">
+<body id="container" class="overlay_page transparent">
 
-<div class="settings_panel">
-    <h2>Settings</h2>
-    <p>Tweak things</p>
+<div class="palette_panel">
+    <h2>Edit Item</h2>
+    <p>Palette</p>
     <div id="anchor_close" class="anchor_close"></div>
-    <div class="control_container">
-
-        <div class="slider_container">
-            <h3>0</h3>
+    <div class="control_container item_edit">
+        <div class="slider_container item_slider">
             <input id="0" type="range" min="0" max="127">
             <p id="0_value"></p>
         </div>
     </div>
-    <div class="control_container">
-
-        <div class="slider_container">
-            <h3>1</h3>
+    <div class="control_container item_edit">
+        <div class="slider_container item_slider">
             <input id="1" type="range" min="0" max="127">
             <p id="1_value"></p>
         </div>
     </div>
-    <div class="control_container">
-
-        <div class="slider_container">
-            <h3>2</h3>
+    <div class="control_container item_edit">
+        <div class="slider_container item_slider">
             <input id="2" type="range" min="0" max="127">
             <p id="2_value"></p>
         </div>
     </div>
-    <div class="control_container">
-
-        <div class="slider_container">
-            <h3>3</h3>
+    <div class="control_container item_edit">
+        <div class="slider_container item_slider">
             <input id="3" type="range" min="0" max="127">
             <p id="3_value"></p>
         </div>
     </div>
-    <div class="control_container">
-
-        <div class="slider_container">
-            <h3>4</h3>
-            <input id="4" type="range" min="0" max="1">
+    <div class="control_container item_edit">
+        <div class="slider_container item_slider">
+            <input id="4" type="range" min="0" max="1" step="0.1">>
             <p id="4_value"></p>
         </div>
     </div>
-    <div class="control_container">
-
-        <div class="slider_container">
-            <h3>5</h3>
-            <input id="5" type="range" min="0" max="1">
+    <div class="control_container item_edit">
+        <div class="slider_container item_slider">
+            <input id="5" type="range" min="0" max="1" step="0.01">>
             <p id="5_value"></p>
         </div>
     </div>
-    <div class="control_container">
-
-        <div class="slider_container">
-            <h3>6</h3>
-            <input id="6" type="range" min="0" max="1">
+    <div class="control_container item_edit">
+        <div class="slider_container item_slider">
+            <input id="6" type="range" min="0" max="1" step="0.01">>
             <p id="6_value"></p>
         </div>
     </div>
-    <div class="control_container">
-
-        <div class="slider_container">
-            <h3>7</h3>
-            <input id="7" type="range" min="-3" max="3">
+    <div class="control_container item_edit">
+        <div class="slider_container item_slider">
+            <input id="7" type="range" min="-3" max="3" step="0.1">
             <p id="7_value"></p>
         </div>
     </div>
 </div>
-<div id="backdrop" class="backdrop"></div>
+<div id="backdrop" class="backdrop transparent"></div>
 </body>
 
 

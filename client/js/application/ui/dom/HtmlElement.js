@@ -1,6 +1,8 @@
 
 let index = 0;
 
+let activeRootElements = [];
+
 function updateValueElem(key, value, iframe) {
     let valueText = iframe.getElementById(key+'_value');
     if (valueText) {
@@ -185,6 +187,13 @@ class HtmlElement {
                 readyCb(this);
             }
 
+            if (activeRootElements.indexOf(this.container) === -1) {
+                activeRootElements.push(this.container)
+            } else {
+                console.log("This should not happen, check", activeRootElements, this.container);
+            }
+
+
             ThreeAPI.addPrerenderCallback(this.call.update);
 
         }.bind(this)
@@ -242,10 +251,26 @@ class HtmlElement {
         }
     }
 
+    hideOtherRootElements() {
+        for (let i = 0; i < activeRootElements.length; i++) {
+            if (activeRootElements[i] !== this.container) {
+                activeRootElements[i].style.opacity = 0;
+            }
+        }
+    }
+
+    revealHiddenRootElements() {
+        for (let i = 0; i < activeRootElements.length; i++) {
+            if (activeRootElements[i] !== this.container) {
+                activeRootElements[i].style.opacity = 1;
+            }
+        }
+    }
 
     closeHtmlElement() {
     //    this.hideHtmlElement();
         if (this.container !== null) {
+            MATH.splice(activeRootElements, this.container);
             DomUtils.removeElement(this.container);
         }
         this.container = null;

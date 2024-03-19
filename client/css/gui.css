@@ -52,16 +52,20 @@ body.overlay_page {
     background-color: rgba(0, 0, 0, 0);
 }
 
-.transparent {
+div.transparent {
     background: none;
 }
+
+div.darken {
+    background: rgba(0, 0, 0, 0.5);
+}
+
 
 div.backdrop {
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
 }
 
 .overlay_page h2 {
@@ -178,7 +182,25 @@ div.icon_stash {
     background-image: url("/client/assets/images/textures/gui/icons/icon_stash.png");
 }
 
+div.palette_panel {
+    z-index: 10000;
+    pointer-events: auto;
+    font-size: 1.5em;
+    top: 3em;
+    left: 0.4em;
+    width: auto;
+    height: auto;
+    position: absolute;
+    background-color: rgba(81, 118, 155, 0.51);
+    box-shadow: 0 0 0.7em rgba(99, 255, 255, 1);
+    border-radius: 0.5em;
+    border: #27e7ce;
+    border-style: solid;
+    border-width: 0.2em;
+}
+
 div.settings_panel {
+    z-index: 10000;
     pointer-events: auto;
     font-size: 2.5em;
     top: 1em;
@@ -408,6 +430,10 @@ div.interact_icon {
     background-size: 0;
 }
 
+div.item_edit {
+    height: 2.5em;
+}
+
 .control_container {
     top: 0em;
     left: 0em;
@@ -451,6 +477,10 @@ div.interact_icon {
     display: flex;
     align-items: center;
     box-shadow: 0px 15px 40px #7E6D5766;
+}
+
+div.item_slider {
+    top: 0.2em;
 }
 
 
