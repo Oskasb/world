@@ -434,6 +434,12 @@ div.item_edit {
     height: 2.5em;
 }
 
+div.color_edit {
+    height: 2.7em;
+    margin:0;
+    padding: 0;
+}
+
 .control_container {
     top: 0em;
     left: 0em;
@@ -482,6 +488,7 @@ div.item_edit {
 div.item_slider {
     top: 0.2em;
 }
+
 
 
 div.alignment {
@@ -685,6 +692,51 @@ div.LEGENDARY {
     height: 2em;
     position: absolute;
     color: #fdedff;
+}
+
+div.color_container {
+    font-size: 1em;
+    width: auto;
+    top: 0.1em;
+    left: 0.1em;
+    right: 0.1em;
+    bottom: 0.1em;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    color: #fdedff;
+}
+
+.color_container input {
+    font-size: 0.8em;
+    top: 0.1em;
+    left: 0.1em;
+    right: 0.1em;
+    bottom: 0.1em;
+    width: auto;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    color: #fdedff;
+}
+
+input[type="color"] {
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: rgba(1, 1, 1, 0.4);
+    cursor: pointer;
+    top: 0.1em;
+    left: 0.1em;
+    right: 0.1em;
+    bottom: 0.1em;
+    width: auto;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    border: 0.1em solid white;
+    border-radius: 0.4em;
 }
 
 input[type="range"] {

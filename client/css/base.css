@@ -62,6 +62,16 @@ div.canvas_window {
 
 }
 
+iframe.edit_frame {
+    z-index: 100000;
+    top: 0;
+    left: 0;
+    width: 230em;
+    height: inherit;
+    position: absolute;
+    border: none;
+    color: #ecffdc;
+}
 
 iframe.palette_frame {
     z-index: 100000;

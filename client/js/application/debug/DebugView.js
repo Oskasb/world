@@ -2,6 +2,7 @@ import * as DebugUtils from "./DebugUtils.js";
 import {DebugLines} from "./lines/DebugLines.js";
 import {CameraUiSystem} from "../ui/gui/systems/CameraUiSystem.js";
 import {debugDrawPhysicalWorld} from "../utils/PhysicsUtils.js";
+import {poolFetch, poolReturn} from "../utils/PoolUtils.js";
 
 let cache = {};
 let mem = null;
@@ -18,6 +19,8 @@ let glRenderer;
 let renderer;
 let scene;
 let debugStatsEvent = {};
+
+let domEnvEdit = null;
 
 let setupDebug = function() {
 
@@ -99,6 +102,17 @@ class DebugView {
         this.inspecting = {};
         this.isActive = false;
         let onActivate = function() {
+            let closeCB = function() {
+                domEnvEdit.closeDomEnvEdit();
+                poolReturn(domEnvEdit);
+                domEnvEdit = null;
+            }
+
+            if (domEnvEdit === null) {
+                domEnvEdit = poolFetch('DomEnvEdit');
+                domEnvEdit.initDomEnvEdit(ThreeAPI.getEnvironment().getStatusMap(), closeCB);
+            }
+
             this.activateDebugView();
         }.bind(this);
 

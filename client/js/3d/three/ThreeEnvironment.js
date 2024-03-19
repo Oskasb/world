@@ -1,5 +1,9 @@
 import { PipelineObject } from "../../application/load/PipelineObject.js";
 
+let statusMap = {
+    transitionProgress:0,
+    fog:{density:0, near:1, far: 100000}
+};
 
 class ThreeEnvironment {
     constructor() {
@@ -17,7 +21,7 @@ class ThreeEnvironment {
         this.envList = {};
         this.skyList = {};
         this.worldSetup = {};
-        this.world = {fog:{density:0, near:1, far: 100000}};
+        this.world = {fog:statusMap['fog']};
         this.currentEnvId = null;
         this.maxElevation = 10000;
         this.currentElevation = 0;
@@ -31,7 +35,6 @@ class ThreeEnvironment {
         this.theta;
         this.phi;
 
-        this.transitionProgress = 0;
         this.sky = null;
 
         this.ctx = null;
@@ -63,7 +66,6 @@ class ThreeEnvironment {
             }
             _this.currentEnvId = data.defaultEnvId;
             _this.currentEnvIndex = undefined;
-            //    console.log("worldSetup:", currentEnvId, worldSetup);
 
             onLoaded();
         };
@@ -83,7 +85,10 @@ class ThreeEnvironment {
         let fogColor = config.fog.color;
         let ambColor = config.ambient.color;
         let sunColor = config.sun.color;
-
+        statusMap['fogColor'] = fogColor;
+        statusMap['ambColor'] = ambColor;
+        statusMap['sunColor'] = sunColor;
+    //    console.log("setCanvasColor", statusMap)
         let evFact = Math.min(this.camera.position.y*0.00005, 0.099);
 
         let grd = ctx.createLinearGradient(0,0,0, _this.ctxHeight);
@@ -132,6 +137,13 @@ class ThreeEnvironment {
     applyEnvironment = function() {
 
         let config = this.currentEnvConfig;
+
+        let fogColor = config.fog.color;
+        let ambColor = config.ambient.color;
+        let sunColor = config.sun.color;
+        statusMap['fogColor'] = fogColor;
+        statusMap['ambColor'] = ambColor;
+        statusMap['sunColor'] = sunColor;
 
         for (let key in config) {
 
@@ -281,7 +293,7 @@ class ThreeEnvironment {
         applyColor(world.sun, uwSunColor);
         applyColor(world.ambient, uwAmbColor);
         world.fog.density = 0.009;
-        let transitionProgress = 0;
+
         //    updateDynamigAmbient(uWambientColor);
 
         if (sky.ctx) {
@@ -306,9 +318,8 @@ class ThreeEnvironment {
     };
 
     calcTransitionProgress = function(tpf) {
-        this.transitionProgress += tpf;
-
-        return MATH.calcFraction(0, this.transitionTime, this.transitionProgress);
+        statusMap.transitionProgress += tpf;
+        return MATH.calcFraction(0, this.transitionTime, statusMap.transitionProgress);
     };
 
     tick = function(tpf) {
@@ -447,7 +458,7 @@ class ThreeEnvironment {
 
         let setEnvConfigId = function(envConfId, time) {
             this.transitionTime = time || 225;
-            this.transitionProgress = 0;
+            statusMap.transitionProgress = 0;
             this.currentEnvId = envConfId;
         }.bind(this);
 
@@ -564,6 +575,8 @@ class ThreeEnvironment {
             _this.currentSkyConfig = _this.skyList['current'];
             _this.currentEnvConfig = _this.envList['current'];
 
+            console.log("Env Loaded", _this.currentSkyConfig, _this.currentEnvConfig)
+
             _this.applySkyConfig();
             _this.applyEnvironment();
 
@@ -574,6 +587,10 @@ class ThreeEnvironment {
         new PipelineObject("ASSETS", "ENVIRONMENT", environmentListLoaded);
 
     };
+
+    getStatusMap() {
+        return statusMap;
+    }
 
 }
 

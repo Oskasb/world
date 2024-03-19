@@ -183,7 +183,7 @@ class VisualTile {
                         spriteX = 6;
                         spriteY = 3;
                     }
-                    if (dynamicTile.groundData.y > 0.999) {
+                    if (dynamicTile.groundData.y > 0.999 && dynamicTile.groundData.b > 0.1) {
                         spriteX = 6;
                         spriteY = 4;
                         r = 0.05;
