@@ -319,6 +319,9 @@ class ThreeEnvironment {
 
     calcTransitionProgress = function(tpf) {
         statusMap.transitionProgress += tpf;
+        if (statusMap.transitionProgress > 2) {
+            statusMap.transitionProgress = 0.99;
+        }
         return MATH.calcFraction(0, this.transitionTime, statusMap.transitionProgress);
     };
 
