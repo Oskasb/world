@@ -9,6 +9,21 @@
             "config": {
               "encounters": [
                 {
+                  "pos": [-862, 5, 761],
+                  "visibility": 2,
+                  "grid_id": "grid_5x5",
+                  "host_id": "cavern_entrance",
+                  "indicator_id": "battle_indicator",
+                  "trigger_radius": 0.0,
+                  "interact_options": [
+                    {"interaction": "ENTER", "text": "Ride the boat", "dispatch": [
+                      {"event":"ENTER_PORTAL", "value":{"world_level": "10", "world_encounters": ["outlaw_cavern_encounters"]}}
+                    ]},
+                    {"interaction": "TALK",  "text": "This goes to an island I can claim for my own?"},
+                    {"interaction": "LEAVE", "text": "Not this time."}
+                  ]
+                },
+                {
                   "pos": [-735.5, 5, 535.9],
                   "visibility": 2,
                   "grid_id": "grid_5x5",

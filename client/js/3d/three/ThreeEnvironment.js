@@ -259,7 +259,7 @@ class ThreeEnvironment {
     };
 
     interpolateEnv = function(current, target, fraction) {
-        if (statusMap.write) {
+        if (statusMap.write === true) {
             return;
         }
         for (let key in current) {
@@ -528,6 +528,7 @@ class ThreeEnvironment {
         }.bind(this);
 
         let advanceEnv = function(envArgs) {
+            statusMap.write = false;
                 setEnvConfigId(envArgs.envId, envArgs.time);
         //    console.log("Advance ENV ", envArgs, _this.currentEnvId, _this.envList);
         };
