@@ -4,7 +4,9 @@
       {
         "id": "world_levels",
           "levels": [
+
             {"id": "20", "asset":"asset_ground_big",    "name": "Overworld",         "env": "sunny_day",   "spawns":  2500, "level_min": 1, "level_max": 50, "y_max": 100},
+            {"id": "19", "asset":"asset_ground_big_home", "name": "Player Home",     "env": "morning",     "spawns":  0,  "level_min": 25,"level_max": 50, "y_max": 25},
             {"id": "13", "asset":"asset_ground_big_13", "name": "Topmost Caves",     "env": "cave_dusty",  "spawns":  20,  "level_min": 25,"level_max": 50, "y_max": 25},
             {"id": "12", "asset":"asset_ground_big_12", "name": "Peak Caves",        "env": "cave_dusty",  "spawns":  40,  "level_min": 15,"level_max": 25, "y_max": 25},
             {"id": "11", "asset":"asset_ground_big_11", "name": "Hillside Caves",    "env": "cave_dusty",  "spawns":  60,  "level_min": 5, "level_max": 15, "y_max": 25},
