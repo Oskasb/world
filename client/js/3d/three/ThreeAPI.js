@@ -534,6 +534,9 @@ class ThreeAPI {
         return 'rgb('+Math.floor(r*255)+','+Math.floor(g*255)+','+Math.floor(b*255)+')';
     };
 
+    toGradRgb = function(r, g, b) {
+        return 'rgb('+Math.min(Math.floor(MATH.curveQuad(r)*255), 255)+','+Math.min(Math.floor(MATH.curveQuad(g)*255), 255)+','+Math.min(Math.floor(MATH.curveQuad(b)*255), 255)+')';
+    };
 
     requestFrameRender = function(frame) {
     //

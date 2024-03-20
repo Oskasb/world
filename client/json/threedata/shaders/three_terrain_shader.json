@@ -481,16 +481,13 @@
 
           "gl_FragColor = baseColor + reflectionColor;",
 
-          "float forElevClear = min(fogDensity*0.7, fogDensity*cameraPosition.y*0.002);",
-          "forElevClear = fogDensity*0.5;",
-          "float fogFactor = min((fogDensity-forElevClear) * (fogDepth*0.15), 0.25)*(1.0 - fragNormal.y*0.0);",
+          "float forElevClear = cameraPosition.y*0.0001;",
 
-          "vec3 waterFogColor = vec3(fogColor.r * 0.785 + fogColor.r*fogFactor*0.95, fogColor.g *0.785 + fogColor.g*fogFactor*0.95, fogColor.b * 0.92 + fogColor.b*fogFactor*0.75);",
+          "float waveFactor = 1.0 - (0.5 + fragNormal.y*0.5) * 0.5;",
 
-          "fogFactor += min((fogDensity-forElevClear*0.75) * (fogDepth*2.5), 0.72);",
-          "waterFogColor += vec3( fogColor.r*fogFactor*0.04,  fogColor.g*fogFactor*0.04,  fogColor.b*fogFactor*0.06);",
+          "float fogFactor = min((fogDensity * waveFactor) * fogDepth , 1.0);",
 
-          "gl_FragColor.rgb = mix(gl_FragColor.rgb, waterFogColor,  fogFactor );",
+          "gl_FragColor.rgb = mix(gl_FragColor.rgb, fogColor,  fogFactor );",
 
           "}",
           ""

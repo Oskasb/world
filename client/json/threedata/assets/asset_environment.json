@@ -9,9 +9,9 @@
             "distance":      1000000000
           },
           "configs":[
-            {"id":"sun",     "color":[1.15,  1.15,  0.25]},
-            {"id":"ambient", "color":[0.60,  0.435,  0.95]},
-            {"id":"fog",     "color":[0.86,  1.07,  1.30], "density":0.026}
+            {"id":"sun",     "color":[1.0,  0.85,  0.15]},
+            {"id":"ambient", "color":[0.30, 0.45,  0.85]},
+            {"id":"fog",     "color":[0.46, 0.79,  0.99], "density":0.015}
           ]
         },
         {
@@ -23,8 +23,8 @@
           },
           "configs":[
             {"id":"sun",     "color":[0.95,   0.55,  0.710]},
-            {"id":"ambient", "color":[0.45,  -0.12,   0.31]},
-            {"id":"fog",     "color":[0.44,   -0.12, 0.215], "density":0.014}
+            {"id":"ambient", "color":[0.45,   0.01,  0.31]},
+            {"id":"fog",     "color":[0.44,   0.01,  0.215], "density":0.014}
           ]
         },
         {
@@ -36,8 +36,8 @@
           },
           "configs":[
             {"id":"sun",     "color":[1.25,  0.75,  0.15]},
-            {"id":"ambient", "color":[-0.21,  0.31,  0.75]},
-            {"id":"fog",     "color":[0.55,  0.25, -0.21],  "density":0.014}
+            {"id":"ambient", "color":[0.01,  0.31,  0.75]},
+            {"id":"fog",     "color":[0.55,  0.25,  0.01],  "density":0.014}
           ]
         },
         {
@@ -48,7 +48,7 @@
             "distance":        1000000000
           },
           "configs":[
-            {"id":"sun",     "color":[1.20, 0.92,  0.4]},
+            {"id":"sun",     "color":[1.0, 0.92,  0.4]},
             {"id":"ambient", "color":[0.20,  0.6,  0.8]},
             {"id":"fog",     "color":[0.35, 0.73,  0.85], "density":0.013}
           ]
@@ -61,9 +61,9 @@
             "distance":        1000000000
           },
           "configs":[
-            {"id":"sun",     "color":[1.75, 1.43,  0.75]},
-            {"id":"ambient", "color":[0.01, 0.12,  0.3]},
-            {"id":"fog",     "color":[1.0,  1.0,  0.9], "density":0.012}
+            {"id":"sun",     "color":[1.0,  1.0,  0.85]},
+            {"id":"ambient", "color":[0.50,  0.235,  0.65]},
+            {"id":"fog",     "color":[0.76,  0.89,  0.29], "density":0.009}
           ]
         },
         {
@@ -74,9 +74,9 @@
             "distance":      1000000000
           },
           "configs":[
-            {"id":"sun",     "color":[1.85,  1.75,  0.75]},
-            {"id":"ambient", "color":[0.15,  0.01,  0.65]},
-            {"id":"fog",     "color":[0.86,  1.07,  1.30], "density":0.013}
+            {"id":"sun",     "color":[1.0,  1.0,  0.75]},
+            {"id":"ambient", "color":[0.15,  0.21,  0.65]},
+            {"id":"fog",     "color":[0.36,  0.57,  0.79], "density":0.007}
           ]
         },
         {
@@ -87,9 +87,9 @@
             "distance":          1000000000
           },
           "configs":[
-            {"id":"sun",     "color":[1.40,  0.82,  0.46]},
-            {"id":"ambient", "color":[0.15,  0.04,  0.71]},
-            {"id":"fog",     "color":[0.25, -0.15,  0.11], "density":0.013}
+            {"id":"sun",     "color":[1.00,  0.82,  0.46]},
+            {"id":"ambient", "color":[0.55,  0.04,  0.71]},
+            {"id":"fog",     "color":[0.25,  0.05,  0.11], "density":0.013}
           ]
         },
         {
@@ -102,7 +102,7 @@
           "configs":[
             {"id":"sun",     "color":[0.51,   0.80,  0.58]},
             {"id":"ambient", "color":[0.12,   0.01,  0.49]},
-            {"id":"fog",     "color":[0.13,   0.01,  -0.22], "density":0.014}
+            {"id":"fog",     "color":[0.13,   0.01,  0.02], "density":0.014}
           ]
         },
         {
@@ -114,7 +114,7 @@
           },
           "configs":[
             {"id":"sun",     "color":[0.0,   0.99,  0.0]},
-            {"id":"ambient", "color":[0.61,  0.0,  0.61]},
+            {"id":"ambient", "color":[0.61,  0.3,  0.61]},
             {"id":"fog",     "color":[0.02,  0.09,  0.0], "density":0.035}
           ]
         },

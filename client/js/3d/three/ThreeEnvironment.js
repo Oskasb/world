@@ -111,23 +111,30 @@ class ThreeEnvironment {
 
         GuiAPI.printDebugText("Fog: "+fogColor[0]+" "+fogColor[1]+" "+fogColor[2])
     //    grd.addColorStop(0, ThreeAPI.toRgb(fogColor[0], fogColor[1], fogColor[2]));
-        grd.addColorStop(0.249, ThreeAPI.toRgb(0,0, ambColor[2]));
-        let rgb = ThreeAPI.toRgb(fogColor[0], fogColor[1], fogColor[2])
-        GuiAPI.printDebugText("rgb: "+rgb)
-        //    grd.addColorStop(1, rgb);
-        //	grd.addColorStop(0.8+evFact,toRgb([color[0]*(0.5)*(1-evFact)+fog[0]*(0.5)*evFact*evFact, color[1]*0.5*(1-evFact)+fog[1]*(0.5)*evFact*evFact, color[2]*0.5*(1-evFact)+fog[2]*0.5*evFact*evFact]));
+    //    grd.addColorStop(0, ThreeAPI.toGradRgb(0,0, 0));
+    //    grd.addColorStop(0.45, ThreeAPI.toGradRgb(0,0, 0));
+        grd.addColorStop(0, ThreeAPI.toGradRgb( ambColor[0]*0.4, ambColor[1]*0.6,  ambColor[2]*0.8));
+
+
+        grd.addColorStop(0.34, ThreeAPI.toGradRgb((fogColor[0]*0.01 + ambColor[0]*0.6 +sunColor[0]*0.1) *0.4 ,(fogColor[1]*0.1 + ambColor[1]*0.5 +sunColor[1]*0.3) * 0.7  , (fogColor[2]*0.1 + ambColor[2]*0.8 +sunColor[2]*0.9)*0.99));
+        grd.addColorStop(0.42, ThreeAPI.toGradRgb((fogColor[0]*0.01 + ambColor[0]*0.7 +sunColor[0]*0.1) *0.6 ,(fogColor[1]*0.2 + ambColor[1]*0.3 +sunColor[1]*0.4) * 0.8  , (fogColor[2]*0.2 + ambColor[2]*0.4 +sunColor[2]*0.9)*0.96));
+        grd.addColorStop(0.46, ThreeAPI.toGradRgb((fogColor[0]*0.1  + ambColor[0]*0.7 +sunColor[0]*0.2) *0.9 ,(fogColor[1]*0.3 + ambColor[1]*0.4 +sunColor[1]*0.3) * 0.9  , (fogColor[2]*0.3 + ambColor[2]*0.5 +sunColor[2]*0.7)*0.9 ));
+        grd.addColorStop(0.485, ThreeAPI.toGradRgb((fogColor[0]*0.2 + ambColor[0]*0.8 +sunColor[0]*0.3) *1.0 ,(fogColor[1]*0.4 + ambColor[1]*0.5 +sunColor[1]*0.3) * 1.0  , (fogColor[2]*0.4 + ambColor[2]*0.6 +sunColor[2]*0.4)*1.0 ));
+
 
         if (evFact > 999999 || isNaN(evFact) || !isFinite(evFact)) {
             console.log("Camera went flying off... investigate")
             return;
         }
-        //    grd.addColorStop(1-(0.577+evFact), ThreeAPI.toRgb(fogColor[0]*0.6, fogColor[1]*0.6, 1));
 
-        //    grd.addColorStop(0.45,toRgb(ambient));
-
-        grd.addColorStop(0.49, rgb);
+        // horizon and down;
+        let rgb = ThreeAPI.toGradRgb(fogColor[0], fogColor[1], fogColor[2])
+        GuiAPI.printDebugText("rgb: "+rgb)
+        grd.addColorStop(0.495, rgb);
+        grd.addColorStop(1, rgb);
     //    grd.addColorStop(-1, rgb);
         //       grd.addColorStop(1, ThreeAPI.toRgb(0, 0, 0));
+    //    ctx.globalCompositeOperation = "source-over"
         ctx.fillStyle=grd;
         ctx.fillRect(0, 0, _this.ctxWidth, _this.ctxHeight);
         evt.dispatch(ENUMS.Event.SKY_GRADIENT_UPDATE, ctx);
@@ -546,6 +553,7 @@ class ThreeEnvironment {
         let mat = ThreeAPI.buildCanvasMaterial(tx);
         mat.fog = false;
         mat.side = THREE.BackSide;
+        mat.blending = THREE.NoBlending;
 
         //    mat.depthWrite = false;
 
