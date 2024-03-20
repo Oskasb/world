@@ -1,4 +1,5 @@
 import { PipelineObject } from "../../application/load/PipelineObject.js";
+import {GuiDebug} from "../../application/ui/gui/systems/GuiDebug.js";
 
 let statusMap = {
     transitionProgress:0,
@@ -86,30 +87,47 @@ class ThreeEnvironment {
     setCanvasColor = function(ctx, tx) {
         let _this = this;
         let config = this.currentEnvConfig;
-
+/*
         let fogColor = config.fog.color;
         let ambColor = config.ambient.color;
         let sunColor = config.sun.color;
         statusMap['fogColor'] = fogColor;
         statusMap['ambColor'] = ambColor;
         statusMap['sunColor'] = sunColor;
+  *
+
+ */
+        let fogColor = statusMap['fogColor'];
+        let  ambColor = statusMap['ambColor'];
+        let   sunColor = statusMap['sunColor'];
+     //   statusMap['fogColor'] = fogColor;
+     //   statusMap['ambColor'] = ambColor;
+     //   statusMap['sunColor'] = sunColor;
+
     //    console.log("setCanvasColor", statusMap)
         let evFact = Math.min(this.camera.position.y*0.00005, 0.099);
 
         let grd = ctx.createLinearGradient(0,0,0, _this.ctxHeight);
 
-        grd.addColorStop(1-1, ThreeAPI.toRgb(0.0, 0.0, fogColor[2]));
+        GuiAPI.printDebugText("Fog: "+fogColor[0]+" "+fogColor[1]+" "+fogColor[2])
+    //    grd.addColorStop(0, ThreeAPI.toRgb(fogColor[0], fogColor[1], fogColor[2]));
+        grd.addColorStop(0.249, ThreeAPI.toRgb(0,0, ambColor[2]));
+        let rgb = ThreeAPI.toRgb(fogColor[0], fogColor[1], fogColor[2])
+        GuiAPI.printDebugText("rgb: "+rgb)
+        //    grd.addColorStop(1, rgb);
         //	grd.addColorStop(0.8+evFact,toRgb([color[0]*(0.5)*(1-evFact)+fog[0]*(0.5)*evFact*evFact, color[1]*0.5*(1-evFact)+fog[1]*(0.5)*evFact*evFact, color[2]*0.5*(1-evFact)+fog[2]*0.5*evFact*evFact]));
 
         if (evFact > 999999 || isNaN(evFact) || !isFinite(evFact)) {
             console.log("Camera went flying off... investigate")
             return;
         }
-        grd.addColorStop(1-(0.577+evFact), ThreeAPI.toRgb(fogColor[0]*0.6, fogColor[1]*0.6, 1));
+        //    grd.addColorStop(1-(0.577+evFact), ThreeAPI.toRgb(fogColor[0]*0.6, fogColor[1]*0.6, 1));
 
         //    grd.addColorStop(0.45,toRgb(ambient));
 
-        grd.addColorStop(0.5, ThreeAPI.toRgb(fogColor[0], fogColor[1], fogColor[2]));
+        grd.addColorStop(0.49, rgb);
+    //    grd.addColorStop(-1, rgb);
+        //       grd.addColorStop(1, ThreeAPI.toRgb(0, 0, 0));
         ctx.fillStyle=grd;
         ctx.fillRect(0, 0, _this.ctxWidth, _this.ctxHeight);
         evt.dispatch(ENUMS.Event.SKY_GRADIENT_UPDATE, ctx);
@@ -174,10 +192,13 @@ class ThreeEnvironment {
 
 
                 if (key === 'fog') {
+                    /*
                     this.fogColor.setRGB(config[key].color[0],config[key].color[1],config[key].color[2]);
                     this.world[key].fog.color.r = this.fogColor.r*0.5;
                     this.world[key].fog.color.g = this.fogColor.g*0.5;
                     this.world[key].fog.color.b = this.fogColor.b*0.5;
+
+                     */
                     this.world[key].fog.density = this.world[key].density*1.5;
                 }
 
@@ -198,18 +219,19 @@ class ThreeEnvironment {
     applySkyConfig = function() {
 
         let config = this.currentSkyConfig;
-
+/*
         let uniforms = this.sky.uniforms;
         uniforms.turbidity.value = config.turbidity;
         uniforms.rayleigh.value = config.rayleigh;
         uniforms.luminance.value = config.luminance;
         uniforms.mieCoefficient.value = config.mieCoefficient;
         uniforms.mieDirectionalG.value = config.mieDirectionalG;
-
+*/
         this.sunSphere.visible = true;
     }
 
     updateDynamigFog = function(sunInTheBack) {
+/*
 
         this.dynamicFogColor.copy(this.fogColor);
 
@@ -219,6 +241,8 @@ class ThreeEnvironment {
         this.dynamicFogColor.lerp(this.ambientColor,      sunFactor);
         this.world.fog.color.copy(this.dynamicFogColor)
 
+
+ */
     };
 
     updateDynamigAmbient = function(sunInTheBack) {
@@ -228,7 +252,9 @@ class ThreeEnvironment {
     };
 
     interpolateEnv = function(current, target, fraction) {
-
+        if (statusMap.write) {
+            return;
+        }
         for (let key in current) {
             if (fraction >= 1) {
                 if (current[key].color) {
@@ -241,11 +267,13 @@ class ThreeEnvironment {
                     current[key].density = target[key].density;
                 }
             } else  {
-                if (current[key].color) {
-                    current[key].color[0] = MATH.interpolateFromTo(current[key].color[0], target[key].color[0],  fraction);
-                    current[key].color[1] = MATH.interpolateFromTo(current[key].color[1], target[key].color[1],  fraction);
-                    current[key].color[2] = MATH.interpolateFromTo(current[key].color[2], target[key].color[2],  fraction);
-                }
+
+                    if (current[key].color) {
+                        current[key].color[0] = MATH.interpolateFromTo(current[key].color[0], target[key].color[0],  fraction);
+                        current[key].color[1] = MATH.interpolateFromTo(current[key].color[1], target[key].color[1],  fraction);
+                        current[key].color[2] = MATH.interpolateFromTo(current[key].color[2], target[key].color[2],  fraction);
+                    }
+
 
                 if (current[key].density) {
                     current[key].density = MATH.interpolateFromTo(current[key].density, target[key].density,  fraction) ;
@@ -336,16 +364,18 @@ class ThreeEnvironment {
 
                      } else {
                         statusMap.transitionProgress = 0.99;
+                        statusMap.write = true;
                     }
                 } else {
                     statusMap.transitionProgress = 0.99;
+                    statusMap.write = true;
                 }
             } else {
                 statusMap.transitionProgress = 0.99;
+                statusMap.write = true;
             }
-            
-
         }
+
         return MATH.calcFraction(0, this.transitionTime, statusMap.transitionProgress);
     };
 
@@ -413,7 +443,7 @@ class ThreeEnvironment {
 
         this.world.sun.position.copy(this.sunSphere.position);
 
-        this.sky.uniforms.sunPosition.value.copy( this.sunSphere.position );
+    //    this.sky.uniforms.sunPosition.value.copy( this.sunSphere.position );
 
         this.sunSphere.position.add(this.worldCenter);
 
@@ -534,12 +564,13 @@ class ThreeEnvironment {
         let sky = {
             mesh:skyMesh,
             ctx:setupCanvas(canvas),
-            tx:tx,
-            uniforms:uniforms
+            tx:tx
+        //    uniforms:uniforms
         }
 
         _this.sky = sky;
         _this.ctx = sky.ctx;
+        _this.ctx.globalCompositeOperation = "source-over"
     //    this.setCanvasColor(sky.ctx, sky.tx);
 
         this.sky.meshClone = this.sky.mesh.clone();

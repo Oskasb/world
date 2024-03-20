@@ -921,13 +921,13 @@ MATH.testVec3ForNaN = function(vec3) {
 }
 
 MATH.hexToRGB = function(hex, store, max) {
-	store[0] = parseInt(hex.slice(1, 3), 16)*max/255;
-	store[1] = parseInt(hex.slice(3, 5), 16)*max/255;
-	store[2] = parseInt(hex.slice(5, 7), 16)*max/255;
+	store[0] = parseInt(hex.slice(1, 3), 16)*max/256;
+	store[1] = parseInt(hex.slice(3, 5), 16)*max/256;
+	store[2] = parseInt(hex.slice(5, 7), 16)*max/256;
 }
 
 MATH.rgbToHex = function(r, g, b) {
-	return "#" + (1 << 24 | r << 16 | g << 8 | b).toString(16).slice(1);
+	return "#" + (1 << 24 | r*255 << 16 | g*255 << 8 | b*255).toString(16).slice(1);
 }
 
 

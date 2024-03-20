@@ -342,7 +342,7 @@ class ThreeAPI {
 
 
     buildCanvasMaterial = function(texture) {
-        return  new THREE.MeshBasicMaterial({ map: texture, blending:THREE["AdditiveBlending"], depthWrite:false});
+        return  new THREE.MeshBasicMaterial({ map: texture, depthWrite:false});
     };
 
     attachObjectToCamera = function(object) {

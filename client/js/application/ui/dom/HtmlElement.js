@@ -2,11 +2,19 @@
 let index = 0;
 
 let activeRootElements = [];
+let colorScale = 1;
 
 function updateValueElem(key, value, iframe) {
     let valueText = iframe.getElementById(key+'_value');
     if (valueText) {
         valueText.innerHTML = value;
+    }
+}
+
+function updateColorElem(key, value, iframe) {
+    let valueElem = iframe.getElementById(key+'_value');
+    if (valueElem) {
+        valueElem.style.backgroundColor = value;
     }
 }
 
@@ -56,8 +64,9 @@ class HtmlElement {
                     //    console.log(statusMap, key, statusMap[key]);
                         updateValueElem(key, elem.value, iframeDocument)
                     } else if (elem.type === 'color') {
-                            MATH.hexToRGB(elem.value, statusMap[key], 2)
-                            statusMap[key] = parseFloat(elem.value);
+                        updateColorElem(key, ThreeAPI.toRgb(statusMap[key][0], statusMap[key][1], statusMap[key][2]), iframeDocument)
+                            MATH.hexToRGB(elem.value, statusMap[key], colorScale)
+                    //        statusMap[key] = parseFloat(elem.value);
                     } else {
                         let value = statusMap[key]
                         let innerHtml = value;
@@ -184,8 +193,8 @@ class HtmlElement {
                         updateValueElem(key, elem.value, iframeDocument)
                     }
                     if (elem.type === 'color') {
-                        elem.value = MATH.rgbToHex(statusMap[key][0], statusMap[key][1],statusMap[key][2]);
-                    //    updateColorElem(key, elem.value, iframeDocument)
+                        elem.value = MATH.rgbToHex(statusMap[key][0]/colorScale, statusMap[key][1]/colorScale,statusMap[key][2]/colorScale);
+                        updateColorElem(key, elem.value, iframeDocument)
                     }
                 }
             }
