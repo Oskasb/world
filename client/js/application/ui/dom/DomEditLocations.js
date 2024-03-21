@@ -5,7 +5,9 @@ let tempVec = new Vector3();
 let frustumFactor = 0.828;
 class DomEditLocations {
     constructor() {
-        this.statusMap = {};
+        this.statusMap = {
+
+        };
 
         let htmlReady = function() {
             let locationsData = GameAPI.worldModels.getActiveLocationData();
@@ -17,9 +19,24 @@ class DomEditLocations {
         let visibleWorldModels = [];
         let locationModelDivs = [];
 
+        let modelEdit = null;
+
+        let closeModelEdit = function() {
+            console.log("Model Edit Closed");
+            modelEdit.closeDomEditWorldModel();
+            poolReturn(modelEdit)
+            modelEdit = null;
+        }
+
         let divClicked = function(e) {
             let model = e.target.value
             console.log("Edit Activated", model);
+
+            if (modelEdit === null) {
+                modelEdit = poolFetch('DomEditWorldModel')
+                modelEdit.initDomEditWorldModel(closeModelEdit)
+            }
+            modelEdit.call.setWorldModel(model);
         }
 
         let update = function() {
@@ -33,7 +50,6 @@ class DomEditLocations {
                 if (ThreeAPI.testPosIsVisible(pos)) {
                     visibleWorldModels.push(worldModels[i]);
                 }
-
 
             }
 

@@ -143,6 +143,21 @@ iframe.inventory {
     background-color: #f0f8ff00;
 }
 
+iframe.node_edit {
+    bottom: 0;
+    left: 50%;
+    width: 15em;
+    height:15em;
+    position: absolute;
+    border-radius: 3em;
+    z-index: 2000;
+    border: none;
+    box-shadow: none;
+    transform: translate3d(-50%, -50%, 0);
+    background-color: #f0f8ff;
+}
+
+
 iframe.item {
     bottom: 0;
     left: 50%;
