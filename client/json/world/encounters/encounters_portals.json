@@ -17,7 +17,7 @@
                   "trigger_radius": 0.0,
                   "interact_options": [
                     {"interaction": "ENTER", "text": "Ride the boat", "dispatch": [
-                      {"event":"ENTER_PORTAL", "value":{"world_level": "10", "world_encounters": ["outlaw_cavern_encounters"]}}
+                      {"event":"ENTER_PORTAL", "value":{"world_level": "19", "world_encounters": []}}
                     ]},
                     {"interaction": "TALK",  "text": "This goes to an island I can claim for my own?"},
                     {"interaction": "LEAVE", "text": "Not this time."}

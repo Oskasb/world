@@ -25,6 +25,12 @@ div.point {
     position: absolute;
 }
 
+.general_map {
+    background-image: url("/client/assets/images/textures/generalmap_w01.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 90%;
+}
 canvas {
     position: absolute;
     top: 0px;

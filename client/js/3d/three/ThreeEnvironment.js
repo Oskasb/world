@@ -113,15 +113,13 @@ class ThreeEnvironment {
     //    grd.addColorStop(0, ThreeAPI.toRgb(fogColor[0], fogColor[1], fogColor[2]));
     //    grd.addColorStop(0, ThreeAPI.toGradRgb(0,0, 0));
     //    grd.addColorStop(0.45, ThreeAPI.toGradRgb(0,0, 0));
-        grd.addColorStop(0, ThreeAPI.toGradRgb( ambColor[0]*0.4, ambColor[1]*0.6,  ambColor[2]*0.8));
+        grd.addColorStop(0, ThreeAPI.toGradRgb( ambColor[0]*0.2, ambColor[1]*0.3,  ambColor[2]*0.5));
 
 
-        grd.addColorStop(0.34, ThreeAPI.toGradRgb((fogColor[0]*0.01 + ambColor[0]*0.6 +sunColor[0]*0.1) *0.4 ,(fogColor[1]*0.1 + ambColor[1]*0.5 +sunColor[1]*0.3) * 0.7  , (fogColor[2]*0.1 + ambColor[2]*0.8 +sunColor[2]*0.9)*0.99));
-        grd.addColorStop(0.42, ThreeAPI.toGradRgb((fogColor[0]*0.01 + ambColor[0]*0.7 +sunColor[0]*0.1) *0.6 ,(fogColor[1]*0.2 + ambColor[1]*0.3 +sunColor[1]*0.4) * 0.8  , (fogColor[2]*0.2 + ambColor[2]*0.4 +sunColor[2]*0.9)*0.96));
-        grd.addColorStop(0.46, ThreeAPI.toGradRgb((fogColor[0]*0.1  + ambColor[0]*0.7 +sunColor[0]*0.2) *0.9 ,(fogColor[1]*0.3 + ambColor[1]*0.4 +sunColor[1]*0.3) * 0.9  , (fogColor[2]*0.3 + ambColor[2]*0.5 +sunColor[2]*0.7)*0.9 ));
-        grd.addColorStop(0.485, ThreeAPI.toGradRgb((fogColor[0]*0.2 + ambColor[0]*0.8 +sunColor[0]*0.3) *1.0 ,(fogColor[1]*0.4 + ambColor[1]*0.5 +sunColor[1]*0.3) * 1.0  , (fogColor[2]*0.4 + ambColor[2]*0.6 +sunColor[2]*0.4)*1.0 ));
-
-
+        grd.addColorStop(0.24, ThreeAPI.toGradRgb((fogColor[0]*0.01 + ambColor[0]*0.6 +sunColor[0]*0.01) *0.3 ,(fogColor[1]*0.1 + ambColor[1]*0.5 +sunColor[1]*0.01) * 0.7  , (fogColor[2]*0.01 + ambColor[2]*0.8 +sunColor[2]*0.3)*0.99));
+        grd.addColorStop(0.40, ThreeAPI.toGradRgb((fogColor[0]*0.01 + ambColor[0]*0.7 +sunColor[0]*0.01) *0.6  ,(fogColor[1]*0.2 + ambColor[1]*0.4 +sunColor[1]*0.1) * 0.8  , (fogColor[2]*0.01 + ambColor[2]*0.4 +sunColor[2]*0.6)*0.96));
+        grd.addColorStop(0.44, ThreeAPI.toGradRgb((fogColor[0]*0.1 + ambColor[0]*0.7 +sunColor[0]*0.01) *0.8 ,(fogColor[1]*0.3 + ambColor[1]*0.3 +sunColor[1]*0.2) * 0.9  , (fogColor[2]*0.1 + ambColor[2]*0.5 +sunColor[2]*0.7)*0.9 ));
+        grd.addColorStop(0.49, ThreeAPI.toGradRgb((fogColor[0]*0.4   + ambColor[0]*0.9 +sunColor[0]*0.3) *1.0  ,(fogColor[1]*0.5 + ambColor[1]*0.2 +sunColor[1]*0.4) * 1.0  , (fogColor[2]*0.2 + ambColor[2]*0.6 +sunColor[2]*0.9)*1.0 ));
         if (evFact > 999999 || isNaN(evFact) || !isFinite(evFact)) {
             console.log("Camera went flying off... investigate")
             return;
@@ -130,7 +128,7 @@ class ThreeEnvironment {
         // horizon and down;
         let rgb = ThreeAPI.toGradRgb(fogColor[0], fogColor[1], fogColor[2])
         GuiAPI.printDebugText("rgb: "+rgb)
-        grd.addColorStop(0.495, rgb);
+        grd.addColorStop(0.5, rgb);
         grd.addColorStop(1, rgb);
     //    grd.addColorStop(-1, rgb);
         //       grd.addColorStop(1, ThreeAPI.toRgb(0, 0, 0));
@@ -436,6 +434,7 @@ class ThreeEnvironment {
         this.phi = 2 * Math.PI * ( useSky.azimuth - 0.5 );
 
         this.worldCenter.copy(this.camera.position);
+        this.sky.mesh.position.copy(this.worldCenter);
         this.worldCenter.y = 0;
 
         this.sunSphere.position.x = 0.00001 * useSky.distance * Math.cos( this.phi );
@@ -446,7 +445,7 @@ class ThreeEnvironment {
 
         //   calcVec.sub(camera.position);
         this.sunSphere.lookAt(this.calcVec);
-        this.sky.mesh.position.copy(this.worldCenter);
+
 
         this.world.sun.position.copy(this.sunSphere.position);
 

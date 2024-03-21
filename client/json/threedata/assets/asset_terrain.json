@@ -33,7 +33,7 @@
                     "ground_tx_width":4096,
                     "grid_mesh":[],
                     "mesh_segments":15,
-                    "lod_layers": 3
+                    "lod_layers": 4
                   }
                 },
                 "textures": [

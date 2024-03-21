@@ -2,7 +2,7 @@ class DomLoadScreen {
     constructor() {
 
             this.bailTimeout;
-			this.root = DomUtils.createDivElement(document.body, 'load_screen', '', 'point');
+			this.root = DomUtils.createDivElement(document.body, 'load_screen', '', 'point general_map');
             this.buildElements();
 
             this.texts = [];
@@ -35,8 +35,8 @@ class DomLoadScreen {
                 width: '100%',
                 height: '100%',
                 zIndex: 2000,
-                backgroundColor: 'rgb(20, 0, 32)',
-                transition: 'all 0.5s ease-in-out'
+                backgroundColor: 'rgb(0, 0, 0)',
+                transition: 'all 0.2s ease-in-out'
             };
 
             DomUtils.applyElementStyleParams(this.root, rootStyle);
