@@ -7,6 +7,12 @@
           {
             "data_key":"location_data",
             "config": {
+              "location": {
+                "pos": [-862, 2, 749],
+                "name": "Creek",
+                "environment": "morning",
+                "size": [200, 100]
+              },
               "models": [
                 {
                   "model": "model_cottage",

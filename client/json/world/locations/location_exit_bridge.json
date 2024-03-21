@@ -7,6 +7,12 @@
           {
             "data_key":"location_data",
             "config": {
+              "location": {
+                "pos": [-630, 2, 543],
+                "name": "East Bridge",
+                "environment": "morning",
+                "size": [50, 50]
+              },
               "models": [
 
               ],

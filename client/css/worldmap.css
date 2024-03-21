@@ -160,6 +160,11 @@ div.dev_button {
     text-shadow: 0 0 0.4em rgb(255, 255, 255);
 }
 
+div.button_labels {
+    background: radial-gradient(circle, rgba(245,202,255,1) 0%, rgb(208, 190, 171) 47%, rgb(145, 136, 85) 83%, rgb(61, 46, 26) 99%);
+    top: 32%;
+}
+
 div.button_locations {
     background: radial-gradient(circle, rgba(245,202,255,1) 0%, rgba(255,45,215,1) 47%, rgba(125,0,42,1) 83%, rgba(55,1,0,1) 99%);
     top: 38%;
@@ -388,6 +393,45 @@ div.camera {
     box-shadow: 0 0 0.8em rgba(155, 255, 255, 1);
     transform-origin: center;
     transform: translate(-50%, -50%);
+}
+
+div.label {
+    font-size: 1.5em;
+    pointer-events: none;
+    position: absolute;
+    top: auto;
+    left: auto;
+    bottom:auto;
+    right:auto;
+    margin: 0.2em;
+    width: 0;
+    height: 0;
+    padding: 0.08em;
+    border: none;
+    display: block;
+    transform-origin: center;
+    transform: translate3d(-50%, -50%, 0px);
+    text-align: center;
+}
+
+div.label p {
+    top: 0;
+    left: auto;
+    text-align: center;
+    height: fit-content;
+    width: fit-content;
+    padding: 0.3em;
+    padding-top: 0.01em;
+    padding-bottom: 0.01em;
+    margin: 0;
+    border-radius: 0.3em;
+    color: #ffa235;
+    border: 0.1em solid #796956;
+    transform: translate(-50%, -50%);
+    transform-origin: center;
+    text-shadow: 1px 1px 3px rgb(0, 35, 35);
+    background-color: rgba(40, 30, 2, 0.5);
+    box-shadow: 1px 1px 5px rgb(0, 35, 35);
 }
 
 div.location {

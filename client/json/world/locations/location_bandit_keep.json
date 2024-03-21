@@ -7,6 +7,12 @@
           {
             "data_key":"location_data",
             "config": {
+              "location": {
+                "pos": [-748, 2, 802],
+                "name": "Bandit Fort",
+                "environment": "morning",
+                "size": [200, 100]
+              },
               "models": [
                 {
                   "model": "model_bandit_keep_main_floor_0",
