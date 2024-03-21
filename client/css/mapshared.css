@@ -65,6 +65,9 @@ h3 {
 div.level_20 {
     background-image: url("/client/assets/images/textures/minimap.png");
 }
+div.level_19 {
+    background-image: url("/client/assets/images/textures/terrainmap_home.png");
+}
 div.level_13 {
     background-image: url("/client/assets/images/textures/terrainmap_w01_13.png");
 }

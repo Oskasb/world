@@ -134,10 +134,10 @@ let bigWorldOuter = null;
 //  bigWorldOuter.setAttributev4('texelRowSelect',{x:1, y:1, z:groundInstances.length, w:groundInstances.length*2})
 
 let centerSize = 50;
-let lodLayers = 3;
-let oceanLayers = 4;
+let lodLayers = 5;
+let oceanLayers = 5;
 let gridOffsets = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]]
-let layerScale = [1, 3, 9, 27, 81]
+let layerScale = [1, 3, 9, 27, 81, 243]
 let tempPoint = new Vector3();
 
 let activeGround = [];
@@ -259,7 +259,7 @@ let updateBigGeo = function(tpf) {
     let index = 1;
     visibleCount = 0;
 
-    let elevAdjustedLayers = Math.clamp(1 + Math.floor(MATH.curveSqrt(camY) / 3), 1, lodLayers)
+    let elevAdjustedLayers = lodLayers // Math.clamp(1 + Math.floor(MATH.curveSqrt(camY*0.25) / 4), 1, lodLayers)
 
     for (let l = 0; l < elevAdjustedLayers; l++) {
         let lodLayer = l;
@@ -280,6 +280,8 @@ let updateBigGeo = function(tpf) {
                     detachSection(index);
                     visibilityList[index] = false
                 }
+            //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:lodCenter, to:tempPoint, color:'RED'});
+            //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:borrowedBox.min, max:borrowedBox.max, color:'RED'})
             } else {
             //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:borrowedBox.min, max:borrowedBox.max, color:'CYAN'})
             //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:lodCenter, to:tempPoint, color:'GREEN'});

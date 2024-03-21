@@ -733,12 +733,12 @@
           "vec3 cameraAngle = cross(surfaceAngle, cameraToFrag);",
           "vec3 surfaceToCameraVec3 = cross(surfaceAngle, cameraAngle);",
           "float sunToCameraAngle = 0.5 +0.46*dot(cameraToFrag, sunLightDirection);",
-          "float angle = min(max(0.51 +0.49*dot(cameraToFrag, fragNormal), 0.0), 1.0);",
+          "float angle = min(max(0.5 +2.1*dot(fragNormal, cameraToFrag), 0.0), 1.0);",
           "float metalDirect = min(pow(2.0 - angle*2.0, 1.0 + smooth*5.0), 4.0/(1.0 +angle * 8.0));",
           "float fresnelIntensity = max(angle*(1.0 + smooth) - max(((angle-0.5)*(smooth*4.0 + rough*1.0) -0.0), 0.0), 0.0);",
           "float directFactor =   pow ( (1.0-angle*0.95) *(0.25 + smooth*0.85), rough*2.2 + 15.0*smooth);",
 
-          "float intensity = min(max( 0.5*rough + dot(fragNormal, sunLightDirection )*(0.5 + smooth), -0.0), 1.0);",
+          "float intensity = min(max( 0.15*rough + (dot(fragNormal, sunLightDirection )-0.25)*(1.5 - smooth*0.25), -0.0), 1.0);",
 
           "vec3 sunDir = sunLightColor * intensity * (rough+intensity*smooth);",
           "vec3 sunToSurfaceAngle = cross(fragNormal, sunLightDirection);",
@@ -754,10 +754,10 @@
           "vec3 specularLights = specularDiffuseLight+specularSunLight;",
 
           "float shadowing = 1.0 - heightMapSample.b*0.55;",
-          "vec4 lightColor = vec4((combinedEnvLight+specularLights.rgb) * (1.0 - (slope*0.55)), 1.0) * shadowing;",
+          "vec4 lightColor = vec4((combinedEnvLight+specularLights.rgb + sunLightColor*angle*(0.25+fogDepth*0.01*angle)) * ((1.0) - (slope*0.55)), 1.0) * shadowing;",
           "intensity = max( 0.01 + dot(txNmBase.rgb, sunLightDirection ) * 0.99, 0.0) * shadowing;",
           "gl_FragColor = (shadowing * lightColor * (intensity*0.25 + 0.75) + txColor * lightColor*intensity*2.0) * shadowing;",
-          "float fogFactor = min(fogDensity * fogDepth, 1.0);",
+          "float fogFactor = min((fogDensity+angle*0.0005) * fogDepth, 1.0);",
           "gl_FragColor.rgb = mix(gl_FragColor.rgb, fogColor,  fogFactor );",
           "gl_FragColor.rgb = gl_FragColor.rgb;",
           "}",

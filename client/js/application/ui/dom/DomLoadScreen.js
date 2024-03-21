@@ -2,7 +2,7 @@ class DomLoadScreen {
     constructor() {
 
             this.bailTimeout;
-			this.root = DomUtils.createDivElement(document.body, 'load_screen', '', 'point');
+			this.root = DomUtils.createDivElement(document.body, 'load_screen', '', 'point general_map');
             this.buildElements();
 
             this.texts = [];

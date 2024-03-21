@@ -25,6 +25,9 @@ div.point {
     position: absolute;
 }
 
+.general_map {
+    background-image: url("/client/assets/images/textures/_map.png");
+}
 canvas {
     position: absolute;
     top: 0px;
