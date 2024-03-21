@@ -25,6 +25,21 @@ div.point {
     position: absolute;
 }
 
+div.button {
+    font-size: 18em;
+    min-width: 1em;
+    min-height: 1em;
+    height:fit-content;
+    width: fit-content;
+    text-align: center;
+    transform: translate(-50%, -50%);
+    color: white;
+    position: absolute;
+    border-radius: 2em;
+    border: 0.2em solid #8a8a8a;
+    background-color: black;
+}
+
 .general_map {
     background-image: url("/client/assets/images/textures/generalmap_w01.png");
     background-repeat: no-repeat;

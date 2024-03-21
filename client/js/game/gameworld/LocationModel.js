@@ -105,7 +105,7 @@ class LocationModel {
         let model = this;
 
         let lodUpdated = function(lodLevel) {
-
+            model.lodLevel = lodLevel;
             if (lodLevel === 0) {
 
                 if (!physicalModel) {

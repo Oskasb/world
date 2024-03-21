@@ -389,12 +389,27 @@ class DomMinimap {
             new DomWorldmap(closeMapCb);
         }
 
+        let editLocations = null;
+
+        let openLocEdit = function() {
+            if (editLocations === null) {
+                editLocations = poolFetch('DomEditLocations');
+                editLocations.initDomEditLocations(openLocEdit)
+            } else {
+                editLocations.closeDomEditLocations();
+                poolReturn(editLocations);
+                editLocations = null;
+            }
+        }
+
         let readyCb = function() {
             lastAspect = 0;
             let mapDiv = htmlElement.call.getChildElement('minimap')
         //    let closeDiv = htmlElement.call.getChildElement(htmlElement.id+'_close')
             let zoomInDiv = htmlElement.call.getChildElement('zoom_in')
             let zoomOutDiv = htmlElement.call.getChildElement('zoom_out')
+            let locEditDiv = htmlElement.call.getChildElement('location_edit')
+            DomUtils.addClickFunction(locEditDiv, openLocEdit)
             DomUtils.addClickFunction(mapDiv, openWorldMap)
         //    DomUtils.addClickFunction(closeDiv, rebuild)
             DomUtils.addClickFunction(zoomInDiv, zoomIn)
