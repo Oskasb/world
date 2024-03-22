@@ -878,6 +878,8 @@ div.edit_cursor_position {
 }
 
 div.rotation_slider {
+    pointer-events: none;
+    z-index: 20000;
     height: 4em;
     bottom: 0em;
     top: auto;
@@ -885,6 +887,7 @@ div.rotation_slider {
 }
 
 div.rotation_slider input[type="range"]  {
+    pointer-events: auto;
     -webkit-appearance: none;
     appearance: none;
     background-color: rgba(0, 25, 68, 0.4);

@@ -109,9 +109,18 @@ class WorldBox {
 
         }.bind(this)
 
+        let parentUpdated = function(parentObj3d) {
+            this.obj3d.quaternion.set(0, 0, 0, 1);
+            this.obj3d.position.set(0, 0, 0);
+            inheritConfigTransform(this.obj3d, this.config);
+            inheritAsParent(this.obj3d, parentObj3d);
+            this.instance.getSpatial().stickToObj3D(this.obj3d);
+        }.bind(this);
+
         this.call = {
             lodUpdated:lodUpdated,
-            removeWorldBox:removeWorldBox
+            removeWorldBox:removeWorldBox,
+            parentUpdated:parentUpdated
         }
 
         this.instance = null;

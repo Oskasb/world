@@ -69,14 +69,10 @@ class DomEditLocations {
             for (let i = 0; i < worldModels.length; i++) {
 
                 let pos = worldModels[i].getPos();
-
                 if (ThreeAPI.testPosIsVisible(pos)) {
                     visibleWorldModels.push(worldModels[i]);
                 }
-
             }
-
-
 
             while (locationModelDivs.length < visibleWorldModels.length) {
                 let div = DomUtils.createDivElement(document.body, 'model_'+visibleWorldModels.length, 'EDIT', 'button')
@@ -87,8 +83,6 @@ class DomEditLocations {
             while (locationModelDivs.length > visibleWorldModels.length) {
                 DomUtils.removeDivElement(locationModelDivs.pop());
             }
-
-
 
             for (let i = 0; i < visibleWorldModels.length; i++) {
                 let model = visibleWorldModels[i];

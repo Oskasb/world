@@ -25,6 +25,7 @@ class DomEditCursor {
         this.initObj3d = new Object3D();
         let targetObj3d = new Object3D();
         let updateObj3d = new Object3D();
+        let rotYDiv = null;
         this.onUpdateCallbacks = [];
 
         this.statusMap = {
@@ -114,7 +115,6 @@ class DomEditCursor {
             console.log("endDrag Cursor", e);
         }
 
-
         let initEditStatus = function(obj3d) {
             targetObj3d.copy(obj3d);
             updateObj3d.position.set(0, 0, 0);
@@ -129,7 +129,8 @@ class DomEditCursor {
         let htmlReady = function(htmlEl) {
             htmlElem = htmlEl;
             rootElem = htmlEl.call.getRootElement();
-            let translateDiv = htmlEl.call.getChildElement('cursor_panel')
+            let translateDiv = htmlEl.call.getChildElement('translate')
+            rotYDiv = htmlEl.call.getChildElement('rot_y')
             DomUtils.addPressStartFunction(translateDiv, startDrag)
             DomUtils.addMouseMoveFunction(translateDiv, mouseMove);
             DomUtils.addPressEndFunction(translateDiv, endDrag);
@@ -154,7 +155,7 @@ class DomEditCursor {
             rootElem.style.transform = "translate3d(-50%, -50%, 0)";
             applyEdits()
 
-                let div = rootElem;
+
 
             if (dragActive === true) {
                 console.log("mouse Move", updateObj3d.position);
@@ -162,10 +163,17 @@ class DomEditCursor {
                 targetObj3d.position.add(updateObj3d.position);
             }
 
-                let pos = targetObj3d.position;
-                ThreeAPI.toScreenPosition(pos, tempVec);
-                div.style.top = 50-tempVec.y*(100/frustumFactor)+"%";
-                div.style.left = 50+tempVec.x*(100/frustumFactor)+"%";
+            targetObj3d.quaternion.copy(this.initObj3d.quaternion);
+            targetObj3d.quaternion.multiply(updateObj3d.quaternion);
+
+            MATH.callAll(this.onUpdateCallbacks, targetObj3d);
+
+            rotYDiv.style.rotate = -updateObj3d.rotation.y+"rad"
+
+            let pos = targetObj3d.position;
+            ThreeAPI.toScreenPosition(pos, tempVec);
+            rootElem.style.top = 50-tempVec.y*(100/frustumFactor)+"%";
+            rootElem.style.left = 50+tempVec.x*(100/frustumFactor)+"%";
 
         }.bind(this);
 

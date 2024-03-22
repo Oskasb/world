@@ -226,13 +226,17 @@ class LocationModel {
 
     hierarchyUpdated() {
         this.obj3d.quaternion.set(0, 0, 0, 1);
-    //    inheritAsParent(this.obj3d, this.parentObj3d);
-        this.obj3d.quaternion.premultiply(this.parentObj3d.quaternion);
-    //    inheritConfigTransform(this.obj3d, this.config);
+        this.obj3d.position.set(0, 0, 0)
+        inheritAsParent(this.obj3d, this.parentObj3d);
+    //    this.obj3d.quaternion.premultiply(this.parentObj3d.quaternion);
+        inheritConfigTransform(this.obj3d, this.config);
         if (this.instance) {
             this.instance.spatial.stickToObj3D(this.obj3d);
-        } else {
-            console.log("Not instance hierarchy")
+        }
+
+        for (let i = 0; i <  this.boxes.length; i++) {
+            let box = this.boxes[i];
+            box.call.parentUpdated(this.parentObj3d)
         }
 
     }

@@ -94,7 +94,6 @@ class DomEditWorldModel {
                 DomUtils.removeDivElement(nodeDivs.pop());
             }
 
-
             for (let i = 0; i < modelNodes.length; i++) {
                 let model = modelNodes[i];
                 let div = nodeDivs[i];
