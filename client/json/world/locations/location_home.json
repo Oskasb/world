@@ -7,6 +7,12 @@
           {
             "data_key":"location_data",
             "config": {
+              "location": {
+                "pos": [-875, 2, 530],
+                "name": "Sheds",
+                "environment": "morning",
+                "size": [200, 100]
+              },
               "models": [
                 {
                   "model": "model_house_home",

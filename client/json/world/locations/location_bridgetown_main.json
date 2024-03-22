@@ -7,6 +7,12 @@
           {
             "data_key":"location_data",
             "config": {
+              "location": {
+                "pos": [-736.5, 2, 510.1],
+                "name": "Bridgetown",
+                "environment": "morning",
+                "size": [200, 100]
+              },
               "models": [
                 {
                   "model": "model_house_small",

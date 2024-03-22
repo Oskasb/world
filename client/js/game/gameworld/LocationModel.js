@@ -5,6 +5,9 @@ import {LodTest} from "../visuals/LodTest.js";
 import {poolFetch, poolReturn, registerPool} from "../../application/utils/PoolUtils.js";
 import {addPhysicsToModel, removePhysicalModel} from "../../application/utils/PhysicsUtils.js";
 
+
+
+
 function showLocationModel(model) {
 
 //    console.log("SHOW LocationModel", model);
@@ -36,6 +39,7 @@ function hideLocationModel(model) {
 class LocationModel {
     constructor(parentObj3d, config) {
     //    console.log("LocationModel", config);
+        this.parentObj3d = parentObj3d;
         this.obj3d = new Object3D();
         this.instance = null;
         this.config = config;
@@ -105,7 +109,7 @@ class LocationModel {
         let model = this;
 
         let lodUpdated = function(lodLevel) {
-
+            model.lodLevel = lodLevel;
             if (lodLevel === 0) {
 
                 if (!physicalModel) {
@@ -220,7 +224,18 @@ class LocationModel {
         return this.obj3d.position;
     }
 
+    hierarchyUpdated() {
+        this.obj3d.quaternion.set(0, 0, 0, 1);
+    //    inheritAsParent(this.obj3d, this.parentObj3d);
+        this.obj3d.quaternion.premultiply(this.parentObj3d.quaternion);
+    //    inheritConfigTransform(this.obj3d, this.config);
+        if (this.instance) {
+            this.instance.spatial.stickToObj3D(this.obj3d);
+        } else {
+            console.log("Not instance hierarchy")
+        }
 
+    }
 
     clearLocationBoxes() {
         MATH.emptyArray(this.bodyPointers);

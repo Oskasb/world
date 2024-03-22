@@ -23,6 +23,7 @@ let actorIndicators = [];
 let defaultWorldLevel = "20";
 let activeWorldLevel = null;
 
+let labelDivs = [];
 let worldLevelDivs = [];
 let locationDivs = [];
 let spawnDivs = [];
@@ -255,7 +256,48 @@ function indicateSpawns(htmlElement, mapDiv, statusMap, cursorPos){
     }
 }
 
+let visibleLabels = [];
 
+function indicateLabels(htmlElement, mapDiv, statusMap, cursorPos) {
+   let locationsData = GameAPI.worldModels.getActiveLocationData();
+   MATH.emptyArray(visibleLabels);
+
+   for (let i = 0; i < locationsData.length; i++) {
+       let config = locationsData[i].config;
+       if (typeof (config['location']) === 'object') {
+           let loc = config.location;
+           let pos = MATH.vec3FromArray(tempVec, loc.pos);
+
+           if(pos.x > minX && pos.x < maxX) {
+               if (pos.z > minZ && pos.z < maxZ) {
+                   visibleLabels.push(loc)
+               }
+           }
+       }
+   }
+
+    while (labelDivs.length < visibleLabels.length) {
+        let div = DomUtils.createDivElement(mapDiv, 'label_'+labelDivs.length, '', 'label')
+        labelDivs.push(div);
+    }
+
+    while (labelDivs.length > visibleLabels.length) {
+        DomUtils.removeDivElement(labelDivs.pop());
+    }
+
+    for (let i = 0; i < labelDivs.length; i++) {
+        let div = labelDivs[i];
+        let label = visibleLabels[i];
+        let text = "<p>"+label.name || "Name Missing"+"</p>";
+        if (div.innerHTML !== text) {
+            div.innerHTML = text;
+        }
+
+        let pos = MATH.vec3FromArray(tempVec, label.pos);
+        worldPosDiv(pos, cursorPos, div, zoom)
+    }
+
+}
 
 let visibleModels = [];
 function indicateLocations(htmlElement, mapDiv, statusMap, cursorPos) {
@@ -266,6 +308,7 @@ function indicateLocations(htmlElement, mapDiv, statusMap, cursorPos) {
     for (let i= 0; i<worldModels.length; i++) {
         let model = worldModels[i];
         let pos = model.getPos();
+
         if(pos.x > minX && pos.x < maxX) {
             if (pos.z > minZ && pos.z < maxZ) {
                 if (zoom > 7) {
@@ -494,6 +537,7 @@ function clearGridLines() {
         DomUtils.removeDivElement(gridLinesZ.pop())
     }
 }
+
 
 function attachWorldLevelNavigation(container) {
    // let terrainSys = ThreeAPI.getTerrainSystem();
@@ -758,6 +802,7 @@ class DomWorldmap {
         let showPhysics = false;
         let showVegetation = false;
         let showLodGrid = false;
+        let showLabels = false;
 
         let toggleLodGrid = function(e) {
             console.log(ThreeAPI.getTerrainSystem().getTerrain());
@@ -783,10 +828,15 @@ class DomWorldmap {
             showLocations = !showLocations;
         }
 
+        let toggleLabels = function(e) {
+            console.log(GameAPI.worldModels.getActiveLocationData());
+            showLabels = !showLabels;
+        }
+
+
         let readyCb = function() {
             clearGridLines()
             activeWorldLevel = null;
-
             while (worldLevelDivs.length) {
                 DomUtils.removeDivElement(worldLevelDivs.pop())
             }
@@ -806,6 +856,7 @@ class DomWorldmap {
             offsetXDiv = htmlElement.call.getChildElement('offset_x')
             offsetZDiv = htmlElement.call.getChildElement('offset_z')
             teleportDiv = htmlElement.call.getChildElement('teleport')
+            let labelsDiv = htmlElement.call.getChildElement('labels')
             let physicsDiv = htmlElement.call.getChildElement('physics')
             let vegsDiv = htmlElement.call.getChildElement('vegetation')
             let locationsDiv = htmlElement.call.getChildElement('locations')
@@ -826,6 +877,7 @@ class DomWorldmap {
             DomUtils.addClickFunction(teleportDiv, teleport)
             DomUtils.addClickFunction(physicsDiv, togglePhysics)
             DomUtils.addClickFunction(vegsDiv, toggleVegs)
+            DomUtils.addClickFunction(labelsDiv, toggleLabels)
             DomUtils.addClickFunction(locationsDiv, toggleLocations)
             DomUtils.addClickFunction(spawnsDiv, toggleSpawns)
             DomUtils.addClickFunction(lodsDiv, toggleLodGrid)
@@ -903,6 +955,7 @@ class DomWorldmap {
                     clearDivArray(locationDivs);
                     clearDivArray(vegetationDivs);
                     clearDivArray(physicsDivs);
+                    clearDivArray(locationDivs);
 
                     statusMap.worldLevel = GameAPI.gameMain.getWorldLevelConfig(worldLevel).name;
 
@@ -923,10 +976,15 @@ class DomWorldmap {
                 worldPosDiv(tempVec, cursorPos, destinationDiv, zoom)
                 indicateActors(htmlElement, mapDiv, statusMap, cursorPos)
 
+                if (showLabels) {
+                    indicateLabels(htmlElement, mapDiv, statusMap, cursorPos)
+                } else {
+                    clearDivArray(labelDivs);
+                }
+
                 if (showLocations) {
                     indicateLocations(htmlElement, mapDiv, statusMap, cursorPos)
                 } else {
-
                     clearDivArray(locationDivs);
                 }
 

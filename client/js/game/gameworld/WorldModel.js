@@ -71,6 +71,12 @@ class WorldModel {
         return this.obj3d.position;
     }
 
+    applyObj3dUpdate() {
+        for (let i = 0; i < this.locationModels.length; i++) {
+            this.locationModels[i].hierarchyUpdated();
+        }
+    }
+
     removeLocationModels() {
 
         while (this.locationModels.length) {

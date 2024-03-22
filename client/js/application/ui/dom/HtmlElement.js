@@ -134,6 +134,14 @@ class HtmlElement {
 
     }
 
+    initStatusMap(statusMap) {
+        this.statusMap = statusMap;
+        this.editStatus = {};
+        for (let key in statusMap) {
+            this.editStatus[key] = statusMap[key];
+        }
+    }
+
     initHtmlElement(url, onCloseCB, statusMap, styleClass, readyCb) {
         let containerClass = styleClass || 'full_screen'
 
