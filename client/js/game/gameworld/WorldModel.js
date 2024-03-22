@@ -8,6 +8,8 @@ function removeWorldModel(model) {
     model.removeLocationModels();
 }
 
+let index = 0;
+
 let randomPaletteList = [
     'DEFAULT',
     'TOWN_RED',
@@ -25,6 +27,9 @@ class WorldModel {
 
     constructor(config) {
 
+        index++;
+        this.id = 'world_model_'+index
+;
         this.config = config;
 
         this.obj3d = new Object3D();

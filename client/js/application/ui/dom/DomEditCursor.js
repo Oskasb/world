@@ -1,8 +1,10 @@
 import {poolFetch, poolReturn} from "../../utils/PoolUtils.js";
 import {Vector3} from "../../../../libs/three/math/Vector3.js";
 import {Object3D} from "../../../../libs/three/core/Object3D.js";
+import {ENUMS} from "../../ENUMS.js";
 
 let tempVec = new Vector3();
+let tempObj3d = new Object3D()
 let frustumFactor = 0.828;
 
 let index = 0;
@@ -35,8 +37,83 @@ class DomEditCursor {
         };
 
         let rootElem = null;
-
         let htmlElem;
+
+
+        let dragY = 0;
+        let dragX = 0;
+        let startDragX = 0;
+        let startDragY = 0;
+        let startOffsetTop = 0;
+        let startOffsetLeft = 0;
+        let dragDistanceY = 0;
+        let dragDistanceX = 0;
+        let moveX = 0;
+        let moveY = 0;
+        let dragActive = false;
+
+        let mouseMove = function(e) {
+            if (dragActive === true) {
+
+                dragDistanceY = rootElem.offsetTop-startOffsetTop;
+                dragDistanceX = rootElem.offsetLeft-startOffsetLeft
+
+                if (e.touches) {
+                    moveY = e.touches[0].pageY;
+                    moveX = e.touches[0].pageX;
+                } else {
+                    moveY = e.pageY;
+                    moveX = e.pageX;
+                }
+
+                if (isNaN(moveY)) {
+                    dragActive = false;
+                    endDrag(e);
+                    return;
+                }
+
+                dragY = moveY -startDragY + dragDistanceY;
+                dragX = moveX -startDragX + dragDistanceX;
+                tempObj3d.position.copy(ThreeAPI.getCamera().position);
+                tempObj3d.position.y = targetObj3d.position.y;
+                tempObj3d.lookAt(targetObj3d.position);
+                updateObj3d.position.set(dragX * -0.1, 0, dragY* -0.1);
+                updateObj3d.position.applyQuaternion(tempObj3d.quaternion);
+
+            }
+        }
+
+
+
+        let sourceTransition = null;
+
+        let startDrag = function(e) {
+            dragY = 0;
+            dragX = 0;
+            updateObj3d.position.set(0, 0, 0);
+            dragActive = true;
+            if (e.touches) {
+                startDragY = e.touches[0].pageY;
+                startDragX = e.touches[0].pageX;
+            } else {
+                startDragY = e.pageY;
+                startDragX = e.pageX;
+            }
+
+            startOffsetTop = rootElem.offsetTop;
+            startOffsetLeft = rootElem.offsetLeft;
+            console.log("Drag Cursor", e);
+            rootElem.style.zIndex = 5000;
+        }
+
+        let endDrag = function(e) {
+            dragActive = false;
+            rootElem.style.zIndex = '';
+            dragY = 0;
+            dragX = 0;
+            console.log("endDrag Cursor", e);
+        }
+
 
         let initEditStatus = function(obj3d) {
             targetObj3d.copy(obj3d);
@@ -49,14 +126,17 @@ class DomEditCursor {
 
         }.bind(this);
 
-        let worldModel = null;
-
-
-
         let htmlReady = function(htmlEl) {
-            initEditStatus(this.initObj3d);
             htmlElem = htmlEl;
             rootElem = htmlEl.call.getRootElement();
+            let translateDiv = htmlEl.call.getChildElement('cursor_panel')
+            DomUtils.addPressStartFunction(translateDiv, startDrag)
+            DomUtils.addMouseMoveFunction(translateDiv, mouseMove);
+            DomUtils.addPressEndFunction(translateDiv, endDrag);
+            DomUtils.addPointerExitFunction(translateDiv, endDrag);
+
+            initEditStatus(this.initObj3d);
+
             rootElem.style.transition = 'none';
             ThreeAPI.registerPrerenderCallback(update);
         }.bind(this);
@@ -75,12 +155,19 @@ class DomEditCursor {
             applyEdits()
 
                 let div = rootElem;
+
+            if (dragActive === true) {
+                console.log("mouse Move", updateObj3d.position);
+                targetObj3d.position.copy(this.initObj3d.position);
+                targetObj3d.position.add(updateObj3d.position);
+            }
+
                 let pos = targetObj3d.position;
                 ThreeAPI.toScreenPosition(pos, tempVec);
                 div.style.top = 50-tempVec.y*(100/frustumFactor)+"%";
                 div.style.left = 50+tempVec.x*(100/frustumFactor)+"%";
 
-        };
+        }.bind(this);
 
         let close = function() {
             while (nodeDivs.length) {
@@ -103,7 +190,7 @@ class DomEditCursor {
         this.htmlElement.initHtmlElement('edit_cursor', closeCb, this.statusMap, 'edit_cursor', this.call.htmlReady);
     }
 
-    closeDomEditCursorl() {
+    closeDomEditCursor() {
         MATH.emptyArray(this.onUpdateCallbacks);
         this.call.close();
         ThreeAPI.unregisterPrerenderCallback(this.call.update);

@@ -225,7 +225,7 @@ class HtmlElement {
         let onCloseClick = function(e) {
             console.log("Close Clicked", e, this);
             this.hideHtmlElement();
-            onCloseCB();
+            onCloseCB(this);
         }.bind(this);
 
         this.container = DomUtils.createIframeElement('canvas_window', this.id, file, containerClass, onLoad)

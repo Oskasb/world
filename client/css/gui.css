@@ -400,7 +400,6 @@ div.interact_icon {
     text-align: center;
     background-image: inherit;
     background-size: 100%;
-    background-color: none;
     box-shadow: none;
     opacity: 100;
     transition: opacity 1s;
@@ -834,23 +833,46 @@ div.edit_cursor_rotation {
     scale: 0.97;
 }
 
+div.edit_cursor_position_arrows {
+    pointer-events: none;
+    position: absolute;
+    z-index: 200;
+    width: 86%;
+    height: 86%;
+    top: 7%;
+    left: 7%;
+    padding: 0;
+    margin: 0;
+    border-radius: 50%;
+    transform-origin: center;
+    border: 0.1em solid #004843;
+    background-color: rgba(171, 243, 255, 1.99);
+    box-shadow: 0 0 0.4em rgb(0, 72, 79);
+    mask-image: url("/client/assets/images/textures/gui/cursors/cursor_translate.png");
+    mask-size: 100%;
+    mask-position: 50%;
+    background-size: 100%;
+    background-position: 50%;
+    overflow: visible;
+}
+
 div.edit_cursor_position {
     position: absolute;
-    z-index: 100;
+    z-index: 10;
     width: 60%;
     height: 60%;
     top: 20%;
     left: 20%;
     padding: 0;
     margin: 0;
-    border-radius: 50%;
+    border-radius: 30%;
     transform-origin: center;
-    border: 0.1em solid #004843;
-    background-color: rgba(131, 233, 255, 0.21);
-    box-shadow: 0 0 0.4em rgb(0, 72, 79);
-    background-image: url("/client/assets/images/textures/gui/cursors/steering_wheel_stick.png");
-    mask-image: radial-gradient(rgba(255, 255, 255, 0) 42%, rgba(255, 255, 255, 0.4) 53%, rgba(255, 255, 255, 0.98) 80%);
-    background-size: 150%;
+    border: 0.1em solid #00d7cc;
+    background-color: rgba(0, 143, 143, 0.4);
+    box-shadow: 0 0 0.8em rgb(0, 72, 79);
+    background-image: url("/client/assets/images/textures/gui/cursors/cursor_translate.png");
+    mask-image: radial-gradient(rgba(255, 255, 255, 0) 32%, rgba(255, 255, 255, 0.5) 58%, rgba(255, 255, 255, 0.9) 70%);
+    background-size: 130%;
     background-position: 50%;
     overflow: visible;
 }

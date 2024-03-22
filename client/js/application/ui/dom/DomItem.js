@@ -66,7 +66,8 @@ class DomItem {
         let startOffsetLeft = 0;
         let dragDistanceY = 0;
         let dragDistanceX = 0;
-
+        let moveX = 0;
+        let moveY = 0;
 
         let rebuild = function() {
             clearIframe();
@@ -103,8 +104,7 @@ class DomItem {
 
 
 
-        let moveX = 0;
-        let moveY = 0;
+
         let mouseMove = function(e) {
             if (dragActive === true) {
             //    console.log("mouse Move", e.pageX, e.pageY);

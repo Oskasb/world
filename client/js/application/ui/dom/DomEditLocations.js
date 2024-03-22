@@ -10,6 +10,7 @@ class DomEditLocations {
         };
 
         let htmlReady = function() {
+
             let locationsData = GameAPI.worldModels.getActiveLocationData();
             let worldModels = GameAPI.worldModels.getActiveWorldModels();
             console.log([worldModels, locationsData]);
@@ -19,7 +20,7 @@ class DomEditLocations {
         let visibleWorldModels = [];
         let locationModelDivs = [];
 
-        let editCursors = [];
+        let editCursors = {};
 
         let modelEdit = null;
 
@@ -30,11 +31,13 @@ class DomEditLocations {
             modelEdit = null;
         }
 
-        let closeEditCursor = function(cursor) {
-            let id = editCursors.indexOf(cursor);
-            DomUtils.getElementById(id).style.visibility = "visible";
-            MATH.splice(editCursors, cursor);
-            cursor.closeDomEditCursorl();
+        let closeEditCursor = function(htmlElem) {
+            let cursor = htmlElem.cursor;
+            let model = htmlElem.model;
+            editCursors[model.id] = null;
+            htmlElem.cursor = null;
+            htmlElem.model = null;
+            cursor.closeDomEditCursor();
             poolReturn(cursor);
         }
 
@@ -48,11 +51,13 @@ class DomEditLocations {
             }
             modelEdit.call.setWorldModel(model);
 
-            if (editCursors.indexOf(e.target.id) === -1) {
+            if (typeof (editCursors[model.id]) !== 'object') {
                 e.target.style.visibility = "hidden";
                 let cursor = poolFetch('DomEditCursor')
                 cursor.initDomEditCursor(closeEditCursor, model.obj3d, model.call.applyEditCursorUpdate);
-                editCursors[e.target.id] = cursor;
+                cursor.htmlElement.cursor = cursor;
+                cursor.htmlElement.model = model;
+                editCursors[model.id] = cursor;
             }
 
         }
