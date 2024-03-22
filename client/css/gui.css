@@ -186,7 +186,7 @@ div.palette_panel {
     z-index: 10000;
     pointer-events: auto;
     font-size: 1.5em;
-    top: 3em;
+    top: 1.0em;
     left: 0.4em;
     width: auto;
     height: auto;
@@ -197,6 +197,13 @@ div.palette_panel {
     border: #27e7ce;
     border-style: solid;
     border-width: 0.2em;
+}
+
+div.palette_panel h2 {
+    right: 1em;
+    text-align: center;
+    font-size: 0.8em;
+    overflow: hidden;
 }
 
 div.settings_panel {

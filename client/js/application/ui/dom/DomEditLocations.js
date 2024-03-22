@@ -34,7 +34,7 @@ class DomEditLocations {
         let closeEditCursor = function(htmlElem) {
             let cursor = htmlElem.cursor;
             let model = htmlElem.model;
-            editCursors[model.id] = null;
+            editCursors[model.id] = false;
             htmlElem.cursor = null;
             htmlElem.model = null;
             cursor.closeDomEditCursor();
@@ -45,16 +45,31 @@ class DomEditLocations {
             let model = e.target.value
             console.log("Edit Activated", model);
 
-            if (modelEdit === null) {
-                modelEdit = poolFetch('DomEditWorldModel')
-                modelEdit.initDomEditWorldModel(closeModelEdit)
-            }
-            modelEdit.call.setWorldModel(model);
+
 
             if (typeof (editCursors[model.id]) !== 'object') {
                 e.target.style.visibility = "hidden";
                 let cursor = poolFetch('DomEditCursor')
-                cursor.initDomEditCursor(closeEditCursor, model.obj3d, model.call.applyEditCursorUpdate);
+
+
+                let onClick = function(crsr) {
+                    console.log("Clicked Cursor", crsr)
+
+                    if (modelEdit === null) {
+                        modelEdit = poolFetch('DomEditWorldModel')
+                        modelEdit.initDomEditWorldModel(closeModelEdit)
+                        modelEdit.call.setWorldModel(model);
+                    } else {
+                        let mdl = modelEdit.call.getWorldModel();
+                        if (mdl === model) {
+                            closeModelEdit();
+                        } else {
+                            modelEdit.call.setWorldModel(model);
+                        }
+                    }
+                }
+
+                cursor.initDomEditCursor(closeEditCursor, model.obj3d, model.call.applyEditCursorUpdate, onClick);
                 cursor.htmlElement.cursor = cursor;
                 cursor.htmlElement.model = model;
                 editCursors[model.id] = cursor;

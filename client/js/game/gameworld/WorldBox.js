@@ -114,7 +114,9 @@ class WorldBox {
             this.obj3d.position.set(0, 0, 0);
             inheritConfigTransform(this.obj3d, this.config);
             inheritAsParent(this.obj3d, parentObj3d);
-            this.instance.getSpatial().stickToObj3D(this.obj3d);
+            if (this.instance !== null) {
+                this.instance.getSpatial().stickToObj3D(this.obj3d);
+            }
         }.bind(this);
 
         this.call = {

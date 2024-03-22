@@ -3,6 +3,7 @@ import {Vector3} from "../../../../libs/three/math/Vector3.js";
 import {Object3D} from "../../../../libs/three/core/Object3D.js";
 import {ENUMS} from "../../ENUMS.js";
 
+
 let tempVec = new Vector3();
 let tempObj3d = new Object3D()
 let frustumFactor = 0.828;
@@ -26,7 +27,9 @@ class DomEditCursor {
         let targetObj3d = new Object3D();
         let updateObj3d = new Object3D();
         let rotYDiv = null;
+        let rotYSlider = null;
         this.onUpdateCallbacks = [];
+        this.onClickCallbacks = [];
 
         this.statusMap = {
             rotX:0,
@@ -67,11 +70,6 @@ class DomEditCursor {
                     moveX = e.pageX;
                 }
 
-                if (isNaN(moveY)) {
-                    dragActive = false;
-                    endDrag(e);
-                    return;
-                }
 
                 dragY = moveY -startDragY + dragDistanceY;
                 dragX = moveX -startDragX + dragDistanceX;
@@ -85,6 +83,13 @@ class DomEditCursor {
         }
 
 
+        let centerClicked = function() {
+            if (Math.abs(dragDistanceY) + Math.abs(dragDistanceX) < 0.5) {
+                MATH.callAll(this.onClickCallbacks, this)
+            }
+            dragDistanceY = 0;
+            dragDistanceX = 0;
+        }.bind(this)
 
         let sourceTransition = null;
 
@@ -113,7 +118,9 @@ class DomEditCursor {
             dragY = 0;
             dragX = 0;
             console.log("endDrag Cursor", e);
-        }
+            this.initObj3d.copy(targetObj3d);
+            initEditStatus(this.initObj3d);
+        }.bind(this);
 
         let initEditStatus = function(obj3d) {
             targetObj3d.copy(obj3d);
@@ -123,7 +130,7 @@ class DomEditCursor {
             this.statusMap.rotX = 0;
             this.statusMap.rotY = 0;
             this.statusMap.rotZ = 0;
-
+            rotYSlider.value = "0"
         }.bind(this);
 
         let htmlReady = function(htmlEl) {
@@ -131,11 +138,14 @@ class DomEditCursor {
             rootElem = htmlEl.call.getRootElement();
             let translateDiv = htmlEl.call.getChildElement('translate')
             rotYDiv = htmlEl.call.getChildElement('rot_y')
+            rotYSlider = htmlElem.call.getChildElement('rotY');
             DomUtils.addPressStartFunction(translateDiv, startDrag)
             DomUtils.addMouseMoveFunction(translateDiv, mouseMove);
             DomUtils.addPressEndFunction(translateDiv, endDrag);
+            DomUtils.addClickFunction(translateDiv, centerClicked);
             DomUtils.addPointerExitFunction(translateDiv, endDrag);
-
+            DomUtils.addPressEndFunction(rotYSlider, endDrag);
+            DomUtils.addPointerExitFunction(rotYSlider, endDrag);
             initEditStatus(this.initObj3d);
 
             rootElem.style.transition = 'none';
@@ -155,14 +165,13 @@ class DomEditCursor {
             rootElem.style.transform = "translate3d(-50%, -50%, 0)";
             applyEdits()
 
-
-
             if (dragActive === true) {
                 console.log("mouse Move", updateObj3d.position);
                 targetObj3d.position.copy(this.initObj3d.position);
                 targetObj3d.position.add(updateObj3d.position);
             }
 
+            targetObj3d.position.y = ThreeAPI.terrainAt(targetObj3d.position)
             targetObj3d.quaternion.copy(this.initObj3d.quaternion);
             targetObj3d.quaternion.multiply(updateObj3d.quaternion);
 
@@ -191,7 +200,8 @@ class DomEditCursor {
 
     }
 
-    initDomEditCursor(closeCb, initObj3d, onUpdate) {
+    initDomEditCursor(closeCb, initObj3d, onUpdate, onClick) {
+        this.onClickCallbacks.push(onClick);
         this.onUpdateCallbacks.push(onUpdate);
         this.initObj3d.copy(initObj3d);
         this.htmlElement = poolFetch('HtmlElement')
@@ -200,6 +210,7 @@ class DomEditCursor {
 
     closeDomEditCursor() {
         MATH.emptyArray(this.onUpdateCallbacks);
+        MATH.emptyArray(this.onClickCallbacks);
         this.call.close();
         ThreeAPI.unregisterPrerenderCallback(this.call.update);
         this.htmlElement.closeHtmlElement();

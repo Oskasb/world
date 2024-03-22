@@ -7,10 +7,6 @@ let frustumFactor = 0.828;
 
 function applyStatusRotToModel(statusMap, model) {
     // MATH.eulerFromQuaternion()
-    model.obj3d.rotation.x = statusMap.rotX // - model.obj3d.rotation.x)
-    model.obj3d.rotation.y = statusMap.rotY
-    model.obj3d.rotation.z = statusMap.rotZ
-    model.applyObj3dUpdate()
 }
 
 class DomEditWorldModel {
@@ -20,13 +16,11 @@ class DomEditWorldModel {
         this.updateObj3d = new Object3D();
 
         this.statusMap = {
-            rotX:0,
-            rotY:0,
-            rotZ:0,
-            posX:0,
-            posY:0,
-            posZ:0
+            header:"xx",
+            palette_selection:"xx"
         };
+
+        let statusMap = this.statusMap;
 
         let rootElem = null;
 
@@ -49,6 +43,10 @@ class DomEditWorldModel {
             initEditStatus(worldModel.obj3d)
         };
 
+        let getWorldModel = function() {
+            return worldModel;
+        }
+
         let htmlReady = function(htmlEl) {
             htmlElem = htmlEl;
             rootElem = htmlEl.call.getRootElement();
@@ -65,8 +63,8 @@ class DomEditWorldModel {
         }
 
         let applyEdits = function() {
-            applyStatusRotToModel(this.statusMap, worldModel)
-        }.bind(this);
+            applyStatusRotToModel(statusMap, worldModel)
+        };
 
         let update = function() {
             rootElem.style.transition = 'none';
@@ -75,34 +73,15 @@ class DomEditWorldModel {
 
             if (worldModel !== null) {
 
+                statusMap.header = worldModel.config.model
+                statusMap.palette_selection = worldModel.config.palette
                 let div = rootElem;
                 let pos = worldModel.getPos();
             //    div.value = model;
                 evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ThreeAPI.getCameraCursor().getPos(), to:pos, color:'YELLOW'});
                 ThreeAPI.toScreenPosition(pos, tempVec);
-                div.style.top = 50-tempVec.y*(100/frustumFactor)+"%";
-                div.style.left = 50+tempVec.x*(100/frustumFactor)+"%";
-            }
-
-            while (nodeDivs.length < modelNodes.length) {
-                let div = DomUtils.createDivElement(document.body, 'node_'+modelNodes.length, 'NODE', 'button')
-                DomUtils.addClickFunction(div, divClicked);
-                nodeDivs.push(div);
-            }
-
-            while (nodeDivs.length > modelNodes.length) {
-                DomUtils.removeDivElement(nodeDivs.pop());
-            }
-
-            for (let i = 0; i < modelNodes.length; i++) {
-                let model = modelNodes[i];
-                let div = nodeDivs[i];
-                let pos = model.getPos();
-                div.value = model;
-                evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ThreeAPI.getCameraCursor().getPos(), to:pos, color:'YELLOW'});
-                ThreeAPI.toScreenPosition(pos, tempVec);
-                div.style.top = 50-tempVec.y*(100/frustumFactor)+"%";
-                div.style.left = 50+tempVec.x*(100/frustumFactor)+"%";
+                div.style.top = 35-tempVec.y*(100/frustumFactor)+"%";
+                div.style.left = 60+tempVec.x*(100/frustumFactor)+"%";
             }
 
         };
@@ -115,13 +94,13 @@ class DomEditWorldModel {
 
         this.call = {
             setWorldModel:setWorldModel,
+            getWorldModel:getWorldModel,
             htmlReady:htmlReady,
             update:update,
             close:close
         }
 
     }
-
 
 
     initDomEditWorldModel(closeCb) {

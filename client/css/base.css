@@ -87,11 +87,12 @@ iframe.edit_frame {
     z-index: 100000;
     top: 0;
     left: 0;
-    width: 230em;
-    height: inherit;
+    width: 205em;
+    height: 300em;
     position: absolute;
     border: none;
     color: #ecffdc;
+    background: none;
 }
 
 iframe.palette_frame {
