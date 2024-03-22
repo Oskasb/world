@@ -24,6 +24,10 @@ div.point {
     position: absolute;
 }
 
+input {
+    font-family: 'Berlin Sans Bold';
+}
+
 body {
     cursor:none;
     touch-action: none;
@@ -473,29 +477,11 @@ div.color_edit {
     color: black;
 }
 
-.slider_container {
-    pointer-events: auto;
-    top: 1.5em;
-    left: 0.2em;
-    bottom: 0.2em;
-    right: 0.2em;
-    position: relative;
-    background-color: rgba(20, 73, 66, 0.82);
-    position: absolute;
-    padding: 0.1em;
-    padding-left: 1em;
 
-    border-radius: 0.3em;
-    display: flex;
-    align-items: center;
-    box-shadow: 0px 15px 40px #7E6D5766;
-}
 
 div.item_slider {
     top: 0.2em;
 }
-
-
 
 div.alignment {
     top:0.3em;
@@ -689,6 +675,61 @@ div.LEGENDARY {
     color: #fdedff;
 }
 
+.slider_container {
+    pointer-events: auto;
+    top: 1.5em;
+    left: 0.2em;
+    bottom: 0.2em;
+    right: 0.2em;
+    position: relative;
+    background-color: rgba(20, 73, 66, 0.82);
+    position: absolute;
+    padding: 0.1em;
+    padding-left: 1em;
+
+    border-radius: 0.3em;
+    display: flex;
+    align-items: center;
+    box-shadow: 0px 15px 40px #7E6D5766;
+}
+
+.list_container {
+    pointer-events: auto;
+    top: 1.5em;
+    left: 0.2em;
+    bottom: 0.2em;
+    right: 0.2em;
+    position: relative;
+    background-color: rgba(1, 30, 27, 0.5);
+    position: absolute;
+    padding: 0.1em;
+    padding-left: 1em;
+
+    border-radius: 0.3em;
+    display: flex;
+    align-items: center;
+    box-shadow: 0px 15px 40px #7E6D5766;
+}
+
+.list_container h3 {
+    font-size: 1.0em;
+    top: -2.5em;
+    left: 0.2em;
+    padding-left: 0.1em;
+    position: absolute;
+    color: #fdedff;
+}
+
+.list_container p {
+    font-size: 0.7em;
+    top: -2.0em;
+    right: 0.2em;
+    padding-left: 0.1em;
+    position: absolute;
+    color: #fdedff;
+    text-align: right;
+}
+
 .slider_container input {
     font-size: 0.8em;
     width: auto;
@@ -698,6 +739,22 @@ div.LEGENDARY {
     height: 2em;
     position: absolute;
     color: #fdedff;
+}
+
+.list_container input {
+    background-color: rgba(4, 41, 42, 0.55);;
+    font-size: 1.1em;
+    width: auto;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: auto;
+    margin:0;
+    position: absolute;
+    text-align: left;
+    color: #ff984e;
+    text-shadow: 0.04em 0.04em 0.22em rgb(0, 10, 19);
 }
 
 div.color_container {

@@ -57,8 +57,8 @@ class DomEditLocations {
 
                     if (modelEdit === null) {
                         modelEdit = poolFetch('DomEditWorldModel')
-                        modelEdit.initDomEditWorldModel(closeModelEdit)
                         modelEdit.call.setWorldModel(model);
+                        modelEdit.initDomEditWorldModel(closeModelEdit)
                     } else {
                         let mdl = modelEdit.call.getWorldModel();
                         if (mdl === model) {

@@ -61,13 +61,19 @@ class HtmlElement {
                             statusMap[key] = elem.value;
                         }
 
-                    //    console.log(statusMap, key, statusMap[key]);
                         updateValueElem(key, elem.value, iframeDocument)
                     } else if (elem.type === 'color') {
                         updateColorElem(key, ThreeAPI.toRgb(statusMap[key][0], statusMap[key][1], statusMap[key][2]), iframeDocument)
-                            MATH.hexToRGB(elem.value, statusMap[key], colorScale)
-                    //        statusMap[key] = parseFloat(elem.value);
+                        MATH.hexToRGB(elem.value, statusMap[key], colorScale)
                     } else {
+
+                        let list = elem.getAttribute('list')
+                        if (list) {
+                            updateValueElem(key, elem.value, iframeDocument)
+                            statusMap[key] = elem.value;
+                            return;
+                        }
+
                         let value = statusMap[key]
                         let innerHtml = value;
                         if (typeof (value) === 'object') {
@@ -203,6 +209,11 @@ class HtmlElement {
                     if (elem.type === 'color') {
                         elem.value = MATH.rgbToHex(statusMap[key][0]/colorScale, statusMap[key][1]/colorScale,statusMap[key][2]/colorScale);
                         updateColorElem(key, elem.value, iframeDocument)
+                    }
+                    let list = elem.getAttribute('list')
+
+                    if (list) {
+                        console.log(elem, list)
                     }
                 }
             }

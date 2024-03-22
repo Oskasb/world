@@ -206,12 +206,16 @@ class LocationModel {
         let setPaletteKey = function(key) {
             paletteKey = key;
             applySelectedPaletteKey();
-        }.bind(this)
+        }
 
+        let getPaletteKey = function() {
+            return paletteKey;
+        }
 
         this.call = {
             setInstance:setInstance,
             setPaletteKey:setPaletteKey,
+            getPaletteKey:getPaletteKey,
             lodUpdated:lodUpdated,
             hideLocationModel:hideLocationModel,
             playerContact:playerContact,

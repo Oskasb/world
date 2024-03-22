@@ -17,7 +17,9 @@ class DomEditWorldModel {
 
         this.statusMap = {
             header:"xx",
-            palette_selection:"xx"
+            palette_selection:"xx",
+            palette:"xx"
+
         };
 
         let statusMap = this.statusMap;
@@ -36,10 +38,14 @@ class DomEditWorldModel {
             this.statusMap.rotZ = 0;
         //    htmlElem.initStatusMap(this.statusMap)
         }.bind(this);
-
+        let paletteVal = null;
         let worldModel = null;
         let setWorldModel = function(wModel) {
             worldModel = wModel;
+            statusMap.palette = worldModel.call.getPaletteKey();
+            if (paletteVal !== null) {
+            //    paletteVal.value = statusMap.palette;
+            }
             initEditStatus(worldModel.obj3d)
         };
 
@@ -50,6 +56,10 @@ class DomEditWorldModel {
         let htmlReady = function(htmlEl) {
             htmlElem = htmlEl;
             rootElem = htmlEl.call.getRootElement();
+            paletteVal = htmlElem.call.getChildElement('palette');
+            if (worldModel !== null) {
+            //    paletteVal.value = worldModel.call.getPaletteKey();
+            }
             rootElem.style.transition = 'none';
             ThreeAPI.registerPrerenderCallback(update);
         }
@@ -72,6 +82,10 @@ class DomEditWorldModel {
             applyEdits()
 
             if (worldModel !== null) {
+
+                if (statusMap.palette !== worldModel.call.getPaletteKey()) {
+                    worldModel.call.setPaletteKey(statusMap.palette);
+                }
 
                 statusMap.header = worldModel.config.model
                 statusMap.palette_selection = worldModel.config.palette

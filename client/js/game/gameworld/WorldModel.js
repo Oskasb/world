@@ -71,7 +71,20 @@ class WorldModel {
             this.applyObj3dUpdate()
         }.bind(this);
 
+        let setPaletteKey = function(key) {
+            this.paletteKey = key;
+            for (let i = 0; i < this.locationModels.length; i++) {
+                this.locationModels[i].call.setPaletteKey(this.paletteKey)
+            }
+        }.bind(this)
+
+        let getPaletteKey = function() {
+            return this.paletteKey;
+        }.bind(this)
+
         this.call = {
+            setPaletteKey:setPaletteKey,
+            getPaletteKey:getPaletteKey,
             removeWorldModel:removeWorldModel,
             applyEditCursorUpdate:applyEditCursorUpdate
         }
