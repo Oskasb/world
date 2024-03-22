@@ -19,6 +19,8 @@ class DomEditLocations {
         let visibleWorldModels = [];
         let locationModelDivs = [];
 
+        let editCursors = [];
+
         let modelEdit = null;
 
         let closeModelEdit = function() {
@@ -26,6 +28,14 @@ class DomEditLocations {
             modelEdit.closeDomEditWorldModel();
             poolReturn(modelEdit)
             modelEdit = null;
+        }
+
+        let closeEditCursor = function(cursor) {
+            let id = editCursors.indexOf(cursor);
+            DomUtils.getElementById(id).style.visibility = "visible";
+            MATH.splice(editCursors, cursor);
+            cursor.closeDomEditCursorl();
+            poolReturn(cursor);
         }
 
         let divClicked = function(e) {
@@ -37,6 +47,14 @@ class DomEditLocations {
                 modelEdit.initDomEditWorldModel(closeModelEdit)
             }
             modelEdit.call.setWorldModel(model);
+
+            if (editCursors.indexOf(e.target.id) === -1) {
+                e.target.style.visibility = "hidden";
+                let cursor = poolFetch('DomEditCursor')
+                cursor.initDomEditCursor(closeEditCursor, model.obj3d, model.call.applyEditCursorUpdate);
+                editCursors[e.target.id] = cursor;
+            }
+
         }
 
         let update = function() {

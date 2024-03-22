@@ -1,5 +1,6 @@
 import {poolFetch, poolReturn} from "../../utils/PoolUtils.js";
 import {Vector3} from "../../../../libs/three/math/Vector3.js";
+import {Object3D} from "../../../../libs/three/core/Object3D.js";
 
 let tempVec = new Vector3();
 let frustumFactor = 0.828;
@@ -14,28 +15,38 @@ function applyStatusRotToModel(statusMap, model) {
 
 class DomEditWorldModel {
     constructor() {
+
+        this.targetObj3d = new Object3D();
+        this.updateObj3d = new Object3D();
+
         this.statusMap = {
             rotX:0,
             rotY:0,
-            rotZ:0
+            rotZ:0,
+            posX:0,
+            posY:0,
+            posZ:0
         };
 
         let rootElem = null;
 
         let htmlElem;
 
-        let copyObj3dToStatusMap = function(obj3d) {
-            this.statusMap.rotX = obj3d.rotation.x;
-            this.statusMap.rotY = obj3d.rotation.y;
-            this.statusMap.rotZ = obj3d.rotation.z;
-            htmlElem.initStatusMap(this.statusMap)
+        let initEditStatus = function(obj3d) {
+            this.targetObj3d.copy(obj3d);
+            this.updateObj3d.position.set(0, 0, 0);
+            this.updateObj3d.scale.set(1, 1, 1);
+            this.updateObj3d.quaternion.set(0, 0, 0, 1);
+            this.statusMap.rotX = 0;
+            this.statusMap.rotY = 0;
+            this.statusMap.rotZ = 0;
+        //    htmlElem.initStatusMap(this.statusMap)
         }.bind(this);
 
         let worldModel = null;
         let setWorldModel = function(wModel) {
-            worldModel = wModel
-            copyObj3dToStatusMap(worldModel.obj3d)
-
+            worldModel = wModel;
+            initEditStatus(worldModel.obj3d)
         };
 
         let htmlReady = function(htmlEl) {

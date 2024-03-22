@@ -157,6 +157,19 @@ iframe.node_edit {
     background-color: #f0f8ff;
 }
 
+iframe.edit_cursor {
+    bottom: 0;
+    left: 50%;
+    width: 150em;
+    height:150em;
+    position: absolute;
+    z-index: 1000;
+    background: none;
+    border: 1em solid #5ce6ff;
+    border-radius: 50%  10%  50%  50%;
+    transform: translate3d(-50%, -50%, 0);
+    box-shadow: 0px 0px 11em rgba(62, 255, 242, 0.7);
+}
 
 iframe.item {
     bottom: 0;

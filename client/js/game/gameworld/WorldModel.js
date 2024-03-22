@@ -61,8 +61,14 @@ class WorldModel {
 
         parseConfigDataKey("WORLD_LOCATIONS","LOCATION_MODELS", "model_data", config.model, locationModels)
 
+        let applyEditCursorUpdate = function(obj3d) {
+            this.obj3d.copy(obj3d);
+            this.applyObj3dUpdate()
+        }.bind(this);
+
         this.call = {
-            removeWorldModel:removeWorldModel
+            removeWorldModel:removeWorldModel,
+            applyEditCursorUpdate:applyEditCursorUpdate
         }
 
     }

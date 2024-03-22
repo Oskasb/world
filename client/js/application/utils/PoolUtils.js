@@ -40,6 +40,7 @@ import {DomPalette} from "../ui/dom/DomPalette.js";
 import {DomEnvEdit} from "../ui/dom/DomEnvEdit.js";
 import {DomEditLocations} from "../ui/dom/DomEditLocations.js";
 import {DomEditWorldModel} from "../ui/dom/DomEditWorldModel.js";
+import {DomEditCursor} from "../ui/dom/DomEditCursor.js";
 
 
 let pools = {}
@@ -86,6 +87,7 @@ function initPools() {
     registerPool(DomEnvEdit)
     registerPool(DomEditLocations)
     registerPool(DomEditWorldModel)
+    registerPool(DomEditCursor)
 }
 
 function registerPool(DataObj) {
