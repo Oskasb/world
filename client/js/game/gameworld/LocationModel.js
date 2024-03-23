@@ -225,17 +225,21 @@ class LocationModel {
 
 
         let renderDebugAAB = function() {
-            this.box.max.set(2, 2, 2)
-            this.box.min.copy(this.obj3d.position);
-            this.box.min.sub(this.box.max);
-            this.box.max.add(this.obj3d.position);
-
         //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:this.box.min, max:this.box.max, color:'YELLOW'})
-            evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:this.box.min, max:this.box.max, quat:this.obj3d.quaternion, color:'CYAN'})
+            this.box.min.copy(this.obj3d.position);
+            this.box.max.copy(this.obj3d.position);
+            for (let i = 0; i <  this.boxes.length; i++) {
+                let box = this.boxes[i];
+                box.call.parentUpdated(this.parentObj3d)
+                let aabb = box.call.renderBoxAABB();
+                MATH.fitBoxAround(this.box, aabb.min, aabb.max)
+            }
+
            if (physicalModel !== null) {
-               physicalModel.fitAAB();
-               evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:physicalModel.box.min, max:physicalModel.box.max, color:'YELLOW'})
+               let physBox = physicalModel.fitAAB();
+               MATH.fitBoxAround(this.box, physBox.min, physBox.max);
            }
+            evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:this.box.min, max:this.box.max, color:'YELLOW'})
 
         }.bind(this);
 
@@ -263,6 +267,7 @@ class LocationModel {
         inheritAsParent(this.obj3d, this.parentObj3d);
     //    this.obj3d.quaternion.premultiply(this.parentObj3d.quaternion);
         inheritConfigTransform(this.obj3d, this.config);
+
         if (this.instance) {
             this.instance.spatial.stickToObj3D(this.obj3d);
         }
@@ -270,10 +275,10 @@ class LocationModel {
         for (let i = 0; i <  this.boxes.length; i++) {
             let box = this.boxes[i];
             box.call.parentUpdated(this.parentObj3d)
-            box.call.renderBoxAABB();
         }
 
         this.call.renderDebugAAB();
+
     }
 
     clearLocationBoxes() {

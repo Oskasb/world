@@ -930,6 +930,31 @@ MATH.rgbToHex = function(r, g, b) {
 	return "#" + (1 << 24 | r*255 << 16 | g*255 << 8 | b*255).toString(16).slice(1);
 }
 
+MATH.fitBoxAround = function(box, min, max) {
+
+	if (box.min.x > min.x) {
+		box.min.x = min.x;
+	}
+
+	if (box.min.y > min.y) {
+		box.min.y = min.y;
+	}
+
+	if (box.min.z > min.z) {
+		box.min.z = min.z;
+	}
+
+	if (box.max.x < max.x) {
+		box.max.x = max.x;
+	}
+	if (box.max.y < max.y) {
+		box.max.y = max.y;
+	}
+
+	if (box.max.z < max.z) {
+		box.max.z = max.z;
+	}
+}
 
 
 export { MATH }

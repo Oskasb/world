@@ -122,7 +122,7 @@ class WorldBox {
 
         let renderBoxAABB = function() {
             if (physicalModel !== null) {
-                physicalModel.fitAAB();
+                return physicalModel.fitAAB();
             }
 
         }
