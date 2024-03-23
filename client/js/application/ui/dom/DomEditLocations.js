@@ -4,6 +4,9 @@ import {Vector3} from "../../../../libs/three/math/Vector3.js";
 let tempVec = new Vector3();
 let frustumFactor = 0.828;
 let domEnvEdit = null;
+let domEditTerrain = null;
+let domEditEncounter = null;
+let domEditLocation = null;
 let selectedTool = "MODELS";
 let activeTools = [selectedTool]
 function operateTool(tool) {
@@ -25,7 +28,46 @@ function operateTool(tool) {
             domEnvEdit.initDomEnvEdit(ThreeAPI.getEnvironment().getStatusMap(), closeCB);
         }
     }
-    
+
+    if (tool === "TERRAIN") {
+        let closeCB = function() {
+            domEditTerrain.closeDomEditTerrain();
+            poolReturn(domEditTerrain);
+            domEditTerrain = null;
+        }
+
+        if (domEditTerrain === null) {
+            domEditTerrain = poolFetch('DomEditTerrain');
+            domEditTerrain.initDomEditTerrain(closeCB);
+        }
+    }
+
+    if (tool === "LOCATION") {
+        let closeCB = function() {
+            domEditLocation.closeDomEditLocation();
+            poolReturn(domEditLocation);
+            domEditLocation = null;
+        }
+
+        if (domEditLocation === null) {
+            domEditLocation = poolFetch('DomEditLocation');
+            domEditLocation.initDomEditLocation(closeCB);
+        }
+    }
+
+    if (tool === "ENCOUNTER") {
+        let closeCB = function() {
+            domEditEncounter.closeDomEditEncounter();
+            poolReturn(domEditEncounter);
+            domEditEncounter = null;
+        }
+
+        if (domEditEncounter === null) {
+            domEditEncounter = poolFetch('DomEditEncounter');
+            domEditEncounter.initDomEditEncounter(closeCB);
+        }
+    }
+
 }
 
 
@@ -33,7 +75,6 @@ let toolsList = [
     "MODELS",
     "ENVIRNMNT",
     "TERRAIN",
-    "GROUND",
     "LOCATION",
     "ENCOUNTER"
 ]

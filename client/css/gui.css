@@ -219,6 +219,10 @@ div.palette_panel h2 {
     overflow: hidden;
 }
 
+div.edit_terrain {
+    left: 230em;
+}
+
 div.edit_panel {
     z-index: 10000;
     pointer-events: auto;

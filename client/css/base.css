@@ -84,6 +84,8 @@ div.canvas_window {
 
 }
 
+
+
 iframe.edit_frame {
     z-index: 100000;
     top: 0;
@@ -94,6 +96,18 @@ iframe.edit_frame {
     border: none;
     color: #ecffdc;
     background: none;
+}
+
+iframe.edit_terrain {
+    left: 220em;
+}
+
+iframe.edit_location {
+    left: 440em;
+}
+
+iframe.edit_encounter {
+    left: 660em;
 }
 
 iframe.palette_frame {
