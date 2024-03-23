@@ -223,23 +223,30 @@ class LocationModel {
             return paletteKey;
         }
 
-
-        let renderDebugAAB = function() {
-        //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:this.box.min, max:this.box.max, color:'YELLOW'})
+        let calcAABB = function(debugDraw) {
             this.box.min.copy(this.obj3d.position);
             this.box.max.copy(this.obj3d.position);
+
             for (let i = 0; i <  this.boxes.length; i++) {
                 let box = this.boxes[i];
                 box.call.parentUpdated(this.parentObj3d)
-                let aabb = box.call.renderBoxAABB();
+                let aabb = box.call.updateBoxAABB(debugDraw);
                 MATH.fitBoxAround(this.box, aabb.min, aabb.max)
             }
 
-           if (physicalModel !== null) {
-               let physBox = physicalModel.fitAAB();
-               MATH.fitBoxAround(this.box, physBox.min, physBox.max);
-           }
-            evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:this.box.min, max:this.box.max, color:'YELLOW'})
+            if (physicalModel !== null) {
+                let physBox = physicalModel.fitAAB(debugDraw);
+                MATH.fitBoxAround(this.box, physBox.min, physBox.max);
+            }
+            return this.box;
+        }.bind(this);
+
+        let renderDebugAAB = function(debugDraw) {
+            calcAABB(debugDraw);
+        //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:this.box.min, max:this.box.max, color:'YELLOW'})
+            if (debugDraw === true) {
+                evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:this.box.min, max:this.box.max, color:'YELLOW'})
+            }
 
         }.bind(this);
 
@@ -277,7 +284,7 @@ class LocationModel {
             box.call.parentUpdated(this.parentObj3d)
         }
 
-        this.call.renderDebugAAB();
+
 
     }
 

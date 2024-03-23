@@ -149,19 +149,20 @@ class PhysicalModel {
         }
     }
 
-    fitAAB() {
+    fitAAB(debugDraw) {
         this.box.min.copy(this.getPos());
         this.box.max.copy(this.getPos())
         for (let i = 0; i < this.rigidBodies.length; i++) {
             let body = this.rigidBodies[i];
 
             window.AmmoAPI.getBodyAABB(body, tempBox);
-            evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:tempBox.min, max:tempBox.max, color:'BLUE'})
-        //    console.log(tempBox) //, bpProxy.lB(), bpProxy.nB(), bpProxy.pB());
+            if (debugDraw === true) {
+                evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:tempBox.min, max:tempBox.max, color:'BLUE'})
+            }
+              //    console.log(tempBox) //, bpProxy.lB(), bpProxy.nB(), bpProxy.pB());
             MATH.fitBoxAround(this.box, tempBox.min, tempBox.max);
-
         }
-    return this.box;
+        return this.box;
     }
 
     sampleBodyState() {

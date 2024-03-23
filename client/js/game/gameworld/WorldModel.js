@@ -2,6 +2,7 @@ import {Object3D} from "../../../libs/three/core/Object3D.js";
 import {LocationModel} from "./LocationModel.js";
 import {parseConfigDataKey} from "../../application/utils/ConfigUtils.js";
 import {inheritConfigTransform} from "../../application/utils/ModelUtils.js";
+import {Box3} from "../../../libs/three/math/Box3.js";
 
 function removeWorldModel(model) {
     //    console.log("Remove Model ", this.isVisible, this)
@@ -33,6 +34,7 @@ class WorldModel {
         this.config = config;
 
         this.obj3d = new Object3D();
+        this.box = new Box3();
 
         inheritConfigTransform(this.obj3d, this.config);
         if (config['palette']) {
@@ -99,8 +101,12 @@ class WorldModel {
     }
 
     applyObj3dUpdate() {
+        this.box.min.copy(this.getPos());
+        this.box.max.copy(this.getPos());
         for (let i = 0; i < this.locationModels.length; i++) {
             this.locationModels[i].hierarchyUpdated();
+            this.locationModels[i].call.renderDebugAAB();
+            MATH.fitBoxAround(this.box, this.locationModels[i].box.min, x, this.locationModels[i].box.max)
             this.locationModels[i].call.alignPhysicalModel()
         }
     }

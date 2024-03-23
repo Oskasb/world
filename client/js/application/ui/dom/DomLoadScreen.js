@@ -35,7 +35,7 @@ class DomLoadScreen {
                 width: '100%',
                 height: '100%',
                 zIndex: 2000,
-                backgroundColor: 'rgb(0, 0, 0)',
+                backgroundColor: 'rgb(127, 82, 37)',
                 transition: 'all 0.2s ease-in-out'
             };
 

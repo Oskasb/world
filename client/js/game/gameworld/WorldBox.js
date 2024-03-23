@@ -120,18 +120,19 @@ class WorldBox {
             }
         }.bind(this);
 
-        let renderBoxAABB = function() {
+        let updateBoxAABB = function(debugDraw) {
             if (physicalModel !== null) {
-                return physicalModel.fitAAB();
+                return physicalModel.fitAAB(debugDraw);
             }
-
         }
+
+
 
         this.call = {
             lodUpdated:lodUpdated,
             removeWorldBox:removeWorldBox,
             parentUpdated:parentUpdated,
-            renderBoxAABB:renderBoxAABB
+            updateBoxAABB:updateBoxAABB
         }
 
         this.instance = null;
