@@ -28,6 +28,15 @@ input {
     font-family: 'Berlin Sans Bold';
 }
 
+select {
+    font-family: 'Berlin Sans Bold';
+}
+
+option {
+    font-family: 'Berlin Sans Demi';
+    background: rgb(0, 30, 50);
+}
+
 body {
     cursor:none;
     touch-action: none;
@@ -269,6 +278,32 @@ div.edit_button {
     display: block;
     text-align: center;
 }
+
+div.operate_button {
+    position:absolute;
+    z-index: 10;
+    top: auto;
+    font-size: 1.5em;
+    right: 0.8em;
+    bottom: 0.5em;
+    left: 0.8em;
+    height: 1.1em;
+    width: auto;
+    border: 0.1em solid;
+    border-radius: 0.2em;
+    background-color: rgb(255, 162, 41);
+    border-color: rgba(255, 242, 101, 1);
+    box-shadow: 0 0 0.5em rgba(0, 21, 81, 1);
+    background-size: 100%;
+    margin: 0;
+    padding: 0;
+    transform: translate3d(-0%, -0%, 0);
+    color: #000000;
+    text-shadow: 0.02em 0.02em 0.5em rgb(255, 255, 255);
+    display: block;
+    text-align: center;
+}
+
 
 div.interact_panel {
     font-size: 1.9em;
@@ -770,6 +805,12 @@ div.LEGENDARY {
     position: absolute;
     text-align: left;
     color: #ff984e;
+    text-shadow: 0.04em 0.04em 0.22em rgb(0, 10, 19);
+}
+
+.list_container option {
+    font-size: 1.0em;
+    color: #ffca63;
     text-shadow: 0.04em 0.04em 0.22em rgb(0, 10, 19);
 }
 

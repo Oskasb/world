@@ -41,13 +41,15 @@ class WorldModel {
             this.paletteKey = randomPaletteList[Math.floor(randomPaletteList.length * MATH.sillyRandom(this.obj3d.position.x + this.obj3d.position.z + this.obj3d.position.y))];
         }
 
-
         this.locationModels = [];
 
         this.visibility = null;
+        this.hidden = false;
+
+        this.configData = null;
 
         let locationModels = function(data) {
-        //    console.log("Reflow Location Models: ", this.locationModels.length)
+            this.configData = data;        //    console.log("Reflow Location Models: ", this.locationModels.length)
             this.removeLocationModels();
             for (let i = 0; i < data.assets.length; i++) {
                 let model = new LocationModel(this.obj3d, data.assets[i])
@@ -86,7 +88,8 @@ class WorldModel {
             setPaletteKey:setPaletteKey,
             getPaletteKey:getPaletteKey,
             removeWorldModel:removeWorldModel,
-            applyEditCursorUpdate:applyEditCursorUpdate
+            applyEditCursorUpdate:applyEditCursorUpdate,
+            locationModels:locationModels
         }
 
     }
@@ -98,6 +101,18 @@ class WorldModel {
     applyObj3dUpdate() {
         for (let i = 0; i < this.locationModels.length; i++) {
             this.locationModels[i].hierarchyUpdated();
+        }
+    }
+
+    setHidden(bool) {
+        this.hidden = bool;
+        for (let i = 0; i < this.locationModels.length; i++) {
+            if (this.hidden === true) {
+                this.locationModels[i].call.hideLocationModel(this.locationModels[i])
+            } else {
+                this.call.locationModels(this.configData)
+            }
+
         }
     }
 

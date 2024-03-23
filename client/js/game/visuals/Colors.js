@@ -167,9 +167,15 @@ paletteMap['TOWN_DARK_2'] = {
 }
 
 
+let paletteKeys = [];
+for (let key in paletteMap) {
+    paletteKeys.push(key);
+}
+
 export {
     colorMapFx,
     frameFeedbackMap,
     elementColorMap,
-    paletteMap
+    paletteMap,
+    paletteKeys
 }

@@ -73,6 +73,12 @@ class HtmlElement {
                             statusMap[key] = elem.value;
                             return;
                         }
+                        let name = elem.getAttribute('name')
+                        if (name) {
+                            updateValueElem(key, elem.value, iframeDocument)
+                            statusMap[key] = elem.value;
+                            return;
+                        }
 
                         let value = statusMap[key]
                         let innerHtml = value;
@@ -136,11 +142,22 @@ class HtmlElement {
             }
         }
 
+        let populateSelectList = function(id, list) {
+            let selectElem = getChildElement(id);
+            list.forEach(function(item){
+                let option = createElement('option');
+                option.value = item;
+                option.innerHTML = item || "--Select--";
+                selectElem.appendChild(option);
+            });
+        }
+
         this.call = {
             getChildElement:getChildElement,
             createElement:createElement,
             setIframe:setIframe,
             getIframe:getIframe,
+            populateSelectList:populateSelectList,
             getRootElement:getRootElement,
             update:update
         }

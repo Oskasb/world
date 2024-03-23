@@ -1,26 +1,39 @@
 import {poolFetch, poolReturn} from "../../utils/PoolUtils.js";
 import {Vector3} from "../../../../libs/three/math/Vector3.js";
 import {Object3D} from "../../../../libs/three/core/Object3D.js";
+import {paletteKeys} from "../../../game/visuals/Colors.js";
 
 let tempVec = new Vector3();
 let frustumFactor = 0.828;
 
-let randomPaletteList = [
-    'DEFAULT',
-    'TOWN_RED',
-    'TOWN_RED_2',
-    'TOWN_GREEN',
-    'TOWN_NEUTRAL',
-    'TOWN_NEUTRAL_2',
-    'TOWN_DARK',
-    'TOWN_DARK_2',
-    'TOWN_YELLOW'
+let operationsList = [
+    "",
+    "FLATTEN",
+    "ELEVATE",
+    "HIDE"
 ]
 
+function worldModelOperation(wModel, operation) {
 
-function applyStatusRotToModel(statusMap, model) {
-    // MATH.eulerFromQuaternion()
+    if (operation === "ELEVATE") {
+        wModel.obj3d.position.y += 1;
+        wModel.applyObj3dUpdate()
+    }
+
+    if (operation === "HIDE") {
+        if (wModel.hidden !== true) {
+            wModel.setHidden(true);
+        } else {
+            wModel.setHidden(false);
+        }
+    }
+
+    if (operation === "FLATTEN") {
+
+    }
+
 }
+
 
 class DomEditWorldModel {
     constructor() {
@@ -31,8 +44,8 @@ class DomEditWorldModel {
         this.statusMap = {
             header:"xx",
             palette_selection:"xx",
+            operation:"xx",
             palette:"xx"
-
         };
 
         let statusMap = this.statusMap;
@@ -40,6 +53,9 @@ class DomEditWorldModel {
         let rootElem = null;
 
         let htmlElem;
+        let applyOperationDiv = null;
+        let nodeDivs = [];
+        let selectedOperation = "";
 
         let initEditStatus = function(obj3d) {
             this.targetObj3d.copy(obj3d);
@@ -53,25 +69,27 @@ class DomEditWorldModel {
         }.bind(this);
         let paletteVal = null;
         let worldModel = null;
+        let operationSelect = null;
 
-        let populatePaletteList = function() {
 
-            let list = htmlElem.call.getChildElement('palette');
-            randomPaletteList.forEach(function(item){
-                let option = htmlElem.call.createElement('option');
-                option.value = item;
-                option.innerHTML = item;
-                list.appendChild(option);
-            });
+        let updateSelectedOperation = function() {
+            console.log("updateSelectedOperation")
+            if (selectedOperation === "") {
+                applyOperationDiv.style.opacity = "0.4";
+            } else {
+                applyOperationDiv.style.opacity = "1";
+            }
+            applyOperationDiv.innerHTML = selectedOperation;
+        }
+
+        let applyOperation = function(e) {
+            console.log("Apply", selectedOperation);
+            worldModelOperation(worldModel, selectedOperation);
         }
 
         let setWorldModel = function(wModel) {
             worldModel = wModel;
             statusMap.palette = worldModel.call.getPaletteKey();
-            if (paletteVal !== null) {
-            //    paletteVal.value = worldModel.call.getPaletteKey();
-            //    populatePaletteList()
-            }
             initEditStatus(worldModel.obj3d)
         };
 
@@ -83,37 +101,31 @@ class DomEditWorldModel {
             htmlElem = htmlEl;
             rootElem = htmlEl.call.getRootElement();
             paletteVal = htmlElem.call.getChildElement('palette');
-            populatePaletteList()
-            if (worldModel !== null) {
-            //    paletteVal.value = worldModel.call.getPaletteKey();
-            //    populatePaletteList()
-            }
+            applyOperationDiv = htmlElem.call.getChildElement('apply_operation');
+            operationSelect = htmlElem.call.getChildElement('operation');
+            DomUtils.addClickFunction(applyOperationDiv, applyOperation)
+
             rootElem.style.transition = 'none';
             ThreeAPI.registerPrerenderCallback(update);
+            htmlElem.call.populateSelectList('palette', paletteKeys)
+            htmlElem.call.populateSelectList('operation', operationsList)
+            updateSelectedOperation();
         }
 
-        let modelNodes = [];
-        let nodeDivs = [];
-
-        let divClicked = function(e) {
-            let model = e.target.value
-            console.log("Edit Activated", model);
-        }
-
-        let applyEdits = function() {
-            applyStatusRotToModel(statusMap, worldModel)
-        };
 
         let update = function() {
             rootElem.style.transition = 'none';
-
-            applyEdits()
 
             if (worldModel !== null) {
 
                 if (statusMap.palette !== worldModel.call.getPaletteKey()) {
                     worldModel.call.setPaletteKey(statusMap.palette);
-                //    populatePaletteList()
+                }
+
+                if (operationSelect.value !== selectedOperation) {
+                    statusMap.operation = operationSelect.value
+                    selectedOperation = statusMap.operation;
+                    updateSelectedOperation()
                 }
 
                 statusMap.header = worldModel.config.model

@@ -1,7 +1,5 @@
 <!DOCTYPE html>
 <link rel="stylesheet" href="../client/css/base.css">
-<script src="../client/js/application/ui/dom/DomItem.js"></script>
-<script src="../client/js/application/ui/dom/DomItemCard.js"></script>
 <link rel="stylesheet" type="text/css" href="../client/css/gui.css" />
 
 <body id="container" class="overlay_page transparent">
@@ -13,23 +11,18 @@
         <div class="list_container">
             <h3>Palette</h3>
             <p id="palette_value"></p>
-            <select id="palette" list="palette_list"></select>
-            <option value="">-Select-</option>
+            <select name="palette" id="palette"></select>
         </div>
     </div>
     <div class="control_container">
-        <div class="slider_container">
-            <h3>Rot Y</h3>
-            <input id="rotY" type="range" min="-3.14" max="3.14" step="0.01">
-            <p id="rotY_value"></p>
+        <div class="list_container">
+            <h3>Operation</h3>
+            <p id="operation_value"></p>
+            <select name="operation" id="operation"></select>
         </div>
     </div>
     <div class="control_container">
-        <div class="slider_container">
-            <h3>Rot Z</h3>
-            <input id="rotZ" type="range" min="-3.14" max="3.14" step="0.01">
-            <p id="rotZ_value"></p>
-        </div>
+        <div id="apply_operation" class="operate_button"></div>
     </div>
 </div>
 </body>
