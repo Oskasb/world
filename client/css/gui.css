@@ -219,6 +219,30 @@ div.palette_panel h2 {
     overflow: hidden;
 }
 
+div.edit_panel {
+    z-index: 10000;
+    pointer-events: auto;
+    font-size: 1.5em;
+    top: 1.0em;
+    left: 0.4em;
+    width: auto;
+    height: auto;
+    position: absolute;
+    background-color: rgba(81, 118, 155, 0.51);
+    box-shadow: 0 0 0.7em rgba(99, 255, 255, 1);
+    border-radius: 0.5em;
+    border: #27e7ce;
+    border-style: solid;
+    border-width: 0.2em;
+}
+
+div.edit_panel h2 {
+    left: 1em;
+    text-align: left;
+    font-size: 1.2em;
+    overflow: hidden;
+}
+
 div.settings_panel {
     z-index: 10000;
     pointer-events: auto;

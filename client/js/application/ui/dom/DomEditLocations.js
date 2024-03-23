@@ -3,20 +3,77 @@ import {Vector3} from "../../../../libs/three/math/Vector3.js";
 
 let tempVec = new Vector3();
 let frustumFactor = 0.828;
+let domEnvEdit = null;
+let selectedTool = "MODELS";
+let activeTools = [selectedTool]
+function operateTool(tool) {
+    if (activeTools.indexOf(tool) === -1) {
+        activeTools.push(tool);
+    } else {
+        MATH.splice(activeTools, tool);
+    }
 
+    if (tool === "ENVIRNMNT") {
+        let closeCB = function() {
+            domEnvEdit.closeDomEnvEdit();
+            poolReturn(domEnvEdit);
+            domEnvEdit = null;
+        }
+
+        if (domEnvEdit === null) {
+            domEnvEdit = poolFetch('DomEnvEdit');
+            domEnvEdit.initDomEnvEdit(ThreeAPI.getEnvironment().getStatusMap(), closeCB);
+        }
+    }
+    
+}
+
+
+let toolsList = [
+    "MODELS",
+    "ENVIRNMNT",
+    "TERRAIN",
+    "GROUND",
+    "LOCATION",
+    "ENCOUNTER"
+]
 
 class DomEditLocations {
     constructor() {
         this.statusMap = {
-
+            tool:selectedTool
         };
 
-        let htmlReady = function() {
+        let statusMap = this.statusMap;
+        let applyToolDiv = null;
+        let toolSelectDiv = null;
+
+
+        let updateSelectedTool = function() {
+            console.log("updateSelectedTool")
+            if (selectedTool === "") {
+                applyToolDiv.style.opacity = "0.4";
+                applyToolDiv.innerHTML = 'Select Tool';
+            } else {
+                applyToolDiv.style.opacity = "1";
+                applyToolDiv.innerHTML = selectedTool;
+            }
+
+        }
+        let applyTool = function() {
+            operateTool(statusMap.tool);
+        }
+        let htmlReady = function(htmlElem) {
 
             let locationsData = GameAPI.worldModels.getActiveLocationData();
             let worldModels = GameAPI.worldModels.getActiveWorldModels();
+            applyToolDiv = htmlElem.call.getChildElement('apply_tool');
+            toolSelectDiv = htmlElem.call.getChildElement('tool');
+            htmlElem.call.populateSelectList('tool', toolsList)
+            DomUtils.addClickFunction(applyToolDiv, applyTool)
             console.log([worldModels, locationsData]);
             ThreeAPI.registerPrerenderCallback(update);
+            updateSelectedTool();
         }
 
         let visibleWorldModels = [];
@@ -81,23 +138,33 @@ class DomEditLocations {
 
         let update = function() {
             let locationsData = GameAPI.worldModels.getActiveLocationData();
-            let worldModels = GameAPI.worldModels.getActiveWorldModels();
-            MATH.emptyArray(visibleWorldModels);
-            let camCursorDist = MATH.distanceBetween(ThreeAPI.getCameraCursor().getPos(), ThreeAPI.getCamera().position)
-            for (let i = 0; i < worldModels.length; i++) {
-                let pos = worldModels[i].getPos();
-                let distance = MATH.distanceBetween(ThreeAPI.getCameraCursor().getPos(), pos)
-                if (distance < 25 + camCursorDist*0.5) {
-                    if (ThreeAPI.testPosIsVisible(pos)) {
-                        visibleWorldModels.push(worldModels[i]);
-                    }
-                }
+
+            if (toolSelectDiv.value !== selectedTool) {
+                statusMap.tool = toolSelectDiv.value
+                selectedTool = statusMap.tool;
+                updateSelectedTool()
             }
 
-            while (locationModelDivs.length < visibleWorldModels.length) {
-                let div = DomUtils.createDivElement(document.body, 'model_'+visibleWorldModels.length, 'EDIT', 'button')
-                DomUtils.addClickFunction(div, divClicked);
-                locationModelDivs.push(div);
+            MATH.emptyArray(visibleWorldModels);
+
+            if (activeTools.indexOf("MODELS") !== -1) {
+                let worldModels = GameAPI.worldModels.getActiveWorldModels();
+                let camCursorDist = MATH.distanceBetween(ThreeAPI.getCameraCursor().getPos(), ThreeAPI.getCamera().position)
+                for (let i = 0; i < worldModels.length; i++) {
+                    let pos = worldModels[i].getPos();
+                    let distance = MATH.distanceBetween(ThreeAPI.getCameraCursor().getPos(), pos)
+                    if (distance < 25 + camCursorDist*0.5) {
+                        if (ThreeAPI.testPosIsVisible(pos)) {
+                            visibleWorldModels.push(worldModels[i]);
+                        }
+                    }
+                }
+
+                while (locationModelDivs.length < visibleWorldModels.length) {
+                    let div = DomUtils.createDivElement(document.body, 'model_'+visibleWorldModels.length, 'EDIT', 'button')
+                    DomUtils.addClickFunction(div, divClicked);
+                    locationModelDivs.push(div);
+                }
             }
 
             while (locationModelDivs.length > visibleWorldModels.length) {
@@ -140,14 +207,12 @@ class DomEditLocations {
 
     initDomEditLocations(closeCb) {
         this.htmlElement = poolFetch('HtmlElement')
-        this.htmlElement.hideOtherRootElements();
         this.htmlElement.initHtmlElement('edit_locations', closeCb, this.statusMap, 'edit_frame', this.call.htmlReady);
     }
 
     closeDomEditLocations() {
         this.call.close();
         ThreeAPI.unregisterPrerenderCallback(this.call.update);
-        this.htmlElement.revealHiddenRootElements();
         this.htmlElement.closeHtmlElement();
         poolReturn(this.htmlElement);
         this.htmlElement = null;

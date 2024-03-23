@@ -102,16 +102,7 @@ class DebugView {
         this.inspecting = {};
         this.isActive = false;
         let onActivate = function() {
-            let closeCB = function() {
-                domEnvEdit.closeDomEnvEdit();
-                poolReturn(domEnvEdit);
-                domEnvEdit = null;
-            }
 
-            if (domEnvEdit === null) {
-                domEnvEdit = poolFetch('DomEnvEdit');
-                domEnvEdit.initDomEnvEdit(ThreeAPI.getEnvironment().getStatusMap(), closeCB);
-            }
 
             this.activateDebugView();
         }.bind(this);
