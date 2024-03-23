@@ -130,8 +130,15 @@ class HtmlElement {
 
         }
 
+        let createElement = function(tagName) {
+            if (iframeDocument) {
+                return iframeDocument.createElement(tagName);
+            }
+        }
+
         this.call = {
             getChildElement:getChildElement,
+            createElement:createElement,
             setIframe:setIframe,
             getIframe:getIframe,
             getRootElement:getRootElement,

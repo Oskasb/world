@@ -26,18 +26,19 @@ div.point {
 }
 
 div.button {
-    font-size: 18em;
+    font-size: 20em;
     min-width: 1em;
-    min-height: 1em;
-    height:fit-content;
+    height: 1em;
+    margin-bottom: 0.1em;
     width: fit-content;
+    padding: 0.2em;
     text-align: center;
     transform: translate(-50%, -50%);
     color: white;
     position: absolute;
-    border-radius: 2em;
-    border: 0.2em solid #8a8a8a;
-    background-color: black;
+    border-radius: 0.4em;
+    border: 0.1em solid #d37b4f;
+    background-color: rgba(86, 28, 0, 0.55);
 }
 
 .general_map {

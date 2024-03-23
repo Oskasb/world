@@ -757,6 +757,22 @@ div.LEGENDARY {
     text-shadow: 0.04em 0.04em 0.22em rgb(0, 10, 19);
 }
 
+.list_container select {
+    background-color: rgba(4, 41, 42, 0.55);;
+    font-size: 1.1em;
+    width: auto;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: auto;
+    margin:0;
+    position: absolute;
+    text-align: left;
+    color: #ff984e;
+    text-shadow: 0.04em 0.04em 0.22em rgb(0, 10, 19);
+}
+
 div.color_container {
     font-size: 1em;
     width: auto;

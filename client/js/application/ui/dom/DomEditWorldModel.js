@@ -5,6 +5,19 @@ import {Object3D} from "../../../../libs/three/core/Object3D.js";
 let tempVec = new Vector3();
 let frustumFactor = 0.828;
 
+let randomPaletteList = [
+    'DEFAULT',
+    'TOWN_RED',
+    'TOWN_RED_2',
+    'TOWN_GREEN',
+    'TOWN_NEUTRAL',
+    'TOWN_NEUTRAL_2',
+    'TOWN_DARK',
+    'TOWN_DARK_2',
+    'TOWN_YELLOW'
+]
+
+
 function applyStatusRotToModel(statusMap, model) {
     // MATH.eulerFromQuaternion()
 }
@@ -40,11 +53,24 @@ class DomEditWorldModel {
         }.bind(this);
         let paletteVal = null;
         let worldModel = null;
+
+        let populatePaletteList = function() {
+
+            let list = htmlElem.call.getChildElement('palette');
+            randomPaletteList.forEach(function(item){
+                let option = htmlElem.call.createElement('option');
+                option.value = item;
+                option.innerHTML = item;
+                list.appendChild(option);
+            });
+        }
+
         let setWorldModel = function(wModel) {
             worldModel = wModel;
             statusMap.palette = worldModel.call.getPaletteKey();
             if (paletteVal !== null) {
-            //    paletteVal.value = statusMap.palette;
+            //    paletteVal.value = worldModel.call.getPaletteKey();
+            //    populatePaletteList()
             }
             initEditStatus(worldModel.obj3d)
         };
@@ -57,8 +83,10 @@ class DomEditWorldModel {
             htmlElem = htmlEl;
             rootElem = htmlEl.call.getRootElement();
             paletteVal = htmlElem.call.getChildElement('palette');
+            populatePaletteList()
             if (worldModel !== null) {
             //    paletteVal.value = worldModel.call.getPaletteKey();
+            //    populatePaletteList()
             }
             rootElem.style.transition = 'none';
             ThreeAPI.registerPrerenderCallback(update);
@@ -85,6 +113,7 @@ class DomEditWorldModel {
 
                 if (statusMap.palette !== worldModel.call.getPaletteKey()) {
                     worldModel.call.setPaletteKey(statusMap.palette);
+                //    populatePaletteList()
                 }
 
                 statusMap.header = worldModel.config.model

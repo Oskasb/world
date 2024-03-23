@@ -171,7 +171,7 @@ class DomEditCursor {
                 targetObj3d.position.add(updateObj3d.position);
             }
 
-            targetObj3d.position.y = ThreeAPI.terrainAt(targetObj3d.position)
+            targetObj3d.position.y = Math.max(ThreeAPI.terrainAt(targetObj3d.position), 0)
             targetObj3d.quaternion.copy(this.initObj3d.quaternion);
             targetObj3d.quaternion.multiply(updateObj3d.quaternion);
 
