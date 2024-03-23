@@ -101,6 +101,7 @@ class WorldModel {
     applyObj3dUpdate() {
         for (let i = 0; i < this.locationModels.length; i++) {
             this.locationModels[i].hierarchyUpdated();
+            this.locationModels[i].call.alignPhysicalModel()
         }
     }
 

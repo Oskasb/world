@@ -108,6 +108,14 @@ class LocationModel {
 
         let model = this;
 
+        let alignPhysicalModel = function() {
+            if (physicalModel) {
+                removePhysicalModel(physicalModel);
+                physicalModel = addPhysicsToModel(config.asset, this.obj3d, this.physicsUpdate);
+                physicalModel.call.setModel(model)
+            }
+        }.bind(this)
+
         let lodUpdated = function(lodLevel) {
             model.lodLevel = lodLevel;
             if (lodLevel === 0) {
@@ -213,6 +221,7 @@ class LocationModel {
         }
 
         this.call = {
+            alignPhysicalModel:alignPhysicalModel,
             setInstance:setInstance,
             setPaletteKey:setPaletteKey,
             getPaletteKey:getPaletteKey,
