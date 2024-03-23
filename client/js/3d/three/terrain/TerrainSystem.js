@@ -112,6 +112,10 @@ class TerrainSystem {
         threeTerrain.call.shadeTerrainDataCanvas(pos, size, channelIndex, operation, intensity);
     }
 
+    adjustGroundToAABB = function(aabb) {
+        threeTerrain.call.alignDataCanvasToAABB(aabb);
+    }
+
     registerLodUpdateCB = function(pos, callback) {
         threeTerrain.call.subscribeToLodUpdate(pos, callback);
     }

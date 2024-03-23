@@ -29,7 +29,9 @@ function worldModelOperation(wModel, operation) {
     }
 
     if (operation === "FLATTEN") {
-
+        wModel.applyObj3dUpdate();
+        let box = wModel.box;
+        ThreeAPI.alignGroundToAABB(box);
     }
 
 }

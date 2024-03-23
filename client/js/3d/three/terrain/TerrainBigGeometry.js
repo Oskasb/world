@@ -459,6 +459,8 @@ class TerrainBigGeometry {
 
         terrainParams.tx_width = txWidth;
         terrainParams.groundTxWidth = groundTxWidth;
+        terrainParams.minHeight = dims.min_height;
+        terrainParams.maxHeight = dims.max_height;
     //    terrainParams.tiles = tiles;
 
         let updateBigGeo = this.call.updateBigGeo;

@@ -105,8 +105,8 @@ class WorldModel {
         this.box.max.copy(this.getPos());
         for (let i = 0; i < this.locationModels.length; i++) {
             this.locationModels[i].hierarchyUpdated();
-            this.locationModels[i].call.renderDebugAAB();
-            MATH.fitBoxAround(this.box, this.locationModels[i].box.min, x, this.locationModels[i].box.max)
+            this.locationModels[i].call.renderDebugAAB(true);
+            MATH.fitBoxAround(this.box, this.locationModels[i].box.min, this.locationModels[i].box.max)
             this.locationModels[i].call.alignPhysicalModel()
         }
     }

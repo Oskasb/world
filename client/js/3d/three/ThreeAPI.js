@@ -265,6 +265,11 @@ class ThreeAPI {
         terrainSystem.rebuildGround()
     }
 
+    alignGroundToAABB = function(aabb) {
+        console.log("Align Ground to AABB", aabb);
+        terrainSystem.adjustGroundToAABB(aabb)
+        terrainSystem.rebuildGround()
+    }
     getTerrainMaxHeight = function() {
         return terrainSystem.getTerrainHeight();
     }

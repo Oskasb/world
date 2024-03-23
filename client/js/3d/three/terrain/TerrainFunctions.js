@@ -345,8 +345,35 @@ let fillShade = function(ctx, x, y, w, h, cornerRadii) {
      ctx.fill();
 
 }
-
 let fillRgba = [0, 0, 0, 0];
+function fitHeightToAABB(aabb, canvasContext, terrainSize, segments, minHeight, maxHeight) {
+    let heightDiff = maxHeight - minHeight;
+    let heightFraction = MATH.calcFraction( minHeight, maxHeight, aabb.min.y);
+    fillRgba[0] = heightFraction*255;
+    fillRgba[1] = 0;
+    fillRgba[2] = 0;
+    fillRgba[3] = 1;
+    let htP = terrainSize*1;
+    let htN = - htP;
+    let txMin = displaceAxisDimensions(aabb.min.x*2 -2, htN, htP, segments);
+    let tzMin = displaceAxisDimensions(aabb.min.z*2 -2, htN, htP, segments);
+    let txMax = displaceAxisDimensions(aabb.max.x*2 +4, htN, htP, segments);
+    let tzMax = displaceAxisDimensions(aabb.max.z*2 +4, htN, htP, segments);
+
+    canvasContext.globalCompositeOperation = 'source-over';
+    canvasContext.fillStyle = "rgba("+fillRgba[0]+", "+fillRgba[1]+", "+fillRgba[2]+", "+fillRgba[3]+")";
+
+
+  //  for (let i = 0; i < blobs; i++) {
+  //      size = size * MATH.curveQuad((blobs-i) / blobs)
+        fillShade(canvasContext, txMin, tzMin, txMax-txMin, tzMax-tzMin, 1);
+    canvasContext.fillStyle = "rgba("+fillRgba[0]+", "+fillRgba[1]+", "+fillRgba[2]+", "+fillRgba[3]*0.5+")";
+    fillShade(canvasContext, txMin-3, tzMin-3, 6+txMax-txMin, 6+tzMax-tzMin, 4);
+  //  }
+
+}
+
+
 
 let shadeGroundCanvasAt = function(pos, canvasContext, terrainSize, segments, size, channelIndex, operation, intensity) {
 
@@ -381,8 +408,9 @@ let shadeGroundCanvasAt = function(pos, canvasContext, terrainSize, segments, si
         size = size * MATH.curveQuad((blobs-i) / blobs)
         fillShade(canvasContext, tx-size -0.5, tz-size, size*2+1, size*2+1, size);
     }
-
 }
+
+
 
 // get a height at point from matrix
 let getPointInMatrix = function(matrixData, y, x) {
@@ -716,5 +744,6 @@ class TerrainFunctions {
 export {
     getHeightAt,
     getGroundDataAt,
-    shadeGroundCanvasAt
+    shadeGroundCanvasAt,
+    fitHeightToAABB
 }

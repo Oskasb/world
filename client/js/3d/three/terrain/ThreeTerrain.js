@@ -9,6 +9,7 @@ import * as TerrainFunctions from "./TerrainFunctions.js";
 import * as CursorUtils from "../../camera/CursorUtils.js";
 import {poolReturn} from "../../../application/utils/PoolUtils.js";
 import { ImageLoader } from "../../../../libs/three/loaders/ImageLoader.js";
+import {fitHeightToAABB} from "./TerrainFunctions.js";
 
 let scrubIndex = 0;
 
@@ -88,6 +89,12 @@ let getThreeTerrainDataAt = function(pos, dataStore) {
 let shadeThreeTerrainDataAt = function(pos, size, channelIndex, operation, intensity) {
     let params = terrainBigGeometry.getTerrainParams()
     TerrainFunctions.shadeGroundCanvasAt(pos, terrainBigGeometry.getHeightmapCanvas(), params.tx_width, params.tx_width - 1, size, channelIndex, operation, intensity);
+    terrainBigGeometry.updateHeightmapCanvasTexture();
+}
+
+let alignThreeTerrainDataToAABB = function(aabb) {
+    let params = terrainBigGeometry.getTerrainParams()
+    TerrainFunctions.fitHeightToAABB(aabb, terrainBigGeometry.getHeightmapCanvas(), params.tx_width, params.tx_width - 1, params.minHeight, params.maxHeight);
     terrainBigGeometry.updateHeightmapCanvasTexture();
 }
 
@@ -178,6 +185,9 @@ let shadeTerrainDataCanvas = function(pos, size, channelIndex, operation, intens
     shadeThreeTerrainDataAt(pos, size, channelIndex, operation, intensity)
 }
 
+let alignDataCanvasToAABB = function(aabb) {
+    alignThreeTerrainDataToAABB(aabb)
+}
 
 let subscribeToLodUpdate = function(pos, callback) {
     let geoTile = getTerrainGeoAtPos(pos);
@@ -329,6 +339,7 @@ class ThreeTerrain {
             getHeightAndNormal:getHeightAndNormal,
             getTerrainData:getTerrainData,
             shadeTerrainDataCanvas:shadeTerrainDataCanvas,
+            alignDataCanvasToAABB:alignDataCanvasToAABB,
             subscribeToLodUpdate:subscribeToLodUpdate,
             removeLodUpdateCB:removeLodUpdateCB,
             getTerrainScale:getTerrainScale,
