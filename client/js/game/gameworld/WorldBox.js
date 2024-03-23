@@ -91,8 +91,7 @@ class WorldBox {
 
         this.isVisible = false;
 
-        let lodTest = new LodTest()
-
+        let lodTest = new LodTest();
         let physicalModel = null;
 
         let lodUpdated = function(lodLevel) {
@@ -104,9 +103,7 @@ class WorldBox {
                     removePhysicalModel(physicalModel);
                     physicalModel = null;
                 }
-
             }
-
         }.bind(this)
 
         let parentUpdated = function(parentObj3d) {
@@ -117,12 +114,24 @@ class WorldBox {
             if (this.instance !== null) {
                 this.instance.getSpatial().stickToObj3D(this.obj3d);
             }
+            if (physicalModel !== null) {
+                removePhysicalModel(physicalModel);
+                physicalModel = addPhysicsToModel('asset_box', this.obj3d);
+            }
         }.bind(this);
+
+        let renderBoxAABB = function() {
+            if (physicalModel !== null) {
+                physicalModel.fitAAB();
+            }
+
+        }
 
         this.call = {
             lodUpdated:lodUpdated,
             removeWorldBox:removeWorldBox,
-            parentUpdated:parentUpdated
+            parentUpdated:parentUpdated,
+            renderBoxAABB:renderBoxAABB
         }
 
         this.instance = null;

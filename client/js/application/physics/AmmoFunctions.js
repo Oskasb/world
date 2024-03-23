@@ -1182,6 +1182,15 @@ class AmmoFunctions {
         return VECTOR_AUX
     }
 
+    fitBodyAABB(body, min, max) {
+        body.getAabb(VECTOR_AUX, VECTOR_AUX2)
+        min.x = VECTOR_AUX.x();
+        min.y = VECTOR_AUX.y();
+        min.z = VECTOR_AUX.z();
+        max.x = VECTOR_AUX2.x();
+        max.y = VECTOR_AUX2.y();
+        max.z = VECTOR_AUX2.z();
+    }
 
 
 }

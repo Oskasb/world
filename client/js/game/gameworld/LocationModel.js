@@ -4,6 +4,7 @@ import {WorldBox} from "./WorldBox.js";
 import {LodTest} from "../visuals/LodTest.js";
 import {poolFetch, poolReturn, registerPool} from "../../application/utils/PoolUtils.js";
 import {addPhysicsToModel, removePhysicalModel} from "../../application/utils/PhysicsUtils.js";
+import {Box3} from "../../../libs/three/math/Box3.js";
 
 
 
@@ -47,6 +48,8 @@ class LocationModel {
         this.solidity = config.solidity || 0.5;
         this.boxes = [];
         this.isVisible = false;
+
+        this.box = new Box3();
 
         let paletteKey = 'DEFAULT'
         this.palette = poolFetch('VisualModelPalette')
@@ -109,7 +112,7 @@ class LocationModel {
         let model = this;
 
         let alignPhysicalModel = function() {
-            if (physicalModel) {
+            if (physicalModel !== null) {
                 removePhysicalModel(physicalModel);
                 physicalModel = addPhysicsToModel(config.asset, this.obj3d, this.physicsUpdate);
                 physicalModel.call.setModel(model)
@@ -120,7 +123,7 @@ class LocationModel {
             model.lodLevel = lodLevel;
             if (lodLevel === 0) {
 
-                if (!physicalModel) {
+                if (physicalModel === null) {
                     if (this.instance === null) {
                         this.instanceCallback = function(instance) {
 
@@ -143,7 +146,7 @@ class LocationModel {
 
             } else {
 
-                if (physicalModel) {
+                if (physicalModel !== null) {
                     removePhysicalModel(physicalModel);
                     physicalModel = null;
                 }
@@ -220,6 +223,22 @@ class LocationModel {
             return paletteKey;
         }
 
+
+        let renderDebugAAB = function() {
+            this.box.max.set(2, 2, 2)
+            this.box.min.copy(this.obj3d.position);
+            this.box.min.sub(this.box.max);
+            this.box.max.add(this.obj3d.position);
+
+        //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:this.box.min, max:this.box.max, color:'YELLOW'})
+            evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:this.box.min, max:this.box.max, quat:this.obj3d.quaternion, color:'CYAN'})
+           if (physicalModel !== null) {
+               physicalModel.fitAAB();
+               evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:physicalModel.box.min, max:physicalModel.box.max, color:'YELLOW'})
+           }
+
+        }.bind(this);
+
         this.call = {
             alignPhysicalModel:alignPhysicalModel,
             setInstance:setInstance,
@@ -228,7 +247,8 @@ class LocationModel {
             lodUpdated:lodUpdated,
             hideLocationModel:hideLocationModel,
             playerContact:playerContact,
-            viewObstructing:viewObstructing
+            viewObstructing:viewObstructing,
+            renderDebugAAB:renderDebugAAB
         }
 
     }
@@ -250,8 +270,10 @@ class LocationModel {
         for (let i = 0; i <  this.boxes.length; i++) {
             let box = this.boxes[i];
             box.call.parentUpdated(this.parentObj3d)
+            box.call.renderBoxAABB();
         }
 
+        this.call.renderDebugAAB();
     }
 
     clearLocationBoxes() {

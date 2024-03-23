@@ -81,6 +81,10 @@ class AmmoAPI {
         ammoFunctions.enableBodySimulation(body);
     };
 
+    getBodyAABB(body, box3) {
+        ammoFunctions.fitBodyAABB(body, box3.min, box3.max)
+    }
+
     includeBody = function(body) {
 
         if (!world) return;
