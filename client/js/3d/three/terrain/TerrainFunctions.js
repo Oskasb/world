@@ -367,8 +367,8 @@ function fitHeightToAABB(aabb, canvasContext, terrainSize, segments, minHeight, 
   //  for (let i = 0; i < blobs; i++) {
   //      size = size * MATH.curveQuad((blobs-i) / blobs)
         fillShade(canvasContext, txMin, tzMin, txMax-txMin, tzMax-tzMin, 1);
-    canvasContext.fillStyle = "rgba("+fillRgba[0]+", "+fillRgba[1]+", "+fillRgba[2]+", "+fillRgba[3]*0.5+")";
-    fillShade(canvasContext, txMin-3, tzMin-3, 6+txMax-txMin, 6+tzMax-tzMin, 4);
+    canvasContext.fillStyle = "rgba("+fillRgba[0]+", "+fillRgba[1]+", "+fillRgba[2]+", "+fillRgba[3]*0.25+")";
+    fillShade(canvasContext, txMin-2, tzMin-2, 4+txMax-txMin, 4+tzMax-tzMin, 4);
   //  }
 
 }
