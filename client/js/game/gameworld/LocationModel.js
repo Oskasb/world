@@ -231,8 +231,9 @@ class LocationModel {
                 let box = this.boxes[i];
                 box.call.parentUpdated(this.parentObj3d)
                 let aabb = box.call.updateBoxAABB(debugDraw);
-                MATH.fitBoxAround(this.box, aabb.min, aabb.max)
-            }
+                if (aabb) {
+                    MATH.fitBoxAround(this.box, aabb.min, aabb.max)
+                }                           }
 
             if (physicalModel !== null) {
                 let physBox = physicalModel.fitAAB(debugDraw);
