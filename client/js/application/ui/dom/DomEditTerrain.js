@@ -9,35 +9,21 @@ let frustumFactor = 0.828;
 
 
 let tools = [
-    "SET",
+    "FLATTEN",
     "ADD",
     "SUBTRACT"
 ]
 
-function worldModelOperation(wModel, operation) {
+let editEvent = {};
 
-    if (operation === "ELEVATE") {
-        wModel.obj3d.position.y += 1;
-        wModel.applyObj3dUpdate()
-    }
-
-    if (operation === "HIDE") {
-        if (wModel.hidden !== true) {
-            wModel.setHidden(true);
-        } else {
-            wModel.setHidden(false);
-        }
-    }
-
-    if (operation === "FLATTEN") {
-        wModel.applyObj3dUpdate();
-        let box = wModel.box;
-        ThreeAPI.alignGroundToAABB(box);
-    }
-
+function operateEdit(tool, pos, statusMap) {
+    editEvent.operation = tool;
+    editEvent.pos = pos;
+    editEvent.radius = statusMap.radius;
+    editEvent.sharpness = statusMap.sharpness;
+    editEvent.strength = statusMap.strength;
+    evt.dispatch(ENUMS.Event.TERRAIN_APPLY_EDIT, editEvent);
 }
-
-
 
 class DomEditTerrain {
     constructor() {
@@ -46,7 +32,9 @@ class DomEditTerrain {
         this.updateObj3d = new Object3D();
 
         this.statusMap = {
-
+            radius:5,
+            sharpness:0,
+            strength:25
         };
 
         let visualEdgeCircle = null;
@@ -73,6 +61,7 @@ class DomEditTerrain {
 
         let applyOperation = function(e) {
             console.log("Apply", selectedTool);
+            operateEdit(selectedTool, targetObj3d.position, statusMap)
         }
 
 
@@ -92,7 +81,7 @@ class DomEditTerrain {
         //    rootElem.style.transition = 'none';
             targetObj3d.position.copy(ThreeAPI.getCameraCursor().getPos());
             visualEdgeCircle.setPosition(targetObj3d.position);
-            visualEdgeCircle.setRadius(5);
+            visualEdgeCircle.setRadius(statusMap.radius);
 
             if (toolSelect.value !== selectedTool) {
                 selectedTool = toolSelect.value

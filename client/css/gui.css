@@ -310,18 +310,18 @@ div.edit_button {
 div.operate_button {
     position:absolute;
     z-index: 10;
-    top: auto;
+    top: 0.01em;
     font-size: 1.5em;
-    right: 0.8em;
-    bottom: 0.5em;
-    left: 0.8em;
-    height: 1.1em;
+    right: 0.4em;
+    bottom: 0.01em;
+    left: 0.4em;
+    height: auto;
     width: auto;
     border: 0.1em solid;
     border-radius: 0.2em;
     background-color: rgb(255, 162, 41);
     border-color: rgba(255, 242, 101, 1);
-    box-shadow: 0 0 0.5em rgba(0, 21, 81, 1);
+    box-shadow: 0 0 0.3em rgba(180, 21, 1, 1);
     background-size: 100%;
     margin: 0;
     padding: 0;
@@ -507,6 +507,10 @@ div.item_edit {
     height: 2.5em;
 }
 
+div.terrain_edit {
+    height: 2.0em;
+}
+
 div.color_edit {
     height: 4em;
     margin:0;
@@ -544,6 +548,23 @@ div.color_edit {
 
 div.item_slider {
     top: 0.2em;
+}
+
+div.terrain_slider {
+    top: 0.2em;
+}
+
+div.terrain_slider p {
+    font-size: 1.2em;
+    top: 0;
+
+
+}
+
+.terrain_slider h2 {
+    font-size: 1.2em;
+    color: rgba(0, 0, 0, 0.7);
+    text-shadow: 0 0 0.1em rgb(185, 241, 255);
 }
 
 div.alignment {
@@ -1048,6 +1069,23 @@ div.rotation_slider input[type="range"]  {
     border-radius: 40%;
     box-shadow: 0 0 0.6em rgb(0, 35, 40);
 }
+
+div.terrain_slider input[type="range"]  {
+    pointer-events: auto;
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: rgba(90, 125, 168, 0.2);
+    cursor: pointer;
+    top:-0.2em;
+    bottom: -0.2em;
+    height: auto;
+    left: -0.4em;
+    right: -0.4em;
+    border: 0.1em solid #00a9af;
+    border-radius: 0.2em;
+    box-shadow: 0 0 0.6em rgb(0, 35, 40);
+}
+
 
 div.anchor_close_cursor {
     z-index: 100;

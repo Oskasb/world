@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<script src="../client/js/application/ENUMS.js"></script>
 <link rel="stylesheet" href="../client/css/base.css">
 <link rel="stylesheet" type="text/css" href="../client/css/gui.css" />
 
@@ -14,7 +15,28 @@
             <select name="tool" id="tool"></select>
         </div>
     </div>
-    <div class="control_container">
+    <div class="control_container terrain_edit">
+        <div class="slider_container terrain_slider">
+            <input id="radius" type="range" min="0.5" max="50" step="0.5">
+            <h2>Radius</h2>
+            <p  id="radius_value" >xx</p>
+        </div>
+    </div>
+    <div class="control_container terrain_edit">
+        <div class="slider_container terrain_slider">
+            <input id="sharpness" type="range" min="-10" max="10" step="0.1">
+            <h2>Sharpness</h2>
+            <p  id="sharpness_value" >xx</p>
+        </div>
+    </div>
+    <div class="control_container terrain_edit">
+        <div class="slider_container terrain_slider">
+            <input id="strength" type="range" min="1" max="100"  step="1">
+            <h2>Strength</h2>
+            <p  id="strength_value" >xx</p>
+        </div>
+    </div>
+    <div class="control_container terrain_edit">
         <div id="apply_tool" class="operate_button"></div>
     </div>
 </div>
