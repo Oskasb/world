@@ -1,5 +1,14 @@
 import {poolFetch, poolReturn} from "../../utils/PoolUtils.js";
 import {Vector3} from "../../../../libs/three/math/Vector3.js";
+import {notifyCameraStatus} from "../../../3d/camera/CameraFunctions.js";
+import {GuiAxisSlider} from "../gui/widgets/GuiAxisSlider.js";
+import {GuiAxisFeedback} from "../gui/widgets/GuiAxisFeedback.js";
+import {ENUMS} from "../../ENUMS.js";
+
+let classNames = {
+    'GuiAxisSlider':GuiAxisSlider,
+    'GuiAxisFeedback':GuiAxisFeedback
+}
 
 let tempVec = new Vector3();
 let frustumFactor = 0.828;
@@ -9,6 +18,95 @@ let domEditEncounter = null;
 let domEditLocation = null;
 let selectedTool = "MODELS";
 let activeTools = [selectedTool]
+
+let inputWidget = [];
+let inputSamplers = [];
+let inputWidgets = [];
+let controls = [];
+
+let controlValues = {
+    CAM_TURN:0,
+    CAM_PITCH:0,
+    CAM_FORWARD:0,
+    CAM_DISTANCE:0,
+    CONTROL_FORWARD:0,
+    CONTROL_STRAFE:0,
+};
+
+function attachInputSampler(controlKeys, inputSamplers) {
+
+    for (let i = 0; i < controlKeys.length; i++) {
+        let controlKey = controlKeys[i];
+        if (typeof (controlKey) === 'string') {
+            if (inputSamplers.indexOf(controlKey) === -1) {
+                inputSamplers.push(controlKey);
+            }
+        }
+    }
+}
+
+function attachInputWidget(inputConfig) {
+
+    let widgets = inputWidgets;
+    let controls = inputConfig['controls'] || [];
+    let on_active = inputConfig['on_active'] || [];
+
+    attachInputSampler(controls, inputSamplers)
+    attachInputSampler(on_active, inputSamplers)
+
+    let onUpdate = function(values) {
+        for (let i = 0; i < values.length; i++) {
+            if (controls[i]) {
+                controlValues[controls[i]] = values[i];
+            }
+        }
+        GameAPI.getPlayer().setStatusKey(ENUMS.PlayerStatus.CONTROL_VALUES, controlValues);
+    }
+
+    let onActivate = function(bool) {
+        for (let i = 0; i < on_active.length; i++) {
+            controlValues[on_active[i]] = bool;
+        }
+    }
+
+    let widgetReadyCB = function(inputWidget) {
+        //    console.log("WidgetReady:", inputWidget);
+        //    inputWidget.guiWidget.applyWidgetOptions(inputConfig['options'])
+        inputWidget.addInputUpdateCallback(onUpdate)
+        inputWidget.addOnActivateCallback(onActivate)
+        widgets.push(inputWidget)
+    }
+
+    let widget = new classNames[inputConfig['class_name']](inputConfig['options'])
+    widget.initGuiWidget(inputConfig['widget_config'], widgetReadyCB)
+}
+
+let inputConfigs = [
+    {"class_name": "GuiAxisSlider",
+        "widget_config": "widget_thumbstick",
+        "controls":["CONTROL_STRAFE","CONTROL_FORWARD"],
+        "options":{
+            "anchor": "stick_bottom_right",
+            "icon": "directional_arrows",
+            "axis": [1, 1],
+            "release": [1, 1],
+            "range": [0.08, 0.08]
+        }
+    },
+    {"class_name": "GuiAxisSlider",
+        "widget_config": "widget_thumbstick",
+        "controls":[null,"CAM_FORWARD"],
+        "options":{
+            "anchor": "stick_bottom_left",
+            "icon": "vertical_arrows",
+            "axis": [0, 1],
+            "release": [1, 1],
+            "range": [0.08, 0.08]
+        }
+    }
+]
+
+
 function operateTool(tool) {
     if (activeTools.indexOf(tool) === -1) {
         activeTools.push(tool);
@@ -101,9 +199,11 @@ class DomEditLocations {
             }
 
         }
+
         let applyTool = function() {
             operateTool(statusMap.tool);
         }
+
         let htmlReady = function(htmlElem) {
 
             let locationsData = GameAPI.worldModels.getActiveLocationData();
@@ -119,9 +219,7 @@ class DomEditLocations {
 
         let visibleWorldModels = [];
         let locationModelDivs = [];
-
         let editCursors = {};
-
         let modelEdit = null;
 
         let closeModelEdit = function() {
@@ -144,8 +242,6 @@ class DomEditLocations {
         let divClicked = function(e) {
             let model = e.target.value
             console.log("Edit Activated", model);
-
-
 
             if (typeof (editCursors[model.id]) !== 'object') {
                 e.target.style.visibility = "hidden";
@@ -227,9 +323,7 @@ class DomEditLocations {
                 tempVec.z = pos.z;
                 tempVec.y = 0;
                 evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:pos, to:tempVec, color:'YELLOW'});
-
             }
-
         }
 
         let close = function() {
@@ -247,11 +341,22 @@ class DomEditLocations {
     }
 
     initDomEditLocations(closeCb) {
+
+        for (let i = 0; i < inputConfigs.length; i++) {
+            attachInputWidget(inputConfigs[i]);
+        }
+
+        notifyCameraStatus( ENUMS.CameraStatus.CAMERA_MODE, ENUMS.CameraControls.CAM_EDIT, null)
         this.htmlElement = poolFetch('HtmlElement')
         this.htmlElement.initHtmlElement('edit_locations', closeCb, this.statusMap, 'edit_frame', this.call.htmlReady);
     }
 
     closeDomEditLocations() {
+
+        while (inputWidgets.length) {
+            inputWidgets.pop().removeGuiWidget();
+        }
+
         this.call.close();
         ThreeAPI.unregisterPrerenderCallback(this.call.update);
         this.htmlElement.closeHtmlElement();

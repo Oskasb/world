@@ -427,6 +427,10 @@
             "tiles":[[1, 9]]
           },
           {
+            "id":"CAM_EDIT",
+            "tiles":[[1, 9]]
+          },
+          {
             "id":"CAM_TARGET",
             "tiles":[[2, 9]]
           },

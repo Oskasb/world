@@ -157,7 +157,8 @@ let ENUMS = {}
         CLIENT_STAMP:'CLIENT_STAMP',
         STRONGHOLD_ID:'STRONGHOLD_ID',
         PLAYER_ZOOM:'PLAYER_ZOOM',
-        PLAYER_WORLD_LEVEL:'PLAYER_WORLD_LEVEL'
+        PLAYER_WORLD_LEVEL:'PLAYER_WORLD_LEVEL',
+        CONTROL_VALUES:'CONTROL_VALUES'
     };
 
     ENUMS.StrongholdStatus = {
@@ -529,6 +530,7 @@ ENUMS.rarity = {
     ENUMS.CameraControls = {
         CAM_AUTO:'CAM_AUTO',
         CAM_ORBIT:'CAM_ORBIT',
+        CAM_EDIT:'CAM_EDIT',
         CAM_TARGET:'CAM_TARGET',
         CAM_MOVE:'CAM_MOVE',
         CAM_AHEAD:'CAM_AHEAD',

@@ -53,8 +53,8 @@ class VisualEdgeCircle {
                 radiiVec3.set(Math.sin(circleFrac) * this.radius, 0, Math.cos(circleFrac) *this.radius)
                 tempObj.position.add(radiiVec3);
                 tempObj.quaternion.set(0, 0, 0, 1);
-                tempObj.rotateX(-1.75);
-                tempObj.rotateZ(circleFrac+1.72);
+                tempObj.rotateX(-1.575);
+                tempObj.rotateZ(circleFrac+1.575);
 
                 let pointFX = this.fxPoints[i];
                 tempObj.position.y = ThreeAPI.terrainAt(tempObj.position)

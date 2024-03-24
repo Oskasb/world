@@ -17,7 +17,15 @@ let cheatInventory = [
 
 let statusMap = {
     PLAYER_ZOOM:1,
-    PLAYER_WORLD_LEVEL: "20"
+    PLAYER_WORLD_LEVEL: "20",
+    CONTROL_VALUES: {
+        CAM_TURN:0,
+        CAM_PITCH:0,
+        CAM_FORWARD:0,
+        CAM_DISTANCE:0,
+        CONTROL_FORWARD:0,
+        CONTROL_STRAFE:0,
+    }
 }
 
 class PlayerMain {
