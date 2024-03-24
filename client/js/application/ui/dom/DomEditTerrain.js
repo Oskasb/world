@@ -3,14 +3,15 @@ import {Vector3} from "../../../../libs/three/math/Vector3.js";
 import {Object3D} from "../../../../libs/three/core/Object3D.js";
 import {paletteKeys} from "../../../game/visuals/Colors.js";
 
+
 let tempVec = new Vector3();
 let frustumFactor = 0.828;
 
-let operationsList = [
-    "",
-    "FLATTEN",
-    "ELEVATE",
-    "HIDE"
+
+let tools = [
+    "SET",
+    "ADD",
+    "SUBTRACT"
 ]
 
 function worldModelOperation(wModel, operation) {
@@ -37,15 +38,18 @@ function worldModelOperation(wModel, operation) {
 }
 
 
+
 class DomEditTerrain {
     constructor() {
 
-        this.targetObj3d = new Object3D();
+        let targetObj3d = new Object3D();
         this.updateObj3d = new Object3D();
 
         this.statusMap = {
 
         };
+
+        let visualEdgeCircle = null;
 
         let statusMap = this.statusMap;
 
@@ -53,49 +57,56 @@ class DomEditTerrain {
 
         let htmlElem;
         let applyOperationDiv = null;
-        let nodeDivs = [];
-        let selectedOperation = "";
-
-        let initEditStatus = function(obj3d) {
-
-        }.bind(this);
-        let paletteVal = null;
-        let worldModel = null;
-        let operationSelect = null;
+        let selectedTool = "";
+        let toolSelect = null;
 
 
-        let updateSelectedOperation = function() {
+        let updateSelectedTool = function() {
             console.log("updateSelectedOperation")
-            if (selectedOperation === "") {
+            if (selectedTool === "") {
                 applyOperationDiv.style.opacity = "0.4";
             } else {
                 applyOperationDiv.style.opacity = "1";
             }
-            applyOperationDiv.innerHTML = selectedOperation;
+            applyOperationDiv.innerHTML = selectedTool;
         }
 
         let applyOperation = function(e) {
-            console.log("Apply", selectedOperation);
-            worldModelOperation(worldModel, selectedOperation);
+            console.log("Apply", selectedTool);
         }
 
-        let getWorldModel = function() {
-            return worldModel;
-        }
 
         let htmlReady = function(htmlEl) {
             htmlElem = htmlEl;
             rootElem = htmlEl.call.getRootElement();
+            htmlElem.call.populateSelectList('tool', tools)
+            toolSelect = htmlElem.call.getChildElement('tool');
+            applyOperationDiv = htmlElem.call.getChildElement('apply_tool');
+            DomUtils.addClickFunction(applyOperationDiv, applyOperation);
+            visualEdgeCircle = poolFetch('VisualEdgeCircle')
+            visualEdgeCircle.on();
+            ThreeAPI.registerPrerenderCallback(update);
         }
 
         let update = function() {
         //    rootElem.style.transition = 'none';
+            targetObj3d.position.copy(ThreeAPI.getCameraCursor().getPos());
+            visualEdgeCircle.setPosition(targetObj3d.position);
+            visualEdgeCircle.setRadius(5);
+
+            if (toolSelect.value !== selectedTool) {
+                selectedTool = toolSelect.value
+                updateSelectedTool()
+            }
+
+
+
         };
 
         let close = function() {
-            while (nodeDivs.length) {
-                DomUtils.removeDivElement(nodeDivs.pop());
-            }
+            visualEdgeCircle.off();
+            poolReturn(visualEdgeCircle);
+            visualEdgeCircle = null;
         }
 
         this.call = {

@@ -44,6 +44,7 @@ import {DomEditCursor} from "../ui/dom/DomEditCursor.js";
 import {DomEditTerrain} from "../ui/dom/DomEditTerrain.js";
 import {DomEditEncounter} from "../ui/dom/DomEditEncounter.js";
 import {DomEditLocation} from "../ui/dom/DomEditLocation.js";
+import {VisualEdgeCircle} from "../../game/visuals/VisualEdgeCircle.js";
 
 
 let pools = {}
@@ -94,6 +95,7 @@ function initPools() {
     registerPool(DomEditTerrain)
     registerPool(DomEditEncounter)
     registerPool(DomEditLocation)
+    registerPool(VisualEdgeCircle)
 }
 
 function registerPool(DataObj) {
