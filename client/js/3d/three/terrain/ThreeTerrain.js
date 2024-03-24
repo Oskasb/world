@@ -98,6 +98,19 @@ let alignThreeTerrainDataToAABB = function(aabb) {
     terrainBigGeometry.updateHeightmapCanvasTexture();
 }
 
+function applyTerrainEdit(edit) {
+    console.log("applyTerrainEdit", edit);
+
+    let params = terrainBigGeometry.getTerrainParams()
+    if (edit.operation !== "GROUND") {
+        TerrainFunctions.applyTerrainCanvasEdit(edit, terrainBigGeometry.getHeightmapCanvas(), params.tx_width, params.tx_width - 1, params.minHeight, params.maxHeight);
+        terrainBigGeometry.updateHeightmapCanvasTexture();
+    }
+
+}
+
+
+
 let constructGeometries = function(heightMapData, transform, groundConfig, sectionInfoCfg) {
     let dims = heightMapData['dimensions'];
     let txWidth = dims['tx_width'];
@@ -329,6 +342,7 @@ let populateTerrainGeometries = function() {
 
 }
 
+
 class ThreeTerrain {
     constructor() {
 
@@ -344,8 +358,11 @@ class ThreeTerrain {
             removeLodUpdateCB:removeLodUpdateCB,
             getTerrainScale:getTerrainScale,
             clearTerrainGeometries:clearTerrainGeometries,
-            populateTerrainGeometries:populateTerrainGeometries
+            populateTerrainGeometries:populateTerrainGeometries,
+            applyTerrainEdit:applyTerrainEdit
         }
+
+
     }
 
     loadData = function(matLoadedCB) {

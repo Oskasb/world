@@ -555,6 +555,7 @@ div.terrain_slider {
 }
 
 div.terrain_slider p {
+    pointer-events: none;
     font-size: 1.2em;
     top: 0;
 
@@ -562,6 +563,7 @@ div.terrain_slider p {
 }
 
 .terrain_slider h2 {
+    pointer-events: none;
     font-size: 1.2em;
     color: rgba(0, 0, 0, 0.7);
     text-shadow: 0 0 0.1em rgb(185, 241, 255);

@@ -57,6 +57,7 @@ class TerrainSystem {
 
                 setTimeout(function() {
                     setTimeout(function() {
+                        evt.on(ENUMS.Event.TERRAIN_APPLY_EDIT, threeTerrain.call.applyTerrainEdit);
                         evt.dispatch(ENUMS.Event.SET_CAMERA_MODE, {mode:'world_display'})
                     }, 500)
 
@@ -90,8 +91,6 @@ class TerrainSystem {
             }
 
             threeTerrain.fetchGroundShadeTexture(txCallback)
-
-
 
         }
     }
