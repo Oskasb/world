@@ -9,7 +9,7 @@ import * as TerrainFunctions from "./TerrainFunctions.js";
 import * as CursorUtils from "../../camera/CursorUtils.js";
 import {poolReturn} from "../../../application/utils/PoolUtils.js";
 import { ImageLoader } from "../../../../libs/three/loaders/ImageLoader.js";
-import {fitHeightToAABB} from "./TerrainFunctions.js";
+import {applyGroundCanvasEdit, fitHeightToAABB} from "./TerrainFunctions.js";
 
 let scrubIndex = 0;
 
@@ -102,7 +102,10 @@ function applyTerrainEdit(edit) {
     console.log("applyTerrainEdit", edit);
 
     let params = terrainBigGeometry.getTerrainParams()
-    if (edit.operation !== "GROUND") {
+    if (edit.operation === "GROUND") {
+        TerrainFunctions.applyGroundCanvasEdit(edit, terrainBigGeometry.getGroundCanvas(), params.tx_width*2, params.tx_width*2 - 1);
+        terrainBigGeometry.updateGroundCanvasTexture();
+    } else {
         TerrainFunctions.applyTerrainCanvasEdit(edit, terrainBigGeometry.getHeightmapCanvas(), params.tx_width, params.tx_width - 1, params.minHeight, params.maxHeight);
         terrainBigGeometry.updateHeightmapCanvasTexture();
     }

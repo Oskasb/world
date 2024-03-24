@@ -930,6 +930,15 @@ MATH.rgbToHex = function(r, g, b) {
 	return "#" + (1 << 24 | r*255 << 16 | g*255 << 8 | b*255).toString(16).slice(1);
 }
 
+MATH.rgbaFromArray= function(array) {
+	return 'rgba('+Math.floor(array[0]*255)+','+Math.floor(array[1]*255)+','+Math.floor(array[2]*255)+', '+array[3]+')';
+}
+
+MATH.rgbaFromXYZW= function(values) {
+	return 'rgba('+Math.floor(values.x*255)+','+Math.floor(values.y*255)+','+Math.floor(values.z*255)+', '+values.w+')';
+}
+
+
 MATH.fitBoxAround = function(box, min, max) {
 
 	if (box.min.x > min.x) {

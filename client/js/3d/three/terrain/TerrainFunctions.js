@@ -372,6 +372,36 @@ function fitHeightToAABB(aabb, canvasContext, terrainSize, segments, minHeight, 
 
 }
 
+function applyGroundCanvasEdit(edit, canvasContext, terrainSize, segments) {
+    let pos = edit.pos;
+    let radius = edit.radius *2;
+    let sharpness = edit.sharpness;
+    let minAlpha = (edit.strength/100);
+    let biomeTable = edit.biome;
+
+    fillRgba[0] = Math.floor(biomeTable[0]*255);
+    fillRgba[1] = Math.floor(biomeTable[1]*255);
+    fillRgba[2] = Math.floor(biomeTable[2]*255);
+    fillRgba[3] = minAlpha;
+
+    let htP = terrainSize*1;
+    let htN = - htP;
+    let tx = displaceAxisDimensions(pos.x*4, htN, htP, segments);
+    let tz = displaceAxisDimensions(pos.z*4, htN, htP, segments);
+    canvasContext.globalCompositeOperation = 'source-over';
+
+    canvasContext.strokeStyle = "rgba(0, 0, 0, 0)";
+    let ctx = canvasContext;
+    const grd = ctx.createRadialGradient(tx, tz, 1 + (sharpness*radius*0.8), tx, tz, radius);
+    grd.addColorStop(0, "rgba("+fillRgba[0]+", "+fillRgba[1]+", "+fillRgba[2]+", "+fillRgba[3]+")");
+    grd.addColorStop(0.2+sharpness*0.6, "rgba("+fillRgba[0]+", "+fillRgba[1]+", "+fillRgba[2]+", "+fillRgba[3]*(0.5+sharpness*0.4)+")");
+    grd.addColorStop(1, "rgba("+fillRgba[0]+", "+fillRgba[1]+", "+fillRgba[2]+", 0)");
+
+// Draw a filled Rectangle
+    ctx.fillStyle = grd;
+    ctx.fillRect(tx-radius, tz-radius, radius*2, radius*2);
+}
+
 function applyTerrainCanvasEdit(edit, canvasContext, terrainSize, segments, minHeight, maxHeight) {
     console.log("applyTerrainEdit", edit);
     let pos = edit.pos;
@@ -405,8 +435,9 @@ function applyTerrainCanvasEdit(edit, canvasContext, terrainSize, segments, minH
 
     canvasContext.strokeStyle = "rgba(0, 0, 0, 0)";
     let ctx = canvasContext;
-    const grd = ctx.createRadialGradient(tx, tz, 1 + (sharpness*radius), tx, tz, radius);
+    const grd = ctx.createRadialGradient(tx, tz, 1 + (sharpness*radius*0.8), tx, tz, radius);
     grd.addColorStop(0, "rgba("+fillRgba[0]+", "+fillRgba[1]+", "+fillRgba[2]+", "+fillRgba[3]+")");
+    grd.addColorStop(0.2+sharpness*0.6, "rgba("+fillRgba[0]+", "+fillRgba[1]+", "+fillRgba[2]+", "+fillRgba[3]*(0.5+sharpness*0.4)+")");
     grd.addColorStop(1, "rgba("+fillRgba[0]+", "+fillRgba[1]+", "+fillRgba[2]+", 0)");
 
 // Draw a filled Rectangle
@@ -785,5 +816,6 @@ export {
     getGroundDataAt,
     shadeGroundCanvasAt,
     fitHeightToAABB,
-    applyTerrainCanvasEdit
+    applyTerrainCanvasEdit,
+    applyGroundCanvasEdit,
 }

@@ -11,7 +11,8 @@ let frustumFactor = 0.828;
 let tools = [
     "FLATTEN",
     "ADD",
-    "SUBTRACT"
+    "SUBTRACT",
+    "GROUND"
 ]
 
 let editEvent = {};
@@ -22,6 +23,7 @@ function operateEdit(tool, pos, statusMap) {
     editEvent.radius = statusMap.radius;
     editEvent.sharpness = statusMap.sharpness;
     editEvent.strength = statusMap.strength;
+    editEvent.biome = statusMap.biome;
     evt.dispatch(ENUMS.Event.TERRAIN_APPLY_EDIT, editEvent);
 }
 
@@ -34,7 +36,8 @@ class DomEditTerrain {
         this.statusMap = {
             radius:5,
             sharpness:0,
-            strength:25
+            strength:25,
+            biome:[0, 0, 0]
         };
 
         let visualEdgeCircle = null;
@@ -45,17 +48,15 @@ class DomEditTerrain {
 
         let htmlElem;
         let applyOperationDiv = null;
-        let selectedTool = "";
+        let selectedTool = "FLATTEN";
         let toolSelect = null;
+        let sampleBackdropDiv = null;
+        let sampleButtonDiv = null;
+        let biomeSelect = null;
 
+        let colorPanelDiv = null;
 
         let updateSelectedTool = function() {
-            console.log("updateSelectedOperation")
-            if (selectedTool === "") {
-                applyOperationDiv.style.opacity = "0.4";
-            } else {
-                applyOperationDiv.style.opacity = "1";
-            }
             applyOperationDiv.innerHTML = selectedTool;
         }
 
@@ -64,18 +65,30 @@ class DomEditTerrain {
             operateEdit(selectedTool, targetObj3d.position, statusMap)
         }
 
+        function applySampledGround() {
+            let hex = MATH.rgbToHex(groundData[0], groundData[1], groundData[2])
+            biomeSelect.value = hex;
+        }
 
         let htmlReady = function(htmlEl) {
             htmlElem = htmlEl;
             rootElem = htmlEl.call.getRootElement();
             htmlElem.call.populateSelectList('tool', tools)
             toolSelect = htmlElem.call.getChildElement('tool');
+            sampleBackdropDiv = htmlElem.call.getChildElement('sample_backdrop');
+            sampleButtonDiv = htmlElem.call.getChildElement('sample');
             applyOperationDiv = htmlElem.call.getChildElement('apply_tool');
+            colorPanelDiv = htmlElem.call.getChildElement('color_panel');
+            colorPanelDiv.style.display = "none";
+            biomeSelect = htmlElem.call.getChildElement('biome');
             DomUtils.addClickFunction(applyOperationDiv, applyOperation);
+            DomUtils.addClickFunction(sampleButtonDiv, applySampledGround);
             visualEdgeCircle = poolFetch('VisualEdgeCircle')
             visualEdgeCircle.on();
             ThreeAPI.registerPrerenderCallback(update);
         }
+
+        let groundData = [0, 0, 0, 0];
 
         let update = function() {
         //    rootElem.style.transition = 'none';
@@ -84,10 +97,21 @@ class DomEditTerrain {
             visualEdgeCircle.setRadius(statusMap.radius);
 
             if (toolSelect.value !== selectedTool) {
+                if (selectedTool === "GROUND") {
+                    colorPanelDiv.style.display = "none";
+                }
+
                 selectedTool = toolSelect.value
                 updateSelectedTool()
+                if (selectedTool === "GROUND") {
+                    colorPanelDiv.style.display = "block";
+                }
             }
 
+            if (selectedTool === "GROUND") {
+                ThreeAPI.terrainAt(targetObj3d.position, null, groundData);
+                sampleBackdropDiv.style.backgroundColor = MATH.rgbaFromArray(groundData);
+            }
 
 
         };
