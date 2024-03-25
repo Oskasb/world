@@ -851,9 +851,7 @@ function CAM_EDIT() {
 
     let cursorPos = ThreeAPI.getCameraCursor().getPos()
     ThreeAPI.getCameraCursor().getLookAroundPoint().copy(cursorPos);
-    if (selectedActor) {
-        selectedActor.setSpatialPosition(cursorPos);
-    }
+
 
     let controlValues = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.CONTROL_VALUES);
     let zoom = 2 + GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_ZOOM)*100;
@@ -925,6 +923,13 @@ function CAM_EDIT() {
      //   evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:selectedActor.getSpatialPosition(), to:tempVec2, color:'GREEN'});
         camPosVec.lerp(tempVec2, tpf * camFollowSpeed);
         lerpCameraPosition(camPosVec, tpf*2, testObscured );
+
+    if (selectedActor) {
+        let pos = selectedActor.getSpatialPosition();
+        selectedActor.setSpatialVelocity(pos.sub(cursorPos).multiplyScalar(-1))
+        selectedActor.setSpatialPosition(cursorPos);
+        selectedActor.actorObj3d.position.copy(cursorPos);
+    }
 
 
 }

@@ -215,6 +215,12 @@ class DomEditLocations {
             console.log([worldModels, locationsData]);
             ThreeAPI.registerPrerenderCallback(update);
             updateSelectedTool();
+
+            let selectedActor = GameAPI.getGamePieceSystem().selectedActor;
+            if (selectedActor) {
+                selectedActor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_INACTIVE)
+            }
+
         }
 
         let visibleWorldModels = [];
@@ -330,6 +336,12 @@ class DomEditLocations {
             while (locationModelDivs.length) {
                 DomUtils.removeDivElement(locationModelDivs.pop());
             }
+
+            let selectedActor = GameAPI.getGamePieceSystem().selectedActor;
+            if (selectedActor) {
+                selectedActor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_WALK)
+            }
+
         }
 
         this.call = {

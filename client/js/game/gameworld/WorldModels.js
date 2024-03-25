@@ -244,7 +244,9 @@ class WorldModels {
         evt.on(ENUMS.Event.LOAD_ADVENTURE_ENCOUNTERS, activateWorldEncounters)
     }
 
-
+    getEncounterConfigs() {
+        return encounterConfigs;
+    }
 
     deactivateEncounters() {
         deactivateWorldEncounters()
@@ -256,6 +258,10 @@ class WorldModels {
 
     getActiveWorldModels() {
         return worldModels;
+    }
+
+    getWorldEncounters() {
+        return worldEncounters;
     }
 
     getDynamicSpawnPoints() {

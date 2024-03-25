@@ -34,11 +34,17 @@ div.button {
     padding: 0.2em;
     text-align: center;
     transform: translate(-50%, -50%);
-    color: white;
+    color: #ffe6bf;
     position: absolute;
     border-radius: 0.4em;
-    border: 0.1em solid #d37b4f;
-    background-color: rgba(86, 28, 0, 0.55);
+    border: 0.1em solid #f1a535;
+    background-color: rgba(108, 71, 0, 0.5);
+}
+
+div.button_encounter_edit {W
+    color: #f693ae;
+    border: 0.1em solid #ff0c26;
+    background-color: rgba(101, 0, 0, 0.5);
 }
 
 .general_map {

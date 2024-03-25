@@ -225,10 +225,10 @@ class PlayerMain {
             MATH.copyArrayValues(e.world_encounters, world_encounters);
             let worldLevel = e.world_level;
             world_encounters.push("portals_"+e.world_level)
+
             if (e.worldEncounter) {
                 e.worldEncounter.hideWorldEncounter()
             }
-
 
             evt.dispatch(ENUMS.Event.LOAD_ADVENTURE_ENCOUNTERS, {world_encounters:[]})
 

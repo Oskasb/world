@@ -1117,7 +1117,6 @@ div.terrain_slider input[type="range"]  {
     box-shadow: 0 0 0.6em rgb(0, 35, 40);
 }
 
-
 div.anchor_close_cursor {
     z-index: 100;
     position: absolute;
@@ -1128,5 +1127,4 @@ div.anchor_close_cursor {
     width: 0;
     height: 0;
     font-size: 2.6em;
-
 }
