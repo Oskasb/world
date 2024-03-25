@@ -239,6 +239,7 @@ let detachSection = function(index) {
   //  activeOcean[index] = null;
 }
 
+let physicsUpdateTimeout;
 let visibilityList = [];
 let visibleCount = 0;
 let updateBigGeo = function(tpf) {
@@ -304,7 +305,10 @@ let updateBigGeo = function(tpf) {
         terrainMaterial.heightmap.needsUpdate = true;
         heightmap = heightmapContext.getImageData(0, 0, width, height).data;
         terrainUpdate = false;
-        setupAmmoTerrainBody(heightmap, terrainConfig)
+        clearTimeout(physicsUpdateTimeout);
+        physicsUpdateTimeout = setTimeout(function() {
+            setupAmmoTerrainBody(heightmap, terrainConfig)
+        }, 1000)
     }
 
 }

@@ -98,6 +98,7 @@ class Vegetation {
         }.bind(this);
 
         let setupLodGrids = function(cfg, plantsConfig) {
+        //    console.log("setupLodGrids")
             while (this.vegetationLodGrids.length) {
                 let grid = this.vegetationLodGrids.pop();
                 grid.deactivateLodGrid()

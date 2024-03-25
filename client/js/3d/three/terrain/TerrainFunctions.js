@@ -393,9 +393,10 @@ function applyGroundCanvasEdit(edit, canvasContext, terrainSize, segments) {
     canvasContext.strokeStyle = "rgba(0, 0, 0, 0)";
     let ctx = canvasContext;
     const grd = ctx.createRadialGradient(tx, tz, 1 + (sharpness*radius*0.8), tx, tz, radius);
-    grd.addColorStop(0, "rgba("+fillRgba[0]+", "+fillRgba[1]+", "+fillRgba[2]+", "+fillRgba[3]+")");
-    grd.addColorStop(0.2+sharpness*0.6, "rgba("+fillRgba[0]+", "+fillRgba[1]+", "+fillRgba[2]+", "+fillRgba[3]*(0.5+sharpness*0.4)+")");
+
     grd.addColorStop(1, "rgba("+fillRgba[0]+", "+fillRgba[1]+", "+fillRgba[2]+", 0)");
+    grd.addColorStop(0.2+sharpness*0.6, "rgba("+fillRgba[0]+", "+fillRgba[1]+", "+fillRgba[2]+", "+fillRgba[3]*(0.5+sharpness*0.4)+")");
+    grd.addColorStop(0, "rgba("+fillRgba[0]+", "+fillRgba[1]+", "+fillRgba[2]+", "+fillRgba[3]+")");
 
 // Draw a filled Rectangle
     ctx.fillStyle = grd;
@@ -410,24 +411,28 @@ function applyTerrainCanvasEdit(edit, canvasContext, terrainSize, segments, minH
     let targetY = pos.y;
     let operation = edit.operation;
     let sharpness = edit.sharpness;
-    let gco = 'source_over';
+    let gco = 'source-over';
     let minAlpha = (edit.strength/100);
 
     if (operation === "SUBTRACT") {
-        targetY -= (edit.strength / 10)+0.5;
-    }
-    let heightFraction = MATH.calcFraction( minHeight, maxHeight, targetY);
-
-    if (operation === "ADD") {
-        minAlpha *= 0.1;
+        minAlpha = MATH.clamp(minAlpha*0.5, 0.01,1);
+        fillRgba[0] = 0;
+        fillRgba[1] = 255;
+        fillRgba[2] = 255;
+        gco = 'darken'
+    } else if (operation === "ADD") {
+        minAlpha = MATH.clamp(minAlpha*0.1, 0.01,1);
         fillRgba[0] = 255;
+        fillRgba[1] = 0;
+        fillRgba[2] = 0;
         gco = 'lighten'
     } else {
+        let heightFraction = MATH.calcFraction( minHeight, maxHeight, targetY);
         fillRgba[0] = Math.floor(heightFraction*255);
+        fillRgba[1] = 0;
+        fillRgba[2] = 0;
     }
 
-    fillRgba[1] = 0;
-    fillRgba[2] = 0;
     fillRgba[3] = minAlpha;
 
     let htP = terrainSize*1;
