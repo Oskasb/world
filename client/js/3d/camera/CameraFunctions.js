@@ -896,9 +896,8 @@ function CAM_EDIT() {
         tempVec.set(-controlValues['CONTROL_STRAFE'], 0, controlValues['CONTROL_FORWARD']);
         tempVec.applyQuaternion(tempObj.quaternion);
         cursorPos.add(tempVec);
-        cursorPos.y = ThreeAPI.terrainAt(cursorPos);
     }
-
+    cursorPos.y = ThreeAPI.terrainAt(cursorPos);
 
         zoomDistance = 0.1 + MATH.curveQuad(distance*0.2);
         tempVec3.copy(cursorPos);
