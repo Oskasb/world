@@ -372,6 +372,13 @@ function fitHeightToAABB(aabb, canvasContext, terrainSize, segments, minHeight, 
 
 }
 
+let updateRect = {
+    minX:0,
+    minY:0,
+    maxX:0,
+    maxY:0
+}
+
 function applyGroundCanvasEdit(edit, canvasContext, terrainSize, segments) {
     let pos = edit.pos;
     let radius = edit.radius *2;
@@ -386,8 +393,8 @@ function applyGroundCanvasEdit(edit, canvasContext, terrainSize, segments) {
 
     let htP = terrainSize*1;
     let htN = - htP;
-    let tx = displaceAxisDimensions(pos.x*4, htN, htP, segments);
-    let tz = displaceAxisDimensions(pos.z*4, htN, htP, segments);
+    let tx = Math.floor(displaceAxisDimensions(pos.x*4, htN, htP, segments));
+    let tz = Math.floor(displaceAxisDimensions(pos.z*4, htN, htP, segments));
     canvasContext.globalCompositeOperation = 'source-over';
 
     canvasContext.strokeStyle = "rgba(0, 0, 0, 0)";
@@ -399,8 +406,13 @@ function applyGroundCanvasEdit(edit, canvasContext, terrainSize, segments) {
     grd.addColorStop(0, "rgba("+fillRgba[0]+", "+fillRgba[1]+", "+fillRgba[2]+", "+fillRgba[3]+")");
 
 // Draw a filled Rectangle
+    updateRect.minX = Math.floor(tx-radius);
+    updateRect.minY = Math.floor(tz-radius);
+    updateRect.maxX = Math.floor(tx+radius);
+    updateRect.maxY = Math.floor(tz+radius);
     ctx.fillStyle = grd;
-    ctx.fillRect(tx-radius, tz-radius, radius*2, radius*2);
+    ctx.fillRect(Math.floor(tx-radius), Math.floor(tz-radius), Math.floor(radius*2), Math.floor(radius*2));
+    return updateRect;
 }
 
 function applyTerrainCanvasEdit(edit, canvasContext, terrainSize, segments, minHeight, maxHeight) {
@@ -437,8 +449,8 @@ function applyTerrainCanvasEdit(edit, canvasContext, terrainSize, segments, minH
 
     let htP = terrainSize*1;
     let htN = - htP;
-    let tx = displaceAxisDimensions(pos.x*2, htN, htP, segments);
-    let tz = displaceAxisDimensions(pos.z*2, htN, htP, segments);
+    let tx = Math.floor(displaceAxisDimensions(pos.x*2, htN, htP, segments));
+    let tz = Math.floor(displaceAxisDimensions(pos.z*2, htN, htP, segments));
     canvasContext.globalCompositeOperation = gco;
 
     canvasContext.strokeStyle = "rgba(0, 0, 0, 0)";
@@ -446,11 +458,19 @@ function applyTerrainCanvasEdit(edit, canvasContext, terrainSize, segments, minH
     const grd = ctx.createRadialGradient(tx, tz, 1 + (sharpness*radius*0.8), tx, tz, radius);
     grd.addColorStop(0, "rgba("+fillRgba[0]+", "+fillRgba[1]+", "+fillRgba[2]+", "+fillRgba[3]+")");
     grd.addColorStop(0.2+sharpness*0.6, "rgba("+fillRgba[0]+", "+fillRgba[1]+", "+fillRgba[2]+", "+fillRgba[3]*(0.5+sharpness*0.4)+")");
+    grd.addColorStop(0.9, "rgba("+fillRgba[0]+", "+fillRgba[1]+", "+fillRgba[2]+", 0)");
     grd.addColorStop(1, "rgba("+fillRgba[0]+", "+fillRgba[1]+", "+fillRgba[2]+", 0)");
 
 // Draw a filled Rectangle
+
+    updateRect.minX =  Math.floor(tx-radius);
+    updateRect.minY =  Math.floor(tz-radius);
+    updateRect.maxX =  Math.floor(tx+radius);
+    updateRect.maxY =  Math.floor(tz+radius);
+
     ctx.fillStyle = grd;
-    ctx.fillRect(tx-radius, tz-radius, radius*2, radius*2);
+    ctx.fillRect(Math.floor(tx-radius), Math.floor(tz-radius), Math.floor(radius*2), Math.floor(radius*2));
+    return updateRect;
 }
 
 let shadeGroundCanvasAt = function(pos, canvasContext, terrainSize, segments, size, channelIndex, operation, intensity) {

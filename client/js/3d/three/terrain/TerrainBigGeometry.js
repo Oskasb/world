@@ -37,6 +37,9 @@ let oceanInstances = [];
 
 let globalUpdateFrame = 0;
 
+let groundUpdateRect = {}
+let heightUpdateRect = {}
+
 let worldLevels = {}
 
 let setupHeightmapData = function(originalModelMat) {
@@ -120,6 +123,8 @@ let setupHeightmapData = function(originalModelMat) {
 
     registerWorldLevel("20");
     addWorldLevelMaterial("20", terrainMaterial)
+    MATH.clearUpdateRect(groundUpdateRect);
+    MATH.clearUpdateRect(heightUpdateRect);
     /*
         setTimeout(function() {
             terrainmap = terrainContext.getImageData(0, 0, terrainWidth, terrainHeight).data;
@@ -302,13 +307,19 @@ let updateBigGeo = function(tpf) {
     }
 
     if (terrainUpdate) {
-        terrainMaterial.heightmap.needsUpdate = true;
+
+        if (heightUpdateRect.maxX !== 0) {
+            ThreeAPI.canvasTextureSubUpdate(terrainMaterial.heightmap, heightmapContext, heightUpdateRect)
+            MATH.clearUpdateRect(heightUpdateRect);
+        } else {
+            terrainMaterial.heightmap.needsUpdate = true;
+        }
         heightmap = heightmapContext.getImageData(0, 0, width, height).data;
         terrainUpdate = false;
         clearTimeout(physicsUpdateTimeout);
         physicsUpdateTimeout = setTimeout(function() {
             setupAmmoTerrainBody(heightmap, terrainConfig)
-        }, 1000)
+        }, 400)
     }
 
 }
@@ -371,6 +382,8 @@ function setTerrainDataImage(imgData, worldLevel) {
     fillContextWithImage(terrainContext, imgData)
 }
 
+let groundUpdateTimeout = null;
+
 class TerrainBigGeometry {
     constructor() {
         this.call = {
@@ -426,14 +439,21 @@ class TerrainBigGeometry {
         return terrainmap;
     }
 
-    updateGroundCanvasTexture() {
-        //    console.log(terrainMaterial)
-        terrainMaterial.uniforms.terrainmap.value = terrainMaterial.terrainmap;
-        terrainMaterial.terrainmap.needsUpdate = true;
-        terrainMaterial.uniforms.terrainmap.needsUpdate = true;
-        terrainMaterial.uniformsNeedUpdate = true;
-        terrainMaterial.needsUpdate = true;
+    updateGroundCanvasTexture(updateRect) {
+
+        if (typeof (updateRect) === 'object') {
+            ThreeAPI.canvasTextureSubUpdate(terrainMaterial.terrainmap, terrainContext, updateRect);
+        } else {
+            terrainMaterial.uniforms.terrainmap.value = terrainMaterial.terrainmap;
+            terrainMaterial.terrainmap.needsUpdate = true;
+            terrainMaterial.uniforms.terrainmap.needsUpdate = true;
+            terrainMaterial.uniformsNeedUpdate = true;
+            terrainMaterial.needsUpdate = true;
+        }
+        clearTimeout(groundUpdateTimeout);
+        groundUpdateTimeout = setTimeout(function() {
         groundUpdate = true;
+        }, 10);
     }
 
     getTerrainMaterial() {
@@ -441,7 +461,14 @@ class TerrainBigGeometry {
     }
 
 
-    updateHeightmapCanvasTexture() {
+    updateHeightmapCanvasTexture(updateRect) {
+
+        if (typeof (updateRect) === 'object') {
+            if (typeof (updateRect) === 'object') {
+                MATH.fitUpdateRect(updateRect, heightUpdateRect);
+            }
+        }
+
         //    if (MATH.isEvenNumber(GameAPI.getFrame().frame * 0.25)) {
         terrainUpdate = true;
         //    }

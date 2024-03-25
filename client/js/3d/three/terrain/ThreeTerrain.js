@@ -103,11 +103,11 @@ function applyTerrainEdit(edit) {
 
     let params = terrainBigGeometry.getTerrainParams()
     if (edit.operation === "GROUND") {
-        TerrainFunctions.applyGroundCanvasEdit(edit, terrainBigGeometry.getGroundCanvas(), params.tx_width*2, params.tx_width*2 - 1);
-        terrainBigGeometry.updateGroundCanvasTexture();
+        let updateRect = TerrainFunctions.applyGroundCanvasEdit(edit, terrainBigGeometry.getGroundCanvas(), params.tx_width*2, params.tx_width*2 - 1);
+        terrainBigGeometry.updateGroundCanvasTexture(updateRect);
     } else {
-        TerrainFunctions.applyTerrainCanvasEdit(edit, terrainBigGeometry.getHeightmapCanvas(), params.tx_width, params.tx_width - 1, params.minHeight, params.maxHeight);
-        terrainBigGeometry.updateHeightmapCanvasTexture();
+        let updateRect = TerrainFunctions.applyTerrainCanvasEdit(edit, terrainBigGeometry.getHeightmapCanvas(), params.tx_width, params.tx_width - 1, params.minHeight, params.maxHeight);
+        terrainBigGeometry.updateHeightmapCanvasTexture(updateRect);
     }
 
 }

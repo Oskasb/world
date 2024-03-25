@@ -500,12 +500,29 @@ class ThreeAPI {
             for (let val in values) {
                 this.globalUniforms[uniformKey].value[val] = values[val];
             }
-
-
         }
     };
 
+    updateCanvasTextureSubImage(texture,  x, y, w, h, imageData) {
+        //   console.log("updateCanvasTextureSubImage", texture, imageData)
+        let renderer = this.getRenderer();
+        let gl = renderer.getContext();
+        let textureProperties = renderer.properties.get( texture );
+        gl.bindTexture( gl.TEXTURE_2D, textureProperties.__webglTexture, gl.TEXTURE0);
+        gl.pixelStorei( gl.UNPACK_FLIP_Y_WEBGL, texture.flipY );
+        //   console.log(gl, texture, textureProperties, imageData, gl.RGBA, gl.UNSIGNED_BYTE);
+        gl.texSubImage2D(gl.TEXTURE_2D, 0, x, y, w, h, gl.RGBA, gl.UNSIGNED_BYTE, imageData)
+    }
 
+    canvasTextureSubUpdate(texture, sourceCtx, updateRect) {
+        let x = updateRect.minX;
+        let y = updateRect.minY;
+        let w= updateRect.maxX - x;
+        let h = updateRect.maxY - y;
+        let subImage = sourceCtx.getImageData(x, y, w, h).data;
+        console.log(updateRect, w, h, subImage);
+        this.updateCanvasTextureSubImage(texture, x, y, w, h, subImage)
+    }
 
     registerDynamicGlobalUniform = function(uniformKey, values) {
 

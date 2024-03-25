@@ -979,4 +979,29 @@ MATH.roundVectorPlane = function(sourceVec, targetVec, resolution) {
 	targetVec.set(Math.round(sourceVec.x/resolution)*resolution, sourceVec.y, Math.round(sourceVec.z/resolution)*resolution)
 }
 
+MATH.fitUpdateRect = function(source, target) {
+	if (source.minX < target.minX) {
+		target.minX = source.minX;
+	}
+
+	if (source.minY < target.minY) {
+		target.minY = source.minY;
+	}
+
+	if (source.maxX > target.maxX) {
+		target.maxX = source.maxX;
+	}
+
+	if (source.maxY > target.maxY) {
+		target.maxY = source.maxY;
+	}
+}
+
+MATH.clearUpdateRect = function(updateRect) {
+	updateRect.minX = 99999;
+	updateRect.minY = 99999;
+	updateRect.maxX = 0;
+	updateRect.maxY = 0;
+}
+
 export { MATH }
