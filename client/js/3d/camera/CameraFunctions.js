@@ -850,7 +850,7 @@ function CAM_MOVE() {
 function CAM_EDIT() {
 
     let cursorPos = ThreeAPI.getCameraCursor().getPos()
-
+    ThreeAPI.getCameraCursor().getLookAroundPoint().copy(cursorPos);
     if (selectedActor) {
         selectedActor.setSpatialPosition(cursorPos);
     }

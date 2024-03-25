@@ -13,6 +13,7 @@ import * as THREE from '../../libs/three/Three.js';
 import { ThreeController } from '../3d/ThreeController.js';
 import { DynamicMain } from '../3d/DynamicMain.js';
 import {initPools, registerPool} from "./utils/PoolUtils.js";
+import {updateKeyboardFrame, updateKeyState} from "./ui/input/KeyboardState.js";
 
 
 let frame = {
@@ -65,6 +66,15 @@ class Client {
         this.threeController.setupThreeRenderer();
 
         //     console.log(this.INPUT_STATE);
+        setTimeout(function() {
+            window.addEventListener('keydown', function(event) {
+                updateKeyState(event.key, true, event);
+            });
+
+            window.addEventListener('keyup', function(event) {
+                updateKeyState(event.key, false, event);
+            });
+        }, 100)
 
     }
 
@@ -126,6 +136,7 @@ class Client {
 
         function triggerFrame() {
             frame.frame ++;
+            updateKeyboardFrame(frame.frame);
             frame.tpf = MATH.clamp(clock.getDelta(), 0, 0.5);
             frame.avgTpf = ThreeAPI.getSetup().avgTpf;
             frame.elapsedTime = clock.elapsedTime;

@@ -965,5 +965,18 @@ MATH.fitBoxAround = function(box, min, max) {
 	}
 }
 
+MATH.planePointsBetweenVectors = function(a, b) {
+	let xDiff = Math.abs(a.x - b.x);
+	let zDiff = Math.abs(a.z - b.z);
+	if (xDiff > zDiff) {
+		return xDiff;
+	} else {
+		return zDiff;
+	}
+}
+
+MATH.roundVectorPlane = function(sourceVec, targetVec, resolution) {
+	targetVec.set(Math.round(sourceVec.x/resolution)*resolution, sourceVec.y, Math.round(sourceVec.z/resolution)*resolution)
+}
 
 export { MATH }

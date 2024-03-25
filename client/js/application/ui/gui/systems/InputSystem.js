@@ -15,18 +15,19 @@ class InputSystem {
 
         let _this = this;
 
-        var onInputSetting = function(src, data) {
+        let onInputSetting = function(src, data) {
             _this.uiSysId = src;
             GuiAPI.addUiSystem(src, data.config["sprite_atlas"],  data.config["mesh_asset"],   data.config["pool_size"], data.config["render_order"]);
             callback();
         };
 
-        var backplates = function(src, data) {
+        let backplates = function(src, data) {
             GuiAPI.addUiSystem(src, data.config["sprite_atlas"],  data.config["mesh_asset"],   data.config["pool_size"], data.config["render_order"]);
             GuiAPI.getGuiSettings().initGuiSettings(["UI_ELEMENTS_MAIN"], onInputSetting);
         };
 
         GuiAPI.getGuiSettings().initGuiSettings(["UI_ELEMENTS_BACK"], backplates);
+
 
 
     };

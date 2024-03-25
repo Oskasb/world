@@ -1,4 +1,5 @@
 import {HtmlElement} from "./HtmlElement.js";
+import {updateKeyState} from "../input/KeyboardState.js";
 
 let defaultAdsr = {
     attack: {duration:0.9, from:0, to: 1.2, easing:"cubic-bezier(0.7, 0.2, 0.85, 1.15)"},

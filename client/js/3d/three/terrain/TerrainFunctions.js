@@ -410,19 +410,22 @@ function applyTerrainCanvasEdit(edit, canvasContext, terrainSize, segments, minH
     let targetY = pos.y;
     let operation = edit.operation;
     let sharpness = edit.sharpness;
-    if (operation === "ADD") {
-        targetY += edit.strength / 10;
-    }
-    if (operation === "SUBTRACT") {
-        targetY -= edit.strength / 10;
-    }
-
-    let heightFraction = MATH.calcFraction( minHeight, maxHeight, targetY);
+    let gco = 'source_over';
     let minAlpha = (edit.strength/100);
 
+    if (operation === "SUBTRACT") {
+        targetY -= (edit.strength / 10)+0.5;
+    }
+    let heightFraction = MATH.calcFraction( minHeight, maxHeight, targetY);
 
+    if (operation === "ADD") {
+        minAlpha *= 0.1;
+        fillRgba[0] = 255;
+        gco = 'lighten'
+    } else {
+        fillRgba[0] = Math.floor(heightFraction*255);
+    }
 
-    fillRgba[0] = Math.floor(heightFraction*255);
     fillRgba[1] = 0;
     fillRgba[2] = 0;
     fillRgba[3] = minAlpha;
@@ -431,7 +434,7 @@ function applyTerrainCanvasEdit(edit, canvasContext, terrainSize, segments, minH
     let htN = - htP;
     let tx = displaceAxisDimensions(pos.x*2, htN, htP, segments);
     let tz = displaceAxisDimensions(pos.z*2, htN, htP, segments);
-    canvasContext.globalCompositeOperation = 'source-over';
+    canvasContext.globalCompositeOperation = gco;
 
     canvasContext.strokeStyle = "rgba(0, 0, 0, 0)";
     let ctx = canvasContext;

@@ -1,5 +1,6 @@
 import {InputActionListener} from './InputActionListener.js';
 
+
 let progInputState;
 class ElementListeners {
 
@@ -28,6 +29,8 @@ class ElementListeners {
             }
         }
 
+
+
         this.call = {
             updateLongPressProgress:updateLongPressProgress
         }
@@ -48,6 +51,7 @@ class ElementListeners {
         let passive = {passive: false}
 
         if (!window.isMobile) {
+
 
 
             this.gameScreen.getElement().addEventListener('mousemove', function (e) {

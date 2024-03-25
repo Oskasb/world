@@ -40,6 +40,8 @@ class UiSetup {
 
             GuiAPI.getInputSystem().initInputSystem(inputReady);
 
+
+
         };
 
         setupDefaultUi = function() {

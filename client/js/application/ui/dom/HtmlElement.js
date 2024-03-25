@@ -1,3 +1,4 @@
+import {updateKeyState} from "../input/KeyboardState.js";
 
 let index = 0;
 
@@ -201,6 +202,16 @@ class HtmlElement {
             let iframeDocument = this.container.contentDocument || this.container.contentWindow.document;
         //    DomUtils.applyStyleToAllDivs(iframeDocument, 'transform', "translate3d(0, 0, 2pt)")
             this.container.style.transform = "rotate3d(1, 0, 0, 1.0rad) translate3d(0, 400em, 0)";
+
+            setTimeout(function() {
+                iframeDocument.addEventListener('keydown', function(event) {
+                    updateKeyState(event.key, true, event);
+                });
+
+                iframeDocument.addEventListener('keyup', function(event) {
+                    updateKeyState(event.key, false, event);
+                });
+            }, 100)
 
             this.container.style.scale = 0;
             this.call.setIframe(iframeDocument);
