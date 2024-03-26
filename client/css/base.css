@@ -41,7 +41,7 @@ div.button {
     background-color: rgba(108, 71, 0, 0.5);
 }
 
-div.button_encounter_edit {W
+div.button_encounter_edit {
     color: #f693ae;
     border: 0.1em solid #ff0c26;
     background-color: rgba(101, 0, 0, 0.5);
@@ -104,17 +104,31 @@ iframe.edit_frame {
     background: none;
 }
 
+iframe.edit_env {
+    left: 20em;
+    top: 130em;
+    height: 250em;
+}
+
 iframe.edit_terrain {
-    left: 220em;
+    left: 20em;
+    top: 130em;
     height: 350em;
 }
 
 iframe.edit_location {
-    left: 440em;
+    left: 20em;
+    top: 130em;
+}
+
+iframe.edit_grid {
+    left: 20em;
+    top: 250em;
 }
 
 iframe.edit_encounter {
-    left: 660em;
+    left: 20em;
+    top: 130em;
 }
 
 iframe.palette_frame {

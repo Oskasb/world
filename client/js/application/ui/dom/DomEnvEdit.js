@@ -2,18 +2,20 @@ import {poolFetch, poolReturn} from "../../utils/PoolUtils.js";
 
 class DomEnvEdit {
     constructor() {
-
+        this.statusMap = {};
     }
 
-    initDomEnvEdit(statusMap, closeCb) {
+    setStatusMap(statusMap) {
+        this.statusMap = statusMap;
+    }
+
+    initEditTool(closeCb) {
         this.htmlElement = poolFetch('HtmlElement')
-        console.log("initDomEnvEdit", statusMap);
-        this.htmlElement.initHtmlElement('env_edit', closeCb, statusMap, 'edit_frame');
-        this.htmlElement.hideOtherRootElements();
+        console.log("initDomEnvEdit");
+        this.htmlElement.initHtmlElement('env_edit', closeCb, this.statusMap, 'edit_frame edit_env');
     }
 
-    closeDomEnvEdit() {
-        this.htmlElement.revealHiddenRootElements();
+    closeEditTool() {
         this.htmlElement.closeHtmlElement();
         poolReturn(this.htmlElement);
         this.htmlElement = null;

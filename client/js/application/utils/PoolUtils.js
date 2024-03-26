@@ -45,6 +45,8 @@ import {DomEditTerrain} from "../ui/dom/DomEditTerrain.js";
 import {DomEditEncounter} from "../ui/dom/DomEditEncounter.js";
 import {DomEditLocation} from "../ui/dom/DomEditLocation.js";
 import {VisualEdgeCircle} from "../../game/visuals/VisualEdgeCircle.js";
+import {DomEditGrid} from "../ui/dom/DomEditGrid.js";
+import {EncounterGrid} from "../../game/encounter/EncounterGrid.js";
 
 
 let pools = {}
@@ -96,6 +98,8 @@ function initPools() {
     registerPool(DomEditEncounter)
     registerPool(DomEditLocation)
     registerPool(VisualEdgeCircle)
+    registerPool(DomEditGrid)
+    registerPool(EncounterGrid)
 }
 
 function registerPool(DataObj) {

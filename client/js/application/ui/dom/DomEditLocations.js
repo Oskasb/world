@@ -17,7 +17,7 @@ let domEditTerrain = null;
 let domEditEncounter = null;
 let domEditLocation = null;
 let selectedTool = "MODELS";
-let activeTools = [selectedTool]
+let activeTools = []
 
 let inputWidget = [];
 let inputSamplers = [];
@@ -106,68 +106,40 @@ let inputConfigs = [
     }
 ]
 
+function operateTool(tool, closeCB) {
 
-function operateTool(tool) {
-    if (activeTools.indexOf(tool) === -1) {
-        activeTools.push(tool);
-    } else {
-        MATH.splice(activeTools, tool);
+    while (activeTools.length) {
+        let editTool = activeTools.pop();
+        editTool.closeEditTool();
+        poolReturn(editTool);
     }
 
-    if (tool === "ENVIRNMNT") {
-        let closeCB = function() {
-            domEnvEdit.closeDomEnvEdit();
-            poolReturn(domEnvEdit);
-            domEnvEdit = null;
-        }
+    if (tool === "MODELS" || tool === "--select--" || tool === "") {
+        return;
+    }
 
-        if (domEnvEdit === null) {
-            domEnvEdit = poolFetch('DomEnvEdit');
-            domEnvEdit.initDomEnvEdit(ThreeAPI.getEnvironment().getStatusMap(), closeCB);
-        }
+    let activateTool;
+
+    if (tool === "ENVIRNMNT") {
+        activateTool = poolFetch('DomEnvEdit');
+        activateTool.setStatusMap(ThreeAPI.getEnvironment().getStatusMap())
     }
 
     if (tool === "TERRAIN") {
-        let closeCB = function() {
-            domEditTerrain.closeDomEditTerrain();
-            poolReturn(domEditTerrain);
-            domEditTerrain = null;
-        }
-
-        if (domEditTerrain === null) {
-            domEditTerrain = poolFetch('DomEditTerrain');
-            domEditTerrain.initDomEditTerrain(closeCB);
-        }
+        activateTool = poolFetch('DomEditTerrain');
     }
 
     if (tool === "LOCATION") {
-        let closeCB = function() {
-            domEditLocation.closeDomEditLocation();
-            poolReturn(domEditLocation);
-            domEditLocation = null;
-        }
-
-        if (domEditLocation === null) {
-            domEditLocation = poolFetch('DomEditLocation');
-            domEditLocation.initDomEditLocation(closeCB);
-        }
+        activateTool = poolFetch('DomEditLocation');
     }
 
     if (tool === "ENCOUNTER") {
-        let closeCB = function() {
-            domEditEncounter.closeDomEditEncounter();
-            poolReturn(domEditEncounter);
-            domEditEncounter = null;
-        }
-
-        if (domEditEncounter === null) {
-            domEditEncounter = poolFetch('DomEditEncounter');
-            domEditEncounter.initDomEditEncounter(closeCB);
-        }
+        activateTool = poolFetch('DomEditEncounter');
     }
+    activateTool.initEditTool(closeCB);
+    activeTools.push(activateTool)
 
 }
-
 
 let toolsList = [
     "MODELS",
@@ -184,37 +156,25 @@ class DomEditLocations {
         };
 
         let statusMap = this.statusMap;
-        let applyToolDiv = null;
         let toolSelectDiv = null;
 
-
-        let updateSelectedTool = function() {
-            console.log("updateSelectedTool")
-            if (selectedTool === "") {
-                applyToolDiv.style.opacity = "0.4";
-                applyToolDiv.innerHTML = 'Select Tool';
-            } else {
-                applyToolDiv.style.opacity = "1";
-                applyToolDiv.innerHTML = selectedTool;
-            }
-
+        function toolClosedCB() {
+            toolSelectDiv.value = "";
         }
 
         let applyTool = function() {
-            operateTool(statusMap.tool);
+            operateTool(statusMap.tool, toolClosedCB);
         }
 
         let htmlReady = function(htmlElem) {
 
             let locationsData = GameAPI.worldModels.getActiveLocationData();
             let worldModels = GameAPI.worldModels.getActiveWorldModels();
-            applyToolDiv = htmlElem.call.getChildElement('apply_tool');
             toolSelectDiv = htmlElem.call.getChildElement('tool');
             htmlElem.call.populateSelectList('tool', toolsList)
-            DomUtils.addClickFunction(applyToolDiv, applyTool)
             console.log([worldModels, locationsData]);
             ThreeAPI.registerPrerenderCallback(update);
-            updateSelectedTool();
+            applyTool();
 
             let selectedActor = GameAPI.getGamePieceSystem().selectedActor;
             if (selectedActor) {
@@ -285,12 +245,12 @@ class DomEditLocations {
             if (toolSelectDiv.value !== selectedTool) {
                 statusMap.tool = toolSelectDiv.value
                 selectedTool = statusMap.tool;
-                updateSelectedTool()
+                applyTool()
             }
 
             MATH.emptyArray(visibleWorldModels);
 
-            if (activeTools.indexOf("MODELS") !== -1) {
+            if (selectedTool === "MODELS") {
                 let worldModels = GameAPI.worldModels.getActiveWorldModels();
                 let camCursorDist = MATH.distanceBetween(ThreeAPI.getCameraCursor().getPos(), ThreeAPI.getCamera().position)
                 for (let i = 0; i < worldModels.length; i++) {

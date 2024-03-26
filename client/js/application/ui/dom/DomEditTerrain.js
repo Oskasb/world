@@ -194,12 +194,12 @@ class DomEditTerrain {
     }
 
 
-    initDomEditTerrain(closeCb) {
+    initEditTool(closeCb) {
         this.htmlElement = poolFetch('HtmlElement')
         this.htmlElement.initHtmlElement('edit_terrain', closeCb, this.statusMap, 'edit_frame edit_terrain', this.call.htmlReady);
     }
 
-    closeDomEditTerrain() {
+    closeEditTool() {
         this.call.close();
         ThreeAPI.unregisterPrerenderCallback(this.call.update);
         this.htmlElement.closeHtmlElement();

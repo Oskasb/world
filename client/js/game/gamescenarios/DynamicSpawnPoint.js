@@ -170,7 +170,7 @@ class DynamicSpawnPoint {
             }
             lodLevel = lodL;
 
-            if (lodLevel === 0) {
+            if (lodLevel === 0 || lodLevel === 1) {
 
                 let encId = "enc_"+this.id
 

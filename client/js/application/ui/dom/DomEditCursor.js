@@ -190,7 +190,7 @@ class DomEditCursor {
             while (nodeDivs.length) {
                 DomUtils.removeDivElement(nodeDivs.pop());
             }
-        }
+        }.bind(this);
 
         this.call = {
             htmlReady:htmlReady,
@@ -201,6 +201,7 @@ class DomEditCursor {
     }
 
     initDomEditCursor(closeCb, initObj3d, onUpdate, onClick) {
+        this.closeCb = closeCb;
         this.onClickCallbacks.push(onClick);
         this.onUpdateCallbacks.push(onUpdate);
         this.initObj3d.copy(initObj3d);

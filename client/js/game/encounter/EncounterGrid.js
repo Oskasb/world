@@ -29,6 +29,10 @@ class EncounterGrid {
     }
 
     initEncounterGrid(gridId, pos, gridLoaded, forwardVec) {
+
+        MATH.emptyArray(this.gridTiles);
+        MATH.emptyArray(this.instances);
+
         this.center.copy(pos);
         if (forwardVec) {
             forward.copy(forwardVec);

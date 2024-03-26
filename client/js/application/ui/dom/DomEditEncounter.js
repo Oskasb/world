@@ -48,7 +48,7 @@ class DomEditEncounter {
         this.updateObj3d = new Object3D();
 
         this.statusMap = {
-
+            selectedTool: ""
         };
 
         let statusMap = this.statusMap;
@@ -67,8 +67,21 @@ class DomEditEncounter {
         let worldEncounterDivs = [];
         let applyContainerDiv = null;
 
+        let activeTool = null;
+
+        function closeTool() {
+            activeTool.closeEditTool();
+            poolReturn(activeTool);
+            activeTool = null;
+        }
+
         let setSelectedTool = function(tool) {
+            close()
             selectedTool = tool;
+            statusMap.selectedTool = tool;
+            if (activeTool !== null) {
+                closeTool();
+            }
             console.log("setSelectedTool", tool)
             if (tool === "ADD") {
                 applyOperationDiv.innerHTML = tool;
@@ -112,35 +125,42 @@ class DomEditEncounter {
             poolReturn(cursor);
         }
 
-
-
         let divClicked = function(e) {
             let encounter = e.target.value
             console.log("Edit Activated", encounter);
 
-            if (typeof (editCursors[encounter.id]) !== 'object') {
-                e.target.style.visibility = "hidden";
-                let cursor = poolFetch('DomEditCursor')
+            if (selectedTool === "MOVE") {
+                if (typeof (editCursors[encounter.id]) !== 'object') {
+                    e.target.style.visibility = "hidden";
+                    let cursor = poolFetch('DomEditCursor')
 
-                let onClick = function(crsr) {
-                    console.log("Clicked Cursor", crsr)
-                }
-
-                let onCursorUpdate = function(obj3d) {
-                    physicalAlignYGoundTest(obj3d.position, obj3d.position, 3)
-                    let fits = testProbeFitsAtPos(obj3d.position, 2)
-                    if (fits === true) {
-                        encounter.obj3d.copy(obj3d);
-                        encounter.getHostActor().setSpatialPosition(obj3d.position);
-                        encounter.getHostActor().setSpatialQuaternion(obj3d.quaternion);
+                    let onClick = function(crsr) {
+                        console.log("Clicked Cursor", crsr)
                     }
-                }
 
-                cursor.initDomEditCursor(closeEditCursor, encounter.obj3d, onCursorUpdate, onClick);
-                cursor.htmlElement.cursor = cursor;
-                cursor.htmlElement.encounter = encounter;
-                editCursors[encounter.id] = cursor;
+                    let onCursorUpdate = function(obj3d) {
+                        physicalAlignYGoundTest(obj3d.position, obj3d.position, 3)
+                        let fits = testProbeFitsAtPos(obj3d.position, 2)
+                        if (fits === true) {
+                            encounter.obj3d.copy(obj3d);
+                            encounter.getHostActor().setSpatialPosition(obj3d.position);
+                            encounter.getHostActor().setSpatialQuaternion(obj3d.quaternion);
+                        }
+                    }
+
+                    cursor.initDomEditCursor(closeEditCursor, encounter.obj3d, onCursorUpdate, onClick);
+                    cursor.htmlElement.cursor = cursor;
+                    cursor.htmlElement.encounter = encounter;
+                    editCursors[encounter.id] = cursor;
+                }
             }
+
+            if (selectedTool === "GRID") {
+                activeTool = poolFetch('DomEditGrid');
+                activeTool.setWorldEncounter(encounter)
+                activeTool.initEditTool(closeTool);
+            }
+
         }
 
         let update = function() {
@@ -150,8 +170,8 @@ class DomEditEncounter {
                 setSelectedTool(toolSelect.value)
             }
 
-
             MATH.emptyArray(visibleWorldEncounters)
+
             if (selectedTool !== "ADD") {
                 worldEncounters = GameAPI.worldModels.getWorldEncounters();
                 let camCursorDist = MATH.distanceBetween(ThreeAPI.getCameraCursor().getPos(), ThreeAPI.getCamera().position)
@@ -166,7 +186,7 @@ class DomEditEncounter {
                 }
 
                 while (worldEncounterDivs.length < visibleWorldEncounters.length) {
-                    let div = DomUtils.createDivElement(document.body, 'encounter_'+visibleWorldEncounters.length, 'EDIT', 'button button_encounter_edit')
+                    let div = DomUtils.createDivElement(document.body, 'encounter_'+visibleWorldEncounters.length, "EDIT", 'button button_encounter_edit')
                     DomUtils.addClickFunction(div, divClicked);
                     worldEncounterDivs.push(div);
                 }
@@ -195,10 +215,19 @@ class DomEditEncounter {
 
         };
 
-        let close = function() {
-            while (nodeDivs.length) {
-                DomUtils.removeDivElement(nodeDivs.pop());
+        function closeEditCursors() {
+            for (let key in editCursors) {
+                if (typeof (editCursors[key]) === 'object') {
+                    editCursors[key].closeCb(editCursors[key].htmlElement)
+                }
             }
+        }
+
+        let close = function() {
+            while (worldEncounterDivs.length) {
+                DomUtils.removeDivElement(worldEncounterDivs.pop());
+            }
+            closeEditCursors()
         }
 
         this.call = {
@@ -210,12 +239,12 @@ class DomEditEncounter {
     }
 
 
-    initDomEditEncounter(closeCb) {
+    initEditTool(closeCb) {
         this.htmlElement = poolFetch('HtmlElement')
         this.htmlElement.initHtmlElement('edit_encounter', closeCb, this.statusMap, 'edit_frame edit_encounter', this.call.htmlReady);
     }
 
-    closeDomEditEncounter() {
+    closeEditTool() {
         this.call.close();
         ThreeAPI.unregisterPrerenderCallback(this.call.update);
         this.htmlElement.closeHtmlElement();

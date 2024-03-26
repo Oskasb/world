@@ -106,13 +106,12 @@ class DomEditLocation {
 
     }
 
-
-    initDomEditLocation(closeCb) {
+    initEditTool(closeCb) {
         this.htmlElement = poolFetch('HtmlElement')
         this.htmlElement.initHtmlElement('edit_location', closeCb, this.statusMap, 'edit_frame edit_location', this.call.htmlReady);
     }
 
-    closeDomEditLocation() {
+    closeEditTool() {
         this.call.close();
         ThreeAPI.unregisterPrerenderCallback(this.call.update);
         this.htmlElement.closeHtmlElement();
