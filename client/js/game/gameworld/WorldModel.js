@@ -83,6 +83,9 @@ class WorldModel {
         }.bind(this)
 
         let getPaletteKey = function() {
+            for (let i = 0; i < this.locationModels.length; i++) {
+                this.paletteKey = this.locationModels[i].call.getPaletteKey()
+            }
             return this.paletteKey;
         }.bind(this)
 

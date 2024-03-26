@@ -1027,7 +1027,7 @@ div.edit_cursor_rotation {
     transform-origin: center;
     border: 0.1em solid #06ccbe;
 
-    background: linear-gradient(180deg, rgba(231, 255, 85, 0.2) 35%, rgba(49, 223, 20, 0.5) 50%, rgba(249, 50, 59, 0.5) 51%, rgba(96, 0, 2, 0.4) 85%);
+    background: linear-gradient(180deg, rgba(231, 255, 85, 0.3) 35%, rgba(99, 255, 5, 0.5) 48%, rgba(149, 223, 255, 1) 50%, rgba(255, 90, 5, 0.5) 52%, rgba(96, 0, 2, 0.3) 85%);
     mask-image: radial-gradient(rgba(255, 255, 255, 0) 62%, rgba(255, 255, 255, 1) 63%, rgba(255, 255, 255, 1.0) 100%);
     box-shadow: 0 0 0.2em rgb(0, 21, 28);
     transform : translate3d(0%, 0%, 0);

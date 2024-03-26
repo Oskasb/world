@@ -92,6 +92,10 @@ class DomEditWorldModel {
         let setWorldModel = function(wModel) {
             worldModel = wModel;
             statusMap.palette = worldModel.call.getPaletteKey();
+            if (paletteVal !== null) {
+                paletteVal.value = statusMap.palette;
+                statusMap.palette_selection = statusMap.palette
+            }
             initEditStatus(worldModel.obj3d)
         };
 
@@ -103,6 +107,13 @@ class DomEditWorldModel {
             htmlElem = htmlEl;
             rootElem = htmlEl.call.getRootElement();
             paletteVal = htmlElem.call.getChildElement('palette');
+
+            if (worldModel !== null) {
+                paletteVal.value = worldModel.call.getPaletteKey();
+                statusMap.palette = paletteVal.value;
+                statusMap.palette_selection = statusMap.palette
+            }
+
             applyOperationDiv = htmlElem.call.getChildElement('apply_operation');
             operationSelect = htmlElem.call.getChildElement('operation');
             DomUtils.addClickFunction(applyOperationDiv, applyOperation)
@@ -120,8 +131,11 @@ class DomEditWorldModel {
 
             if (worldModel !== null) {
 
-                if (statusMap.palette !== worldModel.call.getPaletteKey()) {
+                if (paletteVal.value !== worldModel.call.getPaletteKey()) {
+                    statusMap.palette = paletteVal.value;
+                    console.log("Palette Changed", worldModel)
                     worldModel.call.setPaletteKey(statusMap.palette);
+
                 }
 
                 if (operationSelect.value !== selectedOperation) {
@@ -131,7 +145,7 @@ class DomEditWorldModel {
                 }
 
                 statusMap.header = worldModel.config.model
-                statusMap.palette_selection = worldModel.config.palette
+
                 let div = rootElem;
                 let pos = worldModel.getPos();
             //    div.value = model;

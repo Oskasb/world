@@ -10,11 +10,11 @@ let frustumFactor = 0.828;
 let encounterConfigs = null;
 let worldEncounters = null;
 
-let operationsList = [
-    "",
-    "FLATTEN",
-    "ELEVATE",
-    "HIDE"
+let toolsList = [
+    "MOVE",
+    "GRID",
+    "INSPECT",
+    "ADD"
 ]
 
 function worldModelOperation(wModel, operation) {
@@ -57,28 +57,26 @@ class DomEditEncounter {
         let htmlElem;
         let applyOperationDiv = null;
         let nodeDivs = [];
-        let selectedOperation = "";
 
-        let initEditStatus = function(obj3d) {
-
-        }.bind(this);
-        let paletteVal = null;
         let worldModel = null;
-        let operationSelect = null;
-
+        let toolSelect = null;
+        let selectedTool = "";
         let editCursors = {};
         let encounterEdit = null;
         let visibleWorldEncounters = [];
         let worldEncounterDivs = [];
+        let applyContainerDiv = null;
 
-        let updateSelectedOperation = function() {
-            console.log("updateSelectedOperation")
-            if (selectedOperation === "") {
-                applyOperationDiv.style.opacity = "0.4";
+        let setSelectedTool = function(tool) {
+            selectedTool = tool;
+            console.log("setSelectedTool", tool)
+            if (tool === "ADD") {
+                applyOperationDiv.innerHTML = tool;
+                applyContainerDiv.style.display = ""
             } else {
-                applyOperationDiv.style.opacity = "1";
+                applyContainerDiv.style.display = "none"
             }
-            applyOperationDiv.innerHTML = selectedOperation;
+
         }
 
         let applyOperation = function(e) {
@@ -92,11 +90,15 @@ class DomEditEncounter {
 
 
         let htmlReady = function(htmlEl) {
+            htmlElem = htmlEl;
             encounterConfigs = GameAPI.worldModels.getEncounterConfigs();
             worldEncounters = GameAPI.worldModels.getWorldEncounters();
+            toolSelect = htmlElem.call.getChildElement('tool');
+            applyOperationDiv = htmlElem.call.getChildElement('apply_tool');
+            applyContainerDiv = htmlElem.call.getChildElement('apply_container');
+            htmlElem.call.populateSelectList('tool', toolsList)
             console.log(worldEncounters, encounterConfigs);
-            htmlElem = htmlEl;
-            rootElem = htmlEl.call.getRootElement();
+            rootElem = htmlElem.call.getRootElement();
             ThreeAPI.registerPrerenderCallback(update);
         }
 
@@ -144,25 +146,32 @@ class DomEditEncounter {
         let update = function() {
         //    rootElem.style.transition = 'none';
 
-            worldEncounters = GameAPI.worldModels.getWorldEncounters();
+            if (selectedTool !== toolSelect.value) {
+                setSelectedTool(toolSelect.value)
+            }
+
+
             MATH.emptyArray(visibleWorldEncounters)
-            let camCursorDist = MATH.distanceBetween(ThreeAPI.getCameraCursor().getPos(), ThreeAPI.getCamera().position)
-            for (let i = 0; i < worldEncounters.length; i++) {
-                let pos = worldEncounters[i].getPos();
-                let distance = MATH.distanceBetween(ThreeAPI.getCameraCursor().getPos(), pos)
-                if (distance < 25 + camCursorDist*0.5) {
-                    if (ThreeAPI.testPosIsVisible(pos)) {
-                        visibleWorldEncounters.push(worldEncounters[i]);
+            if (selectedTool !== "ADD") {
+                worldEncounters = GameAPI.worldModels.getWorldEncounters();
+                let camCursorDist = MATH.distanceBetween(ThreeAPI.getCameraCursor().getPos(), ThreeAPI.getCamera().position)
+                for (let i = 0; i < worldEncounters.length; i++) {
+                    let pos = worldEncounters[i].getPos();
+                    let distance = MATH.distanceBetween(ThreeAPI.getCameraCursor().getPos(), pos)
+                    if (distance < 25 + camCursorDist*0.5) {
+                        if (ThreeAPI.testPosIsVisible(pos)) {
+                            visibleWorldEncounters.push(worldEncounters[i]);
+                        }
                     }
                 }
-            }
 
-            while (worldEncounterDivs.length < visibleWorldEncounters.length) {
-                let div = DomUtils.createDivElement(document.body, 'encounter_'+visibleWorldEncounters.length, 'EDIT', 'button button_encounter_edit')
-                DomUtils.addClickFunction(div, divClicked);
-                worldEncounterDivs.push(div);
+                while (worldEncounterDivs.length < visibleWorldEncounters.length) {
+                    let div = DomUtils.createDivElement(document.body, 'encounter_'+visibleWorldEncounters.length, 'EDIT', 'button button_encounter_edit')
+                    DomUtils.addClickFunction(div, divClicked);
+                    worldEncounterDivs.push(div);
+                }
             }
-
+            
             while (worldEncounterDivs.length > visibleWorldEncounters.length) {
                 DomUtils.removeDivElement(worldEncounterDivs.pop());
             }
