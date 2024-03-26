@@ -48,7 +48,8 @@ class DomEditEncounter {
         this.updateObj3d = new Object3D();
 
         this.statusMap = {
-            selectedTool: ""
+            selectedTool: "",
+            encounter: "--select--"
         };
 
         let statusMap = this.statusMap;
@@ -66,7 +67,7 @@ class DomEditEncounter {
         let visibleWorldEncounters = [];
         let worldEncounterDivs = [];
         let applyContainerDiv = null;
-
+        let idLabelDiv = null;
         let activeTool = null;
 
         function closeTool() {
@@ -94,14 +95,7 @@ class DomEditEncounter {
 
         }
 
-        let applyOperation = function(e) {
-            console.log("Apply", selectedOperation);
-            worldModelOperation(worldModel, selectedOperation);
-        }
 
-        let getWorldModel = function() {
-            return worldModel;
-        }
 
 
         let htmlReady = function(htmlEl) {
@@ -111,6 +105,7 @@ class DomEditEncounter {
             toolSelect = htmlElem.call.getChildElement('tool');
             applyOperationDiv = htmlElem.call.getChildElement('apply_tool');
             applyContainerDiv = htmlElem.call.getChildElement('apply_container');
+            idLabelDiv = htmlElem.call.getChildElement('encounter_value');
             htmlElem.call.populateSelectList('tool', toolsList)
             console.log(worldEncounters, encounterConfigs);
             rootElem = htmlElem.call.getRootElement();
@@ -130,7 +125,7 @@ class DomEditEncounter {
         let divClicked = function(e) {
             let encounter = e.target.value
             console.log("Edit Activated", encounter);
-
+            idLabelDiv.innerHTML = encounter.id;
             if (selectedTool === "MOVE") {
                 if (typeof (editCursors[encounter.id]) !== 'object') {
                     e.target.style.visibility = "hidden";
@@ -185,6 +180,9 @@ class DomEditEncounter {
 
             if (selectedTool !== "ADD") {
                 if (activeTool === null) {
+                    if (selectedTool !== "MOVE") {
+                        idLabelDiv.innerHTML = "--No Selection--";
+                    }
                     worldEncounters = GameAPI.worldModels.getWorldEncounters();
                     let camCursorDist = MATH.distanceBetween(ThreeAPI.getCameraCursor().getPos(), ThreeAPI.getCamera().position)
                     for (let i = 0; i < worldEncounters.length; i++) {
@@ -237,6 +235,7 @@ class DomEditEncounter {
         }
 
         let close = function() {
+            idLabelDiv.innerHTML = "--No Selection--";
             while (worldEncounterDivs.length) {
                 DomUtils.removeDivElement(worldEncounterDivs.pop());
             }

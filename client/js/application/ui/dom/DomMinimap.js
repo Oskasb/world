@@ -392,6 +392,10 @@ class DomMinimap {
         let editLocations = null;
 
         let openLocEdit = function() {
+            if (client.page) {
+                GuiAPI.closePage(client.page)
+                client.page = null;
+            }
             if (editLocations === null) {
                 editLocations = poolFetch('DomEditLocations');
                 editLocations.initDomEditLocations(openLocEdit)

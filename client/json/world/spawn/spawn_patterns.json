@@ -28,7 +28,7 @@
         ]
       },
       {
-        "id":"sp_pair_pair",
+        "id":"sp_pair_row",
         "data": [
           {
             "data_key":"spawn_main_data",

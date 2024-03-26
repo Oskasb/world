@@ -37,6 +37,9 @@ class ProceduralEncounterConfig {
                 {"interaction": "LEAVE", "text": "Sorry to disturb you, just leaving."}
             ],
             "spawn": {
+                "patterns": [
+                    {"pattern_id":"sp_pair_row", "tile": [3, 4]}
+                ],
                 "actors": [
                     {
                         "actor": "ACTOR_FIGHTER",

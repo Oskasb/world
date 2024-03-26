@@ -110,11 +110,7 @@ iframe.edit_env {
     height: 250em;
 }
 
-iframe.edit_spawns {
-    left: 20em;
-    top: 130em;
-    height: 350em;
-}
+
 
 iframe.edit_terrain {
     left: 20em;
@@ -130,6 +126,12 @@ iframe.edit_location {
 iframe.edit_grid {
     left: 20em;
     top: 250em;
+}
+
+iframe.edit_spawns {
+    left: 20em;
+    top: 250em;
+    height: 350em;
 }
 
 iframe.edit_encounter {
