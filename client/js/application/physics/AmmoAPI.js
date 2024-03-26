@@ -161,10 +161,18 @@ class AmmoAPI {
         return ammoFunctions.getBodyActiveState(body);
     };
 
-    raycastPhysicsWorld = function(position, direction, hitPositionStore, hitNormalStore) {
+    raycastPhysicsWorld = function(position, direction, hitPositionStore, hitNormalStore, debugDraw) {
+
         let hit = ammoFunctions.physicsRayRange(world, position, direction, hitPositionStore, hitNormalStore);
         if (hit) {
+            if (debugDraw) {
+                evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:position, to:hit.position, color:'RED'});
+            }
             return hit;
+        }
+        if (debugDraw) {
+            ThreeAPI.tempVec3.copy(position).add(direction);
+            evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:position, to:ThreeAPI.tempVec3, color:'GREEN'});
         }
     };
 

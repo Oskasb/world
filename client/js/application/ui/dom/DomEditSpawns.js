@@ -7,25 +7,25 @@ let tempVec = new Vector3();
 let frustumFactor = 0.828;
 
 let configData;
-let grids = []
+let spawns = []
 
 let onConfig = function(configs) {
     console.log(configs)
     for (let i = 0; i < configs.length; i++) {
         let gridId = configs[i].id;
-        if (grids.indexOf(gridId) === -1) {
-            grids.push(gridId);
+        if (spawns.indexOf(gridId) === -1) {
+            spawns.push(gridId);
         }
     }
 }
 
 setTimeout(function() {
-    configData = new ConfigData("GRID", "ENCOUNTER_GRIDS",  false, false, false, onConfig)
+    configData = new ConfigData("SPAWN", "SPAWN_PATTERNS",  false, false, false, onConfig)
 }, 2000)
 
 
 
-class DomEditGrid {
+class DomEditSpawns {
     constructor() {
 
         this.targetObj3d = new Object3D();
@@ -41,46 +41,45 @@ class DomEditGrid {
         let rootElem = null;
         let htmlElem;
 
-        let rayTestDiv = null;
-
-
-
+        let config = null;
         let activeEncounterGrid = null;
-        let selectGrid = null;
+        let selectSpawnPattern = null;
+        let selectActivePattern = null;
 
-        let rayTestOn = false;
-        function rayTest() {
-            rayTestOn =! rayTestOn;
+        let operateButtonDiv = null;
+        function operateSelection() {
+            console.log("operateSelection")
         }
 
+        function gridLoaded(encGrid) {
+            activeEncounterGrid = encGrid;
+            ThreeAPI.registerPrerenderCallback(update);
+        }
         let htmlReady = function(htmlEl) {
                console.log(configData)
             htmlElem = htmlEl;
             rootElem = htmlEl.call.getRootElement();
-            selectGrid = htmlElem.call.getChildElement('grid');
-            htmlElem.call.populateSelectList('grid', grids)
-            rayTestDiv = htmlElem.call.getChildElement('ray_test');
-            DomUtils.addClickFunction(rayTestDiv, rayTest)
-            console.log("Edit encounter grid", this.encounter);
-            let json = JSON.stringify(this.encounter.config);
-            let config = JSON.parse(json);
-            this.encounter.config = config;
-            selectGrid.value = config.grid_id;
-            ThreeAPI.registerPrerenderCallback(update);
-        }.bind(this);
+            selectSpawnPattern = htmlElem.call.getChildElement('spawns');
+            selectActivePattern = htmlElem.call.getChildElement('active_spawns');
+            htmlElem.call.populateSelectList('spawns', spawns)
+            operateButtonDiv = htmlElem.call.getChildElement('operate_button');
+            DomUtils.addClickFunction(operateButtonDiv, operateSelection)
+            console.log("Edit encounter spawns", this.encounter);
 
-        let viewGridId = "";
+            let json = JSON.stringify(this.encounter.config);
+            config = JSON.parse(json);
+            this.encounter.config = config;
+            let loadGrid = poolFetch('EncounterGrid');
+            loadGrid.initEncounterGrid(config.grid_id, getPos(), gridLoaded)
+
+        }.bind(this);
 
         let getPos = function() {
             return this.encounter.getPos();
         }.bind(this)
 
-        function gridLoaded(encGrid) {
-            activeEncounterGrid = encGrid;
-        }
-
         function closeGrid() {
-            viewGridId = "";
+            lastCursorTile = null;
             if (activeEncounterGrid !== null) {
                 activeEncounterGrid.removeEncounterGrid();
                 poolReturn(activeEncounterGrid);
@@ -88,30 +87,23 @@ class DomEditGrid {
             }
         }
 
-        let applyGridId = function(gId) {
-            closeGrid()
-            viewGridId = gId;
-            if (viewGridId !== "") {
-                this.encounter.config.grid_id = viewGridId;
-                let loadGrid = poolFetch('EncounterGrid');
-                loadGrid.initEncounterGrid(viewGridId, getPos(), gridLoaded)
-            }
-        }.bind(this);
+        let lastCursorTile = null;
 
         let update = function() {
-            if (viewGridId !== selectGrid.value) {
-                applyGridId(selectGrid.value);
-            }
 
-            if (rayTestOn) {
                 if (activeEncounterGrid !== null) {
-                    let tiles = activeEncounterGrid.getWalkableTiles();
-                    for (let i = 0; i < tiles.length; i++) {
-                        let tile = tiles[i];
-                        let fits = tile.rayTestTile(true);
+                    let cursorTile = activeEncounterGrid.getTileAtPosition(ThreeAPI.getCameraCursor().getPos());
+                    if (lastCursorTile !== null) {
+                        if (lastCursorTile.visualTile) {
+                            lastCursorTile.clearPathIndication()
+                        }
                     }
+                        if (cursorTile.visualTile) {
+                            cursorTile.indicatePath()
+                        }
+                        lastCursorTile = cursorTile;
+
                 }
-            }
 
         }.bind(this);
 
@@ -134,11 +126,13 @@ class DomEditGrid {
 
 
     initEditTool(closeCb) {
+        GameAPI.worldModels.deactivateEncounters();
         this.htmlElement = poolFetch('HtmlElement')
-        this.htmlElement.initHtmlElement('edit_grid', closeCb, this.statusMap, 'edit_frame edit_grid', this.call.htmlReady);
+        this.htmlElement.initHtmlElement('edit_spawns', closeCb, this.statusMap, 'edit_frame edit_spawns', this.call.htmlReady);
     }
 
     closeEditTool() {
+        GameAPI.worldModels.activateEncounters();
         this.encounter = null;
         this.call.close();
         ThreeAPI.unregisterPrerenderCallback(this.call.update);
@@ -149,4 +143,4 @@ class DomEditGrid {
 
 }
 
-export { DomEditGrid }
+export { DomEditSpawns }

@@ -87,7 +87,9 @@ class EncounterGrid {
         return getRandomWalkableTiles(this.gridTiles, count, key);
     }
 
-
+    getWalkableTiles() {
+        return filterForWalkableTiles(this.gridTiles)
+    }
 
     setCameraHomePos(pos) {
         this.camHomePos.copy(pos);

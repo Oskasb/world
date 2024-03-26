@@ -937,7 +937,7 @@ class AmmoFunctions {
         let groundTransform = new Ammo.btTransform();
         groundTransform.setIdentity();
         // Shifts the terrain, since bullet re-centers it on its bounding box.
-        let posY =  -(margin*1.0) + minHeight + (heightDiff) * 0.5
+        let posY =  -(margin*1.0) + minHeight + (heightDiff) * 0.5 -0.3;
         groundTransform.setOrigin( new Ammo.btVector3(posx, posY,posz) );
     //    console.log(groundTransform)
     //    groundTransform.setScale( new Ammo.btVector3(posx, posY,posz) );

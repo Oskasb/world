@@ -238,17 +238,17 @@ function getModelByBodyPointer(ptr) {
     console.log("no body found for pointer ", ptr);
 }
 
-function physicalAlignYGoundTest(pos, store, height, nStore) {
-    let y = ThreeAPI.terrainAt(pos, nStore)+0.1;
+function physicalAlignYGoundTest(pos, store, height, nStore, debugDraw) {
+    let y = ThreeAPI.terrainAt(pos, nStore)+0.05;
     store.set(pos.x, y, pos.z);
     tempFrom.copy(store);
     tempFrom.y += height+0.1;
     let hit = rayTest(tempFrom, store, store, normalStore);
 
     if (hit) {
-        store.y += 0.1;
+        store.y += 0.05;
         tempFrom.y = pos.y+height*2;
-        hit = rayTest(tempFrom, store, store, null, true);
+        hit = rayTest(tempFrom, store, store, null, debugDraw);
         if (hit) {
             return false;
         }
@@ -261,8 +261,8 @@ function physicalAlignYGoundTest(pos, store, height, nStore) {
 
 }
 
-function testProbeFitsAtPos(pos, sideSize) {
-    let debug = true;
+function testProbeFitsAtPos(pos, sideSize, debugDraw) {
+    let debug = debugDraw;
 
     let size = sideSize || 0.7;
     let halfSize = size*0.5;

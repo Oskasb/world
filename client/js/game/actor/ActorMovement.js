@@ -165,50 +165,6 @@ class ActorMovement {
         }
     }
 
-
-    testProbeFitsAtPos(pos) {
-        probeResult.from.copy(pos);
-        probeResult.from.y += 0.4;
-        probeResult.to.copy(pos);
-        probeResult.to.y += 1.3;
-        let hit = rayTest(probeResult.from, probeResult.to, tempVec, tempNormal, true)
-        if (hit) {
-            return hit;
-        }
-        tempVec2.copy(pos)
-        tempVec2.y += 0.3;
-        tempVec2.x -= 0.25;
-        tempVec2.z -= 0.25;
-        hit = rayTest(probeResult.to, tempVec2, tempVec, tempNormal, true)
-        if (hit) {
-            return hit;
-        }
-
-
-    //    tempVec2.x += 0.5;
-        tempVec2.z += 0.5;
-        hit = rayTest(probeResult.to, tempVec2, tempVec, tempNormal, true)
-        if (hit) {
-            return hit;
-        }
-
-
-            tempVec2.x += 0.5;
-        //    tempVec2.z += 0.5;
-        hit = rayTest(probeResult.to, tempVec2, tempVec, tempNormal, true)
-        if (hit) {
-            return hit;
-        }
-
-        //    tempVec2.x += 0.5;
-          tempVec2.z -= 0.5;
-        hit = rayTest(probeResult.to, tempVec2, tempVec, tempNormal, true)
-        if (hit) {
-            return hit;
-        }
-
-    }
-
     probeMovementPhysics(actor, inputAmount, probeShape) {
         probeResult.blocked = false;
         probeResult.halted = false;
@@ -257,7 +213,7 @@ class ActorMovement {
         hit = testProbeFitsAtPos(probeResult.to)
     //    probeResult.to.y += 1.7;
 
-    //    rayTest(probeResult.destination, probeResult.to, probeResult.destination, tempNormal, true)
+
         if (hit !== true) {
         //    actor.actorText.say('____u')
             probeResult.blocked = true;

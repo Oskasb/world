@@ -79,7 +79,6 @@ class DynamicTile {
             this.visualTile = poolFetch('VisualTile');
             this.visualTile.visualizeDynamicTile(this);
         }
-
     }
 
     setTileIndex = function(indexX, indexY, gridI, gridJ) {
@@ -108,7 +107,7 @@ class DynamicTile {
                 this.rigidBodyPointer = fits.ptr;
             }
 
-            fits = testProbeFitsAtPos(this.obj3d.position, 1.2)
+            fits = testProbeFitsAtPos(this.obj3d.position, 1.2, false)
 
             if (fits !== true) {
                 this.fitsCharacter = false;
@@ -116,33 +115,17 @@ class DynamicTile {
             } else {
 
             }
-
         }
 
-        /*
-
-        tempVec.copy(this.obj3d.position);
-        tempVec.y +=0.01;
-
-        let hit = detectFreeSpaceAbovePoint(tempVec, 1.7, this.obj3d.position, this.groundNormal, 4, false);
-
-
-        if (hit) {
-            if (hit.fraction !== 1) {
-            //    console.log("Tile physical contact ", hit)
-                this.rigidBodyPointer = hit.ptr;
-            }
-
-     //       this.obj3d.position.copy(contactPoint);
-     //       this.groundNormal.copy(normalHit);
-        }
-*/
         this.pathPoint.setPos(this.obj3d.position)
 
         if (this.visualTile) {
             this.visualTile.dynamicTileUpdated(this)
         }
+    }
 
+    rayTestTile(debugDraw) {
+        return testProbeFitsAtPos(this.getPos(), 1.2, debugDraw)
     }
 
     addExitVisuals() {

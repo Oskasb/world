@@ -1,9 +1,9 @@
 import {poolFetch, poolReturn} from "../../utils/PoolUtils.js";
 import {Vector3} from "../../../../libs/three/math/Vector3.js";
 import {Object3D} from "../../../../libs/three/core/Object3D.js";
-import {paletteKeys} from "../../../game/visuals/Colors.js";
 import {ENUMS} from "../../ENUMS.js";
 import {physicalAlignYGoundTest, testProbeFitsAtPos} from "../../utils/PhysicsUtils.js";
+
 
 let tempVec = new Vector3();
 let frustumFactor = 0.828;
@@ -13,7 +13,7 @@ let worldEncounters = null;
 let toolsList = [
     "MOVE",
     "GRID",
-    "INSPECT",
+    "SPAWN",
     "ADD"
 ]
 
@@ -70,9 +70,11 @@ class DomEditEncounter {
         let activeTool = null;
 
         function closeTool() {
-            activeTool.closeEditTool();
-            poolReturn(activeTool);
-            activeTool = null;
+            if (activeTool !== null) {
+                activeTool.closeEditTool();
+                poolReturn(activeTool);
+                activeTool = null;
+            }
         }
 
         let setSelectedTool = function(tool) {
@@ -156,7 +158,16 @@ class DomEditEncounter {
             }
 
             if (selectedTool === "GRID") {
+                closeTool();
                 activeTool = poolFetch('DomEditGrid');
+                activeTool.setWorldEncounter(encounter)
+                activeTool.initEditTool(closeTool);
+            }
+
+            if (selectedTool === "SPAWN") {
+                ThreeAPI.getCameraCursor().getLookAroundPoint().copy(encounter.getPos())
+                closeTool();
+                activeTool = poolFetch('DomEditSpawns');
                 activeTool.setWorldEncounter(encounter)
                 activeTool.initEditTool(closeTool);
             }
@@ -173,22 +184,24 @@ class DomEditEncounter {
             MATH.emptyArray(visibleWorldEncounters)
 
             if (selectedTool !== "ADD") {
-                worldEncounters = GameAPI.worldModels.getWorldEncounters();
-                let camCursorDist = MATH.distanceBetween(ThreeAPI.getCameraCursor().getPos(), ThreeAPI.getCamera().position)
-                for (let i = 0; i < worldEncounters.length; i++) {
-                    let pos = worldEncounters[i].getPos();
-                    let distance = MATH.distanceBetween(ThreeAPI.getCameraCursor().getPos(), pos)
-                    if (distance < 25 + camCursorDist*0.5) {
-                        if (ThreeAPI.testPosIsVisible(pos)) {
-                            visibleWorldEncounters.push(worldEncounters[i]);
+                if (activeTool === null) {
+                    worldEncounters = GameAPI.worldModels.getWorldEncounters();
+                    let camCursorDist = MATH.distanceBetween(ThreeAPI.getCameraCursor().getPos(), ThreeAPI.getCamera().position)
+                    for (let i = 0; i < worldEncounters.length; i++) {
+                        let pos = worldEncounters[i].getPos();
+                        let distance = MATH.distanceBetween(ThreeAPI.getCameraCursor().getPos(), pos)
+                        if (distance < 25 + camCursorDist*0.5) {
+                            if (ThreeAPI.testPosIsVisible(pos)) {
+                                visibleWorldEncounters.push(worldEncounters[i]);
+                            }
                         }
                     }
-                }
 
-                while (worldEncounterDivs.length < visibleWorldEncounters.length) {
-                    let div = DomUtils.createDivElement(document.body, 'encounter_'+visibleWorldEncounters.length, "EDIT", 'button button_encounter_edit')
-                    DomUtils.addClickFunction(div, divClicked);
-                    worldEncounterDivs.push(div);
+                    while (worldEncounterDivs.length < visibleWorldEncounters.length) {
+                        let div = DomUtils.createDivElement(document.body, 'encounter_'+visibleWorldEncounters.length, selectedTool, 'button button_encounter_edit')
+                        DomUtils.addClickFunction(div, divClicked);
+                        worldEncounterDivs.push(div);
+                    }
                 }
             }
             
