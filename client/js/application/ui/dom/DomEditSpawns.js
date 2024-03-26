@@ -6,9 +6,19 @@ import {colorMapFx} from "../../../game/visuals/Colors.js";
 
 let tempVec = new Vector3();
 let frustumFactor = 0.828;
-
 let configData;
-let spawns = []
+
+let spawnPresentEdits = [
+    "MOVE",
+    "COPY",
+    "REMOVE"
+]
+
+let noSpawnEdits = [
+    "ADD"
+]
+
+let spawns = [];
 let patterns = {}
 let onConfig = function(configs) {
     console.log(configs)
@@ -48,7 +58,9 @@ class DomEditSpawns {
         this.statusMap = {
             id:""
         };
-
+        let cursorTile = null;
+        let selectedPattern = null;
+        let selectedPatternId = "";
         let statusMap = this.statusMap;
         let rootElem = null;
         let htmlElem;
@@ -59,24 +71,58 @@ class DomEditSpawns {
         let tileDiv = null;
         let operateButtonDiv = null;
 
-        let activePatterns = [];
+        let activeOperation = {
+            operation:"",
+            pattern:null
+        }
+
+        function removeSelectedPattern() {
+            MATH.splice(config.spawn.patterns, selectedPattern);
+        }
+
+        function addPatternAtTile(patternId, tile) {
+            console.log("addPatternAtTile", patternId);
+            let addPatternConfig = {
+                pattern_id:patternId,
+                tile:[tile.gridI, tile.gridJ]
+            }
+            config.spawn.patterns.push(addPatternConfig);
+        }
 
         function operateSelection() {
-            console.log("operateSelection")
+            let operation = selectActivePattern.value;
+
+            console.log("operateSelection", [cursorTile, operation, selectedPattern, config.spawn.patterns]);
+
+            if (operation === "ADD") {
+                console.log("Add Pattern ", [cursorTile, selectedPattern]);
+                addPatternAtTile(selectSpawnPattern.value, cursorTile);
+            }
+
+            if (operation === "REMOVE") {
+                removeSelectedPattern()
+            }
+
+            if (operation === "COPY") {
+                activeOperation.operation = operation;
+                activeOperation.pattern = selectedPattern;
+            }
         }
 
         function gridLoaded(encGrid) {
             activeEncounterGrid = encGrid;
             ThreeAPI.registerPrerenderCallback(update);
         }
+
         let htmlReady = function(htmlEl) {
-               console.log(configData)
+            console.log(configData)
             htmlElem = htmlEl;
             rootElem = htmlEl.call.getRootElement();
             selectSpawnPattern = htmlElem.call.getChildElement('spawns');
             selectActivePattern = htmlElem.call.getChildElement('active_spawns');
             tileDiv =   htmlElem.call.getChildElement('tile_value');
             htmlElem.call.populateSelectList('spawns', spawns)
+            htmlElem.call.populateSelectList('active_spawns', noSpawnEdits)
             operateButtonDiv = htmlElem.call.getChildElement('operate_button');
             DomUtils.addClickFunction(operateButtonDiv, operateSelection)
             console.log("Edit encounter spawns", this.encounter);
@@ -86,7 +132,6 @@ class DomEditSpawns {
             this.encounter.config = config;
             let loadGrid = poolFetch('EncounterGrid');
             loadGrid.initEncounterGrid(config.grid_id, getPos(), gridLoaded)
-
         }.bind(this);
 
         let getPos = function() {
@@ -104,7 +149,6 @@ class DomEditSpawns {
         }
 
         let lastCursorTile = null;
-
         let spawnerTiles = [];
 
         function getSpawnByTile(tile) {
@@ -114,6 +158,39 @@ class DomEditSpawns {
                 let gridJ = patterns[i].tile[1];
                 if (tile.gridI === gridI && tile.gridJ === gridJ) {
                     return patterns[i]
+                }
+            }
+            return null;
+        }
+
+        function updatePatternAtCursor(pattern) {
+            if (pattern === null) {
+                htmlElem.call.populateSelectList('active_spawns', noSpawnEdits)
+                console.log("updatePatternAtCursor", selectSpawnPattern.value, patterns)
+                selectedPattern = patterns[selectSpawnPattern.value];
+                selectActivePattern.value = "ADD"
+            } else {
+                htmlElem.call.populateSelectList('active_spawns', spawnPresentEdits)
+                selectActivePattern.value = "REMOVE"
+                selectedPattern = pattern;
+            }
+
+        }
+
+        function updateSelectedPatternId() {
+            if (cursorTile !== null) {
+                let pattern = getSpawnByTile(cursorTile);
+                if (pattern !== null) {
+                    if (pattern.pattern_id === selectSpawnPattern.value) {
+                        return;
+                    }
+
+                    selectedPattern = pattern;
+                    removeSelectedPattern();
+                    console.log("addPatternAtTile", selectSpawnPattern.value, patterns)
+                    selectedPattern = patterns[selectSpawnPattern.value];
+                    selectedPatternId = selectedPattern.pattern_id;
+                    addPatternAtTile(selectSpawnPattern.value, cursorTile);
                 }
             }
         }
@@ -136,7 +213,11 @@ class DomEditSpawns {
         function indicateTilePatternNodes(tile) {
             MATH.emptyArray(patternNodeTiles);
             let pattern = getSpawnByTile(tile)
+            if (pattern === null) {
+                return;
+            }
             let patternId = pattern.pattern_id;
+            console.log(pattern, patterns);
             let patternConfig = patterns[patternId];
             let spawnTiles = patternConfig['spawn_tiles'];
             for (let i = 0; i < spawnTiles.length; i++) {
@@ -147,7 +228,8 @@ class DomEditSpawns {
                 if (patternNodeTiles.indexOf(gridTile) === -1) {
                     patternNodeTiles.push(gridTile);
                 } else {
-                    console.log("Tile Occupied")
+                    gridTile.text.say("Tile Claimed")
+                    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:gridTile.getPos(), color:'RED'});
                 }
             }
 
@@ -158,12 +240,10 @@ class DomEditSpawns {
                 if (i !== 0) {
                     evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:pos, to:patternNodeTiles[i-1].getPos(), color:'RED'});
                 }
-
             }
-
         }
 
-        let update = function() {
+            let update = function() {
 
             if (activeEncounterGrid !== null) {
 
@@ -173,21 +253,34 @@ class DomEditSpawns {
                     config.spawn.patterns = [];
                 }
 
-                let cursorTile = activeEncounterGrid.getTileAtPosition(ThreeAPI.getCameraCursor().getPos());
-                if (lastCursorTile !== null) {
-                    if (lastCursorTile.visualTile) {
-                        lastCursorTile.clearPathIndication()
-                    }
+                if (selectSpawnPattern.value !== selectedPatternId) {
+                    selectedPatternId = selectSpawnPattern.value;
+                    updateSelectedPatternId()
                 }
-                if (cursorTile.visualTile) {
-                    cursorTile.indicatePath()
-                    tileDiv.innerHTML = "i:"+cursorTile.gridI+" j:"+cursorTile.gridJ;
-                    if (spawnerTiles.indexOf(cursorTile) !== -1) {
+
+                if (operateButtonDiv.innerHTML !== selectActivePattern.value) {
+                    operateButtonDiv.innerHTML = selectActivePattern.value;
+                }
+
+                cursorTile = activeEncounterGrid.getTileAtPosition(ThreeAPI.getCameraCursor().getPos());
+
+                if (lastCursorTile !== cursorTile) {
+                    if (lastCursorTile !== null) {
+                        if (lastCursorTile.visualTile) {
+                            lastCursorTile.clearPathIndication()
+                        }
+                    }
+                    if (cursorTile.visualTile) {
+                        cursorTile.indicatePath()
+                        tileDiv.innerHTML = cursorTile.gridI+" | "+cursorTile.gridJ;
                         let pattern = getSpawnByTile(cursorTile);
-                        selectActivePattern.value = pattern.pattern_id;
+                        if (pattern !== null) {
+                            selectSpawnPattern.value = pattern.pattern_id;
+                        }
+                        updatePatternAtCursor(pattern);
                     }
+                    lastCursorTile = cursorTile;
                 }
-                lastCursorTile = cursorTile;
 
                 for (let i = 0; i < spawnerTiles.length; i++) {
                     let pos = spawnerTiles[i].getPos();
@@ -214,8 +307,6 @@ class DomEditSpawns {
     setWorldEncounter(encounter) {
         this.encounter = encounter;
     }
-
-
 
     initEditTool(closeCb) {
         GameAPI.worldModels.deactivateEncounters();

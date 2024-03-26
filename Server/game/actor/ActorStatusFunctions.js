@@ -213,6 +213,10 @@ function exitEncounter(encounter, actor, victory) {
 
     if (!victory) {
         let exitTile = encounter.getRandomExitTile();
+        if (!exitTile) {
+            console.log("Not here, probably a disconnect...");
+            return
+        }
         let exitPos = exitTile.getPos();
         setDestination(actor, exitPos);
         console.log("Exit lost Encounter")

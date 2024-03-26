@@ -145,6 +145,7 @@ class HtmlElement {
 
         let populateSelectList = function(id, list) {
             let selectElem = getChildElement(id);
+            DomUtils.removeElementChildren(selectElem);
             list.forEach(function(item){
                 let option = createElement('option');
                 option.value = item;
