@@ -78,7 +78,10 @@ class DomEditSpawns {
 
         function removeSelectedPattern() {
             MATH.splice(config.spawn.patterns, selectedPattern);
+            updatePatternAtCursor(null);
         }
+
+
 
         function addPatternAtTile(patternId, tile) {
             console.log("addPatternAtTile", patternId);
@@ -87,6 +90,8 @@ class DomEditSpawns {
                 tile:[tile.gridI, tile.gridJ]
             }
             config.spawn.patterns.push(addPatternConfig);
+            let pattern = getSpawnByTile(tile);
+            updatePatternAtCursor(pattern);
         }
 
         function operateSelection() {
@@ -217,14 +222,27 @@ class DomEditSpawns {
                 return;
             }
             let patternId = pattern.pattern_id;
-            console.log(pattern, patterns);
+        //    console.log(pattern, patterns);
             let patternConfig = patterns[patternId];
             let spawnTiles = patternConfig['spawn_tiles'];
             for (let i = 0; i < spawnTiles.length; i++) {
                 let spawnTile = spawnTiles[i];
                 let x = spawnTile[0];
                 let y = spawnTile[1];
-                let gridTile = activeEncounterGrid.gridTiles[tile.gridI+x][tile.gridJ+y];
+
+                let ix = tile.gridI+x;
+                let jy = tile.gridJ+y;
+                let tiles = activeEncounterGrid.gridTiles;
+
+                if (!tiles[ix]) {
+                    ix-=tile.gridI;
+                }
+
+                if (!tiles[tile.gridI][jy]) {
+                    jy-=tile.gridJ;
+                }
+
+                let gridTile = tiles[ix][jy];
                 if (patternNodeTiles.indexOf(gridTile) === -1) {
                     patternNodeTiles.push(gridTile);
                 } else {
