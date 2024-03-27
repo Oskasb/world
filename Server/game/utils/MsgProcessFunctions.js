@@ -10,6 +10,7 @@ import {
 import {getIncomingBytes, getOutgoingBytes} from "./ServerStatusTracker.js";
 import {applyServerAction} from "../action/ServerActionFunctions.js";
 import {MATH} from "../../../client/js/application/MATH.js";
+import {saveFileFromSocketMessage} from "./EditorFunctions.js";
 
 let msgEvent = {
     stamp:0,
@@ -176,7 +177,6 @@ function processClientRequest(request, stamp, message, connectedClient) {
             message.command = ENUMS.ServerCommands.ACTOR_UPDATE;
             relayActorMessage(actor, message, player);
 
-
             break;
         case ENUMS.ClientRequests.ENCOUNTER_INIT:
             getGameServerWorld().initServerEncounter(message)
@@ -211,6 +211,12 @@ function processClientRequest(request, stamp, message, connectedClient) {
 
  */
             // console.log('APPLY_ACTION_EFFECT', player, target, modifier, amount);
+            break;
+
+        case ENUMS.ClientRequests.WRITE_FILE:
+            saveFileFromSocketMessage(message);
+            message.command = ENUMS.ServerCommands.LOAD_FILE;
+            dispatchMessage(message)
             break;
         default:
             console.log("Message not handled by server:", message)

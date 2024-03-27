@@ -143,7 +143,7 @@ class DomEditSpawns {
             DomUtils.addClickFunction(operateButtonDiv, operateSelection)
             console.log("Edit encounter spawns", this.encounter);
             statusMap.id = this.encounter.id;
-            statusMap.config_id = 'config_'+statusMap.id;
+            statusMap.config_id = statusMap.id;
             let loadedConfig = loadSavedConfig(statusMap.config_id);
             if (loadedConfig === null) {
                 config = this.encounter.config;

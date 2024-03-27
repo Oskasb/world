@@ -37,6 +37,15 @@ function loadSavedConfig(id) {
 function saveConfigEdits(id, editedConfig) {
     let json = JSON.stringify(editedConfig);
     savedConfigs[id] = JSON.parse(json);
+
+    evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, {
+        request:ENUMS.ClientRequests.WRITE_FILE,
+        id:id,
+        file:"edits/configs/"+id+".json",
+        format:"JSON",
+        data:json,
+    })
+
     return savedConfigs[id];
 }
 

@@ -130,7 +130,8 @@ let ENUMS = {}
         ENCOUNTER_PLAY:9,
         REGISTER_CONFIGS:10,
         APPLY_ACTION_EFFECT:11,
-        UPDATE_STRONGHOLD:12
+        UPDATE_STRONGHOLD:12,
+        WRITE_FILE:13
     };
 
     ENUMS.ServerCommands = {
@@ -150,7 +151,8 @@ let ENUMS = {}
         SYSTEM_INFO: 14,
         ACTION_UPDATE:15,
         FETCH_CONFIGS:16,
-        STRONGHOLD_UPDATE:17
+        STRONGHOLD_UPDATE:17,
+        LOAD_FILE:18
     };
 
     ENUMS.PlayerStatus = {

@@ -395,5 +395,4 @@ export {
     applyStatusMessageToMap,
     buildEncounterActorStatus,
     spawnServerEncounterActor
-
 }

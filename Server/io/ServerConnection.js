@@ -10,6 +10,35 @@ gameServer.initServerLoop(100);
 setGameServer(gameServer)
 
 let sends = 0;
+let server = null;
+let edit_index = null;
+let indexFile = "edits/edit_index.json"
+function updateEditWriteIndex(id, file) {
+	console.log("updateEditWriteIndex", id, file)
+	edit_index[id] = file;
+	let writeCB = function(res) {
+		if (res !== null) {
+			console.log("index error:", res);
+		} else {
+			console.log("index updated:", id);
+		}
+	}
+	server.writeFile(indexFile, JSON.stringify(edit_index), writeCB)
+}
+
+function loadEditIndex() {
+	let indexCb = function(error, data) {
+		if (error) {
+
+		} else {
+			edit_index = JSON.parse(data);
+			console.log("Edit Index Loaded");
+			console.log(edit_index);
+		}
+	}
+
+	server.readFile(indexFile, indexCb)
+}
 
 class ServerConnection {
 	constructor() {
@@ -20,9 +49,21 @@ class ServerConnection {
 		this.wss.close();
 	};
 
-	setupSocket = function(wss) {
-		this.wss = wss;
+	writeDataToFile(id, file, data) {
+		let writeCB = function(res) {
+			if (res !== null) {
+				console.log("writeFile error:", res);
+			} else {
+				updateEditWriteIndex(id, file);
+			}
+		}
+		server.writeFile(file, data, writeCB)
+	}
 
+	setupSocket = function(wss, srvr) {
+		this.wss = wss;
+		server = srvr;
+		loadEditIndex();
 		wss.on("connection", function(ws) {
 
 			sockets.push(ws);

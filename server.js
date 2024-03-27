@@ -1,9 +1,8 @@
-// node servez C:\projects\rpg_combat\src
 
-// Use "lite-server" from packages for hot reload on js changes
 import {WebSocketServer} from "ws";
 import {createServer} from 'node:http'
 import {readFile} from 'node:fs'
+import {writeFile} from 'node:fs'
 import {extname} from 'node:path'
 const ws = WebSocketServer.Server;
 
@@ -51,19 +50,17 @@ let server = createServer(
 
     readFile(filePath, function(error, content) {
         if (error) {
-            if(error.code == 'ENOENT'){
+            if(error.code === 'ENOENT'){
                 readFile('./404.html', function(error, content) {
                     response.writeHead(200, { 'Content-Type': contentType });
                     response.end(content, 'utf-8');
                 });
-            }
-            else {
+            } else {
                 response.writeHead(500);
                 response.end('Sorry, check with the site admin for error: '+error.code+' ..\n');
                 response.end();
             }
-        }
-        else {
+        } else {
 
             response.setHeader('Access-Control-Allow-Origin', '*');
             response.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
@@ -72,7 +69,6 @@ let server = createServer(
             response.setHeader('Cross-origin-Opener-Policy','same-origin');
             response.setHeader('Access-Control-Max-Age', 60*60*24*30);
             response.setHeader('Content-Type', contentType);
-
 
             // response.writeHead(200, {                'Content-Type': contentType             });
             response.end(content, 'utf-8');
@@ -83,9 +79,12 @@ let server = createServer(
 
 ).listen(port);
 
+server.writeFile = writeFile;
+server.readFile = readFile;
+
 let wss = new WebSocketServer({server: server});
 
-serverMain.initServerConnection(wss);
+serverMain.initServerConnection(wss, server);
 
 console.log('Server running at port: '+port);
 
