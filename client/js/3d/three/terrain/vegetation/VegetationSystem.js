@@ -7,7 +7,7 @@ let updateVegetationSystem = function() {
     if (tpf < 0.03) {
         vegetation.updateVegetation(lodCenter)
     } else {
-        console.log("Slow frame, skipping vegetation update");
+    //    console.log("Slow frame, skipping vegetation update");
     }
 
 }

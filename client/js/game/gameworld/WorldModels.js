@@ -185,7 +185,7 @@ let activateWorldEncounters = function(event) {
             if (completedEncounters.indexOf(encId) === -1) {
                 new WorldEncounter(encId, encounters[i], onReady)
             } else {
-                console.log("Not loading completed encounters..", encId);
+                console.log("Not loading completed encounter..", encId);
                 skippedEncounters[encId] = encounters[i];
             }
 
@@ -212,8 +212,8 @@ let activateWorldEncounters = function(event) {
 
     let locationData = function(data, listId) {
         for (let i = 0; i < data.length;i++) {
-            if (data[i].config['encounters']) {
-       //         console.log("locationData: ", data[i].config['encounters'])
+            if (data[i].config['encounter']) {
+       //         console.log("locationData: ", data[i].config['encounter'])
                 encountersData(data[i].config.encounters, i, listId);
             }
             if (data[i].config['treasures']) {

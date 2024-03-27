@@ -4,6 +4,7 @@ import {ServerEncounter} from "./encounter/ServerEncounter.js";
 import {GameServerWorld} from "./GameServerWorld.js";
 import {ServerPlayer} from "./player/ServerPlayer.js";
 import {ServerWorldMessenger} from "../io/ServerWorldMessenger.js";
+import {getEditIndex} from "./utils/EditorFunctions.js";
 
 
 let connectedPlayers = [];
@@ -68,6 +69,7 @@ class GameServer {
                 let message = {
                     request:ENUMS.ClientRequests.REGISTER_PLAYER,
                     command:ENUMS.ServerCommands.FETCH_CONFIGS,
+                    edit_index:getEditIndex(),
                     folders:['GAME', 'GAME_ACTIONS', 'GAME_ACTORS', 'GRID']
                 }
                 serverConfigs = {};

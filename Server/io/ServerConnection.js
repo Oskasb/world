@@ -1,7 +1,9 @@
 import {ConnectedClient} from "../game/player/ConnectedClient.js";
 import {GameServer} from "../game/GameServer.js";
-import {setGameServer} from "../game/utils/GameServerFunctions.js";
+import {applyMessageToClient, setGameServer} from "../game/utils/GameServerFunctions.js";
 import {trackIncomingBytes, trackOutgoingBytes} from "../game/utils/ServerStatusTracker.js";
+import {ENUMS} from "../../client/js/application/ENUMS.js";
+import {addIndexEntry, setEditIndex} from "../game/utils/EditorFunctions.js";
 
 let sockets = [];
 let connectedPlayers = [];
@@ -13,9 +15,8 @@ let sends = 0;
 let server = null;
 let edit_index = null;
 let indexFile = "edits/edit_index.json"
-function updateEditWriteIndex(id, file) {
-	console.log("updateEditWriteIndex", id, file)
-	edit_index[id] = file;
+function updateEditWriteIndex(id, file, format) {
+	addIndexEntry(id, file, format);
 	let writeCB = function(res) {
 		if (res !== null) {
 			console.log("index error:", res);
@@ -26,17 +27,16 @@ function updateEditWriteIndex(id, file) {
 	server.writeFile(indexFile, JSON.stringify(edit_index), writeCB)
 }
 
-function loadEditIndex() {
+function loadEditIndex(cb) {
 	let indexCb = function(error, data) {
 		if (error) {
-
 		} else {
 			edit_index = JSON.parse(data);
 			console.log("Edit Index Loaded");
 			console.log(edit_index);
+			cb(edit_index);
 		}
 	}
-
 	server.readFile(indexFile, indexCb)
 }
 
@@ -49,26 +49,43 @@ class ServerConnection {
 		this.wss.close();
 	};
 
-	writeDataToFile(id, file, data) {
+	writeDataToFile(format, id, file, data) {
 		let writeCB = function(res) {
 			if (res !== null) {
 				console.log("writeFile error:", res);
 			} else {
-				updateEditWriteIndex(id, file);
+				updateEditWriteIndex(id, file, format);
 			}
 		}
+		console.log("writeDataToFile", id, file, data);
 		server.writeFile(file, data, writeCB)
+	}
+
+	readDataFromFile(format, id, file, callback) {
+
+		let dataCb = function(error, data) {
+			if (error) {
+				console.log("Data Read Error: ", id, file, error);
+			} else {
+				let value = JSON.parse(data);
+				console.log("File Loaded", id, file);
+				console.log(value);
+				callback(value)
+			}
+		}
+		console.log("readDataFromFile", id, file);
+		server.readFile(file, dataCb)
 	}
 
 	setupSocket = function(wss, srvr) {
 		this.wss = wss;
 		server = srvr;
-		loadEditIndex();
+
+		loadEditIndex(setEditIndex);
+
 		wss.on("connection", function(ws) {
-
 			sockets.push(ws);
-
-			var sends = 0;
+			let sends = 0;
 
 			let returnFromPlayer = function(message) {
 				sends++
@@ -77,7 +94,6 @@ class ServerConnection {
 				trackOutgoingBytes(bytes)
 				ws.send(message)
 			}
-
 
 			ws.connectedClient = new ConnectedClient(returnFromPlayer, false)
 			ws.connectedClient.activateConnectedClient();
@@ -101,9 +117,6 @@ class ServerConnection {
 			})
 
 		});
-
-		console.log("Init Server ClientConnection")
-
 	};
 
 };

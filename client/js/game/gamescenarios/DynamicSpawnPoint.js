@@ -184,7 +184,7 @@ class DynamicSpawnPoint {
                     }
                 } else {
                     console.log("Not loading completed dynamic encounter..", encId);
-                //    skippedEncounters[encId] = encounters[i];
+                //    skippedEncounters[encId] = encounter[i];
                 }
 
                 deactivateVisible();

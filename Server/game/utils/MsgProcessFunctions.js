@@ -10,7 +10,7 @@ import {
 import {getIncomingBytes, getOutgoingBytes} from "./ServerStatusTracker.js";
 import {applyServerAction} from "../action/ServerActionFunctions.js";
 import {MATH} from "../../../client/js/application/MATH.js";
-import {saveFileFromSocketMessage} from "./EditorFunctions.js";
+import {getEditIndex, readFileFromSocketMessage, saveFileFromSocketMessage} from "./EditorFunctions.js";
 
 let msgEvent = {
     stamp:0,
@@ -55,6 +55,10 @@ function processClientRequest(request, stamp, message, connectedClient) {
                 connectedClient.setStamp(stamp)
                 message.command = ENUMS.ServerCommands.PLAYER_CONNECTED
                 dispatchMessage(message)
+                message.command = ENUMS.ServerCommands.LOAD_FILE_DATA
+                message.id = "edit_index";
+                message.data = getEditIndex();
+                connectedClient.call.returnDataMessage(message)
             }
 
             break
@@ -214,9 +218,29 @@ function processClientRequest(request, stamp, message, connectedClient) {
             break;
 
         case ENUMS.ClientRequests.WRITE_FILE:
+            console.log("saveFileFromSocketMessage", message)
             saveFileFromSocketMessage(message);
-            message.command = ENUMS.ServerCommands.LOAD_FILE;
+            message.command = ENUMS.ServerCommands.LOAD_FILE_DATA;
             dispatchMessage(message)
+            break;
+        case ENUMS.ClientRequests.READ_FILE:
+            console.log("ENUMS.ClientRequests.READ_FILE", message)
+
+            let res = {
+                stamp:message.stamp,
+                command:ENUMS.ServerCommands.LOAD_FILE_DATA,
+                request:ENUMS.ClientRequests.READ_FILE,
+                id:message.id,
+                file:message.file,
+                format:message.format
+            }
+
+            let callback = function(data) {
+                res.data = data;
+                connectedClient.call.returnDataMessage(res)
+            }
+
+            readFileFromSocketMessage(message, callback)
             break;
         default:
             console.log("Message not handled by server:", message)

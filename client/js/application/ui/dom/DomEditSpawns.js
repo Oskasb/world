@@ -5,6 +5,7 @@ import {ConfigData} from "../../utils/ConfigData.js";
 import {colorMapFx} from "../../../game/visuals/Colors.js";
 import {filterForWalkableTiles} from "../../../game/gameworld/ScenarioUtils.js";
 import {loadSavedConfig, saveConfigEdits} from "../../utils/ConfigUtils.js";
+import {ENUMS} from "../../ENUMS.js";
 
 let tempVec = new Vector3();
 let frustumFactor = 0.828;
@@ -86,7 +87,6 @@ class DomEditSpawns {
         }
 
 
-
         function addPatternAtTile(patternId, tile) {
             console.log("addPatternAtTile", patternId);
             let addPatternConfig = {
@@ -125,10 +125,19 @@ class DomEditSpawns {
         }
 
         let saveEdits = function() {
-            config = saveConfigEdits(this.statusMap.config_id, config)
+            let worldLevel = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
+            config = saveConfigEdits("encounter", worldLevel, this.statusMap.config_id, config)
             this.encounter.config = config;
             console.log("Save Enc Spawn config ", this.encounter);
         }.bind(this);
+
+        function configLoaded(cfg) {
+            console.log("Config Loaded", cfg);
+            if (cfg !== null) {
+                config = cfg;
+            }
+            saveEdits();
+        }
 
         let htmlReady = function(htmlEl) {
             console.log(configData)
@@ -144,14 +153,10 @@ class DomEditSpawns {
             console.log("Edit encounter spawns", this.encounter);
             statusMap.id = this.encounter.id;
             statusMap.config_id = statusMap.id;
-            let loadedConfig = loadSavedConfig(statusMap.config_id);
-            if (loadedConfig === null) {
-                config = this.encounter.config;
-            } else {
-                config = loadedConfig;
-            }
+            config = this.encounter.config;
 
-            saveEdits();
+            loadSavedConfig(statusMap.config_id, configLoaded);
+
             let loadGrid = poolFetch('EncounterGrid');
             loadGrid.initEncounterGrid(config.grid_id, getPos(), gridLoaded)
         }.bind(this);

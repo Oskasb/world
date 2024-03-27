@@ -10,6 +10,8 @@ import {ENUMS} from "../../application/ENUMS.js";
 import {MATH} from "../../application/MATH.js";
 import {RemoteClient} from "./RemoteClient.js";
 import {processStatisticalActionApplied} from "../../game/actions/ActionStatusProcessor.js";
+import {applyRemoteConfigMessage, setEditIndexClient} from "../../application/utils/ConfigUtils.js";
+import {saveFileFromSocketMessage} from "../../../../Server/game/utils/EditorFunctions.js";
 
 
 let remoteClients = {}
@@ -139,6 +141,8 @@ let lastBytesIn = 0;
 let lastPingTime = 0;
 
 function processServerCommand(protocolKey, message) {
+
+ //   console.log("processServerCommand", protocolKey, message)
 
     let clientStamp = client.getStamp();
     let stamp = message.stamp;
@@ -427,8 +431,23 @@ function processServerCommand(protocolKey, message) {
                 res.data[folder] = folderData;
             }
 
-            console.log("Send configs to server; ", res.data);
-            evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, res);
+
+
+            if (message.folders.length) {
+                console.log("Send configs to server; ", res.data);
+                evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, res);
+            }
+
+
+            break;
+        case ENUMS.ServerCommands.LOAD_FILE_DATA:
+            console.log("LOAD_FILE_DATA:", message);
+            if (message.id === "edit_index") {
+                setEditIndexClient(message.data);
+            } else {
+                applyRemoteConfigMessage(message);
+            }
+
 
             break;
         default:

@@ -110,7 +110,6 @@ class ConnectedClient { // This is running on both the client in a worker and on
             }, 1500)
             */
         }
-
     }
 
     activateConnectedClient() {
