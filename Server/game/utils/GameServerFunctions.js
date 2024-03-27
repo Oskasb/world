@@ -133,6 +133,10 @@ function dispatchMessage(messageData) {
     getGameServer().messageWorldClients(messageData)
 }
 
+function broadcastAll(messageData) {
+    getGameServer().messageAllClients(messageData)
+}
+
 function applyMessageToClient(messageDate) {
     postMessage([ENUMS.Protocol.MESSAGE_RELAYED, messageDate]);
 }
@@ -381,6 +385,7 @@ export {
     unregisterGameServerUpdateCallback,
     dispatchPartyMessage,
     dispatchMessage,
+    broadcastAll,
     applyMessageToClient,
     equipActorItem,
     getStatusFromMsg,

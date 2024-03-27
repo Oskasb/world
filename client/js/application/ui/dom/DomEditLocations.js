@@ -4,6 +4,7 @@ import {notifyCameraStatus} from "../../../3d/camera/CameraFunctions.js";
 import {GuiAxisSlider} from "../gui/widgets/GuiAxisSlider.js";
 import {GuiAxisFeedback} from "../gui/widgets/GuiAxisFeedback.js";
 import {ENUMS} from "../../ENUMS.js";
+import {detachConfig} from "../../utils/ConfigUtils.js";
 
 let classNames = {
     'GuiAxisSlider':GuiAxisSlider,
@@ -209,10 +210,11 @@ class DomEditLocations {
             let model = e.target.value
             console.log("Edit Activated", model);
 
+            model.config = detachConfig(model.config);
+
             if (typeof (editCursors[model.id]) !== 'object') {
                 e.target.style.visibility = "hidden";
                 let cursor = poolFetch('DomEditCursor')
-
 
                 let onClick = function(crsr) {
                     console.log("Clicked Cursor", crsr)

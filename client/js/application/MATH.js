@@ -540,6 +540,12 @@ MATH.decimalify = function(value, scale) {
 	return Math.round(value*scale) / scale;
 };
 
+MATH.decimalifyVec3 = function(vec3, scale) {
+	vec3.x = MATH.decimalify(vec3.x, scale);
+	vec3.y = MATH.decimalify(vec3.y, scale);
+	vec3.z = MATH.decimalify(vec3.z, scale);
+}
+
 
 MATH.sphereDisplacement = function(radius, depth) {
 	if (depth < radius) return 0;
@@ -695,6 +701,12 @@ MATH.rotXYZFromArray = function(obj3d, rot) {
 	obj3d.rotateX(rot[0]);
 	obj3d.rotateY(rot[1]);
 	obj3d.rotateZ(rot[2]);
+}
+
+MATH.rotObj3dToArray = function(obj3d, array, scale) {
+	array[0] = this.decimalify(obj3d.rotation.x, scale || 10000);
+	array[1] = this.decimalify(obj3d.rotation.y, scale || 10000);
+	array[2] = this.decimalify(obj3d.rotation.z, scale || 10000);
 }
 
 MATH.vectorYZToAngleAxisX = function(vec) {

@@ -2,6 +2,7 @@ import {poolFetch, poolReturn} from "../../utils/PoolUtils.js";
 import {Vector3} from "../../../../libs/three/math/Vector3.js";
 import {Object3D} from "../../../../libs/three/core/Object3D.js";
 import {paletteKeys} from "../../../game/visuals/Colors.js";
+import {saveWorldModelEdits} from "../../utils/ConfigUtils.js";
 
 let tempVec = new Vector3();
 let frustumFactor = 0.828;
@@ -135,7 +136,7 @@ class DomEditWorldModel {
                     statusMap.palette = paletteVal.value;
                     console.log("Palette Changed", worldModel)
                     worldModel.call.setPaletteKey(statusMap.palette);
-
+                    saveWorldModelEdits(worldModel);
                 }
 
                 if (operationSelect.value !== selectedOperation) {

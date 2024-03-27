@@ -20,7 +20,7 @@ function addIndexEntry(id, file, format) {
 
 function saveFileFromSocketMessage(message) {
     if (message.format === "JSON") {
-        console.log("saveFileFromSocketMessage JSON", message.file);
+    //    console.log("saveFileFromSocketMessage JSON", message.file);
         addIndexEntry(message.id, message.file, message.format);
         serverConnection.writeDataToFile(message.format, message.id, message.file, message.data);
     } else {

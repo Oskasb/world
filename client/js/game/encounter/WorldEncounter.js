@@ -266,7 +266,6 @@ class WorldEncounter {
         this.camHomePos = new Vector3();
         this.obj3d = new Object3D();
 
-
         this.visualEncounterHost = new VisualEncounterHost(this.obj3d);
         this.encounterIndicator = new EncounterIndicator(this.obj3d)
         this.interactGui = null;
@@ -384,19 +383,20 @@ class WorldEncounter {
             evt.dispatch(ENUMS.Event.GAME_MODE_BATTLE, encounterEvent)
         }.bind(this)
 
+        let init = false;
+        let hostActor;
 
-        this.call = {
-            triggerWorldEncounter:triggerWorldEncounter,
-            serverEncounterActivated:serverEncounterActivated,
-            startWorldEncounter:startWorldEncounter,
-            lodUpdated:lodUpdated,
-            onGameUpdate:onGameUpdate,
-        }
-
-        let configLoaded = function(cfg) {
+        let applyConfig = function(cfg) {
 
             if (cfg !== null) {
+                console.log("WE Config Loaded ", cfg)
                 this.config = cfg;
+                if (init) {
+                    this.applyUpdatedConfig()
+
+                    return;
+                }
+                init = true;
             }
 
             MATH.vec3FromArray(this.obj3d.position, this.config.pos)
@@ -406,6 +406,7 @@ class WorldEncounter {
                 //    console.log("config host_id: ", this.config.host_id)
 
                 let actorReady = function(actor) {
+                    hostActor = actor;
                     actor.setStatusKey(ENUMS.ActorStatus.ACTOR_LEVEL, this.encounterLevel);
                     hostReady()
                 }.bind(this)
@@ -427,9 +428,20 @@ class WorldEncounter {
 
                 parseConfigDataKey("ENCOUNTER_INDICATORS", "INDICATORS",  'indicator_data', this.config.indicator_id, onIndicatorData)
             }
-        }.bind(this)
+        }.bind(this);
 
-        loadSavedConfig(id, configLoaded);
+        this.call = {
+            triggerWorldEncounter:triggerWorldEncounter,
+            serverEncounterActivated:serverEncounterActivated,
+            startWorldEncounter:startWorldEncounter,
+            lodUpdated:lodUpdated,
+            onGameUpdate:onGameUpdate,
+            applyConfig:applyConfig
+        }
+
+
+
+        loadSavedConfig(id, this.call.applyConfig);
 
     }
 
@@ -459,6 +471,16 @@ class WorldEncounter {
 
     getHostActor() {
         return this.visualEncounterHost.call.getActor();
+    }
+
+    applyUpdatedConfig() {
+        MATH.vec3FromArray(this.obj3d.position, this.config.pos)
+        this.obj3d.position.y = ThreeAPI.terrainAt(this.obj3d.position);
+        let hostActor = this.visualEncounterHost.call.getActor();
+        if (hostActor) {
+            hostActor.setSpatialPosition(this.obj3d.position)
+            hostActor.actorText.say(JSON.stringify(this.config.pos))
+        }
     }
 
     getTriggeredCameraHome() {

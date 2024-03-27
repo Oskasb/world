@@ -151,9 +151,10 @@ class DomEditSpawns {
             console.log("Edit encounter spawns", this.encounter);
             statusMap.id = this.encounter.id;
             statusMap.config_id = statusMap.id;
-            config = detachConfig(this.encounter.config);
-            this.encounter.config = config;
-            loadSavedConfig(statusMap.config_id, configLoaded);
+            config = this.encounter.config;
+        //    config = detachConfig(this.encounter.config);
+        //    this.encounter.config = config;
+        //    loadSavedConfig(statusMap.config_id, configLoaded);
             let loadGrid = poolFetch('EncounterGrid');
             loadGrid.initEncounterGrid(config.grid_id, getPos(), gridLoaded)
         }.bind(this);

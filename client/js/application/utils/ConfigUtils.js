@@ -3,10 +3,20 @@ import {ENUMS} from "../ENUMS.js";
 
 let savedConfigs = {};
 let editIndex = {};
+let requestListeners = [];
 
 function setEditIndexClient(eIndex) {
-    console.log("Loaded Edit Index: ", eIndex);
+    console.log("Loaded Edit Index: ", eIndex, requestListeners);
     editIndex = eIndex;
+    for (let key in eIndex) {
+        for (let i = 0; i < requestListeners.length; i++) {
+            if (requestListeners[i].id === key) {
+                let entry = requestListeners[i];
+                console.log("Preloaded call triggeres: ", key);
+                loadSavedConfig(key, entry.callback)
+            }
+        }
+    }
 }
 
 let configDataList = function(root, folder, onData) {
@@ -33,21 +43,30 @@ function parseConfigDataKey(root, folder, dataId, id, callback) {
     configData.parseConfig(id, callback)
 }
 
-let requestQueue = []
+
 
 function loadSavedConfig(id, callback) {
+//    console.log("Request", id)
     if (typeof (savedConfigs[id]) === 'object') {
         callback(savedConfigs[id])
     } else {
+        let add = true;
+        for (let i = 0; i < requestListeners.length; i++) {
+            if (requestListeners[i].id === id) {
+                add = false;
+            }
+        }
+        if (add === true) {
+            requestListeners.push({id:id, callback:callback});
+        }
         if (typeof(editIndex[id]) === 'object') {
-            requestQueue.push({id:id, callback:callback});
             evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, {
                 request:ENUMS.ClientRequests.READ_FILE,
                 id:id,
                 file:editIndex[id].file,
                 format:editIndex[id].format
             })
-            console.log("Load from index", id);
+        //    console.log("Load from index", id);
         } else {
             // console.log("Not in Index", id, editIndex);
             callback(null);
@@ -57,16 +76,12 @@ function loadSavedConfig(id, callback) {
 
 function applyRemoteConfigMessage(message) {
     let id = message.id;
-    let file = message.file;
-    let format = message.format;
     let data = message.data;
     savedConfigs[id] = data;
-        console.log("applyRemoteConfigMessage", message, savedConfigs, requestQueue);
-    for (let i = 0; i < requestQueue.length; i++) {
-        if (requestQueue[i].id === id) {
-            let entry =requestQueue[i];
-            MATH.splice(requestQueue, entry);
-            i++;
+//    console.log("applyRemoteConfigMessage", message, savedConfigs, requestListeners);
+    for (let i = 0; i < requestListeners.length; i++) {
+        if (requestListeners[i].id === id) {
+            let entry =requestListeners[i];
             entry.callback(savedConfigs[id]);
         }
     }
@@ -97,6 +112,12 @@ function saveEncounterEdits(encounter) {
     console.log("Save Enc config ", encounter);
 }
 
+function saveWorldModelEdits(wModel) {
+    let worldLevel = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
+    saveConfigEdits("model", worldLevel, wModel.id, wModel.config)
+    console.log("Save World Model config ", wModel);
+}
+
 export {
     detachConfig,
     setEditIndexClient,
@@ -105,5 +126,6 @@ export {
     loadSavedConfig,
     applyRemoteConfigMessage,
     saveConfigEdits,
-    saveEncounterEdits
+    saveEncounterEdits,
+    saveWorldModelEdits
  }

@@ -249,10 +249,11 @@ class WorldTreasure {
                         let gameTime = GameAPI.getGameTime()
 
                         obj3d.quaternion.set(0, 0, 0, 1);
+                        MATH.rotXYZFromArray(obj3d, rot);
                         obj3d.rotateX(gameTime * spin[0])
                         obj3d.rotateY(gameTime * spin[1])
                         obj3d.rotateZ(gameTime * spin[2])
-                        MATH.rotXYZFromArray(obj3d, rot);
+
 
                         obj3d.position.copy(getPos());
                         obj3d.position.y += 0.5 + Math.sin(GameAPI.getGameTime()*5) * 0.005;

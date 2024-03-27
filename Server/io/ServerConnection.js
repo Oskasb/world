@@ -57,7 +57,7 @@ class ServerConnection {
 				updateEditWriteIndex(id, file, format);
 			}
 		}
-		console.log("writeDataToFile", id, file, data);
+		console.log("writeDataToFile", id, file);
 		server.writeFile(file, data, writeCB)
 	}
 

@@ -38,7 +38,7 @@
 
                         "status": {
                           "ALIGNMENT": "FRIENDLY",
-                          "STRONGHOLD_ID": "FARM_HOVEL"
+                          "STRONGHOLD_ID": "SH_MANSION"
                         }
                       }
                     }
@@ -86,7 +86,7 @@
                         ],
                         "status": {
                           "ALIGNMENT": "FRIENDLY",
-                          "STRONGHOLD_ID": "FARM_HOVEL"
+                          "STRONGHOLD_ID": "SH_MANSION"
                         }
                       }
                     }
@@ -157,7 +157,7 @@
                         "equipped_items": ["ITEM_HAT_LEATHER", "ITEM_SWORD_FANCY", "ITEM_SHIRT_CHAIN"],
                         "status": {
                           "ALIGNMENT": "FRIENDLY",
-                          "STRONGHOLD_ID": "FARM_HOVEL"
+                          "STRONGHOLD_ID": "SH_MANSION"
                         }
                       }
                     }
@@ -183,7 +183,7 @@
                         "equipped_items": ["ITEM_HAT_WHITE", "ITEM_DRAKEN", "ITEM_SWORD_FANCY"],
                         "status": {
                           "ALIGNMENT": "FRIENDLY",
-                          "STRONGHOLD_ID": "FARM_HOVEL"
+                          "STRONGHOLD_ID": "SH_MANSION"
                         }
                       }
                     }
@@ -209,7 +209,7 @@
                         "equipped_items": ["ITEM_HAT_RED", "ITEM_SWORD_FANCY"],
                         "status": {
                           "ALIGNMENT": "FRIENDLY",
-                          "STRONGHOLD_ID": "FARM_HOVEL"
+                          "STRONGHOLD_ID": "SH_MANSION"
                         }
                       }
                     }
@@ -235,7 +235,7 @@
                         "equipped_items": ["ITEM_JETPACK", "ITEM_WRIST_COMPUTER"],
                         "status": {
                           "ALIGNMENT": "FRIENDLY",
-                          "STRONGHOLD_ID": "FARM_HOVEL"
+                          "STRONGHOLD_ID": "SH_MANSION"
                         }
                       }
                     }

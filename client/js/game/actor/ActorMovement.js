@@ -5,7 +5,6 @@ import {processEncounterGridTilePath} from "../gameworld/ScenarioUtils.js";
 import {Object3D, Vector3} from "../../../libs/three/Three.js";
 import {detectFreeSpaceAbovePoint, rayTest, testProbeFitsAtPos} from "../../application/utils/PhysicsUtils.js";
 import {colorMapFx} from "../visuals/Colors.js";
-import {WorldModel} from "../gameworld/WorldModel.js";
 import {PhysicalProbe} from "../piece_functions/PhysicalProbe.js";
 import {Box3} from "../../../libs/three/Three.js";
 

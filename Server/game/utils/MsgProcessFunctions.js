@@ -1,6 +1,6 @@
 import {ENUMS} from "../../../client/js/application/ENUMS.js";
 import {
-    applyStatusToMap,
+    applyStatusToMap, broadcastAll,
     dispatchMessage,
     getGameServer,
     getGameServerWorld, getRegisteredActors, getServerActorByActorId,
@@ -218,10 +218,11 @@ function processClientRequest(request, stamp, message, connectedClient) {
             break;
 
         case ENUMS.ClientRequests.WRITE_FILE:
-            console.log("saveFileFromSocketMessage", message)
+            console.log("saveFileFromSocketMessage", message.file)
             saveFileFromSocketMessage(message);
             message.command = ENUMS.ServerCommands.LOAD_FILE_DATA;
-            dispatchMessage(message)
+            message.data = JSON.parse(message.data);
+            broadcastAll(message)
             break;
         case ENUMS.ClientRequests.READ_FILE:
             console.log("ENUMS.ClientRequests.READ_FILE", message)
