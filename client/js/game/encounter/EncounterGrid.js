@@ -33,7 +33,9 @@ class EncounterGrid {
         MATH.emptyArray(this.gridTiles);
         MATH.emptyArray(this.instances);
 
-        this.center.copy(pos);
+        this.center.x = Math.round(pos.x);
+        this.center.y = Math.round(pos.y);
+        this.center.z = Math.round(pos.z);
         if (forwardVec) {
             forward.copy(forwardVec);
         } else {

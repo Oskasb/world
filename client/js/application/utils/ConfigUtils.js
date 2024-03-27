@@ -1,5 +1,7 @@
 import { ConfigData } from "./ConfigData.js";
 
+let savedConfigs = {};
+
 let configDataList = function(root, folder, onData) {
     let storeList = {};
 
@@ -25,8 +27,22 @@ function parseConfigDataKey(root, folder, dataId, id, callback) {
 }
 
 
+function loadSavedConfig(id) {
+    if (typeof (savedConfigs[id]) === 'object') {
+        return savedConfigs[id];
+    }
+    return null;
+}
+
+function saveConfigEdits(id, editedConfig) {
+    let json = JSON.stringify(editedConfig);
+    savedConfigs[id] = JSON.parse(json);
+    return savedConfigs[id];
+}
 
 export {
     configDataList,
-    parseConfigDataKey
+    parseConfigDataKey,
+    loadSavedConfig,
+    saveConfigEdits
  }

@@ -3,6 +3,8 @@ import {Vector3} from "../../../../libs/three/math/Vector3.js";
 import {Object3D} from "../../../../libs/three/core/Object3D.js";
 import {ConfigData} from "../../utils/ConfigData.js";
 import {colorMapFx} from "../../../game/visuals/Colors.js";
+import {filterForWalkableTiles} from "../../../game/gameworld/ScenarioUtils.js";
+import {loadSavedConfig, saveConfigEdits} from "../../utils/ConfigUtils.js";
 
 let tempVec = new Vector3();
 let frustumFactor = 0.828;
@@ -56,6 +58,7 @@ class DomEditSpawns {
         this.encounter = null;
 
         this.statusMap = {
+            config_id:"",
             id:""
         };
         let cursorTile = null;
@@ -79,6 +82,7 @@ class DomEditSpawns {
         function removeSelectedPattern() {
             MATH.splice(config.spawn.patterns, selectedPattern);
             updatePatternAtCursor(null);
+            saveEdits();
         }
 
 
@@ -92,6 +96,7 @@ class DomEditSpawns {
             config.spawn.patterns.push(addPatternConfig);
             let pattern = getSpawnByTile(tile);
             updatePatternAtCursor(pattern);
+            saveEdits();
         }
 
         function operateSelection() {
@@ -119,6 +124,12 @@ class DomEditSpawns {
             ThreeAPI.registerPrerenderCallback(update);
         }
 
+        let saveEdits = function() {
+            config = saveConfigEdits(this.statusMap.config_id, config)
+            this.encounter.config = config;
+            console.log("Save Enc Spawn config ", this.encounter);
+        }.bind(this);
+
         let htmlReady = function(htmlEl) {
             console.log(configData)
             htmlElem = htmlEl;
@@ -132,9 +143,15 @@ class DomEditSpawns {
             DomUtils.addClickFunction(operateButtonDiv, operateSelection)
             console.log("Edit encounter spawns", this.encounter);
             statusMap.id = this.encounter.id;
-            let json = JSON.stringify(this.encounter.config);
-            config = JSON.parse(json);
-            this.encounter.config = config;
+            statusMap.config_id = 'config_'+statusMap.id;
+            let loadedConfig = loadSavedConfig(statusMap.config_id);
+            if (loadedConfig === null) {
+                config = this.encounter.config;
+            } else {
+                config = loadedConfig;
+            }
+
+            saveEdits();
             let loadGrid = poolFetch('EncounterGrid');
             loadGrid.initEncounterGrid(config.grid_id, getPos(), gridLoaded)
         }.bind(this);
@@ -215,8 +232,35 @@ class DomEditSpawns {
 
         let patternNodeTiles = [];
 
-        function indicateTilePatternNodes(tile) {
-            MATH.emptyArray(patternNodeTiles);
+        function findFreeWalkableTile(conflictTile, gridTiles, occupiedTiles) {
+            let i = conflictTile.gridI;
+            let j = conflictTile.gridJ;
+            let walkableTiles = filterForWalkableTiles(gridTiles);
+            let testCount = walkableTiles.length - occupiedTiles.length;
+            if (testCount < 1) {
+                console.log("All tiles Taken... bigger grid or less spawns to fix");
+                return null;
+            }
+
+            let minDist = 99999;
+            let foundTile = null;
+            while (walkableTiles.length) {
+                let candidate = walkableTiles.pop();
+                if (occupiedTiles.indexOf(candidate) === -1) {
+                    let distance = MATH.distanceBetween(candidate.getPos(), conflictTile.getPos());
+                    if (distance < minDist) {
+                        foundTile = candidate;
+                        minDist = distance;
+                    }
+                }
+            }
+
+            return foundTile;
+
+        }
+
+        function indicateTilePatternNodes(tile, nodeTiles) {
+
             let pattern = getSpawnByTile(tile)
             if (pattern === null) {
                 return;
@@ -229,31 +273,34 @@ class DomEditSpawns {
                 let spawnTile = spawnTiles[i];
                 let x = spawnTile[0];
                 let y = spawnTile[1];
-
-                let ix = tile.gridI+x;
-                let jy = tile.gridJ+y;
                 let tiles = activeEncounterGrid.gridTiles;
-
-                if (!tiles[ix]) {
-                    ix-=tile.gridI;
-                }
-
-                if (!tiles[tile.gridI][jy]) {
-                    jy-=tile.gridJ;
-                }
-
+                let ix = MATH.clamp(tile.gridI+x, 0, tiles.length-1);
+                let jy = MATH.clamp(tile.gridJ+y, 0, tiles[ix].length-1);
                 let gridTile = tiles[ix][jy];
-                if (patternNodeTiles.indexOf(gridTile) === -1) {
-                    patternNodeTiles.push(gridTile);
+
+                if (nodeTiles.indexOf(gridTile) !== -1) {
+                    gridTile = findFreeWalkableTile(gridTile, tiles, nodeTiles);
+                } else if (gridTile.walkable !== true) {
+                    gridTile = findFreeWalkableTile(gridTile, tiles, nodeTiles);
+                }
+
+                if (gridTile === null) {
+                    console.log("No Free Tile found, bad grid + spawns combo")
+                    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:tile.getPos(), color:'YELLOW', size:0.35})
+                }
+
+                if (nodeTiles.indexOf(gridTile) === -1) {
+                    nodeTiles.push(gridTile);
                 } else {
-                    gridTile.text.say("Tile Claimed")
-                    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:gridTile.getPos(), color:'RED'});
+                    console.log("This should not nhappen, check it out!")
+                //    gridTile.text.say("Tile Claimed")
+
                 }
             }
 
             for (let i = 0; i < patternNodeTiles.length; i++){
                 let pos = patternNodeTiles[i].getPos();
-                indicateSpawnPointRadius(pos, 0.3, colorMapFx.DAMAGE_FX)
+                indicateSpawnPointRadius(pos, 0.2, colorMapFx.DAMAGE_FX)
 
                 if (i !== 0) {
                     evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:pos, to:patternNodeTiles[i-1].getPos(), color:'RED'});
@@ -300,10 +347,11 @@ class DomEditSpawns {
                     lastCursorTile = cursorTile;
                 }
 
+                MATH.emptyArray(patternNodeTiles);
                 for (let i = 0; i < spawnerTiles.length; i++) {
                     let pos = spawnerTiles[i].getPos();
                     indicateSpawnPointRadius(pos, 0.5, colorMapFx.GLITTER_FX)
-                    indicateTilePatternNodes(spawnerTiles[i]);
+                    indicateTilePatternNodes(spawnerTiles[i], patternNodeTiles);
                 }
 
             }

@@ -458,7 +458,8 @@
 
 
           "vec4 lightColor = vec4(sunDir, 1.0);",
-          "float intensity = max( 0.01 + dot(txNmBase.rgb, sunLightDirection ) * 0.99, 0.0);",
+          "float ambIntensity = pow( fragNormal.y, 22.0);",
+          "float intensity = max( 0.01 + dot(txNmBase.rgb, sunLightDirection ) * 0.99, 0.0) *ambIntensity;",
 
           "vec3 transposedFragPos = fragPos + txNmBase.xyz * (max(4.0 / cameraPosition.y * 0.4, 4.0));",
           "transposedFragPos.y += 3.0 + fragNormal.y*5.0 + 1.0 * 1.0 / cameraPosition.y;",
