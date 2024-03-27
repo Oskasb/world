@@ -1,4 +1,5 @@
 import { ConfigData } from "./ConfigData.js";
+import {ENUMS} from "../ENUMS.js";
 
 let savedConfigs = {};
 let editIndex = {};
@@ -46,9 +47,9 @@ function loadSavedConfig(id, callback) {
                 file:editIndex[id].file,
                 format:editIndex[id].format
             })
-            console.log("Request edit from index", id);
+            console.log("Load from index", id);
         } else {
-            console.log("Not in Index", id, editIndex);
+            // console.log("Not in Index", id, editIndex);
             callback(null);
         }
     }
@@ -86,11 +87,23 @@ function saveConfigEdits(root, folder, id, editedConfig) {
     return savedConfigs[id];
 }
 
+function detachConfig(config) {
+    return JSON.parse(JSON.stringify(config));
+}
+
+function saveEncounterEdits(encounter) {
+    let worldLevel = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
+    saveConfigEdits("encounter", worldLevel, encounter.id, encounter.config)
+    console.log("Save Enc config ", encounter);
+}
+
 export {
+    detachConfig,
     setEditIndexClient,
     configDataList,
     parseConfigDataKey,
     loadSavedConfig,
     applyRemoteConfigMessage,
-    saveConfigEdits
+    saveConfigEdits,
+    saveEncounterEdits
  }

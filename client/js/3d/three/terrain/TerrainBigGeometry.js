@@ -360,7 +360,7 @@ function fillContextWithImage(ctx, imgData) {
 }
 
 function addWorldLevelMaterial(worldLevel, material) {
-    console.log("addWorldLevelMaterial", material)
+  //  console.log("addWorldLevelMaterial", material)
     let wLevel = worldLevels[worldLevel];
     let heightCtx = wLevel.heightCtx;
     let terrainCtx = wLevel.terrainCtx;

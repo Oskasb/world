@@ -33,7 +33,7 @@ function loadEditIndex(cb) {
 		} else {
 			edit_index = JSON.parse(data);
 			console.log("Edit Index Loaded");
-			console.log(edit_index);
+		//	console.log(edit_index);
 			cb(edit_index);
 		}
 	}
@@ -69,7 +69,7 @@ class ServerConnection {
 			} else {
 				let value = JSON.parse(data);
 				console.log("File Loaded", id, file);
-				console.log(value);
+			//	console.log(value);
 				callback(value)
 			}
 		}

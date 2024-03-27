@@ -270,7 +270,7 @@ class HtmlElement {
         }.bind(this)
 
         let onCloseClick = function(e) {
-            console.log("Close Clicked", e, this);
+        //    console.log("Close Clicked", e, this);
             this.hideHtmlElement();
             onCloseCB(this);
         }.bind(this);

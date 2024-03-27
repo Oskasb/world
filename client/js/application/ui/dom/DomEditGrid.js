@@ -2,6 +2,7 @@ import {poolFetch, poolReturn} from "../../utils/PoolUtils.js";
 import {Vector3} from "../../../../libs/three/math/Vector3.js";
 import {Object3D} from "../../../../libs/three/core/Object3D.js";
 import {ConfigData} from "../../utils/ConfigData.js";
+import {saveEncounterEdits} from "../../utils/ConfigUtils.js";
 
 let tempVec = new Vector3();
 let frustumFactor = 0.828;
@@ -10,7 +11,7 @@ let configData;
 let grids = []
 
 let onConfig = function(configs) {
-    console.log(configs)
+ //   console.log(configs)
     for (let i = 0; i < configs.length; i++) {
         let gridId = configs[i].id;
         if (grids.indexOf(gridId) === -1) {
@@ -93,6 +94,7 @@ class DomEditGrid {
             viewGridId = gId;
             if (viewGridId !== "") {
                 this.encounter.config.grid_id = viewGridId;
+                saveEncounterEdits(this.encounter);
                 let loadGrid = poolFetch('EncounterGrid');
                 loadGrid.initEncounterGrid(viewGridId, getPos(), gridLoaded)
             }

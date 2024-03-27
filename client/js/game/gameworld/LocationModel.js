@@ -83,7 +83,7 @@ class LocationModel {
 
         this.physicsUpdate = function(obj3d, bodyPointer) {
             if (this.bodyPointers.indexOf(bodyPointer) === -1) {
-                console.log("update body pointer", bodyPointer)
+            //    console.log("update body pointer", bodyPointer)
                 this.bodyPointers.push(bodyPointer);
             }
 

@@ -2,7 +2,7 @@ import {Object3D} from "../../../libs/three/core/Object3D.js";
 import { Vector3 } from "../../../libs/three/math/Vector3.js";
 import { VisualEncounterHost } from "../visuals/VisualEncounterHost.js";
 import { EncounterIndicator } from "../visuals/EncounterIndicator.js";
-import {parseConfigDataKey} from "../../application/utils/ConfigUtils.js";
+import {loadSavedConfig, parseConfigDataKey} from "../../application/utils/ConfigUtils.js";
 import {notifyCameraStatus} from "../../3d/camera/CameraFunctions.js";
 import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
 import {getDestination} from "../../../../Server/game/actor/ActorStatusFunctions.js";
@@ -258,10 +258,14 @@ class WorldEncounter {
         this.encounterLevel = config['level'] || 1;
         this.gridBorder = null;
         this.config = config;
+
+        let hostReady = function() {
+            onReady(this)
+        }.bind(this);
+
         this.camHomePos = new Vector3();
         this.obj3d = new Object3D();
-        MATH.vec3FromArray(this.obj3d.position, this.config.pos)
-        this.obj3d.position.y = ThreeAPI.terrainAt(this.obj3d.position);
+
 
         this.visualEncounterHost = new VisualEncounterHost(this.obj3d);
         this.encounterIndicator = new EncounterIndicator(this.obj3d)
@@ -380,6 +384,7 @@ class WorldEncounter {
             evt.dispatch(ENUMS.Event.GAME_MODE_BATTLE, encounterEvent)
         }.bind(this)
 
+
         this.call = {
             triggerWorldEncounter:triggerWorldEncounter,
             serverEncounterActivated:serverEncounterActivated,
@@ -388,32 +393,43 @@ class WorldEncounter {
             onGameUpdate:onGameUpdate,
         }
 
+        let configLoaded = function(cfg) {
 
-        if (this.config.host_id) {
-        //    console.log("config host_id: ", this.config.host_id)
+            if (cfg !== null) {
+                this.config = cfg;
+            }
 
-            let actorReady = function(actor) {
-                actor.setStatusKey(ENUMS.ActorStatus.ACTOR_LEVEL, this.encounterLevel);
-                onReady(this)
-            }.bind(this)
+            MATH.vec3FromArray(this.obj3d.position, this.config.pos)
+            this.obj3d.position.y = ThreeAPI.terrainAt(this.obj3d.position);
 
-            let onData = function(config) {
-                this.visualEncounterHost.applyHostConfig(config, actorReady);
-            }.bind(this)
+            if (this.config.host_id) {
+                //    console.log("config host_id: ", this.config.host_id)
 
-            parseConfigDataKey("ENCOUNTER_HOSTS", "HOSTS",  'host_data', this.config.host_id, onData)
-        } else {
-            onReady(this);
-        }
+                let actorReady = function(actor) {
+                    actor.setStatusKey(ENUMS.ActorStatus.ACTOR_LEVEL, this.encounterLevel);
+                    hostReady()
+                }.bind(this)
 
-        if (this.config.indicator_id) {
-        //    console.log("config indicator_id: ", this.config.indicator_id)
-            let onIndicatorData = function(config) {
-                this.encounterIndicator.applyIndicatorConfig(config);
-            }.bind(this)
+                let onData = function(config) {
+                    this.visualEncounterHost.applyHostConfig(config, actorReady);
+                }.bind(this)
 
-            parseConfigDataKey("ENCOUNTER_INDICATORS", "INDICATORS",  'indicator_data', this.config.indicator_id, onIndicatorData)
-        }
+                parseConfigDataKey("ENCOUNTER_HOSTS", "HOSTS",  'host_data', this.config.host_id, onData)
+            } else {
+                hostReady()
+            }
+
+            if (this.config.indicator_id) {
+                //    console.log("config indicator_id: ", this.config.indicator_id)
+                let onIndicatorData = function(config) {
+                    this.encounterIndicator.applyIndicatorConfig(config);
+                }.bind(this)
+
+                parseConfigDataKey("ENCOUNTER_INDICATORS", "INDICATORS",  'indicator_data', this.config.indicator_id, onIndicatorData)
+            }
+        }.bind(this)
+
+        loadSavedConfig(id, configLoaded);
 
     }
 

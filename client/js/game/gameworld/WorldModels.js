@@ -115,7 +115,7 @@ let initWorldModels = function(worldLevel) {
             }
 
             if (data[i].config['world_level'] === worldLevel) {
-                console.log("Specific World Level Models", worldLevel, data[i])
+            //    console.log("Specific World Level Models", worldLevel, data[i])
                 modelsData(data[i].config.models);
                 worldLevelLocations.push(data[i])
             }

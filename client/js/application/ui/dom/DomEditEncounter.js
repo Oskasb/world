@@ -3,6 +3,7 @@ import {Vector3} from "../../../../libs/three/math/Vector3.js";
 import {Object3D} from "../../../../libs/three/core/Object3D.js";
 import {ENUMS} from "../../ENUMS.js";
 import {physicalAlignYGoundTest, testProbeFitsAtPos} from "../../utils/PhysicsUtils.js";
+import {detachConfig, saveEncounterEdits} from "../../utils/ConfigUtils.js";
 
 
 let tempVec = new Vector3();
@@ -45,7 +46,7 @@ class DomEditEncounter {
     constructor() {
 
         this.targetObj3d = new Object3D();
-        this.updateObj3d = new Object3D();
+        let updateObj3d = new Object3D();
 
         this.statusMap = {
             selectedTool: "",
@@ -124,8 +125,10 @@ class DomEditEncounter {
 
         let divClicked = function(e) {
             let encounter = e.target.value
+            encounter.config = detachConfig(encounter.config);
             console.log("Edit Activated", encounter);
             idLabelDiv.innerHTML = encounter.id;
+            updateObj3d.quaternion.set(0, 0, 0, 1);
             if (selectedTool === "MOVE") {
                 if (typeof (editCursors[encounter.id]) !== 'object') {
                     e.target.style.visibility = "hidden";
@@ -136,12 +139,25 @@ class DomEditEncounter {
                     }
 
                     let onCursorUpdate = function(obj3d) {
-                        physicalAlignYGoundTest(obj3d.position, obj3d.position, 3)
-                        let fits = testProbeFitsAtPos(obj3d.position, 2)
+                        if (MATH.distanceBetween(updateObj3d.position, obj3d.position) < 0.5) {
+                            if (MATH.distanceBetween(updateObj3d.quaternion, obj3d.quaternion) < 0.01) {
+                                return;
+                            }
+                        }
+                        updateObj3d.quaternion.copy(obj3d.quaternion);
+                        updateObj3d.position.x = Math.round(obj3d.position.x);
+                        updateObj3d.position.y = MATH.decimalify(obj3d.position.y, 10);
+                        updateObj3d.position.z = Math.round(obj3d.position.z);
+                        physicalAlignYGoundTest(updateObj3d.position, updateObj3d.position, 3)
+                        let fits = testProbeFitsAtPos(updateObj3d.position, 2)
                         if (fits === true) {
-                            encounter.obj3d.copy(obj3d);
-                            encounter.getHostActor().setSpatialPosition(obj3d.position);
-                            encounter.getHostActor().setSpatialQuaternion(obj3d.quaternion);
+                            updateObj3d.position.y = MATH.decimalify(updateObj3d.position.y, 10);
+                            MATH.vec3ToArray(updateObj3d.position, encounter.config.pos)
+                            saveEncounterEdits(encounter);
+                            encounter.obj3d.position.copy(updateObj3d.position);
+                            encounter.getHostActor().setSpatialPosition(encounter.obj3d.position);
+                            encounter.getHostActor().setSpatialQuaternion(updateObj3d.quaternion);
+
                         }
                     }
 

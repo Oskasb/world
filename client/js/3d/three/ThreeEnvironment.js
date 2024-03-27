@@ -642,7 +642,7 @@ class ThreeEnvironment {
             _this.currentSkyConfig = _this.skyList['current'];
             _this.currentEnvConfig = _this.envList['current'];
 
-            console.log("Env Loaded", _this.currentSkyConfig, _this.currentEnvConfig)
+        //    console.log("Env Loaded", _this.currentSkyConfig, _this.currentEnvConfig)
 
             _this.applySkyConfig();
             _this.applyEnvironment();

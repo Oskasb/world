@@ -4,7 +4,7 @@ import {Object3D} from "../../../../libs/three/core/Object3D.js";
 import {ConfigData} from "../../utils/ConfigData.js";
 import {colorMapFx} from "../../../game/visuals/Colors.js";
 import {filterForWalkableTiles} from "../../../game/gameworld/ScenarioUtils.js";
-import {loadSavedConfig, saveConfigEdits} from "../../utils/ConfigUtils.js";
+import {detachConfig, loadSavedConfig, saveConfigEdits, saveEncounterEdits} from "../../utils/ConfigUtils.js";
 import {ENUMS} from "../../ENUMS.js";
 
 let tempVec = new Vector3();
@@ -24,7 +24,7 @@ let noSpawnEdits = [
 let spawns = [];
 let patterns = {}
 let onConfig = function(configs) {
-    console.log(configs)
+ //   console.log(configs)
     for (let i = 0; i < configs.length; i++) {
         let id = configs[i].id;
         if (spawns.indexOf(id) === -1) {
@@ -125,19 +125,17 @@ class DomEditSpawns {
         }
 
         let saveEdits = function() {
-            let worldLevel = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
-            config = saveConfigEdits("encounter", worldLevel, this.statusMap.config_id, config)
-            this.encounter.config = config;
-            console.log("Save Enc Spawn config ", this.encounter);
+        //    this.encounter.config = config;
+            saveEncounterEdits(this.encounter);
         }.bind(this);
 
-        function configLoaded(cfg) {
+        let configLoaded = function(cfg) {
             console.log("Config Loaded", cfg);
             if (cfg !== null) {
                 config = cfg;
+                this.encounter.config = config;
             }
-            saveEdits();
-        }
+        }.bind(this)
 
         let htmlReady = function(htmlEl) {
             console.log(configData)
@@ -153,10 +151,9 @@ class DomEditSpawns {
             console.log("Edit encounter spawns", this.encounter);
             statusMap.id = this.encounter.id;
             statusMap.config_id = statusMap.id;
-            config = this.encounter.config;
-
+            config = detachConfig(this.encounter.config);
+            this.encounter.config = config;
             loadSavedConfig(statusMap.config_id, configLoaded);
-
             let loadGrid = poolFetch('EncounterGrid');
             loadGrid.initEncounterGrid(config.grid_id, getPos(), gridLoaded)
         }.bind(this);
