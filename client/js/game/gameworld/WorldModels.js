@@ -78,8 +78,12 @@ function deactivateDynamicSpawnPoints() {
     }
 }
 
-function loadModelFromConfig(config) {
-    let model = new WorldModel(config)
+function loadModelFromConfig(config, id) {
+    if (config.DELETED === true) {
+        console.log("Deleted World Model Appears")
+        return;
+    }
+    let model = new WorldModel(config, id)
     worldModels.push(model);
 }
 
@@ -93,7 +97,7 @@ function loadEditorModels(configs) {
             }
         }
         if (add === true) {
-            loadModelFromConfig(configs[key])
+            loadModelFromConfig(configs[key], key)
         }
     }
 }
@@ -320,7 +324,7 @@ class WorldModels {
             } else if (folder === lastWorldLevel) {
                 loadModelFromConfig(config)
             }
-            
+
         }
 
 

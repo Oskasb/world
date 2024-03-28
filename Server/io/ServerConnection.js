@@ -15,8 +15,8 @@ let sends = 0;
 let server = null;
 let edit_index = null;
 let indexFile = "edits/edit_index.json"
-function updateEditWriteIndex(message) {
-	addIndexEntry(message.dir, message.root, message.folder, message.id, message.format);
+function updateEditWriteIndex(message, deleted) {
+	addIndexEntry(message.dir, message.root, message.folder, message.id, message.format, deleted);
 	let writeCB = function(res) {
 		if (res !== null) {
 			console.log("index error:", res);
@@ -57,14 +57,20 @@ class ServerConnection {
 
 	writeDataToFile(message) {
 		let data = message.data;
+		let deleted = false;
+		if (data['DELETED'] === true) {
+			deleted = true;
+		}
 		let file = fileFromMessage(message)
-		addIndexEntry(message.dir, message.root, message.folder, message.id, message.format);
+		addIndexEntry(message.dir, message.root, message.folder, message.id, message.format, deleted);
 
 		let writeCB = function(res) {
 			if (res !== null) {
 				console.log("writeFile error:", res);
 			} else {
-				updateEditWriteIndex(message);
+				if (deleted === false) {
+					updateEditWriteIndex(message, deleted);
+				}
 			}
 		}
 		console.log("writeDataToFile", message.id, file);

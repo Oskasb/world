@@ -13,9 +13,9 @@ function setEditorServerConnection(srvrCon) {
     serverConnection = srvrCon;
 }
 
-function addIndexEntry(dir, root, folder, id, format) {
+function addIndexEntry(dir, root, folder, id, format, deleted) {
     console.log("updateEditWriteIndex", id)
-    editIndex[id] = {dir:dir, root:root, folder:folder, format:format, timestamp:new Date().getTime()};
+    editIndex[id] = {dir:dir, root:root, folder:folder, format:format, deleted:deleted, timestamp:new Date().getTime()};
 }
 
 function saveFileFromSocketMessage(message) {

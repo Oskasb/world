@@ -11,7 +11,8 @@ let operationsList = [
     "",
     "FLATTEN",
     "ELEVATE",
-    "HIDE"
+    "HIDE",
+    "DELETE"
 ]
 
 function worldModelOperation(wModel, operation) {
@@ -33,6 +34,14 @@ function worldModelOperation(wModel, operation) {
         wModel.applyObj3dUpdate();
         let box = wModel.box;
         ThreeAPI.alignGroundToAABB(box);
+    }
+
+    if (operation === "DELETE") {
+        console.log("Delete World Model")
+        wModel.config['DELETED'] = true;
+        wModel.call.setPaletteKey('ITEMS_WHITE');
+        saveWorldModelEdits(wModel);
+        wModel.deleteWorldModel();
     }
 
 }
@@ -85,6 +94,7 @@ class DomEditWorldModel {
             applyOperationDiv.innerHTML = selectedOperation;
         }
 
+
         let applyOperation = function(e) {
             console.log("Apply", selectedOperation);
             worldModelOperation(worldModel, selectedOperation);
@@ -130,6 +140,11 @@ class DomEditWorldModel {
         let update = function() {
             rootElem.style.transition = 'none';
 
+            if (worldModel.config['DELETED'] === true) {
+                close();
+                return;
+            }
+
             if (worldModel !== null) {
 
                 if (paletteVal.value !== worldModel.call.getPaletteKey()) {
@@ -159,10 +174,8 @@ class DomEditWorldModel {
         };
 
         let close = function() {
-            while (nodeDivs.length) {
-                DomUtils.removeDivElement(nodeDivs.pop());
-            }
-        }
+            this.htmlElement.closeHtmlElement();
+        }.bind(this);
 
         this.call = {
             setWorldModel:setWorldModel,
@@ -181,7 +194,6 @@ class DomEditWorldModel {
     }
 
     closeDomEditWorldModel() {
-        this.call.close();
         ThreeAPI.unregisterPrerenderCallback(this.call.update);
         this.htmlElement.closeHtmlElement();
         poolReturn(this.htmlElement);

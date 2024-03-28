@@ -41,7 +41,7 @@ class WorldModel {
         if (id) {
             this.id = id;
         } else {
-            this.id = this.generateModelId("")
+            this.id = this.generateModelId()
         }
 
         if (config['palette']) {
@@ -83,10 +83,9 @@ class WorldModel {
             this.applyObj3dUpdate()
         }.bind(this);
 
-        let saveTimeout;
-
-
+        let hold = 1;
         let applyEditCursorUpdate = function(obj3d) {
+            hold += GameAPI.getFrame().tpf;
             this.calcBounds(true);
             if (MATH.distanceBetween(obj3d.position, this.obj3d.position) < 0.1) {
                 if (MATH.distanceBetween(obj3d.quaternion, this.obj3d.quaternion) < 0.01) {
@@ -99,14 +98,13 @@ class WorldModel {
             this.obj3d.copy(obj3d);
             updateObj3D()
 
-            if (this.id !== "preview_model") {
-                let wmodel = this;
-                clearTimeout(saveTimeout)
-                saveTimeout = setTimeout(function() {
+            if (hold > 0.2) {
+                if (this.id !== "preview_model") {
+                    let wmodel = this;
                     saveWorldModelEdits(wmodel);
-                }, 200)
+                }
+                hold = 0;
             }
-
 
         }.bind(this);
 
@@ -158,10 +156,10 @@ class WorldModel {
 
     }
 
-    generateModelId(pre) {
+    generateModelId() {
         let worldLevel = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
         MATH.decimalifyVec3(this.obj3d.position, 100);
-        return pre+"wmdl_"+worldLevel+"_"+this.obj3d.position.x+"_"+this.obj3d.position.y+"_"+this.obj3d.position.z;
+        return "wmdl_"+worldLevel+"_"+this.obj3d.position.x+"_"+this.obj3d.position.y+"_"+this.obj3d.position.z;
     }
 
     getPos() {
@@ -203,6 +201,12 @@ class WorldModel {
         }
     //    ThreeAPI.clearTerrainLodUpdateCallback(this.call.lodUpdated)
 
+    }
+
+    deleteWorldModel() {
+        this.removeLocationModels()
+        ThreeAPI.clearTerrainLodUpdateCallback(this.call.lodUpdated)
+        MATH.splice(GameAPI.worldModels.getActiveWorldModels(), this);
     }
 
 }

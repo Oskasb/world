@@ -1,12 +1,24 @@
 import { ConfigData } from "./ConfigData.js";
 import {ENUMS} from "../ENUMS.js";
 
+let deletedByIndex = [];
+let deletedConfigs = {};
 let savedConfigs = {};
 let editIndex = {};
 let requestListeners = [];
 let requestedLoads = [];
 
 function processLoadedFile(id) {
+
+    if (typeof(deletedConfigs[id]) === 'object') {
+        console.log("Block load of deleted config")
+        return;
+    }
+
+    if (savedConfigs[id]['DELETED'] === true) {
+        console.log("Is deleted..")
+        return;
+    }
 
     for (let i = 0; i < requestListeners.length; i++) {
         if (requestListeners[i].id === id) {
@@ -17,6 +29,10 @@ function processLoadedFile(id) {
 
     let indexEntry = editIndex[id];
     console.log("Load from index", id, indexEntry);
+    if (!indexEntry) {
+        console.log("No index entry", id, editIndex);
+        return;
+    }
     let root = indexEntry.root;
     let folder = indexEntry.folder;
     if (root === 'model') {
@@ -31,6 +47,13 @@ function processLoadedFile(id) {
 }
 
 function requestFileRead(id) {
+
+    if (typeof(deletedConfigs[id]) === 'object') {
+        console.log("Block load of deleted config", id)
+
+        return;
+    }
+
     if (requestedLoads.indexOf(id) === -1) {
         requestedLoads.push(id);
         evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, {
@@ -49,11 +72,16 @@ function streamLoadEditsFromIndexInit() {
     let loadStrem = [];
 
     for (let id in editIndex) {
-        if (requestedLoads.indexOf(id) === -1) {
-            loadStrem.push(id)
+        if (editIndex.deleted === true) {
+            deletedByIndex.push(id);
+        } else {
+            if (requestedLoads.indexOf(id) === -1) {
+                loadStrem.push(id)
+            }
         }
     }
 
+    console.log("Deleted by index: ", deletedByIndex);
     let hold = 0;
     function processStream(tpf) {
         hold += tpf;
@@ -115,6 +143,10 @@ function parseConfigDataKey(root, folder, dataId, id, callback) {
 function loadSavedConfig(id, callback) {
 //    console.log("Request", id)
 
+    if (typeof(deletedConfigs[id]) === 'object') {
+        console.log("Block load of deleted config")
+        return;
+    }
 
     if (typeof (savedConfigs[id]) === 'object') {
         callback(savedConfigs[id])
@@ -142,10 +174,14 @@ function loadSavedConfig(id, callback) {
 function applyRemoteConfigMessage(message) {
     let id = message.id;
     let data = message.data;
-    savedConfigs[id] = data;
-//    console.log("applyRemoteConfigMessage", message, savedConfigs, requestListeners);
+    if (data['DELETED'] === true) {
+        console.log("Not loading deleted config", id, message)
+        deletedConfigs[id] = data
+    } else {
+        savedConfigs[id] = data;
+        processLoadedFile(id);
+    }
 
-    processLoadedFile(id);
 }
 
 function saveConfigEdits(root, folder, id, editedConfig) {
@@ -180,6 +216,7 @@ function saveWorldModelEdits(wModel) {
     saveConfigEdits("model", worldLevel, wModel.id, wModel.config)
     console.log("Save World Model config ", wModel);
 }
+
 
 export {
     detachConfig,

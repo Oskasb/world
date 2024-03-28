@@ -79,12 +79,13 @@ class DomEditModel {
         }
 
         function applySelectedModel(id) {
-            previewModel.id = previewModel.generateModelId("e_")
-            previewModel.config.no_lod = false;
+            previewModel.id = previewModel.generateModelId()
+            modelConfig.no_lod = false;
+            previewModel.call.setPaletteKey("DEFAULT")
+            previewModel.config = modelConfig;
             saveWorldModelEdits(previewModel);
             selectionUpdate(id)
         }
-
 
         function selectionUpdate(id) {
             if (previewModel !== null) {
@@ -96,6 +97,7 @@ class DomEditModel {
                 applyCursorUpdate(editObj3d)
                 modelConfig.no_lod = true;
                 previewModel = new WorldModel(modelConfig, "preview_model");
+                previewModel.call.setPaletteKey("ITEMS_BLACK")
                 console.log("selectionUpdate",id, previewModel);
                 if (previewCursor === null) {
                     activateCursor();
@@ -105,9 +107,7 @@ class DomEditModel {
                     previewCursor.closeDomEditCursor()
                 }
             }
-
         }
-
 
         let models = [""];
         if (modelConfigs === null) {
@@ -130,10 +130,6 @@ class DomEditModel {
             }
             new ConfigData("WORLD_LOCATIONS","LOCATION_MODELS",  false, false, false, onConfig)
         }
-
-
-
-
 
         function closeTool() {
             if (activeTool !== null) {
