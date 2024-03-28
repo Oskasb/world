@@ -482,6 +482,8 @@ class WorldEncounter {
             hostActor.setSpatialPosition(this.obj3d.position)
             hostActor.actorText.say(JSON.stringify(this.config.pos))
         }
+            ThreeAPI.clearTerrainLodUpdateCallback(this.call.lodUpdated)
+            ThreeAPI.registerTerrainLodUpdateCallback(this.getPos(), this.call.lodUpdated)
     }
 
     getTriggeredCameraHome() {
@@ -515,6 +517,8 @@ class WorldEncounter {
         ThreeAPI.clearTerrainLodUpdateCallback(this.call.lodUpdated)
         this.removeWorldEncounter()
     }
+
+
 
     showWorldEncounter() {
      //   console.log("showWorldEncounter", lodLevel, this)

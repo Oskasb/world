@@ -57,6 +57,13 @@ class ServerConnection {
 
 	writeDataToFile(message) {
 		let data = message.data;
+		if (message.format === 'buffer') {
+
+		//	data = new Uint8ClampedArray(data);
+			console.log(data);
+			return
+		}
+
 		let deleted = false;
 		if (data['DELETED'] === true) {
 			deleted = true;

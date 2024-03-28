@@ -6,6 +6,8 @@ import {Vector3} from "../../../../libs/three/math/Vector3.js";
 import {borrowBox, cubeTestVisibility, aaBoxTestVisibility} from "../../../application/utils/ModelUtils.js";
 import {getPhysicalWorld} from "../../../application/utils/PhysicsUtils.js";
 import {applyGroundCanvasEdit} from "./TerrainFunctions.js";
+import {saveDataTexture} from "../../../application/utils/ConfigUtils.js";
+import {ENUMS} from "../../../application/ENUMS.js";
 
 let bigWorld = null;
 let bigOcean = null;
@@ -315,6 +317,8 @@ let updateBigGeo = function(tpf) {
             terrainMaterial.heightmap.needsUpdate = true;
         }
         heightmap = heightmapContext.getImageData(0, 0, width, height).data;
+        let worldLevel = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
+        saveDataTexture("images", "height", "height_"+worldLevel, heightmap);
         terrainUpdate = false;
         clearTimeout(physicsUpdateTimeout);
         physicsUpdateTimeout = setTimeout(function() {
@@ -431,9 +435,13 @@ class TerrainBigGeometry {
         return heightmapContext;
     }
 
+
+
     getGroundData() {
         if (groundUpdate) {
             terrainmap = terrainContext.getImageData(0, 0, terrainWidth, terrainHeight).data;
+            let worldLevel = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
+            saveDataTexture("images", "ground", "ground_"+worldLevel, terrainmap);
             groundUpdate = false;
         }
         return terrainmap;
@@ -452,7 +460,7 @@ class TerrainBigGeometry {
         }
         clearTimeout(groundUpdateTimeout);
         groundUpdateTimeout = setTimeout(function() {
-        groundUpdate = true;
+            groundUpdate = true;
         }, 10);
     }
 

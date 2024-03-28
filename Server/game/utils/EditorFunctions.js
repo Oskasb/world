@@ -19,10 +19,9 @@ function addIndexEntry(dir, root, folder, id, format, deleted) {
 }
 
 function saveFileFromSocketMessage(message) {
-    if (message.format === "json") {
+    if (message.format === "json" || message.format === "buffer") {
     //    console.log("saveFileFromSocketMessage JSON", message.file);
         serverConnection.writeDataToFile(message);
-
 
     } else {
         console.log("Format Not supported", message.id, message.format);

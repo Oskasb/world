@@ -79,12 +79,12 @@ class DomEditModel {
         }
 
         function applySelectedModel(id) {
-            previewModel.id = previewModel.generateModelId()
+            let wMdlId = previewModel.generateModelId()
             modelConfig.no_lod = false;
-            previewModel.call.setPaletteKey("DEFAULT")
-            previewModel.config = modelConfig;
-            saveWorldModelEdits(previewModel);
-            selectionUpdate(id)
+            modelConfig.palette = "DEFAULT";
+            let newWmodel = GameAPI.worldModels.addConfigModel(modelConfig, wMdlId)
+            modelConfig.no_lod = true;
+            saveWorldModelEdits(newWmodel);
         }
 
         function selectionUpdate(id) {
@@ -132,6 +132,12 @@ class DomEditModel {
         }
 
         function closeTool() {
+            if (previewCursor !== null) {
+                previewCursor.closeDomEditCursor()
+            }
+            if (previewModel !== null) {
+                previewModel.removeLocationModels();
+            }
             if (activeTool !== null) {
                 activeTool.closeEditTool();
                 poolReturn(activeTool);

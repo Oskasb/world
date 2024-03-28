@@ -7,6 +7,7 @@ let savedConfigs = {};
 let editIndex = {};
 let requestListeners = [];
 let requestedLoads = [];
+let savedImageBuffers = {};
 
 function processLoadedFile(id) {
 
@@ -33,14 +34,23 @@ function processLoadedFile(id) {
         console.log("No index entry", id, editIndex);
         return;
     }
+
     let root = indexEntry.root;
     let folder = indexEntry.folder;
-    if (root === 'model') {
-        GameAPI.worldModels.setLoadedConfig(root, folder, id, savedConfigs[id]);
-    } else if (root === 'encounter') {
-        GameAPI.worldModels.setLoadedConfig(root, folder, id, savedConfigs[id]);
-    } else {
-        console.log("Unsupported Config root Folder")
+    let format = indexEntry.format
+
+    if (format === 'json') {
+        if (root === 'model') {
+            GameAPI.worldModels.setLoadedConfig(root, folder, id, savedConfigs[id]);
+        } else if (root === 'encounter') {
+            GameAPI.worldModels.setLoadedConfig(root, folder, id, savedConfigs[id]);
+        } else {
+            console.log("Unsupported Config root Folder")
+        }
+    }
+
+    if (format === "buffer") {
+        console.log("Load saved image buffer")
     }
 
 
@@ -107,11 +117,16 @@ function setEditIndexClient(eIndex) {
     console.log("Loaded Edit Index: ", [[eIndex], [requestListeners]]);
     editIndex = eIndex;
     for (let key in eIndex) {
-        for (let i = 0; i < requestListeners.length; i++) {
-            if (requestListeners[i].id === key) {
-                let entry = requestListeners[i];
-                loadSavedConfig(key, entry.callback)
+        if (eIndex[key].format === 'json') {
+            for (let i = 0; i < requestListeners.length; i++) {
+                if (requestListeners[i].id === key) {
+                    let entry = requestListeners[i];
+                    loadSavedConfig(key, entry.callback)
+                }
             }
+        }
+        if (eIndex[key].format === 'buffer') {
+            requestFileRead(key)
         }
     }
     streamLoadEditsFromIndexInit()
@@ -171,6 +186,7 @@ function loadSavedConfig(id, callback) {
     }
 }
 
+
 function applyRemoteConfigMessage(message) {
     let id = message.id;
     let data = message.data;
@@ -218,6 +234,38 @@ function saveWorldModelEdits(wModel) {
 }
 
 
+
+
+function saveDataTexture(root, folder, id, buffer) {
+    savedImageBuffers[id] = buffer;
+
+    let maxLength = 2048*16;
+    let slices = buffer.length / maxLength;
+    let sent = 0;
+
+    function streamBufferSlice() {
+        return;
+        let data = buffer.slice(sent*maxLength, (sent+1)*maxLength)
+        console.log(data)
+        evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, {
+            request:ENUMS.ClientRequests.WRITE_FILE,
+            id:id+"_"+sent,
+            root:root,
+            folder:folder,
+            dir:"edits/",
+            format:"buffer",
+            data:data
+        })
+        sent++
+        if (sent === slices) {
+            ThreeAPI.unregisterPrerenderCallback(streamBufferSlice);
+        }
+    }
+
+    ThreeAPI.registerPrerenderCallback(streamBufferSlice);
+
+}
+
 export {
     detachConfig,
     setEditIndexClient,
@@ -227,5 +275,6 @@ export {
     applyRemoteConfigMessage,
     saveConfigEdits,
     saveEncounterEdits,
-    saveWorldModelEdits
+    saveWorldModelEdits,
+    saveDataTexture
  }

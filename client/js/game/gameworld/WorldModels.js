@@ -85,6 +85,7 @@ function loadModelFromConfig(config, id) {
     }
     let model = new WorldModel(config, id)
     worldModels.push(model);
+    return model;
 }
 
 function loadEditorModels(configs) {
@@ -373,6 +374,10 @@ class WorldModels {
                 return worldEncounters[i]
             }
         }
+    }
+
+    addConfigModel(config) {
+        return loadModelFromConfig(config);
     }
 
     registerWorldBox(box) {
