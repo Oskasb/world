@@ -50,7 +50,7 @@ class DomEditEncounter {
 
         this.statusMap = {
             selectedTool: "",
-            encounter: "--select--"
+            selection: "--select--"
         };
 
         let statusMap = this.statusMap;
@@ -106,7 +106,7 @@ class DomEditEncounter {
             toolSelect = htmlElem.call.getChildElement('tool');
             applyOperationDiv = htmlElem.call.getChildElement('apply_tool');
             applyContainerDiv = htmlElem.call.getChildElement('apply_container');
-            idLabelDiv = htmlElem.call.getChildElement('encounter_value');
+            idLabelDiv = htmlElem.call.getChildElement('selection_value');
             htmlElem.call.populateSelectList('tool', toolsList)
             console.log(worldEncounters, encounterConfigs);
             rootElem = htmlElem.call.getRootElement();

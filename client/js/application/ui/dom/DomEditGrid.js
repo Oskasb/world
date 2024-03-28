@@ -134,7 +134,6 @@ class DomEditGrid {
     }
 
 
-
     initEditTool(closeCb) {
         this.htmlElement = poolFetch('HtmlElement')
         this.htmlElement.initHtmlElement('edit_grid', closeCb, this.statusMap, 'edit_frame edit_grid', this.call.htmlReady);

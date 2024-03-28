@@ -4,70 +4,74 @@ import {Object3D} from "../../../../libs/three/core/Object3D.js";
 import {ENUMS} from "../../ENUMS.js";
 import {physicalAlignYGoundTest, testProbeFitsAtPos} from "../../utils/PhysicsUtils.js";
 import {detachConfig, saveEncounterEdits} from "../../utils/ConfigUtils.js";
-
+import {ConfigData} from "../../utils/ConfigData.js";
 
 let tempVec = new Vector3();
 let frustumFactor = 0.828;
-let encounterConfigs = null;
-let worldEncounters = null;
+let applyContainerDiv = null;
+let idLabelDiv = null;
+let activeTool = null;
 
 let toolsList = [
-    "MOVE",
+    "EDIT",
     "ADD"
 ]
 
-function worldModelOperation(wModel, operation) {
-
-    if (operation === "ELEVATE") {
-        wModel.obj3d.position.y += 1;
-        wModel.applyObj3dUpdate()
-    }
-
-    if (operation === "HIDE") {
-        if (wModel.hidden !== true) {
-            wModel.setHidden(true);
-        } else {
-            wModel.setHidden(false);
-        }
-    }
-
-    if (operation === "FLATTEN") {
-        wModel.applyObj3dUpdate();
-        let box = wModel.box;
-        ThreeAPI.alignGroundToAABB(box);
-    }
-
-}
-
+let modelConfigs = null;
 
 class DomEditModel {
     constructor() {
 
-        this.targetObj3d = new Object3D();
-        let updateObj3d = new Object3D();
+        let addModelStatusMap = {}
+
+        function applySelectedModel(id) {
+            console.log("applySelectedModel", id);
+        }
+
+        function selectionUpdate(id) {
+            console.log("selectionUpdate", id);
+        }
+
+
+        let models = [""];
+        if (modelConfigs === null) {
+
+            let onConfig = function(configs) {
+                   console.log(configs)
+                for (let key in configs) {
+                    let id = configs[key].id
+                    if (models.indexOf(id) === -1) {
+                        models.push(id)
+                    } else {
+                        console.log("entry already added, not right", id);
+                    }
+                }
+                console.log("Add Model Options", models)
+                addModelStatusMap.selectList = models;
+                addModelStatusMap.activateSelection = applySelectedModel;
+                addModelStatusMap.selectionUpdate = selectionUpdate;
+
+            }
+            new ConfigData("WORLD_LOCATIONS","LOCATION_MODELS",  false, false, false, onConfig)
+        }
 
         this.statusMap = {
             selectedTool: "",
-            encounter: "--select--"
+            selection: "--select--"
         };
 
         let statusMap = this.statusMap;
-
         let rootElem = null;
         let htmlElem;
-        let applyOperationDiv = null;
-        let nodeDivs = [];
-
-        let worldModel = null;
-        let toolSelect = null;
         let selectedTool = "";
         let editCursors = {};
-        let encounterEdit = null;
-        let visibleWorldEncounters = [];
-        let worldEncounterDivs = [];
-        let applyContainerDiv = null;
-        let idLabelDiv = null;
-        let activeTool = null;
+        let applyOperationDiv = null;
+        let toolSelectDiv = null;
+        let visibleWorldModels = [];
+        let locationModelDivs = [];
+        let modelEdit = null;
+
+
 
         function closeTool() {
             if (activeTool !== null) {
@@ -85,160 +89,156 @@ class DomEditModel {
                 closeTool();
             }
             console.log("setSelectedTool", tool)
-            if (tool === "ADD") {
+            if (tool === "_ADD") {
                 applyOperationDiv.innerHTML = tool;
                 applyContainerDiv.style.display = ""
             } else {
                 applyContainerDiv.style.display = "none"
             }
 
+            if (selectedTool === "ADD") {
+                activeTool = poolFetch('DomEditAdd');
+                activeTool.initEditTool(closeTool, addModelStatusMap);
+            }
+
+        }
+
+        let htmlReady = function(el) {
+            htmlElem = el;
+            let locationsData = GameAPI.worldModels.getActiveLocationData();
+            let worldModels = GameAPI.worldModels.getActiveWorldModels();
+            toolSelectDiv = htmlElem.call.getChildElement('tool');
+            applyOperationDiv = htmlElem.call.getChildElement('apply_tool');
+            applyContainerDiv = htmlElem.call.getChildElement('apply_container');
+            idLabelDiv = htmlElem.call.getChildElement('selection_value');
+            htmlElem.call.populateSelectList('tool', toolsList)
+            console.log([worldModels, locationsData]);
+            rootElem = htmlElem.call.getRootElement();
+            ThreeAPI.registerPrerenderCallback(update);
+
+            let selectedActor = GameAPI.getGamePieceSystem().selectedActor;
+            if (selectedActor) {
+                selectedActor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_INACTIVE)
+            }
+
         }
 
 
 
-
-        let htmlReady = function(htmlEl) {
-            htmlElem = htmlEl;
-            encounterConfigs = GameAPI.worldModels.getEncounterConfigs();
-            worldEncounters = GameAPI.worldModels.getWorldEncounters();
-            toolSelect = htmlElem.call.getChildElement('tool');
-            applyOperationDiv = htmlElem.call.getChildElement('apply_tool');
-            applyContainerDiv = htmlElem.call.getChildElement('apply_container');
-            idLabelDiv = htmlElem.call.getChildElement('encounter_value');
-            htmlElem.call.populateSelectList('tool', toolsList)
-            console.log(worldEncounters, encounterConfigs);
-            rootElem = htmlElem.call.getRootElement();
-            ThreeAPI.registerPrerenderCallback(update);
+        let closeModelEdit = function() {
+            console.log("Model Edit Closed");
+            modelEdit.closeDomEditWorldModel();
+            poolReturn(modelEdit)
+            modelEdit = null;
         }
 
         let closeEditCursor = function(htmlElem) {
             let cursor = htmlElem.cursor;
-            let encounter = htmlElem.encounter;
-            editCursors[encounter.id] = false;
+            let model = htmlElem.model;
+            editCursors[model.id] = false;
             htmlElem.cursor = null;
-            htmlElem.encounter = null;
+            htmlElem.model = null;
             cursor.closeDomEditCursor();
             poolReturn(cursor);
         }
 
         let divClicked = function(e) {
-            let encounter = e.target.value
-            encounter.config = detachConfig(encounter.config);
-            console.log("Edit Activated", encounter);
-            idLabelDiv.innerHTML = encounter.id;
-            updateObj3d.quaternion.set(0, 0, 0, 1);
-            if (selectedTool === "MOVE") {
-                if (typeof (editCursors[encounter.id]) !== 'object') {
-                    e.target.style.visibility = "hidden";
-                    let cursor = poolFetch('DomEditCursor')
+            let model = e.target.value
+            console.log("Edit Activated", model);
+            idLabelDiv.innerHTML = model.id;
+            model.config = detachConfig(model.config);
 
-                    let onClick = function(crsr) {
-                        console.log("Clicked Cursor", crsr)
-                    }
+            if (typeof (editCursors[model.id]) !== 'object') {
+                e.target.style.visibility = "hidden";
+                let cursor = poolFetch('DomEditCursor')
 
-                    let onCursorUpdate = function(obj3d) {
-                        if (MATH.distanceBetween(updateObj3d.position, obj3d.position) < 0.5) {
-                            if (MATH.distanceBetween(updateObj3d.quaternion, obj3d.quaternion) < 0.01) {
-                                return;
-                            }
-                        }
-                        updateObj3d.quaternion.copy(obj3d.quaternion);
-                        updateObj3d.position.x = Math.round(obj3d.position.x);
-                        updateObj3d.position.y = MATH.decimalify(obj3d.position.y, 10);
-                        updateObj3d.position.z = Math.round(obj3d.position.z);
-                        physicalAlignYGoundTest(updateObj3d.position, updateObj3d.position, 3)
-                        let fits = testProbeFitsAtPos(updateObj3d.position, 2)
-                        if (fits === true) {
-                            updateObj3d.position.y = MATH.decimalify(updateObj3d.position.y, 10);
-                            MATH.vec3ToArray(updateObj3d.position, encounter.config.pos)
-                            saveEncounterEdits(encounter);
-                            encounter.obj3d.position.copy(updateObj3d.position);
-                            encounter.getHostActor().setSpatialPosition(encounter.obj3d.position);
-                            encounter.getHostActor().setSpatialQuaternion(updateObj3d.quaternion);
-
+                let onClick = function(crsr) {
+                    console.log("Clicked Cursor", crsr)
+                    idLabelDiv.innerHTML = model.id;
+                    if (modelEdit === null) {
+                        modelEdit = poolFetch('DomEditWorldModel')
+                        modelEdit.call.setWorldModel(model);
+                        modelEdit.initDomEditWorldModel(closeModelEdit)
+                    } else {
+                        let mdl = modelEdit.call.getWorldModel();
+                        if (mdl === model) {
+                            closeModelEdit();
+                        } else {
+                            modelEdit.call.setWorldModel(model);
                         }
                     }
-
-                    cursor.initDomEditCursor(closeEditCursor, encounter.obj3d, onCursorUpdate, onClick);
-                    cursor.htmlElement.cursor = cursor;
-                    cursor.htmlElement.encounter = encounter;
-                    editCursors[encounter.id] = cursor;
                 }
-            }
 
-            if (selectedTool === "GRID") {
-                closeTool();
-                activeTool = poolFetch('DomEditGrid');
-                activeTool.setWorldEncounter(encounter)
-                activeTool.initEditTool(closeTool);
-            }
-
-            if (selectedTool === "SPAWN") {
-                ThreeAPI.getCameraCursor().getLookAroundPoint().copy(encounter.getPos())
-                closeTool();
-                activeTool = poolFetch('DomEditSpawns');
-                activeTool.setWorldEncounter(encounter)
-                activeTool.initEditTool(closeTool);
+                cursor.initDomEditCursor(closeEditCursor, model.obj3d, model.call.applyEditCursorUpdate, onClick);
+                cursor.htmlElement.cursor = cursor;
+                cursor.htmlElement.model = model;
+                editCursors[model.id] = cursor;
             }
 
         }
 
         let update = function() {
-        //    rootElem.style.transition = 'none';
 
-            if (selectedTool !== toolSelect.value) {
-                setSelectedTool(toolSelect.value)
+            if (toolSelectDiv.value !== selectedTool) {
+                statusMap.tool = toolSelectDiv.value
+                selectedTool = statusMap.tool;
+                setSelectedTool(toolSelectDiv.value)
             }
 
-            MATH.emptyArray(visibleWorldEncounters)
+            MATH.emptyArray(visibleWorldModels);
 
-            if (selectedTool !== "ADD") {
-                if (activeTool === null) {
-                    if (selectedTool !== "MOVE") {
-                        idLabelDiv.innerHTML = "--No Selection--";
-                    }
-                    worldEncounters = GameAPI.worldModels.getWorldEncounters();
-                    let camCursorDist = MATH.distanceBetween(ThreeAPI.getCameraCursor().getPos(), ThreeAPI.getCamera().position)
-                    for (let i = 0; i < worldEncounters.length; i++) {
-                        let pos = worldEncounters[i].getPos();
-                        let distance = MATH.distanceBetween(ThreeAPI.getCameraCursor().getPos(), pos)
-                        if (distance < 25 + camCursorDist*0.5) {
-                            if (ThreeAPI.testPosIsVisible(pos)) {
-                                visibleWorldEncounters.push(worldEncounters[i]);
-                            }
-                        }
-                    }
+            if (selectedTool === "EDIT") {
 
-                    while (worldEncounterDivs.length < visibleWorldEncounters.length) {
-                        let div = DomUtils.createDivElement(document.body, 'encounter_'+visibleWorldEncounters.length, selectedTool, 'button button_encounter_edit')
-                        DomUtils.addClickFunction(div, divClicked);
-                        worldEncounterDivs.push(div);
+                let none = true;
+                for (let key in editCursors) {
+                    if (typeof (editCursors[key]) === 'object') {
+                       none = false
                     }
                 }
-            }
-            
-            while (worldEncounterDivs.length > visibleWorldEncounters.length) {
-                DomUtils.removeDivElement(worldEncounterDivs.pop());
+                if (none) {
+                    idLabelDiv.innerHTML = "--No Selection--";
+                }
+
+                let worldModels = GameAPI.worldModels.getActiveWorldModels();
+                let camCursorDist = MATH.distanceBetween(ThreeAPI.getCameraCursor().getPos(), ThreeAPI.getCamera().position)
+                for (let i = 0; i < worldModels.length; i++) {
+                    let pos = worldModels[i].getPos();
+                    let distance = MATH.distanceBetween(ThreeAPI.getCameraCursor().getPos(), pos)
+                    if (distance < 25 + camCursorDist * 0.5) {
+                        if (ThreeAPI.testPosIsVisible(pos)) {
+                            visibleWorldModels.push(worldModels[i]);
+                        }
+                    }
+                }
+
+                while (locationModelDivs.length < visibleWorldModels.length) {
+                    let div = DomUtils.createDivElement(document.body, 'model_' + visibleWorldModels.length, 'EDIT', 'button')
+                    DomUtils.addClickFunction(div, divClicked);
+                    locationModelDivs.push(div);
+                }
             }
 
-            for (let i = 0; i < visibleWorldEncounters.length; i++) {
-                let encounter = visibleWorldEncounters[i];
-                let div = worldEncounterDivs[i];
-                let pos = encounter.getPos();
-                div.value = encounter;
+            while (locationModelDivs.length > visibleWorldModels.length) {
+                DomUtils.removeDivElement(locationModelDivs.pop());
+            }
+
+            for (let i = 0; i < visibleWorldModels.length; i++) {
+                let model = visibleWorldModels[i];
+                let div = locationModelDivs[i];
+                let pos = model.getPos();
+                div.value = model;
 
                 ThreeAPI.toScreenPosition(pos, tempVec);
                 div.style.top = 50-tempVec.y*(100/frustumFactor)+"%";
                 div.style.left = 50+tempVec.x*(100/frustumFactor)+"%";
 
-                evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ThreeAPI.getCameraCursor().getPos(), to:pos, color:'RED'});
+                evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ThreeAPI.getCameraCursor().getPos(), to:pos, color:'YELLOW'});
                 tempVec.x = pos.x;
                 tempVec.z = pos.z;
                 tempVec.y = 0;
-                evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:pos, to:tempVec, color:'RED'});
+                evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:pos, to:tempVec, color:'YELLOW'});
             }
-
-        };
+        }
 
         function closeEditCursors() {
             for (let key in editCursors) {
@@ -250,10 +250,11 @@ class DomEditModel {
 
         let close = function() {
             idLabelDiv.innerHTML = "--No Selection--";
-            while (worldEncounterDivs.length) {
-                DomUtils.removeDivElement(worldEncounterDivs.pop());
+            while (locationModelDivs.length) {
+                DomUtils.removeDivElement(locationModelDivs.pop());
             }
             closeEditCursors()
+
         }
 
         this.call = {

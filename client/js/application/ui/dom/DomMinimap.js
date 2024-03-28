@@ -389,20 +389,20 @@ class DomMinimap {
             new DomWorldmap(closeMapCb);
         }
 
-        let editLocations = null;
+        let editWorld = null;
 
         let openLocEdit = function() {
             if (client.page) {
                 GuiAPI.closePage(client.page)
                 client.page = null;
             }
-            if (editLocations === null) {
-                editLocations = poolFetch('DomEditLocations');
-                editLocations.initDomEditLocations(openLocEdit)
+            if (editWorld === null) {
+                editWorld = poolFetch('DomEditWorld');
+                editWorld.initDomEditWorld(openLocEdit)
             } else {
-                editLocations.closeDomEditLocations();
-                poolReturn(editLocations);
-                editLocations = null;
+                editWorld.closeDomEditWorld();
+                poolReturn(editWorld);
+                editWorld = null;
             }
         }
 

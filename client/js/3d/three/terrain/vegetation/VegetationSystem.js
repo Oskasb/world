@@ -2,11 +2,14 @@ import {Vegetation} from "./Vegetation.js";
 
 let vegetation = new Vegetation();
 let lodCenter = null;
+let skippedFrames = 0;
 let updateVegetationSystem = function() {
     let tpf = GameAPI.getFrame().tpf;
-    if (tpf < 0.03) {
+    if (tpf < 0.02 + skippedFrames*0.002) {
         vegetation.updateVegetation(lodCenter)
+        skippedFrames= 0;
     } else {
+        skippedFrames++
     //    console.log("Slow frame, skipping vegetation update");
     }
 
