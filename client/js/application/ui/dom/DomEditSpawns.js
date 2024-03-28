@@ -224,10 +224,14 @@ class DomEditSpawns {
             MATH.emptyArray(spawnerTiles)
             let patterns = config.spawn.patterns;
             for (let i = 0; i < patterns.length; i++) {
-                let gridI = patterns[i].tile[0];
-                let gridJ = patterns[i].tile[1];
-                let tile = activeEncounterGrid.gridTiles[gridI][gridJ];
+                let gridTiles = activeEncounterGrid.gridTiles
+                let gridI = MATH.clamp(patterns[i].tile[0], 0, gridTiles.length-1);
+                let gridJ = MATH.clamp(patterns[i].tile[1], 0, gridTiles[gridI].length-1);
+                let tile = gridTiles[gridI][gridJ];
                 if (spawnerTiles.indexOf(tile) === -1) {
+                    spawnerTiles.push(tile)
+                } else {
+                    tile = findFreeWalkableTile(tile, gridTiles, spawnerTiles);
                     spawnerTiles.push(tile)
                 }
             }

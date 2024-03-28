@@ -82,6 +82,7 @@ class WorldModel {
 
 
         let applyEditCursorUpdate = function(obj3d) {
+            this.calcBounds(true);
             if (MATH.distanceBetween(obj3d.position, this.obj3d.position) < 0.1) {
                 if (MATH.distanceBetween(obj3d.quaternion, this.obj3d.quaternion) < 0.01) {
                     return;
@@ -149,15 +150,19 @@ class WorldModel {
         return this.obj3d.position;
     }
 
-    applyObj3dUpdate() {
+    calcBounds(debugDraw) {
         this.box.min.copy(this.getPos());
         this.box.max.copy(this.getPos());
         for (let i = 0; i < this.locationModels.length; i++) {
             this.locationModels[i].hierarchyUpdated();
-            this.locationModels[i].call.renderDebugAAB(true);
+            this.locationModels[i].call.renderDebugAAB(debugDraw);
             MATH.fitBoxAround(this.box, this.locationModels[i].box.min, this.locationModels[i].box.max)
             this.locationModels[i].call.alignPhysicalModel()
         }
+    }
+
+    applyObj3dUpdate() {
+        this.calcBounds(false);
     }
 
     setHidden(bool) {

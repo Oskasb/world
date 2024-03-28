@@ -13,8 +13,6 @@ let worldEncounters = null;
 
 let toolsList = [
     "MOVE",
-    "GRID",
-    "SPAWN",
     "ADD"
 ]
 
@@ -42,7 +40,7 @@ function worldModelOperation(wModel, operation) {
 }
 
 
-class DomEditEncounter {
+class DomEditModel {
     constructor() {
 
         this.targetObj3d = new Object3D();
@@ -282,4 +280,4 @@ class DomEditEncounter {
 
 }
 
-export { DomEditEncounter }
+export { DomEditModel }
