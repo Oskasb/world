@@ -8,6 +8,7 @@ import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
 import {getDestination} from "../../../../Server/game/actor/ActorStatusFunctions.js";
 import {DomInteract} from "../../application/ui/dom/DomInteract.js";
 import {colorMapFx} from "../visuals/Colors.js";
+import {ENUMS} from "../../application/ENUMS.js";
 
 let tempVec = new Vector3()
 let calcVec = new Vector3()
@@ -258,6 +259,9 @@ class WorldEncounter {
         this.encounterLevel = config['level'] || 1;
         this.gridBorder = null;
         this.config = config;
+
+        let worldLevel = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
+        this.config['world_level'] = worldLevel;
 
         let hostReady = function() {
             onReady(this)

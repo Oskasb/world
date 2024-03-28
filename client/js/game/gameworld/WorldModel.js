@@ -37,7 +37,7 @@ class WorldModel {
         inheritConfigTransform(this.obj3d, this.config);
         MATH.decimalifyVec3(this.obj3d.position, 100);
         let worldLevel = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
-
+        this.config['world_level'] = worldLevel;
         if (id) {
             this.id = id;
         } else {

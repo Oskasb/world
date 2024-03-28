@@ -181,10 +181,10 @@ class DynamicSpawnPoint {
                         let worldEncounters = GameAPI.worldModels.getEncounterById()
                         proceduralEncounter = new WorldEncounter(encId, encounterConfig.config, onReady)
                         worldEncounters.push(proceduralEncounter);
+                    } else {
+                        console.log("Not loading completed dynamic encounter..", encId);
+                        //    skippedEncounters[encId] = encounter[i];
                     }
-                } else {
-                    console.log("Not loading completed dynamic encounter..", encId);
-                //    skippedEncounters[encId] = encounter[i];
                 }
 
                 deactivateVisible();

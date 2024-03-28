@@ -83,8 +83,6 @@ class DomEditModel {
         }
 
         function selectionUpdate(id) {
-            console.log("selectionUpdate", id);
-
             if (previewModel !== null) {
                 previewModel.removeLocationModels();
             }
@@ -93,7 +91,7 @@ class DomEditModel {
                 modelConfig.model = id;
                 applyCursorUpdate(editObj3d)
                 previewModel = new WorldModel(modelConfig, "preview_model");
-                console.log("applySelectedModel", previewModel);
+                console.log("selectionUpdate",id, previewModel);
                 if (previewCursor === null) {
                     activateCursor();
                 }
