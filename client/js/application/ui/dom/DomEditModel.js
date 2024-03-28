@@ -5,6 +5,7 @@ import {ENUMS} from "../../ENUMS.js";
 import {physicalAlignYGoundTest, testProbeFitsAtPos} from "../../utils/PhysicsUtils.js";
 import {detachConfig, saveEncounterEdits} from "../../utils/ConfigUtils.js";
 import {ConfigData} from "../../utils/ConfigData.js";
+import {WorldModel} from "../../../game/gameworld/WorldModel.js";
 
 let tempVec = new Vector3();
 let frustumFactor = 0.828;
@@ -24,12 +25,84 @@ class DomEditModel {
 
         let addModelStatusMap = {}
 
+        let previewModel = null;
+        let cursor = null;
+        let editObj3d = new Object3D();
+        this.statusMap = {
+            selectedTool: "",
+            selection: "--select--"
+        };
+
+        let statusMap = this.statusMap;
+        let rootElem = null;
+        let htmlElem;
+        let selectedTool = "";
+        let editCursors = {};
+        let previewCursor = null;
+        let applyOperationDiv = null;
+        let toolSelectDiv = null;
+        let visibleWorldModels = [];
+        let locationModelDivs = [];
+        let modelEdit = null;
+        let modelConfig = {
+            "model": "",
+            "pos": [0, 0, 0],
+            "rot": [0, 0, 0],
+            "scale": [1, 1, 1],
+            "on_ground": false,
+            "palette":"DEFAULT",
+            "visibility": 3,
+            "no_lod": true
+        }
+
+        function onClick(e) {
+            console.log("Model Cursor Click", e)
+        }
+
+        function applyCursorUpdate(obj3d) {
+            MATH.vec3ToArray(obj3d.position, modelConfig.pos, 100)
+            MATH.rotObj3dToArray(obj3d, modelConfig.rot, 1000);
+            if (previewModel !== null) {
+                previewModel.call.applyEditCursorUpdate(obj3d);
+            }
+        }
+
+        function closePreviewCursor() {
+            previewCursor.closeDomEditCursor();
+            poolReturn(previewCursor);
+            previewCursor = null;
+        }
+
+        function activateCursor() {
+            previewCursor = poolFetch('DomEditCursor')
+            previewCursor.initDomEditCursor(closePreviewCursor, editObj3d, applyCursorUpdate, onClick);
+        }
+
         function applySelectedModel(id) {
-            console.log("applySelectedModel", id);
+
         }
 
         function selectionUpdate(id) {
             console.log("selectionUpdate", id);
+
+            if (previewModel !== null) {
+                previewModel.removeLocationModels();
+            }
+
+            if (id !== "") {
+                modelConfig.model = id;
+                applyCursorUpdate(editObj3d)
+                previewModel = new WorldModel(modelConfig, "preview_model");
+                console.log("applySelectedModel", previewModel);
+                if (previewCursor === null) {
+                    activateCursor();
+                }
+            } else {
+                if (previewCursor !== null) {
+                    previewCursor.closeDomEditCursor()
+                }
+            }
+
         }
 
 
@@ -55,21 +128,7 @@ class DomEditModel {
             new ConfigData("WORLD_LOCATIONS","LOCATION_MODELS",  false, false, false, onConfig)
         }
 
-        this.statusMap = {
-            selectedTool: "",
-            selection: "--select--"
-        };
 
-        let statusMap = this.statusMap;
-        let rootElem = null;
-        let htmlElem;
-        let selectedTool = "";
-        let editCursors = {};
-        let applyOperationDiv = null;
-        let toolSelectDiv = null;
-        let visibleWorldModels = [];
-        let locationModelDivs = [];
-        let modelEdit = null;
 
 
 
@@ -178,6 +237,8 @@ class DomEditModel {
         }
 
         let update = function() {
+
+            editObj3d.position.copy(ThreeAPI.getCameraCursor().getLookAroundPoint());
 
             if (toolSelectDiv.value !== selectedTool) {
                 statusMap.tool = toolSelectDiv.value

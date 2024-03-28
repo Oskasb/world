@@ -26,7 +26,7 @@ let randomPaletteList = [
 
 class WorldModel {
 
-    constructor(config) {
+    constructor(config, id) {
 
         index++;
         this.config = config;
@@ -37,7 +37,13 @@ class WorldModel {
         inheritConfigTransform(this.obj3d, this.config);
         MATH.decimalifyVec3(this.obj3d.position, 100);
         let worldLevel = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
-        this.id = "wmdl_"+worldLevel+"_"+this.obj3d.position.x+"_"+this.obj3d.position.y+"_"+this.obj3d.position.z;
+
+        if (id) {
+            this.id = id;
+        } else {
+            this.id = "wmdl_"+worldLevel+"_"+this.obj3d.position.x+"_"+this.obj3d.position.y+"_"+this.obj3d.position.z;
+
+        }
 
         if (config['palette']) {
             this.paletteKey = config['palette'];
@@ -73,8 +79,8 @@ class WorldModel {
         parseConfigDataKey("WORLD_LOCATIONS","LOCATION_MODELS", "model_data", config.model, locationModels)
 
         let updateObj3D = function() {
-            MATH.rotObj3dToArray(this.obj3d, this.config.rot);
-            MATH.vec3ToArray(this.obj3d.position, this.config.pos);
+            MATH.rotObj3dToArray(this.obj3d, this.config.rot, 1000);
+            MATH.vec3ToArray(this.obj3d.position, this.config.pos, 100);
             this.applyObj3dUpdate()
         }.bind(this);
 
@@ -93,11 +99,15 @@ class WorldModel {
             MATH.decimalifyVec3(obj3d.position, 100);
             this.obj3d.copy(obj3d);
             updateObj3D()
-            let wmodel = this;
-            clearTimeout(saveTimeout)
-            saveTimeout = setTimeout(function() {
-                saveWorldModelEdits(wmodel);
-            }, 200)
+
+            if (this.id !== "preview_model") {
+                let wmodel = this;
+                clearTimeout(saveTimeout)
+                saveTimeout = setTimeout(function() {
+                    saveWorldModelEdits(wmodel);
+                }, 200)
+            }
+
 
         }.bind(this);
 
@@ -118,8 +128,8 @@ class WorldModel {
 
         let applyLoadedConfig = function(cfg) {
 
-            console.log("applyLoadedConfig", cfg)
             if (cfg !== null) {
+                console.log("applyLoadedConfig", cfg)
                 this.config = cfg;
                 MATH.vec3FromArray(this.obj3d.position, cfg.pos);
                 this.obj3d.quaternion.set(0, 0, 0, 1);
@@ -141,8 +151,11 @@ class WorldModel {
             applyLoadedConfig:applyLoadedConfig
         }
 
-        console.log("loadSavedConfig", this.id)
-        loadSavedConfig(this.id, this.call.applyLoadedConfig)
+        if (id !== "preview_model") {
+        //    console.log("loadSavedConfig", this.id)
+            loadSavedConfig(this.id, this.call.applyLoadedConfig)
+        }
+
 
     }
 

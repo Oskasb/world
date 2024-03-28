@@ -676,18 +676,25 @@ MATH.expandVector = function(vec, expand) {
 	vec.z += expand*Math.sign(vec.z);
 };
 
-MATH.vec3ToArray = function(vec3, array) {
-	vec3.x = array[0] = vec3.x;
-	vec3.y = array[1] = vec3.y;
-	vec3.z = array[2] = vec3.z;
+MATH.vec3ToArray = function(vec3, array, scale) {
+	if (typeof (scale) === 'number') {
+		array[0] = this.decimalify(vec3.x, scale);
+		array[1] = this.decimalify(vec3.y, scale);
+		array[2] = this.decimalify(vec3.z, scale);
+	} else {
+		array[0] = vec3.x;
+		array[1] = vec3.y;
+		array[2] = vec3.z;
+	}
+
 	return array;
 }
 
 MATH.vec3FromArray = function(vec3, array) {
 	if (!vec3) vec3 = new Vector3();
-	vec3.x = array[0];
-	vec3.y = array[1];
-	vec3.z = array[2];
+		vec3.x = array[0];
+		vec3.y = array[1];
+		vec3.z = array[2];
 	return vec3;
 }
 

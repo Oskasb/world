@@ -1,5 +1,6 @@
 import {poolFetch, poolReturn} from "../../utils/PoolUtils.js";
 import {saveEncounterEdits} from "../../utils/ConfigUtils.js";
+import {getEditIndex} from "../../../../../Server/game/utils/EditorFunctions.js";
 
 
 class DomEditAdd {
@@ -8,37 +9,43 @@ class DomEditAdd {
         let statusMap = null
         let rootElem = null;
         let htmlElem;
-
-        let rayTestDiv = null;
-
-        let activeEncounterGrid = null;
-        let selectGrid = null;
+        let applyContainerDiv = null;
+        let selectList = null;
         let addButtonDiv = null;
-        let rayTestOn = false;
-        function rayTest() {
-            rayTestOn =! rayTestOn;
+        let selectionId = "";
+
+        function applyAdd() {
+            statusMap.activateSelection(selectionId);
         }
 
         let htmlReady = function(htmlEl) {
-        //    console.log(configData)
             htmlElem = htmlEl;
             statusMap = htmlElem.statusMap;
             rootElem = htmlEl.call.getRootElement();
-            addButtonDiv = htmlElem.call.getChildElement('add_button');
-            selectGrid = htmlElem.call.getChildElement('select_list');
+
+            selectList = htmlElem.call.getChildElement('select_list');
+            applyContainerDiv = htmlElem.call.getChildElement('apply_container');
             htmlElem.call.populateSelectList('select_list', statusMap.selectList)
+            addButtonDiv = htmlElem.call.getChildElement('add_button');
+            DomUtils.addClickFunction(addButtonDiv, applyAdd)
             ThreeAPI.registerPrerenderCallback(update);
+            applySelection(selectionId)
         }.bind(this);
 
-        let selectionId = "";
 
         let applySelection = function(id) {
-            selectionId = id
+            selectionId = id;
+            if (id === "") {
+                applyContainerDiv.style.display = "none"
+            } else {
+                applyContainerDiv.style.display = ""
+            }
+            statusMap.selectionUpdate(selectionId);
         };
 
         let update = function() {
-            if (selectionId !== selectGrid.value) {
-                applySelection(selectGrid.value);
+            if (selectionId !== selectList.value) {
+                applySelection(selectList.value);
             }
         };
 
