@@ -6,8 +6,19 @@ let deletedConfigs = {};
 let savedConfigs = {};
 let editIndex = {};
 let requestListeners = [];
+let bufferListeners = [];
 let requestedLoads = [];
 let savedImageBuffers = {};
+
+function processLoadedBuffer(id) {
+    for (let i = 0; i < bufferListeners.length; i++) {
+        if (bufferListeners[i].id === id) {
+            let entry = bufferListeners[i];
+            entry.callback(savedImageBuffers[id]);
+        }
+    }
+
+}
 
 function processLoadedFile(id) {
 
@@ -23,10 +34,11 @@ function processLoadedFile(id) {
 
     for (let i = 0; i < requestListeners.length; i++) {
         if (requestListeners[i].id === id) {
-            let entry =requestListeners[i];
+            let entry = requestListeners[i];
             entry.callback(savedConfigs[id]);
         }
     }
+
 
     let indexEntry = editIndex[id];
     console.log("Load from index", id, indexEntry);
@@ -155,6 +167,18 @@ function parseConfigDataKey(root, folder, dataId, id, callback) {
     configData.parseConfig(id, callback)
 }
 
+function loadSavedBuffer(id, callback) {
+    let add = true;
+    for (let i = 0; i < bufferListeners.length; i++) {
+        if (bufferListeners[i].id === id) {
+            add = false;
+        }
+    }
+    if (add === true) {
+        bufferListeners.push({id:id, callback:callback});
+    }
+}
+
 function loadSavedConfig(id, callback) {
 //    console.log("Request", id)
 
@@ -194,10 +218,21 @@ function applyRemoteConfigMessage(message) {
         console.log("Not loading deleted config", id, message)
         deletedConfigs[id] = data
     } else {
-        savedConfigs[id] = data;
-        processLoadedFile(id);
+        if (message.format === 'json') {
+            savedConfigs[id] = data;
+            processLoadedFile(id);
+        }
+        if (message.format === 'buffer') {
+            let array = [];
+            console.log(data);
+            for (let key in data) {
+                array.push(data[key]);
+            }
+            console.log(array);
+            savedImageBuffers[id] = new Uint8ClampedArray(array);
+            processLoadedBuffer(id);
+        }
     }
-
 }
 
 function saveConfigEdits(root, folder, id, editedConfig) {
@@ -238,31 +273,16 @@ function saveWorldModelEdits(wModel) {
 
 function saveDataTexture(root, folder, id, buffer) {
     savedImageBuffers[id] = buffer;
-
-    let maxLength = 2048*16;
-    let slices = buffer.length / maxLength;
-    let sent = 0;
-
-    function streamBufferSlice() {
-        return;
-        let data = buffer.slice(sent*maxLength, (sent+1)*maxLength)
-        console.log(data)
-        evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, {
-            request:ENUMS.ClientRequests.WRITE_FILE,
-            id:id+"_"+sent,
-            root:root,
-            folder:folder,
-            dir:"edits/",
-            format:"buffer",
-            data:data
-        })
-        sent++
-        if (sent === slices) {
-            ThreeAPI.unregisterPrerenderCallback(streamBufferSlice);
-        }
-    }
-
-    ThreeAPI.registerPrerenderCallback(streamBufferSlice);
+// console.log(savedImageBuffers)
+    evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, {
+        request:ENUMS.ClientRequests.WRITE_FILE,
+        id:id,
+        root:root,
+        folder:folder,
+        dir:"edits/",
+        format:"buffer",
+        data:JSON.stringify(buffer)
+    })
 
 }
 
@@ -272,6 +292,7 @@ export {
     configDataList,
     parseConfigDataKey,
     loadSavedConfig,
+    loadSavedBuffer,
     applyRemoteConfigMessage,
     saveConfigEdits,
     saveEncounterEdits,

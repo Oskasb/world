@@ -6,7 +6,7 @@ import {Vector3} from "../../../../libs/three/math/Vector3.js";
 import {borrowBox, cubeTestVisibility, aaBoxTestVisibility} from "../../../application/utils/ModelUtils.js";
 import {getPhysicalWorld} from "../../../application/utils/PhysicsUtils.js";
 import {applyGroundCanvasEdit} from "./TerrainFunctions.js";
-import {saveDataTexture} from "../../../application/utils/ConfigUtils.js";
+import {loadSavedBuffer, saveDataTexture} from "../../../application/utils/ConfigUtils.js";
 import {ENUMS} from "../../../application/ENUMS.js";
 
 let bigWorld = null;
@@ -246,6 +246,72 @@ let detachSection = function(index) {
   //  activeOcean[index] = null;
 }
 
+let uploadSlices = 64;
+
+function sliceLoaded(sliceId, sliceInfo, data) {
+    console.log("Slice Loaded", sliceInfo, data);
+    let pixelsPerSliceX = 2048/uploadSlices;
+    let pixelsPerSliceY = 2048/uploadSlices
+    heightmapContext.globalCompositeOperation = 'source-over';
+    let iData = new ImageData(data, pixelsPerSliceX, pixelsPerSliceY);
+    heightmapContext.putImageData(iData, sliceInfo.x, sliceInfo.y);
+
+    heightUpdateRect.minX = sliceInfo.x;
+    heightUpdateRect.minY = sliceInfo.y;
+    heightUpdateRect.maxX = sliceInfo.x+pixelsPerSliceX;
+    heightUpdateRect.maxY = sliceInfo.y+pixelsPerSliceY;
+    ThreeAPI.canvasTextureSubUpdate(terrainMaterial.heightmap, heightmapContext, heightUpdateRect)
+}
+
+function setupBufferListeners() {
+    let pixelsPerSliceX = 2048/uploadSlices;
+    let pixelsPerSliceY = 2048/uploadSlices;
+  //  for (let l = 0; l < 20; l++) {
+    let l = 20;
+        for (let i = 0; i < uploadSlices; i++) {
+            for (let j = 0; j < uploadSlices; j++) {
+                let xMin = pixelsPerSliceX*i;
+                let yMin = pixelsPerSliceY*j;
+                let sliceId = "height_"+l+"_"+xMin+"_"+yMin;
+                let callback = function(data) {
+                    let sliceInfo = {
+                        sliceId:sliceId,
+                        wl:l,
+                        x:xMin,
+                        y:yMin
+                    }
+                    sliceLoaded(sliceId, sliceInfo, data)
+                }
+                loadSavedBuffer(sliceId, callback)
+            }
+        }
+  //  }
+}
+
+function uploadUpdateRect(updateRect, ctx, maxWidth, maxHeight) {
+    let pixelsPerSliceX = maxWidth/uploadSlices;
+    let pixelsPerSliceY = maxHeight/uploadSlices;
+    let sliceXmin = Math.floor(updateRect.minX/pixelsPerSliceX)
+    let slixeXMax = Math.ceil(updateRect.maxX/pixelsPerSliceX)
+    let sliceYmin = Math.floor(updateRect.minY/pixelsPerSliceY)
+    let slixeYMax = Math.ceil(updateRect.maxY/pixelsPerSliceY)
+    let totalX = slixeXMax-sliceXmin;
+    let totalY = slixeYMax-sliceYmin;
+    let worldLevel = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
+    console.log("uploadUpdateRect", totalX, totalY, pixelsPerSliceX, pixelsPerSliceY, sliceXmin, sliceYmin)
+    for (let i = 0; i < totalX; i++) {
+        for (let j = 0; j < totalY; j++) {
+            let xMin = sliceXmin*pixelsPerSliceX + pixelsPerSliceX*i;
+            let yMin = sliceYmin*pixelsPerSliceY + pixelsPerSliceY*j;
+            let subImage = ctx.getImageData(xMin, yMin, pixelsPerSliceX, pixelsPerSliceY).data;
+            console.log("uploadUpdateRect", xMin, yMin, subImage)
+            saveDataTexture("images", "height", "height_"+worldLevel+"_"+xMin+"_"+yMin, subImage);
+        }
+    }
+
+//
+}
+
 let physicsUpdateTimeout;
 let visibilityList = [];
 let visibleCount = 0;
@@ -312,13 +378,14 @@ let updateBigGeo = function(tpf) {
 
         if (heightUpdateRect.maxX !== 0) {
             ThreeAPI.canvasTextureSubUpdate(terrainMaterial.heightmap, heightmapContext, heightUpdateRect)
+            uploadUpdateRect(heightUpdateRect, heightmapContext, width, height)
             MATH.clearUpdateRect(heightUpdateRect);
         } else {
             terrainMaterial.heightmap.needsUpdate = true;
         }
         heightmap = heightmapContext.getImageData(0, 0, width, height).data;
-        let worldLevel = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
-        saveDataTexture("images", "height", "height_"+worldLevel, heightmap);
+
+
         terrainUpdate = false;
         clearTimeout(physicsUpdateTimeout);
         physicsUpdateTimeout = setTimeout(function() {
@@ -388,8 +455,11 @@ function setTerrainDataImage(imgData, worldLevel) {
 
 let groundUpdateTimeout = null;
 
+setupBufferListeners();
+
 class TerrainBigGeometry {
     constructor() {
+
         this.call = {
             updateBigGeo:updateBigGeo
         }
@@ -440,8 +510,6 @@ class TerrainBigGeometry {
     getGroundData() {
         if (groundUpdate) {
             terrainmap = terrainContext.getImageData(0, 0, terrainWidth, terrainHeight).data;
-            let worldLevel = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
-            saveDataTexture("images", "ground", "ground_"+worldLevel, terrainmap);
             groundUpdate = false;
         }
         return terrainmap;

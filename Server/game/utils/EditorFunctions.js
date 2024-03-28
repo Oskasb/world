@@ -30,7 +30,7 @@ function saveFileFromSocketMessage(message) {
 }
 
 function readFileFromSocketMessage(message, callback) {
-    if (message.format === "json") {
+    if (message.format === "json" || message.format === "buffer") {
         console.log("readFileFromSocketMessage JSON", message.id);
         if (!editIndex[message.id]) {
             console.log("Any reads should be in the index...", message.id)
@@ -40,7 +40,7 @@ function readFileFromSocketMessage(message, callback) {
         }
 
     } else {
-        console.log("Format Not supported", message.id, message.format);
+        console.log("Format Not supported", message, message.id, message.format);
     }
 
 }
