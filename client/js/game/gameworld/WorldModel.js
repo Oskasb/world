@@ -37,13 +37,11 @@ class WorldModel {
         inheritConfigTransform(this.obj3d, this.config);
         MATH.decimalifyVec3(this.obj3d.position, 100);
 
-        let worldLevel = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
 
         if (id) {
             this.id = id;
         } else {
-            this.id = "wmdl_"+worldLevel+"_"+this.obj3d.position.x+"_"+this.obj3d.position.y+"_"+this.obj3d.position.z;
-
+            this.id = this.generateModelId("")
         }
 
         if (config['palette']) {
@@ -158,6 +156,12 @@ class WorldModel {
         }
 
 
+    }
+
+    generateModelId(pre) {
+        let worldLevel = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
+        MATH.decimalifyVec3(this.obj3d.position, 100);
+        return pre+"wmdl_"+worldLevel+"_"+this.obj3d.position.x+"_"+this.obj3d.position.y+"_"+this.obj3d.position.z;
     }
 
     getPos() {

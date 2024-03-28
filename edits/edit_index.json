@@ -1,16 +1,1 @@
-{
-  "wmdl_20_-888_2.1_516": {
-    "dir": "edits/configs/",
-    "root": "model",
-    "folder": "20",
-    "format": "json",
-    "timestamp": 1711616576963
-  },
-  "wmdl_20_-892_2.1_511": {
-    "dir": "edits/configs/",
-    "root": "model",
-    "folder": "20",
-    "format": "json",
-    "timestamp": 1711616573679
-  }
-}
+{"wmdl_20_-888_2.1_516":{"dir":"edits/configs/","root":"model","folder":"20","format":"json","timestamp":1711616576963},"wmdl_20_-892_2.1_511":{"dir":"edits/configs/","root":"model","folder":"20","format":"json","timestamp":1711616573679},"e_wmdl_20_-889.28_2.1_512.55":{"dir":"edits/configs/","root":"model","folder":"20","format":"json","timestamp":1711620087636},"e_wmdl_20_-891.9_2.1_516.4":{"dir":"edits/configs/","root":"model","folder":"20","format":"json","timestamp":1711620094932},"wmdl_20_-891.9_2.1_516.4":{"dir":"edits/configs/","root":"model","folder":"20","format":"json","timestamp":1711620647147}}

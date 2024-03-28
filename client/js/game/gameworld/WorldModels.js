@@ -14,6 +14,8 @@ let skippedTreasures = {};
 let skippedEncounters = {};
 let dynamicSpawnPoints = [];
 
+let loadedConfigs = {}
+
 let activateEvent = {world_encounters:[]};
 
 let heightTestNear = [];
@@ -76,8 +78,37 @@ function deactivateDynamicSpawnPoints() {
     }
 }
 
+function loadModelFromConfig(config) {
+    let model = new WorldModel(config)
+    worldModels.push(model);
+}
+
+function loadEditorModels(configs) {
+    for (let key in configs) {
+        let add = true;
+        for (let i = 0; i < worldModels.length; i++) {
+            if (worldModels[i].id === key) {
+                worldModels[i].call.applyLoadedConfig(configs[key]);
+                add = false;
+            }
+        }
+        if (add === true) {
+            loadModelFromConfig(configs[key])
+        }
+    }
+}
+
+function loadModelsFromEditor(worldLevel) {
+    if (loadedConfigs['models']) {
+        if (loadedConfigs['models'][worldLevel]) {
+            loadEditorModels(loadedConfigs['models'][worldLevel])
+        }
+    }
+}
+
 let worldLevelLocations = []
 let lastWorldLevel = "20";
+
 let initWorldModels = function(worldLevel) {
 
     if (worldLevel !== lastWorldLevel || dynamicSpawnPoints.length === 0) {
@@ -94,13 +125,26 @@ let initWorldModels = function(worldLevel) {
     let config = locationModelConfigs;
     console.log("worldLevel Models; ", worldLevel, config);
 
-    removeWorldModels()
+    removeWorldModels(worldLevel)
 
     MATH.emptyArray(worldLevelLocations);
+
+    loadModelsFromEditor()
+
     let modelsData = function(models) {
         for (let i = 0; i < models.length;i++) {
             let model = new WorldModel(models[i])
-            worldModels.push(model);
+            let add = true;
+            for (let i = 0; i < worldModels.length; i++) {
+                if (worldModels[i].id === model.id) {
+                    add = false;
+                }
+            }
+            if (add === true) {
+                worldModels.push(model);
+            }
+
+
         }
     }
 
@@ -258,6 +302,28 @@ class WorldModels {
 
     getActiveWorldModels() {
         return worldModels;
+    }
+
+    setLoadedConfig(root, folder, id, config) {
+        if (!loadedConfigs[root]) {
+            loadedConfigs[root] = {};
+        }
+
+        if (!loadedConfigs[root][folder]) {
+            loadedConfigs[root][folder] = {};
+        }
+        loadedConfigs[root][folder][id] = config;
+        if (root === 'model') {
+            let wModel = GameAPI.worldModels.getActiveWorldModel(id);
+            if (wModel !== null) {
+                wModel.call.applyLoadedConfig(config)
+            } else if (folder === lastWorldLevel) {
+                loadModelFromConfig(config)
+            }
+            
+        }
+
+
     }
 
     getActiveWorldModel(id) {

@@ -16,18 +16,13 @@ function processLoadedFile(id) {
     }
 
     let indexEntry = editIndex[id];
-    console.log("Load from index", indexEntry);
+    console.log("Load from index", id, indexEntry);
     let root = indexEntry.root;
-
+    let folder = indexEntry.folder;
     if (root === 'model') {
-        let wModel = GameAPI.worldModels.getActiveWorldModel(id);
-        if (wModel !== null) {
-            wModel.call.applyLoadedConfig(savedConfigs[id])
-        }
+        GameAPI.worldModels.setLoadedConfig(root, folder, id, savedConfigs[id]);
     } else if (root === 'encounter') {
-    //    let config = savedConfigs[i];
-
-
+        GameAPI.worldModels.setLoadedConfig(root, folder, id, savedConfigs[id]);
     } else {
         console.log("Unsupported Config root Folder")
     }

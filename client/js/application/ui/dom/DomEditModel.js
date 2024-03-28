@@ -3,7 +3,7 @@ import {Vector3} from "../../../../libs/three/math/Vector3.js";
 import {Object3D} from "../../../../libs/three/core/Object3D.js";
 import {ENUMS} from "../../ENUMS.js";
 import {physicalAlignYGoundTest, testProbeFitsAtPos} from "../../utils/PhysicsUtils.js";
-import {detachConfig, saveEncounterEdits} from "../../utils/ConfigUtils.js";
+import {detachConfig, saveEncounterEdits, saveWorldModelEdits} from "../../utils/ConfigUtils.js";
 import {ConfigData} from "../../utils/ConfigData.js";
 import {WorldModel} from "../../../game/gameworld/WorldModel.js";
 
@@ -50,7 +50,7 @@ class DomEditModel {
             "rot": [0, 0, 0],
             "scale": [1, 1, 1],
             "on_ground": false,
-            "palette":"DEFAULT",
+            "palette": "DEFAULT",
             "visibility": 3,
             "no_lod": true
         }
@@ -79,8 +79,12 @@ class DomEditModel {
         }
 
         function applySelectedModel(id) {
-
+            previewModel.id = previewModel.generateModelId("e_")
+            previewModel.config.no_lod = false;
+            saveWorldModelEdits(previewModel);
+            selectionUpdate(id)
         }
+
 
         function selectionUpdate(id) {
             if (previewModel !== null) {
@@ -90,6 +94,7 @@ class DomEditModel {
             if (id !== "") {
                 modelConfig.model = id;
                 applyCursorUpdate(editObj3d)
+                modelConfig.no_lod = true;
                 previewModel = new WorldModel(modelConfig, "preview_model");
                 console.log("selectionUpdate",id, previewModel);
                 if (previewCursor === null) {
