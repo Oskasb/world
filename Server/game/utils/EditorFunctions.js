@@ -13,34 +13,35 @@ function setEditorServerConnection(srvrCon) {
     serverConnection = srvrCon;
 }
 
-function addIndexEntry(id, file, format) {
-    console.log("updateEditWriteIndex", id, file, format)
-    editIndex[id] = {file:file, timestamp:new Date().getTime(), format:format};
+function addIndexEntry(dir, root, folder, id, format) {
+    console.log("updateEditWriteIndex", id)
+    editIndex[id] = {dir:dir, root:root, folder:folder, format:format, timestamp:new Date().getTime()};
 }
 
 function saveFileFromSocketMessage(message) {
-    if (message.format === "JSON") {
+    if (message.format === "json") {
     //    console.log("saveFileFromSocketMessage JSON", message.file);
-        addIndexEntry(message.id, message.file, message.format);
-        serverConnection.writeDataToFile(message.format, message.id, message.file, message.data);
+        serverConnection.writeDataToFile(message);
+
+
     } else {
-        console.log("Format Not supported", message.file, message.format);
+        console.log("Format Not supported", message.id, message.format);
     }
 
 }
 
 function readFileFromSocketMessage(message, callback) {
-    if (message.format === "JSON") {
+    if (message.format === "json") {
         console.log("readFileFromSocketMessage JSON", message.id);
         if (!editIndex[message.id]) {
             console.log("Any reads should be in the index...", message.id)
             console.log(editIndex);
         } else {
-            serverConnection.readDataFromFile(message.format, message.id, message.file, callback);
+            serverConnection.readDataFromFile(message, callback);
         }
 
     } else {
-        console.log("Format Not supported", message.file, message.format);
+        console.log("Format Not supported", message.id, message.format);
     }
 
 }

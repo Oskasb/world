@@ -4,19 +4,94 @@ import {ENUMS} from "../ENUMS.js";
 let savedConfigs = {};
 let editIndex = {};
 let requestListeners = [];
+let requestedLoads = [];
+
+function processLoadedFile(id) {
+
+    for (let i = 0; i < requestListeners.length; i++) {
+        if (requestListeners[i].id === id) {
+            let entry =requestListeners[i];
+            entry.callback(savedConfigs[id]);
+        }
+    }
+
+    let indexEntry = editIndex[id];
+    console.log("Load from index", indexEntry);
+    let root = indexEntry.root;
+
+    if (root === 'model') {
+        let wModel = GameAPI.worldModels.getActiveWorldModel(id);
+        if (wModel !== null) {
+            wModel.call.applyLoadedConfig(savedConfigs[id])
+        }
+    } else if (root === 'encounter') {
+    //    let config = savedConfigs[i];
+
+
+    } else {
+        console.log("Unsupported Config root Folder")
+    }
+
+
+}
+
+function requestFileRead(id) {
+    if (requestedLoads.indexOf(id) === -1) {
+        requestedLoads.push(id);
+        evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, {
+            request:ENUMS.ClientRequests.READ_FILE,
+            id:id,
+            root:editIndex[id].root,
+            folder:editIndex[id].folder,
+            dir:editIndex[id].dir,
+            format:editIndex[id].format
+        })
+    }
+}
+
+function streamLoadEditsFromIndexInit() {
+
+    let loadStrem = [];
+
+    for (let id in editIndex) {
+        if (requestedLoads.indexOf(id) === -1) {
+            loadStrem.push(id)
+        }
+    }
+
+    let hold = 0;
+    function processStream(tpf) {
+        hold += tpf;
+        if (hold < 0.1) {
+            return;
+        }
+        hold = 0;
+        let id = loadStrem.pop()
+        requestFileRead(id);
+        GuiAPI.screenText('EDITS', ENUMS.Message.SYSTEM, loadStrem.length);
+        if (loadStrem.length === 0) {
+            ThreeAPI.unregisterPrerenderCallback(processStream)
+        }
+    }
+
+    if (loadStrem.length !== 0) {
+        ThreeAPI.registerPrerenderCallback(processStream)
+    }
+
+}
 
 function setEditIndexClient(eIndex) {
-    console.log("Loaded Edit Index: ", eIndex, requestListeners);
+    console.log("Loaded Edit Index: ", [[eIndex], [requestListeners]]);
     editIndex = eIndex;
     for (let key in eIndex) {
         for (let i = 0; i < requestListeners.length; i++) {
             if (requestListeners[i].id === key) {
                 let entry = requestListeners[i];
-                console.log("Preloaded call triggeres: ", key);
                 loadSavedConfig(key, entry.callback)
             }
         }
     }
+    streamLoadEditsFromIndexInit()
 }
 
 let configDataList = function(root, folder, onData) {
@@ -36,17 +111,16 @@ let configDataList = function(root, folder, onData) {
     new ConfigData(root, folder, null, null, null, initData)
 }
 
-
 function parseConfigDataKey(root, folder, dataId, id, callback) {
     let configData =  new ConfigData(root, folder, dataId, 'data_key', 'config')
     configData.addUpdateCallback(callback);
     configData.parseConfig(id, callback)
 }
 
-
-
 function loadSavedConfig(id, callback) {
 //    console.log("Request", id)
+
+
     if (typeof (savedConfigs[id]) === 'object') {
         callback(savedConfigs[id])
     } else {
@@ -60,12 +134,8 @@ function loadSavedConfig(id, callback) {
             requestListeners.push({id:id, callback:callback});
         }
         if (typeof(editIndex[id]) === 'object') {
-            evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, {
-                request:ENUMS.ClientRequests.READ_FILE,
-                id:id,
-                file:editIndex[id].file,
-                format:editIndex[id].format
-            })
+            requestFileRead(id);
+
         //    console.log("Load from index", id);
         } else {
             // console.log("Not in Index", id, editIndex);
@@ -79,12 +149,8 @@ function applyRemoteConfigMessage(message) {
     let data = message.data;
     savedConfigs[id] = data;
 //    console.log("applyRemoteConfigMessage", message, savedConfigs, requestListeners);
-    for (let i = 0; i < requestListeners.length; i++) {
-        if (requestListeners[i].id === id) {
-            let entry =requestListeners[i];
-            entry.callback(savedConfigs[id]);
-        }
-    }
+
+    processLoadedFile(id);
 }
 
 function saveConfigEdits(root, folder, id, editedConfig) {
@@ -94,8 +160,10 @@ function saveConfigEdits(root, folder, id, editedConfig) {
     evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, {
         request:ENUMS.ClientRequests.WRITE_FILE,
         id:id,
-        file:"edits/configs/"+root+"/"+folder+"/"+id+".json",
-        format:"JSON",
+        root:root,
+        folder:folder,
+        dir:"edits/configs/",
+        format:"json",
         data:json,
     })
 

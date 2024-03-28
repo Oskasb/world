@@ -218,7 +218,7 @@ function processClientRequest(request, stamp, message, connectedClient) {
             break;
 
         case ENUMS.ClientRequests.WRITE_FILE:
-            console.log("saveFileFromSocketMessage", message.file)
+            console.log("saveFileFromSocketMessage", message.id)
             saveFileFromSocketMessage(message);
             message.command = ENUMS.ServerCommands.LOAD_FILE_DATA;
             message.data = JSON.parse(message.data);
@@ -232,7 +232,9 @@ function processClientRequest(request, stamp, message, connectedClient) {
                 command:ENUMS.ServerCommands.LOAD_FILE_DATA,
                 request:ENUMS.ClientRequests.READ_FILE,
                 id:message.id,
-                file:message.file,
+                dir:message.dir,
+                root:message.root,
+                folder:message.folder,
                 format:message.format
             }
 

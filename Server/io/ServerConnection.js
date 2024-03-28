@@ -15,13 +15,13 @@ let sends = 0;
 let server = null;
 let edit_index = null;
 let indexFile = "edits/edit_index.json"
-function updateEditWriteIndex(id, file, format) {
-	addIndexEntry(id, file, format);
+function updateEditWriteIndex(message) {
+	addIndexEntry(message.dir, message.root, message.folder, message.id, message.format);
 	let writeCB = function(res) {
 		if (res !== null) {
 			console.log("index error:", res);
 		} else {
-			console.log("index updated:", id);
+			console.log("index updated:", message.id);
 		}
 	}
 	server.writeFile(indexFile, JSON.stringify(edit_index), writeCB)
@@ -40,6 +40,10 @@ function loadEditIndex(cb) {
 	server.readFile(indexFile, indexCb)
 }
 
+function fileFromMessage(message) {
+	return message.dir+message.root+"/"+message.folder+"/"+message.id+"."+message.format;
+}
+
 class ServerConnection {
 	constructor() {
 
@@ -49,31 +53,37 @@ class ServerConnection {
 		this.wss.close();
 	};
 
-	writeDataToFile(format, id, file, data) {
+
+
+	writeDataToFile(message) {
+		let data = message.data;
+		let file = fileFromMessage(message)
+		addIndexEntry(message.dir, message.root, message.folder, message.id, message.format);
+
 		let writeCB = function(res) {
 			if (res !== null) {
 				console.log("writeFile error:", res);
 			} else {
-				updateEditWriteIndex(id, file, format);
+				updateEditWriteIndex(message);
 			}
 		}
-		console.log("writeDataToFile", id, file);
+		console.log("writeDataToFile", message.id, file);
 		server.writeFile(file, data, writeCB)
 	}
 
-	readDataFromFile(format, id, file, callback) {
-
+	readDataFromFile(message, callback) {
+		let file = fileFromMessage(message)
 		let dataCb = function(error, data) {
 			if (error) {
-				console.log("Data Read Error: ", id, file, error);
+				console.log("Data Read Error: ", message.id, file, error);
 			} else {
 				let value = JSON.parse(data);
-				console.log("File Loaded", id, file);
+				console.log("File Loaded", message.id, file);
 			//	console.log(value);
 				callback(value)
 			}
 		}
-		console.log("readDataFromFile", id, file);
+		console.log("readDataFromFile", message.id, file);
 		server.readFile(file, dataCb)
 	}
 

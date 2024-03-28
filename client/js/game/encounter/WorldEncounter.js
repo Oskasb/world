@@ -260,9 +260,6 @@ class WorldEncounter {
         this.gridBorder = null;
         this.config = config;
 
-        let worldLevel = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
-        this.config['world_level'] = worldLevel;
-
         let hostReady = function() {
             onReady(this)
         }.bind(this);

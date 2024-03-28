@@ -260,6 +260,15 @@ class WorldModels {
         return worldModels;
     }
 
+    getActiveWorldModel(id) {
+        for (let i = 0; i < worldModels.length; i++) {
+            if (worldModels[i].id === id) {
+                return worldModels[i];
+            }
+        }
+        return null;
+    }
+
     getWorldEncounters() {
         return worldEncounters;
     }

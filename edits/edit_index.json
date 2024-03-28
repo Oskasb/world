@@ -1,1 +1,16 @@
-{}
+{
+  "wmdl_20_-888_2.1_516": {
+    "dir": "edits/configs/",
+    "root": "model",
+    "folder": "20",
+    "format": "json",
+    "timestamp": 1711616576963
+  },
+  "wmdl_20_-892_2.1_511": {
+    "dir": "edits/configs/",
+    "root": "model",
+    "folder": "20",
+    "format": "json",
+    "timestamp": 1711616573679
+  }
+}
