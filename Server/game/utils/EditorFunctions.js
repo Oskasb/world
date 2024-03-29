@@ -1,3 +1,6 @@
+import {ENUMS} from "../../../client/js/application/ENUMS.js";
+import {broadcastAll, getServerStamp} from "./GameServerFunctions.js";
+
 let serverConnection = null;
 let editIndex = null;
 function setEditIndex(eIndex) {
@@ -15,7 +18,22 @@ function setEditorServerConnection(srvrCon) {
 
 function addIndexEntry(dir, root, folder, id, format, deleted) {
     console.log("updateEditWriteIndex", id)
-    editIndex[id] = {dir:dir, root:root, folder:folder, format:format, deleted:deleted, timestamp:new Date().getTime()};
+    let entry = {dir:dir, root:root, folder:folder, format:format, deleted:deleted, timestamp:new Date().getTime()};
+    if (!editIndex[id]) {
+        let msg = {
+            stamp:getServerStamp(),
+            command:ENUMS.ServerCommands.LOAD_FILE_DATA,
+            request:ENUMS.ClientRequests.READ_FILE,
+            id:id,
+            root:root,
+            folder:folder,
+            data:entry,
+            operation:"add",
+            format:'index_entry'
+        }
+        broadcastAll(msg);
+    }
+    editIndex[id] = entry
 }
 
 function saveFileFromSocketMessage(message) {

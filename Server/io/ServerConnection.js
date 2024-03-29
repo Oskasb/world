@@ -59,20 +59,6 @@ class ServerConnection {
 		let data = message.data;
 		if (message.format === 'buffer') {
 
-		//	data = new Uint8ClampedArray(data);
-		//	data = JSON.stringify(data);
-			/*
-			let array = [];
-			for (let key in data) {
-				array.push(data[key])
-			}
-
-			data = array //new Uint8ClampedArray(array)
-
-			console.log("Upload buffer datafile", typeof (data));
-		//	return
-
-			 */
 		}
 
 		let deleted = false;

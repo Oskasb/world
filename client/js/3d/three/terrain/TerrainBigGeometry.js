@@ -324,7 +324,7 @@ function uploadUpdateRect(folder, updateRect, ctx, maxWidth, maxHeight) {
     let totalX = slixeXMax-sliceXmin;
     let totalY = slixeYMax-sliceYmin;
     let worldLevel = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
-    console.log("uploadUpdateRect", totalX, totalY, pixelsPerSliceX, pixelsPerSliceY, sliceXmin, sliceYmin)
+//    console.log("uploadUpdateRect", totalX, totalY, pixelsPerSliceX, pixelsPerSliceY, sliceXmin, sliceYmin)
     for (let i = 0; i < totalX; i++) {
         for (let j = 0; j < totalY; j++) {
             let xMin = sliceXmin*pixelsPerSliceX + pixelsPerSliceX*i;

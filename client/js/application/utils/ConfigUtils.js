@@ -125,10 +125,26 @@ function streamLoadEditsFromIndexInit() {
 
 }
 
+function processIndexEntry(id, indexEntry) {
+    if (indexEntry.format === 'json') {
+        for (let i = 0; i < requestListeners.length; i++) {
+            if (requestListeners[i].id === id) {
+                let entry = requestListeners[i];
+                loadSavedConfig(id, entry.callback)
+            }
+        }
+    }
+    if (indexEntry.format === 'buffer') {
+        requestFileRead(id)
+    }
+}
+
 function setEditIndexClient(eIndex) {
     console.log("Loaded Edit Index: ", [[eIndex], [requestListeners]]);
     editIndex = eIndex;
     for (let key in eIndex) {
+        processIndexEntry(key, eIndex[key]);
+        /*
         if (eIndex[key].format === 'json') {
             for (let i = 0; i < requestListeners.length; i++) {
                 if (requestListeners[i].id === key) {
@@ -140,8 +156,23 @@ function setEditIndexClient(eIndex) {
         if (eIndex[key].format === 'buffer') {
             requestFileRead(key)
         }
+
+         */
     }
     streamLoadEditsFromIndexInit()
+}
+
+function remoteUpdateEditIndex(id, root, folder, entry, operation, message) {
+    console.log("Register new index entry", message.id, message);
+
+    if (operation === 'add') {
+        if (editIndex[id]) {
+            console.log("entry already loaded, return to creator")
+        }
+        editIndex[id] = entry;
+        processIndexEntry(id, entry)
+    }
+
 }
 
 let configDataList = function(root, folder, onData) {
@@ -221,6 +252,11 @@ function applyRemoteConfigMessage(message) {
         console.log("Not loading deleted config", id, message)
         deletedConfigs[id] = data
     } else {
+        if (message.format === 'index_entry') {
+            console.log("Add Index by Remote ", message);
+            remoteUpdateEditIndex(message.id, message.root, message.folder, message.data, message.operation, message)
+        }
+
         if (message.format === 'json') {
             savedConfigs[id] = data;
             processLoadedFile(id);
@@ -276,7 +312,7 @@ function saveWorldModelEdits(wModel) {
 
 function saveDataTexture(root, folder, id, buffer) {
     savedImageBuffers[id] = buffer;
-    console.log("saveDataTexture", root, folder, id)
+//    console.log("saveDataTexture", root, folder, id)
     evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, {
         request:ENUMS.ClientRequests.WRITE_FILE,
         id:id,
