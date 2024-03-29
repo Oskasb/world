@@ -3,7 +3,7 @@ import {saveEncounterEdits} from "../../utils/ConfigUtils.js";
 import {getEditIndex} from "../../../../../Server/game/utils/EditorFunctions.js";
 
 
-class DomEditConfig {
+class DomEditValues {
     constructor() {
 
         let statusMap = null
@@ -34,42 +34,16 @@ class DomEditConfig {
             rootElem = htmlEl.call.getRootElement();
             selectList = htmlElem.call.getChildElement('select_list');
             applyContainerDiv = htmlElem.call.getChildElement('apply_container');
-       //     htmlElem.call.populateSelectList('select_list', listifyConfig(statusMap.config));
+            htmlElem.call.populateSelectList('select_list', listifyConfig(statusMap.config));
        //     addButtonDiv = htmlElem.call.getChildElement('add_button');
        //     DomUtils.addClickFunction(addButtonDiv, applyAdd)
             ThreeAPI.registerPrerenderCallback(update);
-            expandConfig(statusMap.config)
+            applySelection(selectionId)
         }.bind(this);
 
-        let editValues = null;
 
-        function applyEdit(edit) {
-            console.log("Apply Edit", edit);
-        }
+        function addValueElement(type, value, entry) {
 
-        function closeEditValues() {
-            if (editValues !== null) {
-                editValues.closeEditTool()
-                poolReturn(editValues)
-                editValues = null;
-            }
-        }
-
-        function keyElemPressed(e) {
-            console.log("keyElemPressed", e.target.id);
-            let data = statusMap.config[e.target.id];
-            closeEditValues()
-
-            let map = {
-                applyEdit:applyEdit,
-                data:data,
-                parent:statusMap.config
-            }
-            editValues = poolFetch('DomEditValues');
-            editValues.initEditTool(closeEditValues, map)
-        }
-
-        function addKeyElement(value , type ) {
 
             let label = value;
             let valueType = typeof(value);
@@ -78,38 +52,61 @@ class DomEditConfig {
             }
 
             if (valueType === 'array') {
-                label = '[] <p>VIEW</p>'
+                label = valueType+' [] <p>VIEW</p>'
             } else if (valueType === 'object') {
-                label = '{} <p>VIEW</p>'
+                label = valueType+' {} <p>VIEW</p>'
             } else {
                 label ='<p>'+value+'</p>';
             }
 
-            let div = DomUtils.createDivElement(applyContainerDiv, value, label, "config_inspect")
-            DomUtils.addClickFunction(div, keyElemPressed)
+            let div = DomUtils.createDivElement(applyContainerDiv, valueType+"_"+entry, label, "config_inspect")
             elementDivs.push(div);
         }
 
-        let expandConfig = function(config) {
+        function addValues(key, type, value) {
+            if (type === 'array') {
+                for (let i = 0; i < value.length; i++) {
+                    addValueElement(type, value[i], i)
+                }
+            } else if (type === 'object') {
+                for (let key in value) {
+                    addValueElement(type, value[key], key)
+                }
+            } else {
+                addValueElement(type, value, 0)
+            }
+        }
+
+        let applySelection = function(id) {
+            selectionId = id;
+
             while (elementDivs.length) {
                 DomUtils.removeDivElement(elementDivs.pop())
             }
 
-            for (let key in config) {
-                let type = typeof (config[key])
+            let element = statusMap.data[id];
+            let type = typeof (element)
 
-                if (type === 'string') {
-                } else if (type === 'number') {
-                } else if (type === 'bool') {
-                } else if (type === 'object') {
-                    if (Array.isArray(config[key])) {
-                        type = 'array'
-                    } else {
-                        type = 'object'
-                    }
+            if (type === 'string') {
+
+            } else if (type === 'number') {
+
+            } else if (type === 'bool') {
+
+            } else if (type === 'object') {
+                if (Array.isArray(element)) {
+                    type = 'array'
+                } else {
+                    type = 'object'
                 }
-                addKeyElement(key, type);
             }
+            addValues(id, type, element);
+            if (id === "") {
+                applyContainerDiv.style.display = "none"
+            } else {
+                applyContainerDiv.style.display = ""
+            }
+        //    statusMap.selectionUpdate(selectionId);
         };
 
         let update = function() {
@@ -131,11 +128,10 @@ class DomEditConfig {
 
     initEditTool(closeCb, statusMap) {
         this.htmlElement = poolFetch('HtmlElement')
-        this.htmlElement.initHtmlElement('edit_config', closeCb, statusMap, 'edit_frame edit_config', this.call.htmlReady);
+        this.htmlElement.initHtmlElement('edit_values', closeCb, statusMap, 'edit_frame edit_values', this.call.htmlReady);
     }
 
     closeEditTool() {
-        this.encounter = null;
         this.call.close();
         ThreeAPI.unregisterPrerenderCallback(this.call.update);
         this.htmlElement.closeHtmlElement();
@@ -145,4 +141,4 @@ class DomEditConfig {
 
 }
 
-export { DomEditConfig }
+export { DomEditValues }

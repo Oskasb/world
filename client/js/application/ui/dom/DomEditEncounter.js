@@ -16,6 +16,7 @@ let toolsList = [
     "GRID",
     "SPAWN",
     "HOST",
+    "CONFIG",
     "ADD"
 ]
 
@@ -159,6 +160,23 @@ class DomEditEncounter {
                 activeTool.initEditTool(closeTool);
             }
 
+            if (selectedTool === "CONFIG") {
+                ThreeAPI.getCameraCursor().getLookAroundPoint().copy(encounter.getPos())
+                closeTool();
+                activeTool = poolFetch('DomEditConfig');
+                let host = encounter.getHostActor();
+                let id = "host_"+encounter.id
+                let worldLevel =  GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
+                let map = {
+                    id:id,
+                    root:"encounter",
+                    folder:worldLevel,
+                    parent:encounter,
+                    config:encounter.config
+                }
+                activeTool.initEditTool(closeTool, map);
+            }
+
             if (selectedTool === "HOST") {
                 ThreeAPI.getCameraCursor().getLookAroundPoint().copy(encounter.getPos())
                 closeTool();
@@ -170,8 +188,8 @@ class DomEditEncounter {
                     id:id,
                     root:"host",
                     folder:worldLevel,
-                    parent:encounter,
-                    config:encounter.config
+                    parent:host,
+                    config:host.config
                 }
                 activeTool.initEditTool(closeTool, map);
             }

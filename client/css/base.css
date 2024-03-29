@@ -141,6 +141,13 @@ iframe.edit_config {
     background: #2c2c2c;
 }
 
+iframe.edit_values {
+    left: 220em;
+    top: 80em;
+    height: 450em;
+    background: #2c2c2c;
+}
+
 iframe.edit_spawns {
     left: 20em;
     top: 250em;

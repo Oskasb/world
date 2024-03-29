@@ -565,6 +565,11 @@ div.data_edit {
     height: fit-content;
 }
 
+div.data_edit p {
+    max-width: 80%;
+    display: inline-block;
+}
+
 div.color_edit {
     height: 4em;
     margin:0;
