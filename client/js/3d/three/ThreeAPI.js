@@ -520,7 +520,7 @@ class ThreeAPI {
         let w= updateRect.maxX - x;
         let h = updateRect.maxY - y;
         let subImage = sourceCtx.getImageData(x, y, w, h).data;
-        console.log(updateRect, w, h, subImage);
+    //    console.log(updateRect, w, h, subImage);
         this.updateCanvasTextureSubImage(texture, x, y, w, h, subImage)
     }
 

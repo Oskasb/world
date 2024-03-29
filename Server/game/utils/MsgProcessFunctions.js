@@ -221,9 +221,9 @@ function processClientRequest(request, stamp, message, connectedClient) {
             console.log("saveFileFromSocketMessage", message.id)
             saveFileFromSocketMessage(message);
             message.command = ENUMS.ServerCommands.LOAD_FILE_DATA;
-            if (message.format === 'json') {
+        //    if (message.format === 'json') {
                 message.data = JSON.parse(message.data);
-            }
+        //    }
             broadcastAll(message)
             break;
         case ENUMS.ClientRequests.READ_FILE:

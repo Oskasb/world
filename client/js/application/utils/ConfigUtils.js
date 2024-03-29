@@ -177,6 +177,9 @@ function loadSavedBuffer(id, callback) {
     if (add === true) {
         bufferListeners.push({id:id, callback:callback});
     }
+    if (savedImageBuffers[id]) {
+        callback(savedImageBuffers[id])
+    }
 }
 
 function loadSavedConfig(id, callback) {
@@ -224,11 +227,11 @@ function applyRemoteConfigMessage(message) {
         }
         if (message.format === 'buffer') {
             let array = [];
-            console.log(data);
+        //    console.log(data);
             for (let key in data) {
                 array.push(data[key]);
             }
-            console.log(array);
+        //    console.log(array);
             savedImageBuffers[id] = new Uint8ClampedArray(array);
             processLoadedBuffer(id);
         }
@@ -273,7 +276,7 @@ function saveWorldModelEdits(wModel) {
 
 function saveDataTexture(root, folder, id, buffer) {
     savedImageBuffers[id] = buffer;
-// console.log(savedImageBuffers)
+    console.log("saveDataTexture", root, folder, id)
     evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, {
         request:ENUMS.ClientRequests.WRITE_FILE,
         id:id,

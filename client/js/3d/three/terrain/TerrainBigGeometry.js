@@ -249,46 +249,72 @@ let detachSection = function(index) {
 let uploadSlices = 64;
 
 function sliceLoaded(sliceId, sliceInfo, data) {
-    console.log("Slice Loaded", sliceInfo, data);
-    let pixelsPerSliceX = 2048/uploadSlices;
-    let pixelsPerSliceY = 2048/uploadSlices
-    heightmapContext.globalCompositeOperation = 'source-over';
-    let iData = new ImageData(data, pixelsPerSliceX, pixelsPerSliceY);
-    heightmapContext.putImageData(iData, sliceInfo.x, sliceInfo.y);
+    let wl = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
+    if (sliceInfo.wl !== wl) {
+        return;
+    }
+    console.log("Slice Loaded", sliceInfo, [data]);
+    let folder = sliceInfo.folder;
+    let pixelsPerSliceX = sliceInfo.w;
+    let pixelsPerSliceY = sliceInfo.h;
+
 
     heightUpdateRect.minX = sliceInfo.x;
     heightUpdateRect.minY = sliceInfo.y;
     heightUpdateRect.maxX = sliceInfo.x+pixelsPerSliceX;
     heightUpdateRect.maxY = sliceInfo.y+pixelsPerSliceY;
-    ThreeAPI.canvasTextureSubUpdate(terrainMaterial.heightmap, heightmapContext, heightUpdateRect)
+    let iData = new ImageData(data, pixelsPerSliceX, pixelsPerSliceY);
+    if (folder === 'height') {
+        heightmapContext.globalCompositeOperation = 'source-over';
+        heightmapContext.putImageData(iData, sliceInfo.x, sliceInfo.y);
+        ThreeAPI.canvasTextureSubUpdate(terrainMaterial.heightmap, heightmapContext, heightUpdateRect)
+    }
+    if (folder === 'ground') {
+        console.log("Load ground slice", sliceInfo, [data])
+        terrainContext.globalCompositeOperation = 'source-over';
+        terrainContext.putImageData(iData, sliceInfo.x, sliceInfo.y);
+        ThreeAPI.canvasTextureSubUpdate(terrainMaterial.terrainmap, terrainContext, heightUpdateRect)
+    }
+
+    MATH.clearUpdateRect(heightUpdateRect);
 }
 
-function setupBufferListeners() {
-    let pixelsPerSliceX = 2048/uploadSlices;
-    let pixelsPerSliceY = 2048/uploadSlices;
-  //  for (let l = 0; l < 20; l++) {
-    let l = 20;
+let listeners = {}
+
+function setupBufferListeners(folder, worldLevel, w, h) {
+    if (!listeners[folder]) {
+        listeners[folder] = {};
+    }
+    if (listeners[folder][worldLevel] === true) {
+        return;
+    }
+    listeners[folder][worldLevel] = true
+
+    let pixelsPerSliceX = w/uploadSlices;
+    let pixelsPerSliceY = h/uploadSlices;
         for (let i = 0; i < uploadSlices; i++) {
             for (let j = 0; j < uploadSlices; j++) {
                 let xMin = pixelsPerSliceX*i;
                 let yMin = pixelsPerSliceY*j;
-                let sliceId = "height_"+l+"_"+xMin+"_"+yMin;
+                let sliceId = folder+"_"+worldLevel+"_"+xMin+"_"+yMin;
                 let callback = function(data) {
                     let sliceInfo = {
                         sliceId:sliceId,
-                        wl:l,
+                        folder:folder,
+                        wl:worldLevel,
                         x:xMin,
-                        y:yMin
+                        y:yMin,
+                        w:pixelsPerSliceX,
+                        h:pixelsPerSliceY
                     }
                     sliceLoaded(sliceId, sliceInfo, data)
                 }
                 loadSavedBuffer(sliceId, callback)
             }
         }
-  //  }
 }
 
-function uploadUpdateRect(updateRect, ctx, maxWidth, maxHeight) {
+function uploadUpdateRect(folder, updateRect, ctx, maxWidth, maxHeight) {
     let pixelsPerSliceX = maxWidth/uploadSlices;
     let pixelsPerSliceY = maxHeight/uploadSlices;
     let sliceXmin = Math.floor(updateRect.minX/pixelsPerSliceX)
@@ -304,8 +330,8 @@ function uploadUpdateRect(updateRect, ctx, maxWidth, maxHeight) {
             let xMin = sliceXmin*pixelsPerSliceX + pixelsPerSliceX*i;
             let yMin = sliceYmin*pixelsPerSliceY + pixelsPerSliceY*j;
             let subImage = ctx.getImageData(xMin, yMin, pixelsPerSliceX, pixelsPerSliceY).data;
-            console.log("uploadUpdateRect", xMin, yMin, subImage)
-            saveDataTexture("images", "height", "height_"+worldLevel+"_"+xMin+"_"+yMin, subImage);
+        //    console.log("uploadUpdateRect", xMin, yMin, subImage)
+            saveDataTexture("images", folder, folder+"_"+worldLevel+"_"+xMin+"_"+yMin, subImage);
         }
     }
 
@@ -378,7 +404,7 @@ let updateBigGeo = function(tpf) {
 
         if (heightUpdateRect.maxX !== 0) {
             ThreeAPI.canvasTextureSubUpdate(terrainMaterial.heightmap, heightmapContext, heightUpdateRect)
-            uploadUpdateRect(heightUpdateRect, heightmapContext, width, height)
+            uploadUpdateRect('height', heightUpdateRect, heightmapContext, width, height)
             MATH.clearUpdateRect(heightUpdateRect);
         } else {
             terrainMaterial.heightmap.needsUpdate = true;
@@ -409,6 +435,10 @@ let oceanModel = function(model) {
 
 function registerWorldLevel(worldLevel) {
     if (!worldLevels[worldLevel]) {
+
+        setupBufferListeners("height", worldLevel, width, height);
+        setupBufferListeners("ground", worldLevel, terrainCanvas.width, terrainCanvas.height);
+
         worldLevels[worldLevel] = {
             heightCanvas : document.createElement('canvas'),
             terrainCanvas : document.createElement('canvas'),
@@ -455,7 +485,7 @@ function setTerrainDataImage(imgData, worldLevel) {
 
 let groundUpdateTimeout = null;
 
-setupBufferListeners();
+
 
 class TerrainBigGeometry {
     constructor() {
@@ -519,6 +549,7 @@ class TerrainBigGeometry {
 
         if (typeof (updateRect) === 'object') {
             ThreeAPI.canvasTextureSubUpdate(terrainMaterial.terrainmap, terrainContext, updateRect);
+            uploadUpdateRect('ground', updateRect, terrainContext, terrainCanvas.width, terrainCanvas.height)
         } else {
             terrainMaterial.uniforms.terrainmap.value = terrainMaterial.terrainmap;
             terrainMaterial.terrainmap.needsUpdate = true;
