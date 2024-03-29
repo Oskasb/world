@@ -134,6 +134,13 @@ iframe.edit_add {
     height: 150em;
 }
 
+iframe.edit_config {
+    left: 20em;
+    top: 250em;
+    height: 450em;
+    background: #2c2c2c;
+}
+
 iframe.edit_spawns {
     left: 20em;
     top: 250em;

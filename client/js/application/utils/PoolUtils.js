@@ -50,6 +50,7 @@ import {EncounterGrid} from "../../game/encounter/EncounterGrid.js";
 import {DomEditSpawns} from "../ui/dom/DomEditSpawns.js";
 import {DomEditModel} from "../ui/dom/DomEditModel.js";
 import {DomEditAdd} from "../ui/dom/DomEditAdd.js";
+import {DomEditConfig} from "../ui/dom/DomEditConfig.js";
 
 
 let pools = {}
@@ -106,6 +107,7 @@ function initPools() {
     registerPool(DomEditSpawns)
     registerPool(DomEditModel)
     registerPool(DomEditAdd)
+    registerPool(DomEditConfig)
 }
 
 function registerPool(DataObj) {

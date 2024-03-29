@@ -15,32 +15,9 @@ let toolsList = [
     "MOVE",
     "GRID",
     "SPAWN",
+    "HOST",
     "ADD"
 ]
-
-function worldModelOperation(wModel, operation) {
-
-    if (operation === "ELEVATE") {
-        wModel.obj3d.position.y += 1;
-        wModel.applyObj3dUpdate()
-    }
-
-    if (operation === "HIDE") {
-        if (wModel.hidden !== true) {
-            wModel.setHidden(true);
-        } else {
-            wModel.setHidden(false);
-        }
-    }
-
-    if (operation === "FLATTEN") {
-        wModel.applyObj3dUpdate();
-        let box = wModel.box;
-        ThreeAPI.alignGroundToAABB(box);
-    }
-
-}
-
 
 class DomEditEncounter {
     constructor() {
@@ -157,7 +134,6 @@ class DomEditEncounter {
                             encounter.obj3d.position.copy(updateObj3d.position);
                             encounter.getHostActor().setSpatialPosition(encounter.obj3d.position);
                             encounter.getHostActor().setSpatialQuaternion(updateObj3d.quaternion);
-
                         }
                     }
 
@@ -183,6 +159,22 @@ class DomEditEncounter {
                 activeTool.initEditTool(closeTool);
             }
 
+            if (selectedTool === "HOST") {
+                ThreeAPI.getCameraCursor().getLookAroundPoint().copy(encounter.getPos())
+                closeTool();
+                activeTool = poolFetch('DomEditConfig');
+                let host = encounter.getHostActor();
+                let id = "host_"+encounter.id
+                let worldLevel =  GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
+                let map = {
+                    id:id,
+                    root:"host",
+                    folder:worldLevel,
+                    parent:encounter,
+                    config:encounter.config
+                }
+                activeTool.initEditTool(closeTool, map);
+            }
         }
 
         let update = function() {

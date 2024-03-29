@@ -339,6 +339,31 @@ div.operate_button {
     text-align: center;
 }
 
+div.config_inspect {
+    position:relative;
+    z-index: 10;
+    top: 0.01em;
+    font-size: 1.0em;
+    right: 0.4em;
+    bottom: 0.01em;
+    left: 0.1em;
+    height: auto;
+    width: auto;
+    border: 0.1em solid;
+    border-radius: 0.2em;
+    background-color: rgb(25, 143, 208);
+    border-color: rgb(12, 131, 109);
+    box-shadow: 0 0 0.3em rgb(0, 24, 77);
+    background-size: 100%;
+    margin: 0;
+    padding: 0;
+    transform: translate3d(-0%, -0%, 0);
+    color: #000000;
+    text-shadow: 0.02em 0.02em 0.1em rgb(255, 255, 255);
+    display: block;
+    text-align: left;
+}
+
 div.sampler_container {
     z-index: 100;
     position:absolute;
@@ -534,6 +559,10 @@ div.item_edit {
 
 div.terrain_edit {
     height: 2.0em;
+}
+
+div.data_edit {
+    height: fit-content;
 }
 
 div.color_edit {
