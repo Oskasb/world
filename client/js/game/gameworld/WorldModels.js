@@ -224,13 +224,14 @@ let activateWorldEncounters = function(event) {
     let completedEncounters = GameAPI.gameAdventureSystem.getCompletedEncounters();
     let lootedTreasures = GameAPI.gameAdventureSystem.getLootedTreasures();
     activateEvent = event;
+
+    let onReady = function(encounter) {
+        worldEncounters.push(encounter);
+        encounter.activateWorldEncounter()
+    }
     let encountersData = function(encounters, index, listId) {
         for (let i = 0; i < encounters.length;i++) {
             let encId = ""+listId+"_"+index+"_"+i;
-            let onReady = function(encounter) {
-                worldEncounters.push(encounter);
-                encounter.activateWorldEncounter()
-            }
             if (completedEncounters.indexOf(encId) === -1) {
                 new WorldEncounter(encId, encounters[i], onReady)
             } else {
@@ -261,8 +262,8 @@ let activateWorldEncounters = function(event) {
 
     let locationData = function(data, listId) {
         for (let i = 0; i < data.length;i++) {
-            if (data[i].config['encounter']) {
-       //         console.log("locationData: ", data[i].config['encounter'])
+            if (data[i].config['encounters']) {
+            //    console.log("locationData: ", data[i].config['encounter'])
                 encountersData(data[i].config.encounters, i, listId);
             }
             if (data[i].config['treasures']) {
