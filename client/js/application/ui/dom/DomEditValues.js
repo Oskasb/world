@@ -27,8 +27,9 @@ class DomEditValues {
         let htmlElem;
         let applyContainerDiv = null;
         let selectList = null;
+        let initAtValue = null;
         let addButtonDiv = null;
-        let selectionId = "";
+        let setValue = "";
 
         let elementDivs = [];
 
@@ -60,6 +61,8 @@ class DomEditValues {
             let type = getElementTypeKey(statusMap.data);
             htmlElem.call.getChildElement('label').innerHTML = dataKey+" ("+type+")";
             htmlElem.call.getChildElement('header').innerHTML = "EDIT - DEPTH: "+statusMap.depth;
+            initAtValue = dataKey;
+            setValue = dataKey;
             applySelection(dataKey)
         }.bind(this);
 
@@ -161,6 +164,7 @@ class DomEditValues {
                             let list = getConfigListAt(map[0].root, map[0].folder)
                             htmlElem.call.populateSelectList('select_list', list);
                             selectList.value = entry;
+                            setValue = selectList.value;
                         } else {
                             console.log("configKey has multiple entries ", map)
                             label += "<h3>| #LOC: "+map.length+" |</h3>";
@@ -241,6 +245,12 @@ class DomEditValues {
             if (subValueEdit !== null) {
                 subValueEdit.htmlElement.call.getRootElement().style.left = "440em";
             }
+
+            if (setValue !== selectList.value) {
+                setValue = selectList.value;
+                statusMap.applyEdit();
+            }
+
         };
 
         let close = function() {

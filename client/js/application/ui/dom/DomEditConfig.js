@@ -1,5 +1,5 @@
 import {poolFetch, poolReturn} from "../../utils/PoolUtils.js";
-import {getReversedConfigs, mappedConfigKey, saveEncounterEdits} from "../../utils/ConfigUtils.js";
+import {getReversedConfigs, mappedConfigKey, saveConfigEdits, saveEncounterEdits} from "../../utils/ConfigUtils.js";
 import {getEditIndex} from "../../../../../Server/game/utils/EditorFunctions.js";
 
 let reverseMap = null;
@@ -48,8 +48,9 @@ class DomEditConfig {
 
         let editValues = null;
 
-        function applyEdit(edit) {
-            console.log("Apply Edit", edit);
+        function applyEdit() {
+            console.log("Apply Edit", statusMap);
+            saveConfigEdits(statusMap.root, statusMap.folder, statusMap.id, statusMap.config)
         }
 
         function closeEditValues() {

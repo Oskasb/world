@@ -132,6 +132,8 @@ class WorldModel {
                 this.obj3d.quaternion.set(0, 0, 0, 1);
                 MATH.rotXYZFromArray(this.obj3d, cfg.rot, 100);
                 updateObj3D()
+                this.setHidden(true);
+                this.setHidden(false);
                 if (cfg.palette) {
                     setPaletteKey(cfg.palette);
                 }
