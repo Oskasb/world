@@ -70,6 +70,7 @@ class DomEditConfig {
                 map:mappedConfigKey(key),
                 key:key,
                 data:data,
+                depth:1,
                 parent:statusMap.config
             }
             editValues = poolFetch('DomEditValues');
@@ -82,7 +83,7 @@ class DomEditConfig {
             if (map !== null) {
 
                 if (map.length === 1) {
-                    html += "<h3>"+map[0].root+" "+map[0].folder+"</h3>";
+                    html += "<h4>"+map[0].source+"</h4><h3>"+map[0].root+" "+map[0].folder+"</h3>";
                     console.log("configKey has entry ", map, html)
                 } else {
                     console.log("configKey has multiple entries ", map)

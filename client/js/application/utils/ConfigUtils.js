@@ -343,7 +343,7 @@ function addToReverseMap(configKey, root, folder) {
     if (!reverseMap[configKey]) {
         reverseMap[configKey] = [];
     }
-    reverseMap[configKey].push({root:root, folder:folder});
+    reverseMap[configKey].push({source:"config", root:root, folder:folder});
 }
 
 function reverseMapConfigs() {

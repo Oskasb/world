@@ -1,7 +1,23 @@
 import {poolFetch, poolReturn} from "../../utils/PoolUtils.js";
 import {mappedConfigKey, saveEncounterEdits} from "../../utils/ConfigUtils.js";
 import {getEditIndex} from "../../../../../Server/game/utils/EditorFunctions.js";
+import {paletteKeys, paletteMap} from "../../../game/visuals/Colors.js";
 
+
+function seekDataSource(key, value) {
+
+    if (key === 'palette') {
+        return paletteKeys
+    }
+    if (key === 'dispatch') {
+        return ENUMS.Map['Event']
+    }
+
+
+    console.log("Seek Data Source", key, value)
+
+    return "string";
+}
 
 class DomEditValues {
     constructor() {
@@ -41,8 +57,9 @@ class DomEditValues {
        //     addButtonDiv = htmlElem.call.getChildElement('add_button');
        //     DomUtils.addClickFunction(addButtonDiv, applyAdd)
             ThreeAPI.registerPrerenderCallback(update);
-            let type = typeof (statusMap.data);
+            let type = getElementTypeKey(statusMap.data);
             htmlElem.call.getChildElement('label').innerHTML = dataKey+" ("+type+")";
+            htmlElem.call.getChildElement('header').innerHTML = "EDIT - DEPTH: "+statusMap.depth;
             applySelection(dataKey)
         }.bind(this);
 
@@ -68,11 +85,15 @@ class DomEditValues {
                 map:mappedConfigKey(key),
                 key:key,
                 data:data,
-                parent:statusMap.config
+                depth:statusMap.depth+1,
+                parent:statusMap.data
             }
             subValueEdit = poolFetch('DomEditValues');
             subValueEdit.initEditTool(closeSubValueEdit, map)
         }
+
+
+
 
         function addValueElement(entry, key) {
             let type = getElementTypeKey(entry)
@@ -117,15 +138,45 @@ class DomEditValues {
 
             let map = statusMap.map;
             if (map !== null) {
-
                 if (map.length === 1) {
-                    label += "<h3>"+map[0].root+" "+map[0].folder+"</h3>";
-                    console.log("configKey has entry ", map, html)
+                    label += "<h4>"+map[0].source+"</h4><h3>"+map[0].root+" "+map[0].folder+"</h3>";
+                    console.log("configKey has entry ", map[0].root, map[0].folder)
                 } else {
                     console.log("configKey has multiple entries ", map)
                     label += "<h3>| #LOC: "+map.length+" |</h3>";
                 }
+            } else {
+                if (type === 'string') {
 
+                    let map = mappedConfigKey(entry);
+                    if (map !== null) {
+                        label = '<h2>'+statusMap.key+'<h2><p>'+entry+'</p>'
+                        if (map.length === 1) {
+                            label += "<h4>"+map[0].source+"</h4><h3>"+map[0].root+" "+map[0].folder+"</h3>";
+                            console.log("configKey has entry ", map, label)
+
+                        } else {
+                            console.log("configKey has multiple entries ", map)
+                            label += "<h3>| #LOC: "+map.length+" |</h3>";
+                        }
+
+                    }
+
+                    let source = seekDataSource(statusMap.key, entry)
+                    let typeKey = getElementTypeKey(source);
+                    label += "<h4>"+typeKey;
+
+                    if (typeKey === ('array' || 'object')) {
+                        console.log("TODO: Populate select list: ", source)
+                        label += " "+source.length;
+                        htmlElem.call.populateSelectList('select_list', source);
+                    }
+                    if (typeKey === 'object') {
+                        console.log("TODO: Populate object list: ", source)
+                        label += " "+Object.keys(source).length;
+                    }
+                    label += "</h4>";
+                }
 
             }
 

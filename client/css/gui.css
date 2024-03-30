@@ -353,7 +353,7 @@ div.config_inspect {
     right: 0.4em;
     bottom: 0.01em;
     left: 0;
-    height: 2.1em;
+    height: 2.5em;
     width: auto;
     border: 0.1em solid;
     border-radius: 0.3em;
@@ -372,13 +372,14 @@ div.config_inspect {
 }
 
 div.config_inspect h2 {
-    font-size: 0.7em;
+    font-size: 0.9em;
     right: 0;
     margin-top: -0.15em;
     left: 0.1em;
     max-width: 60%;
     width: fit-content;
     font-style: initial;
+
     color: inherit;
     text-align: right;
     text-shadow: 0 0 0.25em rgb(0, 0, 0);
@@ -401,11 +402,29 @@ div.config_inspect h3 {
     display: block;
 }
 
+div.config_inspect h4 {
+    font-style: oblique;
+    font-family: "Berlin Sans";
+    position: absolute;
+    font-size: 0.7em;
+    right: 0;
+    top: 0;
+    margin: 0.4em;
+    margin-top: -0.2em;
+    left: auto;
+    max-width: 60%;
+    width: fit-content;
+    color: inherit;
+    text-align: right;
+    text-shadow: 0 0 0.25em rgb(0, 0, 0);
+    display: block;
+}
+
 div.config_inspect p {
     position: absolute;
     font-size: 0.9em;
     top: auto;
-    bottom: 0.7em;
+    bottom: 0.8em;
     right: 0.5em;
     left: 0;
     width: auto;
