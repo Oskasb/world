@@ -15,7 +15,8 @@ let activeTool = null;
 
 let toolsList = [
     "EDIT",
-    "ADD"
+    "ADD",
+    "CONFIG"
 ]
 
 let modelConfigs = null;
@@ -43,7 +44,7 @@ class DomEditModel {
         let toolSelectDiv = null;
         let visibleWorldModels = [];
         let locationModelDivs = [];
-        let modelEdit = null;
+        let activeTool = null;
         let modelConfig = {
             "model": "",
             "pos": [0, 0, 0],
@@ -165,6 +166,8 @@ class DomEditModel {
                 activeTool.initEditTool(closeTool, addModelStatusMap);
             }
 
+
+
         }
 
         let htmlReady = function(el) {
@@ -189,11 +192,13 @@ class DomEditModel {
 
 
 
-        let closeModelEdit = function() {
+        let closeActiveTool = function() {
             console.log("Model Edit Closed");
-            modelEdit.closeDomEditWorldModel();
-            poolReturn(modelEdit)
-            modelEdit = null;
+            if (activeTool !== null) {
+                activeTool.closeEditTool();
+                poolReturn(activeTool)
+                activeTool = null;
+            }
         }
 
         let closeEditCursor = function(htmlElem) {
@@ -208,36 +213,54 @@ class DomEditModel {
 
         let divClicked = function(e) {
             let model = e.target.value
-            console.log("Edit Activated", model);
+            console.log("Activated", selectedTool, model);
             idLabelDiv.innerHTML = model.id;
             model.config = detachConfig(model.config);
 
-            if (typeof (editCursors[model.id]) !== 'object') {
-                e.target.style.visibility = "hidden";
-                let cursor = poolFetch('DomEditCursor')
+            if (selectedTool === "EDIT") {
+                if (typeof (editCursors[model.id]) !== 'object') {
+                    e.target.style.visibility = "hidden";
+                    let cursor = poolFetch('DomEditCursor')
 
-                let onClick = function(crsr) {
-                    console.log("Clicked Cursor", crsr)
-                    idLabelDiv.innerHTML = model.id;
-                    if (modelEdit === null) {
-                        modelEdit = poolFetch('DomEditWorldModel')
-                        modelEdit.call.setWorldModel(model);
-                        modelEdit.initDomEditWorldModel(closeModelEdit)
-                    } else {
-                        let mdl = modelEdit.call.getWorldModel();
-                        if (mdl === model) {
-                            closeModelEdit();
+                    let onClick = function(crsr) {
+                        console.log("Clicked Cursor", crsr)
+                        idLabelDiv.innerHTML = model.id;
+                        if (activeTool === null) {
+                            activeTool = poolFetch('DomEditWorldModel')
+                            activeTool.call.setWorldModel(model);
+                            activeTool.initDomEditWorldModel(closeActiveTool)
                         } else {
-                            modelEdit.call.setWorldModel(model);
+                            let mdl = activeTool.call.getWorldModel();
+                            if (mdl === model) {
+                                closeActiveTool();
+                            } else {
+                                activeTool.call.setWorldModel(model);
+                            }
                         }
                     }
-                }
 
-                cursor.initDomEditCursor(closeEditCursor, model.obj3d, model.call.applyEditCursorUpdate, onClick);
-                cursor.htmlElement.cursor = cursor;
-                cursor.htmlElement.model = model;
-                editCursors[model.id] = cursor;
+                    cursor.initDomEditCursor(closeEditCursor, model.obj3d, model.call.applyEditCursorUpdate, onClick);
+                    cursor.htmlElement.cursor = cursor;
+                    cursor.htmlElement.model = model;
+                    editCursors[model.id] = cursor;
+                }
             }
+
+            if (selectedTool === 'CONFIG') {
+                closeActiveTool();
+                activeTool = poolFetch('DomEditConfig');
+                let map = {
+                    id:model.id,
+                    root:"model",
+                    folder: GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL),
+                    parent:model,
+                    config:model.config
+                }
+                activeTool.initEditTool(closeActiveTool, map)
+
+            }
+
+
 
         }
 
@@ -253,7 +276,7 @@ class DomEditModel {
 
             MATH.emptyArray(visibleWorldModels);
 
-            if (selectedTool === "EDIT") {
+            if (selectedTool === "EDIT" || selectedTool === "CONFIG") {
 
                 let none = true;
                 for (let key in editCursors) {
@@ -278,7 +301,7 @@ class DomEditModel {
                 }
 
                 while (locationModelDivs.length < visibleWorldModels.length) {
-                    let div = DomUtils.createDivElement(document.body, 'model_' + visibleWorldModels.length, 'EDIT', 'button')
+                    let div = DomUtils.createDivElement(document.body, 'model_' + visibleWorldModels.length, selectedTool, 'button')
                     DomUtils.addClickFunction(div, divClicked);
                     locationModelDivs.push(div);
                 }

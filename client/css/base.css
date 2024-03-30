@@ -135,16 +135,17 @@ iframe.edit_add {
 }
 
 iframe.edit_config {
-    left: 20em;
+    left: 10em;
     top: 250em;
     height: 450em;
     background: #2c2c2c;
+    overflow: scroll;
 }
 
 iframe.edit_values {
     left: 220em;
-    top: 80em;
-    height: 450em;
+    top: 280em;
+    height: 250em;
     background: #2c2c2c;
 }
 

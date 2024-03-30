@@ -247,6 +247,12 @@ div.edit_panel h2 {
     overflow: hidden;
 }
 
+div.panel_config {
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
 div.settings_panel {
     z-index: 10000;
     pointer-events: auto;
@@ -346,22 +352,52 @@ div.config_inspect {
     font-size: 1.0em;
     right: 0.4em;
     bottom: 0.01em;
-    left: 0.1em;
-    height: auto;
+    left: 0;
+    height: 2.1em;
     width: auto;
     border: 0.1em solid;
-    border-radius: 0.2em;
+    border-radius: 0.3em;
     background-color: rgb(25, 143, 208);
     border-color: rgb(12, 131, 109);
     box-shadow: 0 0 0.3em rgb(0, 24, 77);
     background-size: 100%;
-    margin: 0;
+    margin: 0.2em;
+    margin-bottom: 0.1em;
     padding: 0;
     transform: translate3d(-0%, -0%, 0);
     color: #000000;
     text-shadow: 0.02em 0.02em 0.1em rgb(255, 255, 255);
     display: block;
     text-align: left;
+}
+
+div.config_inspect h2 {
+    font-size: 0.7em;
+    right: 0;
+    margin-top: 0.05em;
+    left: 0.1em;
+    max-width: 60%;
+    width: fit-content;
+    font-style: initial;
+    color: inherit;
+    text-align: right;
+    text-shadow: 0 0 0.25em rgb(0, 0, 0);
+    display: block;
+}
+
+div.config_inspect p {
+    position: absolute;
+    font-size: 1.05em;
+    top: auto;
+    bottom: 0;
+    right: 0.5em;
+    left: 0;
+    width: auto;
+    font-style: initial;
+    color: inherit;
+    text-align: right;
+    text-shadow: 0 0 0.25em rgb(0, 0, 0);
+    display: block;
 }
 
 div.sampler_container {
@@ -563,12 +599,11 @@ div.terrain_edit {
 
 div.data_edit {
     height: fit-content;
+    background: rgba(21, 47, 65, 0.63);
+    background-image: linear-gradient(rgb(92, 117, 0) 0%, rgb(3, 17, 0) 100%);
+    border-color: #d6ff29;
 }
 
-div.data_edit p {
-    max-width: 80%;
-    display: inline-block;
-}
 
 div.color_edit {
     height: 4em;
@@ -579,12 +614,12 @@ div.color_edit {
 .control_container {
     top: 0em;
     left: 0em;
-    width: 11em;
+    width: auto;
+    min-width: 11em;
     height: 4em;
     position: relative;
     padding: 0em;
-    margin: 0.25em;
-    padding-left: 0.5em;
+    margin: 0.1em;
     background: rgba(111, 175, 170, 0.68);
     border-radius: 0.5em;
     border: #27e7ce;
@@ -799,7 +834,84 @@ div.LEGENDARY {
     box-shadow: 0 0 1.0em rgb(255, 220, 22);
 }
 
+div.type_undefined {
+    color: #808080;
+    text-shadow: 0em 0em 0.15em rgb(0, 0, 0);
+    background: rgba(86, 86, 86, 0.25);
+    background-image: linear-gradient(rgb(101, 101, 101) 0%, rgb(54, 54, 54) 7%, rgb(66, 66, 66) 70%, rgb(30, 17, 0) 100%);
+    border-color: #797979;
+    box-shadow: 0 0 0.1em rgb(0, 0, 0);
+}
 
+div.type_object {
+    color: #ffc400;
+    text-shadow: 0em 0em 0.15em rgb(255, 223, 102);
+    background:rgba(93, 71, 0, 0.25);
+    background-image: linear-gradient(rgb(255, 185, 0) 0%, rgb(93, 71, 0) 7%, rgb(35, 23, 0) 70%, rgb(30, 17, 0) 100%);
+    border-color: #8d6729;
+    box-shadow: 0 0 0.1em rgb(38, 0, 0);
+}
+div.type_array {
+    font-style: italic;
+    color: #e6b3ff;
+    text-shadow: 0em 0em 0.15em rgb(42, 0, 51);
+    background: rgba(70, 0, 93, 0.25);
+    background-image: linear-gradient(rgb(153, 0, 255) 0%, rgb(73, 0, 93) 7%, rgb(27, 0, 35) 70%, rgb(8, 0, 30) 100%);
+    border-color: #75009f;
+    box-shadow: 0 0 0.1em rgb(26, 0, 38);
+}
+
+div.type_boolean {
+    font-style: italic;
+    color: #ffddb4;
+    text-shadow: 0em 0em 0.25em rgb(63, 52, 0);
+    background: rgba(93, 33, 0, 0.25);
+    background-image: linear-gradient(rgb(255, 136, 0) 0%, rgb(93, 56, 0) 7%, rgb(35, 13, 0) 70%, rgb(30, 17, 0) 100%);
+    border-color: #4f1e00;
+    box-shadow: 0 0 0.1em rgb(56, 21, 0);
+}
+div.type_number {
+    color: #c3fff9;
+    text-shadow: 0em 0em 0.25em rgb(7, 6, 0);
+    background: rgba(0, 93, 76, 0.25);
+    background-image: linear-gradient(rgb(0, 255, 217) 0%, rgb(0, 85, 93) 7%, rgb(0, 35, 30) 70%, rgb(0, 29, 30) 100%);
+    border-color: #007f93;
+    box-shadow: 0 0 0.1em rgb(56, 21, 0);
+}
+div.type_string {
+    font-style: italic;
+    color: #acff8f;
+    text-shadow: 0em 0em 0.25em rgb(36, 51, 0);
+    background: rgba(45, 93, 0, 0.25);
+    background-image: linear-gradient(rgb(57, 175, 0) 0%, rgb(11, 84, 0) 7%, rgb(23, 35, 0) 70%, rgb(16, 30, 0) 100%);
+    border-color: #214b00;
+    box-shadow: 0 0 0.1em rgb(7, 56, 0);
+}
+div.type_function {
+    font-style: italic;
+    color: #ff0000;
+    text-shadow: 0em 0em 0.25em rgb(51, 0, 0);
+    background: rgba(93, 0, 0, 0.25);
+    background-image: linear-gradient(rgb(147, 0, 0) 0%, rgb(93, 0, 0) 7%, rgb(35, 0, 0) 70%, rgb(17, 17, 0) 100%);
+    border-color: #ff0000;
+    box-shadow: 0 0 0.1em rgb(40, 26, 0);
+}
+div.type_symbol {
+    color: #ff0000;
+    text-shadow: 0em 0em 0.25em rgb(51, 0, 0);
+    background: rgba(93, 0, 0, 0.25);
+    background-image: linear-gradient(rgb(147, 0, 0) 0%, rgb(93, 0, 0) 7%, rgb(35, 0, 0) 70%, rgb(17, 17, 0) 100%);
+    border-color: #ff0000;
+    box-shadow: 0 0 0.1em rgb(40, 26, 0);
+}
+div.type_bigint {
+    color: #ff0000;
+    text-shadow: 0em 0em 0.25em rgb(51, 0, 0);
+    background: rgba(93, 0, 0, 0.25);
+    background-image: linear-gradient(rgb(147, 0, 0) 0%, rgb(93, 0, 0) 7%, rgb(35, 0, 0) 70%, rgb(17, 17, 0) 100%);
+    border-color: #ff0000;
+    box-shadow: 0 0 0.1em rgb(40, 26, 0);
+}
 .slider_container p {
     right: 0.7em;
     bottom: 0.3em;
@@ -1161,4 +1273,10 @@ div.anchor_close_cursor {
     width: 0;
     height: 0;
     font-size: 2.6em;
+}
+
+div.anchor_close_data_edit {
+    top: 7%;
+    right: 5%;
+    font-size: 1.6em;
 }

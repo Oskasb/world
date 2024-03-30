@@ -193,7 +193,7 @@ class DomEditWorldModel {
         this.htmlElement.initHtmlElement('edit_world_model', closeCb, this.statusMap, 'edit_frame', this.call.htmlReady);
     }
 
-    closeDomEditWorldModel() {
+    closeEditTool() {
         ThreeAPI.unregisterPrerenderCallback(this.call.update);
         this.htmlElement.closeHtmlElement();
         poolReturn(this.htmlElement);

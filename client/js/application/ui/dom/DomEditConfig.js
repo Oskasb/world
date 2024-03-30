@@ -55,13 +55,14 @@ class DomEditConfig {
             }
         }
 
-        function keyElemPressed(e) {
-            console.log("keyElemPressed", e.target.id);
-            let data = statusMap.config[e.target.id];
+        function keyElemPressed(key) {
+            console.log("keyElemPressed", key, statusMap.config);
+            let data = statusMap.config[key];
             closeEditValues()
 
             let map = {
                 applyEdit:applyEdit,
+                key:key,
                 data:data,
                 parent:statusMap.config
             }
@@ -69,24 +70,14 @@ class DomEditConfig {
             editValues.initEditTool(closeEditValues, map)
         }
 
-        function addKeyElement(value , type ) {
-
-            let label = value;
-            let valueType = typeof(value);
-            if (Array.isArray(value)) {
-                valueType = 'array';
+        function addKeyElement(key , type, value ) {
+            let html = "<h2>"+key+"</h2>" + "<p>"+value+"</p>";
+            function onClick() {
+                keyElemPressed(key)
             }
 
-            if (valueType === 'array') {
-                label = '[] <p>VIEW</p>'
-            } else if (valueType === 'object') {
-                label = '{} <p>VIEW</p>'
-            } else {
-                label ='<p>'+value+'</p>';
-            }
-
-            let div = DomUtils.createDivElement(applyContainerDiv, value, label, "config_inspect")
-            DomUtils.addClickFunction(div, keyElemPressed)
+            let div = DomUtils.createDivElement(applyContainerDiv, key, html, "config_inspect type_"+type)
+            DomUtils.addClickFunction(div, onClick)
             elementDivs.push(div);
         }
 
@@ -96,6 +87,7 @@ class DomEditConfig {
             }
 
             for (let key in config) {
+                let value = config[key];
                 let type = typeof (config[key])
 
                 if (type === 'string') {
@@ -104,11 +96,13 @@ class DomEditConfig {
                 } else if (type === 'object') {
                     if (Array.isArray(config[key])) {
                         type = 'array'
+                        value = "[]"
                     } else {
                         type = 'object'
+                        value = "{}"
                     }
                 }
-                addKeyElement(key, type);
+                addKeyElement(key, type, value);
             }
         };
 
@@ -131,7 +125,7 @@ class DomEditConfig {
 
     initEditTool(closeCb, statusMap) {
         this.htmlElement = poolFetch('HtmlElement')
-        this.htmlElement.initHtmlElement('edit_config', closeCb, statusMap, 'edit_frame edit_config', this.call.htmlReady);
+        this.htmlElement.initHtmlElement('edit_config', null, statusMap, 'edit_frame edit_config', this.call.htmlReady);
     }
 
     closeEditTool() {

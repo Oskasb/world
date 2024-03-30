@@ -17,7 +17,7 @@ class DomEditValues {
         let elementDivs = [];
 
         function applyAdd() {
-            statusMap.activateSelection(selectionId);
+            statusMap.applyEdit(statusMap.key);
         }
 
         function listifyConfig(cfg) {
@@ -31,87 +31,140 @@ class DomEditValues {
         let htmlReady = function(htmlEl) {
             htmlElem = htmlEl;
             statusMap = htmlElem.statusMap;
+            let dataKey = statusMap.key;
             rootElem = htmlEl.call.getRootElement();
             selectList = htmlElem.call.getChildElement('select_list');
+
+
             applyContainerDiv = htmlElem.call.getChildElement('apply_container');
             htmlElem.call.populateSelectList('select_list', listifyConfig(statusMap.config));
        //     addButtonDiv = htmlElem.call.getChildElement('add_button');
        //     DomUtils.addClickFunction(addButtonDiv, applyAdd)
             ThreeAPI.registerPrerenderCallback(update);
-            applySelection(selectionId)
+            let type = typeof (statusMap.data);
+            htmlElem.call.getChildElement('label').innerHTML = dataKey+" ("+type+")";
+            applySelection(dataKey)
         }.bind(this);
 
 
-        function addValueElement(type, value, entry) {
-
-
-            let label = value;
-            let valueType = typeof(value);
-            if (Array.isArray(value)) {
-                valueType = 'array';
+        function closeSubValueEdit() {
+            if (subValueEdit !== null) {
+                if (subValueEdit !== null) {
+                    subValueEdit.closeEditTool()
+                    poolReturn(subValueEdit)
+                    subValueEdit = null;
+                }
             }
+        }
 
-            if (valueType === 'array') {
-                label = valueType+' [] <p>VIEW</p>'
-            } else if (valueType === 'object') {
-                label = valueType+' {} <p>VIEW</p>'
+        let subValueEdit = null;
+
+
+        function openSubValueEdit(key, data) {
+            closeSubValueEdit()
+
+            let map = {
+                applyEdit:statusMap.applyEdit,
+                key:key,
+                data:data,
+                parent:statusMap.config
+            }
+            subValueEdit = poolFetch('DomEditValues');
+            subValueEdit.initEditTool(closeSubValueEdit, map)
+        }
+
+        function addValueElement(entry, key) {
+            let type = getElementTypeKey(entry)
+            let label = key;
+            let openSubEditor;
+
+            if (type === 'array') {
+
+                let eVal = "| "
+                for (let i = 0; i < entry.length; i++) {
+                    let subType = getElementTypeKey(entry[i]);
+                    if (subType === 'object') {
+                        eVal += "{} "
+                    } else if (subType === 'array') {
+                        eVal += "[] "
+                    } else {
+                        eVal += subType+" "
+                    }
+                    eVal += "| ";
+                }
+
+                label = '<h2>'+key+'<h2><p>'+eVal+'</p>'
+                openSubEditor = true;
+            } else if (type === 'object') {
+                let eVal = "|"
+                for (let key in entry) {
+                    let subType = getElementTypeKey(entry[key]);
+                    if (subType === 'object') {
+                        eVal += "{}"
+                    } else if (subType === 'array') {
+                        eVal += "[]"
+                    } else {
+                        eVal += subType
+                    }
+                    eVal += "|";
+                }
+                label = '<h2>'+key+'<h2><p>'+eVal+'</p>'
+                openSubEditor = true;
             } else {
-                label ='<p>'+value+'</p>';
+                label ='<h2>'+type+'<h2><p>'+entry+'</p>';
             }
 
-            let div = DomUtils.createDivElement(applyContainerDiv, valueType+"_"+entry, label, "config_inspect")
+            let div = DomUtils.createDivElement(applyContainerDiv, type+"_"+entry, label, "config_inspect  type_"+type);
+
+            if (openSubEditor === true) {
+
+                let open = function() {
+                    openSubValueEdit(key, entry, entry)
+                }
+
+                DomUtils.addClickFunction(div, open)
+            }
+
             elementDivs.push(div);
         }
 
-        function addValues(key, type, value) {
+        function addValues(key, element) {
+            let type = getElementTypeKey(element)
             if (type === 'array') {
-                for (let i = 0; i < value.length; i++) {
-                    addValueElement(type, value[i], i)
+                for (let i = 0; i < element.length; i++) {
+                    addValueElement(element[i], i)
                 }
             } else if (type === 'object') {
-                for (let key in value) {
-                    addValueElement(type, value[key], key)
+                for (let key in element) {
+                    addValueElement(element[key], key)
                 }
             } else {
-                addValueElement(type, value, 0)
+                addValueElement(element, null)
             }
         }
 
-        let applySelection = function(id) {
-            selectionId = id;
+        function getElementTypeKey(element) {
+            if (Array.isArray(element)) {
+                return 'array'
+            }
+            return typeof (element)
+        }
 
+        let applySelection = function(id) {
+
+            console.log(id, statusMap)
             while (elementDivs.length) {
                 DomUtils.removeDivElement(elementDivs.pop())
             }
 
-            let element = statusMap.data[id];
-            let type = typeof (element)
+            let element = statusMap.data;
 
-            if (type === 'string') {
-
-            } else if (type === 'number') {
-
-            } else if (type === 'bool') {
-
-            } else if (type === 'object') {
-                if (Array.isArray(element)) {
-                    type = 'array'
-                } else {
-                    type = 'object'
-                }
-            }
-            addValues(id, type, element);
-            if (id === "") {
-                applyContainerDiv.style.display = "none"
-            } else {
-                applyContainerDiv.style.display = ""
-            }
-        //    statusMap.selectionUpdate(selectionId);
+            addValues(id, element);
         };
 
         let update = function() {
-            if (selectionId !== selectList.value) {
-                applySelection(selectList.value);
+            if (subValueEdit !== null) {
+                subValueEdit.htmlElement.call.getRootElement().style.left = "440em";
             }
         };
 
