@@ -24,6 +24,7 @@ function operateEdit(tool, pos, statusMap, drawStrength) {
     editEvent.pos = pos;
     editEvent.radius = statusMap.radius;
     editEvent.sharpness = statusMap.sharpness;
+    editEvent.noise = statusMap.noise;
     editEvent.strength = statusMap.strength * drawStrength;
     editEvent.biome = statusMap.biome;
     evt.dispatch(ENUMS.Event.TERRAIN_APPLY_EDIT, editEvent);
@@ -39,6 +40,7 @@ class DomEditTerrain {
             radius:5,
             sharpness:0.5,
             strength:25,
+            noise:0,
             biome:[0, 0, 0],
             draw: 0
         };
@@ -56,6 +58,7 @@ class DomEditTerrain {
         let sampleBackdropDiv = null;
         let sampleButtonDiv = null;
         let biomeSelect = null;
+        let sliderNoiseDiv = null;
         let sliderDrawDiv = null;
 
         let colorPanelDiv = null;
@@ -109,6 +112,7 @@ class DomEditTerrain {
             sampleButtonDiv = htmlElem.call.getChildElement('sample');
             applyOperationDiv = htmlElem.call.getChildElement('apply_tool');
             colorPanelDiv = htmlElem.call.getChildElement('color_panel');
+            sliderNoiseDiv = htmlElem.call.getChildElement('noise');
             sliderDrawDiv = htmlElem.call.getChildElement('draw');
             colorPanelDiv.style.display = "none";
             biomeSelect = htmlElem.call.getChildElement('biome');

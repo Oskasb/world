@@ -83,7 +83,10 @@ class DomEditModel {
             let wMdlId = previewModel.generateModelId()
             modelConfig.no_lod = false;
             modelConfig.palette = "DEFAULT";
-            let newWmodel = GameAPI.worldModels.addConfigModel(modelConfig, wMdlId)
+            modelConfig.edit_id = false;
+            let newConfig = detachConfig(modelConfig);
+            let newWmodel = GameAPI.worldModels.addConfigModel(newConfig, newConfig.edit_id)
+            newWmodel.deleteWorldModel()
             modelConfig.no_lod = true;
             saveWorldModelEdits(newWmodel);
         }
@@ -97,7 +100,9 @@ class DomEditModel {
                 modelConfig.model = id;
                 applyCursorUpdate(editObj3d)
                 modelConfig.no_lod = true;
-                previewModel = new WorldModel(modelConfig, "preview_model");
+                previewModel = new WorldModel(detachConfig(modelConfig));
+                previewModel.id = "preview_model"
+                previewModel.config.edit_id = false;
                 previewModel.call.setPaletteKey("ITEMS_BLACK")
                 console.log("selectionUpdate",id, previewModel);
                 if (previewCursor === null) {
@@ -331,8 +336,13 @@ class DomEditModel {
 
         function closeEditCursors() {
             for (let key in editCursors) {
-                if (typeof (editCursors[key]) === 'object') {
+                if (editCursors[key] !== false) {
+                    if (typeof(editCursors[key].closeCb) !== 'function' ) {
+                        console.log("Bad Edit cursor close",editCursors[key], key, editCursors)
+                        return
+                    }
                     editCursors[key].closeCb(editCursors[key].htmlElement)
+                    editCursors[key] = false;
                 }
             }
         }

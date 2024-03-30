@@ -27,7 +27,9 @@ let randomPaletteList = [
 class WorldModel {
 
     constructor(config, id) {
-
+        if (config.edit_id) {
+            id = config.edit_id;
+        }
         index++;
         this.config = config;
 
@@ -42,6 +44,7 @@ class WorldModel {
             this.id = id;
         } else {
             this.id = this.generateModelId()
+            this.config.edit_id = this.id;
         }
 
         if (config['palette']) {
@@ -98,10 +101,12 @@ class WorldModel {
             this.obj3d.copy(obj3d);
             updateObj3D()
 
-            if (hold > 0.2) {
+            if (hold > 0.05) {
                 if (this.id !== "preview_model") {
                     let wmodel = this;
                     saveWorldModelEdits(wmodel);
+                    GameAPI.worldModels.removeActiveWorldModel(this.id);
+                    
                 }
                 hold = 0;
             }
@@ -123,20 +128,39 @@ class WorldModel {
             return this.paletteKey;
         }.bind(this)
 
-        let applyLoadedConfig = function(cfg) {
+        let originalModel = this.config.model;
 
+        let applyLoadedConfig = function(cfg, id) {
             if (cfg !== null) {
-                console.log("applyLoadedConfig", cfg)
+
+                if (this.id) {
+                    if (this.id !== cfg.edit_id) {
+                        console.log("ID should match here... ")
+                        this.id =  cfg.edit_id;
+                    }
+                } else {
+                    console.log("Set WModel ID", id, cfg);
+                    this.id =  cfg.edit_id;
+                }
+
+                console.log("applyLoadedConfig", this.id, cfg.model, originalModel, this.config.model)
+
+                if (cfg.model !== originalModel) {
+                    GameAPI.worldModels.removeWorldModel(this);
+                    GameAPI.worldModels.addConfigModel(cfg, cfg.edit_id);
+                    return;
+                }
                 this.config = cfg;
                 MATH.vec3FromArray(this.obj3d.position, cfg.pos);
                 this.obj3d.quaternion.set(0, 0, 0, 1);
                 MATH.rotXYZFromArray(this.obj3d, cfg.rot, 100);
                 updateObj3D()
-                this.setHidden(true);
-                this.setHidden(false);
+            //    this.setHidden(true);
+
                 if (cfg.palette) {
                     setPaletteKey(cfg.palette);
                 }
+
             }
 
         }.bind(this)

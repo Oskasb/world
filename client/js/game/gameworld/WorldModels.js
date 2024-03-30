@@ -93,7 +93,7 @@ function loadEditorModels(configs) {
         let add = true;
         for (let i = 0; i < worldModels.length; i++) {
             if (worldModels[i].id === key) {
-                worldModels[i].call.applyLoadedConfig(configs[key]);
+                worldModels[i].call.applyLoadedConfig(configs[key], key);
                 add = false;
             }
         }
@@ -322,7 +322,7 @@ class WorldModels {
         if (root === 'model') {
             let wModel = GameAPI.worldModels.getActiveWorldModel(id);
             if (wModel !== null) {
-                wModel.call.applyLoadedConfig(config)
+                wModel.call.applyLoadedConfig(config, id)
             } else if (folder === lastWorldLevel) {
                 loadModelFromConfig(config)
             }
@@ -341,6 +341,15 @@ class WorldModels {
         return null;
     }
 
+    removeActiveWorldModel(id) {
+        for (let i = 0; i < worldModels.length; i++) {
+            if (worldModels[i].id === id) {
+                worldModels[i].deleteWorldModel();
+                return;
+            }
+        }
+        console.log("No such worldModel", id)
+    }
     getWorldEncounters() {
         return worldEncounters;
     }
@@ -377,8 +386,12 @@ class WorldModels {
         }
     }
 
-    addConfigModel(config) {
-        return loadModelFromConfig(config);
+    addConfigModel(config, id) {
+        return loadModelFromConfig(config, id);
+    }
+
+    removeWorldModel(worldModel) {
+        worldModel.deleteWorldModel();
     }
 
     registerWorldBox(box) {

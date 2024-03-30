@@ -238,7 +238,7 @@ class WebGLRenderer {
 		try {
 
 			const contextAttributes = {
-				alpha: true,
+				alpha: false,
 				depth,
 				stencil,
 				antialias,

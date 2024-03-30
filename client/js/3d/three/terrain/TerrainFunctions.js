@@ -385,6 +385,7 @@ function applyGroundCanvasEdit(edit, canvasContext, terrainSize, segments) {
     let sharpness = edit.sharpness;
     let minAlpha = (edit.strength/100);
     let biomeTable = edit.biome;
+    let noise = edit.noise;
 
     fillRgba[0] = Math.floor(biomeTable[0]*255);
     fillRgba[1] = Math.floor(biomeTable[1]*255);
@@ -415,6 +416,26 @@ function applyGroundCanvasEdit(edit, canvasContext, terrainSize, segments) {
     return updateRect;
 }
 
+let tempCanvas = document.createElement('canvas');
+let tempCtx = tempCanvas.getContext('2d')
+function generateNoiseImg(noise, side) {
+    tempCanvas.width = side;
+    tempCanvas.height = side;
+    tempCtx.fillStyle()
+    tempCtx.fillRect()
+    let iData = tempCtx.createImageData(side, side);
+    let buffer = new Uint8ClampedArray(iData.data.buffer);
+    let len = buffer.length;
+
+    for(let i = 0; i < len;i++) {
+        i += 3
+        buffer[i] = Math.round(Math.random()*noise);
+    }
+
+    tempCtx.putImageData(iData, 0, 0);
+
+}
+
 function applyTerrainCanvasEdit(edit, canvasContext, terrainSize, segments, minHeight, maxHeight) {
     console.log("applyTerrainEdit", edit);
     let pos = edit.pos;
@@ -423,6 +444,7 @@ function applyTerrainCanvasEdit(edit, canvasContext, terrainSize, segments, minH
     let targetY = pos.y;
     let operation = edit.operation;
     let sharpness = edit.sharpness;
+    let noise = edit.noise;
     let gco = 'source-over';
     let minAlpha = (edit.strength/100);
 
@@ -455,11 +477,41 @@ function applyTerrainCanvasEdit(edit, canvasContext, terrainSize, segments, minH
 
     canvasContext.strokeStyle = "rgba(0, 0, 0, 0)";
     let ctx = canvasContext;
-    const grd = ctx.createRadialGradient(tx, tz, 1 + (sharpness*radius*0.8), tx, tz, radius);
-    grd.addColorStop(0, "rgba("+fillRgba[0]+", "+fillRgba[1]+", "+fillRgba[2]+", "+fillRgba[3]+")");
-    grd.addColorStop(0.2+sharpness*0.6, "rgba("+fillRgba[0]+", "+fillRgba[1]+", "+fillRgba[2]+", "+fillRgba[3]*(0.5+sharpness*0.4)+")");
-    grd.addColorStop(0.9, "rgba("+fillRgba[0]+", "+fillRgba[1]+", "+fillRgba[2]+", 0)");
-    grd.addColorStop(1, "rgba("+fillRgba[0]+", "+fillRgba[1]+", "+fillRgba[2]+", 0)");
+
+    if (noise > 0) {
+
+
+    //    let noiseCtx = generateNoiseImg(noise, radius*2);
+
+
+        const grd = tempCtx.createRadialGradient(radius, radius, 1 + (sharpness*radius*0.8), radius, radius, radius);
+        grd.addColorStop(0, "rgba("+fillRgba[0]+", "+fillRgba[1]+", "+fillRgba[2]+", "+fillRgba[3]+")");
+        grd.addColorStop(0.2+sharpness*0.6, "rgba("+fillRgba[0]+", "+fillRgba[1]+", "+fillRgba[2]+", "+fillRgba[3]*(0.5+sharpness*0.4)+")");
+        grd.addColorStop(0.9, "rgba("+fillRgba[0]+", "+fillRgba[1]+", "+fillRgba[2]+", 0)");
+        grd.addColorStop(1, "rgba("+fillRgba[0]+", "+fillRgba[1]+", "+fillRgba[2]+", 0)");
+        tempCanvas.globalCompositeOperation = "source-over";
+        tempCtx.fillStyle = grd;
+        tempCtx.fillRect(0, 0, radius*2, radius*2);
+        let gradImg = tempCtx.getImageData(0, 0, radius*2, radius*2);
+        let buffer = gradImg.data;
+        let len = buffer.length;
+
+        for (let i = 0; i < len;i++) {
+            i += 3
+            buffer[i] = Math.round(buffer[i] * (1-Math.random()*noise));
+        }
+
+        tempCtx.putImageData(new ImageData(buffer, radius*2, radius*2), 0, 0)
+        ctx.drawImage(tempCanvas, Math.floor(tx-radius), Math.floor(tz-radius), Math.floor(radius*2), Math.floor(radius*2));
+    } else {
+        const grd = ctx.createRadialGradient(tx, tz, 1 + (sharpness*radius*0.8), tx, tz, radius);
+        grd.addColorStop(0, "rgba("+fillRgba[0]+", "+fillRgba[1]+", "+fillRgba[2]+", "+fillRgba[3]+")");
+        grd.addColorStop(0.2+sharpness*0.6, "rgba("+fillRgba[0]+", "+fillRgba[1]+", "+fillRgba[2]+", "+fillRgba[3]*(0.5+sharpness*0.4)+")");
+        grd.addColorStop(0.9, "rgba("+fillRgba[0]+", "+fillRgba[1]+", "+fillRgba[2]+", 0)");
+        grd.addColorStop(1, "rgba("+fillRgba[0]+", "+fillRgba[1]+", "+fillRgba[2]+", 0)");
+        ctx.fillStyle = grd;
+        ctx.fillRect(Math.floor(tx-radius), Math.floor(tz-radius), Math.floor(radius*2), Math.floor(radius*2));
+    }
 
 // Draw a filled Rectangle
 
@@ -468,8 +520,8 @@ function applyTerrainCanvasEdit(edit, canvasContext, terrainSize, segments, minH
     updateRect.maxX =  Math.floor(tx+radius);
     updateRect.maxY =  Math.floor(tz+radius);
 
-    ctx.fillStyle = grd;
-    ctx.fillRect(Math.floor(tx-radius), Math.floor(tz-radius), Math.floor(radius*2), Math.floor(radius*2));
+
+
     return updateRect;
 }
 

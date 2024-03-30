@@ -21,6 +21,13 @@ function processLoadedBuffer(id) {
 
 }
 
+let index = 0;
+
+function generateEditId() {
+    index++;
+    return index+"_"+new Date().getTime();
+}
+
 function processLoadedFile(id) {
 
     if (typeof(deletedConfigs[id]) === 'object') {
@@ -36,7 +43,7 @@ function processLoadedFile(id) {
     for (let i = 0; i < requestListeners.length; i++) {
         if (requestListeners[i].id === id) {
             let entry = requestListeners[i];
-            entry.callback(savedConfigs[id]);
+            entry.callback(savedConfigs[id], savedConfigs[id].edit_id);
         }
     }
 
@@ -224,7 +231,7 @@ function loadSavedConfig(id, callback) {
     }
 
     if (typeof (savedConfigs[id]) === 'object') {
-        callback(savedConfigs[id])
+        callback(savedConfigs[id], savedConfigs[id].edit_id)
     } else {
         let add = true;
         for (let i = 0; i < requestListeners.length; i++) {
@@ -277,12 +284,16 @@ function applyRemoteConfigMessage(message) {
 }
 
 function saveConfigEdits(root, folder, id, editedConfig) {
+    if (!editedConfig.edit_id) {
+        editedConfig.edit_id = generateEditId();
+    }
+
     let json = JSON.stringify(editedConfig);
     savedConfigs[id] = JSON.parse(json);
 
     evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, {
         request:ENUMS.ClientRequests.WRITE_FILE,
-        id:id,
+        id:editedConfig.edit_id,
         root:root,
         folder:folder,
         dir:"edits/configs/",
@@ -290,22 +301,25 @@ function saveConfigEdits(root, folder, id, editedConfig) {
         data:json,
     })
 
-    return savedConfigs[id];
+    return savedConfigs[id].edit_id;
 }
 
 function detachConfig(config) {
+    if (!config.edit_id) {
+        config.edit_id = generateEditId();
+    }
     return JSON.parse(JSON.stringify(config));
 }
 
 function saveEncounterEdits(encounter) {
     let worldLevel = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
-    saveConfigEdits("encounter", worldLevel, encounter.id, encounter.config)
+    encounter.id = saveConfigEdits("encounter", worldLevel, encounter.id, encounter.config)
     console.log("Save Enc config ", encounter);
 }
 
 function saveWorldModelEdits(wModel) {
     let worldLevel = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
-    saveConfigEdits("model", worldLevel, wModel.id, wModel.config)
+    wModel.id = saveConfigEdits("model", worldLevel, wModel.id, wModel.config)
     console.log("Save World Model config ", wModel);
 }
 

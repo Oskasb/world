@@ -97,18 +97,23 @@ class ThreeSetup {
     initThreeRenderer = function(pxRatio, antialias, containerElement, store) {
 
             let scene = new THREE.Scene();
-            let reflectionScene = new THREE.Scene();
+        //    let reflectionScene = new THREE.Scene();
         //    let camera = new THREE.PerspectiveCamera( 75, containerElement.innerWidth / containerElement.innerHeight, 0.1, 1000 );
         //    camera.matrixWorldAutoUpdate = false;
             scene.matrixWorldAutoUpdate = false;
             //     console.log("Three Camera:", camera);
-           let renderer = new THREE.WebGLRenderer( { antialias:antialias, devicePixelRatio: pxRatio, logarithmicDepthBuffer: false, sortObjects: false });
+        // Hack the context attributes to prevent canvas alpha
+           let renderer = new THREE.WebGLRenderer( { antialias:antialias, alpha:false, devicePixelRatio: pxRatio, logarithmicDepthBuffer: false, sortObjects: false });
         //    let renderer = new THREE.WebGLRenderer();
+            let gl = renderer.getContext();
+            gl.getContextAttributes().alpha = false;
+            console.log(gl.getContextAttributes());
+            // gl.setContextAttribute()
         //    renderer.setPixelRatio( pxRatio );
             renderer.setSize( window.innerWidth, window.innerHeight );
         //    renderer.toneMapping = THREE.LinearToneMapping;
             store.scene = scene;
-            store.reflectionScene = reflectionScene;
+        //    store.reflectionScene = reflectionScene;
         //    store.camera = camera;
             store.renderer = renderer;
 

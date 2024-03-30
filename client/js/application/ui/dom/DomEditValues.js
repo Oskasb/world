@@ -248,6 +248,7 @@ class DomEditValues {
 
             if (setValue !== selectList.value) {
                 setValue = selectList.value;
+                statusMap.parent[statusMap.key] = setValue;
                 statusMap.applyEdit();
             }
 
