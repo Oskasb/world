@@ -1,5 +1,5 @@
 import {poolFetch, poolReturn} from "../../utils/PoolUtils.js";
-import {mappedConfigKey, saveEncounterEdits} from "../../utils/ConfigUtils.js";
+import {getConfigListAt, mappedConfigKey, saveEncounterEdits} from "../../utils/ConfigUtils.js";
 import {getEditIndex} from "../../../../../Server/game/utils/EditorFunctions.js";
 import {paletteKeys, paletteMap} from "../../../game/visuals/Colors.js";
 
@@ -53,7 +53,7 @@ class DomEditValues {
 
 
             applyContainerDiv = htmlElem.call.getChildElement('apply_container');
-            htmlElem.call.populateSelectList('select_list', listifyConfig(statusMap.config));
+       //     htmlElem.call.populateSelectList('select_list', listifyConfig(statusMap.config));
        //     addButtonDiv = htmlElem.call.getChildElement('add_button');
        //     DomUtils.addClickFunction(addButtonDiv, applyAdd)
             ThreeAPI.registerPrerenderCallback(update);
@@ -136,6 +136,7 @@ class DomEditValues {
                 label ='<h2>'+type+'<h2><p>'+entry+'</p>';
             }
 
+
             let map = statusMap.map;
             if (map !== null) {
                 if (map.length === 1) {
@@ -145,6 +146,9 @@ class DomEditValues {
                     console.log("configKey has multiple entries ", map)
                     label += "<h3>| #LOC: "+map.length+" |</h3>";
                 }
+
+
+
             } else {
                 if (type === 'string') {
 
@@ -154,28 +158,33 @@ class DomEditValues {
                         if (map.length === 1) {
                             label += "<h4>"+map[0].source+"</h4><h3>"+map[0].root+" "+map[0].folder+"</h3>";
                             console.log("configKey has entry ", map, label)
-
+                            let list = getConfigListAt(map[0].root, map[0].folder)
+                            htmlElem.call.populateSelectList('select_list', list);
+                            selectList.value = entry;
                         } else {
                             console.log("configKey has multiple entries ", map)
                             label += "<h3>| #LOC: "+map.length+" |</h3>";
                         }
 
+                    } else {
+                        let source = seekDataSource(statusMap.key, entry)
+                        let typeKey = getElementTypeKey(source);
+
+                        label += "<h4>"+typeKey;
+
+                        if (typeKey === ('array' || 'object')) {
+                            console.log("TODO: Populate select list: ", source)
+                            label += " "+source.length;
+
+
+                        }
+                        if (typeKey === 'object') {
+                            console.log("TODO: Populate object list: ", source)
+                            label += " "+Object.keys(source).length;
+                        }
+                        label += "</h4>";
                     }
 
-                    let source = seekDataSource(statusMap.key, entry)
-                    let typeKey = getElementTypeKey(source);
-                    label += "<h4>"+typeKey;
-
-                    if (typeKey === ('array' || 'object')) {
-                        console.log("TODO: Populate select list: ", source)
-                        label += " "+source.length;
-                        htmlElem.call.populateSelectList('select_list', source);
-                    }
-                    if (typeKey === 'object') {
-                        console.log("TODO: Populate object list: ", source)
-                        label += " "+Object.keys(source).length;
-                    }
-                    label += "</h4>";
                 }
 
             }
@@ -217,8 +226,8 @@ class DomEditValues {
         }
 
         let applySelection = function(id) {
-
-            console.log(id, statusMap)
+            selectList.value = id;
+        //    console.log(id, statusMap)
             while (elementDivs.length) {
                 DomUtils.removeDivElement(elementDivs.pop())
             }

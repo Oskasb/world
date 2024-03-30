@@ -338,11 +338,23 @@ function mappedConfigKey(key) {
     return reverseMap[key];
 }
 
+let configList = {};
 
 function addToReverseMap(configKey, root, folder) {
     if (!reverseMap[configKey]) {
         reverseMap[configKey] = [];
     }
+
+    if (!configList[root]) {
+        configList[root] = {};
+    }
+
+    if (!configList[root][folder]) {
+        configList[root][folder] = []
+    }
+
+    configList[root][folder].push(configKey);
+
     reverseMap[configKey].push({source:"config", root:root, folder:folder});
 }
 
@@ -405,6 +417,13 @@ function getReversedConfigs() {
     return reverseMap;
 }
 
+function getConfigListAt(root, folder) {
+    if (!configList[root]) {
+        reverseMapConfigs();
+    }
+    return configList[root][folder]
+}
+
 export {
     detachConfig,
     setEditIndexClient,
@@ -418,5 +437,6 @@ export {
     saveWorldModelEdits,
     saveDataTexture,
     mappedConfigKey,
-    getReversedConfigs
+    getReversedConfigs,
+    getConfigListAt
  }
