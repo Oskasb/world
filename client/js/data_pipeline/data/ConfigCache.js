@@ -1,6 +1,15 @@
 "use strict";
 import { GameDataPipeline } from '../GameDataPipeline.js';
 
+let reverseMap = {};
+
+function addToReverseMap(configKey, root, folder) {
+    if (!reverseMap[configKey]) {
+        reverseMap[configKey] = [];
+    }
+    reverseMap[configKey].push({root:root, folder:folder});
+}
+
 class ConfigCache {
 
     constructor(pipeReadyCB, pipeMsgCB) {
@@ -21,7 +30,6 @@ class ConfigCache {
         this.loadedUrls = [];
         this.remainingUrls = [];
         this.cacheReads = 0
-
     }
 
 
@@ -305,7 +313,7 @@ class ConfigCache {
 
     cacheCategoryKey = function(category, key, callback) {
         let data = this.getConfigKey(category, key);
-        if (data != key) {
+        if (data !== key) {
             //    console.log("reject string", data)
             this.cacheReads++;
             callback(key, data);

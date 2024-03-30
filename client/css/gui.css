@@ -374,7 +374,7 @@ div.config_inspect {
 div.config_inspect h2 {
     font-size: 0.7em;
     right: 0;
-    margin-top: 0.05em;
+    margin-top: -0.15em;
     left: 0.1em;
     max-width: 60%;
     width: fit-content;
@@ -385,11 +385,27 @@ div.config_inspect h2 {
     display: block;
 }
 
+div.config_inspect h3 {
+    position: absolute;
+    font-size: 0.5em;
+    right: 0.5em;
+    left: 0;
+    top:auto;
+    bottom: 0;
+    margin-bottom: -0.02em;
+    width: auto;
+    font-style: initial;
+    color: inherit;
+    text-align: right;
+    text-shadow: 0 0 0.25em rgb(0, 0, 0);
+    display: block;
+}
+
 div.config_inspect p {
     position: absolute;
-    font-size: 1.05em;
+    font-size: 0.9em;
     top: auto;
-    bottom: 0;
+    bottom: 0.7em;
     right: 0.5em;
     left: 0;
     width: auto;

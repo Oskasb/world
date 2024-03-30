@@ -1,4 +1,16 @@
 
+
+let dataIdMap = {};
+let configKeyMap = {}
+
+function addToReverseMap(configKey, root, folder) {
+    if (!configKeyMap[configKey]) {
+        configKeyMap[configKey] = [];
+    }
+    configKeyMap[configKey].push({root:root, folder:folder});
+}
+
+
 class ConfigData {
     constructor(root, folder, dataId, dataKey, configKey, onReady) {
         this.root = root;
@@ -14,9 +26,16 @@ class ConfigData {
 
         this.onUpdateCallbacks = []
 
+        if (typeof (configKey) === 'string') {
+            addToReverseMap(configKey, root, folder)
+        }
+
         if (dataId) {
+            dataIdMap[dataId] = {root:root, folder:folder};
             return;
         }
+
+
         let postInit = function(data) {
             if (typeof(onReady) === 'function') {
                 onReady(this.config)
@@ -110,7 +129,9 @@ class ConfigData {
     readConfigKey = function(dataKey) {
         return this.config[dataKey];
     };
-
+    getConfigKeyMap() {
+        return configKeyMap;
+    }
 }
 
 export { ConfigData }

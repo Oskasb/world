@@ -1,10 +1,15 @@
 import {poolFetch, poolReturn} from "../../utils/PoolUtils.js";
-import {saveEncounterEdits} from "../../utils/ConfigUtils.js";
+import {getReversedConfigs, mappedConfigKey, saveEncounterEdits} from "../../utils/ConfigUtils.js";
 import {getEditIndex} from "../../../../../Server/game/utils/EditorFunctions.js";
 
+let reverseMap = null;
 
 class DomEditConfig {
     constructor() {
+
+        if (reverseMap === null) {
+            reverseMap = getReversedConfigs();
+        }
 
         let statusMap = null
         let rootElem = null;
@@ -62,6 +67,7 @@ class DomEditConfig {
 
             let map = {
                 applyEdit:applyEdit,
+                map:mappedConfigKey(key),
                 key:key,
                 data:data,
                 parent:statusMap.config
@@ -72,6 +78,20 @@ class DomEditConfig {
 
         function addKeyElement(key , type, value ) {
             let html = "<h2>"+key+"</h2>" + "<p>"+value+"</p>";
+            let map = mappedConfigKey(value);
+            if (map !== null) {
+
+                if (map.length === 1) {
+                    html += "<h3>"+map[0].root+" "+map[0].folder+"</h3>";
+                    console.log("configKey has entry ", map, html)
+                } else {
+                    console.log("configKey has multiple entries ", map)
+                    html += "<h3>| #LOC: "+map.length+" |</h3>";
+                }
+
+
+            }
+
             function onClick() {
                 keyElemPressed(key)
             }
@@ -136,6 +156,8 @@ class DomEditConfig {
         poolReturn(this.htmlElement);
         this.htmlElement = null;
     }
+
+
 
 }
 

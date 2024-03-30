@@ -9,6 +9,7 @@ let requestListeners = [];
 let bufferListeners = [];
 let requestedLoads = [];
 let savedImageBuffers = {};
+let configKeyMap = null;
 
 function processLoadedBuffer(id) {
     for (let i = 0; i < bufferListeners.length; i++) {
@@ -196,6 +197,7 @@ function parseConfigDataKey(root, folder, dataId, id, callback) {
     let configData =  new ConfigData(root, folder, dataId, 'data_key', 'config')
     configData.addUpdateCallback(callback);
     configData.parseConfig(id, callback)
+    configKeyMap = configData.getConfigKeyMap();
 }
 
 function loadSavedBuffer(id, callback) {
@@ -322,7 +324,85 @@ function saveDataTexture(root, folder, id, buffer) {
         format:"buffer",
         data:JSON.stringify(buffer)
     })
+}
 
+let reverseMap = null;
+function mappedConfigKey(key) {
+    if (reverseMap === null) {
+        reverseMapConfigs();
+    }
+    if (typeof (reverseMap[key]) !== 'object') {
+        console.log("Key not in map", key, [reverseMap])
+        return null;
+    }
+    return reverseMap[key];
+}
+
+
+function addToReverseMap(configKey, root, folder) {
+    if (!reverseMap[configKey]) {
+        reverseMap[configKey] = [];
+    }
+    reverseMap[configKey].push({root:root, folder:folder});
+}
+
+function reverseMapConfigs() {
+    let configs = window.CONFIGS;
+    reverseMap = {};
+    for (let root in configs) {
+        for (let folder in configs[root]) {
+            let entry =configs[root][folder]
+            if (Array.isArray(entry[0])) {
+                entry = entry[0]
+            }
+
+            if (Array.isArray(entry)) {
+                let list = entry
+                for (let i = 0; i < list.length; i++) {
+                    if (typeof (list[i].id) === 'string') {
+                        addToReverseMap(list[i].id, root, folder)
+                    } else if (typeof (list[i]) === 'number') {
+                        addToReverseMap(list[i], root, folder)
+                    } else if (Array.isArray(list[i])) {
+                        console.log("Figure out Array entry:", i, list[i], root, folder)
+
+                    //    addToReverseMap(list[i], root, folder)
+                    } else {
+
+                        if (typeof(entry[i]) === 'object') {
+                            if (typeof (entry[i].id) === 'string') {
+                                addToReverseMap(entry[i].id, root, folder)
+                            } else {
+                      //          console.log("No id for object entry:", root, folder, entry[i])
+                            }
+                        } else {
+                     //       console.log("Not reverse mapped:", root, folder, entry[i])
+                        }
+
+                    }
+                }
+            } else {
+                if (typeof(entry) === 'object') {
+                    if (typeof (entry.id) === 'string') {
+                        addToReverseMap(entry.id, root, folder)
+                    } else {
+                //        console.log("No id for object entry:", root, folder , entry)
+                    }
+                } else {
+                //    console.log("Not reverse mapped:", root, folder, entry)
+                }
+
+            }
+        }
+    }
+    console.log("Reverse Map ", reverseMap);
+}
+
+function getReversedConfigs() {
+    if (reverseMap === null) {
+        reverseMapConfigs();
+    }
+    return reverseMap;
 }
 
 export {
@@ -336,5 +416,7 @@ export {
     saveConfigEdits,
     saveEncounterEdits,
     saveWorldModelEdits,
-    saveDataTexture
+    saveDataTexture,
+    mappedConfigKey,
+    getReversedConfigs
  }

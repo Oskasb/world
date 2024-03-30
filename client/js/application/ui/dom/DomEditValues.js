@@ -1,5 +1,5 @@
 import {poolFetch, poolReturn} from "../../utils/PoolUtils.js";
-import {saveEncounterEdits} from "../../utils/ConfigUtils.js";
+import {mappedConfigKey, saveEncounterEdits} from "../../utils/ConfigUtils.js";
 import {getEditIndex} from "../../../../../Server/game/utils/EditorFunctions.js";
 
 
@@ -65,6 +65,7 @@ class DomEditValues {
 
             let map = {
                 applyEdit:statusMap.applyEdit,
+                map:mappedConfigKey(key),
                 key:key,
                 data:data,
                 parent:statusMap.config
@@ -112,6 +113,20 @@ class DomEditValues {
                 openSubEditor = true;
             } else {
                 label ='<h2>'+type+'<h2><p>'+entry+'</p>';
+            }
+
+            let map = statusMap.map;
+            if (map !== null) {
+
+                if (map.length === 1) {
+                    label += "<h3>"+map[0].root+" "+map[0].folder+"</h3>";
+                    console.log("configKey has entry ", map, html)
+                } else {
+                    console.log("configKey has multiple entries ", map)
+                    label += "<h3>| #LOC: "+map.length+" |</h3>";
+                }
+
+
             }
 
             let div = DomUtils.createDivElement(applyContainerDiv, type+"_"+entry, label, "config_inspect  type_"+type);
