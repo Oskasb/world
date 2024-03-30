@@ -482,9 +482,10 @@ function applyTerrainCanvasEdit(edit, canvasContext, terrainSize, segments, minH
 
 
     //    let noiseCtx = generateNoiseImg(noise, radius*2);
+        tempCanvas.width = radius*2;
+        tempCanvas.height = radius*2;
 
-
-        const grd = tempCtx.createRadialGradient(radius, radius, 1 + (sharpness*radius*0.8), radius, radius, radius);
+        const grd = tempCtx.createRadialGradient(radius, radius,  (sharpness*radius*0.8), radius, radius, radius);
         grd.addColorStop(0, "rgba("+fillRgba[0]+", "+fillRgba[1]+", "+fillRgba[2]+", "+fillRgba[3]+")");
         grd.addColorStop(0.2+sharpness*0.6, "rgba("+fillRgba[0]+", "+fillRgba[1]+", "+fillRgba[2]+", "+fillRgba[3]*(0.5+sharpness*0.4)+")");
         grd.addColorStop(0.9, "rgba("+fillRgba[0]+", "+fillRgba[1]+", "+fillRgba[2]+", 0)");
