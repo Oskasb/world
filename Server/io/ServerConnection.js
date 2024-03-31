@@ -25,7 +25,7 @@ function updateEditWriteIndex(message, deleted) {
 			console.log("index updated:", message.id);
 		}
 	}
-	server.writeFile(indexFile, JSON.stringify(edit_index), writeCB)
+//	server.writeFile(indexFile, JSON.stringify(edit_index), writeCB)
 }
 
 function traverseAndIndexEdits(dir, folder, root) {

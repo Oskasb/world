@@ -129,7 +129,8 @@ function setupVisualModel(visualPiece, assetId, config, pieceReady) {
 }
 
 function inheritConfigTransform(obj3d, config) {
-
+    obj3d.quaternion.set(0, 0, 0, 1);
+    obj3d.position.set(0, 0, 0);
     obj3d.scale.set(1, 1, 1);
 
     if (config.scale) {
@@ -157,9 +158,10 @@ function inheritConfigTransform(obj3d, config) {
 }
 
 function inheritAsParent(childObj, parentObj) {
+    childObj.position.multiply(parentObj.scale)
     childObj.quaternion.premultiply(parentObj.quaternion);
     childObj.position.applyQuaternion(parentObj.quaternion)
-    childObj.position.multiply(parentObj.scale)
+
     childObj.position.add(parentObj.position);
     childObj.scale.x *= parentObj.scale.x;
     childObj.scale.y *= parentObj.scale.y;

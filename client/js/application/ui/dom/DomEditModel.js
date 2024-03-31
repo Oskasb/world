@@ -16,15 +16,18 @@ let activeTool = null;
 let toolsList = [
     "EDIT",
     "ADD",
+    "CREATE",
     "CONFIG"
 ]
 
 let modelConfigs = null;
+let assetConfigs = null;
 
 class DomEditModel {
     constructor() {
 
         let addModelStatusMap = {}
+        let createModelStatusMap = {}
 
         let previewModel = null;
         let cursor = null;
@@ -117,8 +120,9 @@ class DomEditModel {
         }
 
         let models = [""];
-        if (modelConfigs === null) {
+        let assets = [""];
 
+        if (modelConfigs === null) {
             let onConfig = function(configs) {
                    console.log(configs)
                 for (let key in configs) {
@@ -131,11 +135,29 @@ class DomEditModel {
                 }
                 console.log("Add Model Options", models)
                 addModelStatusMap.selectList = models;
+                createModelStatusMap.models = models;
                 addModelStatusMap.activateSelection = applySelectedModel;
                 addModelStatusMap.selectionUpdate = selectionUpdate;
 
             }
             new ConfigData("WORLD_LOCATIONS","LOCATION_MODELS",  false, false, false, onConfig)
+        }
+
+        if (assetConfigs === null) {
+            let onConfig = function(configs) {
+                console.log(configs)
+                for (let key in configs) {
+                    let id = configs[key].id
+                    if (assets.indexOf(id) === -1) {
+                        assets.push(id)
+                    } else {
+                        console.log("entry already added, not right", id);
+                    }
+                }
+                console.log("Add Asset Options", assets)
+                createModelStatusMap.selectList = assets;
+            }
+            new ConfigData("ASSETS","MODELS",  false, false, false, onConfig)
         }
 
         function closeTool() {
@@ -174,7 +196,10 @@ class DomEditModel {
                 activeTool.initEditTool(closeTool, addModelStatusMap);
             }
 
-
+            if (selectedTool === "CREATE") {
+                activeTool = poolFetch('DomEditCreate');
+                activeTool.initEditTool(closeTool, createModelStatusMap);
+            }
 
         }
 

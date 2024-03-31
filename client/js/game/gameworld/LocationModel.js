@@ -56,9 +56,9 @@ class LocationModel {
         this.palette.initPalette()
         this.bodyPointers = [];
 
-        inheritAsParent(this.obj3d, parentObj3d);
-        inheritConfigTransform(this.obj3d, this.config);
 
+        inheritConfigTransform(this.obj3d, this.config);
+        inheritAsParent(this.obj3d, parentObj3d);
 
         if (config.boxes) {
             let boxes = config.boxes;
@@ -269,12 +269,14 @@ class LocationModel {
         return this.obj3d.position;
     }
 
+
     hierarchyUpdated() {
         this.obj3d.quaternion.set(0, 0, 0, 1);
         this.obj3d.position.set(0, 0, 0)
+        inheritConfigTransform(this.obj3d, this.config);
         inheritAsParent(this.obj3d, this.parentObj3d);
     //    this.obj3d.quaternion.premultiply(this.parentObj3d.quaternion);
-        inheritConfigTransform(this.obj3d, this.config);
+
 
         if (this.instance) {
             this.instance.spatial.stickToObj3D(this.obj3d);

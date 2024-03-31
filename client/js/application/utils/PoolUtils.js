@@ -52,6 +52,7 @@ import {DomEditModel} from "../ui/dom/DomEditModel.js";
 import {DomEditAdd} from "../ui/dom/DomEditAdd.js";
 import {DomEditConfig} from "../ui/dom/DomEditConfig.js";
 import {DomEditValues} from "../ui/dom/DomEditValues.js";
+import {DomEditCreate} from "../ui/dom/DomEditCreate.js";
 
 
 let pools = {}
@@ -110,6 +111,7 @@ function initPools() {
     registerPool(DomEditAdd)
     registerPool(DomEditConfig)
     registerPool(DomEditValues)
+    registerPool(DomEditCreate)
 }
 
 function registerPool(DataObj) {
