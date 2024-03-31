@@ -23,11 +23,54 @@ let toolsList = [
 let modelConfigs = null;
 let assetConfigs = null;
 
+let locationModelConfigTemplate = {
+    "asset": "",
+    "pos": [0, 0, 0],
+    "rot": [0, 0, 0],
+    "scale": [0.02, 0.02, 0.02],
+    "solidity": 1.0,
+    "visibility": 3,
+    "boxes": []
+}
+
+let worldModelTemplateConfig =                 {
+    "model": false,
+    "pos": [0, 0, 0],
+    "rot": [0, 0, 0],
+    "scale": [1, 1, 1],
+    "on_ground": true,
+    "visibility": 3,
+    "palette": "DEFAULT",
+    "no_lod":true
+}
+
 class DomEditModel {
     constructor() {
 
         let addModelStatusMap = {}
-        let createModelStatusMap = {}
+
+        function createFunction(id, obj3d, callback) {
+
+            if (!createModelStatusMap.parent) {
+                let config = detachConfig(worldModelTemplateConfig);
+                MATH.rotObj3dToArray(obj3d, config.rot);
+                MATH.vec3ToArray(obj3d.position, config.pos);
+                createModelStatusMap.parent = new WorldModel(config);
+            }
+
+            let locMCfg = detachConfig(locationModelConfigTemplate);
+            locMCfg.asset = id;
+            createModelStatusMap.parent.configData.assets.push(locMCfg);
+            createModelStatusMap.parent.call.locationModels(createModelStatusMap.parent.configData)
+            callback(locMCfg);
+        }
+
+        let createModelStatusMap = {
+            root:"create",
+            folder:"model",
+
+            createFunction:createFunction
+        }
 
         let previewModel = null;
         let cursor = null;

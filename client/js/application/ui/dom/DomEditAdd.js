@@ -31,8 +31,7 @@ class DomEditAdd {
             ThreeAPI.registerPrerenderCallback(update);
             applySelection(selectionId)
         }.bind(this);
-
-
+        
         let applySelection = function(id) {
             selectionId = id;
             if (id === "") {

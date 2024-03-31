@@ -1,6 +1,9 @@
 import {poolFetch, poolReturn} from "../../utils/PoolUtils.js";
 import {saveEncounterEdits} from "../../utils/ConfigUtils.js";
 import {getEditIndex} from "../../../../../Server/game/utils/EditorFunctions.js";
+import {Object3D} from "../../../../libs/three/core/Object3D.js";
+import {ENUMS} from "../../ENUMS.js";
+import {WorldModel} from "../../../game/gameworld/WorldModel.js";
 
 
 class DomEditCreate {
@@ -13,12 +16,67 @@ class DomEditCreate {
         let selectList = null;
         let addButtonDiv = null;
         let selectionId = "";
+        let cursorObj3d = new Object3D();
+
+        let createCursor = null
+        let configEdit = null;
+        let closeCursorCB = function() {
+
+        }
+
+        let closeCursor = function() {
+            if (createCursor !== null) {
+                createCursor.closeDomEditCursor();
+                poolReturn(createCursor);
+                createCursor = null;
+            }
+        }
 
         function applyAdd() {
           //  statusMap.activateSelection(selectionId);
         }
 
-        function selectionUpdate() {
+        function onCursorUpdate(obj3d) {
+
+        }
+
+        function onCursorClick(val) {
+
+        }
+
+        function closeConfigEdit() {
+            if (configEdit !== null) {
+                poolReturn(configEdit);
+                configEdit.closeEditTool();
+                configEdit = null;
+            }
+        }
+
+        function selectionUpdate(selectionId) {
+
+            closeCursor()
+
+            if (selectionId === "") {
+
+            } else {
+                function createCallback(config) {
+                    closeConfigEdit()
+                    configEdit = poolFetch('DomEditConfig');
+                    let map = {
+                        id:selectionId,
+                        root:statusMap.root,
+                        folder:statusMap.folder,
+                        parent:statusMap.parent,
+                        config:config
+                    }
+                    configEdit.initEditTool(closeConfigEdit, map);
+                }
+
+                createCursor = poolFetch('DomEditCursor')
+                statusMap.createFunction(selectionId, cursorObj3d, createCallback);
+                createCursor.initDomEditCursor(closeCursorCB, cursorObj3d, onCursorUpdate, onCursorClick)
+            }
+
 
         }
 
@@ -48,6 +106,7 @@ class DomEditCreate {
         };
 
         let update = function() {
+            cursorObj3d.position.copy(ThreeAPI.getCameraCursor().getLookAroundPoint());
             if (selectionId !== selectList.value) {
                 applySelection(selectList.value);
             }

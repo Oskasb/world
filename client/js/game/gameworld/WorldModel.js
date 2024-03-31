@@ -1,6 +1,11 @@
 import {Object3D} from "../../../libs/three/core/Object3D.js";
 import {LocationModel} from "./LocationModel.js";
-import {loadSavedConfig, parseConfigDataKey, saveWorldModelEdits} from "../../application/utils/ConfigUtils.js";
+import {
+    detachConfig,
+    loadSavedConfig,
+    parseConfigDataKey,
+    saveWorldModelEdits
+} from "../../application/utils/ConfigUtils.js";
 import {inheritConfigTransform} from "../../application/utils/ModelUtils.js";
 import {Box3} from "../../../libs/three/math/Box3.js";
 import {ENUMS} from "../../application/ENUMS.js";
@@ -24,9 +29,24 @@ let randomPaletteList = [
     'TOWN_YELLOW'
 ]
 
+let templateConfig =                 {
+    "model": false,
+    "pos": [0, 0, 0],
+    "rot": [0, 0, 0],
+    "scale": [1, 1, 1],
+    "on_ground": true,
+    "visibility": 3,
+    "palette": "DEFAULT"
+}
+
 class WorldModel {
 
     constructor(config, id) {
+
+        if (!config) {
+            config = detachConfig(templateConfig);
+        }
+
         if (config.edit_id) {
             id = config.edit_id;
         }
@@ -58,7 +78,7 @@ class WorldModel {
         this.visibility = null;
         this.hidden = false;
 
-        this.configData = null;
+        this.configData = {assets:[]};
 
         let locationModels = function(data) {
             this.configData = data;        //    console.log("Reflow Location Models: ", this.locationModels.length)
@@ -78,7 +98,9 @@ class WorldModel {
             }
         }.bind(this)
 
-        parseConfigDataKey("WORLD_LOCATIONS","LOCATION_MODELS", "model_data", config.model, locationModels)
+        if (config.model) {
+            parseConfigDataKey("WORLD_LOCATIONS","LOCATION_MODELS", "model_data", config.model, locationModels)
+        }
 
         let updateObj3D = function() {
             MATH.rotObj3dToArray(this.obj3d, this.config.rot, 1000);
