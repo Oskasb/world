@@ -10,6 +10,7 @@ let bufferListeners = [];
 let requestedLoads = [];
 let savedImageBuffers = {};
 let configKeyMap = null;
+let activeSaves = [];
 
 function processLoadedBuffer(id) {
     for (let i = 0; i < bufferListeners.length; i++) {
@@ -26,6 +27,10 @@ let index = 0;
 function generateEditId() {
     index++;
     return index+"_"+new Date().getTime();
+}
+
+function generateSaveId() {
+    return client.getStamp() + "_"+new Date().getTime();
 }
 
 function processLoadedFile(id) {
@@ -83,6 +88,8 @@ function requestFileRead(id) {
 
         return;
     }
+
+
 
     if (requestedLoads.indexOf(id) === -1) {
         requestedLoads.push(id);
@@ -210,7 +217,8 @@ function parseConfigDataKey(root, folder, dataId, id, callback) {
 function loadSavedBuffer(id, callback) {
     let add = true;
     for (let i = 0; i < bufferListeners.length; i++) {
-        if (bufferListeners[i].id === id) {
+        if (bufferListeners[i].callback === callback) {
+            bufferListeners[i].id = id;
             add = false;
         }
     }
@@ -257,6 +265,14 @@ function loadSavedConfig(id, callback) {
 function applyRemoteConfigMessage(message) {
     let id = message.id;
     let data = message.data;
+
+    if (message.save) {
+        if (activeSaves.indexOf(message.save) !== -1) {
+            MATH.splice(activeSaves, message.save);
+            return;
+        }
+    }
+
     if (data['DELETED'] === true) {
         console.log("Not loading deleted config", id, message)
         deletedConfigs[id] = data
@@ -287,7 +303,8 @@ function saveConfigEdits(root, folder, id, editedConfig) {
     if (!editedConfig.edit_id) {
         editedConfig.edit_id = generateEditId();
     }
-
+    let saveId = generateSaveId();
+    activeSaves.push(saveId)
     let json = JSON.stringify(editedConfig);
     savedConfigs[id] = JSON.parse(json);
 
@@ -298,9 +315,10 @@ function saveConfigEdits(root, folder, id, editedConfig) {
         folder:folder,
         dir:"edits/configs/",
         format:"json",
+        save:saveId,
         data:json,
     })
-
+    GuiAPI.screenText("SAVE: "+editedConfig.edit_id,  ENUMS.Message.SAVE_STATUS, 1.5)
     return savedConfigs[id].edit_id;
 }
 
@@ -329,6 +347,8 @@ function saveWorldModelEdits(wModel) {
 function saveDataTexture(root, folder, id, buffer) {
     savedImageBuffers[id] = buffer;
 //    console.log("saveDataTexture", root, folder, id)
+    let saveId = generateSaveId();
+    activeSaves.push(saveId)
     evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, {
         request:ENUMS.ClientRequests.WRITE_FILE,
         id:id,
@@ -336,8 +356,11 @@ function saveDataTexture(root, folder, id, buffer) {
         folder:folder,
         dir:"edits/",
         format:"buffer",
+        save:saveId,
         data:JSON.stringify(buffer)
     })
+    GuiAPI.screenText("SAVE: "+id,  ENUMS.Message.SAVE_STATUS, 1.5)
+
 }
 
 let reverseMap = null;

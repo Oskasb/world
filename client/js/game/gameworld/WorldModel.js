@@ -101,12 +101,10 @@ class WorldModel {
             this.obj3d.copy(obj3d);
             updateObj3D()
 
-            if (hold > 0.05) {
+            if (hold > 0.5) {
                 if (this.id !== "preview_model") {
                     let wmodel = this;
                     saveWorldModelEdits(wmodel);
-                    GameAPI.worldModels.removeActiveWorldModel(this.id);
-                    
                 }
                 hold = 0;
             }

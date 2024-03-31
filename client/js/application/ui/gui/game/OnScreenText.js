@@ -39,6 +39,11 @@ class OnScreenText {
             return txtOrigin;
         }
 
+        let getEditStatusOrigin = function() {
+            txtOrigin.set(0.2, 0.2, 0)
+            return txtOrigin;
+        }
+
         let getSayTextPosition = function(progress, offsetVec3) {
             let pos = getTextOrigin();
             //      pos.x += MATH.curveSqrt(progress) *offsetVec3.x - offsetVec3.x*0.5;
@@ -66,6 +71,30 @@ class OnScreenText {
             pos.y += progress*(Math.sin(progress*0.6)) * 0.03;
             return pos;
         }
+
+        let getEditStatusPosition = function(progress, offsetVec3) {
+            let pos = getEditStatusOrigin();
+            //      pos.x += MATH.curveSqrt(progress) *offsetVec3.x - offsetVec3.x*0.5;
+            pos.y += progress*(Math.sin(progress*0.6)) * 0.01;
+            return pos;
+        }
+
+        let getSaveStatusPosition = function(progress, offsetVec3) {
+            let pos = getEditStatusOrigin();
+            //      pos.x += MATH.curveSqrt(progress) *offsetVec3.x - offsetVec3.x*0.5;
+            pos.y -= 0.1;
+            pos.y -= progress*(Math.cos(progress*1.6)) * 0.02;
+            return pos;
+        }
+
+        let getLoadStatusPosition = function(progress, offsetVec3) {
+            let pos = getEditStatusOrigin();
+            pos.y -= 0.13;
+            //      pos.x += MATH.curveSqrt(progress) *offsetVec3.x - offsetVec3.x*0.5;
+            pos.y += progress*(Math.sin(progress*0.6)) * 0.02;
+            return pos;
+        }
+
         let getPingTextPosition = function(progress, offsetVec3) {
             let pos = getPingOrigin();
             //      pos.x += MATH.curveSqrt(progress) *offsetVec3.x - offsetVec3.x*0.5;
@@ -100,7 +129,10 @@ class OnScreenText {
             getDamageTextPosition:getDamageTextPosition,
             getHealTextPosition:getHealTextPosition,
             getPingTextPosition:getPingTextPosition,
-            getServerStatusPosition:getServerStatusPosition
+            getServerStatusPosition:getServerStatusPosition,
+            getEditStatusPosition:getEditStatusPosition,
+            getSaveStatusPosition:getSaveStatusPosition,
+            getLoadStatusPosition:getLoadStatusPosition
         }
 
         let conf = {
@@ -171,6 +203,10 @@ class OnScreenText {
         this.messageMap[ENUMS.Message.SYSTEM]                   = {getPos:this.call.getSystemTextPosition, config:confSystem};
         this.messageMap[ENUMS.Message.PING]                     = {getPos:this.call.getPingTextPosition, config:confSystem};
         this.messageMap[ENUMS.Message.SERVER_STATUS]            = {getPos:this.call.getServerStatusPosition, config:confSystem};
+        this.messageMap[ENUMS.Message.EDIT_STATUS]              = {getPos:this.call.getEditStatusPosition, config:confSystem};
+        this.messageMap[ENUMS.Message.SAVE_STATUS]              = {getPos:this.call.getSaveStatusPosition, config:confSystem};
+        this.messageMap[ENUMS.Message.LOAD_STATUS]              = {getPos:this.call.getLoadStatusPosition, config:confSystem};
+
         this.pieceTexts = [];
 
     }

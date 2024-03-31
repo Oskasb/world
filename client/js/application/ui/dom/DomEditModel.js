@@ -86,7 +86,6 @@ class DomEditModel {
             modelConfig.edit_id = false;
             let newConfig = detachConfig(modelConfig);
             let newWmodel = GameAPI.worldModels.addConfigModel(newConfig, newConfig.edit_id)
-            newWmodel.deleteWorldModel()
             modelConfig.no_lod = true;
             saveWorldModelEdits(newWmodel);
         }

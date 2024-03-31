@@ -441,7 +441,8 @@ function processServerCommand(protocolKey, message) {
 
             break;
         case ENUMS.ServerCommands.LOAD_FILE_DATA:
-            console.log("LOAD_FILE_DATA:", message);
+        //    console.log("LOAD_FILE_DATA:", message);
+            GuiAPI.screenText("LOAD OK",  ENUMS.Message.LOAD_STATUS, 1.5)
             if (message.id === "edit_index") {
                 setEditIndexClient(message.data);
             } else {

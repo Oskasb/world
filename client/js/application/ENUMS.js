@@ -12,7 +12,10 @@ let ENUMS = {}
         HINT:                       8,
         SYSTEM:                     9,
         PING:                       10,
-        SERVER_STATUS:              11
+        SERVER_STATUS:              11,
+        EDIT_STATUS:                12,
+        SAVE_STATUS:                13,
+        LOAD_STATUS:                14
     };
 
     ENUMS.Event = {

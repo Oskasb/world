@@ -8,6 +8,7 @@ import {getPhysicalWorld} from "../../../application/utils/PhysicsUtils.js";
 import {applyGroundCanvasEdit} from "./TerrainFunctions.js";
 import {loadSavedBuffer, saveDataTexture} from "../../../application/utils/ConfigUtils.js";
 import {ENUMS} from "../../../application/ENUMS.js";
+import {TerrainSliceCallback} from "./TerrainSliceCallback.js";
 
 let bigWorld = null;
 let bigOcean = null;
@@ -248,16 +249,18 @@ let detachSection = function(index) {
 
 let uploadSlices = 64;
 
-function sliceLoaded(sliceId, sliceInfo, data) {
+let groundUpdateTimeout;
+
+function sliceLoaded(sliceInfo, data) {
+    let sliceId = sliceInfo.sliceId;
     let wl = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
     if (sliceInfo.wl !== wl) {
         return;
     }
-    console.log("Slice Loaded", sliceInfo, [data]);
+//    console.log("Slice Loaded", sliceInfo, [data]);
     let folder = sliceInfo.folder;
     let pixelsPerSliceX = sliceInfo.w;
     let pixelsPerSliceY = sliceInfo.h;
-
 
     heightUpdateRect.minX = sliceInfo.x;
     heightUpdateRect.minY = sliceInfo.y;
@@ -268,50 +271,74 @@ function sliceLoaded(sliceId, sliceInfo, data) {
         heightmapContext.globalCompositeOperation = 'source-over';
         heightmapContext.putImageData(iData, sliceInfo.x, sliceInfo.y);
         ThreeAPI.canvasTextureSubUpdate(terrainMaterial.heightmap, heightmapContext, heightUpdateRect)
+        clearTimeout(physicsUpdateTimeout);
+        physicsUpdateTimeout = setTimeout(function() {
+            heightmap = heightmapContext.getImageData(0, 0, width, height).data;
+            setupAmmoTerrainBody(heightmap, terrainConfig)
+        }, 400)
     }
     if (folder === 'ground') {
-        console.log("Load ground slice", sliceInfo, [data])
+    //    console.log("Load ground slice", sliceInfo, [data])
         terrainContext.globalCompositeOperation = 'source-over';
         terrainContext.putImageData(iData, sliceInfo.x, sliceInfo.y);
         ThreeAPI.canvasTextureSubUpdate(terrainMaterial.terrainmap, terrainContext, heightUpdateRect)
+        clearTimeout(groundUpdateTimeout)
+
+        groundUpdateTimeout = setTimeout(function() {
+            terrainmap = terrainContext.getImageData(0, 0, terrainWidth, terrainHeight).data;
+            }, 500);
+
     }
 
     MATH.clearUpdateRect(heightUpdateRect);
 }
 
 let listeners = {}
+let slicesX = 8;
+let slicesZ = 8;
 
-function setupBufferListeners(folder, worldLevel, w, h) {
-    if (!listeners[folder]) {
-        listeners[folder] = {};
-    }
-    if (listeners[folder][worldLevel] === true) {
-        return;
-    }
-    listeners[folder][worldLevel] = true
-
+function setupBufferListeners(folder, worldLevel, x, z, w, h) {
     let pixelsPerSliceX = w/uploadSlices;
     let pixelsPerSliceY = h/uploadSlices;
-        for (let i = 0; i < uploadSlices; i++) {
-            for (let j = 0; j < uploadSlices; j++) {
-                let xMin = pixelsPerSliceX*i;
-                let yMin = pixelsPerSliceY*j;
-                let sliceId = folder+"_"+worldLevel+"_"+xMin+"_"+yMin;
-                let callback = function(data) {
-                    let sliceInfo = {
-                        sliceId:sliceId,
-                        folder:folder,
-                        wl:worldLevel,
-                        x:xMin,
-                        y:yMin,
-                        w:pixelsPerSliceX,
-                        h:pixelsPerSliceY
-                    }
-                    sliceLoaded(sliceId, sliceInfo, data)
-                }
-                loadSavedBuffer(sliceId, callback)
+
+    if (!listeners[folder]) {
+        listeners[folder] = [];
+        for (let i = 0; i < slicesX; i++) {
+            listeners[folder].push([])
+            for (let j = 0; j < slicesZ; j++) {
+                let sliceCallback = new TerrainSliceCallback(folder, pixelsPerSliceX, pixelsPerSliceY, sliceLoaded)
+                listeners[folder][i][j] = sliceCallback;
             }
         }
+    }
+
+    let centerSliceX = MATH.clamp(Math.floor((x+w*0.5)/pixelsPerSliceX), slicesX/2, uploadSlices-slicesX/2)
+    let centerSliceY = MATH.clamp(Math.floor((z+h*0.5)/pixelsPerSliceY), slicesZ/2, uploadSlices-slicesZ/2)
+
+    let grid = listeners[folder];
+
+        for (let i = 0; i < grid.length; i++) {
+            for (let j = 0; j < grid[i].length; j++) {
+                let xMin = centerSliceX*pixelsPerSliceX + (pixelsPerSliceX * (i - grid[i].length*0.5));
+                let yMin = centerSliceY*pixelsPerSliceY + (pixelsPerSliceY * (j - grid[j].length*0.5));
+                let sliceId = folder+"_"+worldLevel+"_"+xMin+"_"+yMin;
+
+                let sliceCallback = grid[i][j];
+
+                sliceCallback.call.setSliceParams(worldLevel, xMin, yMin);
+                loadSavedBuffer(sliceCallback.call.getSliceId(), sliceCallback.call.sliceUpdated)
+
+            }
+        }
+}
+
+function updateBufferListeners(worldLevel, x, z) {
+    if (isNaN(x) || isNaN(z)) {
+        return;
+    }
+    setupBufferListeners("height", worldLevel, x, z, width, height);
+    setupBufferListeners("ground", worldLevel, x, z, terrainCanvas.width, terrainCanvas.height);
+
 }
 
 function uploadUpdateRect(folder, updateRect, ctx, maxWidth, maxHeight) {
@@ -324,7 +351,7 @@ function uploadUpdateRect(folder, updateRect, ctx, maxWidth, maxHeight) {
     let totalX = slixeXMax-sliceXmin;
     let totalY = slixeYMax-sliceYmin;
     let worldLevel = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
-//    console.log("uploadUpdateRect", totalX, totalY, pixelsPerSliceX, pixelsPerSliceY, sliceXmin, sliceYmin)
+    console.log("uploadUpdateRect", totalX, totalY, pixelsPerSliceX, pixelsPerSliceY, sliceXmin, sliceYmin)
     for (let i = 0; i < totalX; i++) {
         for (let j = 0; j < totalY; j++) {
             let xMin = sliceXmin*pixelsPerSliceX + pixelsPerSliceX*i;
@@ -341,10 +368,18 @@ function uploadUpdateRect(folder, updateRect, ctx, maxWidth, maxHeight) {
 let physicsUpdateTimeout;
 let visibilityList = [];
 let visibleCount = 0;
+let lastPosX = 0;
+let lastPosZ = 0;
 let updateBigGeo = function(tpf) {
     let camY = ThreeAPI.getCamera().position.y;
     let posX = Math.floor(lodCenter.x)
     let posZ = Math.floor(lodCenter.z)
+
+    if (Math.abs(lastPosX - posX) > 20 || Math.abs(lastPosZ - posZ) > 20) {
+        lastPosX = posX;
+        lastPosZ = posZ;
+        updateBufferListeners(GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL), posX, posZ)
+    }
 //    bigOcean.getSpatial().setPosXYZ(posX, -3.0, posZ);
   //  oceanInstances[0].getSpatial().setPosXYZ(posX, -3.0, posZ);
   //  oceanInstances[1].getSpatial().setPosXYZ(posX, -3.0, posZ);
@@ -410,8 +445,6 @@ let updateBigGeo = function(tpf) {
             terrainMaterial.heightmap.needsUpdate = true;
         }
         heightmap = heightmapContext.getImageData(0, 0, width, height).data;
-
-
         terrainUpdate = false;
         clearTimeout(physicsUpdateTimeout);
         physicsUpdateTimeout = setTimeout(function() {
@@ -436,8 +469,6 @@ let oceanModel = function(model) {
 function registerWorldLevel(worldLevel) {
     if (!worldLevels[worldLevel]) {
 
-        setupBufferListeners("height", worldLevel, width, height);
-        setupBufferListeners("ground", worldLevel, terrainCanvas.width, terrainCanvas.height);
 
         worldLevels[worldLevel] = {
             heightCanvas : document.createElement('canvas'),
@@ -482,9 +513,6 @@ function setHeightDataImage(imgData, worldLevel) {
 function setTerrainDataImage(imgData, worldLevel) {
     fillContextWithImage(terrainContext, imgData)
 }
-
-let groundUpdateTimeout = null;
-
 
 
 class TerrainBigGeometry {
