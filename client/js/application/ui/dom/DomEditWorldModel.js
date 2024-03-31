@@ -2,20 +2,57 @@ import {poolFetch, poolReturn} from "../../utils/PoolUtils.js";
 import {Vector3} from "../../../../libs/three/math/Vector3.js";
 import {Object3D} from "../../../../libs/three/core/Object3D.js";
 import {paletteKeys} from "../../../game/visuals/Colors.js";
-import {saveWorldModelEdits} from "../../utils/ConfigUtils.js";
+import {detachConfig, saveWorldModelEdits} from "../../utils/ConfigUtils.js";
 
 let tempVec = new Vector3();
 let frustumFactor = 0.828;
 
+let editAttach = null;
+
 let operationsList = [
     "",
+    "ATTACH",
     "FLATTEN",
     "ELEVATE",
     "HIDE",
     "DELETE"
 ]
 
+function closeEditAttach() {
+    if (editAttach !== null) {
+        editAttach.closeEditTool();
+        poolReturn(editAttach);
+        editAttach = null;
+    }
+}
+
+let locationModelConfigTemplate = {
+    "asset": "",
+    "pos": [0, 0, 0],
+    "rot": [0, 0, 0],
+    "scale": [0.02, 0.02, 0.02],
+    "solidity": 1.0,
+    "visibility": 3,
+    "boxes": []
+}
+
 function worldModelOperation(wModel, operation) {
+
+    if (operation === "ATTACH") {
+        closeEditAttach()
+        editAttach = poolFetch('DomEditAttach');
+        let config = detachConfig(locationModelConfigTemplate);
+        let map = {
+            id:config.edit_id,
+            root:"create",
+            folder:"model",
+            parent:wModel,
+            config:config
+        }
+
+        editAttach.initEditTool(closeEditAttach, map)
+
+    }
 
     if (operation === "ELEVATE") {
         wModel.obj3d.position.y += 1;
@@ -194,6 +231,7 @@ class DomEditWorldModel {
     }
 
     closeEditTool() {
+        closeEditAttach()
         ThreeAPI.unregisterPrerenderCallback(this.call.update);
         this.htmlElement.closeHtmlElement();
         poolReturn(this.htmlElement);
