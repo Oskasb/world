@@ -108,7 +108,7 @@ class DomEditCursor {
 
             startOffsetTop = rootElem.offsetTop;
             startOffsetLeft = rootElem.offsetLeft;
-            console.log("Drag Cursor", e);
+        //    console.log("Drag Cursor", e);
             rootElem.style.zIndex = 5000;
         }
 
@@ -117,7 +117,7 @@ class DomEditCursor {
             rootElem.style.zIndex = '';
             dragY = 0;
             dragX = 0;
-            console.log("endDrag Cursor", e);
+        //    console.log("endDrag Cursor", e);
             this.initObj3d.copy(targetObj3d);
             initEditStatus(this.initObj3d);
         }.bind(this);
@@ -166,7 +166,7 @@ class DomEditCursor {
             applyEdits()
 
             if (dragActive === true) {
-                console.log("mouse Move", updateObj3d.position);
+           //     console.log("mouse Move", updateObj3d.position);
                 targetObj3d.position.copy(this.initObj3d.position);
                 targetObj3d.position.add(updateObj3d.position);
             }

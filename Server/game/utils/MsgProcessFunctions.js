@@ -227,7 +227,7 @@ function processClientRequest(request, stamp, message, connectedClient) {
             broadcastAll(message)
             break;
         case ENUMS.ClientRequests.READ_FILE:
-            console.log("ENUMS.ClientRequests.READ_FILE", message)
+        //    console.log("ENUMS.ClientRequests.READ_FILE", message)
 
             let res = {
                 stamp:message.stamp,

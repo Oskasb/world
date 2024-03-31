@@ -3,7 +3,7 @@ import {GameServer} from "../game/GameServer.js";
 import {applyMessageToClient, setGameServer} from "../game/utils/GameServerFunctions.js";
 import {trackIncomingBytes, trackOutgoingBytes} from "../game/utils/ServerStatusTracker.js";
 import {ENUMS} from "../../client/js/application/ENUMS.js";
-import {addIndexEntry, setEditIndex} from "../game/utils/EditorFunctions.js";
+import {addIndexEntry, getEditIndex, setEditIndex} from "../game/utils/EditorFunctions.js";
 
 let sockets = [];
 let connectedPlayers = [];
@@ -15,6 +15,7 @@ let sends = 0;
 let server = null;
 let edit_index = null;
 let indexFile = "edits/edit_index.json"
+let editsFolder = "edits";
 function updateEditWriteIndex(message, deleted) {
 	addIndexEntry(message.dir, message.root, message.folder, message.id, message.format, deleted);
 	let writeCB = function(res) {
@@ -27,21 +28,42 @@ function updateEditWriteIndex(message, deleted) {
 	server.writeFile(indexFile, JSON.stringify(edit_index), writeCB)
 }
 
+function traverseAndIndexEdits(dir, folder, root) {
+
+	let path = dir;
+	if (typeof (root) === 'string') {
+		path = dir+'/'+folder;
+	}
+	let content = server.readdirSync(path);
+
+	for (let key in content) {
+		let entry = content[key];
+		const parts = entry.split(".");
+		if (parts.length === 2) {
+			let splits = path.split('/');
+			let loc = splits[1]
+			addIndexEntry(loc, root, folder, parts[0], parts[1], false, true);
+		} else if (parts.length === 1) {
+			traverseAndIndexEdits(path, entry, folder)
+		}
+	}
+}
+
 function loadEditIndex(cb) {
-	let indexCb = function(error, data) {
-		if (error) {
-		} else {
-			edit_index = JSON.parse(data);
+
+	let indexCb = function(data) {
+			edit_index = data;
 			console.log("Edit Index Loaded");
 		//	console.log(edit_index);
 			cb(edit_index);
-		}
 	}
-	server.readFile(indexFile, indexCb)
+	setEditIndex({});
+	traverseAndIndexEdits(editsFolder)
+	indexCb(getEditIndex())
 }
 
 function fileFromMessage(message) {
-	return message.dir+message.root+"/"+message.folder+"/"+message.id+"."+message.format;
+	return "edits/"+message.dir+"/"+message.root+"/"+message.folder+"/"+message.id+"."+message.format;
 }
 
 class ServerConnection {
@@ -52,8 +74,6 @@ class ServerConnection {
 	shutdownSocket = function() {
 		this.wss.close();
 	};
-
-
 
 	writeDataToFile(message) {
 		let data = message.data;
@@ -78,6 +98,16 @@ class ServerConnection {
 			}
 		}
 		console.log("writeDataToFile", message.id, file);
+
+		let path = "edits/"+message.dir+'/'+message.root+'/'+message.folder
+		try {
+			if (!server.existsSync(path)) {
+				server.mkdirSync(path);
+			}
+		} catch (err) {
+			console.error(err);
+		}
+
 		server.writeFile(file, data, writeCB)
 	}
 
@@ -93,7 +123,7 @@ class ServerConnection {
 				callback(value)
 			}
 		}
-		console.log("readDataFromFile", message.id, file);
+	//	console.log("readDataFromFile", message.id, file);
 		server.readFile(file, dataCb)
 	}
 

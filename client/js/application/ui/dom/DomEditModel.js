@@ -110,6 +110,8 @@ class DomEditModel {
             } else {
                 if (previewCursor !== null) {
                     previewCursor.closeDomEditCursor()
+                    poolReturn(previewCursor)
+                    previewCursor = null;
                 }
             }
         }
@@ -139,6 +141,8 @@ class DomEditModel {
         function closeTool() {
             if (previewCursor !== null) {
                 previewCursor.closeDomEditCursor()
+                poolReturn(previewCursor);
+                previewCursor = null;
             }
             if (previewModel !== null) {
                 previewModel.removeLocationModels();

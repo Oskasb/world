@@ -1,9 +1,13 @@
 
 import {WebSocketServer} from "ws";
-import {createServer} from 'node:http'
-import {readFile} from 'node:fs'
-import {writeFile} from 'node:fs'
-import {extname} from 'node:path'
+import {createServer} from 'node:http';
+import {readFile} from 'node:fs';
+import {writeFile} from 'node:fs';
+import {existsSync} from 'node:fs';
+import {mkdirSync} from 'node:fs';
+import {readdirSync} from 'node:fs';
+import {lstatSync} from 'node:fs';
+import {extname} from 'node:path';
 const ws = WebSocketServer.Server;
 
 const port = process.env.PORT || 8080;
@@ -81,6 +85,10 @@ let server = createServer(
 
 server.writeFile = writeFile;
 server.readFile = readFile;
+server.existsSync = existsSync;
+server.mkdirSync = mkdirSync;
+server.readdirSync = readdirSync;
+server.lstatSync = lstatSync;
 
 let wss = new WebSocketServer({server: server});
 

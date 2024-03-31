@@ -4,11 +4,12 @@ import {broadcastAll, getServerStamp} from "./GameServerFunctions.js";
 let serverConnection = null;
 let editIndex = null;
 function setEditIndex(eIndex) {
-    console.log("Set Edit Index", eIndex)
+    console.log("Set Edit Index", Object.keys(eIndex).length)
     editIndex = eIndex;
 }
 
 function getEditIndex() {
+    console.log("getEditIndex", Object.keys(editIndex).length)
     return editIndex;
 }
 
@@ -16,23 +17,27 @@ function setEditorServerConnection(srvrCon) {
     serverConnection = srvrCon;
 }
 
-function addIndexEntry(dir, root, folder, id, format, deleted) {
-    console.log("updateEditWriteIndex", id)
+function addIndexEntry(dir, root, folder, id, format, deleted, init) {
+
     let entry = {dir:dir, root:root, folder:folder, format:format, deleted:deleted, timestamp:new Date().getTime()};
-    if (!editIndex[id]) {
-        let msg = {
-            stamp:getServerStamp(),
-            command:ENUMS.ServerCommands.LOAD_FILE_DATA,
-            request:ENUMS.ClientRequests.READ_FILE,
-            id:id,
-            root:root,
-            folder:folder,
-            data:entry,
-            operation:"add",
-            format:'index_entry'
+    console.log("WriteIndex:", dir, root, folder)
+    if (init !== true) {
+        if (!editIndex[id]) {
+            let msg = {
+                stamp:getServerStamp(),
+                command:ENUMS.ServerCommands.LOAD_FILE_DATA,
+                request:ENUMS.ClientRequests.READ_FILE,
+                id:id,
+                root:root,
+                folder:folder,
+                data:entry,
+                operation:"add",
+                format:'index_entry'
+            }
+            broadcastAll(msg);
         }
-        broadcastAll(msg);
     }
+
     editIndex[id] = entry
 }
 

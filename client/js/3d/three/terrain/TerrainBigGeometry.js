@@ -358,7 +358,7 @@ function uploadUpdateRect(folder, updateRect, ctx, maxWidth, maxHeight) {
             let yMin = sliceYmin*pixelsPerSliceY + pixelsPerSliceY*j;
             let subImage = ctx.getImageData(xMin, yMin, pixelsPerSliceX, pixelsPerSliceY).data;
         //    console.log("uploadUpdateRect", xMin, yMin, subImage)
-            saveDataTexture("images", folder, folder+"_"+worldLevel+"_"+xMin+"_"+yMin, subImage);
+            saveDataTexture("terrain", folder, folder+"_"+worldLevel+"_"+xMin+"_"+yMin, subImage);
         }
     }
 

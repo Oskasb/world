@@ -26,7 +26,7 @@ let index = 0;
 
 function generateEditId() {
     index++;
-    return index+"_"+new Date().getTime();
+    return new Date().getTime()+"_"+index;
 }
 
 function generateSaveId() {
@@ -313,7 +313,7 @@ function saveConfigEdits(root, folder, id, editedConfig) {
         id:editedConfig.edit_id,
         root:root,
         folder:folder,
-        dir:"edits/configs/",
+        dir:"configs",
         format:"json",
         save:saveId,
         data:json,
@@ -354,7 +354,7 @@ function saveDataTexture(root, folder, id, buffer) {
         id:id,
         root:root,
         folder:folder,
-        dir:"edits/",
+        dir:"images",
         format:"buffer",
         save:saveId,
         data:JSON.stringify(buffer)
