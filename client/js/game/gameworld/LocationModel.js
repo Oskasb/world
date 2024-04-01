@@ -287,8 +287,6 @@ class LocationModel {
             box.call.parentUpdated(this.parentObj3d)
         }
 
-
-
     }
 
     clearLocationBoxes() {

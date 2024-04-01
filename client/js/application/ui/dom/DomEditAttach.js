@@ -1,13 +1,25 @@
 import {poolFetch, poolReturn} from "../../utils/PoolUtils.js";
-import {saveEncounterEdits} from "../../utils/ConfigUtils.js";
+import {detachConfig, saveEncounterEdits} from "../../utils/ConfigUtils.js";
 import {getEditIndex} from "../../../../../Server/game/utils/EditorFunctions.js";
 import {Object3D} from "../../../../libs/three/core/Object3D.js";
 import {ENUMS} from "../../ENUMS.js";
 import {WorldModel} from "../../../game/gameworld/WorldModel.js";
 import {ConfigData} from "../../utils/ConfigData.js";
+import {Vector3} from "../../../../libs/three/math/Vector3.js";
 
 let assetConfigs = null;
 let assets = [];
+let tempVec = new Vector3();
+
+let locationModelConfigTemplate = {
+    "asset": "",
+    "pos": [0, 0, 0],
+    "rot": [0, 0, 0],
+    "scale": [0.02, 0.02, 0.02],
+    "solidity": 1.0,
+    "visibility": 3,
+    "boxes": []
+}
 class DomEditAttach {
     constructor() {
 
@@ -37,17 +49,26 @@ class DomEditAttach {
         let cursorObj3d = new Object3D();
 
         let attachCursor = null
+        let modelCursor = null;
         let configEdit = null;
+        let editTarget = null;
         let closeCursorCB = function() {
 
         }
 
         let closeCursor = function() {
+
             if (attachCursor !== null) {
                 attachCursor.closeDomEditCursor();
                 poolReturn(attachCursor);
                 attachCursor = null;
             }
+            if (modelCursor !== null) {
+                modelCursor.closeDomEditCursor();
+                poolReturn(modelCursor);
+                modelCursor = null;
+            }
+
         }
 
         function applyAdd() {
@@ -55,7 +76,24 @@ class DomEditAttach {
         }
 
         function onCursorUpdate(obj3d) {
+            if (attachCursor !== null) {
+                if (modelCursor !== null) {
+                    if (attachCursor.htmlElement !== null) {
+                        attachCursor.closeDomEditCursor();
+                        poolReturn(attachCursor);
+                        attachCursor = null;
+                    }
 
+                }
+            }
+            if (modelCursor !== null) {
+                let origin = statusMap.parent.getPos();
+                tempVec.copy(obj3d.position);
+                tempVec.sub(origin);
+                MATH.vec3ToArray(tempVec, editTarget.config.pos);
+                MATH.rotObj3dToArray(obj3d, editTarget.config.rot);
+                editTarget.hierarchyUpdated();
+            }
         }
 
         function onCursorClick(val) {
@@ -70,8 +108,13 @@ class DomEditAttach {
             }
         }
 
-        function attachFunction(selectionId, cursorObj3d, createCallback) {
+        function attachFunction(selectionId, callback) {
 
+            let config = detachConfig(locationModelConfigTemplate);
+            config.asset = selectionId;
+            statusMap.parent.configData.assets.push(config);
+            statusMap.parent.call.locationModels(statusMap.parent.configData)
+            callback(config);
         }
 
         function selectionUpdate(selectionId) {
@@ -81,8 +124,20 @@ class DomEditAttach {
             if (selectionId === "") {
 
             } else {
-                function createCallback(config) {
+                function attachCallback(config) {
+
+                    let targetId = config.edit_id;
+                    let models =statusMap.parent.locationModels
+                    for (let i = 0; i < models.length; i++) {
+                        if (models[i].config.edit_id === targetId) {
+                            editTarget = models[i];
+                        }
+                    }
+
+                //    closeCursor()
                     closeConfigEdit()
+                    modelCursor = poolFetch('DomEditCursor');
+                    modelCursor.initDomEditCursor(closeCursorCB, cursorObj3d, onCursorUpdate, onCursorClick)
                     configEdit = poolFetch('DomEditConfig');
                     let map = {
                         id:selectionId,
@@ -95,7 +150,7 @@ class DomEditAttach {
                 }
 
                 attachCursor = poolFetch('DomEditCursor')
-                attachFunction(selectionId, cursorObj3d, createCallback);
+                attachFunction(selectionId, attachCallback);
                 attachCursor.initDomEditCursor(closeCursorCB, cursorObj3d, onCursorUpdate, onCursorClick)
             }
 
@@ -135,6 +190,11 @@ class DomEditAttach {
                 ThreeAPI.getCameraCursor().getLookAroundPoint().add(attachCursor.call.getUpdateObj().position)
             }
 
+            if (modelCursor !== null) {
+                modelCursor.call.setPos(cursorObj3d.position);
+                ThreeAPI.getCameraCursor().getLookAroundPoint().add(modelCursor.call.getUpdateObj().position)
+            }
+            
             if (selectionId !== selectList.value) {
                 applySelection(selectList.value);
 
