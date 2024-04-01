@@ -81,7 +81,7 @@ class DomEditCursor {
                 tempObj3d.position.y = targetObj3d.position.y;
                 tempObj3d.lookAt(targetObj3d.position);
 
-                updateObj3d.position.set(dragX * -(0.01 * MATH.curveSqrt(camDist*0.2)), 0, (dragY* -0.01 * (Math.abs(MATH.curveQuad((0.1*camDist*MATH.curveQuad(tempVec.y*2))*0.5))+0.01)));
+                updateObj3d.position.set(dragX * -(0.01 * MATH.curveSqrt(camDist*0.2)), 0, (dragY* -0.01 * (Math.abs(MATH.curveQuad((0.1*camDist/(0.2+MATH.curveSqrt(tempVec.y)))*0.25))+0.01)));
                 updateObj3d.position.applyQuaternion(tempObj3d.quaternion);
 
             }
@@ -197,9 +197,20 @@ class DomEditCursor {
             }
         }.bind(this);
 
+        let setPos = function(pos) {
+            this.initObj3d.position.copy(pos);
+            targetObj3d.position.copy(this.initObj3d.position);
+        }.bind(this);
+
+        function getUpdateObj() {
+            return updateObj3d
+        }
+
         this.call = {
             htmlReady:htmlReady,
             update:update,
+            setPos:setPos,
+            getUpdateObj:getUpdateObj,
             close:close
         }
 

@@ -36,17 +36,17 @@ class DomEditAttach {
         let selectionId = "";
         let cursorObj3d = new Object3D();
 
-        let createCursor = null
+        let attachCursor = null
         let configEdit = null;
         let closeCursorCB = function() {
 
         }
 
         let closeCursor = function() {
-            if (createCursor !== null) {
-                createCursor.closeDomEditCursor();
-                poolReturn(createCursor);
-                createCursor = null;
+            if (attachCursor !== null) {
+                attachCursor.closeDomEditCursor();
+                poolReturn(attachCursor);
+                attachCursor = null;
             }
         }
 
@@ -94,9 +94,9 @@ class DomEditAttach {
                     configEdit.initEditTool(closeConfigEdit, map);
                 }
 
-                createCursor = poolFetch('DomEditCursor')
+                attachCursor = poolFetch('DomEditCursor')
                 attachFunction(selectionId, cursorObj3d, createCallback);
-                createCursor.initDomEditCursor(closeCursorCB, cursorObj3d, onCursorUpdate, onCursorClick)
+                attachCursor.initDomEditCursor(closeCursorCB, cursorObj3d, onCursorUpdate, onCursorClick)
             }
 
 
@@ -129,8 +129,15 @@ class DomEditAttach {
 
         let update = function() {
             cursorObj3d.position.copy(ThreeAPI.getCameraCursor().getLookAroundPoint());
+
+            if (attachCursor !== null) {
+                attachCursor.call.setPos(cursorObj3d.position);
+                ThreeAPI.getCameraCursor().getLookAroundPoint().add(attachCursor.call.getUpdateObj().position)
+            }
+
             if (selectionId !== selectList.value) {
                 applySelection(selectList.value);
+
             }
         };
 

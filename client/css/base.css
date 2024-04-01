@@ -141,9 +141,10 @@ iframe.edit_create {
 }
 
 iframe.edit_attach {
-    left: 20em;
-    top: 250em;
-    height: 350em;
+    left: auto;
+    right:20em;
+    top: 310em;
+    height: 150em;
 }
 
 iframe.edit_config {
