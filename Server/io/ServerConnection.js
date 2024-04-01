@@ -121,7 +121,20 @@ class ServerConnection {
 	//	console.log("Read File: ", message)
 		let dataCb = function(error, data) {
 			if (error) {
-				console.log("Data Read Error: ", message.id, file, error);
+
+				let splits =file.split('/');
+				if (splits[0] === 'app') {
+					file = '/';
+					for (let i = 1; i < splits.length; i++) {
+						console.log("Retry readFile without _ app _");
+						file += splits[i]
+						server.readFile(file, dataCb)
+					}
+				} else {
+					console.log("Data Read Error: ", message.id, file, error);
+				}
+
+
 			} else {
 				let value = JSON.parse(data);
 	//			console.log("File Loaded", message.id, file);
