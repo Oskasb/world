@@ -20,7 +20,7 @@ function setEditorServerConnection(srvrCon) {
 function addIndexEntry(dir, root, folder, id, format, deleted, init) {
 
     let entry = {dir:dir, root:root, folder:folder, format:format, deleted:deleted, timestamp:new Date().getTime()};
-    console.log("WriteIndex:", dir, root, folder)
+ //   console.log("WriteIndex:", dir, root, folder)
     if (init !== true) {
         if (!editIndex[id]) {
             let msg = {
@@ -28,6 +28,7 @@ function addIndexEntry(dir, root, folder, id, format, deleted, init) {
                 command:ENUMS.ServerCommands.LOAD_FILE_DATA,
                 request:ENUMS.ClientRequests.READ_FILE,
                 id:id,
+                dir:dir,
                 root:root,
                 folder:folder,
                 data:entry,

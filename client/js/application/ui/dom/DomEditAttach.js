@@ -29,7 +29,12 @@ class DomEditAttach {
                 for (let key in configs) {
                     let id = configs[key].id
                     if (assets.indexOf(id) === -1) {
-                        assets.push(id)
+                        let cfg = configs[key].config;
+                        let matId = cfg.material;
+                        if (matId === "mat_instancing_basic") {
+                            assets.push(id)
+                        }
+
                     } else {
                         console.log("entry already added, not right", id);
                     }
@@ -202,7 +207,7 @@ class DomEditAttach {
         };
 
         let close = function() {
-
+            closeCursor()
         }
 
         this.call = {

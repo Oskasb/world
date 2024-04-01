@@ -5,6 +5,7 @@ import {trackIncomingBytes, trackOutgoingBytes} from "../game/utils/ServerStatus
 import {ENUMS} from "../../client/js/application/ENUMS.js";
 import {addIndexEntry, getEditIndex, setEditIndex} from "../game/utils/EditorFunctions.js";
 
+let rootPath;
 let sockets = [];
 let connectedPlayers = [];
 let gameServer = new GameServer(connectedPlayers)
@@ -14,7 +15,6 @@ setGameServer(gameServer)
 let sends = 0;
 let server = null;
 let edit_index = null;
-let indexFile = "edits/edit_index.json"
 let editsFolder = "edits";
 function updateEditWriteIndex(message, deleted) {
 	addIndexEntry(message.dir, message.root, message.folder, message.id, message.format, deleted);
@@ -29,7 +29,7 @@ function updateEditWriteIndex(message, deleted) {
 }
 
 function traverseAndIndexEdits(dir, folder, root) {
-
+//	console.log(dir, folder, root)
 	let path = dir;
 	if (typeof (root) === 'string') {
 		path = dir+'/'+folder;
@@ -39,9 +39,11 @@ function traverseAndIndexEdits(dir, folder, root) {
 	for (let key in content) {
 		let entry = content[key];
 		const parts = entry.split(".");
+	//	console.log(parts);
 		if (parts.length === 2) {
 			let splits = path.split('/');
 			let loc = splits[1]
+	//		console.log(splits);
 			addIndexEntry(loc, root, folder, parts[0], parts[1], false, true);
 		} else if (parts.length === 1) {
 			traverseAndIndexEdits(path, entry, folder)
@@ -50,7 +52,8 @@ function traverseAndIndexEdits(dir, folder, root) {
 }
 
 function loadEditIndex(cb) {
-
+	rootPath = server.resolvePath('./')
+	console.log("Root Path ", rootPath+"/"+editsFolder)
 	let indexCb = function(data) {
 			edit_index = data;
 			console.log("Edit Index Loaded");
@@ -63,7 +66,7 @@ function loadEditIndex(cb) {
 }
 
 function fileFromMessage(message) {
-	return "edits/"+message.dir+"/"+message.root+"/"+message.folder+"/"+message.id+"."+message.format;
+	return rootPath+"/"+editsFolder+'/'+message.dir+"/"+message.root+"/"+message.folder+"/"+message.id+"."+message.format;
 }
 
 class ServerConnection {
@@ -86,6 +89,7 @@ class ServerConnection {
 			deleted = true;
 		}
 		let file = fileFromMessage(message)
+		console.log("PATH FILE: ",message.dir,  file);
 		addIndexEntry(message.dir, message.root, message.folder, message.id, message.format, deleted);
 
 		let writeCB = function(res) {
@@ -100,6 +104,7 @@ class ServerConnection {
 		console.log("writeDataToFile", message.id, file);
 
 		let path = "edits/"+message.dir+'/'+message.root+'/'+message.folder
+	//	console.log("PATH A: ", path);
 		try {
 			if (!server.existsSync(path)) {
 				server.mkdirSync(path);
@@ -113,12 +118,13 @@ class ServerConnection {
 
 	readDataFromFile(message, callback) {
 		let file = fileFromMessage(message)
+	//	console.log("Read File: ", message)
 		let dataCb = function(error, data) {
 			if (error) {
 				console.log("Data Read Error: ", message.id, file, error);
 			} else {
 				let value = JSON.parse(data);
-				console.log("File Loaded", message.id, file);
+	//			console.log("File Loaded", message.id, file);
 			//	console.log(value);
 				callback(value)
 			}
