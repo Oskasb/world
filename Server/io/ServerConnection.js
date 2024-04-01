@@ -124,10 +124,10 @@ class ServerConnection {
 
 				let splits =file.split('/');
 				if (splits[0] === 'app') {
-					file = '/';
+					file = "";
 					for (let i = 1; i < splits.length; i++) {
 						console.log("Retry readFile without _ app _");
-						file += splits[i]
+						file += "/"+splits[i]
 						server.readFile(file, dataCb)
 					}
 				} else {
@@ -137,7 +137,7 @@ class ServerConnection {
 
 			} else {
 				let value = JSON.parse(data);
-	//			console.log("File Loaded", message.id, file);
+				console.log("File Loaded", message.id, file);
 			//	console.log(value);
 				callback(value)
 			}
