@@ -38,21 +38,7 @@ let locationModelConfigTemplate = {
 
 function worldModelOperation(wModel, operation) {
 
-    if (operation === "ATTACH") {
-        closeEditAttach()
-        editAttach = poolFetch('DomEditAttach');
-        let config = detachConfig(locationModelConfigTemplate);
-        let map = {
-            id:config.edit_id,
-            root:"create",
-            folder:"model",
-            parent:wModel,
-            config:config
-        }
 
-        editAttach.initEditTool(closeEditAttach, map)
-
-    }
 
     if (operation === "ELEVATE") {
         wModel.obj3d.position.y += 1;
@@ -129,6 +115,22 @@ class DomEditWorldModel {
                 applyOperationDiv.style.opacity = "1";
             }
             applyOperationDiv.innerHTML = selectedOperation;
+
+            if (selectedOperation === "ATTACH") {
+                closeEditAttach()
+                editAttach = poolFetch('DomEditAttach');
+                let config = detachConfig(locationModelConfigTemplate);
+                let map = {
+                    id:config.edit_id,
+                    root:"create",
+                    folder:"model",
+                    parent:worldModel,
+                    config:config
+                }
+                editAttach.initEditTool(closeEditAttach, map)
+                close();
+            }
+
         }
 
 

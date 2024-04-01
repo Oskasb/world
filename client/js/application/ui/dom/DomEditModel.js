@@ -300,6 +300,7 @@ class DomEditModel {
 
                     let onClick = function(crsr) {
                         console.log("Clicked Cursor", crsr)
+                        closeEditCursor(crsr.htmlElement);
                         idLabelDiv.innerHTML = model.id;
                         if (activeTool === null) {
                             activeTool = poolFetch('DomEditWorldModel')

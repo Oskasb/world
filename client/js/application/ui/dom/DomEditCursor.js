@@ -58,7 +58,11 @@ class DomEditCursor {
 
         let mouseMove = function(e) {
             if (dragActive === true) {
-
+                tempObj3d.position.copy(ThreeAPI.getCamera().position);
+                let camDist = MATH.distanceBetween(tempObj3d.position, targetObj3d.position)
+                tempObj3d.lookAt(targetObj3d.position);
+                tempVec.set(0, 0, 1);
+                tempVec.applyQuaternion(tempObj3d.quaternion);
                 dragDistanceY = rootElem.offsetTop-startOffsetTop;
                 dragDistanceX = rootElem.offsetLeft-startOffsetLeft
 
@@ -73,10 +77,11 @@ class DomEditCursor {
 
                 dragY = moveY -startDragY + dragDistanceY;
                 dragX = moveX -startDragX + dragDistanceX;
-                tempObj3d.position.copy(ThreeAPI.getCamera().position);
+
                 tempObj3d.position.y = targetObj3d.position.y;
                 tempObj3d.lookAt(targetObj3d.position);
-                updateObj3d.position.set(dragX * -0.1, 0, dragY* -0.1);
+
+                updateObj3d.position.set(dragX * -(0.01 * MATH.curveSqrt(camDist*0.2)), 0, (dragY* -0.01 * (Math.abs(MATH.curveQuad((0.1*camDist*MATH.curveQuad(tempVec.y*2))*0.5))+0.01)));
                 updateObj3d.position.applyQuaternion(tempObj3d.quaternion);
 
             }

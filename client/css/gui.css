@@ -692,10 +692,11 @@ div.terrain_slider p {
 }
 
 .terrain_slider h2 {
+    font-family:'Berlin Sans Demi';
     pointer-events: none;
     font-size: 1.2em;
-    color: rgba(0, 0, 0, 0.7);
-    text-shadow: 0 0 0.1em rgb(185, 241, 255);
+    color: rgba(172, 255, 255, 1);
+    text-shadow: 0.1em 0.1em 0.3em rgb(0, 0, 0);
 }
 
 div.alignment {
