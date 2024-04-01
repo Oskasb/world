@@ -194,7 +194,7 @@ class DomEditAttach {
                 modelCursor.call.setPos(cursorObj3d.position);
                 ThreeAPI.getCameraCursor().getLookAroundPoint().add(modelCursor.call.getUpdateObj().position)
             }
-            
+
             if (selectionId !== selectList.value) {
                 applySelection(selectList.value);
 

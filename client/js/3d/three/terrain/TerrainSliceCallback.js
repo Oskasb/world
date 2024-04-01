@@ -8,17 +8,20 @@ class TerrainSliceCallback {
             x:null,
             y:null,
             w:w,
-            h:h
+            h:h,
+            pxScale:null
         }
 
         let sliceUpdated = function(data) {
+            console.log("Slice Updates", info);
             sliceLoaded(info, data)
         }
 
-        function setSliceParams(worldLevel, x, y) {
+        function setSliceParams(worldLevel, x, y, pxScale) {
             info.x=x;
             info.y=y;
             info.wl=worldLevel;
+            info.pxScale = pxScale;
             info.sliceId = folder+"_"+worldLevel+"_"+x+"_"+y;
         }
 
