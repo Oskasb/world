@@ -113,11 +113,17 @@ class WorldModel {
         let applyEditCursorUpdate = function(obj3d) {
             hold += GameAPI.getFrame().tpf;
             this.calcBounds(true);
+
+            //    if (Math.abs(obj3d.position.y - this.getPos().y) > 0.001) {
+            this.config.on_ground = false;
+            //    }
+
             if (MATH.distanceBetween(obj3d.position, this.obj3d.position) < 0.1) {
+
                 if (MATH.distanceBetween(obj3d.quaternion, this.obj3d.quaternion) < 0.01) {
-                    return;
-                } else {
-                    console.log(this.id, obj3d.quaternion, this.obj3d.quaternion)
+                    if (MATH.distanceBetween(obj3d.scale, this.obj3d.scale) < 0.0001) {
+                        return;
+                    }
                 }
             }
             MATH.decimalifyVec3(obj3d.position, 100);

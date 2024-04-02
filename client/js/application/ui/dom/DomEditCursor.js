@@ -15,14 +15,18 @@ function applyStatusUpdate(statusMap, updateObj3d) {
     updateObj3d.rotation.x = statusMap.rotX // - model.obj3d.rotation.x)
     updateObj3d.rotation.y = statusMap.rotY
     updateObj3d.rotation.z = statusMap.rotZ
+
     statusMap.applyScale = statusMap.offsetScale + statusMap.scale*0.1;
-    statusMap.applyElevate = statusMap.offsetElevate + statusMap.elevate;
+    if (statusMap.elevate === 0) {
+        statusMap.offsetElevate = 0;
+    }
+    statusMap.applyElevate += statusMap.offsetElevate + statusMap.elevate;
 
 }
 
 class DomEditCursor {
     constructor() {
-        index++;
+        index++
         this.id = "edit_cursor_"+index;
 
         this.initObj3d = new Object3D();
@@ -152,8 +156,9 @@ class DomEditCursor {
             rotYSlider.value = "0";
             scaleSlider.value = "0";
             elevateSlider.value = "0";
-            this.statusMap.applyElevate = this.statusMap.offsetElevate;
-            this.statusMap.applyScale = this.statusMap.offsetScale;
+            this.statusMap.offsetElevate = 0;
+            this.statusMap.applyScale = 1;
+            this.statusMap.offsetScale = 1;
         }.bind(this);
 
         let htmlReady = function(htmlEl) {
@@ -191,12 +196,13 @@ class DomEditCursor {
             rootElem.style.transition = 'none';
             rootElem.style.transform = "translate3d(-50%, -50%, 0)";
             applyEdits()
-            
-            if (dragActive === true) {
+
+         //   if (dragActive === true) {
            //     console.log("mouse Move", updateObj3d.position);
                 targetObj3d.position.copy(this.initObj3d.position);
                 targetObj3d.position.add(updateObj3d.position);
-            }
+         //   }
+
 
             targetObj3d.position.y = Math.max(ThreeAPI.terrainAt(targetObj3d.position), 0) + this.statusMap.applyElevate;
             targetObj3d.quaternion.copy(this.initObj3d.quaternion);
@@ -243,9 +249,9 @@ class DomEditCursor {
         this.statusMap.scale =0;
         this.statusMap.elevate =0;
         this.statusMap.offsetScale =1;
-        this.statusMap.offsetElevate =0;
+        this.statusMap.offsetElevate = 0;
         this.statusMap.applyScale =1;
-        this.statusMap.applyElevate =0;
+        this.statusMap.applyElevate = 0;
         this.closeCb = closeCb;
         this.onClickCallbacks.push(onClick);
         this.onUpdateCallbacks.push(onUpdate);
