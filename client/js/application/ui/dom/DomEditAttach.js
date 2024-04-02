@@ -6,10 +6,13 @@ import {ENUMS} from "../../ENUMS.js";
 import {WorldModel} from "../../../game/gameworld/WorldModel.js";
 import {ConfigData} from "../../utils/ConfigData.js";
 import {Vector3} from "../../../../libs/three/math/Vector3.js";
+import {Quaternion} from "../../../../libs/three/math/Quaternion.js";
 
 let assetConfigs = null;
 let assets = [];
 let tempVec = new Vector3();
+let tempObj = new Object3D();
+let tempQuat = new Quaternion();
 
 let locationModelConfigTemplate = {
     "asset": "",
@@ -92,11 +95,17 @@ class DomEditAttach {
             }
             if (modelCursor !== null) {
                 let origin = statusMap.parent.getPos();
-                tempVec.copy(obj3d.position);
-                tempVec.sub(origin);
-                tempVec.applyQuaternion(statusMap.parent.obj3d.quaternion);
+                tempObj.position.copy(origin);
+                tempObj.lookAt(obj3d.position);
+                let distance = MATH.distanceBetween(origin, obj3d.position);
+                tempVec.set(0, 0, distance);
+                tempQuat.copy(statusMap.parent.obj3d.quaternion);
+                tempQuat.normalize()
+                tempQuat.invert();
+                tempObj.quaternion.premultiply(tempQuat);
+                tempVec.applyQuaternion(tempObj.quaternion)
                 MATH.vec3ToArray(tempVec, editTarget.config.pos, 100);
-                MATH.rotObj3dToArray(obj3d, editTarget.config.rot, 10);
+                MATH.rotObj3dToArray(obj3d, editTarget.config.rot, 100);
                 editTarget.hierarchyUpdated();
             }
         }
@@ -142,7 +151,17 @@ class DomEditAttach {
                 //    closeCursor()
                     closeConfigEdit()
                     modelCursor = poolFetch('DomEditCursor');
-                    modelCursor.initDomEditCursor(closeCursorCB, cursorObj3d, onCursorUpdate, onCursorClick)
+
+                    function closeModelCursor() {
+                        if (modelCursor !== null) {
+                            modelCursor.closeDomEditCursor();
+                            poolReturn(modelCursor);
+                            modelCursor = null;
+                        }
+                        closeConfigEdit();
+                    }
+
+                    modelCursor.initDomEditCursor(closeModelCursor, cursorObj3d, onCursorUpdate, onCursorClick)
                     configEdit = poolFetch('DomEditConfig');
                     let map = {
                         id:selectionId,
@@ -156,7 +175,16 @@ class DomEditAttach {
 
                 attachCursor = poolFetch('DomEditCursor')
                 attachFunction(selectionId, attachCallback);
-                attachCursor.initDomEditCursor(closeCursorCB, cursorObj3d, onCursorUpdate, onCursorClick)
+
+                function closeAttachCursor() {
+                    if (attachCursor !== null) {
+                        attachCursor.closeDomEditCursor();
+                        poolReturn(attachCursor);
+                        attachCursor = null;
+                    }
+                }
+
+                attachCursor.initDomEditCursor(closeAttachCursor, cursorObj3d, onCursorUpdate, onCursorClick)
             }
 
 
@@ -207,7 +235,8 @@ class DomEditAttach {
         };
 
         let close = function() {
-            closeCursor()
+            closeCursor();
+            closeConfigEdit();
         }
 
         this.call = {
@@ -223,7 +252,6 @@ class DomEditAttach {
     }
 
     closeEditTool() {
-        this.encounter = null;
         this.call.close();
         ThreeAPI.unregisterPrerenderCallback(this.call.update);
         this.htmlElement.closeHtmlElement();

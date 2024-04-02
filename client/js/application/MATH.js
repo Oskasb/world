@@ -699,12 +699,12 @@ MATH.vec3FromArray = function(vec3, array) {
 }
 
 MATH.quatFromRotArray = function(rot) {
-	tempObj.quaternion.set(0, 0, 0, 1);
 	this.rotXYZFromArray(tempObj, rot);
 	return tempObj.quaternion;
 }
 
 MATH.rotXYZFromArray = function(obj3d, rot) {
+	obj3d.quaternion.set(0, 0, 0, 1);
 	obj3d.rotateX(rot[0]);
 	obj3d.rotateY(rot[1]);
 	obj3d.rotateZ(rot[2]);
