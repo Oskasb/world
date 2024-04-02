@@ -237,6 +237,7 @@ function processClientRequest(request, stamp, message, connectedClient) {
                 dir:message.dir,
                 root:message.root,
                 folder:message.folder,
+                path:message.path,
                 format:message.format
             }
 

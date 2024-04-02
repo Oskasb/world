@@ -28,27 +28,54 @@ function updateEditWriteIndex(message, deleted) {
 //	server.writeFile(indexFile, JSON.stringify(edit_index), writeCB)
 }
 
-function traverseAndIndexEdits(dir, folder, root) {
-//	console.log(dir, folder, root)
-	let path = dir;
-	if (typeof (root) === 'string') {
-		path = dir+'/'+folder;
-	}
-	let content = server.readdirSync(path);
+let folder;
+let root;
+function getAllEditFiles(dir, done) {
+	let results = [];
+	server.readdir(dir, function(err, list) {
+		if (err) return done(err);
+		let pending = list.length;
+		if (!pending) return done(null, results);
+		list.forEach(function(file) {
+			file = server.resolvePath(dir, file);
+			server.lstat(file, function(err, stat) {
+				if (stat && stat.isDirectory()) {
+					root = folder;
+					folder = stat;
+					getAllEditFiles(file, function(err, res) {
+						results = results.concat(res);
+						if (!--pending) done(null, results);
+					});
+				} else {
+					let splits = file.split('\\')
+					let entry = splits.pop().split('.');
+					let startIndex = splits.indexOf('edits');
+					let iPath = ""
+					for (let i = startIndex+1; i < splits.length-2; i++) {
+						iPath += splits[i]+"/";
+					}
+					entry.push(iPath);
+					entry.push(splits[splits.length-2]);
+					entry.push(splits[splits.length-1]);
+					results.push(entry);
+					if (!--pending) done(null, results);
+				}
+			});
+		});
+	});
+}
 
-	for (let key in content) {
-		let entry = content[key];
-		const parts = entry.split(".");
-	//	console.log(parts);
-		if (parts.length === 2) {
-			let splits = path.split('/');
-			let loc = splits[1]
-	//		console.log(splits);
-			addIndexEntry(loc, root, folder, parts[0], parts[1], false, true);
-		} else if (parts.length === 1) {
-			traverseAndIndexEdits(path, entry, folder)
+function traverseAndIndexEdits(dir, folder, root) {
+
+	function traverseCB(err, results) {
+
+		for (let i = 0; i < results.length; i++) {
+			let res = results[i];
+			addIndexEntry(res[2], res[3], res[4], res[0], res[1], false, true);
 		}
 	}
+
+	getAllEditFiles(dir, traverseCB);
 }
 
 function loadEditIndex(cb) {
@@ -61,12 +88,12 @@ function loadEditIndex(cb) {
 			cb(edit_index);
 	}
 	setEditIndex({});
-	traverseAndIndexEdits(editsFolder)
+	traverseAndIndexEdits(rootPath+"/"+editsFolder)
 	indexCb(getEditIndex())
 }
 
 function fileFromMessage(message) {
-	return rootPath+"/"+editsFolder+'/'+message.dir+"/"+message.root+"/"+message.folder+"/"+message.id+"."+message.format;
+	return rootPath+"/"+editsFolder+"/"+message.path+"/"+message.root+"/"+message.folder+"/"+message.id+"."+message.format;
 }
 
 class ServerConnection {
@@ -89,8 +116,8 @@ class ServerConnection {
 			deleted = true;
 		}
 		let file = fileFromMessage(message)
-		console.log("PATH FILE: ",message.dir,  file);
-		addIndexEntry(message.dir, message.root, message.folder, message.id, message.format, deleted);
+		console.log("PATH FILE: ", message.path,  file);
+		addIndexEntry(message.path, message.root, message.folder, message.id, message.format, deleted);
 
 		let writeCB = function(res) {
 			if (res !== null) {
@@ -103,8 +130,7 @@ class ServerConnection {
 		}
 		console.log("writeDataToFile", message.id, file);
 
-		let path = "edits/"+message.dir+'/'+message.root+'/'+message.folder
-	//	console.log("PATH A: ", path);
+		let path = rootPath+editsFolder;
 		try {
 			if (!server.existsSync(path)) {
 				server.mkdirSync(path);
@@ -118,23 +144,10 @@ class ServerConnection {
 
 	readDataFromFile(message, callback) {
 		let file = fileFromMessage(message)
-	//	console.log("Read File: ", message)
+		console.log("Read File: ",file, message)
 		let dataCb = function(error, data) {
 			if (error) {
-
-				let splits =file.split('/');
-				if (splits[0] === 'app') {
-					file = "";
-					for (let i = 1; i < splits.length; i++) {
-						console.log("Retry readFile without _ app _");
-						file += "/"+splits[i]
-						server.readFile(file, dataCb)
-					}
-				} else {
-					console.log("Data Read Error: ", message.id, file, error);
-				}
-
-
+				console.log("Data Read Error: ", message.id, file, error);
 			} else {
 				let value = JSON.parse(data);
 				console.log("File Loaded", message.id, file);
@@ -149,6 +162,7 @@ class ServerConnection {
 	setupSocket = function(wss, srvr) {
 		this.wss = wss;
 		server = srvr;
+
 
 		loadEditIndex(setEditIndex);
 

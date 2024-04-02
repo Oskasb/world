@@ -99,6 +99,7 @@ function requestFileRead(id) {
             root:editIndex[id].root,
             folder:editIndex[id].folder,
             dir:editIndex[id].dir,
+            path:editIndex[id].path,
             format:editIndex[id].format
         })
     }
@@ -159,20 +160,7 @@ function setEditIndexClient(eIndex) {
     editIndex = eIndex;
     for (let key in eIndex) {
         processIndexEntry(key, eIndex[key]);
-        /*
-        if (eIndex[key].format === 'json') {
-            for (let i = 0; i < requestListeners.length; i++) {
-                if (requestListeners[i].id === key) {
-                    let entry = requestListeners[i];
-                    loadSavedConfig(key, entry.callback)
-                }
-            }
-        }
-        if (eIndex[key].format === 'buffer') {
-            requestFileRead(key)
-        }
 
-         */
     }
     streamLoadEditsFromIndexInit()
 }
@@ -315,6 +303,7 @@ function saveConfigEdits(root, folder, id, editedConfig) {
         folder:folder,
         dir:"configs",
         format:"json",
+        path: "configs/",
         save:saveId,
         data:json,
     })
@@ -356,6 +345,7 @@ function saveDataTexture(root, folder, id, buffer) {
         folder:folder,
         dir:"images",
         format:"buffer",
+        path: "images/",
         save:saveId,
         data:JSON.stringify(buffer)
     })

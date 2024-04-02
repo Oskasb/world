@@ -4,7 +4,7 @@ import {broadcastAll, getServerStamp} from "./GameServerFunctions.js";
 let serverConnection = null;
 let editIndex = null;
 function setEditIndex(eIndex) {
-    console.log("Set Edit Index", Object.keys(eIndex).length)
+    console.log("Set Edit Index", Object.keys(eIndex).length, eIndex)
     editIndex = eIndex;
 }
 
@@ -17,9 +17,9 @@ function setEditorServerConnection(srvrCon) {
     serverConnection = srvrCon;
 }
 
-function addIndexEntry(dir, root, folder, id, format, deleted, init) {
-
-    let entry = {dir:dir, root:root, folder:folder, format:format, deleted:deleted, timestamp:new Date().getTime()};
+function addIndexEntry(path, root, folder, id, format, deleted, init) {
+    console.log("addIndexEntry :", path, root, folder, id, format, deleted, init)
+    let entry = {path:path, root:root, folder:folder, format:format, deleted:deleted, timestamp:new Date().getTime()};
  //   console.log("WriteIndex:", dir, root, folder)
     if (init !== true) {
         if (!editIndex[id]) {
@@ -28,7 +28,7 @@ function addIndexEntry(dir, root, folder, id, format, deleted, init) {
                 command:ENUMS.ServerCommands.LOAD_FILE_DATA,
                 request:ENUMS.ClientRequests.READ_FILE,
                 id:id,
-                dir:dir,
+                path:path,
                 root:root,
                 folder:folder,
                 data:entry,
@@ -55,7 +55,7 @@ function saveFileFromSocketMessage(message) {
 
 function readFileFromSocketMessage(message, callback) {
     if (message.format === "json" || message.format === "buffer") {
-    //    console.log("readFileFromSocketMessage JSON", message.id);
+        console.log("readFileFromSocketMessage JSON", message);
         if (!editIndex[message.id]) {
             console.log("Any reads should be in the index...", message.id)
             console.log(editIndex);

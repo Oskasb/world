@@ -205,7 +205,9 @@ class WorldModel {
     generateModelId() {
         let worldLevel = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
         MATH.decimalifyVec3(this.obj3d.position, 100);
-        return "wmdl_"+worldLevel+"_"+this.obj3d.position.x+"_"+this.obj3d.position.y+"_"+this.obj3d.position.z;
+        ThreeAPI.tempVec3.copy(this.obj3d.position);
+        MATH.decimalifyVec3(ThreeAPI.tempVec3, 1); // File Server uses split('.') for file indexing
+        return "wmdl_"+index+"_"+worldLevel+"_"+ThreeAPI.tempVec3.x+"_"+ThreeAPI.tempVec3.y+"_"+ThreeAPI.tempVec3.z;
     }
 
     getPos() {

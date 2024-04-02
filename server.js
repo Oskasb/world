@@ -7,6 +7,8 @@ import {existsSync} from 'node:fs';
 import {mkdirSync} from 'node:fs';
 import {readdirSync} from 'node:fs';
 import {lstatSync} from 'node:fs';
+import {readdir} from 'node:fs';
+import {lstat} from 'node:fs';
 import {extname} from 'node:path';
 import {resolve} from 'node:path';
 const ws = WebSocketServer.Server;
@@ -91,6 +93,8 @@ server.mkdirSync = mkdirSync;
 server.readdirSync = readdirSync;
 server.lstatSync = lstatSync;
 server.resolvePath = resolve;
+server.lstat = lstat;
+server.readdir = readdir;
 
 let wss = new WebSocketServer({server: server});
 
