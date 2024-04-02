@@ -96,7 +96,7 @@ function loadEditIndex(cb) {
 }
 
 function fileFromMessage(message) {
-	return rootPath+"/"+editsFolder+"/"+message.path+"/"+message.root+"/"+message.folder+"/"+message.id+"."+message.format;
+	return rootPath+"/"+editsFolder+"/"+message.path+message.root+"/"+message.folder+"/"+message.id+"."+message.format;
 }
 
 class ServerConnection {
@@ -133,7 +133,7 @@ class ServerConnection {
 		}
 		console.log("writeDataToFile", message.id, file);
 
-		let path = rootPath+"/"+editsFolder+"/"+message.path+"/"+message.root+"/"+message.folder;
+		let path = rootPath+"/"+editsFolder+"/"+message.path+message.root+"/"+message.folder;
 		try {
 			if (!server.existsSync(path)) {
 				server.mkdirSync(path);
