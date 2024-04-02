@@ -234,7 +234,6 @@ function processClientRequest(request, stamp, message, connectedClient) {
                 command:ENUMS.ServerCommands.LOAD_FILE_DATA,
                 request:ENUMS.ClientRequests.READ_FILE,
                 id:message.id,
-                dir:message.dir,
                 root:message.root,
                 folder:message.folder,
                 path:message.path,

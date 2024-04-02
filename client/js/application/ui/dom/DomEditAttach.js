@@ -34,7 +34,6 @@ class DomEditAttach {
                         if (matId === "mat_instancing_basic") {
                             assets.push(id)
                         }
-
                     } else {
                         console.log("entry already added, not right", id);
                     }
@@ -95,8 +94,9 @@ class DomEditAttach {
                 let origin = statusMap.parent.getPos();
                 tempVec.copy(obj3d.position);
                 tempVec.sub(origin);
-                MATH.vec3ToArray(tempVec, editTarget.config.pos);
-                MATH.rotObj3dToArray(obj3d, editTarget.config.rot);
+                tempVec.applyQuaternion(statusMap.parent.obj3d.quaternion);
+                MATH.vec3ToArray(tempVec, editTarget.config.pos, 100);
+                MATH.rotObj3dToArray(obj3d, editTarget.config.rot, 10);
                 editTarget.hierarchyUpdated();
             }
         }

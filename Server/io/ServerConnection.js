@@ -17,7 +17,7 @@ let server = null;
 let edit_index = null;
 let editsFolder = "edits";
 function updateEditWriteIndex(message, deleted) {
-	addIndexEntry(message.dir, message.root, message.folder, message.id, message.format, deleted);
+	addIndexEntry(message.path, message.root, message.folder, message.id, message.format, deleted);
 	let writeCB = function(res) {
 		if (res !== null) {
 			console.log("index error:", res);

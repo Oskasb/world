@@ -98,7 +98,6 @@ function requestFileRead(id) {
             id:id,
             root:editIndex[id].root,
             folder:editIndex[id].folder,
-            dir:editIndex[id].dir,
             path:editIndex[id].path,
             format:editIndex[id].format
         })
@@ -301,7 +300,6 @@ function saveConfigEdits(root, folder, id, editedConfig) {
         id:editedConfig.edit_id,
         root:root,
         folder:folder,
-        dir:"configs",
         format:"json",
         path: "configs/",
         save:saveId,
@@ -343,7 +341,6 @@ function saveDataTexture(root, folder, id, buffer) {
         id:id,
         root:root,
         folder:folder,
-        dir:"images",
         format:"buffer",
         path: "images/",
         save:saveId,
