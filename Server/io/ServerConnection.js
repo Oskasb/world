@@ -48,6 +48,9 @@ function getAllEditFiles(dir, done) {
 					});
 				} else {
 					let splits = file.split('\\')
+					if (splits.length < 2) {
+						splits = file.split('/')
+					}
 					let entry = splits.pop().split('.');
 					let startIndex = splits.indexOf('edits');
 					let iPath = ""
