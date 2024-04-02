@@ -21,6 +21,8 @@ class DomEditConfig {
 
         let elementDivs = [];
 
+        let updateSamplers = [];
+
         function applyAdd() {
             statusMap.activateSelection(selectionId);
         }
@@ -78,29 +80,49 @@ class DomEditConfig {
             editValues.initEditTool(closeEditValues, map)
         }
 
-        function addKeyElement(key , type, value ) {
-            let html = "<h2>"+key+"</h2>" + "<p>"+value+"</p>";
-            let map = mappedConfigKey(value);
-            if (map !== null) {
+        function addKeyElement(key , type, value, config) {
+            let html = "<h2>"+key+"</h2>";
 
-                if (map.length === 1) {
-                    html += "<h4>"+map[0].source+"</h4><h3>"+map[0].root+" "+map[0].folder+"</h3>";
-                    console.log("configKey has entry ", map, html)
-                } else {
-                    console.log("configKey has multiple entries ", map)
-                    html += "<h3>| #LOC: "+map.length+" |</h3>";
+            let sampleUpdates = false;
+
+            if (key === 'pos' || key ===  'rot' || key ===  'scale' ) {
+                sampleUpdates = true;
+
+               // setup update callback to populate this stuff
+                let x = config[key][0];
+                let y = config[key][1];
+                let z = config[key][2];
+            //    html += "<p>x:"+x+" y: "+y+" z: "+z+"</p>";
+
+
+
+            } else {
+
+                html += "<p>"+value+"</p>";
+                let map = mappedConfigKey(value);
+                if (map !== null) {
+                    if (map.length === 1) {
+                        html += "<h4>"+map[0].source+"</h4><h3>"+map[0].root+" "+map[0].folder+"</h3>";
+                        console.log("configKey has entry ", map, html)
+                    } else {
+                        console.log("configKey has multiple entries ", map)
+                        html += "<h3>| #LOC: "+map.length+" |</h3>";
+                    }
                 }
-
-
             }
 
             function onClick() {
                 keyElemPressed(key)
             }
 
-            let div = DomUtils.createDivElement(applyContainerDiv, key, html, "config_inspect type_"+type)
-            DomUtils.addClickFunction(div, onClick)
-            elementDivs.push(div);
+            if (sampleUpdates === true) {
+                let updateDiv = DomUtils.createDivElement(applyContainerDiv, key+"_samples", "", "config_inspect type_"+type)
+                updateSamplers.push([updateDiv, config, key]);
+            } else {
+                let div = DomUtils.createDivElement(applyContainerDiv, key, html, "config_inspect type_"+type)
+                DomUtils.addClickFunction(div, onClick)
+                elementDivs.push(div);
+            }
         }
 
         let expandConfig = function(config) {
@@ -118,24 +140,47 @@ class DomEditConfig {
                 } else if (type === 'object') {
                     if (Array.isArray(config[key])) {
                         type = 'array'
-                        value = "[]"
+                        value = "[] ("+config[key].length+")";
+
+
+
                     } else {
                         type = 'object'
                         value = "{}"
                     }
                 }
-                addKeyElement(key, type, value);
+                addKeyElement(key, type, value, config);
             }
         };
 
         let update = function() {
-            if (selectionId !== selectList.value) {
-                applySelection(selectList.value);
+            for (let i = 0; i < updateSamplers.length; i++) {
+                let div = updateSamplers[i][0];
+                let conf = updateSamplers[i][1];
+                let key = updateSamplers[i][2];
+
+                let html = "<h2>"+key+"</h2>";
+
+                let sampleUpdates = false;
+
+                if (key === 'pos' || key ===  'rot' || key ===  'scale' ) {
+                    sampleUpdates = true;
+                    // setup update callback to populate this stuff
+                    let x = conf[key][0];
+                    let y = conf[key][1];
+                    let z = conf[key][2];
+                    html += "<p>x:"+x+" y: "+y+" z: "+z+"</p>";
+                }
+
+                    if (div.innerHTML !== html) {
+                        div.innerHTML = html;
+                    }
+
             }
         };
 
         let close = function() {
-
+            updateSamplers = []
         }
 
         this.call = {
