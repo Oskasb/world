@@ -15,6 +15,8 @@ function applyStatusUpdate(statusMap, updateObj3d) {
     updateObj3d.rotation.x = statusMap.rotX // - model.obj3d.rotation.x)
     updateObj3d.rotation.y = statusMap.rotY
     updateObj3d.rotation.z = statusMap.rotZ
+    statusMap.applyScale = statusMap.offsetScale + statusMap.scale*0.1;
+    statusMap.applyElevate = statusMap.offsetElevate + statusMap.elevate;
 
 }
 
@@ -28,6 +30,10 @@ class DomEditCursor {
         let updateObj3d = new Object3D();
         let rotYDiv = null;
         let rotYSlider = null;
+        let scaleDiv = null;
+        let scaleSlider = null;
+        let elevateDiv = null;
+        let elevateSlider = null;
         this.onUpdateCallbacks = [];
         this.onClickCallbacks = [];
 
@@ -37,7 +43,13 @@ class DomEditCursor {
             rotZ:0,
             posX:0,
             posY:0,
-            posZ:0
+            posZ:0,
+            scale:0,
+            elevate:0,
+            offsetScale:1,
+            applyScale:1,
+            offsetElevate:0,
+            applyElevate:0
         };
 
         let rootElem = null;
@@ -122,9 +134,9 @@ class DomEditCursor {
             rootElem.style.zIndex = '';
             dragY = 0;
             dragX = 0;
-        //    console.log("endDrag Cursor", e);
             this.initObj3d.copy(targetObj3d);
             initEditStatus(this.initObj3d);
+            targetObj3d.scale.set(1, 1, 1);
         }.bind(this);
 
         let initEditStatus = function(obj3d) {
@@ -135,7 +147,13 @@ class DomEditCursor {
             this.statusMap.rotX = 0;
             this.statusMap.rotY = 0;
             this.statusMap.rotZ = 0;
-            rotYSlider.value = "0"
+            this.statusMap.scale = 0;
+            this.statusMap.elevate = 0;
+            rotYSlider.value = "0";
+            scaleSlider.value = "0";
+            elevateSlider.value = "0";
+            this.statusMap.applyElevate = this.statusMap.offsetElevate;
+            this.statusMap.applyScale = this.statusMap.offsetScale;
         }.bind(this);
 
         let htmlReady = function(htmlEl) {
@@ -144,6 +162,8 @@ class DomEditCursor {
             let translateDiv = htmlEl.call.getChildElement('translate')
             rotYDiv = htmlEl.call.getChildElement('rot_y')
             rotYSlider = htmlElem.call.getChildElement('rotY');
+            scaleSlider = htmlElem.call.getChildElement('scale');
+            elevateSlider = htmlElem.call.getChildElement('elevate');
             DomUtils.addPressStartFunction(translateDiv, startDrag)
             DomUtils.addMouseMoveFunction(translateDiv, mouseMove);
             DomUtils.addPressEndFunction(translateDiv, endDrag);
@@ -151,12 +171,14 @@ class DomEditCursor {
             DomUtils.addPointerExitFunction(translateDiv, endDrag);
             DomUtils.addPressEndFunction(rotYSlider, endDrag);
             DomUtils.addPointerExitFunction(rotYSlider, endDrag);
+            DomUtils.addPressEndFunction(scaleSlider, endDrag);
+            DomUtils.addPointerExitFunction(scaleSlider, endDrag);
+            DomUtils.addPressEndFunction(elevateSlider, endDrag);
+            DomUtils.addPointerExitFunction(elevateSlider, endDrag);
             initEditStatus(this.initObj3d);
-
             rootElem.style.transition = 'none';
             ThreeAPI.registerPrerenderCallback(update);
         }.bind(this);
-
 
         let nodeDivs = [];
 
@@ -169,17 +191,18 @@ class DomEditCursor {
             rootElem.style.transition = 'none';
             rootElem.style.transform = "translate3d(-50%, -50%, 0)";
             applyEdits()
-
+            
             if (dragActive === true) {
            //     console.log("mouse Move", updateObj3d.position);
                 targetObj3d.position.copy(this.initObj3d.position);
                 targetObj3d.position.add(updateObj3d.position);
             }
 
-            targetObj3d.position.y = Math.max(ThreeAPI.terrainAt(targetObj3d.position), 0)
+            targetObj3d.position.y = Math.max(ThreeAPI.terrainAt(targetObj3d.position), 0) + this.statusMap.applyElevate;
             targetObj3d.quaternion.copy(this.initObj3d.quaternion);
             targetObj3d.quaternion.multiply(updateObj3d.quaternion);
-
+            targetObj3d.scale.copy(this.initObj3d.scale);
+            targetObj3d.scale.multiplyScalar(this.statusMap.applyScale)
             MATH.callAll(this.onUpdateCallbacks, targetObj3d);
 
             rotYDiv.style.rotate = -updateObj3d.rotation.y+"rad"
@@ -217,6 +240,12 @@ class DomEditCursor {
     }
 
     initDomEditCursor(closeCb, initObj3d, onUpdate, onClick) {
+        this.statusMap.scale =0;
+        this.statusMap.elevate =0;
+        this.statusMap.offsetScale =1;
+        this.statusMap.offsetElevate =0;
+        this.statusMap.applyScale =1;
+        this.statusMap.applyElevate =0;
         this.closeCb = closeCb;
         this.onClickCallbacks.push(onClick);
         this.onUpdateCallbacks.push(onUpdate);

@@ -105,6 +105,7 @@ class WorldModel {
         let updateObj3D = function() {
             MATH.rotObj3dToArray(this.obj3d, this.config.rot, 1000);
             MATH.vec3ToArray(this.obj3d.position, this.config.pos, 100);
+            MATH.vec3ToArray(this.obj3d.scale, this.config.scale, 1000);
             this.applyObj3dUpdate()
         }.bind(this);
 
@@ -120,7 +121,10 @@ class WorldModel {
                 }
             }
             MATH.decimalifyVec3(obj3d.position, 100);
-            this.obj3d.copy(obj3d);
+            this.obj3d.position.copy(obj3d.position)
+            this.obj3d.quaternion.copy(obj3d.quaternion)
+            this.obj3d.scale.copy(obj3d.scale)
+//            this.obj3d.copy(obj3d);
             updateObj3D()
 
             if (hold > 0.5) {
