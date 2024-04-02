@@ -1286,6 +1286,54 @@ div.edit_cursor_position {
     overflow: visible;
 }
 
+div.elevate_slider {
+    pointer-events: none;
+    z-index: 20000;
+    height: 4em;
+    bottom: 0em;
+    top: auto;
+    background-color: rgba(1, 1, 1, 0.1);
+    transform: translate(6em, -5em) rotate(270deg)
+}
+
+div.elevate_slider input[type="range"]  {
+    pointer-events: auto;
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: rgba(0, 25, 68, 0.4);
+    cursor: pointer;
+    height: 4em;
+    left: 2em;
+    right: 2em;
+    border: 0.1em solid #00a9af;
+    border-radius: 40%;
+    box-shadow: 0 0 0.6em rgb(0, 35, 40);
+}
+
+div.scale_slider {
+    pointer-events: none;
+    z-index: 20000;
+    height: 4em;
+    bottom: 0em;
+    top: auto;
+    background-color: rgba(1, 1, 1, 0.1);
+    transform: translate(-7em, -5em) rotate(270deg)
+}
+
+div.scale_slider input[type="range"]  {
+    pointer-events: auto;
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: rgba(0, 25, 68, 0.4);
+    cursor: pointer;
+    height: 4em;
+    left: 2em;
+    right: 2em;
+    border: 0.1em solid #00a9af;
+    border-radius: 40%;
+    box-shadow: 0 0 0.6em rgb(0, 35, 40);
+}
+
 div.rotation_slider {
     pointer-events: none;
     z-index: 20000;
