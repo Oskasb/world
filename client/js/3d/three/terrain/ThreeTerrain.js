@@ -94,8 +94,8 @@ let shadeThreeTerrainDataAt = function(pos, size, channelIndex, operation, inten
 
 let alignThreeTerrainDataToAABB = function(aabb) {
     let params = terrainBigGeometry.getTerrainParams()
-    TerrainFunctions.fitHeightToAABB(aabb, terrainBigGeometry.getHeightmapCanvas(), params.tx_width, params.tx_width - 1, params.minHeight, params.maxHeight);
-    terrainBigGeometry.updateHeightmapCanvasTexture();
+    let updateRect =  TerrainFunctions.fitHeightToAABB(aabb, terrainBigGeometry.getHeightmapCanvas(), params.tx_width, params.tx_width - 1, params.minHeight, params.maxHeight);
+    terrainBigGeometry.updateHeightmapCanvasTexture(updateRect);
 }
 
 function applyTerrainEdit(edit) {

@@ -103,7 +103,9 @@ class WorldModel {
                 } else {
                     if (model.lodLevel) {
                         ThreeAPI.registerTerrainLodUpdateCallback(model.getPos(), model.call.lodUpdated)
-                        model.call.setPaletteKey(this.paletteKey);
+                        if (!model.config.paletteKey) {
+                            model.call.setPaletteKey(this.paletteKey);
+                        }
                     }
                 }
 

@@ -347,7 +347,7 @@ let fillShade = function(ctx, x, y, w, h, cornerRadii) {
 let fillRgba = [0, 0, 0, 0];
 function fitHeightToAABB(aabb, canvasContext, terrainSize, segments, minHeight, maxHeight) {
     let heightFraction = MATH.calcFraction( minHeight, maxHeight, aabb.min.y);
-    fillRgba[0] = heightFraction*255;
+    fillRgba[0] = Math.round(heightFraction*255);
     fillRgba[1] = 0;
     fillRgba[2] = 0;
     fillRgba[3] = 1;
@@ -369,6 +369,12 @@ function fitHeightToAABB(aabb, canvasContext, terrainSize, segments, minHeight, 
     canvasContext.fillStyle = "rgba("+fillRgba[0]+", "+fillRgba[1]+", "+fillRgba[2]+", "+fillRgba[3]*0.25+")";
     fillShade(canvasContext, txMin-2, tzMin-2, 4+txMax-txMin, 4+tzMax-tzMin, 4);
   //  }
+
+    updateRect.minX = txMin;
+    updateRect.minY = tzMin;
+    updateRect.maxX = txMax;
+    updateRect.maxY = tzMax;
+    return updateRect;
 
 }
 
