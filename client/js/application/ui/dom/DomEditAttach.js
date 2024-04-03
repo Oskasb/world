@@ -92,6 +92,21 @@ class DomEditAttach {
                 editTarget.call.setPaletteKey('DEFAULT');
                 editTarget.config.paletteKey = 'DEFAULT';
 
+                if (!statusMap.parent.config.assets) {
+                    statusMap.parent.config.assets = [];
+                }
+
+                let cAssets = statusMap.parent.config.assets;
+                let add = true;
+                for (let i = 0; i < cAssets.length; i++ ) {
+                    if (cAssets[i].edit_id === editTarget.config.edit_id) {
+                        add = false;
+                    }
+                }
+                if (add === true) {
+                    cAssets.push(editTarget.config)
+                }
+
                 saveWorldModelEdits(statusMap.parent);
             }
             if (activeEdit === 'MODIFY') {
@@ -172,8 +187,11 @@ class DomEditAttach {
             let config = detachConfig(locationModelConfigTemplate);
             config.asset = selectionId;
             let assets = statusMap.parent.configData.assets
+
+
             for (let i = 0; i < assets.length; i++) {
                 if (assets[i].edit_id !== config.edit_id) {
+                 console.log("BAD ATTACH LOOP... not needed but tired")
                     statusMap.parent.configData.assets.push(config);
                 }
             }

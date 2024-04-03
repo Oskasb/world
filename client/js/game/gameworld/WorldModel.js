@@ -206,12 +206,11 @@ class WorldModel {
                 this.config = cfg;
                 updateObj3D()
 
-                if (typeof (cfg.attachments) === 'object') {
-                //    for (let key in cfg.attachments) {
+                if (typeof (cfg.assets) === 'object') {
+                    if (cfg.assets.length !== 0) {
                         locationModels(this.configData);
-                //    }
+                    }
                 }
-            //    this.setHidden(true);
 
                 if (cfg.palette) {
                     setPaletteKey(cfg.palette);
