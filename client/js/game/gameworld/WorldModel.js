@@ -180,10 +180,12 @@ class WorldModel {
                     GameAPI.worldModels.addConfigModel(cfg, cfg.edit_id);
                     return;
                 }
-                this.config = cfg;
+
                 MATH.vec3FromArray(this.obj3d.position, cfg.pos);
+                MATH.vec3FromArray(this.obj3d.scale, cfg.scale);
                 this.obj3d.quaternion.set(0, 0, 0, 1);
                 MATH.rotXYZFromArray(this.obj3d, cfg.rot, 100);
+                this.config = cfg;
                 updateObj3D()
             //    this.setHidden(true);
 

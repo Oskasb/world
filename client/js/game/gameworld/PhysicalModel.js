@@ -85,6 +85,7 @@ class PhysicalModel {
 
         this.assetId = assetId;
         this.obj3d.copy(obj3d);
+
         this.box.min.set(999999999, 99999999, 99999999);
         this.box.max.set(-999999999, -99999999, -99999999);
         this.static = false;

@@ -13,6 +13,7 @@ let assets = [];
 let tempVec = new Vector3();
 let tempObj = new Object3D();
 let tempQuat = new Quaternion();
+let axisRot = ['X', 'Y', 'Z']
 
 let locationModelConfigTemplate = {
     "asset": "",
@@ -45,7 +46,9 @@ class DomEditAttach {
             new ConfigData("ASSETS","MODELS",  false, false, false, onConfig)
         }
 
-
+        let initScaleVec3 = new Vector3();
+        let targetScaleVec3 = new Vector3()
+        let lastScaleVec3 = new Vector3();
         let statusMap = null
         let rootElem = null;
         let htmlElem;
@@ -105,7 +108,25 @@ class DomEditAttach {
                 tempObj.quaternion.premultiply(tempQuat);
                 tempVec.applyQuaternion(tempObj.quaternion)
                 MATH.vec3ToArray(tempVec, editTarget.config.pos, 100);
-                MATH.rotObj3dToArray(obj3d, editTarget.config.rot, 100);
+                let inputRot = obj3d.rotation.y;
+                let axis = statusMap.axis;
+                editTarget.config.rot[axisRot.indexOf(axis)] = MATH.decimalify(inputRot, 100);
+            //    MATH.rotObj3dToArray(obj3d, editTarget.config.rot, 100);
+
+                if (MATH.distanceBetween(lastScaleVec3, obj3d.scale) !== 0) {
+                    tempVec.copy(obj3d.scale);
+                    tempVec.multiply(initScaleVec3);
+                    if (MATH.distanceBetween(targetScaleVec3, tempVec) < 0.001) {
+                        initScaleVec3.copy(tempVec);
+                    } else {
+                        if (tempVec.length() > 0.001) {
+                            MATH.vec3ToArray(tempVec, editTarget.config.scale, 1000)
+                            targetScaleVec3.copy(tempVec);
+                        }
+                    }
+                    lastScaleVec3.copy(obj3d.scale);
+                }
+
                 editTarget.hierarchyUpdated();
             }
         }
@@ -141,6 +162,7 @@ class DomEditAttach {
                 function attachCallback(config) {
 
                     let targetId = config.edit_id;
+                    MATH.vec3FromArray(initScaleVec3, config.scale);
                     let models =statusMap.parent.locationModels
                     for (let i = 0; i < models.length; i++) {
                         if (models[i].config.edit_id === targetId) {
@@ -195,6 +217,10 @@ class DomEditAttach {
             statusMap = htmlElem.statusMap;
             rootElem = htmlEl.call.getRootElement();
 
+            statusMap.axis = "Y";
+            let axisSelect = htmlElem.call.getChildElement('axis');
+            htmlElem.call.populateSelectList('axis', axisRot)
+            axisSelect.value = statusMap.axis;
             selectList = htmlElem.call.getChildElement('select_list');
             applyContainerDiv = htmlElem.call.getChildElement('apply_container');
             htmlElem.call.populateSelectList('select_list', assets)

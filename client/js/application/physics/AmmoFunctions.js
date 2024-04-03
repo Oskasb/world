@@ -1039,6 +1039,7 @@ class AmmoFunctions {
         threeObj.quaternion.copy(obj3d.quaternion);
         MATH.rotXYZFromArray(threeObj, rot);
         let quaternion = threeObj.quaternion
+        quaternion.multiply(obj3d.quaternion);
         let scaleVec = MATH.vec3FromArray(threeObj.scale, scale);
         threeObj.scale.multiply(obj3d.scale);
 
