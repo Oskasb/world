@@ -52,7 +52,7 @@ class WorldModel {
         }
         index++;
         this.config = config;
-
+        let originalModel = this.config.model;
         this.obj3d = new Object3D();
         this.box = new Box3();
 
@@ -82,9 +82,22 @@ class WorldModel {
 
         let locationModels = function(data) {
             this.configData = data;        //    console.log("Reflow Location Models: ", this.locationModels.length)
+            let assets = data.assets;
+
+            let attachAssets = [];
+            for (let i = 0; i < assets.length; i++) {
+                attachAssets.push(assets[i]);
+            }
+
+            if (typeof (this.config.attachments) === 'object') {
+                for (let key in this.config.attachments) {
+                    attachAssets.push(this.config.attachments[key])
+                }
+            }
+
             this.removeLocationModels();
-            for (let i = 0; i < data.assets.length; i++) {
-                let model = new LocationModel(this.obj3d, data.assets[i])
+            for (let i = 0; i < attachAssets.length; i++) {
+                let model = new LocationModel(this.obj3d, attachAssets[i])
                 if (config['no_lod'] === true) {
                     model.call.lodUpdated(0)
                 } else {
@@ -158,7 +171,7 @@ class WorldModel {
             return this.paletteKey;
         }.bind(this)
 
-        let originalModel = this.config.model;
+
 
         let applyLoadedConfig = function(cfg, id) {
             if (cfg !== null) {
@@ -187,6 +200,12 @@ class WorldModel {
                 MATH.rotXYZFromArray(this.obj3d, cfg.rot, 100);
                 this.config = cfg;
                 updateObj3D()
+
+                if (typeof (cfg.attachments) === 'object') {
+                //    for (let key in cfg.attachments) {
+                        locationModels(this.configData);
+                //    }
+                }
             //    this.setHidden(true);
 
                 if (cfg.palette) {

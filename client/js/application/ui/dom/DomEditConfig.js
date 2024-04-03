@@ -53,6 +53,7 @@ class DomEditConfig {
         function applyEdit() {
             console.log("Apply Edit", statusMap);
             statusMap.parent.id = saveConfigEdits(statusMap.root, statusMap.folder, statusMap.id, statusMap.config)
+            statusMap.onEditCB(statusMap.config);
         }
 
         function closeEditValues() {

@@ -331,7 +331,8 @@ class DomEditModel {
                     root:"model",
                     folder: GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL),
                     parent:model,
-                    config:model.config
+                    config:model.config,
+                    onEditCB:model.call.applyLoadedConfig
                 }
                 activeTool.initEditTool(closeActiveTool, map)
 
