@@ -15,6 +15,10 @@ let tempObj = new Object3D();
 let tempQuat = new Quaternion();
 let axisRot = ['X', 'Y', 'Z']
 
+let edits = ["NEW", "MODIFY"]
+let editList = [""];
+
+
 let locationModelConfigTemplate = {
     "asset": "",
     "pos": [0, 0, 0],
@@ -53,26 +57,25 @@ class DomEditAttach {
         let rootElem = null;
         let htmlElem;
         let applyContainerDiv = null;
+        let changeModelContainer = null;
+        let changeModelSelection = null;
         let selectList = null;
+        let editSelect = null;
         let addButtonDiv = null;
         let selectionId = "";
         let cursorObj3d = new Object3D();
         let lastSave = "";
-        let attachCursor = null
         let modelCursor = null;
         let configEdit = null;
         let editTarget = null;
+        let activeEdit = null;
+        let changeToModel = null;
         let closeCursorCB = function() {
 
         }
 
         let closeCursor = function() {
 
-            if (attachCursor !== null) {
-                attachCursor.closeDomEditCursor();
-                poolReturn(attachCursor);
-                attachCursor = null;
-            }
             if (modelCursor !== null) {
                 modelCursor.closeDomEditCursor();
                 poolReturn(modelCursor);
@@ -81,21 +84,35 @@ class DomEditAttach {
 
         }
 
-        function applyAdd() {
+
+        function applyOperateButton(x) {
+            console.log("Apply applyOperateButton: ", x);
+            //  statusMap.activateSelection(selectionId);
+            if (activeEdit === 'NEW') {
+                editTarget.call.setPaletteKey('DEFAULT');
+                editTarget.config.paletteKey = 'DEFAULT';
+
+                saveWorldModelEdits(statusMap.parent);
+            }
+            if (activeEdit === 'MODIFY') {
+                editTarget.call.setPaletteKey('DEFAULT');
+                editTarget.config.paletteKey = 'DEFAULT';
+                //    statusMap.parent.config.attachments[editTarget.config.edit_id] = editTarget.config;
+                //   let save = JSON.stringify(editTarget.config);
+                //   if (lastSave !== save) {
+                //       lastSave = save;
+                saveWorldModelEdits(statusMap.parent);
+            }
+
+            //     }
+        }
+        function applyEdit(edit) {
+            console.log("Apply Edit: ", edit);
           //  statusMap.activateSelection(selectionId);
         }
 
         function onCursorUpdate(obj3d) {
-            if (attachCursor !== null) {
-                if (modelCursor !== null) {
-                    if (attachCursor.htmlElement !== null) {
-                        attachCursor.closeDomEditCursor();
-                        poolReturn(attachCursor);
-                        attachCursor = null;
-                    }
 
-                }
-            }
             if (modelCursor !== null) {
                 let origin = statusMap.parent.getPos();
                 tempObj.position.copy(origin);
@@ -128,11 +145,11 @@ class DomEditAttach {
                 }
 
                 editTarget.hierarchyUpdated();
-            //    statusMap.parent.config.attachments[editTarget.config.edit_id] = editTarget.config;
+             //   statusMap.parent.config.attachments[editTarget.config.edit_id] = editTarget.config;
              //   let save = JSON.stringify(editTarget.config);
             //   if (lastSave !== save) {
              //       lastSave = save;
-            //        saveWorldModelEdits(statusMap.parent);
+           //         saveWorldModelEdits(statusMap.parent);
            //     }
 
             }
@@ -154,7 +171,12 @@ class DomEditAttach {
 
             let config = detachConfig(locationModelConfigTemplate);
             config.asset = selectionId;
-            statusMap.parent.configData.assets.push(config);
+            let assets = statusMap.parent.configData.assets
+            for (let i = 0; i < assets.length; i++) {
+                if (assets[i].edit_id !== config.edit_id) {
+                    statusMap.parent.configData.assets.push(config);
+                }
+            }
             statusMap.parent.call.locationModels(statusMap.parent.configData)
             callback(config);
         }
@@ -178,6 +200,7 @@ class DomEditAttach {
                         }
                     }
 
+                    editTarget.call.setPaletteKey('ITEMS_MONO')
                 //    closeCursor()
                     closeConfigEdit()
                     modelCursor = poolFetch('DomEditCursor');
@@ -198,23 +221,14 @@ class DomEditAttach {
                         root:statusMap.root,
                         folder:statusMap.folder,
                         parent:statusMap.parent,
-                        config:config
+                        config:config,
+                        onEditCB:applyEdit
                     }
                     configEdit.initEditTool(closeConfigEdit, map);
                 }
 
-                attachCursor = poolFetch('DomEditCursor')
                 attachFunction(selectionId, attachCallback);
 
-                function closeAttachCursor() {
-                    if (attachCursor !== null) {
-                        attachCursor.closeDomEditCursor();
-                        poolReturn(attachCursor);
-                        attachCursor = null;
-                    }
-                }
-
-                attachCursor.initDomEditCursor(closeAttachCursor, cursorObj3d, onCursorUpdate, onCursorClick)
             }
 
 
@@ -226,40 +240,80 @@ class DomEditAttach {
             rootElem = htmlEl.call.getRootElement();
 
             let parentConfig = statusMap.parent.config;
-            if (typeof (parentConfig.attachments !== 'object')) {
-                parentConfig.attachments = {};
-            }
+
+            editSelect = htmlElem.call.getChildElement('edit');
+            htmlElem.call.populateSelectList('edit', edits)
 
             statusMap.axis = "Y";
             let axisSelect = htmlElem.call.getChildElement('axis');
             htmlElem.call.populateSelectList('axis', axisRot)
             axisSelect.value = statusMap.axis;
             selectList = htmlElem.call.getChildElement('select_list');
+            htmlElem.call.populateSelectList('select_list', editList)
             applyContainerDiv = htmlElem.call.getChildElement('apply_container');
-            htmlElem.call.populateSelectList('select_list', assets)
+            changeModelSelection = htmlElem.call.getChildElement('model_list');
+            changeToModel = changeModelSelection.value;
+            changeModelContainer = htmlElem.call.getChildElement('model_container');
+            htmlElem.call.populateSelectList('model_list', assets);
             addButtonDiv = htmlElem.call.getChildElement('add_button');
-            DomUtils.addClickFunction(addButtonDiv, applyAdd)
+            DomUtils.addClickFunction(addButtonDiv, applyOperateButton)
             ThreeAPI.registerPrerenderCallback(update);
             applySelection(selectionId)
         }.bind(this);
 
+        function applyEditMode(mode) {
+            MATH.emptyArray(editList)
+            if (mode === 'NEW') {
+                addButtonDiv.innerHTML = "SAVE"
+                MATH.copyArrayValues(assets, editList)
+                htmlElem.call.populateSelectList('select_list', editList)
+                changeModelContainer.style.display = 'none';
+            } else if (mode === 'MODIFY') {
+                addButtonDiv.innerHTML = "REMOVE"
+                for (let i = 0;i < statusMap.parent.configData.assets.length; i++) {
+                    editList.push(i);
+                    htmlElem.call.populateSelectList('select_list', editList)
+                //    changeModelContainer.style.display = '';
+                }
+            }
 
+        };
         let applySelection = function(id) {
             selectionId = id;
-            if (id === "") {
-                applyContainerDiv.style.display = "none"
+
+            if (editSelect.value === 'MODIFY') {
+                if (id === "0") {
+                    changeModelContainer.style.display = "none"
+                } else {
+                    changeModelContainer.style.display = ""
+
+                    let models =statusMap.parent.locationModels
+                    editTarget = models[id];
+                    console.log("Set Edit Target ", changeToModel);
+                    console.log(editTarget)
+                    ThreeAPI.getCameraCursor().getLookAroundPoint().copy(editTarget.getPos())
+                    modelCursor.call.setPos(editTarget.getPos());
+                    selectionUpdate(changeToModel);
+                    return;
+                }
             } else {
-                applyContainerDiv.style.display = ""
+                changeModelContainer.style.display = "none"
             }
+
             selectionUpdate(selectionId);
         };
+
+        function modifyChangeModel() {
+            statusMap.config.model = changeToModel;
+            editTarget.call.setAssetId(changeToModel);
+        }
 
         let update = function() {
             cursorObj3d.position.copy(ThreeAPI.getCameraCursor().getLookAroundPoint());
 
-            if (attachCursor !== null) {
-                attachCursor.call.setPos(cursorObj3d.position);
-                ThreeAPI.getCameraCursor().getLookAroundPoint().add(attachCursor.call.getUpdateObj().position)
+            if (activeEdit !== editSelect.value) {
+                applyEditMode(editSelect.value);
+                activeEdit = editSelect.value;
             }
 
             if (modelCursor !== null) {
@@ -269,7 +323,11 @@ class DomEditAttach {
 
             if (selectionId !== selectList.value) {
                 applySelection(selectList.value);
+            }
 
+            if (changeToModel !== changeModelSelection.value) {
+                changeToModel = changeModelSelection.value
+                modifyChangeModel();
             }
         };
 

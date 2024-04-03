@@ -112,6 +112,7 @@ class LocationModel {
         let model = this;
 
         let alignPhysicalModel = function() {
+            config = this.config;
             if (physicalModel !== null) {
                 removePhysicalModel(physicalModel);
                 physicalModel = addPhysicsToModel(config.asset, this.obj3d, this.physicsUpdate);
@@ -120,6 +121,7 @@ class LocationModel {
         }.bind(this)
 
         let lodUpdated = function(lodLevel) {
+            config = this.config;
             model.lodLevel = lodLevel;
             if (lodLevel === 0 || lodLevel === 1) {
 
@@ -251,7 +253,13 @@ class LocationModel {
 
         }.bind(this);
 
+        let setAssetId = function(aid) {
+            this.config.model = aid;
+            hideLocationModel(this);
+        }.bind(this);
+
         this.call = {
+            setAssetId:setAssetId,
             alignPhysicalModel:alignPhysicalModel,
             setInstance:setInstance,
             setPaletteKey:setPaletteKey,

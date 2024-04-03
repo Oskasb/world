@@ -80,6 +80,7 @@ class WorldModel {
 
         this.configData = {assets:[]};
 
+
         let locationModels = function(data) {
             this.configData = data;        //    console.log("Reflow Location Models: ", this.locationModels.length)
             let assets = data.assets;
@@ -89,9 +90,9 @@ class WorldModel {
                 attachAssets.push(assets[i]);
             }
 
-            if (typeof (this.config.attachments) === 'object') {
-                for (let key in this.config.attachments) {
-                    attachAssets.push(this.config.attachments[key])
+            if (typeof (this.config.assets) === 'object') {
+                for (let i = 0; i < this.config.assets.length; i++) {
+                    attachAssets.push(this.config.assets[i]);
                 }
             }
 
@@ -105,6 +106,8 @@ class WorldModel {
                         ThreeAPI.registerTerrainLodUpdateCallback(model.getPos(), model.call.lodUpdated)
                         if (!model.config.paletteKey) {
                             model.call.setPaletteKey(this.paletteKey);
+                        } else {
+                            model.call.setPaletteKey(model.config.paletteKey);
                         }
                     }
                 }
