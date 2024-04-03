@@ -52,16 +52,60 @@ class DomEditConfig {
        //     DomUtils.addClickFunction(addButtonDiv, applyAdd)
             ThreeAPI.registerPrerenderCallback(update);
             expandConfig(statusMap.config)
+            updateSamplingElements()
         }.bind(this);
 
         let editValues = null;
 
+
+        function updateSamplingElements() {
+            for (let i = 0; i < updateSamplers.length; i++) {
+                let div = updateSamplers[i][0];
+                let conf = updateSamplers[i][1];
+                let key = updateSamplers[i][2];
+
+                let html = "<h2>"+key+"</h2>";
+
+                let sampleUpdates = false;
+
+                if (key === 'pos' || key ===  'rot' || key ===  'scale' ) {
+
+                    // setup update callback to populate this stuff
+                    let x = conf[key][0];
+                    let y = conf[key][1];
+                    let z = conf[key][2];
+                    html += "<p>x:"+x+" y: "+y+" z: "+z+"</p>";
+                } else {
+                    html += "<p>"+conf[key]+"</p>";
+                    let map = mappedConfigKey(conf[key]);
+                    if (map !== null) {
+                        if (map.length === 1) {
+                            sampleUpdates = true;
+                            html += "<h4>"+map[0].source+"</h4><h3>"+map[0].root+" "+map[0].folder+"</h3>";
+                            console.log("configKey has entry ", map, html)
+                        } else {
+                            console.log("configKey has multiple entries ", map)
+                            html += "<h3>| #LOC: "+map.length+" |</h3>";
+                        }
+                    }
+                }
+
+                if (div.innerHTML !== html) {
+                    div.innerHTML = html;
+                }
+
+            }
+        }
+
         function applyEdit() {
             console.log("Apply Edit", statusMap);
+
             statusMap.parent.id = saveConfigEdits(statusMap.root, statusMap.folder, statusMap.id, statusMap.config)
 
             let cb = function(conf) {
-                statusMap.onEditCB(conf);
+                if (typeof (statusMap.onEditCB) === 'function') {
+                    statusMap.onEditCB(conf);
+                }
             }
             loadSavedConfig(statusMap.parent.id, cb)
 
@@ -99,21 +143,13 @@ class DomEditConfig {
 
             if (key === 'pos' || key ===  'rot' || key ===  'scale' ) {
                 sampleUpdates = true;
-
-               // setup update callback to populate this stuff
-                let x = config[key][0];
-                let y = config[key][1];
-                let z = config[key][2];
-            //    html += "<p>x:"+x+" y: "+y+" z: "+z+"</p>";
-
-
-
             } else {
 
                 html += "<p>"+value+"</p>";
-                let map = mappedConfigKey(value);
+                let map = mappedConfigKey(key);
                 if (map !== null) {
                     if (map.length === 1) {
+                        sampleUpdates = true;
                         html += "<h4>"+map[0].source+"</h4><h3>"+map[0].root+" "+map[0].folder+"</h3>";
                         console.log("configKey has entry ", map, html)
                     } else {
@@ -126,15 +162,15 @@ class DomEditConfig {
             function onClick() {
                 keyElemPressed(key)
             }
-
+            let div;
             if (sampleUpdates === true) {
-                let updateDiv = DomUtils.createDivElement(applyContainerDiv, key+"_samples", "", "config_inspect type_"+type)
-                updateSamplers.push([updateDiv, config, key]);
+                div = DomUtils.createDivElement(applyContainerDiv, key+"_samples", "", "config_inspect type_"+type)
+                updateSamplers.push([div, config, key]);
             } else {
-                let div = DomUtils.createDivElement(applyContainerDiv, key, html, "config_inspect type_"+type)
-                DomUtils.addClickFunction(div, onClick)
-                elementDivs.push(div);
+                div = DomUtils.createDivElement(applyContainerDiv, key, html, "config_inspect type_"+type)
             }
+            DomUtils.addClickFunction(div, onClick)
+            elementDivs.push(div);
         }
 
         let expandConfig = function(config) {
@@ -166,29 +202,7 @@ class DomEditConfig {
         };
 
         let update = function() {
-            for (let i = 0; i < updateSamplers.length; i++) {
-                let div = updateSamplers[i][0];
-                let conf = updateSamplers[i][1];
-                let key = updateSamplers[i][2];
-
-                let html = "<h2>"+key+"</h2>";
-
-                let sampleUpdates = false;
-
-                if (key === 'pos' || key ===  'rot' || key ===  'scale' ) {
-                    sampleUpdates = true;
-                    // setup update callback to populate this stuff
-                    let x = conf[key][0];
-                    let y = conf[key][1];
-                    let z = conf[key][2];
-                    html += "<p>x:"+x+" y: "+y+" z: "+z+"</p>";
-                }
-
-                    if (div.innerHTML !== html) {
-                        div.innerHTML = html;
-                    }
-
-            }
+            updateSamplingElements()
         };
 
         let close = function() {

@@ -85,6 +85,11 @@ class DomEditAttach {
           //  statusMap.activateSelection(selectionId);
         }
 
+        function applyEdit(edit) {
+            console.log("Apply Edit ", edit)
+            //  statusMap.activateSelection(selectionId);
+        }
+
         let hold = 0.5;
 
         function onCursorUpdate(obj3d) {
@@ -131,13 +136,14 @@ class DomEditAttach {
 
                 editTarget.hierarchyUpdated();
 
-                let save = JSON.stringify(statusMap);
+                let save = JSON.stringify(statusMap.config);
                 if (save !== lastSave) {
                     if (hold > 0.5) {
                         lastSave = save;
                         hold = 0;
-                        saveWorldModelEdits(statusMap.parent);
+                        saveWorldModelEdits(statusMap.parent)
                     }
+
                 }
 
                 hold += GameAPI.getFrame().tpf;
@@ -206,7 +212,8 @@ class DomEditAttach {
                         root:statusMap.root,
                         folder:statusMap.folder,
                         parent:statusMap.parent,
-                        config:config
+                        config:config,
+                        onEditCB:applyEdit
                     }
                     configEdit.initEditTool(closeConfigEdit, map);
                 }
@@ -253,6 +260,7 @@ class DomEditAttach {
 
 
         let applySelection = function(id) {
+            console.log("applySelection", id);
             selectionId = id;
             if (id === "") {
                 applyContainerDiv.style.display = "none"
@@ -277,7 +285,6 @@ class DomEditAttach {
 
             if (selectionId !== selectList.value) {
                 applySelection(selectList.value);
-
             }
         };
 
