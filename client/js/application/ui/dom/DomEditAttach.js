@@ -1,5 +1,5 @@
 import {poolFetch, poolReturn} from "../../utils/PoolUtils.js";
-import {detachConfig, saveEncounterEdits} from "../../utils/ConfigUtils.js";
+import {detachConfig, saveEncounterEdits, saveWorldModelEdits} from "../../utils/ConfigUtils.js";
 import {getEditIndex} from "../../../../../Server/game/utils/EditorFunctions.js";
 import {Object3D} from "../../../../libs/three/core/Object3D.js";
 import {ENUMS} from "../../ENUMS.js";
@@ -57,7 +57,7 @@ class DomEditAttach {
         let addButtonDiv = null;
         let selectionId = "";
         let cursorObj3d = new Object3D();
-
+        let lastSave = "";
         let attachCursor = null
         let modelCursor = null;
         let configEdit = null;
@@ -128,6 +128,13 @@ class DomEditAttach {
                 }
 
                 editTarget.hierarchyUpdated();
+            //    statusMap.parent.config.attachments[editTarget.config.edit_id] = editTarget.config;
+             //   let save = JSON.stringify(editTarget.config);
+            //   if (lastSave !== save) {
+             //       lastSave = save;
+            //        saveWorldModelEdits(statusMap.parent);
+           //     }
+
             }
         }
 
@@ -164,6 +171,7 @@ class DomEditAttach {
                     let targetId = config.edit_id;
                     MATH.vec3FromArray(initScaleVec3, config.scale);
                     let models =statusMap.parent.locationModels
+
                     for (let i = 0; i < models.length; i++) {
                         if (models[i].config.edit_id === targetId) {
                             editTarget = models[i];
@@ -216,6 +224,11 @@ class DomEditAttach {
             htmlElem = htmlEl;
             statusMap = htmlElem.statusMap;
             rootElem = htmlEl.call.getRootElement();
+
+            let parentConfig = statusMap.parent.config;
+            if (typeof (parentConfig.attachments !== 'object')) {
+                parentConfig.attachments = {};
+            }
 
             statusMap.axis = "Y";
             let axisSelect = htmlElem.call.getChildElement('axis');
