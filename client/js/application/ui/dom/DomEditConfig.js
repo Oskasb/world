@@ -1,5 +1,11 @@
 import {poolFetch, poolReturn} from "../../utils/PoolUtils.js";
-import {getReversedConfigs, mappedConfigKey, saveConfigEdits, saveEncounterEdits} from "../../utils/ConfigUtils.js";
+import {
+    getReversedConfigs,
+    loadSavedConfig,
+    mappedConfigKey,
+    saveConfigEdits,
+    saveEncounterEdits
+} from "../../utils/ConfigUtils.js";
 import {getEditIndex} from "../../../../../Server/game/utils/EditorFunctions.js";
 
 let reverseMap = null;
@@ -53,7 +59,12 @@ class DomEditConfig {
         function applyEdit() {
             console.log("Apply Edit", statusMap);
             statusMap.parent.id = saveConfigEdits(statusMap.root, statusMap.folder, statusMap.id, statusMap.config)
-            statusMap.onEditCB(statusMap.config);
+
+            let cb = function(conf) {
+                statusMap.onEditCB(conf);
+            }
+            loadSavedConfig(statusMap.parent.id, cb)
+
         }
 
         function closeEditValues() {

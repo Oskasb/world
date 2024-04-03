@@ -335,11 +335,7 @@ class DomEditModel {
                     onEditCB:model.call.applyLoadedConfig
                 }
                 activeTool.initEditTool(closeActiveTool, map)
-
             }
-
-
-
         }
 
         let update = function() {
