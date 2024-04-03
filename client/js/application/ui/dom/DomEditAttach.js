@@ -1,5 +1,5 @@
 import {poolFetch, poolReturn} from "../../utils/PoolUtils.js";
-import {detachConfig, saveEncounterEdits, saveWorldModelEdits} from "../../utils/ConfigUtils.js";
+import {detachConfig, saveEncounterEdits} from "../../utils/ConfigUtils.js";
 import {getEditIndex} from "../../../../../Server/game/utils/EditorFunctions.js";
 import {Object3D} from "../../../../libs/three/core/Object3D.js";
 import {ENUMS} from "../../ENUMS.js";
@@ -57,7 +57,7 @@ class DomEditAttach {
         let addButtonDiv = null;
         let selectionId = "";
         let cursorObj3d = new Object3D();
-        let lastSave = "";
+
         let attachCursor = null
         let modelCursor = null;
         let configEdit = null;
@@ -84,13 +84,6 @@ class DomEditAttach {
         function applyAdd() {
           //  statusMap.activateSelection(selectionId);
         }
-
-        function applyEdit(edit) {
-            console.log("Apply Edit ", edit)
-            //  statusMap.activateSelection(selectionId);
-        }
-
-        let hold = 0.5;
 
         function onCursorUpdate(obj3d) {
             if (attachCursor !== null) {
@@ -135,19 +128,6 @@ class DomEditAttach {
                 }
 
                 editTarget.hierarchyUpdated();
-
-                let save = JSON.stringify(statusMap.config);
-                if (save !== lastSave) {
-                    if (hold > 0.5) {
-                        lastSave = save;
-                        hold = 0;
-                        saveWorldModelEdits(statusMap.parent)
-                    }
-
-                }
-
-                hold += GameAPI.getFrame().tpf;
-
             }
         }
 
@@ -156,7 +136,6 @@ class DomEditAttach {
         }
 
         function closeConfigEdit() {
-            saveWorldModelEdits(statusMap.parent);
             if (configEdit !== null) {
                 poolReturn(configEdit);
                 configEdit.closeEditTool();
@@ -184,8 +163,7 @@ class DomEditAttach {
 
                     let targetId = config.edit_id;
                     MATH.vec3FromArray(initScaleVec3, config.scale);
-                    let models = statusMap.parent.locationModels
-                    statusMap.parent.config.attachments[targetId] = config;
+                    let models =statusMap.parent.locationModels
                     for (let i = 0; i < models.length; i++) {
                         if (models[i].config.edit_id === targetId) {
                             editTarget = models[i];
@@ -212,8 +190,7 @@ class DomEditAttach {
                         root:statusMap.root,
                         folder:statusMap.folder,
                         parent:statusMap.parent,
-                        config:config,
-                        onEditCB:applyEdit
+                        config:config
                     }
                     configEdit.initEditTool(closeConfigEdit, map);
                 }
@@ -240,11 +217,6 @@ class DomEditAttach {
             statusMap = htmlElem.statusMap;
             rootElem = htmlEl.call.getRootElement();
 
-            let parentConfig = statusMap.parent.config;
-            if (typeof (parentConfig.attachments !== 'object')) {
-                parentConfig.attachments = {};
-            }
-
             statusMap.axis = "Y";
             let axisSelect = htmlElem.call.getChildElement('axis');
             htmlElem.call.populateSelectList('axis', axisRot)
@@ -260,7 +232,6 @@ class DomEditAttach {
 
 
         let applySelection = function(id) {
-            console.log("applySelection", id);
             selectionId = id;
             if (id === "") {
                 applyContainerDiv.style.display = "none"
@@ -285,6 +256,7 @@ class DomEditAttach {
 
             if (selectionId !== selectList.value) {
                 applySelection(selectList.value);
+
             }
         };
 
