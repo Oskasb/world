@@ -138,6 +138,8 @@
         {"id": "file_indicator_spawn",       "config": { "url": "./client/assets/models/shapes/indicator_spawn"                      }},
         {"id": "file_bullet",        "config": { "url": "./client/assets/models/shapes/bullet"                                       }},
 
+        {"id": "file_flowerpot_empty",        "config": { "url": "./client/assets/models/domestic/flowerpot_empty"                                       }},
+
         {"id": "file_scraper_10",    "config": { "url": "./client/assets/models/buildings/scraper_10"                               }},
         {"id": "file_scraper_17",    "config": { "url": "./client/assets/models/buildings/scraper_17"                               }},
         {"id": "file_block_4",       "config": { "url": "./client/assets/models/buildings/block_4"                                      }},
