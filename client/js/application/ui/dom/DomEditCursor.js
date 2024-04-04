@@ -266,7 +266,12 @@ class DomEditCursor {
         this.call.close();
         ThreeAPI.unregisterPrerenderCallback(this.call.update);
         this.htmlElement.closeHtmlElement();
-        poolReturn(this.htmlElement);
+        if (this.htmlElement === null) {
+            console.log("Element already removed")
+        } else {
+
+            poolReturn(this.htmlElement);
+        }
         this.htmlElement = null;
     }
 

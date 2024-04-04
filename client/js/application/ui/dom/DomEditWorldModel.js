@@ -108,6 +108,7 @@ class DomEditWorldModel {
 
 
         let updateSelectedOperation = function() {
+            closeEditAttach()
             console.log("updateSelectedOperation")
             if (selectedOperation === "") {
                 applyOperationDiv.style.opacity = "0.4";
@@ -117,13 +118,11 @@ class DomEditWorldModel {
             applyOperationDiv.innerHTML = selectedOperation;
 
             if (selectedOperation === "ATTACH") {
-                closeEditAttach()
+
                 editAttach = poolFetch('DomEditAttach');
                 let config = detachConfig(locationModelConfigTemplate);
                 let map = {
                     id:config.edit_id,
-                    root:"create",
-                    folder:"model",
                     parent:worldModel,
                     config:config
                 }
@@ -154,6 +153,7 @@ class DomEditWorldModel {
         }
 
         let htmlReady = function(htmlEl) {
+            selectedOperation = "";
             htmlElem = htmlEl;
             rootElem = htmlEl.call.getRootElement();
             paletteVal = htmlElem.call.getChildElement('palette');
@@ -166,6 +166,7 @@ class DomEditWorldModel {
 
             applyOperationDiv = htmlElem.call.getChildElement('apply_operation');
             operationSelect = htmlElem.call.getChildElement('operation');
+            operationSelect.value = selectedOperation;
             DomUtils.addClickFunction(applyOperationDiv, applyOperation)
 
             rootElem.style.transition = 'none';
@@ -213,7 +214,7 @@ class DomEditWorldModel {
         };
 
         let close = function() {
-            this.htmlElement.closeHtmlElement();
+            this.closeEditTool();
         }.bind(this);
 
         this.call = {
@@ -233,10 +234,14 @@ class DomEditWorldModel {
     }
 
     closeEditTool() {
-        closeEditAttach()
         ThreeAPI.unregisterPrerenderCallback(this.call.update);
+
         this.htmlElement.closeHtmlElement();
-        poolReturn(this.htmlElement);
+        if (!this.htmlElement) {
+            console.log("Element already removed")
+        } else {
+            poolReturn(this.htmlElement);
+        }
         this.htmlElement = null;
     }
 

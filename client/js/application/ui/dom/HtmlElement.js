@@ -34,6 +34,7 @@ class HtmlElement {
         this.iframe = null;
         this.statusMap = null;
         this.editStatus = null;
+        this.onCloseCallbacks = [];
         let width = null;
         let height = null;
         let iframeDocument = null;
@@ -154,6 +155,13 @@ class HtmlElement {
             });
         }
 
+        let close = function() {
+            this.hideHtmlElement();
+            while (this.onCloseCallbacks.length) {
+                this.onCloseCallbacks.pop()(this);
+            }
+        }.bind(this)
+
         this.call = {
             getChildElement:getChildElement,
             createElement:createElement,
@@ -161,7 +169,8 @@ class HtmlElement {
             getIframe:getIframe,
             populateSelectList:populateSelectList,
             getRootElement:getRootElement,
-            update:update
+            update:update,
+            close:close
         }
 
     }
@@ -177,9 +186,12 @@ class HtmlElement {
     initHtmlElement(url, onCloseCB, statusMap, styleClass, readyCb) {
         let containerClass = styleClass || 'full_screen'
 
+        MATH.emptyArray(this.onCloseCallbacks);
+
         if (this.container !== null) {
             this.closeHtmlElement();
         }
+
 
         this.statusMap = statusMap;
         this.editStatus = {};
@@ -226,6 +238,7 @@ class HtmlElement {
                 closeButton.style.pointerEvents = "auto";
                 closeButton.style.cursor = "pointer";
                 DomUtils.addClickFunction(closeButton, onCloseClick)
+                this.onCloseCallbacks.push(onCloseCB);
             }
 
             let backdrop = iframeDocument.getElementById('backdrop')
@@ -271,8 +284,8 @@ class HtmlElement {
 
         let onCloseClick = function(e) {
         //    console.log("Close Clicked", e, this);
-            this.hideHtmlElement();
-            onCloseCB(this);
+            this.call.close()
+
         }.bind(this);
 
         this.container = DomUtils.createIframeElement('canvas_window', this.id, file, containerClass, onLoad)
@@ -339,7 +352,7 @@ class HtmlElement {
     }
 
     closeHtmlElement() {
-    //    this.hideHtmlElement();
+        this.call.close()
         if (this.container !== null) {
             MATH.splice(activeRootElements, this.container);
             DomUtils.removeElement(this.container);

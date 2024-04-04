@@ -51,7 +51,7 @@ class LocationModel {
 
         this.box = new Box3();
 
-        let paletteKey = 'DEFAULT'
+        let paletteKey = config.paletteKey || 'DEFAULT'
         this.palette = poolFetch('VisualModelPalette')
         this.palette.initPalette()
         this.bodyPointers = [];

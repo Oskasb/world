@@ -7,9 +7,10 @@ import {WorldModel} from "../../../game/gameworld/WorldModel.js";
 import {ConfigData} from "../../utils/ConfigData.js";
 import {Vector3} from "../../../../libs/three/math/Vector3.js";
 import {Quaternion} from "../../../../libs/three/math/Quaternion.js";
+import {LocationModel} from "../../../game/gameworld/LocationModel.js";
 
 let assetConfigs = null;
-let assets = [];
+let assets = [""];
 let tempVec = new Vector3();
 let tempObj = new Object3D();
 let tempQuat = new Quaternion();
@@ -62,24 +63,31 @@ class DomEditAttach {
         let selectList = null;
         let editSelect = null;
         let addButtonDiv = null;
-        let selectionId = "";
         let cursorObj3d = new Object3D();
-        let lastSave = "";
         let modelCursor = null;
         let configEdit = null;
+
+
+        let selectionId = "";
         let editTarget = null;
         let activeEdit = null;
         let changeToModel = null;
+
+        function setEditTarget(t) {
+            editTarget = t;
+            statusMap.config = editTarget.config;
+        }
         let closeCursorCB = function() {
 
         }
 
         let closeCursor = function() {
 
-            if (modelCursor !== null) {
-                modelCursor.closeDomEditCursor();
-                poolReturn(modelCursor);
+            if (modelCursor !== null) { // this gets called twice sometimes
+                let crsr = modelCursor;
                 modelCursor = null;
+                crsr.closeDomEditCursor();
+                poolReturn(crsr);
             }
 
         }
@@ -88,6 +96,7 @@ class DomEditAttach {
         function applyOperateButton(x) {
             console.log("Apply applyOperateButton: ", x);
             //  statusMap.activateSelection(selectionId);
+            let cAssets = statusMap.parent.config.assets;
             if (activeEdit === 'NEW') {
                 editTarget.call.setPaletteKey('DEFAULT');
                 editTarget.config.paletteKey = 'DEFAULT';
@@ -96,7 +105,7 @@ class DomEditAttach {
                     statusMap.parent.config.assets = [];
                 }
 
-                let cAssets = statusMap.parent.config.assets;
+
                 let add = true;
                 for (let i = 0; i < cAssets.length; i++ ) {
                     if (cAssets[i].edit_id === editTarget.config.edit_id) {
@@ -104,19 +113,33 @@ class DomEditAttach {
                     }
                 }
                 if (add === true) {
+                    editTarget.config.edit_id = "";
+                    editTarget.config = detachConfig(editTarget.config)
                     cAssets.push(editTarget.config)
                 }
 
                 saveWorldModelEdits(statusMap.parent);
+
+                editSelect.value = 'MODIFY';
+                applyEditMode(editSelect.value);
+                selectList.value = cAssets.indexOf(editTarget.config);
+
             }
             if (activeEdit === 'MODIFY') {
-                editTarget.call.setPaletteKey('DEFAULT');
-                editTarget.config.paletteKey = 'DEFAULT';
-                //    statusMap.parent.config.attachments[editTarget.config.edit_id] = editTarget.config;
-                //   let save = JSON.stringify(editTarget.config);
-                //   if (lastSave !== save) {
-                //       lastSave = save;
-                saveWorldModelEdits(statusMap.parent);
+                let remove = null;
+                for (let i = 0; i < cAssets.length; i++ ) {
+                    if (cAssets[i].edit_id === editTarget.config.edit_id) {
+                        remove = cAssets[i];
+                    }
+                }
+                if (remove !== null) {
+                    MATH.splice(cAssets, remove);
+                    editTarget.removeLocationModel();
+                    saveWorldModelEdits(statusMap.parent);
+                    editSelect.value = 'NEW';
+                }
+
+
             }
 
             //     }
@@ -160,12 +183,6 @@ class DomEditAttach {
                 }
 
                 editTarget.hierarchyUpdated();
-             //   statusMap.parent.config.attachments[editTarget.config.edit_id] = editTarget.config;
-             //   let save = JSON.stringify(editTarget.config);
-            //   if (lastSave !== save) {
-             //       lastSave = save;
-           //         saveWorldModelEdits(statusMap.parent);
-           //     }
 
             }
         }
@@ -186,73 +203,75 @@ class DomEditAttach {
 
             let config = detachConfig(locationModelConfigTemplate);
             config.asset = selectionId;
-            let assets = statusMap.parent.configData.assets
-
-
-            for (let i = 0; i < assets.length; i++) {
-                if (assets[i].edit_id !== config.edit_id) {
-                 console.log("BAD ATTACH LOOP... not needed but tired")
-                    statusMap.parent.configData.assets.push(config);
-                }
-            }
-            statusMap.parent.call.locationModels(statusMap.parent.configData)
+            config.paletteKey = 'ITEMS_MONO';
+            setEditTarget(new LocationModel(statusMap.parent.obj3d, config))
+            editTarget.call.lodUpdated(0);
             callback(config);
+        }
+
+        function initModelCursor() {
+            closeCursor()
+            modelCursor = poolFetch('DomEditCursor');
+
+            function closeModelCursor() {
+                if (modelCursor !== null) {
+                    modelCursor.closeDomEditCursor();
+                    poolReturn(modelCursor);
+                    modelCursor = null;
+                }
+                closeConfigEdit();
+            }
+
+            modelCursor.initDomEditCursor(closeModelCursor, cursorObj3d, onCursorUpdate, onCursorClick)
+        }
+
+        function initConfigEdit(config) {
+            closeConfigEdit()
+            configEdit = poolFetch('DomEditConfig');
+            let map = {
+                id:selectionId,
+                root:statusMap.root,
+                folder:statusMap.folder,
+                parent:statusMap.parent,
+                config:config,
+                onEditCB:applyEdit
+            }
+            configEdit.initEditTool(closeConfigEdit, map);
         }
 
         function selectionUpdate(selectionId) {
 
-            closeCursor()
+
 
             if (selectionId === "") {
-
+                closeCursor()
             } else {
                 function attachCallback(config) {
 
-                    let targetId = config.edit_id;
                     MATH.vec3FromArray(initScaleVec3, config.scale);
-                    let models =statusMap.parent.locationModels
+                    initModelCursor()
+                    initConfigEdit(config)
 
-                    for (let i = 0; i < models.length; i++) {
-                        if (models[i].config.edit_id === targetId) {
-                            editTarget = models[i];
-                        }
-                    }
-
-                    editTarget.call.setPaletteKey('ITEMS_MONO')
-                //    closeCursor()
-                    closeConfigEdit()
-                    modelCursor = poolFetch('DomEditCursor');
-
-                    function closeModelCursor() {
-                        if (modelCursor !== null) {
-                            modelCursor.closeDomEditCursor();
-                            poolReturn(modelCursor);
-                            modelCursor = null;
-                        }
-                        closeConfigEdit();
-                    }
-
-                    modelCursor.initDomEditCursor(closeModelCursor, cursorObj3d, onCursorUpdate, onCursorClick)
-                    configEdit = poolFetch('DomEditConfig');
-                    let map = {
-                        id:selectionId,
-                        root:statusMap.root,
-                        folder:statusMap.folder,
-                        parent:statusMap.parent,
-                        config:config,
-                        onEditCB:applyEdit
-                    }
-                    configEdit.initEditTool(closeConfigEdit, map);
                 }
 
                 attachFunction(selectionId, attachCallback);
-
             }
+        }
 
-
+        function editSelectedLocationModel() {
+            let config = editTarget.config;
+            MATH.vec3FromArray(initScaleVec3, config.scale)
+            initModelCursor()
+            changeModelSelection.value = config.model;
+            initConfigEdit(config);
         }
 
         let htmlReady = function(htmlEl) {
+            selectionId = "";
+            editTarget = null;
+            activeEdit = null;
+            changeToModel = null;
+
             htmlElem = htmlEl;
             statusMap = htmlElem.statusMap;
             rootElem = htmlEl.call.getRootElement();
@@ -287,31 +306,43 @@ class DomEditAttach {
                 htmlElem.call.populateSelectList('select_list', editList)
                 changeModelContainer.style.display = 'none';
             } else if (mode === 'MODIFY') {
-                addButtonDiv.innerHTML = "REMOVE"
-                for (let i = 0;i < statusMap.parent.configData.assets.length; i++) {
-                    editList.push(i);
-                    htmlElem.call.populateSelectList('select_list', editList)
-                //    changeModelContainer.style.display = '';
+                let cAssets = statusMap.parent.config.assets;
+                if (!cAssets) {
+                    editSelect.value = 'NEW';
+                }else if (cAssets.length === 0) {
+                    editSelect.value = 'NEW';
+                }else {
+                    addButtonDiv.innerHTML = "REMOVE"
+                    editList.push("");
+                    for (let i = 0;i < statusMap.parent.config.assets.length; i++) {
+                        editList.push(""+i);
+                        htmlElem.call.populateSelectList('select_list', editList)
+                    }
                 }
             }
+        }
 
-        };
         let applySelection = function(id) {
             selectionId = id;
 
             if (editSelect.value === 'MODIFY') {
-                if (id === "0") {
+                let models =statusMap.parent.locationModels
+
+                for (let i = 0; i < models.length; i++ ) {
+                    if (models[i].config.edit_id === statusMap.config.edit_id) {
+                        setEditTarget( models[i])
+                    }
+                }
+
+                if (!editTarget) {
                     changeModelContainer.style.display = "none"
                 } else {
                     changeModelContainer.style.display = ""
-
-                    let models =statusMap.parent.locationModels
-                    editTarget = models[id];
                     console.log("Set Edit Target ", changeToModel);
                     console.log(editTarget)
                     ThreeAPI.getCameraCursor().getLookAroundPoint().copy(editTarget.getPos())
-                    modelCursor.call.setPos(editTarget.getPos());
-                    selectionUpdate(changeToModel);
+
+                    editSelectedLocationModel()
                     return;
                 }
             } else {

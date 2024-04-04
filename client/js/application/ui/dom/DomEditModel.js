@@ -280,6 +280,9 @@ class DomEditModel {
         let closeEditCursor = function(htmlElem) {
             let cursor = htmlElem.cursor;
             let model = htmlElem.model;
+            if (model === null) {
+                return;
+            }
             editCursors[model.id] = false;
             htmlElem.cursor = null;
             htmlElem.model = null;
