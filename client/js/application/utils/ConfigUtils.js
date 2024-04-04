@@ -325,7 +325,8 @@ function saveEncounterEdits(encounter) {
 function saveWorldModelEdits(wModel) {
     let worldLevel = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
     wModel.id = saveConfigEdits("model", worldLevel, wModel.id, wModel.config)
-    console.log("Save World Model config ", wModel);
+    wModel.config = savedConfigs[wModel.id];
+    console.log("Save World Model config ", wModel, wModel.config);
 }
 
 

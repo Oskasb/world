@@ -67,13 +67,27 @@ class DomEditAttach {
         let cursorObj3d = new Object3D();
         let modelCursor = null;
         let configEdit = null;
-
+        let rotateAxisDiv = null;
 
         let selectionId = "";
         let editTarget = null;
         let activeEdit = null;
         let changeToModel = null;
 
+        let lastSaveString = "";
+        let lastSaveTime = 0;
+        function autoSaveEdits() {
+            let testSave;
+            if (editTarget !== null) {
+                testSave = JSON.stringify(editTarget.config);
+            } else {
+                testSave = JSON.stringify(statusMap.parent.config);
+            }
+
+            if (testSave !== lastSaveString) {
+                saveEdits();
+            }
+        }
 
         function getLocModelByEditId(editId) {
             let models = statusMap.parent.locationModels;
@@ -85,35 +99,43 @@ class DomEditAttach {
         }
 
         function saveEdits() {
-
-            if (assets.indexOf(editTarget.config.asset) === -1) {
-                console.log("Bad config save ", statusMap, editTarget)
-                return;
-            }
-
-            if (! editTarget.config.paletteKey || editTarget.config.paletteKey === editPalette) {
-                editTarget.call.setPaletteKey('DEFAULT');
-                editTarget.config.paletteKey = 'DEFAULT';
-            }
-
-            if (!statusMap.parent.config.assets) {
-                statusMap.parent.config.assets = [];
-            }
-            let cAssets = statusMap.parent.config.assets;
-
-            let add = true;
-            for (let i = 0; i < cAssets.length; i++ ) {
-                if (cAssets[i].edit_id === editTarget.config.edit_id) {
-                    add = false;
+            lastSaveTime = GameAPI.getGameTime();
+            if (editTarget !== null) {
+                if (assets.indexOf(editTarget.config.asset) === -1) {
+                    console.log("Bad config save ", statusMap, editTarget)
+                    return;
                 }
-            }
-            if (add === true) {
-                editTarget.config.edit_id = "";
-                editTarget.config = detachConfig(editTarget.config)
-                cAssets.push(editTarget.config)
+
+                if (! editTarget.config.paletteKey || editTarget.config.paletteKey === editPalette) {
+                    editTarget.call.setPaletteKey('DEFAULT');
+                    editTarget.config.paletteKey = 'DEFAULT';
+                }
+
+                if (!statusMap.parent.config.assets) {
+                    statusMap.parent.config.assets = [];
+                }
+                let cAssets = statusMap.parent.config.assets;
+
+                let add = true;
+                for (let i = 0; i < cAssets.length; i++ ) {
+                    if (cAssets[i].edit_id === editTarget.config.edit_id) {
+                        cAssets[i] = editTarget.config;
+                        add = false;
+                    }
+                }
+                if (add === true) {
+                    editTarget.config.edit_id = "";
+                    editTarget.config = detachConfig(editTarget.config)
+                    initConfigEdit(editTarget.config)
+                    cAssets.push(editTarget.config)
+                }
+                lastSaveString = JSON.stringify(editTarget.config)
+            } else {
+                lastSaveString = JSON.stringify(statusMap.parent.config)
             }
 
             saveWorldModelEdits(statusMap.parent);
+
         }
 
         function setEditTarget(t) {
@@ -132,6 +154,7 @@ class DomEditAttach {
             statusMap.config = editTarget.config;
             changeModelSelection.value = editTarget.config.asset;
             saveEdits();
+            initConfigEdit(editTarget.config)
         }
         let closeCursorCB = function() {
 
@@ -145,6 +168,7 @@ class DomEditAttach {
                 crsr.closeDomEditCursor();
                 poolReturn(crsr);
             }
+
         }
 
 
@@ -153,6 +177,12 @@ class DomEditAttach {
             //  statusMap.activateSelection(selectionId);
             let cAssets = statusMap.parent.config.assets;
             if (activeEdit === 'NEW') {
+
+                if (selectionId === "") {
+                    console.log("Setup template handling here...")
+                    return;
+                }
+
                 saveEdits()
                 selectionUpdate(editTarget.config.asset)
             }
@@ -167,6 +197,7 @@ class DomEditAttach {
                 if (remove !== null) {
                     MATH.splice(cAssets, remove);
                     editTarget.removeLocationModel();
+                    editTarget = null;
                     console.log("Remaining model configs ", cAssets)
                     saveWorldModelEdits(statusMap.parent);
                     editSelect.value = 'NEW';
@@ -282,7 +313,7 @@ class DomEditAttach {
                 function attachCallback(config) {
                     MATH.vec3FromArray(initScaleVec3, config.scale);
                     initModelCursor()
-                    initConfigEdit(config)
+
                 }
 
                 attachFunction(selectionId, attachCallback);
@@ -307,7 +338,7 @@ class DomEditAttach {
             rootElem = htmlEl.call.getRootElement();
 
             let parentConfig = statusMap.parent.config;
-
+            rotateAxisDiv = htmlElem.call.getChildElement('rotate_container');
             editSelect = htmlElem.call.getChildElement('edit');
             htmlElem.call.populateSelectList('edit', edits)
 
@@ -331,8 +362,8 @@ class DomEditAttach {
         function applyEditMode(mode) {
             MATH.emptyArray(editList)
             if (mode === 'NEW') {
-            //    editTarget = "";
-                addButtonDiv.innerHTML = "ADD"
+
+
                 MATH.copyArrayValues(assets, editList)
                 htmlElem.call.populateSelectList('select_list', editList)
                 changeModelContainer.style.display = 'none';
@@ -357,6 +388,14 @@ class DomEditAttach {
             selectionId = id;
 
             let model = getLocModelByEditId(selectionId)
+
+        //    applyContainerDiv.style.display = '';
+
+            if (selectionId === '') {
+                rotateAxisDiv.style.display = 'none'
+            } else {
+                rotateAxisDiv.style.display = ''
+            }
 
             if (model) {
                 console.log("model Selection Update ", id);
@@ -403,9 +442,37 @@ class DomEditAttach {
                 applySelection(selectList.value);
             }
 
+            if (lastSaveTime < GameAPI.getGameTime() - 1) {
+                autoSaveEdits();
+            }
+
+            if (activeEdit === 'NEW') {
+                let str = 'ADD'
+                if (selectionId === "") {
+                    str = "TEMPLATE"
+                }
+                if (addButtonDiv.innerHTML !== str) {
+                    addButtonDiv.innerHTML = str
+                }
+                if (applyContainerDiv.style.display !== '') {
+                    applyContainerDiv.style.display = '';
+                }
+
+            }
+
+            if (activeEdit === 'MODIFY') {
+                if (selectionId === "") {
+                    applyContainerDiv.style.display = 'none';
+                } else {
+                    applyContainerDiv.style.display = '';
+                }
+            }
+
+
         };
 
         let close = function() {
+            saveEdits();
             closeCursor();
             closeConfigEdit();
         }

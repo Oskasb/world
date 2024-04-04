@@ -21,7 +21,10 @@ let operationsList = [
 function closeEditAttach() {
     if (editAttach !== null) {
         editAttach.closeEditTool();
-        poolReturn(editAttach);
+        if (editAttach !== null) { // called twice sometimes?
+            poolReturn(editAttach);
+        }
+
         editAttach = null;
     }
 }
