@@ -63,16 +63,20 @@ function processLoadedFile(id) {
     let root = indexEntry.root;
     let folder = indexEntry.folder;
     let format = indexEntry.format
+    let path = indexEntry.path;
 
     if (format === 'json') {
-        if (root === 'model') {
+        if (path === 'configs/') {
+
             GameAPI.worldModels.setLoadedConfig(root, folder, id, savedConfigs[id]);
-        } else if (root === 'encounter') {
-            GameAPI.worldModels.setLoadedConfig(root, folder, id, savedConfigs[id]);
-        } else {
-            console.log("Unsupported Config root Folder")
+        }
+        if (path === 'templates/') {
+
+            GameAPI.worldModels.setLoadedTemplate(root, folder, id, savedConfigs[id]);
         }
     }
+
+
 
     if (format === "buffer") {
         console.log("Load saved image buffer")
@@ -286,14 +290,19 @@ function applyRemoteConfigMessage(message) {
     }
 }
 
-function saveConfigEdits(root, folder, id, editedConfig) {
+function saveConfigEdits(root, folder, id, editedConfig, path) {
     if (!editedConfig.edit_id) {
         editedConfig.edit_id = generateEditId();
     }
     let saveId = generateSaveId();
     activeSaves.push(saveId)
     let json = JSON.stringify(editedConfig);
+
     savedConfigs[id] = JSON.parse(json);
+
+    if (path === 'template/') {
+        GameAPI.worldModels.setLoadedTemplate(root, folder, id, savedConfigs[id]);
+    }
 
     evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, {
         request:ENUMS.ClientRequests.WRITE_FILE,
@@ -301,7 +310,7 @@ function saveConfigEdits(root, folder, id, editedConfig) {
         root:root,
         folder:folder,
         format:"json",
-        path: "configs/",
+        path: path || "configs/",
         save:saveId,
         data:json,
     })

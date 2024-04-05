@@ -178,8 +178,9 @@ class WorldModel {
 
 
 
-        let applyLoadedConfig = function(cfg, id) {
+        let applyLoadedConfig = function(cfg, id, replace) {
             if (cfg !== null) {
+
 
                 if (this.id) {
                     if (this.id !== cfg.edit_id) {
@@ -193,7 +194,7 @@ class WorldModel {
 
                 console.log("applyLoadedConfig", this.id, cfg.model, originalModel, this.config.model)
 
-                if (cfg.model !== originalModel) {
+                if (cfg.model !== originalModel || replace === true) {
                     GameAPI.worldModels.removeWorldModel(this);
                     GameAPI.worldModels.addConfigModel(cfg, cfg.edit_id);
                     return;

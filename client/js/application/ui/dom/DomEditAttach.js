@@ -172,6 +172,7 @@ class DomEditAttach {
         }
 
 
+        let attachTool = this;
         function applyOperateButton(x) {
             console.log("Apply applyOperateButton: ", x);
             //  statusMap.activateSelection(selectionId);
@@ -180,11 +181,29 @@ class DomEditAttach {
 
                 if (selectionId === "") {
                     console.log("Setup template handling here...")
+
+                    let templateEdit = poolFetch('DomEditTemplate')
+                    let config = detachConfig(statusMap.parent.config)
+                    config.edit_id = "tpl_"+statusMap.parent.config.edit_id
+                    let map = {
+                        id:statusMap.parent.id,
+                        parent:statusMap.parent,
+                        config:config,
+                        root:"world",
+                        folder:"model"
+                    }
+
+                    let closeTmpl = function() {
+                        poolReturn(templateEdit);
+                    }
+
+                    ThreeAPI.getCameraCursor().getLookAroundPoint().copy(statusMap.parent.getPos())
+
+                    templateEdit.initEditTool(closeTmpl, map)
+                    attachTool.closeEditTool();
                     return;
                 }
 
-                saveEdits()
-                selectionUpdate(editTarget.config.asset)
             }
 
             if (activeEdit === 'MODIFY') {

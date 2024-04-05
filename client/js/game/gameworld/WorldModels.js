@@ -15,6 +15,7 @@ let skippedEncounters = {};
 let dynamicSpawnPoints = [];
 
 let loadedConfigs = {}
+let loadedTemplates = {};
 
 let activateEvent = {world_encounters:[]};
 
@@ -326,10 +327,23 @@ class WorldModels {
             } else if (folder === lastWorldLevel) {
                 loadModelFromConfig(config)
             }
+        }
+    }
 
+    setLoadedTemplate(root, folder, id, config) {
+
+        let map = {
+            id:id,
+            root:root,
+            folder:folder,
+            config:config
         }
 
+        loadedTemplates[id] = map;
+    }
 
+    getLoadedTemplates() {
+        return loadedTemplates;
     }
 
     getActiveWorldModel(id) {
