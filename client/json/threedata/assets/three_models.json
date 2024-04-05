@@ -158,6 +158,8 @@
         {"id": "asset_hat_leather_brown", "config": { "model": "file_hat_leather_brown", "material": "mat_instancing_basic",  "settings": "model_settings_items"  }},
         {"id": "asset_hat_pointy_white", "config": { "model": "file_hat_pointy_white", "material": "mat_instancing_basic",  "settings": "model_settings_items"  }},
 
+        {"id": "asset_flowerpot_empty",         "config": { "model": "file_flowerpot_empty",          "material": "mat_instancing_basic",     "settings": "model_settings_instancing_50" }},
+
         {"id": "asset_cottage",         "config": { "model": "file_cottage",          "material": "mat_instancing_basic",     "settings": "model_settings_instancing_50" }},
         {"id": "asset_cottage_hull_1",  "config": { "model": "file_cottage_hull_1",   "material": "mat_instancing_basic",     "settings": "model_settings_instancing_1" }},
         {"id": "asset_cottage_hull_2",  "config": { "model": "file_cottage_hull_2",   "material": "mat_instancing_basic",     "settings": "model_settings_instancing_1" }},
