@@ -253,6 +253,10 @@ div.panel_config {
     right: 0;
 }
 
+div.string_edit {
+    right: 0.8em;
+}
+
 div.settings_panel {
     z-index: 10000;
     pointer-events: auto;

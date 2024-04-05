@@ -8,7 +8,7 @@ import {WorldModel} from "../../../game/gameworld/WorldModel.js";
 
 let select = []
 
-class DomEditTemplate {
+class DomEditString {
     constructor() {
 
         let statusMap = null
@@ -26,6 +26,7 @@ class DomEditTemplate {
         let createCursor = null
         let configEdit = null;
 
+        let inputElem = null;
         let closeCursorCB = function() {
 
         }
@@ -39,56 +40,19 @@ class DomEditTemplate {
         }
 
         function updateSelectList() {
-            let loadedTemplates = GameAPI.worldModels.getLoadedTemplates();
 
-            for (let key in loadedTemplates) {
-                let map = loadedTemplates[key];
-                if (map.root === statusMap.root && map.folder === statusMap.folder) {
-                    select.push(map.id);
-                }
-            }
-            htmlElem.call.populateSelectList('select_list', select)
         }
 
         function applySave() {
-          //  statusMap.activateSelection(selectionId);
-            saveConfigEdits(statusMap.root, statusMap.folder, statusMap.id, statusMap.config, 'templates/')
-            updateSelectList()
+
         }
 
         function applySaveAs() {
             //  statusMap.activateSelection(selectionId);
-
-            function onUpdate(string, map) {
-                console.log("String Updated: ", string, map)
-                map.to = string;
-            }
-
-            function onSubmit(string, map) {
-                console.log("String Submitted: ", string, map)
-            }
-
-            let map = {
-                id:statusMap.id,
-                from:statusMap.config.edit_id,
-                string:"",
-                to:"",
-                onUpdate:onUpdate,
-                onSubmit:onSubmit
-            }
-
-            function onClose() {
-                poolReturn(stringEdit);
-                stringEdit = null;
-            }
-
-            let stringEdit = poolFetch('DomEditString');
-            stringEdit.initEditTool(onClose, map)
-
         }
 
         function applyLoad() {
-            statusMap.parent.call.applyLoadedConfig(loadConfig, statusMap.id, true);
+
         }
 
 
@@ -140,7 +104,7 @@ class DomEditTemplate {
                 }
             }
 
-            selectList = htmlElem.call.getChildElement('select_list');
+            inputElem = htmlElem.call.getChildElement('string');
 
 
 
@@ -170,10 +134,15 @@ class DomEditTemplate {
         };
 
         let update = function() {
-            cursorObj3d.position.copy(ThreeAPI.getCameraCursor().getLookAroundPoint());
-            if (selectionId !== selectList.value) {
-                applySelection(selectList.value);
+            statusMap.string = inputElem.value;
+            if (statusMap.to !== statusMap.string) {
+                statusMap.onUpdate(statusMap.string, statusMap)
             }
+    //        statusMap.to =
+    //        cursorObj3d.position.copy(ThreeAPI.getCameraCursor().getLookAroundPoint());
+    //        if (selectionId !== selectList.value) {
+    //            applySelection(selectList.value);
+    //        }
         };
 
         let close = function() {
@@ -196,7 +165,7 @@ class DomEditTemplate {
             }
         }.bind(this)
         this.htmlElement = poolFetch('HtmlElement')
-        this.htmlElement.initHtmlElement('edit_template', closeCb, statusMap, 'edit_frame edit_template', readyCb);
+        this.htmlElement.initHtmlElement('edit_string', closeCb, statusMap, 'edit_frame edit_string', readyCb);
     }
 
     closeEditTool() {
@@ -210,4 +179,4 @@ class DomEditTemplate {
 
 }
 
-export { DomEditTemplate }
+export { DomEditString }

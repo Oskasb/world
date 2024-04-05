@@ -25,7 +25,7 @@ let locationModelConfigTemplate = {
     "asset": "",
     "pos": [0, 0, 0],
     "rot": [0, 0, 0],
-    "scale": [0.02, 0.02, 0.02],
+    "scale": [0.01, 0.01, 0.01],
     "solidity": 1.0,
     "visibility": 3,
     "boxes": []

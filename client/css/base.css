@@ -169,6 +169,14 @@ iframe.edit_values {
     background: #2c2c2c;
 }
 
+iframe.edit_string {
+    left: 350em;
+    width: 300em;
+    top: 240em;
+    height: 150em;
+    background: #2c2c2c;
+}
+
 iframe.edit_spawns {
     left: 20em;
     top: 250em;
