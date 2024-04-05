@@ -53,12 +53,12 @@ class DomEditCursor {
             offsetScale:1,
             applyScale:1,
             offsetElevate:0,
-            applyElevate:0
+            applyElevate:0,
+            grid:0
         };
 
         let rootElem = null;
         let htmlElem;
-
 
         let dragY = 0;
         let dragX = 0;
@@ -209,6 +209,19 @@ class DomEditCursor {
             targetObj3d.quaternion.multiply(updateObj3d.quaternion);
             targetObj3d.scale.copy(this.initObj3d.scale);
             targetObj3d.scale.multiplyScalar(this.statusMap.applyScale)
+
+            let grid = this.statusMap.grid;
+            if (grid !== 0) {
+                let res = 1/grid;
+                MATH.decimalifyVec3(targetObj3d.position, res);
+                tempObj3d.position.set(0, 0, 0);
+                tempVec.set(0, 0, MATH.curveSqrt(res)*0.72);
+                tempVec.applyQuaternion(targetObj3d.quaternion);
+                MATH.decimalifyVec3(tempVec, res);
+                tempObj3d.lookAt(tempVec);
+                targetObj3d.quaternion.copy(tempObj3d.quaternion);
+            }
+
             MATH.callAll(this.onUpdateCallbacks, targetObj3d);
 
             rotYDiv.style.rotate = -updateObj3d.rotation.y+"rad"
@@ -252,6 +265,7 @@ class DomEditCursor {
         this.statusMap.offsetElevate = 0;
         this.statusMap.applyScale =1;
         this.statusMap.applyElevate = 0;
+        this.statusMap.grid = 0;
         this.closeCb = closeCb;
         this.onClickCallbacks.push(onClick);
         this.onUpdateCallbacks.push(onUpdate);
