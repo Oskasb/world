@@ -133,11 +133,23 @@ class ServerConnection {
 		}
 		console.log("writeDataToFile", message.id, file);
 
-		let path = rootPath+"/"+editsFolder+"/"+message.path+message.root+"/"+message.folder;
+		let path = rootPath+"/"+editsFolder+"/"+message.path  //  +message.root+"/"+message.folder;
 		try {
 			if (!server.existsSync(path)) {
+				console.log("Make dir for path: ", path)
 				server.mkdirSync(path);
 			}
+			path += message.root+"/"
+			if (!server.existsSync(path)) {
+				console.log("Make dir for path: ", path)
+				server.mkdirSync(path);
+			}
+			path += message.folder
+			if (!server.existsSync(path)) {
+				console.log("Make dir for path: ", path)
+				server.mkdirSync(path);
+			}
+
 		} catch (err) {
 			console.error(err);
 		}

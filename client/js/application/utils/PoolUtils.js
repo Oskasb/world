@@ -149,6 +149,10 @@ function poolFetch(dataKey) {
 }
 
 function poolReturn(entry) {
+    if (entry === null) {
+        console.log("null entry returned to pool, assume double tap")
+        return;
+    }
     pools[entry.constructor.name].returnToExpandingPool(entry)
 }
 

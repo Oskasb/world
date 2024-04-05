@@ -92,13 +92,19 @@ class DomEditEncounter {
         }
 
         let closeEditCursor = function(htmlElem) {
+            if (htmlElem === null) {
+                console.log("This needs its elem.. ")
+                return;
+            }
             let cursor = htmlElem.cursor;
             let encounter = htmlElem.encounter;
-            editCursors[encounter.id] = false;
-            htmlElem.cursor = null;
-            htmlElem.encounter = null;
-            cursor.closeDomEditCursor();
-            poolReturn(cursor);
+            if (encounter !== null) {
+                editCursors[encounter.id] = false;
+                htmlElem.cursor = null;
+                htmlElem.encounter = null;
+                cursor.closeDomEditCursor();
+                poolReturn(cursor);
+            }
         }
 
         let divClicked = function(e) {
