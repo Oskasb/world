@@ -29,6 +29,7 @@ function windowResized(iframe, width, height) {
 
 class HtmlElement {
     constructor() {
+        let closed = false;
         this.id = "";
         this.container = null;
         this.iframe = null;
@@ -40,6 +41,7 @@ class HtmlElement {
         let iframeDocument = null;
         let update = function() {
 
+            closed = false;
             if (!iframeDocument) {
                 return;
             }
@@ -156,9 +158,12 @@ class HtmlElement {
         }
 
         let close = function() {
-            this.hideHtmlElement();
-            while (this.onCloseCallbacks.length) {
-                this.onCloseCallbacks.pop()(this);
+            if (closed === false) {
+                closed = true;
+                this.hideHtmlElement();
+                while (this.onCloseCallbacks.length) {
+                    this.onCloseCallbacks.pop()(this);
+                }
             }
         }.bind(this)
 

@@ -277,9 +277,16 @@ class DomEditEncounter {
     }
 
 
-    initEditTool(closeCb) {
+    initEditTool(closeCb, onReadyCB) {
+
+        let tool = this;
+        function onReady(htmlEl) {
+            onReadyCB(tool);
+            tool.call.htmlReady(htmlEl);
+        }
+
         this.htmlElement = poolFetch('HtmlElement')
-        this.htmlElement.initHtmlElement('tool_selector', closeCb, this.statusMap, 'edit_frame tool_selector', this.call.htmlReady);
+        this.htmlElement.initHtmlElement('tool_selector', closeCb, this.statusMap, 'edit_frame tool_selector', onReady);
     }
 
     closeEditTool() {

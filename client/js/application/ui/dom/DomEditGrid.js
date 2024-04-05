@@ -134,9 +134,16 @@ class DomEditGrid {
     }
 
 
-    initEditTool(closeCb) {
+    initEditTool(closeCb, onReady) {
+
+        let readyCb = function() {
+            this.call.htmlReady(this.htmlElement)
+            if (typeof (onReady) === 'function') {
+                onReady(this);
+            }
+        }.bind(this)
         this.htmlElement = poolFetch('HtmlElement')
-        this.htmlElement.initHtmlElement('edit_grid', closeCb, this.statusMap, 'edit_frame edit_grid', this.call.htmlReady);
+        this.htmlElement.initHtmlElement('edit_grid', closeCb, this.statusMap, 'edit_frame edit_grid', readyCb);
     }
 
     closeEditTool() {

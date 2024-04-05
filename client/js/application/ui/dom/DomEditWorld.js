@@ -104,6 +104,7 @@ function operateTool(tool, closeCB) {
 
     while (activeTools.length) {
         let editTool = activeTools.pop();
+        console.log("Close Tool ", editTool, activeTools);
         editTool.closeEditTool();
         poolReturn(editTool);
     }
@@ -131,8 +132,12 @@ function operateTool(tool, closeCB) {
         activateTool = poolFetch('DomEditEncounter');
     }
 
-    activateTool.initEditTool(closeCB);
-    activeTools.push(activateTool)
+    function toolReady(etool) {
+        console.log("Tool Ready", tool, etool)
+        activeTools.push(etool)
+    }
+
+    activateTool.initEditTool(closeCB, toolReady);
 
 }
 
@@ -154,7 +159,7 @@ class DomEditWorld {
         let toolSelectDiv = null;
 
         function toolClosedCB() {
-            toolSelectDiv.value = "";
+        //    toolSelectDiv.value = "MODELS";
         }
 
         let applyTool = function() {
@@ -169,12 +174,12 @@ class DomEditWorld {
             htmlElem.call.populateSelectList('tool', toolsList)
             console.log([worldModels, locationsData]);
             ThreeAPI.registerPrerenderCallback(update);
-            applyTool();
 
             let selectedActor = GameAPI.getGamePieceSystem().selectedActor;
             if (selectedActor) {
                 selectedActor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_INACTIVE)
             }
+            selectedTool = "";
         }
 
         let update = function() {

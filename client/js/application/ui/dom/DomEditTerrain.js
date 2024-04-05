@@ -198,9 +198,16 @@ class DomEditTerrain {
     }
 
 
-    initEditTool(closeCb) {
+    initEditTool(closeCb, onReady) {
+
+        let readyCb = function() {
+            this.call.htmlReady(this.htmlElement)
+            if (typeof (onReady) === 'function') {
+                onReady(this);
+            }
+        }.bind(this)
         this.htmlElement = poolFetch('HtmlElement')
-        this.htmlElement.initHtmlElement('edit_terrain', closeCb, this.statusMap, 'edit_frame edit_terrain', this.call.htmlReady);
+        this.htmlElement.initHtmlElement('edit_terrain', closeCb, this.statusMap, 'edit_frame edit_terrain', readyCb);
     }
 
     closeEditTool() {

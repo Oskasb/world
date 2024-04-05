@@ -106,9 +106,16 @@ class DomEditLocation {
 
     }
 
-    initEditTool(closeCb) {
+    initEditTool(closeCb, onReady) {
+
+        let readyCb = function() {
+            this.call.htmlReady(this.htmlElement)
+            if (typeof (onReady) === 'function') {
+                onReady(this);
+            }
+        }.bind(this)
         this.htmlElement = poolFetch('HtmlElement')
-        this.htmlElement.initHtmlElement('edit_location', closeCb, this.statusMap, 'edit_frame edit_location', this.call.htmlReady);
+        this.htmlElement.initHtmlElement('edit_location', closeCb, this.statusMap, 'edit_frame edit_location', readyCb);
     }
 
     closeEditTool() {

@@ -437,9 +437,16 @@ class DomEditModel {
     }
 
 
-    initEditTool(closeCb) {
+    initEditTool(closeCb, onReady) {
+
+        let readyCb = function() {
+            this.call.htmlReady(this.htmlElement)
+            if (typeof (onReady) === 'function') {
+                onReady(this);
+            }
+        }.bind(this)
         this.htmlElement = poolFetch('HtmlElement')
-        this.htmlElement.initHtmlElement('tool_selector', closeCb, this.statusMap, 'edit_frame tool_selector', this.call.htmlReady);
+        this.htmlElement.initHtmlElement('tool_selector', closeCb, this.statusMap, 'edit_frame tool_selector', readyCb);
     }
 
     closeEditTool() {

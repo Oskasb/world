@@ -381,10 +381,17 @@ class DomEditSpawns {
         this.encounter = encounter;
     }
 
-    initEditTool(closeCb) {
+    initEditTool(closeCb, onReady) {
+
+        let readyCb = function() {
+            this.call.htmlReady(this.htmlElement)
+            if (typeof (onReady) === 'function') {
+                onReady(this);
+            }
+        }.bind(this)
         GameAPI.worldModels.deactivateEncounters();
         this.htmlElement = poolFetch('HtmlElement')
-        this.htmlElement.initHtmlElement('edit_spawns', closeCb, this.statusMap, 'edit_frame edit_spawns', this.call.htmlReady);
+        this.htmlElement.initHtmlElement('edit_spawns', closeCb, this.statusMap, 'edit_frame edit_spawns', readyCb);
     }
 
     closeEditTool() {

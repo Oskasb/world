@@ -9,10 +9,17 @@ class DomEnvEdit {
         this.statusMap = statusMap;
     }
 
-    initEditTool(closeCb) {
+    initEditTool(closeCb, onReady) {
+
+        let readyCb = function() {
+            if (typeof (onReady) === 'function') {
+                onReady(this);
+            }
+        }.bind(this)
+
         this.htmlElement = poolFetch('HtmlElement')
         console.log("initDomEnvEdit");
-        this.htmlElement.initHtmlElement('env_edit', closeCb, this.statusMap, 'edit_frame edit_env');
+        this.htmlElement.initHtmlElement('env_edit', closeCb, this.statusMap, 'edit_frame edit_env', readyCb);
     }
 
     closeEditTool() {
