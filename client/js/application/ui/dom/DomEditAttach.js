@@ -210,6 +210,16 @@ class DomEditAttach {
             }
 
             if (activeEdit === 'MODIFY') {
+
+                if (pointerSelection !== null) {
+                    console.log("Select from pointer", pointerSelection);
+               //     selectionId = pointerSelection.config.edit_id;
+                    selectList.value = pointerSelection.config.edit_id;
+                    pointerSelection = null;
+                //    selectionId = pointerSelection.config.edit_id;
+                    return;
+                }
+
                 let remove = null;
                 for (let i = 0; i < cAssets.length; i++ ) {
                     if (cAssets[i].edit_id === editTarget.config.edit_id) {
@@ -437,6 +447,50 @@ class DomEditAttach {
 
         };
 
+        let lastCursorPos = new Vector3();
+
+        let pointerSelection = null;
+
+        function updateModifyCursor() {
+            let cursorPos = ThreeAPI.getCameraCursor().getLookAroundPoint();
+
+            if (pointerSelection !== null) {
+                if (MATH.distanceBetween(cursorPos, lastCursorPos) === 0) {
+                    pointerSelection.call.renderDebugAAB(true);
+                    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos: pointerSelection.getPos(), color:'GREEN', size:0.5})
+                    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from: pointerSelection.getPos(), to:cursorPos , color:'GREEN'})
+                    return;
+                }
+            }
+
+            pointerSelection = null;
+            lastCursorPos.copy(cursorPos);
+
+            let cursorScreenPos = ThreeAPI.toScreenPosition(cursorPos, tempVec);
+            let locationModels = statusMap.parent.locationModels;
+            let nearestDist = MATH.bigSafeValue();
+            let selection = null;
+            for (let i = 0; i < locationModels.length; i++) {
+                let pos = locationModels[i].getPos()
+                evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from: pos, to:cursorPos , color:'BLUE'})
+                let screenPos = ThreeAPI.toScreenPosition(pos);
+                let dist = screenPos.distanceToSquared(cursorScreenPos);
+                if (dist < nearestDist) {
+                    nearestDist = dist;
+                    selection = locationModels[i];
+                }
+            }
+
+            if (selection === null) {
+                console.log("No model found")
+                return;
+            }
+            pointerSelection = selection;
+            evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos: pointerSelection.getPos(), color:'GREEN', size:0.4})
+            evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from: pointerSelection.getPos(), to:cursorPos , color:'GREEN'})
+
+        }
+
         function modifyChangeModel() {
     //        statusMap.config.model = changeToModel;
             editTarget.call.setAssetId(changeToModel);
@@ -487,7 +541,17 @@ class DomEditAttach {
 
             if (activeEdit === 'MODIFY') {
                 if (selectionId === "") {
-                    applyContainerDiv.style.display = 'none';
+
+                    updateModifyCursor()
+                    if (pointerSelection !== null) {
+                        applyContainerDiv.style.display = '';
+                        if (addButtonDiv.innerHTML !== 'SELECT') {
+                            addButtonDiv.innerHTML = 'SELECT'
+                        }
+                    } else {
+                        applyContainerDiv.style.display = 'none';
+                    }
+
                 } else {
                     applyContainerDiv.style.display = '';
                 }
