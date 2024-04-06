@@ -202,6 +202,9 @@ class DomEditAttach {
                     templateEdit.initEditTool(closeTmpl, map)
                     attachTool.closeEditTool();
                     return;
+                } else {
+                    console.log("Add model again...")
+                    selectionId = '';
                 }
 
             }
@@ -293,19 +296,22 @@ class DomEditAttach {
         }
 
         function initModelCursor() {
-            closeCursor()
-            modelCursor = poolFetch('DomEditCursor');
+            if (modelCursor === null) {
+            //    closeCursor()
+                modelCursor = poolFetch('DomEditCursor');
 
-            function closeModelCursor() {
-                if (modelCursor !== null) {
-                    modelCursor.closeDomEditCursor();
-                    poolReturn(modelCursor);
-                    modelCursor = null;
+                function closeModelCursor() {
+                    if (modelCursor !== null) {
+                        modelCursor.closeDomEditCursor();
+                        poolReturn(modelCursor);
+                        modelCursor = null;
+                    }
+                    closeConfigEdit();
                 }
-                closeConfigEdit();
+
+                modelCursor.initDomEditCursor(closeModelCursor, cursorObj3d, onCursorUpdate, onCursorClick)
             }
 
-            modelCursor.initDomEditCursor(closeModelCursor, cursorObj3d, onCursorUpdate, onCursorClick)
         }
 
 

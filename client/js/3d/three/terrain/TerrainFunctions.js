@@ -353,10 +353,10 @@ function fitHeightToAABB(aabb, canvasContext, terrainSize, segments, minHeight, 
     fillRgba[3] = 1;
     let htP = terrainSize*1;
     let htN = - htP;
-    let txMin = displaceAxisDimensions(aabb.min.x*2 -2, htN, htP, segments);
-    let tzMin = displaceAxisDimensions(aabb.min.z*2 -2, htN, htP, segments);
-    let txMax = displaceAxisDimensions(aabb.max.x*2 +4, htN, htP, segments);
-    let tzMax = displaceAxisDimensions(aabb.max.z*2 +4, htN, htP, segments);
+    let txMin = displaceAxisDimensions(Math.floor(aabb.min.x)*2 -2, htN, htP, segments);
+    let tzMin = displaceAxisDimensions(Math.floor(aabb.min.z)*2 -2, htN, htP, segments);
+    let txMax = displaceAxisDimensions(Math.ceil(aabb.max.x+3)*2 +2, htN, htP, segments);
+    let tzMax = displaceAxisDimensions(Math.ceil(aabb.max.z+3)*2 +2, htN, htP, segments);
 
     canvasContext.globalCompositeOperation = 'source-over';
     canvasContext.strokeStyle = "rgba("+fillRgba[0]+", "+fillRgba[1]+", "+fillRgba[2]+", "+fillRgba[3]+")";
