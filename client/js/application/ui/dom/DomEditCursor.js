@@ -214,6 +214,14 @@ class DomEditCursor {
             if (grid !== 0) {
                 let res = 1/grid;
                 MATH.decimalifyVec3(targetObj3d.position, res);
+                targetObj3d.position.x += 0.5;
+                targetObj3d.position.z += 0.5;
+                let ground = ThreeAPI.terrainAt(targetObj3d.position)
+                let gridY = MATH.decimalify(ground, res);
+                if (gridY < ground) {
+                    gridY += grid;
+                }
+                targetObj3d.position.y = gridY + this.statusMap.applyElevate;
                 tempObj3d.position.set(0, 0, 0);
                 tempVec.set(0, 0, MATH.curveSqrt(res)*0.72);
                 tempVec.applyQuaternion(targetObj3d.quaternion);

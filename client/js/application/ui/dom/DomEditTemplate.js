@@ -59,20 +59,30 @@ class DomEditTemplate {
         function applySaveAs() {
             //  statusMap.activateSelection(selectionId);
 
-            function onUpdate(string, map) {
+            let processTo
+
+            function onUpdate(string, callback) {
                 console.log("String Updated: ", string, map)
-                map.to = string;
+                clearTimeout(processTo);
+                processTo = setTimeout(function() {
+                    callback(string, 'ok')
+                }, 200 + Math.random()*1000)
+
+
             }
 
             function onSubmit(string, map) {
                 console.log("String Submitted: ", string, map)
+                statusMap.config.edit_id = string;
+                applySave();
             }
 
             let map = {
                 id:statusMap.id,
                 from:statusMap.config.edit_id,
-                string:"",
-                to:"",
+                in:"",
+                out:"",
+                context:"Template",
                 onUpdate:onUpdate,
                 onSubmit:onSubmit
             }

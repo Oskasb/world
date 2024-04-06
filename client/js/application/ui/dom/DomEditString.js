@@ -14,8 +14,8 @@ class DomEditString {
         let statusMap = null
         let rootElem = null;
         let htmlElem;
-        let loadContainerDiv = null;
-        let selectList = null;
+        let saveContainerDiv = null;
+        let statusOutputDiv = null;
         let saveButtonDiv = null;
         let saveAsButtonDiv = null;
         let loadButtonDiv = null;
@@ -44,7 +44,10 @@ class DomEditString {
         }
 
         function applySave() {
-
+            if (statusMap.out === statusMap.in) {
+                console.log("Request save string", statusMap.in)
+                statusMap.onSubmit(statusMap.in, statusMap);
+            }
         }
 
         function applySaveAs() {
@@ -97,6 +100,8 @@ class DomEditString {
 
             rootElem = htmlEl.call.getRootElement();
 
+            statusOutputDiv = htmlElem.call.getChildElement('output_status');
+
             for (let key in statusMap) {
                 let elem = htmlElem.call.getChildElement(key);
                 if (elem) {
@@ -104,45 +109,70 @@ class DomEditString {
                 }
             }
 
+
+
             inputElem = htmlElem.call.getChildElement('string');
-
-
-
             saveButtonDiv = htmlElem.call.getChildElement('save_button');
-            saveAsButtonDiv = htmlElem.call.getChildElement('saveas_button');
-            loadButtonDiv = htmlElem.call.getChildElement("load_button");
-
             DomUtils.addClickFunction(saveButtonDiv, applySave)
-            DomUtils.addClickFunction(saveAsButtonDiv, applySaveAs)
-            DomUtils.addClickFunction(loadButtonDiv, applyLoad)
-
-            loadContainerDiv = htmlElem.call.getChildElement('load_container');
-
+            saveContainerDiv = htmlElem.call.getChildElement('save_container');
             ThreeAPI.registerPrerenderCallback(update);
-            applySelection(selectionId)
+
         }.bind(this);
 
+        let indicateStringStatus = function() {
 
-        let applySelection = function(id) {
-            selectionId = id;
-            if (id === "") {
-                loadContainerDiv.style.display = "none"
+            if (statusMap.status === 'processing') {
+                console.log("String not accepted", statusMap.in)
+                saveContainerDiv.style.opacity = "0.5"
+                DomUtils.addElementClass(statusOutputDiv, 'status_processing')
+                DomUtils.removeElementClass(statusOutputDiv, 'status_valid')
+                DomUtils.removeElementClass(statusOutputDiv, 'status_invalid')
             } else {
-                loadContainerDiv.style.display = ""
+                DomUtils.removeElementClass(statusOutputDiv, 'status_processing')
             }
-            selectionUpdate(selectionId);
+
+            if (statusMap.in === "") {
+                statusMap.status = "NoValue";
+                DomUtils.addElementClass(statusOutputDiv, 'status_invalid')
+                DomUtils.removeElementClass(statusOutputDiv, 'status_valid')
+                return;
+            }
+
+            if (statusMap.out !== statusMap.in) {
+                console.log("String not accepted", statusMap.in)
+                saveContainerDiv.style.opacity = "0.5"
+                DomUtils.removeElementClass(statusOutputDiv, 'status_valid')
+            } else {
+                DomUtils.removeElementClass(statusOutputDiv, 'status_invalid')
+                DomUtils.addElementClass(statusOutputDiv, 'status_valid')
+                saveContainerDiv.style.opacity = ""
+            }
+
         };
 
-        let update = function() {
-            statusMap.string = inputElem.value;
-            if (statusMap.to !== statusMap.string) {
-                statusMap.onUpdate(statusMap.string, statusMap)
+        let requestedString = "";
+
+        function requestStringValidation() {
+            if (requestedString !== statusMap.in) {
+                requestedString = statusMap.in;
+                statusMap.status = 'processing'
+                statusMap.onUpdate(statusMap.in, validationResultCallback)
             }
-    //        statusMap.to =
-    //        cursorObj3d.position.copy(ThreeAPI.getCameraCursor().getLookAroundPoint());
-    //        if (selectionId !== selectList.value) {
-    //            applySelection(selectList.value);
-    //        }
+        }
+
+        function validationResultCallback(string, statusText, accepted) {
+            statusMap.out = string;
+            statusMap.status = statusText;
+        }
+
+        let update = function() {
+
+            statusMap.in = inputElem.value;
+
+            if (statusMap.out !== statusMap.in) {
+                requestStringValidation();
+            }
+            indicateStringStatus()
         };
 
         let close = function() {

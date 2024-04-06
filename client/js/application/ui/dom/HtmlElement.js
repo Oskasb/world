@@ -6,9 +6,11 @@ let activeRootElements = [];
 let colorScale = 1;
 
 function updateValueElem(key, value, iframe) {
-    let valueText = iframe.getElementById(key+'_value');
-    if (valueText) {
-        valueText.innerHTML = value;
+    let elem = iframe.getElementById(key+'_value');
+    if (elem) {
+        if (elem.innerHTML !== value) {
+            elem.innerHTML = value;
+        }
     }
 }
 
@@ -58,7 +60,10 @@ class HtmlElement {
             for (let key in statusMap) {
                 let elem = iframeDocument.getElementById(key);
                 if (elem) {
-                    if (elem.type === 'range') {
+                    if (elem.type === 'text') {
+                        statusMap[key] = elem.value;
+                        updateValueElem(key, elem.value, iframeDocument)
+                    } else if (elem.type === 'range') {
                         if (typeof (statusMap[key]) === 'number') {
                             statusMap[key] = parseFloat(elem.value);
                         } else {
@@ -112,7 +117,9 @@ class HtmlElement {
                                 }
                             }
                         }
-                        elem.innerHTML = innerHtml;
+                        if (elem.innerHTML !== innerHtml) {
+                            elem.innerHTML = innerHtml;
+                        }
                     }
                 }
             }
