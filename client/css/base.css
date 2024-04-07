@@ -157,9 +157,9 @@ iframe.edit_attach {
 iframe.edit_config {
     left: 10em;
     top: 250em;
-    height: 450em;
+    height:550em;
     background: #2c2c2c;
-    overflow: scroll;
+    overflow: auto;
 }
 
 iframe.edit_values {

@@ -106,7 +106,9 @@ class DomEditModel {
             console.log("Model Cursor Click", e)
         }
 
-        function applyCursorUpdate(obj3d) {
+        function applyCursorUpdate(obj3d, elevate, grid) {
+            modelConfig.grid = grid;
+            modelConfig.elevate = elevate;
             MATH.vec3ToArray(obj3d.position, modelConfig.pos, 100)
             MATH.rotObj3dToArray(obj3d, modelConfig.rot, 1000);
             if (previewModel !== null) {
@@ -123,6 +125,9 @@ class DomEditModel {
         function activateCursor() {
             previewCursor = poolFetch('DomEditCursor')
             previewCursor.initDomEditCursor(closePreviewCursor, editObj3d, applyCursorUpdate, onClick);
+            if (typeof (modelConfig.grid) === 'number') {
+                previewCursor.call.setGrid(modelConfig.grid)
+            }
         }
 
         function applySelectedModel(id) {
@@ -320,6 +325,9 @@ class DomEditModel {
                     }
 
                     cursor.initDomEditCursor(closeEditCursor, model.obj3d, model.call.applyEditCursorUpdate, onClick);
+                    if (typeof (model.config.grid) === 'number') {
+                        cursor.call.setGrid(model.config.grid)
+                    }
                     cursor.htmlElement.cursor = cursor;
                     cursor.htmlElement.model = model;
                     editCursors[model.id] = cursor;

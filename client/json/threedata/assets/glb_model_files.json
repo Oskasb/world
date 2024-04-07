@@ -161,6 +161,9 @@
         {"id": "file_wall_2_door_stone",   "config": { "url": "./client/assets/models/buildings/sections/wall_2_door_stone"        }},
         {"id": "file_wall_2_window_stone",   "config": { "url": "./client/assets/models/buildings/sections/wall_2_window_stone"        }},
 
+        {"id": "file_stairs_2_stone",   "config": { "url": "./client/assets/models/buildings/sections/stairs_2_stone"        }},
+        {"id": "file_fence_2_stone",   "config": { "url": "./client/assets/models/buildings/sections/fence_2_stone"        }},
+
 
         {"id": "file_castle_floor_10",   "config": { "url": "./client/assets/models/buildings/castle/castle_floor_10"        }},
         {"id": "file_castle_pillar",   "config": { "url": "./client/assets/models/buildings/castle/castle_pillar"        }},

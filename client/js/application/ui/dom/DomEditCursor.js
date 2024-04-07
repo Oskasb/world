@@ -41,6 +41,8 @@ class DomEditCursor {
         this.onUpdateCallbacks = [];
         this.onClickCallbacks = [];
 
+        let initGrid = 0;
+
         this.statusMap = {
             rotX:0,
             rotY:0,
@@ -159,6 +161,8 @@ class DomEditCursor {
             this.statusMap.offsetElevate = 0;
             this.statusMap.applyScale = 1;
             this.statusMap.offsetScale = 1;
+            this.statusMap.grid = initGrid;
+            htmlElem.call.getChildElement('grid').value = initGrid;
         }.bind(this);
 
         let htmlReady = function(htmlEl) {
@@ -169,6 +173,7 @@ class DomEditCursor {
             rotYSlider = htmlElem.call.getChildElement('rotY');
             scaleSlider = htmlElem.call.getChildElement('scale');
             elevateSlider = htmlElem.call.getChildElement('elevate');
+            htmlElem.call.getChildElement('grid').value = initGrid;
             DomUtils.addPressStartFunction(translateDiv, startDrag)
             DomUtils.addMouseMoveFunction(translateDiv, mouseMove);
             DomUtils.addPressEndFunction(translateDiv, endDrag);
@@ -214,14 +219,12 @@ class DomEditCursor {
             if (grid !== 0) {
                 let res = 1/grid;
                 MATH.decimalifyVec3(targetObj3d.position, res);
-                targetObj3d.position.x += 0.5;
-                targetObj3d.position.z += 0.5;
                 let ground = ThreeAPI.terrainAt(targetObj3d.position)
                 let gridY = MATH.decimalify(ground, res);
                 if (gridY < ground) {
                     gridY += grid;
                 }
-                targetObj3d.position.y = gridY + this.statusMap.applyElevate;
+                targetObj3d.position.y = gridY + MATH.decimalify(this.statusMap.applyElevate, res);
                 tempObj3d.position.set(0, 0, 0);
                 tempVec.set(0, 0, MATH.curveSqrt(res)*0.72);
                 tempVec.applyQuaternion(targetObj3d.quaternion);
@@ -230,7 +233,7 @@ class DomEditCursor {
                 targetObj3d.quaternion.copy(tempObj3d.quaternion);
             }
 
-            MATH.callAll(this.onUpdateCallbacks, targetObj3d);
+            MATH.callAll(this.onUpdateCallbacks, targetObj3d, grid);
 
             rotYDiv.style.rotate = -updateObj3d.rotation.y+"rad"
 
@@ -256,7 +259,15 @@ class DomEditCursor {
             return updateObj3d
         }
 
+
+        function setGrid(value) {
+            if (typeof (value) === "number") {
+                initGrid = value
+            }
+        }
+
         this.call = {
+            setGrid:setGrid,
             htmlReady:htmlReady,
             update:update,
             setPos:setPos,
@@ -274,6 +285,7 @@ class DomEditCursor {
         this.statusMap.applyScale =1;
         this.statusMap.applyElevate = 0;
         this.statusMap.grid = 0;
+        this.call.setGrid(0);
         this.closeCb = closeCb;
         this.onClickCallbacks.push(onClick);
         this.onUpdateCallbacks.push(onUpdate);

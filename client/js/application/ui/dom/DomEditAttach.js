@@ -16,7 +16,7 @@ let tempObj = new Object3D();
 let tempQuat = new Quaternion();
 let axisRot = ['X', 'Y', 'Z']
 
-let edits = ["NEW", "MODIFY"]
+let edits = ["NEW", "MODIFY", "DUPES","QUANTIZE"]
 let editList = [""];
 
 let editPalette = 'ITEMS_MONO';
@@ -74,6 +74,7 @@ class DomEditAttach {
         let activeEdit = null;
         let changeToModel = null;
 
+        let lastGrid = 0;
         let lastSaveString = "";
         let lastSaveTime = 0;
         function autoSaveEdits() {
@@ -98,37 +99,43 @@ class DomEditAttach {
                 }
         }
 
+        let applyTimeout;
+
+        function saveEditTarget() {
+            if (assets.indexOf(editTarget.config.asset) === -1) {
+                console.log("Bad config save ", statusMap, editTarget)
+                return;
+            }
+
+            if (! editTarget.config.paletteKey || editTarget.config.paletteKey === editPalette) {
+                editTarget.call.setPaletteKey('DEFAULT');
+                editTarget.config.paletteKey = 'DEFAULT';
+            }
+
+            if (!statusMap.parent.config.assets) {
+                statusMap.parent.config.assets = [];
+            }
+            let cAssets = statusMap.parent.config.assets;
+
+            let add = true;
+            for (let i = 0; i < cAssets.length; i++ ) {
+                if (cAssets[i].edit_id === editTarget.config.edit_id) {
+                    cAssets[i] = editTarget.config;
+                    add = false;
+                }
+            }
+            if (add === true) {
+                editTarget.config.edit_id = "";
+                editTarget.config = detachConfig(editTarget.config)
+                initConfigEdit(editTarget.config)
+                cAssets.push(editTarget.config)
+            }
+        }
+
         function saveEdits() {
             lastSaveTime = GameAPI.getGameTime();
             if (editTarget !== null) {
-                if (assets.indexOf(editTarget.config.asset) === -1) {
-                    console.log("Bad config save ", statusMap, editTarget)
-                    return;
-                }
-
-                if (! editTarget.config.paletteKey || editTarget.config.paletteKey === editPalette) {
-                    editTarget.call.setPaletteKey('DEFAULT');
-                    editTarget.config.paletteKey = 'DEFAULT';
-                }
-
-                if (!statusMap.parent.config.assets) {
-                    statusMap.parent.config.assets = [];
-                }
-                let cAssets = statusMap.parent.config.assets;
-
-                let add = true;
-                for (let i = 0; i < cAssets.length; i++ ) {
-                    if (cAssets[i].edit_id === editTarget.config.edit_id) {
-                        cAssets[i] = editTarget.config;
-                        add = false;
-                    }
-                }
-                if (add === true) {
-                    editTarget.config.edit_id = "";
-                    editTarget.config = detachConfig(editTarget.config)
-                    initConfigEdit(editTarget.config)
-                    cAssets.push(editTarget.config)
-                }
+                saveEditTarget();
                 lastSaveString = JSON.stringify(editTarget.config)
             } else {
                 lastSaveString = JSON.stringify(statusMap.parent.config)
@@ -136,11 +143,19 @@ class DomEditAttach {
 
             saveWorldModelEdits(statusMap.parent);
 
+            clearTimeout(applyTimeout)
+            applyTimeout = setTimeout(function() {
+                statusMap.parent.call.applyLoadedConfig(statusMap.parent.config)
+            }, 2000)
+
+
+
         }
 
         function setEditTarget(t) {
             editTarget = t;
             editTarget.config = detachConfig(editTarget.config);
+
 
             let cAssets = statusMap.parent.config.assets;
             if (cAssets) {
@@ -162,11 +177,14 @@ class DomEditAttach {
 
         let closeCursor = function() {
 
+
+
             if (modelCursor !== null) { // this gets called twice sometimes
                 let crsr = modelCursor;
                 modelCursor = null;
                 crsr.closeDomEditCursor();
                 poolReturn(crsr);
+
             }
 
         }
@@ -235,6 +253,12 @@ class DomEditAttach {
                     editSelect.value = 'NEW';
                 }
             }
+
+            if (activeEdit === 'QUANTIZE') {
+                applyQuantize()
+                editSelect.value = 'MODIFY';
+            }
+
             //     }
         }
         function applyEdit(edit) {
@@ -242,9 +266,11 @@ class DomEditAttach {
           //  statusMap.activateSelection(selectionId);
         }
 
-        function onCursorUpdate(obj3d) {
+        function onCursorUpdate(obj3d, grid) {
 
             if (modelCursor !== null) {
+                lastGrid = grid;
+                editTarget.config.grid = grid;
                 let origin = statusMap.parent.getPos();
                 tempObj.position.copy(origin);
                 tempObj.lookAt(obj3d.position);
@@ -280,6 +306,38 @@ class DomEditAttach {
             }
         }
 
+
+        function applyQuantize() {
+            let locationModels = statusMap.parent.locationModels;
+            for (let i = 0; i < locationModels.length; i++) {
+                editTarget = locationModels[i];
+                let pos = editTarget.getPos()
+
+                MATH.vec3FromArray(pos, editTarget.config.pos);
+                let res = 1;
+                editTarget.config.grid = res;
+                MATH.decimalifyVec3(pos, res);
+                pos.y = MATH.decimalify(pos.y, res);
+
+                tempObj.position.set(0, 0, 0);
+                tempVec.set(0, 0, MATH.curveSqrt(res)*0.72);
+                MATH.rotXYZFromArray(editTarget.obj3d, editTarget.config.rot)
+                tempVec.applyQuaternion(editTarget.obj3d.quaternion);
+                MATH.decimalifyVec3(tempVec, res);
+                tempObj.lookAt(tempVec);
+                //    editTargeteditTarget.obj3d.quaternion.copy(tempObj.quaternion);
+
+                MATH.vec3ToArray(pos, editTarget.config.pos);
+                MATH.rotObj3dToArray(tempObj,  editTarget.config.rot)
+                editTarget.obj3d.quaternion.copy(tempObj.quaternion);
+                editTarget.hierarchyUpdated();
+                saveEditTarget()
+            }
+            editTarget = null;
+            saveEdits();
+        }
+
+
         function onCursorClick(val) {
 
         }
@@ -306,7 +364,10 @@ class DomEditAttach {
         }
 
         function initModelCursor() {
-            if (modelCursor === null) {
+
+            if (modelCursor !== null) {
+                modelCursor.call.setGrid(editTarget.config.grid || lastGrid);
+            } else  {
             //    closeCursor()
                 modelCursor = poolFetch('DomEditCursor');
 
@@ -315,11 +376,18 @@ class DomEditAttach {
                         modelCursor.closeDomEditCursor();
                         poolReturn(modelCursor);
                         modelCursor = null;
+
+                        if (activeEdit === 'MODIFY') {
+                            selectList.value = "";
+                            pointerSelection = null;
+                        }
+
                     }
                     closeConfigEdit();
                 }
 
                 modelCursor.initDomEditCursor(closeModelCursor, cursorObj3d, onCursorUpdate, onCursorClick)
+                modelCursor.call.setGrid(editTarget.config.grid);
             }
 
         }
@@ -359,6 +427,7 @@ class DomEditAttach {
             let config = editTarget.config;
             MATH.vec3FromArray(initScaleVec3, config.scale)
             initModelCursor()
+
             initConfigEdit(config);
         }
 
@@ -406,7 +475,7 @@ class DomEditAttach {
                 let cAssets = statusMap.parent.config.assets;
                 if (!cAssets) {
                     editSelect.value = 'NEW';
-                }else if (cAssets.length === 0) {
+                } else if (cAssets.length === 0) {
                     editSelect.value = 'NEW';
                 } else {
                     addButtonDiv.innerHTML = "REMOVE"
@@ -448,7 +517,6 @@ class DomEditAttach {
         };
 
         let lastCursorPos = new Vector3();
-
         let pointerSelection = null;
 
         function updateModifyCursor() {
@@ -490,6 +558,33 @@ class DomEditAttach {
             evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from: pointerSelection.getPos(), to:cursorPos , color:'GREEN'})
 
         }
+
+        let points = [];
+        let dupes = []
+
+        function showDupes() {
+            let cursorPos = ThreeAPI.getCameraCursor().getLookAroundPoint();
+            MATH.emptyArray(points);
+            MATH.emptyArray(dupes);
+            let locationModels = statusMap.parent.locationModels;
+
+            for (let i = 0; i < locationModels.length; i++) {
+                let pos = locationModels[i].getPos()
+
+                for (let j = 0; j < points.length; j++) {
+                    if (pos.distanceToSquared(points[j]) === 0) {
+                        dupes.push(locationModels[i]);
+                    }
+                }
+                points.push(pos);
+            }
+
+            for (let i = 0; i < dupes.length; i++) {
+                let pos = dupes[i].getPos();
+                evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from: pos, to:cursorPos , color:'PURPLE'})
+            }
+        }
+
 
         function modifyChangeModel() {
     //        statusMap.config.model = changeToModel;
@@ -553,7 +648,30 @@ class DomEditAttach {
                     }
 
                 } else {
+                    if (modelCursor === null) {
+                        selectionId = "";
+                        editTarget = null;
+                        return;
+                    }
                     applyContainerDiv.style.display = '';
+                    if (addButtonDiv.innerHTML !== 'REMOVE') {
+                        addButtonDiv.innerHTML = 'REMOVE'
+                    }
+                }
+            }
+
+            if (activeEdit === 'QUANTIZE') {
+                applyContainerDiv.style.display = '';
+                if (addButtonDiv.innerHTML !== 'APPLY') {
+                    addButtonDiv.innerHTML = 'APPLY'
+                }
+            }
+
+            if (activeEdit === 'DUPES') {
+                showDupes()
+                applyContainerDiv.style.display = '';
+                if (addButtonDiv.innerHTML !== 'PRUNE') {
+                    addButtonDiv.innerHTML = 'PRUNE'
                 }
             }
 

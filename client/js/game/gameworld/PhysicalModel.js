@@ -9,6 +9,7 @@ import {bodyTransformToObj3d} from "../../application/utils/PhysicsUtils.js";
 
 let configData = null;
 let tempVec = new Vector3()
+let passObj = new Object3D()
 
 function onConfig(data) {
     configData = data;
@@ -121,11 +122,14 @@ class PhysicalModel {
         if (!shapes[0].mass) {
             this.static = true;
         }
+
+        passObj.copy(this.obj3d);
+
         for (let i = 0; i < shapes.length; i++) {
             let conf = shapes[i];
             //    let shape = poolFetch('PhysicalShape');
 
-            AmmoAPI.setupRigidBody(this.obj3d, conf['shape'], conf['mass'], conf['friction'], conf['pos'], conf['rot'], conf['scale'], conf['asset'], conf['convex'], bodyReadyCB)
+            AmmoAPI.setupRigidBody(passObj, conf['shape'], conf['mass'], conf['friction'], conf['pos'], conf['rot'], conf['scale'], conf['asset'], conf['convex'], bodyReadyCB)
 
         }
     }

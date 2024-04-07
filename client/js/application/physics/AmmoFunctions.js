@@ -4,8 +4,6 @@ import {Euler} from "../../../libs/three/math/Euler.js";
 import {Object3D} from "../../../libs/three/core/Object3D.js";
 import {Quaternion} from "../../../libs/three/math/Quaternion.js";
 import {getObj3dScaleKey} from "../utils/ModelUtils.js";
-import {bodyTransformToObj3d} from "../utils/PhysicsUtils.js";
-
 
 let threeVec = new Vector3();
 let threeVec2 = new Vector3();
@@ -1031,12 +1029,14 @@ class AmmoFunctions {
     createRigidBody(obj3d, shapeKey, mass, friction, pos, rot, scale, assetId, convex, onReady) {
 
 
-        let dataKey = assetId+getObj3dScaleKey(obj3d);
+        let dataKey = assetId+getObj3dScaleKey(obj3d, scale);
 
 
-        let position = MATH.vec3FromArray(threeObj.position, pos);
-        threeObj.position.add(obj3d.position);
-        threeObj.quaternion.copy(obj3d.quaternion);
+        MATH.vec3FromArray(threeVec, pos);
+        threeVec.add(obj3d.position)
+        threeObj.position.set(0, 0, 0);
+        let position = threeVec
+            threeObj.quaternion.copy(obj3d.quaternion);
         MATH.rotXYZFromArray(threeObj, rot);
         let quaternion = threeObj.quaternion
         quaternion.multiply(obj3d.quaternion);

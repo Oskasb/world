@@ -217,8 +217,8 @@ function boxObjIntersectsPoint(boxObj3d, pos, insideStore) {
 
 }
 
-function  getObj3dScaleKey(obj3d) {
-    return '_scale_'+obj3d.scale.x+'_'+obj3d.scale.y+'_'+obj3d.scale.z;
+function  getObj3dScaleKey(obj3d, scaleConf) {
+    return '_scale_'+obj3d.scale.x*scaleConf[0]+'_'+obj3d.scale.y*scaleConf[1]+'_'+obj3d.scale.z*scaleConf[2];
 }
 
 export {

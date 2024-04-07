@@ -128,10 +128,10 @@ class WorldModel {
         }.bind(this);
 
         let hold = 1;
-        let applyEditCursorUpdate = function(obj3d) {
+        let applyEditCursorUpdate = function(obj3d, grid) {
             hold += GameAPI.getFrame().tpf;
             this.calcBounds(true);
-
+            this.config.grid = grid;
             //    if (Math.abs(obj3d.position.y - this.getPos().y) > 0.001) {
             this.config.on_ground = false;
             //    }
