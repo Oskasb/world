@@ -1033,6 +1033,7 @@ class AmmoFunctions {
 
 
         MATH.vec3FromArray(threeVec, pos);
+        threeVec.applyQuaternion(obj3d.quaternion);
         threeVec.add(obj3d.position)
         threeObj.position.set(0, 0, 0);
         let position = threeVec

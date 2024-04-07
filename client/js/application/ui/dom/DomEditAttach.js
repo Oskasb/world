@@ -149,7 +149,6 @@ class DomEditAttach {
             }, 2000)
 
 
-
         }
 
         function setEditTarget(t) {

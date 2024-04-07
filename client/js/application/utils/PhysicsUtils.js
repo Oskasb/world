@@ -268,9 +268,9 @@ function testProbeFitsAtPos(pos, sideSize, debugDraw) {
     let halfSize = size*0.5;
 
     probeResult.from.copy(pos);
-    probeResult.from.y += 0.5;
+    probeResult.from.y += 0.7;
     probeResult.to.copy(pos);
-    probeResult.to.y += 1.5;
+    probeResult.to.y += 1.2;
     let hit = rayTest(probeResult.from, probeResult.to, tempVec, tempNormal, debug)
     if (hit) {
         return hit;

@@ -107,7 +107,7 @@ class DynamicTile {
                 this.rigidBodyPointer = fits.ptr;
             }
 
-            fits = testProbeFitsAtPos(this.obj3d.position, 1.2, false)
+            fits = testProbeFitsAtPos(this.obj3d.position, 0.9, false)
 
             if (fits !== true) {
                 this.fitsCharacter = false;
@@ -125,7 +125,7 @@ class DynamicTile {
     }
 
     rayTestTile(debugDraw) {
-        return testProbeFitsAtPos(this.getPos(), 1.2, debugDraw)
+        return testProbeFitsAtPos(this.getPos(), 0.9, debugDraw)
     }
 
     addExitVisuals() {
