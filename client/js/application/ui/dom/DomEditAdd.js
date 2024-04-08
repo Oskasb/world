@@ -1,6 +1,7 @@
 import {poolFetch, poolReturn} from "../../utils/PoolUtils.js";
-import {saveEncounterEdits} from "../../utils/ConfigUtils.js";
+import {detachConfig, saveEncounterEdits} from "../../utils/ConfigUtils.js";
 import {getEditIndex} from "../../../../../Server/game/utils/EditorFunctions.js";
+import {WorldModel} from "../../../game/gameworld/WorldModel.js";
 
 
 class DomEditAdd {
@@ -15,7 +16,36 @@ class DomEditAdd {
         let selectionId = "";
 
         function applyAdd() {
-            statusMap.activateSelection(selectionId);
+
+
+            if (addButtonDiv.innerHTML === 'TEMPLATE') {
+                templateEdit = poolFetch('DomEditTemplate')
+
+                let parent = new WorldModel()
+                parent.getPos().copy(ThreeAPI.getCameraCursor().getLookAroundPoint())
+                let config = detachConfig(parent.config)
+                MATH.vec3ToArray(parent.getPos(), config.pos, 1);
+                config.edit_id = "tpl_"+config.edit_id
+                let map = {
+                    id:config.edit_id,
+                    parent:parent,
+                    config:config,
+                    root:"world",
+                    folder:"model"
+                }
+
+                let closeTmpl = function() {
+                    poolReturn(templateEdit);
+                }
+
+                templateEdit.initEditTool(closeTmpl, map)
+
+            } else {
+                statusMap.activateSelection(selectionId);
+            }
+
+
+
         }
 
         let htmlReady = function(htmlEl) {
@@ -32,12 +62,21 @@ class DomEditAdd {
             applySelection(selectionId)
         }.bind(this);
 
+
+        let templateEdit = null;
         let applySelection = function(id) {
             selectionId = id;
             if (id === "") {
-                applyContainerDiv.style.display = "none"
+
+            //    applyContainerDiv.style.display = "none"
+                addButtonDiv.innerHTML = 'TEMPLATE';
             } else {
-                applyContainerDiv.style.display = ""
+                if (templateEdit !== null) {
+                    templateEdit.closeEditTool();
+                    templateEdit = null;
+                }
+            //    applyContainerDiv.style.display = ""
+                addButtonDiv.innerHTML = 'ADD';
             }
             statusMap.selectionUpdate(selectionId);
         };

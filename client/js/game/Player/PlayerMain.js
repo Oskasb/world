@@ -215,6 +215,7 @@ class PlayerMain {
                     actor.setDestination(e.pos);
                 }
                 GameAPI.getPlayer().setStatusKey(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL, e.world_level);
+
             }
 
             GuiAPI.activateDomTransition(name, config, transitionReady )
@@ -233,6 +234,7 @@ class PlayerMain {
             evt.dispatch(ENUMS.Event.LOAD_ADVENTURE_ENCOUNTERS, {world_encounters:[]})
 
             loadEncounters = function() {
+                GameAPI.worldModels.loadWorldLevelConfigEdits(e.world_level)
                 evt.dispatch(ENUMS.Event.LOAD_ADVENTURE_ENCOUNTERS, {world_encounters:world_encounters, world_level:worldLevel})
             }
 

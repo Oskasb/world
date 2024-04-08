@@ -340,7 +340,6 @@ function saveWorldModelEdits(wModel) {
 
 
 
-
 function saveDataTexture(root, folder, id, buffer) {
     savedImageBuffers[id] = buffer;
 //    console.log("saveDataTexture", root, folder, id)

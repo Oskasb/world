@@ -42,7 +42,7 @@ let templateConfig =                 {
 class WorldModel {
 
     constructor(config, id) {
-
+        console.log("New World Model", config, id)
         if (!config) {
             config = detachConfig(templateConfig);
         }
@@ -196,6 +196,7 @@ class WorldModel {
 
                 if (cfg.model !== originalModel || replace === true) {
                     GameAPI.worldModels.removeWorldModel(this);
+                    this.deleteWorldModel();
                     GameAPI.worldModels.addConfigModel(cfg, cfg.edit_id);
                     return;
                 }
@@ -216,10 +217,10 @@ class WorldModel {
                 if (cfg.palette) {
                     setPaletteKey(cfg.palette);
                 }
-
             }
 
         }.bind(this)
+
 
         this.call = {
             setPaletteKey:setPaletteKey,
@@ -283,7 +284,6 @@ class WorldModel {
             let model = this.locationModels.pop();
             model.removeLocationModel();
         }
-    //    ThreeAPI.clearTerrainLodUpdateCallback(this.call.lodUpdated)
 
     }
 

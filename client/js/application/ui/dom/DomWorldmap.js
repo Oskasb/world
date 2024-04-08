@@ -557,7 +557,7 @@ function attachWorldLevelNavigation(container) {
             function clickLevel() {
                 clearDivArray(locationDivs)
                 defaultWorldLevel = levelConf.id;
-                GameAPI.getPlayer().setStatusKey(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL, levelConf.id);
+            //    GameAPI.getPlayer().setStatusKey(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL, levelConf.id);
                 evt.dispatch(ENUMS.Event.ENTER_PORTAL, {"world_level": levelConf.id, "world_encounters": []})
                 let selectedActor = GameAPI.getGamePieceSystem().selectedActor;
                 if (!selectedActor) {

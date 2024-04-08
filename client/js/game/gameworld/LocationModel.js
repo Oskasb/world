@@ -75,7 +75,7 @@ class LocationModel {
             }
         }
 
-        let lodText = new LodTest()
+        let lodTest = new LodTest()
 
         let physicalModel = null;
 
@@ -154,7 +154,7 @@ class LocationModel {
                 }
             }
 
-            lodText.lodTestModel(this, lodLevel, config.visibility, showLocationModel, hideLocationModel)
+            lodTest.lodTestModel(this, lodLevel, config.visibility, showLocationModel, hideLocationModel)
 
         }.bind(this)
 
@@ -257,6 +257,7 @@ class LocationModel {
             this.config.model = aid;
             hideLocationModel(this);
         }.bind(this);
+
 
         this.call = {
             setAssetId:setAssetId,

@@ -99,6 +99,7 @@ class DomEditTemplate {
 
         function applyLoad() {
             statusMap.parent.call.applyLoadedConfig(loadConfig, statusMap.id, true);
+            close();
         }
 
 
@@ -122,7 +123,9 @@ class DomEditTemplate {
 
         function selectionUpdate(selectionId) {
             if (selectionId !== "") {
+
                 let loadedTemplates = GameAPI.worldModels.getLoadedTemplates();
+                console.log("Selected Template ", statusMap, loadedTemplates)
                 let map = loadedTemplates[selectionId];
                 loadConfig = detachConfig(map.config);
                 loadConfig.edit_id = "";
@@ -187,8 +190,8 @@ class DomEditTemplate {
         };
 
         let close = function() {
-
-        }
+            this.closeEditTool();
+        }.bind(this)
 
         this.call = {
             htmlReady:htmlReady,
@@ -211,7 +214,6 @@ class DomEditTemplate {
 
     closeEditTool() {
         this.encounter = null;
-        this.call.close();
         ThreeAPI.unregisterPrerenderCallback(this.call.update);
         this.htmlElement.closeHtmlElement();
         poolReturn(this.htmlElement);

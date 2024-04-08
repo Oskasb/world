@@ -4,6 +4,7 @@ import { WorldModel} from "./WorldModel.js";
 import { WorldEncounter } from "../encounter/WorldEncounter.js";
 import { WorldTreasure} from "../encounter/WorldTreasure.js";
 import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
+import {saveWorldModelEdits} from "../../application/utils/ConfigUtils.js";
 
 let locationModelConfigs;
 let worldModels = [];
@@ -28,7 +29,7 @@ let encounterConfigs = null;
 function removeWorldModels() {
     while (worldModels.length) {
         let model = worldModels.pop()
-        model.call.removeWorldModel(model)
+        model.deleteWorldModel()
     }
 }
 
@@ -86,6 +87,7 @@ function loadModelFromConfig(config, id) {
     }
     let model = new WorldModel(config, id)
     worldModels.push(model);
+    saveWorldModelEdits(model);
     return model;
 }
 
@@ -325,7 +327,22 @@ class WorldModels {
             if (wModel !== null) {
                 wModel.call.applyLoadedConfig(config, id)
             } else if (folder === lastWorldLevel) {
-                loadModelFromConfig(config)
+                loadModelFromConfig(config, id)
+            }
+        }
+    }
+
+    loadWorldLevelConfigEdits(worldLevel) {
+        let modelConfigs = loadedConfigs['model'];
+        let levelConfigs = modelConfigs[worldLevel];
+        console.log("loadWorldLevelConfigEdits", worldLevel, modelConfigs, levelConfigs)
+        for (let id in levelConfigs) {
+            let wModel = GameAPI.worldModels.getActiveWorldModel(id);
+            if (wModel !== null) {
+                wModel.call.applyLoadedConfig(levelConfigs[id], id)
+            } else {
+                let model = loadModelFromConfig(levelConfigs[id], id)
+            //    model.call.forceLodTest();
             }
         }
     }
