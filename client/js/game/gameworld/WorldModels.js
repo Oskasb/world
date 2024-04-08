@@ -87,7 +87,7 @@ function loadModelFromConfig(config, id) {
     }
     let model = new WorldModel(config, id)
     worldModels.push(model);
-  //  saveWorldModelEdits(model);
+
     return model;
 }
 
