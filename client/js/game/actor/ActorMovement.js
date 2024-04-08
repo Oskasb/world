@@ -174,7 +174,7 @@ class ActorMovement {
     //    let quat = actor.getSpatialQuaternion();
     //    probeResult.translation.applyQuaternion(quat);
         probeResult.from.copy(pos)
-        probeResult.from.y += 0.75;
+        probeResult.from.y += 1.1;
         probeResult.to.addVectors(probeResult.from, probeResult.translation);
         let hit = rayTest(probeResult.from, probeResult.to, probeResult.destination, tempNormal, false)
         if (!hit) {

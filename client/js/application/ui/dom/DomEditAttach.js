@@ -19,6 +19,8 @@ let axisRot = ['X', 'Y', 'Z']
 let edits = ["NEW", "MODIFY", "DUPES","QUANTIZE"]
 let editList = [""];
 
+let quantizeOptions = ["", "ELEVATION", "ROT", "POS_XZ"]
+
 let editPalette = 'ITEMS_MONO';
 
 let locationModelConfigTemplate = {
@@ -254,7 +256,7 @@ class DomEditAttach {
             }
 
             if (activeEdit === 'QUANTIZE') {
-                applyQuantize()
+                applyQuantize(selectList.value);
                 editSelect.value = 'MODIFY';
             }
 
@@ -306,7 +308,8 @@ class DomEditAttach {
         }
 
 
-        function applyQuantize() {
+        function applyQuantize(quantizeSetting) {
+
             let locationModels = statusMap.parent.locationModels;
             for (let i = 0; i < locationModels.length; i++) {
                 editTarget = locationModels[i];
@@ -314,21 +317,32 @@ class DomEditAttach {
 
                 MATH.vec3FromArray(pos, editTarget.config.pos);
                 let res = 1;
-                editTarget.config.grid = res;
-                MATH.decimalifyVec3(pos, res);
-                pos.y = MATH.decimalify(pos.y, res);
+            //    editTarget.config.grid = res;
+                if (quantizeSetting === 'POS_XZ') {
+                    res = 0.5;
+                    MATH.decimalifyVec3(pos, res);
+                    MATH.vec3ToArray(pos, editTarget.config.pos);
+                }
 
-                tempObj.position.set(0, 0, 0);
-                tempVec.set(0, 0, MATH.curveSqrt(res)*0.72);
-                MATH.rotXYZFromArray(editTarget.obj3d, editTarget.config.rot)
-                tempVec.applyQuaternion(editTarget.obj3d.quaternion);
-                MATH.decimalifyVec3(tempVec, res);
-                tempObj.lookAt(tempVec);
-                //    editTargeteditTarget.obj3d.quaternion.copy(tempObj.quaternion);
+                if (quantizeSetting === 'ELEVATION') {
+                    pos.y = MATH.decimalify(pos.y, res);
+                    editTarget.config.pos[1] = pos.y;
+                }
 
-                MATH.vec3ToArray(pos, editTarget.config.pos);
-                MATH.rotObj3dToArray(tempObj,  editTarget.config.rot)
-                editTarget.obj3d.quaternion.copy(tempObj.quaternion);
+                if (quantizeSetting === 'ROT') {
+
+                    tempObj.position.set(0, 0, 0);
+                    tempVec.set(0, 0, MATH.curveSqrt(res)*0.72);
+                    MATH.rotXYZFromArray(editTarget.obj3d, editTarget.config.rot)
+                    tempVec.applyQuaternion(editTarget.obj3d.quaternion);
+                    MATH.decimalifyVec3(tempVec, res);
+                    tempObj.lookAt(tempVec);
+                    //    editTargeteditTarget.obj3d.quaternion.copy(tempObj.quaternion);
+
+                    MATH.rotObj3dToArray(tempObj,  editTarget.config.rot)
+                    editTarget.obj3d.quaternion.copy(tempObj.quaternion);
+                }
+
                 editTarget.hierarchyUpdated();
                 saveEditTarget()
             }
@@ -484,6 +498,8 @@ class DomEditAttach {
                         htmlElem.call.populateSelectList('select_list', editList)
                     }
                 }
+            } else if (mode === 'QUANTIZE') {
+                htmlElem.call.populateSelectList('select_list', quantizeOptions);
             }
         }
 
@@ -660,9 +676,13 @@ class DomEditAttach {
             }
 
             if (activeEdit === 'QUANTIZE') {
-                applyContainerDiv.style.display = '';
-                if (addButtonDiv.innerHTML !== 'APPLY') {
-                    addButtonDiv.innerHTML = 'APPLY'
+                if (selectionId === "") {
+                    applyContainerDiv.style.display = 'none';
+                } else {
+                    if (addButtonDiv.innerHTML !== 'APPLY') {
+                        applyContainerDiv.style.display = '';
+                        addButtonDiv.innerHTML = 'APPLY'
+                    }
                 }
             }
 

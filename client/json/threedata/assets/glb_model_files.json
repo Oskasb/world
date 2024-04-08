@@ -160,9 +160,15 @@
         {"id": "file_wall_2_stone",   "config": { "url": "./client/assets/models/buildings/sections/wall_2_stone"        }},
         {"id": "file_wall_2_door_stone",   "config": { "url": "./client/assets/models/buildings/sections/wall_2_door_stone"        }},
         {"id": "file_wall_2_window_stone",   "config": { "url": "./client/assets/models/buildings/sections/wall_2_window_stone"        }},
-
         {"id": "file_stairs_2_stone",   "config": { "url": "./client/assets/models/buildings/sections/stairs_2_stone"        }},
         {"id": "file_fence_2_stone",   "config": { "url": "./client/assets/models/buildings/sections/fence_2_stone"        }},
+
+        {"id": "file_floor_3_stone",   "config": { "url": "./client/assets/models/buildings/sections/floor_3_stone"        }},
+        {"id": "file_wall_3_stone",   "config": { "url": "./client/assets/models/buildings/sections/wall_3_stone"        }},
+        {"id": "file_wall_3_door_stone",   "config": { "url": "./client/assets/models/buildings/sections/wall_3_door_stone"        }},
+        {"id": "file_wall_3_window_stone",   "config": { "url": "./client/assets/models/buildings/sections/wall_3_window_stone"        }},
+        {"id": "file_stairs_3_stone",   "config": { "url": "./client/assets/models/buildings/sections/stairs_3_stone"        }},
+        {"id": "file_fence_3_stone",   "config": { "url": "./client/assets/models/buildings/sections/fence_3_stone"        }},
 
 
         {"id": "file_castle_floor_10",   "config": { "url": "./client/assets/models/buildings/castle/castle_floor_10"        }},

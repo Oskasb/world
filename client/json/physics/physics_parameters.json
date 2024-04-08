@@ -154,8 +154,10 @@
         "id":"asset_stairs_2_stone",
         "data":{
           "shapes": [
-            {"shape": "box", "rot": [0, 0, 0],  "pos": [0.5, 0.25, 0], "scale": [100, 50, 200], "asset": "box", "convex": false, "mass": 0, "friction": 2.9},
-            {"shape": "box", "rot": [0, 0, 0],  "pos": [-0.5 , 0.5,  0], "scale": [100, 100, 200], "asset": "box", "convex": false, "mass": 0, "friction": 2.9}
+            {"shape": "box", "rot": [0, 0, 0],  "pos": [0.75, 0.25, 0], "scale": [100, 50, 200], "asset": "box", "convex": false, "mass": 0, "friction": 2.9},
+            {"shape": "box", "rot": [0, 0, 0],  "pos": [0.25 , 0.5,  0], "scale": [100, 100, 200], "asset": "box", "convex": false, "mass": 0, "friction": 2.9},
+            {"shape": "box", "rot": [0, 0, 0],  "pos": [-0.25, 0.75, 0], "scale": [100, 150, 200], "asset": "box", "convex": false, "mass": 0, "friction": 2.9},
+            {"shape": "box", "rot": [0, 0, 0],  "pos": [-0.75 , 1.0,  0], "scale": [100, 200, 200], "asset": "box", "convex": false, "mass": 0, "friction": 2.9}
           ]
         }
       },
@@ -167,6 +169,65 @@
           ]
         }
       },
+
+
+      {
+        "id":"asset_floor_3_stone",
+        "data":{
+          "shapes": [
+            {"shape": "box", "rot": [0, 0, 0],  "pos": [0, 0.1, 0], "scale": [300, 30, 300], "asset": "box", "convex": false, "mass": 0, "friction": 2.9}
+          ]
+        }
+      },
+
+      {
+        "id":"asset_wall_3_stone",
+        "data":{
+          "shapes": [
+            {"shape": "box", "rot": [0, 0, 0],  "pos": [0, 2, 0], "scale": [40, 400, 300], "asset": "box", "convex": false, "mass": 0, "friction": 2.9}
+          ]
+        }
+      },
+      {
+        "id":"asset_wall_3_door_stone",
+        "data":{
+          "shapes": [
+            {"shape": "box", "rot": [0, 0, 0],  "pos": [0, 0, 0], "scale": [60, 20, 300], "asset": "box", "convex": false, "mass": 0, "friction": 2.9},
+            {"shape": "box", "rot": [0, 0, 0],  "pos": [0, 3.7, 0], "scale": [40, 60, 300], "asset": "box", "convex": false, "mass": 0, "friction": 2.9},
+            {"shape": "box", "rot": [0, 0, 0],  "pos": [0, 2, -1.4], "scale": [40, 400, 20], "asset": "box", "convex": false, "mass": 0, "friction": 2.9},
+            {"shape": "box", "rot": [0, 0, 0],  "pos": [0, 2, 1.4], "scale": [40, 400, 20], "asset": "box", "convex": false, "mass": 0, "friction": 2.9}
+          ]
+        }
+      },
+      {
+        "id":"asset_wall_3_window_stone",
+        "data":{
+          "shapes": [
+            {"shape": "box", "rot": [0, 0, 0],  "pos": [0, 2, 0], "scale": [40, 400, 300], "asset": "box", "convex": false, "mass": 0, "friction": 2.9}
+          ]
+        }
+      },
+      {
+        "id":"asset_stairs_3_stone",
+        "data":{
+          "shapes": [
+            {"shape": "box", "rot": [0, 0, 0],  "pos": [0.75, 0.25, 0], "scale": [100, 50, 300], "asset": "box", "convex": false, "mass": 0, "friction": 2.9},
+            {"shape": "box", "rot": [0, 0, 0],  "pos": [0.25 , 0.5,  0], "scale": [100, 100, 300], "asset": "box", "convex": false, "mass": 0, "friction": 2.9},
+            {"shape": "box", "rot": [0, 0, 0],  "pos": [-0.25, 0.75, 0], "scale": [100, 150, 300], "asset": "box", "convex": false, "mass": 0, "friction": 2.9},
+            {"shape": "box", "rot": [0, 0, 0],  "pos": [-0.75 , 1.0,  0], "scale": [100, 200, 300], "asset": "box", "convex": false, "mass": 0, "friction": 2.9}
+          ]
+        }
+      },
+      {
+        "id":"asset_fence_3_stone",
+        "data":{
+          "shapes": [
+            {"shape": "box", "rot": [0, 0, 0],  "pos": [0, 0.7, 0], "scale": [40, 140, 300], "asset": "box", "convex": false, "mass": 0, "friction": 2.9}
+          ]
+        }
+      },
+
+
 
       {
         "id":"asset_tree_1",
