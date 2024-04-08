@@ -371,15 +371,19 @@ let visibilityList = [];
 let visibleCount = 0;
 let lastPosX = 0;
 let lastPosZ = 0;
+let lastWorldLevel = 20;
 let updateBigGeo = function(tpf) {
     let camY = ThreeAPI.getCamera().position.y;
     let posX = Math.floor(lodCenter.x)
     let posZ = Math.floor(lodCenter.z)
 
-    if (Math.abs(lastPosX - posX) > 20 || Math.abs(lastPosZ - posZ) > 20) {
+    let wLevel = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
+
+    if (Math.abs(lastPosX - posX) > 20 || Math.abs(lastPosZ - posZ) > 20 || wLevel !== lastWorldLevel) {
+        lastWorldLevel = wLevel;
         lastPosX = posX;
         lastPosZ = posZ;
-        updateBufferListeners(GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL), posX, posZ)
+        updateBufferListeners(wLevel, posX, posZ)
     }
 //    bigOcean.getSpatial().setPosXYZ(posX, -3.0, posZ);
   //  oceanInstances[0].getSpatial().setPosXYZ(posX, -3.0, posZ);

@@ -87,7 +87,7 @@ function loadModelFromConfig(config, id) {
     }
     let model = new WorldModel(config, id)
     worldModels.push(model);
-    saveWorldModelEdits(model);
+  //  saveWorldModelEdits(model);
     return model;
 }
 
@@ -107,9 +107,11 @@ function loadEditorModels(configs) {
 }
 
 function loadModelsFromEditor(worldLevel) {
-    if (loadedConfigs['models']) {
-        if (loadedConfigs['models'][worldLevel]) {
-            loadEditorModels(loadedConfigs['models'][worldLevel])
+    console.log("loadModelsFromEditor")
+    if (loadedConfigs['model']) {
+        if (loadedConfigs['model'][worldLevel]) {
+            console.log("loadModelsFromEditor", loadedConfigs['model'], worldLevel)
+            loadEditorModels(loadedConfigs['model'][worldLevel])
         }
     }
 }
@@ -131,13 +133,13 @@ let initWorldModels = function(worldLevel) {
     }
 
     let config = locationModelConfigs;
-    console.log("worldLevel Models; ", worldLevel, config);
+    console.log("worldLevel Models; ", worldLevel, loadedConfigs, config);
 
     removeWorldModels(worldLevel)
 
     MATH.emptyArray(worldLevelLocations);
 
-    loadModelsFromEditor()
+    loadModelsFromEditor(worldLevel)
 
     let modelsData = function(models) {
         for (let i = 0; i < models.length;i++) {

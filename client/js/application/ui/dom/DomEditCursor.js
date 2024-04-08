@@ -221,7 +221,7 @@ class DomEditCursor {
                 MATH.decimalifyVec3(targetObj3d.position, res);
                 let ground = ThreeAPI.terrainAt(targetObj3d.position)
                 let gridY = MATH.decimalify(ground, res);
-                if (gridY < ground) {
+                if (gridY < ground-0.25) {
                     gridY += grid;
                 }
                 targetObj3d.position.y = gridY + MATH.decimalify(this.statusMap.applyElevate, res);
