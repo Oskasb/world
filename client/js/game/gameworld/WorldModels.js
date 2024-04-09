@@ -33,6 +33,12 @@ function removeWorldModels() {
     }
 }
 
+function resetLodState() {
+    for (let i = 0; i < worldModels.length; i++) {
+        worldModels[i].refreshLodState();
+    }
+}
+
 let setlocationModelConfigs = function(config) {
     locationModelConfigs = config;
     initWorldModels()
@@ -120,7 +126,7 @@ let worldLevelLocations = []
 let lastWorldLevel = "20";
 
 let initWorldModels = function(worldLevel) {
-
+    resetLodState()
     if (worldLevel !== lastWorldLevel || dynamicSpawnPoints.length === 0) {
         if (!worldLevel) {
             worldLevel = lastWorldLevel;
@@ -383,6 +389,9 @@ class WorldModels {
         }
         console.log("No such worldModel", id)
     }
+
+
+
     getWorldEncounters() {
         return worldEncounters;
     }
