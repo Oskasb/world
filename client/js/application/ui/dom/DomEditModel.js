@@ -186,7 +186,8 @@ class DomEditModel {
                 createModelStatusMap.models = models;
                 addToolStatusMap.activateSelection = applySelectedModel;
                 addToolStatusMap.selectionUpdate = selectionUpdate;
-
+                addToolStatusMap.root = "world";
+                addToolStatusMap.folder = "model";
             }
             new ConfigData("WORLD_LOCATIONS","LOCATION_MODELS",  false, false, false, onConfig)
         }

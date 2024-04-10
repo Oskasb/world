@@ -35,8 +35,8 @@ class DomEditAdd {
                     id:config.edit_id,
                     parent:parent,
                     config:config,
-                    root:"world",
-                    folder:"model",
+                    root:statusMap.root,
+                    folder:statusMap.folder,
                     onLoad:onLoad
                 }
 

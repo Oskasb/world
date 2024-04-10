@@ -67,6 +67,8 @@ class DomEditEncounter {
 
         addToolStatusMap.activateSelection = applySelection;
         addToolStatusMap.selectionUpdate = selectionUpdate;
+        addToolStatusMap.root = "world";
+        addToolStatusMap.folder = "encounter";
 
         function closeTool() {
             if (activeTool !== null) {
