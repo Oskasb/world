@@ -28,6 +28,7 @@ function addIndexEntry(path, root, folder, id, format, deleted, init) {
                 command:ENUMS.ServerCommands.LOAD_FILE_DATA,
                 request:ENUMS.ClientRequests.READ_FILE,
                 id:id,
+                timestamp:entry.timestamp,
                 path:path,
                 root:root,
                 folder:folder,
@@ -40,12 +41,13 @@ function addIndexEntry(path, root, folder, id, format, deleted, init) {
     }
 
     editIndex[id] = entry
+    return entry.timestamp;
 }
 
 function saveFileFromSocketMessage(message) {
     if (message.format === "json" || message.format === "buffer") {
     //    console.log("saveFileFromSocketMessage JSON", message.file);
-        serverConnection.writeDataToFile(message);
+    serverConnection.writeDataToFile(message);
 
     } else {
         console.log("Format Not supported", message.id, message.format);

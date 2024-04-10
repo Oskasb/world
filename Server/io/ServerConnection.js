@@ -120,7 +120,8 @@ class ServerConnection {
 		}
 		let file = fileFromMessage(message)
 		console.log("PATH FILE: ", message.path,  file);
-		addIndexEntry(message.path, message.root, message.folder, message.id, message.format, deleted);
+		let timestamp = addIndexEntry(message.path, message.root, message.folder, message.id, message.format, deleted);
+		message.timestamp = timestamp;
 
 		let writeCB = function(res) {
 			if (res !== null) {
@@ -155,11 +156,16 @@ class ServerConnection {
 		}
 
 		server.writeFile(file, data, writeCB)
+
 	}
 
 	readDataFromFile(message, callback) {
 		let file = fileFromMessage(message)
-		console.log("Read File: ",file, message)
+		let indexEntry = getEditIndex()[message.id];
+		message.timestamp = indexEntry.timestamp;
+
+	//	console.log("Read File: ",file, indexEntry, message)
+
 		let dataCb = function(error, data) {
 			if (error) {
 				console.log("Data Read Error: ", message.id, file, error);
