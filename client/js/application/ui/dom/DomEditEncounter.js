@@ -4,12 +4,16 @@ import {Object3D} from "../../../../libs/three/core/Object3D.js";
 import {ENUMS} from "../../ENUMS.js";
 import {physicalAlignYGoundTest, testProbeFitsAtPos} from "../../utils/PhysicsUtils.js";
 import {detachConfig, saveEncounterEdits} from "../../utils/ConfigUtils.js";
+import {ConfigData} from "../../utils/ConfigData.js";
+import {WorldModel} from "../../../game/gameworld/WorldModel.js";
 
 
 let tempVec = new Vector3();
 let frustumFactor = 0.828;
 let encounterConfigs = null;
 let worldEncounters = null;
+
+
 
 let toolsList = [
     "MOVE",
@@ -23,7 +27,6 @@ let toolsList = [
 class DomEditEncounter {
     constructor() {
 
-        this.targetObj3d = new Object3D();
         let updateObj3d = new Object3D();
 
         this.statusMap = {
@@ -49,6 +52,22 @@ class DomEditEncounter {
         let idLabelDiv = null;
         let activeTool = null;
 
+        let addToolStatusMap = {
+            selectList:["", "DYNAMIC", "TEMPLATE"],
+
+        }
+
+        function selectionUpdate(id) {
+            console.log("Selection Update: ", id);
+        }
+
+        function applySelection(id) {
+            console.log("Selection applySelection: ", id);
+        }
+
+        addToolStatusMap.activateSelection = applySelection;
+        addToolStatusMap.selectionUpdate = selectionUpdate;
+
         function closeTool() {
             if (activeTool !== null) {
                 activeTool.closeEditTool();
@@ -67,7 +86,11 @@ class DomEditEncounter {
             console.log("setSelectedTool", tool)
             if (tool === "ADD") {
                 applyOperationDiv.innerHTML = tool;
-                applyContainerDiv.style.display = ""
+                applyContainerDiv.style.display = "none"
+
+                activeTool = poolFetch('DomEditAdd');
+                activeTool.initEditTool(closeTool, addToolStatusMap);
+
             } else {
                 applyContainerDiv.style.display = "none"
             }

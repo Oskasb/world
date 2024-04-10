@@ -47,7 +47,7 @@ let worldModelTemplateConfig =                 {
 class DomEditModel {
     constructor() {
 
-        let addModelStatusMap = {}
+        let addToolStatusMap = {}
 
         function createFunction(id, obj3d, callback) {
 
@@ -182,10 +182,10 @@ class DomEditModel {
                     }
                 }
                 console.log("Add Model Options", models)
-                addModelStatusMap.selectList = models;
+                addToolStatusMap.selectList = models;
                 createModelStatusMap.models = models;
-                addModelStatusMap.activateSelection = applySelectedModel;
-                addModelStatusMap.selectionUpdate = selectionUpdate;
+                addToolStatusMap.activateSelection = applySelectedModel;
+                addToolStatusMap.selectionUpdate = selectionUpdate;
 
             }
             new ConfigData("WORLD_LOCATIONS","LOCATION_MODELS",  false, false, false, onConfig)
@@ -241,7 +241,7 @@ class DomEditModel {
 
             if (selectedTool === "ADD") {
                 activeTool = poolFetch('DomEditAdd');
-                activeTool.initEditTool(closeTool, addModelStatusMap);
+                activeTool.initEditTool(closeTool, addToolStatusMap);
             }
 
             if (selectedTool === "CREATE") {
