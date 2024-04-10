@@ -57,11 +57,13 @@ function saveFileFromSocketMessage(message) {
 
 function readFileFromSocketMessage(message, callback) {
     if (message.format === "json" || message.format === "buffer") {
-        console.log("readFileFromSocketMessage JSON", message);
+
         if (!editIndex[message.id]) {
             console.log("Any reads should be in the index...", message.id)
             console.log(editIndex);
         } else {
+            message.timestamp = editIndex[message.id].timestamp;
+            console.log("readFileFromSocketMessage JSON", message);
             serverConnection.readDataFromFile(message, callback);
         }
 

@@ -161,8 +161,6 @@ class ServerConnection {
 
 	readDataFromFile(message, callback) {
 		let file = fileFromMessage(message)
-		let indexEntry = getEditIndex()[message.id];
-		message.timestamp = indexEntry.timestamp;
 
 	//	console.log("Read File: ",file, indexEntry, message)
 

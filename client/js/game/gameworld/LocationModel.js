@@ -180,7 +180,7 @@ class LocationModel {
             if (this.instance) {
                 this.palette.applyPaletteToInstance(this.instance)
             } else {
-                console.log("palette expects instance")
+        //        console.log("palette expects instance")
             }
 
             this.palette.setSeeThroughSolidity(frameSolidity)

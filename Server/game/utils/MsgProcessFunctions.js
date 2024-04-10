@@ -229,18 +229,21 @@ function processClientRequest(request, stamp, message, connectedClient) {
         case ENUMS.ClientRequests.READ_FILE:
         //    console.log("ENUMS.ClientRequests.READ_FILE", message)
 
-            let res = {
-                stamp:message.stamp,
-                command:ENUMS.ServerCommands.LOAD_FILE_DATA,
-                request:ENUMS.ClientRequests.READ_FILE,
-                id:message.id,
-                root:message.root,
-                folder:message.folder,
-                path:message.path,
-                format:message.format
-            }
 
             let callback = function(data) {
+
+                let res = {
+                    stamp:message.stamp,
+                    command:ENUMS.ServerCommands.LOAD_FILE_DATA,
+                    request:ENUMS.ClientRequests.READ_FILE,
+                    id:message.id,
+                    root:message.root,
+                    folder:message.folder,
+                    path:message.path,
+                    format:message.format,
+                    timestamp:message.timestamp
+                }
+
                 res.data = data;
                 connectedClient.call.returnDataMessage(res)
             }

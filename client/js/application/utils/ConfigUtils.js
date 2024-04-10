@@ -12,14 +12,16 @@ let savedImageBuffers = {};
 let configKeyMap = null;
 let activeSaves = [];
 
-function processLoadedBuffer(id) {
+function processLoadedBuffer(id, timestamp) {
     for (let i = 0; i < bufferListeners.length; i++) {
         if (bufferListeners[i].id === id) {
             let entry = bufferListeners[i];
-            entry.callback(savedImageBuffers[id]);
+            if (savedImageBuffers[id].timestamp < timestamp) {
+                savedImageBuffers[id].timestamp = timestamp;
+                entry.callback(savedImageBuffers[id]);
+            }
         }
     }
-
 }
 
 let index = 0;
@@ -205,19 +207,35 @@ function parseConfigDataKey(root, folder, dataId, id, callback) {
     configKeyMap = configData.getConfigKeyMap();
 }
 
+let idUpdateTimestamps = {};
+
 function loadSavedBuffer(id, callback) {
     let add = true;
+    let lastUpdateTime = 0;
     for (let i = 0; i < bufferListeners.length; i++) {
+
         if (bufferListeners[i].callback === callback) {
             bufferListeners[i].id = id;
             add = false;
         }
     }
-    if (add === true) {
-        bufferListeners.push({id:id, callback:callback});
-    }
+
+    let timestamp = 0;
+
     if (savedImageBuffers[id]) {
-        callback(savedImageBuffers[id])
+        timestamp = savedImageBuffers[id].timestamp;
+
+    }
+
+    if (add === true) {
+        bufferListeners.push({id:id, callback:callback, timestamp:timestamp});
+    }
+
+    if (savedImageBuffers[id]) {
+        if (idUpdateTimestamps[id] !== timestamp) {
+            callback(savedImageBuffers[id].buffer, timestamp)
+        }
+        idUpdateTimestamps[id] = timestamp;
     }
 }
 
@@ -284,8 +302,15 @@ function applyRemoteConfigMessage(message) {
                 array.push(data[key]);
             }
         //    console.log(array);
-            savedImageBuffers[id] = new Uint8ClampedArray(array);
-            processLoadedBuffer(id);
+
+            if (!savedImageBuffers[id]) {
+                savedImageBuffers[id] = {};
+            }
+
+            savedImageBuffers[id].buffer = new Uint8ClampedArray(array);
+            savedImageBuffers[id].timestamp = message.timestamp;
+            console.log(savedImageBuffers[id])
+            processLoadedBuffer(id, message.timestamp);
         }
     }
 }
@@ -341,10 +366,17 @@ function saveWorldModelEdits(wModel) {
 
 
 function saveDataTexture(root, folder, id, buffer) {
-    savedImageBuffers[id] = buffer;
-//    console.log("saveDataTexture", root, folder, id)
+
     let saveId = generateSaveId();
     activeSaves.push(saveId)
+
+    if (!savedImageBuffers[id]) {
+        savedImageBuffers[id] = {};
+    }
+
+    savedImageBuffers[id] = {buffer:buffer, timestamp:new Date().getTime()};
+    //    console.log("saveDataTexture", root, folder, id)
+
     evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, {
         request:ENUMS.ClientRequests.WRITE_FILE,
         id:id,

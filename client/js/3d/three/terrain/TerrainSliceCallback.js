@@ -14,10 +14,10 @@ class TerrainSliceCallback {
             pxScale:null
         }
 
-        let sliceUpdated = function(data) {
-            console.log("Slice Updates", info);
-            GuiAPI.screenText("Slice: "+info.x+" "+info.y,  ENUMS.Message.LOAD_STATUS, 1.5)
-            sliceLoaded(info, data)
+        let sliceUpdated = function(data, timestamp) {
+                console.log("Slice Updates", timestamp, info);
+                GuiAPI.screenText("Slice: "+info.x+" "+info.y,  ENUMS.Message.LOAD_STATUS, 1.5)
+                sliceLoaded(info, data)
         }
 
         function setSliceParams(worldLevel, x, y, pxScale) {
