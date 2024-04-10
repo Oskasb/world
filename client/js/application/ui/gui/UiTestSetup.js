@@ -5,6 +5,7 @@ import {GuiExpandingContainer} from "./widgets/GuiExpandingContainer.js";
 import {GuiTextBox} from "./widgets/GuiTextBox.js";
 import {GuiMatrixText} from "./widgets/GuiMatrixText.js";
 import {GuiProgressBar} from "./widgets/GuiProgressBar.js";
+import {indicateActiveInstances} from "../../utils/DebugUtils.js";
 
 class UiTestSetup {
     constructor() {
@@ -56,6 +57,7 @@ class UiTestSetup {
             }.bind(this);
 
             var toggleTestUi = function(inputIndex) {
+                updateDebugView()
             //    console.log("Button: ", inputIndex);
                 if (this.testUiActive) {
                     this.closeTestUi();
@@ -65,7 +67,20 @@ class UiTestSetup {
 
             }.bind(this);
 
+
+            let linesOn = false;
+            function updateDebugView() {
+                linesOn = !linesOn;
+                if (linesOn) {
+                    ThreeAPI.registerPrerenderCallback(indicateActiveInstances)
+                } else {
+                    ThreeAPI.unregisterPrerenderCallback(indicateActiveInstances)
+                }
+            }
+
+
             let activateTestUi = function(event) {
+
                 if (event.activate) {
                     this.initUiTestSetup(event.container);
                 } else {

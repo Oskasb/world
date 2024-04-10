@@ -218,15 +218,15 @@ class DynamicTile {
         tempVec.y -= tileSize
         let isVisible = aaBoxTestVisibility(tempVec,  tileSize, tileSize*4, tileSize)
         let borrowedBox = borrowBox();
-        let farness = MATH.calcFraction(0, maxDistance, lodDistance * 1.1)  //MATH.clamp( (camDist / maxDistance) * 1.0, 0, 1)
+        let farness = MATH.calcFraction(0, maxDistance, lodDistance * 1.01)  //MATH.clamp( (camDist / maxDistance) * 1.0, 0, 1)
         if (farness > 1) {
         //    console.log("Farness overrun", farness)
             farness = 1;
             isVisible = false;
         }
 
-        let nearness = MATH.decimalify(MATH.clamp(2-farness*(1.2+MATH.curveCube(farness)), 0, 1), 10);
-        let lodLevel = Math.floor((MATH.curveCube(farness)*0.75 + MATH.curveSqrt(farness)*0.25) * (lodLevels+1));
+        let nearness = MATH.decimalify(MATH.clamp(1.2-farness*1.2, 0, 1), 10);
+        let lodLevel = Math.floor((MATH.curveQuad(farness)*0.6 + MATH.curveSqrt(farness)*0.4) * (lodLevels+1));
 
 
         this.isVisible = false;

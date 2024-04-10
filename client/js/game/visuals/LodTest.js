@@ -60,9 +60,9 @@ class LodTest {
             model.isVisible = true;
         } else {
             if (model.isVisible === true) {
-                if (lodLevel === -1) {
-                    this.call.cameraTestVisibility(model, visibility, hideCallback)
-                } else {
+                this.call.cameraTestVisibility(model, visibility, hideCallback)
+
+                if (lodLevel < 0) {
                     hideCallback(model);
                     model.isVisible = false;
                 }

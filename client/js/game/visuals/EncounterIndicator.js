@@ -58,7 +58,12 @@ class EncounterIndicator {
             this.encounterFx.setEffectQuaternion(this.fxObj3d.quaternion)
         }.bind(this)
 
+        let lodUpdated = function(lodLevel) {
+
+        }
+
         this.call = {
+            lodUpdated:lodUpdated,
             updateEffect:updateEffect
         }
 

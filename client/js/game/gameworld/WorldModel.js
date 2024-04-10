@@ -287,8 +287,8 @@ class WorldModel {
 
     refreshLodState() {
         for (let i = 0; i < this.locationModels.length; i++) {
-            console.log("Refresh Lod state here.. not solving the bandit keep problem yet")
-            this.locationModels[i].call.lodUpdated(-1);
+        //    console.log("Refresh Lod state here.. not solving the bandit keep problem yet")
+        //    this.locationModels[i].call.lodUpdated(-2);
         }
     }
 

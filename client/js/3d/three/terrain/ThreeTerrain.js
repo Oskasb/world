@@ -492,13 +492,15 @@ class ThreeTerrain {
         updateFrame = GameAPI.getFrame().frame;
 
 
-        let halfSize = dynamicLodGrid.maxDistance*0.4;
-        terrainCenter.set(0, 0, -halfSize)
+        let halfSize = dynamicLodGrid.maxDistance*0.5;
+        terrainCenter.set(0, 0, -(halfSize + dynamicLodGrid.config['tile_spacing']*0.5))
         terrainCenter.applyQuaternion(ThreeAPI.getCamera().quaternion);
         terrainCenter.add(ThreeAPI.getCamera().position)
-        lodCenter.copy(ThreeAPI.getCamera().position);
+        lodCenter.subVectors(ThreeAPI.getCamera().position, ThreeAPI.getCameraCursor().getLookAroundPoint() );
+        lodCenter.multiplyScalar(2.5)
+        lodCenter.add(ThreeAPI.getCamera().position);
         dynamicLodGrid.updateDynamicLodGrid(terrainCenter, tileUpdateCB, 0, 1);
-        CursorUtils.processTerrainLodCenter(lodCenter, terrainCenter)
+   //     CursorUtils.processTerrainLodCenter(lodCenter, terrainCenter)
         drawTilesByLodGrid(updateFrame)
     }
 

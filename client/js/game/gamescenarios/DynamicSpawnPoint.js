@@ -190,7 +190,7 @@ class DynamicSpawnPoint {
                 deactivateVisible();
             } else {
 
-                if (lodLevel > -1 && lodLevel < 4) {
+                if (lodLevel > -1 && lodLevel < 3) {
                     activateVisible()
                 } else {
                     deactivateVisible()
