@@ -554,11 +554,12 @@ div.grid_tile {
     border: solid;
     background: none;
     border-color: rgba(0, 255, 57, 0.5);
-    border-width: 0.2em;
+    border-width: 0.1em;
     border-radius:  0;
     display: block;
     color: #2bff3d;
     transform-origin: center;
+    transform: translate3d(-100%, -100%, 0);
 }
 
 div.lod_-1 {

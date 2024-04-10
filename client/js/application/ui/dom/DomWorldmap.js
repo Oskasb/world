@@ -74,11 +74,12 @@ function indicateLodGrid(htmlElement, mapDiv, statusMap, cursorPos){
         let spacing = visibleLods[i].spacing
         worldPosDiv(pos, cursorPos, div, zoom);
 
-        let w = spacing*zoom*0.046
-        let h = spacing*zoom*0.046
-        div.style.padding = 0.5*w+"%";
-    //    div.style.width = w+"%";
-    //    div.style.height = h+"%";
+        let w = spacing*zoom*0.048
+        let h = spacing*zoom*0.048
+        //    //    div.style.padding = 0.5*w+"%";
+        div.style.borderWidth = 0.005*w+"em";
+        div.style.width = w+"%";
+        div.style.height = h+"%";
         let lodClass = "lod_"+lod
         div.className = "grid_tile";
         DomUtils.addElementClass(div, lodClass);

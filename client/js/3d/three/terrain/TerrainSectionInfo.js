@@ -15,6 +15,7 @@ class TerrainSectionInfo {
         this.maxY = MATH.bigSafeValue();
         this.minExtents = new THREE.Vector3();
         this.maxExtents = new THREE.Vector3();
+        this.physicsActive = false
     }
 
     setupLodLevelGrid(lodLevel, grid) {
@@ -84,6 +85,7 @@ class TerrainSectionInfo {
                 }
             }
         }
+        this.physicsActive = true;
     }
 
     deactivateTerrainSectionPhysics() {
@@ -98,6 +100,7 @@ class TerrainSectionInfo {
                 }
             }
         }
+        this.physicsActive = false;
     }
 
     deactivateTerrainSection() {
