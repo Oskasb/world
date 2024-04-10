@@ -323,7 +323,6 @@ function setupBufferListeners(folder, worldLevel, x, z, w, h) {
             for (let j = 0; j < grid[i].length; j++) {
                 let xMin = (centerSliceX*pixelsPerSliceX + (pixelsPerSliceX * (i - grid[i].length*0.5)));
                 let yMin = (centerSliceY*pixelsPerSliceY + (pixelsPerSliceY * (j - grid[j].length*0.5)));
-                let sliceId = folder+"_"+worldLevel+"_"+xMin+"_"+yMin;
 
                 let sliceCallback = grid[i][j];
 

@@ -2,6 +2,7 @@ import {poolFetch, poolReturn} from "./PoolUtils.js";
 import {Vector3} from "../../../libs/three/math/Vector3.js";
 import {Object3D} from "../../../libs/three/core/Object3D.js";
 import {Ray} from "../../../libs/three/math/Ray.js";
+import {ENUMS} from "../ENUMS.js";
 
 let tempObj = new Object3D();
 let tempVec = new Vector3();
@@ -323,6 +324,137 @@ function testProbeFitsAtPos(pos, sideSize, debugDraw) {
 
 }
 
+
+
+let obstructHhitCb = function(hit) {
+    let world = getPhysicalWorld();
+    let ptr = hit.kB;
+
+    if (ptr === getTerrainBodyPointer()) {
+        //    viewObstuctionTest(hit.position, ThreeAPI.getCamera().position, obstructHhitCb);
+        return hit;
+    }
+
+    let physicalModel = getModelByBodyPointer(ptr);
+
+    if (!physicalModel) {
+        console.log("Hit nothing ", ptr)
+        return hit;
+    }
+
+    let model = physicalModel.call.getModel();
+
+    if (!model) {
+        model = physicalModel.call.getInstance();
+        if (!model) {
+            //    console.log("no instance hit (box model)", ptr, physicalModel)
+            return hit;
+        }
+    }
+
+    if (world.viewObstuctingModels.indexOf(model) === -1) {
+        world.viewObstuctingModels.push(model)
+        model.call.viewObstructing(true)
+    }
+
+}
+
+let lastFrom = null;
+
+function viewObstuctionTest(from, to, hitCb) {
+
+    frameTests++;
+    if (frameTests > maxTests) {
+        console.log("View Obstruct test max")
+        return;
+    }
+    let hits = rayAllIntersects(from, to);
+    while (hits.length) {
+        hitCb(hits.pop());
+    }
+}
+
+let obstructingModels = [];
+let maxTests = 8;
+let frameTests = 0;
+let planeElev = 1.5;
+let planeSize = 0.8
+
+function getTerrainBodyPointer() {
+    let world = getPhysicalWorld();
+    return world.terrainBody.kB;
+}
+
+function obstuctTestAAPlane(pos, size, elev) {
+    tempVec.copy(pos);
+//    planeElev = actor.getStatus(ENUMS.ActorStatus.HEIGHT) * 0.6;
+    tempVec.y += elev;
+    tempVec.z += size;
+    tempVec2.z += size;
+    frameTests = 0;
+    maxTests = 5;
+    viewObstuctionTest(tempVec, tempVec2, obstructHhitCb)
+
+//    actor.getSpatialPosition(tempVec);
+//    tempVec.y += planeElev;
+    tempVec.z -= size*2;
+    tempVec2.z -= size*2;
+    frameTests = 0;
+    viewObstuctionTest(tempVec, tempVec2, obstructHhitCb)
+
+//    actor.getSpatialPosition(tempVec);
+//    tempVec.y += planeElev;
+    tempVec.x += size;
+    tempVec2.x += size;
+    frameTests = 0;
+    viewObstuctionTest(tempVec, tempVec2, obstructHhitCb)
+
+//    actor.getSpatialPosition(tempVec);
+//    tempVec.y += planeElev;
+    tempVec.z += size*2;
+    tempVec.x -= size*2;
+    tempVec2.z += size*2;
+    tempVec2.x -= size*2;
+    frameTests = 0;
+    viewObstuctionTest(tempVec, tempVec2, obstructHhitCb)
+}
+
+
+function updateViewObstruction(pos) {
+
+    let world = getPhysicalWorld();
+    tempVec2.copy(ThreeAPI.getCamera().position);
+    //  let viewObstuctingModels
+    MATH.copyArrayValues(world.viewObstuctingModels, obstructingModels);
+    MATH.emptyArray(world.viewObstuctingModels);
+
+    obstuctTestAAPlane(pos, planeSize, planeElev)
+    obstuctTestAAPlane(pos, planeSize*2, -planeElev)
+    obstuctTestAAPlane(pos, planeSize*3, 0)
+    tempVec.copy(pos);
+//    tempVec.y += actor.getStatus(ENUMS.ActorStatus.HEIGHT) * 1.2;
+    frameTests = 0;
+    maxTests = 8;
+    let hit = viewObstuctionTest(tempVec, ThreeAPI.getCamera().position, obstructHhitCb)
+
+    for (let i = 0; i < obstructingModels.length; i++) {
+        let model = obstructingModels[i];
+        if (world.viewObstuctingModels.indexOf(model) === -1) {
+            model.call.viewObstructing(false);
+        }
+    }
+
+    if (hit) {
+        let ptr = hit.ptr;
+
+        if (ptr === getTerrainBodyPointer()) {
+            ThreeAPI.getCamera().position.copy(hit.position);
+            //    viewObstuctionTest(hit.position, ThreeAPI.getCamera().position, obstructHhitCb);
+            return hit;
+        }
+    }
+}
+
 export {
     getPhysicalWorld,
     detectFreeSpaceAbovePoint,
@@ -338,5 +470,6 @@ export {
     getBodyByPointer,
     getModelByBodyPointer,
     physicalAlignYGoundTest,
-    testProbeFitsAtPos
+    testProbeFitsAtPos,
+    updateViewObstruction
 }

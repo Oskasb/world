@@ -1,6 +1,7 @@
 import {Vector3} from "../../../libs/three/math/Vector3.js";
 import * as CursorUtils from "./CursorUtils.js";
 import {Object3D} from "../../../libs/three/core/Object3D.js";
+import {updateViewObstruction} from "../../application/utils/PhysicsUtils.js";
 
 let CAM_MODES = {
     CAM_AUTO:CAM_AUTO,
@@ -266,7 +267,7 @@ function lerpCameraLookAt(towardsPos, alpha) {
         alpha += MATH.curveQuad((distance-5)*0.06);
     }
     camLookAtVec.lerp(towardsPos, MATH.clamp(alpha * camFollowSpeed*0.1, 0.001, 0.5))
-
+    updateViewObstruction(camLookAtVec)
 }
 
 

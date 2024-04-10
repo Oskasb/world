@@ -1,3 +1,5 @@
+import {ENUMS} from "../../../application/ENUMS.js";
+
 class TerrainSliceCallback {
     constructor(folder, w, h, sliceLoaded) {
 
@@ -14,6 +16,7 @@ class TerrainSliceCallback {
 
         let sliceUpdated = function(data) {
             console.log("Slice Updates", info);
+            GuiAPI.screenText("Slice: "+info.x+" "+info.y,  ENUMS.Message.LOAD_STATUS, 1.5)
             sliceLoaded(info, data)
         }
 
