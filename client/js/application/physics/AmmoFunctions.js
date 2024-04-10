@@ -817,6 +817,9 @@ class AmmoFunctions {
         rayToVec.setX(dir.x + pos.x);
         rayToVec.setY(dir.y + pos.y);
         rayToVec.setZ(dir.z + pos.z);
+
+        allHitsRayResultCallback = new Ammo.AllHitsRayResultCallback(rayFromVec, rayToVec)
+
         allHitsRayResultCallback.get_m_rayFromWorld().setValue(pos.x, pos.y, pos.z);
         allHitsRayResultCallback.get_m_rayToWorld().setValue(dir.x + pos.x, dir.y +pos.y, dir.z+pos.z);
         //    rayCallback.set_m_collisionObject(null);
@@ -825,19 +828,25 @@ class AmmoFunctions {
 
         world.rayTest(rayFromVec, rayToVec, allHitsRayResultCallback);
 
-        let fraction = allHitsRayResultCallback.get_m_closestHitFraction();
+    //    let fraction = allHitsRayResultCallback.get_m_closestHitFraction();
         let objs = allHitsRayResultCallback.get_m_collisionObjects()
         MATH.emptyArray(rayHits);
+
+        let obj = allHitsRayResultCallback.get_m_collisionObject()
 
         if (objs.size() !== 0) {
             let size = objs.size();
             for (let i = 0; i < size; i++) {
+                console.log()
                 rayHits.push(objs.at(i));
             }
             objs.__destroy__();
-            // console.log(allHitsRayResultCallback, flags, obj, objs, objs.size());
+        //    console.log(allHitsRayResultCallback, obj, objs, objs.size());
         //    console.log(rayHits);
+        //
         }
+    //    obj.__destroy__();
+        allHitsRayResultCallback.__destroy__();
         return rayHits;
     //    hit.fraction = fraction;
     }

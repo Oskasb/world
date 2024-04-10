@@ -328,18 +328,20 @@ function testProbeFitsAtPos(pos, sideSize, debugDraw) {
 
 let obstructHhitCb = function(hit) {
     let world = getPhysicalWorld();
+ //   console.log(hit);
     let ptr = hit.kB;
 
+//    hit.__destroy__();
     if (ptr === getTerrainBodyPointer()) {
         //    viewObstuctionTest(hit.position, ThreeAPI.getCamera().position, obstructHhitCb);
-        return hit;
+        return ptr;
     }
 
     let physicalModel = getModelByBodyPointer(ptr);
 
     if (!physicalModel) {
         console.log("Hit nothing ", ptr)
-        return hit;
+        return ptr;
     }
 
     let model = physicalModel.call.getModel();
@@ -348,7 +350,7 @@ let obstructHhitCb = function(hit) {
         model = physicalModel.call.getInstance();
         if (!model) {
             //    console.log("no instance hit (box model)", ptr, physicalModel)
-            return hit;
+            return ptr;
         }
     }
 
@@ -429,13 +431,13 @@ function updateViewObstruction(pos) {
     MATH.emptyArray(world.viewObstuctingModels);
 
     obstuctTestAAPlane(pos, planeSize, planeElev)
-//    obstuctTestAAPlane(pos, planeSize*2, -planeElev)
+    obstuctTestAAPlane(pos, planeSize*3, -planeElev)
 //    obstuctTestAAPlane(pos, planeSize*3, 0)
     tempVec.copy(pos);
 //    tempVec.y += actor.getStatus(ENUMS.ActorStatus.HEIGHT) * 1.2;
     frameTests = 0;
     maxTests = 8;
-    let hit = viewObstuctionTest(tempVec, ThreeAPI.getCamera().position, obstructHhitCb)
+    let ptr = viewObstuctionTest(tempVec, ThreeAPI.getCamera().position, obstructHhitCb)
 
     for (let i = 0; i < obstructingModels.length; i++) {
         let model = obstructingModels[i];
@@ -444,15 +446,12 @@ function updateViewObstruction(pos) {
         }
     }
 
-    if (hit) {
-        let ptr = hit.ptr;
-
         if (ptr === getTerrainBodyPointer()) {
             ThreeAPI.getCamera().position.copy(hit.position);
             //    viewObstuctionTest(hit.position, ThreeAPI.getCamera().position, obstructHhitCb);
-            return hit;
+            return ptr;
         }
-    }
+
 }
 
 export {
