@@ -52,7 +52,14 @@ function clearDynamicSpawnPoints() {
     }
 }
 
-
+function getSPointById(id) {
+    for (let i = 0; i < dynamicSpawnPoints.length; i++) {
+        if (id === dynamicSpawnPoints[i].id) {
+            console.log("Sp Found", id)
+            return dynamicSpawnPoints[i];
+        }
+    }
+}
 function populateDynamicSpawnPoints(worldLevel) {
 
     clearDynamicSpawnPoints()
@@ -322,6 +329,7 @@ class WorldModels {
     }
 
     setLoadedConfig(root, folder, id, config) {
+
         if (!loadedConfigs[root]) {
             loadedConfigs[root] = {};
         }
@@ -329,13 +337,22 @@ class WorldModels {
         if (!loadedConfigs[root][folder]) {
             loadedConfigs[root][folder] = {};
         }
+
         loadedConfigs[root][folder][id] = config;
+
         if (root === 'model') {
             let wModel = GameAPI.worldModels.getActiveWorldModel(id);
             if (wModel !== null) {
                 wModel.call.applyLoadedConfig(config, id)
             } else if (folder === lastWorldLevel) {
                 loadModelFromConfig(config, id)
+            }
+        }
+
+        if (root === 'encounter') {
+            let sPoint = getSPointById(id);
+            if (!sPoint) {
+                this.addConfigEncounter(config, id, false);
             }
         }
     }
@@ -400,23 +417,19 @@ class WorldModels {
         return dynamicSpawnPoints;
     }
 
+
+
     getEncounterSpawnPoint(wEnc) {
-        console.log("Get Sp ")
-        for (let i = 0; i < dynamicSpawnPoints.length; i++) {
-            if (wEnc.id === dynamicSpawnPoints[i].id) {
-                console.log("Sp Found")
-                return dynamicSpawnPoints[i];
-            }
+
+        let sPoint = getSPointById(wEnc.id);
+        if (!sPoint) {
+            console.log("Sp Created", wEnc.id)
+            sPoint = poolFetch('DynamicSpawnPoint')
+            dynamicSpawnPoints.unshift(sPoint);
         }
 
-        let sPoint = poolFetch('DynamicSpawnPoint')
-        dynamicSpawnPoints.unshift(sPoint);
         return sPoint;
-
     }
-
-
-
 
     activateEncounters() {
         activateWorldEncounters(activateEvent)
