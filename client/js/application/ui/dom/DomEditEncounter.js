@@ -62,9 +62,7 @@ class DomEditEncounter {
             selectList: templateList
         }
 
-        function selectionUpdate(id) {
-            console.log("Selection Update: ", id);
-        }
+
 
         function initConfig(cfg) {
             let config = detachConfig(cfg);
@@ -81,8 +79,20 @@ class DomEditEncounter {
             GameAPI.worldModels.addConfigEncounter(config, config.edit_id, true);
         }
 
+        let selectedTemplateId = null;
+        function selectionUpdate(id) {
+            selectedTemplateId = id;
+            console.log("Selection Update: ", id);
+        }
+
         function loadTemplate(statMap) {
-            GameAPI.worldModels.addConfigEncounter(statMap.config, statMap.config.edit_id, false);
+
+            let loadedTemplates = GameAPI.worldModels.getLoadedTemplates();
+            console.log("loadTemplate Selected Template ", statMap, selectedTemplateId)
+            let map = loadedTemplates[selectedTemplateId];
+            map.config.edit_id = "";
+            let config = detachConfig(map.config);
+            GameAPI.worldModels.addConfigEncounter(config, config.edit_id, true);
         }
 
         addToolStatusMap.loadTemplate = loadTemplate;

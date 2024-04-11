@@ -55,7 +55,7 @@ function clearDynamicSpawnPoints() {
 function getSPointById(id) {
     for (let i = 0; i < dynamicSpawnPoints.length; i++) {
         if (id === dynamicSpawnPoints[i].id) {
-            console.log("Sp Found", id)
+        //    console.log("Sp Found", id)
             return dynamicSpawnPoints[i];
         }
     }
