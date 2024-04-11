@@ -1,5 +1,5 @@
 import {poolFetch, poolReturn} from "../../utils/PoolUtils.js";
-import {detachConfig, saveEncounterEdits, saveWorldModelEdits} from "../../utils/ConfigUtils.js";
+import {detachConfig, generateEditId, saveEncounterEdits, saveWorldModelEdits} from "../../utils/ConfigUtils.js";
 import {getEditIndex} from "../../../../../Server/game/utils/EditorFunctions.js";
 import {WorldModel} from "../../../game/gameworld/WorldModel.js";
 
@@ -17,27 +17,16 @@ class DomEditAdd {
 
         function applyAdd() {
 
-
             if (addButtonDiv.innerHTML === 'TEMPLATE') {
                 templateEdit = poolFetch('DomEditTemplate')
 
-                let parent = new WorldModel()
-                parent.getPos().copy(ThreeAPI.getCameraCursor().getLookAroundPoint())
-                let config = detachConfig(parent.config)
-                MATH.vec3ToArray(parent.getPos(), config.pos, 1);
-                config.edit_id = "tpl_"+config.edit_id
-
-                let onLoad = function() {
-                    saveWorldModelEdits(parent);
-                }
-
                 let map = {
-                    id:config.edit_id,
-                    parent:parent,
-                    config:config,
+                    id:statusMap.config.edit_id,
+                    parent:statusMap.parent,
+                    config:statusMap.config,
                     root:statusMap.root,
                     folder:statusMap.folder,
-                    onLoad:onLoad
+                    onLoad:statusMap.loadTemplate
                 }
 
                 let closeTmpl = function() {

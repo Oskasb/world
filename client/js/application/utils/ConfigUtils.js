@@ -490,6 +490,7 @@ function getConfigListAt(root, folder) {
 }
 
 export {
+    generateEditId,
     detachConfig,
     setEditIndexClient,
     configDataList,

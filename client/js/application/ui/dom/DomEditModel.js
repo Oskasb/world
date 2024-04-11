@@ -167,6 +167,13 @@ class DomEditModel {
             }
         }
 
+        function loadTemplate(statMap) {
+
+            statMap.parent.call.applyLoadedConfig(statMap.config, statMap.id, true);
+            saveWorldModelEdits(statMap.parent);
+
+        }
+
         let models = [""];
         let assets = [""];
 
@@ -186,6 +193,7 @@ class DomEditModel {
                 createModelStatusMap.models = models;
                 addToolStatusMap.activateSelection = applySelectedModel;
                 addToolStatusMap.selectionUpdate = selectionUpdate;
+                addToolStatusMap.loadTemplate = loadTemplate;
                 addToolStatusMap.root = "world";
                 addToolStatusMap.folder = "model";
             }
@@ -242,6 +250,16 @@ class DomEditModel {
 
             if (selectedTool === "ADD") {
                 activeTool = poolFetch('DomEditAdd');
+
+
+                let parent = new WorldModel()
+                parent.getPos().copy(ThreeAPI.getCameraCursor().getLookAroundPoint())
+                let config = detachConfig(parent.config)
+                MATH.vec3ToArray(parent.getPos(), config.pos, 1);
+                config.edit_id = "tpl_"+config.edit_id
+                addToolStatusMap.parent = parent;
+                addToolStatusMap.config = config;
+
                 activeTool.initEditTool(closeTool, addToolStatusMap);
             }
 

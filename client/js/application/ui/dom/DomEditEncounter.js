@@ -3,7 +3,7 @@ import {Vector3} from "../../../../libs/three/math/Vector3.js";
 import {Object3D} from "../../../../libs/three/core/Object3D.js";
 import {ENUMS} from "../../ENUMS.js";
 import {physicalAlignYGoundTest, testProbeFitsAtPos} from "../../utils/PhysicsUtils.js";
-import {detachConfig, saveEncounterEdits} from "../../utils/ConfigUtils.js";
+import {detachConfig, saveEncounterEdits, saveWorldModelEdits} from "../../utils/ConfigUtils.js";
 import {ConfigData} from "../../utils/ConfigData.js";
 import {WorldModel} from "../../../game/gameworld/WorldModel.js";
 import {encounterTemplates} from "../../../game/ConfigTemplates.js";
@@ -66,21 +66,26 @@ class DomEditEncounter {
             console.log("Selection Update: ", id);
         }
 
-        function applySelection(id) {
-
-            let config = detachConfig(encounterTemplates[id]);
-
-            console.log("Selection applySelection: ", id, config);
+        function initConfig(cfg) {
+            let config = detachConfig(cfg);
             let pos = ThreeAPI.getCameraCursor().getLookAroundPoint();
             MATH.vec3ToArray(pos, config.pos, 1);
             MATH.vec3FromArray(config.pos, pos);
             config.pos[1] = MATH.decimalify(ThreeAPI.terrainAt(pos), 10);
-
-            GameAPI.worldModels.addConfigEncounter(config, config.edit_id, true);
-
-
+            return config;
         }
 
+        function applySelection(id) {
+            let config = initConfig(encounterTemplates[id]);
+            console.log("Selection applySelection: ", id, config);
+            GameAPI.worldModels.addConfigEncounter(config, config.edit_id, true);
+        }
+
+        function loadTemplate(statMap) {
+            GameAPI.worldModels.addConfigEncounter(statMap.config, statMap.config.edit_id, false);
+        }
+
+        addToolStatusMap.loadTemplate = loadTemplate;
         addToolStatusMap.activateSelection = applySelection;
         addToolStatusMap.selectionUpdate = selectionUpdate;
         addToolStatusMap.root = "world";
@@ -105,7 +110,8 @@ class DomEditEncounter {
             if (tool === "ADD") {
                 applyOperationDiv.innerHTML = tool;
                 applyContainerDiv.style.display = "none"
-
+                addToolStatusMap.config = initConfig({pos:[0, 0, 0], rot:[0, 0, 0]})
+                addToolStatusMap.id = addToolStatusMap.config.edit_id;
                 activeTool = poolFetch('DomEditAdd');
                 activeTool.initEditTool(closeTool, addToolStatusMap);
 

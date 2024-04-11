@@ -192,7 +192,7 @@ class WorldModel {
                     this.id =  cfg.edit_id;
                 }
 
-                console.log("applyLoadedConfig", this.id, cfg.model, originalModel, this.config.model)
+            //    console.log("applyLoadedConfig", this.id, cfg.model, originalModel, this.config.model)
 
                 if (cfg.model !== originalModel || replace === true) {
                     GameAPI.worldModels.removeWorldModel(this);

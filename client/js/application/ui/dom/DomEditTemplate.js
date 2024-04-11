@@ -98,7 +98,9 @@ class DomEditTemplate {
         }
 
         function applyLoad() {
-            statusMap.parent.call.applyLoadedConfig(loadConfig, statusMap.id, true);
+            statusMap.config = loadConfig;
+            statusMap.onLoad(statusMap);
+
             close();
         }
 
@@ -129,8 +131,15 @@ class DomEditTemplate {
                 let map = loadedTemplates[selectionId];
                 loadConfig = detachConfig(map.config);
                 loadConfig.edit_id = "";
-                loadConfig.pos = statusMap.config.pos;
-                loadConfig.rot = statusMap.config.rot;
+                if (statusMap.config) {
+
+                    if (statusMap.config.pos) {
+                        loadConfig.pos = statusMap.config.pos;
+                    }
+                    if (statusMap.config.rot) {
+                        loadConfig.rot = statusMap.config.rot;
+                    }
+                }
 
             } else {
                 loadConfig = null;
