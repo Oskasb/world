@@ -4,6 +4,7 @@ import {VisualModelPalette} from "../visuals/VisualModelPalette.js";
 import {paletteMap} from "../visuals/Colors.js";
 import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
 import {WorldEncounter} from "../encounter/WorldEncounter.js";
+import {detachConfig} from "../../application/utils/ConfigUtils.js";
 
 let worldSize = 2048;
 let tempNormal = new Vector3()
@@ -172,14 +173,16 @@ class DynamicSpawnPoint {
 
             if (lodLevel === 0 || lodLevel === 1) {
 
-                let encId = "enc_"+this.id
+                let encId = this.id
 
                 if (encounterConfig === null) {
                     if (completedEncounters.indexOf(encId) === -1) {
                         encounterConfig = poolFetch('ProceduralEncounterConfig');
                         encounterConfig.generateConfig(this.obj3d.position, this.encounterLevel, this.groundHeightData, this.terrainData)
-                        let worldEncounters = GameAPI.worldModels.getEncounterById()
-                        proceduralEncounter = new WorldEncounter(encId, encounterConfig.config, onReady)
+                        let worldEncounters = GameAPI.worldModels.getEncounterById();
+                        let config = detachConfig(encounterConfig.config)
+                        config.edit_id = this.id;
+                        proceduralEncounter = new WorldEncounter(encId, config, onReady)
                         worldEncounters.push(proceduralEncounter);
                     } else {
                         console.log("Not loading completed dynamic encounter..", encId);
@@ -217,6 +220,7 @@ class DynamicSpawnPoint {
 
 
     initDynamicSpawnPoint(index, maxPoints, worldLevel, yMax, lvlMin, lvlMax) {
+        this.dynamic = true;
         this.isActive = false;
         this.retries = 0;
         this.index = index;
@@ -227,6 +231,27 @@ class DynamicSpawnPoint {
         this.lvlMax = lvlMax;
         this.id = 'dyn_sp_'+index+'_wl_'+worldLevel;
         findSpawnPosition(this);
+    }
+
+    applyConfig(weConf) {
+        if (this.dynamic === true) {
+            this.call.lodUpdated(-1);
+            this.dynamic = false;
+        }
+
+        this.isActive = false;
+        this.id = weConf.edit_id;
+        ThreeAPI.clearTerrainLodUpdateCallback(this.call.lodUpdated);
+        if (this.isActive === true) {
+            this.deactivateSpawnPoint();
+        }
+
+        this.encounterLevel = weConf.level;
+        MATH.vec3FromArray(this.getPos(), weConf.pos);
+        ThreeAPI.groundAt(this.getPos(), this.terrainData)
+        ThreeAPI.registerTerrainLodUpdateCallback(this.getPos(), this.call.lodUpdated);
+       // this.isActive = true;
+       // this.lodActive = true;
     }
 
     getPos() {

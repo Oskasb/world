@@ -4,7 +4,7 @@ import { WorldModel} from "./WorldModel.js";
 import { WorldEncounter } from "../encounter/WorldEncounter.js";
 import { WorldTreasure} from "../encounter/WorldTreasure.js";
 import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
-import {saveWorldModelEdits} from "../../application/utils/ConfigUtils.js";
+import {saveEncounterEdits, saveWorldModelEdits} from "../../application/utils/ConfigUtils.js";
 
 let locationModelConfigs;
 let worldModels = [];
@@ -52,6 +52,7 @@ function clearDynamicSpawnPoints() {
     }
 }
 
+
 function populateDynamicSpawnPoints(worldLevel) {
 
     clearDynamicSpawnPoints()
@@ -65,7 +66,6 @@ function populateDynamicSpawnPoints(worldLevel) {
         point.initDynamicSpawnPoint(i, spawns, worldLevel, yMax, lvlMin, lvlMax);
         dynamicSpawnPoints.push(point);
     }
-
 }
 
 function activateDynamicSpawnPoints() {
@@ -400,6 +400,24 @@ class WorldModels {
         return dynamicSpawnPoints;
     }
 
+    getEncounterSpawnPoint(wEnc) {
+        console.log("Get Sp ")
+        for (let i = 0; i < dynamicSpawnPoints.length; i++) {
+            if (wEnc.id === dynamicSpawnPoints[i].id) {
+                console.log("Sp Found")
+                return dynamicSpawnPoints[i];
+            }
+        }
+
+        let sPoint = poolFetch('DynamicSpawnPoint')
+        dynamicSpawnPoints.unshift(sPoint);
+        return sPoint;
+
+    }
+
+
+
+
     activateEncounters() {
         activateWorldEncounters(activateEvent)
     }
@@ -426,6 +444,22 @@ class WorldModels {
                 return worldEncounters[i]
             }
         }
+    }
+
+
+    addConfigEncounter(config, id, save) {
+        let onReady = function(wEnc) {
+            if (save === true) {
+                saveEncounterEdits(wEnc)
+            }
+
+            worldEncounters.push(wEnc);
+            let sPoint = GameAPI.worldModels.getEncounterSpawnPoint(wEnc);
+            sPoint.applyConfig(wEnc.config);
+            wEnc.activateWorldEncounter();
+        }
+
+        new WorldEncounter(id, config, onReady)
     }
 
     addConfigModel(config, id) {

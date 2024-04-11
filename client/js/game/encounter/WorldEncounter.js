@@ -400,6 +400,8 @@ class WorldEncounter {
                 init = true;
             }
 
+            let spawnPoint = GameAPI.worldModels.getEncounterSpawnPoint(this);
+            spawnPoint.applyConfig(this.config);
             MATH.vec3FromArray(this.obj3d.position, this.config.pos)
             this.obj3d.position.y = ThreeAPI.terrainAt(this.obj3d.position);
 
@@ -429,6 +431,11 @@ class WorldEncounter {
 
                 parseConfigDataKey("ENCOUNTER_INDICATORS", "INDICATORS",  'indicator_data', this.config.indicator_id, onIndicatorData)
             }
+
+
+
+
+
         }.bind(this);
 
         this.call = {

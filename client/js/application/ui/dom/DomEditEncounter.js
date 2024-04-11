@@ -6,13 +6,19 @@ import {physicalAlignYGoundTest, testProbeFitsAtPos} from "../../utils/PhysicsUt
 import {detachConfig, saveEncounterEdits} from "../../utils/ConfigUtils.js";
 import {ConfigData} from "../../utils/ConfigData.js";
 import {WorldModel} from "../../../game/gameworld/WorldModel.js";
-
+import {encounterTemplates} from "../../../game/ConfigTemplates.js";
+import {WorldEncounter} from "../../../game/encounter/WorldEncounter.js";
 
 let tempVec = new Vector3();
 let frustumFactor = 0.828;
 let encounterConfigs = null;
 let worldEncounters = null;
 
+let templateList = [""]
+
+for (let key in encounterTemplates) {
+    templateList.push(key);
+}
 
 
 let toolsList = [
@@ -53,8 +59,7 @@ class DomEditEncounter {
         let activeTool = null;
 
         let addToolStatusMap = {
-            selectList:["", "DYNAMIC", "TEMPLATE"],
-
+            selectList: templateList
         }
 
         function selectionUpdate(id) {
@@ -62,7 +67,18 @@ class DomEditEncounter {
         }
 
         function applySelection(id) {
-            console.log("Selection applySelection: ", id);
+
+            let config = detachConfig(encounterTemplates[id]);
+
+            console.log("Selection applySelection: ", id, config);
+            let pos = ThreeAPI.getCameraCursor().getLookAroundPoint();
+            MATH.vec3ToArray(pos, config.pos, 1);
+            MATH.vec3FromArray(config.pos, pos);
+            config.pos[1] = MATH.decimalify(ThreeAPI.terrainAt(pos), 10);
+
+            GameAPI.worldModels.addConfigEncounter(config, config.edit_id, true);
+
+
         }
 
         addToolStatusMap.activateSelection = applySelection;
