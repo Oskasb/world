@@ -26,6 +26,7 @@ class DomEditAdd {
                     config:statusMap.config,
                     root:statusMap.root,
                     folder:statusMap.folder,
+                    onSelect:statusMap.selectionUpdate,
                     onLoad:statusMap.loadTemplate
                 }
 

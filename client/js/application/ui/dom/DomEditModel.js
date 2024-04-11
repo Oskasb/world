@@ -142,37 +142,28 @@ class DomEditModel {
         }
 
         function selectionUpdate(id) {
-            if (previewModel !== null) {
-                previewModel.removeLocationModels();
-            }
 
             if (id !== "") {
-                modelConfig.model = id;
-                applyCursorUpdate(editObj3d)
-                modelConfig.no_lod = true;
-                previewModel = new WorldModel(detachConfig(modelConfig));
-                previewModel.id = "preview_model"
-                previewModel.config.edit_id = false;
-                previewModel.call.setPaletteKey("ITEMS_BLACK")
-                console.log("selectionUpdate",id, previewModel);
-                if (previewCursor === null) {
-                    activateCursor();
-                }
-            } else {
-                if (previewCursor !== null) {
-                    previewCursor.closeDomEditCursor()
-                    poolReturn(previewCursor)
-                    previewCursor = null;
-                }
+
+                let loadedTemplates = GameAPI.worldModels.getLoadedTemplates();
+                console.log("Selected Template ", statusMap, loadedTemplates)
+                let map = loadedTemplates[id];
+                modelConfig = detachConfig(map.config);
+                modelConfig.edit_id = "";
+                addToolStatusMap.config = modelConfig;
             }
+
         }
 
         function loadTemplate(statMap) {
-
-            statMap.parent.call.applyLoadedConfig(statMap.config, statMap.id, true);
+            console.log("loadTemplate:", statMap, addToolStatusMap);
+            let pos = ThreeAPI.getCameraCursor().getLookAroundPoint();
+            MATH.vec3ToArray(pos, addToolStatusMap.config.pos);
+            statMap.parent.call.applyLoadedConfig(addToolStatusMap.config, statMap.id, true);
             saveWorldModelEdits(statMap.parent);
-
         }
+
+
 
         let models = [""];
         let assets = [""];

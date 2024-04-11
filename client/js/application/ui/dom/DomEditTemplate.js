@@ -125,21 +125,8 @@ class DomEditTemplate {
 
         function selectionUpdate(selectionId) {
             if (selectionId !== "") {
-
-                let loadedTemplates = GameAPI.worldModels.getLoadedTemplates();
-                console.log("Selected Template ", statusMap, loadedTemplates)
-                let map = loadedTemplates[selectionId];
-                loadConfig = detachConfig(map.config);
-                loadConfig.edit_id = "";
-                if (statusMap.config) {
-
-                    if (statusMap.config.pos) {
-                        loadConfig.pos = statusMap.config.pos;
-                    }
-                    if (statusMap.config.rot) {
-                        loadConfig.rot = statusMap.config.rot;
-                    }
-                }
+                console.log("Selected Template ", selectionId)
+                statusMap.onSelect(selectionId);
 
             } else {
                 loadConfig = null;
