@@ -41,13 +41,23 @@ class DomEditConfig {
             return list;
         }
 
+        let listSelection = null;
+
         let htmlReady = function(htmlEl) {
             htmlElem = htmlEl;
             statusMap = htmlElem.statusMap;
             rootElem = htmlEl.call.getRootElement();
             selectList = htmlElem.call.getChildElement('select_list');
+
+            if (statusMap.selections) {
+                htmlElem.call.populateSelectList('select_list', statusMap.selections);
+                listSelection = selectList.value;
+            } else {
+                selectList.style.display = 'none';
+            }
+
             applyContainerDiv = htmlElem.call.getChildElement('apply_container');
-       //     htmlElem.call.populateSelectList('select_list', listifyConfig(statusMap.config));
+       //
        //     addButtonDiv = htmlElem.call.getChildElement('add_button');
        //     DomUtils.addClickFunction(addButtonDiv, applyAdd)
             ThreeAPI.registerPrerenderCallback(update);
@@ -201,8 +211,44 @@ class DomEditConfig {
             }
         };
 
+        let templateTool = null;
+
+        function closeTemplateTool() {
+            poolReturn(templateTool);
+            templateTool=null;
+        }
+
+        function selectListUpdated(value) {
+
+            if (templateTool !== null) {
+                closeTemplateTool();
+            }
+
+            if (value === 'TEMPLATE') {
+                templateTool = poolFetch('DomEditTemplate');
+                let map = {
+                    id:statusMap.config.edit_id,
+                    parent:statusMap.parent,
+                    config:statusMap.config,
+                    root:statusMap.root,
+                    folder:statusMap.folder,
+                    onSelect:statusMap.selectionUpdate,
+                    onLoad:statusMap.loadTemplate
+                }
+
+                templateTool.initEditTool(closeTemplateTool, map)
+            }
+
+        }
+
         let update = function() {
             updateSamplingElements()
+
+            if (listSelection !== selectList.value) {
+                listSelection = selectList.value;
+                selectListUpdated(listSelection)
+            }
+
         };
 
         let close = function() {

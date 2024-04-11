@@ -40,8 +40,6 @@ class DomEditAdd {
                 statusMap.activateSelection(selectionId);
             }
 
-
-
         }
 
         let htmlReady = function(htmlEl) {

@@ -54,9 +54,9 @@ class ProceduralEncounterConfig {
 
     generateConfig(pos, encounterLevel, groundData, terrainData) {
     //    console.log("generateConfig", pos, groundData, terrainData);
-        this.config['pos'][0] = pos.x;
-        this.config['pos'][1] = pos.y;
-        this.config['pos'][2] = pos.z;
+        MATH.vec3ToArray(pos, this.config.pos, 1);
+        MATH.vec3FromArray(this.config.pos, pos);
+        this.config.pos[1] = MATH.decimalify(ThreeAPI.terrainAt(pos), 10);
         this.config['level'] = encounterLevel;
     }
 

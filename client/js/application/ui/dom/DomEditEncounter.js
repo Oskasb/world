@@ -8,6 +8,7 @@ import {ConfigData} from "../../utils/ConfigData.js";
 import {WorldModel} from "../../../game/gameworld/WorldModel.js";
 import {encounterTemplates} from "../../../game/ConfigTemplates.js";
 import {WorldEncounter} from "../../../game/encounter/WorldEncounter.js";
+import {ProceduralEncounterConfig} from "../../../game/encounter/ProceduralEncounterConfig.js";
 
 let tempVec = new Vector3();
 let frustumFactor = 0.828;
@@ -101,6 +102,18 @@ class DomEditEncounter {
         addToolStatusMap.root = "world";
         addToolStatusMap.folder = "encounter";
 
+        function loadConfigTemplate(statMap) {
+            console.log("loadConfigTemplate", selectedTemplateId, statMap)
+
+            let loadedTemplates = GameAPI.worldModels.getLoadedTemplates();
+        //    console.log("loadTemplate Selected Template ", selectedTemplateId)
+            let map = loadedTemplates[selectedTemplateId];
+            let config = detachConfig(map.config);
+            MATH.vec3ToArray(statMap.parent.getPos(), config.pos);
+            statMap.parent.call.applyConfig(config)
+
+        }
+
         function closeTool() {
             if (activeTool !== null) {
                 activeTool.closeEditTool();
@@ -120,7 +133,9 @@ class DomEditEncounter {
             if (tool === "ADD") {
                 applyOperationDiv.innerHTML = tool;
                 applyContainerDiv.style.display = "none"
-                addToolStatusMap.config = initConfig({pos:[0, 0, 0], rot:[0, 0, 0]})
+                let cfg = new ProceduralEncounterConfig()
+                cfg.generateConfig(ThreeAPI.getCameraCursor().getLookAroundPoint(), 1);
+                addToolStatusMap.config = detachConfig(cfg.config)
                 addToolStatusMap.id = addToolStatusMap.config.edit_id;
                 activeTool = poolFetch('DomEditAdd');
                 activeTool.initEditTool(closeTool, addToolStatusMap);
@@ -223,6 +238,7 @@ class DomEditEncounter {
                 activeTool.initEditTool(closeTool);
             }
 
+
             if (selectedTool === "CONFIG") {
                 ThreeAPI.getCameraCursor().getLookAroundPoint().copy(encounter.getPos())
                 closeTool();
@@ -232,10 +248,13 @@ class DomEditEncounter {
                 let worldLevel =  GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
                 let map = {
                     id:id,
-                    root:"encounter",
-                    folder:worldLevel,
+                    root:"world",
+                    folder:"encounter",
                     parent:encounter,
-                    config:encounter.config
+                    config:encounter.config,
+                    selectionUpdate:selectionUpdate,
+                    loadTemplate:loadConfigTemplate,
+                    selections:["", "TEMPLATE"]
                 }
                 activeTool.initEditTool(closeTool, map);
             }
