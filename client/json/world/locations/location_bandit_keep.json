@@ -15,33 +15,6 @@
               },
               "models": [
                 {
-                  "model": "model_bandit_keep_main_floor_0",
-                  "pos": [-760, 2, 770],
-                  "rot": [0, 0, 0],
-                  "scale": [1, 1, 1],
-                  "on_ground": true,
-                  "visibility": 3,
-                  "palette": "DEFAULT"
-                },
-                {
-                  "model": "model_bandit_keep_main_pillars_0",
-                  "pos": [-760, 2, 770],
-                  "rot": [0, 0, 0],
-                  "scale": [1, 1, 1],
-                  "on_ground": true,
-                  "visibility": 3,
-                  "palette": "TOWN_DARK_2"
-                },
-                {
-                  "model": "model_bandit_keep_main_walls_0",
-                  "pos": [-760, 2, 770],
-                  "rot": [0, 0, 0],
-                  "scale": [1, 1, 1],
-                  "on_ground": true,
-                  "visibility": 3,
-                  "palette": "TOWN_DARK_2"
-                },
-                {
                   "model": "model_fence_small",
                   "pos": [-734.4, 5, 790],
                   "rot": [0, 1.575, 0],

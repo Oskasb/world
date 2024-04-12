@@ -502,9 +502,9 @@ class ThreeTerrain {
         lodCenter.applyQuaternion(ThreeAPI.getCamera().quaternion);
         terrainCenter.copy(lodCenter);
         terrainCenter.multiplyScalar(distance*0.5);
-        lodCenter.multiplyScalar(halfSize + tileSize*0.25*tileFraction)
-        lodCenter.x += tileSize*0.5;
-        lodCenter.z += tileSize*0.5;
+        lodCenter.multiplyScalar(halfSize - tileSize*0.5)
+        lodCenter.x += tileSize//*0.5;
+        lodCenter.z += tileSize//*0.5;
     //    terrainCenter.multiplyScalar(0.5);
         lodCenter.add(ThreeAPI.getCamera().position)
         terrainCenter.add(ThreeAPI.getCamera().position)
