@@ -97,11 +97,16 @@ iframe.edit_frame {
     top: 0;
     left: 0;
     width: 205em;
-    height: 300em;
+    height: 120em;
     position: absolute;
     border: none;
     color: #ecffdc;
     background: none;
+}
+
+iframe.edit_assets {
+    left: 210em;
+    height: 120em;
 }
 
 iframe.edit_env {

@@ -5,6 +5,7 @@ import {GuiAxisSlider} from "../gui/widgets/GuiAxisSlider.js";
 import {GuiAxisFeedback} from "../gui/widgets/GuiAxisFeedback.js";
 import {ENUMS} from "../../ENUMS.js";
 import {detachConfig} from "../../utils/ConfigUtils.js";
+import {DomEditAssets} from "./DomEditAssets.js";
 
 let classNames = {
     'GuiAxisSlider':GuiAxisSlider,
@@ -180,6 +181,10 @@ class DomEditWorld {
                 selectedActor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_INACTIVE)
             }
             selectedTool = "";
+
+            let assetEditor = new DomEditAssets();
+            assetEditor.initDomEditAssets()
+
         }
 
         let update = function() {
@@ -215,7 +220,7 @@ class DomEditWorld {
 
         notifyCameraStatus( ENUMS.CameraStatus.CAMERA_MODE, ENUMS.CameraControls.CAM_EDIT, null)
         this.htmlElement = poolFetch('HtmlElement')
-        this.htmlElement.initHtmlElement('edit_locations', closeCb, this.statusMap, 'edit_frame', this.call.htmlReady);
+        this.htmlElement.initHtmlElement('edit_world', closeCb, this.statusMap, 'edit_frame', this.call.htmlReady);
     }
 
     closeDomEditWorld() {
