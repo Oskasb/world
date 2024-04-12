@@ -249,7 +249,8 @@ class DynamicSpawnPoint {
     }
 
     applyConfig(weConf) {
-        this.call.setLoadedConfig(weConf);
+
+
         if (this.dynamic === true) {
             this.call.lodUpdated(-1);
             this.dynamic = false;
@@ -259,16 +260,18 @@ class DynamicSpawnPoint {
             this.deactivateSpawnPoint();
         }
 
+        MATH.vec3FromArray(this.getPos(), weConf.pos);
+        ThreeAPI.groundAt(this.getPos(), this.terrainData)
+        this.call.setLoadedConfig(weConf);
         this.isActive = false;
         this.id = weConf.edit_id;
         ThreeAPI.clearTerrainLodUpdateCallback(this.call.lodUpdated);
 
         this.encounterLevel = weConf.level;
-        MATH.vec3FromArray(this.getPos(), weConf.pos);
-        ThreeAPI.groundAt(this.getPos(), this.terrainData)
 
         ThreeAPI.registerTerrainLodUpdateCallback(this.getPos(), this.call.lodUpdated);
         this.isActive = true;
+        this.call.lodUpdated(-2)
        // this.lodActive = true;
     }
 
