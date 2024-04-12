@@ -109,6 +109,13 @@ iframe.edit_assets {
     height: 120em;
 }
 
+
+iframe.edit_actor {
+    left: 220em;
+    top: 130em;
+    height: 120em;
+}
+
 iframe.edit_env {
     left: 20em;
     top: 130em;
@@ -191,6 +198,7 @@ iframe.edit_spawns {
 iframe.tool_selector {
     left: 20em;
     top: 130em;
+    height: 170em;
 }
 
 iframe.palette_frame {

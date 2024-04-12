@@ -14,8 +14,8 @@ function operateTool(tool, closeCB) {
 
     let activateTool;
 
-    if (tool === "ACTOR") {
-        activateTool = poolFetch('DomEditActor');
+    if (tool === "MODELS" || tool === "--select--" || tool === "") {
+        activateTool = poolFetch('DomEditModel');
     }
 
     if (tool === "ENVIRNMNT") {
@@ -48,12 +48,11 @@ function operateTool(tool, closeCB) {
 
 let toolsList = [
     "",
-    "ACTOR",
-    "ASSET",
-    "GEOMETRY"
+    "NEW",
+    "MODIFY"
 ]
 
-class DomEditAssets {
+class DomEditActor {
     constructor() {
         this.statusMap = {
             tool:selectedTool
@@ -91,6 +90,7 @@ class DomEditAssets {
             this.htmlElement.closeHtmlElement();
             poolReturn(this.htmlElement);
             this.htmlElement = null;
+            poolReturn(this)
         }.bind(this);
 
         this.call = {
@@ -101,12 +101,12 @@ class DomEditAssets {
 
     }
 
-    initDomEditAssets() {
+    initEditTool() {
         this.htmlElement = poolFetch('HtmlElement')
-        this.htmlElement.initHtmlElement('edit_assets', this.call.close, this.statusMap, 'edit_frame edit_assets', this.call.htmlReady);
+        this.htmlElement.initHtmlElement('edit_actor', this.call.close, this.statusMap, 'edit_frame edit_actor', this.call.htmlReady);
     }
 
 
 }
 
-export { DomEditAssets }
+export { DomEditActor }
