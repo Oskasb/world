@@ -92,7 +92,7 @@ class DomEditEncounter {
             console.log("loadTemplate Selected Template ", statMap, selectedTemplateId)
             let map = loadedTemplates[selectedTemplateId];
             map.config.edit_id = "";
-            let config = detachConfig(map.config);
+            let config = initConfig(map.config);
             GameAPI.worldModels.addConfigEncounter(config, config.edit_id, true);
         }
 

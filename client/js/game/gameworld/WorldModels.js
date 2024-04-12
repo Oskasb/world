@@ -340,19 +340,24 @@ class WorldModels {
 
         loadedConfigs[root][folder][id] = config;
 
-        if (root === 'model') {
-            let wModel = GameAPI.worldModels.getActiveWorldModel(id);
-            if (wModel !== null) {
-                wModel.call.applyLoadedConfig(config, id)
-            } else if (folder === lastWorldLevel) {
-                loadModelFromConfig(config, id)
-            }
-        }
 
-        if (root === 'encounter') {
-            let sPoint = getSPointById(id);
-            if (!sPoint) {
-                this.addConfigEncounter(config, id, false);
+        if (folder === lastWorldLevel) {
+
+            if (root === 'model') {
+                let wModel = GameAPI.worldModels.getActiveWorldModel(id);
+                if (wModel !== null) {
+                    wModel.call.applyLoadedConfig(config, id)
+                } else {
+                    loadModelFromConfig(config, id)
+                }
+            }
+
+            if (root === 'encounter') {
+                let sPoint = getSPointById(id);
+                if (!sPoint) {
+
+                    this.addConfigEncounter(config, id, false);
+                }
             }
         }
     }

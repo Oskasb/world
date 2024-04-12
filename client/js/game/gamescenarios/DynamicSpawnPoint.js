@@ -250,7 +250,7 @@ class DynamicSpawnPoint {
         MATH.vec3FromArray(this.getPos(), weConf.pos);
         ThreeAPI.groundAt(this.getPos(), this.terrainData)
         ThreeAPI.registerTerrainLodUpdateCallback(this.getPos(), this.call.lodUpdated);
-       // this.isActive = true;
+        this.isActive = true;
        // this.lodActive = true;
     }
 
