@@ -387,14 +387,44 @@ class WorldEncounter {
         let init = false;
         let hostActor;
 
+        let updateIndicatorConfig = function() {
+            if (this.config.indicator_id) {
+                //    console.log("config indicator_id: ", this.config.indicator_id)
+                let onIndicatorData = function(config) {
+                    this.encounterIndicator.applyIndicatorConfig(config);
+                }.bind(this)
+
+                parseConfigDataKey("ENCOUNTER_INDICATORS", "INDICATORS",  'indicator_data', this.config.indicator_id, onIndicatorData)
+            }
+        }.bind(this);
+
+        let updateHostConfig = function() {
+            let actorReady = function(actor) {
+                hostActor = actor;
+                actor.setStatusKey(ENUMS.ActorStatus.ACTOR_LEVEL, this.encounterLevel);
+            }.bind(this)
+
+            let onData = function(config) {
+                this.visualEncounterHost.applyHostConfig(config, actorReady);
+            }.bind(this)
+
+            parseConfigDataKey("ENCOUNTER_HOSTS", "HOSTS",  'host_data', this.config.host_id, onData)
+        }.bind(this);
+
         let applyConfig = function(cfg) {
 
             if (cfg !== null) {
                 console.log("WE Config Loaded ", cfg)
                 this.config = cfg;
+                this.encounterLevel = cfg['level'] || 1;
+
+                updateIndicatorConfig()
+                if (this.config.host_id) {
+                    updateHostConfig()
+                }
+
                 if (init) {
                     this.applyUpdatedConfig()
-
                     return;
                 }
                 init = true;
@@ -404,6 +434,7 @@ class WorldEncounter {
             spawnPoint.applyConfig(this.config);
             MATH.vec3FromArray(this.obj3d.position, this.config.pos)
             this.obj3d.position.y = ThreeAPI.terrainAt(this.obj3d.position);
+
 
             if (this.config.host_id) {
                 //    console.log("config host_id: ", this.config.host_id)
@@ -423,17 +454,7 @@ class WorldEncounter {
                 hostReady()
             }
 
-            if (this.config.indicator_id) {
-                //    console.log("config indicator_id: ", this.config.indicator_id)
-                let onIndicatorData = function(config) {
-                    this.encounterIndicator.applyIndicatorConfig(config);
-                }.bind(this)
-
-                parseConfigDataKey("ENCOUNTER_INDICATORS", "INDICATORS",  'indicator_data', this.config.indicator_id, onIndicatorData)
-            }
-
-
-
+            updateIndicatorConfig()
 
 
         }.bind(this);

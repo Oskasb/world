@@ -52,9 +52,10 @@ class VisualEncounterHost {
 
     applyHostConfig(config, actorReady) {
         this.config = config;
+        this.call.remove();
         let actorLoaded = function(actor) {
             MATH.rotateObj(actor.actorObj3d, config.rot)
-            actor.setStatusKey(ENUMS.ActorStatus.ALIGNMENT, config['ALIGNMENT'] ,'HOSTILE');
+            actor.setStatusKey(ENUMS.ActorStatus.ALIGNMENT, config['ALIGNMENT'] || 'HOSTILE');
             this.call.setActor(actor);
             actorReady(actor)
         }.bind(this)

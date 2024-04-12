@@ -470,15 +470,16 @@ class WorldModels {
         if (save === true) {
             let onReady = function(wEnc) {
                 saveEncounterEdits(wEnc)
-                worldEncounters.push(wEnc);
-                wEnc.activateWorldEncounter();
+            //    worldEncounters.push(wEnc);
+            //    wEnc.activateWorldEncounter();
             }
 
             new WorldEncounter(id, config, onReady)
-        } else {
+        }
+
             let sPoint = GameAPI.worldModels.getEncounterSpawnPoint(id);
             sPoint.applyConfig(config);
-        }
+
     }
 
     addConfigModel(config, id) {
