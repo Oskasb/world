@@ -424,11 +424,11 @@ class WorldModels {
 
 
 
-    getEncounterSpawnPoint(wEnc) {
+    getEncounterSpawnPoint(wEncId) {
 
-        let sPoint = getSPointById(wEnc.id);
+        let sPoint = getSPointById(wEncId);
         if (!sPoint) {
-            console.log("Sp Created", wEnc.id)
+            console.log("Sp Created", wEncId)
             sPoint = poolFetch('DynamicSpawnPoint')
             dynamicSpawnPoints.unshift(sPoint);
         }
@@ -466,18 +466,19 @@ class WorldModels {
 
 
     addConfigEncounter(config, id, save) {
-        let onReady = function(wEnc) {
-            if (save === true) {
+
+        if (save === true) {
+            let onReady = function(wEnc) {
                 saveEncounterEdits(wEnc)
+                worldEncounters.push(wEnc);
+                wEnc.activateWorldEncounter();
             }
 
-            worldEncounters.push(wEnc);
-            let sPoint = GameAPI.worldModels.getEncounterSpawnPoint(wEnc);
-            sPoint.applyConfig(wEnc.config);
-            wEnc.activateWorldEncounter();
+            new WorldEncounter(id, config, onReady)
+        } else {
+            let sPoint = GameAPI.worldModels.getEncounterSpawnPoint(id);
+            sPoint.applyConfig(config);
         }
-
-        new WorldEncounter(id, config, onReady)
     }
 
     addConfigModel(config, id) {

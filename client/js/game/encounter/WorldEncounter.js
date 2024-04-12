@@ -400,7 +400,7 @@ class WorldEncounter {
                 init = true;
             }
 
-            let spawnPoint = GameAPI.worldModels.getEncounterSpawnPoint(this);
+            let spawnPoint = GameAPI.worldModels.getEncounterSpawnPoint(this.id);
             spawnPoint.applyConfig(this.config);
             MATH.vec3FromArray(this.obj3d.position, this.config.pos)
             this.obj3d.position.y = ThreeAPI.terrainAt(this.obj3d.position);

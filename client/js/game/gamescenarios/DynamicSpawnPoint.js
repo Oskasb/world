@@ -86,6 +86,8 @@ class DynamicSpawnPoint {
         let instance = null;
         let encounterConfig = null;
 
+        let loadedConfig = null;
+
         let palette = new VisualModelPalette()
 
         let update = function() {
@@ -178,7 +180,12 @@ class DynamicSpawnPoint {
                 if (encounterConfig === null) {
                     if (completedEncounters.indexOf(encId) === -1) {
                         encounterConfig = poolFetch('ProceduralEncounterConfig');
-                        encounterConfig.generateConfig(this.obj3d.position, this.encounterLevel, this.groundHeightData, this.terrainData)
+                        if (loadedConfig === null) {
+                            encounterConfig.generateConfig(this.obj3d.position, this.encounterLevel, this.groundHeightData, this.terrainData)
+                        } else {
+                            encounterConfig.setConfig(loadedConfig);
+                        }
+
                         let worldEncounters = GameAPI.worldModels.getEncounterById();
                         let config = detachConfig(encounterConfig.config)
                         config.edit_id = this.id;
@@ -210,16 +217,24 @@ class DynamicSpawnPoint {
             return lodLevel;
         }
 
+
+
+        let setLoadedConfig = function(conf) {
+            loadedConfig = conf;
+        }
+
         this.call = {
             deactivate:deactivate,
             getLodLevel:getLodLevel,
-            lodUpdated:lodUpdated
+            lodUpdated:lodUpdated,
+            setLoadedConfig:setLoadedConfig
         }
 
     }
 
 
     initDynamicSpawnPoint(index, maxPoints, worldLevel, yMax, lvlMin, lvlMax) {
+        this.call.setLoadedConfig(null);
         this.dynamic = true;
         this.isActive = false;
         this.retries = 0;
@@ -234,21 +249,24 @@ class DynamicSpawnPoint {
     }
 
     applyConfig(weConf) {
+        this.call.setLoadedConfig(weConf);
         if (this.dynamic === true) {
             this.call.lodUpdated(-1);
             this.dynamic = false;
         }
 
-        this.isActive = false;
-        this.id = weConf.edit_id;
-        ThreeAPI.clearTerrainLodUpdateCallback(this.call.lodUpdated);
         if (this.isActive === true) {
             this.deactivateSpawnPoint();
         }
 
+        this.isActive = false;
+        this.id = weConf.edit_id;
+        ThreeAPI.clearTerrainLodUpdateCallback(this.call.lodUpdated);
+
         this.encounterLevel = weConf.level;
         MATH.vec3FromArray(this.getPos(), weConf.pos);
         ThreeAPI.groundAt(this.getPos(), this.terrainData)
+
         ThreeAPI.registerTerrainLodUpdateCallback(this.getPos(), this.call.lodUpdated);
         this.isActive = true;
        // this.lodActive = true;
