@@ -233,7 +233,7 @@ class DomEditWorldModel {
 
     initDomEditWorldModel(closeCb) {
         this.htmlElement = poolFetch('HtmlElement')
-        this.htmlElement.initHtmlElement('edit_world_model', closeCb, this.statusMap, 'edit_frame', this.call.htmlReady);
+        this.htmlElement.initHtmlElement('edit_world_model', closeCb, this.statusMap, 'edit_frame edit_frame_taller', this.call.htmlReady);
     }
 
     closeEditTool() {

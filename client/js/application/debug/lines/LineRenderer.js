@@ -2,7 +2,7 @@ class LineRenderer {
     constructor() {
         this.isActive = false;
         this._numRenderingLines = 0;
-        this.MAX_NUM_LINES = 20000;
+        this.MAX_NUM_LINES = 50000;
 
         this.geometry = new THREE.BufferGeometry();
 

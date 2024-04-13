@@ -104,6 +104,10 @@ iframe.edit_frame {
     background: none;
 }
 
+iframe.edit_frame_taller {
+    height: 250em;
+}
+
 iframe.edit_assets {
     left: 210em;
     height: 120em;

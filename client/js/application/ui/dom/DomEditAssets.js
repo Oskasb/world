@@ -25,7 +25,7 @@ function selectionUpdate(s) {
         } else {
             console.log("Templates for assets not yet ready.. needs a location from configUtil when loaded.")
         }
-        
+
     }
 
 }
