@@ -4,7 +4,9 @@ import {detachConfig} from "../../utils/ConfigUtils.js";
 
 let selectedTool = "";
 let activeTools = []
+let addToolStatusMap = {}
 
+let actorConfigs = null;
 
 function listifyConfig(cfg) {
     let list = [""];
@@ -16,7 +18,16 @@ function listifyConfig(cfg) {
 
 
 function selectionUpdate(s) {
-    console.log("Select Asset ", s)
+    if (s !== "") {
+        if (typeof (actorConfigs[s]) === 'object') {
+            addToolStatusMap.config = detachConfig(actorConfigs[s].data);
+            console.log("Select Asset ", s, addToolStatusMap.config)
+        } else {
+            console.log("Templates for assets not yet ready.. needs a location from configUtil when loaded.")
+        }
+        
+    }
+
 }
 
 function loadTemplate(t) {
@@ -42,17 +53,17 @@ function operateTool(tool, closeCB) {
 
         // let actorConfigs = new ConfigData("GAME", "ACTORS").parseConfigData()[actorId].data;
 
-        let actorConfig = new ConfigData("GAME", "ACTORS").parseConfigData();
+        actorConfigs = new ConfigData("GAME", "ACTORS").parseConfigData();
 
-        let addToolStatusMap = {
-            selectList: listifyConfig(actorConfig)
-        }
+
+
+        addToolStatusMap.selectList = listifyConfig(actorConfigs)
 
         addToolStatusMap.parent = {};
 
         addToolStatusMap.root = "game";
         addToolStatusMap.folder = "actors";
-        addToolStatusMap.config = actorConfig;
+        addToolStatusMap.config = null;
 
         addToolStatusMap.selectionUpdate = selectionUpdate;
         addToolStatusMap.loadTemplate = loadTemplate;
