@@ -24,7 +24,7 @@ function loadTemplate(t) {
 }
 
 function activateSelection(selectionId) {
-    console.log("Activate Asset Template", t)
+    console.log("Activate Asset Selection", selectionId)
 }
 
 function operateTool(tool, closeCB) {

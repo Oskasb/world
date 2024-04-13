@@ -14,66 +14,6 @@
         }
       },
       {
-        "id":"VISUAL_OUTLAW",
-        "data":{
-          "model_asset":"animated_fighter_male",
-          "skeleton_rig":"FIGHTER_RIG",
-          "scale": [1.0, 1.0, 1.0],
-          "rot": [0, 0, 0],
-          "status": {
-
-          }
-        }
-      },
-      {
-        "id":"VISUAL_GOD",
-        "data":{
-          "model_asset":"animated_fighter_male",
-          "skeleton_rig":"FIGHTER_RIG",
-          "scale": [1.0, 1.0, 1.0],
-          "rot": [0, 0, 0],
-          "status": {
-
-          }
-        }
-      },
-      {
-        "id":"VISUAL_FARMER",
-        "data":{
-          "model_asset":"animated_fighter_male",
-          "skeleton_rig":"FIGHTER_RIG",
-          "scale": [1.0, 1.0, 1.0],
-          "rot": [0, 0, 0],
-          "status": {
-
-          }
-        }
-      },
-      {
-        "id":"VISUAL_PRINCESS",
-        "data":{
-          "model_asset":"animated_fighter_male",
-          "skeleton_rig":"FIGHTER_RIG",
-          "scale": [1.0, 1.0, 1.0],
-          "rot": [0, 0, 0],
-          "status": {
-
-          }
-        }
-      },
-      {
-        "id":"VISUAL_PIRATE",
-        "data":{
-          "model_asset":"animated_fighter_male",
-          "skeleton_rig":"FIGHTER_RIG",
-          "scale": [1.0, 1.0, 1.0],
-          "rot": [0, 0, 0],
-          "status": {
-
-          }
-        }
-      },
-      {
         "id":"VISUAL_ALIEN",
         "data":{
           "model_asset":"animated_alien_male",
