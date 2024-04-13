@@ -21,7 +21,7 @@ class DomEditAdd {
                 templateEdit = poolFetch('DomEditTemplate')
 
                 let map = {
-                    id:statusMap.config.edit_id,
+                    id:generateEditId(),
                     parent:statusMap.parent,
                     config:statusMap.config,
                     root:statusMap.root,
@@ -44,7 +44,6 @@ class DomEditAdd {
 
         let htmlReady = function(htmlEl) {
             htmlElem = htmlEl;
-            statusMap = htmlElem.statusMap;
             rootElem = htmlEl.call.getRootElement();
 
             selectList = htmlElem.call.getChildElement('select_list');
@@ -85,14 +84,24 @@ class DomEditAdd {
 
         }
 
+        function setStatusMap(sMap) {
+            statusMap = sMap;
+        }
+
+        function getStatusMap() {
+            return statusMap;
+        }
+
         this.call = {
+            setStatusMap:setStatusMap,
+            getStatusMap:getStatusMap,
             htmlReady:htmlReady,
             update:update,
             close:close
         }
     }
 
-    initEditTool(closeCb, statusMap, onReady) {
+    initEditTool(closeCb, onReady) {
 
         let readyCb = function() {
             this.call.htmlReady(this.htmlElement)
@@ -101,7 +110,7 @@ class DomEditAdd {
             }
         }.bind(this)
         this.htmlElement = poolFetch('HtmlElement')
-        this.htmlElement.initHtmlElement('edit_add', closeCb, statusMap, 'edit_frame edit_add', readyCb);
+        this.htmlElement.initHtmlElement('edit_add', closeCb, null, 'edit_frame edit_add', readyCb);
     }
 
     closeEditTool() {

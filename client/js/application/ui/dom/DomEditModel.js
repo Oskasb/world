@@ -131,12 +131,19 @@ class DomEditModel {
         }
 
         function applySelectedModel(id) {
-            let wMdlId = previewModel.generateModelId()
+        //    let wMdlId = previewModel.generateModelId()
             modelConfig.no_lod = false;
             modelConfig.palette = "DEFAULT";
             modelConfig.edit_id = false;
+            modelConfig.pos = [0, 0, 0];
+            modelConfig.rot = [0, 0, 0];
+            modelConfig.scale = [1, 1, 1];
+
             let newConfig = detachConfig(modelConfig);
+            MATH.vec3ToArray(ThreeAPI.getCameraCursor().getLookAroundPoint(), newConfig.pos, 1);
             let newWmodel = GameAPI.worldModels.addConfigModel(newConfig, newConfig.edit_id)
+            console.log("new model config:", newConfig)
+            MATH.vec3FromArray(newWmodel.getPos(),  newConfig.pos);
             modelConfig.no_lod = true;
             saveWorldModelEdits(newWmodel);
         }
@@ -145,10 +152,16 @@ class DomEditModel {
 
             if (id !== "") {
 
-                let loadedTemplates = GameAPI.worldModels.getLoadedTemplates();
-                console.log("Selected Template ", statusMap, loadedTemplates)
-                let map = loadedTemplates[id];
-                modelConfig = detachConfig(map.config);
+                if (typeof (modelConfigs[id]) === 'object') {
+                    modelConfig = detachConfig(modelConfigs[id]);
+                    console.log("Selected Model Config ", id, statusMap, modelConfigs)
+                } else {
+                    let loadedTemplates = GameAPI.worldModels.getLoadedTemplates();
+                    console.log("Selected Model Template ", id, statusMap, loadedTemplates)
+                    let map = loadedTemplates[id];
+                    modelConfig = detachConfig(map.config);
+                }
+
                 modelConfig.edit_id = "";
                 addToolStatusMap.config = modelConfig;
             }
@@ -169,11 +182,14 @@ class DomEditModel {
         let assets = [""];
 
         if (modelConfigs === null) {
+            modelConfigs = {};
             let onConfig = function(configs) {
                    console.log(configs)
                 for (let key in configs) {
                     let id = configs[key].id
+
                     if (models.indexOf(id) === -1) {
+                        modelConfigs[id] = configs[key].data[0].config;
                         models.push(id)
                     } else {
                         console.log("entry already added, not right", id);
@@ -250,8 +266,8 @@ class DomEditModel {
                 config.edit_id = "tpl_"+config.edit_id
                 addToolStatusMap.parent = parent;
                 addToolStatusMap.config = config;
-
-                activeTool.initEditTool(closeTool, addToolStatusMap);
+                activeTool.call.setStatusMap(addToolStatusMap)
+                activeTool.initEditTool(closeTool);
             }
 
             if (selectedTool === "CREATE") {

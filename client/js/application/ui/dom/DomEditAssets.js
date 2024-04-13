@@ -1,7 +1,31 @@
 import {poolFetch, poolReturn} from "../../utils/PoolUtils.js";
+import {ConfigData} from "../../utils/ConfigData.js";
+import {detachConfig} from "../../utils/ConfigUtils.js";
 
-let selectedTool = "MODELS";
+let selectedTool = "";
 let activeTools = []
+
+
+function listifyConfig(cfg) {
+    let list = [""];
+    for (let key in cfg) {
+        list.push(key)
+    }
+    return list;
+}
+
+
+function selectionUpdate(s) {
+    console.log("Select Asset ", s)
+}
+
+function loadTemplate(t) {
+    console.log("Load Asset Template", t)
+}
+
+function activateSelection(selectionId) {
+    console.log("Activate Asset Template", t)
+}
 
 function operateTool(tool, closeCB) {
 
@@ -15,24 +39,36 @@ function operateTool(tool, closeCB) {
     let activateTool;
 
     if (tool === "ACTOR") {
-        activateTool = poolFetch('DomEditActor');
+
+        // let actorConfigs = new ConfigData("GAME", "ACTORS").parseConfigData()[actorId].data;
+
+        let actorConfig = new ConfigData("GAME", "ACTORS").parseConfigData();
+
+        let addToolStatusMap = {
+            selectList: listifyConfig(actorConfig)
+        }
+
+        addToolStatusMap.parent = {};
+
+        addToolStatusMap.root = "game";
+        addToolStatusMap.folder = "actors";
+        addToolStatusMap.config = actorConfig;
+
+        addToolStatusMap.selectionUpdate = selectionUpdate;
+        addToolStatusMap.loadTemplate = loadTemplate;
+        addToolStatusMap.activateSelection = activateSelection;
+
+        activateTool = poolFetch('DomEditAdd');
+        activateTool.call.setStatusMap(addToolStatusMap);
+    //    activateTool = poolFetch('DomEditActor');
     }
 
-    if (tool === "ENVIRNMNT") {
-        activateTool = poolFetch('DomEnvEdit');
-        activateTool.setStatusMap(ThreeAPI.getEnvironment().getStatusMap())
-    }
-
-    if (tool === "TERRAIN") {
+    if (tool === "ASSET_") {
         activateTool = poolFetch('DomEditTerrain');
     }
 
-    if (tool === "LOCATION") {
+    if (tool === "GEOMETRY_") {
         activateTool = poolFetch('DomEditLocation');
-    }
-
-    if (tool === "ENCOUNTER") {
-        activateTool = poolFetch('DomEditEncounter');
     }
 
     function toolReady(etool) {

@@ -138,7 +138,8 @@ class DomEditEncounter {
                 addToolStatusMap.config = detachConfig(cfg.config)
                 addToolStatusMap.id = addToolStatusMap.config.edit_id;
                 activeTool = poolFetch('DomEditAdd');
-                activeTool.initEditTool(closeTool, addToolStatusMap);
+                activeTool.call.setStatusMap(addToolStatusMap)
+                activeTool.initEditTool(closeTool);
 
             } else {
                 applyContainerDiv.style.display = "none"

@@ -47,9 +47,7 @@ function operateTool(tool, closeCB) {
 }
 
 let toolsList = [
-    "",
-    "NEW",
-    "MODIFY"
+    ""
 ]
 
 class DomEditActor {

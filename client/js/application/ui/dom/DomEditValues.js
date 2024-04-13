@@ -37,13 +37,6 @@ class DomEditValues {
             statusMap.applyEdit(statusMap.key);
         }
 
-        function listifyConfig(cfg) {
-            let list = [];
-            for (let key in cfg) {
-                list.push(key)
-            }
-            return list;
-        }
 
         let htmlReady = function(htmlEl) {
             htmlElem = htmlEl;
