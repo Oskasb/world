@@ -50,6 +50,10 @@ class ActorEquipment {
             updateAddModifiers(this.items)
 
             let itemSlot = this.getSlotForItem(item);
+            if (!itemSlot) {
+                console.log("No slot found... ")
+                return;
+            }
             let dynamicJoint = this.getJointForItemSlot(itemSlot);
             let slotId = item.getEquipSlotId();
         //    console.log("Equip Actor Item ", item, slotId)
@@ -208,6 +212,11 @@ class ActorEquipment {
     }
 
     getSlotForItem(item) {
+        if (!this.itemSlots) {
+            console.log("No slots yet? ", this)
+            return;
+        }
+
         return this.itemSlots[item.getEquipSlotId()];
     };
 

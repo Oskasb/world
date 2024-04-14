@@ -52,6 +52,25 @@
             "PASSIVE_ACTIONS": ["ACTION_FREEHACK_MELEE"],
             "ACTIONS": ["ACTION_CHARGE", "ACTION_FREEZE_BOLT", "ACTION_HEAL_BOLT"],
             "TRAVEL":  ["ACTION_TRAVEL_WALK", "ACTION_TRAVEL_RUN", "ACTION_TRAVEL_LEAP"],
+
+            "INVENTORY_ITEMS": [],
+            "EQUIPPED_ITEMS": [
+              "ITEM_HELMET_VIKING_WHITE",
+              "ITEM_AXE_SLICER_WHITE",
+              "ITEM_BELT_PLATE_WHITE",
+
+              "ITEM_DRAKEN_WHITE",
+              "ITEM_JETPACK_WHITE",
+              "ITEM_WRIST_COMPUTER_WHITE",
+
+              "ITEM_CHEST_SCALE",
+              "ITEM_SHIRT_CHAIN",
+              "ITEM_LEGS_CHAIN",
+              "ITEM_BOOTS_SCALE",
+              "ITEM_GLOVES_SCALE"
+            ],
+
+            "ALIGNMENT": "FRIENDLY",
             "MOVEMENT_SPEED": 7,
             "HEIGHT": 2.2,
             "SIZE": 1.5,

@@ -17,7 +17,7 @@ function listifyConfig(cfg) {
 }
 
 
-function selectionUpdate(s) {
+function actorSelectionUpdate(s) {
     if (s !== "") {
         if (typeof (actorConfigs[s]) === 'object') {
             addToolStatusMap.config = detachConfig(actorConfigs[s].data);
@@ -25,17 +25,29 @@ function selectionUpdate(s) {
         } else {
             console.log("Templates for assets not yet ready.. needs a location from configUtil when loaded.")
         }
+    }
+}
 
+function loadActorTemplate(t) {
+    console.log("Load Actor Template", t)
+}
+
+function activateActorSelection(selectionId) {
+
+    function activated(a) {
+        GameAPI.getPlayerParty().addPartyActor(a);
     }
 
-}
+    function actorLoaded(actor) {
+        actor.activateGameActor(activated)
+    }
 
-function loadTemplate(t) {
-    console.log("Load Asset Template", t)
-}
+    console.log("Activate Actor Selection", selectionId)
 
-function activateSelection(selectionId) {
-    console.log("Activate Asset Selection", selectionId)
+    let pos = ThreeAPI.getCameraCursor().getLookAroundPoint()
+
+    evt.dispatch(ENUMS.Event.LOAD_ACTOR, {id: selectionId, pos:pos, callback:actorLoaded});
+
 }
 
 function operateTool(tool, closeCB) {
@@ -55,8 +67,6 @@ function operateTool(tool, closeCB) {
 
         actorConfigs = new ConfigData("GAME", "ACTORS").parseConfigData();
 
-
-
         addToolStatusMap.selectList = listifyConfig(actorConfigs)
 
         addToolStatusMap.parent = {};
@@ -65,9 +75,9 @@ function operateTool(tool, closeCB) {
         addToolStatusMap.folder = "actors";
         addToolStatusMap.config = null;
 
-        addToolStatusMap.selectionUpdate = selectionUpdate;
-        addToolStatusMap.loadTemplate = loadTemplate;
-        addToolStatusMap.activateSelection = activateSelection;
+        addToolStatusMap.selectionUpdate = actorSelectionUpdate;
+        addToolStatusMap.loadTemplate = loadActorTemplate;
+        addToolStatusMap.activateSelection = activateActorSelection;
 
         activateTool = poolFetch('DomEditAdd');
         activateTool.call.setStatusMap(addToolStatusMap);

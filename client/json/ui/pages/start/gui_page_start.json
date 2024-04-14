@@ -113,22 +113,8 @@
                           "pirate_start_encounters",
                           "alien_start_encounters"
                         ],
-                        "inventory_items": ["ITEM_DRAKEN_GOLDRED"],
-                        "equipped_items": [
-                          "ITEM_HELMET_VIKING_WHITE",
-                          "ITEM_AXE_SLICER_WHITE",
-                          "ITEM_BELT_PLATE_WHITE",
-
-                          "ITEM_DRAKEN_WHITE",
-                          "ITEM_JETPACK_WHITE",
-                          "ITEM_WRIST_COMPUTER_WHITE",
-
-                          "ITEM_CHEST_SCALE",
-                          "ITEM_SHIRT_CHAIN",
-                          "ITEM_LEGS_CHAIN",
-                          "ITEM_BOOTS_SCALE",
-                          "ITEM_GLOVES_SCALE"
-                        ],
+                        "inventory_items": [],
+                        "equipped_items": [],
                         "status": {
                           "ALIGNMENT": "FRIENDLY",
                           "STRONGHOLD_ID": "SH_MANSION"

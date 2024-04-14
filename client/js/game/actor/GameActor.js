@@ -13,6 +13,7 @@ import { ActorEquipment } from "./ActorEquipment.js";
 import { ActorInventory } from "./ActorInventory.js";
 import { ActorStatusProcessor } from "./ActorStatusProcessor.js";
 import {StatusFeedback} from "../visuals/StatusFeedback.js";
+import {evt} from "../../application/event/evt.js";
 
 // let index = 1; // zero index get culled by connection
 let tempVec = new Vector3();
@@ -23,6 +24,45 @@ let tempQuat = new Quaternion();
 
 let broadcastTimeout;
 let lastSendTime = 0;
+
+
+function equipActorItemList(actor, equippedList) {
+
+    let equipQueue = [];
+    let actorItems = actor.actorEquipment.items;
+
+    let equipCb = function(item) {
+        equipQueue.splice(equipQueue.indexOf(item.configId))
+
+        actor.equipItem(item);
+    }
+
+
+    for (let i = 0; i < equippedList.length; i++) {
+        let isEquipped = false;
+        for (let j = 0; j < actorItems.length; j++) {
+            if (actorItems[j].configId === equippedList[i]) {
+                isEquipped = true;
+            }
+        }
+
+        if (isEquipped === false) {
+            if (equipQueue.indexOf(equippedList[i]) === -1) {
+            //    console.log("EQUIP: ", equippedList[i])
+                equipQueue.push(equippedList[i])
+                evt.dispatch(ENUMS.Event.LOAD_ITEM, {id: equippedList[i], callback:equipCb})
+            }
+        }
+    }
+
+    for (let i = 0; i < actorItems.length; i++) {
+        if (equippedList.indexOf(actorItems[i].configId) === -1) {
+            actor.unequipItem(actorItems[i])
+        }
+    }
+}
+
+
 class GameActor {
     constructor(index, config, parsedEquipSlotData) {
 
@@ -47,6 +87,9 @@ class GameActor {
         this.travelMode = new TravelMode();
         this.actorMovement = new ActorMovement();
         this.activated = false;
+
+        this.onActivationCallbacks = [];
+
         this.actorObj3d = new Object3D();
         this.pos = this.actorObj3d.position;
         this.config = config;
@@ -82,11 +125,31 @@ class GameActor {
             // skeleton not always ready here...
             this.actorEquipment.activateActorEquipment(this, this.config['equip_slots'])
             this.activated = true;
+            while (this.onActivationCallbacks.length) {
+                this.onActivationCallbacks.pop()();
+            }
             GameAPI.registerGameUpdateCallback(updateGameActor);
         }.bind(this);
 
         let onVisualAdded = function() {
+            let actor = this;
             // add equipment here after visual has loaded skeleton...
+            let equippedList = actor.getStatus(ENUMS.ActorStatus.EQUIPPED_ITEMS);
+        //    function loadEquippedItems(actor, equippedList) {
+
+            if (actor.activated === true) {
+
+                equipActorItemList(actor, equippedList)
+
+        //    }
+        } else {
+
+                function onActivated() {
+                    equipActorItemList(actor, equippedList)
+                }
+                this.onActivationCallbacks.push(onActivated);
+            //    console.log("Not yet active actor handle equipped items ", equippedList)
+            }
         }.bind(this)
 
         let getActorPos = function() {

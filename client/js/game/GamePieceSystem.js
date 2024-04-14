@@ -68,13 +68,11 @@ let loadItem = function(event) {
 
 
 
-let loadActor = function(event) {
+function setupActor(event, actor) {
 
-    let actorConfig = actorConfigs[event.id]
-    let actor = new GameActor(actorIndex, actorConfig, parsedEquipSlotData);
-    actorIndex++;
-   // actor.setStatusKey(ENUMS.ActorStatus.ACTOR_INDEX, actor.index);
     registerActor(actor);
+    // actor.setStatusKey(ENUMS.ActorStatus.ACTOR_INDEX, actor.index);
+
     let statsData = statsConfig[actor.config['stats_id']];
 //    console.log("Actor Stats :", statsData.status)
 
@@ -86,15 +84,18 @@ let loadActor = function(event) {
         }
     }
 
+
+
     let visualConfig = visualConfigs[actor.config['visual_id']];
 
     let visualPiece = new VisualGamePiece(visualConfig);
     actor.setVisualGamePiece(visualPiece);
     actor.setStatusKey(ENUMS.ActorStatus.CONFIG_ID, event.id)
+    
     if (event.tile) {
 
         let onReady = function(readyActor) {
-         //   console.log("On Ready: ", readyActor)
+            //   console.log("On Ready: ", readyActor)
             let gameWalkGrid = readyActor.getGameWalkGrid()
             let activateEncounterGrid = GameAPI.call.getActiveEncounter();
 
@@ -111,13 +112,26 @@ let loadActor = function(event) {
     } else if (event.pos) {
         actor.setSpatialPosition(event.pos);
     } else {
-     //   GameAPI.getGamePieceSystem().addActorToPlayerParty(actor);
-     //   GameAPI.getGamePieceSystem().playerParty.selectPartyActor(actor)
+        //   GameAPI.getGamePieceSystem().addActorToPlayerParty(actor);
+        //   GameAPI.getGamePieceSystem().playerParty.selectPartyActor(actor)
     }
 
     if (event.callback) {
         event.callback(actor);
     }
+}
+
+
+
+
+let loadActor = function(event) {
+
+    let actorConfig = actorConfigs[event.id]
+    let actor = new GameActor(actorIndex, actorConfig, parsedEquipSlotData);
+    actorIndex++;
+   // console.log("Actor Config: ", actorConfig)
+
+    setupActor(event, actor)
 
 }
 
