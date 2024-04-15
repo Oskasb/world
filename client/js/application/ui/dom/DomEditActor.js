@@ -1,9 +1,34 @@
 import {poolFetch, poolReturn} from "../../utils/PoolUtils.js";
+import {detachConfig} from "../../utils/ConfigUtils.js";
+import {ENUMS} from "../../ENUMS.js";
 
 let selectedTool = "MODELS";
 let activeTools = []
 
-function operateTool(tool, closeCB) {
+let toolsList = [
+    "", "STATS", "EQUIPMENT", "LOOT", "CONFIG"
+]
+
+
+function loadConfigTemplate(statMap) {
+    console.log("loadConfigTemplate", selectedTemplateId, statMap)
+
+    let loadedTemplates = GameAPI.worldModels.getLoadedTemplates();
+    //    console.log("loadTemplate Selected Template ", selectedTemplateId)
+    let map = loadedTemplates[selectedTemplateId];
+    let config = detachConfig(map.config);
+    MATH.vec3ToArray(statMap.parent.getPos(), config.pos);
+    statMap.parent.call.applyConfig(config)
+
+}
+
+function selectionUpdate(sel) {
+    console.log("Edit Actor Selection ", sel);
+}
+
+function operateTool(statusMap, closeCB) {
+
+    let tool = statusMap.tool
 
     while (activeTools.length) {
         let editTool = activeTools.pop();
@@ -14,31 +39,31 @@ function operateTool(tool, closeCB) {
 
     let activateTool;
 
-    if (tool === "MODELS" || tool === "--select--" || tool === "") {
-        activateTool = poolFetch('DomEditModel');
-    }
-
-    if (tool === "ENVIRNMNT") {
-        activateTool = poolFetch('DomEnvEdit');
-        activateTool.setStatusMap(ThreeAPI.getEnvironment().getStatusMap())
-    }
-
-    if (tool === "TERRAIN") {
-        activateTool = poolFetch('DomEditTerrain');
-    }
-
-    if (tool === "LOCATION") {
-        activateTool = poolFetch('DomEditLocation');
-    }
-
-    if (tool === "ENCOUNTER") {
-        activateTool = poolFetch('DomEditEncounter');
-    }
-
     function toolReady(etool) {
         console.log("Tool Ready", tool, etool)
         activeTools.push(etool)
     }
+
+    if (tool === "CONFIG") {
+        ThreeAPI.getCameraCursor().getLookAroundPoint().copy(statusMap.parent.getPos())
+        let cfgEdit = poolFetch('DomEditConfig');
+    //    let host = encounter.getHostActor();
+    //    let id = "host_"+encounter.id
+    //    let worldLevel =  GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
+        let map = {
+            id:statusMap.config.edit_id,
+            root:"game",
+            folder:"actors",
+            parent:statusMap.parent,
+            config:statusMap.config,
+            selectionUpdate:selectionUpdate,
+            loadTemplate:loadConfigTemplate,
+            selections:["", "TEMPLATE"]
+        }
+        cfgEdit.initEditTool(closeCB, map, toolReady);
+    }
+
+
 
     if (activateTool) {
         activateTool.initEditTool(closeCB, toolReady);
@@ -46,13 +71,13 @@ function operateTool(tool, closeCB) {
 
 }
 
-let toolsList = [
-    ""
-]
+
 
 class DomEditActor {
     constructor() {
         this.statusMap = {
+            root:'game',
+            folder:'actors',
             tool:selectedTool
         };
 
@@ -64,7 +89,7 @@ class DomEditActor {
         }
 
         let applyTool = function() {
-            operateTool(statusMap.tool, toolClosedCB);
+            operateTool(statusMap, toolClosedCB);
         }
 
         let htmlReady = function(htmlElem) {
@@ -99,11 +124,17 @@ class DomEditActor {
 
     }
 
-    initEditTool() {
+    initEditTool(actor) {
+        this.statusMap.parent = actor;
+        this.statusMap.config = detachConfig(actor.config);
         this.htmlElement = poolFetch('HtmlElement')
         this.htmlElement.initHtmlElement('edit_actor', this.call.close, this.statusMap, 'edit_frame edit_actor', this.call.htmlReady);
     }
 
+
+    closeEditTool() {
+        this.call.close();
+    }
 
 }
 

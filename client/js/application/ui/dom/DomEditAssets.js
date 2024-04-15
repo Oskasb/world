@@ -1,12 +1,16 @@
 import {poolFetch, poolReturn} from "../../utils/PoolUtils.js";
 import {ConfigData} from "../../utils/ConfigData.js";
 import {detachConfig} from "../../utils/ConfigUtils.js";
+import {DomEditActor} from "./DomEditActor.js";
 
 let selectedTool = "";
 let activeTools = []
 let addToolStatusMap = {}
 
 let actorConfigs = null;
+let buttonLayer = null;
+
+let actorTool = null;
 
 function listifyConfig(cfg) {
     let list = [""];
@@ -61,6 +65,16 @@ function operateTool(tool, closeCB) {
         poolReturn(editTool);
     }
 
+    if (buttonLayer !== null) {
+        buttonLayer.closeWorldButtonLayer();
+        buttonLayer = null;
+    }
+
+    if (actorTool !== null) {
+        actorTool.closeEditTool();
+        actorTool = null;
+    }
+
     let activateTool;
 
     if (tool === "ACTOR") {
@@ -83,7 +97,23 @@ function operateTool(tool, closeCB) {
 
         activateTool = poolFetch('DomEditAdd');
         activateTool.call.setStatusMap(addToolStatusMap);
-    //    activateTool = poolFetch('DomEditActor');
+
+
+        function actorSelected(e) {
+            console.log("Actor Edit Selection ", e.target.value);
+
+            actorTool = poolFetch('DomEditActor');
+            actorTool.initEditTool(e.target.value);
+        }
+
+
+        let activeActors = GameAPI.getGamePieceSystem().getActors();
+
+        buttonLayer = poolFetch('DomWorldButtonLayer');
+        buttonLayer.initWorldButtonLayer(activeActors, tool, actorSelected)
+
+
+        //    activateTool = poolFetch('DomEditActor');
     }
 
     if (tool === "ASSET_") {
@@ -150,6 +180,12 @@ class DomEditAssets {
             this.htmlElement.closeHtmlElement();
             poolReturn(this.htmlElement);
             this.htmlElement = null;
+
+            if (buttonLayer !== null) {
+                buttonLayer.closeWorldButtonLayer();
+                buttonLayer = null;
+            }
+
         }.bind(this);
 
         this.call = {
