@@ -12,7 +12,8 @@ class DomEditEquipment {
         let itemSlots = null;
         let htmlElem = null;
         let idLabel = null;
-            let itemConfigs = null;
+        let editLabel = null;
+        let itemConfigs = null;
         let slotToItemMap = {};
 
         let equipRequests = [];
@@ -51,6 +52,9 @@ class DomEditEquipment {
             let container = htmlElem.call.getChildElement('selections_container');
 
             idLabel = htmlElem.call.getChildElement('actor_id');
+            editLabel = htmlElem.call.getChildElement('edit_id');
+
+            editLabel.innerHTML = statusMap.config.edit_id;
 
             let html = "";
 
@@ -113,10 +117,13 @@ class DomEditEquipment {
             //    console.log("Selection Updated", slotId, configId);
 
                 let actor = statusMap.parent;
+                let config = statusMap.config;
+                let status = config.status;
 
                 let item = actor.actorEquipment.getEquippedItemBySlotId(slotId)
                 if (item !== null) {
                     console.log("Slot selection UNEQUIP", slotId, item)
+                    MATH.splice(status.EQUIPPED_ITEMS, item.configId);
                     actor.unequipItem(item);
                     item.disposeItem();
                 }
@@ -128,6 +135,12 @@ class DomEditEquipment {
                     console.log("Equip Updated", slotId, configId);
                     equipRequests.push(slotId);
                     equipItem(configId);
+                    if (status.EQUIPPED_ITEMS.indexOf(configId) === -1) {
+                        status.EQUIPPED_ITEMS.push(configId);
+                    } else {
+                        console.log("Item already listed, should not be happening")
+                    }
+
         //            console.log("Slot selection EQUIP", id, key, selection, slots)
                 }
             }

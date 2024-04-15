@@ -1,9 +1,10 @@
 import {poolFetch, poolReturn} from "../../utils/PoolUtils.js";
-import {detachConfig} from "../../utils/ConfigUtils.js";
+import {configDataList, detachConfig} from "../../utils/ConfigUtils.js";
 import {ENUMS} from "../../ENUMS.js";
 
 let selectedTool = "MODELS";
 let activeTools = []
+let statsConfig = null;
 
 let toolsList = [
     "", "EQUIPMENT", "STATS", "LOOT", "CONFIG"
@@ -67,15 +68,16 @@ function operateTool(statusMap, closeCB) {
     if (tool === "EQUIPMENT") {
         ThreeAPI.getCameraCursor().getLookAroundPoint().copy(statusMap.parent.getPos())
         let cfgEdit = poolFetch('DomEditEquipment');
-        //    let host = encounter.getHostActor();
-        //    let id = "host_"+encounter.id
-        //    let worldLevel =  GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
+
+        let statsId = statusMap.config['stats_id']
+        let config = statsConfig[statsId];
+
         let map = {
             id:statusMap.config.edit_id,
             root:"game",
             folder:"actors",
             parent:statusMap.parent,
-            config:statusMap.config,
+            config:detachConfig(config),
             selectionUpdate:selectionUpdate,
             loadTemplate:loadConfigTemplate,
             selections:["", "TEMPLATE"]
@@ -102,6 +104,15 @@ class DomEditActor {
 
         let statusMap = this.statusMap;
         let toolSelectDiv = null;
+
+
+
+        let statsData = function(data) {
+            statsConfig = data;
+            console.log("statsConfig", statsConfig)
+        }
+
+        configDataList("GAME","CHARACTER_STATS", statsData)
 
         function toolClosedCB() {
         //    toolSelectDiv.value = "MODELS";

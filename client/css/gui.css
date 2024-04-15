@@ -256,11 +256,26 @@ div.edit_panel {
     border-width: 0.2em;
 }
 
-div.edit_panel h2 {
+div.panel_config h2 {
     left: 1em;
     text-align: left;
     font-size: 1.2em;
     overflow: hidden;
+}
+
+div.edit_panel h3 {
+    margin-left: 0.5em;
+    text-align: left;
+    font-size: 0.9em;
+}
+
+div.panel_config p {
+    position: absolute;
+    top: 0;
+    right: 2.5em;
+    left: auto;
+    text-align: left;
+    font-size: 0.8em;
 }
 
 div.panel_config {
@@ -268,6 +283,9 @@ div.panel_config {
     left: 0;
     right: 0;
 }
+
+
+
 
 div.string_edit {
     font-size:1.8em;

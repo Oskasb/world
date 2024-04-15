@@ -429,16 +429,23 @@ class GameActor {
     }
 
     equipItem(item) {
-        this.actorEquipment.call.equipActorItem(item);
+
         let equippedList = this.getStatus(ENUMS.ActorStatus.EQUIPPED_ITEMS);
-        equippedList.push(item.configId);
-        item.setStatusKey(ENUMS.ItemStatus.ACTOR_ID, this.getStatus(ENUMS.ActorStatus.ACTOR_ID));
-        let requests = this.getStatus(ENUMS.ActorStatus.EQUIP_REQUESTS)
-    //    if (requests.indexOf(item.getStatus(ENUMS.ItemStatus.TEMPLATE)) === -1) {
+
+            this.actorEquipment.call.equipActorItem(item);
+
+            if (equippedList.indexOf(item.configId) === -1) {
+                equippedList.push(item.configId);
+            } else {
+                console.log("item already registered", item);
+            }
+
+            item.setStatusKey(ENUMS.ItemStatus.ACTOR_ID, this.getStatus(ENUMS.ActorStatus.ACTOR_ID));
+            let requests = this.getStatus(ENUMS.ActorStatus.EQUIP_REQUESTS)
+            //    if (requests.indexOf(item.getStatus(ENUMS.ItemStatus.TEMPLATE)) === -1) {
             requests.push(item.getEquipSlotId());
             requests.push(item.getStatus(ENUMS.ItemStatus.TEMPLATE));
             this.setStatusKey(ENUMS.ActorStatus.EQUIP_REQUESTS, requests);
-     //   }
 
     }
 
