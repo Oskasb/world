@@ -184,7 +184,7 @@ class CameraSpatialCursor {
                 let dtDist = distance - startAtDistance
                 let newZoom = startAtZoom+dtDist
                 calcVec.y += newZoom;
-                GameAPI.getPlayer().setStatusKey(ENUMS.PlayerStatus.PLAYER_ZOOM, MATH.clamp(newZoom, 0.25, 4));
+                GameAPI.getPlayer().setStatusKey(ENUMS.PlayerStatus.PLAYER_ZOOM, MATH.clamp(newZoom, 0.1, 4));
                 evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:cursorObj3d.position, to:calcVec, color:'CYAN'});
             }
 

@@ -13,10 +13,11 @@ let applyContainerDiv = null;
 let idLabelDiv = null;
 let activeTool = null;
 
+let buttonLayer = null;
+
 let toolsList = [
     "EDIT",
     "ADD",
-    "CREATE",
     "CONFIG"
 ]
 
@@ -48,29 +49,13 @@ class DomEditModel {
     constructor() {
 
         let addToolStatusMap = {}
+        addToolStatusMap.activateSelection = applySelectedModel;
+        addToolStatusMap.selectionUpdate = selectionUpdate;
+        addToolStatusMap.loadTemplate = loadTemplate;
+        addToolStatusMap.root = "world";
+        addToolStatusMap.folder = "model";
 
-        function createFunction(id, obj3d, callback) {
 
-            if (!createModelStatusMap.parent) {
-                let config = detachConfig(worldModelTemplateConfig);
-                MATH.rotObj3dToArray(obj3d, config.rot);
-                MATH.vec3ToArray(obj3d.position, config.pos);
-                createModelStatusMap.parent = new WorldModel(config);
-            }
-
-            let locMCfg = detachConfig(locationModelConfigTemplate);
-            locMCfg.asset = id;
-            createModelStatusMap.parent.configData.assets.push(locMCfg);
-            createModelStatusMap.parent.call.locationModels(createModelStatusMap.parent.configData)
-            callback(locMCfg);
-        }
-
-        let createModelStatusMap = {
-            root:"create",
-            folder:"model",
-
-            createFunction:createFunction
-        }
 
         let previewModel = null;
         let cursor = null;
@@ -197,12 +182,8 @@ class DomEditModel {
                 }
                 console.log("Add Model Options", models)
                 addToolStatusMap.selectList = models;
-                createModelStatusMap.models = models;
-                addToolStatusMap.activateSelection = applySelectedModel;
-                addToolStatusMap.selectionUpdate = selectionUpdate;
-                addToolStatusMap.loadTemplate = loadTemplate;
-                addToolStatusMap.root = "world";
-                addToolStatusMap.folder = "model";
+
+
             }
             new ConfigData("WORLD_LOCATIONS","LOCATION_MODELS",  false, false, false, onConfig)
         }
@@ -242,6 +223,9 @@ class DomEditModel {
 
         let setSelectedTool = function(tool) {
             close()
+
+
+
             selectedTool = tool;
             statusMap.selectedTool = tool;
             if (activeTool !== null) {
@@ -270,9 +254,9 @@ class DomEditModel {
                 activeTool.initEditTool(closeTool);
             }
 
-            if (selectedTool === "CREATE") {
-                activeTool = poolFetch('DomEditCreate');
-                activeTool.initEditTool(closeTool, createModelStatusMap);
+            if (selectedTool === "CONFIG" || selectedTool === "EDIT") {
+                buttonLayer = poolFetch('DomWorldButtonLayer');
+                buttonLayer.initWorldButtonLayer(GameAPI.worldModels.getActiveWorldModels(), selectedTool, divClicked)
             }
 
         }
@@ -296,7 +280,6 @@ class DomEditModel {
             }
 
         }
-
 
 
         let closeActiveTool = function() {
@@ -385,59 +368,6 @@ class DomEditModel {
                 setSelectedTool(toolSelectDiv.value)
             }
 
-            MATH.emptyArray(visibleWorldModels);
-
-            if (selectedTool === "EDIT" || selectedTool === "CONFIG") {
-
-                let none = true;
-                for (let key in editCursors) {
-                    if (typeof (editCursors[key]) === 'object') {
-                       none = false
-                    }
-                }
-                if (none) {
-                    idLabelDiv.innerHTML = "--No Selection--";
-                }
-
-                let worldModels = GameAPI.worldModels.getActiveWorldModels();
-                let camCursorDist = MATH.distanceBetween(ThreeAPI.getCameraCursor().getPos(), ThreeAPI.getCamera().position)
-                for (let i = 0; i < worldModels.length; i++) {
-                    let pos = worldModels[i].getPos();
-                    let distance = MATH.distanceBetween(ThreeAPI.getCameraCursor().getPos(), pos)
-                    if (distance < 25 + camCursorDist * 0.5) {
-                        if (ThreeAPI.testPosIsVisible(pos)) {
-                            visibleWorldModels.push(worldModels[i]);
-                        }
-                    }
-                }
-
-                while (locationModelDivs.length < visibleWorldModels.length) {
-                    let div = DomUtils.createDivElement(document.body, 'model_' + visibleWorldModels.length, selectedTool, 'button')
-                    DomUtils.addClickFunction(div, divClicked);
-                    locationModelDivs.push(div);
-                }
-            }
-
-            while (locationModelDivs.length > visibleWorldModels.length) {
-                DomUtils.removeDivElement(locationModelDivs.pop());
-            }
-
-            for (let i = 0; i < visibleWorldModels.length; i++) {
-                let model = visibleWorldModels[i];
-                let div = locationModelDivs[i];
-                let pos = model.getPos();
-                div.value = model;
-
-                ThreeAPI.toScreenPosition(pos, tempVec);
-                div.style.top = 50-tempVec.y*(100/frustumFactor)+"%";
-                div.style.left = 50+tempVec.x*(100/frustumFactor)+"%";
-
-                evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ThreeAPI.getCameraCursor().getPos(), to:pos, color:'YELLOW'});
-                tempVec.x = pos.x;
-                tempVec.z = pos.z;
-                tempVec.y = 0;
-                evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:pos, to:tempVec, color:'YELLOW'});
-            }
         }
 
         function closeEditCursors() {
@@ -454,12 +384,16 @@ class DomEditModel {
         }
 
         let close = function() {
+
             idLabelDiv.innerHTML = "--No Selection--";
             while (locationModelDivs.length) {
                 DomUtils.removeDivElement(locationModelDivs.pop());
             }
             closeEditCursors()
-
+            if (buttonLayer !== null) {
+                buttonLayer.closeWorldButtonLayer();
+                buttonLayer = null;
+            }
         }
 
         this.call = {

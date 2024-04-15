@@ -855,7 +855,7 @@ function CAM_EDIT() {
     let cursorPos = ThreeAPI.getCameraCursor().getLookAroundPoint()
     ThreeAPI.getCameraCursor().getPos().copy(cursorPos);
     let controlValues = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.CONTROL_VALUES);
-    let zoom = 2 + GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_ZOOM)*100;
+    let zoom = 0.0 + GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_ZOOM)*100;
 
     if (controlValues['CAM_FORWARD'] !== 0) {
 

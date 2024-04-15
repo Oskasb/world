@@ -14,13 +14,13 @@ let tempVec = new Vector3();
 let frustumFactor = 0.828;
 let encounterConfigs = null;
 let worldEncounters = null;
+let buttonLayer = null;
 
 let templateList = [""]
 
 for (let key in encounterTemplates) {
     templateList.push(key);
 }
-
 
 let toolsList = [
     "MOVE",
@@ -124,6 +124,9 @@ class DomEditEncounter {
 
         let setSelectedTool = function(tool) {
             close()
+
+
+
             selectedTool = tool;
             statusMap.selectedTool = tool;
             if (activeTool !== null) {
@@ -142,12 +145,14 @@ class DomEditEncounter {
                 activeTool.initEditTool(closeTool);
 
             } else {
+
                 applyContainerDiv.style.display = "none"
+                buttonLayer = poolFetch('DomWorldButtonLayer')
+                buttonLayer.initWorldButtonLayer(GameAPI.worldModels.getWorldEncounters(), tool, divClicked)
+
             }
 
         }
-
-
 
 
         let htmlReady = function(htmlEl) {
@@ -287,7 +292,8 @@ class DomEditEncounter {
 
             MATH.emptyArray(visibleWorldEncounters)
 
-            if (selectedTool !== "ADD") {
+            if (selectedTool === "_ADD") {
+
                 if (activeTool === null) {
                     if (selectedTool !== "MOVE") {
                         idLabelDiv.innerHTML = "--No Selection--";
@@ -349,6 +355,10 @@ class DomEditEncounter {
                 DomUtils.removeDivElement(worldEncounterDivs.pop());
             }
             closeEditCursors()
+            if (buttonLayer !== null) {
+                buttonLayer.closeWorldButtonLayer();
+                buttonLayer = null;
+            }
         }
 
         this.call = {

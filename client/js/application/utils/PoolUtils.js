@@ -58,6 +58,7 @@ import {DomEditTemplate} from "../ui/dom/DomEditTemplate.js";
 import {DomEditString} from "../ui/dom/DomEditString.js";
 import {LodTest} from "../../game/visuals/LodTest.js";
 import {DomEditActor} from "../ui/dom/DomEditActor.js";
+import {DomWorldButtonLayer} from "../ui/dom/DomWorldButtonLayer.js";
 
 
 let pools = {}
@@ -122,6 +123,7 @@ function initPools() {
     registerPool(DomEditString)
     registerPool(LodTest)
     registerPool(DomEditActor)
+    registerPool(DomWorldButtonLayer)
 }
 
 function registerPool(DataObj) {

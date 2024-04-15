@@ -35,7 +35,9 @@ function loadActorTemplate(t) {
 function activateActorSelection(selectionId) {
 
     function activated(a) {
-        GameAPI.getPlayerParty().addPartyActor(a);
+
+    //    GameAPI.getPlayerParty().addPartyActor(a);
+    //    GameAPI.getGamePieceSystem().setSelectedGameActor(a);
     }
 
     function actorLoaded(actor) {

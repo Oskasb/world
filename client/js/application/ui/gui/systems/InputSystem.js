@@ -170,7 +170,7 @@ class InputSystem {
                         let wheelDelta = guiPointer.inputState.wheelDelta;
                         if (wheelDelta !== 0) {
                             let zoom = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_ZOOM)
-                            GameAPI.getPlayer().setStatusKey(ENUMS.PlayerStatus.PLAYER_ZOOM, MATH.clamp(zoom-wheelDelta, 0.25, 4))
+                            GameAPI.getPlayer().setStatusKey(ENUMS.PlayerStatus.PLAYER_ZOOM, MATH.clamp(zoom-wheelDelta, 0.1, 4))
                         }
                 }
 
