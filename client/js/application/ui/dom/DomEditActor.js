@@ -6,7 +6,7 @@ let selectedTool = "MODELS";
 let activeTools = []
 
 let toolsList = [
-    "", "STATS", "EQUIPMENT", "LOOT", "CONFIG"
+    "", "EQUIPMENT", "STATS", "LOOT", "CONFIG"
 ]
 
 
@@ -63,6 +63,25 @@ function operateTool(statusMap, closeCB) {
         cfgEdit.initEditTool(closeCB, map, toolReady);
     }
 
+
+    if (tool === "EQUIPMENT") {
+        ThreeAPI.getCameraCursor().getLookAroundPoint().copy(statusMap.parent.getPos())
+        let cfgEdit = poolFetch('DomEditEquipment');
+        //    let host = encounter.getHostActor();
+        //    let id = "host_"+encounter.id
+        //    let worldLevel =  GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
+        let map = {
+            id:statusMap.config.edit_id,
+            root:"game",
+            folder:"actors",
+            parent:statusMap.parent,
+            config:statusMap.config,
+            selectionUpdate:selectionUpdate,
+            loadTemplate:loadConfigTemplate,
+            selections:["", "TEMPLATE"]
+        }
+        cfgEdit.initEditTool(closeCB, map);
+    }
 
 
     if (activateTool) {

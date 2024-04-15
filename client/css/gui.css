@@ -734,6 +734,40 @@ div.color_edit {
     padding: 0;
 }
 
+div.selections_container {
+
+}
+
+div.selections_container label {
+    display: inline-block;
+    font-size: 0.8em;
+    width: 25%;
+    left: 0;
+    margin: 2%;
+}
+
+div.selections_container select {
+    background-color: rgba(4, 41, 42, 0.55);;
+    font-size: 1.1em;
+    width: 70%;
+    top: 0;
+    left: auto;
+    right: 0;
+    bottom: 0;
+    height: auto;
+    margin:0;
+    text-align: left;
+    color: #ff984e;
+    text-shadow: 0.04em 0.04em 0.22em rgb(0, 10, 19);
+}
+
+div.selections_container option {
+    font-size: 1.0em;
+    color: #ffca63;
+    text-shadow: 0.04em 0.04em 0.22em rgb(0, 10, 19);
+}
+
+
 .control_container {
     top: 0em;
     left: 0em;

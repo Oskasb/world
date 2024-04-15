@@ -178,6 +178,17 @@ iframe.edit_config {
     overflow: auto;
 }
 
+iframe.edit_equipment {
+    left: 10em;
+    top: 250em;
+    width: 350em;
+    height:550em;
+    background: #2c2c2c;
+    overflow: auto;
+}
+
+
+
 iframe.edit_values {
     left: 220em;
     top: 280em;
