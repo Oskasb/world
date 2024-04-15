@@ -1,4 +1,4 @@
-import { configDataList } from "../application/utils/ConfigUtils.js";
+import {configDataList, detachConfig} from "../application/utils/ConfigUtils.js";
 import { VisualGamePiece } from "./visuals/VisualGamePiece.js";
 import { GameActor } from "./actor/GameActor.js";
 import { PlayerParty } from "./Player/PlayerParty.js";
@@ -84,11 +84,9 @@ function setupActor(event, actor) {
         }
     }
 
-
-
     let visualConfig = visualConfigs[actor.config['visual_id']];
-
     let visualPiece = new VisualGamePiece(visualConfig);
+
     actor.setVisualGamePiece(visualPiece);
     actor.setStatusKey(ENUMS.ActorStatus.CONFIG_ID, event.id)
     
@@ -126,7 +124,7 @@ function setupActor(event, actor) {
 
 let loadActor = function(event) {
 
-    let actorConfig = actorConfigs[event.id]
+    let actorConfig = detachConfig(actorConfigs[event.id]);
     let actor = new GameActor(actorIndex, actorConfig, parsedEquipSlotData);
     actorIndex++;
    // console.log("Actor Config: ", actorConfig)

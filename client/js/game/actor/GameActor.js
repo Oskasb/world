@@ -250,7 +250,13 @@ class GameActor {
             }
         }.bind(this);
 
+
+        let equipItem = function(item) {
+            this.equipItem(item);
+        }.bind(this)
+
         this.call = {
+            equipItem:equipItem,
             setRemote:setRemote,
             getRemote:getRemote,
             getActionByKey:getActionByKey,
@@ -434,11 +440,11 @@ class GameActor {
 
             this.actorEquipment.call.equipActorItem(item);
 
-            if (equippedList.indexOf(item.configId) === -1) {
+        //    if (equippedList.indexOf(item.configId) === -1) {
                 equippedList.push(item.configId);
-            } else {
-                console.log("item already registered", item);
-            }
+        //    } else {
+        //        console.log("item already registered", item);
+        //    }
 
             item.setStatusKey(ENUMS.ItemStatus.ACTOR_ID, this.getStatus(ENUMS.ActorStatus.ACTOR_ID));
             let requests = this.getStatus(ENUMS.ActorStatus.EQUIP_REQUESTS)

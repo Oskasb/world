@@ -9,6 +9,7 @@ import {getDestination} from "../../../../Server/game/actor/ActorStatusFunctions
 import {DomInteract} from "../../application/ui/dom/DomInteract.js";
 import {colorMapFx} from "../visuals/Colors.js";
 import {ENUMS} from "../../application/ENUMS.js";
+import {autoEquipActorByLevel} from "../../application/utils/ActorUtils.js";
 
 let tempVec = new Vector3()
 let calcVec = new Vector3()
@@ -401,6 +402,7 @@ class WorldEncounter {
         let updateHostConfig = function() {
             let actorReady = function(actor) {
                 hostActor = actor;
+                autoEquipActorByLevel(actor);
                 actor.setStatusKey(ENUMS.ActorStatus.ACTOR_LEVEL, this.encounterLevel);
             }.bind(this)
 
@@ -442,6 +444,7 @@ class WorldEncounter {
                 let actorReady = function(actor) {
                     hostActor = actor;
                     actor.setStatusKey(ENUMS.ActorStatus.ACTOR_LEVEL, this.encounterLevel);
+                    autoEquipActorByLevel(actor);
                     hostReady()
                 }.bind(this)
 

@@ -14,6 +14,7 @@ import { ThreeController } from '../3d/ThreeController.js';
 import { DynamicMain } from '../3d/DynamicMain.js';
 import {initPools, registerPool} from "./utils/PoolUtils.js";
 import {updateKeyboardFrame, updateKeyState} from "./ui/input/KeyboardState.js";
+import {mapItemConfigs} from "./utils/ActorUtils.js";
 
 
 let frame = {
@@ -97,6 +98,7 @@ class Client {
 
     terrainReady() {
         GameAPI.initGameWorldModels();
+        mapItemConfigs();
     }
 
     createScene() {

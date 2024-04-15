@@ -1,3 +1,4 @@
+import {detachConfig} from "../../application/utils/ConfigUtils.js";
 
 let defaultConf =                 {
     "pos": [0, 0, 0],
@@ -39,7 +40,7 @@ class ProceduralEncounterConfig {
 
     generateConfig(pos, encounterLevel, groundData, terrainData) {
     //    console.log("generateConfig", pos, groundData, terrainData);
-        this.config = defaultConf;
+        this.config = detachConfig(defaultConf);
         MATH.vec3ToArray(pos, this.config.pos, 1);
         MATH.vec3FromArray(this.config.pos, pos);
         this.config.pos[1] = MATH.decimalify(ThreeAPI.terrainAt(pos), 10);
@@ -47,7 +48,7 @@ class ProceduralEncounterConfig {
     }
 
     setConfig(conf) {
-        this.config = conf;
+        this.config = detachConfig(conf);
     }
 
 }

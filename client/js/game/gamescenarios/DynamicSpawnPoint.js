@@ -187,7 +187,7 @@ class DynamicSpawnPoint {
                         }
 
                         let worldEncounters = GameAPI.worldModels.getEncounterById();
-                        let config = detachConfig(encounterConfig.config)
+                        let config = encounterConfig.config;
                         config.edit_id = this.id;
                         proceduralEncounter = new WorldEncounter(encId, config, onReady)
                         worldEncounters.push(proceduralEncounter);

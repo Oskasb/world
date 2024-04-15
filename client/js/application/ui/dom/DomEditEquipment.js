@@ -2,6 +2,7 @@ import {poolFetch, poolReturn} from "../../utils/PoolUtils.js";
 import {configDataList, detachConfig} from "../../utils/ConfigUtils.js";
 import {ENUMS} from "../../ENUMS.js";
 import {evt} from "../../event/evt.js";
+import {getItemConfigs, getSlotToItemMap} from "../../utils/ActorUtils.js";
 
 
 
@@ -13,31 +14,9 @@ class DomEditEquipment {
         let htmlElem = null;
         let idLabel = null;
         let editLabel = null;
-        let itemConfigs = null;
-        let slotToItemMap = {};
-
+        let itemConfigs = getItemConfigs();
+        let slotToItemMap = getSlotToItemMap()
         let equipRequests = [];
-
-        let onItemsData = function(data) {
-            itemConfigs = data;
-
-            for (let key in itemConfigs) {
-                let cfg = itemConfigs[key];
-                let slot = cfg['equip_slot'];
-
-                if (!slotToItemMap[slot]) {
-                    slotToItemMap[slot] = [""];
-                }
-
-                slotToItemMap[slot].push(key)
-
-            }
-
-            console.log("onItemsData itemConfigs", slotToItemMap, itemConfigs)
-        }
-
-        configDataList("GAME","ITEMS", onItemsData)
-
 
         function toolClosedCB() {
         //    toolSelectDiv.value = "MODELS";
@@ -155,6 +134,7 @@ class DomEditEquipment {
                 console.log("Actor changed..", idLabel.innerHTML)
                 return;
             }
+
             let slots = actor.actorEquipment.itemSlots;
 
             for (let key in slots) {

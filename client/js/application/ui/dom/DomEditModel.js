@@ -200,7 +200,7 @@ class DomEditModel {
                     }
                 }
                 console.log("Add Asset Options", assets)
-                createModelStatusMap.selectList = assets;
+            //    createModelStatusMap.selectList = assets;
             }
             new ConfigData("ASSETS","MODELS",  false, false, false, onConfig)
         }
