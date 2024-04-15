@@ -1,6 +1,7 @@
 import {poolFetch, poolReturn} from "../../utils/PoolUtils.js";
 import {configDataList, detachConfig} from "../../utils/ConfigUtils.js";
 import {ENUMS} from "../../ENUMS.js";
+import {evt} from "../../event/evt.js";
 
 
 
@@ -10,10 +11,11 @@ class DomEditEquipment {
         let statusMap = null;
         let itemSlots = null;
         let htmlElem = null;
-
-        let itemConfigs = null;
-
+        let idLabel = null;
+            let itemConfigs = null;
         let slotToItemMap = {};
+
+        let equipRequests = [];
 
         let onItemsData = function(data) {
             itemConfigs = data;
@@ -48,6 +50,8 @@ class DomEditEquipment {
 
             let container = htmlElem.call.getChildElement('selections_container');
 
+            idLabel = htmlElem.call.getChildElement('actor_id');
+
             let html = "";
 
             for (let key in itemSlots) {
@@ -74,36 +78,86 @@ class DomEditEquipment {
 
                 if (item !== null) {
                     selection = item.configId;
+                    console.log("Init with item ", id, item.configId,  item.id);
                 }
 
-                let listElem = htmlElem.call.getChildElement(id);
-                if (!listElem) {
-                    console.log("No Elem ", id, key);
-                }
-                console.log("slotToItemMap id ", id, list, slotToItemMap);
+           //     console.log("slotToItemMap id ", selection, id, list, slotToItemMap);
                 htmlElem.call.populateSelectList(id, list);
-            //    listElem.value = selection;
+                let listElem = htmlElem.call.getChildElement(id);
+                listElem.value = selection;
             }
 
             ThreeAPI.registerPrerenderCallback(update);
         }
 
-        let update = function() {
+        function itemLoaded(item) {
+            let slotId = item.config['equip_slot']
+            console.log("Editor Item Loaded", item, slotId);
+            MATH.splice(equipRequests, slotId)
+            let listElem = htmlElem.call.getChildElement(slotId);
+            listElem.value = item.configId;
+            let actor = statusMap.parent;
+            actor.equipItem(item);
+        }
+
+        function equipItem(configId) {
+            evt.dispatch(ENUMS.Event.LOAD_ITEM,  {id: configId, callback:itemLoaded})
+        }
 
 
-            for (let key in itemSlots) {
-                let id = itemSlots[key].slotId;
-                let listElem = htmlElem.call.getChildElement(id);
-                let item = itemSlots[key].item;
-                let selection = "";
+        function selectionUpdated(slotId, configId) {
+
+
+            if (equipRequests.indexOf(slotId) === -1) {
+
+            //    console.log("Selection Updated", slotId, configId);
+
+                let actor = statusMap.parent;
+
+                let item = actor.actorEquipment.getEquippedItemBySlotId(slotId)
                 if (item !== null) {
-                    selection = item.configId;
+                    console.log("Slot selection UNEQUIP", slotId, item)
+                    actor.unequipItem(item);
+                    item.disposeItem();
                 }
-                if (listElem.value !== selection) {
-            //        console.log("Slot selection updated", id, selection)
+
+                if (configId === "") {
+                    console.log("Slot Cleared", slotId);
+                    actor.actorText.say("Clear Slot "+slotId);
+                } else  {
+                    console.log("Equip Updated", slotId, configId);
+                    equipRequests.push(slotId);
+                    equipItem(configId);
+        //            console.log("Slot selection EQUIP", id, key, selection, slots)
                 }
             }
 
+        }
+
+        let update = function() {
+
+            let actor = statusMap.parent;
+            if (idLabel.innerHTML !== actor.getStatus(ENUMS.ActorStatus.ACTOR_ID)) {
+                idLabel.innerHTML = actor.getStatus(ENUMS.ActorStatus.ACTOR_ID)
+                console.log("Actor changed..", idLabel.innerHTML)
+                return;
+            }
+            let slots = actor.actorEquipment.itemSlots;
+
+            for (let key in slots) {
+                let id = slots[key].slotId;
+                let listElem = htmlElem.call.getChildElement(id);
+                let item = slots[key].item;
+                let selection = "";
+
+                if (item !== null) {
+                    selection = item.configId;
+                }
+
+                if (listElem.value !== selection) {
+                    selectionUpdated(id, listElem.value);
+                }
+            }
         }
 
         let close = function() {

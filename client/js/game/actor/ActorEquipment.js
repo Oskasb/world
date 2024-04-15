@@ -206,7 +206,6 @@ class ActorEquipment {
     }
 
 
-
     getModel() {
         return this.actor.getVisualGamePiece().getModel();
     }

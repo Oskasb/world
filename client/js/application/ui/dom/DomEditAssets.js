@@ -56,6 +56,14 @@ function activateActorSelection(selectionId) {
 
 }
 
+
+function closeButtonLayer() {
+    if (buttonLayer !== null) {
+        buttonLayer.closeWorldButtonLayer();
+        buttonLayer = null;
+    }
+}
+
 function operateTool(tool, closeCB) {
 
     while (activeTools.length) {
@@ -65,10 +73,7 @@ function operateTool(tool, closeCB) {
         poolReturn(editTool);
     }
 
-    if (buttonLayer !== null) {
-        buttonLayer.closeWorldButtonLayer();
-        buttonLayer = null;
-    }
+    closeButtonLayer()
 
     if (actorTool !== null) {
         actorTool.closeEditTool();
@@ -101,7 +106,7 @@ function operateTool(tool, closeCB) {
 
         function actorSelected(e) {
             console.log("Actor Edit Selection ", e.target.value);
-
+            closeButtonLayer()
             actorTool = poolFetch('DomEditActor');
             actorTool.initEditTool(e.target.value);
         }
@@ -180,11 +185,7 @@ class DomEditAssets {
             this.htmlElement.closeHtmlElement();
             poolReturn(this.htmlElement);
             this.htmlElement = null;
-
-            if (buttonLayer !== null) {
-                buttonLayer.closeWorldButtonLayer();
-                buttonLayer = null;
-            }
+            closeButtonLayer()
 
         }.bind(this);
 
