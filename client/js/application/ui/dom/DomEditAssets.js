@@ -2,6 +2,8 @@ import {poolFetch, poolReturn} from "../../utils/PoolUtils.js";
 import {ConfigData} from "../../utils/ConfigData.js";
 import {detachConfig} from "../../utils/ConfigUtils.js";
 import {DomEditActor} from "./DomEditActor.js";
+import {ENUMS} from "../../ENUMS.js";
+import {Vector3} from "../../../../libs/three/math/Vector3.js";
 
 let selectedTool = "";
 let activeTools = []
@@ -11,6 +13,7 @@ let actorConfigs = null;
 let buttonLayer = null;
 
 let actorTool = null;
+let tempVec = new Vector3();
 
 function listifyConfig(cfg) {
     let list = [""];
@@ -178,6 +181,19 @@ class DomEditAssets {
                 selectedTool = statusMap.tool;
                 applyTool()
             }
+
+
+            if (statusMap.tool === 'ACTOR') {
+                let activeActors = GameAPI.getGamePieceSystem().getActors();
+                let cPos = ThreeAPI.getCameraCursor().getLookAroundPoint();
+                tempVec.copy(cPos);
+                tempVec.y += 1;
+                for (let i = 0; i < activeActors.length; i++) {
+                    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:activeActors[i].getPos(), to:tempVec, color:'GREEN'});
+                }
+            }
+
+
         }
 
         let close = function() {

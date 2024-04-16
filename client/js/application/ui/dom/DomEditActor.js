@@ -1,10 +1,13 @@
 import {poolFetch, poolReturn} from "../../utils/PoolUtils.js";
 import {configDataList, detachConfig} from "../../utils/ConfigUtils.js";
 import {ENUMS} from "../../ENUMS.js";
+import {Vector3} from "../../../../libs/three/math/Vector3.js";
 
 let selectedTool = "MODELS";
 let activeTools = []
 let statsConfig = null;
+
+let tempVec = new Vector3();
 
 let toolsList = [
     "", "EQUIPMENT", "STATS", "LOOT", "CONFIG"
@@ -136,6 +139,9 @@ class DomEditActor {
                 selectedTool = statusMap.tool;
                 applyTool()
             }
+
+
+
         }
 
         let close = function() {

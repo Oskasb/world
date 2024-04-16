@@ -5,6 +5,7 @@ import {paletteMap} from "../visuals/Colors.js";
 import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
 import {WorldEncounter} from "../encounter/WorldEncounter.js";
 import {detachConfig} from "../../application/utils/ConfigUtils.js";
+import {ENUMS} from "../../application/ENUMS.js";
 
 let worldSize = 2048;
 let tempNormal = new Vector3()
@@ -92,6 +93,13 @@ class DynamicSpawnPoint {
 
         let update = function() {
 
+            let cPos = ThreeAPI.getCameraCursor().getLookAroundPoint();
+            tempVec.copy(cPos);
+            tempVec.y += 2;
+        //    for (let i = 0; i < activeActors.length; i++) {
+                evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:this.obj3d.position, to:tempVec, color:'PURPLE'});
+        //    }
+
             this.obj3d.rotateY(GameAPI.getFrame().avgTpf);
             if (instance) {
                 instance.spatial.obj3d.copy(this.obj3d);
@@ -106,10 +114,11 @@ class DynamicSpawnPoint {
                 encounterConfig = null;
             }
 
-            if (proceduralEncounter) {
+            if (proceduralEncounter !== null) {
                 let worldEncounters = GameAPI.worldModels.getEncounterById()
                 MATH.splice(worldEncounters, proceduralEncounter);
                 proceduralEncounter.deactivateWorldEncounter();
+                proceduralEncounter = null;
             }
         }
 
@@ -206,7 +215,7 @@ class DynamicSpawnPoint {
                     deactivateVisible()
                 }
 
-                if (encounterConfig !== null) {
+                if (proceduralEncounter !== null) {
                     clearEncounter()
                 }
             }
