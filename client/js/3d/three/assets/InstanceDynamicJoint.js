@@ -72,7 +72,14 @@ class InstanceDynamicJoint {
                 return;
             }
 
-        //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos: this.obj3d.position, color:'GREEN', size:this.obj3d.scale.length()*0.2})
+
+            evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos: this.obj3d.position, color:'GREEN', size:this.obj3d.scale.length()*0.2})
+
+            let cPos = ThreeAPI.getCameraCursor().getLookAroundPoint();
+        //    tempVec.copy(cPos);
+        //    tempVec.y += 1.5;
+            evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:this.obj3d.position, to:cPos, color:'GREEN'});
+
         };
 
         updateSpatialFrame = function() {

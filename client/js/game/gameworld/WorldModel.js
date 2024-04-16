@@ -177,7 +177,6 @@ class WorldModel {
         }.bind(this)
 
 
-
         let applyLoadedConfig = function(cfg, id, replace) {
             if (cfg !== null) {
 

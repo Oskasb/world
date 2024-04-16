@@ -3,6 +3,7 @@ import { Vector3 } from "../../../libs/three/math/Vector3.js";
 import { Object3D } from "../../../libs/three/core/Object3D.js";
 import { VisualPathPoints } from "./VisualPathPoints.js";
 import {poolReturn, poolFetch} from "../../application/utils/PoolUtils.js";
+import {ENUMS} from "../../application/ENUMS.js";
 
 let tempVec = new Vector3();
 let tempObj3d = new Object3D()
@@ -352,6 +353,10 @@ class VisualGamePiece {
     }
 
     updateVisualGamePiece() {
+
+        let cPos = ThreeAPI.getCameraCursor().getLookAroundPoint();
+        tempVec.copy(cPos);
+        tempVec.y -= 0.25;
         if (this.hidden === false) {
             let piece = this.call.getPiece()
             if (piece.actorStatus) {
@@ -362,12 +367,17 @@ class VisualGamePiece {
            //     console.log("Size: ", tempObj3d.scale.x);
            //     console.log(tempObj3d.position)
                 this.getSpatial().stickToObj3D(tempObj3d);
-
+                evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:this.getSpatial().getPos(), to:tempVec, color:'YELLOW'});
             } else {
-            //    console.log("No piece...") // items do otherwise
+                tempVec.y -= 0.25;
+                evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:this.getSpatial().getPos(), to:tempVec, color:'BLUE'});
+
+                //    console.log("No piece...") // items do otherwise
             }
         } else {
+            tempVec.y -= 0.5;
         //    this.getSpatial().setPosXYZ(0, -100000,0)
+            evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:this.getSpatial().getPos(), to:tempVec, color:'RED'});
         }
 
     }

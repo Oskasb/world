@@ -164,7 +164,6 @@ class InstanceAPI {
             iCount+=count;
         };
 
-
         let sysKeys = 0;
         let sysBuffs = 0;
         for (let key in this.uiSystems) {
@@ -175,7 +174,6 @@ class InstanceAPI {
             }
         }
 
-
         ThreeAPI.setGlobalUniform( 'fogDensity', ThreeAPI.readEnvironmentUniform('fog', 'density'));
         ThreeAPI.setGlobalUniform( 'fogColor' ,ThreeAPI.readEnvironmentUniform('fog', 'color'));
         ThreeAPI.setGlobalUniform( 'sunLightColor' ,ThreeAPI.readEnvironmentUniform('sun', 'color'));
@@ -185,11 +183,7 @@ class InstanceAPI {
         this.tempVec.set(0, 0, -1);
         this.tempVec.applyQuaternion(quat);
         ThreeAPI.setGlobalUniform( 'sunLightDirection' ,this.tempVec);
-
         ThreeAPI.setGlobalUniform('clearViewPos1', ThreeAPI.getCameraCursor().getPos());
-
-
-
 
         let mats = 0;
 

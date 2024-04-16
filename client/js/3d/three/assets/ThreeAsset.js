@@ -46,10 +46,7 @@ class ThreeAsset  {
         }
 
         this.expandingPool.returnToExpandingPool(modelInstance);
-        let instances = client.dynamicMain.instances
-        if (instances.indexOf(modelInstance) !== -1) {
-            MATH.splice(instances , modelInstance);
-        }
+        client.dynamicMain.removeFromInstanceIndex(modelInstance)
 
     };
 }

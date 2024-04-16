@@ -311,7 +311,7 @@ class InstancedModel {
 
     detatchInstancedModel = function(instancedModel) {
         this.obj3d.remove(instancedModel.obj3d);
-        //    instancedModel.decommissionInstancedModel()
+        instancedModel.decommissionInstancedModel()
     };
 
     detatchAllAttachmnets = function() {

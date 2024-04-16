@@ -24,6 +24,7 @@ class LineRenderer {
         this.material = new THREE.LineBasicMaterial( {
             color: 0xffffff,
             blending:THREE.NoBlending,
+            fog:false,
             depthTest:false,
             depthWrite:true,
             vertexColors: true,

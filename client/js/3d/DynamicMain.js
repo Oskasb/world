@@ -1,3 +1,8 @@
+import {Vector3} from "../../libs/three/math/Vector3.js";
+import {ENUMS} from "../application/ENUMS.js";
+
+let tempVec = new Vector3();
+
 class DynamicMain {
     constructor() {
 
@@ -95,7 +100,7 @@ class DynamicMain {
         }
     };
 
-    removeFromIsntanceIndex = function(instancedModel) {
+    removeFromInstanceIndex = function(instancedModel) {
         MATH.splice(this.instances, instancedModel);
     };
 
@@ -146,17 +151,26 @@ class DynamicMain {
     };
 
     updateDynamicMatrices = function() {
+
+        let cPos = ThreeAPI.getCameraCursor().getLookAroundPoint();
+        tempVec.copy(cPos);
+        tempVec.y += 1.5;
         for (let i = 0; i < this.instances.length; i++) {
 
             if (this.instances[i].stationary) {
+        //        evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:this.instances[i].getSpatial().getPos(), to:tempVec, color:'BLUE'});
 
             } else {
+
                 if (this.instances[i].getSpatial().call.getFrameVelocity()) {
                     this.instances[i].updateSpatialWorldMatrix();
-                    evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:this.instances[i].getSpatial().getPos(), color:'WHITE', size:0.35})
+                //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:this.instances[i].getSpatial().getPos(), to:tempVec, color:'WHITE'});
+
+                } else {
+                //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:this.instances[i].getSpatial().getPos(), to:tempVec, color:'CYAN'});
+
                 }
             }
-
 
         }
     };
