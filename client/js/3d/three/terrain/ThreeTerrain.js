@@ -500,18 +500,20 @@ class ThreeTerrain {
         let halfSize = dynamicLodGrid.maxDistance*0.5;
         lodCenter.set(0, 0, -1)
         lodCenter.applyQuaternion(ThreeAPI.getCamera().quaternion);
+        lodCenter.y = 0;
+        lodCenter.normalize();
         terrainCenter.copy(lodCenter);
         terrainCenter.multiplyScalar(distance*0.5);
         lodCenter.multiplyScalar(halfSize - tileSize*0.5)
-        lodCenter.x += tileSize//*0.5;
-        lodCenter.z += tileSize//*0.5;
+       // lodCenter.x += tileSize*0.5;
+      //  lodCenter.z += tileSize*0.5;
     //    terrainCenter.multiplyScalar(0.5);
         lodCenter.add(ThreeAPI.getCamera().position)
         terrainCenter.add(ThreeAPI.getCamera().position)
     //    lodCenter.subVectors(ThreeAPI.getCamera().position, ThreeAPI.getCameraCursor().getLookAroundPoint() );
     //    lodCenter.multiplyScalar(2.5)
     //    lodCenter.copy(ThreeAPI.getCamera().position);
-        dynamicLodGrid.updateDynamicLodGrid(lodCenter, tileUpdateCB, 0, 1);
+        dynamicLodGrid.updateDynamicLodGrid(lodCenter, tileUpdateCB, 0, 1.5);
     //    terrainCenter.copy(ThreeAPI.getCameraCursor().getLookAroundPoint())
     //    CursorUtils.processTerrainLodCenter(lodCenter, terrainCenter)
         drawTilesByLodGrid(updateFrame)

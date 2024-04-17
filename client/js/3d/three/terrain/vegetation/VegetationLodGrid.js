@@ -96,7 +96,7 @@ class VegetationLodGrid {
         lodCenterVec3.set(0, 0, -halfSize)
         lodCenterVec3.applyQuaternion(ThreeAPI.getCamera().quaternion);
         lodCenterVec3.add(ThreeAPI.getCamera().position)
-        this.dynamicLodGrid.updateDynamicLodGrid(lodCenterVec3, this.call.updateVisibility, 0, 1, preUpdateTime)
+        this.dynamicLodGrid.updateDynamicLodGrid(lodCenterVec3, this.call.updateVisibility, 0, 1.5, preUpdateTime)
         this.releaseHiddenTiles()
     }
 
