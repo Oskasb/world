@@ -113,10 +113,16 @@ class Item {
     }
 
 
-    show() {
-        this.setStatusKey(ENUMS.ItemStatus.ACTIVATION_STATE, ENUMS.ActivationState.ACTIVE)
-        ThreeAPI.registerPrerenderCallback(this.call.getUpdateCallback());
-        this.visualGamePiece.call.showVisualPiece();
+    show(onReady) {
+
+        let cb = function() {
+            this.setStatusKey(ENUMS.ItemStatus.ACTIVATION_STATE, ENUMS.ActivationState.ACTIVE)
+            ThreeAPI.registerPrerenderCallback(this.call.getUpdateCallback());
+            onReady(this);
+        }.bind(this)
+
+
+        this.visualGamePiece.call.showVisualPiece(cb);
     }
 
     hide() {

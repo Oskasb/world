@@ -94,7 +94,8 @@ class GameActor {
         this.pos = this.actorObj3d.position;
         this.config = config;
         this.actorEquipment = new ActorEquipment(parsedEquipSlotData)
-        this.visualGamePiece = null;
+
+        this.visualActor = null;
 
         this.lookDirection = new Vector3()
 
@@ -118,10 +119,16 @@ class GameActor {
         }.bind(this);
 
         let onActive = function() {
+
+            this.actorText.say("   ++++   ")
+        //    /*
             if (this.preDeactivated) {
-            //    console.log("Pre Deactivated happened, fix callback chain..")
+                this.actorText.say("PRE    DEA")
+                console.log("Pre Deactivated happened, fix callback chain..")
                 return;
             }
+        //    */
+
             // skeleton not always ready here...
             this.actorEquipment.activateActorEquipment(this, this.config['equip_slots'])
             this.activated = true;
@@ -129,7 +136,9 @@ class GameActor {
                 this.onActivationCallbacks.pop()();
             }
             GameAPI.registerGameUpdateCallback(updateGameActor);
+
         }.bind(this);
+
 
         let onVisualAdded = function() {
             let actor = this;
@@ -138,9 +147,7 @@ class GameActor {
         //    function loadEquippedItems(actor, equippedList) {
 
             if (actor.activated === true) {
-
                 equipActorItemList(actor, equippedList)
-
         //    }
         } else {
 
@@ -255,6 +262,30 @@ class GameActor {
             this.equipItem(item);
         }.bind(this)
 
+
+
+        let culled = false;
+
+        let actorReady = function() {
+
+        }
+
+        let frustumCulled = function(bool) {
+            if (culled !== bool) {
+                culled = bool;
+                if (culled) {
+                    this.hideGameActor();
+                } else {
+                    this.showGameActor(actorReady);
+                }
+            }
+
+        }.bind(this)
+
+        function isCulled() {
+            return culled;
+        }
+
         this.call = {
             equipItem:equipItem,
             setRemote:setRemote,
@@ -270,7 +301,9 @@ class GameActor {
             getActorPos:getActorPos,
             setSpatialTransition:setSpatialTransition,
             getActiveSpatialTransition:getActiveSpatialTransition,
-            inventoryItemAdded:inventoryItemAdded
+            inventoryItemAdded:inventoryItemAdded,
+            frustumCulled:frustumCulled,
+            isCulled:isCulled
         }
     }
 
@@ -301,7 +334,12 @@ class GameActor {
     };
 
     getVisualJointWorldTransform(jointKey, storeObj3d) {
-        this.getVisualGamePiece().getModel().getJointKeyWorldTransform(jointKey, storeObj3d);
+
+        if (!this.getVisualGamePiece().getModel()) {
+            console.log("No Model Ready")
+        } else {
+            this.getVisualGamePiece().getModel().getJointKeyWorldTransform(jointKey, storeObj3d);
+        }
     }
 
     checkBroadcast(actor) {
@@ -410,13 +448,6 @@ class GameActor {
         return this.gameWalkGrid.getGridMovementObj3d();
     }
 
-    setVisualGamePiece(visualGamePiece) {
-        visualGamePiece.setVisualPieceActor(this);
-        this.visualGamePiece = visualGamePiece;
-
-        this.call.onVisualAdded();
-    }
-
     processItemLooted(item) {
 
         let slotId = item.getEquipSlotId();
@@ -462,7 +493,7 @@ class GameActor {
     }
 
     getVisualGamePiece() {
-        return this.visualGamePiece;
+        return this.visualActor;
     }
 
     getCenterMass() {
@@ -471,27 +502,36 @@ class GameActor {
         return pos;
     }
 
-    showGameActor() {
+    showGameActor(onReady) {
 
-        this.visualGamePiece.call.showVisualPiece();
-        //    this.actorEquipment.call.hideEquipment()
-        this.actorEquipment.call.showEquipment()
+        let actor = this;
+        let cb = function(visualActor) {
+            visualActor.call.activate();
+            if (typeof (onReady) === 'function') {
+                onReady(actor)
+            }
+        }
+
+        if (this.visualActor === null) {
+            this.visualActor = poolFetch('VisualActor');
+            this.visualActor.call.setActor(this, cb)
+        }
+
     }
 
     hideGameActor() {
-
-        this.visualGamePiece.call.hideVisualPiece();
-        this.actorEquipment.call.hideEquipment()
-        //    this.actorEquipment.call.showEquipment()
+        if (this.visualActor !== null) {
+            this.visualActor.call.deactivate();
+            poolReturn(this.visualActor);
+            this.visualActor = null;
+        }
     }
 
     activateGameActor(onActorReady) {
+
         this.setStatusKey(ENUMS.ActorStatus.IS_ACTIVE, 1);
         this.setStatusKey(ENUMS.ActorStatus.EXISTS, 1);
         this.actorTurnSequencer.setGameActor(this);
-        if (!this.activated) {
-        //    this.updateGameActor()
-
             let onReady = function() {
                 this.call.onActive()
                 if (typeof (onActorReady) === 'function') {
@@ -500,22 +540,20 @@ class GameActor {
 
             }.bind(this)
 
-            this.visualGamePiece.attachModelAsset(onReady);
-
-        } else {
-            this.activated = true;
-        }
+            this.showGameActor(onReady);
 
     }
 
     deactivateGameActor() {
+    //    console.log("Deactivate GA ", this)
+        this.actorText.say("----")
         this.setStatusKey(ENUMS.ActorStatus.IS_ACTIVE, 0);
         if (this.activated === true) {
             this.actorEquipment.removeAllItems();
-            this.visualGamePiece.removeVisualGamePiece();
             GameAPI.unregisterGameUpdateCallback(this.call.updateGameActor);
             this.activated = false;
             this.actorStatusProcessor.clearActorStatus(this);
+            this.hideGameActor();
         } else {
             this.preDeactivated = true;
         }
@@ -751,9 +789,6 @@ class GameActor {
 
         this.lastFramePos.copy(this.framePos);
         this.getSpatialQuaternion(tempObj.quaternion);
-        if (this.visualGamePiece.hidden === false) {
-            this.visualGamePiece.getSpatial().stickToObj3D(tempObj)
-        }
 
         this.actorStatusProcessor.processActorStatus(this);
 

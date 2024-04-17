@@ -24,7 +24,6 @@ let paletteTemplatesOptions = [
     'ITEMS_MONO'
 ]
 
-
 class VisualGamePiece {
     constructor(config) {
 
@@ -37,7 +36,6 @@ class VisualGamePiece {
         this.isSkinnedItem = false;
         this.visualModelPalette = poolFetch('VisualModelPalette')
         this.visualModelPalette.initPalette()
-
 
 
         let paletteUpdateCB = function(colorParams, settings) {
@@ -105,34 +103,46 @@ class VisualGamePiece {
 
 
         let hideVisualPiece = function() {
-            this.hidden = true;
+                if (this.hidden !== true) {
+                    this.hidden = true;
+                    ThreeAPI.unregisterPrerenderCallback(updateVisualGamePiece);
 
-        //    updateVisualGamePiece(0.1)
-            ThreeAPI.unregisterPrerenderCallback(updateVisualGamePiece);
-
-            if (this.getSpatial().call.isInstanced()) {
-            //    this.getSpatial().setPosXYZ(0, 0, 0);
-                this.getSpatial().call.hideSpatial(true)
-            } else {
-                ThreeAPI.hideModel(this.getSpatial().obj3d)
-                this.disablePieceAnimations()
-
-            }
+                    if (this.getSpatial().call.isInstanced()) {
+                        //    this.getSpatial().setPosXYZ(0, 0, 0);
+                        this.getSpatial().call.hideSpatial(true)
+                    } else {
+                        ThreeAPI.hideModel(this.getSpatial().obj3d)
+                        this.disablePieceAnimations()
+                    }
+                    this.removeVisualGamePiece();
+                }
 
         }.bind(this)
 
-        let showVisualPiece = function() {
-            this.hidden = false;
-            ThreeAPI.addPrerenderCallback(updateVisualGamePiece);
 
-            if (this.getSpatial().call.isInstanced()) {
-                this.getSpatial().call.hideSpatial(false)
-                applyVisualPiecePalette()
-            } else {
-                ThreeAPI.showModel(this.getSpatial().obj3d)
-                this.getSpatial().obj3d.frustumCulled = false;
-                this.enablePieceAnimations()
-            }
+        let showVisualPiece = function(cb) {
+                if (this.hidden !== false) {
+                    this.hidden = false;
+
+                    let pieceReady = function() {
+                        ThreeAPI.addPrerenderCallback(updateVisualGamePiece);
+
+                        if (this.getSpatial().call.isInstanced()) {
+                            this.getSpatial().call.hideSpatial(false)
+                            applyVisualPiecePalette()
+                        } else {
+                            ThreeAPI.showModel(this.getSpatial().obj3d)
+                            this.getSpatial().obj3d.frustumCulled = false;
+                            this.enablePieceAnimations()
+                        }
+                        cb(this);
+                    }.bind(this)
+
+                    setupModel(pieceReady)
+
+                } else {
+                    cb(this);
+                }
 
         }.bind(this);
 
@@ -195,8 +205,8 @@ class VisualGamePiece {
     attachModelAsset = function(onReady) {
 
         let pieceReady = function(visualPiece) {
-            visualPiece.call.showVisualPiece();
-            onReady(this)
+            visualPiece.call.showVisualPiece(onReady);
+        //    onReady(this)
         }.bind(this)
 
         this.call.setupModel(pieceReady)
@@ -243,7 +253,6 @@ class VisualGamePiece {
 
     setModel(instance) {
         this.call.setInstance(instance);
-
     }
 
     getModel() {

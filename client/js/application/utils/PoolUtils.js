@@ -60,6 +60,8 @@ import {LodTest} from "../../game/visuals/LodTest.js";
 import {DomEditActor} from "../ui/dom/DomEditActor.js";
 import {DomWorldButtonLayer} from "../ui/dom/DomWorldButtonLayer.js";
 import {DomEditEquipment} from "../ui/dom/DomEditEquipment.js";
+import {VisualActor} from "../../game/visuals/VisualActor.js";
+import {VisualItem} from "../../game/visuals/VisualItem.js";
 
 
 let pools = {}
@@ -126,6 +128,8 @@ function initPools() {
     registerPool(DomEditActor)
     registerPool(DomWorldButtonLayer)
     registerPool(DomEditEquipment)
+    registerPool(VisualActor)
+    registerPool(VisualItem)
 }
 
 function registerPool(DataObj) {

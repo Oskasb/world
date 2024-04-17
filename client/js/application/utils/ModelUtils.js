@@ -43,14 +43,11 @@ function buildAssetInstance(assetId, config, callback) {
 function attachSkeletonRig(visualPiece, rigId, pieceReady) {
     visualPiece.rigId = rigId;
 
-    visualPiece.setPieceAnimator(new PieceAnimator());
-    visualPiece.setPieceActionSystem( new PieceActionSystem());
-    visualPiece.setPieceAttacher(new PieceAttacher())
 
     let assetInstance = visualPiece.call.getInstance();
     let skellRig = rigId
 
-    let assetDataCB = function(assetsConfig) {
+    let assetDataCB = function() {
 
         let parsed = assetConfigData.parseConfigData()
         let assetConfig = parsed[visualPiece.assetId].config
@@ -101,30 +98,27 @@ let postApply = function(baseSize, inst, visualPiece, pieceReady) {
         }
         pieceReady(visualPiece);
     }
-//    apply()
-      window.requestAnimationFrame(apply)
-//    setTimeout(apply, 1000)
+
+    window.requestAnimationFrame(apply)
 }
 
-function setupVisualModel(visualPiece, assetId, config, pieceReady) {
+function setupVisualModel(visualPiece, config, pieceReady) {
 
+    visualPiece.assetId = config['model_asset']
         let addModel = function(instance) {
-            visualPiece.setModel(instance);
-
-
-   //         instance.spatial.setPosVec3(ThreeAPI.getCameraCursor().getPos())
-   //         console.log("Visual Game Piece:",visualPiece);
+            visualPiece.call.setInstance(instance);
 
             if (config['skeleton_rig'])   {
                 attachSkeletonRig(visualPiece, config['skeleton_rig'], pieceReady)
             } else {
                 let size = config['base_size'] || 100;
-                postApply(size, instance,visualPiece, pieceReady)
+                postApply(size, instance, visualPiece, pieceReady)
             }
-
         }
 
-        buildAssetInstance(assetId, config, addModel)
+
+
+        buildAssetInstance(visualPiece.assetId, config, addModel)
 
 }
 

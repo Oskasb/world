@@ -11,6 +11,7 @@ import {
 import {ENUMS} from "../../application/ENUMS.js";
 import {hasCombatState} from "../../../../Server/game/actor/ActorStatusFunctions.js";
 import {ItemSlot} from "../gamepieces/ItemSlot.js";
+import {aaBoxTestVisibility} from "../../application/utils/ModelUtils.js";
 
 let tempVec = new Vector3()
 let tempVec2 = new Vector3();
@@ -35,7 +36,10 @@ function registerPathPoints(actor) {
 
 function updatePathPointVisuals(actor) {
     let pathPoints = actor.getStatus(ENUMS.ActorStatus.PATH_POINTS);
-    actor.getVisualGamePiece().visualPathPoints.updatePathPoints(actor, pathPoints)
+    if (actor.visualActor !== null) {
+        actor.visualActor.visualPathPoints.updatePathPoints(actor, pathPoints)
+    }
+
 }
 
 
@@ -108,6 +112,25 @@ function processPartyStatus(actor) {
 
     if (playerParty.isMember(actor)) {
 
+    }
+
+}
+
+
+function processFrustumCulling(actor) {
+    let size = actor.getStatus(ENUMS.ActorStatus.SIZE);
+    let isVisible = aaBoxTestVisibility(actor.getPos(), size, size, size);
+
+    actor.call.frustumCulled(!isVisible);
+
+    let cPos = ThreeAPI.getCameraCursor().getLookAroundPoint();
+    tempVec.copy(cPos);
+    tempVec.y += 0.25;
+
+    if (isVisible === false) {
+        evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:tempVec, to:actor.getPos(), color:'RED'});
+    } else {
+        evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:tempVec, to:actor.getPos(), color:'CYAN'});
     }
 
 }
@@ -551,7 +574,11 @@ class ActorStatusProcessor {
     }
 
 
+
+
+
     processActorStatus(actor) {
+        processFrustumCulling(actor);
         processActorSizeStatus(actor);
         processActorCombatStatus(actor);
         processActorEncounterInit(actor);
@@ -578,7 +605,11 @@ class ActorStatusProcessor {
         }
         let pathPoints = actor.getStatus(ENUMS.ActorStatus.PATH_POINTS);
         MATH.emptyArray(pathPoints)
-        actor.getVisualGamePiece().visualPathPoints.updatePathPoints(actor, pathPoints)
+
+        if (actor.visualActor !== null) {
+            actor.visualActor.visualPathPoints.updatePathPoints(actor, pathPoints)
+        }
+
     }
 
 }

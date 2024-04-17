@@ -11,7 +11,7 @@ class ActorText {
         let txtOrigin = new Vector3();
 
         let getTextOrigin = function() {
-            if (actor.getVisualGamePiece().hidden === false) {
+            if (actor.getVisualGamePiece() !== null) {
                 tempVec3.copy(actor.getVisualGamePiece().getAboveHead(0.15));
             } else {
                 actor.getSpatialPosition(tempVec3)

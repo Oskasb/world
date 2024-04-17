@@ -6,7 +6,7 @@ let parsedConfigData;
 class ActorEquipment {
     constructor(parsedEquipSlotData) {
         this.items = [];
-
+        let hidden = null;
         if (!parsedConfigData) {
             parsedConfigData = parsedEquipSlotData;
         }
@@ -77,8 +77,13 @@ class ActorEquipment {
             } else {
                 dynamicJoint.registerAttachedSpatial(item.getSpatial());
             }
+
+            let onReady = function() {
+
+            }
             item.call.setUpdateCallback(getUpdateCallback(item, dynamicJoint))
-            item.show();
+
+            item.show(onReady);
         }.bind(this);
 
 
@@ -140,18 +145,42 @@ class ActorEquipment {
             }
         }
 
-        let showEquipment = function() {
-            for (let i = 0; i < this.items.length; i++) {
-                console.log("Show item: ", i)
-                this.items[i].show()
+        let readyQueue = [];
+
+        let itemReadyCb = function(item) {
+            MATH.splice(readyQueue, item);
+
+            if (readyQueue.length === 1) {
+                readyQueue.pop()()
             }
+
+        }
+
+
+        let showEquipment = function(onReady) {
+            if (hidden !== false) {
+                readyQueue.push(onReady)
+                for (let i = 0; i < this.items.length; i++) {
+                    console.log("Show item: ", i)
+                    readyQueue.push(this.items[i])
+                    this.items[i].show(itemReadyCb)
+                }
+                if (readyQueue.length === 1) {
+                    readyQueue.pop()()
+                }
+            }
+            hidden = false;
+
         }.bind(this)
 
         let hideEquipment = function() {
-            for (let i = 0; i < this.items.length; i++) {
-             //   console.log("Hide item: ", i, this.items)
-                this.items[i].hide()
+            if (hidden !== true) {
+                for (let i = 0; i < this.items.length; i++) {
+                    //   console.log("Hide item: ", i, this.items)
+                    this.items[i].hide()
+                }
             }
+            hidden = true;
         }.bind(this)
 
         this.call = {

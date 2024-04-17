@@ -37,7 +37,12 @@ class VisualModel {
 
     off() {
      //   this.actor.actorText.say(this.statusKey+ " OFF")
-        this.actor.showGameActor()
+
+        let actorReady = function() {
+
+        }
+
+        this.actor.showGameActor(actorReady)
         this.effectModel.decommissionInstancedModel();
         transitionEffectOff(this.actor.getSpatialPosition(), this.effectData);
         GameAPI.unregisterGameUpdateCallback(this.call.update)

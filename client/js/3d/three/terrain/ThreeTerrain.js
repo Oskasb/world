@@ -493,11 +493,11 @@ class ThreeTerrain {
 
         let distance = MATH.distanceBetween(ThreeAPI.getCameraCursor().getLookAroundPoint(), ThreeAPI.getCamera().position)
 
-
+        let tileRange = dynamicLodGrid.config['tile_range']
         let tileSize = dynamicLodGrid.config['tile_spacing']
         let tileFraction = MATH.calcFraction(0, tileSize, distance);
 
-        let halfSize = dynamicLodGrid.maxDistance*0.5;
+        let halfSize = dynamicLodGrid.maxDistance*(0.5 - 0.5/tileRange);
         lodCenter.set(0, 0, -1)
         lodCenter.applyQuaternion(ThreeAPI.getCamera().quaternion);
         lodCenter.y = 0;

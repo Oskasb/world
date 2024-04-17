@@ -84,10 +84,10 @@ function setupActor(event, actor) {
         }
     }
 
-    let visualConfig = visualConfigs[actor.config['visual_id']];
-    let visualPiece = new VisualGamePiece(visualConfig);
+//    let visualConfig = visualConfigs[actor.config['visual_id']];
+//    let visualPiece = new VisualGamePiece(visualConfig);
 
-    actor.setVisualGamePiece(visualPiece);
+    //actor.setVisualPieceConfig(visualConfig);
     actor.setStatusKey(ENUMS.ActorStatus.CONFIG_ID, event.id)
     
     if (event.tile) {
