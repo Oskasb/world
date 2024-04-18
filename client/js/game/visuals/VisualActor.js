@@ -43,6 +43,8 @@ class VisualActor {
         this.pieceAttacher = new PieceAttacher();
 
         let activating = false;
+        let active = false;
+
 
         let setActor = function(a, onReady) {
             if (activating === true) {
@@ -91,7 +93,7 @@ class VisualActor {
 
         let hold = 0;
 
-        function update(tpf) {
+        let update = function(tpf) {
 
             hold+= tpf;
             if (hold > 2) {
@@ -110,30 +112,38 @@ class VisualActor {
         }
 
         function activate() {
-            activating = false;
-            if (skipped === true) {
-       //         return;
-            }
+            if (active !== true) {
 
-            ThreeAPI.showModel(instance.getSpatial().obj3d)
-            instance.getSpatial().obj3d.frustumCulled = false;
-            pieceAnimator.callbacks.resetAnimator();
-            instance.getSpatial().call.setStopped();
-            ThreeAPI.registerPrerenderCallback(update);
+                activating = false;
+                if (skipped === true) {
+                    //         return;
+                }
+
+                ThreeAPI.showModel(instance.getSpatial().obj3d)
+                instance.getSpatial().obj3d.frustumCulled = false;
+                pieceAnimator.callbacks.resetAnimator();
+                instance.getSpatial().call.setStopped();
+                ThreeAPI.registerPrerenderCallback(update);
+                update(0.01);
+                actor.actorText.say("   ++++   ")
+            } else {
+                actor.actorText.say(" DOUBLED ")
+            }
+            active = true;
         }
 
         let skipped = false;
 
         let deactivate = function() {
 
-        //    if (activating !== true) {
-         //       skipped = true;
+            if (active !== false) {
                 actor = null;
                 instance.decommissionInstancedModel();
-        //    }
 
-            ThreeAPI.unregisterPrerenderCallback(update);
-            instance = null;
+                ThreeAPI.unregisterPrerenderCallback(update);
+                instance = null;
+            }
+            active = false;
 
         }
 

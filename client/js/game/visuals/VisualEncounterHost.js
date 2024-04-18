@@ -31,8 +31,9 @@ class VisualEncounterHost {
         }
 
         let remove = function() {
-            if (actor) {
+            if (actor !== null) {
                 actor.removeGameActor();
+                actor = null;
             }
         }
 

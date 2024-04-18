@@ -119,7 +119,9 @@ function processPartyStatus(actor) {
 
 function processFrustumCulling(actor) {
     let size = actor.getStatus(ENUMS.ActorStatus.SIZE);
-    let isVisible = aaBoxTestVisibility(actor.getPos(), size, size, size);
+    let isVisible = aaBoxTestVisibility(actor.getSpatialPosition(), size, size, size);
+
+  //  console.log("processFrustumCulling", actor);
 
     actor.call.frustumCulled(!isVisible);
 

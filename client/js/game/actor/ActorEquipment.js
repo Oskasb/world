@@ -199,6 +199,9 @@ class ActorEquipment {
         this.itemSlots = {};
         this.slotToJointMap = {};
 
+
+        return;
+
         this.pieceAttacher = this.actor.getVisualGamePiece().pieceAttacher;
 
         for (let i = 0; i < this.slots.length;i++) {

@@ -120,7 +120,7 @@ class GameActor {
 
         let onActive = function() {
 
-            this.actorText.say("   ++++   ")
+        //    this.actorText.say("   ++++   ")
         //    /*
             if (this.preDeactivated) {
                 this.actorText.say("PRE    DEA")
@@ -532,10 +532,19 @@ class GameActor {
         this.setStatusKey(ENUMS.ActorStatus.IS_ACTIVE, 1);
         this.setStatusKey(ENUMS.ActorStatus.EXISTS, 1);
         this.actorTurnSequencer.setGameActor(this);
+
+        this.call.onActive()
+
+        if (typeof (onActorReady) === 'function') {
+            onActorReady(this);
+        }
+
+
+        return;
             let onReady = function() {
                 this.call.onActive()
                 if (typeof (onActorReady) === 'function') {
-                    onActorReady(this);
+
                 }
 
             }.bind(this)
