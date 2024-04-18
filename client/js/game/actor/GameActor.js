@@ -119,7 +119,7 @@ class GameActor {
         }.bind(this);
 
         let onActive = function() {
-
+            culled = true;
         //    this.actorText.say("   ++++   ")
         //    /*
             if (this.preDeactivated) {
@@ -264,7 +264,7 @@ class GameActor {
 
 
 
-        let culled = false;
+        let culled = true;
 
         let actorReady = function() {
 

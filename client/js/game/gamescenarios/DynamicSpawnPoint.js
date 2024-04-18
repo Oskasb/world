@@ -147,7 +147,7 @@ class DynamicSpawnPoint {
         }
 
         let activateVisible = function() {
-            if (isVisible === false) {
+            if (isVisible !== true) {
                 isVisible = true;
                 GameAPI.registerGameUpdateCallback(update)
                 client.dynamicMain.requestAssetInstance('asset_indicator_spawn', addInstance)
