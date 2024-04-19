@@ -1,5 +1,14 @@
 import {aaBoxTestVisibility, borrowBox} from "../../application/utils/ModelUtils.js";
 
+
+function testLodVisibility(lodLevel, visibility) {
+    if (lodLevel !== -1 && lodLevel < visibility) {
+        return true;
+    } else {
+        return false
+    }
+}
+
 class LodTest {
     constructor() {
 
@@ -52,21 +61,24 @@ class LodTest {
 
 
     lodTestModel(model, lodLevel, visibility, showCallback, hideCallback) {
-        if (lodLevel !== -1 && lodLevel < visibility) {
-            if (model.isVisible === false) {
+
+        let levelVisible = testLodVisibility(lodLevel, visibility)
+
+        if (levelVisible) {
+            if (model.isVisible !== true) {
                 showCallback(model)
                 this.call.checkBoxTesting()
             }
             model.isVisible = true;
         } else {
             if (model.isVisible === true) {
-                this.call.cameraTestVisibility(model, visibility, hideCallback)
 
-                if (lodLevel < 0) {
+                if (lodLevel > visibility) {
                     hideCallback(model);
                     model.isVisible = false;
+                } else {
+                    this.call.cameraTestVisibility(model, visibility, hideCallback)
                 }
-
             }
         }
     }

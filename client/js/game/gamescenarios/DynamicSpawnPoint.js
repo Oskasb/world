@@ -121,8 +121,9 @@ class DynamicSpawnPoint {
         }
 
         let deactivate = function() {
-            this.isActive = false;
             ThreeAPI.clearTerrainLodUpdateCallback(lodUpdated);
+            this.call.lodUpdated(-1)
+            this.isActive = false;
             clearEncounter()
         }.bind(this)
 
@@ -218,7 +219,6 @@ class DynamicSpawnPoint {
         }
 
 
-
         let setLoadedConfig = function(conf) {
             loadedConfig = conf;
         }
@@ -256,23 +256,25 @@ class DynamicSpawnPoint {
             this.dynamic = false;
         }
 
-        if (this.isActive === true) {
+    //    if (this.isActive === true) {
             this.removeSpawnPoint();
-        }
+    //    }
 
         MATH.vec3FromArray(this.getPos(), weConf.pos);
         ThreeAPI.groundAt(this.getPos(), this.terrainData)
         this.call.setLoadedConfig(weConf);
         this.isActive = false;
         this.id = weConf.edit_id;
-        ThreeAPI.clearTerrainLodUpdateCallback(this.call.lodUpdated);
+    //    ThreeAPI.clearTerrainLodUpdateCallback(this.call.lodUpdated);
 
         this.encounterLevel = weConf.level;
 
-        ThreeAPI.registerTerrainLodUpdateCallback(this.getPos(), this.call.lodUpdated);
+        //    this.activateSpawnPoint()
+
+       ThreeAPI.registerTerrainLodUpdateCallback(this.getPos(), this.call.lodUpdated);
         this.isActive = true;
-        this.call.lodUpdated(-2)
-       // this.lodActive = true;
+        this.call.lodUpdated(-1)
+        this.lodActive = true;
     }
 
     getPos() {
@@ -283,6 +285,7 @@ class DynamicSpawnPoint {
         this.isActive = true;
         this.lodActive = true;
         ThreeAPI.registerTerrainLodUpdateCallback(this.getPos(), this.call.lodUpdated);
+        this.call.lodUpdated(-1)
     }
 
     removeSpawnPoint() {

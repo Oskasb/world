@@ -38,6 +38,7 @@ class TerrainSystem {
         this.sysReady = false;
         this.vegReady = false;
         this.plantsReady = false;
+        this.allLodCallbacks = [];
     };
 
     initTerrainSystem = function(callback) {
@@ -116,11 +117,23 @@ class TerrainSystem {
     }
 
     registerLodUpdateCB = function(pos, callback) {
-        threeTerrain.call.subscribeToLodUpdate(pos, callback);
+
+        if (this.allLodCallbacks.indexOf(callback) === -1) {
+            threeTerrain.call.subscribeToLodUpdate(pos, callback);
+            this.allLodCallbacks.push(callback);
+        } else {
+            console.log("Lod CB already added, not properly removed?")
+        }
+
     }
 
     clearLodUpdates = function(callback) {
-        threeTerrain.call.removeLodUpdateCB(callback);
+        if (this.allLodCallbacks.indexOf(callback) === -1) {
+            console.log("Callback not registered..")
+        } else {
+            MATH.splice(this.allLodCallbacks, callback);
+            threeTerrain.call.removeLodUpdateCB(callback);
+        }
     }
 
     rebuildGround() {

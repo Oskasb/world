@@ -134,6 +134,7 @@ let lastWorldLevel = "20";
 
 let initWorldModels = function(worldLevel) {
     resetLodState()
+
     if (worldLevel !== lastWorldLevel || dynamicSpawnPoints.length === 0) {
         if (!worldLevel) {
             worldLevel = lastWorldLevel;
@@ -141,9 +142,8 @@ let initWorldModels = function(worldLevel) {
             lastWorldLevel = worldLevel;
         }
         populateDynamicSpawnPoints(worldLevel);
-    } else {
-
     }
+
     activateDynamicSpawnPoints()
 
     let config = locationModelConfigs;

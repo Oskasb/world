@@ -155,6 +155,8 @@ class TerrainGeometry{
         this.isVisible = false;
         this.updateMinMax = true;
 
+        this.addedLodCallbacks = [];
+
         let box3min = new Vector3();
         box3min.x = this.posX - this.size*0.75;
         box3min.y = 0;
@@ -190,12 +192,15 @@ class TerrainGeometry{
     addLodUpdateCallback = function(cb) {
         if (this.lodUpdateCallbaks.indexOf(cb) === -1) {
             this.lodUpdateCallbaks.push(cb)
+            this.addedLodCallbacks.push(cb);
+
+        } else {
+            console.log("Lod CB already added to tile")
         }
-        cb(this.levelOfDetail);
     }
 
     removeLodUpdateCallback = function(cb) {
-        MATH.quickSplice(this.lodUpdateCallbaks, cb)
+        MATH.splice(this.lodUpdateCallbaks, cb)
     }
 
     getExtentsMinMax(storeMin, storeMax) {
@@ -245,6 +250,11 @@ class TerrainGeometry{
 
         if (lodLevel !== this.levelOfDetail) {
             this.applyLodLevelChange(lodLevel)
+            MATH.emptyArray(this.addedLodCallbacks)
+        } else {
+            while (this.addedLodCallbacks.length) {
+                this.addedLodCallbacks.pop()(lodLevel)
+            }
         }
 
         this.updateFrame = frame;
