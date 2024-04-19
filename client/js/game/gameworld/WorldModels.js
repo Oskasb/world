@@ -88,7 +88,7 @@ function deactivateDynamicSpawnPoints() {
     for (let i = 0; i < dynamicSpawnPoints.length; i++) {
         let sPoint = dynamicSpawnPoints[i]
         if (sPoint.isActive === true) {
-            sPoint.deactivateSpawnPoint();
+            sPoint.removeSpawnPoint();
         }
     }
 }
@@ -142,8 +142,9 @@ let initWorldModels = function(worldLevel) {
         }
         populateDynamicSpawnPoints(worldLevel);
     } else {
-        activateDynamicSpawnPoints()
+
     }
+    activateDynamicSpawnPoints()
 
     let config = locationModelConfigs;
     console.log("worldLevel Models; ", worldLevel, loadedConfigs, config);

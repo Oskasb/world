@@ -42,7 +42,7 @@ let templateConfig =                 {
 class WorldModel {
 
     constructor(config, id) {
-        console.log("New World Model", config, id)
+    //    console.log("New World Model", config, id)
         if (!config) {
             config = detachConfig(templateConfig);
         }

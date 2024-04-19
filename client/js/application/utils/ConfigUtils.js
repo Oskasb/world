@@ -56,7 +56,7 @@ function processLoadedFile(id) {
 
 
     let indexEntry = editIndex[id];
-    console.log("Load from index", id, indexEntry);
+ //   console.log("Load from index", id, indexEntry);
     if (!indexEntry) {
         console.log("No index entry", id, editIndex);
         return;
@@ -309,7 +309,7 @@ function applyRemoteConfigMessage(message) {
 
             savedImageBuffers[id].buffer = new Uint8ClampedArray(array);
             savedImageBuffers[id].timestamp = message.timestamp;
-            console.log(savedImageBuffers[id])
+    //        console.log(savedImageBuffers[id])
             processLoadedBuffer(id, message.timestamp);
         }
     }

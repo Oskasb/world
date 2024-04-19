@@ -48,10 +48,8 @@ function findSpawnPosition(sPoint) {
                     let encLevel = sPoint.lvlMin + Math.round(diffSpan*diffFactor);
                     sPoint.encounterLevel = encLevel;
                     ThreeAPI.groundAt(sPoint.getPos(), sPoint.terrainData)
-                    sPoint.activateSpawnPoint()
                     return;
                 }
-
             }
         }
     }
@@ -123,14 +121,9 @@ class DynamicSpawnPoint {
         }
 
         let deactivate = function() {
-            if (this.isActive === false) {
-                return;
-            }
             this.isActive = false;
-            this.lodActive = false
             ThreeAPI.clearTerrainLodUpdateCallback(lodUpdated);
             clearEncounter()
-
         }.bind(this)
 
         let addInstance = function(ins) {
@@ -138,12 +131,10 @@ class DynamicSpawnPoint {
                 ins.decommissionInstancedModel();
             } else {
                 instance = ins;
-
                 let selection = MATH.getRandomArrayEntry(paletteKeys);
                 palette.applyPaletteSelection(selection, instance)
                 instance.call.viewObstructing(false)
             }
-
         }
 
         let activateVisible = function() {
@@ -266,7 +257,7 @@ class DynamicSpawnPoint {
         }
 
         if (this.isActive === true) {
-            this.deactivateSpawnPoint();
+            this.removeSpawnPoint();
         }
 
         MATH.vec3FromArray(this.getPos(), weConf.pos);
@@ -292,11 +283,6 @@ class DynamicSpawnPoint {
         this.isActive = true;
         this.lodActive = true;
         ThreeAPI.registerTerrainLodUpdateCallback(this.getPos(), this.call.lodUpdated);
-    }
-
-    deactivateSpawnPoint() {
-        this.call.lodUpdated(-1);
-        this.isActive = false;
     }
 
     removeSpawnPoint() {

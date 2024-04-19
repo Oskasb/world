@@ -1,6 +1,7 @@
 import {configDataList} from "./ConfigUtils.js";
 import {evt} from "../event/evt.js";
 import {ENUMS} from "../ENUMS.js";
+import {poolFetch} from "./PoolUtils.js";
 
 let itemConfigs = null;
 let slotToItemMap = {};
@@ -79,9 +80,32 @@ function autoEquipActorByLevel(actor) {
     }
 }
 
+function activateActorVisuals(actor, onReady) {
+    let cb = function(visualActor) {
+        visualActor.call.activate();
+        if (typeof (onReady) === 'function') {
+            onReady(actor)
+        }
+    }
+
+    if (actor.visualActor === null) {
+        actor.visualActor = poolFetch('VisualActor');
+        actor.visualActor.call.setActor(actor, cb)
+    }
+}
+
+function deactivateActorVisuals(actor) {
+    if (actor.visualActor !== null) {
+        actor.visualActor.call.deactivate();
+        actor.visualActor = null;
+    }
+}
+
 export {
     mapItemConfigs,
     getItemConfigs,
     getSlotToItemMap,
-    autoEquipActorByLevel
+    autoEquipActorByLevel,
+    activateActorVisuals,
+    deactivateActorVisuals
 }

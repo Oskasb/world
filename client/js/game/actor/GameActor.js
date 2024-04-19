@@ -14,6 +14,7 @@ import { ActorInventory } from "./ActorInventory.js";
 import { ActorStatusProcessor } from "./ActorStatusProcessor.js";
 import {StatusFeedback} from "../visuals/StatusFeedback.js";
 import {evt} from "../../application/event/evt.js";
+import {activateActorVisuals, deactivateActorVisuals} from "../../application/utils/ActorUtils.js";
 
 // let index = 1; // zero index get culled by connection
 let tempVec = new Vector3();
@@ -503,28 +504,11 @@ class GameActor {
     }
 
     showGameActor(onReady) {
-
-        let actor = this;
-        let cb = function(visualActor) {
-            visualActor.call.activate();
-            if (typeof (onReady) === 'function') {
-                onReady(actor)
-            }
-        }
-
-        if (this.visualActor === null) {
-            this.visualActor = poolFetch('VisualActor');
-            this.visualActor.call.setActor(this, cb)
-        }
-
+        activateActorVisuals(this, onReady);
     }
 
     hideGameActor() {
-        if (this.visualActor !== null) {
-            this.visualActor.call.deactivate();
-            poolReturn(this.visualActor);
-            this.visualActor = null;
-        }
+        deactivateActorVisuals(this);
     }
 
     activateGameActor(onActorReady) {

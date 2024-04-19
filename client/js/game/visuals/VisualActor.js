@@ -32,7 +32,6 @@ class VisualActor {
         let i = index;
 
         let actor = null;
-        let visualConfigId = null;
         let instance = null;
         this.visualPathPoints = new VisualPathPoints();
 
@@ -47,15 +46,16 @@ class VisualActor {
 
 
         let setActor = function(a, onReady) {
+            deactivated = false;
+            instance = 'init';
             if (activating === true) {
                 console.log("Multiple Activte Calls on same VisualActor pool entry..")
             }
 
-            skipped = false;
             activating = true;
             actor = a;
             let vConf = visualConfigs[actor.config['visual_id']]
-            console.log("VisualActor set actor", vConf.model_asset, vConf, actor);
+        //    console.log("VisualActor set actor", vConf.model_asset, vConf, actor);
             setupVisualModel(this, vConf, onReady)
         }.bind(this)
 
@@ -93,7 +93,20 @@ class VisualActor {
 
         let hold = 0;
 
+        let closeVisualActor = function() {
+            actor = null;
+            instance.decommissionInstancedModel();
+            instance = null;
+            ThreeAPI.unregisterPrerenderCallback(update);
+            poolReturn(this)
+        }.bind(this)
+
         let update = function(tpf) {
+
+            if (deactivated === true) {
+                closeVisualActor();
+                return;
+            }
 
             hold+= tpf;
             if (hold > 2) {
@@ -112,11 +125,30 @@ class VisualActor {
         }
 
         function activate() {
+
             if (active !== true) {
 
                 activating = false;
-                if (skipped === true) {
-                    //         return;
+
+                if (instance === 'init') {
+                    console.log("Actor Removed during setup", actor);
+                    return;
+                }
+
+                if (instance === null) {
+                    console.log("instance cleared");
+                    return;
+                }
+
+                if (deactivated === true) {
+                //    console.log("Already deactivated...");
+                    update(0.1);
+                    return;
+                }
+
+                if (actor === null) {
+                    console.log("Actor cleared");
+                    return;
                 }
 
                 ThreeAPI.showModel(instance.getSpatial().obj3d)
@@ -132,19 +164,11 @@ class VisualActor {
             active = true;
         }
 
-        let skipped = false;
+        let deactivated = false;
 
         let deactivate = function() {
-
-            if (active !== false) {
-                actor = null;
-                instance.decommissionInstancedModel();
-
-                ThreeAPI.unregisterPrerenderCallback(update);
-                instance = null;
-            }
+            deactivated = true;
             active = false;
-
         }
 
         function getActor() {

@@ -15,7 +15,7 @@ class TerrainSliceCallback {
         }
 
         let sliceUpdated = function(data, timestamp) {
-                console.log("Slice Updates", timestamp, info);
+        //        console.log("Slice Updates", timestamp, info);
                 GuiAPI.screenText("Slice: "+info.x+" "+info.y,  ENUMS.Message.LOAD_STATUS, 1.5)
                 sliceLoaded(info, data)
         }
