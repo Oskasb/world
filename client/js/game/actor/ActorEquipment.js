@@ -28,14 +28,6 @@ class ActorEquipment {
         }
 
 
-        function getUpdateCallback(item, dynJoint) {
-            if (dynJoint.key === 'SKIN') {
-                return item.call.tickSkinnedItem;
-            } else {
-                return dynJoint.callbacks.updateAttachedSpatial;
-            }
-        }
-
 
         let equipActorItem = function(item) {
     //        console.log("EQUIP ITEM: ", item)
@@ -45,45 +37,22 @@ class ActorEquipment {
                 this.items.push(item)
             }
 
-            //    this.applyItemStatusModifiers(item, 1);
-            //    item.setEquippedToPiece(this.gamePiece)
             updateAddModifiers(this.items)
+
+            let slotId = item.getEquipSlotId();
+        //    console.log("Equip Actor Item ", item, slotId)
+            item.setStatusKey(ENUMS.ItemStatus.EQUIPPED_SLOT, slotId);
+            this.actor.setStatusKey(ENUMS.ActorStatus[slotId], item.getStatus(ENUMS.ItemStatus.ITEM_ID));
+
 
             let itemSlot = this.getSlotForItem(item);
             if (!itemSlot) {
                 console.log("No slot found... ")
                 return;
             }
-            let dynamicJoint = this.getJointForItemSlot(itemSlot);
-            let slotId = item.getEquipSlotId();
-        //    console.log("Equip Actor Item ", item, slotId)
-            item.setStatusKey(ENUMS.ItemStatus.EQUIPPED_SLOT, slotId);
 
-            this.actor.setStatusKey(ENUMS.ActorStatus[slotId], item.getStatus(ENUMS.ItemStatus.ITEM_ID));
-
-        //    let slot = MATH.getFromArrayByKeyValue(this.slots, 'slot_id', slotId);
-
-            //        let oldItem = itemSlot.removeSlotitem();
-            //    evt.dispatch(ENUMS.Event.UNEQUIP_ITEM, {item:oldItem, time:0.6});
             itemSlot.setSlotItem(item);
-            if (dynamicJoint.key === 'SKIN') {
-                item.visualGamePiece.obj3d.frusumCulled = false;
-                let itemInstance = item.visualGamePiece.call.getInstance()
-                let modelClone = item.visualGamePiece.getModel().obj3d.children[0]
-                let originalMaterial =  item.visualGamePiece.getModel().originalModel.material.mat
-            //    console.log("skinned mesh clone:", itemInstance, modelClone, originalMaterial);
-                itemInstance.applyModelMaterial(modelClone, originalMaterial)
-                    this.getModel().attachInstancedModel(itemInstance)
-            } else {
-                dynamicJoint.registerAttachedSpatial(item.getSpatial());
-            }
 
-            let onReady = function() {
-
-            }
-            item.call.setUpdateCallback(getUpdateCallback(item, dynamicJoint))
-
-            item.show(onReady);
         }.bind(this);
 
 
@@ -93,21 +62,14 @@ class ActorEquipment {
                 MATH.splice(this.items, item);
             } else {
                 console.log("item already unequiped", item);
+                return;
             }
 
             updateAddModifiers(this.items)
 
             let itemSlot = this.getSlotForItem(item);
-            let dynamicJoint = this.getJointForItemSlot(itemSlot);
             let slotId = item.getEquipSlotId();
             itemSlot.setSlotItem(null);
-            if (dynamicJoint.key === 'SKIN') {
-
-                this.getModel().detatchInstancedModel(item.visualGamePiece.call.getInstance())
-            } else {
-                dynamicJoint.detachAttachedEntity(item.getSpatial());
-            }
-            item.hide();
 
             let currentSlotStatus = this.actor.getStatus(ENUMS.ActorStatus[slotId]);
 
@@ -115,8 +77,6 @@ class ActorEquipment {
                 console.log("Unequip currently equipped itemId", slotId)
                 this.actor.setStatusKey(ENUMS.ActorStatus[slotId], "")
             }
-
-
 
             if (passive !== true) {
 

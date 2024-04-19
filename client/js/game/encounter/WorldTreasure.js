@@ -267,9 +267,10 @@ class WorldTreasure {
                     MATH.rotXYZFromArray(obj3d, rot);
                     treasure.items.push(item);
                 //    console.log("Spawn Loot: ", item, treasure)
-                    item.call.setUpdateCallback();
+                //    item.call.setUpdateCallback();
                     item.call.setUpdateCallback(itemUpdateCb);
-                    item.show();
+
+                    console.log("Treasure Items need ref to ned structure")
                     item.getPos().copy(this.getPos());
                     item.getPos().y += 0.5;
                 }.bind(this);

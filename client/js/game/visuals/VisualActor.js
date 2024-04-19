@@ -8,6 +8,7 @@ import {Vector3} from "../../../libs/three/Three.js";
 import {PieceAnimator} from "../gamepieces/PieceAnimator.js";
 import {PieceActionSystem} from "../gamepieces/PieceActionSystem.js";
 import {PieceAttacher} from "../gamepieces/PieceAttacher.js";
+import {VisualEquipment} from "./VisualEquipment.js";
 
 let tempObj3d = new Object3D();
 let tempVec = new Vector3();
@@ -41,8 +42,12 @@ class VisualActor {
         this.pieceActionSystem = new PieceActionSystem();
         this.pieceAttacher = new PieceAttacher();
 
+        let visualEquipment = new VisualEquipment();
+
         let activating = false;
         let active = false;
+
+
 
 
         let setActor = function(a, onReady) {
@@ -56,7 +61,17 @@ class VisualActor {
             actor = a;
             let vConf = visualConfigs[actor.config['visual_id']]
         //    console.log("VisualActor set actor", vConf.model_asset, vConf, actor);
-            setupVisualModel(this, vConf, onReady)
+
+
+            let modelReady = function(vPiece) {
+                visualEquipment.call.setVisualActor(vPiece);
+                onReady(vPiece)
+            }
+
+
+            setupVisualModel(this, vConf, modelReady)
+
+
         }.bind(this)
 
         function setInstance(i) {
@@ -109,8 +124,6 @@ class VisualActor {
                 return;
             }
 
-
-
             hold+= tpf;
             if (hold > 2) {
                 actor.actorText.say(i);
@@ -162,6 +175,7 @@ class VisualActor {
                 ThreeAPI.registerPrerenderCallback(update);
                 update(0.01);
                 actor.actorText.say("ON----")
+                visualEquipment.call.activateVisualEquipment();
             } else {
                 actor.actorText.say(" DOUBLED ")
             }
@@ -173,6 +187,7 @@ class VisualActor {
         let deactivate = function() {
             deactivated = true;
             active = false;
+            visualEquipment.call.deactivateVisualEquipment();
         }
 
         function getActor() {
@@ -187,6 +202,8 @@ class VisualActor {
             activate:activate,
             deactivate:deactivate
         }
+
+
 
     }
 

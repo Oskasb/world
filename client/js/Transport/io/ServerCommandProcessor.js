@@ -112,7 +112,6 @@ function processItemInit(msg) {
             actor.equipItem(item)
         } else {
             GameAPI.getGamePieceSystem().addLooseItem(item);
-
         }
 
 

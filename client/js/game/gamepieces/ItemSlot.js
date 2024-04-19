@@ -1,7 +1,11 @@
 class ItemSlot {
-    constructor(slotId) {
-        this.slotId = slotId;
+    constructor() {
+        this.slotId = null;
         this.item = null;
+    }
+
+    setSlotId(slotId) {
+        this.slotId = slotId;
     }
 
     setSlotItem(item) {

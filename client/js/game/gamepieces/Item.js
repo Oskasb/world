@@ -5,14 +5,14 @@ let index = 0;
 
 class Item {
 
-    constructor(configId, visualGamePiece, config) {
+    constructor(configId, config) {
 
         this.id = 'item_local_'+index+'_'+client.getStamp();
         index++;
 
         this.configId = configId;
         this.config = config;
-        this.visualGamePiece = visualGamePiece;
+        this.visualItem = null;
         this.status = new ItemStatus(this.id, configId);
 
         let defaultSatus = config['status'];
@@ -22,7 +22,7 @@ class Item {
             }
         }
 
-        this.visualGamePiece.call.setPiece(this)
+    //    this.visualGamePiece.call.setPiece(this)
 
         let addModifiers = {};
         let updateCallback = null;
@@ -53,42 +53,13 @@ class Item {
             return updateCallback
         }
 
-        let tickSkinnedItem = function(tpf, gameTime) {
-            let ownerId = this.getStatus(ENUMS.ItemStatus.ACTOR_ID)
-            let actor = GameAPI.getActorById(ownerId)
-            if (actor) {
-                this.visualGamePiece.call.tickPieceEquippedItem(actor)
-            } else {
-            //    console.log("No current owner actor", ownerId, GameAPI.getGamePieceSystem().getActors())
-                if (this.getStatus(ENUMS.ItemStatus.ACTIVATION_STATE) === ENUMS.ActivationState.DEACTIVATED) {
-                    console.log("Deactivate Item", ownerId)
-                    this.hide();
-                    this.disposeItem();
-                }
 
-
-            }
-
-        }.bind(this);
-
+        this.paletteUpdated = true;
 
         let applyStatusMessage = function(msg) {
             applyStatusMessageToMap(msg, this.status.statusMap);
-            let item = this;
-
             if (msg.indexOf(ENUMS.ItemStatus.PALETTE_VALUES) !== -1) {
-
-                let valueIdx = msg.indexOf(ENUMS.ItemStatus.PALETTE_VALUES)+1
-                let paletteValues = msg[valueIdx]
-                if (paletteValues.length === 8) {
-                    item.getVisualGamePiece().visualModelPalette.setFromValuearray(paletteValues);
-                    let instance = item.getVisualGamePiece().call.getInstance()
-                    if (instance) {
-                        item.getVisualGamePiece().visualModelPalette.applyPaletteToInstance(instance)
-                    } else {
-                        console.log("item expects instance here")
-                    }
-                }
+                this.paletteUpdated = true;
             }
 
         }.bind(this)
@@ -97,12 +68,10 @@ class Item {
             getAddModifiers:getAddModifiers,
             setUpdateCallback:setUpdateCallback,
             getUpdateCallback:getUpdateCallback,
-            tickSkinnedItem:tickSkinnedItem,
             applyStatusMessage:applyStatusMessage
         }
 
     }
-
 
     setStatusKey(key, status) {
         this.status.call.setStatusByKey(key, status);
@@ -112,57 +81,38 @@ class Item {
         return this.status.call.getStatusByKey(key);
     }
 
-
-    show(onReady) {
-
-        let cb = function() {
-            this.setStatusKey(ENUMS.ItemStatus.ACTIVATION_STATE, ENUMS.ActivationState.ACTIVE)
-            ThreeAPI.registerPrerenderCallback(this.call.getUpdateCallback());
-            onReady(this);
-        }.bind(this)
-
-
-        this.visualGamePiece.call.showVisualPiece(cb);
-    }
-
-    hide() {
-        this.setStatusKey(ENUMS.ItemStatus.ACTIVATION_STATE, ENUMS.ActivationState.DEACTIVATING)
-        ThreeAPI.unregisterPrerenderCallback(this.call.getUpdateCallback());
-        this.visualGamePiece.call.hideVisualPiece();
-    }
-
-    getItemConfigId() {
-        return this.configId;
-    }
-
     getEquipSlotId() {
         return this.config['equip_slot']
     }
 
     getPos() {
-        return this.visualGamePiece.getPos();
+        return this.visualItem.getPos();
     }
 
     getQuat() {
-        return this.visualGamePiece.getQuat();
+        return this.visualItem.getQuat();
     }
 
     getSpatial() {
+        console.log("Item Get Spat is to be removed.. ")
         return this.getModel().getSpatial()
     }
 
     getModel() {
-        return this.visualGamePiece.getModel();
+        return this.visualItem.call.getInstance();
     }
 
     getVisualGamePiece() {
-        return this.visualGamePiece
+        return this.visualItem
     }
 
     disposeItem() {
         this.setStatusKey(ENUMS.ItemStatus.ACTIVATION_STATE, ENUMS.ActivationState.DEACTIVATING)
         ThreeAPI.unregisterPostrenderCallback(this.status.call.pulseStatusUpdate);
-        this.visualGamePiece.removeVisualGamePiece();
+        if (this.visualItem) {
+            this.visualItem.deactivateVisualItem();
+        }
+
     }
 
 }

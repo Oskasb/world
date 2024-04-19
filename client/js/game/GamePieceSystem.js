@@ -39,17 +39,19 @@ function getItemConfigByTemplate(templateId) {
 let loadItem = function(event) {
 
     let itemConfig = getItemConfigByTemplate([event['id']]);
-    let visualConfig = visualConfigs[itemConfig['visual_id']];
-    let visualPiece = new VisualGamePiece(visualConfig);
+ //   let visualConfig = visualConfigs[itemConfig['visual_id']];
+  //  let visualPiece = new VisualGamePiece(visualConfig);
 
-    let visualReadyCB = function(visualGP) {
+ //   let visualReadyCB = function(visualGP) {
 
     //    console.log("Visual Piece: ", visualGP)
     //    visualGP.obj3d = item.obj3d;
 
     //
-        let item = new Item(event['id'], visualPiece, itemConfig)
+        let item = new Item(event['id'], itemConfig)
+
         items.push(item);
+        /*
         if (event.pos) {
             item.getPos().copy(event.pos);
         }
@@ -58,12 +60,12 @@ let loadItem = function(event) {
         } else {
             visualGP.getSpatial().call.applyInstanceBuffers()
         }
-
+*/
         item.status.call.initItemStatus();
         event.callback(item)
-    }
 
-    visualPiece.attachModelAsset(visualReadyCB);
+
+  //  visualPiece.attachModelAsset(visualReadyCB);
 }
 
 
@@ -204,8 +206,7 @@ class GamePieceSystem {
     }
 
     addLooseItem(item) {
-        console.log("Add Loose Item ", item)
-        item.hide()
+        console.log("Add Loose Item NYI", item)
         looseItems.push(item)
     }
 

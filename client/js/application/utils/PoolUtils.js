@@ -62,6 +62,7 @@ import {DomWorldButtonLayer} from "../ui/dom/DomWorldButtonLayer.js";
 import {DomEditEquipment} from "../ui/dom/DomEditEquipment.js";
 import {VisualActor} from "../../game/visuals/VisualActor.js";
 import {VisualItem} from "../../game/visuals/VisualItem.js";
+import {ItemSlot} from "../../game/gamepieces/ItemSlot.js";
 
 
 let pools = {}
@@ -130,6 +131,7 @@ function initPools() {
     registerPool(DomEditEquipment)
     registerPool(VisualActor)
     registerPool(VisualItem)
+    registerPool(ItemSlot)
 }
 
 function registerPool(DataObj) {
