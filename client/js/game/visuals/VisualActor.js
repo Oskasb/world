@@ -92,6 +92,7 @@ class VisualActor {
         }.bind(this)
 
         let hold = 0;
+        let activeFrames = 0;
 
         let closeVisualActor = function() {
             actor = null;
@@ -108,6 +109,8 @@ class VisualActor {
                 return;
             }
 
+
+
             hold+= tpf;
             if (hold > 2) {
                 actor.actorText.say(i);
@@ -122,10 +125,11 @@ class VisualActor {
             actor.getSpatialQuaternion(tempObj3d.quaternion);
             actor.getSpatialScale(tempObj3d.scale);
             instance.getSpatial().stickToObj3D(tempObj3d);
+            activeFrames++;
         }
 
         function activate() {
-
+            activeFrames = 0;
             if (active !== true) {
 
                 activating = false;
@@ -157,7 +161,7 @@ class VisualActor {
                 instance.getSpatial().call.setStopped();
                 ThreeAPI.registerPrerenderCallback(update);
                 update(0.01);
-                actor.actorText.say("   ++++   ")
+                actor.actorText.say("ON----")
             } else {
                 actor.actorText.say(" DOUBLED ")
             }

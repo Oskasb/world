@@ -239,15 +239,6 @@ class TerrainGeometry{
         };
 
 
-        let hideGround = false;
-        let hideOcean = false;
-
-        if (this.minY > 0) {
-            hideOcean = true;
-        } else if (this.maxY < 0) {
-            hideGround = true;
-        }
-
         if (lodLevel !== this.levelOfDetail) {
             this.applyLodLevelChange(lodLevel)
             MATH.emptyArray(this.addedLodCallbacks)

@@ -2,7 +2,7 @@ import {aaBoxTestVisibility, borrowBox} from "../../application/utils/ModelUtils
 
 
 function testLodVisibility(lodLevel, visibility) {
-    if (lodLevel !== -1 && lodLevel < visibility) {
+    if (lodLevel !== -1 && lodLevel < visibility+1) {
         return true;
     } else {
         return false
@@ -56,8 +56,6 @@ class LodTest {
 
 
     }
-
-
 
 
     lodTestModel(model, lodLevel, visibility, showCallback, hideCallback) {

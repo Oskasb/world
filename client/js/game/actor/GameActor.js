@@ -539,7 +539,7 @@ class GameActor {
 
     deactivateGameActor() {
     //    console.log("Deactivate GA ", this)
-        this.actorText.say("----")
+        this.actorText.say("----OFF")
         this.setStatusKey(ENUMS.ActorStatus.IS_ACTIVE, 0);
         if (this.activated === true) {
             this.actorEquipment.removeAllItems();

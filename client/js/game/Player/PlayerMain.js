@@ -228,7 +228,7 @@ class PlayerMain {
             world_encounters.push("portals_"+e.world_level)
 
             if (e.worldEncounter) {
-                e.worldEncounter.hideWorldEncounter()
+                e.worldEncounter.removeWorldEncounter()
             }
 
             evt.dispatch(ENUMS.Event.LOAD_ADVENTURE_ENCOUNTERS, {world_encounters:[]})

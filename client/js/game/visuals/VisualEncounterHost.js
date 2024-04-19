@@ -12,21 +12,36 @@ class VisualEncounterHost {
         }
 
         let setActor = function(actr) {
+
             actor = actr;
-            actor.activateGameActor();
+
+            if (deactivated === true) {
+                setTimeout(remove, 100)
+            } else {
+                actor.activateGameActor();
+            }
+
         }
 
         let show = function() {
-            if (actor) {
-                actor.activateGameActor();
-            } else {
+            deactivated = false;
+        //    if (actor) {
+        //        actor.activateGameActor();
+        //    } else {
                 this.applyHostConfig(this.config, setActor);
-            }
+        //    }
         }.bind(this)
 
         let hide = function() {
-            if (actor) {
-                actor.deactivateGameActor();
+            remove()
+        }
+
+        let deactivated = false;
+
+        let unloadActor = function() {
+            if (actor !== null) {
+                actor.removeGameActor();
+                actor = null;
             }
         }
 
@@ -34,6 +49,9 @@ class VisualEncounterHost {
             if (actor !== null) {
                 actor.removeGameActor();
                 actor = null;
+            } else {
+                deactivated = true;
+                console.log("Actor already Removed... boo")
             }
         }
 
@@ -42,6 +60,7 @@ class VisualEncounterHost {
             setActor:setActor,
             show:show,
             hide:hide,
+            unloadActor:unloadActor,
             remove:remove
         }
 
@@ -53,7 +72,7 @@ class VisualEncounterHost {
 
     applyHostConfig(config, actorReady) {
         this.config = config;
-        this.call.remove();
+        this.call.unloadActor();
         let actorLoaded = function(actor) {
             MATH.rotateObj(actor.actorObj3d, config.rot)
             actor.setStatusKey(ENUMS.ActorStatus.ALIGNMENT, config['ALIGNMENT'] || 'HOSTILE');
@@ -69,10 +88,6 @@ class VisualEncounterHost {
 
     showEncounterHost() {
         this.call.show();
-    }
-
-    hideEncounterHost() {
-        this.call.hide();
     }
 
     removeEncounterHost() {

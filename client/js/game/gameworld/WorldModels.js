@@ -60,6 +60,8 @@ function getSPointById(id) {
         }
     }
 }
+
+
 function populateDynamicSpawnPoints(worldLevel) {
 
     clearDynamicSpawnPoints()
@@ -78,18 +80,18 @@ function populateDynamicSpawnPoints(worldLevel) {
 function activateDynamicSpawnPoints() {
     for (let i = 0; i < dynamicSpawnPoints.length; i++) {
         let sPoint = dynamicSpawnPoints[i]
-        if (sPoint.isActive === false) {
+    //    if (sPoint.isActive === false) {
             sPoint.activateSpawnPoint();
-        }
+    //    }
     }
 }
 
 function deactivateDynamicSpawnPoints() {
     for (let i = 0; i < dynamicSpawnPoints.length; i++) {
         let sPoint = dynamicSpawnPoints[i]
-        if (sPoint.isActive === true) {
+    //    if (sPoint.isActive === true) {
             sPoint.removeSpawnPoint();
-        }
+    //    }
     }
 }
 

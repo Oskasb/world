@@ -276,16 +276,16 @@ class WorldEncounter {
         let lastLod = null;
 
         let lodUpdated = function(lodLevel) {
-            if (lastLod === lodLevel) return;
+        //    if (lastLod === lodLevel) return;
             lastLod = lodLevel;
         //    console.log(lodLevel)
-            if (lodLevel !== -1 && lodLevel <= config['visibility']) {
-                if (this.isVisible === false) {
+            if (lodLevel > -1 && lodLevel <= config['visibility']) {
+                if (this.isVisible !== true) {
                     this.showWorldEncounter()
                 }
                 this.isVisible = true
             } else {
-                if (this.isVisible === true) {
+                if (this.isVisible !== false) {
                     this.hideWorldEncounter()
                 }
                 this.isVisible = false
@@ -297,6 +297,17 @@ class WorldEncounter {
                 updateTriggered(this);
             } else {
                 checkTriggerPlayer(this, gameTime);
+
+                let host = this.getHostActor();
+                if (host !== null) {
+                    let culled = host.call.isCulled();
+                    if (culled) {
+                     //   console.log("Remove Culled Host")
+                    //    this.removeWorldEncounter();
+                    }
+                }
+
+
             }
         }.bind(this)
 
@@ -553,7 +564,7 @@ class WorldEncounter {
 
     showWorldEncounter() {
      //   console.log("showWorldEncounter", lodLevel, this)
-        if (this.isVisible) {
+        if (this.isVisible === true) {
             console.log("ALREADY VISIBLE showWorldEncounter", this)
             return;
         }
@@ -565,17 +576,17 @@ class WorldEncounter {
     }
 
     hideWorldEncounter() {
-        if (this.isVisible) {
+        if (this.isVisible === true) {
             this.encounterIndicator.hideIndicator();
             GameAPI.unregisterGameUpdateCallback(this.call.onGameUpdate)
+            this.visualEncounterHost.removeEncounterHost();
         }
 
-        this.visualEncounterHost.hideEncounterHost();
         this.isVisible = false;
     }
     removeWorldEncounter() {
+        this.isVisible = true;
         this.hideWorldEncounter();
-        this.visualEncounterHost.removeEncounterHost();
     }
 
 

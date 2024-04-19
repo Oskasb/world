@@ -31,7 +31,7 @@ function checkAroundPoint(sPoint) {
     return true;
 }
 
-function findSpawnPosition(sPoint) {
+function findSpawnPosition(sPoint, onFoundCB) {
     let fraction = sPoint.index / sPoint.maxPoints;
     sPoint.obj3d.position.x = Math.floor(worldSize*(MATH.sillyRandom(sPoint.index + sPoint.retries + sPoint.worldLevel + fraction)-0.5));
     sPoint.obj3d.position.z = Math.floor(worldSize*(MATH.sillyRandom(sPoint.index + sPoint.retries + sPoint.worldLevel + 1 + fraction)-0.5));
@@ -48,6 +48,7 @@ function findSpawnPosition(sPoint) {
                     let encLevel = sPoint.lvlMin + Math.round(diffSpan*diffFactor);
                     sPoint.encounterLevel = encLevel;
                     ThreeAPI.groundAt(sPoint.getPos(), sPoint.terrainData)
+                    onFoundCB(sPoint)
                     return;
                 }
             }
@@ -55,19 +56,27 @@ function findSpawnPosition(sPoint) {
     }
 
     sPoint.retries++;
-    retry(sPoint);
+    retry(sPoint, onFoundCB);
 }
 
-function retry(sPoint) {
-    if (Math.random() < 0.1) {
-        setTimeout(function() {
+function retry(sPoint, cb) {
+
+    if (Math.random() < 0.05) {
+    //    setTimeout(function() {
         //    console.log("retries", sPoint.retries);
-            findSpawnPosition(sPoint);
-        }, 1);
+            findSpawnPosition(sPoint, cb);
+  //      }, 1);
     } else {
-        findSpawnPosition(sPoint);
+        findSpawnPosition(sPoint, cb);
     }
 
+}
+
+
+let sPointReady = function(sPoint) {
+ //   if (sPoint.isActive) {
+//        ThreeAPI.registerTerrainLodUpdateCallback(sPoint.getPos(), sPoint.call.lodUpdated);
+ //   }
 }
 
 class DynamicSpawnPoint {
@@ -92,6 +101,14 @@ class DynamicSpawnPoint {
         let update = function() {
 
             let cPos = ThreeAPI.getCameraCursor().getLookAroundPoint();
+
+            let distance = MATH.distanceBetween(cPos, this.getPos());
+
+            if (distance > 200) {
+                deactivateVisible();
+                return;
+            }
+
             tempVec.copy(cPos);
             tempVec.y += 2;
         //    for (let i = 0; i < activeActors.length; i++) {
@@ -169,9 +186,7 @@ class DynamicSpawnPoint {
         let completedEncounters = GameAPI.gameAdventureSystem.getCompletedEncounters();
 
         let lodUpdated = function(lodL) {
-            if (this.isActive === false) {
-                return;
-            }
+
             lodLevel = lodL;
 
             if (lodLevel === 0 || lodLevel === 1) {
@@ -223,7 +238,10 @@ class DynamicSpawnPoint {
             loadedConfig = conf;
         }
 
+
+
         this.call = {
+
             deactivate:deactivate,
             getLodLevel:getLodLevel,
             lodUpdated:lodUpdated,
@@ -245,36 +263,26 @@ class DynamicSpawnPoint {
         this.lvlMin = lvlMin;
         this.lvlMax = lvlMax;
         this.id = 'dyn_sp_'+index+'_wl_'+worldLevel;
-        findSpawnPosition(this);
+        findSpawnPosition(this, sPointReady);
     }
 
     applyConfig(weConf) {
-
 
         if (this.dynamic === true) {
             this.call.lodUpdated(-1);
             this.dynamic = false;
         }
 
-    //    if (this.isActive === true) {
-            this.removeSpawnPoint();
-    //    }
+        this.removeSpawnPoint();
 
         MATH.vec3FromArray(this.getPos(), weConf.pos);
         ThreeAPI.groundAt(this.getPos(), this.terrainData)
         this.call.setLoadedConfig(weConf);
         this.isActive = false;
         this.id = weConf.edit_id;
-    //    ThreeAPI.clearTerrainLodUpdateCallback(this.call.lodUpdated);
-
         this.encounterLevel = weConf.level;
+        this.activateSpawnPoint()
 
-        //    this.activateSpawnPoint()
-
-       ThreeAPI.registerTerrainLodUpdateCallback(this.getPos(), this.call.lodUpdated);
-        this.isActive = true;
-        this.call.lodUpdated(-1)
-        this.lodActive = true;
     }
 
     getPos() {
@@ -285,7 +293,6 @@ class DynamicSpawnPoint {
         this.isActive = true;
         this.lodActive = true;
         ThreeAPI.registerTerrainLodUpdateCallback(this.getPos(), this.call.lodUpdated);
-        this.call.lodUpdated(-1)
     }
 
     removeSpawnPoint() {
