@@ -65,6 +65,17 @@ class VisualModelPalette {
         this.settings.w = array[7];
     }
 
+    toValueArray(array) {
+         array[0] = this.colorParams.x ;
+         array[1] = this.colorParams.y ;
+         array[2] = this.colorParams.z ;
+         array[3] = this.colorParams.w ;
+        array[4] =  this.settings.x ;
+        array[5] =  this.settings.y ;
+        array[6] =  this.settings.z ;
+        array[7] =  this.settings.w ;
+    }
+
     closePalette() {
         MATH.emptyArray(this.onUpdateCallbacks);
         poolReturn(this);

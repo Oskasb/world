@@ -1,6 +1,8 @@
 import {Object3D} from "../../../libs/three/core/Object3D.js";
 import {configDataList} from "../../application/utils/ConfigUtils.js";
 import {setupVisualModel} from "../../application/utils/ModelUtils.js";
+import {poolFetch} from "../../application/utils/PoolUtils.js";
+import {paletteMap} from "./Colors.js";
 
 
 let visualConfigs = {};
@@ -23,6 +25,21 @@ class VisualItem {
 
         let dactivationRequested = false;
 
+        let visualModelPalette = poolFetch('VisualModelPalette')
+        visualModelPalette.initPalette()
+
+
+        function applyVisualPiecePalette() {
+            if (instance === null) {
+                return;
+            }
+
+            if (instance.getSpatial().call.isInstanced()) {
+                visualModelPalette.applyPaletteToInstance(instance);
+                visualModelPalette.setSeeThroughSolidity(1);
+            }
+
+        }
 
         function setUpdateCB(cb) {
             onUpdateCB = cb;
@@ -57,6 +74,8 @@ class VisualItem {
         }.bind(this)
 
         let update = function() {
+
+
             // update paletteStatus;
             /*
 let valueIdx = msg.indexOf(ENUMS.ItemStatus.PALETTE_VALUES)+1
@@ -75,6 +94,7 @@ if (paletteValues.length === 8) {
  */
 
 
+
             if (dactivationRequested === true) {
                 console.log("Update VItem dactivationRequested", dactivationRequested)
                 closeVisualItem();
@@ -82,8 +102,15 @@ if (paletteValues.length === 8) {
                 return;
             }
 
+            if (this.item.paletteUpdated === true) {
+                let pValues = this.item.getStatus(ENUMS.ItemStatus.PALETTE_VALUES);
+                visualModelPalette.setFromValuearray(pValues);
+                applyVisualPiecePalette();
+                this.item.paletteUpdated = false;
+            }
+
             onUpdateCB();
-            this.item.paletteUpdated = false;
+
 
         }.bind(this)
 
@@ -100,11 +127,16 @@ if (paletteValues.length === 8) {
             dactivationRequested = true;
         }
 
+        function getPalette() {
+            return visualModelPalette;
+        }
+
         this.call = {
             setUpdateCB:setUpdateCB,
             setInstance:setInstance,
             closeVisualItem:closeVisualItem,
             getInstance:getInstance,
+            getPalette:getPalette,
             requestDeactivation:requestDeactivation
         }
 
@@ -118,9 +150,13 @@ if (paletteValues.length === 8) {
         item.visualItem = this;
         let visualId = item.config['visual_id'];
         let vConf = visualConfigs[visualId];
-
-        setupVisualModel(this, vConf, onReady)
     //    console.log("Set Visual Item ", vConf, item);
+        let vPal = this.call.getPalette()
+        vPal.applyPaletteSelection(vConf['palette'])
+        let pValues = this.item.getStatus(ENUMS.ItemStatus.PALETTE_VALUES);
+        vPal.toValueArray(pValues);
+        setupVisualModel(this, vConf, onReady)
+    //
     }
 
     setUpdateCallback(updateCB) {
