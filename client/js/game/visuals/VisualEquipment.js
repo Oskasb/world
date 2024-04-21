@@ -32,15 +32,20 @@ class VisualEquipment {
         }
 
 
-        function getUpdateCallback(item, dynJoint) {
+        function getUpdateCallback(vItem, dynJoint) {
             if (dynJoint.key === 'SKIN') {
 
                 let tickPieceEquippedItem = function() {
-                    if (item.getSpatial().obj3d.parent) {
-                        item.getSpatial().stickToObj3D(actor.actorObj3d)
-                        item.getSpatial().obj3d.updateMatrixWorld();
+                    if (vItem.getSpatial().obj3d.parent) {
+                        vItem.getSpatial().stickToObj3D(actor.actorObj3d)
+                        vItem.getSpatial().obj3d.updateMatrixWorld();
                     } else {
-                        console.log("Equipment init not right")
+                        console.log("Equipment init backwards")
+                        let actorInstance = visualActor.getModel();
+                        if (actorInstance !== null) {
+                            let itemInstance = vItem.call.getInstance()
+                            actorInstance.attachInstancedModel(itemInstance)
+                        }
                     }
                 }.bind(this)
 
@@ -69,7 +74,7 @@ class VisualEquipment {
                     actorInstance.attachInstancedModel(itemInstance)
                 } else {
                     setTimeout(function() {
-                        attachEquippedVisualItem(vItem, itemSlot)
+                    //    attachEquippedVisualItem(vItem, itemSlot)
                     }, 1)
                 }
 

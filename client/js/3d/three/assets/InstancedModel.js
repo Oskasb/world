@@ -295,7 +295,7 @@ class InstancedModel {
                 console.log("Not SkinnedMesh", _this.skinNode);
             }
             if (node.type === 'SkinnedMesh') {
-
+                node.frustumCulled = false;
                 if (_this.skinNode) {
 
                     replaceChildBones(_this.skinNode, node);
@@ -304,6 +304,8 @@ class InstancedModel {
             }
         });
 
+        instancedModel.obj3d.frustumCulled = false;
+        this.obj3d.frustumCulled = false;
         this.obj3d.add(instancedModel.obj3d);
         this.attachments.push(instancedModel)
 
