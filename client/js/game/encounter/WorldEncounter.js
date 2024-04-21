@@ -426,17 +426,21 @@ class WorldEncounter {
 
         let applyConfig = function(cfg) {
 
+            let lastHostId = this.config.host_id;
+
             if (cfg !== null) {
                 console.log("WE Config Loaded ", cfg)
                 this.config = cfg;
                 this.encounterLevel = cfg['level'] || 1;
 
                 updateIndicatorConfig()
-                if (this.config.host_id) {
-                    updateHostConfig()
-                }
 
                 if (init) {
+
+                    if (this.config.host_id) {
+                    //    updateHostConfig()
+                    }
+
                     this.applyUpdatedConfig()
                     return;
                 }
@@ -469,7 +473,6 @@ class WorldEncounter {
             }
 
             updateIndicatorConfig()
-
 
         }.bind(this);
 
@@ -519,7 +522,7 @@ class WorldEncounter {
     applyUpdatedConfig() {
         MATH.vec3FromArray(this.obj3d.position, this.config.pos)
         this.obj3d.position.y = ThreeAPI.terrainAt(this.obj3d.position);
-        let hostActor = this.visualEncounterHost.call.getActor();
+        let hostActor = this.getHostActor();
         if (hostActor) {
             hostActor.setSpatialPosition(this.obj3d.position)
             hostActor.actorText.say(JSON.stringify(this.config.pos))

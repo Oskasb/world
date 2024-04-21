@@ -17,7 +17,6 @@ let visualConfigs = {};
 
 let onData = function(data) {
     visualConfigs = data;
-    console.log("visualConfigs", visualConfigs)
 }
 
 setTimeout(function() {
@@ -52,7 +51,6 @@ class VisualActor {
 
         let setActor = function(a, onReady) {
             deactivated = false;
-            instance = 'init';
             if (activating === true) {
                 console.log("Multiple Activte Calls on same VisualActor pool entry..")
             }
@@ -146,11 +144,6 @@ class VisualActor {
             if (active !== true) {
 
                 activating = false;
-
-                if (instance === 'init') {
-                    console.log("Actor Removed during setup", actor);
-                    return;
-                }
 
                 if (instance === null) {
                     console.log("instance cleared");

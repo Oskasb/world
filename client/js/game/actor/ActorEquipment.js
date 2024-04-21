@@ -30,7 +30,14 @@ class ActorEquipment {
 
 
         let equipActorItem = function(item) {
-    //        console.log("EQUIP ITEM: ", item)
+
+        //    console.log("EQUIP ITEM: ", item)
+            let itemSlot = this.getSlotForItem(item);
+            if (!itemSlot) {
+                console.log("No slot found... ", item)
+                return;
+            }
+
             if (this.items.indexOf(item) !== -1) {
                 console.log("Item already equipped, boo", item);
             } else {
@@ -44,12 +51,6 @@ class ActorEquipment {
             item.setStatusKey(ENUMS.ItemStatus.EQUIPPED_SLOT, slotId);
             this.actor.setStatusKey(ENUMS.ActorStatus[slotId], item.getStatus(ENUMS.ItemStatus.ITEM_ID));
 
-
-            let itemSlot = this.getSlotForItem(item);
-            if (!itemSlot) {
-                console.log("No slot found... ")
-                return;
-            }
 
             itemSlot.setSlotItem(item);
 
@@ -74,7 +75,7 @@ class ActorEquipment {
             let currentSlotStatus = this.actor.getStatus(ENUMS.ActorStatus[slotId]);
 
             if (currentSlotStatus === item.getStatus(ENUMS.ItemStatus.ITEM_ID)) {
-                console.log("Unequip currently equipped itemId", slotId)
+        //        console.log("Unequip currently equipped itemId", slotId)
                 this.actor.setStatusKey(ENUMS.ActorStatus[slotId], "")
             }
 
@@ -159,29 +160,10 @@ class ActorEquipment {
         this.itemSlots = {};
         this.slotToJointMap = {};
 
-
-        return;
-
-        this.pieceAttacher = this.actor.getVisualGamePiece().pieceAttacher;
-
         for (let i = 0; i < this.slots.length;i++) {
             let slotId = this.slots[i]['slot_id'];
-            let jointKey = this.slots[i]['joint'];
-            this.itemSlots[slotId] = new ItemSlot(slotId);
-            let dynamicJoint = this.pieceAttacher.getAttachmentJoint(jointKey);
-
-            if (jointKey !== 'SKIN') {
-                if (!dynamicJoint) {
-                    console.log("No Joint", jointKey, slotId, this.pieceAttacher);
-                    return
-                }
-                let jointOffsets = this.pieceAttacher.getAttachmentJointOffsets(jointKey);
-                dynamicJoint.callbacks.applyBoneMap(this.getModel().boneMap);
-                dynamicJoint.applyJointOffsets(jointOffsets);
-            }
-
-            this.slotToJointMap[slotId] = dynamicJoint
-
+            this.itemSlots[slotId] = new ItemSlot();
+            this.itemSlots[slotId].setSlotId(slotId)
         }
     }
 
@@ -271,7 +253,7 @@ class ActorEquipment {
 
     removeAllItems() {
         while (this.items.length) {
-            let item = this.items.pop();
+            let item = this.items[0];
             this.call.unequipActorItem(item);
             item.disposeItem()
         }

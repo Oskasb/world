@@ -25,11 +25,11 @@ class VisualEncounterHost {
 
         let show = function() {
             deactivated = false;
-        //    if (actor) {
-        //        actor.activateGameActor();
-        //    } else {
+            if (actor) {
+                actor.activateGameActor();
+            } else {
                 this.applyHostConfig(this.config, setActor);
-        //    }
+            }
         }.bind(this)
 
         let hide = function() {
@@ -70,19 +70,32 @@ class VisualEncounterHost {
         return this.obj3d.position;
     }
 
+
+    updateConfig(actor, config) {
+        MATH.rotateObj(actor.actorObj3d, config.rot)
+        actor.setStatusKey(ENUMS.ActorStatus.ALIGNMENT, config['ALIGNMENT'] || 'HOSTILE');
+        actor.setSpatialPosition(this.getPos())
+    }
+
     applyHostConfig(config, actorReady) {
         this.config = config;
-        this.call.unloadActor();
-        let actorLoaded = function(actor) {
-            MATH.rotateObj(actor.actorObj3d, config.rot)
-            actor.setStatusKey(ENUMS.ActorStatus.ALIGNMENT, config['ALIGNMENT'] || 'HOSTILE');
-            this.call.setActor(actor);
-            actorReady(actor)
-        }.bind(this)
+        if (this.call.getActor() === null) {
+            let actorLoaded = function(actor) {
+                this.call.setActor(actor);
+                this.updateConfig(this.call.getActor(), config)
+                actorReady(actor)
+            }.bind(this)
 
-        if (config.actor) {
-            evt.dispatch(ENUMS.Event.LOAD_ACTOR, {id: config.actor, pos:this.getPos(), callback:actorLoaded});
+            if (config.actor) {
+                evt.dispatch(ENUMS.Event.LOAD_ACTOR, {id: config.actor, pos:this.getPos(), callback:actorLoaded});
+            }
+        } else {
+            this.updateConfig(this.call.getActor(), config)
+            actorReady(this.call.getActor())
         }
+
+    //    this.call.unloadActor();
+
 
     }
 

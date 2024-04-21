@@ -99,7 +99,8 @@ let postApply = function(baseSize, inst, visualPiece, pieceReady) {
         pieceReady(visualPiece);
     }
 
-    window.requestAnimationFrame(apply)
+    // apply()
+     window.requestAnimationFrame(apply)
 }
 
 function setupVisualModel(visualPiece, config, pieceReady) {

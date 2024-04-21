@@ -1,4 +1,18 @@
 import {Object3D} from "../../../libs/three/core/Object3D.js";
+import {configDataList} from "../../application/utils/ConfigUtils.js";
+import {setupVisualModel} from "../../application/utils/ModelUtils.js";
+
+
+let visualConfigs = {};
+
+let onData = function(data) {
+    visualConfigs = data;
+    console.log("visualConfigs", visualConfigs)
+}
+
+setTimeout(function() {
+    configDataList("GAME","VISUALS", onData)
+}, 1000);
 
 class VisualItem {
     constructor() {
@@ -7,8 +21,13 @@ class VisualItem {
         let onUpdateCB = null;
         let instance = null;
 
+        let dactivationRequested = false;
+
+
         function setUpdateCB(cb) {
             onUpdateCB = cb;
+            ThreeAPI.unregisterPrerenderCallback(update);
+            ThreeAPI.registerPrerenderCallback(update);
         }
 
         function getInstance() {
@@ -16,9 +35,25 @@ class VisualItem {
         }
 
          let setInstance = function(i) {
+
+             if (this.item === null) {
+                 console.log("Bad setInstance item already removed..")
+                 return;
+             }
+
             this.item.setStatusKey(ENUMS.ItemStatus.ACTIVATION_STATE, ENUMS.ActivationState.ACTIVE)
             instance = i;
-             ThreeAPI.registerPrerenderCallback(update);
+        //     ThreeAPI.showModel(instance.getSpatial().obj3d)
+         //    instance.getSpatial().obj3d.frustumCulled = false;
+
+             if (instance.getSpatial().call.isInstanced()) {
+                 instance.getSpatial().call.hideSpatial(false)
+             //    applyVisualPiecePalette()
+             } else {
+                 ThreeAPI.showModel(instance.getSpatial().obj3d)
+                 instance.getSpatial().obj3d.frustumCulled = false;
+             }
+
         }.bind(this)
 
         let update = function() {
@@ -39,25 +74,53 @@ if (paletteValues.length === 8) {
 
  */
 
+
+            if (dactivationRequested === true) {
+                console.log("Update VItem dactivationRequested", dactivationRequested)
+                closeVisualItem();
+                dactivationRequested = false;
+                return;
+            }
+
             onUpdateCB();
             this.item.paletteUpdated = false;
 
         }.bind(this)
 
+        let closeVisualItem = function() {
+            instance.decommissionInstancedModel();
+            ThreeAPI.unregisterPrerenderCallback(update);
+            this.item.setStatusKey(ENUMS.ItemStatus.ACTIVATION_STATE, ENUMS.ActivationState.DEACTIVATING)
+            this.item = null;
+        }.bind(this);
+
+
+        function requestDeactivation() {
+            console.log("requestDeactivation VItem")
+            dactivationRequested = true;
+        }
 
         this.call = {
             setUpdateCB:setUpdateCB,
             setInstance:setInstance,
-            getInstance:getInstance
+            closeVisualItem:closeVisualItem,
+            getInstance:getInstance,
+            requestDeactivation:requestDeactivation
         }
 
     }
-    setItem(item) {
+    setItem(item, onReady) {
+        if (item === null) {
+            console.log("Bad setItem ")
+            return;
+        }
         this.item = item;
         item.visualItem = this;
+        let visualId = item.config['visual_id'];
+        let vConf = visualConfigs[visualId];
 
-        console.log("Set Visual Item ", item);
-
+        setupVisualModel(this, vConf, onReady)
+    //    console.log("Set Visual Item ", vConf, item);
     }
 
     setUpdateCallback(updateCB) {
@@ -65,7 +128,7 @@ if (paletteValues.length === 8) {
     }
 
     getSlotId() {
-        this.item.getEquipSlotId()
+        return this.item.getEquipSlotId()
     }
 
     getPos() {
@@ -79,13 +142,6 @@ if (paletteValues.length === 8) {
     getSpatial() {
         return this.call.getInstance().getSpatial()
     }
-
-    deactivateVisualItem() {
-        this.item.setStatusKey(ENUMS.ItemStatus.ACTIVATION_STATE, ENUMS.ActivationState.DEACTIVATING)
-        this.item = null;
-    }
-
-
 
 }
 

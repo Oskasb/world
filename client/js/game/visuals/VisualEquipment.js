@@ -11,15 +11,15 @@ class VisualEquipment {
         let slotToJointMap = {};
         let slots;
         let itemSlots;
+        let items;
 
-        let activeSlots = [];
+        let activeItems = [];
         let visualItems = [];
-        let visualizedSlots = []
-        let clearSlots = [];
 
-
+        let cancelled = false;
         function getVisualItemBySlot(slotId) {
             for (let i = 0; i < visualItems.length; i++) {
+                let vItem = visualItems[i];
                 if (slotId === vItem.getSlotId()) {
                     return vItem;
                 }
@@ -50,95 +50,127 @@ class VisualEquipment {
             }
         }
 
-        function attachEquippedItem(item, itemSlot) {
+        function attachEquippedVisualItem(vItem, itemSlot) {
+            if (cancelled) {
+                console.log("Cancelled before attach")
+                return;
+            }
             let dynamicJoint = getJointForItemSlot(itemSlot);
             if (dynamicJoint.key === 'SKIN') {
 
-                item.visualGamePiece.obj3d.frusumCulled = false;
-                let itemInstance = item.visualGamePiece.call.getInstance()
-                let modelClone = item.visualGamePiece.getModel().obj3d.children[0]
-                let originalMaterial =  item.visualGamePiece.getModel().originalModel.material.mat
+                vItem.obj3d.frusumCulled = false;
+                let itemInstance = vItem.call.getInstance()
+                let modelClone = itemInstance.obj3d.children[0]
+                let originalMaterial =  itemInstance.originalModel.material.mat
                 //    console.log("skinned mesh clone:", itemInstance, modelClone, originalMaterial);
                 itemInstance.applyModelMaterial(modelClone, originalMaterial)
-                this.getModel().attachInstancedModel(itemInstance)
+                let actorInstance = visualActor.getModel();
+                if (actorInstance !== null) {
+                    actorInstance.attachInstancedModel(itemInstance)
+                } else {
+                    setTimeout(function() {
+                        attachEquippedVisualItem(vItem, itemSlot)
+                    }, 1)
+                }
+
             } else {
-                dynamicJoint.registerAttachedSpatial(item.getSpatial());
+                dynamicJoint.registerAttachedSpatial(vItem.getSpatial());
             }
 
+        }
+
+
+        function vItemReady(vItem) {
+
+            if (vItem.item === null) {
+                console.log("vItem cancelled before ready", vItem)
+                return;
+            }
+
+            if (cancelled) {
+                console.log("vItem cancelled before instance", vItem)
+                return;
+            }
+
+            let slot = actorEquipment.getSlotForItem(vItem.item);
+            let dynamicJoint = getJointForItemSlot(slot);
+            let updateCB = getUpdateCallback(vItem, dynamicJoint)
+            vItem.setUpdateCallback(updateCB);
+            attachEquippedVisualItem(vItem, slot);
+        }
+
+        function addVisualItem(item) {
+            cancelled = false;
+            let vItem = poolFetch('VisualItem');
+            visualItems.push(vItem);
+            vItem.setItem(item, vItemReady);
+        }
+
+
+        function removeVisualItem(item) {
+            let slotKey = item.getEquipSlotId()
+            let vItem = getVisualItemBySlot(slotKey);
+
+            let itemInstance = null
+            if (vItem === null) {
+                cancelled = true;
+                return;
+            }
+
+                vItem.call.requestDeactivation();
+                itemInstance = vItem.call.getInstance();
+                if (itemInstance === null) {
+                    cancelled = true;
+                }
+
+
+            if (cancelled === false) {
+                if (itemInstance.getSpatial().call.isInstanced()) {
+                    let slot = actorEquipment.getSlotForItem(item);
+                    let dynamicJoint = getJointForItemSlot(slot);
+                    dynamicJoint.detachAttachedEntity()
+                } else {
+                    let actorInstance = visualActor.getModel();
+                    actorInstance.detatchInstancedModel(itemInstance);
+                }
+            }
+
+
+            MATH.splice(visualItems, vItem);
+            poolReturn(vItem);
         }
 
         function update() {
-            MATH.emptyArray(activeSlots);
-
-            for (let key in itemSlots) {
-                let slot = itemSlots[key];
-                let item = slot.getSlotItem();
-                if (item !== null) {
-                    if (activeSlots.indexOf(key) === -1) {
-                        activeSlots.push(key);
+            items = actorEquipment.items;
+            for (let i = 0; i < items.length; i++) {
+                let item = items[i];
+            //    if (item !== null) {
+                    if (activeItems.indexOf(item) === -1) {
+                        addVisualItem(item);
+                        activeItems.push(item)
                     }
+            //    }
+            }
+
+            if (activeItems.length > items.length) {
+                for (let i = 0; i < activeItems.length; i++) {
+                    let item = activeItems[i];
+                //    if (item !== null) {
+                        if (items.indexOf(item) === -1) {
+                            removeVisualItem(item);
+                            MATH.splice(activeItems, item);
+                            i--
+                        }
+                //    }
                 }
             }
 
-                for (let i = 0; i < visualizedSlots.length; i++) {
-                    let key = visualizedSlots[i];
-                    if (activeSlots.indexOf(key) === -1) {
-                        clearSlots.push(key);
-                    }
-                }
-
-            for (let i = 0; i < clearSlots.length; i++) {
-                let key = clearSlots[i];
-
-                let vItem = getVisualItemBySlot(key);
-                if (vItem === null) {
-                    console.log("There should be an item here")
-                } else {
-                    MATH.splice(visualizedSlots, key);
-                    vItem.deactivateVisualItem();
-                    poolReturn(vItem);
-                }
-            }
-
-            while (activeSlots.length > visualItems.length) {
-                for (let i = 0; i < activeSlots.length; i++) {
-
-                    let key = activeSlots[i];
-                    let vItem = getVisualItemBySlot(key);
-
-                    if (vItem === null) {
-                        visualizedSlots.push(key);
-                        let slot = itemSlots[key];
-                        let item = slot.getSlotItem();
-                        let dynamicJoint = getJointForItemSlot(slot);
-                        let updateCB = getUpdateCallback(item, dynamicJoint)
-                        vItem = poolFetch('VisualItem');
-                        vItem.setItem(item);
-                        vItem.setUpdateCallback(updateCB);
-                        visualItems.push(vItem);
-
-                        attachEquippedItem(item, slot);
-                    }
-                }
-            }
-        }
-
-        function clearEquipSlots() {
-
-            for (let key in itemSlots) {
-                itemSlots[key].removeSlotItem();
-                poolReturn(itemSlots[key]);
-                itemSlots[key] = null;
-            }
         }
 
         function mapEquipSlots() {
-            clearEquipSlots()
             for (let i = 0; i < slots.length;i++) {
                 let slotId = slots[i]['slot_id'];
                 let jointKey = slots[i]['joint'];
-                itemSlots[slotId] = poolFetch('ItemSlot');
-                itemSlots[slotId].setSlotId(slotId);
                 let dynamicJoint = pieceAttacher.getAttachmentJoint(jointKey);
 
                 if (jointKey !== 'SKIN') {
@@ -162,6 +194,7 @@ class VisualEquipment {
             actor = visualActor.call.getActor();
             actorEquipment = actor.actorEquipment;
             slots = actorEquipment.slots;
+
             itemSlots = actorEquipment.itemSlots;
             pieceAttacher = visualActor.pieceAttacher;
             mapEquipSlots()
@@ -173,6 +206,10 @@ class VisualEquipment {
 
         function deactivateVisualEquipment() {
             ThreeAPI.unregisterPrerenderCallback(update);
+            while (visualItems.length) {
+                visualItems.pop().call.requestDeactivation()
+            }
+            MATH.emptyArray(activeItems)
         }
 
 

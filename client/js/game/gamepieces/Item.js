@@ -110,7 +110,7 @@ class Item {
         this.setStatusKey(ENUMS.ItemStatus.ACTIVATION_STATE, ENUMS.ActivationState.DEACTIVATING)
         ThreeAPI.unregisterPostrenderCallback(this.status.call.pulseStatusUpdate);
         if (this.visualItem) {
-            this.visualItem.deactivateVisualItem();
+            this.visualItem.call.requestDeactivation();
         }
 
     }

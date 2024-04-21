@@ -189,7 +189,9 @@ class DynamicSpawnPoint {
 
             lodLevel = lodL;
 
-            if (lodLevel === 0 || lodLevel === 1) {
+            let lodShow = MATH.valueIsBetween(lodL, 0, 1);
+
+            if (lodShow) {
 
                 let encId = this.id
 
@@ -216,7 +218,7 @@ class DynamicSpawnPoint {
                 deactivateVisible();
             } else {
 
-                if (lodLevel > -1 && lodLevel < 3) {
+                if (lodShow) {
                     activateVisible()
                 } else {
                     deactivateVisible()

@@ -310,6 +310,7 @@ class InstancedModel {
     };
 
     detatchInstancedModel = function(instancedModel) {
+        MATH.splice(this.attachments, instancedModel);
         this.obj3d.remove(instancedModel.obj3d);
         instancedModel.decommissionInstancedModel()
     };
