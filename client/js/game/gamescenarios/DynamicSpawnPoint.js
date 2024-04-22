@@ -139,9 +139,12 @@ class DynamicSpawnPoint {
 
         let deactivate = function() {
             ThreeAPI.clearTerrainLodUpdateCallback(lodUpdated);
-            this.call.lodUpdated(-1)
-            this.isActive = false;
-            clearEncounter()
+            if (this.isActive === true) {
+                this.call.lodUpdated(-1)
+                this.isActive = false;
+                clearEncounter()
+            }
+
         }.bind(this)
 
         let addInstance = function(ins) {
@@ -269,6 +272,10 @@ class DynamicSpawnPoint {
     }
 
     applyConfig(weConf) {
+
+        if (this.id === weConf.edit_id) {
+            return;
+        }
 
         if (this.dynamic === true) {
             this.call.lodUpdated(-1);

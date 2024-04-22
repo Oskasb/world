@@ -65,7 +65,7 @@ function attachSkeletonRig(visualPiece, rigId, pieceReady) {
             let scaleVec = tempVec2;
             let size = 1 // gamePiece.getStatusByKey('size')
             scaleVec.set(size, size, size);
-            visualPiece.pieceAnimator.setupAnimations(assetInstance.originalModel, scaleVec);
+            visualPiece.pieceAnimator.setupAnimations(assetInstance.originalModel, visualPiece.call.getScaleCB);
 
 
             let onSkelRigData = function (skelConfig) {

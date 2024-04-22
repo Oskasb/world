@@ -115,11 +115,11 @@ function checkTriggerPlayer(treasure) {
                         treasure.engagementArc = null;
                     }
 
-                    console.log("Loot arrives", treasure)
-                    let items = treasure.items;
-                    for (let i = 0; i < items.length; i++) {
-                        selectedActor.processItemLooted(items[i]);
-                        GuiAPI.notifyItemLooted(selectedActor, items[i]);
+                    let vItems = treasure.call.getVisualItems();
+                    for (let i = 0; i < vItems.length; i++) {
+                        let item = vItems[i].item
+                        selectedActor.processItemLooted(item);
+                        GuiAPI.notifyItemLooted(selectedActor, item);
                     }
                     let lootedTreasures = GameAPI.gameAdventureSystem.getLootedTreasures();
                     lootedTreasures.push(treasure.id);
@@ -222,13 +222,13 @@ class WorldTreasure {
             }
         }
 
-        this.items = [];
-        let treasureItems = this.items;
         let treasure = this;
 
         let getPos = function () {
             return this.obj3d.position;
         }.bind(this);
+
+        let visualItems = [];
 
         let spawnHostItem = function() {
 
@@ -239,8 +239,9 @@ class WorldTreasure {
                 let rot = items[i].rot || [-1, 0, 0];
                 let spin = items[i].spin || [0, 0, 0];
 
-                let addItem = function(item) {
-                    let obj3d = item.getVisualGamePiece().getSpatial().obj3d;
+                let addVisualItem = function(vItem) {
+                    let obj3d = vItem.getSpatial().obj3d;
+                    let item = vItem.item;
                     let itemUpdateCb = function(tpf) {
                         //    this.call.getPiece().getSpatialPosition(tempObj3d.position);
                         //    this.call.getPiece().getSpatialQuaternion(tempObj3d.quaternion);
@@ -254,7 +255,6 @@ class WorldTreasure {
                         obj3d.rotateY(gameTime * spin[1])
                         obj3d.rotateZ(gameTime * spin[2])
 
-
                         obj3d.position.copy(getPos());
                         obj3d.position.y += 0.5 + Math.sin(GameAPI.getGameTime()*5) * 0.005;
                         MATH.vec3FromArray(obj3d.scale, scale);
@@ -265,34 +265,41 @@ class WorldTreasure {
                         transitionEffectOn(obj3d.position, effectData);
                     }
                     MATH.rotXYZFromArray(obj3d, rot);
-                    treasure.items.push(item);
-                //    console.log("Spawn Loot: ", item, treasure)
-                //    item.call.setUpdateCallback();
-                    item.call.setUpdateCallback(itemUpdateCb);
 
-                    console.log("Treasure Items need ref to ned structure")
-                    item.getPos().copy(this.getPos());
-                    item.getPos().y += 0.5;
+                    vItem.setUpdateCallback(itemUpdateCb);
+
+                    vItem.getPos().copy(this.getPos());
+                    vItem.getPos().y += 0.5;
                 }.bind(this);
 
-                evt.dispatch(ENUMS.Event.LOAD_ITEM,  {id: items[i].item, callback:addItem})
+                let setupVisualItem = function(item) {
+                    let vItem = poolFetch('VisualItem');
+                    visualItems.push(vItem);
+                    vItem.setItem(item, addVisualItem);
+                }
+
+                evt.dispatch(ENUMS.Event.LOAD_ITEM,  {id: items[i].item, callback:setupVisualItem})
             }
 
         }.bind(this)
 
         let despawnHostItem = function() {
-            while (this.items.length) {
-                let item = this.items.pop();
-                item.hide();
+            while (visualItems.length) {
+                let item = visualItems.pop().item;
                 item.disposeItem();
             }
-        }.bind(this);
+        };
+
+        let getVisualItems = function() {
+            return visualItems;
+        }
 
         this.call = {
             lodUpdated:lodUpdated,
             onGameUpdate:onGameUpdate,
             spawnHostItem:spawnHostItem,
-            despawnHostItem:despawnHostItem
+            despawnHostItem:despawnHostItem,
+            getVisualItems:getVisualItems
         }
         onReady(this);
     }

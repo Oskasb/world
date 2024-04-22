@@ -3,14 +3,10 @@ import {Object3D} from "../../../../libs/three/core/Object3D.js";
 
 let tempVec = new Vector3()
 class AttachmentJoint {
-    constructor(key, parentScale, dynamicBoneId) {
+    constructor(key, getParentScale, dynamicBoneId) {
         this.key = key;
         this.dynamicBoneId = dynamicBoneId;
-        if (parentScale.length() > 10) {
-            console.log("Big bad parentScale")
-            parentScale.set(1, 1, 1);
-        }
-        this.parentScale = parentScale;
+
         this.obj3d = new Object3D();
 
         this.gamePiece = null;
@@ -21,12 +17,15 @@ class AttachmentJoint {
 
         this.positionUpdateCallbacks = [];
 
+
+
         let attachEffect = function(effect) {
             effect.attachToJoint(this)
         }.bind(this);
 
-        let updateAttachedSpatial = function() {
 
+        let updateAttachedSpatial = function() {
+            getParentScale(this.obj3d.scale)
             this.inheritJointDynamicPosition()
         }.bind(this);
 
@@ -45,6 +44,8 @@ class AttachmentJoint {
     getAttachEffectCallback() {
         return this.callbacks.attachEffect;
     };
+
+
 
     inheritJointDynamicPosition() {
         this.dynamicBone.stickToBoneWorldMatrix();
@@ -114,16 +115,20 @@ class AttachmentJoint {
         this.obj3d.scale.x = jointData.scale[0];
         this.obj3d.scale.y = jointData.scale[1];
         this.obj3d.scale.z = jointData.scale[2];
+
+        /*
+
         if (this.obj3d.scale.x > 10) {
             console.log("Bad jointData Scale")
         }
+
 
         if (this.parentScale.length() > 10) {
             console.log("Bad parent Scale")
             this.parentScale.set(1, 1, 1);
         }
         this.obj3d.scale.multiply(this.parentScale);
-
+*/
         this.obj3d.position.multiply(this.obj3d.scale)
     };
 

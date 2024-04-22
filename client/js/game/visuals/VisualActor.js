@@ -47,8 +47,6 @@ class VisualActor {
         let active = false;
 
 
-
-
         let setActor = function(a, onReady) {
             deactivated = false;
             if (activating === true) {
@@ -187,16 +185,19 @@ class VisualActor {
             return actor;
         }
 
+        function getScaleCB(scaleVec) {
+            actor.getSpatialScale(scaleVec);
+        }
+
         this.call = {
             setActor:setActor,
             getActor:getActor,
             setInstance:setInstance,
             getInstance:getInstance,
             activate:activate,
-            deactivate:deactivate
+            deactivate:deactivate,
+            getScaleCB:getScaleCB
         }
-
-
 
     }
 

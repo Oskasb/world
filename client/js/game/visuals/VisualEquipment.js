@@ -51,6 +51,8 @@ class VisualEquipment {
 
                 return tickPieceEquippedItem;
             } else {
+            //    dynJoint.parentScale.copy(actor.getSpatialScale());
+            //    dynJoint.parentScale.set(2, 2, 2)
                 return dynJoint.callbacks.updateAttachedSpatial;
             }
         }
@@ -77,7 +79,6 @@ class VisualEquipment {
                     //    attachEquippedVisualItem(vItem, itemSlot)
                     }, 1)
                 }
-
             } else {
                 dynamicJoint.registerAttachedSpatial(vItem.getSpatial());
             }

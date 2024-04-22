@@ -39,7 +39,7 @@ class PieceAnimator {
         return this.setupPieceAnimations(rigData)
     };
 
-    setupAnimations = function(model, scale) {
+    setupAnimations = function(model, getScaleCB) {
 
         let joints = model.jointMap;
         let anims = model.animMap;
@@ -48,7 +48,7 @@ class PieceAnimator {
      //   console.log(joints);
 
         for (let key in joints) {
-            joint = new AttachmentJoint(key, scale, joints[key]);
+            joint = new AttachmentJoint(key, getScaleCB, joints[key]);
             this.attachmentJoints[key] = joint;
         }
 
