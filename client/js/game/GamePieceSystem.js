@@ -76,7 +76,7 @@ function setupActor(event, actor) {
     // actor.setStatusKey(ENUMS.ActorStatus.ACTOR_INDEX, actor.index);
 
     let statsData = statsConfig[actor.config['stats_id']];
-//    console.log("Actor Stats :", statsData.status)
+    //    console.log("Actor Stats :", statsData.status)
 
     let status = statsData.status;
 

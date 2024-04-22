@@ -48,6 +48,7 @@ function activateActorSelection(selectionId) {
     }
 
     function actorLoaded(actor) {
+        console.log(actor.actorStatus.statusMap.EQUIPPED_ITEMS)
         actor.activateGameActor(activated)
     }
 

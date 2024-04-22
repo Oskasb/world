@@ -132,7 +132,11 @@ class GameActor {
 
             // skeleton not always ready here...
             this.actorEquipment.activateActorEquipment(this, this.config['equip_slots'])
+
             this.activated = true;
+            let equippedList = this.getStatus(ENUMS.ActorStatus.EQUIPPED_ITEMS)
+            equipActorItemList(this, equippedList)
+
             while (this.onActivationCallbacks.length) {
                 this.onActivationCallbacks.pop()();
             }
@@ -140,25 +144,6 @@ class GameActor {
 
         }.bind(this);
 
-
-        let onVisualAdded = function() {
-            let actor = this;
-            // add equipment here after visual has loaded skeleton...
-            let equippedList = actor.getStatus(ENUMS.ActorStatus.EQUIPPED_ITEMS);
-        //    function loadEquippedItems(actor, equippedList) {
-
-            if (actor.activated === true) {
-                equipActorItemList(actor, equippedList)
-        //    }
-        } else {
-
-                function onActivated() {
-                    equipActorItemList(actor, equippedList)
-                }
-                this.onActivationCallbacks.push(onActivated);
-            //    console.log("Not yet active actor handle equipped items ", equippedList)
-            }
-        }.bind(this)
 
         let getActorPos = function() {
             return this.getSpatialPosition();
@@ -296,7 +281,6 @@ class GameActor {
             remove:remove,
             turnEnd:turnEnd,
             onActive:onActive,
-            onVisualAdded:onVisualAdded,
             setAsSelection:setAsSelection,
             updateGameActor:updateGameActor,
             getActorPos:getActorPos,
