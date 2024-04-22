@@ -76,7 +76,7 @@ class VisualItem {
         let update = function() {
 
             if (dactivationRequested === true) {
-                console.log("Update VItem dactivationRequested", dactivationRequested)
+            //    console.log("Update VItem dactivationRequested", dactivationRequested)
                 closeVisualItem();
                 dactivationRequested = false;
                 return;
@@ -103,7 +103,7 @@ class VisualItem {
 
 
         function requestDeactivation() {
-            console.log("requestDeactivation VItem")
+        //    console.log("requestDeactivation VItem")
             dactivationRequested = true;
         }
 

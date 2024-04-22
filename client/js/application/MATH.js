@@ -984,6 +984,8 @@ MATH.fitBoxAround = function(box, min, max) {
 	}
 }
 
+
+
 MATH.planePointsBetweenVectors = function(a, b) {
 	let xDiff = Math.abs(a.x - b.x);
 	let zDiff = Math.abs(a.z - b.z);

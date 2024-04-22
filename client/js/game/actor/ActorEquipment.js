@@ -39,7 +39,8 @@ class ActorEquipment {
             }
 
             if (this.items.indexOf(item) !== -1) {
-                console.log("Item already equipped, boo", item);
+            //    console.log("Item already equipped, boo", item);
+                return;
             } else {
                 this.items.push(item)
             }

@@ -496,7 +496,7 @@ class GameActor {
     }
 
     activateGameActor(onActorReady) {
-        console.log("activateGameActor GA ", this)
+   //     console.log("activateGameActor GA ", this)
         if (this.getStatus(ENUMS.ActorStatus.IS_ACTIVE) === 1) {
             return;
         }
@@ -510,22 +510,10 @@ class GameActor {
             onActorReady(this);
         }
 
-
-        return;
-            let onReady = function() {
-                this.call.onActive()
-                if (typeof (onActorReady) === 'function') {
-
-                }
-
-            }.bind(this)
-
-            this.showGameActor(onReady);
-
     }
 
     deactivateGameActor() {
-        console.log("Deactivate GA ", this)
+    //    console.log("Deactivate GA ", this)
         this.actorText.say("----OFF")
         this.setStatusKey(ENUMS.ActorStatus.IS_ACTIVE, 0);
         if (this.activated === true) {

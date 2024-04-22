@@ -456,9 +456,9 @@ function processActorEquipment(actor) {
         if (slotItemId !== equippedId) {
 
             if (slotItemId !== "") {
-                console.log("Diff: ", slotItemId, equippedId)
+            //    console.log("Diff: ", slotItemId, equippedId)
                 equipment.call.unequipActorItem(slotItem, true);
-                console.log("Item UNequipped by server", slotId, slotItem);
+             //   console.log("Item UNequipped by server", slotId, slotItem);
             } else {
                 console.log("Empty Slot", slotId, slotItemId, equippedId)
             }

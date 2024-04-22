@@ -9,6 +9,7 @@ import {
 import {inheritConfigTransform} from "../../application/utils/ModelUtils.js";
 import {Box3} from "../../../libs/three/math/Box3.js";
 import {ENUMS} from "../../application/ENUMS.js";
+import {Vector3} from "../../../libs/three/math/Vector3.js";
 
 function removeWorldModel(model) {
     //    console.log("Remove Model ", this.isVisible, this)
@@ -16,6 +17,7 @@ function removeWorldModel(model) {
 }
 
 let index = 0;
+let tempVec = new Vector3();
 
 let randomPaletteList = [
     'DEFAULT',
@@ -103,7 +105,6 @@ class WorldModel {
                     model.call.lodUpdated(0)
                 } else {
                     if (model.lodLevel) {
-                        ThreeAPI.registerTerrainLodUpdateCallback(model.getPos(), model.call.lodUpdated)
                         if (!model.config.paletteKey) {
                             model.call.setPaletteKey(this.paletteKey);
                         } else {
@@ -120,12 +121,83 @@ class WorldModel {
             parseConfigDataKey("WORLD_LOCATIONS","LOCATION_MODELS", "model_data", config.model, locationModels)
         }
 
+
+        let lodActivate = function() {
+            if (lodActive === false) {
+                locationModels(this.configData);
+
+                lodActive = true;
+            }
+        }.bind(this)
+
+        let lodDeactivate = function() {
+            if (lodActive === true) {
+                ThreeAPI.unregisterPrerenderCallback(wModelCameraAABBTest)
+
+                lodActive = false;
+            }
+        }.bind(this)
+
+        let boundsInitiated = false;
+
+        let wModelCameraAABBTest = function() {
+        //
+            if (boundsInitiated === false) {
+                initBounds(this.config)
+                boundsInitiated = true;
+            }
+
+            if (MATH.valueIsBetween(lastLodLevel, 0, 1)) {
+                lodActivate();
+                setLocModelsLod(this.locationModels, 0);
+            } else {
+                let isVisible = ThreeAPI.testBoxIsVisible(this.box);
+                if (isVisible === true) {
+                    lodActivate();
+                    setLocModelsLod(this.locationModels, 2);
+                } else {
+                    setLocModelsLod(this.locationModels, -1);
+                    this.removeLocationModels()
+                    lodDeactivate()
+                }
+            }
+
+
+        }.bind(this)
+
+        function setLocModelsLod(locModels, lodLevel) {
+            for (let i = 0; i < locModels.length; i++) {
+                locModels[i].call.lodUpdated(lodLevel);
+            }
+        }
+
+        let lodActive = false;
+        let lastLodLevel = -1;
+
+        let worldModelLodUpdate = function(lodLevel) {
+
+            if (MATH.valueIsBetween(lodLevel, 0, 3)) {
+                if (lodActive === false) {
+                    ThreeAPI.registerPrerenderCallback(wModelCameraAABBTest)
+                }
+            } else {
+                lodActive = false;
+            }
+
+            lastLodLevel = lodLevel;
+
+        }.bind(this)
+
         let updateObj3D = function() {
+            ThreeAPI.clearTerrainLodUpdateCallback(worldModelLodUpdate)
             MATH.rotObj3dToArray(this.obj3d, this.config.rot, 1000);
             MATH.vec3ToArray(this.obj3d.position, this.config.pos, 100);
             MATH.vec3ToArray(this.obj3d.scale, this.config.scale, 1000);
             this.applyObj3dUpdate()
+            ThreeAPI.registerTerrainLodUpdateCallback(this.obj3d.position, worldModelLodUpdate)
         }.bind(this);
+
+        ThreeAPI.registerTerrainLodUpdateCallback(this.obj3d.position, worldModelLodUpdate)
 
         let hold = 1;
         let applyEditCursorUpdate = function(obj3d, grid) {
@@ -177,6 +249,25 @@ class WorldModel {
         }.bind(this)
 
 
+        let initBounds = function(cfg) {
+            this.box.min.set(0, 0, 0);
+            this.box.max.set(0, 0, 0);
+            let assets = cfg.assets;
+            if (!cfg.assets) {
+
+            } else {
+                for (let i = 0; i < assets.length; i++) {
+                    MATH.vec3FromArray(tempVec, assets[i].pos);
+                    tempVec.applyQuaternion(this.obj3d.quaternion)
+                    MATH.fitBoxAround(this.box, tempVec, tempVec)
+                }
+            }
+
+            this.box.min.add(this.obj3d.position);
+            this.box.max.add(this.obj3d.position);
+            evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:this.box.min, max:this.box.max, color:'RED'})
+        }.bind(this);
+
         let applyLoadedConfig = function(cfg, id, replace) {
             if (cfg !== null) {
 
@@ -191,7 +282,8 @@ class WorldModel {
                     this.id =  cfg.edit_id;
                 }
 
-            //    console.log("applyLoadedConfig", this.id, cfg.model, originalModel, this.config.model)
+                boundsInitiated = false;
+                //    console.log("applyLoadedConfig", this.id, cfg.model, originalModel, this.config.model)
 
                 if (cfg.model !== originalModel || replace === true) {
                     GameAPI.worldModels.removeWorldModel(this);
@@ -207,12 +299,6 @@ class WorldModel {
                 this.config = cfg;
                 updateObj3D()
 
-                if (typeof (cfg.assets) === 'object') {
-                    if (cfg.assets.length !== 0) {
-                        locationModels(this.configData);
-                    }
-                }
-
                 if (cfg.palette) {
                     setPaletteKey(cfg.palette);
                 }
@@ -220,11 +306,9 @@ class WorldModel {
 
         }.bind(this)
 
-
         this.call = {
             setPaletteKey:setPaletteKey,
             getPaletteKey:getPaletteKey,
-            removeWorldModel:removeWorldModel,
             applyEditCursorUpdate:applyEditCursorUpdate,
             locationModels:locationModels,
             applyLoadedConfig:applyLoadedConfig
@@ -250,6 +334,8 @@ class WorldModel {
         return this.obj3d.position;
     }
 
+
+
     calcBounds(debugDraw) {
         this.box.min.copy(this.getPos());
         this.box.max.copy(this.getPos());
@@ -269,9 +355,10 @@ class WorldModel {
         this.hidden = bool;
         for (let i = 0; i < this.locationModels.length; i++) {
             if (this.hidden === true) {
-                this.locationModels[i].call.hideLocationModel(this.locationModels[i])
+                console.log("World Model setHidden NYI")
+            //    this.locationModels[i].call.hideLocationModel(this.locationModels[i])
             } else {
-                this.call.locationModels(this.configData)
+            //    this.call.locationModels(this.configData)
             }
 
         }

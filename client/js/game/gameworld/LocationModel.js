@@ -29,8 +29,8 @@ function showLocationModel(model) {
 
 function hideLocationModel(model) {
 //    console.log("Hide", model);
-    if (!model.instance) {
-//        console.log("No INstance", model)
+    if (model.instance === null) {
+    //    console.log("No INstance", model)
     } else {
         model.instance.decommissionInstancedModel();
         model.instance = null;
@@ -70,7 +70,7 @@ class LocationModel {
                 let box = new WorldBox();
                 box.activateBoxByConfig(boxes[i])
                 box.attachToParent(parentObj3d);
-                ThreeAPI.registerTerrainLodUpdateCallback(box.getPos(), box.call.lodUpdated)
+            //    ThreeAPI.registerTerrainLodUpdateCallback(box.getPos(), box.call.lodUpdated)
                 this.boxes.push(box);
             }
         }
@@ -121,8 +121,13 @@ class LocationModel {
         }.bind(this)
 
         let lodUpdated = function(lodLevel) {
-            config = this.config;
+            config = model.config;
             model.lodLevel = lodLevel;
+
+            for (let i = 0; i < this.boxes.length; i++) {
+                this.boxes[i].call.lodUpdated(lodLevel);
+            }
+
             if (lodLevel === 0 || lodLevel === 1) {
 
                 if (physicalModel === null) {
@@ -154,7 +159,7 @@ class LocationModel {
                 }
             }
 
-            lodTest.lodTestModel(this, lodLevel, config.visibility, showLocationModel, hideLocationModel)
+            lodTest.lodTestModel(model, lodLevel, 2 || config.visibility, showLocationModel, hideLocationModel)
 
         }.bind(this)
 
@@ -255,7 +260,7 @@ class LocationModel {
 
         let setAssetId = function(aid) {
             this.config.model = aid;
-            hideLocationModel(this);
+        //    hideLocationModel(this);
         }.bind(this);
 
 
@@ -266,7 +271,6 @@ class LocationModel {
             setPaletteKey:setPaletteKey,
             getPaletteKey:getPaletteKey,
             lodUpdated:lodUpdated,
-            hideLocationModel:hideLocationModel,
             playerContact:playerContact,
             viewObstructing:viewObstructing,
             renderDebugAAB:renderDebugAAB
@@ -302,7 +306,6 @@ class LocationModel {
         MATH.emptyArray(this.bodyPointers);
         while (this.boxes.length) {
             let box = this.boxes.pop()
-            ThreeAPI.clearTerrainLodUpdateCallback(box.call.lodUpdated)
             box.call.lodUpdated(-1);
             box.call.removeWorldBox(box);
         }
@@ -311,7 +314,6 @@ class LocationModel {
     removeLocationModel() {
         this.clearLocationBoxes();
         this.call.lodUpdated(-1);
-        ThreeAPI.clearTerrainLodUpdateCallback(this.call.lodUpdated)
         hideLocationModel(this);
     }
 
