@@ -17,7 +17,7 @@
   "on_ground": false,
   "visibility": 2,
   "palette": "DEFAULT",
-  "edit_id": "wmdl_20_-766_5_790",
+  "edit_id": "wmdl_20_-766_5_789",
   "assets": [
     {
       "asset": "asset_castle_floor_10",
@@ -1174,7 +1174,7 @@
     {
       "asset": "asset_castle_pillar",
       "pos": [
-        11,
+        11.5,
         0,
         5
       ],
@@ -1198,13 +1198,13 @@
     {
       "asset": "asset_castle_pillar",
       "pos": [
-        30,
-        0.5,
-        -14
+        29.5,
+        0,
+        -13.5
       ],
       "rot": [
         0,
-        0,
+        -0.79,
         0
       ],
       "scale": [
@@ -1220,5 +1220,5 @@
       "grid": 0.5
     }
   ],
-  "grid": 0.5
+  "grid": 1
 }
