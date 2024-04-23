@@ -228,6 +228,71 @@
       },
 
 
+      {
+        "id":"asset_wood_6_floor",
+        "data":{
+          "shapes": [
+            {"shape": "box", "rot": [0, 0, 0],  "pos": [0, 0.0, 0], "scale": [600, 40, 600], "asset": "box", "convex": false, "mass": 0, "friction": 2.9}
+          ]
+        }
+      },
+
+      {
+        "id":"asset_wood_6_window",
+        "data":{
+          "shapes": [
+            {"shape": "box", "rot": [0, 0, 0],  "pos": [0, 2.5, 0], "scale": [40, 500, 600], "asset": "box", "convex": false, "mass": 0, "friction": 2.9}
+          ]
+        }
+      },
+
+      {
+        "id":"asset_wood_6_wall",
+        "data":{
+          "shapes": [
+            {"shape": "box", "rot": [0, 0, 0],  "pos": [0, 2.5, 0], "scale": [40, 500, 600], "asset": "box", "convex": false, "mass": 0, "friction": 2.9}
+          ]
+        }
+      },
+      {
+        "id":"asset_wood_6_door",
+        "data":{
+          "shapes": [
+            {"shape": "box", "rot": [0, 0, 0],  "pos": [0, 0, 0], "scale": [60, 20, 200], "asset": "box", "convex": false, "mass": 0, "friction": 2.9},
+            {"shape": "box", "rot": [0, 0, 0],  "pos": [0, 4.0, 0], "scale": [40, 60, 200], "asset": "box", "convex": false, "mass": 0, "friction": 2.9},
+            {"shape": "box", "rot": [0, 0, 0],  "pos": [0, 2.5, -2], "scale": [40, 500, 200], "asset": "box", "convex": false, "mass": 0, "friction": 2.9},
+            {"shape": "box", "rot": [0, 0, 0],  "pos": [0, 2.5, 2], "scale": [40, 500, 200], "asset": "box", "convex": false, "mass": 0, "friction": 2.9}
+          ]
+        }
+      },
+      {
+        "id":"asset_wood_6_fence",
+        "data":{
+          "shapes": [
+            {"shape": "box", "rot": [0, 0, 0],  "pos": [0, 0.6, 0], "scale": [40, 120, 600], "asset": "box", "convex": false, "mass": 0, "friction": 2.9}
+          ]
+        }
+      },
+      {
+        "id":"asset_wood_6_roof",
+        "data":{
+          "shapes": [
+            {"shape": "mesh", "rot": [0, 0, 0], "pos": [0, 0, 0], "scale": [100, 100, 100], "asset": "asset_hull_6_roof", "convex": true, "mass": 0, "friction": 2.9}
+          ]
+        }
+      },
+      {
+        "id":"asset_wood_6_wedge",
+        "data":{
+          "shapes": [
+            {"shape": "mesh", "rot": [0, 0, 0], "pos": [0, 0, 0], "scale": [100, 100, 100], "asset": "asset_hull_6_wedge", "convex": true, "mass": 0, "friction": 2.9}
+          ]
+        }
+      },
+
+
+
+
 
       {
         "id":"asset_tree_1",

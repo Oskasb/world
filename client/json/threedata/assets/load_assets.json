@@ -138,6 +138,8 @@
       "/threedata/assets/sprites/particle_sprites_8x8.json"
     ],
     "LOAD_MODELS":[
+      "asset_hull_6_roof",
+      "asset_hull_6_wedge",
       "asset_chain_shirt",
       "asset_cottage_hull_1",
       "asset_cottage_hull_2",
