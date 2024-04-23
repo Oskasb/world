@@ -133,7 +133,6 @@ class WorldModel {
         let lodDeactivate = function() {
             if (lodActive === true) {
                 ThreeAPI.unregisterPrerenderCallback(wModelCameraAABBTest)
-
                 lodActive = false;
             }
         }.bind(this)
@@ -141,14 +140,14 @@ class WorldModel {
         let boundsInitiated = false;
 
         let wModelCameraAABBTest = function() {
-        //
+
             if (boundsInitiated === false) {
                 initBounds(this.config)
                 boundsInitiated = true;
             }
 
             if (MATH.valueIsBetween(lastLodLevel, 0, 1)) {
-                lodActivate();
+                lodDeactivate();
                 setLocModelsLod(this.locationModels, 0);
             } else {
                 let isVisible = ThreeAPI.testBoxIsVisible(this.box);
@@ -157,8 +156,13 @@ class WorldModel {
                     setLocModelsLod(this.locationModels, 2);
                 } else {
                     setLocModelsLod(this.locationModels, -1);
-                    this.removeLocationModels()
-                    lodDeactivate()
+
+                    if (MATH.valueIsBetween(lastLodLevel, 0, 3) === false) {
+                        this.removeLocationModels()
+                        lodDeactivate()
+                    } else {
+                        setLocModelsLod(this.locationModels, lastLodLevel);
+                    }
                 }
             }
 
@@ -179,8 +183,13 @@ class WorldModel {
             if (MATH.valueIsBetween(lodLevel, 0, 3)) {
                 if (lodActive === false) {
                     ThreeAPI.registerPrerenderCallback(wModelCameraAABBTest)
+                    wModelCameraAABBTest();
                 }
             } else {
+                if (lodLevel > 3) {
+                    this.removeLocationModels()
+                    lodDeactivate()
+                }
                 lodActive = false;
             }
 
@@ -252,12 +261,20 @@ class WorldModel {
         let initBounds = function(cfg) {
             this.box.min.set(0, 0, 0);
             this.box.max.set(0, 0, 0);
-            let assets = cfg.assets;
-            if (!cfg.assets) {
 
-            } else {
+            if (cfg.assets) {
+                let assets = cfg.assets;
                 for (let i = 0; i < assets.length; i++) {
                     MATH.vec3FromArray(tempVec, assets[i].pos);
+                    tempVec.applyQuaternion(this.obj3d.quaternion)
+                    MATH.fitBoxAround(this.box, tempVec, tempVec)
+                }
+            }
+
+            if (cfg.boxes) {
+                let boxes = cfg.boxes;
+                for (let i = 0; i < boxes.length; i++) {
+                    MATH.vec3FromArray(tempVec, boxes[i].pos);
                     tempVec.applyQuaternion(this.obj3d.quaternion)
                     MATH.fitBoxAround(this.box, tempVec, tempVec)
                 }

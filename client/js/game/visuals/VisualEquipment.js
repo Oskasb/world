@@ -20,8 +20,10 @@ class VisualEquipment {
         function getVisualItemBySlot(slotId) {
             for (let i = 0; i < visualItems.length; i++) {
                 let vItem = visualItems[i];
-                if (slotId === vItem.getSlotId()) {
-                    return vItem;
+                if (vItem.item !== null) {
+                    if (slotId === vItem.getSlotId()) {
+                        return vItem;
+                    }
                 }
             }
             return null;

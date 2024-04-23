@@ -125,6 +125,8 @@ function processFrustumCulling(actor) {
 
     actor.call.frustumCulled(!isVisible);
 
+    /*
+
     let cPos = ThreeAPI.getCameraCursor().getLookAroundPoint();
     tempVec.copy(cPos);
     tempVec.y += 0.25;
@@ -134,7 +136,7 @@ function processFrustumCulling(actor) {
     } else {
         evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:tempVec, to:actor.getPos(), color:'CYAN'});
     }
-
+*/
 }
 
 function processActorSizeStatus(actor) {

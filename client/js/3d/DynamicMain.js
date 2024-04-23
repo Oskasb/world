@@ -158,16 +158,16 @@ class DynamicMain {
         for (let i = 0; i < this.instances.length; i++) {
 
             if (this.instances[i].stationary) {
-                evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:this.instances[i].getSpatial().getPos(), to:tempVec, color:'BLUE'});
+        //        evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:this.instances[i].getSpatial().getPos(), to:tempVec, color:'BLUE'});
 
             } else {
 
                 if (this.instances[i].getSpatial().call.getFrameVelocity()) {
                     this.instances[i].updateSpatialWorldMatrix();
-                    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:this.instances[i].getSpatial().getPos(), to:tempVec, color:'RED'});
+            //        evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:this.instances[i].getSpatial().getPos(), to:tempVec, color:'RED'});
 
                 } else {
-                    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:this.instances[i].getSpatial().getPos(), to:tempVec, color:'YELLOW'});
+            //        evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:this.instances[i].getSpatial().getPos(), to:tempVec, color:'YELLOW'});
 
                 }
             }
