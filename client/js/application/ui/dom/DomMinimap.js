@@ -6,6 +6,7 @@ import {EncounterStatus} from "../../../game/encounter/EncounterStatus.js";
 import {filterForWalkableTiles} from "../../../game/gameworld/ScenarioUtils.js";
 import {poolFetch, poolReturn} from "../../utils/PoolUtils.js";
 import {ENUMS} from "../../ENUMS.js";
+import {PerformanceMonitorUiSystem} from "../gui/systems/PerformanceMonitorUiSystem.js";
 
 let tempVec2 = new Vector2()
 let worldSize = 2048;
@@ -391,6 +392,18 @@ class DomMinimap {
 
         let editWorld = null;
 
+        let perfMonOn = false;
+        let perfMonSys = new PerformanceMonitorUiSystem();
+        let monitorPerformance = function() {
+            perfMonOn = !perfMonOn;
+
+            if (perfMonOn === true) {
+                perfMonSys.initPerformanceMonitorUiSystem()
+            } else {
+                perfMonSys.closePerformanceMonitorUiSystem();
+            }
+        }
+
         let openLocEdit = function() {
             if (client.page) {
                 GuiAPI.closePage(client.page)
@@ -413,9 +426,10 @@ class DomMinimap {
             let zoomInDiv = htmlElement.call.getChildElement('zoom_in')
             let zoomOutDiv = htmlElement.call.getChildElement('zoom_out')
             let locEditDiv = htmlElement.call.getChildElement('location_edit')
+            let perfMonDiv = htmlElement.call.getChildElement('perf_mon')
             DomUtils.addClickFunction(locEditDiv, openLocEdit)
             DomUtils.addClickFunction(mapDiv, openWorldMap)
-        //    DomUtils.addClickFunction(closeDiv, rebuild)
+            DomUtils.addClickFunction(perfMonDiv, monitorPerformance)
             DomUtils.addClickFunction(zoomInDiv, zoomIn)
             DomUtils.addClickFunction(zoomOutDiv, zoomOut)
             populateTravelPath(mapDiv);

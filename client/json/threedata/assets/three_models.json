@@ -123,9 +123,9 @@
         {"id": "asset_nineQuad",    "config": { "model": "file_quad",     "material": "material_instancing_ui_add", "settings": "model_settings_ui"  }},
         {"id": "asset_nine_add",    "config": { "model": "file_quad",     "material": "material_instancing_ui_add", "settings": "model_settings_ui"  }},
         {"id": "asset_nine_back",   "config": { "model": "file_quad",     "material": "material_instancing_ui_back","settings": "model_settings_ui"  }},
-        {"id": "asset_bullet",      "config": { "model": "file_bullet" ,  "material": "mat_instancing_basic",       "settings": "model_settings_instancing_100"     }},
-        {"id": "asset_cross3d",     "config": { "model": "file_cross3d",  "material": "mat_instancing_basic",       "settings": "model_settings_instancing_100"  }},
-        {"id": "asset_indicator_spawn",     "config": { "model": "file_indicator_spawn",  "material": "mat_instancing_basic",       "settings": "model_settings_instancing_100"  }},
+        {"id": "asset_bullet",      "config": { "model": "file_bullet" ,  "material": "mat_instancing_basic",       "settings": "model_settings_instancing_50"     }},
+        {"id": "asset_cross3d",     "config": { "model": "file_cross3d",  "material": "mat_instancing_basic",       "settings": "model_settings_instancing_50"  }},
+        {"id": "asset_indicator_spawn",     "config": { "model": "file_indicator_spawn",  "material": "mat_instancing_basic",       "settings": "model_settings_instancing_50"  }},
 
         {"id": "asset_belt_bronze", "config": { "model": "file_belt_bronze",  "material": "mat_instancing_basic",  "settings": "model_settings_items" }},
 
@@ -183,19 +183,19 @@
         {"id": "asset_hull_6_wedge",      "config": { "model": "file_hull_6_wedge",      "material": "mat_instancing_basic",     "settings": "model_settings_instancing_1" }},
 
 
-        {"id": "asset_floor_2_stone",       "config": { "model": "file_floor_2_stone",      "material": "mat_instancing_basic",     "settings": "model_settings_instancing_500" }},
-        {"id": "asset_wall_2_stone",        "config": { "model": "file_wall_2_stone",      "material": "mat_instancing_basic",     "settings": "model_settings_instancing_250" }},
+        {"id": "asset_floor_2_stone",       "config": { "model": "file_floor_2_stone",      "material": "mat_instancing_basic",     "settings": "model_settings_instancing_250" }},
+        {"id": "asset_wall_2_stone",        "config": { "model": "file_wall_2_stone",      "material": "mat_instancing_basic",     "settings": "model_settings_instancing_50" }},
         {"id": "asset_wall_2_door_stone",     "config": { "model": "file_wall_2_door_stone",      "material": "mat_instancing_basic",     "settings": "model_settings_instancing_50" }},
-        {"id": "asset_wall_2_window_stone",     "config": { "model": "file_wall_2_window_stone",      "material": "mat_instancing_basic",     "settings": "model_settings_instancing_250" }},
+        {"id": "asset_wall_2_window_stone",     "config": { "model": "file_wall_2_window_stone",      "material": "mat_instancing_basic",     "settings": "model_settings_instancing_100" }},
         {"id": "asset_stairs_2_stone",        "config": { "model": "file_stairs_2_stone",      "material": "mat_instancing_basic",     "settings": "model_settings_instancing_100" }},
-        {"id": "asset_fence_2_stone",         "config": { "model": "file_fence_2_stone",      "material": "mat_instancing_basic",     "settings": "model_settings_instancing_250" }},
+        {"id": "asset_fence_2_stone",         "config": { "model": "file_fence_2_stone",      "material": "mat_instancing_basic",     "settings": "model_settings_instancing_100" }},
 
         {"id": "asset_floor_3_stone",       "config": { "model": "file_floor_3_stone",      "material": "mat_instancing_basic",     "settings": "model_settings_instancing_500" }},
         {"id": "asset_wall_3_stone",        "config": { "model": "file_wall_3_stone",      "material": "mat_instancing_basic",     "settings": "model_settings_instancing_250" }},
         {"id": "asset_wall_3_door_stone",     "config": { "model": "file_wall_3_door_stone",      "material": "mat_instancing_basic",     "settings": "model_settings_instancing_50" }},
         {"id": "asset_wall_3_window_stone",     "config": { "model": "file_wall_3_window_stone",      "material": "mat_instancing_basic",     "settings": "model_settings_instancing_500" }},
         {"id": "asset_stairs_3_stone",        "config": { "model": "file_stairs_3_stone",      "material": "mat_instancing_basic",     "settings": "model_settings_instancing_100" }},
-        {"id": "asset_fence_3_stone",         "config": { "model": "file_fence_3_stone",      "material": "mat_instancing_basic",     "settings": "model_settings_instancing_250" }},
+        {"id": "asset_fence_3_stone",         "config": { "model": "file_fence_3_stone",      "material": "mat_instancing_basic",     "settings": "model_settings_instancing_100" }},
 
 
         {"id": "asset_castle_floor_10",     "config": { "model": "file_castle_floor_10",      "material": "mat_instancing_basic",     "settings": "model_settings_instancing_50" }},

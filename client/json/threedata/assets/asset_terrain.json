@@ -12,7 +12,7 @@
                 "grid": {
                   "hide_tiles": true,
                   "tile_range": 11,
-                  "tile_spacing": 30
+                  "tile_spacing": 26
                 },
                 "section_info": {
                   "lod_levels": [

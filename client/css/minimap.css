@@ -89,7 +89,16 @@ div.button_close {
 div.anchor_location_edit {
     position: absolute;
     bottom: 1.5em;
-    right: 2em;
+    right: 1.5em;
+    left: auto;
+    width: 0;
+    height: 0;
+}
+
+div.anchor_perf_mon {
+    position: absolute;
+    bottom: -0.5em;
+    right: 7.5em;
     left: auto;
     width: 0;
     height: 0;
