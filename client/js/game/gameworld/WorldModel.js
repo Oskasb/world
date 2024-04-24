@@ -187,23 +187,19 @@ class WorldModel {
 
 
         let worldModelLodUpdate = function(lodLevel) {
-
+            lastLodLevel = lodLevel;
             if (MATH.valueIsBetween(lodLevel, 0, 1)) {
                  lodDeactivate()
             //    lodActivate()
-                if (modelsLoaded === false) {
                     if (modelsLoaded === false) {
                         locationModels(this.configData);
                         setLocModelsLod(this.locationModels, 0);
                     }
-                }
             } else if (MATH.valueIsBetween(lodLevel, 2, 3)) {
-                if (modelsLoaded === false) {
                     if (modelsLoaded === false) {
                         locationModels(this.configData);
                         setLocModelsLod(this.locationModels, 2);
                     }
-                }
                  lodDeactivate()
                 //lodActivate()
             } else if (lodLevel > 3) {
@@ -217,8 +213,6 @@ class WorldModel {
                         lodDeactivate()
                     }
             }
-
-            lastLodLevel = lodLevel;
 
         }.bind(this)
 
@@ -345,7 +339,7 @@ class WorldModel {
                     setPaletteKey(cfg.palette);
                 }
             }
-
+            worldModelLodUpdate(-1);
         }.bind(this)
 
         this.call = {
