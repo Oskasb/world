@@ -270,6 +270,13 @@ class ThreeAPI {
         terrainSystem.adjustGroundToAABB(aabb)
         terrainSystem.rebuildGround()
     }
+
+    imprintModelAABBToGround(aabb) {
+        console.log("Imprint Ground AABB", aabb);
+        terrainSystem.imprintGroundModelAABB(aabb);
+        terrainSystem.rebuildGround()
+    }
+
     getTerrainMaxHeight = function() {
         return terrainSystem.getTerrainHeight();
     }

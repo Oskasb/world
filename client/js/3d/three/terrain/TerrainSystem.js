@@ -116,6 +116,10 @@ class TerrainSystem {
         threeTerrain.call.alignDataCanvasToAABB(aabb);
     }
 
+    imprintGroundModelAABB = function(aabb) {
+        threeTerrain.call.imprintGroundInAABB(aabb);
+    }
+
     registerLodUpdateCB = function(pos, callback) {
 
         if (this.allLodCallbacks.indexOf(callback) === -1) {

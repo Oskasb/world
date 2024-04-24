@@ -10,6 +10,7 @@ import * as CursorUtils from "../../camera/CursorUtils.js";
 import {poolReturn} from "../../../application/utils/PoolUtils.js";
 import { ImageLoader } from "../../../../libs/three/loaders/ImageLoader.js";
 import {applyGroundCanvasEdit, fitHeightToAABB} from "./TerrainFunctions.js";
+import {getTerrainBodyPointer, rayTest, testProbeFitsAtPos} from "../../../application/utils/PhysicsUtils.js";
 
 let scrubIndex = 0;
 
@@ -98,7 +99,10 @@ let alignThreeTerrainDataToAABB = function(aabb) {
     terrainBigGeometry.updateHeightmapCanvasTexture(updateRect);
 }
 
-function applyTerrainEdit(edit) {
+
+
+
+function applyTerrainEdit(edit, ) {
     console.log("applyTerrainEdit", edit);
 
     let params = terrainBigGeometry.getTerrainParams()
@@ -112,7 +116,92 @@ function applyTerrainEdit(edit) {
 
 }
 
+let imprintEdit = {
+    biome:[115, 0, 165],
+    operation : "GROUND"
+}
 
+
+function queueImprint(x, y, z, i) {
+
+    setTimeout(function() {
+        imprintEdit.pos.x = x // -0.5;
+        imprintEdit.pos.y = y;
+        imprintEdit.pos.z = z +1 //0.5;
+        imprintEdit.radius = 1 + Math.round(MATH.sillyRandom(i*0.01)*2) * 1;
+        applyTerrainEdit(imprintEdit);
+    }, i * 50)
+
+}
+
+function testCirclePoint(frac, vec3, height) {
+
+    calcVec.copy(vec3)
+
+    calcVec.x = Math.sin(frac) * 0.75 + vec3.x;
+    calcVec.z = Math.cos(frac) * 0.75 + vec3.z;
+
+    let groundY = ThreeAPI.terrainAt(calcVec);
+    calcVec.y = groundY + 0.05;
+
+    tempVec2.copy(calcVec);
+    tempVec2.y += height
+
+    let hit = rayTest(tempVec2, calcVec, calcVec, tempVec2)
+    if (hit) {
+        if (hit.ptr !== getTerrainBodyPointer()) {
+            tempVec1.copy(calcVec);
+            return hit
+        }
+    }
+}
+
+function imprintGroundInAABB(aabb) {
+
+    let min = aabb.min;
+    let max = aabb.max;
+
+    let diffX = Math.ceil(max.x+3 - (min.x-2));
+    let diffZ = Math.ceil(max.z+3 - (min.z-2));
+    let height = 2 // max.y - min.y;
+
+    imprintEdit.pos = tempVec1;
+    imprintEdit.radius = 1.0;
+    imprintEdit.sharpness = 0.65;
+    imprintEdit.noise = 1;
+    imprintEdit.strength = 10;
+    let print = 0;
+
+    for (let i = 0; i < diffX; i++) {
+        for (let j = 0; j < diffZ; j++) {
+
+            tempVec1.x = min.x + i - 1;
+            tempVec1.z = min.z + j - 1;
+            let groundY = ThreeAPI.terrainAt(tempVec1);
+            tempVec1.y = groundY + 0.01;
+            tempVec2.copy(tempVec1);
+            tempVec2.y += height
+
+            let hit = rayTest(tempVec2, tempVec1, tempVec1, tempVec2)
+            if (hit && hit.ptr !== getTerrainBodyPointer()) {
+                print++;
+                queueImprint(tempVec1.x, tempVec1.y, tempVec1.z, print)
+            } else {
+
+                for (let l = 0; l < 6; l++) {
+
+                    let hit = testCirclePoint(tempVec1, i / l, height);
+                    if (hit) {
+                        l = 7;
+                        queueImprint(tempVec1.x, tempVec1.y, tempVec1.z, print)
+                    }
+                }
+
+            }
+        }
+    }
+
+}
 
 let constructGeometries = function(heightMapData, transform, groundConfig, sectionInfoCfg) {
     let dims = heightMapData['dimensions'];
@@ -357,6 +446,7 @@ class ThreeTerrain {
             getTerrainData:getTerrainData,
             shadeTerrainDataCanvas:shadeTerrainDataCanvas,
             alignDataCanvasToAABB:alignDataCanvasToAABB,
+            imprintGroundInAABB:imprintGroundInAABB,
             subscribeToLodUpdate:subscribeToLodUpdate,
             removeLodUpdateCB:removeLodUpdateCB,
             getTerrainScale:getTerrainScale,

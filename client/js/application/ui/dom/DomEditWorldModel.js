@@ -13,6 +13,7 @@ let operationsList = [
     "",
     "ATTACH",
     "FLATTEN",
+    "IMPRINT",
     "ELEVATE",
     "HIDE",
     "DELETE"
@@ -60,6 +61,13 @@ function worldModelOperation(wModel, operation) {
         wModel.applyObj3dUpdate();
         let box = wModel.box;
         ThreeAPI.alignGroundToAABB(box);
+    }
+
+    if (operation === "IMPRINT") {
+        wModel.call.worldModelLodUpdate(0);
+        wModel.applyObj3dUpdate();
+        let box = wModel.box;
+        ThreeAPI.imprintModelAABBToGround(box);
     }
 
     if (operation === "DELETE") {

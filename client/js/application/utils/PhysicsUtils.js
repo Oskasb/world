@@ -455,6 +455,7 @@ function updateViewObstruction(pos) {
 }
 
 export {
+    getTerrainBodyPointer,
     getPhysicalWorld,
     detectFreeSpaceAbovePoint,
     rayTest,

@@ -193,8 +193,8 @@ class WorldModel {
             //    lodActivate()
                     if (modelsLoaded === false) {
                         locationModels(this.configData);
-                        setLocModelsLod(this.locationModels, 0);
                     }
+                setLocModelsLod(this.locationModels, 0);
             } else if (MATH.valueIsBetween(lodLevel, 2, 3)) {
                     if (modelsLoaded === false) {
                         locationModels(this.configData);
@@ -347,7 +347,8 @@ class WorldModel {
             getPaletteKey:getPaletteKey,
             applyEditCursorUpdate:applyEditCursorUpdate,
             locationModels:locationModels,
-            applyLoadedConfig:applyLoadedConfig
+            applyLoadedConfig:applyLoadedConfig,
+            worldModelLodUpdate:worldModelLodUpdate
         }
 
         if (id !== "preview_model") {
