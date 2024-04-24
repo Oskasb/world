@@ -62,6 +62,10 @@ class WorldModel {
         MATH.decimalifyVec3(this.obj3d.position, 100);
 
 
+        let lodActive = false;
+        let lastLodLevel = -1;
+        let modelsLoaded = false;
+
         if (id) {
             this.id = id;
         } else {
@@ -84,6 +88,7 @@ class WorldModel {
 
 
         let locationModels = function(data) {
+            modelsLoaded = true;
             this.configData = data;        //    console.log("Reflow Location Models: ", this.locationModels.length)
             let assets = data.assets;
 
@@ -124,9 +129,8 @@ class WorldModel {
 
         let lodActivate = function() {
             if (lodActive === false) {
-                locationModels(this.configData);
-
                 lodActive = true;
+                ThreeAPI.registerPrerenderCallback(wModelCameraAABBTest)
             }
         }.bind(this)
 
@@ -136,6 +140,11 @@ class WorldModel {
                 lodActive = false;
             }
         }.bind(this)
+
+        let removeModels = function() {
+            this.removeLocationModels()
+            modelsLoaded = false;
+        }.bind(this);
 
         let boundsInitiated = false;
 
@@ -147,22 +156,22 @@ class WorldModel {
             }
 
             if (MATH.valueIsBetween(lastLodLevel, 0, 1)) {
-                lodDeactivate();
-                setLocModelsLod(this.locationModels, 0);
+
             } else {
                 let isVisible = ThreeAPI.testBoxIsVisible(this.box);
                 if (isVisible === true) {
-                    lodActivate();
-                    setLocModelsLod(this.locationModels, 2);
-                } else {
-                    setLocModelsLod(this.locationModels, -1);
-
-                    if (MATH.valueIsBetween(lastLodLevel, 0, 3) === false) {
-                        this.removeLocationModels()
+                    if (lastLodLevel > 3) {
+                        removeModels()
                         lodDeactivate()
                     } else {
-                        setLocModelsLod(this.locationModels, lastLodLevel);
+                        if (modelsLoaded === false) {
+                            locationModels(this.configData);
+                            setLocModelsLod(this.locationModels, 2);
+                        }
                     }
+                } else {
+                    removeModels()
+                    lodDeactivate()
                 }
             }
 
@@ -175,22 +184,38 @@ class WorldModel {
             }
         }
 
-        let lodActive = false;
-        let lastLodLevel = -1;
+
 
         let worldModelLodUpdate = function(lodLevel) {
 
-            if (MATH.valueIsBetween(lodLevel, 0, 3)) {
-                if (lodActive === false) {
-                    ThreeAPI.registerPrerenderCallback(wModelCameraAABBTest)
-                    wModelCameraAABBTest();
+            if (MATH.valueIsBetween(lodLevel, 0, 1)) {
+                 lodDeactivate()
+            //    lodActivate()
+                if (modelsLoaded === false) {
+                    if (modelsLoaded === false) {
+                        locationModels(this.configData);
+                        setLocModelsLod(this.locationModels, 0);
+                    }
                 }
+            } else if (MATH.valueIsBetween(lodLevel, 2, 3)) {
+                if (modelsLoaded === false) {
+                    if (modelsLoaded === false) {
+                        locationModels(this.configData);
+                        setLocModelsLod(this.locationModels, 2);
+                    }
+                }
+                 lodDeactivate()
+                //lodActivate()
+            } else if (lodLevel > 3) {
+                removeModels()
+                lodDeactivate()
             } else {
-                if (lodLevel > 3) {
-                    this.removeLocationModels()
-                    lodDeactivate()
-                }
-                lodActive = false;
+                    if (modelsLoaded === true) {
+                        lodActivate()
+                    } else {
+                        removeModels()
+                        lodDeactivate()
+                    }
             }
 
             lastLodLevel = lodLevel;

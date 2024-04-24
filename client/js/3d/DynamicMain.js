@@ -167,7 +167,7 @@ class DynamicMain {
             //        evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:this.instances[i].getSpatial().getPos(), to:tempVec, color:'RED'});
 
                 } else {
-                    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:this.instances[i].getSpatial().getPos(), to:tempVec, color:'YELLOW'});
+            //        evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:this.instances[i].getSpatial().getPos(), to:tempVec, color:'YELLOW'});
 
                 }
             }
