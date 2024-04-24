@@ -10,11 +10,19 @@ let frustumFactor = 0.828;
 
 let index = 0;
 
+let frameRotObj3d = new Object3D()
+
 function applyStatusUpdate(statusMap, updateObj3d) {
+
+    frameRotObj3d.quaternion.set(0, 0, 0, 1);
+    frameRotObj3d.rotateX(statusMap.rotX)
+    frameRotObj3d.rotateY(statusMap.rotY)
+    frameRotObj3d.rotateZ(statusMap.rotZ)
     // MATH.eulerFromQuaternion()
-    updateObj3d.rotation.x = statusMap.rotX // - model.obj3d.rotation.x)
-    updateObj3d.rotation.y = statusMap.rotY
-    updateObj3d.rotation.z = statusMap.rotZ
+    updateObj3d.quaternion.copy(frameRotObj3d.quaternion)
+ //   updateObj3d.rotation.x = statusMap.rotX // - model.obj3d.rotation.x)
+ //   updateObj3d.rotation.y = statusMap.rotY
+ //   updateObj3d.rotation.z = statusMap.rotZ
 
     statusMap.applyScale = statusMap.offsetScale + statusMap.scale*0.1;
     if (statusMap.elevate === 0) {
@@ -194,6 +202,8 @@ class DomEditCursor {
 
         let applyEdits = function() {
             applyStatusUpdate(this.statusMap, updateObj3d)
+
+        //    this.initObj3d.quaternion.copy(updateObj3d.quaternion);
         }.bind(this);
 
         let update = function() {
@@ -231,7 +241,14 @@ class DomEditCursor {
                 MATH.decimalifyVec3(tempVec, res);
                 tempObj3d.lookAt(tempVec);
                 targetObj3d.quaternion.copy(tempObj3d.quaternion);
+
+                tempVec.add(targetObj3d.position)
+                evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:targetObj3d.position, to:tempVec, color:'YELLOW'});
+
+
             }
+
+        //    updateObj3d.quaternion.copy(targetObj3d.quaternion)
 
             MATH.callAll(this.onUpdateCallbacks, targetObj3d, grid);
 

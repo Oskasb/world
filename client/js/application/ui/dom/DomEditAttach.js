@@ -285,7 +285,10 @@ class DomEditAttach {
                 MATH.vec3ToArray(tempVec, editTarget.config.pos, 100);
                 let inputRot = obj3d.rotation.y;
                 let axis = statusMap.axis;
-                editTarget.config.rot[axisRot.indexOf(axis)] = MATH.decimalify(inputRot, 100);
+
+                MATH.rotObj3dToArray(obj3d, editTarget.config.rot, 100)
+
+                // editTarget.config.rot[axisRot.indexOf(axis)] = MATH.decimalify(inputRot, 100);
             //    MATH.rotObj3dToArray(obj3d, editTarget.config.rot, 100);
 
                 if (MATH.distanceBetween(lastScaleVec3, obj3d.scale) !== 0) {
