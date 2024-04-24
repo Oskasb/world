@@ -383,6 +383,8 @@ class DomEditAttach {
 
             if (modelCursor !== null) {
                 modelCursor.call.setGrid(editTarget.config.grid || lastGrid);
+            //    modelCursor.statusMap.offsetElevate = editTarget.config.pos[1];
+                modelCursor.statusMap.applyElevate = editTarget.config.pos[1];
             } else  {
             //    closeCursor()
                 modelCursor = poolFetch('DomEditCursor');
@@ -403,6 +405,8 @@ class DomEditAttach {
                 }
 
                 modelCursor.initDomEditCursor(closeModelCursor, cursorObj3d, onCursorUpdate, onCursorClick)
+            //    modelCursor.statusMap.offsetElevate = editTarget.config.pos[1];
+                modelCursor.statusMap.applyElevate = editTarget.config.pos[1];
                 modelCursor.call.setGrid(editTarget.config.grid);
             }
 
