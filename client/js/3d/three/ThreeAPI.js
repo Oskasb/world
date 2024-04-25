@@ -373,6 +373,10 @@ class ThreeAPI {
     };
 
     addToScene = function(threeObject) {
+        if (threeObject.type === 'Object3D') {
+            console.log("Add To Scene", threeObject);
+        }
+
         this.threeSetup.addToScene(threeObject);
     };
 

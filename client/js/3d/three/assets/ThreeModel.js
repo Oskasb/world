@@ -177,8 +177,6 @@ class ThreeModel {
                 console.log("Bad pool recovery", this.id, spatial, this);
                 return;
             }
-
-            //    this.expandingPool.returnToExpandingPool(spatial);
         } else {
             //    this.model.returnCloneToPool(spatial);
             ThreeAPI.hideModel(spatial.obj3d);

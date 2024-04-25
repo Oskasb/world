@@ -214,11 +214,11 @@ class InstancedModel {
 
     setActive = function(ENUM) {
 
-        //    console.log("Set Active ", this)
+      //      console.log("Set Active ", this)
 
         this.active = ENUM;
         if (this.active !== ENUMS.InstanceState.DECOMISSION ) {
-            this.activateInstancedModel();
+     //       this.activateInstancedModel();
 
             this.decomissioned = false;
 
@@ -228,7 +228,7 @@ class InstancedModel {
                 return;
             }
             this.decomissioned = true;
-            this.decommissionInstancedModel();
+      //      this.decommissionInstancedModel();
         }
     };
 
@@ -403,10 +403,17 @@ class InstancedModel {
     };
 
     activateInstancedModel = function() {
-        ThreeAPI.addToScene(this.obj3d);
+    //    ThreeAPI.addToScene(this.obj3d);
         if (this.animator) {
             this.animator.activateAnimator();
         }
+
+        if (this.originalModel.isGeometryInstance()) {
+            let activeCount = this.originalAsset.getActiveCount();
+            let instanceBuffers = this.originalModel.instanceBuffers;
+            instanceBuffers.setInstancedCount(activeCount+1);
+        }
+
     };
 
     decommissionInstancedModel = function() {
@@ -416,8 +423,18 @@ class InstancedModel {
         if (this.animator) {
             this.animator.deActivateAnimator();
         }
+
         this.originalModel.recoverModelClone(this.getSpatial());
         this.originalAsset.disableAssetInstance(this);
+
+
+        if (this.originalModel.isGeometryInstance()) {
+            let activeCount = this.originalAsset.getActiveCount();
+            let instanceBuffers = this.originalModel.instanceBuffers;
+            instanceBuffers.setInstancedCount(activeCount);
+        }
+
+
     };
 
 }

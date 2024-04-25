@@ -1,13 +1,27 @@
+import {InstancedBufferGeometry} from "../../../../libs/three/core/InstancedBufferGeometry.js";
+import {BufferAttribute} from "../../../../libs/three/core/BufferAttribute.js";
+import {Mesh} from "../../../../libs/three/objects/Mesh.js";
+import {InstancedInterleavedBuffer} from "../../../../libs/three/core/InstancedInterleavedBuffer.js";
+import {InterleavedBufferAttribute} from "../../../../libs/three/core/InterleavedBufferAttribute.js";
+import {Box3, Sphere} from "../../../../libs/three/Three.js";
+
+let activeGeometries = 0;
+let countTotal = 0;
+
 class InstanceBuffer {
     constructor(verts, uvs, indices, normals) {
         this.attributes = {};
         this.buffers = {};
         this.buildGeometry(verts, uvs, indices, normals);
+        this.isCameraSpace = false;
+        this.mesh;
     };
+
+
 
     buildGeometry = function(verts, uvarray, indices, normals) {
 
-        let geometry = new THREE.InstancedBufferGeometry();
+        let geometry = new InstancedBufferGeometry();
         geometry.name = 'InstanceBuffer buildGeometry'
         let posBuffer   =     verts;
         let uvBuffer    =     uvarray;
@@ -30,35 +44,57 @@ class InstanceBuffer {
             }
         }
 
-        if (normals) {
-            let normal = new THREE.BufferAttribute(normals , 3 );
-            geometry.setAttribute( 'normal', normal );
-        }
 
 
         let indexBuffer =   new Uint16Array( indices );
-        geometry.setIndex( new THREE.BufferAttribute( indexBuffer , 1 ) );
+        geometry.setIndex( new BufferAttribute( indexBuffer , 1 ) );
 
         geometry.index.needsUpdate = true;
         geometry.needsUpdate = true;
 
-        let vertices = new THREE.BufferAttribute(posBuffer , 3 );
-     //   geometry.setAttribute( 'vertexPosition', vertices );
+/*
+        let joinedArray = [];
+
+        for (let i = 0; i < indices.length; i++) {
+            joinedArray.push(verts[i*3]);
+            joinedArray.push(verts[i*3+1]);
+            joinedArray.push(verts[i*3+2]);
+            joinedArray.push(normals[i*3]);
+            joinedArray.push(normals[i*3+1]);
+            joinedArray.push(normals[i*3+2]);
+        }
+*/
+
+    //    let joinedBuffer = new Float32Array(  verts)
+    //    const iIB = new InstancedInterleavedBuffer(joinedBuffer, 3, 1); // this part is important
+    //    geometry.setAttribute("position", new InterleavedBufferAttribute(iIB, 3, 0));
+
+
+    //    if (normals) {
+            let normal = new BufferAttribute(normals , 3 );
+             geometry.setAttribute( 'normal', normal );
+        //     geometry.setAttribute("normal", new THREE.InterleavedBufferAttribute(iIB, 3, 0));
+    //    }
+//
+        let vertices = new BufferAttribute(posBuffer , 3 );
         geometry.setAttribute( 'position', vertices );
-        let uvs = new THREE.BufferAttribute( uvBuffer , 2 );
+        let uvs = new BufferAttribute( uvBuffer , 2 );
         geometry.setAttribute( 'uv', uvs );
-        geometry.getAttribute('position').needsUpdate = true;
+    //    geometry.getAttribute('position').needsUpdate = true;
 
         this.geometry = geometry;
 
-        let mesh = new THREE.Mesh(geometry);
+        geometry.boundingSphere = new Sphere();
+        geometry.boundingBox = new Box3();
+
+        let mesh = new Mesh(geometry);
         mesh.matrixAutoUpdate = false;
         mesh.frustumCulled = false;
         mesh.userData.ninequad = ninequad;
         //    mesh.scale.set(1, 1, 1);
 
-        mesh.geometry.drawRange.count = indices.length*1.0;
-
+        mesh.geometry.drawRange.count = indices.length;
+        mesh.geometry.maxInstancedCount = 0;
         mesh.needsUpdate = true;
         this.mesh = mesh;
 
@@ -133,10 +169,21 @@ class InstanceBuffer {
         this.setInstancedCount(count)
     };
 
-    setInstancedCount = function(count) {
-        if (count) {
-        //    console.log("Set draw range: ", count, [this]);
+    setInstancedCount(count) {
+
+        if (this.isCameraSpace === false) {
+            if (this.mesh.geometry.maxInstancedCount === 0) {
+                if (count !== 0) {
+                    console.log("Count++", activeGeometries)
+                    this.addToScene();
+                }
+            } else if (count === 0) {
+                console.log("Count Zero", activeGeometries)
+             //   ThreeAPI.hideModel(this.mesh);
+                this.removeFromScene();
+            }
         }
+
         this.mesh.geometry.maxInstancedCount = count;
         this.mesh.geometry.needsUpdate = true;
     };
@@ -155,7 +202,7 @@ class InstanceBuffer {
             let lastIndex = buffer.length -1;
 
             if (key === 'offset') {
-                    drawRange = buffer[lastIndex-2];
+                drawRange = buffer[lastIndex-2];
                 this.setInstancedCount(drawRange)
             }
 
@@ -168,12 +215,14 @@ class InstanceBuffer {
         return drawRange;
     };
 
-    removeFromScene = function() {
+    removeFromScene() {
+        activeGeometries--
         ThreeAPI.hideModel(this.mesh);
     };
 
-    addToScene = function(screenSpace) {
-        if (screenSpace) {
+    addToScene() {
+        activeGeometries++
+        if (this.isCameraSpace) {
 
             let offset = new THREE.Object3D();
             offset.position.z = -1;

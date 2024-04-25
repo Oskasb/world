@@ -82,7 +82,11 @@ class InstanceAPI {
         insBufs.setMaterial(material);
         this.instanceBuffers[id] = insBufs;
         this.instanceBuffers[id].setInstancedCount(0);
-        insBufs.addToScene(settings.cameraspace);
+        if (settings.cameraspace) {
+            this.instanceBuffers[id].isCameraSpace = true;
+            insBufs.addToScene();
+        }
+    //
         return insBufs;
     };
 

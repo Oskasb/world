@@ -77,7 +77,6 @@ class ExpandingPool {
         this.generatePoolEntry = function(callback) {
             track.added++
             this.count.added++
-            this.count.active = this.count.added - this.poolEntryCount();
             createFunc(dataKey, callback)
         }.bind(this);
 
@@ -88,17 +87,15 @@ class ExpandingPool {
     };
 
     pushEP = function(entry) {
-        this.count.active = this.count.added - this.poolEntryCount();
         return this.pool.push(entry);
     };
 
     shiftEP = function() {
-        this.count.active = this.count.added - this.poolEntryCount();
         return this.pool.shift()
     };
 
     getFromExpandingPool = function(callback) {
-
+        this.count.active++
         if (this.poolEntryCount() !== 0) {
             callback(this.shiftEP());
         } else {
@@ -107,7 +104,7 @@ class ExpandingPool {
     };
 
     returnToExpandingPool = function(entry) {
-
+        this.count.active--
         if (this.pool.indexOf(entry) === -1) {
             this.pushEP(entry)
         } else {

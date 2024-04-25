@@ -120,6 +120,7 @@
                 "sunLightColor": { "value": {"r":1, "g":1, "b":1}},
                 "sunLightDirection": { "value": {"x":1, "y":1, "z":1}}
               },
+              "side": "FrontSide",
               "texture_uniforms": [
                 {"key":"terrainmap",  "tiles":[0,   0]},
                 {"key":"heightmap",   "tiles":[0,   0]},
@@ -146,6 +147,7 @@
                 "sunLightColor": { "value": {"r":1, "g":1, "b":1}},
                 "sunLightDirection": { "value": {"x":1, "y":1, "z":1}}
               },
+              "side": "FrontSide",
               "texture_uniforms": [
 
                 {"key":"terrainmap",  "tiles":[0,   0]},
@@ -172,6 +174,7 @@
                 "sunLightColor": { "value": {"r":1, "g":1, "b":1}},
                 "sunLightDirection": { "value": {"x":1, "y":1, "z":1}}
               },
+              "side": "DoubleSide",
               "texture_uniforms": [
 
                 {"key":"heightmap",   "tiles":[0,   0]},
@@ -198,6 +201,7 @@
                 "sunLightColor": { "value": {"r":1, "g":1, "b":1}},
                 "sunLightDirection": { "value": {"x":1, "y":1, "z":1}}
               },
+              "side": "FrontSide",
               "texture_uniforms": [
 
                 {"key":"terrainmap",  "tiles":[0,   0]},
@@ -225,7 +229,7 @@
                 "sunLightColor": { "value": {"r":1, "g":1, "b":1}},
                 "sunLightDirection": { "value": {"x":1, "y":1, "z":1}}
               },
-
+              "side": "FrontSide",
               "texture_uniforms": [
                 {"key":"tx0",  "repeat":[11,   11]},
                 {"key":"tx1",  "repeat":[43,   43]},
@@ -256,7 +260,7 @@
                 "sunLightDirection": { "value": {"x":1, "y":1, "z":1}},
                 "clearViewPos1": { "value": {"x":1, "y":1, "z":1}}
               },
-              "side": "DoubleSide",
+              "side": "FrontSide",
               "data_texture": "data_texture",
               "texture_uniforms": [
                 {"key":"materialEps" , "repeat":[1,   1]},

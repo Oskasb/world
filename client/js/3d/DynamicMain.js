@@ -124,7 +124,7 @@ class DynamicMain {
             let postLoadCB = function(loadedAsset) {
 
                 let warmup = function(modelInstance) {
-                    modelInstance.activateInstancedModel();
+                //    modelInstance.activateInstancedModel();
                     modelInstance.decommissionInstancedModel()
                     asset = assets[assetId];
 

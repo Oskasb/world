@@ -785,7 +785,6 @@
           "float paletteSteps = 4.0;",
 
 
-
           "float rowSelector = 0.0 + 1.0 * paletteSelect * paletteSteps;",
           "float rowDelta1 = texelRowAttribute.y - texelRowAttribute.x;",
           "float rowDelta2 = texelRowAttribute.z - texelRowAttribute.y;",
@@ -838,14 +837,12 @@
           "vec3 metalSurfaceReflection = vec3(reflectionColor.rgb * sunLightColor) * txColor.rgb * metal*0.25 + metal* (0.25 + directFactor) * (normalize(txColor.rgb) * reflectionColor.rgb);",
           "vec3 metalReflection = metalDirectReflection + metalSurfaceReflection/(2.0 + angle * 0.75);",
 
-
           "float smoothnessFactor = smooth*smooth - metal;",
           "vec4 fresnelReflection = reflectionColor * smoothnessFactor * (fresnelIntensity*(rough+smooth*0.1) + fresnelFactor*smooth*0.5);",
           "vec4 directReflection  = txColor * reflectionColor  * directFactor * (directFactor * (1.0 -(angle*(rough*0.9)))) *( directFactor) * 0.5 *(1.0 - angle*2.0);",
           "vec4 surfaceReflection = reflectionColor * smoothnessFactor * ((0.5 *smooth*metal) * (1.0-angle) + (1.0 * (smooth*(1.0/(1.0+metal*5.0))) * angle))*0.5;",
           "vec4 finalReflection = vec4(metalReflection, 1.0) + (1.0 - (metal * (1.0))) * (directReflection + surfaceReflection) + fresnelReflection*(smooth+metal)*0.5;",
           "finalReflection = vec4(metalReflection.rgb, 1.0);",
-
 
           "float intensity = min(max( 0.5*(rough*rough*0.55 + smooth*smooth*0.75) + dot(fragNormal, sunLightDirection )*(0.5 + smooth*0.5), -0.0), 1.0);",
           "intensity = dot(fragNormal, sunLightDirection )*1.0 + 0.3;",

@@ -211,6 +211,12 @@ class DomEditWorldModel {
                     updateSelectedOperation()
                 }
 
+
+                if (statusMap.operation === 'IMPRINT') {
+
+                    evt.dispatch(ENUMS.Event.DEBUG_DRAW_AABOX, {min:worldModel.box.min, max:worldModel.box.max, color:'CYAN'})
+                }
+
                 statusMap.header = worldModel.config.model
 
                 let div = rootElem;

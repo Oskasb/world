@@ -49,6 +49,11 @@ class ThreeAsset  {
         client.dynamicMain.removeFromInstanceIndex(modelInstance)
 
     };
+
+    getActiveCount() {
+        return this.expandingPool.count.active;
+    }
+
 }
 
 export { ThreeAsset };
