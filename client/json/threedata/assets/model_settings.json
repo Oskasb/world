@@ -292,6 +292,20 @@
             }
           }
         },
+        {"id": "model_settings_instancing_1000" ,
+          "config": {
+            "instancing": {
+              "instances": 1000,
+              "attributes": ["offset", "vertexColor", "scale3d", "orientation", "sprite", "texelRowSelect"],
+              "cameraspace": false
+            },
+            "transform": {
+              "pos":   [0, 0, 0],
+              "rot":   [0, 0, 0],
+              "scale": [1, 1, 1]
+            }
+          }
+        },
         {"id": "model_settings_instancing_250" ,
           "config": {
             "instancing": {
