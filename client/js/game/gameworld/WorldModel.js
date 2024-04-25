@@ -284,9 +284,13 @@ class WorldModel {
             if (cfg.assets) {
                 let assets = cfg.assets;
                 for (let i = 0; i < assets.length; i++) {
-                    MATH.vec3FromArray(tempVec, assets[i].pos);
-                    tempVec.applyQuaternion(this.obj3d.quaternion)
-                    MATH.fitBoxAround(this.box, tempVec, tempVec)
+                    if (!assets[i].pos) {
+
+                    } else {
+                        MATH.vec3FromArray(tempVec, assets[i].pos);
+                        tempVec.applyQuaternion(this.obj3d.quaternion)
+                        MATH.fitBoxAround(this.box, tempVec, tempVec)
+                    }
                 }
             }
 
