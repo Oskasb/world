@@ -43,7 +43,7 @@
         {"id": "model_settings_big_terrain" ,
           "config": {
             "instancing": {
-              "instances": 48,
+              "instances": 32,
               "attributes": ["offset", "vertexColor", "scale3d", "orientation", "sprite", "texelRowSelect", "lifecycle"],
               "cameraspace": false
             },
@@ -253,7 +253,7 @@
         {"id": "model_settings_items" ,
           "config": {
             "instancing": {
-              "instances": 100,
+              "instances": 50,
               "attributes": ["offset", "vertexColor", "scale3d", "orientation", "sprite", "texelRowSelect"],
               "cameraspace": false
             },

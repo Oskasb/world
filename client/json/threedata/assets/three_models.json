@@ -171,13 +171,15 @@
         {"id": "asset_house_t",      "config": { "model": "file_house_t",       "material": "mat_instancing_basic",     "settings": "model_settings_instancing_15" }},
 
 
-        {"id": "asset_wood_6_floor",      "config": { "model": "file_wood_6_floor",      "material": "mat_instancing_basic",     "settings": "model_settings_instancing_50" }},
-        {"id": "asset_wood_6_window",     "config": { "model": "file_wood_6_window",      "material": "mat_instancing_basic",     "settings": "model_settings_instancing_50" }},
+        {"id": "asset_wood_6_floor",      "config": { "model": "file_wood_6_floor",      "material": "mat_instancing_basic",     "settings": "model_settings_instancing_250" }},
+        {"id": "asset_wood_6_window",     "config": { "model": "file_wood_6_window",      "material": "mat_instancing_basic",     "settings": "model_settings_instancing_100" }},
         {"id": "asset_wood_6_door",       "config": { "model": "file_wood_6_door",      "material": "mat_instancing_basic",     "settings": "model_settings_instancing_25" }},
         {"id": "asset_wood_6_wall",       "config": { "model": "file_wood_6_wall",      "material": "mat_instancing_basic",     "settings": "model_settings_instancing_50" }},
         {"id": "asset_wood_6_fence",      "config": { "model": "file_wood_6_fence",      "material": "mat_instancing_basic",     "settings": "model_settings_instancing_50" }},
         {"id": "asset_wood_6_roof",       "config": { "model": "file_wood_6_roof",      "material": "mat_instancing_basic",     "settings": "model_settings_instancing_50" }},
         {"id": "asset_wood_6_wedge",      "config": { "model": "file_wood_6_wedge",      "material": "mat_instancing_basic",     "settings": "model_settings_instancing_50" }},
+        {"id": "asset_wood_6_roof_peak",  "config": { "model": "file_wood_6_roof_peak",      "material": "mat_instancing_basic",     "settings": "model_settings_instancing_25" }},
+        {"id": "asset_wood_6_stairs",     "config": { "model": "file_wood_6_stairs",      "material": "mat_instancing_basic",     "settings": "model_settings_instancing_25" }},
 
         {"id": "asset_hull_6_roof",       "config": { "model": "file_hull_6_roof",      "material": "mat_instancing_basic",     "settings": "model_settings_instancing_1" }},
         {"id": "asset_hull_6_wedge",      "config": { "model": "file_hull_6_wedge",      "material": "mat_instancing_basic",     "settings": "model_settings_instancing_1" }},
@@ -230,7 +232,7 @@
         {"id": "asset_tree_2",      "config": { "model": "file_tree_2" ,      "material": "mat_instancing_basic",     "settings": "model_settings_instancing_50"     }},
         {"id": "asset_tree_3",      "config": { "model": "file_tree_3" ,      "material": "mat_instancing_basic",     "settings": "model_settings_instancing_50"     }},
         {"id": "asset_tree_4",      "config": { "model": "file_tree_4" ,      "material": "mat_instancing_basic",     "settings": "model_settings_instancing_50"     }},
-        {"id": "asset_tree_5",      "config": { "model": "file_tree_5_big" ,  "material": "mat_instancing_basic",     "settings": "model_settings_instancing_25"     }},
+        {"id": "asset_tree_5",      "config": { "model": "file_tree_5_big" ,  "material": "mat_instancing_basic",     "settings": "model_settings_instancing_50"     }},
         {"id": "asset_convex_tree_1",      "config": { "model": "file_convex_tree_1" ,      "material": "mat_instancing_basic",     "settings": "model_settings_instancing_1"     }},
         {"id": "asset_convex_tree_1_1",      "config": { "model": "file_convex_tree_1_1" ,      "material": "mat_instancing_basic",     "settings": "model_settings_instancing_1"     }},
         {"id": "asset_convex_tree_2",      "config": { "model": "file_convex_tree_2" ,      "material": "mat_instancing_basic",     "settings": "model_settings_instancing_1"     }},

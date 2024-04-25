@@ -31,9 +31,12 @@ setTimeout(function() {
 
 let activateDraken = function(actor, callback) {
         let addModelInstance = function(instance) {
+        //    actor.actorObj3d.scale.multiplyScalar(100)
+        //    actor.setSpatialScale(actor.actorObj3d.scale)
+        //    instance.getSpatial().setBaseSize(100)
             callback(instance)
         }
-        client.dynamicMain.requestAssetInstance("asset_j35draken", addModelInstance)
+        client.dynamicMain.requestAssetInstance("asset_svigg", addModelInstance)
 }
 
 

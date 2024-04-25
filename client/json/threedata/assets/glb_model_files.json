@@ -179,6 +179,9 @@
         {"id": "file_wood_6_roof",   "config": { "url": "./client/assets/models/buildings/sections/wood_6_roof"        }},
         {"id": "file_wood_6_wedge",   "config": { "url": "./client/assets/models/buildings/sections/wood_6_wedge"        }},
 
+        {"id": "file_wood_6_roof_peak",   "config": { "url": "./client/assets/models/buildings/sections/wood_6_roof_peak"        }},
+        {"id": "file_wood_6_stairs",   "config": { "url": "./client/assets/models/buildings/sections/wood_6_stairs"        }},
+
         {"id": "file_hull_6_roof",   "config": { "url": "./client/assets/models/buildings/sections/hull_6_roof"        }},
         {"id": "file_hull_6_wedge",   "config": { "url": "./client/assets/models/buildings/sections/hull_6_wedge"        }},
 

@@ -218,9 +218,10 @@
                     "track_config": {"category": "DEBUG","key": "SYSTEM",
                       "samplers": [
                         {
-                          "key": "scnObjs",
-                          "label": "OBJS",
-                          "digits": 0
+                          "key": "tris",
+                          "label": "TRIS",
+                          "digits": 0,
+                          "unit": "k"
                         }
                       ]
                     }

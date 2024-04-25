@@ -8,7 +8,10 @@ class VisualModel {
         this.effectModel = null;
 
         let update = function () {
+        //    this.actor.actorObj3d.scale.set(0.1000, 0.1000, 0.1000)
             this.effectModel.getSpatial().stickToObj3D(this.actor.actorObj3d);
+            this.effectModel.getSpatial().setBaseSize(10)
+            this.actor.setSpatialPosition(this.actor.actorObj3d.position)
         }.bind(this);
 
         this.call = {

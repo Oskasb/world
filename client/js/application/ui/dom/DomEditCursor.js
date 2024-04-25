@@ -219,7 +219,7 @@ class DomEditCursor {
          //   }
 
 
-            targetObj3d.position.y = Math.max(ThreeAPI.terrainAt(targetObj3d.position), 0) + this.statusMap.applyElevate;
+            targetObj3d.position.y = Math.max(ThreeAPI.terrainAt(targetObj3d.position), 0) + this.statusMap.applyElevate + 0.4;
             targetObj3d.quaternion.copy(this.initObj3d.quaternion);
             targetObj3d.quaternion.multiply(updateObj3d.quaternion);
             targetObj3d.scale.copy(this.initObj3d.scale);

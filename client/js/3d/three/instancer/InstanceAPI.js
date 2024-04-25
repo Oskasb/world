@@ -63,7 +63,7 @@ class InstanceAPI {
             this.materials.push(material);
         }
 
-        let count = settings.instances;
+        let count = settings.instances * 1;
         let attribs = settings.attributes;
 
         let buffers = {};
