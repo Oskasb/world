@@ -63,7 +63,7 @@ class InstanceAPI {
             this.materials.push(material);
         }
 
-        let count = settings.instances * 1;
+        let count = settings.instances;
         let attribs = settings.attributes;
 
         let buffers = {};
@@ -75,10 +75,10 @@ class InstanceAPI {
 
         for (let i = 0; i < attribs.length; i++) {
             let attrib = this.attributes[attribs[i]];
-            let buffer = insBufs.buildBuffer(attrib.dimensions, count);
-            insBufs.attachAttribute(buffer, attribs[i], attrib.dimensions, attrib.dynamic);
+            insBufs.registerBufferAttribute(attrib,  attribs[i], count)
         }
 
+        insBufs.activateAttributes(1);
         insBufs.setMaterial(material);
         this.instanceBuffers[id] = insBufs;
         this.instanceBuffers[id].setInstancedCount(0);
@@ -164,7 +164,9 @@ class InstanceAPI {
         let updateUiSystemBuffers = function(instanceBuffers) {
             let count = instanceBuffers.updateBufferStates()
         //    console.log(count);
-            instanceBuffers.setInstancedCount(count);
+        // This is not properly used, can probably cull a lot
+
+            //    instanceBuffers.setInstancedCount(count);
             iCount+=count;
         };
 

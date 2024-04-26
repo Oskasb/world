@@ -362,6 +362,9 @@ function setupOptsFriendlyMissile(efct, fromPos, actor, index, onArriveCB, getPo
 
     let bonePos = function() {
         //    let jointId = gamePiece.getRandomJointId();
+        if (actor.getVisualGamePiece() === null) {
+            return actor.getPos();
+        }
         return actor.getVisualGamePiece().getBoneWorldPosition(bone);
     }
 
@@ -469,6 +472,9 @@ function setupOptsMagicHit(efct, actor) {
     let bone = actor.getVisualGamePiece().getRandomBone();
 
     let bonePos = function() {
+        if (actor.getVisualGamePiece() === null) {
+            return actor.getPos();
+        }
         return actor.getVisualGamePiece().getBoneWorldPosition(bone);
     }
 
@@ -507,6 +513,9 @@ function setupOptsBoneLingering(efct, actor) {
     let bone = actor.getVisualGamePiece().getRandomBone();
 
     let bonePos = function() {
+        if (actor.getVisualGamePiece() === null) {
+            return actor.getPos();
+        }
         return actor.getVisualGamePiece().getBoneWorldPosition(bone);
     }
 
@@ -543,6 +552,9 @@ function setupOptsBoneToGround(efct, actor) {
     let bone = actor.getVisualGamePiece().getRandomBone();
 
     let bonePos = function() {
+        if (actor.getVisualGamePiece() === null) {
+            return actor.getPos();
+        }
         return actor.getVisualGamePiece().getBoneWorldPosition(bone);
     }
 
@@ -630,6 +642,9 @@ function setupOptsFlames(efct, actor, applies) {
     let bone = actor.getVisualGamePiece().getRandomBone();
 
     let bonePos = function() {
+        if (actor.getVisualGamePiece() === null) {
+            return actor.getPos();
+        }
         return actor.getVisualGamePiece().getBoneWorldPosition(bone);
     }
 

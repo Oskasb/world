@@ -3,6 +3,7 @@ import {BufferAttribute} from "../../../../libs/three/core/BufferAttribute.js";
 import {Mesh} from "../../../../libs/three/objects/Mesh.js";
 import {InstancedInterleavedBuffer} from "../../../../libs/three/core/InstancedInterleavedBuffer.js";
 import {InterleavedBufferAttribute} from "../../../../libs/three/core/InterleavedBufferAttribute.js";
+import {InstancedBufferAttribute} from "../../../../libs/three/Three.js";
 import {Box3, Sphere} from "../../../../libs/three/Three.js";
 
 let activeGeometries = 0;
@@ -10,6 +11,8 @@ let countTotal = 0;
 
 class InstanceBuffer {
     constructor(verts, uvs, indices, normals) {
+        this.maxInstanceCount = null;
+        this.registeredAttributes = [];
         this.attributes = {};
         this.buffers = {};
         this.buildGeometry(verts, uvs, indices, normals);
@@ -106,6 +109,25 @@ class InstanceBuffer {
 
     };
 
+    registerBufferAttribute(attrib, name, count) {
+        this.maxInstanceCount = count;
+        let setup = {
+            attrib:attrib,
+            name:name
+        }
+
+        this.registeredAttributes.push(setup)
+    }
+
+    activateAttributes(countScale) {
+        this.maxInstanceCount = Math.ceil(this.maxInstanceCount * countScale)
+        for (let i = 0; i < this.registeredAttributes.length; i++) {
+            let setup = this.registeredAttributes[i];
+            let buffer = this.buildBuffer(setup.attrib.dimensions, this.maxInstanceCount);
+            this.attachAttribute(buffer, setup.name, setup.attrib.dimensions, setup.attrib.dynamic)
+        }
+    }
+
     buildBuffer = function(dimensions, count) {
         return new Float32Array(count * dimensions);
     };
@@ -117,7 +139,7 @@ class InstanceBuffer {
             this.buffers[name] = buffer;
         }
 
-        let attribute = new THREE.InstancedBufferAttribute(buffer, dimensions, false)
+        let attribute = new InstancedBufferAttribute(buffer, dimensions, false)
         if (dynamic) {
             console.log('setDynamic expected, not supported so fix..')
             attribute.setDynamic( dynamic );
@@ -125,16 +147,10 @@ class InstanceBuffer {
 
         this.geometry.setAttribute(name, attribute);
         this.attributes[name] = attribute;
+        attribute.needsUpdate = true;
+        this.geometry.needsUpdate = true;
     };
 
-    /*
-            attachAttribute = function(name, dimensions, count, home_dynamic) {
-                var buffer = new Float32Array(count * dimensions);
-                var attribute = new THREE.InstancedBufferAttribute(buffer, dimensions, false).setDynamic( true );
-                this.geometry.addAttribute(name, attribute);
-                this.attributes[name] = attribute;
-            };
-    */
 
     setAttribXYZ = function(name, index, x, y, z) {
         this.attributes[name].setXYZ( index, x, y, z);
@@ -171,6 +187,15 @@ class InstanceBuffer {
 
     setInstancedCount(count) {
 
+        if (count > this.maxInstanceCount) {
+            console.log("not enough buffers.. ",this.maxInstanceCount, count-this.maxInstanceCount, this.registeredAttributes)
+        //    this.activateAttributes(2);
+        } else if (count < this.maxInstanceCount*0.1) {
+            if (count !== 0) {
+            //    this.activateAttributes(0.8);
+            }
+        }
+
         if (this.isCameraSpace === false) {
             if (this.mesh.geometry.maxInstancedCount === 0) {
                 if (count !== 0) {
@@ -203,7 +228,7 @@ class InstanceBuffer {
 
             if (key === 'offset') {
                 drawRange = buffer[lastIndex-2];
-                this.setInstancedCount(drawRange)
+            // Not correctly used here, look for better culling    this.setInstancedCount(drawRange)
             }
 
             if (buffer[lastIndex]) {

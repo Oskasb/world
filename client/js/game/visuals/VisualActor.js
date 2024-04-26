@@ -176,9 +176,14 @@ class VisualActor {
         let deactivated = false;
 
         let deactivate = function() {
-            deactivated = true;
-            active = false;
-            visualEquipment.call.deactivateVisualEquipment();
+            if (actor.getStatus(ENUMS.ActorStatus.IN_COMBAT) === true) {
+
+            } else {
+                deactivated = true;
+                active = false;
+                visualEquipment.call.deactivateVisualEquipment();
+            }
+
         }
 
         function getActor() {
@@ -225,6 +230,10 @@ class VisualActor {
     }
 
     getBoneWorldPosition(bone) {
+        if (this.call.getInstance() === null) {
+            return this.call.getActor().getPos()
+        }
+
         this.call.getInstance().updateBoneWorldTransform(bone, tempObj3d)
         return tempObj3d.position;
     }
