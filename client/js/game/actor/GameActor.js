@@ -418,8 +418,6 @@ class GameActor {
     }
 
     getPos() {
-        //    return this.actorObj3d.position;
-    //    console.log("actor getPos()")
         return this.actorObj3d.position;
     }
 

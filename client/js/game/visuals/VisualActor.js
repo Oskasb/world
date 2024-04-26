@@ -235,7 +235,7 @@ class VisualActor {
     }
 
     getCenterMass() {
-        tempVec.copy(this.getPos());
+        tempVec.copy(this.call.getActor().getPos());
         tempVec.y += this.call.getActor().getStatus(ENUMS.ActorStatus.HEIGHT) * 0.7;
         return tempVec;
     }

@@ -352,7 +352,7 @@ function processServerCommand(protocolKey, message) {
 
             break;
         case ENUMS.ServerCommands.ENCOUNTER_TRIGGER:
-        //    console.log("Trigger Encounter; ", message.encounterId, message.worldEncounterId, stamp, message);
+            console.log("Trigger Encounter; ", message.encounterId, message.worldEncounterId, stamp, message);
             encounter = GameAPI.getWorldEncounterByEncounterId(message.worldEncounterId);
             if (!encounter) {
                 console.log("Assume encounter already completed but started by other party member");
@@ -363,6 +363,10 @@ function processServerCommand(protocolKey, message) {
 
                 GameAPI.worldModels.activateCompletedEncounter(message.worldEncounterId, onReady)
             } else {
+                if (encounter.length) {
+                    console.log("Bad request, probably a double spawn request")
+                    return;
+                }
                 encounter.call.serverEncounterActivated(message);
             //    console.log("WE: ", encounter);
             }
