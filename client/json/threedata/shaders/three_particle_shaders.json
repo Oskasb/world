@@ -8,6 +8,7 @@
         "BOX_INSTANCING",
         "GUI_INSTANCING_STANDARD",
         "GEOMETRY_INSTANCING_STANDARD",
+        "GEOMETRY_INSTANCING_SIMPLE",
         "TERRAIN_BIG",
         "TERRAIN_SHADER",
         "OCEAN_BIG",
@@ -822,6 +823,20 @@
           }
         ]
       },
+      "GEOMETRY_INSTANCING_SIMPLE": {
+        "vertex": [
+          {
+            "source": "INSTANCING_PROGRAMS",
+            "chunk": "vertexGeometryInstancing"
+          }
+        ],
+        "fragment": [
+          {
+            "source": "INSTANCING_PROGRAMS",
+            "chunk": "fragmentGeometryInstancingSimple"
+          }
+        ]
+      },
       "GUI_INSTANCING_STANDARD": {
         "vertex": [
           {
@@ -895,20 +910,7 @@
           }
         ]
       },
-      "OCEAN_INSTANCING": {
-        "vertex": [
-          {
-            "source": "TERRAIN_SHADER",
-            "chunk": "vertexOceanInstancing"
-          }
-        ],
-        "fragment": [
-          {
-            "source": "TERRAIN_SHADER",
-            "chunk": "fragmentOceanInstancing"
-          }
-        ]
-      },
+
       "OCEAN_BIG": {
         "vertex": [
           {
@@ -934,20 +936,6 @@
           {
             "source": "TERRAIN_SHADER",
             "chunk": "fragmentBigTerrain"
-          }
-        ]
-      },
-      "TERRAIN_INSTANCING": {
-        "vertex": [
-          {
-            "source": "TERRAIN_SHADER",
-            "chunk": "vertexTerrainInstancing"
-          }
-        ],
-        "fragment": [
-          {
-            "source": "TERRAIN_SHADER",
-            "chunk": "fragmentTerrainInstancing"
           }
         ]
       }

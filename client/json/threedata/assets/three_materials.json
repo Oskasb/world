@@ -424,6 +424,19 @@
           }
         },
         {
+          "id":"mat_instancing_simple",
+          "config":{
+            "settings": "mat_settings_instancing_simple",
+            "textures":[
+              {"key":"map"           , "id":"atlas_2k_diff"   },
+              {"key":"envMap"         , "id":"ref_sphere"     } ,
+              {"key":"materialEps"   , "id":"atlas_2k_mat_eps"    },
+              {"key":"normalMap"     , "id":"atlas_2k_norm"       },
+              {"key":"data_texture"  , "id":"data_texture"   }
+            ]
+          }
+        },
+        {
           "id":"mat_instancing_nature",
           "config":{
             "settings": "mat_settings_instancing_basic",
