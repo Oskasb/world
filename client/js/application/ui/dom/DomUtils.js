@@ -353,6 +353,19 @@ class DomUtils {
     //    element.addEventListener('touchcancel', cb);
     }
 
+    translateElement3DPercent(element, x, y, z) {
+        let trf = "translate3d("+x+"%, "+y+"%, "+z+")";
+        if (element.style.transform !== trf) {
+            element.style.transform = trf;
+        }
+    }
+
+    transformElement3DPercent(element, x, y, z, rotY) { // div, left, top, depth, eulerY
+        let trf = "translate3d("+MATH.decimalify(x, 10)+"%, "+MATH.decimalify(y, 10)+"%, "+z+") rotate3d( 0, 0, 1,"+MATH.decimalify(rotY, 100)+"rad)";
+        if (element.style.transform !== trf) {
+            element.style.transform = trf;
+        }
+    }
 
 
 }

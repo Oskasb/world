@@ -274,20 +274,25 @@ function indicateCameraFrustum(htmlElement, minimapDiv, statusMap, centerPos) {
             }
         }
 */
-    cameraIndicator.style.top = mapPctZ + '%';
-    cameraIndicator.style.left = mapPctX + '%';
 
-    let tX = 50 + mapPctX;
-    let tZ =  50 + mapPctZ;
+    let angle = -MATH.eulerFromQuaternion(cam.quaternion).y
+  //  cameraIndicator.style.top = mapPctZ + '%';
+  //  cameraIndicator.style.left = mapPctX + '%';
+  //  cameraIndicator.style.rotate = angle + 'rad';
+
+    DomUtils.transformElement3DPercent(cameraIndicator, mapPctX, mapPctZ, 0, angle+0)
+
+   // let tX = 50 + mapPctX;
+   // let tZ =  50 + mapPctZ;
 
  //   cameraIndicator.style.transform = "translate("+tZ+"%, "+tX+"%)";
 
         //    let angle = actor.getStatus(ENUMS.ActorStatus.STATUS_ANGLE_EAST);
-        let angle = -MATH.eulerFromQuaternion(cam.quaternion).y //+ MATH.HALF_PI * 0.5 // Math.PI //;
+         //+ MATH.HALF_PI * 0.5 // Math.PI //;
 
         //    let headingDiv = htmlElement.call.getChildElement('heading');
         //    if (headingDiv) {
-    cameraIndicator.style.rotate = angle + 'rad';
+
 
         //    console.log(angle)
  //   cameraIndicator.style.borderColor = "rgba(88, 255, 255, 1)";
@@ -340,8 +345,14 @@ function updateTravelPath(pos, statusMap) {
         let ind = pathIndicators[i];
         let x = ind.pos.x - statusMap.x;
         let z = ind.pos.z - statusMap.z;
-        ind.div.style.top  = (50+z*zoomFactor)+'%';
-        ind.div.style.left = (50+x*zoomFactor)+'%';
+
+        let trY = z*zoomFactor * 50;
+        let trX = x*zoomFactor * 50;
+
+        //   ind.div.style.top  = (50+z*zoomFactor)+'%';
+        //   ind.div.style.left = (50+x*zoomFactor)+'%';
+
+        DomUtils.translateElement3DPercent(ind.div, trX, trY, 0)
     }
 }
 
