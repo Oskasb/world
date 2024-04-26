@@ -38,9 +38,27 @@ function updateMinimapCenter(htmlElement, minimapDiv, statusMap, centerPos, inCo
     statusMap.posZ = 'z:'+MATH.numberToDigits(centerPos.z, 1, 4);
 
     let zoom = statusMap.zoom;
-    minimapDiv.style.backgroundSize = zoom*100+'%';
-    minimapDiv.style.backgroundPositionX = calcMapBackgroundOffset(zoom, centerPos.x, worldSize)+'%';
-    minimapDiv.style.backgroundPositionY = calcMapBackgroundOffset(zoom, centerPos.z, worldSize)+'%';
+    let size = zoom*100+'%'
+    if (minimapDiv.style.backgroundSize !== size) {
+        minimapDiv.style.backgroundSize = size;
+    }
+
+
+    let trX =  calcMapBackgroundOffset(zoom, centerPos.x, worldSize)
+    let trY = calcMapBackgroundOffset(zoom, centerPos.z, worldSize)
+
+    let bpXs = trX+'%';
+    let bpYs = trY+'%'
+
+    if (minimapDiv.style.backgroundPositionX !== bpXs) {
+        minimapDiv.style.backgroundPositionX = bpXs;
+    }
+
+    if (minimapDiv.style.backgroundPositionY !== bpYs) {
+        minimapDiv.style.backgroundPositionY = bpYs;
+    }
+
+ //   DomUtils.transformElement3DPercent(minimapDiv, trX, trY, 0, null, zoom)
 
     if (inCombat === true) {
         let gameTime = GameAPI.getGameTime();
@@ -115,11 +133,19 @@ function indicateTenMeterScale(tenMeterIndicators, htmlElement, minimapDiv, stat
     }
 
     let zoom = statusMap.zoom;
-    let zoomFactor = calcMapMeterToDivPercent(zoom, worldSize);
-    tenMeterIndicators[0].style.top = 49-(10*zoomFactor)+'%';
-    tenMeterIndicators[1].style.top = 49+(10*zoomFactor)+'%';
-    tenMeterIndicators[2].style.left = 49-(10*zoomFactor)+'%';
-    tenMeterIndicators[3].style.left = 49+(10*zoomFactor)+'%';
+    let zoomFactor = calcMapMeterToDivPercent(zoom, worldSize) * 500;
+    let trY0 = 49-zoomFactor
+    let trY1 = 49+zoomFactor
+
+  //  tenMeterIndicators[0].style.top = trY0+'%';
+  //  tenMeterIndicators[1].style.top = trY1+'%';
+  //  tenMeterIndicators[2].style.left = trY0+'%';
+  //  tenMeterIndicators[3].style.left = trY1+'%';
+
+    DomUtils.translateElement3DPercent(tenMeterIndicators[0], 0, trY0, 0);
+    DomUtils.translateElement3DPercent(tenMeterIndicators[1], 0, trY1, 0);
+    DomUtils.translateElement3DPercent(tenMeterIndicators[2], trY0, 0, 0);
+    DomUtils.translateElement3DPercent(tenMeterIndicators[3], trY1, 0, 0);
 
 }
 
@@ -168,27 +194,11 @@ function indicateActors(htmlElement, minimapDiv, statusMap, centerPos, inCombat)
                     mapPctZ = tempVec2.y;
                 }
             }
-            let top = 47.5 + mapPctZ + '%';
-            let left = 47.5 + mapPctX + '%';
-            if (indicator.style.top !== top) {
-                indicator.style.top = top
-            }
-            if (indicator.style.left !== left) {
-                indicator.style.left = left
-            }
-
-        //    let angle = actor.getStatus(ENUMS.ActorStatus.STATUS_ANGLE_EAST);
+            let top = -25 + mapPctZ * 20 // + '%';
+            let left = 50 + mapPctX * 20 // + '%';
             let angle = -MATH.eulerFromQuaternion(actor.getSpatialQuaternion(actor.actorObj3d.quaternion)).y + MATH.HALF_PI * 0.5 // Math.PI //;
 
-            //    let headingDiv = htmlElement.call.getChildElement('heading');
-            //    if (headingDiv) {
-            let rot = angle+"rad";
-            if (indicator.style.rotate !== rot) {
-                indicator.style.rotate = angle+'rad';
-            }
-
-
-            //    console.log(angle)
+            DomUtils.transformElement3DPercent(indicator, left, top, 0, angle);
 
             let rgba = "rgba(255, 255, 255, 1)"
             if (actor === selectedActor) {
@@ -257,45 +267,14 @@ function indicateCameraFrustum(htmlElement, minimapDiv, statusMap, centerPos) {
     let actorPos = cam.position;
 
     tempVec2.set(actorPos.x-centerPos.x, actorPos.z-centerPos.z);
-    let distance = tempVec2.length(); // is in units m from cursor (Center of minimap)
-
-
-
+    // let distance = tempVec2.length(); // is in units m from cursor (Center of minimap)
 
         let mapPctX = tempVec2.x*zoomFactor
         let mapPctZ = tempVec2.y*zoomFactor
-/*
-        if (inCombat === false) {
-            if (distance*zoomFactor > 49) {
-                tempVec2.normalize();
-                tempVec2.multiplyScalar(49);
-                mapPctX = tempVec2.x;
-                mapPctZ = tempVec2.y;
-            }
-        }
-*/
 
     let angle = -MATH.eulerFromQuaternion(cam.quaternion).y
-  //  cameraIndicator.style.top = mapPctZ + '%';
-  //  cameraIndicator.style.left = mapPctX + '%';
-  //  cameraIndicator.style.rotate = angle + 'rad';
 
-    DomUtils.transformElement3DPercent(cameraIndicator, mapPctX, mapPctZ, 0, angle+0)
-
-   // let tX = 50 + mapPctX;
-   // let tZ =  50 + mapPctZ;
-
- //   cameraIndicator.style.transform = "translate("+tZ+"%, "+tX+"%)";
-
-        //    let angle = actor.getStatus(ENUMS.ActorStatus.STATUS_ANGLE_EAST);
-         //+ MATH.HALF_PI * 0.5 // Math.PI //;
-
-        //    let headingDiv = htmlElement.call.getChildElement('heading');
-        //    if (headingDiv) {
-
-
-        //    console.log(angle)
- //   cameraIndicator.style.borderColor = "rgba(88, 255, 255, 1)";
+    DomUtils.transformElement3DPercent(cameraIndicator, mapPctX, mapPctZ, 0, angle+0, null)
 
     if (lastAspect !== GuiAPI.aspect) {
         lastAspect = GuiAPI.aspect;

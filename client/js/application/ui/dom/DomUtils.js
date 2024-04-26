@@ -360,8 +360,17 @@ class DomUtils {
         }
     }
 
-    transformElement3DPercent(element, x, y, z, rotY) { // div, left, top, depth, eulerY
-        let trf = "translate3d("+MATH.decimalify(x, 10)+"%, "+MATH.decimalify(y, 10)+"%, "+z+") rotate3d( 0, 0, 1,"+MATH.decimalify(rotY, 100)+"rad)";
+    transformElement3DPercent(element, x, y, z, rotY, scale) { // div, left, top, depth, eulerY
+        let trf = "translate3d("+MATH.decimalify(x, 10)+"%, "+MATH.decimalify(y, 10)+"%, "+z+")";
+
+        if (typeof(rotY) === 'number') {
+            trf += " rotate3d( 0, 0, 1,"+MATH.decimalify(rotY, 100)+"rad)"
+        }
+
+        if (typeof (scale) === 'number') {
+            trf += " scale3d( "+scale+", "+scale+", 1,)";
+        }
+
         if (element.style.transform !== trf) {
             element.style.transform = trf;
         }
