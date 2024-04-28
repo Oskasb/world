@@ -1,11 +1,7 @@
-import {PlaneGeometry} from "../../../../libs/three/geometries/PlaneGeometry.js";
-import {Mesh} from "../../../../libs/three/objects/Mesh.js";
-import {MeshBasicMaterial} from "../../../../libs/three/materials/MeshBasicMaterial.js";
-import {DoubleSide} from "../../../../libs/three/constants.js";
+
 import {Vector3} from "../../../../libs/three/math/Vector3.js";
 import {borrowBox, cubeTestVisibility, aaBoxTestVisibility} from "../../../application/utils/ModelUtils.js";
 import {getPhysicalWorld} from "../../../application/utils/PhysicsUtils.js";
-import {applyGroundCanvasEdit} from "./TerrainFunctions.js";
 import {loadSavedBuffer, saveDataTexture} from "../../../application/utils/ConfigUtils.js";
 import {ENUMS} from "../../../application/ENUMS.js";
 import {TerrainSliceCallback} from "./TerrainSliceCallback.js";
