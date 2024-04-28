@@ -4,7 +4,7 @@ import {GeometryInstance} from './GeometryInstance.js';
 class InstanceAPI {
     constructor() {
     //    console.log('INIT InstanceAPI');
-        this.bufferCuont = 0;
+        this.bufferCount = 0;
         this.modelCount = 0;
         this.tempVec = new THREE.Vector3();
         this.instanceBuffers = {};
@@ -40,7 +40,7 @@ class InstanceAPI {
 
 
     registerGeometry = function(id, model, settings, material) {
-        this.bufferCuont++
+        this.bufferCount++
         let extractFirstMeshGeometry = function(child, buffers) {
 
             child.traverse(function(node) {
@@ -71,7 +71,7 @@ class InstanceAPI {
         let buffers = {};
         extractFirstMeshGeometry(model.scene.children[0], buffers);
         let insBufs = new InstanceBuffer(buffers.verts, buffers.uvs, buffers.indices, buffers.normals);
-        insBufs.mesh.name = id+' '+this.bufferCuont+' '+material.id;
+        insBufs.mesh.name = id+' '+this.bufferCount+' '+material.id;
      //   insBufs.extractFirstMeshGeometry(model.scene.children[0], buffers);
 
 
@@ -92,19 +92,56 @@ class InstanceAPI {
         return insBufs;
     };
 
+
+    bindGeometryInstance = function(geoIns) {
+        let id = geoIns.id;
+        let idx = this.instances[id].length;
+        /*
+        if (this.frameReleases.indexOf(id) === -1) {
+            let releases = this.releasedInstanceIndices[id];
+            let lowestIdx = idx;
+            if (releases.length !== 0) {
+                for (let i = 0; i < releases.length; i++) {
+                    if (releases[i] < lowestIdx) {
+                        idx = releases[i];
+                    }
+                }
+                MATH.splice(releases, idx);
+            } else {
+                MATH.splice(this.frameReleases, id);
+            }
+        }
+
+        for (let i = 0; i < this.instances[id].length; i++) {
+            if (! this.instances[id][i]) {
+                console.log("No instance here... bad someting", id, i)
+                return;
+            }
+        }
+*/
+        geoIns.index = idx;
+        geoIns.initBuffers();
+        this.instances[id][idx] = geoIns;
+        this.instanceBuffers[id].setInstancedCount(this.instances[id].length);
+
+    }
+
     instantiateGeometry = function(id, callback) {
         if (!this.instances[id]) {
             this.instances[id] = []
             this.releasedInstanceIndices[id] = [];
         }
-        let idx = this.instances[id].length;
-        this.instanceBuffers[id].setInstancedCount(idx+1);
-        let instance = new GeometryInstance(id, idx, this.instanceBuffers[id]);
-        this.instances[id].push(instance);
+
+        let instance = new GeometryInstance(id, -1, this.instanceBuffers[id]);
         callback(instance);
     };
 
     releaseGeometryInstance(geomInstance) {
+        if (!geomInstance) {
+            console.log("Try remove a nothing")
+            return;
+        }
+
         let id = geomInstance.id;
         let idx = geomInstance.index;
         this.releasedInstanceIndices[id].push(idx);
@@ -179,8 +216,8 @@ class InstanceAPI {
         let iCount = 0;
 
         while (this.frameReleases.length) {
-            this.frameReleases.pop();
-            /*
+            let id = this.frameReleases.pop();
+
             // (LP?))es from aligning right.. check it outghvbbbbbb98vcm[
             let indices = this.releasedInstanceIndices[id];
             let instances = this.instances[id];
@@ -188,21 +225,41 @@ class InstanceAPI {
             while (indices.length) {
 
                 let idx = indices.pop();
+                /*
+                                let uppedInstance = instances.pop();
+                                if (idx < instances.length-1) {
 
-                if (instances.length > indices.length) {
-                    let uppedInstance = instances.pop();
-                    let sourceIndex = uppedInstance.index;
-                    uppedInstance.index = idx;
-                    instances[idx] = uppedInstance;
-                    uppedInstance.copyAttributesByIndex(sourceIndex);
-                    insBuffers = uppedInstance.instancingBuffers
+                                    if (!uppedInstance) {
+                                        console.log("Bad shifting", idx, id, GameAPI.getFrame().frame)
+                                        return;
+                                    } else {
+                                        console.log("ok", id, idx, uppedInstance.index, GameAPI.getFrame().frame)
+                                    }
+                                    let sourceIndex = uppedInstance.index;
+                                    uppedInstance.index = idx;
+                                  instances[idx] = uppedInstance;
+                                    uppedInstance.copyAttributesByIndex(sourceIndex);
+                                    insBuffers = uppedInstance.instancingBuffers
+                /*
+                                    for (let i = 0; i < instances.length; i++) {
+                                        if (!instances[i]) {
+                                            console.log("Empty instance entry", i, instances)
+                                        }
+                                    }
+
+
+
                 }
+        */
+
+            //    if (instances.length > indices.length) {
+
 
             }
             if (insBuffers) {
                 insBuffers.setInstancedCount(instances.length+1)
             }
-*/
+
         }
 
         let updateUiSystemBuffers = function(instanceBuffers) {

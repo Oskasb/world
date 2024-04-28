@@ -143,6 +143,9 @@ class InstancedModel {
             _this.obj3d = spatial.obj3d;
             //
 
+            if (spatial.call.isInstanced()) {
+                InstanceAPI.bindGeometryInstance(spatial.call.getInstance());
+            }
 
             if (_this.originalModel.hasAnimations) {
                 _this.applyModelMaterial(_this.obj3d , _this.originalModel.getModelMaterial());

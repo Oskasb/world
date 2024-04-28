@@ -103,7 +103,6 @@ class InstanceBuffer {
         for (let i = 0; i < this.registeredAttributes.length; i++) {
             let setup = this.registeredAttributes[i];
 
-
             if (this.attributes[setup.name]) {
                 this.updateAttribute(setup.name, setup.attrib.dimensions,  this.maxInstanceCount)
 
@@ -111,7 +110,7 @@ class InstanceBuffer {
                 let buffer = this.buildBuffer(setup.attrib.dimensions, this.maxInstanceCount);
                 this.attachAttribute(buffer, setup.name, setup.attrib.dimensions, setup.attrib.dynamic)
             }
-               }
+        }
     }
 
     buildBuffer = function(dimensions, count) {

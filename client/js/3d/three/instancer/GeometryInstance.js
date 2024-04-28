@@ -11,7 +11,6 @@ class GeometryInstance {
         this.obj3d = new THREE.Object3D();
         this.color = new THREE.Color();
         this.alpha = 1;
-        this.initBuffers()
     };
 
     setBaseScale(scale) {
