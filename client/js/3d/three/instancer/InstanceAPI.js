@@ -10,6 +10,8 @@ class InstanceAPI {
         this.instanceBuffers = {};
 
         this.instances = {};
+        this.releasedInstanceIndices = {}
+        this.frameReleases = [];
         this.materials = [];
         this.uiSystems = {};
         this.attributes = {
@@ -93,6 +95,7 @@ class InstanceAPI {
     instantiateGeometry = function(id, callback) {
         if (!this.instances[id]) {
             this.instances[id] = []
+            this.releasedInstanceIndices[id] = [];
         }
         let idx = this.instances[id].length;
         this.instanceBuffers[id].setInstancedCount(idx+1);
@@ -100,6 +103,16 @@ class InstanceAPI {
         this.instances[id].push(instance);
         callback(instance);
     };
+
+    releaseGeometryInstance(geomInstance) {
+        let id = geomInstance.id;
+        let idx = geomInstance.index;
+        this.releasedInstanceIndices[id].push(idx);
+
+        if (this.frameReleases.indexOf(id) === -1) {
+            this.frameReleases.push(id);
+        }
+    }
 
     getUiSysInstanceBuffers = function(uiSysKey) {
         return this.uiSystems[uiSysKey];
@@ -124,12 +137,15 @@ class InstanceAPI {
             let instanceBuffers = threeModel.instanceBuffers;
             for (let i = 0; i < bufferNames.length; i++) {
                 let attrib = this.attributes[bufferNames[i]];
-                instanceBuffers.attachAttribute(buffers[i], bufferNames[i], attrib.dimensions, attrib.dynamic)
+                //           instanceBuffers.registerBufferAttribute(attrib,  bufferNames[i], 1)
+                  instanceBuffers.attachAttribute(buffers[i], bufferNames[i], attrib.dimensions, attrib.dynamic)
             }
 
+        //  instanceBuffers.activateAttributes(1)
+
             instanceBuffers.setRenderOrder(order)
-            instanceBuffers.setInstancedCount(0);
-            instanceBuffers.setDrawRange(0)
+            instanceBuffers.setInstancedCount(1);
+            instanceBuffers.setDrawRange(1)
             this.uiSystems[uiSysId].push(instanceBuffers);
 
         }.bind(this);
@@ -161,6 +177,34 @@ class InstanceAPI {
     updateInstances = function() {
 
         let iCount = 0;
+
+        while (this.frameReleases.length) {
+            this.frameReleases.pop();
+            /*
+            // (LP?))es from aligning right.. check it outghvbbbbbb98vcm[
+            let indices = this.releasedInstanceIndices[id];
+            let instances = this.instances[id];
+            let insBuffers;
+            while (indices.length) {
+
+                let idx = indices.pop();
+
+                if (instances.length > indices.length) {
+                    let uppedInstance = instances.pop();
+                    let sourceIndex = uppedInstance.index;
+                    uppedInstance.index = idx;
+                    instances[idx] = uppedInstance;
+                    uppedInstance.copyAttributesByIndex(sourceIndex);
+                    insBuffers = uppedInstance.instancingBuffers
+                }
+
+            }
+            if (insBuffers) {
+                insBuffers.setInstancedCount(instances.length+1)
+            }
+*/
+        }
+
         let updateUiSystemBuffers = function(instanceBuffers) {
             let count = instanceBuffers.updateBufferStates()
         //    console.log(count);

@@ -55,35 +55,14 @@ class InstanceBuffer {
         geometry.index.needsUpdate = true;
         geometry.needsUpdate = true;
 
-/*
-        let joinedArray = [];
 
-        for (let i = 0; i < indices.length; i++) {
-            joinedArray.push(verts[i*3]);
-            joinedArray.push(verts[i*3+1]);
-            joinedArray.push(verts[i*3+2]);
-            joinedArray.push(normals[i*3]);
-            joinedArray.push(normals[i*3+1]);
-            joinedArray.push(normals[i*3+2]);
-        }
-*/
-
-    //    let joinedBuffer = new Float32Array(  verts)
-    //    const iIB = new InstancedInterleavedBuffer(joinedBuffer, 3, 1); // this part is important
-    //    geometry.setAttribute("position", new InterleavedBufferAttribute(iIB, 3, 0));
-
-
-    //    if (normals) {
             let normal = new BufferAttribute(normals , 3 );
              geometry.setAttribute( 'normal', normal );
-        //     geometry.setAttribute("normal", new THREE.InterleavedBufferAttribute(iIB, 3, 0));
-    //    }
-//
+
         let vertices = new BufferAttribute(posBuffer , 3 );
         geometry.setAttribute( 'position', vertices );
         let uvs = new BufferAttribute( uvBuffer , 2 );
         geometry.setAttribute( 'uv', uvs );
-    //    geometry.getAttribute('position').needsUpdate = true;
 
         this.geometry = geometry;
 
@@ -110,7 +89,7 @@ class InstanceBuffer {
     };
 
     registerBufferAttribute(attrib, name, count) {
-        this.maxInstanceCount = count;
+        this.maxInstanceCount = count // *0.5;
         let setup = {
             attrib:attrib,
             name:name
@@ -123,33 +102,92 @@ class InstanceBuffer {
         this.maxInstanceCount = Math.ceil(this.maxInstanceCount * countScale)
         for (let i = 0; i < this.registeredAttributes.length; i++) {
             let setup = this.registeredAttributes[i];
-            let buffer = this.buildBuffer(setup.attrib.dimensions, this.maxInstanceCount);
-            this.attachAttribute(buffer, setup.name, setup.attrib.dimensions, setup.attrib.dynamic)
-        }
+
+
+            if (this.attributes[setup.name]) {
+                this.updateAttribute(setup.name, setup.attrib.dimensions,  this.maxInstanceCount)
+
+            } else {
+                let buffer = this.buildBuffer(setup.attrib.dimensions, this.maxInstanceCount);
+                this.attachAttribute(buffer, setup.name, setup.attrib.dimensions, setup.attrib.dynamic)
+            }
+               }
     }
 
     buildBuffer = function(dimensions, count) {
         return new Float32Array(count * dimensions);
     };
 
+    updateAttribute = function(name, dimensions, count) {
+        let IBAttrib =  this.attributes[name];
+        let targetLength = dimensions * count;
+        let currentBuffer = IBAttrib.array
+
+        if (currentBuffer.length !== targetLength) {
+        //    currentBuffer.resize(targetLength)
+            let array = Array.from(currentBuffer);
+            array.length = targetLength;
+            let arrayBuffer = new Float32Array(array);
+
+            IBAttrib.array = arrayBuffer
+        //    this.attributes[name] = new InstancedBufferAttribute(arrayBuffer, dimensions, false)
+            this.buffers[name] = arrayBuffer;
+        } else {
+            console.log("This should not happen")
+            //    currentBuffer.resize(targetLength)
+        }
+
+    //    this.geometry.removeAttribute(name);
+
+
+
+    //    this.attributes[name].setDynamic( dynamic );
+        this.attributes[name].needsUpdate = true;
+        this.geometry.needsUpdate = true;
+    }
+
     attachAttribute = function(buffer, name, dimensions, dynamic) {
 
         if (this.attributes[name]) {
+        //    console.log("Attrib already registered", name, this.attributes[name])
         //    this.geometry.removeAttribute(name);
-            this.buffers[name] = buffer;
+        //    this.attributes[name].array = buffer;
         }
 
-        let attribute = new InstancedBufferAttribute(buffer, dimensions, false)
-        if (dynamic) {
-            console.log('setDynamic expected, not supported so fix..')
-            attribute.setDynamic( dynamic );
-        }
+            let attribute = new InstancedBufferAttribute(buffer, dimensions, false)
+            if (dynamic) {
+                console.log('setDynamic expected, not supported so fix..')
+                attribute.setDynamic( dynamic );
+            }
 
-        this.geometry.setAttribute(name, attribute);
-        this.attributes[name] = attribute;
-        attribute.needsUpdate = true;
+            this.geometry.setAttribute(name, attribute);
+            this.attributes[name] = attribute;
+
+
+        this.buffers[name] = buffer;
+        this.attributes[name].needsUpdate = true;
         this.geometry.needsUpdate = true;
     };
+
+    copyBufferAttributesFromTo(fromIndex, toIndex) {
+
+        for (let i = 0; i < this.registeredAttributes.length; i++) {
+            let setup = this.registeredAttributes[i];
+            if (this.attributes[setup.name]) {
+                let attrib = this.attributes[setup.name];
+                let array = attrib.array;
+                let fromStartIndex = fromIndex*attrib.itemSize;
+                let toStartIndex = toIndex*attrib.itemSize;
+                for (let i = 0; i < setup.attrib.dimensions; i++) {
+                    array[toStartIndex + i] = array[fromStartIndex +i];
+                }
+
+                attrib.needsUpdate = true;
+
+            }
+
+        }
+    }
 
 
     setAttribXYZ = function(name, index, x, y, z) {
@@ -189,7 +227,7 @@ class InstanceBuffer {
 
         if (count > this.maxInstanceCount) {
             console.log("not enough buffers.. ",this.maxInstanceCount, count-this.maxInstanceCount, this.registeredAttributes)
-        //    this.activateAttributes(2);
+            this.activateAttributes(2);
         } else if (count < this.maxInstanceCount*0.1) {
             if (count !== 0) {
             //    this.activateAttributes(0.8);

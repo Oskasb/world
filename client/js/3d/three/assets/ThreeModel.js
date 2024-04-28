@@ -172,7 +172,7 @@ class ThreeModel {
         if (this.isGeometryInstance()) {
             spatial.setPosXYZ(20+this.modelNr*5, - 5000, 3000);
         //    spatial.setScaleXYZ(0.0, 0.0, 0.0);
-
+            InstanceAPI.releaseGeometryInstance(spatial.geometryInstance);
             if (this.expandingPool.pool.indexOf(spatial) !== -1) {
                 console.log("Bad pool recovery", this.id, spatial, this);
                 return;

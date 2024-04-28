@@ -77,6 +77,10 @@ class GeometryInstance {
         this.setVertexColor(1, 1, 1, 1)
     };
 
+    copyAttributesByIndex(index) {
+        this.instancingBuffers.copyBufferAttributesFromTo(index, this.index);
+    }
+
 
     showHide = function (bool) {
 
