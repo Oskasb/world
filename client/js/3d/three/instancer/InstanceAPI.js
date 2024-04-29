@@ -10,7 +10,7 @@ class InstanceAPI {
         this.instanceBuffers = {};
 
         this.instances = {};
-        this.releasedInstances = {}
+        this.releasedInstances = {};
         this.addedInstances = {};
         this.registeredInstances = {};
         this.frameChanges = [];
@@ -74,8 +74,6 @@ class InstanceAPI {
         extractFirstMeshGeometry(model.scene.children[0], buffers);
         let insBufs = new InstanceBuffer(buffers.verts, buffers.uvs, buffers.indices, buffers.normals);
         insBufs.mesh.name = id+' '+this.bufferCount+' '+material.id;
-     //   insBufs.extractFirstMeshGeometry(model.scene.children[0], buffers);
-
 
         for (let i = 0; i < attribs.length; i++) {
             let attrib = this.attributes[attribs[i]];
@@ -97,32 +95,40 @@ class InstanceAPI {
 
     bindGeometryInstance = function(geoIns) {
         let id = geoIns.id;
-
         if (this.frameChanges.indexOf(id) === -1) {
             this.frameChanges.push(id);
         }
 
-        if (this.registeredInstances[id].indexOf(geoIns) === -1) {
-            geoIns.index = this.registeredInstances[id].length;
-            this.registeredInstances[id].push(geoIns);
+
+        if (this.instances[id].indexOf(geoIns) !== -1) { //This happens from veg system
+        //    console.log("Already Registered.. ", geoIns)
+            return;
+        }
+
+        if (this.addedInstances[id].indexOf(geoIns) !== -1) {
+            console.log("Already Added.. ", geoIns)
+            return;
+        }
+
+        if (this.releasedInstances[id].indexOf(geoIns) !== -1) {
+            console.log("Currently Releasing.. ", geoIns)
+            return;
         }
 
         geoIns.initBuffers();
         this.addedInstances[id].push(geoIns);
-    //    geoIns.index = this.instances[id].length + this.
-    //    this.instanceBuffers[id].setInstancedCount(this.instances[id].length);
-
     }
 
     instantiateGeometry = function(id, callback) {
         if (!this.instances[id]) {
             this.instances[id] = []
-            this.releasedInstances[id] = [];
             this.addedInstances[id] = [];
+            this.releasedInstances[id] = [];
             this.registeredInstances[id] = [];
         }
 
-        let instance = new GeometryInstance(id, -1, this.instanceBuffers[id]);
+        let instance = new GeometryInstance(id, this.registeredInstances[id].length, this.instanceBuffers[id]);
+        this.registeredInstances[id].push(instance);
         callback(instance);
     };
 
@@ -131,14 +137,13 @@ class InstanceAPI {
             console.log("Try remove a nothing")
             return;
         }
-
         let id = geomInstance.id;
 
+        this.releasedInstances[id].push(geomInstance);
         if (this.frameChanges.indexOf(id) === -1) {
             this.frameChanges.push(id);
         }
 
-        this.releasedInstances[id].push(geomInstance);
     }
 
     getUiSysInstanceBuffers = function(uiSysKey) {
@@ -171,7 +176,8 @@ class InstanceAPI {
         //  instanceBuffers.activateAttributes(1)
 
             instanceBuffers.setRenderOrder(order)
-            instanceBuffers.setInstancedCount(0);
+            instanceBuffers.setInstancedCount(1);
+            instanceBuffers.setDrawRange(1)
             this.uiSystems[uiSysId].push(instanceBuffers);
 
         }.bind(this);
@@ -201,62 +207,29 @@ class InstanceAPI {
     }
 
 
-    processReleasedInstances(id) {
-
-        let releasedInstances = this.releasedInstances[id];
-        let instances = this.instances[id];
-
-        while (releasedInstances.length) {
-
-            let releasedIns = releasedInstances.pop();
-            let idx = releasedIns.index;
-
-            MATH.splice(instances, releasedIns);
-        /*
-            if (idx < instances.length-1) {
-                let uppedInstance = instances.pop();
-                let sourceIndex = uppedInstance.index;
-                uppedInstance.index = idx;
-                instances[idx] = uppedInstance;
-                uppedInstance.copyAttributesByIndex(sourceIndex);
-            }
-
-         */
-        }
-    }
-
     processAddedInstances(id) {
+
         let addedInstances = this.addedInstances[id];
         let instances = this.instances[id];
-
         while (addedInstances.length) {
-
-            let addedIns = addedInstances.pop();
-        //    let idx = instances.length;
-        //    addedIns.index = idx;
-            instances.push(addedIns);
+            let add = addedInstances.pop();
+            instances.push(add);
         }
-
     }
 
-    getBuffersById(id) {
-        if (this.instances[id].length !== 0) {
-            return this.instances[id][0].instancingBuffers;
+    processRemovedInstances(id) {
+        let releasedInstances = this.releasedInstances[id];
+        let instances = this.instances[id];
+        while (releasedInstances.length) {
+            let rem = releasedInstances.pop();
+            MATH.splice(instances, rem);
         }
-
-        if (this.addedInstances[id].length !== 0) {
-            return this.addedInstances[id][0].instancingBuffers;
-        }
-
-        if (this.releasedInstances[id].length !== 0) {
-            return this.releasedInstances[id][0].instancingBuffers;
-        }
-
     }
 
-    recalculateIndices(id) {
-        for (let i = 0; i < this.instances[id].length; i++) {
-            this.instances[id][i].index = i;
+    recalculateInstanceIndices(id) {
+        let instances = this.instances[id];
+        for (let i = 0; i < instances.length; i++) {
+            instances[i].index = i;
         }
 
     }
@@ -268,26 +241,18 @@ class InstanceAPI {
         while (this.frameChanges.length) {
             let id = this.frameChanges.pop();
 
-            let insBuffers = this.getBuffersById(id)
-
-            this.processReleasedInstances(id);
+            this.processRemovedInstances(id);
             this.processAddedInstances(id);
-        //    this.recalculateIndices(id);
-            if (this.instances[id].length === 0) {
-            //    insBuffers.setInstancedCount(0);
-            } else {
-                insBuffers.setInstancedCount(this.registeredInstances[id].length);
-            }
-
+        //    this.recalculateInstanceIndices(id);
+            this.instanceBuffers[id].setInstancedCount(this.instances[id].length)
         }
-
 
         let updateUiSystemBuffers = function(instanceBuffers) {
             let count = instanceBuffers.updateBufferStates()
         //    console.log(count);
         // This is not properly used, can probably cull a lot
 
-            //    instanceBuffers.setInstancedCount(count);
+                instanceBuffers.setInstancedCount(1 + count * 0);
             iCount+=count;
         };
 

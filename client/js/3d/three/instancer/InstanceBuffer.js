@@ -3,7 +3,7 @@ import {BufferAttribute} from "../../../../libs/three/core/BufferAttribute.js";
 import {Mesh} from "../../../../libs/three/objects/Mesh.js";
 import {InstancedInterleavedBuffer} from "../../../../libs/three/core/InstancedInterleavedBuffer.js";
 import {InterleavedBufferAttribute} from "../../../../libs/three/core/InterleavedBufferAttribute.js";
-import {InstancedBufferAttribute, InstancedMesh} from "../../../../libs/three/Three.js";
+import {InstancedBufferAttribute} from "../../../../libs/three/Three.js";
 import {Box3, Sphere} from "../../../../libs/three/Three.js";
 
 let activeGeometries = 0;
@@ -23,8 +23,6 @@ class InstanceBuffer {
 
 
     buildGeometry = function(verts, uvarray, indices, normals) {
-
-    //    let mesh = new InstancedMesh()
 
         let geometry = new InstancedBufferGeometry();
         geometry.name = 'InstanceBuffer buildGeometry'
@@ -78,7 +76,7 @@ class InstanceBuffer {
         //    mesh.scale.set(1, 1, 1);
 
         mesh.geometry.drawRange.count = indices.length;
-    //    mesh.geometry.instanceCount = 0;
+        mesh.geometry.maxInstancedCount = 0;
         mesh.needsUpdate = true;
         this.mesh = mesh;
 
@@ -217,45 +215,34 @@ class InstanceBuffer {
     };
 
     setMaterial = function(material) {
-        this.mesh.material = material;
+        this.mesh.material = material;;
+    };
+
+    setDrawRange = function(count) {
+        this.setInstancedCount(count)
     };
 
     setInstancedCount(count) {
 
+        if (count > this.maxInstanceCount) {
+            console.log("not enough buffers.. ",this.maxInstanceCount, count-this.maxInstanceCount, this)
+        }
+
         if (this.isCameraSpace === false) {
-
-            if (count > this.maxInstanceCount) {
-                console.log("not enough buffers.. ",this.maxInstanceCount, count-this.maxInstanceCount, this.registeredAttributes)
-            //    this.activateAttributes(2);
-            } else if (count < this.maxInstanceCount*0.4) {
+            if (this.mesh.geometry.instancedCount === 0) {
                 if (count !== 0) {
-            //        this.activateAttributes(0.5);
-                }
-            }
-
-            if (this.mesh.geometry.instanceCount === 0) {
-                if (count !== 0) {
-                    console.log("Count++", activeGeometries)
+                //    console.log("Count++", activeGeometries)
                     this.addToScene();
                 }
             } else if (count === 0) {
-                console.log("Count Zero", activeGeometries)
-             //   ThreeAPI.hideModel(this.mesh);
+            //    console.log("Count Zero", activeGeometries)
                 this.removeFromScene();
             }
-            this.mesh.geometry.instanceCount = count;
-            this.mesh.geometry.needsUpdate = true;
         }
 
-
-    //    this.mesh.geometry.drawRange.count = count;
-
+        this.mesh.geometry.instancedCount = count;
+        this.mesh.geometry.needsUpdate = true;
     };
-
-    getInstanceCount() {
-        return this.mesh.geometry.instanceCount
-    }
-
 
     dispose = function() {
         ThreeAPI.hideModel(this.mesh);
@@ -272,7 +259,6 @@ class InstanceBuffer {
 
             if (key === 'offset') {
                 drawRange = buffer[lastIndex-2];
-            // Not correctly used here, look for better culling    this.setInstancedCount(drawRange)
             }
 
             if (buffer[lastIndex]) {
