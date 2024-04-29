@@ -10,8 +10,10 @@ class InstanceAPI {
         this.instanceBuffers = {};
 
         this.instances = {};
-        this.releasedInstanceIndices = {}
-        this.frameReleases = [];
+        this.releasedInstances = {}
+        this.addedInstances = {};
+        this.registeredInstances = {};
+        this.frameChanges = [];
         this.materials = [];
         this.uiSystems = {};
         this.attributes = {
@@ -95,57 +97,32 @@ class InstanceAPI {
 
     bindGeometryInstance = function(geoIns) {
         let id = geoIns.id;
-        let idx = this.instances[id].length;
-        /*
-              if (this.frameReleases.indexOf(id) === -1) {
-                  let releases = this.releasedInstanceIndices[id];
-                  let lowestIdx = idx;
-                  if (releases.length !== 0) {
-                      for (let i = 0; i < releases.length; i++) {
-                          if (releases[i] < lowestIdx) {
-                              idx = releases[i];
-                          }
-                      }
-                      MATH.splice(releases, idx);
-                  } else {
-                  MATH.splice(this.frameReleases, id);
-                  }
-              }
-        /*
-              for (let i = 0; i < this.instances[id].length; i++) {
-                  if (! this.instances[id][i]) {
-                      console.log("No instance here... bad someting", id, i)
-                      return;
-                  }
-              }
-          */
 
-        geoIns.initBuffers();
-
-        if (geoIns.index === -1) {
-            geoIns.index = idx;
-            this.instances[id][idx] = geoIns;
+        if (this.frameChanges.indexOf(id) === -1) {
+            this.frameChanges.push(id);
         }
 
-        this.instanceBuffers[id].setInstancedCount(this.instances[id].length);
+        if (this.registeredInstances[id].indexOf(geoIns) === -1) {
+            geoIns.index = this.registeredInstances[id].length;
+            this.registeredInstances[id].push(geoIns);
+        }
+
+        geoIns.initBuffers();
+        this.addedInstances[id].push(geoIns);
+    //    geoIns.index = this.instances[id].length + this.
+    //    this.instanceBuffers[id].setInstancedCount(this.instances[id].length);
 
     }
 
     instantiateGeometry = function(id, callback) {
         if (!this.instances[id]) {
             this.instances[id] = []
-            this.releasedInstanceIndices[id] = [];
+            this.releasedInstances[id] = [];
+            this.addedInstances[id] = [];
+            this.registeredInstances[id] = [];
         }
 
-        let instance;
-  /*
-        if (this.releasedInstanceIndices[id].length !== 0) {
-            let idx = this.releasedInstanceIndices[id].pop()
-            instance = this.instances[id][idx];
-        } else {
-   */
-            instance = new GeometryInstance(id, -1, this.instanceBuffers[id]);
-    //    }
+        let instance = new GeometryInstance(id, -1, this.instanceBuffers[id]);
         callback(instance);
     };
 
@@ -156,12 +133,12 @@ class InstanceAPI {
         }
 
         let id = geomInstance.id;
-        let idx = geomInstance.index;
-        this.releasedInstanceIndices[id].push(idx);
 
-        if (this.frameReleases.indexOf(id) === -1) {
-            this.frameReleases.push(id);
+        if (this.frameChanges.indexOf(id) === -1) {
+            this.frameChanges.push(id);
         }
+
+        this.releasedInstances[id].push(geomInstance);
     }
 
     getUiSysInstanceBuffers = function(uiSysKey) {
@@ -194,8 +171,7 @@ class InstanceAPI {
         //  instanceBuffers.activateAttributes(1)
 
             instanceBuffers.setRenderOrder(order)
-            instanceBuffers.setInstancedCount(1);
-            instanceBuffers.setDrawRange(1)
+            instanceBuffers.setInstancedCount(0);
             this.uiSystems[uiSysId].push(instanceBuffers);
 
         }.bind(this);
@@ -224,36 +200,84 @@ class InstanceAPI {
 
     }
 
+
+    processReleasedInstances(id) {
+
+        let releasedInstances = this.releasedInstances[id];
+        let instances = this.instances[id];
+
+        while (releasedInstances.length) {
+
+            let releasedIns = releasedInstances.pop();
+            let idx = releasedIns.index;
+
+            MATH.splice(instances, releasedIns);
+        /*
+            if (idx < instances.length-1) {
+                let uppedInstance = instances.pop();
+                let sourceIndex = uppedInstance.index;
+                uppedInstance.index = idx;
+                instances[idx] = uppedInstance;
+                uppedInstance.copyAttributesByIndex(sourceIndex);
+            }
+
+         */
+        }
+    }
+
+    processAddedInstances(id) {
+        let addedInstances = this.addedInstances[id];
+        let instances = this.instances[id];
+
+        while (addedInstances.length) {
+
+            let addedIns = addedInstances.pop();
+        //    let idx = instances.length;
+        //    addedIns.index = idx;
+            instances.push(addedIns);
+        }
+
+    }
+
+    getBuffersById(id) {
+        if (this.instances[id].length !== 0) {
+            return this.instances[id][0].instancingBuffers;
+        }
+
+        if (this.addedInstances[id].length !== 0) {
+            return this.addedInstances[id][0].instancingBuffers;
+        }
+
+        if (this.releasedInstances[id].length !== 0) {
+            return this.releasedInstances[id][0].instancingBuffers;
+        }
+
+    }
+
+    recalculateIndices(id) {
+        for (let i = 0; i < this.instances[id].length; i++) {
+            this.instances[id][i].index = i;
+        }
+
+    }
+
     updateInstances = function() {
 
         let iCount = 0;
 // Why.... no worky!!
-        while (this.frameReleases.length) {
-            let id = this.frameReleases.pop();
-/*
-            // (LP?))es from aligning right.. check it outghvbbbbbb98vcm[
-            let indices = this.releasedInstanceIndices[id];
-            if (indices.length > 100) {
-                let instances = this.instances[id];
-                let insBuffers;
-                while (indices.length) {
+        while (this.frameChanges.length) {
+            let id = this.frameChanges.pop();
 
-                    let idx = indices.pop();
-                    if (idx < instances.length-1) {
-                        let uppedInstance = instances.pop();
-                        let sourceIndex = uppedInstance.index;
-                        uppedInstance.index = idx;
-                        instances[idx] = uppedInstance;
-                        uppedInstance.copyAttributesByIndex(sourceIndex);
-                        insBuffers = uppedInstance.instancingBuffers
-                    }
+            let insBuffers = this.getBuffersById(id)
 
-                }
-                if (insBuffers) {
-                    insBuffers.setInstancedCount(instances.length)
-                }
+            this.processReleasedInstances(id);
+            this.processAddedInstances(id);
+        //    this.recalculateIndices(id);
+            if (this.instances[id].length === 0) {
+            //    insBuffers.setInstancedCount(0);
+            } else {
+                insBuffers.setInstancedCount(this.registeredInstances[id].length);
             }
-*/
 
         }
 

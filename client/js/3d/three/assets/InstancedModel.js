@@ -143,9 +143,7 @@ class InstancedModel {
             _this.obj3d = spatial.obj3d;
             //
 
-            if (spatial.call.isInstanced()) {
-                InstanceAPI.bindGeometryInstance(spatial.call.getInstance());
-            }
+
 
             if (_this.originalModel.hasAnimations) {
                 _this.applyModelMaterial(_this.obj3d , _this.originalModel.getModelMaterial());
@@ -412,9 +410,7 @@ class InstancedModel {
         }
 
         if (this.originalModel.isGeometryInstance()) {
-            let activeCount = this.originalAsset.getActiveCount();
-            let instanceBuffers = this.originalModel.instanceBuffers;
-            instanceBuffers.setInstancedCount(activeCount+1);
+            InstanceAPI.bindGeometryInstance(this.getSpatial().call.getInstance())
         }
 
     };
@@ -432,9 +428,9 @@ class InstancedModel {
 
 
         if (this.originalModel.isGeometryInstance()) {
-            let activeCount = this.originalAsset.getActiveCount();
-            let instanceBuffers = this.originalModel.instanceBuffers;
-            instanceBuffers.setInstancedCount(activeCount);
+        //    let activeCount = this.originalAsset.getActiveCount();
+        //    let instanceBuffers = this.originalModel.instanceBuffers;
+        //    instanceBuffers.setInstancedCount(activeCount);
         }
 
 

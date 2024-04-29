@@ -82,7 +82,7 @@
         {"id": "asset_grid_1",      "config": { "model": "file_grid_1",      "material": "material_instanced_terrain",      "settings": "model_settings_terrain_1"  }},
 
 
-        {"id": "asset_ground_big",      "config": { "model": "file_unit_grid_52", "material": "material_big_terrain",      "settings": "model_settings_big_terrain"  }},
+        {"id": "asset_ground_big",      "config": { "model": "file_unit_grid_32", "material": "material_big_terrain",      "settings": "model_settings_big_terrain"  }},
         {"id": "asset_ground_big_home", "config": { "model": "file_quad",      "material": "material_big_terrain_home",    "settings": "model_settings_instancing_1"  }},
         {"id": "asset_ground_big_13",   "config": { "model": "file_quad",      "material": "material_big_terrain_13",      "settings": "model_settings_instancing_1"  }},
         {"id": "asset_ground_big_12",   "config": { "model": "file_quad",      "material": "material_big_terrain_12",      "settings": "model_settings_instancing_1"  }},

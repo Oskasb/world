@@ -138,7 +138,7 @@ let bigWorldOuter = null;
 
 //  bigWorldOuter.setAttributev4('texelRowSelect',{x:1, y:1, z:groundInstances.length, w:groundInstances.length*2})
 
-let centerSize = 50;
+let centerSize = 30;
 let lodLayers = 5;
 let oceanLayers = 5;
 let gridOffsets = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]]
