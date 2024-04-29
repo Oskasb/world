@@ -190,7 +190,7 @@
         {"id": "asset_stairs_2_stone",        "config": { "model": "file_stairs_2_stone",      "material": "mat_instancing_simple",     "settings": "model_settings_instancing_100" }},
         {"id": "asset_fence_2_stone",         "config": { "model": "file_fence_2_stone",      "material": "mat_instancing_simple",     "settings": "model_settings_instancing_250" }},
 
-        {"id": "asset_floor_3_stone",       "config": { "model": "file_floor_3_stone",      "material": "mat_instancing_simple",     "settings": "model_settings_instancing_1000" }},
+        {"id": "asset_floor_3_stone",       "config": { "model": "file_floor_3_stone",      "material": "mat_instancing_simple",     "settings": "model_settings_instancing_1000f" }},
         {"id": "asset_wall_3_stone",        "config": { "model": "file_wall_3_stone",      "material": "mat_instancing_basic",     "settings": "model_settings_instancing_250" }},
         {"id": "asset_wall_3_door_stone",     "config": { "model": "file_wall_3_door_stone",      "material": "mat_instancing_simple",     "settings": "model_settings_instancing_50" }},
         {"id": "asset_wall_3_window_stone",     "config": { "model": "file_wall_3_window_stone",      "material": "mat_instancing_simple",     "settings": "model_settings_instancing_1000" }},

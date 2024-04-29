@@ -201,7 +201,7 @@
 
           "float twoPi = 6.2831;",
           "float depth = min(max(height*(80.0/(maxHeight-minHeight)), 0.0), 1.0);",
-
+          "if (depth > 1.2) discard;",
           "float waveX = sin(scaledVPos.y*800.0 + scaledVPos.x*100.0 + systemTime*0.15);",
           "float waveY = cos(scaledVPos.y*100.0 + scaledVPos.x*400.0+ systemTime*0.25);",
 
@@ -397,8 +397,14 @@
           "float metal = 0.7;",
           "vec2 terrainSampler = scaledVPos;",
           "terrainSampler.x -= 1.0/4096.0;",
-          "vec4 terrainMapSample = texture2D( terrainmap, terrainSampler);",
+
           "vec4 heightMapSample = texture2D( heightmap, terrainSampler);",
+          "float sampledHeight = heightMapSample.r;",
+
+          "if (sampledHeight < 0.01) discard;",
+
+          "vec4 terrainMapSample = texture2D( terrainmap, terrainSampler);",
+
 
           "float biomeColumn = floor(terrainMapSample.r * 1.99);",
           "int gIndex = int(min((terrainMapSample.r - (biomeColumn*0.5))*8.0, 4.0));",
@@ -447,7 +453,7 @@
           "vec2 tileUv = vec2(pixelShrink + uvX*(1.0-pixelShrink*2.0), pixelShrink + uvY*(1.0-pixelShrink*2.0));",
           "vec2 scaledUv = tileUv*tileScale;",
 
-          "float sampledHeight = heightMapSample.r;",
+
           "float sampleBlue = terrainMapSample.b;",
           "float sampleGreen = terrainMapSample.g;",
 

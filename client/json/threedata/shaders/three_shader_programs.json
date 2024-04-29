@@ -705,7 +705,6 @@
           "void main(){",
           "vec4 txColor = texture2D( map, vUv);",
 
-          "float cameraPenetrability = 0.59;",
 
           "vec4 matERM = texture2D( materialEps, vUv);",
           "float surfaceFactor = matERM.b;",
@@ -733,7 +732,7 @@
           "float colorIntensity = max(max(txColor.r, txColor.g), txColor.b);",
 
           "float solidity = (1.0 - (paletteSelect * (1.0 - spriteAttribute.x)) ) * (0.5 + 0.5 * spriteAttribute.x);",
-          "cameraPenetrability *= max(( 1.0 + min(colorIntensity*colorIntensity, 0.95) * 0.95), 1.0)*(1.0-solidity) ;",
+          "float cameraPenetrability = max(( 1.0 + min(colorIntensity*colorIntensity, 0.95) * 0.95), 1.0)*(1.0-solidity) ;",
 
           "float targetDistance = length(cameraToClear);",
           "float fragDistance = length(clearOffsetPos);",
@@ -757,7 +756,7 @@
 
           "sphereFactor = sphereFactor * 1.0 + 0.0 * pow(proximityFraction*0.995, (22.0));",
           "distanceFactor = distanceFactor * (0.75 + nearness * 0.25) ;",
-          "float viewAngleFactor = pow(-0.01*nearness*colorIntensity + dot(normalize(cameraToClear), normalize(cameraToFrag)), 15.0 + sqrt(farness)*30.0 ) ;",
+          "float viewAngleFactor = pow(0.21*nearness*colorIntensity + dot(normalize(cameraToClear), normalize(cameraToFrag)), 15.0 + sqrt(farness)*30.0 ) ;",
           "float cameraToClearAngle = viewAngleFactor;",
           "cameraToClearAngle -= 0.0 * nearness;",
 
@@ -903,7 +902,7 @@
           "void main(){",
           "vec4 txColor = texture2D( map, vUv);",
 
-          "float cameraPenetrability = 0.59;",
+          "float cameraPenetrability = 0.75;",
 
           "vec4 matERM = texture2D( materialEps, vUv);",
           "float surfaceFactor = matERM.b;",
@@ -955,7 +954,7 @@
 
           "sphereFactor = sphereFactor * 1.0 + 0.0 * pow(proximityFraction*0.995, (22.0));",
           "distanceFactor = distanceFactor * (0.75 + nearness * 0.25) ;",
-          "float viewAngleFactor = pow(-0.01*nearness*colorIntensity + dot(normalize(cameraToClear), normalize(cameraToFrag)), 15.0 + sqrt(farness)*30.0 ) ;",
+          "float viewAngleFactor = pow(-0.04*nearness*colorIntensity + dot(normalize(cameraToClear), normalize(cameraToFrag)), 20.0 + sqrt(farness)*13.0 ) ;",
           "float cameraToClearAngle = viewAngleFactor;",
           "cameraToClearAngle -= 0.0 * nearness;",
 
