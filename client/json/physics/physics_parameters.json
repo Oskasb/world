@@ -290,9 +290,36 @@
         }
       },
 
+      {
+        "id":"asset_wood_6_stairs",
+        "data":{
+          "shapes": [
+            {"shape": "box", "rot": [0, 0, 0],  "pos": [1.0, 0.25, 0], "scale": [100, 50, 300], "asset": "box", "convex": false, "mass": 0, "friction": 2.9},
+            {"shape": "box", "rot": [0, 0, 0],  "pos": [0.5 , 0.5,  0], "scale": [100, 100, 300], "asset": "box", "convex": false, "mass": 0, "friction": 2.9},
+            {"shape": "box", "rot": [0, 0, 0],  "pos": [-0.0, 1.0, 0], "scale": [100, 100, 300], "asset": "box", "convex": false, "mass": 0, "friction": 2.9},
+            {"shape": "box", "rot": [0, 0, 0],  "pos": [-0.5, 1.5,  0], "scale": [100, 100, 300], "asset": "box", "convex": false, "mass": 0, "friction": 2.9},
+            {"shape": "box", "rot": [0, 0, 0],  "pos": [-1.0, 2.0,  0], "scale": [100, 100, 300], "asset": "box", "convex": false, "mass": 0, "friction": 2.9},
+            {"shape": "box", "rot": [0, 0, 0],  "pos": [-1.5, 2.5,  0], "scale": [100, 100, 300], "asset": "box", "convex": false, "mass": 0, "friction": 2.9},
+            {"shape": "box", "rot": [0, 0, 0],  "pos": [-2.0, 3.0,  0], "scale": [100, 100, 300], "asset": "box", "convex": false, "mass": 0, "friction": 2.9},
+            {"shape": "box", "rot": [0, 0, 0],  "pos": [-2.5, 3.5,  0], "scale": [100, 100, 300], "asset": "box", "convex": false, "mass": 0, "friction": 2.9},
+            {"shape": "box", "rot": [0, 0, 0],  "pos": [-3.0, 4.0,  0], "scale": [100, 100, 300], "asset": "box", "convex": false, "mass": 0, "friction": 2.9}
+          ]
+        }
+      },
 
-
-
+      {
+        "id":"asset_wood_6_roof_peak",
+        "data":{
+          "shapes": [
+            {"shape": "box", "rot": [0, 0, 0],  "pos": [0, 0.5, 0], "scale": [600, 100, 600], "asset": "box", "convex": false, "mass": 0, "friction": 2.9},
+            {"shape": "box", "rot": [0, 0, 0],  "pos": [0, 1.5, 0], "scale": [600, 100, 400], "asset": "box", "convex": false, "mass": 0, "friction": 2.9},
+            {"shape": "box", "rot": [0, 0, 0],  "pos": [0, 2.5, 0], "scale": [600, 100, 200], "asset": "box", "convex": false, "mass": 0, "friction": 2.9},
+            {"shape": "box", "rot": [0, 0, 0],  "pos": [0, 3.5, 0], "scale": [600, 100,  50], "asset": "box", "convex": false, "mass": 0, "friction": 2.9},
+            {"shape": "box", "rot": [0, 0, 0],  "pos": [0, -0.5, 3.5], "scale": [600, 100, 150], "asset": "box", "convex": false, "mass": 0, "friction": 2.9},
+            {"shape": "box", "rot": [0, 0, 0],  "pos": [0, -0.5,-3.5], "scale": [600, 100, 150], "asset": "box", "convex": false, "mass": 0, "friction": 2.9}
+          ]
+        }
+      },
 
       {
         "id":"asset_tree_1",

@@ -43,7 +43,7 @@ class DomEditAttach {
                     if (assets.indexOf(id) === -1) {
                         let cfg = configs[key].config;
                         let matId = cfg.material;
-                        if (matId === "mat_instancing_basic") {
+                        if (matId === "mat_instancing_basic" || matId === "mat_instancing_simple") {
                             assets.push(id)
                         }
                     } else {
