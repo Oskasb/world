@@ -203,11 +203,16 @@ class LocationModel {
 
         let setObstructed = function(bool) {
             if (obstructing !== bool) {
+
                 obstructing = bool;
                 if (bool) {
                     transitSolidity(0.5, 0.7);
                 } else {
                     transitSolidity(this.solidity, 0.7);
+                }
+                let wmNeighbors = this.worldModel.locationModels;
+                for (let i = 0; i < wmNeighbors.length; i++) {
+                    wmNeighbors[i].call.viewObstructing(bool);
                 }
             }
         }.bind(this);

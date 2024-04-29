@@ -106,6 +106,7 @@ class WorldModel {
             this.removeLocationModels();
             for (let i = 0; i < attachAssets.length; i++) {
                 let model = new LocationModel(this.obj3d, attachAssets[i])
+                model.worldModel = this;
                 if (config['no_lod'] === true) {
                     model.call.lodUpdated(0)
                 } else {
