@@ -243,8 +243,8 @@ class InstanceAPI {
 
             this.processRemovedInstances(id);
             this.processAddedInstances(id);
-        //    this.recalculateInstanceIndices(id);
-            this.instanceBuffers[id].setInstancedCount(this.instances[id].length)
+            this.recalculateInstanceIndices(id);
+            this.instanceBuffers[id].setInstancedCount(this.instances[id].length )
         }
 
         let updateUiSystemBuffers = function(instanceBuffers) {
@@ -252,7 +252,7 @@ class InstanceAPI {
         //    console.log(count);
         // This is not properly used, can probably cull a lot
 
-                instanceBuffers.setInstancedCount(1 + count * 0);
+                instanceBuffers.setInstancedCount(count);
             iCount+=count;
         };
 

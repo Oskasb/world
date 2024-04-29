@@ -229,7 +229,7 @@ class InstanceBuffer {
         }
 
         if (this.isCameraSpace === false) {
-            if (this.mesh.geometry.instancedCount === 0) {
+            if (this.mesh.geometry.instanceCount === 0) {
                 if (count !== 0) {
                 //    console.log("Count++", activeGeometries)
                     this.addToScene();
@@ -240,7 +240,7 @@ class InstanceBuffer {
             }
         }
 
-        this.mesh.geometry.instancedCount = count;
+        this.mesh.geometry.instanceCount = count;
         this.mesh.geometry.needsUpdate = true;
     };
 
