@@ -75,19 +75,10 @@ class InstancedModel {
 
     };
 
-    getAssetId = function() {
-        return this.originalAsset.id;
-    };
-
-
     setPointer = function(ptr) {
         //    client.evt.removeListener(this.ptr, this.callbacks.onUpdateEvent)
         this.ptr = ptr;
         //    client.evt.on(this.ptr, this.callbacks.onUpdateEvent)
-    };
-
-    getPointer = function() {
-        return this.ptr;
     };
 
     getSpatial = function() {
@@ -98,9 +89,6 @@ class InstancedModel {
         //   evt.parser.parseEntityEvent(this, event);
     };
 
-    requestAttachment = function(attachInstance) {
-        this.attachInstancedModel(attachInstance);
-    };
 
     getDynamicJoint = function(jointEnum) {
         var boneName = this.originalModel.jointMap[ENUMS.getKey('Joints', jointEnum)];

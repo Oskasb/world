@@ -92,13 +92,6 @@ class DynamicMain {
 
     };
 
-    getInstanceByPointer = function(ptr) {
-        for (var i = 0; i < this.instances.length; i++) {
-            if (this.instances[i].getPointer() === ptr) {
-                return this.instances[i];
-            }
-        }
-    };
 
     removeFromInstanceIndex = function(instancedModel) {
         MATH.splice(this.instances, instancedModel);

@@ -172,7 +172,7 @@ class InstanceBuffer {
 
         for (let i = 0; i < this.registeredAttributes.length; i++) {
             let setup = this.registeredAttributes[i];
-            if (this.attributes[setup.name]) {
+        //    if (this.attributes[setup.name]) {
                 let attrib = this.attributes[setup.name];
                 let array = attrib.array;
                 let fromStartIndex = fromIndex*attrib.itemSize;
@@ -183,7 +183,7 @@ class InstanceBuffer {
 
                 attrib.needsUpdate = true;
 
-            }
+        //    }
 
         }
     }

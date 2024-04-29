@@ -158,7 +158,9 @@ class Client {
             pingTime+=frame.tpf;
 
             ThreeAPI.updateCamera();
+
             GuiAPI.updateGui(frame.tpf, frame.elapsedTime);
+
             ThreeAPI.requestFrameRender(frame)
 
             client.evt.dispatch(ENUMS.Event.FRAME_READY, frame);

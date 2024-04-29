@@ -1,6 +1,8 @@
 import {InstanceBuffer} from './InstanceBuffer.js';
 import {GeometryInstance} from './GeometryInstance.js';
 
+let releasedIndices = [];
+
 class InstanceAPI {
     constructor() {
     //    console.log('INIT InstanceAPI');
@@ -116,7 +118,10 @@ class InstanceAPI {
         }
 
         geoIns.initBuffers();
-        this.addedInstances[id].push(geoIns);
+        geoIns.index = this.instances[id].length;
+        this.instances[id].push(geoIns);
+        this.instanceBuffers[id].setInstancedCount(this.instances[id].length)
+    //    this.addedInstances[id].push(geoIns);
     }
 
     instantiateGeometry = function(id, callback) {
@@ -205,45 +210,40 @@ class InstanceAPI {
         this.track[key] = value;
 
     }
-
-
-    processAddedInstances(id) {
-
-        let addedInstances = this.addedInstances[id];
-        let instances = this.instances[id];
-        while (addedInstances.length) {
-            let add = addedInstances.pop();
-            instances.push(add);
-        }
-    }
+        
 
     processRemovedInstances(id) {
         let releasedInstances = this.releasedInstances[id];
         let instances = this.instances[id];
+        let lowestReleasedIndex = instances.length;
         while (releasedInstances.length) {
             let rem = releasedInstances.pop();
+            if (rem.index < lowestReleasedIndex) {
+                lowestReleasedIndex = rem.index;
+            }
             MATH.splice(instances, rem);
         }
+
+        this.recalculateInstanceIndices(id, lowestReleasedIndex)
     }
 
-    recalculateInstanceIndices(id) {
+    recalculateInstanceIndices(id, lowestReleasedIndex) {
         let instances = this.instances[id];
-        for (let i = 0; i < instances.length; i++) {
+        for (let i = lowestReleasedIndex; i < instances.length; i++) {
+            let srcIndex = instances[i].index;
             instances[i].index = i;
+            instances[i].copyAttributesByIndex(srcIndex);
         }
-
     }
 
     updateInstances = function() {
 
         let iCount = 0;
-// Why.... no worky!!
+
         while (this.frameChanges.length) {
             let id = this.frameChanges.pop();
 
             this.processRemovedInstances(id);
-            this.processAddedInstances(id);
-            this.recalculateInstanceIndices(id);
             this.instanceBuffers[id].setInstancedCount(this.instances[id].length )
         }
 
@@ -252,7 +252,13 @@ class InstanceAPI {
         //    console.log(count);
         // This is not properly used, can probably cull a lot
 
-                instanceBuffers.setInstancedCount(count);
+       //     if (instanceBuffers.mesh.geometry.instanceCount !== 1) {
+       //         instanceBuffers.addToScene();
+            //    }
+
+            instanceBuffers.mesh.geometry.instanceCount = count;
+            instanceBuffers.mesh.geometry.needsUpdate = true;
+
             iCount+=count;
         };
 
