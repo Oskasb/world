@@ -224,7 +224,10 @@ class InstanceAPI {
             MATH.splice(instances, rem);
         }
 
-        this.recalculateInstanceIndices(id, lowestReleasedIndex)
+        if (instances.length !== 0) {
+            this.recalculateInstanceIndices(id, lowestReleasedIndex)
+        }
+
     }
 
     recalculateInstanceIndices(id, lowestReleasedIndex) {
