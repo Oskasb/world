@@ -25,26 +25,41 @@ div.point {
     position: absolute;
 }
 
-div.button {
+.button {
     font-size: 20em;
     min-width: 1em;
     height: 1em;
     margin-bottom: 0.1em;
-    width: fit-content;
-    padding: 0.2em;
+    width: 2.2em;
+    padding: 0;
     text-align: center;
     transform: translate(-50%, -50%);
     color: #ffe6bf;
     position: absolute;
     border-radius: 0.4em;
-    border: 0.1em solid #f1a535;
+    border: 0.2em solid #f1a535;
     background-color: rgba(108, 71, 0, 0.5);
+    overflow: hidden;
 }
 
-div.button_encounter_edit {
+.button_encounter_edit {
     color: #f693ae;
     border: 0.1em solid #ff0c26;
     background-color: rgba(101, 0, 0, 0.5);
+}
+
+div.button_spatial {
+    color: white;
+    user-select: none;
+    pointer-events: none;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+    font-size: 1.3em;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
 }
 
 .general_map {

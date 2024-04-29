@@ -24,6 +24,15 @@ class DomWorldButtonLayer {
             ThreeAPI.registerPrerenderCallback(update)
         }
 
+
+        function buttonIframeLoaded(iframe) {
+            let iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+            let btn = iframeDocument.getElementById('button_spatial');
+            DomUtils.addClickFunction(btn, onClick);
+
+        //    buttonDivs.push(iframe);
+        }
+
         function update() {
 
             MATH.emptyArray(visibleElements);
@@ -40,9 +49,9 @@ class DomWorldButtonLayer {
                 }
 
                 while (buttonDivs.length < visibleElements.length) {
-                    let div = DomUtils.createDivElement(document.body, 'wbl_' + visibleElements.length, label, 'button')
-                    DomUtils.addClickFunction(div, onClick);
-                    buttonDivs.push(div);
+
+                    let iframe = DomUtils.createIframeElement('canvas_window', 'wbl_' + visibleElements.length, "html/edit_button_spatial.html", 'button', buttonIframeLoaded)
+                    buttonDivs.push(iframe);
                 }
 
 
@@ -55,6 +64,12 @@ class DomWorldButtonLayer {
                 let div = buttonDivs[i];
                 let pos = worldElement.getPos();
                 div.value = worldElement;
+
+                let iframeDocument = div.contentDocument || div.contentWindow.document;
+                let btn = iframeDocument.getElementById('button_spatial');
+                if (btn) {
+                    btn.value = worldElement;
+                }
 
                 ThreeAPI.toScreenPosition(pos, tempVec);
                 div.style.top = 50-tempVec.y*(100/frustumFactor)+"%";

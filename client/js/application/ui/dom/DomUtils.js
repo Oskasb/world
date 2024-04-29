@@ -131,7 +131,7 @@ class DomUtils {
         iframe.setAttribute('src', source);
         iframe.setAttribute('name', id);
         iframe.onload = function(){
-            loadedCallback();
+            loadedCallback(iframe);
         };
 
         return iframe;
