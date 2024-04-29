@@ -210,7 +210,7 @@ class InstanceAPI {
         this.track[key] = value;
 
     }
-        
+
 
     processRemovedInstances(id) {
         let releasedInstances = this.releasedInstances[id];

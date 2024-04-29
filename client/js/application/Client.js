@@ -175,9 +175,7 @@ class Client {
             ThreeAPI.updateAnimationMixers(frame.tpf);
             ThreeAPI.updateSceneMatrixWorld();
             client.dynamicMain.tickDynamicMain();
-            //     renderer.render(scene, camera)
             EffectAPI.updateEffectAPI();
-
             window.PipelineAPI.tickPipelineAPI(frame.tpf)
 
         }

@@ -5,6 +5,7 @@ import {poolReturn} from "../../utils/PoolUtils.js";
 let tempVec = new Vector3();
 let frustumFactor = 0.828;
 
+
 class DomWorldButtonLayer {
     constructor() {
 
@@ -66,14 +67,24 @@ class DomWorldButtonLayer {
                 div.value = worldElement;
 
                 let iframeDocument = div.contentDocument || div.contentWindow.document;
+
+
+
                 let btn = iframeDocument.getElementById('button_spatial');
                 if (btn) {
                     btn.value = worldElement;
+                    if (iframeDocument.body.style.fontSize !== DomUtils.rootFontSize()) {
+                        iframeDocument.body.style.fontSize = DomUtils.rootFontSize()
+                    }
                 }
 
                 ThreeAPI.toScreenPosition(pos, tempVec);
-                div.style.top = 50-tempVec.y*(100/frustumFactor)+"%";
-                div.style.left = 50+tempVec.x*(100/frustumFactor)+"%";
+                let posX = tempVec.x*(100/frustumFactor)
+                let posY = -tempVec.y*(100/frustumFactor)
+                div.style.top = 50 + posY*1+"%";
+                div.style.left = 50 + posX*1+"%";
+
+            //    DomUtils.translateElement3DPercent(div,  posX*50, posY*50, 0)
 
                 evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ThreeAPI.getCameraCursor().getPos(), to:pos, color:'YELLOW'});
                 tempVec.x = pos.x;

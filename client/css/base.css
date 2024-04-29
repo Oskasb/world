@@ -48,20 +48,6 @@ div.point {
     background-color: rgba(101, 0, 0, 0.5);
 }
 
-div.button_spatial {
-    color: white;
-    user-select: none;
-    pointer-events: none;
-    overflow: hidden;
-    top: 0;
-    left: 0;
-    font-size: 1.3em;
-    width: 100%;
-    height: 100%;
-    padding: 0;
-    margin: 0;
-}
-
 .general_map {
     background-image: url("/client/assets/images/textures/generalmap_w01.png"), linear-gradient(rgba(187, 162, 97, 1) 0, rgba(140, 83, 45, 1) 40%, rgba(42, 34, 10, 1) 99%);
     background-repeat: no-repeat;

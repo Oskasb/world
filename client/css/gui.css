@@ -74,6 +74,7 @@ div.darken {
 }
 
 div.button_spatial {
+    font-size: 18em;
     color: white;
     user-select: none;
     pointer-events: none;
