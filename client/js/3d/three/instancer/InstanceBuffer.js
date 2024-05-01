@@ -89,7 +89,7 @@ class InstanceBuffer {
     };
 
     registerBufferAttribute(attrib, name, count) {
-        this.maxInstanceCount = count // *0.5;
+        this.maxInstanceCount = count  * 1;
         let setup = {
             attrib:attrib,
             name:name

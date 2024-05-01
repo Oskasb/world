@@ -201,28 +201,37 @@ class LocationModel {
                 scalarTransition.initScalarTransition(frameSolidity, to, time, transitionEnded, 'curveSqrt', applySolidity)
         }
 
-        let setObstructed = function(bool) {
-            if (obstructing !== bool) {
+        let obsFrame = 0;
 
-                obstructing = bool;
-                if (bool) {
-                    transitSolidity(0.5, 0.7);
-                } else {
-                    transitSolidity(this.solidity, 0.7);
-                }
-                let wmNeighbors = this.worldModel.locationModels;
-                for (let i = 0; i < wmNeighbors.length; i++) {
-                    wmNeighbors[i].call.viewObstructing(bool);
+        let setObstructing = function(bool, frame) {
+
+            if (bool === true || frame > obsFrame) {
+                if (obstructing !== bool) {
+                      obstructing = bool;
+                    if (bool) {
+                        transitSolidity(0.5, 0.7);
+                    } else {
+                        transitSolidity(this.solidity, 0.7);
+                    }
                 }
             }
+
+            obsFrame = frame;
+
         }.bind(this);
 
-        let playerContact = function(bool) {
-            setObstructed(bool)
-        }.bind(this);
+
 
         let viewObstructing = function(bool) {
-            setObstructed(bool)
+            let frame = GameAPI.getFrame().frame;
+            if (frame !== obsFrame) {
+
+                let wmNeighbors = this.worldModel.locationModels;
+                for (let i = 0; i < wmNeighbors.length; i++) {
+                    wmNeighbors[i].call.setObstructing(bool, frame);
+                }
+            }
+
         }.bind(this);
 
 
@@ -276,7 +285,8 @@ class LocationModel {
             setPaletteKey:setPaletteKey,
             getPaletteKey:getPaletteKey,
             lodUpdated:lodUpdated,
-            playerContact:playerContact,
+            playerContact:viewObstructing,
+            setObstructing:setObstructing,
             viewObstructing:viewObstructing,
             renderDebugAAB:renderDebugAAB
         }

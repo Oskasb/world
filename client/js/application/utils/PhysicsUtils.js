@@ -431,7 +431,7 @@ function updateViewObstruction(pos) {
     MATH.emptyArray(world.viewObstuctingModels);
 
     obstuctTestAAPlane(pos, planeSize, planeElev)
-    obstuctTestAAPlane(pos, planeSize*3, -planeElev)
+//    obstuctTestAAPlane(pos, planeSize*3, -planeElev)
 //    obstuctTestAAPlane(pos, planeSize*3, 0)
     tempVec.copy(pos);
 //    tempVec.y += actor.getStatus(ENUMS.ActorStatus.HEIGHT) * 1.2;
