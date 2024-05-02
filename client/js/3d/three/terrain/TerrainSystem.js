@@ -106,6 +106,7 @@ class TerrainSystem {
             if (prog.remaining === 0) {
                 evt.dispatch(ENUMS.Event.NOTIFY_LOAD_PROGRESS, prog)
                 threeTerrain.saveGroundShadeTexture();
+                threeTerrain.call.getTerrainBigGeo().updateHeightmapCanvasTexture()
                 console.log("Terrain Ground Shade Done")
 
             } else if (prog.done % 20 === 0) {

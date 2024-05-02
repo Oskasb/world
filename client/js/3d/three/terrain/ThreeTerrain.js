@@ -123,14 +123,26 @@ let imprintEdit = {
 }
 
 
+
 function queueImprint(x, y, z, i) {
 
     setTimeout(function() {
+        imprintEdit.radius = 1.0;
+        imprintEdit.sharpness = 0.65;
+        imprintEdit.noise = 1;
+        imprintEdit.strength = 5;
         imprintEdit.pos.x = x // -0.5;
         imprintEdit.pos.y = y;
         imprintEdit.pos.z = z +1 //0.5;
-        imprintEdit.radius = 1 + Math.round(MATH.sillyRandom(i*0.01)*2) * 1;
+        imprintEdit.radius = 0.25 + Math.round(MATH.sillyRandom(i*0.01)*3) * 1;
+        imprintEdit.operation = 'GROUND';
         applyTerrainEdit(imprintEdit);
+        imprintEdit.sharpness = 0.99;
+        imprintEdit.noise = 0;
+        imprintEdit.strength = 0;
+        imprintEdit.operation = 'FLATTEN';
+        applyTerrainEdit(imprintEdit);
+        shadeThreeTerrainDataAt(imprintEdit.pos, imprintEdit.radius*1.6, 2, 'lighten', 0.1+0.4/imprintEdit.radius)
     }, i * 50)
 
 }
@@ -414,6 +426,7 @@ function getTerrainBigGeo() {
 function clearTerrainGeometries() {
     for (let i = 0; i < terrainGeometries.length; i++) {
         for (let j = 0; j < terrainGeometries[i].length;j++) {
+            terrainGeometries[i][j].applyLodLevelChange(-1);
             terrainGeometries[i][j].clearTerrainGeometry();
         }
     }
@@ -548,7 +561,7 @@ class ThreeTerrain {
         let worldLevel =  GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
         let file = 'heightmap_w01_'+worldLevel+'.png';
 
-        let url = './client/assets/images/textures/generated/'+file
+        let url = './client/assets/images/textures/'+file
         let onLoad = function(img, data) {
             txCallback(img)
         }
@@ -566,7 +579,7 @@ class ThreeTerrain {
 
     }
     buildGroundShadeTexture(progressCB) {
-
+        shadeCompleted = false;
         let context = terrainBigGeometry.getHeightmapCanvas();
         context.globalCompositeOperation = 'multiply';
         context.fillStyle = 'rgb(255, 255, 0)';

@@ -94,12 +94,12 @@ let setupHeightmapData = function(originalModelMat) {
     terrainMaterial.uniformsNeedUpdate = true;
     terrainMaterial.needsUpdate = true;
     //  heightMapCanvasTx.fillStyle = createGradient(canvasContext, size, tx+0, tz+0);
-    heightmapContext.fillStyle = "rgba(255, 255, 0, 1)";
-    heightmapContext.globalCompositeOperation = "darken";
-    heightmapContext.fillRect(0, 0, 2048, 2048);
+ //   heightmapContext.fillStyle = "rgba(255, 255, 0, 1)";
+ //   heightmapContext.globalCompositeOperation = "darken";
+ //   heightmapContext.fillRect(0, 0, 2048, 2048);
 
 //    heightmapContext.fillStyle = "rgba(9, 0, 0, 1)";
-    heightmapContext.globalCompositeOperation = "lighter";
+//    heightmapContext.globalCompositeOperation = "lighter";
 //    heightmapContext.fillRect(0, 0, 2048, 2048);
 
     terrainMaterial.uniforms.heightmaptiles.value.x = 1;
