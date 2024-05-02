@@ -11,6 +11,7 @@ import {poolReturn} from "../../../application/utils/PoolUtils.js";
 import { ImageLoader } from "../../../../libs/three/loaders/ImageLoader.js";
 import {applyGroundCanvasEdit, fitHeightToAABB} from "./TerrainFunctions.js";
 import {getTerrainBodyPointer, rayTest, testProbeFitsAtPos} from "../../../application/utils/PhysicsUtils.js";
+import {ENUMS} from "../../../application/ENUMS.js";
 
 let scrubIndex = 0;
 
@@ -416,7 +417,6 @@ function clearTerrainGeometries() {
             terrainGeometries[i][j].clearTerrainGeometry();
         }
     }
-//    dynamicLodGrid.deactivateLodGrid()
 }
 
 let terrainData;
@@ -512,7 +512,9 @@ class ThreeTerrain {
 
         function download() {
             let link = document.createElement('a');
-            link.download = 'ground_shade_tx.png';
+            let worldLevel =  GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
+            link.download = 'heightmap_w01_'+worldLevel+'.png';
+        //    link.download = 'ground_shade_tx.png';
             link.href = context.canvas.toDataURL( 'image/png' )
             link.click();
         }
@@ -522,11 +524,31 @@ class ThreeTerrain {
     //    console.log("shade tx png:", [png]);
     }
 
+    saveGroundDataTexture() {
+        let context = terrainBigGeometry.getGroundCanvas()
+        console.log("CTX: ", context.canvas)
+        //     let png = context.canvas.toDataURL( 'image/png' );
+        //     window.open(png);
+
+        function download() {
+            let link = document.createElement('a');
+            let worldLevel =  GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
+            link.download = 'terrainmap_w01_'+worldLevel+'.png';
+            link.href = context.canvas.toDataURL( 'image/png' )
+            link.click();
+        }
+
+        download();
+    }
+
     fetchGroundShadeTexture(txCallback) {
 
         let imageLoader = new ImageLoader();
 
-        let url = './client/assets/images/textures/generated/ground_shade_tx.png'
+        let worldLevel =  GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
+        let file = 'heightmap_w01_'+worldLevel+'.png';
+
+        let url = './client/assets/images/textures/generated/'+file
         let onLoad = function(img, data) {
             txCallback(img)
         }
@@ -544,6 +566,14 @@ class ThreeTerrain {
 
     }
     buildGroundShadeTexture(progressCB) {
+
+        let context = terrainBigGeometry.getHeightmapCanvas();
+        context.globalCompositeOperation = 'multiply';
+        context.fillStyle = 'rgb(255, 255, 0)';
+    //    context.globalCompositeOperation = 'lighten';
+    //    context.fillStyle = 'rgb(0, 0, 255)';
+        context.fillRect(0, 0, 2048, 2048);
+
         let prog = {}
         prog.done = 0;
         prog.progress = 0;

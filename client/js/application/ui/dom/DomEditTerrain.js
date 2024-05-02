@@ -81,6 +81,10 @@ class DomEditTerrain {
             operateEdit(selectedTool, targetObj3d.position, statusMap, 1)
         }
 
+        let applyRebuild = function(e) {
+            ThreeAPI.getTerrainSystem().rebuildTerrainData();
+        }
+
         function applyDrawFromTo(from, to, pixelDistance) {
 
             for (let i = 0; i < pixelDistance; i++) {
@@ -120,6 +124,9 @@ class DomEditTerrain {
             DomUtils.addClickFunction(sampleButtonDiv, applySampledGround);
             visualEdgeCircle = poolFetch('VisualEdgeCircle')
             visualEdgeCircle.on();
+
+            let applyRebuildDiv = htmlElem.call.getChildElement('rebuild');
+            DomUtils.addClickFunction(applyRebuildDiv, applyRebuild);
             ThreeAPI.registerPrerenderCallback(update);
             updateSelectedTool();
         }

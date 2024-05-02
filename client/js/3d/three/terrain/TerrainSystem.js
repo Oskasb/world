@@ -96,6 +96,28 @@ class TerrainSystem {
         }
     }
 
+    rebuildTerrainData() {
+        threeTerrain.call.clearTerrainGeometries()
+        threeTerrain.call.populateTerrainGeometries();
+        console.log("Rebuild Terrain Data")
+
+        let shadeProgCB = function(prog) {
+
+            if (prog.remaining === 0) {
+                evt.dispatch(ENUMS.Event.NOTIFY_LOAD_PROGRESS, prog)
+                threeTerrain.saveGroundShadeTexture();
+                console.log("Terrain Ground Shade Done")
+
+            } else if (prog.done % 20 === 0) {
+                evt.dispatch(ENUMS.Event.NOTIFY_LOAD_PROGRESS, prog)
+                console.log(prog.progress)
+            }
+        }
+
+        threeTerrain.buildGroundShadeTexture(shadeProgCB);
+        threeTerrain.saveGroundDataTexture()
+    }
+
     getTerrainHeight() {
         return threeTerrain.call.getTerrainScale().y;
     }

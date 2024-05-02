@@ -72,7 +72,21 @@ class DynamicLodGrid {
         this.dynamicGrid = null;
     }
 
-    rebuildLodGrid() {
+    clearLodGrid() {
+        while (this.lodElements.length) {
+            let element = this.lodElements.pop();
+            //    poolReturn(patch)
+        }
+
+        let tiles = this.dynamicGrid.dynamicGridTiles;
+        for (let i = 0; i < tiles.length; i++) {
+            for (let j = 0; j < tiles[i].length;j++) {
+                let tile = tiles[i][j];
+                tile.isVisible = false;
+                tile.lodLevel = -2;
+            }
+        }
+
 
     }
 

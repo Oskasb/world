@@ -148,12 +148,16 @@ class TerrainSectionInfo {
 
     deactivateTerrainSection() {
         this.deactivateTerrainSectionPhysics();
+        this.elementCount = 0;
 
-        for (let i = 0; i < this.lodLevels.length; i++) {
-            let level = this.lodLevels[i];
+        while (this.lodLevels.length) {
+            let level = this.lodLevels.pop();
             if (level) {
-                MATH.emptyArray(level);
+                while (level.length) {
+                    let elem = level.pop();
+                }
             }
+
         }
 
     }
