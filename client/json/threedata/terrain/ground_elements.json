@@ -13,35 +13,20 @@
 
                   ],
                   [
-
+                    {"y_min": 0.5 ,"y_max": 0.75 , "asset":"asset_tree_1", "shade": 5}
                   ],
                   [
-                    {"y_min": 0.5 ,"y_max": 0.75 , "asset":"asset_tree_1", "shade": 5},
-                    {"y_min": 0.6  ,"y_max": 0.95 , "asset":"asset_tree_2", "shade": 6}
+                    {"y_min": 0.55  ,"y_max": 0.9 , "asset":"asset_tree_2", "shade": 6}
                   ],
                   [
-
+                    {"y_min": 0.65 ,"y_max": 0.99  , "asset":"asset_tree_3", "shade": 8}
                   ],
                   [
-                    {"y_min": 0.7 ,"y_max": 1.1  , "asset":"asset_tree_3", "shade": 8}
+                    {"y_min": 0.8  ,"y_max": 1.1  , "asset":"asset_tree_4", "shade": 10}
                   ],
                   [
-                    {"y_min": 0.8  ,"y_max": 1.1  , "asset":"asset_tree_4", "shade": 10},
                     {"y_min": 0.9  ,"y_max": 1.1  , "asset":"asset_tree_5", "shade": 16}
                   ]
-                ],
-                "_lod_map": [
-                  [],
-                  [],
-                  [],
-                  [],
-                  [],
-                  ["asset_tree_1"],
-                  ["asset_tree_2"],
-                  ["asset_tree_3"],
-                  ["asset_tree_4"],
-                  ["asset_tree_5"],
-                  []
                 ]
               }
             }

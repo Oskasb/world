@@ -437,10 +437,10 @@ function updateViewObstruction(pos) {
 //    tempVec.y += actor.getStatus(ENUMS.ActorStatus.HEIGHT) * 1.2;
     frameTests = 0;
     maxTests = 8;
-    let ptr = viewObstuctionTest(tempVec, ThreeAPI.getCamera().position, obstructHhitCb)
+    let ptr = viewObstuctionTest(ThreeAPI.getCamera().position, tempVec,  obstructHhitCb)
 
-    for (let i = 0; i < obstructingModels.length; i++) {
-        let model = obstructingModels[i];
+    while (obstructingModels.length) {
+        let model = obstructingModels.pop();
         if (world.viewObstuctingModels.indexOf(model) === -1) {
             model.call.viewObstructing(false);
         }

@@ -52,6 +52,10 @@ class TerrainElement {
     }
 
 
+    getPos() {
+        return this.obj3d.position;
+    }
+
     setupElementModel(assetId, callback, shade) {
 
         this.assetId = assetId;

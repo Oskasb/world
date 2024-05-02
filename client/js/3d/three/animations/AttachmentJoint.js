@@ -48,9 +48,14 @@ class AttachmentJoint {
 
 
     inheritJointDynamicPosition() {
+        if (this.attachedSpatial === null) {
+            return // can happen on violent spatial transitions.
+        }
+
         this.dynamicBone.stickToBoneWorldMatrix();
 
         let spatObj = this.dynamicBone.obj3d;
+
         if (typeof(spatObj) === 'undefined') {
             console.log("bad joint obj,")
             return;
