@@ -195,7 +195,7 @@ function imprintGroundInAABB(aabb) {
             tempVec2.copy(tempVec1);
             tempVec2.y += height
 
-            let hit = rayTest(tempVec2, tempVec1, tempVec1, tempVec2)
+            let hit = rayTest(tempVec2, tempVec1, tempVec1, tempVec2, true)
             if (hit && hit.ptr !== getTerrainBodyPointer()) {
                 print++;
                 queueImprint(tempVec1.x, tempVec1.y, tempVec1.z, print)
@@ -206,7 +206,7 @@ function imprintGroundInAABB(aabb) {
                     let hit = testCirclePoint(tempVec1, i / l, height);
                     if (hit) {
                         l = 7;
-                        queueImprint(tempVec1.x, tempVec1.y, tempVec1.z, print)
+                        queueImprint(tempVec1.x, tempVec1.y, tempVec1.z, print, true)
                     }
                 }
 

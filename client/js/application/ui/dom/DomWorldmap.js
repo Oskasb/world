@@ -4,6 +4,7 @@ import {Object3D} from "../../../../libs/three/core/Object3D.js";
 import {Vector3} from "../../../../libs/three/math/Vector3.js";
 import {ENUMS} from "../../ENUMS.js";
 import {bodyTransformToObj3d, getBodyPointer, getPhysicalWorld} from "../../utils/PhysicsUtils.js";
+import {generateActiveWorldMap} from "../../utils/MapUtils.js";
 let worldSize = 2048;
 let tempObj = new Object3D();
 let pointerVec3 = new Vector3();
@@ -870,6 +871,9 @@ class DomWorldmap {
 
             let levelsContainer = htmlElement.call.getChildElement('levels_container')
             let reloadDiv = htmlElement.call.getChildElement('reload')
+
+            let generateDiv = htmlElement.call.getChildElement('generate')
+
             let zoomInDiv = htmlElement.call.getChildElement('zoom_in')
             let zoomOutDiv = htmlElement.call.getChildElement('zoom_out')
             DomUtils.addClickFunction(mapDiv, mapClick)
@@ -877,6 +881,7 @@ class DomWorldmap {
             DomUtils.addPressStartFunction(mapDiv, mapPressStart)
             DomUtils.addPressEndFunction(mapDiv, mapPressEnd)
             DomUtils.addClickFunction(reloadDiv, rebuild)
+            DomUtils.addClickFunction(generateDiv, generateWorldMap)
             DomUtils.addClickFunction(zoomInDiv, zoomIn)
             DomUtils.addClickFunction(zoomOutDiv, zoomOut)
             DomUtils.addClickFunction(teleportDiv, teleport)
@@ -895,6 +900,10 @@ class DomWorldmap {
 
         let mapHeight = worldSize;
         let mapWidth = worldSize;
+
+        let generateWorldMap = function() {
+            generateActiveWorldMap();
+        }
 
         let update = function() {
             let cursorPos =  ThreeAPI.getCameraCursor().getLookAroundPoint();

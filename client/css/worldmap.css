@@ -117,6 +117,29 @@ div.button_reload {
     text-shadow: 1px 1px 3px rgba(5, 0, 0, 1);
 }
 
+div.button_generate {
+    background-image: url("/client/assets/images/textures/gui/systempanel/left_arrow.png");
+    top: 19%;
+    right: -5%;
+    width: 0em;
+    height: 0em;
+    border-radius: 50%;
+    border: #bebebe;
+    border-style: solid;
+    border-width: 0.1em;
+    position: absolute;
+    background-color: #863c00;
+
+    background-size: 100%;
+    box-shadow: 0 0px 0px 2px rgba(5, 0, 0, 0.5);
+    margin:0;
+    padding: 0.75em;
+    font-size: 3.2em;
+    text-align: center;
+    color: #000000;
+    text-shadow: 1px 1px 3px rgba(5, 0, 0, 1);
+}
+
 div.button_teleport {
     background: url("/client/assets/images/textures/gui/icons/icon_enter.png"), radial-gradient(circle, rgba(255,253,202,1) 0%, rgba(255,217,45,1) 49%, rgba(156,86,0,1) 83%);
     top: 18%;
@@ -214,7 +237,7 @@ div.map_host {
     box-shadow: 0 0px 0px 0.2em rgba(255, 255, 255, 0.95);
     border-style: solid;
     border-width: 0.2em;
-    background-color: #424762;
+    background-color: rgba(66, 71, 98, 1);
 }
 
 div.map_image {

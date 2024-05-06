@@ -57,6 +57,7 @@ let server = createServer(
 
     readFile(filePath, function(error, content) {
         if (error) {
+            console.log("Read File error ", filePath, error, content)
             if(error.code === 'ENOENT'){
                 readFile('./404.html', function(error, content) {
                     response.writeHead(200, { 'Content-Type': contentType });
