@@ -64,16 +64,16 @@ function drawGroundTexturePixel(pixelIndex, height, slope, diff, shade, groundDa
         // AboveWater
 
         if (blue !== 0) {
-            groundTextureBuffer[indexR] = (blue * 0.2 + diff*10+scatter + slope*20 + 50 - shade*0.1);
-            groundTextureBuffer[indexG] = (blue * 0.2 + diff*10+scatter + slope*20 + 50 - shade*0.1);
-            groundTextureBuffer[indexB] = (blue * 0.2 + diff*10+scatter + slope*20 + 80 - shade*0.1);
+            groundTextureBuffer[indexR] = (blue * 0.5 + diff*10+scatter + slope*10 + 7 );
+            groundTextureBuffer[indexG] = (blue * 0.4 + diff*10+scatter + slope*10 + 5 );
+            groundTextureBuffer[indexB] = (blue * 0.2 + diff*4+scatter + slope*10 + 4 );
         } else if (green === 0) { //
             let wave = 20 + Math.floor(MATH.curveSqrt(height*0.25)) * 15
 
-            if (slope < 0.4) {
+            if (slope < 0.3) {
                 groundTextureBuffer[indexR] = (20 + diff*5+scatter*2 + wave + slope*2 - shade*0.1);
-                groundTextureBuffer[indexG] = (10 + diff*20+scatter*3 + wave + slope*5 + 40 - shade*0.1);
-                groundTextureBuffer[indexB] = (diff*5+scatter*2 + wave + slope*2 - shade*0.1);
+                groundTextureBuffer[indexG] = (10 + diff*20+scatter*3 + wave + slope*15 + 50 - shade*0.2);
+                groundTextureBuffer[indexB] = (diff*1+scatter*2 + slope*1 - shade*0.1);
             } else {
                 slope-=0.4;
                 groundTextureBuffer[indexR] = (diff*4+scatter + wave + slope*50 - shade*0.1);
