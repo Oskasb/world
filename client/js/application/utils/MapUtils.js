@@ -41,13 +41,9 @@ function generateActiveWorldMap() {
             link.download = 'worldmap_w01_'+worldLevel+'.png';
             link.href = png;
             link.click();
+            mapWorker.terminate();
         }
-
-
-
     }
-
-
 }
 
 export { generateActiveWorldMap }
