@@ -183,8 +183,8 @@
         {"id": "asset_hull_6_wedge",      "config": { "model": "file_hull_6_wedge",     "material": "mat_instancing_simple",     "settings": "model_settings_instancing_1" }},
 
 
-        {"id": "asset_floor_2_stone",       "config": { "model": "file_floor_2_stone",      "material": "mat_instancing_simple",     "settings": "model_settings_instancing_250" }},
-        {"id": "asset_wall_2_stone",        "config": { "model": "file_wall_2_stone",      "material": "mat_instancing_simple",     "settings": "model_settings_instancing_50" }},
+        {"id": "asset_floor_2_stone",       "config": { "model": "file_floor_2_stone",      "material": "mat_instancing_simple",     "settings": "model_settings_instancing_500" }},
+        {"id": "asset_wall_2_stone",        "config": { "model": "file_wall_2_stone",      "material": "mat_instancing_simple",     "settings": "model_settings_instancing_250" }},
         {"id": "asset_wall_2_door_stone",     "config": { "model": "file_wall_2_door_stone",      "material": "mat_instancing_simple",     "settings": "model_settings_instancing_50" }},
         {"id": "asset_wall_2_window_stone",     "config": { "model": "file_wall_2_window_stone",      "material": "mat_instancing_simple",     "settings": "model_settings_instancing_250" }},
         {"id": "asset_stairs_2_stone",        "config": { "model": "file_stairs_2_stone",      "material": "mat_instancing_simple",     "settings": "model_settings_instancing_100" }},

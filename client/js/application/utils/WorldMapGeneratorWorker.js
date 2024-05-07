@@ -68,7 +68,7 @@ function drawGroundTexturePixel(pixelIndex, height, slope, diff, shade, groundDa
             groundTextureBuffer[indexG] = (blue * 0.4 + diff*10+scatter + slope*10 + 5 );
             groundTextureBuffer[indexB] = (blue * 0.2 + diff*4+scatter + slope*10 + 4 );
         } else if (green === 0) { //
-            let wave = 20 + Math.floor(MATH.curveSqrt(height*0.25)) * 15
+            let wave = 20 + Math.floor(MATH.curveSqrt(height*0.25)) * 8
 
             if (slope < 0.3) { // flat enough
 
@@ -93,21 +93,28 @@ function drawGroundTexturePixel(pixelIndex, height, slope, diff, shade, groundDa
                     groundTextureBuffer[indexB] = ( 5 + diff*11+scatter*9  + slope*10 - shade*0.1);
                 }
 
-
             } else {
                 slope-=0.4;
-                groundTextureBuffer[indexR] = (diff*4+scatter + wave + slope*50 - shade*0.1);
-                groundTextureBuffer[indexG] = (diff*4+scatter + wave + slope*50 - shade*0.1);
-                groundTextureBuffer[indexB] = (diff*4+scatter + wave + slope*50 - shade*0.1);
+                groundTextureBuffer[indexR] = (diff*4+scatter + wave + slope*40 - shade*0.1) - red*0.01;
+                groundTextureBuffer[indexG] = (diff*4+scatter + wave + slope*40 - shade*0.1) - red*0.03;
+                groundTextureBuffer[indexB] = (diff*4+scatter + wave + slope*40 - shade*0.1) - red*0.05;
             }
 
 
-        } else {
+        } else { // Woods
             let wave = 20 + Math.floor(MATH.curveSqrt(height*0.25)) * 4
 
-            groundTextureBuffer[indexR] = (4 + diff*2+scatter*2 + wave + slope*1 - shade*0.1);
-            groundTextureBuffer[indexG] = (4 + diff*5+scatter*4 + wave + slope*2 + 10 - shade*0.1);
-            groundTextureBuffer[indexB] = (diff*1+scatter*1 + slope*1 - shade*0.1);
+            if (green > 127) {
+                groundTextureBuffer[indexR] = (1 + diff*1+scatter*1 + wave + slope*1 + shade*0.02);
+                groundTextureBuffer[indexG] = (1 + diff*1+scatter*2 + wave + slope*2 + 1 + shade*0.05);
+                groundTextureBuffer[indexB] = (diff*1+scatter*1 + slope*1 - shade*0.1);
+            } else {
+                groundTextureBuffer[indexR] = (2 + diff*5+scatter*3 + wave + slope*2 - shade*0.2);
+                groundTextureBuffer[indexG] = (25 + diff*10+scatter*2 + wave + slope*6 - shade*0.4);
+                groundTextureBuffer[indexB] = (2 + diff*3+scatter*2 + slope*1 - shade*0.2);
+            }
+
+
         }
 
     } else {

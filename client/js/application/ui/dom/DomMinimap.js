@@ -58,7 +58,6 @@ function updateMinimapCenter(htmlElement, minimapDiv, statusMap, centerPos, inCo
         minimapDiv.style.backgroundPositionY = bpYs;
     }
 
- //   DomUtils.transformElement3DPercent(minimapDiv, trX, trY, 0, null, zoom)
 
     if (inCombat === true) {
         let gameTime = GameAPI.getGameTime();
@@ -83,7 +82,6 @@ function addGridTiles(htmlElement, minimapDiv, statusMap, centerPos, encounterGr
         indicator.style.top = 50 + tempVec2.y + '%';
         indicator.style.left = 50 + tempVec2.x + '%';
         indicator.style.padding = zoomFactor*0.35+'%';
-    //    indicator.style.transform = "translate("+zoomFactor*0.5+'%'+", "+zoomFactor*0.5+'%'+")";
         gridTileIndicators.push(indicator);
     }
 }
