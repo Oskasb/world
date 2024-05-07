@@ -70,10 +70,30 @@ function drawGroundTexturePixel(pixelIndex, height, slope, diff, shade, groundDa
         } else if (green === 0) { //
             let wave = 20 + Math.floor(MATH.curveSqrt(height*0.25)) * 15
 
-            if (slope < 0.3) {
-                groundTextureBuffer[indexR] = (20 + diff*5+scatter*2 + wave + slope*2 - shade*0.1);
-                groundTextureBuffer[indexG] = (10 + diff*20+scatter*3 + wave + slope*15 + 50 - shade*0.2);
-                groundTextureBuffer[indexB] = (diff*1+scatter*2 + slope*1 - shade*0.1);
+            if (slope < 0.3) { // flat enough
+
+                if (red > 27) {
+                    if (red > 200) {
+                        groundTextureBuffer[indexR] = (200 + diff*5+scatter*2 + wave + slope*2 - shade*0.2);
+                        groundTextureBuffer[indexG] = (200 + diff*10+scatter*3 + wave + slope*6 - shade*0.4);
+                        groundTextureBuffer[indexB] = (200 + diff*3+scatter*2 + slope*1 - shade*0.2);
+                    } else if (red > 75 ) {
+                        groundTextureBuffer[indexR] = (30 + diff*5+scatter*3  + wave + slope*2 - shade*0.2);
+                        groundTextureBuffer[indexG] = (15 + diff*10+scatter*3 + wave + slope*6 - shade*0.4);
+                        groundTextureBuffer[indexB] = (5  + diff*3+scatter*2 + slope*1 - shade*0.2);
+                    } else {
+                        groundTextureBuffer[indexR] = (20 + diff*5+scatter*2 + wave + slope*2 - shade*0.2);
+                        groundTextureBuffer[indexG] = (25 + diff*10+scatter*3 + wave + slope*6 - shade*0.4);
+                        groundTextureBuffer[indexB] = (10 + diff*3+scatter*2 + slope*1 - shade*0.2);
+                    }
+
+                } else { // desert
+                    groundTextureBuffer[indexR] = (40 + diff*15+scatter*13 + wave + slope*22 - shade*0.1);
+                    groundTextureBuffer[indexG] = (30 + diff*15+scatter*12 + wave + slope*15 - shade*0.2);
+                    groundTextureBuffer[indexB] = ( 5 + diff*11+scatter*9  + slope*10 - shade*0.1);
+                }
+
+
             } else {
                 slope-=0.4;
                 groundTextureBuffer[indexR] = (diff*4+scatter + wave + slope*50 - shade*0.1);
