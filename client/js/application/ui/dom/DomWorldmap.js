@@ -674,13 +674,6 @@ class DomWorldmap {
             ThreeAPI.tempVec3.y = MATH.decimalify(ThreeAPI.terrainAt(ThreeAPI.tempVec3), 10);
             statusMap['y'] = "y:"+ThreeAPI.tempVec3.y;
 
-/*
-            let zoom = statusMap.zoom;
-            mapDiv.style.backgroundSize = zoom*100+'%';
-            let zoomOffset = 1 + (1 / zoom);
-            mapDiv.style.backgroundPositionX = -zoomOffset*0 + MATH.percentify(zoomOffset*MATH.decimalify(cursorPos.x, 5)+1024, 2048, true)+'%';
-            mapDiv.style.backgroundPositionY =  zoomOffset*0 + MATH.percentify(zoomOffset*MATH.decimalify(cursorPos.z, 5)+1024, 2048, true)+'%';
-  */
         }
 
         let onArrive = function(endPos, spatTrans) {
@@ -978,6 +971,13 @@ class DomWorldmap {
                     }
                     DomUtils.addElementClass(mapImageDiv, 'level_'+worldLevel)
                     activeWorldLevel = worldLevel;
+
+                    if (worldLevel > 15) {
+                        mapDiv.style.backgroundColor = "rgb(66, 71, 98)";
+                    } else {
+                        mapDiv.style.backgroundColor = "rgb(0, 0, 0)";
+                    }
+
                 }
 
             //    positionDiv(posDiv, cursorPos, zoom);

@@ -11,6 +11,8 @@ let heightDiff;
 let minHeight;
 let maxHeight;
 let roadPixels = [];
+let worldLevel;
+
 triangle.a.x =  0;
 triangle.a.z =  0;
 
@@ -45,40 +47,60 @@ function getNormal(pixel, buffer, normStore) {
 
 }
 
+function dampenPixel(pixelIndex, groundTextureBuffer) {
+    let indexR = pixelIndex*4
+    let indexG = indexR+1;
+    let indexB = indexR+2;
+    let indexA = indexR+3;
+    groundTextureBuffer[indexR] *=0.9;
+    groundTextureBuffer[indexG] *=0.8;
+    groundTextureBuffer[indexB] *=0.7;
+}
+
 function allNeighborsAreRoad(pixelIndex, groundData, groundTextureBuffer, sideGround) {
     let indexR = pixelIndex*4
     let indexG = indexR+1;
     let indexB = indexR+2;
     let indexA = indexR+3;
 
-    if (roadPixels.indexOf(pixelIndex - 1) === -1) {
-        return false;
-    }
-    if (roadPixels.indexOf(pixelIndex + 1) === -1) {
-        return false;
-    }
+    let sideOffset = sideGround*4;
 
-    if (roadPixels.indexOf(pixelIndex+sideGround) === -1) {
-        return false;
-    }
-    if (roadPixels.indexOf(pixelIndex+sideGround + 1) === -1) {
-        return false;
-    }
+        if (groundData[indexB - 4 ] === 0) {
+            dampenPixel(pixelIndex - 1, groundTextureBuffer)
+            return false;
+        }
+        if (groundData[indexB + 4 ] === 0) {
+            dampenPixel(pixelIndex + 1, groundTextureBuffer)
+            return false;
+        }
 
-    if (roadPixels.indexOf(pixelIndex+sideGround - 1) === -1) {
-        return false;
-    }
+        if (groundData[indexB+sideOffset ] === 0) {
+            dampenPixel(pixelIndex + sideGround, groundTextureBuffer)
+            return false;
+        }
+        if (groundData[indexB+sideOffset +4 ] === 0) {
+            dampenPixel(pixelIndex + sideGround +1, groundTextureBuffer)
+            return false;
+        }
 
-    if (roadPixels.indexOf(pixelIndex-sideGround) === -1) {
-        return false;
-    }
-    if (roadPixels.indexOf(pixelIndex-sideGround + 1) === -1) {
-        return false;
-    }
+        if (groundData[indexB+sideOffset -4 ] === 0) {
+            dampenPixel(pixelIndex + sideGround -1, groundTextureBuffer)
+            return false;
+        }
 
-    if (roadPixels.indexOf(pixelIndex-sideGround - 1) === -1) {
-        return false;
-    }
+        if (groundData[indexB-sideOffset ] === 0) {
+            dampenPixel(pixelIndex - sideGround, groundTextureBuffer)
+            return false;
+        }
+        if (groundData[indexB-sideOffset +4 ] === 0) {
+            dampenPixel(pixelIndex - sideGround +1, groundTextureBuffer)
+            return false;
+        }
+
+        if (groundData[indexB-sideOffset -4 ] === 0) {
+            dampenPixel(pixelIndex - sideGround -1, groundTextureBuffer)
+            return false;
+        }
 
     return true;
 }
@@ -93,9 +115,9 @@ function markRoads(groundData, groundTextureBuffer, sideGround) {
            let indexG = indexR+1;
            let indexB = indexR+2;
            let indexA = indexR+3;
-           groundTextureBuffer[indexR] *= 0.5;
-           groundTextureBuffer[indexG] *= 0.5;
-           groundTextureBuffer[indexB] *= 0.5;
+           groundTextureBuffer[indexR] *= 0.55;
+           groundTextureBuffer[indexG] *= 0.64;
+           groundTextureBuffer[indexB] *= 0.83;
        }
 
     }
@@ -118,15 +140,27 @@ function drawGroundTexturePixel(pixelIndex, height, slope, diff, shade, groundDa
     let scatter = Math.floor(MATH.sillyRandom(seed) * 40)
 
 
+    if (worldLevel < 15) {
+        if (height > maxHeight - 5) {
+            groundTextureBuffer[indexR] = 0;
+            groundTextureBuffer[indexG] = 0;
+            groundTextureBuffer[indexB] = 0;
+            groundTextureBuffer[indexA] = 255;
+            return;
+        }
+    }
+
 
     if (height > 0) {
         // AboveWater
 
+        let markNormal = 1 + (normVec.x + normVec.z) *0.15;
+
         if (blue !== 0) { // Roads & Buildings
             roadPixels.push(pixelIndex);
-            groundTextureBuffer[indexR] = (45 + blue * 0.1 + red * 0.1 + diff*10+scatter + slope*10 + 7 );
-            groundTextureBuffer[indexG] = (35 + blue * 0.2 - red * 0.1 + diff*10+scatter + slope*10 + 5 );
-            groundTextureBuffer[indexB] = (55 + blue * 0.1 - red * 0.2 + diff*4 +scatter + slope*10 + 4 );
+            groundTextureBuffer[indexR] = (45 + blue * 0.1 + red * 0.1 + diff*10+scatter + slope*30 + 7 );
+            groundTextureBuffer[indexG] = (35 + blue * 0.2 - red * 0.1 + diff*10+scatter + slope*30 + 5 );
+            groundTextureBuffer[indexB] = (55 + blue * 0.1 - red * 0.2 + diff*4 +scatter + slope*30 + 4 );
         } else if (green === 0) { //
             let wave = 20 + Math.floor(MATH.curveSqrt(height*0.25)) * 8
 
@@ -134,47 +168,62 @@ function drawGroundTexturePixel(pixelIndex, height, slope, diff, shade, groundDa
 
                 if (red > 27) {
                     if (red > 200) {
-                        groundTextureBuffer[indexR] = (200 + diff*5+scatter*2 + wave + slope*2 - shade*0.2);
-                        groundTextureBuffer[indexG] = (200 + diff*10+scatter*3 + wave + slope*6 - shade*0.4);
-                        groundTextureBuffer[indexB] = (200 + diff*3+scatter*2 + slope*1 - shade*0.2);
+                        groundTextureBuffer[indexR] = (200 + diff*2+scatter*2 + wave + slope*22 - shade*0.05);
+                        groundTextureBuffer[indexG] = (200 + diff*2+scatter*3 + wave + slope*36 - shade*0.05);
+                        groundTextureBuffer[indexB] = (200 + diff*2+scatter*2 + slope*13 - shade*0.05);
                     } else if (red > 75 ) {
-                        groundTextureBuffer[indexR] = (30 + diff*5+scatter*3  + wave + slope*2 - shade*0.2);
-                        groundTextureBuffer[indexG] = (15 + diff*10+scatter*3 + wave + slope*6 - shade*0.4);
-                        groundTextureBuffer[indexB] = (5  + diff*3+scatter*2 + slope*1 - shade*0.2);
+                        groundTextureBuffer[indexR] = (40 + diff*2+scatter*2 + wave + slope*22 - shade*0.05);
+                        groundTextureBuffer[indexG] = (15 + diff*2+scatter*3 + wave + slope*36 - shade*0.05);
+                        groundTextureBuffer[indexB] = (5  + diff*2+scatter*2 + slope*11 - shade*0.05);
                     } else {
-                        groundTextureBuffer[indexR] = (40 + diff*5+scatter*1 + wave + slope*2 - shade*0.2);
-                        groundTextureBuffer[indexG] = (45 + diff*10+scatter*1 + wave + slope*6 - shade*0.4);
-                        groundTextureBuffer[indexB] = (20 + diff*3+scatter*1 + slope*1 - shade*0.2);
+                        groundTextureBuffer[indexR] = (40 + diff*2+scatter*1 + wave + slope*32 - shade*0.05);
+
+                        groundTextureBuffer[indexG] = (45 + diff*12+scatter*1 + wave + slope*26 - shade*0.05);
+
+                        groundTextureBuffer[indexB] = (20 + diff*2+scatter*1 + slope*15 - shade*0.05);
                     }
 
                 } else { // desert
-                    groundTextureBuffer[indexR] = (160 + diff*15+scatter*1 + wave + slope*22 - shade*0.1);
-                    groundTextureBuffer[indexG] = (130 + diff*15+scatter*1 + wave + slope*15 - shade*0.2);
-                    groundTextureBuffer[indexB] = (115 + diff*11+scatter*1  + slope*10 - shade*0.1);
+                    groundTextureBuffer[indexR] = (160 + diff*1+scatter*0.5 + wave + slope*52 - shade*0.05);
+                    groundTextureBuffer[indexG] = (130 + diff*1+scatter*0.5 + wave + slope*45 - shade*0.05);
+                    groundTextureBuffer[indexB] = (115 + diff*1+scatter*0.5  + slope*30 - shade*0.05);
                 }
 
             } else {
                 slope-=0.4;
-                groundTextureBuffer[indexR] = (diff*4+scatter + wave + slope*40 - shade*0.1) - red*0.01;
-                groundTextureBuffer[indexG] = (diff*4+scatter + wave + slope*40 - shade*0.1) - red*0.03;
-                groundTextureBuffer[indexB] = (diff*4+scatter + wave + slope*40 - shade*0.1) - red*0.05;
+                groundTextureBuffer[indexR] = (2 + diff*1+scatter + wave*2 + slope*5 - shade*0.1) - red*0.05;
+                groundTextureBuffer[indexG] = (2 + diff*1+scatter + wave*2 + slope*5 - shade*0.1) - red*0.1;
+                groundTextureBuffer[indexB] = (2 + diff*1+scatter + wave*2 + slope*5 - shade*0.1) - red*0.2;
             }
-
 
         } else { // Woods
             let wave = 20 + Math.floor(MATH.curveSqrt(height*0.25)) * 4
 
-            if (green > 127) {
-                groundTextureBuffer[indexR] = (1 + diff*1+scatter*1 + wave + slope*1 + shade*0.02);
-                groundTextureBuffer[indexG] = (1 + diff*1+scatter*2 + wave + slope*2 + 1 + shade*0.05);
-                groundTextureBuffer[indexB] = (diff*1+scatter*1 + slope*1 - shade*0.1);
+            if (green > 127) { // Trees
+                groundTextureBuffer[indexR] = (25 + scatter*0.25 + shade*0.01);
+                groundTextureBuffer[indexG] = (35 + scatter*0.25 + scatter*shade*0.001);
+                groundTextureBuffer[indexB] = (2 + scatter*0.25 + shade*0.01);
+                markNormal = MATH.curveSqrt(markNormal);
             } else {
-                groundTextureBuffer[indexR] = (2 + diff*5+scatter*3 + wave + slope*2 - shade*0.2);
-                groundTextureBuffer[indexG] = (25 + diff*10+scatter*2 + wave + slope*6 - shade*0.4);
-                groundTextureBuffer[indexB] = (2 + diff*3+scatter*2 + slope*1 - shade*0.2);
+                groundTextureBuffer[indexR] = (35 + diff*2+scatter*1.5 + slope*1 - shade*0.1);
+                scatter = Math.floor(MATH.sillyRandom(seed+1) * 40)
+                groundTextureBuffer[indexG] = (60 + diff*2+scatter*0.5 + slope*5 - shade*0.1);
+                scatter = Math.floor(MATH.sillyRandom(seed+2) * 40)
+                groundTextureBuffer[indexB] = (5  + diff*3+scatter*0.4 + slope*1 - shade*0.1);
             }
 
         }
+
+        if (markNormal < 1) {
+            groundTextureBuffer[indexR] *= (markNormal*markNormal*markNormal);
+            groundTextureBuffer[indexG] *= (markNormal*markNormal*markNormal);
+            groundTextureBuffer[indexB] *= markNormal;
+        } else {
+            groundTextureBuffer[indexR] += (markNormal-1)*200;
+            groundTextureBuffer[indexG] += (markNormal-1)*175;
+            groundTextureBuffer[indexB] += (markNormal-1)*150;
+        }
+
 
     } else {
         // Below Water
@@ -227,8 +276,8 @@ function processHeightPixel(pxx, pxy, heightData, sideHeight, groundData, sideGr
 
 }
 
-function processHeightData(worldLevel, minHeight, maxHeight, heightData, groundData) {
-
+function processHeightData(wLevel, minHeight, maxHeight, heightData, groundData) {
+    worldLevel = wLevel;
     let sideHeight = Math.sqrt(heightData.length/4)
     let sideGround = Math.sqrt(groundData.length/4)
 
@@ -241,6 +290,7 @@ function processHeightData(worldLevel, minHeight, maxHeight, heightData, groundD
             processHeightPixel(i, j, heightData, sideHeight, groundData, sideGround, groundTextureBuffer);
         }
     }
+
     markRoads(groundData, groundTextureBuffer, sideGround)
 
     console.log("heightTextureBuffer", groundTextureBuffer)
