@@ -32,7 +32,7 @@
                         "pos":[-728, 4, 785],
                         "actor_id":"ACTOR_OUTLAW",
                         "page_id": "page_start_outlaw",
-                        "world_encounters": ["outlaw_start_encounters"],
+                        "world_encounters": [],
                         "inventory_items": ["ITEM_DRAKEN_GOLDRED"],
                         "equipped_items": [],
 
@@ -61,11 +61,6 @@
                         "actor_id":"ACTOR_GOD_1",
                         "page_id": "page_start_god",
                         "world_encounters": [
-                          "outlaw_start_encounters",
-                          "farmer_start_encounters",
-                          "princess_start_encounters",
-                          "pirate_start_encounters",
-                          "alien_start_encounters"
                         ],
                         "inventory_items": ["ITEM_DRAKEN_GOLDRED"],
                         "equipped_items": [
@@ -108,10 +103,6 @@
                         "actor_id":"ACTOR_GOD_2",
                         "page_id": "page_start_god",
                         "world_encounters": [
-                          "farmer_start_encounters",
-                          "princess_start_encounters",
-                          "pirate_start_encounters",
-                          "alien_start_encounters"
                         ],
                         "inventory_items": [],
                         "equipped_items": [],
@@ -164,7 +155,7 @@
                         "pos":[-906, 5, 582],
                         "actor_id":"ACTOR_PRINCESS",
                         "page_id": "page_start_princess",
-                        "world_encounters": ["princess_start_encounters"],
+                        "world_encounters": [],
                         "inventory_items": ["ITEM_DRAKEN_GOLDRED"],
                         "equipped_items": ["ITEM_HAT_WHITE", "ITEM_DRAKEN", "ITEM_SWORD_FANCY"],
                         "status": {
@@ -190,7 +181,7 @@
                         "pos":[-985, 7, 689],
                         "actor_id":"ACTOR_PIRATE",
                         "page_id": "page_start_pirate",
-                        "world_encounters": ["pirate_start_encounters"],
+                        "world_encounters": [],
                         "inventory_items": ["ITEM_DRAKEN_GOLDRED"],
                         "equipped_items": ["ITEM_HAT_RED", "ITEM_SWORD_FANCY"],
                         "status": {
@@ -216,7 +207,7 @@
                         "pos":[-964, 7.2, 709],
                         "actor_id":"ACTOR_ALIEN",
                         "page_id": "page_start_alien",
-                        "world_encounters": ["alien_start_encounters"],
+                        "world_encounters": [],
                         "inventory_items": ["ITEM_DRAKEN_GOLDRED"],
                         "equipped_items": ["ITEM_JETPACK", "ITEM_WRIST_COMPUTER"],
                         "status": {
