@@ -23,8 +23,8 @@ triangle.c.x =  0;
 triangle.c.z =  1;
 
 
-function saveBufferAsPng(worldLevel, buffer) {
-    postMessage({worldLevel:worldLevel, buffer:buffer})
+function saveBufferAsPng(worldLevel, groundData, buffer) {
+    postMessage({worldLevel:worldLevel, groundData:groundData, buffer:buffer})
 }
 
 
@@ -190,14 +190,40 @@ function drawGroundTexturePixel(pixelIndex, height, slope, diff, shade, groundDa
                 }
 
             } else {
+
+                if (slope > 0.3) {
+                    groundData[indexG] = 0;
+                }
+
                 slope-=0.4;
+                groundData[indexG] = 0;
                 groundTextureBuffer[indexR] = (2 + diff*1+scatter + wave*2 + slope*5 - shade*0.1) - red*0.05;
                 groundTextureBuffer[indexG] = (2 + diff*1+scatter + wave*2 + slope*5 - shade*0.1) - red*0.1;
                 groundTextureBuffer[indexB] = (2 + diff*1+scatter + wave*2 + slope*5 - shade*0.1) - red*0.2;
             }
 
+            if (height > 70) {
+                groundData[indexR] = 255;
+            } else if (height > 60) {
+                if (MATH.sillyRandom(seed) < 0.75) {
+                    groundData[indexR] = 255;
+                }
+            } else if (height > 55) {
+                if (MATH.sillyRandom(seed) < 0.5) {
+                    groundData[indexR] = 255;
+                }
+            } else if (height > 50) {
+                if (MATH.sillyRandom(seed) < 0.25) {
+                    groundData[indexR] = 255;
+                }
+            }
+
         } else { // Woods
             let wave = 20 + Math.floor(MATH.curveSqrt(height*0.25)) * 4
+
+            if (slope > 0.4) {
+                groundData[indexG] = 0;
+            }
 
             if (green > 127) { // Trees
                 groundTextureBuffer[indexR] = (25 + scatter*0.25 + shade*0.01);
@@ -233,10 +259,10 @@ function drawGroundTexturePixel(pixelIndex, height, slope, diff, shade, groundDa
 
         let depthFactor = depth*scatter * 0.05
         let slopeFactor = depthFactor*slope
-
-        groundTextureBuffer[indexR] = 66 + Math.floor(diff * 1 + depthFactor*0.5 + slopeFactor * 0.8 ) ;
-        groundTextureBuffer[indexG] = 71 + Math.floor(diff * 2 + depthFactor + slopeFactor * 1.5 );
-        groundTextureBuffer[indexB] = 98 + Math.floor(diff * 2 + depthFactor*1.4 + slopeFactor );
+        groundData[indexG] = 0;
+        groundTextureBuffer[indexR] = 66 + Math.floor(diff * 0.5 + depthFactor*0.3 + slopeFactor * 0.8 ) ;
+        groundTextureBuffer[indexG] = 71 + Math.floor(diff * 0.5 + depthFactor*0.6 + slopeFactor * 1.5 );
+        groundTextureBuffer[indexB] = 98 + Math.floor(diff * 0.5 + depthFactor*0.9 + slopeFactor );
     }
     groundTextureBuffer[indexA] = 255;
 }
@@ -294,7 +320,7 @@ function processHeightData(wLevel, minHeight, maxHeight, heightData, groundData)
     markRoads(groundData, groundTextureBuffer, sideGround)
 
     console.log("heightTextureBuffer", groundTextureBuffer)
-    saveBufferAsPng(worldLevel, groundTextureBuffer);
+    saveBufferAsPng(worldLevel, groundData, groundTextureBuffer);
 }
 
 function handleMessage(msg) {

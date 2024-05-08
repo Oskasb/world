@@ -250,9 +250,9 @@
 
           "vec4 baseColor = vColor * txColor * (intensity*0.25 + 0.75) + txColor * lightColor*intensity*2.0;",
 
-          "baseColor.r = baseColor.r*depth + depth*depth*depth*(txColorBase.r*(waveX+waveY+3.0))*1.1;",
-          "baseColor.g = baseColor.g*depth + depth*depth*(txColorBase.g*(waveX+waveY+3.0))*0.6;",
-          "baseColor.b = baseColor.b*depth + depth*(txColorBase.b*(waveY+waveY+3.0))*0.3;",
+          "baseColor.r = baseColor.r*depth + depth*depth*depth*(txColorBase.r*(waveX+waveY+3.0))*0.6;",
+          "baseColor.g = baseColor.g*depth + depth*depth*(txColorBase.g*(waveX+waveY+3.0))*0.4;",
+          "baseColor.b = baseColor.b*depth + depth*(txColorBase.b*(waveY+waveY+3.0))*0.2;",
 
           "float normalFactor = dot(cameraToFrag, fragNormal);",
 
@@ -481,7 +481,7 @@
 
           "float natureMix = min(max(-natureStep*0.25 + sampleGreen, 0.0)/natureStep*1.0, 1.0);",
 
-          "vec2 tileSlopeMod = vec2(min(floor(max(sqrt(slope -0.01) +scatter*4.0, 0.01) * 10.0), 7.0), rockRow);",
+          "vec2 tileSlopeMod = vec2(min(floor(max(sqrt(slope -0.02) +scatter*4.0, 0.01) * 10.0), 7.0), rockRow);",
           "tileSlopeMod.x += biomeColumn*8.0;",
           "vec2 tileSlopeModOffset = vec2(tileSlopeMod.x * tileScale.x, (tileSlopeMod.y-1.0) * tileScale.y);",
 

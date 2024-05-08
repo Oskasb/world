@@ -1,6 +1,25 @@
 import {ENUMS} from "../ENUMS.js";
 
 
+function saveBufferAsPng(buffer, filenmae) {
+    let side = Math.sqrt(buffer.length/4)
+    const canvas = document.createElement('canvas');
+    canvas.width = side;
+    canvas.height = side;
+    let context = canvas.getContext('2d');
+    let imgData = new ImageData(buffer, side, side);
+    context.putImageData(imgData, 0, 0);
+
+    //     let png = context.canvas.toDataURL( 'image/png' );
+    //     window.open(png);
+
+    let png = canvas.toDataURL( 'image/png' )
+    let link = document.createElement('a');
+    link.download = filenmae;
+    link.href = png;
+    link.click();
+}
+
 function generateActiveWorldMap() {
 
     console.log("generateActiveWorldMap")
@@ -24,23 +43,11 @@ function generateActiveWorldMap() {
             let buffer = msg.data.buffer;
             let worldLevel = msg.data.worldLevel;
 
-            let side = Math.sqrt(buffer.length/4)
-            const canvas = document.createElement('canvas');
-            canvas.width = side;
-            canvas.height = side;
-            let context = canvas.getContext('2d');
-            let imgData = new ImageData(buffer, side, side);
-            context.putImageData(imgData, 0, 0);
+            saveBufferAsPng(buffer, 'worldmap_w01_'+worldLevel+'.png')
 
-            //     let png = context.canvas.toDataURL( 'image/png' );
-            //     window.open(png);
+            let groundData = msg.data.groundData;
+            saveBufferAsPng(groundData, 'terrainmap_w01_'+worldLevel+'.png')
 
-            let png = canvas.toDataURL( 'image/png' )
-            let link = document.createElement('a');
-            console.log("CTX: ", png, imgData, context.canvas)
-            link.download = 'worldmap_w01_'+worldLevel+'.png';
-            link.href = png;
-            link.click();
             mapWorker.terminate();
         }
     }
