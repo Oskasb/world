@@ -112,8 +112,12 @@ class TerrainElementModel {
 
         for (let i = 0; i < groundElems.length  ; i++) {
             for (let j = 0; j < lodAssets.length  ;j++) {
-                if (groundElems[i].groundData.y > lodAssets[j].y_min && groundElems[i].groundData.y < lodAssets[j].y_max) {
-                    groundElems[i].setupElementModel(lodAssets[j].asset, addLodInstance, lodAssets[j].shade)
+                if (groundElems[i].groundData.x > lodAssets[j].x_min && groundElems[i].groundData.x < lodAssets[j].x_max) {
+                    if (groundElems[i].groundData.y > lodAssets[j].y_min && groundElems[i].groundData.y < lodAssets[j].y_max) {
+
+                        groundElems[i].setupElementModel(lodAssets[j].asset, addLodInstance, lodAssets[j].shade)
+
+                    }
                 }
             }
         }

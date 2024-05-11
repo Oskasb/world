@@ -209,6 +209,12 @@
         {"id": "file_tree_3",        "config": { "url": "./client/assets/models/trees/tree_3"                                        }},
         {"id": "file_tree_4",        "config": { "url": "./client/assets/models/trees/tree_4"                                        }},
         {"id": "file_tree_5_big",    "config": { "url": "./client/assets/models/trees/tree_5_big"                                    }},
+
+        {"id": "file_palm_1",        "config": { "url": "./client/assets/models/trees/palm_1"                                        }},
+        {"id": "file_palm_2",        "config": { "url": "./client/assets/models/trees/palm_2"                                        }},
+        {"id": "file_pine_1",        "config": { "url": "./client/assets/models/trees/pine_1"                                        }},
+        {"id": "file_pine_2",        "config": { "url": "./client/assets/models/trees/pine_2"                                        }},
+
         {"id": "file_convex_tree_1",        "config": { "url": "./client/assets/models/trees/convex_tree_1"                                      }},
         {"id": "file_convex_tree_1_1",      "config": { "url": "./client/assets/models/trees/convex_tree_1_1"                                    }},
         {"id": "file_convex_tree_2",        "config": { "url": "./client/assets/models/trees/convex_tree_2"                                      }},
