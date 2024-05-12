@@ -5,122 +5,6 @@
         {
           "id":"vegetation_grid",
           "data": {
-            "lod_levels_": [
-              {
-                "debug": false,
-                "hide_tiles": true,
-                "elevation" : 0.1,
-                "tile_size" : 0.9,
-                "tile_range" : 5,
-                "tile_spacing" : 43,
-                "max_plants":25,
-                "plants":[
-                  "grass_tall_sparse_1",
-                  "grass_tall_sparse_2",
-                  "leafy_big",
-                  "bushes_1",
-                  "bushes_1_flowery",
-                  "reeds_1"
-                ]
-              }
-            ],
-            "lod_levels__": [
-              {
-                "debug": false,
-                "hide_tiles": true,
-                "elevation" : 0.1,
-                "tile_size" : 0.8,
-                "tile_range" : 7,
-                "tile_spacing" : 5,
-                "max_plants":30,
-                "plants":[
-                  "leafy_small",
-                  "grass_low_1_dead",
-                  "grass_low_1_dry",
-                  "grass_low_1_flowery",
-                  "grass_low_3_flowery",
-                  "grass_low_2",
-
-                  "grass_low_4_green",
-                  "grass_low_5_dry",
-                  "grass_low_6_bright",
-                  "reeds_1_small",
-                  "reeds_2_small"
-                ]
-              },
-              {
-                "hide_tiles": false,
-                "elevation" : 0.1,
-                "tile_size" : 0.8,
-                "tile_range" : 7,
-                "tile_spacing" : 5,
-                "max_plants":21,
-                "plants":[
-                  "grass_tall_sparse_1",
-                  "grass_tall_sparse_2",
-                  "grass_low_1_flowery",
-                  "grass_low_3_flowery",
-                  "bushes_2_small",
-                  "bushes_1_flowery_small",
-                  "ferns_1",
-                  "reeds_3_small",
-                  "reeds_2"
-                ]
-              },
-              {
-                "hide_tiles": true,
-                "elevation" : 0.1,
-                "tile_size" : 0.8,
-                "tile_range" : 5,
-                "tile_spacing" : 13,
-                "max_plants":18,
-                "plants":[
-                  "flower_1_red",
-                  "flower_1_yellow",
-                  "flower_1_white",
-                  "bushes_low_1",
-                  "bushes_low_2",
-                  "grass_tall_1",
-                  "grass_tall_2",
-                  "ferns_1",
-                  "reeds_1",
-                  "reeds_3"
-                ]
-              },
-              {
-                "hide_tiles": true,
-                "elevation" : 0.1,
-                "tile_size" : 0.8,
-                "tile_range" : 5,
-                "tile_spacing" : 23,
-                "max_plants":12,
-                "plants":[
-                  "grass_tall_sparse_1",
-                  "grass_tall_sparse_2",
-                  "reeds_2",
-                  "reeds_3",
-                  "leafy_big",
-                  "bushes_1",
-                  "bushes_1_flowery"
-                ]
-              },
-              {
-                "hide_tiles": true,
-                "elevation" : 0.1,
-                "tile_size" : 0.9,
-                "tile_range" : 5,
-                "tile_spacing" : 32,
-                "max_plants":10,
-                "plants":[
-                  "grass_tall_sparse_1",
-                  "grass_tall_sparse_2",
-                  "leafy_big",
-                  "bushes_1",
-                  "bushes_1_flowery",
-                  "reeds_1"
-                ]
-              }
-            ],
             "lod_levels": [
               {
                 "debug": false,
@@ -132,6 +16,10 @@
                 "max_plants":40,
                 "plants":[
                   "snow_small",
+                  "pine_small",
+                  "cactus_3",
+                  "cactus_5",
+
                   "leafy_small",
                   "grass_low_1_dead",
                   "grass_low_1_dry",
@@ -160,6 +48,10 @@
                 "max_plants":25,
                 "plants":[
                   "snow_small",
+                  "pine_big",
+                  "cactus_1",
+                  "cactus_3",
+                  "cactus_4",
                   "flower_1_red",
                   "flower_1_yellow",
                   "flower_1_white",
