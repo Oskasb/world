@@ -1,12 +1,15 @@
 import { SpatialTransition } from "../../application/utils/SpatialTransition.js";
 import {notifyCameraStatus} from "../../3d/camera/CameraFunctions.js";
 import {evt} from "../../application/event/evt.js";
+import {configDataList} from "../../application/utils/ConfigUtils.js";
 
 let spatialTransition
 
 let completedEncounters = [];
 let lootedTreasured = [];
 let startingItems = [];
+
+let WorldAdventures = [];
 
 function encounterCompleted(event) {
     console.log("Enc Completed", event);
@@ -16,9 +19,30 @@ function encounterCompleted(event) {
 class GameAdventureSystem {
     constructor() {
         spatialTransition  = new SpatialTransition();
+        let adventureConfigs = [];
         this.startActor = null;
         this.page = null;
         evt.on(ENUMS.Event.ENCOUNTER_COMPLETED, encounterCompleted)
+
+
+        let active = false;
+
+        function update() {
+
+        }
+
+
+        let onData = function(data) {
+            adventureConfigs = data;
+            console.log("adventureConfigs", adventureConfigs)
+            if (active === false) {
+                active = true;
+                GameAPI.registerGameUpdateCallback(update);
+            }
+        }
+
+        configDataList("WORLD_ADVENTURE","ADVENTURES", onData)
+
     }
 
     getCompletedEncounters() {
@@ -28,7 +52,6 @@ class GameAdventureSystem {
     getLootedTreasures() {
         return lootedTreasured;
     }
-
 
 
     selectAdventure(event) {
@@ -156,6 +179,7 @@ class GameAdventureSystem {
         spatialTransition.initSpatialTransition(lookAroundPoint, spatialTransition.targetPos, 1, onArriveCB, 15+distance*0.25, 'curveSigmoid')
 
     }
+
 
 
 }

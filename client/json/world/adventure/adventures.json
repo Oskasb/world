@@ -1,0 +1,36 @@
+[{
+  "WORLD_ADVENTURE":{
+    "ADVENTURES":[
+      {
+        "id": "trigger_actor",
+        "data": [
+          {
+            "data_key":"host_data",
+            "config": {
+              "pos": [0, 0, 0],
+              "trigger": {
+                "type": "actor",
+                "id": "ACTOR_FIGHTER"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "trigger_item",
+        "data": [
+          {
+            "data_key":"host_data",
+            "config": {
+              "pos": [0, 0, 0],
+              "trigger": {
+                "type": "item",
+                "id": "ITEM_HATCHET"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}]

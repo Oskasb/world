@@ -363,6 +363,13 @@ function saveWorldModelEdits(wModel) {
     console.log("Save World Model config ", wModel, wModel.config);
 }
 
+function saveAdventureEdits(adv) {
+    let worldLevel = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
+    adv.id = saveConfigEdits("adventure", worldLevel, adv.id, adv.config)
+    adv.config = savedConfigs[adv.id];
+    console.log("Save Adventure config ", adv, adv.config);
+}
+
 
 
 function saveDataTexture(root, folder, id, buffer) {
@@ -489,6 +496,25 @@ function getConfigListAt(root, folder) {
     return configList[root][folder]
 }
 
+function listifyConfig(root, folder, idArray, configStore) {
+    let onConfig = function(configs) {
+        MATH.emptyArray(idArray);
+        console.log(configs)
+        for (let key in configs) {
+            let id = configs[key].id
+
+            if (idArray.indexOf(id) === -1) {
+                configStore[id] = configs[key].data[0].config;
+                idArray.push(id)
+            } else {
+                console.log("entry already added, not right", id);
+            }
+        }
+    }
+    new ConfigData(root,folder,  false, false, false, onConfig)
+
+}
+
 export {
     generateEditId,
     detachConfig,
@@ -501,8 +527,10 @@ export {
     saveConfigEdits,
     saveEncounterEdits,
     saveWorldModelEdits,
+    saveAdventureEdits,
     saveDataTexture,
     mappedConfigKey,
     getReversedConfigs,
-    getConfigListAt
+    getConfigListAt,
+    listifyConfig
  }

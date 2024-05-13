@@ -1,17 +1,13 @@
 import {poolFetch, poolReturn} from "../../utils/PoolUtils.js";
-import {Vector3} from "../../../../libs/three/math/Vector3.js";
 import {Object3D} from "../../../../libs/three/core/Object3D.js";
 import {ENUMS} from "../../ENUMS.js";
-import {physicalAlignYGoundTest, testProbeFitsAtPos} from "../../utils/PhysicsUtils.js";
-import {detachConfig, listifyConfig, saveEncounterEdits, saveWorldModelEdits} from "../../utils/ConfigUtils.js";
+import {detachConfig, listifyConfig, saveAdventureEdits, saveWorldModelEdits} from "../../utils/ConfigUtils.js";
 import {ConfigData} from "../../utils/ConfigData.js";
 import {WorldModel} from "../../../game/gameworld/WorldModel.js";
+import {WorldAdventure} from "../../../game/gamescenarios/WorldAdventure.js";
 
-let tempVec = new Vector3();
-let frustumFactor = 0.828;
 let applyContainerDiv = null;
 let idLabelDiv = null;
-let activeTool = null;
 
 let buttonLayer = null;
 
@@ -21,45 +17,27 @@ let toolsList = [
     "CONFIG"
 ]
 
-let modelConfigs = null;
-let assetConfigs = null;
+let adventures = [""];
+let configs = null;
 
-let locationModelConfigTemplate = {
-    "asset": "",
-    "pos": [0, 0, 0],
-    "rot": [0, 0, 0],
-    "scale": [0.01, 0.01, 0.01],
-    "solidity": 1.0,
-    "visibility": 3,
-    "boxes": []
-}
-
-let worldModelTemplateConfig =                 {
-    "model": false,
-    "pos": [0, 0, 0],
-    "rot": [0, 0, 0],
-    "scale": [1, 1, 1],
-    "on_ground": true,
-    "visibility": 3,
-    "palette": "DEFAULT",
-    "no_lod":true
-}
-
-class DomEditModel {
+class DomEditAdventure {
     constructor() {
 
         let addToolStatusMap = {}
-        addToolStatusMap.activateSelection = applySelectedModel;
+        addToolStatusMap.activateSelection = applySelection;
         addToolStatusMap.selectionUpdate = selectionUpdate;
         addToolStatusMap.loadTemplate = loadTemplate;
         addToolStatusMap.root = "world";
-        addToolStatusMap.folder = "model";
+        addToolStatusMap.folder = "adventure";
 
-
-
-        let previewModel = null;
-        let cursor = null;
         let editObj3d = new Object3D();
+
+        if (configs === null) {
+            configs = {};
+            listifyConfig("WORLD_ADVENTURE","ADVENTURES", adventures, configs)
+            addToolStatusMap.selectList = adventures;
+        }
+
         this.statusMap = {
             selectedTool: "",
             selection: "--select--"
@@ -70,28 +48,20 @@ class DomEditModel {
         let htmlElem;
         let selectedTool = "";
         let editCursors = {};
-        let previewCursor = null;
+        let activeCursor = null;
         let applyOperationDiv = null;
         let toolSelectDiv = null;
         let visibleWorldModels = [];
         let locationModelDivs = [];
         let activeTool = null;
-        let modelConfig = {
-            "model": "",
-            "pos": [0, 0, 0],
-            "rot": [0, 0, 0],
-            "scale": [1, 1, 1],
-            "on_ground": false,
-            "palette": "DEFAULT",
-            "visibility": 3,
-            "no_lod": true
-        }
+
 
         function onClick(e) {
             console.log("Model Cursor Click", e)
         }
 
         function applyCursorUpdate(obj3d, elevate, grid) {
+            /*
             modelConfig.grid = grid;
             modelConfig.elevate = elevate;
             MATH.vec3ToArray(obj3d.position, modelConfig.pos, 100)
@@ -99,56 +69,33 @@ class DomEditModel {
             if (previewModel !== null) {
                 previewModel.call.applyEditCursorUpdate(obj3d);
             }
+
+             */
         }
 
-        function closePreviewCursor() {
-            previewCursor.closeDomEditCursor();
-            poolReturn(previewCursor);
-            previewCursor = null;
+        function closeActiveCursor() {
+            activeCursor.closeDomEditCursor();
+            poolReturn(activeCursor);
+            activeCursor = null;
         }
 
         function activateCursor() {
-            previewCursor = poolFetch('DomEditCursor')
-            previewCursor.initDomEditCursor(closePreviewCursor, editObj3d, applyCursorUpdate, onClick);
+            activeCursor = poolFetch('DomEditCursor')
+            activeCursor.initDomEditCursor(closeActiveCursor, editObj3d, applyCursorUpdate, onClick);
             if (typeof (modelConfig.grid) === 'number') {
-                previewCursor.call.setGrid(modelConfig.grid)
+                activeCursor.call.setGrid(modelConfig.grid)
             }
         }
 
-        function applySelectedModel(id) {
-        //    let wMdlId = previewModel.generateModelId()
-            modelConfig.no_lod = false;
-            modelConfig.palette = "DEFAULT";
-            modelConfig.edit_id = false;
-            modelConfig.pos = [0, 0, 0];
-            modelConfig.rot = [0, 0, 0];
-            modelConfig.scale = [1, 1, 1];
-
-            let newConfig = detachConfig(modelConfig);
-            MATH.vec3ToArray(ThreeAPI.getCameraCursor().getLookAroundPoint(), newConfig.pos, 1);
-            let newWmodel = GameAPI.worldModels.addConfigModel(newConfig, newConfig.edit_id)
-            console.log("new model config:", newConfig)
-            MATH.vec3FromArray(newWmodel.getPos(),  newConfig.pos);
-            modelConfig.no_lod = true;
-            saveWorldModelEdits(newWmodel);
+        function applySelection(id) {
+            console.log("Apply Selection ", id, configs[id]);
+            // saveAdventureEdits(newWmodel);
         }
 
         function selectionUpdate(id) {
 
             if (id !== "") {
 
-                if (typeof (modelConfigs[id]) === 'object') {
-                    modelConfig = detachConfig(modelConfigs[id]);
-                    console.log("Selected Model Config ", id, statusMap, modelConfigs)
-                } else {
-                    let loadedTemplates = GameAPI.worldModels.getLoadedTemplates();
-                    console.log("Selected Model Template ", id, statusMap, loadedTemplates)
-                    let map = loadedTemplates[id];
-                    modelConfig = detachConfig(map.config);
-                }
-
-                modelConfig.edit_id = "";
-                addToolStatusMap.config = modelConfig;
             }
 
         }
@@ -158,34 +105,19 @@ class DomEditModel {
             let pos = ThreeAPI.getCameraCursor().getLookAroundPoint();
             MATH.vec3ToArray(pos, addToolStatusMap.config.pos);
             statMap.parent.call.applyLoadedConfig(addToolStatusMap.config, statMap.id, true);
-            saveWorldModelEdits(statMap.parent);
+            saveAdventureEdits(statMap.parent);
         }
 
 
-
-        let models = [""];
-        let assets = [""];
-
-        if (modelConfigs === null) {
-            modelConfigs = {};
-            listifyConfig("WORLD_LOCATIONS","LOCATION_MODELS", models, modelConfigs)
-            addToolStatusMap.selectList = models;
-        }
-
-        if (assetConfigs === null) {
-            assetConfigs = {};
-            listifyConfig("ASSETS","MODELS", assets, assetConfigs)
-        }
 
         function closeTool() {
-            if (previewCursor !== null) {
-                previewCursor.closeDomEditCursor()
-                poolReturn(previewCursor);
-                previewCursor = null;
+
+            if (activeCursor !== null) {
+                activeCursor.closeDomEditCursor()
+                poolReturn(activeCursor);
+                activeCursor = null;
             }
-            if (previewModel !== null) {
-                previewModel.removeLocationModels();
-            }
+
             if (activeTool !== null) {
                 activeTool.closeEditTool();
                 poolReturn(activeTool);
@@ -196,26 +128,18 @@ class DomEditModel {
         let setSelectedTool = function(tool) {
             close()
 
-
-
             selectedTool = tool;
             statusMap.selectedTool = tool;
             if (activeTool !== null) {
                 closeTool();
             }
             console.log("setSelectedTool", tool)
-            if (tool === "_ADD") {
-                applyOperationDiv.innerHTML = tool;
-                applyContainerDiv.style.display = ""
-            } else {
-                applyContainerDiv.style.display = "none"
-            }
 
             if (selectedTool === "ADD") {
                 activeTool = poolFetch('DomEditAdd');
 
 
-                let parent = new WorldModel()
+                let parent = new WorldAdventure()
                 parent.getPos().copy(ThreeAPI.getCameraCursor().getLookAroundPoint())
                 let config = detachConfig(parent.config)
                 MATH.vec3ToArray(parent.getPos(), config.pos, 1);
@@ -255,7 +179,7 @@ class DomEditModel {
 
 
         let closeActiveTool = function() {
-            console.log("Model Edit Closed");
+            console.log("Adventure Edit Closed");
             if (activeTool !== null) {
                 activeTool.closeEditTool();
                 poolReturn(activeTool)
@@ -399,4 +323,4 @@ class DomEditModel {
 
 }
 
-export { DomEditModel }
+export { DomEditAdventure }

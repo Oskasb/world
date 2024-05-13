@@ -12,6 +12,7 @@
       "TEXTURES"
     ],
     "POLL_INDEX":[
+      "/world/adventure/adventures.json"                      ,
       "/ui/pages/debug/gui_page_status.json"             ,
       "/ui/pages/debug/gui_page_perf_mon.json"               ,
       "/world/locations/location_keep_fisherman.json"         ,

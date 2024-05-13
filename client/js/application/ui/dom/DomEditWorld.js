@@ -133,6 +133,10 @@ function operateTool(tool, closeCB) {
         activateTool = poolFetch('DomEditEncounter');
     }
 
+    if (tool === "ADVENTURE") {
+        activateTool = poolFetch('DomEditAdventure');
+    }
+
     function toolReady(etool) {
         console.log("Tool Ready", tool, etool)
         activeTools.push(etool)
@@ -147,7 +151,8 @@ let toolsList = [
     "ENVIRNMNT",
     "TERRAIN",
     "LOCATION",
-    "ENCOUNTER"
+    "ENCOUNTER",
+    "ADVENTURE"
 ]
 
 class DomEditWorld {
