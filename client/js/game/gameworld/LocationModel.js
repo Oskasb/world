@@ -226,10 +226,13 @@ class LocationModel {
             let frame = GameAPI.getFrame().frame;
             if (frame !== obsFrame) {
 
-                let wmNeighbors = this.worldModel.locationModels;
-                for (let i = 0; i < wmNeighbors.length; i++) {
-                    wmNeighbors[i].call.setObstructing(bool, frame);
+                if (this.worldModel) {
+                    let wmNeighbors = this.worldModel.locationModels;
+                    for (let i = 0; i < wmNeighbors.length; i++) {
+                        wmNeighbors[i].call.setObstructing(bool, frame);
+                    }
                 }
+
             }
 
         }.bind(this);

@@ -535,7 +535,7 @@
 
           "vec3 specularDiffuseLight = litDiffuse * specularIntensity * colorFactor;",
 
-          "float shadowing = 1.0 - heightMapSample.b*0.55;",
+          "float shadowing = 1.0 - heightMapSample.b*0.45;",
           "vec4 lightColor = vec4((combinedEnvLight+specularDiffuseLight.rgb + sunLightColor*angle*(0.25+fogDepth*0.001*angle)) * ((1.0) - (slope*0.25)), 1.0) * shadowing;",
           "intensity = max( 0.01 + dot(txNmBase.rgb, sunLightDirection ) * 0.99, 0.0) * shadowing;",
           "gl_FragColor = (shadowing * lightColor * (intensity*0.25 + 0.75) + txColor * lightColor*intensity*(2.0)) * shadowing;",

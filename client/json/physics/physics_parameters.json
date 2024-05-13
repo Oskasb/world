@@ -322,6 +322,57 @@
       },
 
       {
+        "id":"asset_pine_1",
+        "data":{
+          "shapes": [
+            {"shape": "mesh", "rot": [0, 0, 0], "pos": [0, 0, 0], "scale": [100, 100, 100], "asset": "asset_convex_tree_1", "convex": true, "mass": 0, "friction": 2.9},
+            {"shape": "mesh", "rot": [0, 0, 0], "pos": [0, 0, 0], "scale": [100, 100, 100], "asset": "asset_convex_tree_1_1", "convex": true, "mass": 0, "friction": 2.9}
+          ]
+        }
+      },
+      {
+        "id":"asset_pine_2",
+        "data":{
+          "shapes": [
+            {"shape": "box",  "rot": [0, 0, 0], "pos": [0, 0, 10], "scale": [3, 3, 15], "asset": "box", "convex": false, "mass": 0, "friction": 2.9},
+            {"shape": "mesh", "rot": [0, 0, 0], "pos": [0, 0, 4], "scale": [100, 100, 100], "asset": "asset_convex_tree_2", "convex": true, "mass": 0},
+            {"shape": "mesh", "rot": [0, 0, 0], "pos": [0, 0, 0], "scale": [100, 100, 100], "asset": "asset_convex_tree_2_1", "convex": true, "mass": 0}
+          ]
+        }
+      },
+      {
+        "id":"asset_pine_3",
+        "data":{
+          "shapes": [
+            {"shape": "box",  "rot": [0, 0, 0], "pos": [0, 0, 20], "scale": [4, 4, 25], "asset": "box", "convex": false, "mass": 0, "friction": 2.9},
+            {"shape": "mesh", "rot": [0, 0, 0], "pos": [0, 0, 4], "scale": [120, 120, 120], "asset": "asset_convex_tree_3", "convex": true, "mass": 0},
+            {"shape": "mesh", "rot": [0, 0, 0], "pos": [0, 0, 0], "scale": [100, 100, 100], "asset": "asset_convex_tree_3_1", "convex": true, "mass": 0},
+            {"shape": "mesh", "rot": [0, 0, 0], "pos": [0, 0, 0], "scale": [70, 70, 70], "asset": "asset_convex_tree_3_2", "convex": true, "mass": 0}
+          ]
+        }
+      },
+
+      {
+        "id":"asset_palm_1",
+        "data":{
+          "shapes": [
+            {"shape": "mesh", "rot": [0, 0, 0], "pos": [0, 0, 0], "scale": [100, 100, 100], "asset": "asset_convex_tree_1", "convex": true, "mass": 0, "friction": 2.9},
+            {"shape": "mesh", "rot": [0, 0, 0], "pos": [0, 0, 0], "scale": [100, 100, 100], "asset": "asset_convex_tree_1_1", "convex": true, "mass": 0, "friction": 2.9}
+          ]
+        }
+      },
+      {
+        "id":"asset_palm_2",
+        "data":{
+          "shapes": [
+            {"shape": "mesh", "rot": [0, 0, 0], "pos": [0, 0, 6], "scale": [100, 100, 100], "asset": "asset_convex_tree_3", "convex": true, "mass": 0},
+            {"shape": "mesh", "rot": [0, 0, 0], "pos": [0, 0, 0], "scale": [100, 100, 100], "asset": "asset_convex_tree_2_1", "convex": true, "mass": 0}
+          ]
+        }
+      },
+
+
+      {
         "id":"asset_tree_1",
         "data":{
           "shapes": [
