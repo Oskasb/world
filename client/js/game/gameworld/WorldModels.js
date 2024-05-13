@@ -5,6 +5,7 @@ import { WorldEncounter } from "../encounter/WorldEncounter.js";
 import { WorldTreasure} from "../encounter/WorldTreasure.js";
 import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
 import {saveEncounterEdits, saveWorldModelEdits} from "../../application/utils/ConfigUtils.js";
+import {WorldAdventure} from "../gamescenarios/WorldAdventure.js";
 
 let locationModelConfigs;
 let worldModels = [];
@@ -97,7 +98,7 @@ function deactivateDynamicSpawnPoints() {
 
 function loadModelFromConfig(config, id) {
     if (config.DELETED === true) {
-        console.log("Deleted World Model Appears")
+        console.log("Skip Deleted World Model")
         return;
     }
     let model = new WorldModel(config, id)
@@ -105,6 +106,19 @@ function loadModelFromConfig(config, id) {
 
     return model;
 }
+
+function loadAdventureFromConfig(worldLevel, config, id) {
+    if (config.DELETED === true) {
+        console.log("Skip Deleted World Adventure")
+        return;
+    }
+    let adventure = new WorldAdventure()
+    adventure.call.applyLoadedConfig(config);
+    adventure.id = config.edit_id;
+    GameAPI.gameAdventureSystem.registerAdventure(worldLevel, adventure)
+}
+
+
 
 function loadEditorModels(configs) {
     for (let key in configs) {
@@ -343,8 +357,11 @@ class WorldModels {
 
         loadedConfigs[root][folder][id] = config;
 
+        if (root === 'adventure') {
 
-        if (folder === lastWorldLevel) {
+            loadAdventureFromConfig(folder, config, id, false);
+
+        } else if (folder === lastWorldLevel) {
 
             if (root === 'model') {
                 let wModel = GameAPI.worldModels.getActiveWorldModel(id);
@@ -362,6 +379,8 @@ class WorldModels {
                     this.addConfigEncounter(config, id, false);
                 }
             }
+
+
         }
     }
 

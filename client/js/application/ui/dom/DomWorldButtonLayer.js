@@ -39,7 +39,12 @@ class DomWorldButtonLayer {
             MATH.emptyArray(visibleElements);
 
                 let camCursorDist = MATH.distanceBetween(ThreeAPI.getCameraCursor().getPos(), ThreeAPI.getCamera().position)
-                for (let i = 0; i < worldElements.length; i++) {
+
+            if (!worldElements) {
+                return;
+            }
+
+            for (let i = 0; i < worldElements.length; i++) {
                     let pos = worldElements[i].getPos();
                     let distance = MATH.distanceBetween(ThreeAPI.getCameraCursor().getPos(), pos)
                     if (distance < 25 + camCursorDist * 0.5) {

@@ -88,8 +88,17 @@ class DomEditAdventure {
         }
 
         function applySelection(id) {
-            console.log("Apply Selection ", id, configs[id]);
-            // saveAdventureEdits(newWmodel);
+            addToolStatusMap.parent = new WorldAdventure()
+            let wAdv = addToolStatusMap.parent;
+            let defaultCfg = detachConfig(configs[id]);
+            wAdv.call.applyLoadedConfig(defaultCfg);
+
+            wAdv.getPos().copy(ThreeAPI.getCameraCursor().getLookAroundPoint())
+            MATH.vec3ToArray(wAdv.getPos(), wAdv.config.pos, 10);
+            wAdv.id = wAdv.config.edit_id
+            saveAdventureEdits(wAdv);
+            let worldLevel = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
+            GameAPI.gameAdventureSystem.registerAdventure(worldLevel, wAdv)
         }
 
         function selectionUpdate(id) {
@@ -106,8 +115,9 @@ class DomEditAdventure {
             MATH.vec3ToArray(pos, addToolStatusMap.config.pos);
             statMap.parent.call.applyLoadedConfig(addToolStatusMap.config, statMap.id, true);
             saveAdventureEdits(statMap.parent);
-        }
 
+
+        }
 
 
         function closeTool() {
@@ -137,22 +147,21 @@ class DomEditAdventure {
 
             if (selectedTool === "ADD") {
                 activeTool = poolFetch('DomEditAdd');
-
-
                 let parent = new WorldAdventure()
                 parent.getPos().copy(ThreeAPI.getCameraCursor().getLookAroundPoint())
-                let config = detachConfig(parent.config)
-                MATH.vec3ToArray(parent.getPos(), config.pos, 1);
-                config.edit_id = "tpl_"+config.edit_id
                 addToolStatusMap.parent = parent;
-                addToolStatusMap.config = config;
                 activeTool.call.setStatusMap(addToolStatusMap)
                 activeTool.initEditTool(closeTool);
             }
 
             if (selectedTool === "CONFIG" || selectedTool === "EDIT") {
                 buttonLayer = poolFetch('DomWorldButtonLayer');
-                buttonLayer.initWorldButtonLayer(GameAPI.worldModels.getActiveWorldModels(), selectedTool, divClicked)
+
+                let allAdventures = GameAPI.gameAdventureSystem.getWorldAdventures();
+                let worldLevel = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
+
+                buttonLayer.initWorldButtonLayer(allAdventures[worldLevel], selectedTool, divClicked)
+
             }
 
         }
@@ -189,53 +198,61 @@ class DomEditAdventure {
 
         let closeEditCursor = function(htmlElem) {
             let cursor = htmlElem.cursor;
-            let model = htmlElem.model;
-            if (model === null) {
+            let adventure = htmlElem.adventure;
+            if (adventure === null) {
                 return;
             }
-            editCursors[model.id] = false;
+            editCursors[adventure.id] = false;
             htmlElem.cursor = null;
-            htmlElem.model = null;
+            htmlElem.adventure = null;
             cursor.closeDomEditCursor();
             poolReturn(cursor);
         }
 
         let divClicked = function(e) {
-            let model = e.target.value
-            console.log("Activated", selectedTool, model);
-            idLabelDiv.innerHTML = model.id;
-            model.config = detachConfig(model.config);
+            let adventure = e.target.value
+            console.log("Activated", selectedTool, adventure);
+            idLabelDiv.innerHTML = adventure.id;
+            adventure.config = detachConfig(adventure.config);
 
             if (selectedTool === "EDIT") {
-                if (typeof (editCursors[model.id]) !== 'object') {
+                if (typeof (editCursors[adventure.id]) !== 'object') {
                     e.target.style.visibility = "hidden";
                     let cursor = poolFetch('DomEditCursor')
 
                     let onClick = function(crsr) {
                         console.log("Clicked Cursor", crsr)
                         closeEditCursor(crsr.htmlElement);
-                        idLabelDiv.innerHTML = model.id;
+                        idLabelDiv.innerHTML = adventure.id;
                         if (activeTool === null) {
-                            activeTool = poolFetch('DomEditWorldModel')
-                            activeTool.call.setWorldModel(model);
-                            activeTool.initDomEditWorldModel(closeActiveTool)
+                            activeTool = poolFetch('DomEditAdventureNodes')
+                            activeTool.call.setAdventure(adventure);
+                            activeTool.initEditTool(closeActiveTool)
                         } else {
-                            let mdl = activeTool.call.getWorldModel();
-                            if (mdl === model) {
+                            let adv = activeTool.call.getAdventure();
+                            if (adv === adventure) {
                                 closeActiveTool();
                             } else {
-                                activeTool.call.setWorldModel(model);
+                                activeTool.call.setAdventure(adventure);
                             }
                         }
                     }
 
-                    cursor.initDomEditCursor(closeEditCursor, model.obj3d, model.call.applyEditCursorUpdate, onClick);
-                    if (typeof (model.config.grid) === 'number') {
-                        cursor.call.setGrid(model.config.grid)
+
+                    let applyCursorUpdate = function(obj3d, grid) {
+                        adventure.config.grid = grid;
+                        MATH.vec3ToArray(obj3d.position, adventure.config.pos, 10);
+                        MATH.vec3FromArray(adventure.getPos(), adventure.config.pos)
+                        saveAdventureEdits(adventure);
+                    }
+
+                    cursor.initDomEditCursor(closeEditCursor, adventure.obj3d, applyCursorUpdate, onClick);
+                    if (typeof (adventure.config.grid) === 'number') {
+                        cursor.call.setGrid(adventure.config.grid)
                     }
                     cursor.htmlElement.cursor = cursor;
-                    cursor.htmlElement.model = model;
-                    editCursors[model.id] = cursor;
+                    cursor.htmlElement.adventure = adventure;
+                    editCursors[adventure.id] = cursor;
                 }
             }
 
@@ -243,12 +260,12 @@ class DomEditAdventure {
                 closeActiveTool();
                 activeTool = poolFetch('DomEditConfig');
                 let map = {
-                    id:model.id,
-                    root:"model",
+                    id:adventure.id,
+                    root:"adventure",
                     folder: GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL),
-                    parent:model,
-                    config:model.config,
-                    onEditCB:model.call.applyLoadedConfig
+                    parent:adventure,
+                    config:adventure.config,
+                    onEditCB:adventure.call.applyLoadedConfig
                 }
                 activeTool.initEditTool(closeActiveTool, map)
             }

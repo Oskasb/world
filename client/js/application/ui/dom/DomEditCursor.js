@@ -40,6 +40,9 @@ class DomEditCursor {
         this.initObj3d = new Object3D();
         let targetObj3d = new Object3D();
         let updateObj3d = new Object3D();
+
+        let lastUpdateObj3d = new Object3D();
+
         let rotYDiv = null;
         let rotYSlider = null;
         let scaleDiv = null;
@@ -250,7 +253,24 @@ class DomEditCursor {
 
         //    updateObj3d.quaternion.copy(targetObj3d.quaternion)
 
-            MATH.callAll(this.onUpdateCallbacks, targetObj3d, grid);
+            let relay = false;
+
+            if (lastUpdateObj3d.position.distanceToSquared(targetObj3d.position) > 0.01) {
+                relay = true;
+            } else if (MATH.distanceBetween(lastUpdateObj3d.quaternion, targetObj3d.quaternion) > 0.001) {
+                relay = true;
+            } else if (lastUpdateObj3d.scale.distanceToSquared(targetObj3d.scale) > 0.001) {
+                relay = true;
+            } else if (lastUpdateObj3d.grid !== grid) {
+                relay = true;
+            }
+
+            lastUpdateObj3d.grid = grid;
+            lastUpdateObj3d.copy(targetObj3d)
+            if (relay === true) {
+                MATH.callAll(this.onUpdateCallbacks, targetObj3d, grid);
+
+            }
 
             rotYDiv.style.rotate = -updateObj3d.rotation.y+"rad"
 

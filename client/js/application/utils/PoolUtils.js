@@ -64,6 +64,8 @@ import {VisualActor} from "../../game/visuals/VisualActor.js";
 import {VisualItem} from "../../game/visuals/VisualItem.js";
 import {ItemSlot} from "../../game/gamepieces/ItemSlot.js";
 import {DomEditAdventure} from "../ui/dom/DomEditAdventure.js";
+import {DomEditAdventureNode} from "../ui/dom/DomEditAdventureNode.js";
+import {DomEditAdventureNodes} from "../ui/dom/DomEditAdventureNodes.js";
 
 
 let pools = {}
@@ -114,6 +116,8 @@ function initPools() {
     registerPool(DomEditTerrain)
     registerPool(DomEditEncounter)
     registerPool(DomEditAdventure)
+    registerPool(DomEditAdventureNode)
+    registerPool(DomEditAdventureNodes)
     registerPool(DomEditLocation)
     registerPool(VisualEdgeCircle)
     registerPool(DomEditGrid)

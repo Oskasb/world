@@ -128,8 +128,8 @@ class VisualEngagementIndicator {
         }
 
     }
+
     on(statusKey, actor, effectData) {
-    //    GuiAPI.screenText("LEAP ON", ENUMS.Message.HINT, 2)
         this.lastDestination.set(0, -999, 0)
         this.actor = actor;
         this.statusKey = statusKey;

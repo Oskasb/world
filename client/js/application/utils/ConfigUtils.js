@@ -504,8 +504,15 @@ function listifyConfig(root, folder, idArray, configStore) {
             let id = configs[key].id
 
             if (idArray.indexOf(id) === -1) {
-                configStore[id] = configs[key].data[0].config;
-                idArray.push(id)
+                if (!configs[key].data) {
+                //    console.log("No Data", configs, key)
+                    configStore[id] = configs[key].config;
+                    idArray.push(id)
+                } else {
+                    configStore[id] = configs[key].data[0].config;
+                    idArray.push(id)
+                }
+
             } else {
                 console.log("entry already added, not right", id);
             }

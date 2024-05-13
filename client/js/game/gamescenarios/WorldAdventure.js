@@ -1,14 +1,20 @@
 import {Object3D} from "../../../libs/three/core/Object3D.js";
 
-
-
 class WorldAdventure {
     constructor() {
         this.obj3d = new Object3D();
+        this.id = null;
+        this.config = {}
 
-        this.config = {
-            pos:[0, 0, 0],
-            grid: 1
+        let applyLoadedConfig = function(cfg) {
+            console.log("applyLoadedConfig", cfg, this)
+            MATH.vec3FromArray(this.getPos(), cfg.pos)
+            this.config = cfg;
+        }.bind(this);
+
+        this.call = {
+            applyLoadedConfig:applyLoadedConfig,
+
         }
 
     }
@@ -18,7 +24,6 @@ class WorldAdventure {
     }
 
 }
-
 
 
 export { WorldAdventure }

@@ -2,7 +2,6 @@ import {Vector3} from "../../../libs/three/math/Vector3.js";
 import {poolFetch} from "../../application/utils/PoolUtils.js";
 import {Object3D} from "../../../libs/three/core/Object3D.js";
 import {colorMapFx} from "./Colors.js";
-import {physicalAlignYGoundTest} from "../../application/utils/PhysicsUtils.js";
 
 let tempVec = new Vector3();
 let normalStore = new Vector3()

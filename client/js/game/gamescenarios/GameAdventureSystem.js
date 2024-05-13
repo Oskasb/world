@@ -2,6 +2,7 @@ import { SpatialTransition } from "../../application/utils/SpatialTransition.js"
 import {notifyCameraStatus} from "../../3d/camera/CameraFunctions.js";
 import {evt} from "../../application/event/evt.js";
 import {configDataList} from "../../application/utils/ConfigUtils.js";
+import {ENUMS} from "../../application/ENUMS.js";
 
 let spatialTransition
 
@@ -9,7 +10,9 @@ let completedEncounters = [];
 let lootedTreasured = [];
 let startingItems = [];
 
-let WorldAdventures = [];
+let worldAdventures = {};
+let startableAdventures = [];
+let activeAdventures = [];
 
 function encounterCompleted(event) {
     console.log("Enc Completed", event);
@@ -28,9 +31,8 @@ class GameAdventureSystem {
         let active = false;
 
         function update() {
-
+            let worldLevel = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL);
         }
-
 
         let onData = function(data) {
             adventureConfigs = data;
@@ -53,6 +55,25 @@ class GameAdventureSystem {
         return lootedTreasured;
     }
 
+    getStartableAdventures() {
+        return startableAdventures;
+    }
+
+    getActiveWorldAdventures() {
+        return activeAdventures;
+    }
+
+    getWorldAdventures() {
+        return worldAdventures;
+    }
+
+    registerAdventure(worldLevel, worldAdventure) {
+        if (!worldAdventures[worldLevel]) {
+            worldAdventures[worldLevel] = [];
+        }
+        worldAdventures[worldLevel].push(worldAdventure);
+        console.log("registerAdventure", worldLevel, worldAdventure, worldAdventures)
+    }
 
     selectAdventure(event) {
         let equippedItems;
