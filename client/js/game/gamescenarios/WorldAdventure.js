@@ -9,6 +9,12 @@ class WorldAdventure {
             nodes:[]
         }
 
+        this.mapElements = {
+            posDiv: null,
+            nodeDivs:[],
+            lineDivs:[]
+        }
+
         let applyLoadedConfig = function(cfg) {
             console.log("applyLoadedConfig", cfg, this)
             MATH.vec3FromArray(this.getPos(), cfg.pos)

@@ -664,7 +664,7 @@ div.adv_line {
     height: 0;
     padding: 0.12em;
     border: dashed;
-    background-color: rgb(17, 255, 214);
+    background-color: rgba(17, 255, 234, 0.3);
     border-color: rgb(0, 145, 131);
     border-width: 0.1em;
     display: block;
