@@ -1,10 +1,13 @@
 import {Object3D} from "../../../libs/three/core/Object3D.js";
+import {MATH} from "../../application/MATH.js";
 
 class WorldAdventure {
     constructor() {
         this.obj3d = new Object3D();
         this.id = null;
-        this.config = {}
+        this.config = {
+            nodes:[]
+        }
 
         let applyLoadedConfig = function(cfg) {
             console.log("applyLoadedConfig", cfg, this)
@@ -14,7 +17,6 @@ class WorldAdventure {
 
         this.call = {
             applyLoadedConfig:applyLoadedConfig,
-
         }
 
     }

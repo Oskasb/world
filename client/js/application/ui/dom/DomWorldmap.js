@@ -57,22 +57,24 @@ function indicateAdventures(htmlElement, mapDiv, statusMap, cursorPos){
         let adv = advs[i];
         let pos = adv.getPos();
 
-        if(pos.x > minX && pos.x < maxX) {
-            if (pos.z > minZ && pos.z < maxZ) {
+    //    if(pos.x > minX && pos.x < maxX) {
+    //        if (pos.z > minZ && pos.z < maxZ) {
                 visibleAdvs.push(adv);
-            }
-        }
+    //        }
+   //     }
 
         let nodes = adv.config.nodes;
 
+        tempVec2.copy(pos);
         for (let j = 0; j < nodes.length; j++) {
             let node = nodes[j];
             MATH.vec3FromArray(tempVec, node.pos);
-            if(tempVec.x > minX && tempVec.x < maxX) {
-                if (tempVec.z > minZ && tempVec.z < maxZ) {
+       //     if(tempVec.x > minX && tempVec.x < maxX) {
+        //        if (tempVec.z > minZ && tempVec.z < maxZ) {
                     visibleNodes.push(node);
-                }
-            }
+        //        }
+        //    }
+            tempVec2.copy(tempVec);
         }
 
 
@@ -81,10 +83,13 @@ function indicateAdventures(htmlElement, mapDiv, statusMap, cursorPos){
     while (advNodeDivs.length < visibleNodes.length) {
         let div = DomUtils.createDivElement(mapDiv, 'node_'+advNodeDivs.length, '', 'adv_point')
         advNodeDivs.push(div);
+        let div2 = DomUtils.createDivElement(mapDiv, 'line_'+advLineDivs.length, '', 'adv_line')
+        advLineDivs.push(div2);
     }
 
     while (advNodeDivs.length > visibleNodes.length) {
         DomUtils.removeDivElement(advNodeDivs.pop());
+        DomUtils.removeDivElement(advLineDivs.pop());
     }
 
 
@@ -100,6 +105,7 @@ function indicateAdventures(htmlElement, mapDiv, statusMap, cursorPos){
     for (let i = 0; i < advPointDivs.length; i++) {
         let div = advPointDivs[i];
         let pos = visibleAdvs[i].getPos();
+        tempVec2.copy(pos);
         let rad = visibleAdvs[i].config.radius;
     //    let lod = visibleLods[i].lodLevel
     //    let spacing = visibleLods[i].spacing
@@ -133,20 +139,29 @@ function indicateAdventures(htmlElement, mapDiv, statusMap, cursorPos){
 
     for (let i = 0; i < advNodeDivs.length; i++) {
         let div = advNodeDivs[i];
+        let line = advLineDivs[i]
         MATH.vec3FromArray(tempVec, visibleNodes[i].pos);
         let rad = 2 // visibleAdvs[i].config.radius;
         //    let lod = visibleLods[i].lodLevel
         //    let spacing = visibleLods[i].spacing
         worldPosDiv(tempVec, cursorPos, div, zoom);
+        worldPosDiv(tempVec, cursorPos, line, zoom);
 
+        let dst = MATH.distanceBetween(tempVec, tempVec2);
 
+        if (i !== 0) {
+            let angZ = Math.atan2(tempVec.z-tempVec2.z, tempVec.x-tempVec2.x)  + Math.PI*0.5;
+            line.style.rotate = angZ+'rad';
+        }
+
+        tempVec2.copy(tempVec);
         let w = rad*zoom*0.1
         let h = rad*zoom*0.1
         //    //    div.style.padding = 0.5*w+"%";
         div.style.borderWidth = 0.02*w+"em";
         div.style.width = w+"%";
         div.style.height = h+"%";
-
+        line.style.height = dst*zoom*0.05+"%";
    /*
            let lodClass = "lod_"+lod
            div.className = "grid_tile";
@@ -591,11 +606,11 @@ function alignDivToZ(div, posZ, zoom) {
 
 
 function worldPosDiv(worldPos, cursorPos, div, zoom) {
-    tempVec.copy(worldPos).sub(cursorPos)
-    tempVec.multiplyScalar(zoom)
+    ThreeAPI.tempVec3.copy(worldPos).sub(cursorPos)
+    ThreeAPI.tempVec3.multiplyScalar(zoom)
 //    positionDiv(cameraDiv, tempVec, zoom);
-    alignDivToX(div, tempVec.x+worldSize*0.5, 1)
-    alignDivToZ(div, tempVec.z, 1)
+    alignDivToX(div, ThreeAPI.tempVec3.x+worldSize*0.5, 1)
+    alignDivToZ(div, ThreeAPI.tempVec3.z, 1)
 }
 
 

@@ -480,7 +480,7 @@ div.location {
     border-radius:  50%;
     display: block;
     transform-origin: center;
-    transform: translate3d(-50%, -50%, 0%);
+    transform: translate3d(-50%, -50%, 0);
 }
 
 div.spawn_point {
@@ -501,7 +501,7 @@ div.spawn_point {
     border-radius:  50%;
     display: block;
     transform-origin: center;
-    transform: translate3d(-50%, -50%, 0%);
+    transform: translate3d(-50%, -50%, 0);
 }
 
 div.spawn_point p {
@@ -544,7 +544,7 @@ div.physical_point {
     border-radius:  50%;
     display: block;
     transform-origin: center;
-    transform: translate3d(-50%, -50%, 0%);
+    transform: translate3d(-50%, -50%, 0);
 }
 
 div.physical_point p {
@@ -628,7 +628,7 @@ div.adv_point {
     border-radius:  50%;
     display: block;
     transform-origin: center;
-    transform: translate3d(-50%, -50%, 0%);
+    transform: translate3d(-50%, -50%, 0);
 }
 
 div.adv_point p {
@@ -650,6 +650,26 @@ div.adv_point p {
     display: inline-block;
     transform-origin: center;
     transform: translate3d(0, -0.1em, 0);
+}
+
+div.adv_line {
+    pointer-events: none;
+    position: absolute;
+    top: auto;
+    left: auto;
+    bottom:auto;
+    right:auto;
+    margin: 0;
+    width: 0;
+    height: 0;
+    padding: 0.12em;
+    border: dashed;
+    background-color: rgb(17, 255, 214);
+    border-color: rgb(0, 145, 131);
+    border-width: 0.1em;
+    display: block;
+    transform-origin: top;
+    transform: translate3d(-50%, 0, 0);
 }
 
 div.grid_tile {

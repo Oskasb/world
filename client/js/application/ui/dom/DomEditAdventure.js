@@ -5,6 +5,7 @@ import {detachConfig, listifyConfig, saveAdventureEdits, saveWorldModelEdits} fr
 import {ConfigData} from "../../utils/ConfigData.js";
 import {WorldModel} from "../../../game/gameworld/WorldModel.js";
 import {WorldAdventure} from "../../../game/gamescenarios/WorldAdventure.js";
+import {addNodeToAdventureAtPos} from "../../utils/AdventureUtils.js";
 
 let applyContainerDiv = null;
 let idLabelDiv = null;
@@ -96,7 +97,7 @@ class DomEditAdventure {
             wAdv.getPos().copy(ThreeAPI.getCameraCursor().getLookAroundPoint())
             MATH.vec3ToArray(wAdv.getPos(), wAdv.config.pos, 10);
             wAdv.id = wAdv.config.edit_id
-            saveAdventureEdits(wAdv);
+            addNodeToAdventureAtPos(wAdv, wAdv.getPos())
             let worldLevel = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
             GameAPI.gameAdventureSystem.registerAdventure(worldLevel, wAdv)
         }

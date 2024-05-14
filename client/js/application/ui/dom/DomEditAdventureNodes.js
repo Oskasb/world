@@ -3,6 +3,7 @@ import {MATH} from "../../MATH.js";
 import {paletteKeys} from "../../../game/visuals/Colors.js";
 import {detachConfig, saveAdventureEdits} from "../../utils/ConfigUtils.js";
 import {Vector3} from "../../../../libs/three/math/Vector3.js";
+import {addNodeToAdventureAtPos} from "../../utils/AdventureUtils.js";
 
 let operationsList = [
     "ADD_NODE"
@@ -59,12 +60,7 @@ class DomEditAdventureNodes {
 
             if (selectedOperation === 'ADD_NODE') {
                 let pos = ThreeAPI.getCameraCursor().getLookAroundPoint();
-                let nodeCfg = {
-                    pos : [0, 0, 0]
-                }
-                MATH.vec3ToArray(pos, nodeCfg.pos, 10);
-                adventure.config.nodes.push(nodeCfg);
-                saveAdventureEdits(adventure);
+                addNodeToAdventureAtPos(adventure, pos);
             }
 
         }
