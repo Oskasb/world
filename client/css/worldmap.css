@@ -211,6 +211,11 @@ div.button_lod {
     top: 62%;
 }
 
+div.button_adv {
+    background: radial-gradient(circle, rgb(163, 255, 241) 0%, rgb(69, 233, 255) 42%, rgb(1, 110, 169) 83%, rgb(0, 55, 45) 99%);
+    top: 68%;
+}
+
 div.worldmap_frame {
     top: -40em;
     left: -40em;
@@ -558,6 +563,90 @@ div.physical_point p {
     border-width: 0.1em;
     border-radius:  15%;
     color: #ffc54e;
+    display: inline-block;
+    transform-origin: center;
+    transform: translate3d(0, -0.1em, 0);
+}
+
+div.adv_start_point {
+    pointer-events: none;
+    position: absolute;
+    top: auto;
+    left: auto;
+    bottom:auto;
+    right:auto;
+    margin: 0;
+    width: 0;
+    height: 0;
+    padding: 0.12em;
+    border: solid;
+    background-color: rgba(41, 255, 220, 0.1);
+    border-color: rgb(0, 246, 220);
+    border-width: 0.1em;
+    border-radius:  50%;
+    display: block;
+    transform-origin: center;
+    transform: translate3d(-50%, -50%, 0);
+}
+
+div.adv_start_point p {
+    pointer-events: none;
+    position: absolute;
+    top: auto;
+    left: auto;
+    font-size: 1.5em;
+    bottom:0;
+    right:0;
+    margin: 0;
+    width: auto;
+    height: auto;
+    padding: 0.12em;
+    border: solid;
+    border-width: 0.1em;
+    border-radius:  15%;
+    color: #4eeaff;
+    display: inline-block;
+    transform-origin: center;
+    transform: translate3d(0, -0.1em, 0);
+}
+
+div.adv_point {
+    pointer-events: none;
+    position: absolute;
+    top: auto;
+    left: auto;
+    bottom:auto;
+    right:auto;
+    margin: 0;
+    width: 0;
+    height: 0;
+    padding: 0.12em;
+    border: dashed;
+    background-color: rgba(0, 217, 178, 0.1);
+    border-color: rgb(0, 255, 228);
+    border-width: 0.1em;
+    border-radius:  50%;
+    display: block;
+    transform-origin: center;
+    transform: translate3d(-50%, -50%, 0%);
+}
+
+div.adv_point p {
+    pointer-events: none;
+    position: absolute;
+    top: auto;
+    left: auto;
+    font-size: 1.5em;
+    bottom:0;
+    right:0;
+    margin: 0;
+    width: auto;
+    height: auto;
+    padding: 0.12em;
+    border: solid;
+    border-width: 0.1em;
+    border-radius:  15%;
+    color: #4eeaff;
     display: inline-block;
     transform-origin: center;
     transform: translate3d(0, -0.1em, 0);

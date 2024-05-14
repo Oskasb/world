@@ -33,6 +33,9 @@ class DomEditAdventureNodes {
         let pathLineToNext = null;
 
         let pathLines = [];
+        let pathPoints = [];
+
+        let lastDst = new Vector3();
 
         let updateSelectedOperation = function() {
        //     closeEditAttach()
@@ -90,9 +93,32 @@ class DomEditAdventureNodes {
         }
 
 
-
         function getAdventure() {
             return adventure;
+        }
+
+        function clearIndicators() {
+            visualEdgeCircle.off();
+            poolReturn(visualEdgeCircle);
+            visualEdgeCircle = null;
+
+            if (pathLineToNext !== null) {
+                pathLineToNext.off();
+                poolReturn(pathLineToNext);
+                pathLineToNext = null;
+            }
+
+            while (pathLines.length) {
+                let line = pathLines.pop();
+                line.off();
+                poolReturn(line);
+            }
+
+            while (pathPoints.length) {
+                let circle = pathPoints.pop();
+                circle.off();
+                poolReturn(circle);
+            }
         }
 
         function update() {
@@ -104,9 +130,15 @@ class DomEditAdventureNodes {
 
             tempVec.copy(pos);
             for (let i = 0; i < nodes.length; i++) {
-                MATH.vec3FromArray(tempVec2, nodes[i].pos)
-                if (pathLines.length < i) {
 
+                if (pathLines.length < i) {
+                    MATH.vec3FromArray(tempVec2, nodes[i].pos)
+
+                    let circle = poolFetch('VisualEdgeCircle')
+                    circle.on();
+                    circle.setPosition(tempVec2);
+                    circle.setRadius(2);
+                    pathPoints.push(circle);
                     let line = poolFetch(('VisualEdgeLine'))
                     line.on();
                     line.from.copy(tempVec);
@@ -114,7 +146,7 @@ class DomEditAdventureNodes {
                     tempVec.copy(tempVec2);
                     pathLines.push(line);
                 }
-
+                MATH.vec3FromArray(tempVec, nodes[i].pos)
             }
 
             if (nodes.length !== 0) {
@@ -132,14 +164,17 @@ class DomEditAdventureNodes {
             if (selectedOperation === 'ADD_NODE') {
                 let dst = ThreeAPI.getCameraCursor().getLookAroundPoint();
 
-                if (MATH.distanceBetween(tempVec, dst) > 2) {
+                if (MATH.distanceBetween(tempVec, dst) > 0.5) {
                     if (pathLineToNext === null) {
                         pathLineToNext = poolFetch(('VisualEdgeLine'))
                         pathLineToNext.on()
                     }
-                    pathLineToNext.from.copy(tempVec);
-                    pathLineToNext.to.copy(dst);
-                    pathLineToNext.recalcPoints = true;
+                    if ( lastDst.distanceToSquared(dst) > 0.001) {
+                        pathLineToNext.from.copy(tempVec);
+                        pathLineToNext.to.copy(dst);
+                        pathLineToNext.recalcPoints = true;
+                    }
+
                 } else {
                     if (pathLineToNext !== null) {
                         pathLineToNext.off();
@@ -148,18 +183,19 @@ class DomEditAdventureNodes {
                     }
                 }
 
-                if (pathLines.length === 0) {
-
-                }
+                lastDst.copy(dst);
 
             }
 
         }
 
         let close = function() {
-            visualEdgeCircle.off();
-            poolReturn(visualEdgeCircle);
-            visualEdgeCircle = null;
+
+            clearIndicators()
+
+
+
+
         }
 
         this.call = {

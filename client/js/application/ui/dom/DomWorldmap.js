@@ -32,14 +32,143 @@ let vegetationDivs = [];
 let physicsDivs = [];
 let lodGridDivs = [];
 
+let advPointDivs = [];
+let advNodeDivs = [];
+let advLineDivs = [];
+
 function clearDivArray(array) {
     while(array.length) {
         DomUtils.removeDivElement(array.pop());
     }
 }
 
-let visibleLods = [];
+let visibleAdvs = [];
+let visibleNodes = [];
 
+function indicateAdventures(htmlElement, mapDiv, statusMap, cursorPos){
+    MATH.emptyArray(visibleAdvs);
+    MATH.emptyArray(visibleNodes);
+    let allAdventures = GameAPI.gameAdventureSystem.getWorldAdventures();
+    let worldLevel = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
+
+    let advs = allAdventures[worldLevel];
+
+    for (let i = 0; i < advs.length; i++) {
+        let adv = advs[i];
+        let pos = adv.getPos();
+
+        if(pos.x > minX && pos.x < maxX) {
+            if (pos.z > minZ && pos.z < maxZ) {
+                visibleAdvs.push(adv);
+            }
+        }
+
+        let nodes = adv.config.nodes;
+
+        for (let j = 0; j < nodes.length; j++) {
+            let node = nodes[j];
+            MATH.vec3FromArray(tempVec, node.pos);
+            if(tempVec.x > minX && tempVec.x < maxX) {
+                if (tempVec.z > minZ && tempVec.z < maxZ) {
+                    visibleNodes.push(node);
+                }
+            }
+        }
+
+
+    }
+
+    while (advNodeDivs.length < visibleNodes.length) {
+        let div = DomUtils.createDivElement(mapDiv, 'node_'+advNodeDivs.length, '', 'adv_point')
+        advNodeDivs.push(div);
+    }
+
+    while (advNodeDivs.length > visibleNodes.length) {
+        DomUtils.removeDivElement(advNodeDivs.pop());
+    }
+
+
+    while (advPointDivs.length < visibleAdvs.length) {
+        let div = DomUtils.createDivElement(mapDiv, 'advs_'+advPointDivs.length, '', 'adv_start_point')
+        advPointDivs.push(div);
+    }
+
+    while (advPointDivs.length > visibleAdvs.length) {
+        DomUtils.removeDivElement(advPointDivs.pop());
+    }
+
+    for (let i = 0; i < advPointDivs.length; i++) {
+        let div = advPointDivs[i];
+        let pos = visibleAdvs[i].getPos();
+        let rad = visibleAdvs[i].config.radius;
+    //    let lod = visibleLods[i].lodLevel
+    //    let spacing = visibleLods[i].spacing
+        worldPosDiv(pos, cursorPos, div, zoom);
+
+        let w = rad*zoom*0.1
+        let h = rad*zoom*0.1
+        //    //    div.style.padding = 0.5*w+"%";
+        div.style.borderWidth = 0.01*w+"em";
+        div.style.width = w+"%";
+        div.style.height = h+"%";
+     /*
+
+        let lodClass = "lod_"+lod
+        div.className = "grid_tile";
+        DomUtils.addElementClass(div, lodClass);
+        /*
+            let r = Math.floor(255*(1-(lod+1)*0.2))
+            let g = Math.floor(155+Math.cos(lod)*200)
+            let b = Math.floor(255*((lod+1)*0.2))
+            let a = 0.3
+            div.style.borderColor = "rgba("+r+", 255, "+b+", "+a+")"
+       //  */
+        if (zoom > 7) {
+            div.innerHTML = '<p>'+i+'</p>'
+        } else {
+            div.innerHTML = ''
+        }
+
+    }
+
+    for (let i = 0; i < advNodeDivs.length; i++) {
+        let div = advNodeDivs[i];
+        MATH.vec3FromArray(tempVec, visibleNodes[i].pos);
+        let rad = 2 // visibleAdvs[i].config.radius;
+        //    let lod = visibleLods[i].lodLevel
+        //    let spacing = visibleLods[i].spacing
+        worldPosDiv(tempVec, cursorPos, div, zoom);
+
+
+        let w = rad*zoom*0.1
+        let h = rad*zoom*0.1
+        //    //    div.style.padding = 0.5*w+"%";
+        div.style.borderWidth = 0.02*w+"em";
+        div.style.width = w+"%";
+        div.style.height = h+"%";
+
+   /*
+           let lodClass = "lod_"+lod
+           div.className = "grid_tile";
+           DomUtils.addElementClass(div, lodClass);
+           /*
+               let r = Math.floor(255*(1-(lod+1)*0.2))
+               let g = Math.floor(155+Math.cos(lod)*200)
+               let b = Math.floor(255*((lod+1)*0.2))
+               let a = 0.3
+               div.style.borderColor = "rgba("+r+", 255, "+b+", "+a+")"
+          //  */
+        if (zoom > 7) {
+            div.innerHTML = '<p>'+i+'</p>'
+        } else {
+            div.innerHTML = ''
+        }
+
+    }
+
+}
+
+let visibleLods = [];
 
 function indicateLodGrid(htmlElement, mapDiv, statusMap, cursorPos){
     MATH.emptyArray(visibleLods);
@@ -801,7 +930,12 @@ class DomWorldmap {
         let showPhysics = false;
         let showVegetation = false;
         let showLodGrid = false;
+        let showAdventures = false;
         let showLabels = false;
+
+        let toggleAdventures = function(e) {
+            showAdventures = !showAdventures;
+        }
 
         let toggleLodGrid = function(e) {
             console.log(ThreeAPI.getTerrainSystem().getTerrain());
@@ -862,6 +996,8 @@ class DomWorldmap {
             let spawnsDiv = htmlElement.call.getChildElement('spawns')
             let lodsDiv = htmlElement.call.getChildElement('lod')
 
+            let advsDiv = htmlElement.call.getChildElement('adv')
+
             let levelsContainer = htmlElement.call.getChildElement('levels_container')
             let reloadDiv = htmlElement.call.getChildElement('reload')
 
@@ -884,6 +1020,8 @@ class DomWorldmap {
             DomUtils.addClickFunction(locationsDiv, toggleLocations)
             DomUtils.addClickFunction(spawnsDiv, toggleSpawns)
             DomUtils.addClickFunction(lodsDiv, toggleLodGrid)
+            DomUtils.addClickFunction(advsDiv, toggleAdventures)
+
             attachWorldLevelNavigation(levelsContainer);
             ThreeAPI.unregisterPrerenderCallback(update);
             ThreeAPI.registerPrerenderCallback(update);
@@ -963,6 +1101,9 @@ class DomWorldmap {
                     clearDivArray(vegetationDivs);
                     clearDivArray(physicsDivs);
                     clearDivArray(locationDivs);
+                    clearDivArray(advPointDivs);
+                    clearDivArray(advLineDivs);
+                    clearDivArray(advNodeDivs);
 
                     statusMap.worldLevel = GameAPI.gameMain.getWorldLevelConfig(worldLevel).name;
 
@@ -1024,6 +1165,15 @@ class DomWorldmap {
                     indicateLodGrid(htmlElement, mapDiv, statusMap, cursorPos)
                 } else {
                     clearDivArray(lodGridDivs);
+                }
+
+                if (showAdventures) {
+                    indicateAdventures(htmlElement, mapDiv, statusMap, cursorPos)
+                } else {
+                    clearDivArray(advPointDivs);
+                    clearDivArray(advLineDivs);
+                    clearDivArray(advNodeDivs);
+
                 }
 
             }

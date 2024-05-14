@@ -1,8 +1,8 @@
-import {Vector3} from "../../../libs/three/math/Vector3.js";
-import {poolFetch} from "../../application/utils/PoolUtils.js";
-import {Object3D} from "../../../libs/three/core/Object3D.js";
-import {colorMapFx} from "./Colors.js";
-import {physicalAlignYGoundTest} from "../../application/utils/PhysicsUtils.js";
+import {Vector3} from "../../../../libs/three/math/Vector3.js";
+import {poolFetch} from "../../../application/utils/PoolUtils.js";
+import {Object3D} from "../../../../libs/three/core/Object3D.js";
+import {colorMapFx} from "../Colors.js";
+import {physicalAlignYGoundTest} from "../../../application/utils/PhysicsUtils.js";
 
 let tempVec = new Vector3();
 let normalStore = new Vector3()
@@ -19,7 +19,7 @@ class VisualEdgeLine {
         this.recalcPoints = true;
 
         let update = function() {
-            evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:this.from, to:this.to, color:'YELLOW'});
+        //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:this.from, to:this.to, color:'YELLOW'});
 
             if (this.recalcPoints === true) {
 
@@ -60,7 +60,7 @@ class VisualEdgeLine {
                     }
                 //
 
-                    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:tempObj.position, to:this.to, color:'YELLOW'});
+                //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:tempObj.position, to:this.to, color:'YELLOW'});
                     tempObj.position.add(tempVec);
                 }
 

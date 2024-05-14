@@ -1,7 +1,7 @@
-import {Vector3} from "../../../libs/three/math/Vector3.js";
-import {poolFetch} from "../../application/utils/PoolUtils.js";
-import {Object3D} from "../../../libs/three/core/Object3D.js";
-import {colorMapFx} from "./Colors.js";
+import {Vector3} from "../../../../libs/three/math/Vector3.js";
+import {poolFetch} from "../../../application/utils/PoolUtils.js";
+import {Object3D} from "../../../../libs/three/core/Object3D.js";
+import {colorMapFx} from "../Colors.js";
 
 let tempVec = new Vector3();
 let normalStore = new Vector3()
@@ -59,7 +59,7 @@ class VisualEdgeCircle {
                 tempObj.position.y = ThreeAPI.terrainAt(tempObj.position)
                 rgba = colorMapFx['GLITTER_FX']
                 pointFX.updatePointFX(tempObj.position, tempObj.quaternion, rgba)
-                evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:tempVec, to: tempObj.position, color:'YELLOW'});
+            //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:tempVec, to: tempObj.position, color:'YELLOW'});
                 tempVec.copy(tempObj.position);
             }
 
