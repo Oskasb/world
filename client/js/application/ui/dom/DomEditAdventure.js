@@ -91,8 +91,7 @@ class DomEditAdventure {
         function applySelection(id) {
             addToolStatusMap.parent = new WorldAdventure()
             let wAdv = addToolStatusMap.parent;
-            let defaultCfg = detachConfig(configs[id]);
-            wAdv.call.applyLoadedConfig(defaultCfg);
+            wAdv.config = detachConfig(configs[id]);
 
             wAdv.getPos().copy(ThreeAPI.getCameraCursor().getLookAroundPoint())
             wAdv.id = wAdv.config.edit_id
@@ -219,6 +218,7 @@ class DomEditAdventure {
                         console.log("Clicked Cursor", crsr)
                         closeEditCursor(crsr.htmlElement);
                         idLabelDiv.innerHTML = adventure.id;
+                        close();
                         if (activeTool === null) {
                             activeTool = poolFetch('DomEditAdventureNodes')
                             activeTool.call.setAdventure(adventure);
@@ -236,8 +236,8 @@ class DomEditAdventure {
 
                     let applyCursorUpdate = function(obj3d, grid) {
                         adventure.config.grid = grid;
-                        MATH.vec3ToArray(obj3d.position, adventure.config.pos, 10);
-                        MATH.vec3FromArray(adventure.getPos(), adventure.config.pos)
+                        MATH.vec3ToArray(obj3d.position, adventure.config.nodes[0].pos, 10);
+                        MATH.vec3FromArray(adventure.getPos(), adventure.config.nodes[0].pos)
                         saveAdventureEdits(adventure);
                     }
 

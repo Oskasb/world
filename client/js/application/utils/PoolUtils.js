@@ -66,6 +66,7 @@ import {ItemSlot} from "../../game/gamepieces/ItemSlot.js";
 import {DomEditAdventure} from "../ui/dom/DomEditAdventure.js";
 import {DomEditAdventureNode} from "../ui/dom/DomEditAdventureNode.js";
 import {DomEditAdventureNodes} from "../ui/dom/DomEditAdventureNodes.js";
+import {AdventureNode} from "../../game/gamescenarios/AdventureNode.js";
 
 
 let pools = {}
@@ -138,6 +139,7 @@ function initPools() {
     registerPool(VisualActor)
     registerPool(VisualItem)
     registerPool(ItemSlot)
+    registerPool(AdventureNode)
 }
 
 function registerPool(DataObj) {

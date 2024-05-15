@@ -6,11 +6,13 @@ import {Vector3} from "../../../../libs/three/math/Vector3.js";
 import {addNodeToAdventureAtPos} from "../../utils/AdventureUtils.js";
 
 let operationsList = [
-    "ADD_NODE"
+    "ADD_NODE",
+    "EDIT_NODES"
 ]
 
 let tempVec = new Vector3();
 let tempVec2 = new Vector3();
+let buttonLayer = null;
 
 class DomEditAdventureNodes {
     constructor() {
@@ -36,7 +38,35 @@ class DomEditAdventureNodes {
         let pathLines = [];
         let pathPoints = [];
 
+        let cursors = [];
         let lastDst = new Vector3();
+
+
+        let divClicked = function(e) {
+            let node = e.target.value
+            console.log('Select node for edit: ', node);
+            let cursor = poolFetch('DomEditCursor')
+            cursors.push(cursor);
+
+            let onClick = function() {
+                console.log("Apply Edit to Node", node, node.call.getConfig())
+            }
+
+            let applyCursorUpdate = function(obj3d, grid) {
+                let config = node.call.getConfig();
+                MATH.vec3ToArray(obj3d.position, config.pos, 10);
+                node.adventure.config = detachConfig(node.adventure.config)
+                saveAdventureEdits(node.adventure);
+            }
+
+            let closeEditCursor = function() {
+                MATH.splice(cursors, cursor)
+            }
+
+            cursor.initDomEditCursor(closeEditCursor, node.obj3d, applyCursorUpdate, onClick);
+
+
+        }
 
         let updateSelectedOperation = function() {
        //     closeEditAttach()
@@ -48,7 +78,13 @@ class DomEditAdventureNodes {
             }
             applyOperationDiv.innerHTML = selectedOperation;
 
-            if (selectedOperation === "ATTACH") {
+            if (selectedOperation === "EDIT_NODES") {
+                console.log("Set operation EDIT_NODES")
+
+                buttonLayer = poolFetch('DomWorldButtonLayer');
+
+                buttonLayer.initWorldButtonLayer(adventure.getNodes(), selectedOperation, divClicked)
+
 
             }
 
@@ -76,16 +112,17 @@ class DomEditAdventureNodes {
             DomUtils.addClickFunction(applyOperationDiv, applyOperation)
 
             rootElem.style.transition = 'none';
+            rootElem.style.top = "30%";
             htmlElem.call.populateSelectList('operation', operationsList)
             updateSelectedOperation();
+            ThreeAPI.registerPrerenderCallback(update);
         }
 
         function setAdventure(adv) {
             adventure = adv;
+            adventure.call.activateAdventure();
             visualEdgeCircle = poolFetch('VisualEdgeCircle')
             visualEdgeCircle.on();
-
-            ThreeAPI.registerPrerenderCallback(update);
         }
 
 
@@ -94,9 +131,12 @@ class DomEditAdventureNodes {
         }
 
         function clearIndicators() {
-            visualEdgeCircle.off();
-            poolReturn(visualEdgeCircle);
-            visualEdgeCircle = null;
+            if (visualEdgeCircle !== null) {
+                visualEdgeCircle.off();
+                poolReturn(visualEdgeCircle);
+                visualEdgeCircle = null;
+            }
+
 
             if (pathLineToNext !== null) {
                 pathLineToNext.off();
@@ -119,29 +159,47 @@ class DomEditAdventureNodes {
 
         function update() {
 
+            if (operationSelect.value !== selectedOperation) {
+                selectedOperation = operationSelect.value;
+                updateSelectedOperation();
+            }
+
             let pos = adventure.getPos();
-            let radius = adventure.config.radius;
+            let radius = 3;
 
             let nodes = adventure.config.nodes
 
             tempVec.copy(pos);
             for (let i = 0; i < nodes.length; i++) {
+                let circle;
+                let line;
 
-                if (pathLines.length < i) {
-                    MATH.vec3FromArray(tempVec2, nodes[i].pos)
-
-                    let circle = poolFetch('VisualEdgeCircle')
+                if (pathLines.length-1 < i) {
+                    circle = poolFetch('VisualEdgeCircle')
                     circle.on();
-                    circle.setPosition(tempVec2);
-                    circle.setRadius(2);
                     pathPoints.push(circle);
-                    let line = poolFetch(('VisualEdgeLine'))
+                    line = poolFetch(('VisualEdgeLine'))
                     line.on();
-                    line.from.copy(tempVec);
-                    line.to.copy(tempVec2);
-                    tempVec.copy(tempVec2);
                     pathLines.push(line);
                 }
+
+                MATH.vec3FromArray(tempVec2, nodes[i].pos)
+                circle = pathPoints[i];
+                line = pathLines[i];
+                circle.setPosition(tempVec2);
+                circle.setRadius(2);
+                if (line.from.distanceToSquared(tempVec) !== 0) {
+                    line.from.copy(tempVec);
+                    line.recalcPoints = true;
+                }
+
+                if (line.to.distanceToSquared(tempVec2) !== 0) {
+                    line.to.copy(tempVec2);
+                    line.recalcPoints = true;
+                }
+                
+                tempVec.copy(tempVec2);
+
                 MATH.vec3FromArray(tempVec, nodes[i].pos)
             }
 
@@ -181,14 +239,28 @@ class DomEditAdventureNodes {
 
                 lastDst.copy(dst);
 
+            } else {
+                if (pathLineToNext !== null) {
+                    pathLineToNext.off();
+                    poolReturn(pathLineToNext);
+                    pathLineToNext = null;
+                }
             }
+
+            if (selectedOperation === 'EDIT_NODES') {
+
+
+
+            }
+
 
         }
 
         let close = function() {
 
             clearIndicators()
-
+            adventure.call.deactivateAdventure();
+            adventure = null;
 
 
 
