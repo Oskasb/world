@@ -159,9 +159,8 @@ class DomEditAdventure {
                 buttonLayer = poolFetch('DomWorldButtonLayer');
 
                 let allAdventures = GameAPI.gameAdventureSystem.getWorldAdventures();
-                let worldLevel = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
 
-                buttonLayer.initWorldButtonLayer(allAdventures[worldLevel], selectedTool, divClicked)
+                buttonLayer.initWorldButtonLayer(allAdventures, selectedTool, divClicked)
 
             }
 

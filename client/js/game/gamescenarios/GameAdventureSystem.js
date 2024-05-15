@@ -64,8 +64,15 @@ class GameAdventureSystem {
     }
 
     getWorldAdventures() {
-        return worldAdventures;
+        let worldLevel = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
+        if (!worldAdventures[worldLevel]) {
+            worldAdventures[worldLevel] = [];
+        }
+        let advs = worldAdventures[worldLevel];
+        return advs;
     }
+
+
 
     registerAdventure(worldLevel, worldAdventure) {
         if (!worldAdventures[worldLevel]) {

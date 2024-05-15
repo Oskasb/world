@@ -32,9 +32,6 @@ let vegetationDivs = [];
 let physicsDivs = [];
 let lodGridDivs = [];
 
-let advPointDivs = [];
-let advNodeDivs = [];
-let advLineDivs = [];
 
 function clearDivArray(array) {
     while(array.length) {
@@ -54,7 +51,35 @@ function posIsVisible(pos) {
     return false;
 }
 
+let indicatedAdventures = [];
+let advIndicators = [];
+
+function clearAdventureDivs() {
+    MATH.emptyArray(indicatedAdventures);
+    while (advIndicators.length) {
+        let mapElems = advIndicators.pop();
+        clearDivArray(mapElems.nodeDivs);
+        clearDivArray(mapElems.lineDivs);
+        if (mapElems.posDiv !== null) {
+            DomUtils.removeDivElement(mapElems.posDiv);
+        }
+    }
+}
+
 function indicateAdventure(adv, htmlElement, mapDiv, statusMap, cursorPos) {
+
+    if (indicatedAdventures.indexOf(adv) === -1) {
+        indicatedAdventures.push(adv);
+        let mapElems = {
+            posDiv: null,
+            nodeDivs:[],
+            lineDivs:[]
+        }
+        advIndicators.push(mapElems);
+    }
+
+    let mapElements = advIndicators[indicatedAdventures.indexOf(adv)];
+
     let nodes = adv.config.nodes;
     let pos = adv.getPos();
     tempVec2.copy(pos);
@@ -62,13 +87,12 @@ function indicateAdventure(adv, htmlElement, mapDiv, statusMap, cursorPos) {
     let visible = posIsVisible(pos);
 
     if (visible === true) {
-        if (adv.mapElements.posDiv === null) {
-            adv.mapElements.posDiv = DomUtils.createDivElement(mapDiv, 'adv_'+adv.id, '', 'adv_start_point')
+        if (mapElements.posDiv === null) {
+            mapElements.posDiv = DomUtils.createDivElement(mapDiv, 'adv_'+adv.id, '', 'adv_start_point')
 
-            advPointDivs.push(adv.mapElements.posDiv);
         }
 
-        let div = adv.mapElements.posDiv;
+        let div = mapElements.posDiv;
         let rad = adv.config.radius;
 
         worldPosDiv(pos, cursorPos, div, zoom);
@@ -87,10 +111,9 @@ function indicateAdventure(adv, htmlElement, mapDiv, statusMap, cursorPos) {
         }
 
     } else {
-        if (adv.mapElements.posDiv !== null) {
-            MATH.splice(advPointDivs ,adv.mapElements.posDiv);
-            DomUtils.removeDivElement(adv.mapElements.posDiv);
-            adv.mapElements.posDiv = null;
+        if (mapElements.posDiv !== null) {
+            DomUtils.removeDivElement(mapElements.posDiv);
+            mapElements.posDiv = null;
         }
     }
 
@@ -101,17 +124,16 @@ function indicateAdventure(adv, htmlElement, mapDiv, statusMap, cursorPos) {
 
         visible = posIsVisible(tempVec);
              if(visible === true) {
-                 if (!adv.mapElements.nodeDivs[i]) {
-                     adv.mapElements.nodeDivs[i] = DomUtils.createDivElement(mapDiv, adv.id + '_node_'+advNodeDivs.length, '', 'adv_point')
-                     advNodeDivs.push(adv.mapElements.nodeDivs[i])
+                 if (!mapElements.nodeDivs[i]) {
+                     mapElements.nodeDivs[i] = DomUtils.createDivElement(mapDiv, adv.id + '_node_'+i, '', 'adv_point')
 
-                     adv.mapElements.lineDivs[i] = DomUtils.createDivElement(mapDiv, adv.id + '_line_'+advLineDivs.length, '', 'adv_line')
-                     advLineDivs.push(adv.mapElements.lineDivs[i])
+                     mapElements.lineDivs[i] = DomUtils.createDivElement(mapDiv, adv.id + '_line_'+i, '', 'adv_line')
+
 
                  }
 
-                 let div = adv.mapElements.nodeDivs[i]
-                 let line = adv.mapElements.lineDivs[i]
+                 let div = mapElements.nodeDivs[i]
+                 let line = mapElements.lineDivs[i]
                  MATH.vec3FromArray(tempVec, node.pos);
                  let rad = 2 // visibleAdvs[i].config.radius;
                  //    let lod = visibleLods[i].lodLevel
@@ -135,7 +157,7 @@ function indicateAdventure(adv, htmlElement, mapDiv, statusMap, cursorPos) {
                  div.style.height = h+"%";
                  line.style.borderWidth = 0.00101*zoom+"em";
                  line.style.width = 0.0001*zoom+"%";
-                 line.style.height = dst*zoom*0.046+"%";
+                 line.style.height = dst*zoom*0.0483+"%";
                  /*
                          let lodClass = "lod_"+lod
                          div.className = "grid_tile";
@@ -154,15 +176,13 @@ function indicateAdventure(adv, htmlElement, mapDiv, statusMap, cursorPos) {
                  }
 
              } else {
-                 if (adv.mapElements.nodeDivs[i]) {
-                     DomUtils.removeDivElement(adv.mapElements.nodeDivs[i]);
-                     MATH.splice(advNodeDivs, adv.mapElements.nodeDivs[i])
-                     adv.mapElements.nodeDivs[i] = false;
+                 if (mapElements.nodeDivs[i]) {
+                     DomUtils.removeDivElement(mapElements.nodeDivs[i]);
+                     mapElements.nodeDivs[i] = false;
                  }
-                 if (adv.mapElements.lineDivs[i]) {
-                     DomUtils.removeDivElement(adv.mapElements.lineDivs[i]);
-                     MATH.splice(advLineDivs, adv.mapElements.lineDivs[i])
-                     adv.mapElements.lineDivs[i] = false;
+                 if (mapElements.lineDivs[i]) {
+                     DomUtils.removeDivElement(mapElements.lineDivs[i]);
+                     mapElements.lineDivs[i] = false;
                  }
              }
 
@@ -170,16 +190,12 @@ function indicateAdventure(adv, htmlElement, mapDiv, statusMap, cursorPos) {
         wasVisible = visible;
     }
 
-
 }
 
 function indicateAdventures(htmlElement, mapDiv, statusMap, cursorPos){
     MATH.emptyArray(visibleAdvs);
     MATH.emptyArray(visibleNodes);
-    let allAdventures = GameAPI.gameAdventureSystem.getWorldAdventures();
-    let worldLevel = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
-
-    let advs = allAdventures[worldLevel];
+    let advs = GameAPI.gameAdventureSystem.getWorldAdventures();
 
     for (let i = 0; i < advs.length; i++) {
         let adv = advs[i];
@@ -890,23 +906,8 @@ class DomWorldmap {
             elemECoords(e);
             pointerVec3.copy(ThreeAPI.tempVec3);
 
-
-
             if (dragListen === true) {
-                /*
-                if (transition !== null) {
-                    transition.cancelSpatialTransition()
-                }
-                let dragDeltaX = ThreeAPI.tempVec3.x - startDragX;
-                let dragDeltaY = ThreeAPI.tempVec3.z - startDragY;
-                frameDragX = dragDeltaX-lastDragX;
-                frameDragY = dragDeltaY-lastDragY;
-                lastDragX = frameDragX;
-                lastDragY = frameDragY;
-                ThreeAPI.getCameraCursor().getLookAroundPoint().x = MATH.clamp(ThreeAPI.getCameraCursor().getLookAroundPoint().x -frameDragX*0.02/statusMap.zoom, -worldSize*0.5, worldSize*0.5);
-                ThreeAPI.getCameraCursor().getLookAroundPoint().z = MATH.clamp( ThreeAPI.getCameraCursor().getLookAroundPoint().z -frameDragY*0.02/statusMap.zoom, -worldSize*0.5, worldSize*0.5);
-                ThreeAPI.getCameraCursor().getLookAroundPoint().y = ThreeAPI.terrainAt(ThreeAPI.getCameraCursor().getLookAroundPoint())
-            */
+
                 positionDestinationPointer()
 
             } else {
@@ -1120,9 +1121,7 @@ class DomWorldmap {
                     clearDivArray(vegetationDivs);
                     clearDivArray(physicsDivs);
                     clearDivArray(locationDivs);
-                    clearDivArray(advPointDivs);
-                    clearDivArray(advLineDivs);
-                    clearDivArray(advNodeDivs);
+                    clearAdventureDivs();
 
                     statusMap.worldLevel = GameAPI.gameMain.getWorldLevelConfig(worldLevel).name;
 
@@ -1189,10 +1188,7 @@ class DomWorldmap {
                 if (showAdventures) {
                     indicateAdventures(htmlElement, mapDiv, statusMap, cursorPos)
                 } else {
-                    clearDivArray(advPointDivs);
-                    clearDivArray(advLineDivs);
-                    clearDivArray(advNodeDivs);
-
+                    clearAdventureDivs();
                 }
 
             }

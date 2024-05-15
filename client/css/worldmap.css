@@ -669,7 +669,7 @@ div.adv_line {
     border-width: 0.1em;
     display: block;
     transform-origin: top;
-    transform: translate3d(-50%, 0, 0);
+    transform: translate3d(50%, 0, 0);
 }
 
 div.grid_tile {
