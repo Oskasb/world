@@ -8,10 +8,10 @@ class WorldAdventure {
         this.config = {
             nodes:[]
         }
-        
+
         let applyLoadedConfig = function(cfg) {
             console.log("applyLoadedConfig", cfg, this)
-            MATH.vec3FromArray(this.getPos(), cfg.pos)
+            MATH.vec3FromArray(this.getPos(), cfg.nodes[0].pos)
             this.config = cfg;
         }.bind(this);
 

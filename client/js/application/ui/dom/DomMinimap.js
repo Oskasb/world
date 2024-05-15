@@ -132,13 +132,8 @@ function indicateTenMeterScale(tenMeterIndicators, htmlElement, minimapDiv, stat
 
     let zoom = statusMap.zoom;
     let zoomFactor = calcMapMeterToDivPercent(zoom, worldSize) * 500;
-    let trY0 = 49-zoomFactor
-    let trY1 = 49+zoomFactor
-
-  //  tenMeterIndicators[0].style.top = trY0+'%';
-  //  tenMeterIndicators[1].style.top = trY1+'%';
-  //  tenMeterIndicators[2].style.left = trY0+'%';
-  //  tenMeterIndicators[3].style.left = trY1+'%';
+    let trY0 = -zoomFactor
+    let trY1 = zoomFactor
 
     DomUtils.translateElement3DPercent(tenMeterIndicators[0], 0, trY0, 0);
     DomUtils.translateElement3DPercent(tenMeterIndicators[1], 0, trY1, 0);

@@ -201,6 +201,7 @@ div.indicator_10m {
     display: inline-block;
     padding: 0;
     box-shadow: 0 0 0.4em rgba(0, 0, 0, 1);
+    transform-origin: center;
 }
 
 div.indicator_path {

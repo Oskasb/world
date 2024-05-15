@@ -109,20 +109,6 @@ div.level_01 {
 background-image: url("/client/assets/images/textures/worldmap_w01_01.png");
 }
 
-div.indicator_10m {
-position: absolute;
-top: 50%;
-left: 50%;
-margin: 0;
-width: 0.3em;
-height: 0.3em;
-background-color: rgba(255, 237, 244, 0.5);
-border-radius: 50%;
-display: inline-block;
-padding: 0;
-box-shadow: 0 0 0.4em rgba(0, 0, 0, 1);
-}
-
 div.indicator_path {
 position: absolute;
 top: 50%;

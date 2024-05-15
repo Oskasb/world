@@ -95,7 +95,6 @@ class DomEditAdventure {
             wAdv.call.applyLoadedConfig(defaultCfg);
 
             wAdv.getPos().copy(ThreeAPI.getCameraCursor().getLookAroundPoint())
-            MATH.vec3ToArray(wAdv.getPos(), wAdv.config.pos, 10);
             wAdv.id = wAdv.config.edit_id
             addNodeToAdventureAtPos(wAdv, wAdv.getPos())
             let worldLevel = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
@@ -112,12 +111,8 @@ class DomEditAdventure {
 
         function loadTemplate(statMap) {
             console.log("loadTemplate:", statMap, addToolStatusMap);
-            let pos = ThreeAPI.getCameraCursor().getLookAroundPoint();
-            MATH.vec3ToArray(pos, addToolStatusMap.config.pos);
             statMap.parent.call.applyLoadedConfig(addToolStatusMap.config, statMap.id, true);
             saveAdventureEdits(statMap.parent);
-
-
         }
 
 
