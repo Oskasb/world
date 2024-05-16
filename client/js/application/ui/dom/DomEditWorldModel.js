@@ -219,13 +219,13 @@ class DomEditWorldModel {
 
                 statusMap.header = worldModel.config.model
 
-                let div = rootElem;
+
                 let pos = worldModel.getPos();
             //    div.value = model;
                 evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:ThreeAPI.getCameraCursor().getPos(), to:pos, color:'YELLOW'});
                 ThreeAPI.toScreenPosition(pos, tempVec);
-                div.style.top = 35-tempVec.y*(100/frustumFactor)+"%";
-                div.style.left = 60+tempVec.x*(100/frustumFactor)+"%";
+                rootElem.style.top = 35-tempVec.y*(100/frustumFactor)+"%";
+                rootElem.style.left = 60+tempVec.x*(100/frustumFactor)+"%";
             }
 
         };
