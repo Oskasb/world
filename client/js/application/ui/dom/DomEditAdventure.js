@@ -203,8 +203,23 @@ class DomEditAdventure {
             poolReturn(cursor);
         }
 
+        let activeAdventure = null;
+
+        function closeActiveAdventure() {
+            if (activeAdventure !== null) {
+                activeAdventure.call.deactivateAdventure();
+                activeAdventure = null;
+            }
+        }
+
+
+
         let divClicked = function(e) {
+            closeActiveAdventure();
+
             let adventure = e.target.value
+            activeAdventure = adventure;
+            activeAdventure.call.activateAdventure();
             console.log("Activated", selectedTool, adventure);
             idLabelDiv.innerHTML = adventure.id;
             adventure.config = detachConfig(adventure.config);
@@ -217,8 +232,9 @@ class DomEditAdventure {
                     let onClick = function(crsr) {
                         console.log("Clicked Cursor", crsr)
                         closeEditCursor(crsr.htmlElement);
+                        closeButtonLayer()
                         idLabelDiv.innerHTML = adventure.id;
-                        close();
+                    //    close();
                         if (activeTool === null) {
                             activeTool = poolFetch('DomEditAdventureNodes')
                             activeTool.call.setAdventure(adventure);
@@ -290,18 +306,20 @@ class DomEditAdventure {
                 }
             }
         }
-
+        function closeButtonLayer() {
+            if (buttonLayer !== null) {
+                buttonLayer.closeWorldButtonLayer();
+                buttonLayer = null;
+            }
+        }
         let close = function() {
-
+            closeActiveAdventure()
             idLabelDiv.innerHTML = "--No Selection--";
             while (locationModelDivs.length) {
                 DomUtils.removeDivElement(locationModelDivs.pop());
             }
             closeEditCursors()
-            if (buttonLayer !== null) {
-                buttonLayer.closeWorldButtonLayer();
-                buttonLayer = null;
-            }
+            closeButtonLayer()
         }
 
         this.call = {

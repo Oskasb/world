@@ -9,6 +9,7 @@ class WorldAdventure {
         this.config = {
             nodes:[]
         }
+        let activeAdventures = GameAPI.gameAdventureSystem.getActiveWorldAdventures()
 
         this.adventureNodes = [];
 
@@ -20,6 +21,7 @@ class WorldAdventure {
 
 
         let update = function() {
+            MATH.vec3FromArray(this.getPos(), this.config.nodes[0].pos)
             if (this.adventureNodes.length !== this.config.nodes.length) {
                 closeActiveNodes();
             }
@@ -37,16 +39,17 @@ class WorldAdventure {
             while(this.adventureNodes.length) {
                 let node = this.adventureNodes.pop();
                 node.deactivateAdventureNode();
-                node.adventure = null;
                 poolReturn(node);
             }
         }.bind(this)
 
         let activateAdventure = function() {
+            activeAdventures.push(this)
             GameAPI.registerGameUpdateCallback(update);
-        }.bind(this);
+           }.bind(this);
 
         let deactivateAdventure = function() {
+            MATH.splice(activeAdventures, this);
             closeActiveNodes();
             GameAPI.unregisterGameUpdateCallback(update);
         }.bind(this);

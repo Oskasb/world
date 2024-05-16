@@ -142,6 +142,64 @@ function indicateTenMeterScale(tenMeterIndicators, htmlElement, minimapDiv, stat
 
 }
 
+let adventureIndicators = []
+
+function updateActiveAdventures(activeAdventures, htmlElement, minimapDiv, statusMap, centerPos) {
+    while (activeAdventures.length < adventureIndicators.length) {
+        DomUtils.removeDivElement(adventureIndicators.pop())
+    }
+    while (activeAdventures.length > adventureIndicators.length) {
+        let indicator = DomUtils.createDivElement(minimapDiv, 'indicator_adv_'+adventureIndicators.length, '', 'heading')
+        adventureIndicators.push(indicator);
+    }
+
+    let zoom = statusMap.zoom;
+    let zoomFactor = calcMapMeterToDivPercent(zoom, worldSize);
+    let cursorPos = centerPos;
+
+    for (let i = 0; i < activeAdventures.length; i++) {
+        let adv = activeAdventures[i];
+        let indicator = adventureIndicators[i];
+        let pos = adv.getPos();
+
+        tempVec2.set(pos.x-cursorPos.x, pos.z-cursorPos.z);
+        let distance = tempVec2.length(); // is in units m from cursor (Center of minimap)
+
+        if (distance > 150) {
+            if (indicator.style.display !== 'none') {
+                indicator.style.display = 'none';
+            }
+        } else {
+            if (indicator.style.display === 'none') {
+                indicator.style.display = 'block';
+            }
+
+            let mapPctX = tempVec2.x*zoomFactor
+            let mapPctZ = tempVec2.y*zoomFactor
+
+            let top = -25 + mapPctZ * 16 // + '%';
+            let left = 50 + mapPctX * 16 // + '%';
+            let angle = 0.74;
+
+            DomUtils.transformElement3DPercent(indicator, left, top, 0, angle);
+
+            let rgba2 = "rgba(255, 255, 0, 1)";
+            let rgba = "rgba(155, 155, 0, 0.3)";
+
+            if (indicator.style.borderColor !== rgba2) {
+                indicator.style.borderColor = rgba2
+            }
+
+                if (indicator.style.backgroundColor !== rgba) {
+                    indicator.style.backgroundColor = rgba;
+                }
+
+        }
+
+    }
+
+}
+
 function indicateActors(htmlElement, minimapDiv, statusMap, centerPos, inCombat) {
     let actors = GameAPI.getGamePieceSystem().getActors()
     while (actors.length < actorIndicators.length) {
@@ -187,8 +245,8 @@ function indicateActors(htmlElement, minimapDiv, statusMap, centerPos, inCombat)
                     mapPctZ = tempVec2.y;
                 }
             }
-            let top = -25 + mapPctZ * 20 // + '%';
-            let left = 50 + mapPctX * 20 // + '%';
+            let top = -25 + mapPctZ * 16 // + '%';
+            let left = 50 + mapPctX * 16 // + '%';
             let angle = -MATH.eulerFromQuaternion(actor.getSpatialQuaternion(actor.actorObj3d.quaternion)).y + MATH.HALF_PI * 0.5 // Math.PI //;
 
             DomUtils.transformElement3DPercent(indicator, left, top, 0, angle);
@@ -342,6 +400,7 @@ class DomMinimap {
     constructor() {
         let htmlElement = new HtmlElement();
         let inCombat = false;
+        let activeAdventures = GameAPI.gameAdventureSystem.getActiveWorldAdventures()
 
         let statusMap = {
             x :0,
@@ -532,6 +591,11 @@ class DomMinimap {
                     updateTravelPath(lastFramePos, statusMap);
                     updateMinimapCenter(htmlElement, minimapDiv, statusMap, centerPos, inCombat);
                     indicateTenMeterScale(tenMeterIndicators, htmlElement, minimapDiv, statusMap)
+                }
+                if (!inCombat) {
+                    updateActiveAdventures(activeAdventures, htmlElement, minimapDiv, statusMap, centerPos);
+                } else {
+                    updateActiveAdventures([], htmlElement, minimapDiv, statusMap, centerPos);
                 }
 
                 indicateActors(htmlElement, minimapDiv, statusMap, centerPos, inCombat)

@@ -3,7 +3,7 @@ import {MATH} from "../../MATH.js";
 import {paletteKeys} from "../../../game/visuals/Colors.js";
 import {detachConfig, saveAdventureEdits} from "../../utils/ConfigUtils.js";
 import {Vector3} from "../../../../libs/three/math/Vector3.js";
-import {addNodeToAdventureAtPos} from "../../utils/AdventureUtils.js";
+import {addNodeToAdventureAtPos, saveAdventureNodeEdit} from "../../utils/AdventureUtils.js";
 
 let operationsList = [
     "ADD_NODE",
@@ -48,15 +48,19 @@ class DomEditAdventureNodes {
             let cursor = poolFetch('DomEditCursor')
             cursors.push(cursor);
 
-            let onClick = function() {
+            let onClick = function(crsr) {
                 console.log("Apply Edit to Node", node, node.call.getConfig())
+                closeButtonLayer()
+                crsr.closeDomEditCursor();
+                poolReturn(crsr);
+                let editNode = poolFetch('DomEditAdventureNode');
+                editNode.call.setAdventureNode(node);
             }
 
             let applyCursorUpdate = function(obj3d, grid) {
                 let config = node.call.getConfig();
                 MATH.vec3ToArray(obj3d.position, config.pos, 10);
-                node.adventure.config = detachConfig(node.adventure.config)
-                saveAdventureEdits(node.adventure);
+                saveAdventureNodeEdit(node)
             }
 
             let closeEditCursor = function() {
@@ -70,6 +74,8 @@ class DomEditAdventureNodes {
 
         let updateSelectedOperation = function() {
        //     closeEditAttach()
+            closeButtonLayer()
+
             console.log("updateSelectedOperation", selectedOperation)
             if (selectedOperation === "") {
                 applyOperationDiv.style.opacity = "0.4";
@@ -99,6 +105,10 @@ class DomEditAdventureNodes {
                 addNodeToAdventureAtPos(adventure, pos);
             }
 
+            if (selectedOperation === 'EDIT_NODES') {
+                updateSelectedOperation();
+            }
+
         }
 
         let htmlReady = function(htmlEl) {
@@ -120,7 +130,6 @@ class DomEditAdventureNodes {
 
         function setAdventure(adv) {
             adventure = adv;
-            adventure.call.activateAdventure();
             visualEdgeCircle = poolFetch('VisualEdgeCircle')
             visualEdgeCircle.on();
         }
@@ -197,7 +206,7 @@ class DomEditAdventureNodes {
                     line.to.copy(tempVec2);
                     line.recalcPoints = true;
                 }
-                
+
                 tempVec.copy(tempVec2);
 
                 MATH.vec3FromArray(tempVec, nodes[i].pos)
@@ -256,14 +265,17 @@ class DomEditAdventureNodes {
 
         }
 
+        function closeButtonLayer() {
+            if (buttonLayer !== null) {
+                buttonLayer.closeWorldButtonLayer();
+                buttonLayer = null;
+            }
+        }
+
         let close = function() {
-
             clearIndicators()
-            adventure.call.deactivateAdventure();
             adventure = null;
-
-
-
+            closeButtonLayer()
         }
 
         this.call = {

@@ -1,5 +1,5 @@
 import {MATH} from "../MATH.js";
-import {saveAdventureEdits} from "./ConfigUtils.js";
+import {detachConfig, parseConfigDataKey, saveAdventureEdits} from "./ConfigUtils.js";
 
 function addNodeToAdventureAtPos(adventure, pos) {
     let nodeCfg = {
@@ -10,6 +10,13 @@ function addNodeToAdventureAtPos(adventure, pos) {
     saveAdventureEdits(adventure);
 }
 
+function saveAdventureNodeEdit(node) {
+    node.adventure.config = detachConfig(node.adventure.config)
+    saveAdventureEdits(node.adventure)
+}
+
+
 export {
-    addNodeToAdventureAtPos
+    addNodeToAdventureAtPos,
+    saveAdventureNodeEdit
 }

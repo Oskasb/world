@@ -93,7 +93,7 @@ function indicateAdventure(adv, htmlElement, mapDiv, statusMap, cursorPos) {
         }
 
         let div = mapElements.posDiv;
-        let rad = adv.config.radius;
+        let rad = 3;
 
         worldPosDiv(pos, cursorPos, div, zoom);
 
@@ -104,7 +104,7 @@ function indicateAdventure(adv, htmlElement, mapDiv, statusMap, cursorPos) {
         div.style.width = w+"%";
         div.style.height = h+"%";
 
-        if (zoom > 7) {
+        if (zoom > 17) {
             div.innerHTML = '<p>'+adv.id+'</p>'
         } else {
             div.innerHTML = ''
@@ -169,7 +169,7 @@ function indicateAdventure(adv, htmlElement, mapDiv, statusMap, cursorPos) {
                              let a = 0.3
                              div.style.borderColor = "rgba("+r+", 255, "+b+", "+a+")"
                         //  */
-                 if (zoom > 7) {
+                 if (zoom > 32) {
                      div.innerHTML = '<p>'+i+'</p>'
                  } else {
                      div.innerHTML = ''
@@ -748,6 +748,7 @@ function attachWorldLevelNavigation(container) {
 class DomWorldmap {
     constructor(closeCb) {
         let htmlElement = new HtmlElement();
+        let activeAdventures = GameAPI.gameAdventureSystem.getActiveWorldAdventures()
         let transition = null;
         let mapDiv = null;
         let mapImageDiv = null;
@@ -1100,6 +1101,8 @@ class DomWorldmap {
 
                 updateGridLines(mapDiv, cursorPos, lineSpacing, mapWidth, mapHeight, statusMap.offsetX, statusMap.offsetY, zoom)
             //    DomUtils.setElementClass()
+
+
 
                 let selectedActor = GameAPI.getGamePieceSystem().selectedActor;
                 if (selectedActor) {
