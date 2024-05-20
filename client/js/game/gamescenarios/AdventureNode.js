@@ -4,6 +4,8 @@ import {EncounterIndicator} from "../visuals/EncounterIndicator.js";
 import {parseConfigDataKey} from "../../application/utils/ConfigUtils.js";
 import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
 
+let nodeFx = {};
+nodeFx[""] = {}
 
 class AdventureNode {
     constructor() {
@@ -30,6 +32,10 @@ class AdventureNode {
         }
 
         function update() {
+
+            let nodeType = getConfig().nodeType || "";
+
+
             MATH.vec3FromArray(pos, getConfig().pos);
         }
 
@@ -38,6 +44,7 @@ class AdventureNode {
         }
 
         this.call = {
+
             spawnNodeHost:spawnNodeHost,
             despawnNodeHost:despawnNodeHost,
             getConfig:getConfig,

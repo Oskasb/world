@@ -69,6 +69,18 @@ class EncounterIndicator {
 
     }
 
+    setSpriteXY(x, y) {
+        this.encounterFx.setEffectSpriteXY(x, y);
+    }
+
+    setRGBA(rgba) {
+        this.encounterFx.setEffectColorRGBA(rgba)
+    }
+
+    setSize(size) {
+        this.encounterFx.scaleEffectSize(size);
+    }
+
     applyIndicatorConfig(config) {
         this.config = config;
     }
