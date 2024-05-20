@@ -6,6 +6,7 @@ let releasedIndices = [];
 class InstanceAPI {
     constructor() {
     //    console.log('INIT InstanceAPI');
+
         this.bufferCount = 0;
         this.modelCount = 0;
         this.tempVec = new THREE.Vector3();
@@ -95,7 +96,7 @@ class InstanceAPI {
     };
 
 
-    bindGeometryInstance = function(geoIns) {
+    bindGeometryInstance(geoIns) {
         let id = geoIns.id;
         if (this.frameChanges.indexOf(id) === -1) {
             this.frameChanges.push(id);
@@ -120,8 +121,10 @@ class InstanceAPI {
         geoIns.initBuffers();
         geoIns.index = this.instances[id].length;
         this.instances[id].push(geoIns);
-        this.instanceBuffers[id].setInstancedCount(this.instances[id].length)
-    //    this.addedInstances[id].push(geoIns);
+
+        let iCount = this.instances[id].length
+        this.updateInstanceBufferIdCount(id, iCount)
+
     }
 
     instantiateGeometry = function(id, callback) {
@@ -182,7 +185,7 @@ class InstanceAPI {
 
             instanceBuffers.setRenderOrder(order)
             instanceBuffers.setInstancedCount(1);
-            instanceBuffers.setDrawRange(1)
+
             this.uiSystems[uiSysId].push(instanceBuffers);
 
         }.bind(this);
@@ -234,12 +237,23 @@ class InstanceAPI {
         let instances = this.instances[id];
         for (let i = lowestReleasedIndex; i < instances.length; i++) {
             let srcIndex = instances[i].index;
+            let srcAttributes = instances[i].instancingBuffers.attributes
             instances[i].index = i;
-            instances[i].copyAttributesByIndex(srcIndex);
+            instances[i].copyAttributesByIndex(srcIndex, srcAttributes);
         }
     }
 
-    updateInstances = function() {
+
+
+
+    updateInstanceBufferIdCount(id, count) {
+
+        let iBuff = this.instanceBuffers[id]
+            iBuff.setInstancedCount(count)
+
+    }
+
+    updateInstances() {
 
         let iCount = 0;
 
@@ -247,7 +261,9 @@ class InstanceAPI {
             let id = this.frameChanges.pop();
 
             this.processRemovedInstances(id);
-            this.instanceBuffers[id].setInstancedCount(this.instances[id].length )
+            let iCount = this.instances[id].length
+            this.updateInstanceBufferIdCount(id, iCount)
+
         }
 
         let updateUiSystemBuffers = function(instanceBuffers) {

@@ -253,7 +253,7 @@
         {"id": "model_settings_items" ,
           "config": {
             "instancing": {
-              "instances": 50,
+              "instances": 25,
               "attributes": ["offset", "vertexColor", "scale3d", "orientation", "sprite", "texelRowSelect"],
               "cameraspace": false
             },

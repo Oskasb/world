@@ -228,15 +228,15 @@
         {"id": "asset_tree_1",      "config": { "model": "file_tree_1" ,      "material": "mat_instancing_simple",     "settings": "model_settings_instancing_100"     }},
         {"id": "asset_tree_2",      "config": { "model": "file_tree_2" ,      "material": "mat_instancing_simple",     "settings": "model_settings_instancing_100"     }},
         {"id": "asset_tree_3",      "config": { "model": "file_tree_3" ,      "material": "mat_instancing_simple",     "settings": "model_settings_instancing_100"     }},
-        {"id": "asset_tree_4",      "config": { "model": "file_tree_4" ,      "material": "mat_instancing_simple",     "settings": "model_settings_instancing_250"     }},
+        {"id": "asset_tree_4",      "config": { "model": "file_tree_4" ,      "material": "mat_instancing_simple",     "settings": "model_settings_instancing_150"     }},
         {"id": "asset_tree_5",      "config": { "model": "file_tree_5_big" ,  "material": "mat_instancing_simple",     "settings": "model_settings_instancing_250"     }},
 
-        {"id": "asset_palm_1",      "config": { "model": "file_palm_1" ,      "material": "mat_instancing_simple",     "settings": "model_settings_instancing_250"     }},
-        {"id": "asset_palm_2",      "config": { "model": "file_palm_2" ,      "material": "mat_instancing_simple",     "settings": "model_settings_instancing_250"     }},
+        {"id": "asset_palm_1",      "config": { "model": "file_palm_1" ,      "material": "mat_instancing_simple",     "settings": "model_settings_instancing_50"     }},
+        {"id": "asset_palm_2",      "config": { "model": "file_palm_2" ,      "material": "mat_instancing_simple",     "settings": "model_settings_instancing_100"     }},
 
-        {"id": "asset_pine_1",      "config": { "model": "file_pine_1" ,      "material": "mat_instancing_simple",     "settings": "model_settings_instancing_250"     }},
-        {"id": "asset_pine_2",      "config": { "model": "file_pine_2" ,      "material": "mat_instancing_simple",     "settings": "model_settings_instancing_250"     }},
-        {"id": "asset_pine_3",      "config": { "model": "file_pine_3" ,      "material": "mat_instancing_simple",     "settings": "model_settings_instancing_250"     }},
+        {"id": "asset_pine_1",      "config": { "model": "file_pine_1" ,      "material": "mat_instancing_simple",     "settings": "model_settings_instancing_50"     }},
+        {"id": "asset_pine_2",      "config": { "model": "file_pine_2" ,      "material": "mat_instancing_simple",     "settings": "model_settings_instancing_150"     }},
+        {"id": "asset_pine_3",      "config": { "model": "file_pine_3" ,      "material": "mat_instancing_simple",     "settings": "model_settings_instancing_100"     }},
 
         {"id": "asset_convex_tree_1",      "config": { "model": "file_convex_tree_1" ,      "material": "mat_instancing_basic",     "settings": "model_settings_instancing_1"     }},
         {"id": "asset_convex_tree_1_1",      "config": { "model": "file_convex_tree_1_1" ,      "material": "mat_instancing_basic",     "settings": "model_settings_instancing_1"     }},

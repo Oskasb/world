@@ -5,7 +5,7 @@ let lodCenter = null;
 let skippedFrames = 0;
 let updateVegetationSystem = function() {
     let tpf = GameAPI.getFrame().tpf;
-    if (tpf < 0.02 + skippedFrames*0.002) {
+    if (tpf < 0.03 + skippedFrames*0.01) {
         vegetation.updateVegetation(lodCenter)
         skippedFrames= 0;
     } else {

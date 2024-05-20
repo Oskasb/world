@@ -1,8 +1,6 @@
 import {InstancedBufferGeometry} from "../../../../libs/three/core/InstancedBufferGeometry.js";
 import {BufferAttribute} from "../../../../libs/three/core/BufferAttribute.js";
 import {Mesh} from "../../../../libs/three/objects/Mesh.js";
-import {InstancedInterleavedBuffer} from "../../../../libs/three/core/InstancedInterleavedBuffer.js";
-import {InterleavedBufferAttribute} from "../../../../libs/three/core/InterleavedBufferAttribute.js";
 import {InstancedBufferAttribute} from "../../../../libs/three/Three.js";
 import {Box3, Sphere} from "../../../../libs/three/Three.js";
 
@@ -11,6 +9,8 @@ let countTotal = 0;
 
 class InstanceBuffer {
     constructor(verts, uvs, indices, normals) {
+
+
         this.maxInstanceCount = null;
         this.registeredAttributes = [];
         this.attributes = {};
@@ -19,7 +19,6 @@ class InstanceBuffer {
         this.isCameraSpace = false;
         this.mesh;
     };
-
 
 
     buildGeometry = function(verts, uvarray, indices, normals) {
@@ -168,17 +167,21 @@ class InstanceBuffer {
         this.geometry.needsUpdate = true;
     };
 
-    copyBufferAttributesFromTo(fromIndex, toIndex) {
+    copyBufferAttributesFromTo(fromIndex, srcAttributes, toIndex) {
 
         for (let i = 0; i < this.registeredAttributes.length; i++) {
             let setup = this.registeredAttributes[i];
         //    if (this.attributes[setup.name]) {
                 let attrib = this.attributes[setup.name];
                 let array = attrib.array;
+
+                let srcAttrib = srcAttributes[setup.name];
+                let scrArray = srcAttrib.array;
+
                 let fromStartIndex = fromIndex*attrib.itemSize;
                 let toStartIndex = toIndex*attrib.itemSize;
                 for (let i = 0; i < setup.attrib.dimensions; i++) {
-                    array[toStartIndex + i] = array[fromStartIndex +i];
+                    array[toStartIndex + i] = scrArray[fromStartIndex +i];
                 }
 
                 attrib.needsUpdate = true;
@@ -215,21 +218,26 @@ class InstanceBuffer {
     };
 
     setMaterial = function(material) {
-        this.mesh.material = material;;
+        this.mesh.material = material;
     };
 
-    setDrawRange = function(count) {
-        this.setInstancedCount(count)
-    };
+
+
 
     setInstancedCount(count) {
 
+        let mesh = this.mesh;
+
         if (count > this.maxInstanceCount) {
-            console.log("not enough buffers.. ",this.maxInstanceCount, count-this.maxInstanceCount, this)
+
+            let expansionIndex = Math.floor(count / this.maxInstanceCount);
+            console.log("handle overflowing instance buffer", expansionIndex, this.mesh.name)
+        } else {
+
         }
 
         if (this.isCameraSpace === false) {
-            if (this.mesh.geometry.instanceCount === 0) {
+            if (mesh.geometry.instanceCount === 0) {
                 if (count !== 0) {
                 //    console.log("Count++", activeGeometries)
                     this.addToScene();
@@ -240,8 +248,8 @@ class InstanceBuffer {
             }
         }
 
-        this.mesh.geometry.instanceCount = count;
-        this.mesh.geometry.needsUpdate = true;
+        mesh.geometry.instanceCount = count;
+        mesh.geometry.needsUpdate = true;
     };
 
     dispose = function() {

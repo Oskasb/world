@@ -76,8 +76,8 @@ class GeometryInstance {
         this.setVertexColor(1, 1, 1, 1)
     };
 
-    copyAttributesByIndex(index) {
-        this.instancingBuffers.copyBufferAttributesFromTo(index, this.index);
+    copyAttributesByIndex(index, srcAttributes) {
+        this.instancingBuffers.copyBufferAttributesFromTo(index, srcAttributes, this.index);
     }
 
 
