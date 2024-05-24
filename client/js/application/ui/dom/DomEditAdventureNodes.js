@@ -68,8 +68,7 @@ class DomEditAdventureNodes {
             }
 
             cursor.initDomEditCursor(closeEditCursor, node.obj3d, applyCursorUpdate, onClick);
-
-
+            
         }
 
         let updateSelectedOperation = function() {
@@ -86,12 +85,8 @@ class DomEditAdventureNodes {
 
             if (selectedOperation === "EDIT_NODES") {
                 console.log("Set operation EDIT_NODES")
-
                 buttonLayer = poolFetch('DomWorldButtonLayer');
-
                 buttonLayer.initWorldButtonLayer(adventure.getNodes(), selectedOperation, divClicked)
-
-
             }
 
         }
@@ -216,13 +211,8 @@ class DomEditAdventureNodes {
                 MATH.vec3FromArray(tempVec, nodes[nodes.length -1].pos)
             }
 
-        //    if (adventure !== null) {
-
-        //    }
-        //    MATH.roundVectorPlane(ThreeAPI.getCameraCursor().getPos(), targetObj3d.position, drawResolution);
             visualEdgeCircle.setPosition(pos);
             visualEdgeCircle.setRadius(radius);
-
 
             if (selectedOperation === 'ADD_NODE') {
                 let dst = ThreeAPI.getCameraCursor().getLookAroundPoint();

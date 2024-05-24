@@ -6,7 +6,7 @@ let tempVec = new Vector3()
 let frustumFactor = 0.828;
 
 
-let nodeTypesList = ["", "TRAVEL", "TREASURE", "ENCOUNTER"]
+let nodeTypesList = ["", "TRAVEL", "TREASURE", "ENCOUNTER", "BATTLE"]
 class DomEditAdventureNode {
     constructor() {
 
@@ -59,7 +59,6 @@ class DomEditAdventureNode {
         }
 
         function close() {
-            node.call.despawnNodeHost();
             ThreeAPI.unregisterPrerenderCallback(update)
 
             htmlElement.closeHtmlElement();

@@ -1,19 +1,14 @@
-import {Vector3} from "../../../libs/three/math/Vector3.js";
 import {Object3D} from "../../../libs/three/core/Object3D.js";
-import {EncounterIndicator} from "../visuals/EncounterIndicator.js";
-import {parseConfigDataKey} from "../../application/utils/ConfigUtils.js";
 import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
-
-let nodeFx = {};
-nodeFx[""] = {}
 
 class AdventureNode {
     constructor() {
 
         this.adventure = null;
         this.obj3d = new Object3D();
-        this.encounterIndicator = new EncounterIndicator(this.obj3d)
         let pos = this.obj3d.position;
+
+        let nodeType = null;
 
         let getConfig = function() {
             return this.adventure.call.getNodeConfig(this);
@@ -28,15 +23,20 @@ class AdventureNode {
 
         function despawnNodeHost() {
             nodeHost.deactivateNodeHost()
-                poolReturn(nodeHost)
+            poolReturn(nodeHost)
         }
+
 
         function update() {
 
-            let nodeType = getConfig().nodeType || "";
+            let cfg = getConfig();
+            let cfgType = cfg['node_type'] || "";
 
+            if (cfgType !== nodeType) {
+                nodeType = cfgType;
+            }
 
-            MATH.vec3FromArray(pos, getConfig().pos);
+            MATH.vec3FromArray(pos, cfg.pos);
         }
 
         function getPos() {
@@ -61,19 +61,13 @@ class AdventureNode {
     activateAdventureNode(adventure) {
         this.adventure = adventure;
         GameAPI.registerGameUpdateCallback(this.call.update);
-
-                    let onIndicatorData = function(config) {
-                        this.encounterIndicator.applyIndicatorConfig(config);
-                    }.bind(this)
-                    parseConfigDataKey("ENCOUNTER_INDICATORS", "INDICATORS",  'indicator_data', 'adventure_indicator', onIndicatorData)
-
-        this.encounterIndicator.showIndicator()
+        this.call.spawnNodeHost();
     }
 
     deactivateAdventureNode() {
         this.adventure = null;
         GameAPI.unregisterGameUpdateCallback(this.call.update);
-        this.encounterIndicator.hideIndicator()
+        this.call.despawnNodeHost();
     }
 
 }
