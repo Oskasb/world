@@ -1,6 +1,7 @@
 import {poolFetch, poolReturn} from "../../utils/PoolUtils.js";
 import {Vector3} from "../../../../libs/three/math/Vector3.js";
 import {saveAdventureNodeEdit} from "../../utils/AdventureUtils.js";
+import {ProceduralEncounterConfig} from "../../../game/encounter/ProceduralEncounterConfig.js";
 
 let tempVec = new Vector3()
 let frustumFactor = 0.828;
@@ -16,13 +17,37 @@ class DomEditAdventureNode {
         let htmlElement = null;
         let selectedNodeType = null;
 
+        let encounterEdit = null;
+
+
+
         function updateSelectedNodeType() {
 
             let config = node.call.getConfig();
+            config.node_type = selectedNodeType;
 
-        //    if (selectedNodeType !== "") {
-                config.node_type = selectedNodeType;
-         //   }
+            if (selectedNodeType === "ENCOUNTER" || selectedNodeType === "BATTLE") {
+
+                let encId = "enc_adv_"+config['node_id'];
+
+                let closeCb = function() {
+                    console.log("Edit Enc closed")
+                }
+
+                let onReadyCb = function(e) {
+                    e.call.setEditId(encId);
+                //    encounterEdit.initConfig()
+                    console.log("Edit Enc Tool Ready", encId, e)
+                }
+
+                let camPos = ThreeAPI.getCameraCursor().getLookAroundPoint();
+                camPos.copy(node.getPos());
+
+                encounterEdit = poolFetch('DomEditEncounter')
+                encounterEdit.initEditTool(closeCb, onReadyCb)
+            }
+
+
             saveAdventureNodeEdit(node);
         }
 

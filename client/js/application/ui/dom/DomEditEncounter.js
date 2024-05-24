@@ -63,10 +63,19 @@ class DomEditEncounter {
             selectList: templateList
         }
 
+        let forcedId = false;
 
+        let setEditId = function(editId) {
+            forcedId = editId;
+        }
 
         function initConfig(cfg) {
             let config = detachConfig(cfg);
+
+            if (forcedId !== false) {
+                config.edit_id = forcedId;
+            }
+
             let pos = ThreeAPI.getCameraCursor().getLookAroundPoint();
             MATH.vec3ToArray(pos, config.pos, 1);
             MATH.vec3FromArray(config.pos, pos);
@@ -76,6 +85,8 @@ class DomEditEncounter {
 
         function applySelection(id) {
             let config = initConfig(encounterTemplates[id]);
+
+
             console.log("Selection applySelection: ", id, config);
             GameAPI.worldModels.addConfigEncounter(config, config.edit_id, true);
         }
@@ -123,9 +134,8 @@ class DomEditEncounter {
         }
 
         let setSelectedTool = function(tool) {
+
             close()
-
-
 
             selectedTool = tool;
             statusMap.selectedTool = tool;
@@ -138,7 +148,14 @@ class DomEditEncounter {
                 applyContainerDiv.style.display = "none"
                 let cfg = new ProceduralEncounterConfig()
                 cfg.generateConfig(ThreeAPI.getCameraCursor().getLookAroundPoint(), 1);
+
+                if (forcedId !== false) {
+                    cfg.config.edit_id = forcedId;
+                }
+
                 addToolStatusMap.config = detachConfig(cfg.config)
+
+
                 addToolStatusMap.id = addToolStatusMap.config.edit_id;
                 activeTool = poolFetch('DomEditAdd');
                 activeTool.call.setStatusMap(addToolStatusMap)
@@ -362,6 +379,8 @@ class DomEditEncounter {
         }
 
         this.call = {
+            setEditId:setEditId,
+            initConfig:initConfig,
             htmlReady:htmlReady,
             update:update,
             close:close
@@ -384,6 +403,7 @@ class DomEditEncounter {
 
     closeEditTool() {
         this.call.close();
+        this.call.setEditId(false)
         ThreeAPI.unregisterPrerenderCallback(this.call.update);
         this.htmlElement.closeHtmlElement();
         poolReturn(this.htmlElement);

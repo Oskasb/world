@@ -68,7 +68,7 @@ class DomEditAdventureNodes {
             }
 
             cursor.initDomEditCursor(closeEditCursor, node.obj3d, applyCursorUpdate, onClick);
-            
+
         }
 
         let updateSelectedOperation = function() {
