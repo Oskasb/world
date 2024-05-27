@@ -16,9 +16,7 @@ class DomEditAdventureNode {
         let rootElem = null;
         let htmlElement = null;
         let selectedNodeType = null;
-
         let encounterEdit = null;
-
 
 
         function updateSelectedNodeType() {
@@ -28,16 +26,16 @@ class DomEditAdventureNode {
 
             if (selectedNodeType === "ENCOUNTER" || selectedNodeType === "BATTLE") {
 
-                let encId = "enc_adv_"+config['node_id'];
+                let nodeId = config['node_id'];
 
                 let closeCb = function() {
                     console.log("Edit Enc closed")
                 }
 
                 let onReadyCb = function(e) {
-                    e.call.setEditId(encId);
+                    e.call.setNodeId(nodeId);
                 //    encounterEdit.initConfig()
-                    console.log("Edit Enc Tool Ready", encId, e)
+                    console.log("Edit Enc Tool Ready", nodeId, e)
                 }
 
                 let camPos = ThreeAPI.getCameraCursor().getLookAroundPoint();
@@ -45,8 +43,8 @@ class DomEditAdventureNode {
 
                 encounterEdit = poolFetch('DomEditEncounter')
                 encounterEdit.initEditTool(closeCb, onReadyCb)
-            }
 
+            }
 
             saveAdventureNodeEdit(node);
         }

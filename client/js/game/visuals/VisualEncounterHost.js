@@ -25,7 +25,7 @@ class VisualEncounterHost {
 
         let show = function() {
             deactivated = false;
-            if (actor) {
+            if (actor !== null) {
                 actor.activateGameActor();
             } else {
                 this.applyHostConfig(this.config, setActor);

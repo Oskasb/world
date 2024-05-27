@@ -1,5 +1,6 @@
 import {Object3D} from "../../../libs/three/core/Object3D.js";
 import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
+import {WorldEncounter} from "../encounter/WorldEncounter.js";
 
 class AdventureNode {
     constructor() {
@@ -9,6 +10,9 @@ class AdventureNode {
         let pos = this.obj3d.position;
 
         let nodeType = null;
+
+        let encounter = null;
+        let treasure = null;
 
         let getConfig = function() {
             return this.adventure.call.getNodeConfig(this);
@@ -26,6 +30,46 @@ class AdventureNode {
             poolReturn(nodeHost)
         }
 
+        function encReady(wEnc) {
+            encounter = wEnc;
+            wEnc.visualEncounterHost.removeEncounterHost();
+            console.log("Node Encounter ready ", encounter);
+        }
+
+        function updateNodeType() {
+            if (encounter !== null) {
+                encounter.removeWorldEncounter();
+                encounter = null;
+            }
+
+            if (treasure !== null) {
+                treasure.removeWorldTreasure();
+                treasure = null;
+            }
+
+            if (nodeType === "ENCOUNTER" || nodeType === "BATTLE") {
+                let nodeId = getConfig()['node_id'];
+                let nodeCfgs = GameAPI.worldModels.getNodeEncounterConfigs()
+                let encCfg = nodeCfgs[nodeId]
+                if (!encCfg) {
+                    nodeType = 'UGLY_LOADING_ASYNC'
+                    console.log("No config yet...", nodeId, nodeCfgs)
+                } else {
+                    new WorldEncounter(encCfg.edit_id, encCfg, encReady)
+                }
+
+            }
+
+            if (nodeType === "TREASURE") {
+                console.log("Handle treasure node here..")
+            }
+
+            if (nodeType === "TRAVEL") {
+                console.log("Handle Travel Node type here..")
+            }
+
+        }
+
 
         function update() {
 
@@ -34,6 +78,7 @@ class AdventureNode {
 
             if (cfgType !== nodeType) {
                 nodeType = cfgType;
+                updateNodeType()
             }
 
             MATH.vec3FromArray(pos, cfg.pos);
@@ -65,9 +110,10 @@ class AdventureNode {
     }
 
     deactivateAdventureNode() {
+        this.call.despawnNodeHost();
         this.adventure = null;
         GameAPI.unregisterGameUpdateCallback(this.call.update);
-        this.call.despawnNodeHost();
+
     }
 
 }

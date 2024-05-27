@@ -30,6 +30,9 @@ class NodeHost {
 
 
         let update = function () {
+            if (this.node.adventure === null) {
+                return;
+            }
             let cfg = this.node.call.getConfig();
 
             let cfgType = cfg['node_type'] || "";

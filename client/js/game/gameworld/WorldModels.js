@@ -11,6 +11,7 @@ let locationModelConfigs;
 let worldModels = [];
 let worldBoxes = [];
 let worldEncounters = [];
+let nodeEncounterConfigs = {};
 let worldTreasures = [];
 let skippedTreasures = {};
 let skippedEncounters = {};
@@ -492,16 +493,24 @@ class WorldModels {
         if (save === true) {
             let onReady = function(wEnc) {
                 saveEncounterEdits(wEnc)
-            //    worldEncounters.push(wEnc);
-            //    wEnc.activateWorldEncounter();
             }
 
             new WorldEncounter(id, config, onReady)
         }
 
+
+        if (typeof (config['node_id']) === 'string') {
+            nodeEncounterConfigs[config['node_id']] = config;
+            console.log("Register Node Enc config ", id, nodeEncounterConfigs);
+        } else {
             let sPoint = GameAPI.worldModels.getEncounterSpawnPoint(id);
             sPoint.applyConfig(config);
+        }
 
+    }
+
+    getNodeEncounterConfigs() {
+        return nodeEncounterConfigs;
     }
 
     addConfigModel(config, id) {

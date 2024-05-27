@@ -65,15 +65,19 @@ class DomEditEncounter {
 
         let forcedId = false;
 
-        let setEditId = function(editId) {
-            forcedId = editId;
+        let nodeId = "";
+
+        let setNodeId = function(id) {
+            forcedId = true;
+            nodeId = id;
         }
 
         function initConfig(cfg) {
             let config = detachConfig(cfg);
 
             if (forcedId !== false) {
-                config.edit_id = forcedId;
+                config.edit_id = "enc_adv_"+nodeId;
+                config.node_id = nodeId;
             }
 
             let pos = ThreeAPI.getCameraCursor().getLookAroundPoint();
@@ -379,7 +383,7 @@ class DomEditEncounter {
         }
 
         this.call = {
-            setEditId:setEditId,
+            setNodeId:setNodeId,
             initConfig:initConfig,
             htmlReady:htmlReady,
             update:update,
@@ -403,7 +407,7 @@ class DomEditEncounter {
 
     closeEditTool() {
         this.call.close();
-        this.call.setEditId(false)
+        this.call.setNodeId(false)
         ThreeAPI.unregisterPrerenderCallback(this.call.update);
         this.htmlElement.closeHtmlElement();
         poolReturn(this.htmlElement);
