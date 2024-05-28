@@ -66,17 +66,21 @@ class WorldAdventure {
         }.bind(this)
 
 
-
-        let processActiveNode = function() {
-            if (activeNodeIndex !== targetNodeIndex) {
+        let activeNodeIndexUpdate = function() {
+            if (targetNodeIndex === -1) {
+                rootIndicator.showIndicator();
+            } else {
                 rootIndicator.hideIndicator();
-                let oldNode = this.adventureNodes[activeNodeIndex];
-                if (oldNode) {
-                    oldNode.call.deactivateAdventureNode()
-                }
+            }
 
-                activeNodeIndex = targetNodeIndex;
+            let oldNode = this.adventureNodes[activeNodeIndex];
+            if (oldNode) {
+                oldNode.deactivateAdventureNode()
+            }
 
+            activeNodeIndex = targetNodeIndex;
+
+            if (activeNodeIndex !== -1) {
                 let newNode = this.adventureNodes[activeNodeIndex];
                 if (!newNode) {
                     console.log("No new node.. there should be one")
@@ -84,6 +88,29 @@ class WorldAdventure {
 
                 if (newNode.isActive === false) {
                     newNode.activateAdventureNode(this)
+                }
+            }
+        }.bind(this)
+
+
+        let processActiveNode = function() {
+
+            if (activeNodeIndex !== targetNodeIndex) {
+                activeNodeIndexUpdate()
+            }
+
+            if (isStarted === false) {
+                let dst = MATH.distanceBetween(this.getPos(), ThreeAPI.getCameraCursor().getLookAroundPoint())
+                if (dst < 40) {
+                    startAdventure();
+                    if (activeNodeIndex === -1) {
+                        setTargetNodeIndex(0);
+                    }
+                } else {
+                    if (activeNodeIndex === 0) {
+                        stopAdventure();
+                        setTargetNodeIndex(-1);
+                    }
                 }
             }
 
