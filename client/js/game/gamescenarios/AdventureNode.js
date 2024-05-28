@@ -5,6 +5,7 @@ import {WorldEncounter} from "../encounter/WorldEncounter.js";
 class AdventureNode {
     constructor() {
 
+        this.isActive = false;
         this.adventure = null;
         this.obj3d = new Object3D();
         let pos = this.obj3d.position;
@@ -18,6 +19,8 @@ class AdventureNode {
             return this.adventure.call.getNodeConfig(this);
         }.bind(this);
 
+        let preDeactivated = false;
+
         let nodeHost = null;
         let spawnNodeHost = function() {
             console.log("spawnNodeHost", getConfig())
@@ -26,8 +29,12 @@ class AdventureNode {
         }.bind(this)
 
         function despawnNodeHost() {
-            nodeHost.deactivateNodeHost()
-            poolReturn(nodeHost)
+            if (nodeHost) {
+                nodeHost.deactivateNodeHost()
+                poolReturn(nodeHost)
+            } else {
+                preDeactivated = true;
+            }
         }
 
         function encReady(wEnc) {
@@ -104,12 +111,14 @@ class AdventureNode {
     }
 
     activateAdventureNode(adventure) {
+        this.isActive = true;
         this.adventure = adventure;
         GameAPI.registerGameUpdateCallback(this.call.update);
         this.call.spawnNodeHost();
     }
 
     deactivateAdventureNode() {
+        this.isActive = false;
         this.call.despawnNodeHost();
         this.adventure = null;
         GameAPI.unregisterGameUpdateCallback(this.call.update);

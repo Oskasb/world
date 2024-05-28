@@ -9,6 +9,10 @@ class WorldAdventure {
         this.config = {
             nodes:[]
         }
+
+        let targetNodeIndex = -1;
+        let activeNodeIndex = -1;
+
         let activeAdventures = GameAPI.gameAdventureSystem.getActiveWorldAdventures()
 
         this.adventureNodes = [];
@@ -17,19 +21,75 @@ class WorldAdventure {
             console.log("applyLoadedConfig", cfg, this)
             MATH.vec3FromArray(this.getPos(), cfg.nodes[0].pos)
             this.config = cfg;
+            ThreeAPI.clearTerrainLodUpdateCallback(lodUpdated)
+            ThreeAPI.registerTerrainLodUpdateCallback(this.getPos(), lodUpdated)
         }.bind(this);
 
 
-        let update = function() {
-            MATH.vec3FromArray(this.getPos(), this.config.nodes[0].pos)
+        let isActive = false;
+
+        let lodUpdated = function(lodLevel) {
+            if (lodLevel !== -1) {
+                if (isActive === false) {
+                    activateAdventure()
+                }
+            } else {
+                if (isActive === true) {
+                    deactivateAdventure()
+                }
+            }
+        }.bind(this);
+
+
+        let unrollAdventureNodes = function() {
             if (this.adventureNodes.length !== this.config.nodes.length) {
                 closeActiveNodes();
             }
 
             while (this.adventureNodes.length < this.config.nodes.length) {
                 let node = poolFetch('AdventureNode');
-                node.activateAdventureNode(this)
                 this.adventureNodes.push(node);
+            }
+
+        }.bind(this)
+
+
+
+        let processActiveNode = function() {
+            if (activeNodeIndex !== targetNodeIndex) {
+
+                let oldNode = this.adventureNodes[activeNodeIndex];
+                if (oldNode) {
+                    oldNode.call.deactivateAdventureNode()
+                }
+
+                activeNodeIndex = targetNodeIndex;
+
+                let newNode = this.adventureNodes[activeNodeIndex];
+                if (!newNode) {
+                    console.log("No new node.. there should be one")
+                }
+
+                if (newNode.isActive === false) {
+                    newNode.activateAdventureNode(this)
+                }
+            }
+
+        }.bind(this)
+
+        let update = function() {
+            MATH.vec3FromArray(this.getPos(), this.config.nodes[0].pos)
+            unrollAdventureNodes()
+
+            if (expandAll === true) {
+                for (let i = 0; i < this.adventureNodes.length; i++) {
+                    let node = this.adventureNodes[i];
+                    if (node.isActive === false) {
+                        node.activateAdventureNode(this)
+                    }
+                }
+            } else {
+                processActiveNode()
             }
 
         }.bind(this)
@@ -43,12 +103,18 @@ class WorldAdventure {
             }
         }.bind(this)
 
-        let activateAdventure = function() {
+        let expandAll = false;
+
+        let activateAdventure = function(expandAllNodes) {
+            expandAll = expandAllNodes || false;
+            targetNodeIndex = 0;
+            isActive = true;
             activeAdventures.push(this)
             GameAPI.registerGameUpdateCallback(update);
            }.bind(this);
 
         let deactivateAdventure = function() {
+            isActive = false;
             MATH.splice(activeAdventures, this);
             closeActiveNodes();
             GameAPI.unregisterGameUpdateCallback(update);

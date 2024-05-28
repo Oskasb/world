@@ -219,7 +219,7 @@ class DomEditAdventure {
 
             let adventure = e.target.value
             activeAdventure = adventure;
-            activeAdventure.call.activateAdventure();
+            activeAdventure.call.activateAdventure(true);
             console.log("Activated", selectedTool, adventure);
             idLabelDiv.innerHTML = adventure.id;
             adventure.config = detachConfig(adventure.config);
