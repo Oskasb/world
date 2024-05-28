@@ -6,9 +6,9 @@ let typeIndicators = {};
 
 typeIndicators[''] = 'unknown_indicator';
 typeIndicators['TRAVEL'] = 'travel_indicator';
-typeIndicators['TREASURE'] = 'treasure_indicator'
-typeIndicators['ENCOUNTER'] = 'encounter_indicator';
-typeIndicators['BATTLE'] = 'battle_indicator';
+typeIndicators['TREASURE'] = false
+typeIndicators['ENCOUNTER'] = false;
+typeIndicators['BATTLE'] = false;
 
 class NodeHost {
     constructor() {
@@ -20,13 +20,11 @@ class NodeHost {
         let nodeType = null;
 
 
-
         let onIndicatorData = function(config) {
             this.encounterIndicator.hideIndicator();
             this.encounterIndicator.applyIndicatorConfig(config);
             this.encounterIndicator.showIndicator();
         }.bind(this)
-
 
 
         let update = function () {
@@ -40,7 +38,11 @@ class NodeHost {
             if (cfgType !== nodeType) {
                 nodeType = cfgType;
                 let indicatorType = typeIndicators[nodeType];
-                parseConfigDataKey("ENCOUNTER_INDICATORS", "INDICATORS",  'indicator_data', indicatorType, onIndicatorData)
+                if (indicatorType !== false) {
+                    parseConfigDataKey("ENCOUNTER_INDICATORS", "INDICATORS",  'indicator_data', indicatorType, onIndicatorData)
+                } else {
+                    this.encounterIndicator.hideIndicator();
+                }
             }
             MATH.vec3FromArray(pos, cfg.pos);
         }.bind(this)

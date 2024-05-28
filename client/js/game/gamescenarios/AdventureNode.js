@@ -122,7 +122,6 @@ class AdventureNode {
         this.call.despawnNodeHost();
         this.adventure = null;
         GameAPI.unregisterGameUpdateCallback(this.call.update);
-
     }
 
 }

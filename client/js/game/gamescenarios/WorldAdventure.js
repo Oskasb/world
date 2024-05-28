@@ -1,6 +1,8 @@
 import {Object3D} from "../../../libs/three/core/Object3D.js";
 import {MATH} from "../../application/MATH.js";
 import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
+import {EncounterIndicator} from "../visuals/EncounterIndicator.js";
+import {parseConfigDataKey} from "../../application/utils/ConfigUtils.js";
 
 class WorldAdventure {
     constructor() {
@@ -8,6 +10,15 @@ class WorldAdventure {
         this.id = null;
         this.config = {
             nodes:[]
+        }
+
+        let isStarted = false;
+        let rootIndicator = new EncounterIndicator(this.obj3d)
+
+        let onIndicatorData = function(config) {
+            rootIndicator.hideIndicator();
+            rootIndicator.applyIndicatorConfig(config);
+            rootIndicator.showIndicator();
         }
 
         let targetNodeIndex = -1;
@@ -29,6 +40,7 @@ class WorldAdventure {
         let isActive = false;
 
         let lodUpdated = function(lodLevel) {
+
             if (lodLevel !== -1) {
                 if (isActive === false) {
                     activateAdventure()
@@ -57,7 +69,7 @@ class WorldAdventure {
 
         let processActiveNode = function() {
             if (activeNodeIndex !== targetNodeIndex) {
-
+                rootIndicator.hideIndicator();
                 let oldNode = this.adventureNodes[activeNodeIndex];
                 if (oldNode) {
                     oldNode.call.deactivateAdventureNode()
@@ -106,14 +118,20 @@ class WorldAdventure {
         let expandAll = false;
 
         let activateAdventure = function(expandAllNodes) {
+            if (isStarted === true) {
+                return;
+            }
+            parseConfigDataKey("ENCOUNTER_INDICATORS", "INDICATORS",  'indicator_data', 'adventure_indicator', onIndicatorData)
             expandAll = expandAllNodes || false;
-            targetNodeIndex = 0;
             isActive = true;
             activeAdventures.push(this)
             GameAPI.registerGameUpdateCallback(update);
            }.bind(this);
 
         let deactivateAdventure = function() {
+            if (isStarted === true) {
+                return;
+            }
             isActive = false;
             MATH.splice(activeAdventures, this);
             closeActiveNodes();
@@ -125,9 +143,31 @@ class WorldAdventure {
             return this.config.nodes[this.adventureNodes.indexOf(node)];
         }.bind(this)
 
+
+        function setTargetNodeIndex(idx) {
+            targetNodeIndex = idx;
+        }
+
+        function getTargetNodeIndex() {
+            return targetNodeIndex;
+        }
+
+        let startAdventure = function() {
+            isStarted = true;
+            rootIndicator.hideIndicator();
+        }.bind(this)
+
+        let stopAdventure = function() {
+            isStarted = false;
+        }
+
         this.call = {
+            setTargetNodeIndex:setTargetNodeIndex,
+            getTargetNodeIndex:getTargetNodeIndex,
             getNodeConfig:getNodeConfig,
             activateAdventure:activateAdventure,
+            startAdventure:startAdventure,
+            stopAdventure:stopAdventure,
             deactivateAdventure:deactivateAdventure,
             applyLoadedConfig:applyLoadedConfig,
         }

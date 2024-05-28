@@ -207,6 +207,7 @@ class DomEditAdventure {
 
         function closeActiveAdventure() {
             if (activeAdventure !== null) {
+                activeAdventure.call.stopAdventure();
                 activeAdventure.call.deactivateAdventure();
                 activeAdventure = null;
             }
@@ -220,6 +221,8 @@ class DomEditAdventure {
             let adventure = e.target.value
             activeAdventure = adventure;
             activeAdventure.call.activateAdventure(true);
+            activeAdventure.call.startAdventure();
+
             console.log("Activated", selectedTool, adventure);
             idLabelDiv.innerHTML = adventure.id;
             adventure.config = detachConfig(adventure.config);

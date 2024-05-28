@@ -26,6 +26,30 @@
         ]
       },
       {
+        "id": "quest_basic",
+        "data": [
+          {
+            "data_key":"host_data",
+            "config": {
+              "actor": "ACTOR_FIGHTER",
+              "rot": [0, 1.2, 0],
+              "ALIGNMENT": "FRIENDLY",
+              "indicator": {
+                "sprite": [7, 6],
+                "height": 3.8,
+                "rgba": [0.99, 0.85, 0.39, 1],
+                "size": 1.4
+              },
+              "trigger": {
+                "heads": 9,
+                "radius":7,
+                "speed": 1
+              }
+            }
+          }
+        ]
+      },
+      {
         "id": "cavern_entrance",
         "data": [
           {
