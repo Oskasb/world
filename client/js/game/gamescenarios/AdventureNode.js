@@ -36,6 +36,7 @@ class AdventureNode {
         }.bind(this)
 
         function despawnNodeHost() {
+            console.log("despawnNodeHost", nodeHost)
             if (nodeHost) {
                 nodeHost.deactivateNodeHost()
                 poolReturn(nodeHost)

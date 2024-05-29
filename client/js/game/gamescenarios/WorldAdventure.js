@@ -99,7 +99,7 @@ class WorldAdventure {
                 activeNodeIndexUpdate()
             }
 
-                let dst = MATH.distanceBetween(this.getPos(), ThreeAPI.getCameraCursor().getLookAroundPoint())
+            let dst = MATH.distanceBetween(this.getPos(), ThreeAPI.getCameraCursor().getLookAroundPoint())
 
             if (dst < 10) {
                 if (isStarted === false) {
