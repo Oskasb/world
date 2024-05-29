@@ -17,6 +17,10 @@ let attachEncounterFx = function(indicator) {
 
     let rgba = config.rgba;
 
+    if (indicator.encounterFx !== null) {
+        detachEncounterFx(indicator)
+    }
+
     let effectCb = function(efct) {
         efct.activateEffectFromConfigId()
         efct.setEffectPosition(indicator.fxObj3d.position)
@@ -36,11 +40,14 @@ let attachEncounterFx = function(indicator) {
 }
 
 let detachEncounterFx = function(indicator) {
-    if (indicator.encounterFx) {
+    if (indicator.encounterFx !== null) {
         indicator.encounterFx.recoverEffectOfClass();
+        GameAPI.unregisterGameUpdateCallback(indicator.call.updateEffect)
+        indicator.encounterFx = null;
+    } else {
+    //    console.log("Indicator Fx not present")
     }
 
-    GameAPI.unregisterGameUpdateCallback(indicator.call.updateEffect)
 }
 
 
@@ -50,7 +57,12 @@ class EncounterIndicator {
         this.fxObj3d = new Object3D();
         this.config = cfgDefault;
 
+        this.encounterFx = null;
+
         let updateEffect = function(tpf) {
+            if (this.encounterFx === null) {
+                return;
+            }
             this.fxObj3d.position.copy(this.encounterObj3d.position);
             this.fxObj3d.position.y += this.config.height;
             this.fxObj3d.rotateY(tpf);

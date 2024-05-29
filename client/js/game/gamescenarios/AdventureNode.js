@@ -2,8 +2,15 @@ import {Object3D} from "../../../libs/three/core/Object3D.js";
 import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
 import {WorldEncounter} from "../encounter/WorldEncounter.js";
 
+let worldEncounters = null;
+
 class AdventureNode {
     constructor() {
+
+
+        if (worldEncounters === null) {
+            worldEncounters = GameAPI.worldModels.getWorldEncounters()
+        }
 
         this.isActive = false;
         this.adventure = null;
@@ -39,20 +46,30 @@ class AdventureNode {
 
         function encReady(wEnc) {
             encounter = wEnc;
-            wEnc.visualEncounterHost.removeEncounterHost();
+            wEnc.removeWorldEncounter()
+            // wEnc.visualEncounterHost.removeEncounterHost();
             console.log("Node Encounter ready ", encounter);
+            worldEncounters.push(encounter);
         }
 
-        function updateNodeType() {
+        function removeNodeContent() {
+
             if (encounter !== null) {
-                encounter.removeWorldEncounter();
+                console.log("Remove Node encounter", encounter)
+                encounter.deactivateWorldEncounter();
+                MATH.splice(worldEncounters, encounter);
                 encounter = null;
             }
-
             if (treasure !== null) {
+                console.log("Remove Node treasure", treasure)
                 treasure.removeWorldTreasure();
                 treasure = null;
             }
+        }
+
+        function updateNodeType() {
+
+            removeNodeContent()
 
             if (nodeType === "ENCOUNTER" || nodeType === "BATTLE") {
                 let nodeId = getConfig()['node_id'];
@@ -95,15 +112,18 @@ class AdventureNode {
             return pos;
         }
 
-        this.call = {
+        function close() {
+            removeNodeContent();
+            despawnNodeHost()
+        }
 
+        this.call = {
+            close:close,
             spawnNodeHost:spawnNodeHost,
-            despawnNodeHost:despawnNodeHost,
             getConfig:getConfig,
             getPos:getPos,
             update:update
         }
-
     }
 
     getPos() {
@@ -119,7 +139,8 @@ class AdventureNode {
 
     deactivateAdventureNode() {
         this.isActive = false;
-        this.call.despawnNodeHost();
+
+        this.call.close();
         this.adventure = null;
         GameAPI.unregisterGameUpdateCallback(this.call.update);
     }

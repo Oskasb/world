@@ -28,10 +28,31 @@ class GameAdventureSystem {
         evt.on(ENUMS.Event.ENCOUNTER_COMPLETED, encounterCompleted)
 
 
-        let active = false;
+        let activateworldLevelAdventures = function() {
+            let wAdvs = this.getWorldAdventures();
+            for (let i = 0; i < wAdvs.length; i++) {
+                wAdvs[i].call.activateAdventure();
+            }
+        }.bind(this)
 
-        function update() {
-            let worldLevel = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL);
+        function deactivateActiveAdventures() {
+            while (activeAdventures.length) {
+                let adv = activeAdventures.pop();
+                adv.call.stopAdventure()
+                adv.call.deactivateAdventure()
+            }
+        }
+
+        let active = false;
+        let worldLevel = -1;
+
+            function update() {
+            if (worldLevel !== GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)) {
+                worldLevel = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL);
+                deactivateActiveAdventures()
+                activateworldLevelAdventures();
+            }
+
         }
 
         let onData = function(data) {

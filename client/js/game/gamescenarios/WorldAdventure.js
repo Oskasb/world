@@ -99,14 +99,17 @@ class WorldAdventure {
                 activeNodeIndexUpdate()
             }
 
-            if (isStarted === false) {
                 let dst = MATH.distanceBetween(this.getPos(), ThreeAPI.getCameraCursor().getLookAroundPoint())
-                if (dst < 40) {
+
+            if (dst < 10) {
+                if (isStarted === false) {
                     startAdventure();
                     if (activeNodeIndex === -1) {
                         setTargetNodeIndex(0);
                     }
-                } else {
+                }
+            } else {
+                if (isStarted === true) {
                     if (activeNodeIndex === 0) {
                         stopAdventure();
                         setTargetNodeIndex(-1);
@@ -180,13 +183,21 @@ class WorldAdventure {
         }
 
         let startAdventure = function() {
+            MATH.splice(activeAdventures, this);
             isStarted = true;
             rootIndicator.hideIndicator();
         }.bind(this)
 
         let stopAdventure = function() {
-            isStarted = false;
-        }
+            if (activeAdventures.indexOf(this) === -1) {
+                activeAdventures.push(this)
+            }
+            closeActiveNodes();
+            if (isStarted === true) {
+                rootIndicator.showIndicator();
+                isStarted = false;
+            }
+        }.bind(this);
 
         this.call = {
             setTargetNodeIndex:setTargetNodeIndex,
