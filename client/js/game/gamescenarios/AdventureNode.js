@@ -13,7 +13,7 @@ class AdventureNode {
         }
 
         this.isActive = false;
-        this.adventure = null;
+        let adventure = null;
         this.obj3d = new Object3D();
         let pos = this.obj3d.position;
 
@@ -23,7 +23,7 @@ class AdventureNode {
         let treasure = null;
 
         let getConfig = function() {
-            return this.adventure.call.getNodeConfig(this);
+            return adventure.call.getNodeConfig(this);
         }.bind(this);
 
         let preDeactivated = false;
@@ -47,25 +47,31 @@ class AdventureNode {
 
         function encReady(wEnc) {
             encounter = wEnc;
-            wEnc.removeWorldEncounter()
+
+            encounter.activateWorldEncounter()
+            encounter.getHostActor().turnTowardsPos(ThreeAPI.getCameraCursor().getLookAroundPoint());
+
+        //    wEnc.deactivateWorldEncounter()
             // wEnc.visualEncounterHost.removeEncounterHost();
             console.log("Node Encounter ready ", encounter);
             worldEncounters.push(encounter);
         }
 
-        function removeNodeContent() {
-
+        let removeNodeContent = function() {
+            console.log("removeNodeContent", adventure)
             if (encounter !== null) {
                 console.log("Remove Node encounter", encounter)
                 encounter.deactivateWorldEncounter();
                 MATH.splice(worldEncounters, encounter);
-                encounter = null;
             }
             if (treasure !== null) {
                 console.log("Remove Node treasure", treasure)
                 treasure.removeWorldTreasure();
-                treasure = null;
             }
+
+            encounter = null;
+            treasure = null;
+
         }
 
         function updateNodeType() {
@@ -80,7 +86,11 @@ class AdventureNode {
                     nodeType = 'UGLY_LOADING_ASYNC'
                     console.log("No config yet...", nodeId, nodeCfgs)
                 } else {
-                    new WorldEncounter(encCfg.edit_id, encCfg, encReady)
+                    if (encounter === null) {
+                        console.log("setup enc node:", encCfg)
+                        encounter = new WorldEncounter(encCfg.edit_id, encCfg, encReady)
+                    }
+
                 }
 
             }
@@ -95,6 +105,10 @@ class AdventureNode {
 
         }
 
+
+        function setAdventure(adv) {
+            adventure = adv;
+        }
 
         function update() {
 
@@ -113,13 +127,15 @@ class AdventureNode {
             return pos;
         }
 
-        function close() {
+        let close = function() {
             removeNodeContent();
-            despawnNodeHost()
+            despawnNodeHost();
+            nodeType = null;
         }
 
         this.call = {
             close:close,
+            setAdventure:setAdventure,
             spawnNodeHost:spawnNodeHost,
             getConfig:getConfig,
             getPos:getPos,
@@ -133,16 +149,19 @@ class AdventureNode {
 
     activateAdventureNode(adventure) {
         this.isActive = true;
-        this.adventure = adventure;
+        this.call.setAdventure(adventure);
+
         GameAPI.registerGameUpdateCallback(this.call.update);
         this.call.spawnNodeHost();
     }
 
     deactivateAdventureNode() {
+        console.log("deactivateAdventureNode", this)
         this.isActive = false;
 
         this.call.close();
-        this.adventure = null;
+//        this.call.setAdventure(adventure);
+//        this.adventure = null;
         GameAPI.unregisterGameUpdateCallback(this.call.update);
     }
 

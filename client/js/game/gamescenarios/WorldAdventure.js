@@ -75,7 +75,9 @@ class WorldAdventure {
 
             let oldNode = this.adventureNodes[activeNodeIndex];
             if (oldNode) {
-                oldNode.deactivateAdventureNode()
+                if (oldNode.isActive === true) {
+                    oldNode.deactivateAdventureNode()
+                }
             }
 
             activeNodeIndex = targetNodeIndex;
@@ -138,6 +140,7 @@ class WorldAdventure {
 
 
         let closeActiveNodes = function() {
+            console.log("Close Active Nodes ", this.adventureNodes.length, this.adventureNodes)
             while(this.adventureNodes.length) {
                 let node = this.adventureNodes.pop();
                 node.deactivateAdventureNode();
