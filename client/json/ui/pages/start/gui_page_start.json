@@ -129,7 +129,7 @@
                         "pos":[-893, 4, 519],
                         "actor_id":"ACTOR_FARMER",
                         "page_id": "page_start_farmer",
-                        "world_encounters": ["farmer_start_encounters"],
+                        "world_encounters": [],
                         "inventory_items": ["ITEM_DRAKEN_GOLDRED"],
                         "equipped_items": ["ITEM_HAT_LEATHER", "ITEM_SWORD_FANCY", "ITEM_SHIRT_CHAIN"],
                         "status": {
