@@ -3,9 +3,11 @@ import {poolReturn} from "../../application/utils/PoolUtils.js";
 class VisualPointFX {
     constructor() {
         this.fx = []
+        this.rgba = null;
+        this.scale = 1;
     }
 
-    setupPointFX(sX, sY, scale) {
+    setupPointFX(sX, sY, scale, normalBlend) {
 
         let spriteX = sX || 0;
         let spriteY = sY || 3;
@@ -20,16 +22,27 @@ class VisualPointFX {
 
         }.bind(this);
 
-        EffectAPI.buildEffectClassByConfigId('additive_stamps_8x8', 'stamp_additive_pool',  effectCb)
+        if (normalBlend === true) {
+            EffectAPI.buildEffectClassByConfigId('normal_stamps_8x8', 'stamp_normal_pool',  effectCb)
+        } else {
+            EffectAPI.buildEffectClassByConfigId('additive_stamps_8x8', 'stamp_additive_pool',  effectCb)
+        }
+
         EffectAPI.buildEffectClassByConfigId('overlay_stamps_8x8', 'stamp_overlay_pool',  effectCb)
+
     }
 
-    updatePointFX(pos, quat, rgba) {
+    updatePointFX(pos, quat, rgba, scale) {
         for (let i = 0; i < this.fx.length; i++) {
             let fx = this.fx[i];
             fx.setEffectPosition(pos);
             fx.setEffectQuaternion(quat);
             fx.setEffectColorRGBA(rgba)
+
+            if (typeof (scale) === 'number') {
+                fx.scaleEffectSize( scale)
+            }
+
         }
     }
 

@@ -38,6 +38,7 @@ class VisualDestinationsLayer {
             while (activePointers.length < visualisedDestinations.length) {
                 let pointer = poolFetch('VisualDestinationPointer')
                 pointer.on();
+                pointer.setRGBA(colorMapFx['ADVENTURE_HINT'])
                 activePointers.push(pointer);
             }
 

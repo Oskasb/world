@@ -14,7 +14,11 @@ class VisualDestinationPointer {
         this.from = new Vector3();
         this.to = new Vector3()
 
+        this.maxDistance = 40;
+
         this.fxPoints = [];
+
+        this.rgba = colorMapFx['GLITTER_FX']
 
         this.recalcPoints = true;
 
@@ -33,34 +37,47 @@ class VisualDestinationPointer {
             //    console.log("recalcPoints Points",  this.from, this.to, tempVec)
                 let distance = MATH.distanceBetween(this.from, tempVec);
 
-                for (let i = 0; i < distance; i++) {
+            //    for (let i = 0; i < 2; i++) {
                     let pointFX = poolFetch('VisualPointFX')
-                    pointFX.setupPointFX();
+                    pointFX.setupPointFX(5, 3, 1, true);
                     this.fxPoints.push(pointFX);
-                }
+            //    }
+                    pointFX = poolFetch('VisualPointFX')
+                    pointFX.setupPointFX(5, 6, 1, true);
+                    this.fxPoints.push(pointFX);
 
                 tempObj.position.copy(this.from);
                 tempObj.lookAt(tempVec);
                 tempObj.rotateX(-1.57)
                 tempVec.sub(this.from);
+                let dstFactor = MATH.curveSqrt(distance / this.maxDistance) + 0.2;
                 tempVec.normalize();
-                tempObj.position.x += tempVec.x *0.5;
-                tempObj.position.z += tempVec.z *0.5;
-                let rgba = colorMapFx['GLITTER_FX']
+                tempObj.position.x += tempVec.x *0.6;
+                tempObj.position.z += tempVec.z *0.6;
+                let rgba = this.rgba;
+
+                let y = this.from.y + 0.15;
+
                 //    console.log("Draw Points",  this.fxPoints.length)
                 for (let i = 0; i < this.fxPoints.length; i++) {
+                    let scale = 0.3;
+                    if (i === 1) {
+                        scale = 0.15/dstFactor;
+                    //    y += 0.1;
+                    }
                     let pointFX = this.fxPoints[i];
                     let fits = physicalAlignYGoundTest(tempObj.position, tempObj.position, 1.5)
                     if (fits === false) {
-                        tempObj.position.y = 0;
-                        pointFX.updatePointFX(tempObj.position, tempObj.quaternion, rgba)
+                        tempObj.position.y = y;
+                        pointFX.updatePointFX(tempObj.position, tempObj.quaternion, colorMapFx['DAMAGE_FX'], scale)
                     } else {
-                        tempObj.position.y = Math.max(tempObj.position.y, 0.1);
-                        pointFX.updatePointFX(tempObj.position, tempObj.quaternion, rgba)
+                        tempObj.position.y = y; // Math.max(tempObj.position.y, 0.1);
+                        pointFX.updatePointFX(tempObj.position, tempObj.quaternion, rgba, scale)
                     }
                 //
 
                 //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:tempObj.position, to:this.to, color:'YELLOW'});
+                    tempVec.multiplyScalar(dstFactor);
                     tempObj.position.add(tempVec);
                 }
 
@@ -73,6 +90,10 @@ class VisualDestinationPointer {
             update:update
         }
 
+    }
+
+    setRGBA(rgba) {
+        this.rgba = rgba;
     }
 
     setFrom(x, z) {
