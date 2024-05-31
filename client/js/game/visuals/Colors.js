@@ -22,6 +22,7 @@ colorMapFx['DAMAGE_FX']             = {r:0.99,    g:0.0,   b:0.0,   a:0.4};
 colorMapFx['FORCE_FX']              = {r:0.19,    g:0.15,  b:0.0,   a:0.1};
 colorMapFx['GLITTER_FX']            = {r:0.4,     g:0.5,   b:0.6,   a:0.5};
 colorMapFx['SMOKE_FX']              = {r:0.4,     g:0.3,   b:0.2,   a:0.4};
+colorMapFx['ADVENTURE_HINT']        = {r:0.9,     g:0.8,   b:0.0,   a:0.9};
 
 let elementColorMap = {}
 elementColorMap['FRIENDLY']   = {r:0.1,   g:1,     b:0.1,   a:0.8};

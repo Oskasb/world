@@ -57,8 +57,19 @@ function getCharactersInRange(storeList, gamePiece, charList, maxDistance, frien
 
 }
 
+
+let distances = [];
+
+function getCountClosestFromList(count, list, pos, store) {
+    MATH.emptyArray(distances);
+    for (let i = 0; i < list.length; i++) {
+        store.push(list[i])
+    }
+}
+
 export {
     getNearestCharacter,
     getCharactersInRange,
-    getFriendlyCharactersInRange
+    getFriendlyCharactersInRange,
+    getCountClosestFromList
 }

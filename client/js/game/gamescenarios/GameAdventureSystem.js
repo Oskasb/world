@@ -3,6 +3,8 @@ import {notifyCameraStatus} from "../../3d/camera/CameraFunctions.js";
 import {evt} from "../../application/event/evt.js";
 import {configDataList} from "../../application/utils/ConfigUtils.js";
 import {ENUMS} from "../../application/ENUMS.js";
+import {poolFetch} from "../../application/utils/PoolUtils.js";
+import {VisualDestinationsLayer} from "../visuals/VisualDestinationsLayer.js";
 
 let spatialTransition
 
@@ -27,12 +29,15 @@ class GameAdventureSystem {
         this.page = null;
         evt.on(ENUMS.Event.ENCOUNTER_COMPLETED, encounterCompleted)
 
+        let visualDestinationLayer = new VisualDestinationsLayer();
 
         let activateworldLevelAdventures = function() {
             let wAdvs = this.getWorldAdventures();
             for (let i = 0; i < wAdvs.length; i++) {
                 wAdvs[i].call.activateAdventure();
             }
+            visualDestinationLayer.setDestinations(wAdvs);
+            visualDestinationLayer.on();
         }.bind(this)
 
         function deactivateActiveAdventures() {
@@ -41,6 +46,7 @@ class GameAdventureSystem {
                 adv.call.stopAdventure()
                 adv.call.deactivateAdventure()
             }
+            visualDestinationLayer.off();
         }
 
         let active = false;

@@ -21,8 +21,9 @@ function addNodeToAdventureAtPos(adventure, pos) {
 }
 
 function saveAdventureNodeEdit(node) {
-    node.adventure.config = detachConfig(node.adventure.config)
-    saveAdventureEdits(node.adventure)
+    let adventure = node.call.getAdventure();
+    adventure.config = detachConfig(adventure.config)
+    saveAdventureEdits(adventure)
 }
 
 

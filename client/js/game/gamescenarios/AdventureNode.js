@@ -17,6 +17,8 @@ class AdventureNode {
         this.obj3d = new Object3D();
         let pos = this.obj3d.position;
 
+
+
         let nodeType = null;
 
         let encounter = null;
@@ -49,7 +51,7 @@ class AdventureNode {
             encounter = wEnc;
 
             encounter.activateWorldEncounter()
-            encounter.getHostActor().turnTowardsPos(ThreeAPI.getCameraCursor().getLookAroundPoint());
+            encounter.getHostActor().turnTowardsPos(ThreeAPI.getCameraCursor().getPos());
 
         //    wEnc.deactivateWorldEncounter()
             // wEnc.visualEncounterHost.removeEncounterHost();
@@ -108,6 +110,7 @@ class AdventureNode {
 
         function setAdventure(adv) {
             adventure = adv;
+
         }
 
         function update() {
@@ -121,6 +124,8 @@ class AdventureNode {
             }
 
             MATH.vec3FromArray(pos, cfg.pos);
+
+
         }
 
         function getPos() {
@@ -133,9 +138,14 @@ class AdventureNode {
             nodeType = null;
         }
 
+        function getAdventure() {
+            return adventure;
+        }
+
         this.call = {
             close:close,
             setAdventure:setAdventure,
+            getAdventure:getAdventure,
             spawnNodeHost:spawnNodeHost,
             getConfig:getConfig,
             getPos:getPos,

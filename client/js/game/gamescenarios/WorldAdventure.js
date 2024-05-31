@@ -103,6 +103,7 @@ class WorldAdventure {
 
             let dst = MATH.distanceBetween(this.getPos(), ThreeAPI.getCameraCursor().getPos())
 
+
             if (dst < 20) {
                 if (isStarted === false) {
                     startAdventure();
@@ -125,6 +126,8 @@ class WorldAdventure {
             MATH.vec3FromArray(this.getPos(), this.config.nodes[0].pos)
             unrollAdventureNodes()
 
+
+
             if (expandAll === true) {
                 for (let i = 0; i < this.adventureNodes.length; i++) {
                     let node = this.adventureNodes[i];
@@ -134,6 +137,7 @@ class WorldAdventure {
                 }
             } else {
                 processActiveNode()
+
             }
 
         }.bind(this)

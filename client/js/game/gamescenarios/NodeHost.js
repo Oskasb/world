@@ -28,10 +28,15 @@ class NodeHost {
 
 
         let update = function () {
-            if (this.node.adventure === null) {
+            let adventure = this.node.call.getAdventure();
+            if (adventure === null) {
                 return;
             }
             let cfg = this.node.call.getConfig();
+
+            if (!cfg) {
+                return;
+            }
 
             let cfgType = cfg['node_type'] || "";
 
