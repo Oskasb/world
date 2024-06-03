@@ -358,6 +358,7 @@ class ActorStatus {
         this.statusMap[ENUMS.ActorStatus.SLOT_BACK] = "";
         this.statusMap[ENUMS.ActorStatus.SLOT_WRIST_L] = "";
         this.statusMap[ENUMS.ActorStatus.SLOT_WRIST_R] = "";
+        this.statusMap[ENUMS.ActorStatus.COMPLETED_ADVENTURES] = [];
 
         let updateTO = null;
         this.request = {request:ENUMS.ClientRequests.APPLY_ACTOR_STATUS, status:this.sendStatus}

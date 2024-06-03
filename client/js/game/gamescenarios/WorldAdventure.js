@@ -35,6 +35,7 @@ class WorldAdventure {
             console.log("applyLoadedConfig", cfg, this)
             MATH.vec3FromArray(this.getPos(), cfg.nodes[0].pos)
             this.config = cfg;
+            this.id = cfg['edit_id'];
             ThreeAPI.clearTerrainLodUpdateCallback(lodUpdated)
             ThreeAPI.registerTerrainLodUpdateCallback(this.getPos(), lodUpdated)
         }.bind(this);
@@ -106,7 +107,6 @@ class WorldAdventure {
             }
 
             let dst = MATH.distanceBetween(this.getPos(), ThreeAPI.getCameraCursor().getPos())
-
 
             if (dst < 20) {
                 if (isStarted === false) {
@@ -210,7 +210,8 @@ class WorldAdventure {
                 isStarted = false;
                 if (atNodeIndex) {
                     if (this.adventureNodes.length < atNodeIndex) {
-
+                        console.log("Stop Adv after last node", atNodeIndex, this.adventureNodes)
+                        GameAPI.gameAdventureSystem.call.adventureCompleted(this)
                     } else {
                         console.log("Stop Adv at present nodes", atNodeIndex, this.adventureNodes)
                     }
@@ -231,11 +232,21 @@ class WorldAdventure {
         }.bind(this);
 
         let notifyEncounterCompleted = function(encId) {
-            let node = this.adventureNodes[activeNodeIndex];
-            console.log('notifyEncounterCompleted', encId, node)
+
+            if (activeNodeIndex !== -1) {
+                let node = this.adventureNodes[activeNodeIndex];
+                if (node.isActive === true) {
+                    console.log('notifyEncounterCompleted', encId, node)
+                    advanceAdventureStage()
+                }
+            }
+            
         }.bind(this)
 
         let notifyEncounterOperation = function(worldEncounter) {
+            if (activeNodeIndex === -1) {
+                return;
+            }
             let node = this.adventureNodes[activeNodeIndex];
             let nodeCfg = node.call.getConfig();
             let encCfg = worldEncounter.config;

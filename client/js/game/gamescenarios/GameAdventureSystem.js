@@ -16,15 +16,29 @@ let worldAdventures = {};
 let startableAdventures = [];
 let activeAdventures = [];
 
+function getActiveWorldLevelAdventure() {
+
+    let worldLevel = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
+    if (!worldAdventures[worldLevel]) {
+        worldAdventures[worldLevel] = [];
+    }
+    let advs = worldAdventures[worldLevel];
+    return advs;
+}
+
+
 function encounterCompleted(event) {
     console.log("Enc Completed", event, activeAdventures);
     completedEncounters.push(event.worldEncounterId);
 
-    for (let i = 0; i < activeAdventures.length; i++) {
-        activeAdventures[i].call.notifyEncounterCompleted(event.worldEncounterId)
+    let advs = getActiveWorldLevelAdventure()
+
+    for (let i = 0; i < advs.length; i++) {
+        advs[i].call.notifyEncounterCompleted(event.worldEncounterId)
     }
 
 }
+
 
 class GameAdventureSystem {
     constructor() {
@@ -57,7 +71,21 @@ class GameAdventureSystem {
         let active = false;
         let worldLevel = -1;
 
+        let inCombat = false;
+
             function update() {
+
+
+                let activeCombat = GameAPI.checkInCombat()
+                if (activeCombat !== inCombat) {
+                    inCombat = activeCombat
+                    if (inCombat) {
+                        visualDestinationLayer.off()
+                    } else {
+                        visualDestinationLayer.on()
+                    }
+                }
+
             if (worldLevel !== GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)) {
                 worldLevel = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL);
                 deactivateActiveAdventures()
@@ -87,9 +115,31 @@ class GameAdventureSystem {
             visualDestinationLayer.call.setList(wAdvs)
         }.bind(this);
 
+
+            let adventureCompleted = function(wAdv) {
+                let activeActor = GameAPI.getGamePieceSystem().selectedActor;
+                let dataList = activeActor.getStatus(ENUMS.ActorStatus.COMPLETED_ADVENTURES)
+                if (dataList.indexOf(wAdv.id) === -1) {
+                    dataList.push(wAdv.id)
+                    activeActor.setStatusKey(ENUMS.ActorStatus.COMPLETED_ADVENTURES, dataList)
+
+                    let wAdvs = this.getWorldAdventures();
+
+                    if (wAdvs.indexOf(wAdv) !== -1) {
+                        MATH.splice(wAdvs, wAdv)
+                    } else {
+                        console.log("completed adventure should be present as active until completion")
+                    }
+
+                } else {
+                    console.log("wAdv id already registered as complete, should not happen")
+                }
+            }.bind(this);
+
         this.call = {
-                playerAdventureActivated:playerAdventureActivated,
-            playerAdventureDeActivated:playerAdventureDeActivated
+            playerAdventureActivated:playerAdventureActivated,
+            playerAdventureDeActivated:playerAdventureDeActivated,
+            adventureCompleted:adventureCompleted
         }
 
 
@@ -112,15 +162,8 @@ class GameAdventureSystem {
     }
 
     getWorldAdventures() {
-        let worldLevel = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
-        if (!worldAdventures[worldLevel]) {
-            worldAdventures[worldLevel] = [];
-        }
-        let advs = worldAdventures[worldLevel];
-        return advs;
+        return getActiveWorldLevelAdventure()
     }
-
-
 
     registerAdventure(worldLevel, worldAdventure) {
         if (!worldAdventures[worldLevel]) {

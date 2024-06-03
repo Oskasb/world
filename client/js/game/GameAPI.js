@@ -11,6 +11,7 @@ import { VisualEffectSystem } from "./visuals/VisualEffectSystem.js";
 import { GameAdventureSystem } from "./gamescenarios/GameAdventureSystem.js";
 import {poolFetch, poolReturn} from "../application/utils/PoolUtils.js";
 import {trackDebugConfig} from "../application/utils/DebugUtils.js";
+import {ENUMS} from "../application/ENUMS.js";
 
 let cache = {};
 let debugStats = {
@@ -303,6 +304,14 @@ class GameAPI {
 
     getGamePieceSystem() {
         return gamePieceSystem;
+    }
+
+    checkInCombat() {
+        let activeActor = gamePieceSystem.selectedActor;
+        if (activeActor) {
+            return activeActor.getStatus(ENUMS.ActorStatus.IN_COMBAT)
+        }
+        return false;
     }
 
     getSelectedPlayerPos(store) {
