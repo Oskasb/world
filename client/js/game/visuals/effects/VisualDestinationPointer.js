@@ -50,7 +50,7 @@ class VisualDestinationPointer {
                 tempObj.lookAt(tempVec);
                 tempObj.rotateX(-1.57)
                 tempVec.sub(this.from);
-                let dstFactor = MATH.curveSqrt(distance / this.maxDistance) + 0.2;
+                let dstFactor = MATH.curveSqrt((distance + 1)/ this.maxDistance) + 0.1;
                 tempVec.normalize();
                 tempObj.position.x += tempVec.x *0.6;
                 tempObj.position.z += tempVec.z *0.6;
@@ -62,7 +62,7 @@ class VisualDestinationPointer {
                 for (let i = 0; i < this.fxPoints.length; i++) {
                     let scale = 0.3;
                     if (i === 1) {
-                        scale = 0.15/dstFactor;
+                        scale = 0.25/dstFactor;
                     //    y += 0.1;
                     }
                     let pointFX = this.fxPoints[i];
@@ -77,7 +77,7 @@ class VisualDestinationPointer {
                 //
 
                 //    evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:tempObj.position, to:this.to, color:'YELLOW'});
-                    tempVec.multiplyScalar(dstFactor);
+                    tempVec.multiplyScalar(dstFactor*0.5);
                     tempObj.position.add(tempVec);
                 }
 

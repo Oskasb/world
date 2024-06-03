@@ -58,7 +58,11 @@ class VisualDestinationsLayer {
         }
 
         function close() {
-
+            while (activePointers.length) {
+                let pointer = activePointers.pop()
+                pointer.off();
+                poolReturn(pointer);
+            }
         }
 
         this.call = {

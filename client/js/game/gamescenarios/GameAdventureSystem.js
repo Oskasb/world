@@ -17,8 +17,13 @@ let startableAdventures = [];
 let activeAdventures = [];
 
 function encounterCompleted(event) {
-    console.log("Enc Completed", event);
+    console.log("Enc Completed", event, activeAdventures);
     completedEncounters.push(event.worldEncounterId);
+
+    for (let i = 0; i < activeAdventures.length; i++) {
+        activeAdventures[i].call.notifyEncounterCompleted(event.worldEncounterId)
+    }
+
 }
 
 class GameAdventureSystem {
@@ -72,6 +77,24 @@ class GameAdventureSystem {
 
         configDataList("WORLD_ADVENTURE","ADVENTURES", onData)
 
+
+        function playerAdventureActivated(worldAdventure) {
+                console.log("playerAdventureActivated", worldAdventure);
+            visualDestinationLayer.off();
+        }
+
+        function playerAdventureDeActivated(worldAdventure) {
+            console.log("playerAdventureDeActivated", worldAdventure);
+            visualDestinationLayer.on();
+
+        }
+
+        this.call = {
+                playerAdventureActivated:playerAdventureActivated,
+            playerAdventureDeActivated:playerAdventureDeActivated
+        }
+
+
     }
 
     getCompletedEncounters() {
@@ -108,6 +131,15 @@ class GameAdventureSystem {
         worldAdventures[worldLevel].push(worldAdventure);
         console.log("registerAdventure", worldLevel, worldAdventure, worldAdventures)
     }
+
+    applyEncounterOperation(worldEncounter) {
+        console.log("applyEncounterOperation", worldEncounter.id, worldEncounter)
+        let advs = this.getWorldAdventures();
+        for (let i = 0; i < advs.length; i++) {
+            advs[i].call.notifyEncounterOperation(worldEncounter)
+        }
+    }
+
 
     selectAdventure(event) {
         let equippedItems;

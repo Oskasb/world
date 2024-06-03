@@ -64,6 +64,7 @@ const encounterTemplates = {
                 dispatch: {
                     event: "ENCOUNTER_CONVERSE",
                     value: {
+                        adventure: true,
                         skip: true
                     }
                 }

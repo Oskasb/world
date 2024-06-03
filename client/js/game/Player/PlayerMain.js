@@ -244,7 +244,6 @@ class PlayerMain {
             console.log("encounterConverse", e);
             let wEnc = e.worldEncounter;
 
-
             if (e.skip === true) {
                 let host = wEnc.getHostActor();
                 host.actorText.say("Okay! Bye.")
@@ -254,10 +253,17 @@ class PlayerMain {
                 forward.multiplyScalar(2);
                 pos.add(forward);
                 host.transitionTo(pos, 1);
+                evt.dispatch(ENUMS.Event.ENCOUNTER_COMPLETED, {worldEncounterId:wEnc.id})
                 setTimeout(function() {
                     wEnc.deactivateWorldEncounter();
                 }, 1000);
             }
+
+            if (e.adventure === true) {
+                console.log("Operate Adventure ", e)
+                GameAPI.gameAdventureSystem.applyEncounterOperation(wEnc)
+            }
+
         }
 
         let encounterEngage = function(e) {
