@@ -14,11 +14,21 @@ class VisualDestinationsLayer {
         let proximateDestinations = [];
         let activePointers = [];
 
-        function setList(array, rgba, cMax, dMax) {
+        function setList(array) {
+            close();
             list = array;
+        }
+
+        function setRGBA( rgba) {
             fxRgba = rgba || colorMapFx['ADVENTURE_HINT']
-            countMax = cMax || countMax;
+        }
+
+        function setMaxDist(dMax) {
             distanceMax = dMax || distanceMax;
+        }
+
+        function setMaxCount( cMax) {
+            countMax = cMax || countMax;
         }
 
         function clearDestinations() {
@@ -58,6 +68,7 @@ class VisualDestinationsLayer {
         }
 
         function close() {
+            clearDestinations()
             while (activePointers.length) {
                 let pointer = activePointers.pop()
                 pointer.off();
@@ -67,6 +78,9 @@ class VisualDestinationsLayer {
 
         this.call = {
             setList:setList,
+            setRGBA:setRGBA,
+            setMaxDist:setMaxDist,
+            setMaxCount:setMaxCount,
             update:update,
             close:close
         }
@@ -74,7 +88,10 @@ class VisualDestinationsLayer {
     }
 
     setDestinations(list, rgba, maxVisible, maxDistance) {
-        this.call.setList(list, rgba, maxVisible, maxDistance)
+        this.call.setList(list)
+        this.call.setRGBA(rgba)
+        this.call.setMaxDist(maxDistance)
+        this.call.setMaxCount(maxVisible)
     }
 
     on() {

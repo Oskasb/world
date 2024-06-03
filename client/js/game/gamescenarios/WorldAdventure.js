@@ -12,6 +12,9 @@ class WorldAdventure {
             nodes:[]
         }
 
+
+        let activeNodes = [];
+
         let isStarted = false;
         let rootIndicator = new EncounterIndicator(this.obj3d)
 
@@ -76,7 +79,8 @@ class WorldAdventure {
             let oldNode = this.adventureNodes[activeNodeIndex];
             if (oldNode) {
                 if (oldNode.isActive === true) {
-                    oldNode.deactivateAdventureNode()
+                    oldNode.deactivateAdventureNode();
+                    MATH.splice(activeNodes, oldNode)
                 }
             }
 
@@ -87,10 +91,9 @@ class WorldAdventure {
                 if (!newNode) {
                     console.log("No new node.. (all nodes completed)", activeNodeIndex, this.adventureNodes)
                     stopAdventure(activeNodeIndex);
-                }
-
-                if (newNode.isActive === false) {
+                } else if (newNode.isActive === false) {
                     newNode.activateAdventureNode(this)
+                    activeNodes.push(newNode);
                 }
             }
         }.bind(this)
@@ -128,7 +131,6 @@ class WorldAdventure {
             unrollAdventureNodes()
 
 
-
             if (expandAll === true) {
                 for (let i = 0; i < this.adventureNodes.length; i++) {
                     let node = this.adventureNodes[i];
@@ -145,6 +147,7 @@ class WorldAdventure {
 
 
         let closeActiveNodes = function() {
+            MATH.emptyArray(activeNodes);
             console.log("Close Active Nodes ", this.adventureNodes.length, this.adventureNodes)
             while(this.adventureNodes.length) {
                 let node = this.adventureNodes.pop();
@@ -222,7 +225,7 @@ class WorldAdventure {
         let advanceAdventureStage = function() {
             if (activeNodeIndex === 0) {
                 console.log("Trigger active adventure")
-                GameAPI.gameAdventureSystem.call.playerAdventureActivated(this)
+                GameAPI.gameAdventureSystem.call.playerAdventureActivated(activeNodes)
             }
             targetNodeIndex++
         }.bind(this);

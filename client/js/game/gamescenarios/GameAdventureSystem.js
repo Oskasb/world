@@ -77,17 +77,15 @@ class GameAdventureSystem {
 
         configDataList("WORLD_ADVENTURE","ADVENTURES", onData)
 
-
-        function playerAdventureActivated(worldAdventure) {
-                console.log("playerAdventureActivated", worldAdventure);
-            visualDestinationLayer.off();
+        function playerAdventureActivated(activeNodes) {console.log("playerAdventureActivated", activeNodes);
+            visualDestinationLayer.call.setList(activeNodes)
         }
 
-        function playerAdventureDeActivated(worldAdventure) {
+        let playerAdventureDeActivated = function(worldAdventure) {
             console.log("playerAdventureDeActivated", worldAdventure);
-            visualDestinationLayer.on();
-
-        }
+            let wAdvs = this.getWorldAdventures();
+            visualDestinationLayer.call.setList(wAdvs)
+        }.bind(this);
 
         this.call = {
                 playerAdventureActivated:playerAdventureActivated,

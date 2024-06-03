@@ -259,10 +259,16 @@ class PlayerMain {
                 }, 1000);
             }
 
-            if (e.adventure === true) {
+            if (typeof (wEnc.config['node_id']) === 'string') {
+
+                if (e.adventure === true) {
+
+                }
+
                 console.log("Operate Adventure ", e)
                 GameAPI.gameAdventureSystem.applyEncounterOperation(wEnc)
             }
+
 
         }
 
