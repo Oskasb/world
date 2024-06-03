@@ -34,7 +34,7 @@ function encounterCompleted(event) {
     let advs = getActiveWorldLevelAdventure()
 
     for (let i = 0; i < advs.length; i++) {
-        advs[i].call.notifyEncounterCompleted(event.worldEncounterId)
+        advs[i].call.notifyEncounterCompleted(event.worldEncounter)
     }
 
 }

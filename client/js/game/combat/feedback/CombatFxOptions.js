@@ -465,7 +465,14 @@ function setupOptsMagicHit(efct, actor) {
     let size = actor.getStatus(ENUMS.ActorStatus.SIZE);
     let tempObj = ThreeAPI.tempObj;
     tempObj.scale.set(1, 1, 1);
-    tempObj.position.copy(actor.getVisualGamePiece().getCenterMass());
+
+    if (actor.getVisualGamePiece() === null) {
+        tempObj.position.copy(actor.getPos());
+    } else {
+        tempObj.position.copy(actor.getVisualGamePiece().getCenterMass());
+    }
+
+
     tempObj.quaternion.set(0, 0, 0, 1);
     efct.quat.copy(tempObj.quaternion);
 
@@ -605,7 +612,13 @@ function setupOptsBoneToGround(efct, actor) {
 function setupOptsSprayUpwards(efct, actor, applies) {
     let tempObj = ThreeAPI.tempObj;
     tempObj.scale.set(1, 1, 1);
-    tempObj.position.copy(actor.getVisualGamePiece().getCenterMass());
+
+    if (actor.getVisualGamePiece() === null) {
+        tempObj.position.copy(actor.getPos());
+    } else {
+        tempObj.position.copy(actor.getVisualGamePiece().getCenterMass());
+    }
+
     let size = actor.getStatus(ENUMS.ActorStatus.SIZE);
     tempObj.position.y += size*0.5
     tempObj.quaternion.set(0, 0, 0, 1);

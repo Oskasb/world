@@ -33,7 +33,7 @@ function processVictory() {
     GuiAPI.screenText("VICTORY", ENUMS.Message.HINT, 5)
     let playerParty = GameAPI.getGamePieceSystem().playerParty;
     let victoryCall = function() {
-        playerParty.call.partyVictorious(getStatus(ENUMS.EncounterStatus.WORLD_ENCOUNTER_ID))
+        playerParty.call.partyVictorious(getStatus(ENUMS.EncounterStatus.WORLD_ENCOUNTER_ID), activeEncounter)
     }
 
     setTimeout(victoryCall, 2000)

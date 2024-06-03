@@ -5,9 +5,8 @@ class PlayerParty {
     constructor() {
         this.actors = [];
 
-        let partyVictorious = function(worldEncounterId) {
-            evt.dispatch(ENUMS.Event.ENCOUNTER_COMPLETED, {worldEncounterId:worldEncounterId})
-
+        let partyVictorious = function(worldEncounterId, wEnc) {
+            evt.dispatch(ENUMS.Event.ENCOUNTER_COMPLETED, {worldEncounterId:worldEncounterId, worldEncounter:wEnc})
 
             for (let i = 0; i < this.actors.length; i++) {
                 let actor = this.actors[i];

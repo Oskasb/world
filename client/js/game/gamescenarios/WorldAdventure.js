@@ -219,6 +219,7 @@ class WorldAdventure {
                     rootIndicator.showIndicator();
                 }
                 GameAPI.gameAdventureSystem.call.playerAdventureDeActivated(this)
+                activeNodeIndex = -1;
             }
         }.bind(this);
 
@@ -228,31 +229,29 @@ class WorldAdventure {
                 console.log("Trigger active adventure")
                 GameAPI.gameAdventureSystem.call.playerAdventureActivated(activeNodes)
             }
+            console.log("advanceAdventureStage", targetNodeIndex)
             targetNodeIndex++
         }.bind(this);
 
-        let notifyEncounterCompleted = function(encId) {
-
+        let notifyEncounterCompleted = function() {
             if (activeNodeIndex !== -1) {
-                let node = this.adventureNodes[activeNodeIndex];
-                if (node.isActive === true) {
-                    console.log('notifyEncounterCompleted', encId, node)
-                    advanceAdventureStage()
-                }
+                console.log("notifyEncounterCompleted", activeNodeIndex)
+                notifyEncounterOperation();
             }
-            
-        }.bind(this)
+        }
 
         let notifyEncounterOperation = function(worldEncounter) {
             if (activeNodeIndex === -1) {
                 return;
             }
-            let node = this.adventureNodes[activeNodeIndex];
+        //    let node = this.adventureNodes[activeNodeIndex];
+            advanceAdventureStage()
+            return;
             let nodeCfg = node.call.getConfig();
             let encCfg = worldEncounter.config;
             if (encCfg['node_id'] === nodeCfg.node_id) {
                 console.log("active node operation", node)
-                advanceAdventureStage()
+
             } else {
                 console.log('not active notifyEncounterOperation', worldEncounter.id, nodeCfg, worldEncounter, node)
             }

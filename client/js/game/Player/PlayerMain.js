@@ -253,7 +253,7 @@ class PlayerMain {
                 forward.multiplyScalar(2);
                 pos.add(forward);
                 host.transitionTo(pos, 1);
-                evt.dispatch(ENUMS.Event.ENCOUNTER_COMPLETED, {worldEncounterId:wEnc.id})
+                evt.dispatch(ENUMS.Event.ENCOUNTER_COMPLETED, {worldEncounterId:wEnc.id, worldEncounter:wEnc})
                 setTimeout(function() {
                     wEnc.deactivateWorldEncounter();
                 }, 1000);
@@ -266,7 +266,7 @@ class PlayerMain {
                 }
 
                 console.log("Operate Adventure ", e)
-                GameAPI.gameAdventureSystem.applyEncounterOperation(wEnc)
+            //   GameAPI.gameAdventureSystem.applyEncounterOperation(wEnc)
             }
 
 
