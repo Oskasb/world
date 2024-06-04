@@ -69,6 +69,7 @@ import {DomEditAdventureNodes} from "../ui/dom/DomEditAdventureNodes.js";
 import {AdventureNode} from "../../game/gamescenarios/AdventureNode.js";
 import {NodeHost} from "../../game/gamescenarios/NodeHost.js";
 import {VisualDestinationPointer} from "../../game/visuals/effects/VisualDestinationPointer.js";
+import {DomAdventureNote} from "../ui/dom/DomAdventureNote.js";
 
 
 let pools = {}
@@ -144,6 +145,7 @@ function initPools() {
     registerPool(AdventureNode)
     registerPool(NodeHost)
     registerPool(VisualDestinationPointer)
+    registerPool(DomAdventureNote)
 }
 
 function registerPool(DataObj) {

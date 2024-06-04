@@ -347,6 +347,17 @@ iframe.loot_notice {
     background: none;
 }
 
+iframe.adventure_note {
+    top: 150em;
+    right: 50em;
+    height: auto;
+    width: 260em;
+    border: 0;
+    position: fixed;
+    transform: translate3d(0px, 0px, 0px);
+    background: none;
+}
+
 iframe.minimap {
     top: 60em;
     right: 60em;

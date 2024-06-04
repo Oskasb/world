@@ -320,6 +320,11 @@ class GameActor {
 
     getVisualJointWorldTransform(jointKey, storeObj3d) {
 
+        if (this.getVisualGamePiece() === null) {
+            console.log("No getVisualGamePiece")
+            return;
+        }
+
         if (!this.getVisualGamePiece().getModel()) {
             console.log("No Model Ready")
         } else {

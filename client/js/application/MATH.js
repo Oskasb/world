@@ -609,6 +609,8 @@ MATH.angleInsideCircle = function(angle) {
 	return angle;
 };
 
+let zeroes = '00000000000000'
+let subS = [];
 
 MATH.numberToDigits = function(current, digits, min) {
 	progString = ''
@@ -616,12 +618,14 @@ MATH.numberToDigits = function(current, digits, min) {
 		if (digits === 0) {
 			progString += Math.round(current);
 		} else {
-			progString += parseFloat((current).toFixed(digits)).toString().replace(/\.([0-9])$/, ".$"+digits)
-			if (progString.length < digits + min) {
-				progString += '.';
-				for (let i = 0; i < digits; i++) {
-					progString+= '0';
-				}
+			progString+=current;
+			subS = progString.split('.')
+			progString = subS[0]+'.';
+			if (subS.length === 1) {
+				subS.push(zeroes)
+			}
+			for (let i = 0; i < digits; i++) {
+				progString += subS[1][i] || 0;
 			}
 		}
 	} else {

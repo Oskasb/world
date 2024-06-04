@@ -5,6 +5,7 @@ import {configDataList} from "../../application/utils/ConfigUtils.js";
 import {ENUMS} from "../../application/ENUMS.js";
 import {poolFetch} from "../../application/utils/PoolUtils.js";
 import {VisualDestinationsLayer} from "../visuals/VisualDestinationsLayer.js";
+import {WorldAdventureUiSystem} from "../../application/ui/gui/systems/WorldAdventureUiSystem.js";
 
 let spatialTransition
 
@@ -42,6 +43,8 @@ function encounterCompleted(event) {
 
 class GameAdventureSystem {
     constructor() {
+        let worldAdvUiSys = new WorldAdventureUiSystem(this);
+
         spatialTransition  = new SpatialTransition();
         let adventureConfigs = [];
         this.startActor = null;
@@ -100,6 +103,7 @@ class GameAdventureSystem {
             if (active === false) {
                 active = true;
                 GameAPI.registerGameUpdateCallback(update);
+                worldAdvUiSys.on();
             }
         }
 
