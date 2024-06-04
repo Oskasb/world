@@ -145,7 +145,6 @@ class GameAdventureSystem {
 
         let playerAdventureDeActivated = function(worldAdventure) {
             console.log("playerAdventureDeActivated", worldAdventure);
-            let wAdvs = this.getWorldAdventures();
             visualDestinationLayer.call.setList(nearbyAdventures)
         }.bind(this);
 
@@ -179,6 +178,18 @@ class GameAdventureSystem {
 
             function setSelectedAdventure(adv) {
                 selectedAdventure = adv;
+                if (adv !== null) {
+                    let activeActor = GameAPI.getGamePieceSystem().selectedActor;
+                    if (activeActor) {
+                        GameAPI.getPlayer().setFocusOnPosition(selectedAdventure.getPos())
+                        activeActor.turnTowardsPos(selectedAdventure.getPos())
+                    } else {
+                        ThreeAPI.getCameraCursor().getLookAroundPoint().copy(adv.getPos())
+                    }
+                } else {
+                    GameAPI.getPlayer().setFocusOnPosition(null)
+                }
+
             }
 
         function getSelectedAdventure() {

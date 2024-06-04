@@ -32,6 +32,7 @@ class PlayerMain {
     constructor() {
         this.status = new Status(statusMap);
         this.heroPageActive = false;
+        this.focusOnPosition = null;
         this.tempVec = new THREE.Vector3();
         this.playerStash = new PlayerStash();
         this.playerCharacter = null;
@@ -355,6 +356,19 @@ class PlayerMain {
 
     getStatus(key) {
         return this.status.getStatus(key);
+    }
+
+    setFocusOnPosition(posVec) {
+        if (posVec !== null) {
+            this.focusOnPosition = posVec;
+        } else {
+            this.focusOnPosition = null;
+        }
+
+    }
+
+    getFocusOnPosition() {
+        return this.focusOnPosition;
     }
 
     setPlayerCharacter(character, oldMain) {

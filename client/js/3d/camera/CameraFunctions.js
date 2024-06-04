@@ -814,9 +814,20 @@ function CAM_MOVE() {
         distance = 0.5 + MATH.distanceBetween(tempVec3, selectedActor.getSpatialPosition()) * 6;
     }
 
+    let playerFocus = GameAPI.getPlayer().getFocusOnPosition();
+
     if (lookAtActive) {
+
         zoomDistance = 0.1 + MATH.curveQuad(distance*0.2);
-        let lookAt = CAM_POINTS[lookAtControlKey](targetActor);
+
+        let lookAt;
+        if (playerFocus !== null) {
+            lookAt = playerFocus;
+        } else {
+            lookAt = CAM_POINTS[lookAtControlKey](targetActor);
+        }
+
+
         lookAt.y += camObj.position.y*0.4
         lerpCameraLookAt(lookAt, tpf*2);
     }
@@ -825,23 +836,40 @@ function CAM_MOVE() {
         zoomDistance = 0.5*zoom + distance*0.4;
         let testObscured = true;
 
+        if (playerFocus === null) {
+            tempVec.set(0, 0, 1);
+            tempVec.applyQuaternion(orbitObj.quaternion);
+            tempVec.add(selectedActor.getSpatialPosition())
+            evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:selectedActor.getSpatialPosition(), to:tempVec, color:'YELLOW'});
+            tempVec.set(0, 0, 1);
+            tempVec.applyQuaternion(camObj.quaternion);
+            tempVec.add(selectedActor.getSpatialPosition())
+            evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:selectedActor.getSpatialPosition(), to:tempVec, color:'CYAN'});
+            tempVec2.addVectors(tempVec, camObj.position)
+            evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:tempVec, to:tempVec2, color:'CYAN'});
+            tempVec2.sub(selectedActor.getSpatialPosition());
+            tempVec2.multiplyScalar(zoomDistance);
+            tempVec2.add(selectedActor.getSpatialPosition())
+            evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:selectedActor.getSpatialPosition(), to:tempVec2, color:'GREEN'});
+            camPosVec.lerp(tempVec2, tpf * camFollowSpeed);
+            lerpCameraPosition(CAM_POINTS[lookFromControlKey](selectedActor), tpf*2, testObscured );
 
-        tempVec.set(0, 0, 1);
-        tempVec.applyQuaternion(orbitObj.quaternion);
-        tempVec.add(selectedActor.getSpatialPosition())
-        evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:selectedActor.getSpatialPosition(), to:tempVec, color:'YELLOW'});
-        tempVec.set(0, 0, 1);
-        tempVec.applyQuaternion(camObj.quaternion);
-        tempVec.add(selectedActor.getSpatialPosition())
-        evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:selectedActor.getSpatialPosition(), to:tempVec, color:'CYAN'});
-        tempVec2.addVectors(tempVec, camObj.position)
-        evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:tempVec, to:tempVec2, color:'CYAN'});
-        tempVec2.sub(selectedActor.getSpatialPosition());
-        tempVec2.multiplyScalar(zoomDistance);
-        tempVec2.add(selectedActor.getSpatialPosition())
-        evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:selectedActor.getSpatialPosition(), to:tempVec2, color:'GREEN'});
-        camPosVec.lerp(tempVec2, tpf * camFollowSpeed);
-        lerpCameraPosition(CAM_POINTS[lookFromControlKey](selectedActor), tpf*2, testObscured );
+        } else {
+
+            tempVec.set(0, 0.5, -0.8);
+            tempVec.multiplyScalar(zoomDistance);
+            tempObj.position.copy(selectedActor.getSpatialPosition());
+            tempObj.lookAt(playerFocus);
+            tempVec.applyQuaternion(tempObj.quaternion);
+            tempVec.add(selectedActor.getSpatialPosition())
+
+            camPosVec.lerp(tempVec, tpf * camFollowSpeed);
+        //    lerpCameraPosition(CAM_POINTS[lookFromControlKey](selectedActor), tpf*2, testObscured );
+        }
+
+
+
+
 
     }
 
