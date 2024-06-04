@@ -21,7 +21,7 @@ function updateAdvNoteList(notes, advs) {
 
     for (let i = 0; i < advs.length; i++) {
         let uiNote = getUiNoteByAdv(notes, advs[i]);
-        uiNote.call.setSortingIndex(notes.indexOf(uiNote));
+        uiNote.call.setSortingIndex(advs.indexOf(uiNote.call.getWorldAdventure()));
     }
 
     for (let i = 0; i < notes.length; i++) {

@@ -53,8 +53,10 @@ class GameAdventureSystem {
 
         let visualDestinationLayer = new VisualDestinationsLayer();
 
+        let wAdvs = [];
+
         let activateworldLevelAdventures = function() {
-            let wAdvs = this.getWorldAdventures();
+            wAdvs = this.getWorldAdventures();
             for (let i = 0; i < wAdvs.length; i++) {
                 wAdvs[i].call.activateAdventure();
             }
@@ -94,6 +96,8 @@ class GameAdventureSystem {
                 deactivateActiveAdventures()
                 activateworldLevelAdventures();
             }
+
+                wAdvs.sort((a, b) => a.distance - b.distance)
 
         }
 

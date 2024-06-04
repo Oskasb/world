@@ -44,12 +44,13 @@ class DomAdventureNote {
             let activate = function() {
                 lastSortIdx = -1;
                 rebuild = htmlElement.initHtmlElement('adventure_note', closeCb, statusMap, 'adventure_note', readyCb);
-                statusMap.header = worldAdventure.id;
+                statusMap.header = worldAdventure.config.name || worldAdventure.id;
                 htmlElement.showHtmlElement();
             }
 
             let lastSortIdx = -1;
             let idxOffset = 80;
+
 
             let update = function () {
 
@@ -57,13 +58,11 @@ class DomAdventureNote {
                     lastSortIdx = sortingIndex;
                     let offset = sortingIndex * idxOffset;
                     rootElement.style.top = offset +  280 + 'em'
-                //    DomUtils.translateElement3DPercent(rootElement, 0, offset, 0);
                 }
 
-                let cPos = ThreeAPI.getCameraCursor().getPos();
-                let aPos = worldAdventure.getPos();
-                statusMap.distance = MATH.numberToDigits(MATH.distanceBetween(cPos, aPos), 1, 1)
-
+                statusMap.distance = MATH.numberToDigits(worldAdventure.call.getCursorDistance(), 1, 1)+'m'
+                let lvl = worldAdventure.config.level || '??';
+                statusMap.level = 'Level: ' + lvl
             }
 
         let clearIframe = function() {

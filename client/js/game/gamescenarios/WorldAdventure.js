@@ -12,6 +12,7 @@ class WorldAdventure {
             nodes:[]
         }
 
+        this.distance = 0;
 
         let activeNodes = [];
 
@@ -126,10 +127,20 @@ class WorldAdventure {
 
         }.bind(this)
 
+        function calcDistance(aPos) {
+            let cPos = ThreeAPI.getCameraCursor().getPos();
+            return MATH.distanceBetween(cPos, aPos);
+        }
+
+        let getCursorDistance = function() {
+            return this.distance;
+        }.bind(this)
+
         let update = function() {
             MATH.vec3FromArray(this.getPos(), this.config.nodes[0].pos)
             unrollAdventureNodes()
 
+            this.distance = calcDistance(this.getPos())
 
             if (expandAll === true) {
                 for (let i = 0; i < this.adventureNodes.length; i++) {
@@ -140,7 +151,6 @@ class WorldAdventure {
                 }
             } else {
                 processActiveNode()
-
             }
 
         }.bind(this)
@@ -258,7 +268,10 @@ class WorldAdventure {
 
             }.bind(this)
 
+
+
         this.call = {
+            getCursorDistance:getCursorDistance,
             setTargetNodeIndex:setTargetNodeIndex,
             getTargetNodeIndex:getTargetNodeIndex,
             getNodeConfig:getNodeConfig,

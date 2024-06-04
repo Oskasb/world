@@ -350,7 +350,7 @@ iframe.loot_notice {
 iframe.adventure_note {
     top: 150em;
     right: 50em;
-    height: auto;
+    height: 90em;
     width: 260em;
     border: 0;
     position: fixed;
