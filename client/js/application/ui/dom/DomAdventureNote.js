@@ -3,6 +3,12 @@ import {poolReturn} from "../../utils/PoolUtils.js";
 
 let noticeQueue = [];
 
+function clearDivArray(array) {
+    while(array.length) {
+        DomUtils.removeDivElement(array.pop());
+    }
+}
+
 class DomAdventureNote {
     constructor() {
 
@@ -16,6 +22,8 @@ class DomAdventureNote {
 
 
         let htmlElement = new HtmlElement();
+
+        let nodesContainer;
 
         let statusMap = {
             selected:false
@@ -55,10 +63,26 @@ class DomAdventureNote {
             }
         }
 
+        let nodeIndicatorDivs = [];
+
+
+
+        function attachNodeIndicators() {
+            clearDivArray(nodeIndicatorDivs)
+
+            let nodes = worldAdventure.adventureNodes;
+
+            for (let i = 0; i < nodes.length; i++) {
+                DomUtils.createDivElement(nodesContainer, worldAdventure.id+'_node_'+i, '', 'adventure_node_indicator')
+            }
+
+        }
 
             let readyCb = function () {
                 rootElement = htmlElement.call.getRootElement()
                 container = htmlElement.call.getChildElement('notice_container')
+                nodesContainer = htmlElement.call.getChildElement('nodes_container')
+                attachNodeIndicators();
             //    DomUtils.addElementClass(container, statusMap.rarity)
                 let header = htmlElement.call.getChildElement('header')
                 DomUtils.addClickFunction(container, applySelect)
@@ -66,6 +90,7 @@ class DomAdventureNote {
             }
 
             let rebuild // = htmlElement.initHtmlElement('loot_notice', closeCb, statusMap, 'loot_notice', readyCb);
+
 
             let activate = function() {
                 lastSortIdx = -1;
@@ -75,7 +100,7 @@ class DomAdventureNote {
             }
 
             let lastSortIdx = -1;
-            let idxOffset = 80;
+            let idxOffset = 60;
 
 
             let update = function () {
@@ -83,7 +108,7 @@ class DomAdventureNote {
                 if (lastSortIdx !== sortingIndex) {
                     lastSortIdx = sortingIndex;
                     let offset = sortingIndex * idxOffset;
-                    rootElement.style.top = offset +  280 + 'em'
+                    rootElement.style.top = offset +  270 + 'em'
                 }
 
                 statusMap.distance = MATH.numberToDigits(worldAdventure.call.getCursorDistance(), 1, 1)+'m'
@@ -113,7 +138,7 @@ class DomAdventureNote {
             ThreeAPI.unregisterPrerenderCallback(update);
             htmlElement.hideHtmlElement()
             closeTimeout = setTimeout(clearIframe,1500)
-
+            clearDivArray(nodeIndicatorDivs)
         }.bind(this);
 
         let setSortingIndex = function(idx) {

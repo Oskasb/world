@@ -611,8 +611,8 @@ div.loot_panel h2 {
 
 div.adventure_panel {
     pointer-events: auto;
-    font-size: 1.5em;
-    top: 1em;
+    font-size: 1.2em;
+    top: 0.5em;
     left: 1em;
     right: 1em;
     height: auto;
@@ -634,6 +634,35 @@ div.adventure_panel h2 {
     text-shadow: inherit;
     font-size: 1.3em;
 }
+
+div.adventure_nodes_container {
+    pointer-events: auto;
+    font-size: 1.0em;
+    bottom: 1.1em;
+    left: 1.6em;
+    right: auto;
+    width: auto;
+    height: 0.8em;
+    position: absolute;
+}
+
+div.adventure_node_indicator {
+    pointer-events: none;
+    font-size: 0.8em;
+    bottom: 0.3em;
+    left: 2em;
+    right: auto;
+    width: 0.6em;
+    height: 0.4em;
+    display: inline-block;
+    margin-right: 0.2em;
+    background-color: rgba(133, 133, 133, 0.7);
+    border-color: #1c1c1c;
+    border-radius: 0.5em;
+    border-style: solid;
+    border-width: 0.2em;
+}
+
 
 div.bottom_container {
     font-size: 1em;
@@ -918,6 +947,7 @@ div.item_label {
     left:0.3em;
     height: 1.3em;
     padding: 0.5em;
+    padding-top: 0;
     font-size: 0.8em;
     position: relative;
     color: inherit;
