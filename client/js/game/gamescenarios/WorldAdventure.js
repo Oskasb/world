@@ -3,6 +3,7 @@ import {MATH} from "../../application/MATH.js";
 import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
 import {EncounterIndicator} from "../visuals/EncounterIndicator.js";
 import {parseConfigDataKey} from "../../application/utils/ConfigUtils.js";
+import {ENUMS} from "../../application/ENUMS.js";
 
 class WorldAdventure {
     constructor() {
@@ -136,11 +137,15 @@ class WorldAdventure {
             return this.distance;
         }.bind(this)
 
+        let updateDistance = function() {
+            this.distance = calcDistance(this.getPos())
+        }.bind(this);
+
         let update = function() {
             MATH.vec3FromArray(this.getPos(), this.config.nodes[0].pos)
             unrollAdventureNodes()
 
-            this.distance = calcDistance(this.getPos())
+
 
             if (expandAll === true) {
                 for (let i = 0; i < this.adventureNodes.length; i++) {
@@ -269,8 +274,24 @@ class WorldAdventure {
             }.bind(this)
 
 
+        let isCompleted = function() {
+            let activeActor = GameAPI.getGamePieceSystem().selectedActor;
+            if (activeActor) {
+                let dataList = activeActor.getStatus(ENUMS.ActorStatus.COMPLETED_ADVENTURES)
+                if (dataList.indexOf(this.id) !== -1) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+
+        }.bind(this)
+
 
         this.call = {
+            updateDistance:updateDistance,
             getCursorDistance:getCursorDistance,
             setTargetNodeIndex:setTargetNodeIndex,
             getTargetNodeIndex:getTargetNodeIndex,
@@ -281,7 +302,8 @@ class WorldAdventure {
             deactivateAdventure:deactivateAdventure,
             applyLoadedConfig:applyLoadedConfig,
             notifyEncounterCompleted:notifyEncounterCompleted,
-            notifyEncounterOperation:notifyEncounterOperation
+            notifyEncounterOperation:notifyEncounterOperation,
+            isCompleted:isCompleted
         }
 
     }

@@ -43,9 +43,9 @@ class WorldAdventureUiSystem {
 
 
         function update() {
-            let worldAdventures = gameAdventureSystem.getWorldAdventures();
+            let nearbyAdventures = gameAdventureSystem.call.getNearbyAdventures();
             let activeAdventures = gameAdventureSystem.getActiveWorldAdventures();
-            updateAdvNoteList(activeAdventureNotes, worldAdventures);
+            updateAdvNoteList(activeAdventureNotes, nearbyAdventures);
         }
 
         this.call = {

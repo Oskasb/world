@@ -17,7 +17,9 @@ class DomAdventureNote {
 
         let htmlElement = new HtmlElement();
 
-        let statusMap = {}
+        let statusMap = {
+            selected:false
+        }
         let sortingIndex = -1;
 
         let closeCb = function () {
@@ -30,12 +32,36 @@ class DomAdventureNote {
 
         let selectedActor = GameAPI.getGamePieceSystem().getSelectedGameActor();
 
+
+
+        let applySelect = function() {
+
+            let selectedAdv = GameAPI.gameAdventureSystem.call.getSelectedAdventure();
+            if (selectedAdv === worldAdventure) {
+                GameAPI.gameAdventureSystem.call.setSelectedAdventure(null)
+            } else {
+                GameAPI.gameAdventureSystem.call.setSelectedAdventure(worldAdventure)
+            }
+
+        }
+
+        function applySelected(bool) {
+            if (bool) {
+                statusMap.selected = true;
+                DomUtils.addElementClass(container, 'adventure_panel_selected')
+            } else {
+                statusMap.selected = false;
+                DomUtils.removeElementClass(container, 'adventure_panel_selected')
+            }
+        }
+
+
             let readyCb = function () {
                 rootElement = htmlElement.call.getRootElement()
-            //    container = htmlElement.call.getChildElement('notice_container')
+                container = htmlElement.call.getChildElement('notice_container')
             //    DomUtils.addElementClass(container, statusMap.rarity)
                 let header = htmlElement.call.getChildElement('header')
-                DomUtils.addClickFunction(header, rebuild)
+                DomUtils.addClickFunction(container, applySelect)
                 ThreeAPI.registerPrerenderCallback(update);
             }
 
@@ -43,7 +69,7 @@ class DomAdventureNote {
 
             let activate = function() {
                 lastSortIdx = -1;
-                rebuild = htmlElement.initHtmlElement('adventure_note', closeCb, statusMap, 'adventure_note', readyCb);
+                rebuild = htmlElement.initHtmlElement('adventure_note', null, statusMap, 'adventure_note', readyCb);
                 statusMap.header = worldAdventure.config.name || worldAdventure.id;
                 htmlElement.showHtmlElement();
             }
@@ -63,17 +89,31 @@ class DomAdventureNote {
                 statusMap.distance = MATH.numberToDigits(worldAdventure.call.getCursorDistance(), 1, 1)+'m'
                 let lvl = worldAdventure.config.level || '??';
                 statusMap.level = 'Level: ' + lvl
+
+                let selectedAdv = GameAPI.gameAdventureSystem.call.getSelectedAdventure();
+                if (selectedAdv !== worldAdventure) {
+                    if (statusMap.selected === true) {
+                        applySelected(false);
+                    }
+                } else  {
+                    if (statusMap.selected === false) {
+                        applySelected(true);
+                    }
+                }
+
+
             }
 
         let clearIframe = function() {
             htmlElement.closeHtmlElement()
-        }
+            poolReturn(this);
+        }.bind(this)
 
         let close = function () {
             ThreeAPI.unregisterPrerenderCallback(update);
             htmlElement.hideHtmlElement()
             closeTimeout = setTimeout(clearIframe,1500)
-            poolReturn(this);
+
         }.bind(this);
 
         let setSortingIndex = function(idx) {

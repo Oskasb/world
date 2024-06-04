@@ -17,6 +17,8 @@ let worldAdventures = {};
 let startableAdventures = [];
 let activeAdventures = [];
 
+let nearbyAdventures = [];
+
 function getActiveWorldLevelAdventure() {
 
     let worldLevel = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
@@ -60,7 +62,7 @@ class GameAdventureSystem {
             for (let i = 0; i < wAdvs.length; i++) {
                 wAdvs[i].call.activateAdventure();
             }
-            visualDestinationLayer.setDestinations(wAdvs);
+            visualDestinationLayer.setDestinations(nearbyAdventures);
             visualDestinationLayer.on();
         }.bind(this)
 
@@ -77,6 +79,27 @@ class GameAdventureSystem {
         let worldLevel = -1;
 
         let inCombat = false;
+
+
+        function updateNearbyAdventures() {
+            MATH.emptyArray(nearbyAdventures);
+
+            for (let i = 0; i < wAdvs.length; i++) {
+                let adv = wAdvs[i];
+                if (adv.call.isCompleted() === false) {
+                    adv.call.updateDistance();
+
+                    if (adv.distance < 200) {
+                        nearbyAdventures.push(adv);
+                    }
+                }
+            }
+
+            nearbyAdventures.sort((a, b) => a.distance - b.distance)
+            if (nearbyAdventures.length > 3) {
+                nearbyAdventures.length = 3;
+            }
+        }
 
             function update() {
 
@@ -97,7 +120,10 @@ class GameAdventureSystem {
                 activateworldLevelAdventures();
             }
 
-                wAdvs.sort((a, b) => a.distance - b.distance)
+
+                updateNearbyAdventures()
+
+
 
         }
 
@@ -120,7 +146,7 @@ class GameAdventureSystem {
         let playerAdventureDeActivated = function(worldAdventure) {
             console.log("playerAdventureDeActivated", worldAdventure);
             let wAdvs = this.getWorldAdventures();
-            visualDestinationLayer.call.setList(wAdvs)
+            visualDestinationLayer.call.setList(nearbyAdventures)
         }.bind(this);
 
 
@@ -144,10 +170,28 @@ class GameAdventureSystem {
                 }
             }.bind(this);
 
+
+            function getNearbyAdventures() {
+                return nearbyAdventures;
+            }
+
+            let selectedAdventure = null;
+
+            function setSelectedAdventure(adv) {
+                selectedAdventure = adv;
+            }
+
+        function getSelectedAdventure() {
+            return selectedAdventure;
+        }
+
         this.call = {
             playerAdventureActivated:playerAdventureActivated,
             playerAdventureDeActivated:playerAdventureDeActivated,
-            adventureCompleted:adventureCompleted
+            adventureCompleted:adventureCompleted,
+            getNearbyAdventures:getNearbyAdventures,
+            setSelectedAdventure:setSelectedAdventure,
+            getSelectedAdventure:getSelectedAdventure
         }
 
 
