@@ -128,7 +128,7 @@ function streamLoadEditsFromIndexInit() {
     let hold = 0;
     function processStream(tpf) {
         hold += tpf;
-        if (hold < 0.1) {
+        if (hold < 0.01) {
             return;
         }
         hold = 0;

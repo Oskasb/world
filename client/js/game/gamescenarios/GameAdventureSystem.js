@@ -139,17 +139,32 @@ class GameAdventureSystem {
 
         configDataList("WORLD_ADVENTURE","ADVENTURES", onData)
 
-        function playerAdventureActivated(activeNodes) {console.log("playerAdventureActivated", activeNodes);
+        function playerAdventureActivated(activeNodes, wAdv) {console.log("playerAdventureActivated", activeNodes);
             visualDestinationLayer.call.setList(activeNodes)
+
+            let activeActor = GameAPI.getGamePieceSystem().selectedActor;
+
+            if (activeActor) {
+                activeActor.setStatusKey(ENUMS.ActorStatus.ACTIVE_ADVENTURE, wAdv.id);
+            }
+
         }
 
         let playerAdventureDeActivated = function(worldAdventure) {
             console.log("playerAdventureDeActivated", worldAdventure);
             visualDestinationLayer.call.setList(nearbyAdventures)
+
+            let activeActor = GameAPI.getGamePieceSystem().selectedActor;
+
+            if (activeActor) {
+                activeActor.setStatusKey(ENUMS.ActorStatus.ACTIVE_ADVENTURE, "");
+            }
+
         }.bind(this);
 
 
             let adventureCompleted = function(wAdv) {
+                setSelectedAdventure(null);
                 let activeActor = GameAPI.getGamePieceSystem().selectedActor;
                 let dataList = activeActor.getStatus(ENUMS.ActorStatus.COMPLETED_ADVENTURES)
                 if (dataList.indexOf(wAdv.id) === -1) {
@@ -178,16 +193,19 @@ class GameAdventureSystem {
 
             function setSelectedAdventure(adv) {
                 selectedAdventure = adv;
+                let activeActor = GameAPI.getGamePieceSystem().selectedActor;
                 if (adv !== null) {
-                    let activeActor = GameAPI.getGamePieceSystem().selectedActor;
+
                     if (activeActor) {
-                        GameAPI.getPlayer().setFocusOnPosition(selectedAdventure.getPos())
-                        activeActor.turnTowardsPos(selectedAdventure.getPos())
+                        activeActor.setStatusKey(ENUMS.ActorStatus.SELECTED_ADVENTURE, selectedAdventure.id);
                     } else {
                         ThreeAPI.getCameraCursor().getLookAroundPoint().copy(adv.getPos())
                     }
                 } else {
-                    GameAPI.getPlayer().setFocusOnPosition(null)
+                    GameAPI.getPlayer().setFocusOnPosition(null);
+                    if (activeActor) {
+                        activeActor.setStatusKey(ENUMS.ActorStatus.SELECTED_ADVENTURE, '');
+                    }
                 }
 
             }
@@ -226,6 +244,15 @@ class GameAdventureSystem {
 
     getWorldAdventures() {
         return getActiveWorldLevelAdventure()
+    }
+
+    getAdventureById(advId) {
+        let advs = getActiveWorldLevelAdventure();
+        for (let i = 0; i < advs.length; i++) {
+            if (advs[i].id === advId) {
+                return advs[i];
+            }
+        }
     }
 
     registerAdventure(worldLevel, worldAdventure) {

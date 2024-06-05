@@ -1,0 +1,44 @@
+{
+  "nodes": [
+    {
+      "pos": [
+        -854.5,
+        2.5,
+        504.1
+      ],
+      "node_type": "ENCOUNTER",
+      "node_id": "node_1_1717418890552"
+    },
+    {
+      "pos": [
+        -850,
+        3.3,
+        492.5
+      ],
+      "node_type": "BATTLE",
+      "node_id": "node_2_1717418905228"
+    },
+    {
+      "pos": [
+        -842.6,
+        4.1,
+        484.5
+      ],
+      "node_type": "BATTLE",
+      "node_id": "node_3_1717418907939"
+    },
+    {
+      "pos": [
+        -832.3,
+        4.1,
+        475.5
+      ],
+      "node_type": "BATTLE",
+      "node_id": "node_4_1717418911229"
+    }
+  ],
+  "name": "Bridgetown Road",
+  "level": 2,
+  "edit_id": "bridgetown_road",
+  "grid": 0
+}

@@ -557,6 +557,14 @@ class GameActor {
 
     }
 
+    setAdventureProgress(advId, progressIndex) {
+        this.actorStatus.setStatusAdvProgress(advId, progressIndex);
+    }
+
+    getAdventureProgress(advId) {
+        return this.actorStatus.getStatusAdvProgress(advId);
+    }
+
     moveActorOnGridTo(pos, onMoveEnded) {
         let gameWalkGrid = this.getGameWalkGrid()
         gameWalkGrid.buildGridPath(pos, this.getSpatialPosition())

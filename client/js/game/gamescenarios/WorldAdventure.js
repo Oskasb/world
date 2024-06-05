@@ -242,10 +242,17 @@ class WorldAdventure {
         let advanceAdventureStage = function() {
             if (activeNodeIndex === 0) {
                 console.log("Trigger active adventure")
-                GameAPI.gameAdventureSystem.call.playerAdventureActivated(activeNodes)
+                GameAPI.gameAdventureSystem.call.playerAdventureActivated(activeNodes, this)
             }
             console.log("advanceAdventureStage", targetNodeIndex)
-            targetNodeIndex++
+                   targetNodeIndex++
+
+            let activeActor = GameAPI.getGamePieceSystem().selectedActor;
+
+            if (activeActor) {
+                activeActor.setAdventureProgress(this.id, targetNodeIndex);
+            }
+
         }.bind(this);
 
         let notifyEncounterCompleted = function() {
@@ -289,12 +296,17 @@ class WorldAdventure {
 
         }.bind(this)
 
+        let getTargetNode = function() {
+            return this.adventureNodes[activeNodeIndex];
+        }.bind(this);
+
 
         this.call = {
             updateDistance:updateDistance,
             getCursorDistance:getCursorDistance,
             setTargetNodeIndex:setTargetNodeIndex,
             getTargetNodeIndex:getTargetNodeIndex,
+            getTargetNode:getTargetNode,
             getNodeConfig:getNodeConfig,
             activateAdventure:activateAdventure,
             startAdventure:startAdventure,

@@ -1,0 +1,35 @@
+{
+  "nodes": [
+    {
+      "pos": [
+        -873,
+        2.5,
+        523.6
+      ],
+      "node_type": "ENCOUNTER",
+      "node_id": "node_1_1717413263445"
+    },
+    {
+      "pos": [
+        -867.2,
+        2.5,
+        525.6
+      ],
+      "node_type": "BATTLE",
+      "node_id": "node_enc_adv_farmer_2"
+    },
+    {
+      "pos": [
+        -888,
+        2.1,
+        524
+      ],
+      "node_type": "BATTLE",
+      "node_id": "node_3_1717413305169"
+    }
+  ],
+  "name": "Village Problems",
+  "level": 1,
+  "edit_id": "village_problems",
+  "grid": 0
+}

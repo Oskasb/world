@@ -12,6 +12,7 @@ import {ENUMS} from "../../application/ENUMS.js";
 import {hasCombatState} from "../../../../Server/game/actor/ActorStatusFunctions.js";
 import {ItemSlot} from "../gamepieces/ItemSlot.js";
 import {aaBoxTestVisibility} from "../../application/utils/ModelUtils.js";
+import {ActorStatus} from "./ActorStatus.js";
 
 let tempVec = new Vector3()
 let tempVec2 = new Vector3();
@@ -504,6 +505,40 @@ function processInventoryStatus(actor) {
     }
 }
 
+function processAdventureStatus(actor) {
+
+    let worldAdventures = GameAPI.gameAdventureSystem.getWorldAdventures();
+
+    let selectedAdventureId = actor.getStatus(ENUMS.ActorStatus.SELECTED_ADVENTURE);
+
+        if (selectedAdventureId !== "") {
+            let selectedAdventure = GameAPI.gameAdventureSystem.getAdventureById(selectedAdventureId);
+            if (selectedAdventure) {
+                let node = selectedAdventure.call.getTargetNode()
+                if (node) {
+                    GameAPI.getPlayer().setFocusOnPosition(node.getPos())
+                    actor.turnTowardsPos(node.getPos())
+                } else {
+                    GameAPI.getPlayer().setFocusOnPosition(selectedAdventure.getPos())
+                    actor.turnTowardsPos(selectedAdventure.getPos())
+                }
+            }
+
+        } else {
+            GameAPI.getPlayer().setFocusOnPosition(null)
+        }
+
+
+    let activeAdventure = actor.getStatus(ENUMS.ActorStatus.ACTIVE_ADVENTURE);
+    if (activeAdventure !== "") {
+
+    } else {
+        let completedAdventures = actor.getStatus(ENUMS.ActorStatus.COMPLETED_ADVENTURES);
+    }
+
+
+
+}
 
 class ActorStatusProcessor {
     constructor() {
@@ -596,7 +631,8 @@ class ActorStatusProcessor {
             updateViewPhysicalObstruction(actor);
             processActorEncounterExit(actor);
             processWorldTransition(actor);
-            processInventoryStatus(actor)
+            processInventoryStatus(actor);
+            processAdventureStatus(actor);
         }
         processAnimationState(actor);
         this.indicateSelectionStatus(actor);

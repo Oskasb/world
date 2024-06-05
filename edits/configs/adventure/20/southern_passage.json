@@ -1,0 +1,44 @@
+{
+  "nodes": [
+    {
+      "pos": [
+        -851.3,
+        2.1,
+        537.8
+      ],
+      "node_type": "ENCOUNTER",
+      "node_id": "node_2_1717418657656"
+    },
+    {
+      "pos": [
+        -852.8,
+        2.5,
+        549.7
+      ],
+      "node_type": "BATTLE",
+      "node_id": "node_5_1717418698136"
+    },
+    {
+      "pos": [
+        -854.2,
+        2.5,
+        558.4
+      ],
+      "node_type": "BATTLE",
+      "node_id": "node_6_1717418701092"
+    },
+    {
+      "pos": [
+        -844.4,
+        4.1,
+        568.3
+      ],
+      "node_type": "BATTLE",
+      "node_id": "node_7_1717418706152"
+    }
+  ],
+  "name": "Southern Passage",
+  "level": 2,
+  "edit_id": "southern_passage",
+  "grid": 0
+}

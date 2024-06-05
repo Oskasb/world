@@ -1,0 +1,26 @@
+{
+  "nodes": [
+    {
+      "pos": [
+        -823.4,
+        8,
+        525.4
+      ],
+      "node_type": "ENCOUNTER",
+      "node_id": "node_1_1717490362395"
+    },
+    {
+      "pos": [
+        -809.7,
+        9.2,
+        526.4
+      ],
+      "node_type": "BATTLE",
+      "node_id": "node_2_1717490377268"
+    }
+  ],
+  "name": "Forest Bandits",
+  "level": 3,
+  "edit_id": "forest_bandits",
+  "grid": 0
+}
