@@ -63,6 +63,10 @@ class NodeHost {
 
     }
 
+    getPos() {
+        return this.obj3d.position;
+    }
+
     activateNodeHost(node) {
         this.node = node;
         GameAPI.registerGameUpdateCallback(this.call.update);

@@ -820,9 +820,9 @@ function CAM_MOVE() {
 
         zoomDistance = 0.1 + MATH.curveQuad(distance*0.2);
 
-        let lookAt;
+        let lookAt = tempVec;
         if (playerFocus !== null) {
-            lookAt = playerFocus;
+            lookAt.copy(playerFocus);
         } else {
             lookAt = CAM_POINTS[lookAtControlKey](targetActor);
         }

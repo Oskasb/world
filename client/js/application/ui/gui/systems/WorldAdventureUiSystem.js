@@ -1,4 +1,5 @@
 import {poolFetch} from "../../../utils/PoolUtils.js";
+import {ENUMS} from "../../../ENUMS.js";
 
 function getUiNoteByAdv(notes, adv) {
 
@@ -40,12 +41,29 @@ class WorldAdventureUiSystem {
 
 
         let activeAdventureNotes = [];
-
+        let activeAdvs = [];
 
         function update() {
-            let nearbyAdventures = gameAdventureSystem.call.getNearbyAdventures();
-            let activeAdventures = gameAdventureSystem.getActiveWorldAdventures();
-            updateAdvNoteList(activeAdventureNotes, nearbyAdventures);
+
+            let activeActor = GameAPI.getGamePieceSystem().selectedActor;
+            let activeAdventureId = "";
+            if (activeActor) {
+                activeAdventureId = activeActor.getStatus(ENUMS.ActorStatus.ACTIVE_ADVENTURE);
+            }
+
+            let notedAdventures;
+
+            MATH.emptyArray(activeAdvs);
+
+            if (activeAdventureId !== "") {
+                let adv = GameAPI.gameAdventureSystem.getAdventureById(activeAdventureId);
+                activeAdvs[0] = adv;
+            } else {
+                gameAdventureSystem.call.getNearbyAdventures(activeAdvs);
+            }
+
+
+            updateAdvNoteList(activeAdventureNotes, activeAdvs);
         }
 
         this.call = {

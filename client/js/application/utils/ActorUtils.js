@@ -101,11 +101,16 @@ function deactivateActorVisuals(actor) {
     }
 }
 
+function getPlayerActor() {
+    return GameAPI.getGamePieceSystem().selectedActor;
+}
+
 export {
     mapItemConfigs,
     getItemConfigs,
     getSlotToItemMap,
     autoEquipActorByLevel,
     activateActorVisuals,
-    deactivateActorVisuals
+    deactivateActorVisuals,
+    getPlayerActor
 }

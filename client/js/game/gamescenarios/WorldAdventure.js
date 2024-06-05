@@ -4,6 +4,7 @@ import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
 import {EncounterIndicator} from "../visuals/EncounterIndicator.js";
 import {parseConfigDataKey} from "../../application/utils/ConfigUtils.js";
 import {ENUMS} from "../../application/ENUMS.js";
+import {getPlayerActor} from "../../application/utils/ActorUtils.js";
 
 class WorldAdventure {
     constructor() {
@@ -26,10 +27,8 @@ class WorldAdventure {
             rootIndicator.showIndicator();
         }
 
-        let targetNodeIndex = -1;
         let activeNodeIndex = -1;
 
-        let activeAdventures = GameAPI.gameAdventureSystem.getActiveWorldAdventures()
 
         this.adventureNodes = [];
 
@@ -67,13 +66,14 @@ class WorldAdventure {
             while (this.adventureNodes.length < this.config.nodes.length) {
                 let node = poolFetch('AdventureNode');
                 this.adventureNodes.push(node);
+                node.call.setAdventure(this);
             }
 
         }.bind(this)
 
 
         let activeNodeIndexUpdate = function() {
-            if (targetNodeIndex === -1) {
+            if (isActive === true) {
                 rootIndicator.showIndicator();
             } else {
                 rootIndicator.hideIndicator();
@@ -87,15 +87,16 @@ class WorldAdventure {
                 }
             }
 
-            activeNodeIndex = targetNodeIndex;
+            activeNodeIndex = getTargetNodeIndex();
 
             if (activeNodeIndex !== -1) {
                 let newNode = this.adventureNodes[activeNodeIndex];
                 if (!newNode) {
                     console.log("No new node.. (all nodes completed)", activeNodeIndex, this.adventureNodes)
-                    stopAdventure(activeNodeIndex);
+                    sleepAdventure(activeNodeIndex);
                 } else if (newNode.isActive === false) {
                     newNode.activateAdventureNode(this)
+                //    this.getPos().copy(newNode.getPos())
                     activeNodes.push(newNode);
                 }
             }
@@ -104,7 +105,7 @@ class WorldAdventure {
 
         let processActiveNode = function() {
 
-            if (activeNodeIndex !== targetNodeIndex) {
+            if (activeNodeIndex !== getTargetNodeIndex()) {
                 activeNodeIndexUpdate()
             }
 
@@ -112,17 +113,11 @@ class WorldAdventure {
 
             if (dst < 20) {
                 if (isStarted === false) {
-                    startAdventure();
-                    if (activeNodeIndex === -1) {
-                        setTargetNodeIndex(0);
-                    }
+                    wakeTargetNode();
                 }
             } else {
                 if (isStarted === true) {
-                    if (activeNodeIndex === 0) {
-                        stopAdventure();
-                        setTargetNodeIndex(-1);
-                    }
+                    sleepAdventure();
                 }
             }
 
@@ -145,13 +140,11 @@ class WorldAdventure {
             MATH.vec3FromArray(this.getPos(), this.config.nodes[0].pos)
             unrollAdventureNodes()
 
-
-
             if (expandAll === true) {
                 for (let i = 0; i < this.adventureNodes.length; i++) {
                     let node = this.adventureNodes[i];
                     if (node.isActive === false) {
-                        node.activateAdventureNode(this)
+                        node.activateAdventureNode()
                     }
                 }
             } else {
@@ -159,7 +152,6 @@ class WorldAdventure {
             }
 
         }.bind(this)
-
 
         let closeActiveNodes = function() {
             MATH.emptyArray(activeNodes);
@@ -180,104 +172,85 @@ class WorldAdventure {
             parseConfigDataKey("ENCOUNTER_INDICATORS", "INDICATORS",  'indicator_data', 'adventure_indicator', onIndicatorData)
             expandAll = expandAllNodes || false;
             isActive = true;
-            activeAdventures.push(this)
-            GameAPI.registerGameUpdateCallback(update);
            }.bind(this);
 
         let deactivateAdventure = function() {
-            if (isStarted === true) {
-                return;
-            }
+            GameAPI.gameAdventureSystem.call.playerAdventureDeActivated(this)
             isActive = false;
-            MATH.splice(activeAdventures, this);
             closeActiveNodes();
-            GameAPI.unregisterGameUpdateCallback(update);
         }.bind(this);
-
 
         let getNodeConfig = function(node) {
             return this.config.nodes[this.adventureNodes.indexOf(node)];
         }.bind(this)
 
-
         function setTargetNodeIndex(idx) {
-            targetNodeIndex = idx;
+            let playerActor = getPlayerActor();
+            if (playerActor) {
+                playerActor.setAdventureProgress(this.id, idx);
+            }
         }
 
-        function getTargetNodeIndex() {
-            return targetNodeIndex;
-        }
+        let getTargetNodeIndex = function() {
 
-        let startAdventure = function() {
-            console.log("startAdventure", this);
-            MATH.splice(activeAdventures, this);
+            let playerActor = getPlayerActor();
+            if (playerActor) {
+                return playerActor.getAdventureProgress(this.id);
+            }
+            return 0;
+        }.bind(this)
+
+        let wakeTargetNode = function() {
+            console.log("wakeTargetNode", this);
             isStarted = true;
             rootIndicator.hideIndicator();
         }.bind(this)
 
-        let stopAdventure = function(atNodeIndex) {
-            console.log("stopAdventure", this);
-            if (activeAdventures.indexOf(this) === -1) {
-                activeAdventures.push(this)
-            }
+        let sleepAdventure = function(atNodeIndex) {
+            console.log("sleepAdventure", this);
+
             closeActiveNodes();
+
             if (isStarted === true) {
+
                 isStarted = false;
-                if (atNodeIndex) {
+                if (typeof (atNodeIndex) === 'number') {
                     if (this.adventureNodes.length < atNodeIndex) {
                         console.log("Stop Adv after last node", atNodeIndex, this.adventureNodes)
                         GameAPI.gameAdventureSystem.call.adventureCompleted(this)
                     } else {
                         console.log("Stop Adv at present nodes", atNodeIndex, this.adventureNodes)
                     }
-                } else {
+                }
+
+                if (this.call.isCompleted() === false) {
                     rootIndicator.showIndicator();
                 }
-                GameAPI.gameAdventureSystem.call.playerAdventureDeActivated(this)
-                activeNodeIndex = -1;
+
+
             }
         }.bind(this);
 
 
         let advanceAdventureStage = function() {
-            if (activeNodeIndex === 0) {
-                console.log("Trigger active adventure")
-                GameAPI.gameAdventureSystem.call.playerAdventureActivated(activeNodes, this)
-            }
-            console.log("advanceAdventureStage", targetNodeIndex)
-                   targetNodeIndex++
+            console.log("advanceAdventureStage", this)
 
+            GameAPI.gameAdventureSystem.call.playerAdventureActivated(activeNodes, this)
             let activeActor = GameAPI.getGamePieceSystem().selectedActor;
 
             if (activeActor) {
-                activeActor.setAdventureProgress(this.id, targetNodeIndex);
+                activeActor.setAdventureProgress(this.id, getTargetNodeIndex() +1);
             }
 
         }.bind(this);
 
         let notifyEncounterCompleted = function() {
-            if (activeNodeIndex !== -1) {
-                console.log("notifyEncounterCompleted", activeNodeIndex)
-                notifyEncounterOperation();
-            }
+            console.log("notifyEncounterCompleted", activeNodeIndex)
+            notifyEncounterOperation();
         }
 
-        let notifyEncounterOperation = function(worldEncounter) {
-            if (activeNodeIndex === -1) {
-                return;
-            }
-        //    let node = this.adventureNodes[activeNodeIndex];
-            advanceAdventureStage()
-            return;
-            let nodeCfg = node.call.getConfig();
-            let encCfg = worldEncounter.config;
-            if (encCfg['node_id'] === nodeCfg.node_id) {
-                console.log("active node operation", node)
-
-            } else {
-                console.log('not active notifyEncounterOperation', worldEncounter.id, nodeCfg, worldEncounter, node)
-            }
-
+        let notifyEncounterOperation = function() {
+                advanceAdventureStage()
             }.bind(this)
 
 
@@ -297,20 +270,19 @@ class WorldAdventure {
         }.bind(this)
 
         let getTargetNode = function() {
-            return this.adventureNodes[activeNodeIndex];
+            return this.adventureNodes[getTargetNodeIndex()];
         }.bind(this);
 
 
         this.call = {
+            update:update,
             updateDistance:updateDistance,
             getCursorDistance:getCursorDistance,
-            setTargetNodeIndex:setTargetNodeIndex,
             getTargetNodeIndex:getTargetNodeIndex,
             getTargetNode:getTargetNode,
             getNodeConfig:getNodeConfig,
             activateAdventure:activateAdventure,
-            startAdventure:startAdventure,
-            stopAdventure:stopAdventure,
+            sleepAdventure:sleepAdventure,
             deactivateAdventure:deactivateAdventure,
             applyLoadedConfig:applyLoadedConfig,
             notifyEncounterCompleted:notifyEncounterCompleted,
@@ -321,6 +293,12 @@ class WorldAdventure {
     }
 
     getPos() {
+
+        let targetNode = this.call.getTargetNode();
+        if (typeof (targetNode) !== 'undefined') {
+            this.obj3d.position.lerp(targetNode.getPos(), 0.2);
+        }
+
         return this.obj3d.position;
     }
 

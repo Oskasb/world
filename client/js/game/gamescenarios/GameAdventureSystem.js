@@ -69,7 +69,7 @@ class GameAdventureSystem {
         function deactivateActiveAdventures() {
             while (activeAdventures.length) {
                 let adv = activeAdventures.pop();
-                adv.call.stopAdventure()
+                adv.call.sleepAdventure()
                 adv.call.deactivateAdventure()
             }
             visualDestinationLayer.off();
@@ -99,10 +99,19 @@ class GameAdventureSystem {
             if (nearbyAdventures.length > 3) {
                 nearbyAdventures.length = 3;
             }
+
+            for (let i = 0; i < nearbyAdventures.length; i++) {
+                nearbyAdventures[i].call.update()
+            }
+
         }
 
-            function update() {
+        let updateActiveAdventure = function(advId) {
+            let adv = this.getAdventureById(advId);
+            adv.call.update();
+        }.bind(this);
 
+            function update() {
 
                 let activeCombat = GameAPI.checkInCombat()
                 if (activeCombat !== inCombat) {
@@ -121,9 +130,18 @@ class GameAdventureSystem {
             }
 
 
-                updateNearbyAdventures()
+            let activeAdventureId = "";
+                let activeActor = GameAPI.getGamePieceSystem().selectedActor;
 
+                if (activeActor) {
+                    activeAdventureId =  activeActor.getStatus(ENUMS.ActorStatus.ACTIVE_ADVENTURE);
+                }
 
+                if (activeAdventureId !== "") {
+                    updateActiveAdventure(activeAdventureId);
+                } else {
+                    updateNearbyAdventures()
+                }
 
         }
 
@@ -139,7 +157,8 @@ class GameAdventureSystem {
 
         configDataList("WORLD_ADVENTURE","ADVENTURES", onData)
 
-        function playerAdventureActivated(activeNodes, wAdv) {console.log("playerAdventureActivated", activeNodes);
+        function playerAdventureActivated(activeNodes, wAdv) {
+                console.log("playerAdventureActivated", activeNodes);
             visualDestinationLayer.call.setList(activeNodes)
 
             let activeActor = GameAPI.getGamePieceSystem().selectedActor;
@@ -185,8 +204,10 @@ class GameAdventureSystem {
             }.bind(this);
 
 
-            function getNearbyAdventures() {
-                return nearbyAdventures;
+            function getNearbyAdventures(store) {
+                MATH.copyArrayValues(nearbyAdventures, store);
+                return store;
+                // return nearbyAdventures;
             }
 
             let selectedAdventure = null;

@@ -70,9 +70,11 @@ class DomAdventureNote {
             if (bool) {
                 statusMap.active = true;
                 DomUtils.addElementClass(container, 'adventure_panel_active')
+                closeAnchor.style.display = "";
             } else {
                 statusMap.active = false;
                 DomUtils.removeElementClass(container, 'adventure_panel_active')
+                closeAnchor.style.display = "none";
             }
         }
 
@@ -92,8 +94,12 @@ class DomAdventureNote {
 
         }
 
+        let closeAnchor;
+
             let readyCb = function () {
                 rootElement = htmlElement.call.getRootElement()
+                closeAnchor =  htmlElement.call.getChildElement('anchor_close')
+                closeAnchor.style.display = "none";
                 container = htmlElement.call.getChildElement('notice_container')
                 nodesContainer = htmlElement.call.getChildElement('nodes_container')
             //    DomUtils.addElementClass(container, statusMap.rarity)
@@ -107,7 +113,9 @@ class DomAdventureNote {
 
             let activate = function() {
                 lastSortIdx = -1;
-                rebuild = htmlElement.initHtmlElement('adventure_note', null, statusMap, 'adventure_note', readyCb);
+                statusMap.selected = false;
+                statusMap.active = false;
+                rebuild = htmlElement.initHtmlElement('adventure_note', close, statusMap, 'adventure_note', readyCb);
                 statusMap.header = worldAdventure.config.name || worldAdventure.id;
                 htmlElement.showHtmlElement();
             }
@@ -238,6 +246,11 @@ class DomAdventureNote {
             closeTimeout = setTimeout(clearIframe,1500)
             clearDivArray(nodeIndicatorDivs)
             statusMap.selected = false;
+
+            if (statusMap.active === true) {
+                GameAPI.gameAdventureSystem.call.playerAdventureDeActivated(worldAdventure);
+            }
+
             statusMap.active = false;
             sortingIndex = -1;
         }.bind(this);

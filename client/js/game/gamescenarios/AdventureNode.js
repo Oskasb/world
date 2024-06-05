@@ -110,7 +110,8 @@ class AdventureNode {
 
         function setAdventure(adv) {
             adventure = adv;
-
+            let cfg = getConfig();
+            MATH.vec3FromArray(pos, cfg.pos);
         }
 
         function update() {
@@ -122,19 +123,27 @@ class AdventureNode {
                 nodeType = cfgType;
                 updateNodeType()
             }
-
-            MATH.vec3FromArray(pos, cfg.pos);
+/*
+            if (encounter !== null) {
+                pos.copy(encounter.getPos())
+            } else {
+                MATH.vec3FromArray(pos, cfg.pos);
+            }
+*/
 
 
         }
 
         function getPos() {
+            let cfg = getConfig();
+            MATH.vec3FromArray(pos, cfg.pos);
             return pos;
         }
 
         let close = function() {
             removeNodeContent();
             despawnNodeHost();
+
             nodeType = null;
         }
 
@@ -157,10 +166,8 @@ class AdventureNode {
         return this.call.getPos();
     }
 
-    activateAdventureNode(adventure) {
+    activateAdventureNode() {
         this.isActive = true;
-        this.call.setAdventure(adventure);
-
         GameAPI.registerGameUpdateCallback(this.call.update);
         this.call.spawnNodeHost();
     }
