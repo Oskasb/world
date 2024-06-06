@@ -89,36 +89,36 @@ class WorldAdventure {
 
             activeNodeIndex = getTargetNodeIndex();
 
-            if (activeNodeIndex !== -1) {
+
                 let newNode = this.adventureNodes[activeNodeIndex];
                 if (!newNode) {
                     console.log("No new node.. (all nodes completed)", activeNodeIndex, this.adventureNodes)
                     sleepAdventure(activeNodeIndex);
                 } else if (newNode.isActive === false) {
                     newNode.activateAdventureNode(this)
-                //    this.getPos().copy(newNode.getPos())
+                    //    this.getPos().copy(newNode.getPos())
                     activeNodes.push(newNode);
                 }
-            }
+
+
         }.bind(this)
 
 
         let processActiveNode = function() {
 
-            if (activeNodeIndex !== getTargetNodeIndex()) {
-                activeNodeIndexUpdate()
+            let dst = MATH.distanceBetween(this.getPos(), ThreeAPI.getCameraCursor().getPos())
+            if (dst > 20) {
+                sleepAdventure();
+            } else {
+                wakeTargetNode();
             }
 
-            let dst = MATH.distanceBetween(this.getPos(), ThreeAPI.getCameraCursor().getPos())
-
-            if (dst < 20) {
-                if (isStarted === false) {
-                    wakeTargetNode();
+            if (isStarted === true) {
+                if (activeNodeIndex !== getTargetNodeIndex()) {
+                    activeNodeIndexUpdate()
                 }
             } else {
-                if (isStarted === true) {
-                    sleepAdventure();
-                }
+                activeNodeIndex = -1;
             }
 
         }.bind(this)
