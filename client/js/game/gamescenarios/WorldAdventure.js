@@ -15,8 +15,9 @@ class WorldAdventure {
         }
 
         this.distance = 0;
-
+        this.isNear = false;
         let activeNodes = [];
+
 
         let isStarted = false;
         let rootIndicator = new EncounterIndicator(this.obj3d)
@@ -28,7 +29,6 @@ class WorldAdventure {
         }
 
         let activeNodeIndex = -1;
-
 
         this.adventureNodes = [];
 
@@ -73,6 +73,7 @@ class WorldAdventure {
 
 
         let activeNodeIndexUpdate = function() {
+            console.log("activeNodeIndexUpdate",activeNodeIndex)
             if (isActive === true) {
                 rootIndicator.showIndicator();
             } else {
@@ -104,22 +105,25 @@ class WorldAdventure {
         }.bind(this)
 
 
-        let processActiveNode = function() {
+        let processProximityState = function() {
 
             let dst = MATH.distanceBetween(this.getPos(), ThreeAPI.getCameraCursor().getPos())
-            if (dst > 20) {
-                sleepAdventure();
-            } else {
-                wakeTargetNode();
-            }
 
-            if (isStarted === true) {
-                if (activeNodeIndex !== getTargetNodeIndex()) {
-                    activeNodeIndexUpdate()
+                if (dst < 20) {
+                    if (this.isNear === false) {
+                        let node = getTargetNode();
+                        node.activateAdventureNode()
+                        rootIndicator.hideIndicator();
+                    }
+                    this.isNear = true;
+                } else {
+                    if (this.isNear === true) {
+                        let node = getTargetNode();
+                        node.deactivateAdventureNode()
+                        rootIndicator.showIndicator();
+                    }
+                    this.isNear = false;
                 }
-            } else {
-                activeNodeIndex = -1;
-            }
 
         }.bind(this)
 
@@ -148,7 +152,7 @@ class WorldAdventure {
                     }
                 }
             } else {
-                processActiveNode()
+                processProximityState()
             }
 
         }.bind(this)
@@ -203,7 +207,7 @@ class WorldAdventure {
         let wakeTargetNode = function() {
             console.log("wakeTargetNode", this);
             isStarted = true;
-            rootIndicator.hideIndicator();
+
         }.bind(this)
 
         let sleepAdventure = function(atNodeIndex) {
@@ -226,9 +230,8 @@ class WorldAdventure {
                 if (this.call.isCompleted() === false) {
                     rootIndicator.showIndicator();
                 }
-
-
             }
+
         }.bind(this);
 
 
@@ -244,9 +247,15 @@ class WorldAdventure {
 
         }.bind(this);
 
-        let notifyEncounterCompleted = function() {
-            console.log("notifyEncounterCompleted", activeNodeIndex)
-            notifyEncounterOperation();
+        let notifyEncounterCompleted = function(worldEncounter) {
+                 let node = getTargetNode();
+                 if (typeof (node) === 'object') {
+                     if (node.call.getEncounter() === worldEncounter) {
+                         console.log("notifyEncounterCompleted", worldEncounter, getTargetNodeIndex())
+                         advanceAdventureStage()
+                     }
+                 }
+
         }
 
         let notifyEncounterOperation = function() {
@@ -274,6 +283,30 @@ class WorldAdventure {
         }.bind(this);
 
 
+        let adventureIsActive = function() {
+            let activeActor = getPlayerActor();
+            if (activeActor) {
+                let activeId = activeActor.getStatus(ENUMS.ActorStatus.ACTIVE_ADVENTURE)
+                if (activeId === this.id) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }
+
+        let adventureIsSelected = function() {
+            let selectedAdv = GameAPI.gameAdventureSystem.call.getSelectedAdventure();
+            if (selectedAdv === this) {
+                return true
+            } else {
+                return false;
+            }
+        }.bind(this)
+
+
         this.call = {
             update:update,
             updateDistance:updateDistance,
@@ -287,7 +320,9 @@ class WorldAdventure {
             applyLoadedConfig:applyLoadedConfig,
             notifyEncounterCompleted:notifyEncounterCompleted,
             notifyEncounterOperation:notifyEncounterOperation,
-            isCompleted:isCompleted
+            isCompleted:isCompleted,
+            adventureIsActive:adventureIsActive,
+            adventureIsSelected:adventureIsSelected
         }
 
     }

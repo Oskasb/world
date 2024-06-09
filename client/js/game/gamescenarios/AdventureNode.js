@@ -151,10 +151,15 @@ class AdventureNode {
             return adventure;
         }
 
+        function getEncounter() {
+            return encounter;
+        }
+
         this.call = {
             close:close,
             setAdventure:setAdventure,
             getAdventure:getAdventure,
+            getEncounter:getEncounter,
             spawnNodeHost:spawnNodeHost,
             getConfig:getConfig,
             getPos:getPos,

@@ -142,40 +142,20 @@ class DomAdventureNote {
                 let lvl = worldAdventure.config.level || '??';
                 statusMap.level = 'Level: ' + lvl
 
-                let isActive = false;
+                let isActive = worldAdventure.call.adventureIsActive();
 
-                if (activeActor) {
-                    let activeAdvId = activeActor.getStatus(ENUMS.ActorStatus.ACTIVE_ADVENTURE)
-                    if (activeAdvId === worldAdventure.id) {
-                        isActive = true;
-                    }
+                if (statusMap.active !== isActive) {
+                    applyActive(isActive);
                 }
 
-                if (isActive === false) {
-                    if (statusMap.active === true) {
-                        applyActive(false);
-                    }
-                } else  {
-                    if (statusMap.active === false) {
-                        applyActive(true);
-                    }
-                }
-
-                let selectedAdv = GameAPI.gameAdventureSystem.call.getSelectedAdventure();
-                if (selectedAdv !== worldAdventure) {
-                    if (statusMap.selected === true) {
-                        applySelected(false);
-                    }
-                } else  {
-                    if (statusMap.selected === false) {
-                        applySelected(true);
-                    }
+                let isSelected = worldAdventure.call.adventureIsSelected()
+                if (statusMap.selected !== isSelected) {
+                    applySelected(isSelected);
                 }
 
                 if (nodes.length !== nodeIndicatorDivs.length) {
                     attachNodeIndicators()
                 }
-
 
                 if (nodeIndicatorDivs.length) {
 
