@@ -214,6 +214,7 @@ let initWorldModels = function(worldLevel) {
 }
 
 let deactivateWorldEncounters = function () {
+    console.log("deactivateWorldEncounters")
     GuiAPI.getWorldInteractionUi().deactivateWorldInteractUi()
     deactivateDynamicSpawnPoints();
     while (worldEncounters.length) {

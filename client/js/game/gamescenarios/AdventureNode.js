@@ -51,6 +51,7 @@ class AdventureNode {
             encounter = wEnc;
 
             encounter.activateWorldEncounter()
+        //    encounter.call.lodUpdated(1)
             encounter.getHostActor().turnTowardsPos(ThreeAPI.getCameraCursor().getPos());
 
         //    wEnc.deactivateWorldEncounter()
@@ -92,7 +93,6 @@ class AdventureNode {
                         console.log("setup enc node:", encCfg)
                         encounter = new WorldEncounter(encCfg.edit_id, encCfg, encReady)
                     }
-
                 }
 
             }
@@ -123,14 +123,21 @@ class AdventureNode {
                 nodeType = cfgType;
                 updateNodeType()
             }
-/*
+
+
             if (encounter !== null) {
                 pos.copy(encounter.getPos())
+
+                if (encounter.triggered === false) {
+                    if (worldEncounters.indexOf(encounter) === -1) {
+                        worldEncounters.push(encounter);
+                        encounter.activateWorldEncounter();
+                    }
+                }
+
             } else {
                 MATH.vec3FromArray(pos, cfg.pos);
             }
-*/
-
 
         }
 
@@ -143,7 +150,6 @@ class AdventureNode {
         let close = function() {
             removeNodeContent();
             despawnNodeHost();
-
             nodeType = null;
         }
 
@@ -180,10 +186,7 @@ class AdventureNode {
     deactivateAdventureNode() {
         console.log("deactivateAdventureNode", this)
         this.isActive = false;
-
         this.call.close();
-//        this.call.setAdventure(adventure);
-//        this.adventure = null;
         GameAPI.unregisterGameUpdateCallback(this.call.update);
     }
 

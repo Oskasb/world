@@ -208,7 +208,7 @@ class DomEditAdventure {
         function closeActiveAdventure() {
             if (activeAdventure !== null) {
                 activeAdventure.call.stopAdventure();
-                activeAdventure.call.deactivateAdventure();
+                activeAdventure.call.despawnWorldAdventure();
                 activeAdventure = null;
             }
         }
@@ -220,7 +220,7 @@ class DomEditAdventure {
 
             let adventure = e.target.value
             activeAdventure = adventure;
-            activeAdventure.call.activateAdventure(true);
+            activeAdventure.call.spawnWorldAdventure(true);
 
             console.log("Activated", selectedTool, adventure);
             idLabelDiv.innerHTML = adventure.id;

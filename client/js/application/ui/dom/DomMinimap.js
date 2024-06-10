@@ -552,7 +552,12 @@ class DomMinimap {
 
                     if (inCombat) {
                         let encGrid = GameAPI.getActiveEncounterGrid()
-                        centerPos = encGrid.getPos();
+                        if (encGrid === null) {
+                            centerPos = selectedActor.getSpatialPosition()
+                        } else {
+                            centerPos = encGrid.getPos();
+                        }
+
                     } else {
                         centerPos = selectedActor.getSpatialPosition()
                     }

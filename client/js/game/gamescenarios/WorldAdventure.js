@@ -42,19 +42,27 @@ class WorldAdventure {
         }.bind(this);
 
 
-        let isActive = false;
-
         let lodUpdated = function(lodLevel) {
 
-            if (lodLevel !== -1) {
-                if (isActive === false) {
-                    activateAdventure()
+            if (adventureIsActive() === false) {
+                if (lodLevel !== -1) {
+                    let node = getTargetNode()
+                    if (node) {
+                        if (node.isActive === false) {
+                            showIndicator();
+                        }
+                    } else {
+                        showIndicator();
+                    }
+
+                } else {
+                    this.isNear = false;
+                    rootIndicator.hideIndicator();
                 }
             } else {
-                if (isActive === true) {
-                    deactivateAdventure()
-                }
+
             }
+
         }.bind(this);
 
 
@@ -72,42 +80,9 @@ class WorldAdventure {
         }.bind(this)
 
 
-        let activeNodeIndexUpdate = function() {
-            console.log("activeNodeIndexUpdate",activeNodeIndex)
-            if (isActive === true) {
-                rootIndicator.showIndicator();
-            } else {
-                rootIndicator.hideIndicator();
-            }
-
-            let oldNode = this.adventureNodes[activeNodeIndex];
-            if (oldNode) {
-                if (oldNode.isActive === true) {
-                    oldNode.deactivateAdventureNode();
-                    MATH.splice(activeNodes, oldNode)
-                }
-            }
-
-            activeNodeIndex = getTargetNodeIndex();
-
-
-                let newNode = this.adventureNodes[activeNodeIndex];
-                if (!newNode) {
-                    console.log("No new node.. (all nodes completed)", activeNodeIndex, this.adventureNodes)
-                    sleepAdventure(activeNodeIndex);
-                } else if (newNode.isActive === false) {
-                    newNode.activateAdventureNode(this)
-                    //    this.getPos().copy(newNode.getPos())
-                    activeNodes.push(newNode);
-                }
-
-
-        }.bind(this)
-
-
         let processProximityState = function() {
 
-            let dst = MATH.distanceBetween(this.getPos(), ThreeAPI.getCameraCursor().getPos())
+            let dst = this.distance;
 
                 if (dst < 20) {
                     if (this.isNear === false) {
@@ -141,7 +116,7 @@ class WorldAdventure {
         }.bind(this);
 
         let update = function() {
-            MATH.vec3FromArray(this.getPos(), this.config.nodes[0].pos)
+        //    MATH.vec3FromArray(this.getPos(), this.config.nodes[getTargetNodeIndex()].pos)
             unrollAdventureNodes()
 
             if (expandAll === true) {
@@ -154,6 +129,7 @@ class WorldAdventure {
             } else {
                 processProximityState()
             }
+
 
         }.bind(this)
 
@@ -169,18 +145,18 @@ class WorldAdventure {
 
         let expandAll = false;
 
-        let activateAdventure = function(expandAllNodes) {
-            if (isStarted === true) {
-                return;
-            }
+
+        function showIndicator() {
             parseConfigDataKey("ENCOUNTER_INDICATORS", "INDICATORS",  'indicator_data', 'adventure_indicator', onIndicatorData)
+        }
+
+        let spawnWorldAdventure = function(expandAllNodes) {
+            showIndicator()
             expandAll = expandAllNodes || false;
-            isActive = true;
            }.bind(this);
 
-        let deactivateAdventure = function() {
+        let despawnWorldAdventure = function() {
             GameAPI.gameAdventureSystem.call.playerAdventureDeActivated(this)
-            isActive = false;
             closeActiveNodes();
         }.bind(this);
 
@@ -188,12 +164,6 @@ class WorldAdventure {
             return this.config.nodes[this.adventureNodes.indexOf(node)];
         }.bind(this)
 
-        function setTargetNodeIndex(idx) {
-            let playerActor = getPlayerActor();
-            if (playerActor) {
-                playerActor.setAdventureProgress(this.id, idx);
-            }
-        }
 
         let getTargetNodeIndex = function() {
 
@@ -207,6 +177,18 @@ class WorldAdventure {
         let wakeTargetNode = function() {
             console.log("wakeTargetNode", this);
             isStarted = true;
+
+            let node = getTargetNode();
+
+            ThreeAPI.clearTerrainLodUpdateCallback(lodUpdated);
+
+            if (!node) {
+                console.log("no node to wake up, adventure ended", this)
+                GameAPI.gameAdventureSystem.call.adventureCompleted(this)
+            } else {
+                activeNodes[0] = node;
+                node.activateAdventureNode();
+            }
 
         }.bind(this)
 
@@ -222,6 +204,7 @@ class WorldAdventure {
                     if (this.adventureNodes.length < atNodeIndex) {
                         console.log("Stop Adv after last node", atNodeIndex, this.adventureNodes)
                         GameAPI.gameAdventureSystem.call.adventureCompleted(this)
+                        ThreeAPI.clearTerrainLodUpdateCallback(lodUpdated);
                     } else {
                         console.log("Stop Adv at present nodes", atNodeIndex, this.adventureNodes)
                     }
@@ -242,25 +225,44 @@ class WorldAdventure {
             let activeActor = GameAPI.getGamePieceSystem().selectedActor;
 
             if (activeActor) {
+                let oldNode = getTargetNode();
+                oldNode.isActive = false;
+                GameAPI.unregisterGameUpdateCallback(oldNode.call.update);
+            //    oldNode.deactivateAdventureNode();
                 activeActor.setAdventureProgress(this.id, getTargetNodeIndex() +1);
+                wakeTargetNode();
             }
 
         }.bind(this);
 
-        let notifyEncounterCompleted = function(worldEncounter) {
-                 let node = getTargetNode();
-                 if (typeof (node) === 'object') {
-                     if (node.call.getEncounter() === worldEncounter) {
-                         console.log("notifyEncounterCompleted", worldEncounter, getTargetNodeIndex())
-                         advanceAdventureStage()
-                     }
-                 }
+        let notifyEncounterCompleted = function(wEncId, worldEncounter) {
+            let node = getTargetNode();
 
+            if (typeof (node) === 'object') {
+                let enc = node.call.getEncounter();
+                if (enc !== null) {
+
+                    if (worldEncounter === null) { // just get Id from encounter victory
+
+                        if (wEncId === enc.id) {
+                            console.log("matched enc", worldEncounter, getTargetNodeIndex())
+                            advanceAdventureStage()
+                        }
+
+                    } else {
+
+                        if (enc === worldEncounter) {
+                            console.log("matched enc", worldEncounter, getTargetNodeIndex())
+                            advanceAdventureStage()
+                        }
+                    }
+                }
+            }
         }
 
         let notifyEncounterOperation = function() {
-                advanceAdventureStage()
-            }.bind(this)
+            advanceAdventureStage()
+        }.bind(this)
 
 
         let isCompleted = function() {
@@ -295,7 +297,7 @@ class WorldAdventure {
             } else {
                 return false;
             }
-        }
+        }.bind(this);
 
         let adventureIsSelected = function() {
             let selectedAdv = GameAPI.gameAdventureSystem.call.getSelectedAdventure();
@@ -314,9 +316,9 @@ class WorldAdventure {
             getTargetNodeIndex:getTargetNodeIndex,
             getTargetNode:getTargetNode,
             getNodeConfig:getNodeConfig,
-            activateAdventure:activateAdventure,
+            spawnWorldAdventure:spawnWorldAdventure,
             sleepAdventure:sleepAdventure,
-            deactivateAdventure:deactivateAdventure,
+            despawnWorldAdventure:despawnWorldAdventure,
             applyLoadedConfig:applyLoadedConfig,
             notifyEncounterCompleted:notifyEncounterCompleted,
             notifyEncounterOperation:notifyEncounterOperation,
@@ -331,7 +333,7 @@ class WorldAdventure {
 
         let targetNode = this.call.getTargetNode();
         if (typeof (targetNode) !== 'undefined') {
-            this.obj3d.position.lerp(targetNode.getPos(), 0.2);
+            this.obj3d.position.copy(targetNode.getPos());
         }
 
         return this.obj3d.position;

@@ -37,7 +37,7 @@ function encounterCompleted(event) {
     let advs = getActiveWorldLevelAdventure()
 
     for (let i = 0; i < advs.length; i++) {
-        advs[i].call.notifyEncounterCompleted(event.worldEncounter)
+        advs[i].call.notifyEncounterCompleted(event.worldEncounterId, event.worldEncounter)
     }
 
 }
@@ -60,7 +60,7 @@ class GameAdventureSystem {
         let activateworldLevelAdventures = function() {
             wAdvs = this.getWorldAdventures();
             for (let i = 0; i < wAdvs.length; i++) {
-                wAdvs[i].call.activateAdventure();
+                wAdvs[i].call.spawnWorldAdventure();
             }
             visualDestinationLayer.setDestinations(nearbyAdventures);
             visualDestinationLayer.on();
@@ -70,7 +70,7 @@ class GameAdventureSystem {
             while (activeAdventures.length) {
                 let adv = activeAdventures.pop();
                 adv.call.sleepAdventure()
-                adv.call.deactivateAdventure()
+                adv.call.despawnWorldAdventure()
             }
             visualDestinationLayer.off();
         }
@@ -108,6 +108,7 @@ class GameAdventureSystem {
 
         let updateActiveAdventure = function(advId) {
             let adv = this.getAdventureById(advId);
+            adv.call.updateDistance();
             adv.call.update();
         }.bind(this);
 
@@ -171,12 +172,17 @@ class GameAdventureSystem {
 
         let playerAdventureDeActivated = function(worldAdventure) {
             console.log("playerAdventureDeActivated", worldAdventure);
+
             visualDestinationLayer.call.setList(nearbyAdventures)
 
             let activeActor = GameAPI.getGamePieceSystem().selectedActor;
 
             if (activeActor) {
-                activeActor.setStatusKey(ENUMS.ActorStatus.ACTIVE_ADVENTURE, "");
+
+                if (worldAdventure.id === activeActor.getStatus(ENUMS.ActorStatus.ACTIVE_ADVENTURE)) {
+                    activeActor.setStatusKey(ENUMS.ActorStatus.ACTIVE_ADVENTURE, "");
+                }
+
             }
 
         }.bind(this);
@@ -184,6 +190,7 @@ class GameAdventureSystem {
 
             let adventureCompleted = function(wAdv) {
                 setSelectedAdventure(null);
+                playerAdventureDeActivated(wAdv)
                 let activeActor = GameAPI.getGamePieceSystem().selectedActor;
                 let dataList = activeActor.getStatus(ENUMS.ActorStatus.COMPLETED_ADVENTURES)
                 if (dataList.indexOf(wAdv.id) === -1) {

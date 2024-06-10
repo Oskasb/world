@@ -639,6 +639,14 @@ div.adventure_panel_active {
     opacity: 1;
 }
 
+div.adventure_panel_completed {
+    box-shadow: 0 0 0.5em rgb(99, 255, 99);
+    background-color: rgba(55, 255, 55, 0.3);
+    border-color: rgb(99, 255, 99);
+    color: #acffb4;
+    opacity: 1;
+}
+
 div.adventure_panel h2 {
     color:inherit;
     text-shadow: inherit;

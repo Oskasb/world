@@ -28,6 +28,7 @@ class DomAdventureNote {
         let statusMap = {
             selected:false,
             active:false,
+            completed:false,
             sortindex:-1
         }
         let sortingIndex = -1;
@@ -77,6 +78,19 @@ class DomAdventureNote {
                 closeAnchor.style.display = "none";
             }
         }
+
+        function applyCompleted(bool) {
+            if (bool) {
+                statusMap.completed = true;
+                DomUtils.addElementClass(container, 'adventure_panel_completed')
+                closeAnchor.style.display = "none";
+            } else {
+                statusMap.completed = false;
+                DomUtils.removeElementClass(container, 'adventure_panel_completed')
+                closeAnchor.style.display = "";
+            }
+        }
+
 
         let nodeIndicatorDivs = [];
 
@@ -138,27 +152,39 @@ class DomAdventureNote {
                     close()
                 }
 
-                statusMap.distance = MATH.numberToDigits(worldAdventure.call.getCursorDistance(), 1, 1)+'m'
-                let lvl = worldAdventure.config.level || '??';
-                statusMap.level = 'Level: ' + lvl
+                if (worldAdventure.call.isCompleted() === false) {
+                    statusMap.distance = MATH.numberToDigits(worldAdventure.call.getCursorDistance(), 1, 1)+'m'
 
-                let isActive = worldAdventure.call.adventureIsActive();
+                    let lvl = worldAdventure.config.level || '??';
+                    statusMap.level = 'Level: ' + lvl
 
-                if (statusMap.active !== isActive) {
-                    applyActive(isActive);
-                }
+                    let isActive = worldAdventure.call.adventureIsActive();
 
-                let isSelected = worldAdventure.call.adventureIsSelected()
-                if (statusMap.selected !== isSelected) {
-                    applySelected(isSelected);
-                }
+                    if (statusMap.active !== isActive) {
+                        applyActive(isActive);
+                    }
 
-                if (nodes.length !== nodeIndicatorDivs.length) {
-                    attachNodeIndicators()
+                    let isSelected = worldAdventure.call.adventureIsSelected()
+                    if (statusMap.selected !== isSelected) {
+                        applySelected(isSelected);
+                    }
+
+                    if (nodes.length !== nodeIndicatorDivs.length) {
+                        attachNodeIndicators()
+                    }
+
+                } else {
+
+                    if (statusMap.completed === false) {
+                        statusMap.distance = "Completed";
+                        applyActive(false);
+                        applySelected(false);
+                        applyCompleted(true)
+                    }
+
                 }
 
                 if (nodeIndicatorDivs.length) {
-
 
                     let progress = 0;
 
@@ -209,7 +235,6 @@ class DomAdventureNote {
                             }
 
                         }
-
                     }
                 }
 
