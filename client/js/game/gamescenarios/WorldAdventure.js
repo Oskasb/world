@@ -28,8 +28,6 @@ class WorldAdventure {
             rootIndicator.showIndicator();
         }
 
-        let activeNodeIndex = -1;
-
         this.adventureNodes = [];
 
         let applyLoadedConfig = function(cfg) {

@@ -186,6 +186,10 @@ class VisualActor {
 
         }
 
+        function remove() {
+            closeVisualActor();
+        }
+
         function getActor() {
             return actor;
         }
@@ -201,6 +205,7 @@ class VisualActor {
             getInstance:getInstance,
             activate:activate,
             deactivate:deactivate,
+            remove:remove,
             getScaleCB:getScaleCB
         }
 

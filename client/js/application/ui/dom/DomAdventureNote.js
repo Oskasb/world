@@ -243,6 +243,7 @@ class DomAdventureNote {
         let clearIframe = function() {
             htmlElement.closeHtmlElement()
             poolReturn(this);
+            lastSortIdx = -2;
         }.bind(this)
 
         let close = function () {
@@ -258,9 +259,13 @@ class DomAdventureNote {
 
             statusMap.active = false;
             sortingIndex = -1;
+
         }.bind(this);
 
         let setSortingIndex = function(idx) {
+            if (htmlElement.container === null) {
+                activate();
+            }
             sortingIndex = idx;
         }
 

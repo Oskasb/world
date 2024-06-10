@@ -42,7 +42,7 @@ function applyServerAction(target, modifier, value, sourceActor) {
     } else if  (modifier === ENUMS.StatusModifiers.APPLY_LEAP) {
         unregisterCombatStatus(sourceActor, ENUMS.CombatStatus.LEAPING)
     } else if  (modifier === ENUMS.StatusModifiers.APPLY_KNOCKBACK) {
-
+        unregisterCombatStatus(sourceActor, ENUMS.CombatStatus.LEAPING)
         let pos = getStatusPosition(target);
          let direction = getActorForward(sourceActor);
     //     direction.normalize();

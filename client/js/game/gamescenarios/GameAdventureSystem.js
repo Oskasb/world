@@ -188,6 +188,11 @@ class GameAdventureSystem {
 
             visualDestinationLayer.call.setList(nearbyAdventures)
 
+            if (worldAdventure.call.isCompleted() === false) {
+                console.log("nearbyAdventures", nearbyAdventures)
+                // activeAdventures.push(worldAdventure)
+            }
+
             let activeActor = GameAPI.getGamePieceSystem().selectedActor;
 
             if (activeActor) {

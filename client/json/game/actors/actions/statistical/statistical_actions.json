@@ -36,7 +36,7 @@
         "id":"STATISTICAL_CHARGE",
         "data":{
           "status": {
-            "RANGE_MIN": 3,
+            "RANGE_MIN": 2,
             "RANGE_MAX": 9,
             "REQUIRES_TARGET":true
           },
