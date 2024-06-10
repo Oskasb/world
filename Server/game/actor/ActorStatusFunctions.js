@@ -14,9 +14,9 @@ function applyActorKilled(actor) {
     setDestination(actor, getStatusPosition(actor));
     actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_INACTIVE);
  //   actor.setStatusKey(ENUMS.ActorStatus.RETREATING, actor.getStatus(ENUMS.ActorStatus.ACTIVATED_ENCOUNTER || ''));
-    actor.setStatusKey(ENUMS.ActorStatus.BODY_STATE, 'FALL_DOWN');
-    actor.setStatusKey(ENUMS.ActorStatus.STAND_STATE, 'FALL_DOWN');
-    actor.setStatusKey(ENUMS.ActorStatus.MOVE_STATE, 'FALL_DOWN');
+    actor.setStatusKey(ENUMS.ActorStatus.BODY_STATE, 'LIE_DEAD');
+    actor.setStatusKey(ENUMS.ActorStatus.STAND_STATE, 'LIE_DEAD');
+    actor.setStatusKey(ENUMS.ActorStatus.MOVE_STATE, 'LIE_DEAD');
     actor.setStatusKey(ENUMS.ActorStatus.PATH_POINTS, []);
 
 }

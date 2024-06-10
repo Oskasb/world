@@ -40,6 +40,7 @@ class DynamicEncounter {
     }
 
     closeDynamicEncounter() {
+        console.log("closeDynamicEncounter", this)
         this.page.closeGuiPage();
     }
 

@@ -50,7 +50,8 @@ function processAnimationState(actor) {
         actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_INACTIVE);
         actor.setStatusKey(ENUMS.ActorStatus.RETREATING, actor.getStatus(ENUMS.ActorStatus.ACTIVATED_ENCOUNTER || ''));
         //     actor.setStatusKey(ENUMS.ActorStatus.BODY_STATE, 'FALL_DOWN');
-       actor.setStatusKey(ENUMS.ActorStatus.STAND_STATE, 'FALL_DOWN');
+        actor.setStatusKey(ENUMS.ActorStatus.MOVE_STATE, 'LIE_DEAD');
+       actor.setStatusKey(ENUMS.ActorStatus.STAND_STATE, 'LIE_DEAD');
         return;
     }
 
@@ -644,6 +645,7 @@ class ActorStatusProcessor {
             this.detachIndicator(key);
         }
         let pathPoints = actor.getStatus(ENUMS.ActorStatus.PATH_POINTS);
+        actor.setStatusKey(ENUMS.ActorStatus.IN_COMBAT, false);
         MATH.emptyArray(pathPoints)
 
         if (actor.visualActor !== null) {

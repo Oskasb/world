@@ -67,6 +67,16 @@ class GameAdventureSystem {
         }.bind(this)
 
         function deactivateActiveAdventures() {
+
+            let activeActor = GameAPI.getGamePieceSystem().selectedActor;
+
+            if (activeActor) {
+                let activeAdventureId =  activeActor.getStatus(ENUMS.ActorStatus.ACTIVE_ADVENTURE);
+                if (activeAdventureId !== "") {
+                    activeActor.setStatusKey(ENUMS.ActorStatus.ACTIVE_ADVENTURE, "")
+                }
+            }
+
             while (activeAdventures.length) {
                 let adv = activeAdventures.pop();
                 adv.call.sleepAdventure()
@@ -108,8 +118,11 @@ class GameAdventureSystem {
 
         let updateActiveAdventure = function(advId) {
             let adv = this.getAdventureById(advId);
-            adv.call.updateDistance();
-            adv.call.update();
+            if (typeof (adv) === 'object') {
+                adv.call.updateDistance();
+                adv.call.update();
+            }
+
         }.bind(this);
 
             function update() {

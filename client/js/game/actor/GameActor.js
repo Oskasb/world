@@ -516,10 +516,11 @@ class GameActor {
     }
 
     deactivateGameActor() {
-    //    console.log("Deactivate GA ", this)
+    //
         this.actorText.say("----OFF")
         this.setStatusKey(ENUMS.ActorStatus.IS_ACTIVE, 0);
         if (this.activated === true) {
+            console.log("Deactivate GA ", this)
             this.actorEquipment.removeAllItems();
             GameAPI.unregisterGameUpdateCallback(this.call.updateGameActor);
             this.activated = false;
@@ -535,6 +536,13 @@ class GameActor {
     }
 
     removeGameActor() {
+        if (this.isPlayerActor()) {
+            console.log("Not Removing Player Actor")
+            this.actorText.say("Try removing me?")
+            return;
+        } else {
+            console.log("Removing Non Player Actor", this)
+        }
         this.setStatusKey(ENUMS.ActorStatus.EXISTS, 0);
         this.leavePlayerParty()
         let actors = GameAPI.getGamePieceSystem().getActors();
