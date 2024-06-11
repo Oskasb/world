@@ -1,8 +1,8 @@
 {
   "pos": [
-    -872,
+    -893,
     2.1,
-    523
+    514
   ],
   "visibility": 1,
   "grid_id": "grid_5x5",
@@ -53,6 +53,6 @@
     ]
   },
   "level": 1,
-  "edit_id": "enc_adv_node_1_1717413263445",
-  "node_id": "node_1_1717413263445"
+  "edit_id": "enc_adv_troubled_shores_0",
+  "node_id": "node_enc_troubled_shores_start"
 }

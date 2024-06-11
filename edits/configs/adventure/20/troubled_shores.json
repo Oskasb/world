@@ -1,0 +1,26 @@
+{
+  "nodes": [
+    {
+      "pos": [
+        -893.2,
+        2.5,
+        514.1
+      ],
+      "node_type": "ENCOUNTER",
+      "node_id": "node_enc_troubled_shores_start"
+    },
+    {
+      "pos": [
+        -898.5,
+        1.3,
+        513
+      ],
+      "node_type": "BATTLE",
+      "node_id": "node_2_1718092258739"
+    }
+  ],
+  "name": "Troubled Shores",
+  "level": 1,
+  "edit_id": "troubled_shores",
+  "grid": 0
+}

@@ -1,1 +1,58 @@
-{"pos":[-823,7.6,525],"visibility":1,"grid_id":"grid_5x5","host_id":"quest_basic","indicator_id":"quest_indicator","trigger_radius":2,"interact_options":[{"interaction":"TALK","text":"Okay! I will do as you ask","dispatch":{"event":"ENCOUNTER_CONVERSE","value":{"adventure":true,"skip":true}}},{"interaction":"LEAVE","text":"Sorry to disturb you, just leaving."}],"spawn":{"patterns":[{"pattern_id":"sp_pair_row","tile":[3,4]}],"actors":[{"actor":"ACTOR_FIGHTER","rot":[0,1.2,0],"on_ground":true,"tile":[4,4]}]},"level":1,"edit_id":"enc_adv_node_1_1717490362395","node_id":"node_1_1717490362395"}
+{
+  "pos": [
+    -823,
+    7.6,
+    525
+  ],
+  "visibility": 1,
+  "grid_id": "grid_5x5",
+  "host_id": "quest_basic",
+  "indicator_id": "quest_indicator",
+  "trigger_radius": 0,
+  "interact_options": [
+    {
+      "interaction": "TALK",
+      "text": "Okay! I will do as you ask",
+      "dispatch": {
+        "event": "ENCOUNTER_CONVERSE",
+        "value": {
+          "adventure": true,
+          "skip": true
+        }
+      }
+    },
+    {
+      "interaction": "LEAVE",
+      "text": "Sorry to disturb you, just leaving."
+    }
+  ],
+  "spawn": {
+    "patterns": [
+      {
+        "pattern_id": "sp_pair_row",
+        "tile": [
+          3,
+          4
+        ]
+      }
+    ],
+    "actors": [
+      {
+        "actor": "ACTOR_FIGHTER",
+        "rot": [
+          0,
+          1.2,
+          0
+        ],
+        "on_ground": true,
+        "tile": [
+          4,
+          4
+        ]
+      }
+    ]
+  },
+  "level": 1,
+  "edit_id": "enc_adv_node_1_1717490362395",
+  "node_id": "node_1_1717490362395"
+}

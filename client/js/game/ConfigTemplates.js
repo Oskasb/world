@@ -56,7 +56,7 @@ const encounterTemplates = {
         grid_id: "grid_5x5",
         host_id: "quest_basic",
         indicator_id: "quest_indicator",
-        trigger_radius: 2,
+        trigger_radius: 0,
         interact_options: [
             {
                 interaction: "TALK",

@@ -207,7 +207,7 @@ class DomEditAdventure {
 
         function closeActiveAdventure() {
             if (activeAdventure !== null) {
-                activeAdventure.call.stopAdventure();
+                activeAdventure.call.sleepAdventure();
                 activeAdventure.call.despawnWorldAdventure();
                 activeAdventure = null;
             }
