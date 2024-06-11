@@ -1047,6 +1047,17 @@ div.TALK {
     background-image: url("/client/assets/images/textures/gui/icons/icon_talk.png");
 }
 
+div.QUEST_ACCEPT {
+    color: #ffff00;
+    background-image: url("/client/assets/images/textures/gui/icons/icon_quest_accept.png");
+    background-color: rgba(255, 255, 0, 0.3);
+}
+
+div.QUEST_COMPLETE {
+    color: #ffff00;
+    background-image: url("/client/assets/images/textures/gui/icons/icon_quest_complete.png");
+}
+
 div.SNEAK {
     color: #fff65b;
     background-image: url("/client/assets/images/textures/gui/icons/icon_sneak.png");

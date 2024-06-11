@@ -9,10 +9,11 @@
   "host_id": "quest_basic",
   "indicator_id": "quest_indicator",
   "trigger_radius": 0,
+  "text": "These woods are crawling with bandits, help me cleanse them!",
   "interact_options": [
     {
-      "interaction": "TALK",
-      "text": "Okay! I will do as you ask",
+      "interaction": "QUEST_ACCEPT",
+      "text": "Brilliant! A good cleansing coming up.",
       "dispatch": {
         "event": "ENCOUNTER_CONVERSE",
         "value": {
@@ -52,7 +53,7 @@
       }
     ]
   },
-  "level": 1,
+  "level": 3,
   "edit_id": "enc_adv_node_1_1717490362395",
   "node_id": "node_1_1717490362395"
 }

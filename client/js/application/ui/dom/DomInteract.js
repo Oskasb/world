@@ -1,7 +1,7 @@
 import {HtmlElement} from "./HtmlElement.js";
 
 class DomInteract {
-    constructor(worldEncounter, interactionOptions) {
+    constructor(worldEncounter, interactionOptions, text) {
         let closeTimeout = null;
         if (closeTimeout !== null) {
             clearTimeout(closeTimeout);
@@ -16,7 +16,8 @@ class DomInteract {
         let statusMap = {
             posX : 0,
             posZ : 0,
-            zoom : 4
+            zoom : 4,
+            text : text || "Options"
         }
 
         let closeCb = function() {

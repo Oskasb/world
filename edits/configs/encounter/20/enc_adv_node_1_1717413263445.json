@@ -9,10 +9,11 @@
   "host_id": "quest_basic",
   "indicator_id": "quest_indicator",
   "trigger_radius": 0,
+  "text": "Before you leave for the big world save our village please?",
   "interact_options": [
     {
-      "interaction": "TALK",
-      "text": "Okay! I will do as you ask",
+      "interaction": "QUEST_ACCEPT",
+      "text": "Okay! I won't let you down.",
       "dispatch": {
         "event": "ENCOUNTER_CONVERSE",
         "value": {

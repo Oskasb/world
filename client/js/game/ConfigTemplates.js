@@ -57,10 +57,11 @@ const encounterTemplates = {
         host_id: "quest_basic",
         indicator_id: "quest_indicator",
         trigger_radius: 0,
+        text: "Please help!",
         interact_options: [
             {
-                interaction: "TALK",
-                text: "Okay! I will do as you ask",
+                interaction: "QUEST_ACCEPT",
+                text: "At your service",
                 dispatch: {
                     event: "ENCOUNTER_CONVERSE",
                     value: {

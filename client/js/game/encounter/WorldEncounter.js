@@ -167,7 +167,7 @@ function checkTriggerPlayer(encounter) {
 
                     if (distance < radius +2) {
                         if (encounter.interactGui === null) {
-                            encounter.interactGui = new DomInteract(encounter, encounter.config['interact_options'])
+                            encounter.interactGui = new DomInteract(encounter, encounter.config['interact_options'], encounter.config['text'])
                             selectedActor.turnTowardsPos(encounter.getPos());
                             selectedActor.setDestination(selectedActor.getSpatialPosition())
                             selectedActor.actorMovement.clearControlState(selectedActor);

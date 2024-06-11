@@ -9,10 +9,14 @@
   "host_id": "quest_basic",
   "indicator_id": "quest_indicator",
   "trigger_radius": 0,
+
+  "text": "I have heard there are bandits nearby, I am so scared!",
   "interact_options": [
     {
-      "interaction": "TALK",
-      "text": "Okay! I will do as you ask",
+      "interaction": "QUEST_ACCEPT",
+      "text": "Do not worry, I will investigate.",
+
+
       "dispatch": {
         "event": "ENCOUNTER_CONVERSE",
         "value": {
@@ -52,7 +56,7 @@
       }
     ]
   },
-  "level": 1,
+  "level": 2,
   "edit_id": "enc_adv_node_2_1717418657656",
   "node_id": "node_2_1717418657656"
 }

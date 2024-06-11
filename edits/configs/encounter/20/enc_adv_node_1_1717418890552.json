@@ -9,10 +9,11 @@
   "host_id": "quest_basic",
   "indicator_id": "quest_indicator",
   "trigger_radius": 0,
+  "text": "The road ahead has a bandit problem, solve it for me!",
   "interact_options": [
     {
-      "interaction": "TALK",
-      "text": "Okay! I will do as you ask",
+      "interaction": "QUEST_ACCEPT",
+      "text": "Those bitches are f%!&in toast",
       "dispatch": {
         "event": "ENCOUNTER_CONVERSE",
         "value": {
@@ -52,7 +53,7 @@
       }
     ]
   },
-  "level": 1,
+  "level": 2,
   "edit_id": "enc_adv_node_1_1717418890552",
   "node_id": "node_1_1717418890552"
 }

@@ -9,10 +9,11 @@
   "host_id": "quest_basic",
   "indicator_id": "quest_indicator",
   "trigger_radius": 0,
+  "text": "Pirates! They have claimed our shores, can you please help?",
   "interact_options": [
     {
-      "interaction": "TALK",
-      "text": "Okay! I will do as you ask",
+      "interaction": "QUEST_ACCEPT",
+      "text": "I sure can.",
       "dispatch": {
         "event": "ENCOUNTER_CONVERSE",
         "value": {
