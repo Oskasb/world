@@ -86,6 +86,29 @@
         }
       },
       {
+        "id":"STATS_QUESTGIVER",
+        "data":{
+          "status": {
+            "EQUIPPED_ITEMS": ["ITEM_HATCHET", "ITEM_HAT_BLUE"],
+            "PASSIVE_ACTIONS": [],
+            "ACTIONS": ["ACTION_MELEE_BASH", "ACTION_THROW"],
+            "TRAVEL":  ["ACTION_TRAVEL_WALK", "ACTION_TRAVEL_RUN"],
+            "MOVEMENT_SPEED": 4,
+            "HEIGHT": 1.8,
+            "SIZE": 1.0,
+            "HAND_SIZE": 0.4,
+            "ICON_KEY": "face_5",
+            "DEAD": false,
+            "NAME": "Wise Elder",
+            "MAX_HP": 2,
+            "ENGAGE_MAX": 1,
+            "IN_COMBAT": false,
+            "TRAVEL_MODE": "TRAVEL_MODE_WALK",
+            "ALIGNMENT": "NEUTRAL"
+          }
+        }
+      },
+      {
         "id":"STATS_FIGHTER",
         "data":{
           "status": {

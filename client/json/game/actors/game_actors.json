@@ -42,6 +42,14 @@
         }
       },
       {
+        "id":"ACTOR_QUESTGIVER",
+        "data":{
+          "visual_id": "VISUAL_FIGHTER",
+          "stats_id": "STATS_QUESTGIVER",
+          "equip_slots": "SLOTS_FIGHTER"
+        }
+      },
+      {
         "id":"ACTOR_PRINCESS",
         "data":{
           "visual_id": "VISUAL_FIGHTER",

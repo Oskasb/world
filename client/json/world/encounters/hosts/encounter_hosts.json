@@ -31,7 +31,7 @@
           {
             "data_key":"host_data",
             "config": {
-              "actor": "ACTOR_FIGHTER",
+              "actor": "ACTOR_QUESTGIVER",
               "rot": [0, 1.2, 0],
               "ALIGNMENT": "FRIENDLY",
               "indicator": {
