@@ -351,7 +351,7 @@ iframe.adventure_note {
     top: 150em;
     right: 30em;
     height: 60em;
-    width: 200em;
+    width: 220em;
     border: 0;
     position: fixed;
     transform: translate3d(0px, 0px, 0px);
@@ -359,10 +359,10 @@ iframe.adventure_note {
 }
 
 iframe.minimap {
-    top: 60em;
-    right: 60em;
-    width: 200em;
-    height: 200em;
+    top: 25em;
+    right: 30em;
+    width: 240em;
+    height: 240em;
     position: absolute;
     color: #ecffdc;
     border: none;

@@ -131,7 +131,7 @@ function indicateTenMeterScale(tenMeterIndicators, htmlElement, minimapDiv, stat
     }
 
     let zoom = statusMap.zoom;
-    let zoomFactor = calcMapMeterToDivPercent(zoom, worldSize) * 500;
+    let zoomFactor = calcMapMeterToDivPercent(zoom, worldSize) * 600;
     let trY0 = -zoomFactor
     let trY1 = zoomFactor
 
@@ -177,8 +177,8 @@ function updateActiveAdventures(activeAdventures, htmlElement, minimapDiv, statu
             let mapPctX = tempVec2.x*zoomFactor
             let mapPctZ = tempVec2.y*zoomFactor
 
-            let top = -25 + mapPctZ * 16 // + '%';
-            let left = 50 + mapPctX * 16 // + '%';
+            let top = -25 + mapPctZ * 19 // + '%';
+            let left = 50 + mapPctX * 19 // + '%';
             let angle = 0.74;
 
             DomUtils.transformElement3DPercent(indicator, left, top, 0, angle);
@@ -245,8 +245,8 @@ function indicateActors(htmlElement, minimapDiv, statusMap, centerPos, inCombat)
                     mapPctZ = tempVec2.y;
                 }
             }
-            let top = -25 + mapPctZ * 16 // + '%';
-            let left = 50 + mapPctX * 16 // + '%';
+            let top = -25 + mapPctZ * 19 // + '%';
+            let left = 50 + mapPctX * 19 // + '%';
             let angle = -MATH.eulerFromQuaternion(actor.getSpatialQuaternion(actor.actorObj3d.quaternion)).y + MATH.HALF_PI * 0.5 // Math.PI //;
 
             DomUtils.transformElement3DPercent(indicator, left, top, 0, angle);
@@ -376,8 +376,8 @@ function updateTravelPath(pos, statusMap) {
         let x = ind.pos.x - statusMap.x;
         let z = ind.pos.z - statusMap.z;
 
-        let trY = z*zoomFactor * 50;
-        let trX = x*zoomFactor * 50;
+        let trY = z*zoomFactor * 74;
+        let trX = x*zoomFactor * 74;
 
         //   ind.div.style.top  = (50+z*zoomFactor)+'%';
         //   ind.div.style.left = (50+x*zoomFactor)+'%';

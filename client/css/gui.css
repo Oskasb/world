@@ -138,6 +138,10 @@ div.anchor_close {
 
 }
 
+div.scale_75 {
+    scale: 0.75;
+}
+
 div.button_close {
     top: -0.55em;
     right: -0.55em;
@@ -617,14 +621,14 @@ div.adventure_panel {
     right: 1em;
     height: auto;
     position: absolute;
-    background-color: rgba(51, 51, 51, 0.5);
+    background-color: rgba(51, 51, 51, 0.6);
     border-color: rgba(213, 213, 213, 0.92);
     border-radius: 0.5em;
     border-style: solid;
     border-width: 0.15em;
-    color: rgb(215, 215, 215);
+    color: rgb(255, 252, 224);
     box-shadow: 0 0 0.2em rgb(0, 0, 0);
-    opacity: 0.6;
+    opacity: 0.8;
 }
 
 div.adventure_panel_selected {
@@ -655,8 +659,8 @@ div.adventure_panel h2 {
 
 div.adventure_nodes_container {
     pointer-events: auto;
-    font-size: 0.8em;
-    bottom: 0.9em;
+    font-size: 1em;
+    bottom: 0.5em;
     left: 2em;
     right: 2em;
     width: auto;

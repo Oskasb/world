@@ -44,13 +44,26 @@ class WorldAdventure {
 
             if (adventureIsActive() === false) {
                 if (lodLevel !== -1) {
-                    let node = getTargetNode()
-                    if (node) {
-                        if (node.isActive === false) {
+
+                    let activeActor = getPlayerActor();
+                    let activeAdvId = "";
+
+                    if (activeActor) {
+                        activeAdvId = activeActor.getStatus(ENUMS.ActorStatus.ACTIVE_ADVENTURE)
+                    }
+
+                    if (activeAdvId === "") {
+                        let node = getTargetNode()
+                        if (node) {
+                            if (node.isActive === false) {
+                                showIndicator();
+                            }
+                        } else {
                             showIndicator();
                         }
                     } else {
-                        showIndicator();
+                        this.isNear = false;
+                        rootIndicator.hideIndicator();
                     }
 
                 } else {
