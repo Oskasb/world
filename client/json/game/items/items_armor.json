@@ -430,6 +430,110 @@
         }
       },
 
+
+      {
+        "id": "ITEM_GLOVES_CLOTH_WHITE",
+        "data": {
+          "visual_id":"VISUAL_GLOVES_CLOTH_WHITE",
+          "equip_slot": "SLOT_HANDS",
+          "status_add_modifiers": [
+            {"status": "MAX_HP", "value":5}
+          ],
+          "status": {
+            "NAME":"White Gloves",
+            "ITEM_LEVEL": 1,
+            "ITEM_TYPE" : "ARMOR"
+          }
+        }
+      },
+      {
+        "id": "ITEM_BOOTS_CLOTH_WHITE",
+        "data": {
+          "visual_id":"VISUAL_BOOTS_CLOTH_WHITE",
+          "equip_slot": "SLOT_FEET",
+          "status_add_modifiers": [
+            {"status": "MAX_HP", "value":5}
+          ]
+        }
+      },
+      {
+        "id": "ITEM_GLOVES_CLOTH_RED",
+        "data": {
+          "visual_id":"VISUAL_GLOVES_CLOTH_RED",
+          "equip_slot": "SLOT_HANDS",
+          "status_add_modifiers": [
+            {"status": "MAX_HP", "value":5}
+          ],
+          "status": {
+            "NAME":"Red Gloves",
+            "ITEM_LEVEL": 1,
+            "ITEM_TYPE" : "ARMOR"
+          }
+        }
+      },
+      {
+        "id": "ITEM_BOOTS_CLOTH_RED",
+        "data": {
+          "visual_id":"VISUAL_BOOTS_CLOTH_RED",
+          "equip_slot": "SLOT_FEET",
+          "status_add_modifiers": [
+            {"status": "MAX_HP", "value":5}
+          ]
+        }
+      },
+      {
+        "id": "ITEM_GLOVES_CLOTH_BLUE",
+        "data": {
+          "visual_id":"VISUAL_GLOVES_CLOTH_BLUE",
+          "equip_slot": "SLOT_HANDS",
+          "status_add_modifiers": [
+            {"status": "MAX_HP", "value":5}
+          ],
+          "status": {
+            "NAME":"Blue Gloves",
+            "ITEM_LEVEL": 1,
+            "ITEM_TYPE" : "ARMOR"
+          }
+        }
+      },
+      {
+        "id": "ITEM_BOOTS_CLOTH_BLUE",
+        "data": {
+          "visual_id":"VISUAL_BOOTS_CLOTH_BLUE",
+          "equip_slot": "SLOT_FEET",
+          "status_add_modifiers": [
+            {"status": "MAX_HP", "value":5}
+          ]
+        }
+      },
+      {
+        "id": "ITEM_GLOVES_CLOTH_YELLOW",
+        "data": {
+          "visual_id":"VISUAL_GLOVES_CLOTH_YELLOW",
+          "equip_slot": "SLOT_HANDS",
+          "status_add_modifiers": [
+            {"status": "MAX_HP", "value":5}
+          ],
+          "status": {
+            "NAME":"Yellow Gloves",
+            "ITEM_LEVEL": 1,
+            "ITEM_TYPE" : "ARMOR"
+          }
+        }
+      },
+      {
+        "id": "ITEM_BOOTS_CLOTH_YELLOW",
+        "data": {
+          "visual_id":"VISUAL_BOOTS_CLOTH_YELLOW",
+          "equip_slot": "SLOT_FEET",
+          "status_add_modifiers": [
+            {"status": "MAX_HP", "value":5}
+          ]
+        }
+      },
+
+
+
       {
         "id": "ITEM_GLOVES_SCALE_PURPLE",
         "data": {

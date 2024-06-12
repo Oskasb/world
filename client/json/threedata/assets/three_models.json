@@ -51,6 +51,15 @@
         {"id": "asset_cloth_shirt_yellow",  "config":{"model": "file_cloth_shirt_yellow",  "material": "material_opaque",           "settings": "model_settings_default"}},
         {"id": "asset_cloth_legs_yellow",   "config":{"model": "file_cloth_legs_yellow",   "material": "material_opaque",           "settings": "model_settings_default"}},
 
+        {"id": "asset_cloth_gloves_white",  "config":{"model": "file_cloth_gloves_white",  "material": "material_opaque",           "settings": "model_settings_default"}},
+        {"id": "asset_cloth_boots_white",   "config":{"model": "file_cloth_boots_white",   "material": "material_opaque",           "settings": "model_settings_default"}},
+        {"id": "asset_cloth_gloves_red",  "config":{"model": "file_cloth_gloves_red",  "material": "material_opaque",           "settings": "model_settings_default"}},
+        {"id": "asset_cloth_boots_red",   "config":{"model": "file_cloth_boots_red",   "material": "material_opaque",           "settings": "model_settings_default"}},
+        {"id": "asset_cloth_gloves_blue",  "config":{"model": "file_cloth_gloves_blue",  "material": "material_opaque",           "settings": "model_settings_default"}},
+        {"id": "asset_cloth_boots_blue",   "config":{"model": "file_cloth_boots_blue",   "material": "material_opaque",           "settings": "model_settings_default"}},
+        {"id": "asset_cloth_gloves_yellow",  "config":{"model": "file_cloth_gloves_yellow",  "material": "material_opaque",           "settings": "model_settings_default"}},
+        {"id": "asset_cloth_boots_yellow",   "config":{"model": "file_cloth_boots_yellow",   "material": "material_opaque",           "settings": "model_settings_default"}},
+
         {"id": "asset_leather_shirt",  "config":{"model": "file_leather_shirt",  "material": "material_opaque",           "settings": "model_settings_default"}},
         {"id": "asset_leather_legs",   "config":{"model": "file_leather_legs",   "material": "material_opaque",           "settings": "model_settings_default"}},
 

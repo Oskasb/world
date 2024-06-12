@@ -198,10 +198,8 @@ class VisualActor {
 
         let deactivate = function() {
 
-            if (actor) {
-                if (actor.getStatus(ENUMS.ActorStatus.IN_COMBAT) === true) {
-                //    return;
-                }
+            if (activating === true) {
+                console.log("Deactivate called while activating")
             }
 
                 deactivated = true;

@@ -461,6 +461,8 @@
           "model_asset":"asset_leather_shirt"
         }
       },
+
+
       {
         "id": "VISUAL_LEGS_CLOTH_WHITE",
         "data": {
@@ -472,8 +474,6 @@
           "model_asset":"asset_cloth_shirt_white"
         }
       },
-
-
       {
         "id": "VISUAL_LEGS_CLOTH_RED",
         "data": {
@@ -507,6 +507,55 @@
           "model_asset":"asset_cloth_shirt_yellow"
         }
       },
+
+
+      {
+        "id": "VISUAL_BOOTS_CLOTH_WHITE",
+        "data": {
+          "model_asset":"asset_cloth_boots_white"
+        }
+      },      {
+        "id": "VISUAL_GLOVES_CLOTH_WHITE",
+        "data": {
+          "model_asset":"asset_cloth_gloves_white"
+        }
+      },
+      {
+        "id": "VISUAL_BOOTS_CLOTH_RED",
+        "data": {
+          "model_asset":"asset_cloth_boots_red"
+        }
+      },      {
+        "id": "VISUAL_GLOVES_CLOTH_RED",
+        "data": {
+          "model_asset":"asset_cloth_gloves_red"
+        }
+      },
+      {
+        "id": "VISUAL_BOOTS_CLOTH_BLUE",
+        "data": {
+          "model_asset":"asset_cloth_boots_blue"
+        }
+      },      {
+        "id": "VISUAL_GLOVES_CLOTH_BLUE",
+        "data": {
+          "model_asset":"asset_cloth_gloves_blue"
+        }
+      },
+      {
+        "id": "VISUAL_BOOTS_CLOTH_YELLOW",
+        "data": {
+          "model_asset":"asset_cloth_boots_yellow"
+        }
+      },      {
+        "id": "VISUAL_GLOVES_CLOTH_YELLOW",
+        "data": {
+          "model_asset":"asset_cloth_gloves_yellow"
+        }
+      },
+
+
+
 
       {
         "id": "VISUAL_LEGS_CHAIN",

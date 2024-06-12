@@ -79,21 +79,30 @@
         {"id": "file_barb_item_greaves",  "config": { "url": "./client/assets/models/characters/barb/items/item_greaves"          }},
 
 
-
         {"id": "file_bronze_bp",     "config": { "url": "./client/assets/models/items_skinned/fighter_rig/armor/bronze_bp"        }},
         {"id": "file_bronze_legs",   "config": { "url": "./client/assets/models/items_skinned/fighter_rig/armor/bronze_legs"      }},
 
+
+        {"id": "file_cloth_gloves_white",  "config": { "url": "./client/assets/models/items_skinned/fighter_rig/armor/cloth_gloves_white"       }},
+        {"id": "file_cloth_boots_white",   "config": { "url": "./client/assets/models/items_skinned/fighter_rig/armor/cloth_boots_white"        }},
         {"id": "file_cloth_shirt_white",  "config": { "url": "./client/assets/models/items_skinned/fighter_rig/armor/cloth_shirt_white"       }},
         {"id": "file_cloth_legs_white",   "config": { "url": "./client/assets/models/items_skinned/fighter_rig/armor/cloth_legs_white"        }},
 
+        {"id": "file_cloth_gloves_red",  "config": { "url": "./client/assets/models/items_skinned/fighter_rig/armor/cloth_gloves_red"       }},
+        {"id": "file_cloth_boots_red",   "config": { "url": "./client/assets/models/items_skinned/fighter_rig/armor/cloth_boots_red"        }},
         {"id": "file_cloth_shirt_red",  "config": { "url": "./client/assets/models/items_skinned/fighter_rig/armor/cloth_shirt_red"       }},
         {"id": "file_cloth_legs_red",   "config": { "url": "./client/assets/models/items_skinned/fighter_rig/armor/cloth_legs_red"        }},
 
+        {"id": "file_cloth_gloves_blue",  "config": { "url": "./client/assets/models/items_skinned/fighter_rig/armor/cloth_gloves_blue"       }},
+        {"id": "file_cloth_boots_blue",   "config": { "url": "./client/assets/models/items_skinned/fighter_rig/armor/cloth_boots_blue"        }},
         {"id": "file_cloth_shirt_blue",  "config": { "url": "./client/assets/models/items_skinned/fighter_rig/armor/cloth_shirt_blue"       }},
         {"id": "file_cloth_legs_blue",   "config": { "url": "./client/assets/models/items_skinned/fighter_rig/armor/cloth_legs_blue"        }},
 
+        {"id": "file_cloth_gloves_yellow",  "config": { "url": "./client/assets/models/items_skinned/fighter_rig/armor/cloth_gloves_yellow"       }},
+        {"id": "file_cloth_boots_yellow",   "config": { "url": "./client/assets/models/items_skinned/fighter_rig/armor/cloth_boots_yellow"        }},
         {"id": "file_cloth_shirt_yellow",  "config": { "url": "./client/assets/models/items_skinned/fighter_rig/armor/cloth_shirt_yellow"       }},
         {"id": "file_cloth_legs_yellow",   "config": { "url": "./client/assets/models/items_skinned/fighter_rig/armor/cloth_legs_yellow"        }},
+
 
         {"id": "file_leather_shirt",  "config": { "url": "./client/assets/models/items_skinned/fighter_rig/armor/leather_shirt"       }},
         {"id": "file_leather_legs",   "config": { "url": "./client/assets/models/items_skinned/fighter_rig/armor/leather_legs"        }},
