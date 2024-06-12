@@ -433,6 +433,18 @@
       },
 
       {
+        "id": "VISUAL_BP_STEEL",
+        "data": {
+          "model_asset":"asset_steel_bp"
+        }
+      },
+      {
+        "id": "VISUAL_LEGS_STEEL",
+        "data": {
+          "model_asset":"asset_steel_legs"
+        }
+      },
+      {
       "id": "VISUAL_BP_BRONZE",
       "data": {
         "model_asset":"asset_bronze_bp"

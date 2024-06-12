@@ -70,6 +70,8 @@
 
         {"id": "asset_bronze_legs",  "config":{"model": "file_bronze_legs",  "material": "material_standard",          "settings": "model_settings_default"}},
         {"id": "asset_bronze_bp",    "config":{"model": "file_bronze_bp",    "material": "material_standard",          "settings": "model_settings_default"}},
+        {"id": "asset_steel_bp",    "config":{"model": "file_steel_bp",    "material": "material_standard",          "settings": "model_settings_default"}},
+        {"id": "asset_steel_legs",    "config":{"model": "file_steel_legs",    "material": "material_standard",          "settings": "model_settings_default"}},
         {"id": "asset_scale_boots",  "config":{"model": "file_scale_boots",  "material": "material_opaque",          "settings": "model_settings_default"}},
         {"id": "asset_scale_gloves", "config":{"model": "file_scale_gloves", "material": "material_opaque",          "settings": "model_settings_default"}},
 

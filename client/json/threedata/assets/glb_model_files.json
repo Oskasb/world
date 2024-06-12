@@ -78,7 +78,8 @@
         {"id": "file_barb_item_bp",       "config": { "url": "./client/assets/models/characters/barb/items/item_breastplate"      }},
         {"id": "file_barb_item_greaves",  "config": { "url": "./client/assets/models/characters/barb/items/item_greaves"          }},
 
-
+        {"id": "file_steel_bp",     "config": { "url": "./client/assets/models/items_skinned/fighter_rig/armor/steel_bp"         }},
+        {"id": "file_steel_legs",   "config": { "url": "./client/assets/models/items_skinned/fighter_rig/armor/steel_legs"      }},
         {"id": "file_bronze_bp",     "config": { "url": "./client/assets/models/items_skinned/fighter_rig/armor/bronze_bp"        }},
         {"id": "file_bronze_legs",   "config": { "url": "./client/assets/models/items_skinned/fighter_rig/armor/bronze_legs"      }},
 

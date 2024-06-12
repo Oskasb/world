@@ -49,6 +49,21 @@
         }
       },
       {
+        "id": "ITEM_BELT_PLATE",
+        "data": {
+          "visual_id":"VISUAL_BELT_PLATE",
+          "equip_slot": "SLOT_WAIST",
+          "status_add_modifiers": [
+            {"status": "MAX_HP", "value":5}
+          ],
+          "status": {
+            "NAME":"Steel Belt",
+            "ITEM_LEVEL": 1,
+            "ITEM_TYPE" : "ARMOR"
+          }
+        }
+      },
+      {
         "id": "ITEM_BELT_PLATE_BLACK",
         "data": {
           "visual_id":"VISUAL_BELT_PLATE_BLACK",
@@ -254,6 +269,36 @@
           "status": {
             "NAME":"Bronze Greaves",
             "ITEM_LEVEL": 1,
+            "ITEM_TYPE" : "ARMOR"
+          }
+        }
+      },
+      {
+        "id": "ITEM_CHEST_STEEL",
+        "data": {
+          "visual_id":"VISUAL_BP_STEEL",
+          "equip_slot": "SLOT_CHEST",
+          "status_add_modifiers": [
+            {"status": "MAX_HP", "value":15}
+          ],
+          "status": {
+            "NAME":"Steel Breastplate",
+            "ITEM_LEVEL": 30,
+            "ITEM_TYPE" : "ARMOR"
+          }
+        }
+      },
+      {
+        "id": "ITEM_LEGS_STEEL",
+        "data": {
+          "visual_id":"VISUAL_LEGS_STEEL",
+          "equip_slot": "SLOT_SKIRT",
+          "status_add_modifiers": [
+            {"status": "MAX_HP", "value":15}
+          ],
+          "status": {
+            "NAME":"Steel Greaves",
+            "ITEM_LEVEL": 30,
             "ITEM_TYPE" : "ARMOR"
           }
         }
