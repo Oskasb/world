@@ -18,6 +18,38 @@
         }
       },
       {
+        "id": "ITEM_KATANA",
+        "data": {
+          "visual_id":"VISUAL_KATANA",
+          "equip_slot": "SLOT_HAND_R",
+          "status_add_modifiers": [
+            {"status": "ACTIONS", "value":"ACTION_SWORD_SLASH"}
+          ],
+          "status": {
+            "NAME":"Katana",
+            "ITEM_LEVEL": 2,
+            "ITEM_TYPE" : "WEAPON",
+            "RARITY": "UNCOMMON"
+          }
+        }
+      },
+      {
+        "id": "ITEM_STAFF_BASIC",
+        "data": {
+          "visual_id":"VISUAL_STAFF_BASIC",
+          "equip_slot": "SLOT_HAND_R",
+          "status_add_modifiers": [
+            {"status": "ACTIONS", "value":"ACTION_SWORD_SLASH"}
+          ],
+          "status": {
+            "NAME":"Simple Staff",
+            "ITEM_LEVEL": 1,
+            "ITEM_TYPE" : "WEAPON",
+            "RARITY": "PLAIN"
+          }
+        }
+      },
+      {
         "id": "ITEM_AXE_SLICER_GOLDRED",
         "data": {
           "visual_id":"VISUAL_AXE_SLICER_GOLDRED",

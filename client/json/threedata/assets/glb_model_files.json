@@ -130,6 +130,7 @@
         {"id": "file_sword_fancy",    "config": { "url": "./client/assets/models/items_rigid/weapons/sword_fancy"                 }},
         {"id": "file_emerald_blade",    "config": { "url": "./client/assets/models/items_rigid/weapons/emerald_blade"             }},
         {"id": "file_hatchet_nice",    "config": { "url": "./client/assets/models/items_rigid/weapons/hatchet_nice"                }},
+        {"id": "file_staff_basic",    "config": { "url": "./client/assets/models/items_rigid/weapons/staff_basic"                }},
 
         {"id": "file_beltplate",     "config": { "url": "./client/assets/models/items_rigid/armor/belt/belt_plate"                }},
         {"id": "file_belt_bronze",   "config": { "url": "./client/assets/models/items_rigid/armor/belt/belt_bronze"               }},

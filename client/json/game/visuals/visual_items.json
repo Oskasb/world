@@ -110,6 +110,12 @@
         }
       },
       {
+        "id": "VISUAL_STAFF_BASIC",
+        "data": {
+          "model_asset":"asset_staff_basic"
+        }
+      },
+      {
         "id": "VISUAL_KATANA",
         "data": {
           "model_asset":"asset_ninjablade"

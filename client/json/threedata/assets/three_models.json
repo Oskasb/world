@@ -255,6 +255,7 @@
         {"id": "asset_sword_fancy",  "config": { "model": "file_sword_fancy",       "material": "mat_instancing_basic",  "settings": "model_settings_items" }},
         {"id": "asset_emerald_blade",  "config": { "model": "file_emerald_blade",   "material": "mat_instancing_basic",  "settings": "model_settings_items" }},
         {"id": "asset_hatchet_nice",  "config": { "model": "file_hatchet_nice",     "material": "mat_instancing_basic",  "settings": "model_settings_items" }},
+        {"id": "asset_staff_basic",  "config": { "model": "file_staff_basic",     "material": "mat_instancing_basic",  "settings": "model_settings_items" }},
 
         {"id": "asset_tree_1",      "config": { "model": "file_tree_1" ,      "material": "mat_instancing_simple",     "settings": "model_settings_instancing_100"     }},
         {"id": "asset_tree_2",      "config": { "model": "file_tree_2" ,      "material": "mat_instancing_simple",     "settings": "model_settings_instancing_100"     }},
