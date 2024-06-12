@@ -131,7 +131,7 @@
                         "page_id": "page_start_farmer",
                         "world_encounters": [],
                         "inventory_items": ["ITEM_DRAKEN_GOLDRED"],
-                        "equipped_items": ["ITEM_HAT_LEATHER", "ITEM_SWORD_FANCY", "ITEM_SHIRT_CHAIN"],
+                        "equipped_items": ["ITEM_HAT_LEATHER", "ITEM_SWORD_FANCY", "ITEM_SHIRT_LEATHER", "ITEM_LEGS_LEATHER", "ITEM_GLOVES_LEATHER", "ITEM_BOOTS_LEATHER"],
                         "status": {
                           "ALIGNMENT": "FRIENDLY",
                           "STRONGHOLD_ID": "SH_MANSION"

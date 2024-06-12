@@ -28,6 +28,14 @@ class WorldAdventure {
             rootIndicator.showIndicator();
         }
 
+        function hideIndicator() {
+            rootIndicator.hideIndicator()
+        }
+
+        function showIndicator() {
+            parseConfigDataKey("ENCOUNTER_INDICATORS", "INDICATORS",  'indicator_data', 'adventure_indicator', onIndicatorData)
+        }
+
         this.adventureNodes = [];
 
         let applyLoadedConfig = function(cfg) {
@@ -157,9 +165,7 @@ class WorldAdventure {
         let expandAll = false;
 
 
-        function showIndicator() {
-            parseConfigDataKey("ENCOUNTER_INDICATORS", "INDICATORS",  'indicator_data', 'adventure_indicator', onIndicatorData)
-        }
+
 
         let spawnWorldAdventure = function(expandAllNodes) {
             showIndicator()
@@ -167,6 +173,7 @@ class WorldAdventure {
            }.bind(this);
 
         let despawnWorldAdventure = function() {
+            rootIndicator.hideIndicator()
             GameAPI.gameAdventureSystem.call.playerAdventureDeActivated(this)
             closeActiveNodes();
         }.bind(this);
@@ -320,8 +327,11 @@ class WorldAdventure {
         }.bind(this)
 
 
+
+
         this.call = {
             update:update,
+            hideIndicator:hideIndicator,
             updateDistance:updateDistance,
             getCursorDistance:getCursorDistance,
             getTargetNodeIndex:getTargetNodeIndex,

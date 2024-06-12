@@ -462,7 +462,9 @@ class WorldEncounter {
                 let actorReady = function(actor) {
                     hostActor = actor;
                     actor.setStatusKey(ENUMS.ActorStatus.ACTOR_LEVEL, this.encounterLevel);
-                    autoEquipActorByLevel(actor);
+                    if (this.config['auto_equip'] === true) {
+                        autoEquipActorByLevel(actor);
+                    }
                     hostReady()
                 }.bind(this)
 

@@ -41,6 +41,19 @@
         {"id": "asset_scale_green_legs",    "config":{"model": "file_scale_legs",   "material": "material_purple",          "settings": "model_settings_default"}},
         {"id": "asset_scale_shirt_green",  "config":{"model": "file_scale_shirt",  "material": "material_purple",           "settings": "model_settings_default"}},
 
+
+        {"id": "asset_cloth_shirt_white",  "config":{"model": "file_cloth_shirt_white",  "material": "material_opaque",           "settings": "model_settings_default"}},
+        {"id": "asset_cloth_legs_white",   "config":{"model": "file_cloth_legs_white",   "material": "material_opaque",           "settings": "model_settings_default"}},
+        {"id": "asset_cloth_shirt_red",  "config":{"model": "file_cloth_shirt_red",  "material": "material_opaque",           "settings": "model_settings_default"}},
+        {"id": "asset_cloth_legs_red",   "config":{"model": "file_cloth_legs_red",   "material": "material_opaque",           "settings": "model_settings_default"}},
+        {"id": "asset_cloth_shirt_blue",  "config":{"model": "file_cloth_shirt_blue",  "material": "material_opaque",           "settings": "model_settings_default"}},
+        {"id": "asset_cloth_legs_blue",   "config":{"model": "file_cloth_legs_blue",   "material": "material_opaque",           "settings": "model_settings_default"}},
+        {"id": "asset_cloth_shirt_yellow",  "config":{"model": "file_cloth_shirt_yellow",  "material": "material_opaque",           "settings": "model_settings_default"}},
+        {"id": "asset_cloth_legs_yellow",   "config":{"model": "file_cloth_legs_yellow",   "material": "material_opaque",           "settings": "model_settings_default"}},
+
+        {"id": "asset_leather_shirt",  "config":{"model": "file_leather_shirt",  "material": "material_opaque",           "settings": "model_settings_default"}},
+        {"id": "asset_leather_legs",   "config":{"model": "file_leather_legs",   "material": "material_opaque",           "settings": "model_settings_default"}},
+
         {"id": "asset_chain_shirt",  "config":{"model": "file_chain_shirt",  "material": "material_opaque",           "settings": "model_settings_default"}},
         {"id": "asset_chain_legs",   "config":{"model": "file_chain_legs",   "material": "material_opaque",           "settings": "model_settings_default"}},
         {"id": "asset_scale_shirt",  "config":{"model": "file_scale_shirt",  "material": "material_opaque",           "settings": "model_settings_default"}},
@@ -50,6 +63,15 @@
         {"id": "asset_bronze_bp",    "config":{"model": "file_bronze_bp",    "material": "material_opaque",          "settings": "model_settings_default"}},
         {"id": "asset_scale_boots",  "config":{"model": "file_scale_boots",  "material": "material_opaque",          "settings": "model_settings_default"}},
         {"id": "asset_scale_gloves", "config":{"model": "file_scale_gloves", "material": "material_opaque",          "settings": "model_settings_default"}},
+
+        {"id": "asset_leather_boots",  "config":{"model": "file_leather_boots",  "material": "material_opaque",          "settings": "model_settings_default"}},
+        {"id": "asset_leather_gloves", "config":{"model": "file_leather_gloves", "material": "material_opaque",          "settings": "model_settings_default"}},
+
+        {"id": "asset_leather_boots_studded",  "config":{"model": "file_leather_boots_studded",  "material": "material_opaque",          "settings": "model_settings_default"}},
+        {"id": "asset_leather_gloves_studded", "config":{"model": "file_leather_gloves_studded", "material": "material_opaque",          "settings": "model_settings_default"}},
+
+        {"id": "asset_chain_boots",  "config":{"model": "file_chain_boots",  "material": "material_opaque",          "settings": "model_settings_default"}},
+        {"id": "asset_chain_gloves", "config":{"model": "file_chain_gloves", "material": "material_opaque",          "settings": "model_settings_default"}},
 
 
         {"id": "asset_red_legs",          "config":{"model": "file_bronze_legs",  "material": "material_red",          "settings": "model_settings_default"}},

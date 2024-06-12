@@ -120,7 +120,7 @@
             {"status": "MAX_HP", "value":5}
           ],
           "status": {
-            "NAME":"Belt",
+            "NAME":"Scalemail Gloves",
             "ITEM_LEVEL": 1,
             "ITEM_TYPE" : "ARMOR",
             "RARITY":"EPIC"
@@ -136,13 +136,113 @@
             {"status": "MAX_HP", "value":5}
           ],
           "status": {
-            "NAME":"Belt",
+            "NAME":"Scalemail Boots",
             "ITEM_LEVEL": 1,
             "ITEM_TYPE" : "ARMOR",
             "RARITY": "UNCOMMON"
           }
         }
       },
+
+      {
+        "id": "ITEM_GLOVES_CHAIN",
+        "data": {
+          "visual_id":"VISUAL_GLOVES_CHAIN",
+          "equip_slot": "SLOT_HANDS",
+          "status_add_modifiers": [
+            {"status": "MAX_HP", "value":2}
+          ],
+          "status": {
+            "NAME":"Chainmail Gloves",
+            "ITEM_LEVEL": 1,
+            "ITEM_TYPE" : "ARMOR",
+            "RARITY":"UNCOMMON"
+          }
+        }
+      },
+      {
+        "id": "ITEM_BOOTS_CHAIN",
+        "data": {
+          "visual_id":"VISUAL_BOOTS_CHAIN",
+          "equip_slot": "SLOT_FEET",
+          "status_add_modifiers": [
+            {"status": "MAX_HP", "value":2}
+          ],
+          "status": {
+            "NAME":"Chainmail Boots",
+            "ITEM_LEVEL": 1,
+            "ITEM_TYPE" : "ARMOR",
+            "RARITY": "UNCOMMON"
+          }
+        }
+      },
+
+      {
+        "id": "ITEM_GLOVES_LEATHER_STUDDED",
+        "data": {
+          "visual_id":"VISUAL_GLOVES_LEATHER_STUDDED",
+          "equip_slot": "SLOT_HANDS",
+          "status_add_modifiers": [
+            {"status": "MAX_HP", "value":2}
+          ],
+          "status": {
+            "NAME":"Studded Gloves",
+            "ITEM_LEVEL": 1,
+            "ITEM_TYPE" : "ARMOR",
+            "RARITY":"UNCOMMON"
+          }
+        }
+      },
+      {
+        "id": "ITEM_BOOTS_LEATHER_STUDDED",
+        "data": {
+          "visual_id":"VISUAL_BOOTS_LEATHER_STUDDED",
+          "equip_slot": "SLOT_FEET",
+          "status_add_modifiers": [
+            {"status": "MAX_HP", "value":2}
+          ],
+          "status": {
+            "NAME":"Studded Boots",
+            "ITEM_LEVEL": 1,
+            "ITEM_TYPE" : "ARMOR",
+            "RARITY": "UNCOMMON"
+          }
+        }
+      },
+
+      {
+        "id": "ITEM_GLOVES_LEATHER",
+        "data": {
+          "visual_id":"VISUAL_GLOVES_LEATHER",
+          "equip_slot": "SLOT_HANDS",
+          "status_add_modifiers": [
+            {"status": "MAX_HP", "value":1}
+          ],
+          "status": {
+            "NAME":"Leather Gloves",
+            "ITEM_LEVEL": 1,
+            "ITEM_TYPE" : "ARMOR",
+            "RARITY":"COMMON"
+          }
+        }
+      },
+      {
+        "id": "ITEM_BOOTS_LEATHER",
+        "data": {
+          "visual_id":"VISUAL_BOOTS_LEATHER",
+          "equip_slot": "SLOT_FEET",
+          "status_add_modifiers": [
+            {"status": "MAX_HP", "value":1}
+          ],
+          "status": {
+            "NAME":"Leather Boots",
+            "ITEM_LEVEL": 1,
+            "ITEM_TYPE" : "ARMOR",
+            "RARITY": "COMMON"
+          }
+        }
+      },
+
       {
         "id": "ITEM_SKIRT_SCALE",
         "data": {
@@ -152,7 +252,7 @@
             {"status": "MAX_HP", "value":5}
           ],
           "status": {
-            "NAME":"Belt",
+            "NAME":"Scalemail Greaves",
             "ITEM_LEVEL": 1,
             "ITEM_TYPE" : "ARMOR"
           }
@@ -167,7 +267,7 @@
             {"status": "MAX_HP", "value":5}
           ],
           "status": {
-            "NAME":"Belt",
+            "NAME":"Scalemail Harness",
             "ITEM_LEVEL": 1,
             "ITEM_TYPE" : "ARMOR"
           }
@@ -182,7 +282,7 @@
             {"status": "MAX_HP", "value":5}
           ],
           "status": {
-            "NAME":"Belt",
+            "NAME":"Chainmail Shirt",
             "ITEM_LEVEL": 1,
             "ITEM_TYPE" : "ARMOR"
           }
@@ -198,6 +298,138 @@
           ]
         }
       },
+
+      {
+        "id": "ITEM_SHIRT_LEATHER",
+        "data": {
+          "visual_id":"VISUAL_SHIRT_LEATHER",
+          "equip_slot": "SLOT_BODY",
+          "status_add_modifiers": [
+            {"status": "MAX_HP", "value":5}
+          ],
+          "status": {
+            "NAME":"Leather Armor",
+            "ITEM_LEVEL": 1,
+            "ITEM_TYPE" : "ARMOR"
+          }
+        }
+      },
+      {
+        "id": "ITEM_LEGS_LEATHER",
+        "data": {
+          "visual_id":"VISUAL_LEGS_LEATHER",
+          "equip_slot": "SLOT_LEGS",
+          "status_add_modifiers": [
+            {"status": "MAX_HP", "value":5}
+          ]
+        }
+      },
+
+      {
+        "id": "ITEM_SHIRT_CLOTH_WHITE",
+        "data": {
+          "visual_id":"VISUAL_SHIRT_CLOTH_WHITE",
+          "equip_slot": "SLOT_BODY",
+          "status_add_modifiers": [
+            {"status": "MAX_HP", "value":5}
+          ],
+          "status": {
+            "NAME":"White Shirt",
+            "ITEM_LEVEL": 1,
+            "ITEM_TYPE" : "ARMOR"
+          }
+        }
+      },
+      {
+        "id": "ITEM_LEGS_CLOTH_WHITE",
+        "data": {
+          "visual_id":"VISUAL_LEGS_CLOTH_WHITE",
+          "equip_slot": "SLOT_LEGS",
+          "status_add_modifiers": [
+            {"status": "MAX_HP", "value":5}
+          ]
+        }
+      },
+
+      {
+        "id": "ITEM_SHIRT_CLOTH_RED",
+        "data": {
+          "visual_id":"VISUAL_SHIRT_CLOTH_RED",
+          "equip_slot": "SLOT_BODY",
+          "status_add_modifiers": [
+            {"status": "MAX_HP", "value":5}
+          ],
+          "status": {
+            "NAME":"Red Shirt",
+            "ITEM_LEVEL": 1,
+            "ITEM_TYPE" : "ARMOR"
+          }
+        }
+      },
+      {
+        "id": "ITEM_LEGS_CLOTH_RED",
+        "data": {
+          "visual_id":"VISUAL_LEGS_CLOTH_RED",
+          "equip_slot": "SLOT_LEGS",
+          "status_add_modifiers": [
+            {"status": "MAX_HP", "value":5}
+          ]
+        }
+      },
+
+
+      {
+        "id": "ITEM_SHIRT_CLOTH_BLUE",
+        "data": {
+          "visual_id":"VISUAL_SHIRT_CLOTH_BLUE",
+          "equip_slot": "SLOT_BODY",
+          "status_add_modifiers": [
+            {"status": "MAX_HP", "value":5}
+          ],
+          "status": {
+            "NAME":"Blue Shirt",
+            "ITEM_LEVEL": 1,
+            "ITEM_TYPE" : "ARMOR"
+          }
+        }
+      },
+      {
+        "id": "ITEM_LEGS_CLOTH_BLUE",
+        "data": {
+          "visual_id":"VISUAL_LEGS_CLOTH_BLUE",
+          "equip_slot": "SLOT_LEGS",
+          "status_add_modifiers": [
+            {"status": "MAX_HP", "value":5}
+          ]
+        }
+      },
+
+      {
+        "id": "ITEM_SHIRT_CLOTH_YELLOW",
+        "data": {
+          "visual_id":"VISUAL_SHIRT_CLOTH_YELLOW",
+          "equip_slot": "SLOT_BODY",
+          "status_add_modifiers": [
+            {"status": "MAX_HP", "value":5}
+          ],
+          "status": {
+            "NAME":"Yellow Shirt",
+            "ITEM_LEVEL": 1,
+            "ITEM_TYPE" : "ARMOR"
+          }
+        }
+      },
+      {
+        "id": "ITEM_LEGS_CLOTH_YELLOW",
+        "data": {
+          "visual_id":"VISUAL_LEGS_CLOTH_YELLOW",
+          "equip_slot": "SLOT_LEGS",
+          "status_add_modifiers": [
+            {"status": "MAX_HP", "value":5}
+          ]
+        }
+      },
+
       {
         "id": "ITEM_GLOVES_SCALE_PURPLE",
         "data": {
@@ -207,7 +439,7 @@
             {"status": "MAX_HP", "value":5}
           ],
           "status": {
-            "NAME":"Belt",
+            "NAME":"Chainmail Skirt",
             "ITEM_LEVEL": 1,
             "ITEM_TYPE" : "ARMOR"
           }
@@ -222,7 +454,7 @@
             {"status": "MAX_HP", "value":5}
           ],
           "status": {
-            "NAME":"Belt",
+            "NAME":"Scalemail Boots",
             "ITEM_LEVEL": 1,
             "ITEM_TYPE" : "ARMOR"
           }
@@ -237,7 +469,7 @@
             {"status": "MAX_HP", "value":5}
           ],
           "status": {
-            "NAME":"Belt",
+            "NAME":"Scalemail Skirt",
             "ITEM_LEVEL": 1,
             "ITEM_TYPE" : "ARMOR"
           }
@@ -413,6 +645,21 @@
         "id": "ITEM_HAT_WHITE",
         "data": {
           "visual_id":"VISUAL_HAT_WHITE",
+          "equip_slot": "SLOT_HEAD",
+          "status_add_modifiers": [
+
+          ],
+          "status": {
+            "NAME":"Armor",
+            "ITEM_LEVEL": 1,
+            "ITEM_TYPE" : "ARMOR"
+          }
+        }
+      },
+      {
+        "id": "ITEM_HAT_POINTY_WHITE",
+        "data": {
+          "visual_id":"VISUAL_HAT_POINTY_WHITE",
           "equip_slot": "SLOT_HEAD",
           "status_add_modifiers": [
 

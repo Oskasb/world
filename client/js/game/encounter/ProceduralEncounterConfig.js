@@ -5,6 +5,7 @@ let defaultConf =                 {
     "visibility": 1,
     "grid_id": "grid_7x7",
     "host_id": "bandit_basic",
+    "auto_equip": true,
     "indicator_id": "battle_indicator",
     "trigger_radius": 2,
     "interact_options": [

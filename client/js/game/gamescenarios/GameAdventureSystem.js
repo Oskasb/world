@@ -171,9 +171,16 @@ class GameAdventureSystem {
 
         configDataList("WORLD_ADVENTURE","ADVENTURES", onData)
 
+
+
+
         function playerAdventureActivated(activeNodes, wAdv) {
                 console.log("playerAdventureActivated", activeNodes);
             visualDestinationLayer.call.setList(activeNodes)
+
+            for (let i = 0; i < wAdvs.length; i++) {
+                wAdvs[i].call.hideIndicator()
+            }
 
             let activeActor = GameAPI.getGamePieceSystem().selectedActor;
 
