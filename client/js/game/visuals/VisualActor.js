@@ -9,6 +9,7 @@ import {PieceAnimator} from "../gamepieces/PieceAnimator.js";
 import {PieceActionSystem} from "../gamepieces/PieceActionSystem.js";
 import {PieceAttacher} from "../gamepieces/PieceAttacher.js";
 import {VisualEquipment} from "./VisualEquipment.js";
+import {deactivateActorVisuals} from "../../application/utils/ActorUtils.js";
 
 let tempObj3d = new Object3D();
 let tempVec = new Vector3();
@@ -48,13 +49,33 @@ class VisualActor {
 
 
         let setActor = function(a, onReady) {
+
+
+            if (activating === true) {
+                console.log("Already activating")
+                return;
+            }
+
+            if (active === true) {
+                console.log("Already active")
+                return;
+            }
+
+            if (a.getVisualGamePiece() !== null) {
+                console.log("Actor already has visualActor", a, a.getVisualGamePiece())
+           //     deactivateActorVisuals(a);
+           //     visualEquipment.call.setVisualActor(a.getVisualGamePiece());
+            //    onReady(a.getVisualGamePiece())
+            //    return;
+            }
+            actor = a;
             deactivated = false;
             if (activating === true) {
                 console.log("Multiple Activte Calls on same VisualActor pool entry..")
             }
 
             activating = true;
-            actor = a;
+
             let vConf = visualConfigs[actor.config['visual_id']]
         //    console.log("VisualActor set actor", vConf.model_asset, vConf, actor);
 
@@ -176,13 +197,16 @@ class VisualActor {
         let deactivated = false;
 
         let deactivate = function() {
-            if (actor.getStatus(ENUMS.ActorStatus.IN_COMBAT) === true) {
 
-            } else {
+            if (actor) {
+                if (actor.getStatus(ENUMS.ActorStatus.IN_COMBAT) === true) {
+                //    return;
+                }
+            }
+
                 deactivated = true;
                 active = false;
                 visualEquipment.call.deactivateVisualEquipment();
-            }
 
         }
 

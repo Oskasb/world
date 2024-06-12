@@ -529,6 +529,7 @@ class GameActor {
         } else {
             this.preDeactivated = true;
         }
+    //    this.visualActor = null;
     }
 
     leavePlayerParty() {
