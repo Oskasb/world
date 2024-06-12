@@ -832,7 +832,7 @@
           "vec4 directReflection  = txColor * reflectionColor  * directFactor * (directFactor * (1.0 -(angle*(rough*0.9)))) *( directFactor) * 0.5 *(1.0 - angle*1.0);",
           "vec4 surfaceReflection = reflectionColor * smoothnessFactor * ((0.5 *smooth*metal) * (1.0-angle) + (1.0 * (smooth*(1.0/(1.0+metal*5.0))) * angle))*0.5;",
           "vec4 finalReflection = vec4(metalReflection, 1.0) + (1.0 - (metal * (0.25))) * (directReflection + surfaceReflection) + fresnelReflection*(smooth+metal)*0.5;",
-          
+
           "float intensity = min(max( 0.5*(rough*rough*0.55 + smooth*smooth*0.75) + dot(fragNormal, sunLightDirection )*(0.5 + smooth*0.5), -0.0), 1.0);",
           "intensity = dot(fragNormal, sunLightDirection )*1.0 + 0.3;",
 

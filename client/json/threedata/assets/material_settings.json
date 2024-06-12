@@ -101,7 +101,7 @@
               "combine": "AddOperation",
               "settings": {
                 "reflectivity":1,
-                "shininess": 50
+                "shininess": 5
               }
             }
           }

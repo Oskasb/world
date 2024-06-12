@@ -244,6 +244,38 @@
       },
 
       {
+        "id": "ITEM_LEGS_BRONZE",
+        "data": {
+          "visual_id":"VISUAL_LEGS_BRONZE",
+          "equip_slot": "SLOT_SKIRT",
+          "status_add_modifiers": [
+            {"status": "MAX_HP", "value":5}
+          ],
+          "status": {
+            "NAME":"Bronze Greaves",
+            "ITEM_LEVEL": 1,
+            "ITEM_TYPE" : "ARMOR"
+          }
+        }
+      },
+      {
+        "id": "ITEM_CHEST_BRONZE",
+        "data": {
+          "visual_id":"VISUAL_BP_BRONZE",
+          "equip_slot": "SLOT_CHEST",
+          "status_add_modifiers": [
+            {"status": "MAX_HP", "value":5}
+          ],
+          "status": {
+            "NAME":"Bronze Breastplate",
+            "ITEM_LEVEL": 1,
+            "ITEM_TYPE" : "ARMOR"
+          }
+        }
+      },
+
+
+      {
         "id": "ITEM_SKIRT_SCALE",
         "data": {
           "visual_id":"VISUAL_LEGS_SCALE",
@@ -252,7 +284,7 @@
             {"status": "MAX_HP", "value":5}
           ],
           "status": {
-            "NAME":"Scalemail Greaves",
+            "NAME":"Scalemail Skirt",
             "ITEM_LEVEL": 1,
             "ITEM_TYPE" : "ARMOR"
           }
