@@ -214,7 +214,8 @@
       {
         "id": "VISUAL_HELMET_VIKING",
         "data": {
-          "model_asset":"asset_helmetviking"
+          "model_asset":"asset_helmetviking",
+          "icon_class": "helmet_viking_white"
         }
       },
       {
@@ -435,7 +436,8 @@
       {
         "id": "VISUAL_BP_STEEL",
         "data": {
-          "model_asset":"asset_steel_bp"
+          "model_asset":"asset_steel_bp",
+          "icon_class": "icon_bp_steel"
         }
       },
       {

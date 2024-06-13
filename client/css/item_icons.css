@@ -59,6 +59,9 @@ div.boots_scale_white {
     background-image: url("/client/assets/images/textures/gui/items/boots_scale_white.png");
 }
 
+div.icon_bp_steel {
+    background-image: url("/client/assets/images/textures/gui/items/bp_steel.png");
+}
 
 div.gloves_scale_white {
     background-image: url("/client/assets/images/textures/gui/items/gloves_scale_white.png");
