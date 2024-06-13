@@ -134,7 +134,7 @@ class DomAdventureNote {
                 ThreeAPI.registerPrerenderCallback(update);
 
 
-                let innerHtml = "Reward:"
+                let innerHtml = ""
                 let reward = worldAdventure.config.reward || null;
 
                 if (typeof (reward) === "string") {
@@ -146,7 +146,7 @@ class DomAdventureNote {
                         }
                     }
                 } else {
-                    innerHtml += " no item";
+                    innerHtml += "No Reward!";
                 }
 
                 statusMap.reward = innerHtml
@@ -167,17 +167,17 @@ class DomAdventureNote {
 
                 let itemClass = getItemIconClass(itemId)
 
-                let iClass = 'item_icon '+itemClass;
-                console.log("Reward Item Config ", iClass, itemClass ,  config, vconfig);
+                console.log("Reward Item Config ", itemClass ,  config, vconfig);
 
                 let frame = DomUtils.createDivElement(rewardsContainer, 'frame_'+itemId, '', 'adventure_reward_icon_frame')
             let rarity = getItemRarity(itemId);
             DomUtils.addElementClass(frame, rarity);
 
             let div = DomUtils.createDivElement(frame, 'rew_'+itemId, '', 'item_icon')
+            if (itemClass) {
                 DomUtils.addElementClass(div, itemClass);
-                rewardDivs.push(frame);
-            return '<div '+iClass+itemId+'</div>';
+            }
+            rewardDivs.push(frame);
         }
 
             let activate = function() {

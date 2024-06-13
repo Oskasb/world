@@ -213,8 +213,16 @@ class GameAdventureSystem {
         }.bind(this);
 
 
+            function processRewardItem(item) {
+                let activeActor = GameAPI.getGamePieceSystem().selectedActor;
+                activeActor.processItemLooted(item);
+            }
+
             let adventureCompleted = function(wAdv) {
                 setSelectedAdventure(null);
+
+
+
                 playerAdventureDeActivated(wAdv)
                 let activeActor = GameAPI.getGamePieceSystem().selectedActor;
                 let dataList = activeActor.getStatus(ENUMS.ActorStatus.COMPLETED_ADVENTURES)
@@ -228,6 +236,21 @@ class GameAdventureSystem {
                         MATH.splice(wAdvs, wAdv)
                     } else {
                         console.log("completed adventure should be present as active until completion")
+                    }
+
+
+                    let reward = wAdv.config.reward || null;
+
+                    if (typeof (reward) === "string") {
+                    //    attachItemReward(reward, innerHtml)
+                        evt.dispatch(ENUMS.Event.LOAD_ITEM,  {id: reward, callback:processRewardItem})
+                    } else if (reward !== null) {
+                        if (typeof(reward.length) === 'number') {
+                            for (let i = 0; i < reward.length; i++) {
+                    //            attachItemReward(reward[i])
+                                evt.dispatch(ENUMS.Event.LOAD_ITEM,  {id: reward[i], callback:processRewardItem})
+                            }
+                        }
                     }
 
                 } else {

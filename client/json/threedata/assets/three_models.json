@@ -155,14 +155,14 @@
         {"id": "asset_nineQuad",    "config": { "model": "file_quad",     "material": "material_instancing_ui_add", "settings": "model_settings_ui"  }},
         {"id": "asset_nine_add",    "config": { "model": "file_quad",     "material": "material_instancing_ui_add", "settings": "model_settings_ui"  }},
         {"id": "asset_nine_back",   "config": { "model": "file_quad",     "material": "material_instancing_ui_back","settings": "model_settings_ui"  }},
-        {"id": "asset_bullet",      "config": { "model": "file_bullet" ,  "material": "mat_instancing_basic",       "settings": "model_settings_instancing_50"     }},
-        {"id": "asset_cross3d",     "config": { "model": "file_cross3d",  "material": "mat_instancing_basic",       "settings": "model_settings_instancing_50"  }},
+        {"id": "asset_bullet",      "config": { "model": "file_bullet" ,  "material": "mat_instancing_simple",       "settings": "model_settings_instancing_50"     }},
+        {"id": "asset_cross3d",     "config": { "model": "file_cross3d",  "material": "mat_instancing_simple",       "settings": "model_settings_instancing_50"  }},
         {"id": "asset_indicator_spawn",     "config": { "model": "file_indicator_spawn",  "material": "mat_instancing_basic",       "settings": "model_settings_instancing_50"  }},
 
         {"id": "asset_belt_bronze", "config": { "model": "file_belt_bronze",  "material": "mat_instancing_basic",  "settings": "model_settings_items" }},
 
-        {"id": "asset_beltplate",   "config": { "model": "file_beltplate",    "material": "mat_instancing_basic",  "settings": "model_settings_items" }},
-        {"id": "asset_helmetviking","config": { "model": "file_helmetviking", "material": "mat_instancing_basic",  "settings": "model_settings_items" }},
+        {"id": "asset_beltplate",   "config": { "model": "file_beltplate",    "material": "mat_instancing_basic",  "settings": "model_settings_items_100" }},
+        {"id": "asset_helmetviking","config": { "model": "file_helmetviking", "material": "mat_instancing_basic",  "settings": "model_settings_items_100" }},
         {"id": "asset_helmet_bronze", "config": { "model": "file_helmet_bronze", "material": "mat_instancing_basic",  "settings": "model_settings_items"  }},
         {"id": "asset_bracer_bronze", "config": { "model": "file_bracer_bronze", "material": "mat_instancing_basic",  "settings": "model_settings_items"  }},
 

@@ -215,7 +215,8 @@
         "id": "VISUAL_HELMET_VIKING",
         "data": {
           "model_asset":"asset_helmetviking",
-          "icon_class": "helmet_viking_white"
+          "icon_class": "helmet_viking_white",
+          "palette":"ITEMS_STEEL"
         }
       },
       {

@@ -57,12 +57,16 @@ frameFeedbackMap['DISABLED']      = 'feedback_action_button_disabled';
 
 let paletteMap = {};
 paletteMap['DEFAULT'] = {
-    colors:{x:ENUMS.ColorCurve.grad_grey, y:ENUMS.ColorCurve.grad_grey, z: ENUMS.ColorCurve.grad_grey, w:ENUMS.ColorCurve.grad_grey},
-    settings:{x:1, y:0.9, z: 0, w:0} // solidity, brightness, blendStrength, skew (makes color go across rows)
+    colors:{x:ENUMS.ColorCurve.nearWhite, y:ENUMS.ColorCurve.nearWhite, z: ENUMS.ColorCurve.nearWhite, w:ENUMS.ColorCurve.nearWhite},
+    settings:{x:1, y:1, z: 0.05, w:0} // solidity, brightness, blendStrength, skew (makes color go across rows)
 };
 paletteMap['ITEMS_RED'] = {
     colors:{x:ENUMS.ColorCurve.grad_red_3, y:ENUMS.ColorCurve.grad_red_1, z: ENUMS.ColorCurve.grad_green_3, w:ENUMS.ColorCurve.grad_red_1},
     settings:{x:1, y:0.9, z: 1, w:0}
+};
+paletteMap['ITEMS_STEEL'] = {
+    colors:{x:ENUMS.ColorCurve.grad_blue_3, y:ENUMS.ColorCurve.grad_red_1, z: ENUMS.ColorCurve.nearWhite, w:ENUMS.ColorCurve.grad_grey},
+    settings:{x:1, y:1, z: 1, w:0}
 };
 paletteMap['ITEMS_GOLDRED'] = {
     colors:{x:ENUMS.ColorCurve.red_1, y:ENUMS.ColorCurve.yellow_1, z: ENUMS.ColorCurve.red_1, w:ENUMS.ColorCurve.orange_1},

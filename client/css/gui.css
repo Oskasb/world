@@ -619,7 +619,7 @@ div.adventure_panel {
     top: 0.5em;
     left: 1em;
     right: 1em;
-    height: auto;
+    height: 3.7em;
     position: absolute;
     background-color: rgba(51, 51, 51, 0.6);
     border-color: rgba(213, 213, 213, 0.92);
@@ -652,6 +652,8 @@ div.adventure_panel_completed {
 }
 
 div.adventure_panel h2 {
+    font-family: inherit;
+    font-style: normal;
     color:inherit;
     text-shadow: inherit;
     font-size: 1.3em;
@@ -673,7 +675,7 @@ div.adventure_rewards_container {
     pointer-events: auto;
     font-size: 1em;
     top: 3em;
-    left: 2em;
+    left: auto;
     margin-left: 4em;
     right: 2em;
     width: auto;
@@ -684,7 +686,7 @@ div.adventure_rewards_container {
 div.adventure_nodes_container {
     pointer-events: auto;
     font-size: 1em;
-    bottom: 0.5em;
+    bottom: 0.2em;
     left: 2em;
     right: 2em;
     width: auto;
@@ -1020,11 +1022,23 @@ div.item_label {
     display: inline-block;
 }
 
-div.adventure_distance {
-    bottom:0.3em;
-    right:0.8em;
-    padding-left: 1em;
+div.adventure_reward_label {
+    bottom:0.1em;
+    right:0.3em;
+    height: 1.3em;
+    padding: 0.2em;
+    padding-top: 0;
     font-size: 0.8em;
+    position: absolute;
+    color: inherit;
+    display: inline-block;
+}
+
+div.adventure_distance {
+    bottom:0.5em;
+    left:0.8em;
+    padding-left: 0.2em;
+    font-size: 1.1em;
     position: absolute;
     color: #bfe7e7;
 }
