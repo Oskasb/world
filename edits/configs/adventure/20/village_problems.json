@@ -26,8 +26,20 @@
       ],
       "node_type": "BATTLE",
       "node_id": "node_3_1717413305169"
+    },
+    {
+      "pos": [
+        -880.2,
+        2.5,
+        523
+      ],
+      "node_type": "ENCOUNTER",
+      "node_id": "node_1_1718258578827"
     }
   ],
+  "reward": {
+    ""
+  },
   "name": "Village Problems",
   "level": 1,
   "edit_id": "village_problems",

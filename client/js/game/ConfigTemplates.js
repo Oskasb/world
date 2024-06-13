@@ -72,7 +72,47 @@ const encounterTemplates = {
             },
             {
                 interaction: "LEAVE",
-                text: "Sorry to disturb you, just leaving."
+                text: "I got better things to do."
+            }
+        ],
+        spawn: {
+            patterns: [
+                {
+                    pattern_id: "sp_pair_row",
+                    tile: [   3,   4  ]
+                }
+            ],
+            actors: [
+                {
+                    actor: "ACTOR_FIGHTER",
+                    rot: [     0,        1.2,    0     ],
+                    on_ground: true,
+                    tile: [   4,    4    ]
+                }
+            ]
+        },
+        level: 1,
+        edit_id: ""
+    },
+    QUEST_END:{
+        pos: [    0,    0,    0],
+        visibility: 1,
+        grid_id: "grid_5x5",
+        host_id: "quest_basic",
+        indicator_id: "quest_end_indicator",
+        trigger_radius: 0,
+        text: "Nicely done. Have a reward!",
+        interact_options: [
+            {
+                interaction: "QUEST_COMPLETE",
+                text: "No problemo.",
+                dispatch: {
+                    event: "ENCOUNTER_CONVERSE",
+                    value: {
+                        adventure: true,
+                        skip: true
+                    }
+                }
             }
         ],
         spawn: {

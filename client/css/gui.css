@@ -637,7 +637,7 @@ div.adventure_panel_selected {
 }
 
 div.adventure_panel_active {
-    background-color: rgba(210, 206, 0, 0.3);
+    background-color: rgba(0, 0, 0, 0.74);
     border-color: rgb(255, 255, 55);
     color: #fff3a1;
     opacity: 1;
@@ -1054,12 +1054,13 @@ div.TALK {
 div.QUEST_ACCEPT {
     color: #ffff00;
     background-image: url("/client/assets/images/textures/gui/icons/icon_quest_accept.png");
-    background-color: rgba(255, 255, 0, 0.3);
+    background-color: rgba(0, 155, 255, 0.3);
 }
 
 div.QUEST_COMPLETE {
     color: #ffff00;
     background-image: url("/client/assets/images/textures/gui/icons/icon_quest_complete.png");
+    background-color: rgba(0, 255, 0, 0.3);
 }
 
 div.SNEAK {
