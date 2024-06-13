@@ -522,7 +522,13 @@ function listifyConfig(root, folder, idArray, configStore) {
 
 }
 
+
+function readConfig(root, folder) {
+    return window.CONFIGS[root][folder];
+}
+
 export {
+    readConfig,
     generateEditId,
     detachConfig,
     setEditIndexClient,

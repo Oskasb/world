@@ -1,5 +1,12 @@
 import {HtmlElement} from "./HtmlElement.js";
 import {poolReturn} from "../../utils/PoolUtils.js";
+import {
+    getItemConfigByItemId,
+    getItemIconClass,
+    getItemRarity,
+    getVisualConfigByItemId
+} from "../../utils/ItemUtils.js";
+import {ENUMS} from "../../ENUMS.js";
 
 let noticeQueue = [];
 
@@ -29,7 +36,8 @@ class DomAdventureNote {
             selected:false,
             active:false,
             completed:false,
-            sortindex:-1
+            sortindex:-1,
+            reward:"Reward:"
         }
         let sortingIndex = -1;
 
@@ -109,6 +117,8 @@ class DomAdventureNote {
         }
 
         let closeAnchor;
+        let rewardDiv;
+        let rewardsContainer;
 
             let readyCb = function () {
                 rootElement = htmlElement.call.getRootElement()
@@ -116,14 +126,59 @@ class DomAdventureNote {
                 closeAnchor.style.display = "none";
                 container = htmlElement.call.getChildElement('notice_container')
                 nodesContainer = htmlElement.call.getChildElement('nodes_container')
+                rewardDiv = htmlElement.call.getChildElement('reward')
+                rewardsContainer = htmlElement.call.getChildElement('rewards_container')
             //    DomUtils.addElementClass(container, statusMap.rarity)
                 let header = htmlElement.call.getChildElement('header')
                 DomUtils.addClickFunction(container, applySelect)
                 ThreeAPI.registerPrerenderCallback(update);
+
+
+                let innerHtml = "Reward:"
+                let reward = worldAdventure.config.reward || null;
+
+                if (typeof (reward) === "string") {
+                    attachItemReward(reward, innerHtml)
+                } else if (reward !== null) {
+                    if (typeof(reward.length) === 'number') {
+                        for (let i = 0; i < reward.length; i++) {
+                            attachItemReward(reward[i])
+                        }
+                    }
+                } else {
+                    innerHtml += " no item";
+                }
+
+                statusMap.reward = innerHtml
+
             }
 
             let rebuild // = htmlElement.initHtmlElement('loot_notice', closeCb, statusMap, 'loot_notice', readyCb);
 
+
+
+        let rewardDivs = [];
+
+        function attachItemReward(itemId) {
+
+                let config = getItemConfigByItemId(itemId);
+
+                let vconfig = getVisualConfigByItemId(itemId);
+
+                let itemClass = getItemIconClass(itemId)
+
+                let iClass = 'item_icon '+itemClass;
+                console.log("Reward Item Config ", iClass, itemClass ,  config, vconfig);
+
+                let frame = DomUtils.createDivElement(rewardsContainer, 'frame_'+itemId, '', 'adventure_reward_icon_frame')
+            let rarity = getItemRarity(itemId);
+            DomUtils.addElementClass(frame, rarity);
+
+            let div = DomUtils.createDivElement(frame, 'rew_'+itemId, '', 'item_icon')
+                DomUtils.addElementClass(div, itemClass);
+                rewardDivs.push(frame);
+            return '<div '+iClass+itemId+'</div>';
+        }
 
             let activate = function() {
                 lastSortIdx = -1;
@@ -131,6 +186,10 @@ class DomAdventureNote {
                 statusMap.active = false;
                 rebuild = htmlElement.initHtmlElement('adventure_note', close, statusMap, 'adventure_note', readyCb);
                 statusMap.header = worldAdventure.config.name || worldAdventure.id;
+
+
+
+
                 htmlElement.showHtmlElement();
             }
 
@@ -251,6 +310,7 @@ class DomAdventureNote {
             htmlElement.hideHtmlElement()
             closeTimeout = setTimeout(clearIframe,1500)
             clearDivArray(nodeIndicatorDivs)
+            clearDivArray(rewardDivs);
             statusMap.selected = false;
 
             if (statusMap.active === true) {

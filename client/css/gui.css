@@ -657,6 +657,30 @@ div.adventure_panel h2 {
     font-size: 1.3em;
 }
 
+div.adventure_reward_item_slot {
+    pointer-events: auto;
+    font-size: 1em;
+    top: 0;
+    left: 0;
+    right: auto;
+    width: 1.5em;
+    height: 1.5em;
+    position: relative;
+    display: inline-block;
+}
+
+div.adventure_rewards_container {
+    pointer-events: auto;
+    font-size: 1em;
+    top: 3em;
+    left: 2em;
+    margin-left: 4em;
+    right: 2em;
+    width: auto;
+    height: 2em;
+    position: absolute;
+}
+
 div.adventure_nodes_container {
     pointer-events: auto;
     font-size: 1em;

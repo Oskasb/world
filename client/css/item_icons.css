@@ -29,6 +29,14 @@ div.item_backplate {
     border: 0.3em solid;
 }
 
+div.adventure_reward_icon_frame {
+    width: 2em;
+    height: 2em;
+    margin-left: 0.5em;
+    display: inline-block;
+    position: relative;
+}
+
 div.item_icon {
     position:absolute;
     top: 50%;
@@ -53,7 +61,6 @@ div.weapon_1h_axe_hatchet {
 div.helmet_viking_white {
     background-image: url("/client/assets/images/textures/gui/items/helmet_viking_white.png");
 }
-
 
 div.boots_scale_white {
     background-image: url("/client/assets/images/textures/gui/items/boots_scale_white.png");
