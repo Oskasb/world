@@ -24,7 +24,7 @@ function getVisualConfigByVisualId(visualId) {
 
 function getItemConfigByItemId(itemId) {
     let cfgs = readConfig("GAME","ITEMS")
-    console.log("getItemConfigByItemId", cfgs)
+//    console.log("getItemConfigByItemId", cfgs)
     for (let i = 0; i < cfgs.length; i++) {
         if (cfgs[i].id === itemId) {
             return cfgs[i];

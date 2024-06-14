@@ -808,7 +808,10 @@ function CAM_MOVE() {
 
     if (isTileSelecting) {
         distance = tileSelector.extendedDistance;
-        selectedActor.actorText.say('tile select')
+        if (isDev()) {
+            selectedActor.actorText.say('tile select')
+        }
+
     } else {
         selectedActor.getDestination(tempVec3);
         distance = 0.5 + MATH.distanceBetween(tempVec3, selectedActor.getSpatialPosition()) * 6;

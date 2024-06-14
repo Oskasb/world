@@ -12,6 +12,7 @@ import {RemoteClient} from "./RemoteClient.js";
 import {processStatisticalActionApplied} from "../../game/actions/ActionStatusProcessor.js";
 import {applyRemoteConfigMessage, setEditIndexClient} from "../../application/utils/ConfigUtils.js";
 import {saveFileFromSocketMessage} from "../../../../Server/game/utils/EditorFunctions.js";
+import {isDev} from "../../application/utils/DebugUtils.js";
 
 
 let remoteClients = {}
@@ -103,7 +104,11 @@ function processItemInit(msg) {
 
         for (let key in status) {
             item.setStatusKey(key, status[key]);
-        }console.log("itemLoaded: ", item, status)
+        }
+        if (isDev()) {
+            console.log("itemLoaded: ", item, status)
+        }
+
         ThreeAPI.addPostrenderCallback(item.status.call.pulseStatusUpdate)
         let equippedToActorId = item.getStatus(ENUMS.ItemStatus.ACTOR_ID);
         let actor = GameAPI.getActorById(equippedToActorId);

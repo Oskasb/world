@@ -266,7 +266,10 @@ class PlayerMain {
 
                 }
 
-                console.log("Operate Adventure ", e)
+                if (isDev()) {
+                    console.log("Operate Adventure ", e)
+                }
+
             //   GameAPI.gameAdventureSystem.applyEncounterOperation(wEnc)
             }
 

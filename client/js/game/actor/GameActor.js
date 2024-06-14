@@ -15,6 +15,7 @@ import { ActorStatusProcessor } from "./ActorStatusProcessor.js";
 import {StatusFeedback} from "../visuals/StatusFeedback.js";
 import {evt} from "../../application/event/evt.js";
 import {activateActorVisuals, deactivateActorVisuals} from "../../application/utils/ActorUtils.js";
+import {isDev} from "../../application/utils/DebugUtils.js";
 
 // let index = 1; // zero index get culled by connection
 let tempVec = new Vector3();
@@ -517,7 +518,10 @@ class GameActor {
 
     deactivateGameActor() {
     //
-        this.actorText.say("----OFF")
+        if (isDev()) {
+            this.actorText.say("----OFF")
+        }
+
         this.setStatusKey(ENUMS.ActorStatus.IS_ACTIVE, 0);
         if (this.activated === true) {
        //     console.log("Deactivate GA ", this)
@@ -542,7 +546,7 @@ class GameActor {
             this.actorText.say("Try removing me?")
             return;
         } else {
-            console.log("Removing Non Player Actor", this)
+        //    console.log("Removing Non Player Actor", this)
         }
         this.setStatusKey(ENUMS.ActorStatus.EXISTS, 0);
         this.leavePlayerParty()

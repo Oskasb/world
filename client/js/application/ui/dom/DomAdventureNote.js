@@ -167,7 +167,7 @@ class DomAdventureNote {
 
                 let itemClass = getItemIconClass(itemId)
 
-                console.log("Reward Item Config ", itemClass ,  config, vconfig);
+           //     console.log("Reward Item Config ", itemClass ,  config, vconfig);
 
                 let frame = DomUtils.createDivElement(rewardsContainer, 'frame_'+itemId, '', 'adventure_reward_icon_frame')
             let rarity = getItemRarity(itemId);

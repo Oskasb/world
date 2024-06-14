@@ -4,6 +4,7 @@ import {Euler} from "../../../libs/three/math/Euler.js";
 import {Object3D} from "../../../libs/three/core/Object3D.js";
 import {Quaternion} from "../../../libs/three/math/Quaternion.js";
 import {getObj3dScaleKey} from "../utils/ModelUtils.js";
+import {isDev} from "../utils/DebugUtils.js";
 
 let threeVec = new Vector3();
 let threeVec2 = new Vector3();
@@ -805,10 +806,12 @@ class AmmoFunctions {
         if (bodyPools[body.dataKey]) {
             bodyPools[body.dataKey].returnToPool(body)
         } else {
-            console.log("No Body Pool for ", body);
+            if (isDev()) {
+                console.log("No Body Pool for ", body);
+            }
         }
-
     }
+
     physicsRayGetIntersections(world, pos, dir) {
         rayFromVec.setX(pos.x);
         rayFromVec.setY(pos.y);

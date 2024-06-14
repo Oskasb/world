@@ -21,7 +21,7 @@ let onItemsData = function(data) {
 
     }
 
-    console.log("onItemsData itemConfigs", slotToItemMap, itemConfigs)
+ //   console.log("onItemsData itemConfigs", slotToItemMap, itemConfigs)
 }
 
 function getItemConfigs() {

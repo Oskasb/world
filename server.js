@@ -26,8 +26,10 @@ let server = createServer(
     //    import * as SERVER from "./Server/ServerMain.js";
 
     let filePath = '.' + request.url;
-    if (filePath == './')
+    if (filePath.length === 2 || filePath[2] === '?') {
         filePath = './index.html';
+    }
+
 
         let ext = extname(filePath);
         let contentType = 'text/html';

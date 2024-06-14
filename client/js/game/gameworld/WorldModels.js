@@ -6,6 +6,7 @@ import { WorldTreasure} from "../encounter/WorldTreasure.js";
 import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
 import {saveEncounterEdits, saveWorldModelEdits} from "../../application/utils/ConfigUtils.js";
 import {WorldAdventure} from "../gamescenarios/WorldAdventure.js";
+import {isDev} from "../../application/utils/DebugUtils.js";
 
 let locationModelConfigs;
 let worldModels = [];
@@ -137,10 +138,10 @@ function loadEditorModels(configs) {
 }
 
 function loadModelsFromEditor(worldLevel) {
-    console.log("loadModelsFromEditor")
+    // console.log("loadModelsFromEditor")
     if (loadedConfigs['model']) {
         if (loadedConfigs['model'][worldLevel]) {
-            console.log("loadModelsFromEditor", loadedConfigs['model'], worldLevel)
+        //    console.log("loadModelsFromEditor", loadedConfigs['model'], worldLevel)
             loadEditorModels(loadedConfigs['model'][worldLevel])
         }
     }
@@ -164,7 +165,7 @@ let initWorldModels = function(worldLevel) {
     activateDynamicSpawnPoints()
 
     let config = locationModelConfigs;
-    console.log("worldLevel Models; ", worldLevel, loadedConfigs, config);
+    // console.log("worldLevel Models; ", worldLevel, loadedConfigs, config);
 
     removeWorldModels(worldLevel)
 
@@ -214,7 +215,10 @@ let initWorldModels = function(worldLevel) {
 }
 
 let deactivateWorldEncounters = function () {
-    console.log("deactivateWorldEncounters")
+    if (isDev()) {
+        console.log("deactivateWorldEncounters")
+    }
+
     GuiAPI.getWorldInteractionUi().deactivateWorldInteractUi()
     deactivateDynamicSpawnPoints();
     while (worldEncounters.length) {
@@ -452,7 +456,10 @@ class WorldModels {
 
         let sPoint = getSPointById(wEncId);
         if (!sPoint) {
-            console.log("Sp Created", wEncId)
+            if (isDev()) {
+                console.log("Sp Created", wEncId)
+            }
+
             sPoint = poolFetch('DynamicSpawnPoint')
             dynamicSpawnPoints.unshift(sPoint);
         }
@@ -502,7 +509,7 @@ class WorldModels {
 
         if (typeof (config['node_id']) === 'string') {
             nodeEncounterConfigs[config['node_id']] = config;
-            console.log("Register Node Enc config ", id, nodeEncounterConfigs);
+        //    console.log("Register Node Enc config ", id, nodeEncounterConfigs);
         } else {
             let sPoint = GameAPI.worldModels.getEncounterSpawnPoint(id);
             sPoint.applyConfig(config);

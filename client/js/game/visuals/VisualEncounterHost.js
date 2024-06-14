@@ -1,3 +1,5 @@
+import {isDev} from "../../application/utils/DebugUtils.js";
+
 class VisualEncounterHost {
     constructor(obj3d) {
 
@@ -51,7 +53,10 @@ class VisualEncounterHost {
                 actor = null;
             } else {
                 deactivated = true;
-                console.log("Actor already Removed... boo")
+                if (isDev()) {
+                    console.log("Actor already Removed... boo")
+                }
+
             }
         }
 

@@ -10,6 +10,7 @@ import {PieceActionSystem} from "../gamepieces/PieceActionSystem.js";
 import {PieceAttacher} from "../gamepieces/PieceAttacher.js";
 import {VisualEquipment} from "./VisualEquipment.js";
 import {deactivateActorVisuals} from "../../application/utils/ActorUtils.js";
+import {isDev} from "../../application/utils/DebugUtils.js";
 
 let tempObj3d = new Object3D();
 let tempVec = new Vector3();
@@ -62,7 +63,10 @@ class VisualActor {
             }
 
             if (a.getVisualGamePiece() !== null) {
-                console.log("Actor already has visualActor", a, a.getVisualGamePiece())
+                if (isDev()) {
+                    console.log("Actor already has visualActor", a, a.getVisualGamePiece())
+                }
+
            //     deactivateActorVisuals(a);
            //     visualEquipment.call.setVisualActor(a.getVisualGamePiece());
             //    onReady(a.getVisualGamePiece())
@@ -141,11 +145,14 @@ class VisualActor {
                 return;
             }
 
-            hold+= tpf;
-            if (hold > 2) {
-                actor.actorText.say(i);
-                hold = Math.random();
+            if (isDev()) {
+                hold+= tpf;
+                if (hold > 2) {
+                    actor.actorText.say(i);
+                    hold = Math.random();
+                }
             }
+
 
             if (pieceAnimator.animationStates.length) {
                 updateAnimatedGamePiece(tpf, GameAPI.getGameTime());
@@ -186,7 +193,10 @@ class VisualActor {
                 instance.getSpatial().call.setStopped();
                 ThreeAPI.registerPrerenderCallback(update);
                 update(0.01);
-                actor.actorText.say("ON----")
+                if (isDev()) {
+                    actor.actorText.say("ON----")
+                }
+
                 visualEquipment.call.activateVisualEquipment();
             } else {
                 actor.actorText.say(" DOUBLED ")
@@ -199,7 +209,9 @@ class VisualActor {
         let deactivate = function() {
 
             if (activating === true) {
-                console.log("Deactivate called while activating")
+                if (isDev()) {
+                    console.log("Deactivate called while activating", actor)
+                }
             }
 
                 deactivated = true;

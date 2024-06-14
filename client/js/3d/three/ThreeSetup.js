@@ -107,7 +107,7 @@ class ThreeSetup {
         //    let renderer = new THREE.WebGLRenderer();
             let gl = renderer.getContext();
             gl.getContextAttributes().alpha = false;
-            console.log(gl.getContextAttributes());
+        //    console.log(gl.getContextAttributes());
             // gl.setContextAttribute()
         //    renderer.setPixelRatio( pxRatio );
             renderer.setSize( window.innerWidth, window.innerHeight );

@@ -1,8 +1,8 @@
-import * as DebugUtils from "./DebugUtils.js";
-import {DebugLines} from "./lines/DebugLines.js";
 import {CameraUiSystem} from "../ui/gui/systems/CameraUiSystem.js";
 import {debugDrawPhysicalWorld} from "../utils/PhysicsUtils.js";
 import {poolFetch, poolReturn} from "../utils/PoolUtils.js";
+import {createDebugButton, getAllSceneNodes} from "../utils/DebugUtils.js";
+import {DebugLines} from "./lines/DebugLines.js";
 
 let cache = {};
 let mem = null;
@@ -143,7 +143,7 @@ class DebugView {
 
     renderInspectionFrame() {
         if (this.inspecting['nodes']) {
-            let nodes = DebugUtils.getAllSceneNodes();
+            let nodes = getAllSceneNodes();
             for (let i = 0; i < nodes.length;i++) {
                 evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:nodes[i].position, color:'GREEN', size:1})
             }
@@ -183,7 +183,7 @@ class DebugView {
             return this.isActive;
         }.bind(this)
 
-        DebugUtils.createDebugButton('DEBUG', this.callbacks.onActivate, testActive, 'bottom_left', 0.037, 0.03)
+        createDebugButton('DEBUG', this.callbacks.onActivate, testActive, 'bottom_left', 0.037, 0.03)
 
     }
 

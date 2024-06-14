@@ -9,7 +9,7 @@ let serverStamp = 0;
 
 class WorkerConnection {
 	constructor() {
-		console.log("Worker ClientConnection ready")
+	//	console.log("Worker ClientConnection ready")
 
 		let sendJson = function(json) {
 			socket.send(json);

@@ -1,6 +1,7 @@
 import {Object3D} from "../../../libs/three/core/Object3D.js";
 import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
 import {WorldEncounter} from "../encounter/WorldEncounter.js";
+import {isDev} from "../../application/utils/DebugUtils.js";
 
 let worldEncounters = null;
 
@@ -32,13 +33,13 @@ class AdventureNode {
 
         let nodeHost = null;
         let spawnNodeHost = function() {
-            console.log("spawnNodeHost", getConfig())
+         //   console.log("spawnNodeHost", getConfig())
             nodeHost = poolFetch('NodeHost')
             nodeHost.activateNodeHost(this)
         }.bind(this)
 
         function despawnNodeHost() {
-            console.log("despawnNodeHost", nodeHost)
+        //    console.log("despawnNodeHost", nodeHost)
             if (nodeHost) {
                 nodeHost.deactivateNodeHost()
                 poolReturn(nodeHost)
@@ -56,14 +57,14 @@ class AdventureNode {
 
         //    wEnc.deactivateWorldEncounter()
             // wEnc.visualEncounterHost.removeEncounterHost();
-            console.log("Node Encounter ready ", encounter);
+        //    console.log("Node Encounter ready ", encounter);
             worldEncounters.push(encounter);
         }
 
         let removeNodeContent = function() {
-            console.log("removeNodeContent", adventure)
+        //    console.log("removeNodeContent", adventure)
             if (encounter !== null) {
-                console.log("Remove Node encounter", encounter)
+        //        console.log("Remove Node encounter", encounter)
                 encounter.deactivateWorldEncounter();
                 MATH.splice(worldEncounters, encounter);
             }
@@ -87,10 +88,13 @@ class AdventureNode {
                 let encCfg = nodeCfgs[nodeId]
                 if (!encCfg) {
                     nodeType = 'UGLY_LOADING_ASYNC'
-                    console.log("No config yet...", nodeId, nodeCfgs)
+                    if (isDev()) {
+                        console.log("No config yet...", nodeId, nodeCfgs)
+                    }
+
                 } else {
                     if (encounter === null) {
-                        console.log("setup enc node:", encCfg)
+                    //    console.log("setup enc node:", encCfg)
                         encounter = new WorldEncounter(encCfg.edit_id, encCfg, encReady)
                     }
                 }
@@ -184,7 +188,7 @@ class AdventureNode {
     }
 
     deactivateAdventureNode() {
-        console.log("deactivateAdventureNode", this)
+    //    console.log("deactivateAdventureNode", this)
         this.isActive = false;
         this.call.close();
         GameAPI.unregisterGameUpdateCallback(this.call.update);

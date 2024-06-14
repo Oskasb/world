@@ -2,6 +2,7 @@ import {ThreeTerrain} from "./ThreeTerrain.js";
 import {Vector3} from "../../../../libs/three/math/Vector3.js";
 import {Ocean} from "../water/Ocean.js";
 import {VegetationSystem} from "./vegetation/VegetationSystem.js";
+import {isDev} from "../../../application/utils/DebugUtils.js";
 
 let tempVec = new Vector3();
 let threeTerrain = new ThreeTerrain();
@@ -156,7 +157,10 @@ class TerrainSystem {
 
     clearLodUpdates = function(callback) {
         if (this.allLodCallbacks.indexOf(callback) === -1) {
-            console.log("Callback not registered..")
+            if (isDev()) {
+                console.log("Callback not registered..")
+            }
+
         } else {
             MATH.splice(this.allLodCallbacks, callback);
             threeTerrain.call.removeLodUpdateCB(callback);

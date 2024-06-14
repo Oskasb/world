@@ -11,6 +11,7 @@ import {NavigationStatePageSystem} from "./systems/NavigationStatePageSystem.js"
 import {DomTransition} from "../dom/DomTransition.js";
 import {DomCharacter} from "../dom/DomCharacter.js";
 import {poolFetch} from "../../utils/PoolUtils.js";
+import {isDev} from "../../utils/DebugUtils.js";
 
 let guiTime = 0;
 let worldInteractUiSystem = new WorldInteractUiSystem()
@@ -79,8 +80,14 @@ class GuiAPI {
 
     initGuiApi = function(onReadyCB) {
 
-        this.debugView = new DebugView();
-        this.guiDebug = new GuiDebug();
+
+        if (isDev() === true) {
+            this.debugView = new DebugView();
+            this.guiDebug = new GuiDebug();
+        }
+
+
+
         this.guiSettings = new GuiSettings();
         this.widgetBuilder = new WidgetBuilder();
         this.guiPageSystem = new GuiPageSystem();
@@ -393,7 +400,7 @@ class GuiAPI {
             GameAPI.handleWorldSpacePointerUpdate(this.worldSpacePointers[i])
         };
 
-        this.guiDebug.updateDebugElements();
+
         this.instantiator.updateInstantiatorBuffers();
 
         MATH.callAll(this.guiUpdateCallbacks, tpf, time);

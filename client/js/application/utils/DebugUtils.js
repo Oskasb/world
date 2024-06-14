@@ -1,5 +1,24 @@
 let cache = {};
 let callbacks = {};
+let paramsMap = {};
+if (typeof (window) !== 'undefined') {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+
+    const entries = urlParams.entries();
+
+
+    for (const entry of entries) {
+        if (entry[1] === 'true') {
+            paramsMap[entry[0]] = true;
+        } else {
+            paramsMap[entry[0]] = entry[1];
+        }
+    }
+    console.log("urlParams:", paramsMap);
+}
+
+
 
 function trackDebugConfig(folder, key, value) {
     if (!cache['DEBUG']) {
@@ -49,8 +68,53 @@ function indicateActiveInstances() {
     }
 }
 
+function isDev() { // set from URL Param ? dev=true
+    if (paramsMap['dev'] === true) {
+        return true
+    } else {
+        return false
+    }
+}
+
+function getAllSceneNodes() {
+    let scene = ThreeAPI.getScene();
+    return scene.children;
+}
+
+function createDebugButton(text, onActivate, testActive, parent, x, y) {
+    //   console.log("Debug Button: ", text, onActivate, testActive, parent, x, y);
+    let buttonReady = function(button) {
+        //      console.log("DEbug Button Ready: ", button);
+    }
+
+    let opts = {
+        widgetClass:'GuiSimpleButton',
+        widgetCallback:buttonReady,
+        configId: 'button_big_blue',
+        onActivate: onActivate,
+        testActive: testActive,
+        interactive: true,
+        text: text,
+        offset_x: x,
+        offset_y: y
+    };
+
+    if (typeof(parent) === 'string') {
+        opts.anchor = parent;
+    }
+    if (typeof(parent) === 'object') {
+        opts.container = parent;
+    }
+
+    evt.dispatch(ENUMS.Event.BUILD_GUI_ELEMENT, opts)
+
+}
+
 
 export {
+    createDebugButton,
+    getAllSceneNodes,
+    isDev,
     trackDebugConfig,
     debugTrackStatusMap,
     indicateActiveInstances

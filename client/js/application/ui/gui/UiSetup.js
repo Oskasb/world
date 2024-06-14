@@ -7,6 +7,7 @@ import { PartyUiSystem } from "./systems/PartyUiSystem.js";
 import { ActorActionUiSystem} from "./systems/ActorActionUiSystem.js";
 import {WorldInteractUiSystem} from "./systems/WorldInteractUiSystem.js";
 import {DomMinimap} from "../dom/DomMinimap.js";
+import {isDev} from "../../utils/DebugUtils.js";
 
 
 let partyUiSystem = null;
@@ -44,9 +45,14 @@ class UiSetup {
 
         setupDefaultUi = function() {
             this.guiAnchors.initGuiAnchors();
-            GuiAPI.getGuiDebug().setupDebugControlContainer();
-            GuiAPI.getGuiDebug().setupDebugControlContainer2();
-            GuiAPI.debugView.initDebugView();
+
+            if (isDev() === true) {
+                GuiAPI.getGuiDebug().setupDebugControlContainer();
+                GuiAPI.getGuiDebug().setupDebugControlContainer2();
+                GuiAPI.debugView.initDebugView();
+            }
+
+
             partyUiSystem.activatePartyUiSystem();
             actorActionUpSystem.activateActorActionUiSystem()
         };

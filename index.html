@@ -14,6 +14,8 @@
     document.getElementsByTagName('head')[0].appendChild(meta);
 */
 
+    import {isDev} from "./client/js/application/utils/DebugUtils.js";
+
     window.AMMO = new Ammo();
     let mobileAndTabletcheck = function() {
         let check = false;
@@ -127,18 +129,19 @@
             }
         };
 
+        let dev = isDev();
+        console.log("isDev", dev);
+
         window.SYSTEM_SETUP = {
             DEBUG:{
                 on:false
             }
         };
-
+        window.pollingOn = false;
         if (window.location.href === 'http://127.0.0.1:3000/' || window.location.href ===  'http://localhost:5001/' || window.location.href ===  'http://localhost:5006/' || window.location.href ===  'http://192.168.0.100:3000/') {
-            window.pollingOn = true;
-       //     console.log("Pipeline is On")
-        } else {
-            window.pollingOn = false;
-            console.log("No Pipeline polling")
+            if (dev === true) {
+                window.pollingOn = true;
+            }
         }
 
         const dataPipelineOptions = {
@@ -194,7 +197,10 @@
 
     //document.body.addEventListener('touchstart', bodyTouch)
 
+
+
     </script>
+    <script src="client/js/application/debug/DebugUtils.js"></script>
 
 
 </head>

@@ -1,5 +1,6 @@
 import { ConfigData } from "./ConfigData.js";
 import {ENUMS} from "../ENUMS.js";
+import {isDev} from "./DebugUtils.js";
 
 let deletedByIndex = [];
 let deletedConfigs = {};
@@ -124,7 +125,8 @@ function streamLoadEditsFromIndexInit() {
         }
     }
 
-    console.log("Deleted by index: ", deletedByIndex);
+
+    // console.log("Deleted by index: ", deletedByIndex);
     let hold = 0;
     function processStream(tpf) {
         hold += tpf;
@@ -134,7 +136,7 @@ function streamLoadEditsFromIndexInit() {
         hold = 0;
         let id = loadStrem.pop()
         requestFileRead(id);
-        GuiAPI.screenText('EDITS', ENUMS.Message.SYSTEM, loadStrem.length);
+    //    GuiAPI.screenText('EDITS', ENUMS.Message.SYSTEM, loadStrem.length);
         if (loadStrem.length === 0) {
             ThreeAPI.unregisterPrerenderCallback(processStream)
         }
@@ -161,7 +163,10 @@ function processIndexEntry(id, indexEntry) {
 }
 
 function setEditIndexClient(eIndex) {
-    console.log("Loaded Edit Index: ", [[eIndex], [requestListeners]]);
+    if (isDev()) {
+        console.log("Loaded Edit Index: ", [[eIndex], [requestListeners]]);
+    }
+
     editIndex = eIndex;
     for (let key in eIndex) {
         processIndexEntry(key, eIndex[key]);
@@ -283,7 +288,10 @@ function applyRemoteConfigMessage(message) {
     }
 
     if (data['DELETED'] === true) {
-        console.log("Not loading deleted config", id, message)
+        if (isDev()) {
+            console.log("Not loading deleted config", id, message)
+        }
+
         deletedConfigs[id] = data
     } else {
         if (message.format === 'index_entry') {

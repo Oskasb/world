@@ -57,7 +57,7 @@ let handleMessage = function(oEvent) {
 
 };
 
-console.log("Load Worker Main")
+// console.log("Load Worker Main")
 
 onmessage = function (oEvent) {
     handleMessage(oEvent);

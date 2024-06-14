@@ -21,7 +21,7 @@ class VegetationSystem {
     }
 
     activateVegetationSystem(lodCenterVec3) {
-        console.log("activateVegetationSystem")
+    //    console.log("activateVegetationSystem")
         lodCenter = lodCenterVec3;
         let vegReadyCB = function() {
             ThreeAPI.addPostrenderCallback(updateVegetationSystem)

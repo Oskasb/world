@@ -14,7 +14,6 @@ function worldLevelsUpdate(data) {
     for (let i = 0; i < data.levels.length; i++) {
         worldLevels[data.levels[i].id] = data.levels[i];
     }
-    console.log("World Levels", worldLevels);
 }
 setTimeout(function() {
     let worldLevelsConfig = new ConfigData("WORLD_SYSTEMS", "WORLD_LEVELS");

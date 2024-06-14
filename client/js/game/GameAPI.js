@@ -218,7 +218,7 @@ class GameAPI {
     }
 
     activateWorldLevel(worldLevel) {
-        console.log('activateWorldLevel', worldLevel)
+    //    console.log('activateWorldLevel', worldLevel)
         let terrainSys = ThreeAPI.getTerrainSystem();
         let worldLevelConfig = this.gameMain.getWorldLevelConfig(worldLevel);
 
@@ -231,7 +231,7 @@ class GameAPI {
         let heightmap = terrainMat.heightmap;
         let terrainmap = terrainMat.terrainmap;
         let assetId = worldLevelConfig.asset
-        console.log("Apply World Level config ", assetId, [heightmap, terrainmap, worldLevelConfig])
+    //    console.log("Apply World Level config ", assetId, [heightmap, terrainmap, worldLevelConfig])
 
         let playerMain = this.gameMain.playerMain;
         let onLoad = function(asset) {

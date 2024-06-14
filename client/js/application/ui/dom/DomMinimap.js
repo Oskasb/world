@@ -7,6 +7,7 @@ import {filterForWalkableTiles} from "../../../game/gameworld/ScenarioUtils.js";
 import {poolFetch, poolReturn} from "../../utils/PoolUtils.js";
 import {ENUMS} from "../../ENUMS.js";
 import {PerformanceMonitorUiSystem} from "../gui/systems/PerformanceMonitorUiSystem.js";
+import {isDev} from "../../utils/DebugUtils.js";
 
 let tempVec2 = new Vector2()
 let worldSize = 2048;
@@ -469,9 +470,16 @@ class DomMinimap {
             let zoomOutDiv = htmlElement.call.getChildElement('zoom_out')
             let locEditDiv = htmlElement.call.getChildElement('location_edit')
             let perfMonDiv = htmlElement.call.getChildElement('perf_mon')
-            DomUtils.addClickFunction(locEditDiv, openLocEdit)
+            if (isDev()===true) {
+                DomUtils.addClickFunction(locEditDiv, openLocEdit)
+                DomUtils.addClickFunction(perfMonDiv, monitorPerformance)
+            } else {
+                locEditDiv.style.visibility = 'hidden';
+                perfMonDiv.style.visibility = 'hidden';
+            }
+
             DomUtils.addClickFunction(mapDiv, openWorldMap)
-            DomUtils.addClickFunction(perfMonDiv, monitorPerformance)
+
             DomUtils.addClickFunction(zoomInDiv, zoomIn)
             DomUtils.addClickFunction(zoomOutDiv, zoomOut)
             populateTravelPath(mapDiv);

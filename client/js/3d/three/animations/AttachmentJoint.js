@@ -1,5 +1,6 @@
 import {Vector3} from "../../../../libs/three/math/Vector3.js";
 import {Object3D} from "../../../../libs/three/core/Object3D.js";
+import {isDev} from "../../../application/utils/DebugUtils.js";
 
 let tempVec = new Vector3()
 class AttachmentJoint {
@@ -139,7 +140,10 @@ class AttachmentJoint {
 
     detachAttachedEntity() {
         if (!this.attachedSpatial) {
-            console.log("Spatial Already detached")
+            if (isDev()) {
+
+            }console.log("Spatial Already detached")
+
             return this;
         }
         this.attachedSpatial.dynamicJoint = null;

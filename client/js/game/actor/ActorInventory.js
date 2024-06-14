@@ -1,3 +1,5 @@
+import {isDev} from "../../application/utils/DebugUtils.js";
+
 class ActorInventory {
     constructor(actor) {
         this.actor = actor;
@@ -28,7 +30,10 @@ class ActorInventory {
 
 
     addInventoryItem(item, slot, callback) {
-        console.log("Add Inv Item ", item)
+        if (isDev()) {
+            console.log("Add Inv Item ", item)
+        }
+
         let slotKey = null;
         if (typeof (slot) === 'string') {
             slotKey = slot;

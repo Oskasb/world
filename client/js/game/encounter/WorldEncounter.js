@@ -429,7 +429,7 @@ class WorldEncounter {
             let lastHostId = this.config.host_id;
 
             if (cfg !== null) {
-                console.log("WE Config Loaded ", cfg)
+            //    console.log("WE Config Loaded ", cfg)
                 this.config = cfg;
                 this.encounterLevel = cfg['level'] || 1;
 

@@ -161,7 +161,6 @@ class GameAdventureSystem {
 
         let onData = function(data) {
             adventureConfigs = data;
-            console.log("adventureConfigs", adventureConfigs)
             if (active === false) {
                 active = true;
                 GameAPI.registerGameUpdateCallback(update);
@@ -336,11 +335,11 @@ class GameAdventureSystem {
             worldAdventures[worldLevel] = [];
         }
         worldAdventures[worldLevel].push(worldAdventure);
-        console.log("registerAdventure", worldLevel, worldAdventure, worldAdventures)
+    //    console.log("registerAdventure", worldLevel, worldAdventure, worldAdventures)
     }
 
     applyEncounterOperation(worldEncounter) {
-        console.log("applyEncounterOperation", worldEncounter.id, worldEncounter)
+    //    console.log("applyEncounterOperation", worldEncounter.id, worldEncounter)
         let advs = this.getWorldAdventures();
         for (let i = 0; i < advs.length; i++) {
             advs[i].call.notifyEncounterOperation(worldEncounter)
@@ -410,7 +409,7 @@ class GameAdventureSystem {
             MATH.emptyArray(startingItems);
 
             let equipCb = function(item) {
-                console.log("Equip CB", item)
+            //    console.log("Equip CB", item)
                 startingItems.push(item);
                 actor.equipItem(item);
             }

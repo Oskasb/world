@@ -21,7 +21,7 @@ class DomTransition {
             {label:'GL', value: window.SYSTEM_SETUP.glRenderer},
             {label:'vendor', value: window.SYSTEM_SETUP.vendor}
         ]
-        console.log(defaultData, client.env);
+    //    console.log(defaultData, client.env);
         let adsrEnvelope;
         let callback;
         let statusMap = {
@@ -60,10 +60,10 @@ class DomTransition {
             centerDiv = htmlElement.call.getChildElement('center_container');
             topDiv = htmlElement.call.getChildElement('top_container');
             bottomDiv = htmlElement.call.getChildElement('bottom_container');
-            let reloadDiv = htmlElement.call.getChildElement('reload');
+        //    let reloadDiv = htmlElement.call.getChildElement('reload');
             let transitionDiv = htmlElement.call.getChildElement('transition');
-            DomUtils.addClickFunction(reloadDiv, rebuild)
-            DomUtils.addClickFunction(centerDiv, retrigger)
+        //    DomUtils.addClickFunction(reloadDiv, rebuild)
+            DomUtils.addClickFunction(centerDiv, release)
 
             DomUtils.addClickFunction(topDiv, release)
             DomUtils.addClickFunction(bottomDiv, release)

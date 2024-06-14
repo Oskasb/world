@@ -5,16 +5,19 @@ import {poolFetch} from "../../application/utils/PoolUtils.js";
 import {paletteMap} from "./Colors.js";
 
 
-let visualConfigs = {};
+let visualConfigs = null;
 
 let onData = function(data) {
     visualConfigs = data;
-    console.log("visualConfigs", visualConfigs)
+ //   console.log("visualConfigs", visualConfigs)
 }
 
-setTimeout(function() {
-    configDataList("GAME","VISUALS", onData)
-}, 1000);
+if (visualConfigs === null) {
+    visualConfigs = {};
+    setTimeout(function() {
+        configDataList("GAME","VISUALS", onData)
+    }, 1000);
+}
 
 class VisualItem {
     constructor() {

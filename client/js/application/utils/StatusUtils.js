@@ -1,3 +1,5 @@
+import {isDev} from "./DebugUtils.js";
+
 function getActorBySelectedTarget(actor) {
     return GameAPI.getActorById(actor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET))
 }
@@ -16,7 +18,10 @@ function clearTargetSelection(actor) {
 }
 
 function clearActorEncounterStatus(actor) {
-    actor.actorText.say("Clearing Encounter Status")
+    if (isDev()) {
+        actor.actorText.say("Clearing Encounter Status")
+    }
+
     actor.setStatusKey(ENUMS.ActorStatus.DEAD, false);
     actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_WALK);
     actor.setStatusKey(ENUMS.ActorStatus.HAS_TURN, false);

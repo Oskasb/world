@@ -11,6 +11,7 @@ import {getIncomingBytes, getOutgoingBytes} from "./ServerStatusTracker.js";
 import {applyServerAction} from "../action/ServerActionFunctions.js";
 import {MATH} from "../../../client/js/application/MATH.js";
 import {getEditIndex, readFileFromSocketMessage, saveFileFromSocketMessage} from "./EditorFunctions.js";
+import {isDev} from "../../../client/js/application/utils/DebugUtils.js";
 
 let msgEvent = {
     stamp:0,
@@ -79,7 +80,10 @@ function processClientRequest(request, stamp, message, connectedClient) {
                 message.status = newActor.status.statusMap;
                 dispatchMessage(message)
             } else {
-                console.log("Actor already loaded:", message, player)
+                if (isDev()) {
+                    console.log("Actor already loaded:", message, player)
+                }
+
             }
 
             break

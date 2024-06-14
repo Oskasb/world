@@ -39,7 +39,7 @@ class WorldAdventure {
         this.adventureNodes = [];
 
         let applyLoadedConfig = function(cfg) {
-            console.log("applyLoadedConfig", cfg, this)
+        //    console.log("applyLoadedConfig", cfg, this)
             MATH.vec3FromArray(this.getPos(), cfg.nodes[0].pos)
             this.config = cfg;
             this.id = cfg['edit_id'];
@@ -154,7 +154,7 @@ class WorldAdventure {
 
         let closeActiveNodes = function() {
             MATH.emptyArray(activeNodes);
-            console.log("Close Active Nodes ", this.adventureNodes.length, this.adventureNodes)
+        //    console.log("Close Active Nodes ", this.adventureNodes.length, this.adventureNodes)
             while(this.adventureNodes.length) {
                 let node = this.adventureNodes.pop();
                 node.deactivateAdventureNode();
@@ -237,7 +237,7 @@ class WorldAdventure {
 
 
         let advanceAdventureStage = function() {
-            console.log("advanceAdventureStage", this)
+        //    console.log("advanceAdventureStage", this)
 
             GameAPI.gameAdventureSystem.call.playerAdventureActivated(activeNodes, this)
             let activeActor = GameAPI.getGamePieceSystem().selectedActor;

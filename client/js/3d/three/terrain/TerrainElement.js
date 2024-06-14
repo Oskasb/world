@@ -4,6 +4,7 @@ import {
     addPhysicsToModel,
     removePhysicalModel
 } from "../../../application/utils/PhysicsUtils.js";
+import {isDev} from "../../../application/utils/DebugUtils.js";
 
 let calcVec = new Vector3();
 let index = 0;
@@ -101,7 +102,10 @@ class TerrainElement {
             if (this.instance) {
                 this.physicalModel.call.setInstance(this.instance);
             } else {
-                console.log("No instance for physical model", this)
+                if (isDev()) {
+                    console.log("No instance for physical model", this)
+                }
+
             }
         }
     }

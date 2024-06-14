@@ -436,7 +436,7 @@ let terrainData;
 let terrainId = 'main_world'
 
 let populateTerrainGeometries = function() {
-    console.log("populateTerrainGeometries..", terrainData)
+    // console.log("populateTerrainGeometries..", terrainData)
     constructGeometries(terrainData['height_map'], terrainData['transform'], terrainData['ground'], terrainData['section_info']);
 
     let data = terrainData;

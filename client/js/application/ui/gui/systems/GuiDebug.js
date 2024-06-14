@@ -14,6 +14,21 @@ class GuiDebug {
         this.pos  = {x:0, y:0, z:0.0};
         this.rgba = {r:1, g:1, b:1, a:1};
         this.debugTxtPos = new THREE.Vector3();
+
+
+        let     updateDebugElements = function() {
+            this.frameDraws = 0;
+
+            while (this.debugElements.length) {
+                this.debugElements.pop().releaseElement();
+            }
+
+        }.bind(this);
+
+
+        ThreeAPI.registerPrerenderCallback(updateDebugElements)
+
+
     };
 
 
@@ -260,14 +275,6 @@ class GuiDebug {
         }
     };
 
-    updateDebugElements = function() {
-        this.frameDraws = 0;
-
-        while (this.debugElements.length) {
-            this.debugElements.pop().releaseElement();
-        }
-
-    };
 
 }
 
