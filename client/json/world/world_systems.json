@@ -21,6 +21,14 @@
             {"id": "02", "asset":"asset_ground_big_02",   "name": "The Inferno",        "env": "cave_dusty",  "spawns":  940, "level_min": 40,"level_max": 50, "y_max": 25},
             {"id": "01", "asset":"asset_ground_big_01",   "name": "Prison of the Gods", "env": "cave_dusty",  "spawns":  1240,"level_min": 45,"level_max": 50, "y_max": 90}
           ]
-      }
+      },
+    "VARIATIONS": {
+      "active": [
+        {"id": "test_a"}
+      ],
+      "inactive": [
+
+      ]
+    }
   }
 }]

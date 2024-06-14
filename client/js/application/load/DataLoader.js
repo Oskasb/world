@@ -1,5 +1,6 @@
 import { DomLoadScreen } from '../ui/dom/DomLoadScreen.js';
 import { AssetLoader } from './AssetLoader.js';
+import {loadVariationConfigs} from "../utils/ConfigUtils.js";
 
 let notifyProgress;
 
@@ -192,6 +193,7 @@ class DataLoader {
             let onPipelineInitCallback = function(configCache) {
                 window.CONFIGS = configCache.configs;
                 console.log("CONFIGS:", configCache.configs)
+                loadVariationConfigs();
                 notifyProgress(null, 'Init Loading');
             };
 

@@ -21,6 +21,13 @@
   ],
   "reward": ["ITEM_KATANA"],
   "name": "Troubled Shores",
+  "variation": {
+    "id": "test_a",
+    "modify": [
+      {"name": "Oh no!"                 },
+      {"reward": ["ITEM_SWORD_FANCY"]   }
+    ]
+  },
   "level": 1,
   "edit_id": "troubled_shores",
   "grid": 0

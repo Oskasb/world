@@ -1,6 +1,7 @@
 import { ConfigData } from "./ConfigData.js";
 import {ENUMS} from "../ENUMS.js";
 import {isDev} from "./DebugUtils.js";
+import {processJsonVariation} from "./VariationUtils.js";
 
 let deletedByIndex = [];
 let deletedConfigs = {};
@@ -12,6 +13,20 @@ let requestedLoads = [];
 let savedImageBuffers = {};
 let configKeyMap = null;
 let activeSaves = [];
+
+
+let activeVariations = [];
+
+function variationsData(data) {
+    for (let i = 0; i < data.active.length; i++) {
+        activeVariations.push(data.active[i].id);
+    }
+    console.log("Active variations: ", activeVariations);
+}
+function loadVariationConfigs() {
+    let varCfgs = new ConfigData("WORLD_SYSTEMS", "VARIATIONS");
+    varCfgs.addUpdateCallback(variationsData);
+}
 
 function processLoadedBuffer(id, timestamp) {
     for (let i = 0; i < bufferListeners.length; i++) {
@@ -276,6 +291,7 @@ function loadSavedConfig(id, callback) {
 }
 
 
+
 function applyRemoteConfigMessage(message) {
     let id = message.id;
     let data = message.data;
@@ -300,7 +316,7 @@ function applyRemoteConfigMessage(message) {
         }
 
         if (message.format === 'json') {
-            savedConfigs[id] = data;
+            savedConfigs[id] = processJsonVariation(data, activeVariations);
             processLoadedFile(id);
         }
         if (message.format === 'buffer') {
@@ -536,6 +552,7 @@ function readConfig(root, folder) {
 }
 
 export {
+    loadVariationConfigs,
     readConfig,
     generateEditId,
     detachConfig,

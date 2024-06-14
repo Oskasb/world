@@ -57,7 +57,6 @@ class GameMain {
         this.activeScenario = null;
         this.callbacks = {};
         this.gameTime = 0;
-        this.configData = new ConfigData("WORLD_SYSTEMS", "WORLD_LEVELS");
 
         this.gameWorld = new GameWorld();
         this.phyiscalWorld = new PhysicalWorld();

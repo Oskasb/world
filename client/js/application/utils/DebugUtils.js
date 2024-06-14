@@ -68,13 +68,7 @@ function indicateActiveInstances() {
     }
 }
 
-function isDev() { // set from URL Param ? dev=true
-    if (paramsMap['dev'] === true) {
-        return true
-    } else {
-        return false
-    }
-}
+
 
 function getAllSceneNodes() {
     let scene = ThreeAPI.getScene();
@@ -110,11 +104,28 @@ function createDebugButton(text, onActivate, testActive, parent, x, y) {
 
 }
 
+function isDev() { // set from URL Param ? dev=true
+    if (paramsMap['dev'] === true) {
+        return true
+    } else {
+        return false
+    }
+}
+
+function applyVariation(id) {
+    if (paramsMap[id] === true) {
+        return true
+    } else {
+        return false
+    }
+}
+
 
 export {
     createDebugButton,
     getAllSceneNodes,
     isDev,
+    applyVariation,
     trackDebugConfig,
     debugTrackStatusMap,
     indicateActiveInstances
