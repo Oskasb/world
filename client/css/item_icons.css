@@ -1,42 +1,3 @@
-body.item_container {
-    overflow:hidden;
-    position:absolute;
-    top: 0.2em;
-    left: 0.2em;
-    bottom: 0.2em;
-    right: 0.2em;
-    width: auto;
-    height: auto;
-    border-radius: 10%;
-    background:none;
-    margin: 0;
-    border: none;
-}
-
-div.item_backplate {
-    overflow:hidden;
-    position:absolute;
-    top: 5%;
-    left: 5%;
-    bottom: 5%;
-    right: 5%;
-    height: 90%;
-    width: 90%;
-    border-radius: 9%;
-    background-size: 100%;
-    transform: translate3d(-0.3em, -0.3em, 0);
-    margin: 0;
-    border: 0.3em solid;
-}
-
-div.adventure_reward_icon_frame {
-    width: 2em;
-    height: 2em;
-    margin-left: 0.5em;
-    display: inline-block;
-    position: relative;
-}
-
 div.item_icon {
     position:absolute;
     top: 50%;
@@ -54,22 +15,152 @@ div.item_icon {
     transform: translate3d(-50%, -50%, 0);
 }
 
-div.weapon_1h_axe_hatchet {
-    background-image: url("/client/assets/images/textures/gui/items/weapon_1h_axe_hatchet.png");
-}
-
-div.helmet_viking_white {
+div.icon_helmet_viking_white {
     background-image: url("/client/assets/images/textures/gui/items/helmet_viking_white.png");
 }
 
-div.boots_scale_white {
+div.icon_helmet_steel {
+    background-image: url("/client/assets/images/textures/gui/items/helmet_steel.png");
+}
+
+div.icon_helmet_bronze {
+    background-image: url("/client/assets/images/textures/gui/items/helmet_bronze.png");
+}
+
+div.icon_hat_blue {
+    background-image: url("/client/assets/images/textures/gui/items/hat_blue.png");
+}
+
+div.icon_hat_pointy_white {
+    background-image: url("/client/assets/images/textures/gui/items/hat_pointy_white.png");
+}
+
+div.icon_hat_red {
+    background-image: url("/client/assets/images/textures/gui/items/hat_red.png");
+}
+
+div.icon_belt_bronze {
+    background-image: url("/client/assets/images/textures/gui/items/belt_bronze.png");
+}
+
+div.icon_belt_steel {
+    background-image: url("/client/assets/images/textures/gui/items/belt_steel.png");
+}
+
+div.icon_boots_scale_white {
     background-image: url("/client/assets/images/textures/gui/items/boots_scale_white.png");
+}
+
+div.icon_boots_chain {
+    background-image: url("/client/assets/images/textures/gui/items/boots_chain.png");
+}
+
+div.icon_boots_leather {
+    background-image: url("/client/assets/images/textures/gui/items/boots_leather.png");
+}
+div.icon_boots_leather_studded {
+    background-image: url("/client/assets/images/textures/gui/items/boots_leather_studded.png");
+}
+div.icon_boots_plate {
+    background-image: url("/client/assets/images/textures/gui/items/boots_plate.png");
+}
+div.icon_boots_yellow {
+    background-image: url("/client/assets/images/textures/gui/items/boots_yellow.png");
 }
 
 div.icon_bp_steel {
     background-image: url("/client/assets/images/textures/gui/items/bp_steel.png");
 }
 
-div.gloves_scale_white {
+div.icon_bp_bronze {
+    background-image: url("/client/assets/images/textures/gui/items/bp_bronze.png");
+}
+
+div.icon_chest_scale {
+    background-image: url("/client/assets/images/textures/gui/items/chest_scale.png");
+}
+
+div.icon_shirt_chain {
+    background-image: url("/client/assets/images/textures/gui/items/shirt_chain.png");
+}
+
+div.icon_shirt_leather {
+    background-image: url("/client/assets/images/textures/gui/items/shirt_leather.png");
+}
+
+div.icon_shirt_yellow {
+    background-image: url("/client/assets/images/textures/gui/items/shirt_yellow.png");
+}
+
+div.icon_legs_bronze {
+    background-image: url("/client/assets/images/textures/gui/items/legs_bronze.png");
+}
+
+div.icon_legs_chain {
+    background-image: url("/client/assets/images/textures/gui/items/legs_chain.png");
+}
+
+div.icon_legs_leather {
+    background-image: url("/client/assets/images/textures/gui/items/legs_leather.png");
+}
+
+div.icon_legs_scale {
+    background-image: url("/client/assets/images/textures/gui/items/legs_scale.png");
+}
+
+div.icon_legs_steel {
+    background-image: url("/client/assets/images/textures/gui/items/legs_steel.png");
+}
+div.icon_legs_yellow {
+    background-image: url("/client/assets/images/textures/gui/items/legs_yellow.png");
+}
+
+div.icon_gloves_scale_white {
     background-image: url("/client/assets/images/textures/gui/items/gloves_scale_white.png");
+}
+
+div.icon_gloves_chain {
+    background-image: url("/client/assets/images/textures/gui/items/gloves_chain.png");
+}
+div.icon_gloves_steel {
+    background-image: url("/client/assets/images/textures/gui/items/gloves_steel.png");
+}
+div.icon_gloves_yellow {
+    background-image: url("/client/assets/images/textures/gui/items/gloves_yellow.png");
+}
+
+div.icon_gloves_leather {
+    background-image: url("/client/assets/images/textures/gui/items/gloves_leather.png");
+}
+
+div.icon_gloves_leather_studded {
+    background-image: url("/client/assets/images/textures/gui/items/gloves_leather_studded.png");
+}
+
+div.icon_weapon_1h_axe_hatchet {
+    background-image: url("/client/assets/images/textures/gui/items/weapon_1h_axe_hatchet.png");
+}
+
+div.icon_weapon_1h_katana {
+    background-image: url("/client/assets/images/textures/gui/items/weapon_1h_katana.png");
+}
+
+div.icon_weapon_1h_sword_fancy {
+    background-image: url("/client/assets/images/textures/gui/items/weapon_1h_sword_fancy.png");
+}
+
+div.icon_weapon_1h_sword_emerald {
+    background-image: url("/client/assets/images/textures/gui/items/weapon_1h_sword_emerald.png");
+}
+
+div.icon_weapon_1h_sword_fancy {
+    background-image: url("/client/assets/images/textures/gui/items/weapon_1h_sword_fancy.png");
+}
+
+div.icon_weapon_2h_axe_slicer {
+    background-image: url("/client/assets/images/textures/gui/items/weapon_2h_axe_slicer.png");
+}
+
+div.icon_weapon_2h_staff_basic {
+    background-image: url("/client/assets/images/textures/gui/items/weapon_2h_staff_basic.png");
 }

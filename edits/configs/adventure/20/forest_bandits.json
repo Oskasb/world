@@ -19,6 +19,7 @@
       "node_id": "node_2_1717490377268"
     }
   ],
+  "reward": ["ITEM_CHEST_STEEL", "ITEM_LEGS_STEEL"],
   "name": "Forest Bandits",
   "level": 3,
   "edit_id": "forest_bandits",

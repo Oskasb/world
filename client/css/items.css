@@ -11,6 +11,37 @@
     padding: 0;
 }
 
+body.item_container {
+    overflow:hidden;
+    position:absolute;
+    top: 0.2em;
+    left: 0.2em;
+    bottom: 0.2em;
+    right: 0.2em;
+    width: auto;
+    height: auto;
+    border-radius: 10%;
+    background:none;
+    margin: 0;
+    border: none;
+}
+
+div.item_backplate {
+    overflow:hidden;
+    position:absolute;
+    top: 5%;
+    left: 5%;
+    bottom: 5%;
+    right: 5%;
+    height: 90%;
+    width: 90%;
+    border-radius: 9%;
+    background-size: 100%;
+    transform: translate3d(-0.3em, -0.3em, 0);
+    margin: 0;
+    border: 0.3em solid;
+}
+
 div.item_card_panel {
     top: 0;
     left: 0;

@@ -631,6 +631,7 @@ div.adventure_panel {
     opacity: 0.8;
 }
 
+
 div.adventure_panel_selected {
     box-shadow: 0 0 0.5em rgb(167, 255, 242);
     opacity: 1;
@@ -657,6 +658,14 @@ div.adventure_panel h2 {
     color:inherit;
     text-shadow: inherit;
     font-size: 1.3em;
+}
+
+div.adventure_reward_icon_frame {
+    width: 2em;
+    height: 2em;
+    margin-left: 0.5em;
+    display: inline-block;
+    position: relative;
 }
 
 div.adventure_reward_item_slot {

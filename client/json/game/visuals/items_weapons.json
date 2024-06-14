@@ -42,7 +42,7 @@
         "id": "HATCHET_NICE",
         "data": {
           "model_asset": "asset_hatchet_nice",
-          "icon_class": "weapon_1h_axe_hatchet"
+          "icon_class": "icon_weapon_1h_axe_hatchet"
         }
       }
     ]

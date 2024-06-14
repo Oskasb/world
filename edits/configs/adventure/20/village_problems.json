@@ -37,9 +37,7 @@
       "node_id": "node_1_1718258578827"
     }
   ],
-  "reward": {
-    ""
-  },
+  "reward": ["ITEM_HELMET_VIKING", "ITEM_CHEST_STEEL"],
   "name": "Village Problems",
   "level": 1,
   "edit_id": "village_problems",

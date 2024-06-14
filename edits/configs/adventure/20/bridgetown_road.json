@@ -37,6 +37,7 @@
       "node_id": "node_4_1717418911229"
     }
   ],
+  "reward": ["ITEM_GLOVES_CHAIN", "ITEM_BOOTS_CHAIN"],
   "name": "Bridgetown Road",
   "level": 2,
   "edit_id": "bridgetown_road",

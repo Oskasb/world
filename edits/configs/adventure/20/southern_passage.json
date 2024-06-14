@@ -39,6 +39,7 @@
   ],
   "name": "Southern Passage",
   "level": 2,
+  "reward": ["ITEM_BELT_PLATE"],
   "edit_id": "southern_passage",
   "grid": 0
 }
