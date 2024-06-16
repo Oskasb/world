@@ -14,6 +14,14 @@
     {
       "interaction": "QUEST_ACCEPT",
       "text": "I sure can.",
+      "variations": [
+        {
+          "id": "test_hard",
+          "modify": [
+            { "text": "They ded!"}
+          ]
+        }
+      ],
       "dispatch": {
         "event": "ENCOUNTER_CONVERSE",
         "value": {
@@ -55,5 +63,13 @@
   },
   "level": 1,
   "edit_id": "enc_adv_troubled_shores_0",
-  "node_id": "node_enc_troubled_shores_start"
+  "node_id": "node_enc_troubled_shores_start",
+  "variations": [
+    {
+      "id": "test_hard",
+      "modify": [
+        { "text": "Kill some to get grandpas old sword"}
+      ]
+    }
+  ]
 }

@@ -13,6 +13,9 @@ import {DomCharacter} from "../dom/DomCharacter.js";
 import {poolFetch} from "../../utils/PoolUtils.js";
 import {isDev} from "../../utils/DebugUtils.js";
 
+import {DomMinimap} from "../dom/DomMinimap.js";
+
+
 let guiTime = 0;
 let worldInteractUiSystem = new WorldInteractUiSystem()
 let worldEncounterUISystem = new WorldEncounterUISystem()
@@ -23,6 +26,7 @@ let invNavUiSystem = new NavigationStatePageSystem(ENUMS.NavigationState.INVENTO
 let mapNavUiSystem = new NavigationStatePageSystem(ENUMS.NavigationState.MAP, 'page_scene_home');
 let domTransition;
 let domCharacter;
+let minimap = null;
 class GuiAPI {
     constructor() {
         let inMenueFlag = false;
@@ -142,6 +146,13 @@ class GuiAPI {
         console.log(notice)
         notice.call.notify(actor, item);
     };
+
+    activateMinimap() {
+        if (minimap === null) {
+            minimap = new DomMinimap()
+        }
+
+    }
 
     inspectActor(actor) {
         domCharacter.call.activate(actor);

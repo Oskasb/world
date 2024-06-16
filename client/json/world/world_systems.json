@@ -24,7 +24,8 @@
       },
     "VARIATIONS": {
       "active": [
-        {"id": "test_a"}
+        {"id": "test_a"},
+        {"id": "test_hard"}
       ],
       "inactive": [
 

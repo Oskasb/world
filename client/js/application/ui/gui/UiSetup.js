@@ -6,13 +6,12 @@ import { UiTestSetup } from "./UiTestSetup.js";
 import { PartyUiSystem } from "./systems/PartyUiSystem.js";
 import { ActorActionUiSystem} from "./systems/ActorActionUiSystem.js";
 import {WorldInteractUiSystem} from "./systems/WorldInteractUiSystem.js";
-import {DomMinimap} from "../dom/DomMinimap.js";
 import {isDev} from "../../utils/DebugUtils.js";
 
 
 let partyUiSystem = null;
 let actorActionUpSystem = new ActorActionUiSystem();
-let minimap = null;
+
 
 class UiSetup {
     constructor() {
@@ -32,9 +31,7 @@ class UiSetup {
                 callback('textSysCb loaded');
             };
             let inputReady = function() {
-
                 GuiAPI.getTextSystem().initTextSystem(textSysCb);
-                minimap = new DomMinimap();
             };
 
             GuiAPI.getInputSystem().initInputSystem(inputReady);
@@ -50,12 +47,14 @@ class UiSetup {
                 GuiAPI.getGuiDebug().setupDebugControlContainer();
                 GuiAPI.getGuiDebug().setupDebugControlContainer2();
                 GuiAPI.debugView.initDebugView();
+                GuiAPI.activateMinimap();
             }
 
 
             partyUiSystem.activatePartyUiSystem();
             actorActionUpSystem.activateActorActionUiSystem()
         };
+
 
     }
 

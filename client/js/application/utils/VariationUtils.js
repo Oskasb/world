@@ -1,25 +1,30 @@
-import {applyVariation} from "./DebugUtils.js";
+import {applyVariation, isDev} from "./DebugUtils.js";
 
 
 function applyVariationModifiers(modifier, data) {
     for (let key in modifier) {
         data[key] = modifier[key];
-        console.log("Modifier applied ", modifier, data)
+        if (isDev()) {
+            console.log("Modifier applied ", modifier, data)
+        }
     }
 }
 
 function applyVariationToData(varId, data) {
     for (let key in data) {
-        if (key === 'variation') {
+        if (key === 'variations') {
 
-            if (data[key].id === varId) {
-                let modifiers = data[key]['modify']
-
-                console.log("Variation modifiers", modifiers)
-                for (let i = 0; i < modifiers.length; i++) {
-                    applyVariationModifiers(modifiers[i], data)
+            let vars = data[key]
+            for (let i = 0;i < vars.length; i++) {
+                let variation = vars[i];
+                if (variation.id === varId) {
+                    let modifiers = variation['modify']
+                    for (let i = 0; i < modifiers.length; i++) {
+                        applyVariationModifiers(modifiers[i], data)
+                    }
                 }
             }
+
         } else {
             if (typeof (data[key]) === 'object') {
                 applyVariationToData(varId, data[key])
