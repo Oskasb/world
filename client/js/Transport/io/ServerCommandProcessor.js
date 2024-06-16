@@ -378,9 +378,9 @@ function processServerCommand(protocolKey, message) {
 
             break;
         case ENUMS.ServerCommands.ENCOUNTER_START:
-        //    console.log("Start Encounter; ", message.encounterId, message.worldEncounterId, stamp, message);
+            console.log("Start Encounter; ", message.encounterId, message.worldEncounterId, stamp, message);
             encounter = GameAPI.getWorldEncounterByEncounterId(msg.worldEncounterId);
-         //   console.log("Enc: ",encounter.triggered, encounter.started, encounter);
+            console.log("Enc: ",encounter.triggered, encounter.started, encounter);
 
             if (encounter.triggered === false) {
                 encounter.call.triggerWorldEncounter();

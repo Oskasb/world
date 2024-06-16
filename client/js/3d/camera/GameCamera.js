@@ -29,51 +29,11 @@ class GameCamera {
             positionModifier.add(vec3);
         }
 
-        let applyCameraModifiers = function() {
-
-            let gamePiece = GameAPI.getMainCharPiece();
-            if (!gamePiece) return;
-        //    let companions = gamePiece.companions;
-       //     for (let i = 0; i < companions.length; i++) {
-                let companion = GameAPI.getSelectedCompanion();
-                if (companion) {
-                    tempVec3.copy(companion.getPos());
-                    tempVec3.sub(gamePiece.getCenterMass());
-                    tempVec3.multiplyScalar(0.15);
-                    GameAPI.getGameCamera().addLookAtModifierVec3(tempVec3);
-                //    GameAPI.getGameCamera().addPositionModifierVec3(tempVec3);
-                }
-        //   }
-
-            let target = gamePiece.getTarget();
-            if (target) {
-                tempVec3.copy(target.getPos());
-                tempVec3.sub(gamePiece.getPos());
-                tempVec3.multiplyScalar(0.12);
-                GameAPI.getGameCamera().addLookAtModifierVec3(tempVec3);
-                tempVec3.multiplyScalar(-0.3);
-                GameAPI.getGameCamera().addPositionModifierVec3(tempVec3);
-            }
-
-        }.bind(this);
 
 
-        let debugDrawCamLookAt = function() {
-            evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:cameraLookAt, color:'CYAN', size:0.5})
-            calcVec.copy(cameraLookAt);
-            calcVec.y = ThreeAPI.terrainAt(cameraLookAt, tempVec3);
-            evt.dispatch(ENUMS.Event.DEBUG_DRAW_CROSS, {pos:calcVec, color:'GREEN', size:0.5})
-            tempVec3.add(calcVec);
-            evt.dispatch(ENUMS.Event.DEBUG_DRAW_LINE, {from:calcVec, to:tempVec3, color:'YELLOW'});
-        }
 
         let applyFrameToCameraMotion = function() {
             if (fraction > 1) return;
-        /*
-            if (GameAPI.getPlayerMain().playerCharacter) {
-                    applyCameraModifiers();
-            }
-        */
 
             fraction = MATH.calcFraction(transitionStartTime, transitionEndTime, currentTime);
             let factor = 1;

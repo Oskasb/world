@@ -5,6 +5,9 @@ import { CharacterComposer } from "./Player/CharacterComposer.js";
 import { Vector3 } from "../../libs/three/math/Vector3.js";
 import { GameWalkGrid } from "./gameworld/GameWalkGrid.js";
 import { PhysicalWorld } from "./gameworld/PhysicalWorld.js";
+import {setPlayerStatus} from "../application/utils/StatusUtils.js";
+import {ENUMS} from "../application/ENUMS.js";
+import {isDev} from "../application/utils/DebugUtils.js";
 
 let tempVec3 = new Vector3()
 let gameWalkGrid = null
@@ -19,6 +22,12 @@ setTimeout(function() {
     let worldLevelsConfig = new ConfigData("WORLD_SYSTEMS", "WORLD_LEVELS");
     worldLevelsConfig.addUpdateCallback(worldLevelsUpdate);
 }, 1000)
+
+
+function startPlayerSession() {
+    client.page = GuiAPI.activatePage('page_start')
+    GameAPI.gameAdventureSystem.call.activateAdventures()
+}
 
 class GameMain {
     constructor() {
@@ -112,43 +121,23 @@ class GameMain {
 
     };
 
+
+
+
     initGameMain() {
         this.setupCallbacks();
-        let charReady = function(char) {
-//            console.log("Player Char:", char)
-            GameAPI.getPlayerMain().setPlayerCharacter(char);
 
-            let initPlayerStash = function() {
-                let itemCallback = function(gamePiece) {
-                    GameAPI.getPlayerMain().playerStash.findPositionInStash(tempVec3);
-                    gamePiece.getSpatial().setPosVec3(tempVec3);
-                    GameAPI.getPlayerMain().callbacks.addToStash(gamePiece);
-                }.bind(this);
-                /*
-                                GameAPI.createGamePiece({piece:"BELT_BRONZE"        }, itemCallback);
-                                GameAPI.createGamePiece({piece:"HELMET_VIKING"      }, itemCallback);
-                                GameAPI.createGamePiece({piece:"BELT_PLATE"         }, itemCallback);
-                                GameAPI.createGamePiece({piece:"LEGS_CHAIN"         }, itemCallback);
-                                GameAPI.createGamePiece({piece:"BOOTS_SCALE"        }, itemCallback);
-                                GameAPI.createGamePiece({piece:"GLOVES_SCALE"       }, itemCallback);
-                                GameAPI.createGamePiece({piece:"SHIRT_SCALE"        }, itemCallback);
-                                GameAPI.createGamePiece({piece:"LEGS_SCALE"         }, itemCallback);
-                                GameAPI.createGamePiece({piece:"LEGS_BRONZE"        }, itemCallback);
-                                GameAPI.createGamePiece({piece:"BREASTPLATE_BRONZE" }, itemCallback);
-                                GameAPI.createGamePiece({piece:"SHIRT_CHAIN"        }, itemCallback);
-                */
-            }
+        setPlayerStatus(ENUMS.PlayerStatus.EDIT_MODE, isDev());
 
-            initPlayerStash()
-            evt.dispatch(ENUMS.Event.REQUEST_SCENARIO, {
-                id:"home_scenario",
-                dynamic:"encounter_front_yard_home_dynamic"
-            });
+        if (isDev()) {
+            console.log("Player Main Status:", GameAPI.getPlayerMain().status.statusMap)
+            client.page = GuiAPI.activatePage('page_start')
+            GameAPI.gameAdventureSystem.call.activateAdventures()
+            GuiAPI.activateMinimap()
+        } else {
+            GuiAPI.activateDomTransition('WELCOME', null, startPlayerSession)
+        }
 
-        }.bind(this)
-
-    //    GameAPI.composeCharacter("PLAYER_MAIN", charReady)
-    //    evt.on(ENUMS.Event.REQUEST_SCENARIO, this.callbacks.requestScenario);
         evt.on(ENUMS.Event.FRAME_READY, this.callbacks.updateGameFrame)
 
     }
@@ -161,13 +150,6 @@ class GameMain {
         this.onUpdateCallbacks.push(callback);
     }
 
-    applyDynamicPathToObj3d( obj3d) {
-        return gameWalkGrid.walkAlongPath(obj3d)
-    }
-
-    getGridTileAtPos(posVec) {
-        return gameWalkGrid.getTileAtPosition(posVec)
-    }
 
     getPlayerCharacter() {
         return this.playerMain.playerCharacter

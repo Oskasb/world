@@ -9,6 +9,7 @@ import {trackDebugConfig} from "../application/utils/DebugUtils.js";
 import {evt} from "../application/event/evt.js";
 import {getRemoteClients} from "../Transport/io/ServerCommandProcessor.js";
 import {ClientStronghold} from "./gameworld/ClientStronghold.js";
+import {setPlayerStatus} from "../application/utils/StatusUtils.js";
 
 let strongholds = [];
 let statsConfig = {};
@@ -314,6 +315,7 @@ class GamePieceSystem {
         gameActor.setStatusKey(ENUMS.ActorStatus.HAS_POSITION, true)
         evt.dispatch(ENUMS.Event.SET_CAMERA_MODE, {mode:'game_travel'})
         gameActor.call.setAsSelection();
+        setPlayerStatus(ENUMS.PlayerStatus.ACTIVE_ACTOR_ID, gameActor.getStatus(ENUMS.ActorStatus.ACTOR_ID))
         this.selectedActor = gameActor;
     }
 

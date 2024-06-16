@@ -16,13 +16,13 @@ class DomTransition {
 
 
         let defaultData = [
-            {label:'Mobile', value: window.isMobile},
-            {label:'userAgent', value: client.env.userAgent},
-            {label:'GL', value: window.SYSTEM_SETUP.glRenderer},
-            {label:'vendor', value: window.SYSTEM_SETUP.vendor}
+        //    {label:'Mobile', value: window.isMobile},
+        //    {label:'userAgent', value: client.env.userAgent},
+        //    {label:'GL', value: window.SYSTEM_SETUP.glRenderer},
+        //    {label:'vendor', value: window.SYSTEM_SETUP.vendor}
         ]
     //    console.log(defaultData, client.env);
-        let adsrEnvelope;
+        let adsrEnvelope = defaultAdsr;
         let callback;
         let statusMap = {
             transition : "WELCOME",
@@ -67,7 +67,13 @@ class DomTransition {
 
             DomUtils.addClickFunction(topDiv, release)
             DomUtils.addClickFunction(bottomDiv, release)
-            retrigger();
+            setInitTransforms();
+            setTimeout(
+                function() {
+                    release()
+                }                , 2000)
+
+            //release()
         }
 
         let rebuild = htmlElement.initHtmlElement('transition', closeCb, statusMap, 'full_screen', readyCb);
@@ -88,11 +94,13 @@ class DomTransition {
             div.style.transform = "translate3d(0, 0, 0)"
         }
 
-        let activationDone = function(callback) {
-            callback(this)
+        let activationDone = function(cb) {
+            callback = null;
+            cb(this)
         }.bind(this)
 
-        let activate = function(label, data, callback, adsr) {
+        let activate = function(label, data, cb, adsr) {
+            callback = cb;
             if (data) {
                 MATH.emptyArray(datalist);
                 if (data.length) {
@@ -146,11 +154,7 @@ class DomTransition {
                 transformToCenter(centerDiv);
                 transformToCenter(topDiv);
                 transformToCenter(bottomDiv)
-                if (typeof (callback) == 'function') {
-                    setTimeout(function() {
-                        activationDone(callback)
-                    }, 1.575*adsrEnvelope.attack.duration*1000)
-                }
+
             },1)
 
         }
@@ -171,7 +175,12 @@ class DomTransition {
             setTimeout(function() {
                 htmlElement.container.style.display = 'none';
             }, adsrEnvelope.release.duration*1000+200)
-        }
+            if (typeof (callback) === 'function') {
+            //    setTimeout(function() {
+                    activationDone(callback)
+            //    }, 1.575*adsrEnvelope.attack.duration*1000)
+            }
+        }.bind(this)
 
         this.call = {
             close:close,

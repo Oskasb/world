@@ -115,7 +115,7 @@ class Client {
                 client.setup.initDefaultUi();
                 GameAPI.initGameMain();
                 ThreeAPI.initThreeTerrain();
-                client.page = GuiAPI.activatePage('page_start');
+            //    client.page = GuiAPI.activatePage('page_start'); // Edit Mode char select page
                 }, 10)
         };
 

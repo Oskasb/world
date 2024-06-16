@@ -355,7 +355,12 @@ class PlayerMain {
 
 
     setStatusKey(key, status) {
-        this.status.setStatusKey(key, status);
+        if (this.getStatus(key) !== status) {
+            if (isDev()) {
+                console.log("PlayerMainStatusUpdate:", key, status)
+            }
+            this.status.setStatusKey(key, status);
+        }
     }
 
     getStatus(key) {
@@ -407,11 +412,6 @@ class PlayerMain {
         PipelineAPI.setCategoryData('CHARACTERS', data)
     }
 
-
-
-    getPlayerCharacter() {
-        return this.playerCharacter;
-    }
 
     stashItemPiece(piece, time) {
         let playerPiece = GameAPI.getMainCharPiece();

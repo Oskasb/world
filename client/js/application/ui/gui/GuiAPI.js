@@ -30,6 +30,7 @@ let minimap = null;
 class GuiAPI {
     constructor() {
         let inMenueFlag = false;
+        domTransition = new DomTransition();
         this.aspect = 1;
         this.elementPools = {};
         this.inputSystem;
@@ -137,7 +138,7 @@ class GuiAPI {
         homeNavUiSystem.initNavigationPageSystem();
         invNavUiSystem.initNavigationPageSystem();
         mapNavUiSystem.initNavigationPageSystem();
-        domTransition = new DomTransition();
+
         domCharacter = new DomCharacter();
     };
 

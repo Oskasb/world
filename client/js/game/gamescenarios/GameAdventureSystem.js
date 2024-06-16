@@ -161,17 +161,18 @@ class GameAdventureSystem {
 
         let onData = function(data) {
             adventureConfigs = data;
+        }
+
+        configDataList("WORLD_ADVENTURE","ADVENTURES", onData)
+
+
+        function activateAdventures() {
             if (active === false) {
                 active = true;
                 GameAPI.registerGameUpdateCallback(update);
                 worldAdvUiSys.on();
             }
         }
-
-        configDataList("WORLD_ADVENTURE","ADVENTURES", onData)
-
-
-
 
         function playerAdventureActivated(activeNodes, wAdv) {
                 console.log("playerAdventureActivated", activeNodes);
@@ -290,6 +291,7 @@ class GameAdventureSystem {
         }
 
         this.call = {
+            activateAdventures:activateAdventures,
             playerAdventureActivated:playerAdventureActivated,
             playerAdventureDeActivated:playerAdventureDeActivated,
             adventureCompleted:adventureCompleted,

@@ -1,4 +1,5 @@
 import {isDev} from "./DebugUtils.js";
+import {ENUMS} from "../ENUMS.js";
 
 function getActorBySelectedTarget(actor) {
     return GameAPI.getActorById(actor.getStatus(ENUMS.ActorStatus.SELECTED_TARGET))
@@ -38,9 +39,19 @@ function clearActorEncounterStatus(actor) {
     actor.setStatusKey(ENUMS.ActorStatus.DAMAGE_APPLIED, 0);
 }
 
+function getPlayerStatus(key) {
+    return GameAPI.getPlayer().getStatus(key);
+}
+
+function setPlayerStatus(key, value) {
+    GameAPI.getPlayer().setStatusKey(key, value);
+}
+
 export {
     getActorBySelectedTarget,
     hasHostileTarget,
     clearTargetSelection,
-    clearActorEncounterStatus
+    clearActorEncounterStatus,
+    setPlayerStatus,
+    getPlayerStatus
 }
