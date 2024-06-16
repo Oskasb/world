@@ -65,6 +65,11 @@ body.overlay_page {
     background-color: rgba(0, 0, 0, 0);
 }
 
+div.background_create_panel {
+    background-image: url("/client/assets/images/textures/gui/character_creation/create_panel_background.png");
+    background-size: 100% 100%;
+}
+
 div.transparent {
     background: none;
 }

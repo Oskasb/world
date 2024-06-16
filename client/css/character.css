@@ -79,7 +79,42 @@ div.param p {
     display: inline-block;
 }
 
+div.character_list {
+    font-size: 1em;
+    top: 50%;
+    left: 50%;
+    height: 36em;
+    width: 52em;
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    border: solid #232323;
+    transition-property: transform;
+    background: radial-gradient(circle, rgba(0, 0, 0, 0.25) 50%, rgba(0, 64, 86, 0.6) 99%);
+    transform: translate3d(-50%, -50%, 0);
+    box-shadow: 0px 0px 4em rgba(0, 0, 0, 1);
+}
 
+div.character_list_active {
+    border-color: rgba(120, 255, 219, 1);
+    box-shadow: 0px 0px 4em rgba(120, 255, 219, 0.99);
+}
+
+div.char_create_container {
+    z-index: 50;
+    font-size: 1em;
+    top: 50%;
+    left: 50%;
+    height: 92em;
+    width: 56em;
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    border: solid #232323;
+    transition-property: transform;
+    transform: translate3d(-50%, -50%, 0);
+    box-shadow: 0px 0px 4em rgba(0, 0, 0, 1);
+}
 
 div.equipment_container {
     z-index: 50;

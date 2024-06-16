@@ -8,14 +8,17 @@ class DomNewPlayer {
 
         let isValid = false;
 
+        let mainPanelDiv;
         let buttonCharDiv;
         let buttonNameDiv;
         let buttonPlayDiv;
         let editString = null;
+        let charListDiv;
 
         function switchSelection() {
             DomUtils.removeElementClass(buttonCharDiv, 'bar_button_active')
             DomUtils.removeElementClass(buttonNameDiv, 'bar_button_active')
+            DomUtils.removeElementClass(charListDiv, 'character_list_active')
         }
 
         function onUpdate(inValue, validationCb) {
@@ -93,16 +96,13 @@ class DomNewPlayer {
         }
 
         function selectChar() {
-            switchSelection()
-            DomUtils.addElementClass(buttonCharDiv, 'bar_button_active')
-
-
             if (editString !== null) {
                 editString.closeEditTool();
                 editString = null;
             }
-
-
+            switchSelection()
+            DomUtils.addElementClass(buttonCharDiv, 'bar_button_active')
+            DomUtils.addElementClass(charListDiv, 'character_list_active')
         }
 
         function enterWorld() {
@@ -111,7 +111,8 @@ class DomNewPlayer {
             let readyCb = function() {
 
                 let nameDiv = htmlElement.call.getChildElement('NAME');
-
+                mainPanelDiv = htmlElement.call.getChildElement('equipment_container');
+               charListDiv = htmlElement.call.getChildElement('character_list');
                 buttonNameDiv = htmlElement.call.getChildElement('button_name');
                 buttonCharDiv = htmlElement.call.getChildElement('button_character');
                 buttonPlayDiv = htmlElement.call.getChildElement('button_play');
