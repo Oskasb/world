@@ -100,6 +100,9 @@ class DomEditString {
 
             rootElem = htmlEl.call.getRootElement();
 
+
+
+
             statusOutputDiv = htmlElem.call.getChildElement('output_status');
 
             for (let key in statusMap) {
@@ -173,6 +176,11 @@ class DomEditString {
                 requestStringValidation();
             }
             indicateStringStatus()
+
+            if (htmlElem.container.style.transform !== "") {
+                htmlElem.container.style.transform = "";
+            }
+
         };
 
         let close = function() {

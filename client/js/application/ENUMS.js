@@ -161,6 +161,7 @@ let ENUMS = {}
 
     ENUMS.PlayerStatus = {
         PLAYER_ID:'PLAYER_ID',
+        PLAYER_NAME:'PLAYER_NAME',
         ACTIVE_ACTOR_ID:'ACTIVE_ACTOR_ID',
         CLIENT_STAMP:'CLIENT_STAMP',
         EDIT_MODE:'EDIT_MODE',

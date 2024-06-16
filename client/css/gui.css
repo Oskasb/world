@@ -202,6 +202,13 @@ div.bar_button {
     padding: 0;
 }
 
+div.bar_button_disabled {
+    pointer-events: none;
+    opacity: 0.5;
+    border-color: rgb(77, 77, 77);
+    background-color: rgba(59, 59, 59, 0.82);
+}
+
 div.bar_button_active {
     border-color: rgba(185, 255, 245, 1);
     background-color: rgba(181, 230, 250, 0.6);
@@ -226,6 +233,14 @@ div.icon_inventory {
 
 div.icon_stash {
     background-image: url("/client/assets/images/textures/gui/icons/icon_stash.png");
+}
+
+div.icon_character {
+    background-image: url("/client/assets/images/textures/gui/icons/IconPaperdollButton.png");
+}
+
+div.icon_enter_world {
+    background-image: url("/client/assets/images/textures/gui/icons/icon_enter_world.png");
 }
 
 div.palette_panel {
@@ -265,7 +280,7 @@ div.edit_panel {
     width: auto;
     height: auto;
     position: absolute;
-    background-color: rgba(81, 118, 155, 0.51);
+    background-color: rgba(0, 46, 87, 0.6);
     box-shadow: 0 0 0.7em rgba(99, 255, 255, 1);
     border-radius: 0.5em;
     border: #27e7ce;

@@ -198,11 +198,12 @@ iframe.edit_values {
 }
 
 iframe.edit_string {
-    left: 300em;
+    left: 50%;
     width: 400em;
-    top: 240em;
+    top: 50%;
     height: 250em;
-    background: #2c2c2c;
+    transform: rotate3d(0, 0, 0, 1rad) translate3d(-50%, -50%, 0px);
+    transform-origin: center;
 }
 
 iframe.edit_spawns {
