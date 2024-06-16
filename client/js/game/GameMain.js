@@ -8,6 +8,7 @@ import { PhysicalWorld } from "./gameworld/PhysicalWorld.js";
 import {setPlayerStatus} from "../application/utils/StatusUtils.js";
 import {ENUMS} from "../application/ENUMS.js";
 import {isDev} from "../application/utils/DebugUtils.js";
+import {DomNewPlayer} from "../application/ui/dom/DomNewPlayer.js";
 
 let tempVec3 = new Vector3()
 let gameWalkGrid = null
@@ -25,8 +26,9 @@ setTimeout(function() {
 
 
 function startPlayerSession() {
-    client.page = GuiAPI.activatePage('page_start')
-    GameAPI.gameAdventureSystem.call.activateAdventures()
+    let newPlayrPage = new DomNewPlayer();
+    // client.page = GuiAPI.activatePage('page_start')
+    // GameAPI.gameAdventureSystem.call.activateAdventures()
 }
 
 class GameMain {

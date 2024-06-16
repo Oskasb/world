@@ -68,12 +68,7 @@ class DomTransition {
             DomUtils.addClickFunction(topDiv, release)
             DomUtils.addClickFunction(bottomDiv, release)
             setInitTransforms();
-            setTimeout(
-                function() {
-                    release()
-                }                , 2000)
-
-            //release()
+            release()
         }
 
         let rebuild = htmlElement.initHtmlElement('transition', closeCb, statusMap, 'full_screen', readyCb);
