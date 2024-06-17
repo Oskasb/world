@@ -19,7 +19,7 @@
       "node_id": "node_2_1718092258739"
     }
   ],
-  "conditions": [{"ActorStatus": "CONFIG_ID", "value": "ACTOR_FARMER"}],
+  "conditions": [{"ActorStatus":"CONFIG_ID", "value": "ACTOR_FARMER"}],
   "reward": ["ITEM_KATANA"],
   "name": "Troubled Shores",
   "level": 1,
