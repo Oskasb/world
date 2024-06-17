@@ -1,0 +1,44 @@
+{
+  "nodes": [
+    {
+      "pos": [
+        -912.1,
+        2.5,
+        587
+      ],
+      "node_type": "ENCOUNTER",
+      "node_id": "node_1_1718633787772"
+    },
+    {
+      "pos": [
+        -918.8,
+        2.5,
+        596.4
+      ],
+      "node_type": "BATTLE",
+      "node_id": "node_2_1718633810783"
+    },
+    {
+      "pos": [
+        -916.4,
+        2.5,
+        603.1
+      ],
+      "node_type": "ENCOUNTER",
+      "node_id": "node_3_1718633817815"
+    }
+  ],
+  "conditions": [
+    {
+      "ActorStatus": "CONFIG_ID",
+      "value": "ACTOR_PRINCESS"
+    }
+  ],
+  "reward": [
+    "ITEM_BELT_PLATE"
+  ],
+  "name": "We were followed!",
+  "level": 1,
+  "edit_id": "trapped_princess",
+  "grid": 0
+}

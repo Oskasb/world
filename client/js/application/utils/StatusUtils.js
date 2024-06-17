@@ -49,6 +49,9 @@ function setPlayerStatus(key, value) {
 
 function getSelectedActorStatus(key) {
     let selectedActor = GameAPI.getGamePieceSystem().getSelectedGameActor();
+    if (!selectedActor) {
+        return null;
+    }
     return selectedActor.getStatus(key);
 }
 
@@ -56,7 +59,16 @@ function testStatusConditions(conditions) {
     for (let i = 0; i < conditions.length; i++) {
         let cnd = conditions[i];
         let value = cnd.value;
-        let status = getSelectedActorStatus(cnd['ActorStatus'])
+        let status = null;
+
+        if (typeof (cnd['ActorStatus']) === 'string') {
+            status = getSelectedActorStatus(cnd['ActorStatus'])
+            if (status === null) {
+                return false;
+            }
+        } else if (typeof (cnd['PlayerStatus']) === 'string') {
+            status = getPlayerStatus(cnd['PlayerStatus'])
+        }
 
         if (typeof (status) === 'string') {
             if (status !== value) {

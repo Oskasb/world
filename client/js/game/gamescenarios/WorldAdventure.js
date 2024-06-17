@@ -27,7 +27,10 @@ class WorldAdventure {
         let onIndicatorData = function(config) {
             rootIndicator.hideIndicator();
             rootIndicator.applyIndicatorConfig(config);
-            rootIndicator.showIndicator();
+            if (testCriteria()) {
+                rootIndicator.showIndicator();
+            }
+
         }
 
         function hideIndicator() {
@@ -138,9 +141,13 @@ class WorldAdventure {
 
         let update = function() {
         //    MATH.vec3FromArray(this.getPos(), this.config.nodes[getTargetNodeIndex()].pos)
-            unrollAdventureNodes()
+
+
+
+
 
             if (expandAll === true) {
+                unrollAdventureNodes()
                 for (let i = 0; i < this.adventureNodes.length; i++) {
                     let node = this.adventureNodes[i];
                     if (node.isActive === false) {
@@ -148,7 +155,13 @@ class WorldAdventure {
                     }
                 }
             } else {
-                processProximityState()
+                if (testCriteria()) {
+                    unrollAdventureNodes()
+                    processProximityState()
+                } else {
+
+                }
+
             }
 
 

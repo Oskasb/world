@@ -228,6 +228,7 @@ class GameAdventureSystem {
 
             function processRewardItem(item) {
                 let activeActor = GameAPI.getGamePieceSystem().selectedActor;
+                GuiAPI.notifyItemLooted(activeActor, item);
                 activeActor.processItemLooted(item);
             }
 
