@@ -26,7 +26,7 @@
   "grid": 0,
   "variations": [
     {
-      "id": "test_a",
+      "id": "a",
       "modify": [
         {"name": "Oh no!"                 }
       ]

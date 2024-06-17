@@ -385,9 +385,21 @@ class WorldModels {
                     this.addConfigEncounter(config, id, false);
                 }
             }
-
-
         }
+
+    }
+
+    getLoadedConfig(root, folder, id) {
+        if (!loadedConfigs[root]) {
+            loadedConfigs[root] = {};
+        }
+
+        if (!loadedConfigs[root][folder]) {
+            loadedConfigs[root][folder] = {};
+        }
+
+        return loadedConfigs[root][folder][id];
+
     }
 
     loadWorldLevelConfigEdits(worldLevel) {

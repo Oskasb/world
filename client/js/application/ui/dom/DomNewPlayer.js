@@ -1,6 +1,7 @@
 import {poolFetch} from "../../utils/PoolUtils.js";
 import {setPlayerStatus} from "../../utils/StatusUtils.js";
 import {ENUMS} from "../../ENUMS.js";
+import {getConfigByEditId} from "../../utils/ConfigUtils.js";
 
 class DomNewPlayer {
     constructor() {
@@ -14,6 +15,8 @@ class DomNewPlayer {
         let buttonPlayDiv;
         let editString = null;
         let charListDiv;
+
+        let newPlayerCharOptions;
 
         function switchSelection() {
             DomUtils.removeElementClass(buttonCharDiv, 'bar_button_active')
@@ -108,6 +111,16 @@ class DomNewPlayer {
         function enterWorld() {
 
         }
+
+        function update() {
+
+            if (!newPlayerCharOptions) {
+                newPlayerCharOptions = getConfigByEditId('new_player_character_options')
+                console.log(newPlayerCharOptions);
+            }
+
+        }
+
             let readyCb = function() {
 
                 let nameDiv = htmlElement.call.getChildElement('NAME');
@@ -130,6 +143,8 @@ class DomNewPlayer {
                 //    DomUtils.addClickFunction(invDiv, openInventory)
                 DomUtils.addClickFunction(reloadDiv, init)
 
+
+                ThreeAPI.registerPrerenderCallback(update);
 
 
             }

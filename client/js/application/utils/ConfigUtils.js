@@ -551,6 +551,11 @@ function readConfig(root, folder) {
     return window.CONFIGS[root][folder];
 }
 
+
+function getConfigByEditId(editId) {
+    return savedConfigs[editId]
+}
+
 export {
     loadVariationConfigs,
     readConfig,
@@ -570,5 +575,6 @@ export {
     mappedConfigKey,
     getReversedConfigs,
     getConfigListAt,
-    listifyConfig
+    listifyConfig,
+    getConfigByEditId
  }
