@@ -1,6 +1,47 @@
+div.character_text_container_top {
+    bottom: 67em;
+    position: absolute;
+}
 
+div.character_text_container_top p {
+    font-size: 2.4em;
+}
+
+div.character_text_container_bottom {
+    top: 67em;
+    position: absolute;
+}
+
+div.character_text_container_bottom p {
+    font-size: 2.4em;
+}
+
+div.character_select {
+    font-size: 1em;
+    top: 50%;
+    margin: 0.5em;
+    left: 0;
+    right: auto;
+    width: 16em;
+    height: 32em;
+    position: relative;
+    display: inline-block;
+    border: 0.5em solid #005a9b;
+    border-radius: 1.5em;
+    transition-property: transform;
+    transform: translate3d(0, -50%, 0);
+    background-size: 100% 100%;
+    opacity: 0.7;
+ }
+
+div.character_select_active {
+    opacity: 1;
+    border-color: #75faff;
+    box-shadow: 0px 0px 4em rgba(120, 255, 219, 0.99);
+}
 
 div.character_panel {
+    border-radius: 3em;
     font-size: 1em;
     top: 0.01em;
     margin: 0;
@@ -80,6 +121,11 @@ div.param p {
 }
 
 div.character_list {
+    border-radius: 2em;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    overflow-x: auto;
     font-size: 1em;
     top: 50%;
     left: 50%;
@@ -88,7 +134,7 @@ div.character_list {
     padding: 0;
     margin: 0;
     position: absolute;
-    border: solid #232323;
+    border: solid rgba(0, 13, 58, 0.58);
     transition-property: transform;
     background: radial-gradient(circle, rgba(0, 0, 0, 0.25) 50%, rgba(0, 64, 86, 0.6) 99%);
     transform: translate3d(-50%, -50%, 0);
@@ -101,6 +147,7 @@ div.character_list_active {
 }
 
 div.char_create_container {
+    border-radius: 3em;
     z-index: 50;
     font-size: 1em;
     top: 50%;

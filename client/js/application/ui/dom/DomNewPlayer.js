@@ -15,6 +15,9 @@ class DomNewPlayer {
         let buttonPlayDiv;
         let editString = null;
         let charListDiv;
+        let isReady = false;
+        let actorSelectDivs = [];
+
 
         let newPlayerCharOptions;
 
@@ -44,6 +47,8 @@ class DomNewPlayer {
 
         }
 
+        let validName = false;
+
         function onSubmit(inValue, sMap) {
 
             if (isValid === true) {
@@ -51,6 +56,7 @@ class DomNewPlayer {
                 statusMap.NAME = inValue;
                 editString.closeEditTool();
                 editString = null;
+                validName = true;
             }
 
         }
@@ -108,8 +114,36 @@ class DomNewPlayer {
             DomUtils.addElementClass(charListDiv, 'character_list_active')
         }
 
-        function enterWorld() {
+        let selectedCharDiv = null;
+        let selectedCharacterId = null;
+        function charSelected(div, id) {
+            selectedCharacterId = id;
+            if (selectedCharDiv !== null) {
+                DomUtils.removeElementClass(selectedCharDiv, 'character_select_active')
+            }
+            selectedCharDiv = div;
+            console.log("charSelected", selectedCharacterId, div);
+            DomUtils.addElementClass(div, 'character_select_active')
+        }
 
+        function enterWorld() {
+            console.log("Enter World ", selectedCharacterId, statusMap.NAME, statusMap);
+        }
+
+
+        function poopulateActorList(actors) {
+            for (let i = 0; i < actors.length; i++) {
+
+                let actorId = actors[i];
+                let div = DomUtils.createDivElement(charListDiv, 'select_'+actorId, actorId, 'character_select')
+                DomUtils.addElementClass(div, 'character_'+actorId);
+                actorSelectDivs.push(div)
+                let onClick = function() {
+                    charSelected(div, actorId)
+                }
+                DomUtils.addClickFunction(div, onClick)
+
+            }
         }
 
         function update() {
@@ -117,7 +151,21 @@ class DomNewPlayer {
             if (!newPlayerCharOptions) {
                 newPlayerCharOptions = getConfigByEditId('new_player_character_options')
                 console.log(newPlayerCharOptions);
+            } else {
+                let actors = newPlayerCharOptions.actors;
+                if (actorSelectDivs.length !== actors.length) {
+                    poopulateActorList(actors)
+                }
             }
+
+            if (isReady === false) {
+                if (selectedCharacterId !== null && validName === true) {
+                    isReady = true;
+                    DomUtils.removeElementClass(buttonPlayDiv, 'bar_button_disabled')
+                    DomUtils.addElementClass(buttonPlayDiv, 'animate_button_border')
+                }
+            }
+
 
         }
 
@@ -143,15 +191,9 @@ class DomNewPlayer {
                 //    DomUtils.addClickFunction(invDiv, openInventory)
                 DomUtils.addClickFunction(reloadDiv, init)
 
-
                 ThreeAPI.registerPrerenderCallback(update);
 
-
             }
-
-
-
-
 
 
         let htmlElement = poolFetch('HtmlElement')

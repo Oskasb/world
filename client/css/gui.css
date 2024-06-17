@@ -65,6 +65,16 @@ body.overlay_page {
     background-color: rgba(0, 0, 0, 0);
 }
 
+@keyframes border-pulsate {
+    0%   { border-color: rgb(255, 255, 125); }
+    50%  { border-color: rgb(0, 220, 255); }
+    100% { border-color: rgb(255, 255, 125); }
+}
+
+div.animate_button_border {
+    animation: border-pulsate 1.3s infinite;
+}
+
 div.background_create_panel {
     background-image: url("/client/assets/images/textures/gui/character_creation/create_panel_background.png");
     background-size: 100% 100%;
