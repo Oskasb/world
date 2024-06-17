@@ -25,8 +25,18 @@ setTimeout(function() {
 }, 1000)
 
 
+function activateNewPlayer() {
+    console.log("activateNewPlayer:", GameAPI.getPlayerMain());
+
+    setTimeout(function() {
+        GuiAPI.activateMinimap();
+        GameAPI.gameAdventureSystem.call.activateAdventures()
+    }, 1000)
+
+}
+
 function startPlayerSession() {
-    let newPlayrPage = new DomNewPlayer();
+    new DomNewPlayer(activateNewPlayer);
     // client.page = GuiAPI.activatePage('page_start')
     // GameAPI.gameAdventureSystem.call.activateAdventures()
 }

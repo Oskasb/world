@@ -205,7 +205,7 @@ class DebugView {
         this.camButtons = new CameraUiSystem();
         this.camButtons.initCameraUi();
     //    ThreeAPI.addPostrenderCallback(updateSystemDebug)
-        if (client.page) {
+        if (client.page !== null) {
             GuiAPI.closePage(client.page)
             client.page = null;
         }

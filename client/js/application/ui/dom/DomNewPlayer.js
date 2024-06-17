@@ -4,7 +4,7 @@ import {ENUMS} from "../../ENUMS.js";
 import {getConfigByEditId} from "../../utils/ConfigUtils.js";
 
 class DomNewPlayer {
-    constructor() {
+    constructor(onCloseCB) {
 
 
         let isValid = false;
@@ -132,10 +132,32 @@ class DomNewPlayer {
             DomUtils.addElementClass(div, 'character_select_active')
             DomUtils.removeElementClass(buttonCharDiv, 'button_incomplete')
             DomUtils.addElementClass(buttonCharDiv, 'button_complete')
+
+
+                let value = {
+                    pos: statusMap[selectedCharacterId].pos || [-893, 4, 519],
+                    actor_id: id,
+                    inventory_items: statusMap[selectedCharacterId].inventory_items,
+                    equipped_items: statusMap[selectedCharacterId].equipped_items,
+                    status: {
+                        ALIGNMENT: "FRIENDLY",
+                        STRONGHOLD_ID: "FARM_HOVEL"
+                    }
+                }
+
+            setTimeout(function() {
+                evt.dispatch(ENUMS.Event.SELECT_ADVENTURER, value)
+            }, 100);
+
+
         }
 
         function enterWorld() {
             console.log("Enter World ", selectedCharacterId, statusMap.NAME, statusMap);
+            htmlElement.closeHtmlElement()
+            setTimeout(function() {
+                evt.dispatch(ENUMS.Event.SELECT_ADVENTURER, {activate_selection:true})
+            }, 100)
         }
 
 
@@ -221,7 +243,7 @@ class DomNewPlayer {
 
         let htmlElement = poolFetch('HtmlElement')
         function init() {
-            htmlElement.initHtmlElement('new_player', null, statusMap, 'full_screen', readyCb);
+            htmlElement.initHtmlElement('new_player', onCloseCB, statusMap, 'full_screen', readyCb);
         }
         init()
     }

@@ -137,6 +137,13 @@
         }
       },
       {
+        "id": "VISUAL_PITCHFORK",
+        "data": {
+          "model_asset":"asset_pitchfork",
+          "icon_class": "icon_weapon_2h_pitchfork"
+        }
+      },
+      {
         "id": "VISUAL_AXE_SLICER",
         "data": {
           "model_asset":"asset_slicer_axe_2h",
@@ -230,6 +237,13 @@
         "data": {
           "model_asset":"asset_helmet_bronze",
           "icon_class": "icon_helmet_bronze"
+        }
+      },
+      {
+        "id": "VISUAL_HELMET_STEEL",
+        "data": {
+          "model_asset":"asset_helmet_steel",
+          "icon_class": "icon_helmet_steel"
         }
       },
       {

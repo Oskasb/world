@@ -34,6 +34,22 @@
         }
       },
       {
+        "id": "ITEM_PITCHFORK",
+        "data": {
+          "visual_id":"VISUAL_PITCHFORK",
+          "equip_slot": "SLOT_HAND_R",
+          "status_add_modifiers": [
+            {"status": "ACTIONS", "value":"ACTION_MELEE_BASH"}
+          ],
+          "status": {
+            "NAME":"Pitchfork",
+            "ITEM_LEVEL": 1,
+            "ITEM_TYPE" : "WEAPON",
+            "RARITY": "COMMON"
+          }
+        }
+      },
+      {
         "id": "ITEM_STAFF_BASIC",
         "data": {
           "visual_id":"VISUAL_STAFF_BASIC",

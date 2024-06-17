@@ -127,6 +127,7 @@
         {"id": "file_scale_gloves",  "config": { "url": "./client/assets/models/items_skinned/fighter_rig/armor/scale_gloves"     }},
 
         {"id": "file_ninjablade",    "config": { "url": "./client/assets/models/items_rigid/weapons/ninjablade"                   }},
+        {"id": "file_pitchfork",    "config": { "url": "./client/assets/models/items_rigid/weapons/pitchfork"                     }},
         {"id": "file_slicer_axe_2h",    "config": { "url": "./client/assets/models/items_rigid/weapons/slicer_axe_2h"             }},
         {"id": "file_sword_fancy",    "config": { "url": "./client/assets/models/items_rigid/weapons/sword_fancy"                 }},
         {"id": "file_emerald_blade",    "config": { "url": "./client/assets/models/items_rigid/weapons/emerald_blade"             }},
@@ -136,6 +137,7 @@
         {"id": "file_beltplate",     "config": { "url": "./client/assets/models/items_rigid/armor/belt/belt_plate"                }},
         {"id": "file_belt_bronze",   "config": { "url": "./client/assets/models/items_rigid/armor/belt/belt_bronze"               }},
         {"id": "file_helmet_bronze", "config": { "url": "./client/assets/models/items_rigid/armor/head/helmet_bronze"             }},
+        {"id": "file_helmet_steel", "config": { "url": "./client/assets/models/items_rigid/armor/head/helmet_steel"             }},
         {"id": "file_helmetviking",  "config": { "url": "./client/assets/models/items_rigid/armor/head/helmet_viking"             }},
         {"id": "file_bracer_bronze", "config": { "url": "./client/assets/models/items_rigid/armor/wrist/bracer_bronze"            }},
 

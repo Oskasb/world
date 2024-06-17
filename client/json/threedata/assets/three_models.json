@@ -165,6 +165,7 @@
         {"id": "asset_helmetviking","config": { "model": "file_helmetviking", "material": "mat_instancing_basic",  "settings": "model_settings_items_100" }},
         {"id": "asset_helmet_bronze", "config": { "model": "file_helmet_bronze", "material": "mat_instancing_basic",  "settings": "model_settings_items"  }},
         {"id": "asset_bracer_bronze", "config": { "model": "file_bracer_bronze", "material": "mat_instancing_basic",  "settings": "model_settings_items"  }},
+        {"id": "asset_helmet_steel", "config": { "model": "file_helmet_steel", "material": "mat_instancing_basic",  "settings": "model_settings_items"  }},
 
 
 
@@ -253,6 +254,8 @@
 
         {"id": "asset_katana_green", "config": { "model": "file_ninjablade",        "material": "mat_instancing_green",  "settings": "model_settings_items" }},
         {"id": "asset_ninjablade",  "config": { "model": "file_ninjablade",         "material": "mat_instancing_basic",  "settings": "model_settings_items" }},
+        {"id": "asset_pitchfork",   "config": { "model": "file_pitchfork",          "material": "mat_instancing_basic",  "settings": "model_settings_items" }},
+
         {"id": "asset_slicer_axe_2h",  "config": { "model": "file_slicer_axe_2h",   "material": "mat_instancing_basic",  "settings": "model_settings_items" }},
         {"id": "asset_sword_fancy",  "config": { "model": "file_sword_fancy",       "material": "mat_instancing_basic",  "settings": "model_settings_items" }},
         {"id": "asset_emerald_blade",  "config": { "model": "file_emerald_blade",   "material": "mat_instancing_basic",  "settings": "model_settings_items" }},

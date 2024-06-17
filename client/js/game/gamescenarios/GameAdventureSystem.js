@@ -51,6 +51,7 @@ class GameAdventureSystem {
         let adventureConfigs = [];
         this.startActor = null;
         this.page = null;
+
         evt.on(ENUMS.Event.ENCOUNTER_COMPLETED, encounterCompleted)
 
         let visualDestinationLayer = new VisualDestinationsLayer();
@@ -373,8 +374,13 @@ class GameAdventureSystem {
             GameAPI.getGamePieceSystem().playerActorId = actor.id;
             GameAPI.getGamePieceSystem().startingItems = startingItems;
             //    this.startActor.travelMode.mode = null;
-            GuiAPI.closePage(this.page);
-            GuiAPI.closePage(client.page)
+            if (this.page !== null) {
+                GuiAPI.closePage(this.page);
+            }
+            if (client.page !== null) {
+                GuiAPI.closePage(client.page)
+            }
+
             client.page = null;
 
             this.startActor.removeGameActor();
@@ -387,8 +393,8 @@ class GameAdventureSystem {
         spatialTransition.targetPos.y = ThreeAPI.terrainAt(spatialTransition.targetPos);
         ThreeAPI.getCameraCursor().setZoomDistance(5)
         let actorId = event['actor_id'];
-        let pageId = event['page_id'];
-        let worldEncounters = event['world_encounters'];
+        let pageId = event['page_id'] || null;
+        let worldEncounters = event['world_encounters'] || [];
         worldEncounters.push('portals_20')
         evt.dispatch(ENUMS.Event.LOAD_ADVENTURE_ENCOUNTERS, {world_encounters:[]})
 
@@ -461,10 +467,14 @@ class GameAdventureSystem {
         let onArriveCB = function(atPos) {
             evt.dispatch(ENUMS.Event.LOAD_ADVENTURE_ENCOUNTERS, {world_encounters:worldEncounters})
             setTimeout(function() {
-                if (_this.page) {
+                if (_this.page !== null) {
                     GuiAPI.closePage(_this.page)
+                    _this.page = null;
                 }
-                _this.page = GuiAPI.activatePage(pageId);
+                if (pageId !== null) {
+                    _this.page = GuiAPI.activatePage(pageId);
+                }
+
                 notifyCameraStatus(ENUMS.CameraStatus.CAMERA_MODE, ENUMS.CameraControls.CAM_ORBIT, true)
             }, 200)
         }.bind(this)

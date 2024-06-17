@@ -44,6 +44,7 @@ class Client {
         this.setup = new Setup();
         this.INPUT_STATE = null;
         this.stamp = -1;
+        this.page = null;
     }
 
     setStamp(stamp) {

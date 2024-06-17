@@ -157,6 +157,10 @@ div.icon_weapon_1h_sword_fancy {
     background-image: url("/client/assets/images/textures/gui/items/weapon_1h_sword_fancy.png");
 }
 
+div.icon_weapon_2h_pitchfork {
+    background-image: url("/client/assets/images/textures/gui/items/weapon_2h_pitchfork.png");
+}
+
 div.icon_weapon_2h_axe_slicer {
     background-image: url("/client/assets/images/textures/gui/items/weapon_2h_axe_slicer.png");
 }
