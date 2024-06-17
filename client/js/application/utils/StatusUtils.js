@@ -47,11 +47,43 @@ function setPlayerStatus(key, value) {
     GameAPI.getPlayer().setStatusKey(key, value);
 }
 
+function getSelectedActorStatus(key) {
+    let selectedActor = GameAPI.getGamePieceSystem().getSelectedGameActor();
+    return selectedActor.getStatus(key);
+}
+
+function testStatusConditions(conditions) {
+    for (let i = 0; i < conditions.length; i++) {
+        let cnd = conditions[i];
+        let value = cnd.value;
+        let status = getSelectedActorStatus(cnd['ActorStatus'])
+
+        if (typeof (status) === 'string') {
+            if (status !== value) {
+                return false;
+            }
+        } else if (typeof (status) === 'number') {
+            if (status < value) {
+                return false;
+            }
+        } else if (typeof (status) === 'object') {
+            if (typeof (status.length) === 'number') {
+                if (status.indexOf(value) === -1) {
+                    return false;
+                }
+            }
+        }
+    }
+    return true;
+}
+
 export {
     getActorBySelectedTarget,
     hasHostileTarget,
     clearTargetSelection,
     clearActorEncounterStatus,
     setPlayerStatus,
-    getPlayerStatus
+    getPlayerStatus,
+    getSelectedActorStatus,
+    testStatusConditions
 }

@@ -14,19 +14,31 @@ let lootedTreasured = [];
 let startingItems = [];
 
 let worldAdventures = {};
-let startableAdventures = [];
 let activeAdventures = [];
 
 let nearbyAdventures = [];
 
-function getActiveWorldLevelAdventure() {
+let actionableAdventures = []
+
+function getActiveWorldLevelAdventures() {
+
+    MATH.emptyArray(actionableAdventures);
 
     let worldLevel = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
     if (!worldAdventures[worldLevel]) {
         worldAdventures[worldLevel] = [];
     }
     let advs = worldAdventures[worldLevel];
-    return advs;
+
+    for (let i = 0; i < advs.length; i++) {
+        let adv = advs[i];
+        let add = adv.call.testCriteria();
+        if (add === true) {
+            actionableAdventures.push(adv);
+        }
+    }
+
+    return actionableAdventures;
 }
 
 
@@ -34,7 +46,7 @@ function encounterCompleted(event) {
     console.log("Enc Completed", event, activeAdventures);
     completedEncounters.push(event.worldEncounterId);
 
-    let advs = getActiveWorldLevelAdventure()
+    let advs = getActiveWorldLevelAdventures()
 
     for (let i = 0; i < advs.length; i++) {
         advs[i].call.notifyEncounterCompleted(event.worldEncounterId, event.worldEncounter)
@@ -312,20 +324,17 @@ class GameAdventureSystem {
         return lootedTreasured;
     }
 
-    getStartableAdventures() {
-        return startableAdventures;
-    }
 
     getActiveWorldAdventures() {
         return activeAdventures;
     }
 
     getWorldAdventures() {
-        return getActiveWorldLevelAdventure()
+        return getActiveWorldLevelAdventures()
     }
 
     getAdventureById(advId) {
-        let advs = getActiveWorldLevelAdventure();
+        let advs = getActiveWorldLevelAdventures();
         for (let i = 0; i < advs.length; i++) {
             if (advs[i].id === advId) {
                 return advs[i];
@@ -339,14 +348,6 @@ class GameAdventureSystem {
         }
         worldAdventures[worldLevel].push(worldAdventure);
     //    console.log("registerAdventure", worldLevel, worldAdventure, worldAdventures)
-    }
-
-    applyEncounterOperation(worldEncounter) {
-    //    console.log("applyEncounterOperation", worldEncounter.id, worldEncounter)
-        let advs = this.getWorldAdventures();
-        for (let i = 0; i < advs.length; i++) {
-            advs[i].call.notifyEncounterOperation(worldEncounter)
-        }
     }
 
 

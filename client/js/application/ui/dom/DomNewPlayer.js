@@ -141,7 +141,7 @@ class DomNewPlayer {
                     equipped_items: statusMap[selectedCharacterId].equipped_items,
                     status: {
                         ALIGNMENT: "FRIENDLY",
-                        STRONGHOLD_ID: "FARM_HOVEL"
+                        STRONGHOLD_ID: "SH_MANSION"
                     }
                 }
 

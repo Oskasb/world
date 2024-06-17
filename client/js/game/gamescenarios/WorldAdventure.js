@@ -5,6 +5,8 @@ import {EncounterIndicator} from "../visuals/EncounterIndicator.js";
 import {parseConfigDataKey} from "../../application/utils/ConfigUtils.js";
 import {ENUMS} from "../../application/ENUMS.js";
 import {getPlayerActor} from "../../application/utils/ActorUtils.js";
+import {isDev} from "../../application/utils/DebugUtils.js";
+import {testStatusConditions} from "../../application/utils/StatusUtils.js";
 
 class WorldAdventure {
     constructor() {
@@ -329,6 +331,23 @@ class WorldAdventure {
 
 
 
+        let testCriteria = function() { // quest conditions check PlayerStatus and/or ActorStatus
+            if (isDev()) {
+                return true;
+            }
+
+            if (this.config['conditions']) {
+                if (this.config['conditions'].length) {
+                    return testStatusConditions(this.config['conditions'])
+                } else {
+                    return true;
+                }
+            } else {
+                return true;
+            }
+        }.bind(this);
+
+
         this.call = {
             update:update,
             hideIndicator:hideIndicator,
@@ -345,7 +364,8 @@ class WorldAdventure {
             notifyEncounterOperation:notifyEncounterOperation,
             isCompleted:isCompleted,
             adventureIsActive:adventureIsActive,
-            adventureIsSelected:adventureIsSelected
+            adventureIsSelected:adventureIsSelected,
+            testCriteria:testCriteria
         }
 
     }
