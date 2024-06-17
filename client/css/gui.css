@@ -71,9 +71,29 @@ body.overlay_page {
     100% { border-color: rgb(255, 255, 125); }
 }
 
+@keyframes scale-pulsate {
+    0%   { scale: 0.9; }
+    50%  { scale: 1.1; }
+    100% { scale: 0.9; }
+}
+
 div.animate_button_border {
     animation: border-pulsate 1.3s infinite;
 }
+
+div.animate_scale_pulsate_p p {
+    animation: scale-pulsate 1.1s infinite;
+}
+
+div.button_incomplete p {
+    color: #ff9c9c;
+}
+
+div.button_complete p {
+    color: #b5ffe5;
+}
+
+
 
 div.background_create_panel {
     background-image: url("/client/assets/images/textures/gui/character_creation/create_panel_background.png");
@@ -207,6 +227,7 @@ div.bar_button {
     margin: 1em;
     width: 12em;
     height: 12em;
+    color: white;
     border-radius: 15%;
     border: rgba(125, 255, 225, 0.6);
     border-style: solid;
@@ -238,7 +259,6 @@ div.bar_button p {
     bottom: 1em;
     font-size: 1.8em;
     text-align: center;
-    color: #ffffff;
     text-shadow: 0.2em 0.2em 0.3em rgb(0, 0, 0);
 }
 

@@ -1,4 +1,19 @@
 {
   "edit_id": "new_player_character_options",
-  "actors": ["ACTOR_FARMER", "ACTOR_PRINCESS", "ACTOR_OUTLAW"]
+  "info_text_top": "All characters will become available later in the game",
+  "info_text_bottom": "These are your starting character options",
+  "actors": [
+    {
+      "id": "ACTOR_FARMER",
+      "label":"Farmer",
+      "text": "Hard at work sowing and plowing. You have had a nice life, until today when bandits and pirates decided to raid your village."},
+    {
+      "id": "ACTOR_PRINCESS",
+      "label":"Princess",
+      "text": "A life of privilege. Dreams of adventure. A young lady in the lineage of royalty who may grow into glorious queen, or if you choose a different path become an agent of chaos."},
+    {
+      "id": "ACTOR_OUTLAW",
+      "label":"Outlaw",
+      "text": "Growing up among the bandits has been rough. The path of the outlaw will let you choose between becoming the hero or the villain."}
+    ]
 }

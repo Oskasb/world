@@ -57,6 +57,8 @@ class DomNewPlayer {
                 editString.closeEditTool();
                 editString = null;
                 validName = true;
+                DomUtils.removeElementClass(buttonNameDiv, 'animate_button_border')
+                DomUtils.addElementClass(buttonNameDiv, 'button_complete')
             }
 
         }
@@ -71,6 +73,8 @@ class DomNewPlayer {
             context:"Select a display name.",
             from:"input",
             NAME:"no_name_yet",
+            text_top:"info_text_top",
+            text_bottom:"info_text_bottom",
             onUpdate:onUpdate,
             onSubmit:onSubmit
         }
@@ -112,18 +116,22 @@ class DomNewPlayer {
             switchSelection()
             DomUtils.addElementClass(buttonCharDiv, 'bar_button_active')
             DomUtils.addElementClass(charListDiv, 'character_list_active')
+
         }
 
         let selectedCharDiv = null;
         let selectedCharacterId = null;
         function charSelected(div, id) {
             selectedCharacterId = id;
+            statusMap.text_bottom = statusMap[selectedCharacterId].text;
             if (selectedCharDiv !== null) {
                 DomUtils.removeElementClass(selectedCharDiv, 'character_select_active')
             }
             selectedCharDiv = div;
             console.log("charSelected", selectedCharacterId, div);
             DomUtils.addElementClass(div, 'character_select_active')
+            DomUtils.removeElementClass(buttonCharDiv, 'button_incomplete')
+            DomUtils.addElementClass(buttonCharDiv, 'button_complete')
         }
 
         function enterWorld() {
@@ -134,7 +142,10 @@ class DomNewPlayer {
         function poopulateActorList(actors) {
             for (let i = 0; i < actors.length; i++) {
 
-                let actorId = actors[i];
+                let actorId = actors[i].id;
+                let actorText = actors[i].text;
+                statusMap[actorId] = actors[i];
+
                 let div = DomUtils.createDivElement(charListDiv, 'select_'+actorId, actorId, 'character_select')
                 DomUtils.addElementClass(div, 'character_'+actorId);
                 actorSelectDivs.push(div)
@@ -151,6 +162,10 @@ class DomNewPlayer {
             if (!newPlayerCharOptions) {
                 newPlayerCharOptions = getConfigByEditId('new_player_character_options')
                 console.log(newPlayerCharOptions);
+                if (newPlayerCharOptions) {
+                    statusMap.text_top = newPlayerCharOptions['info_text_top']
+                    statusMap.text_bottom = newPlayerCharOptions['info_text_bottom']
+                }
             } else {
                 let actors = newPlayerCharOptions.actors;
                 if (actorSelectDivs.length !== actors.length) {
@@ -162,8 +177,13 @@ class DomNewPlayer {
                 if (selectedCharacterId !== null && validName === true) {
                     isReady = true;
                     DomUtils.removeElementClass(buttonPlayDiv, 'bar_button_disabled')
+                    DomUtils.removeElementClass(buttonPlayDiv, 'button_incomplete')
                     DomUtils.addElementClass(buttonPlayDiv, 'animate_button_border')
+                    DomUtils.addElementClass(buttonPlayDiv, 'button_complete')
+                    DomUtils.addElementClass(buttonPlayDiv, 'animate_scale_pulsate_p')
                 }
+
+
             }
 
 
@@ -183,7 +203,10 @@ class DomNewPlayer {
                 DomUtils.addClickFunction(buttonPlayDiv, enterWorld)
 
                 DomUtils.addElementClass(buttonPlayDiv, 'bar_button_disabled')
-
+                DomUtils.addElementClass(buttonPlayDiv, 'button_incomplete')
+                DomUtils.addElementClass(buttonNameDiv, 'button_incomplete')
+                DomUtils.addElementClass(buttonCharDiv, 'button_incomplete')
+                DomUtils.addElementClass(buttonNameDiv, 'animate_button_border')
                 //    headerDiv = htmlElement.call.getChildElement('header_container');
                 //    topDiv = htmlElement.call.getChildElement('top_container');
                 //    bottomDiv = htmlElement.call.getChildElement('bottom_container');

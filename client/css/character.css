@@ -1,19 +1,27 @@
 div.character_text_container_top {
     bottom: 67em;
     position: absolute;
+    margin: 1em;
+    border-radius: 1em;
+    background-color: rgba(0, 0, 0, 0.4);
 }
 
 div.character_text_container_top p {
     font-size: 2.4em;
+    margin: 0.3em;
 }
 
 div.character_text_container_bottom {
     top: 67em;
     position: absolute;
+    margin: 1em;
+    border-radius: 1em;
+    background-color: rgba(0, 0, 0, 0.4);
 }
 
 div.character_text_container_bottom p {
     font-size: 2.4em;
+    margin: 0.3em;
 }
 
 div.character_select {
