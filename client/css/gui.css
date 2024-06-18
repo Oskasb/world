@@ -77,7 +77,7 @@ body.overlay_page {
     100% { scale: 0.9; }
 }
 
-div.animate_button_border {
+.animate_button_border {
     animation: border-pulsate 1.3s infinite;
 }
 
@@ -356,7 +356,10 @@ div.panel_config {
 
 div.string_edit {
     font-size:1.8em;
-    right: 0.8em;
+    width: 25em;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    left: 50%;
 }
 
 div.input {

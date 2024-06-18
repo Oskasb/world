@@ -199,11 +199,12 @@ iframe.edit_values {
 
 iframe.edit_string {
     left: 50%;
-    width: 400em;
+    width: 100%;
     top: 50%;
-    height: 250em;
+    height: 100%;
     transform: rotate3d(0, 0, 0, 1rad) translate3d(-50%, -50%, 0px);
     transform-origin: center;
+    background-color: rgba(0, 40, 65, 0.56);
 }
 
 iframe.edit_spawns {

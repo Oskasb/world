@@ -17,7 +17,7 @@ class DomNewPlayer {
         let charListDiv;
         let isReady = false;
         let actorSelectDivs = [];
-
+        let nameLabelDiv;
 
         let newPlayerCharOptions;
 
@@ -58,7 +58,10 @@ class DomNewPlayer {
                 editString = null;
                 validName = true;
                 DomUtils.removeElementClass(buttonNameDiv, 'animate_button_border')
+                DomUtils.removeElementClass(nameLabelDiv, 'animate_button_border')
+                nameLabelDiv.style.borderColor = "rgba(88,255,136, 1)";
                 DomUtils.addElementClass(buttonNameDiv, 'button_complete')
+                setTimeout(selectChar, 500)
             }
 
         }
@@ -72,7 +75,7 @@ class DomNewPlayer {
             header:"Name",
             context:"Select a display name.",
             from:"input",
-            NAME:"no_name_yet",
+            NAME:"Enter Name",
             text_top:"info_text_top",
             text_bottom:"info_text_bottom",
             onUpdate:onUpdate,
@@ -220,15 +223,21 @@ class DomNewPlayer {
                 buttonCharDiv = htmlElement.call.getChildElement('button_character');
                 buttonPlayDiv = htmlElement.call.getChildElement('button_play');
 
+                nameLabelDiv = htmlElement.call.getChildElement('NAME');
+
+                DomUtils.addClickFunction(nameLabelDiv, selectName)
                 DomUtils.addClickFunction(buttonNameDiv, selectName)
                 DomUtils.addClickFunction(buttonCharDiv, selectChar)
                 DomUtils.addClickFunction(buttonPlayDiv, enterWorld)
+
+
 
                 DomUtils.addElementClass(buttonPlayDiv, 'bar_button_disabled')
                 DomUtils.addElementClass(buttonPlayDiv, 'button_incomplete')
                 DomUtils.addElementClass(buttonNameDiv, 'button_incomplete')
                 DomUtils.addElementClass(buttonCharDiv, 'button_incomplete')
                 DomUtils.addElementClass(buttonNameDiv, 'animate_button_border')
+                DomUtils.addElementClass(nameLabelDiv, 'animate_button_border')
                 //    headerDiv = htmlElement.call.getChildElement('header_container');
                 //    topDiv = htmlElement.call.getChildElement('top_container');
                 //    bottomDiv = htmlElement.call.getChildElement('bottom_container');
@@ -237,6 +246,9 @@ class DomNewPlayer {
                 DomUtils.addClickFunction(reloadDiv, init)
 
                 ThreeAPI.registerPrerenderCallback(update);
+
+
+                setTimeout(selectName, 500);
 
             }
 

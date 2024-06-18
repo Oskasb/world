@@ -137,7 +137,7 @@
           "status": {
             "PASSIVE_ACTIONS": [],
             "ACTIONS": ["ACTION_MELEE_BASH"],
-            "TRAVEL":  ["ACTION_TRAVEL_WALK", "ACTION_TRAVEL_GRID"],
+            "TRAVEL":  ["ACTION_TRAVEL_WALK", "ACTION_TRAVEL_RUN"],
             "MOVEMENT_SPEED": 4,
             "HEIGHT": 1.8,
             "SIZE": 1.0,
@@ -158,7 +158,7 @@
           "status": {
             "PASSIVE_ACTIONS": [],
             "ACTIONS": ["ACTION_CHARGE"],
-            "TRAVEL":  ["ACTION_TRAVEL_WALK", "ACTION_TRAVEL_RUN", "ACTION_TRAVEL_LEAP"],
+            "TRAVEL":  ["ACTION_TRAVEL_WALK", "ACTION_TRAVEL_RUN"],
             "MOVEMENT_SPEED": 4,
             "HEIGHT": 1.8,
             "SIZE": 1.0,
@@ -177,7 +177,7 @@
         "id":"STATS_PRINCESS",
         "data":{
           "status": {
-            "PASSIVE_ACTIONS": ["ACTION_FREEHACK_MELEE"],
+            "PASSIVE_ACTIONS": [],
             "ACTIONS": ["ACTION_FREEZE_BOLT", "ACTION_HEAL_BOLT"],
             "TRAVEL":  ["ACTION_TRAVEL_WALK", "ACTION_TRAVEL_RUN"],
             "MOVEMENT_SPEED": 4,
@@ -197,7 +197,7 @@
         "id":"STATS_PIRATE",
         "data":{
           "status": {
-            "PASSIVE_ACTIONS": ["ACTION_FREEHACK_MELEE"],
+            "PASSIVE_ACTIONS": [],
             "ACTIONS": ["ACTION_FIREBALL", "ACTION_HEAL_BOLT"],
             "TRAVEL":  ["ACTION_TRAVEL_WALK", "ACTION_TRAVEL_RUN"],
             "MOVEMENT_SPEED": 4,
