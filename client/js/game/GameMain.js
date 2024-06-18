@@ -5,10 +5,16 @@ import { CharacterComposer } from "./Player/CharacterComposer.js";
 import { Vector3 } from "../../libs/three/math/Vector3.js";
 import { GameWalkGrid } from "./gameworld/GameWalkGrid.js";
 import { PhysicalWorld } from "./gameworld/PhysicalWorld.js";
-import {setPlayerStatus} from "../application/utils/StatusUtils.js";
+import {getPlayerStatus, setPlayerStatus} from "../application/utils/StatusUtils.js";
 import {ENUMS} from "../application/ENUMS.js";
 import {isDev} from "../application/utils/DebugUtils.js";
 import {DomNewPlayer} from "../application/ui/dom/DomNewPlayer.js";
+import {
+    getLocalAccount,
+    storeLocalAccountStatus,
+    storePlayerActorStatus,
+    storePlayerStatus
+} from "../application/setup/Database.js";
 
 let tempVec3 = new Vector3()
 let gameWalkGrid = null
@@ -28,6 +34,14 @@ setTimeout(function() {
 function activateNewPlayer() {
     console.log("activateNewPlayer:", GameAPI.getPlayerMain());
 
+    let playerId = 'PLAYER_'+client.getStamp();
+    setPlayerStatus(ENUMS.PlayerStatus.PLAYER_ID, playerId);
+    storeLocalAccountStatus(ENUMS.PlayerStatus.PLAYER_ID, playerId);
+    storeLocalAccountStatus(ENUMS.AccountStatus.INIT_TIME, new Date().getTime());
+    storeLocalAccountStatus(ENUMS.AccountStatus.LOGIN_COUNT, 1);
+
+    storePlayerStatus();
+
     setTimeout(function() {
         GuiAPI.activateMinimap();
         GameAPI.gameAdventureSystem.call.activateAdventures()
@@ -36,6 +50,8 @@ function activateNewPlayer() {
 }
 
 function startPlayerSession() {
+
+
     new DomNewPlayer(activateNewPlayer);
     // client.page = GuiAPI.activatePage('page_start')
     // GameAPI.gameAdventureSystem.call.activateAdventures()
@@ -147,8 +163,20 @@ class GameMain {
             GameAPI.gameAdventureSystem.call.activateAdventures()
             GuiAPI.activateMinimap()
         } else {
+
+            let account = getLocalAccount();
+            console.log("Local Account; ", account);
+
             setTimeout(function() {
-                GuiAPI.activateDomTransition('WELCOME', null, startPlayerSession)
+
+                if (account === null) {
+                    GuiAPI.activateDomTransition('WELCOME', null, startPlayerSession)
+                } else {
+                    let id = account[ENUMS.PlayerStatus.PLAYER_ID];
+
+                    GuiAPI.activateDomTransition('WELCOME BACK', {player_id:id}, startPlayerSession)
+                }
+
             }, 2000)
 
         }

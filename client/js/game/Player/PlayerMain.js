@@ -6,6 +6,7 @@ import {Status} from "../../../../Server/game/status/Status.js";
 import {evt} from "../../application/event/evt.js";
 import {ENUMS} from "../../application/ENUMS.js";
 import {isDev} from "../../application/utils/DebugUtils.js";
+import {storePlayerStatus} from "../../application/setup/Database.js";
 
 let tempVec3 = new Vector3()
 
@@ -330,7 +331,6 @@ class PlayerMain {
 
         this.callbacks = callbacks;
 
-
         evt.on(ENUMS.Event.EQUIP_ITEM, callbacks.handleEquip);
         evt.on(ENUMS.Event.UNEQUIP_ITEM, callbacks.handleUnequip);
         evt.on(ENUMS.Event.DROP_ITEM, callbacks.handleDropItem);
@@ -353,13 +353,14 @@ class PlayerMain {
 
     }
 
-
     setStatusKey(key, status) {
         if (this.getStatus(key) !== status) {
+            this.status.setStatusKey(key, status);
             if (isDev()) {
                 console.log("PlayerMainStatusUpdate:", key, status)
+            } else {
+                storePlayerStatus();
             }
-            this.status.setStatusKey(key, status);
         }
     }
 

@@ -171,6 +171,12 @@ let ENUMS = {}
         CONTROL_VALUES:'CONTROL_VALUES'
     };
 
+    ENUMS.AccountStatus = {
+        INIT_TIME:'INIT_TIME',
+        TIMESTAMP:'TIMESTAMP',
+        LOGIN_COUNT:'LOGIN_COUNT'
+    }
+
     ENUMS.StrongholdStatus = {
         CLIENT_STAMP:'CLIENT_STAMP',
         TEMPLATE:'TEMPLATE',

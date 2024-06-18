@@ -13,6 +13,7 @@ import {hasCombatState} from "../../../../Server/game/actor/ActorStatusFunctions
 import {ItemSlot} from "../gamepieces/ItemSlot.js";
 import {aaBoxTestVisibility} from "../../application/utils/ModelUtils.js";
 import {ActorStatus} from "./ActorStatus.js";
+import {storePlayerActorStatus} from "../../application/setup/Database.js";
 
 let tempVec = new Vector3()
 let tempVec2 = new Vector3();
@@ -537,9 +538,22 @@ function processAdventureStatus(actor) {
         let completedAdventures = actor.getStatus(ENUMS.ActorStatus.COMPLETED_ADVENTURES);
     }
 
+}
 
+let time = 0;
+
+function updateDatabaseStatus(actor) {
+    let now = GameAPI.getGameTime()
+    if (now - time > 10) {
+        now = time;
+        if (actor.getStatus(ENUMS.ActorStatus.IN_COMBAT === false)) {
+            storePlayerActorStatus();
+        }
+
+    }
 
 }
+
 
 class ActorStatusProcessor {
     constructor() {
@@ -634,6 +648,7 @@ class ActorStatusProcessor {
             processWorldTransition(actor);
             processInventoryStatus(actor);
             processAdventureStatus(actor);
+            updateDatabaseStatus(actor);
         }
         processAnimationState(actor);
         this.indicateSelectionStatus(actor);

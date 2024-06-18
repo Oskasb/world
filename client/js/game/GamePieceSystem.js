@@ -10,6 +10,7 @@ import {evt} from "../application/event/evt.js";
 import {getRemoteClients} from "../Transport/io/ServerCommandProcessor.js";
 import {ClientStronghold} from "./gameworld/ClientStronghold.js";
 import {setPlayerStatus} from "../application/utils/StatusUtils.js";
+import {storePlayerActorStatus, storePlayerStatus} from "../application/setup/Database.js";
 
 let strongholds = [];
 let statsConfig = {};
@@ -317,6 +318,8 @@ class GamePieceSystem {
         gameActor.call.setAsSelection();
         setPlayerStatus(ENUMS.PlayerStatus.ACTIVE_ACTOR_ID, gameActor.getStatus(ENUMS.ActorStatus.ACTOR_ID))
         this.selectedActor = gameActor;
+        storePlayerActorStatus();
+        storePlayerStatus();
     }
 
     isPlayerPartyActor(actor) {

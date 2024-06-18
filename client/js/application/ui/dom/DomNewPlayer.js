@@ -63,7 +63,6 @@ class DomNewPlayer {
                 DomUtils.addElementClass(buttonNameDiv, 'button_complete')
                 setTimeout(selectChar, 500)
             }
-
         }
 
         let statusMap = {
