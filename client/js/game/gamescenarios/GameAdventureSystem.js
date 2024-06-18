@@ -398,7 +398,7 @@ class GameAdventureSystem {
         let pageId = event['page_id'] || null;
         let worldEncounters = event['world_encounters'] || [];
         worldEncounters.push('portals_20')
-        evt.dispatch(ENUMS.Event.LOAD_ADVENTURE_ENCOUNTERS, {world_encounters:[]})
+     //   evt.dispatch(ENUMS.Event.LOAD_ADVENTURE_ENCOUNTERS, {world_encounters:[]})
 
         if (this.startActor) {
             let deactivateActor = this.startActor;
@@ -467,7 +467,7 @@ class GameAdventureSystem {
         evt.dispatch(ENUMS.Event.LOAD_ACTOR,  {id: actorId, pos:spatialTransition.targetPos, callback:actorLoaded})
 
         let onArriveCB = function(atPos) {
-            evt.dispatch(ENUMS.Event.LOAD_ADVENTURE_ENCOUNTERS, {world_encounters:worldEncounters})
+        //    evt.dispatch(ENUMS.Event.LOAD_ADVENTURE_ENCOUNTERS, {world_encounters:worldEncounters})
             setTimeout(function() {
                 if (_this.page !== null) {
                     GuiAPI.closePage(_this.page)
