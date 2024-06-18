@@ -166,7 +166,10 @@ class GameMain {
 
             let account = getLocalAccount();
             console.log("Local Account; ", account);
-            let id = account[ENUMS.PlayerStatus.PLAYER_ID];
+            let id = null;
+            if (account !== null) {
+                id = account[ENUMS.PlayerStatus.PLAYER_ID];
+            }
             let dataList = {}
             if (id) {
                 dataList[ENUMS.PlayerStatus.PLAYER_ID] = id;
