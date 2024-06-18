@@ -1,19 +1,19 @@
 {
   "pos": [
-    -733,
-    5.2,
-    800
+    -741,
+    4.8,
+    791
   ],
   "visibility": 1,
   "grid_id": "grid_7x7",
   "host_id": "bandit_basic",
   "indicator_id": "battle_indicator",
-  "trigger_radius": 2,
-  "text": "This guy has always been mean.",
+  "trigger_radius": 3,
+  "text": "Not happy to see you leave...",
   "interact_options": [
     {
       "interaction": "FIGHT",
-      "text": "Feel my strength idiot!",
+      "text": "Try to stop me fool.",
       "dispatch": {
         "event": "ENCOUNTER_ENGAGE",
         "value": {}
@@ -21,7 +21,7 @@
     },
     {
       "interaction": "TALK",
-      "text": "I will let you live if you leave now.",
+      "text": "We were friends once, just leave?",
       "dispatch": {
         "event": "ENCOUNTER_CONVERSE",
         "value": {
@@ -61,6 +61,6 @@
     ]
   },
   "level": 1,
-  "edit_id": "enc_adv_outlaw_breakout_battle_0",
-  "node_id": "node_2_1718636069127"
+  "edit_id": "enc_adv_outlaw_breakout_2_start",
+  "node_id": "node_1_1718685906803"
 }

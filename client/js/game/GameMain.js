@@ -147,7 +147,10 @@ class GameMain {
             GameAPI.gameAdventureSystem.call.activateAdventures()
             GuiAPI.activateMinimap()
         } else {
-            GuiAPI.activateDomTransition('WELCOME', null, startPlayerSession)
+            setTimeout(function() {
+                GuiAPI.activateDomTransition('WELCOME', null, startPlayerSession)
+            }, 2000)
+
         }
 
         evt.on(ENUMS.Event.FRAME_READY, this.callbacks.updateGameFrame)

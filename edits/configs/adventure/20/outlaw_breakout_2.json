@@ -1,0 +1,63 @@
+{
+  "nodes": [
+    {
+      "pos": [
+        -740.8,
+        5.2,
+        791.3
+      ],
+      "node_type": "ENCOUNTER",
+      "node_id": "node_1_1718685906803"
+    },
+    {
+      "pos": [
+        -747.9,
+        5.2,
+        787.9
+      ],
+      "node_type": "BATTLE",
+      "node_id": "node_2_1718685931490"
+    },
+    {
+      "pos": [
+        -759,
+        5.2,
+        791.5
+      ],
+      "node_type": "BATTLE",
+      "node_id": "node_3_1718685935769"
+    },
+    {
+      "pos": [
+        -768.5,
+        5.2,
+        789.2
+      ],
+      "node_type": "BATTLE",
+      "node_id": "node_4_1718685945632"
+    },
+    {
+      "pos": [
+        -773.5,
+        5.2,
+        780.9
+      ],
+      "node_type": "BATTLE",
+      "node_id": "node_5_1718685950210"
+    },
+    {
+      "pos": [
+        -785.6,
+        5.2,
+        781.5
+      ],
+      "node_type": "ENCOUNTER",
+      "node_id": "node_6_1718685955688"
+    }
+  ],
+  "edit_id": "outlaw_breakout_2",
+  "conditions": [{"ActorStatus": "COMPLETED_ADVENTURES", "value": "outlaw_breakout"}],
+  "name": "Leaving this place.",
+  "reward": ["ITEM_GLOVES_LEATHER"],
+  "grid": 0
+}
