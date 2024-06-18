@@ -1,8 +1,8 @@
 {
   "pos": [
-    -867,
-    2.1,
-    526
+    -773,
+    4.8,
+    781
   ],
   "visibility": 1,
   "grid_id": "grid_7x7",
@@ -60,6 +60,6 @@
     ]
   },
   "level": 1,
-  "edit_id": "enc_adv_farmer_2",
-  "node_id": "node_enc_adv_farmer_2"
+  "edit_id": "enc_adv_origin_outlaw_010_040",
+  "node_id": "node_5_1718685950210"
 }

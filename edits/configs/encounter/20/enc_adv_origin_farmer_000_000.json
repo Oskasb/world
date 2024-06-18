@@ -1,19 +1,27 @@
 {
   "pos": [
-    -727,
-    4.8,
-    793
+    -893,
+    2.1,
+    514
   ],
   "visibility": 1,
   "grid_id": "grid_5x5",
   "host_id": "quest_basic",
   "indicator_id": "quest_indicator",
   "trigger_radius": 0,
-  "text": "You were a slave to these bandits. Go take control over your own destiny!",
+  "text": "Pirates! They have claimed our shores, can you please help?",
   "interact_options": [
     {
       "interaction": "QUEST_ACCEPT",
-      "text": "Destiny awaits!",
+      "text": "I sure can.",
+      "variations": [
+        {
+          "id": "test_hard",
+          "modify": [
+            { "text": "They ded!"}
+          ]
+        }
+      ],
       "dispatch": {
         "event": "ENCOUNTER_CONVERSE",
         "value": {
@@ -24,7 +32,7 @@
     },
     {
       "interaction": "LEAVE",
-      "text": "I got better things to do."
+      "text": "Sorry to disturb you, just leaving."
     }
   ],
   "spawn": {
@@ -53,8 +61,15 @@
       }
     ]
   },
-
   "level": 1,
-  "edit_id": "enc_adv_outlaw_breakout_start",
-  "node_id": "node_1_1718636052118"
+  "edit_id": "enc_adv_origin_farmer_000_000",
+  "node_id": "node_enc_troubled_shores_start",
+  "variations": [
+    {
+      "id": "test_hard",
+      "modify": [
+        { "text": "Kill some to get grandpas old sword"}
+      ]
+    }
+  ]
 }

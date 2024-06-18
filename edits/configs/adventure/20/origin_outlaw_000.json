@@ -31,6 +31,6 @@
   "conditions": [{"ActorStatus": "CONFIG_ID", "value": "ACTOR_OUTLAW"}],
   "name": "This is getting old.",
   "reward": ["ITEM_BELT_PLATE"],
-  "edit_id": "outlaw_breakout",
+  "edit_id": "origin_outlaw_000",
   "grid": 0
 }

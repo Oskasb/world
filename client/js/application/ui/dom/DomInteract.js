@@ -1,4 +1,5 @@
 import {HtmlElement} from "./HtmlElement.js";
+import {getPlayerActor} from "../../utils/ActorUtils.js";
 
 class DomInteract {
     constructor(worldEncounter, interactionOptions, text) {
@@ -42,7 +43,7 @@ class DomInteract {
 
             setTimeout(addIcon, 100)
 
-            function triggerEvent(dispatch) {
+            function triggerEvent(dispatch, text) {
                 let eventId = dispatch.event;
                 let value = dispatch.value;
                 if (!value.pos) {
@@ -50,6 +51,11 @@ class DomInteract {
                 }
                 value.worldEncounter = worldEncounter;
                 evt.dispatch(ENUMS.Event[eventId], value);
+
+                if (typeof (text) === 'string') {
+                    getPlayerActor().actorText.say(text);
+                }
+
             }
 
             let actFunc = function() {
@@ -57,10 +63,10 @@ class DomInteract {
                     let dispatch = option['dispatch'];
                     if (dispatch.length) {
                         for (let i = 0; i < dispatch.length; i++) {
-                            triggerEvent(dispatch[i])
+                            triggerEvent(dispatch[i], option['text'])
                         }
                     } else {
-                        triggerEvent(dispatch)
+                        triggerEvent(dispatch, option['text'])
                     }
 
                     close();

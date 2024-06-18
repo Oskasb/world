@@ -1,19 +1,18 @@
 {
   "pos": [
-    -741,
-    4.8,
-    791
+    -867,
+    2.1,
+    526
   ],
   "visibility": 1,
   "grid_id": "grid_7x7",
   "host_id": "bandit_basic",
   "indicator_id": "battle_indicator",
-  "trigger_radius": 3,
-  "text": "Not happy to see you leave...",
+  "trigger_radius": 2,
   "interact_options": [
     {
       "interaction": "FIGHT",
-      "text": "Try to stop me fool.",
+      "text": "Attack",
       "dispatch": {
         "event": "ENCOUNTER_ENGAGE",
         "value": {}
@@ -21,7 +20,7 @@
     },
     {
       "interaction": "TALK",
-      "text": "We were friends once, just leave?",
+      "text": "Hi! Please go away so I can pass",
       "dispatch": {
         "event": "ENCOUNTER_CONVERSE",
         "value": {
@@ -61,6 +60,6 @@
     ]
   },
   "level": 1,
-  "edit_id": "enc_adv_outlaw_breakout_2_start",
-  "node_id": "node_1_1718685906803"
+  "edit_id": "enc_adv_origin_farmer_000_010",
+  "node_id": "node_enc_adv_farmer_2"
 }

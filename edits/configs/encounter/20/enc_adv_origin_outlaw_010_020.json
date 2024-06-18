@@ -1,19 +1,18 @@
 {
   "pos": [
-    -919,
-    2.1,
-    595
+    -759,
+    4.8,
+    792
   ],
   "visibility": 1,
   "grid_id": "grid_7x7",
   "host_id": "bandit_basic",
   "indicator_id": "battle_indicator",
   "trigger_radius": 2,
-  "text": "A shabby looking local bandit.",
   "interact_options": [
     {
       "interaction": "FIGHT",
-      "text": "Enjoy death scumbag!",
+      "text": "Attack",
       "dispatch": {
         "event": "ENCOUNTER_ENGAGE",
         "value": {}
@@ -21,7 +20,7 @@
     },
     {
       "interaction": "TALK",
-      "text": "Hi! Please leave or I will kill you.",
+      "text": "Hi! Please go away so I can pass",
       "dispatch": {
         "event": "ENCOUNTER_CONVERSE",
         "value": {
@@ -61,6 +60,6 @@
     ]
   },
   "level": 1,
-  "edit_id": "enc_adv_trapped_princess_battle",
-  "node_id": "node_2_1718633810783"
+  "edit_id": "enc_adv_origin_outlaw_010_020",
+  "node_id": "node_3_1718685935769"
 }

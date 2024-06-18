@@ -1,30 +1,37 @@
 {
   "pos": [
-    -912,
+    -919,
     2.1,
-    588
+    595
   ],
   "visibility": 1,
-  "grid_id": "grid_5x5",
-  "host_id": "quest_basic",
-  "indicator_id": "quest_indicator",
-  "trigger_radius": 0,
-  "text": "I think we were followed when we left the road. I am afraid they are bandits!",
+  "grid_id": "grid_7x7",
+  "host_id": "bandit_basic",
+  "indicator_id": "battle_indicator",
+  "trigger_radius": 2,
+  "text": "A shabby looking local bandit.",
   "interact_options": [
     {
-      "interaction": "QUEST_ACCEPT",
-      "text": "I will see them off!",
+      "interaction": "FIGHT",
+      "text": "Enjoy death scumbag!",
+      "dispatch": {
+        "event": "ENCOUNTER_ENGAGE",
+        "value": {}
+      }
+    },
+    {
+      "interaction": "TALK",
+      "text": "Hi! Please leave or I will kill you.",
       "dispatch": {
         "event": "ENCOUNTER_CONVERSE",
         "value": {
-          "adventure": true,
           "skip": true
         }
       }
     },
     {
       "interaction": "LEAVE",
-      "text": "I got better things to do."
+      "text": "Sorry to disturb you, just leaving."
     }
   ],
   "spawn": {
@@ -54,6 +61,6 @@
     ]
   },
   "level": 1,
-  "edit_id": "enc_adv_trapped_princess_start",
-  "node_id": "node_1_1718633787772"
+  "edit_id": "enc_adv_origin_princess_000_010",
+  "node_id": "node_2_1718633810783"
 }

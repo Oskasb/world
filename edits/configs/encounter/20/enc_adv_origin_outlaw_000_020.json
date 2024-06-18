@@ -1,19 +1,19 @@
 {
   "pos": [
-    -786,
+    -739,
     4.8,
-    782
+    800
   ],
   "visibility": 1,
   "grid_id": "grid_5x5",
   "host_id": "quest_basic",
   "indicator_id": "quest_end_indicator",
   "trigger_radius": 0,
-  "text": "Nicely done. Have a reward!",
+  "text": "Good job. We will meet again soon.",
   "interact_options": [
     {
       "interaction": "QUEST_COMPLETE",
-      "text": "No problemo.",
+      "text": "I'm not done here.",
       "dispatch": {
         "event": "ENCOUNTER_CONVERSE",
         "value": {
@@ -50,6 +50,6 @@
     ]
   },
   "level": 1,
-  "edit_id": "enc_adv_outlaw_breakout_2_end",
-  "node_id": "node_6_1718685955688"
+  "edit_id": "enc_adv_origin_outlaw_000_020",
+  "node_id": "node_3_1718636075809"
 }

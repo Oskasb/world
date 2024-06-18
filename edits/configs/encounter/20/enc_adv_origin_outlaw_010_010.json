@@ -1,8 +1,8 @@
 {
   "pos": [
-    -759,
+    -748,
     4.8,
-    792
+    788
   ],
   "visibility": 1,
   "grid_id": "grid_7x7",
@@ -60,6 +60,6 @@
     ]
   },
   "level": 1,
-  "edit_id": "enc_adv_outlaw_breakout_2_battle_1",
-  "node_id": "node_3_1718685935769"
+  "edit_id": "enc_adv_origin_outlaw_010_010",
+  "node_id": "node_2_1718685931490"
 }

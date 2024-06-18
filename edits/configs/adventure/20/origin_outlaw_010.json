@@ -55,8 +55,8 @@
       "node_id": "node_6_1718685955688"
     }
   ],
-  "edit_id": "outlaw_breakout_2",
-  "conditions": [{"ActorStatus": "COMPLETED_ADVENTURES", "value": "outlaw_breakout"}],
+  "edit_id": "origin_outlaw_010",
+  "conditions": [{"ActorStatus": "COMPLETED_ADVENTURES", "value": "origin_outlaw_000"}],
   "name": "Leaving this place.",
   "reward": ["ITEM_GLOVES_LEATHER"],
   "grid": 0
