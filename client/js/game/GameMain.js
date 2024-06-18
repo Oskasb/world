@@ -10,7 +10,7 @@ import {ENUMS} from "../application/ENUMS.js";
 import {isDev} from "../application/utils/DebugUtils.js";
 import {DomNewPlayer} from "../application/ui/dom/DomNewPlayer.js";
 import {
-    getLocalAccount,
+    getLocalAccount, loadActorStatus, loadPlayerStatus,
     storeLocalAccountStatus,
     storePlayerActorStatus,
     storePlayerStatus
@@ -166,15 +166,37 @@ class GameMain {
 
             let account = getLocalAccount();
             console.log("Local Account; ", account);
+            let id = account[ENUMS.PlayerStatus.PLAYER_ID];
+            let dataList = {}
+            if (id) {
+                dataList[ENUMS.PlayerStatus.PLAYER_ID] = id;
+
+                let playerStatus = loadPlayerStatus(id);
+                if (playerStatus !== null) {
+                    dataList[ENUMS.PlayerStatus.PLAYER_NAME] = playerStatus[ENUMS.PlayerStatus.PLAYER_NAME];
+                    let actorId = playerStatus[ENUMS.PlayerStatus.ACTIVE_ACTOR_ID];
+                    dataList[ENUMS.ActorStatus.ACTOR_ID] = actorId;
+                    if (actorId) {
+                        let actorStatus = loadActorStatus(actorId);
+                        if (actorStatus !== null) {
+                            dataList[ENUMS.ActorStatus.CONFIG_ID] = actorStatus[ENUMS.ActorStatus.CONFIG_ID];
+                        }
+                    }
+
+                }
+            }
+
+
 
             setTimeout(function() {
 
                 if (account === null) {
+                    dataList['NEW USER'] = 'INIT';
                     GuiAPI.activateDomTransition('WELCOME', null, startPlayerSession)
                 } else {
-                    let id = account[ENUMS.PlayerStatus.PLAYER_ID];
 
-                    GuiAPI.activateDomTransition('WELCOME BACK', {player_id:id}, startPlayerSession)
+
+                    GuiAPI.activateDomTransition('WELCOME BACK', dataList, startPlayerSession)
                 }
 
             }, 2000)
