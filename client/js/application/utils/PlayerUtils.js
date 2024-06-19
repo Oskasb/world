@@ -2,7 +2,7 @@ import {getLocalAccount, loadActorStatus, loadItemStatus, loadPlayerStatus} from
 import {ENUMS} from "../ENUMS.js";
 import {evt} from "../event/evt.js";
 import {notifyCameraStatus} from "../../3d/camera/CameraFunctions.js";
-import {setPlayerStatus} from "./StatusUtils.js";
+import {clearActorEncounterStatus, setPlayerStatus} from "./StatusUtils.js";
 
 function loadStoredPlayer(dataList) {
     let account = getLocalAccount();
@@ -109,6 +109,8 @@ function initLoadedPlayerState(dataList, readyCB) {
     function actorReady(actor) {
         console.log("loaded actor ready", actor);
         actor.call.activateActionKey("ACTION_TRAVEL_WALK", ENUMS.ActorStatus.TRAVEL)
+
+        clearActorEncounterStatus(actor)
         actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_INACTIVE)
         setTimeout(function() {
             evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, {request:ENUMS.ClientRequests.LOAD_SERVER_ACTOR, status:actor.getStatus()})

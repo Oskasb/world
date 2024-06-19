@@ -94,8 +94,8 @@ function loadPlayerStatus(playerId) {
 
 function storePlayerActorStatus() {
     let actor = getPlayerActor();
-    if (!actor.actorStatus) {
-        console.log("No ok actor", actor);
+    if (actor === null) {
+        console.log("no player actor to store");
         return;
     }
     let statusMap = actor.actorStatus.statusMap;

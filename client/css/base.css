@@ -360,6 +360,18 @@ iframe.adventure_note {
     background: none;
 }
 
+iframe.encounter_status {
+    z-index: 100;
+    top: 5em;
+    right: 5em;
+    height: 30em;
+    width: 280em;
+    border: 0;
+    position: fixed;
+    transform: translate3d(0px, 0px, 0px);
+    background: none;
+}
+
 iframe.minimap {
     top: 25em;
     right: 30em;

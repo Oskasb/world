@@ -7,6 +7,7 @@ import {evt} from "../../application/event/evt.js";
 import {ENUMS} from "../../application/ENUMS.js";
 import {isDev} from "../../application/utils/DebugUtils.js";
 import {storePlayerStatus} from "../../application/setup/Database.js";
+import {DomEncounterStatus} from "../../application/ui/dom/DomEncounterStatus.js";
 
 let tempVec3 = new Vector3()
 
@@ -32,6 +33,8 @@ let statusMap = {
 
 class PlayerMain {
     constructor() {
+        let domEncounterStatus = new DomEncounterStatus();
+        domEncounterStatus.call.activate();
         this.status = new Status(statusMap);
         this.heroPageActive = false;
         this.focusOnPosition = null;
