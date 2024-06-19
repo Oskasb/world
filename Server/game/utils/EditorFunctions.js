@@ -9,6 +9,9 @@ function setEditIndex(eIndex) {
 }
 
 function getEditIndex() {
+    if (editIndex === null) {
+        return {};
+    }
     console.log("getEditIndex", Object.keys(editIndex).length)
     return editIndex;
 }
@@ -18,7 +21,7 @@ function setEditorServerConnection(srvrCon) {
 }
 
 function addIndexEntry(path, root, folder, id, format, deleted, init) {
-    console.log("addIndexEntry :", path, root, folder, id, format, deleted, init)
+    // console.log("addIndexEntry :", path, root, folder, id, format, deleted, init)
     let entry = {path:path, root:root, folder:folder, format:format, deleted:deleted, timestamp:new Date().getTime()};
  //   console.log("WriteIndex:", dir, root, folder)
     if (init !== true) {
@@ -63,7 +66,7 @@ function readFileFromSocketMessage(message, callback) {
             console.log(editIndex);
         } else {
             message.timestamp = editIndex[message.id].timestamp;
-            console.log("readFileFromSocketMessage JSON", message);
+       //     console.log("readFileFromSocketMessage JSON", message);
             serverConnection.readDataFromFile(message, callback);
         }
 

@@ -239,7 +239,11 @@ class RemoteClient {
                     }
                     item = actor.actorEquipment.getEquippedItemBySlotId(slotId);
                     if (item) {
-                        item.id = itemId;
+                        if (item.id !== itemId) {
+                            console.log("item.id !== itemId", item.id, itemId);
+
+                        }
+                    //    item.id = itemId;
                         ThreeAPI.unregisterPostrenderCallback(item.status.call.pulseStatusUpdate);
                         this.items.push(item);
                     } else {

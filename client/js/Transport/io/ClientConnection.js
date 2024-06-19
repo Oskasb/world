@@ -1,4 +1,5 @@
 import {processServerCommand} from "./ServerCommandProcessor.js";
+import {getUrlParam} from "../../application/utils/DebugUtils.js";
 
 let worker;
 let socket;
@@ -14,8 +15,8 @@ let relayToWorker = function(msg) {
 
 function setupUniqueConnection(stamp) {
 	console.log("Set Stamp from message", stamp);
-
 	client.setStamp(stamp);
+	GameAPI.initGameMain();
 }
 
 
@@ -52,7 +53,15 @@ function initWorker() {
 			}
 
 		} else {
-			console.log("Worker Socket Unhandled Message", msg);
+			if (protocolKey === ENUMS.Protocol.WORKER_LOADED) {
+				console.log("Notify worker loaded, apply init settings here...")
+				worker.postMessage([ENUMS.Protocol.WORKER_LOADED, {runLocally:getUrlParam('local')}])
+			} else {
+				console.log("Worker Socket Unhandled Message", msg);
+			}
+
+
+
 		}
 
 	};

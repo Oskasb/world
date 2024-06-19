@@ -10,11 +10,12 @@ import {ENUMS} from "../application/ENUMS.js";
 import {isDev} from "../application/utils/DebugUtils.js";
 import {DomNewPlayer} from "../application/ui/dom/DomNewPlayer.js";
 import {
-    getLocalAccount, loadActorStatus, loadPlayerStatus,
+    getLocalAccount, getLocalAccountStatus, loadActorStatus, loadPlayerStatus,
     storeLocalAccountStatus,
     storePlayerActorStatus,
     storePlayerStatus
 } from "../application/setup/Database.js";
+import {initLoadedPlayerState, loadStoredPlayer} from "../application/utils/PlayerUtils.js";
 
 let tempVec3 = new Vector3()
 let gameWalkGrid = null
@@ -31,6 +32,19 @@ setTimeout(function() {
 }, 1000)
 
 
+function activateLoadedPlayer() {
+
+    let loginCount = getLocalAccountStatus(ENUMS.AccountStatus.LOGIN_COUNT)
+    storeLocalAccountStatus(ENUMS.AccountStatus.LOGIN_COUNT, loginCount+1);
+    storePlayerStatus();
+
+    setTimeout(function() {
+        GuiAPI.activateMinimap();
+        GameAPI.gameAdventureSystem.call.activateAdventures()
+    }, 1000)
+
+}
+
 function activateNewPlayer() {
     console.log("activateNewPlayer:", GameAPI.getPlayerMain());
 
@@ -38,14 +52,8 @@ function activateNewPlayer() {
     setPlayerStatus(ENUMS.PlayerStatus.PLAYER_ID, playerId);
     storeLocalAccountStatus(ENUMS.PlayerStatus.PLAYER_ID, playerId);
     storeLocalAccountStatus(ENUMS.AccountStatus.INIT_TIME, new Date().getTime());
-    storeLocalAccountStatus(ENUMS.AccountStatus.LOGIN_COUNT, 1);
-
-    storePlayerStatus();
-
-    setTimeout(function() {
-        GuiAPI.activateMinimap();
-        GameAPI.gameAdventureSystem.call.activateAdventures()
-    }, 1000)
+    storeLocalAccountStatus(ENUMS.AccountStatus.LOGIN_COUNT, 0);
+    activateLoadedPlayer()
 
 }
 
@@ -166,43 +174,26 @@ class GameMain {
 
             let account = getLocalAccount();
             console.log("Local Account; ", account);
-            let id = null;
-            if (account !== null) {
-                id = account[ENUMS.PlayerStatus.PLAYER_ID];
-            }
-            let dataList = {}
-            if (id) {
-                dataList[ENUMS.PlayerStatus.PLAYER_ID] = id;
 
-                let playerStatus = loadPlayerStatus(id);
-                if (playerStatus !== null) {
-                    dataList[ENUMS.PlayerStatus.PLAYER_NAME] = playerStatus[ENUMS.PlayerStatus.PLAYER_NAME];
-                    let actorId = playerStatus[ENUMS.PlayerStatus.ACTIVE_ACTOR_ID];
-                    dataList[ENUMS.ActorStatus.ACTOR_ID] = actorId;
-                    if (actorId) {
-                        let actorStatus = loadActorStatus(actorId);
-                        if (actorStatus !== null) {
-                            dataList[ENUMS.ActorStatus.CONFIG_ID] = actorStatus[ENUMS.ActorStatus.CONFIG_ID];
-                        }
-                    }
-
-                }
-            }
-
+            let dataList = {};
+            loadStoredPlayer(dataList)
 
 
             setTimeout(function() {
 
-                if (account === null) {
+                if (typeof (dataList[ENUMS.ActorStatus.CONFIG_ID]) !== 'string') {
                     dataList['NEW USER'] = 'INIT';
                     GuiAPI.activateDomTransition('WELCOME', null, startPlayerSession)
                 } else {
 
+                    function loadedPlayerReady() {
+                        GuiAPI.activateDomTransition('WELCOME BACK', dataList, activateLoadedPlayer)
+                    }
 
-                    GuiAPI.activateDomTransition('WELCOME BACK', dataList, startPlayerSession)
+                    initLoadedPlayerState(dataList, loadedPlayerReady);
                 }
 
-            }, 2000)
+            }, 200)
 
         }
 

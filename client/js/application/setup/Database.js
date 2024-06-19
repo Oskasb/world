@@ -1,4 +1,5 @@
 import {getPlayerActor} from "../utils/ActorUtils.js";
+import {getUrlParam} from "../utils/DebugUtils.js";
 
 let db = {};
 
@@ -8,7 +9,10 @@ db.actors = {};
 db.items = {};
 
 function initLocalDB() {
-//    resetDatabase()
+    if (getUrlParam('reset_db') === true) {
+        resetDatabase()
+    }
+
     for (let key in db) {
         let localData = localStorage.getItem(key);
         if (localData === '[object Object]')
@@ -54,6 +58,8 @@ function getLocalAccount() {
 function saveActorStatus(statusMap) {
     let id = statusMap[ENUMS.ActorStatus.ACTOR_ID];
     db.actors[id] = statusMap;
+ //   statusMap[ENUMS.ActorStatus.EQUIP_REQUESTS] = [];
+ //   statusMap[ENUMS.ActorStatus.EQUIPPED_ITEMS] = [];
     localStorage.setItem('actors', JSON.stringify(db.actors));
 }
 
@@ -105,6 +111,7 @@ function storePlayerStatus() {
 export {
     resetDatabase,
     storeLocalAccountStatus,
+    getLocalAccountStatus,
     getLocalAccount,
     saveActorStatus,
     saveItemStatus,

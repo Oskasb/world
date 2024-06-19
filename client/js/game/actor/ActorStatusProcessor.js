@@ -442,12 +442,18 @@ function processActorEquipment(actor) {
     for (let i = 0; i < equipment.slots.length;i++) {
         let slotId = equipment.slots[i]['slot_id'];
         let slotItem = equipment.getEquippedItemBySlotId(slotId);
+
+        let equippedId = actor.getStatus(ENUMS.ActorStatus[slotId]);
         let slotItemId = "";
         if (slotItem !== null) {
             slotItemId = slotItem.getStatus(ENUMS.ItemStatus.ITEM_ID);
         }
 
-        let equippedId = actor.getStatus(ENUMS.ActorStatus[slotId]);
+        if (equippedId !== slotItemId) {
+            console.log("Slot status missmatch", equippedId , slotItemId)
+        }
+
+
 
         if (equipRequests.indexOf(slotId) !== -1) {
             if (equipRequests[equipRequests.indexOf(slotId) +1] === equippedId) {

@@ -384,6 +384,9 @@ let planeSize = 0.8
 
 function getTerrainBodyPointer() {
     let world = getPhysicalWorld();
+    if (world.terrainBody === null) {
+        return 0
+    }
     return world.terrainBody.kB;
 }
 

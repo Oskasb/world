@@ -5,9 +5,9 @@ let index = 0;
 
 class Item {
 
-    constructor(configId, config) {
+    constructor(configId, config, itemId) {
 
-        this.id = 'item_local_'+index+'_'+client.getStamp();
+        this.id = itemId || 'item_local_'+index+'_'+client.getStamp();
         index++;
 
         this.configId = configId;

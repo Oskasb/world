@@ -33,7 +33,12 @@ class ServerActorMessageProcessor {
                 serverActor.unequipItemBySlot(slotId)
             } else {
                 if (currentItems.indexOf(templateId) === -1) {
-                    let serverItem = new ServerItem(itemTemplateList[i], status.getStatus(ENUMS.ActorStatus.CLIENT_STAMP), slotId);
+                    let slottedItemId = status.getStatus(ENUMS.ActorStatus[slotId]);
+                    if (slottedItemId !== "") {
+                        console.log("Create item for slot status ", slotId, slottedItemId)
+                    }
+
+                    let serverItem = new ServerItem(itemTemplateList[i], status.getStatus(ENUMS.ActorStatus.CLIENT_STAMP), slotId, slottedItemId);
                     registerServerItem(serverItem)
 
                     serverActor.equipServerItem(serverItem)
@@ -44,11 +49,7 @@ class ServerActorMessageProcessor {
                     console.log("Template Already equipped on Server ", templateId)
                 }
             }
-
         }
-
-
-
     }
 
     processTurnStateRequest(status, newValue) {

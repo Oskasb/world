@@ -169,7 +169,7 @@ class ServerConnection {
 				console.log("Data Read Error: ", message.id, file, error);
 			} else {
 				let value = JSON.parse(data);
-				console.log("File Loaded", message.id, file);
+			//	console.log("File Loaded", message.id, file);
 			//	console.log(value);
 				callback(value)
 			}

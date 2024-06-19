@@ -48,7 +48,7 @@ function processClientRequest(request, stamp, message, connectedClient) {
 
     switch (request) {
         case ENUMS.ClientRequests.REGISTER_PLAYER:
-        //    console.log("REGISTER_PLAYER: ",message);
+            console.log("REGISTER_PLAYER: ",message);
 
             let add = getGameServer().registerConnectedPlayer(stamp);
 
@@ -205,6 +205,7 @@ function processClientRequest(request, stamp, message, connectedClient) {
 
 
         case ENUMS.ClientRequests.REGISTER_CONFIGS:
+        //    console.log("registerServerConfigData", message.data)
             getGameServer().registerServerConfigData(message.data);
             break;
         case ENUMS.ClientRequests.APPLY_ACTION_EFFECT:

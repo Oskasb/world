@@ -50,7 +50,9 @@ let loadItem = function(event) {
     //    visualGP.obj3d = item.obj3d;
 
     //
-        let item = new Item(event['id'], itemConfig)
+
+
+        let item = new Item(event['id'], itemConfig, event['itemId'])
 
         items.push(item);
         /*
@@ -76,11 +78,14 @@ function setupActor(event, actor) {
 
     registerActor(actor);
     // actor.setStatusKey(ENUMS.ActorStatus.ACTOR_INDEX, actor.index);
-
-    let statsData = statsConfig[actor.config['stats_id']];
-    //    console.log("Actor Stats :", statsData.status)
-
-    let status = statsData.status;
+    let status;
+    if (typeof (event.status) === 'object') {
+        status = event.status;
+    } else {
+        let statsData = statsConfig[actor.config['stats_id']];
+        status = statsData.status;
+        actor.setStatusKey(ENUMS.ActorStatus.CONFIG_ID, event.id)
+    }
 
     if (status) {
         for (let key in status) {
@@ -88,12 +93,6 @@ function setupActor(event, actor) {
         }
     }
 
-//    let visualConfig = visualConfigs[actor.config['visual_id']];
-//    let visualPiece = new VisualGamePiece(visualConfig);
-
-    //actor.setVisualPieceConfig(visualConfig);
-    actor.setStatusKey(ENUMS.ActorStatus.CONFIG_ID, event.id)
-    
     if (event.tile) {
 
         let onReady = function(readyActor) {
@@ -127,6 +126,10 @@ function setupActor(event, actor) {
 
 
 let loadActor = function(event) {
+
+    if (typeof (event.status) === 'object') {
+        event.id = event.status[ENUMS.ActorStatus.CONFIG_ID];
+    }
 
     let actorConfig = detachConfig(actorConfigs[event.id]);
     let actor = new GameActor(actorIndex, actorConfig, parsedEquipSlotData);

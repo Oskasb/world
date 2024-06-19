@@ -1,6 +1,11 @@
 import {ENUMS} from "../../../client/js/application/ENUMS.js";
 import {ServerActor} from "../actor/ServerActor.js";
-import {getGameServer, getServerActorByActorId, registerServerActor} from "../utils/GameServerFunctions.js";
+import {
+    getGameServer,
+    getServerActorByActorId,
+    registerServerActor,
+    unregisterServerActor
+} from "../utils/GameServerFunctions.js";
 import {ServerItem} from "../item/ServerItem.js";
 import {ServerStronghold} from "../world/ServerStronghold.js";
 
@@ -25,15 +30,15 @@ class ServerPlayer {
             serverActor.status.setStatusKey(ENUMS.ActorStatus.TURN_STATE, ENUMS.TurnState.NO_TURN);
             serverActor.status.setStatusKey(ENUMS.ActorStatus.DAMAGE_APPLIED, 0);
             serverActor.status.setStatusKey(ENUMS.ActorStatus.HEALING_APPLIED, 0);
-            serverActor.status.setStatusKey(ENUMS.ActorStatus.STRONGHOLD_ID, this.stronghold.id);
+        //    serverActor.status.setStatusKey(ENUMS.ActorStatus.STRONGHOLD_ID, this.stronghold.id);
             serverActor.status.setStatusKey(ENUMS.ActorStatus.ACTIVATION_STATE, ENUMS.ActivationState.ACTIVATING);
             this.actors.push(serverActor);
             registerServerActor(serverActor);
-       //     console.log("NEW ServerActor", serverActor)
+        //    console.log("NEW ServerActor", serverActor)
             return serverActor;
         } else {
-            console.log("ServerActor already added", serverActor)
-            return false;
+            console.log("ServerActor already added", actorId)
+            return serverActor;
         }
     }
 
@@ -61,6 +66,7 @@ class ServerPlayer {
         while (this.actors.length) {
             let serverActor = this.actors.pop();
             serverActor.removeServerActor();
+            unregisterServerActor(serverActor)
         }
     }
 

@@ -70,16 +70,18 @@ function processActorInit(stamp, msg) {
     }
 
     let actorLoaded = function(actor) {
-    //    console.log("actorLoaded; ", stamp, msg);
+        console.log("actorLoaded; ", stamp, msg);
         for (let key in status) {
+        //    console.log("load status; ", key, status[key]);
             actor.setStatusKey(key, status[key]);
         }
 
+        actor.setStatusKey(ENUMS.ActorStatus.IS_ACTIVE, 0);
         actor.id = actor.getStatus(ENUMS.ActorStatus.ACTOR_ID)
 
         let onActivated = function(actor) {
             if (actor.getStatus(ENUMS.ActorStatus.ACTOR_ID) === GameAPI.getGamePieceSystem().playerActorId) {
-                initLocalPlayerControlledActor(actor, GameAPI.getGamePieceSystem().startingItems);
+                initLocalPlayerControlledActor(actor, GameAPI.getGamePieceSystem().startingItems || []);
             } else {
                 console.log("Remotely operated actor activated", actor);
             }
@@ -216,9 +218,13 @@ function processServerCommand(protocolKey, message) {
         case ENUMS.ServerCommands.ACTOR_INIT:
             stamp = msg.status[ENUMS.ActorStatus.CLIENT_STAMP];
 
+
+
             if (stamp === clientStamp) {
+                console.log("Player ACTOR_INIT; ", stamp, msg);
                 processActorInit(stamp, msg);
             } else {
+                console.log("Remote ACTOR_INIT; ", stamp, msg);
                 // use remote client here...
                 let remoteClient = remoteClients[stamp];
                 if (remoteClient) {

@@ -118,7 +118,8 @@ let ENUMS = {}
         MESSAGE_RELAYED:1,
         CLIENT_TO_WORKER:2,
         SERVER_CALL:3,
-        SERVER_DISPATCH:4
+        SERVER_DISPATCH:4,
+        WORKER_LOADED:5
     };
 
     ENUMS.ClientRequests = {

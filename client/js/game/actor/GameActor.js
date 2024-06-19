@@ -16,6 +16,7 @@ import {StatusFeedback} from "../visuals/StatusFeedback.js";
 import {evt} from "../../application/event/evt.js";
 import {activateActorVisuals, deactivateActorVisuals} from "../../application/utils/ActorUtils.js";
 import {isDev} from "../../application/utils/DebugUtils.js";
+import {saveItemStatus} from "../../application/setup/Database.js";
 
 // let index = 1; // zero index get culled by connection
 let tempVec = new Vector3();
@@ -452,6 +453,11 @@ class GameActor {
             this.setStatusKey(ENUMS.ActorStatus.EQUIP_REQUESTS, requests);
         }
 
+
+        if (this.isPlayerActor()) {
+            saveItemStatus(item.getStatus())
+        }
+
     }
 
     equipItem(item) {
@@ -472,13 +478,17 @@ class GameActor {
             requests.push(item.getEquipSlotId());
             requests.push(item.getStatus(ENUMS.ItemStatus.TEMPLATE));
             this.setStatusKey(ENUMS.ActorStatus.EQUIP_REQUESTS, requests);
-
+        if (this.isPlayerActor()) {
+            saveItemStatus(item.getStatus())
+        }
     }
 
     unequipItem(item) {
         this.actorEquipment.call.unequipActorItem(item);
         this.actorInventory.addInventoryItem(item, null, this.call.inventoryItemAdded)
-
+        if (this.isPlayerActor()) {
+            saveItemStatus(item.getStatus())
+        }
     }
 
     getVisualGamePiece() {
@@ -500,7 +510,7 @@ class GameActor {
     }
 
     activateGameActor(onActorReady) {
-   //     console.log("activateGameActor GA ", this)
+    //<    console.log("activateGameActor GA ", this)
         if (this.getStatus(ENUMS.ActorStatus.IS_ACTIVE) === 1) {
             return;
         }

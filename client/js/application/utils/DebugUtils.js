@@ -113,13 +113,16 @@ function isDev() { // set from URL Param ? dev=true
 }
 
 function applyVariation(id) {
-    if (paramsMap[id] === true) {
+    return getUrlParam(id)
+}
+
+function getUrlParam(param) {
+    if (paramsMap[param] === true) {
         return true
     } else {
         return false
     }
 }
-
 
 export {
     createDebugButton,
@@ -128,5 +131,6 @@ export {
     applyVariation,
     trackDebugConfig,
     debugTrackStatusMap,
-    indicateActiveInstances
+    indicateActiveInstances,
+    getUrlParam
 }

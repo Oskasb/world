@@ -48,8 +48,8 @@ class ItemStatus {
 
         let getStatusByKey = function(key) {
             if (key === undefined) {
-                console.log("Undefined Get? ")
-                return;
+                return this.statusMap;
+            //    console.log("Undefined Get? ")
             }
 
             if (typeof (this.statusMap[key]) === 'undefined') {
@@ -61,8 +61,6 @@ class ItemStatus {
         let initItemStatus = function() {
             this.statusMap[ENUMS.ItemStatus.ACTIVATION_STATE] = ENUMS.ActivationState.INIT;
         }.bind(this);
-
-
 
         let lastPulseTime = 0;
 

@@ -8,12 +8,14 @@ class Status {
     constructor(statusValues) {
         this.statusMap = statusValues || {};
 
-        if (this.statusMap[ENUMS.ActorStatus.CONFIG_ID]) {
+        if (this.statusMap[ENUMS.ActorStatus.ACTOR_ID]) {
+            console.log("Load existing actor status", this.statusMap[ENUMS.ActorStatus.ACTOR_ID]);
+        } else if (this.statusMap[ENUMS.ActorStatus.CONFIG_ID]) {
             let configId = statusValues[ENUMS.ActorStatus.CONFIG_ID]
-        //    console.log("Load Actor Configs", configId)
+            console.log("Load Actor Configs", statusValues, configId)
             let actorConfigs = getServerConfig("GAME")['ACTORS'];
             let conf = parseConfigData(actorConfigs, configId)
-        //    console.log("Actor Configs", conf, conf['stats_id']);
+            console.log("Actor Configs", conf, conf['stats_id']);
             let statsId = conf['stats_id'];
             if (statsId) {
                 let statConfigs = getServerConfig("GAME")['CHARACTER_STATS']

@@ -225,8 +225,8 @@ class GameAdventureSystem {
 
         }.bind(this);
 
-
             function processRewardItem(item) {
+                console.log("processRewardItem", item)
                 let activeActor = GameAPI.getGamePieceSystem().selectedActor;
                 GuiAPI.notifyItemLooted(activeActor, item);
                 activeActor.processItemLooted(item);
@@ -361,9 +361,6 @@ class GameAdventureSystem {
         if (event['activate_selection'] === true) {
             //    actor.activateWalkGrid(3);
             actor.call.activateActionKey("ACTION_TRAVEL_WALK", ENUMS.ActorStatus.TRAVEL)
-
-
-            evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, {request:ENUMS.ClientRequests.UPDATE_STRONGHOLD, status:{TEMPLATE:actor.getStatus(ENUMS.ActorStatus.STRONGHOLD_ID)}})
 
             setTimeout(function() {
                 evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, {request:ENUMS.ClientRequests.LOAD_SERVER_ACTOR, status:actor.getStatus()})

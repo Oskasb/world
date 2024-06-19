@@ -114,7 +114,7 @@ class Client {
             setTimeout(function() {
 
                 client.setup.initDefaultUi();
-                GameAPI.initGameMain();
+
                 ThreeAPI.initThreeTerrain();
             //    client.page = GuiAPI.activatePage('page_start'); // Edit Mode char select page
                 }, 10)
