@@ -48,6 +48,13 @@ class WorldAdventure {
             MATH.vec3FromArray(this.getPos(), cfg.nodes[0].pos)
             this.config = cfg;
             this.id = cfg['edit_id'];
+
+            if (isCompleted() === true) {
+                rootIndicator.hideIndicator();
+                ThreeAPI.clearTerrainLodUpdateCallback(lodUpdated)
+                return;
+            }
+
             ThreeAPI.clearTerrainLodUpdateCallback(lodUpdated)
             ThreeAPI.registerTerrainLodUpdateCallback(this.getPos(), lodUpdated)
         }.bind(this);
@@ -56,8 +63,13 @@ class WorldAdventure {
         let lodUpdated = function(lodLevel) {
 
             if (adventureIsActive() === false) {
-                if (lodLevel !== -1) {
 
+                if (lodLevel !== -1) {
+                    if (isCompleted() === true) {
+                        rootIndicator.hideIndicator();
+                        ThreeAPI.clearTerrainLodUpdateCallback(lodUpdated)
+                        return;
+                    }
                     let activeActor = getPlayerActor();
                     let activeAdvId = "";
 
@@ -349,6 +361,10 @@ class WorldAdventure {
                 return true;
             }
 
+            if (isCompleted()) {
+                return false;
+            }
+
             if (this.config['conditions']) {
                 if (this.config['conditions'].length) {
                     return testStatusConditions(this.config['conditions'])
@@ -360,6 +376,15 @@ class WorldAdventure {
             }
         }.bind(this);
 
+        let closed = false;
+        let closeAdventure = function() {
+            if (closed === false) {
+                ThreeAPI.clearTerrainLodUpdateCallback(lodUpdated);
+                hideIndicator();
+                closed = true;
+            }
+
+        }
 
         this.call = {
             update:update,
@@ -378,7 +403,8 @@ class WorldAdventure {
             isCompleted:isCompleted,
             adventureIsActive:adventureIsActive,
             adventureIsSelected:adventureIsSelected,
-            testCriteria:testCriteria
+            testCriteria:testCriteria,
+            closeAdventure:closeAdventure
         }
 
     }

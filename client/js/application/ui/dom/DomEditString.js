@@ -125,7 +125,7 @@ class DomEditString {
         let indicateStringStatus = function() {
 
             if (statusMap.status === 'processing') {
-                console.log("String not accepted", statusMap.in)
+            //    console.log("String not accepted", statusMap.in)
                 saveContainerDiv.style.opacity = "0.5"
                 DomUtils.addElementClass(statusOutputDiv, 'status_processing')
                 DomUtils.removeElementClass(statusOutputDiv, 'status_valid')

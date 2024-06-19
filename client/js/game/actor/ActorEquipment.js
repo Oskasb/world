@@ -1,7 +1,17 @@
 import { ItemSlot } from "../gamepieces/ItemSlot.js";
 import {ENUMS} from "../../application/ENUMS.js";
+import {saveItemStatus} from "../../application/setup/Database.js";
 
 let parsedConfigData;
+
+
+function getItemFromListById(items, itemId) {
+    for (let i = 0; i < items.length; i++) {
+        if (items[i].id === itemId) {
+            return items[i];
+        }
+    }
+}
 
 class ActorEquipment {
     constructor(parsedEquipSlotData) {
@@ -52,6 +62,9 @@ class ActorEquipment {
             item.setStatusKey(ENUMS.ItemStatus.EQUIPPED_SLOT, slotId);
             this.actor.setStatusKey(ENUMS.ActorStatus[slotId], item.getStatus(ENUMS.ItemStatus.ITEM_ID));
 
+            if (this.actor.isPlayerActor()) {
+                saveItemStatus(item.getStatus())
+            }
 
             itemSlot.setSlotItem(item);
 
@@ -169,7 +182,23 @@ class ActorEquipment {
     }
 
 
+
     getEquippedItemBySlotId(slotId) {
+
+        let itemId = this.actor.getStatus(ENUMS.ActorStatus[slotId]);
+
+        if (itemId !== '') {
+            let item = getItemFromListById(this.items, itemId);
+
+            if (!item) {
+                console.log("No such item here:", itemId, this.items);
+                return null;
+            }
+            return item;
+        } else {
+            return null;
+        }
+
         for (let i = 0; i < this.items.length; i++) {
             let itemSlotId = this.items[i].getEquipSlotId();
             if (itemSlotId === slotId) {

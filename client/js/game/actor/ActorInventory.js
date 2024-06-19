@@ -1,4 +1,5 @@
 import {isDev} from "../../application/utils/DebugUtils.js";
+import {saveItemStatus} from "../../application/setup/Database.js";
 
 class ActorInventory {
     constructor(actor) {
@@ -33,6 +34,11 @@ class ActorInventory {
         if (isDev()) {
             console.log("Add Inv Item ", item)
         }
+
+            if (this.actor.isPlayerActor()) {
+                saveItemStatus(item.getStatus())
+            }
+
 
         let slotKey = null;
         if (typeof (slot) === 'string') {

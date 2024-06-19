@@ -3,7 +3,7 @@ import {notifyCameraStatus} from "../../3d/camera/CameraFunctions.js";
 import {evt} from "../../application/event/evt.js";
 import {configDataList} from "../../application/utils/ConfigUtils.js";
 import {ENUMS} from "../../application/ENUMS.js";
-import {poolFetch} from "../../application/utils/PoolUtils.js";
+import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
 import {VisualDestinationsLayer} from "../visuals/VisualDestinationsLayer.js";
 import {WorldAdventureUiSystem} from "../../application/ui/gui/systems/WorldAdventureUiSystem.js";
 
@@ -31,16 +31,77 @@ function getActiveWorldLevelAdventures() {
     let advs = worldAdventures[worldLevel];
 
     for (let i = 0; i < advs.length; i++) {
+
+
         let adv = advs[i];
-        let add = adv.call.testCriteria();
-        if (add === true) {
-            actionableAdventures.push(adv);
+
+        if (adv.call.isCompleted() === true) {
+            adv.call.closeAdventure()
+        } else {
+            let add = adv.call.testCriteria();
+            if (add === true) {
+                actionableAdventures.push(adv);
+            }
         }
+
     }
 
     return actionableAdventures;
 }
 
+function triggerLootSpatialTransition(item, lootingActor) {
+    let transition =  poolFetch('SpatialTransition')
+    let vItem = poolFetch('VisualItem');
+
+    //    walkGrid.dynamicWalker.attachFrameLeapTransitionFx(actor)
+    let onArrive = function(pos, spatTransition) {
+        poolReturn(spatTransition);
+        GuiAPI.notifyItemLooted(lootingActor, item);
+        vItem.obj3d.scale.multiplyScalar(0);
+        vItem.getSpatial().stickToObj3D(vItem.obj3d);
+        item.disposeItem();
+        poolReturn(vItem);
+        setTimeout(function() {
+            lootingActor.processItemLooted(item);
+        },500)
+    }
+
+    let onFrameUpdate = function(pos, vel, fraction) {
+        vItem.getPos().copy(pos);
+        vItem.getSpatial().stickToObj3D(vItem.obj3d);
+        // treasure.getPos().copy(pos);
+        // updateTriggered(treasure, fraction)
+    }
+
+    let getTargetPos = function() {
+        return lootingActor.getCenterMass();
+    }
+
+
+    function itemReadyCB() {
+        item.getPos().copy(lootingActor.getPos());
+        item.getPos().x += MATH.randomBetween(-2, 2);
+        item.getPos().z += MATH.randomBetween(-2, 2);
+        item.getPos().y = ThreeAPI.terrainAt(item.getPos()) +0.3;
+        vItem.getSpatial().stickToObj3D(vItem.obj3d);
+        setTimeout(function() {
+            transition.initSpatialTransition(item.getPos(), getTargetPos, 1.5, onArrive, 1, 'curveQuad', onFrameUpdate)
+        }, MATH.randomBetween(500, 2000))
+      }
+
+    vItem.setItem(item, itemReadyCB);
+
+
+}
+
+function processRewardItem(item) {
+    console.log("processRewardItem", item)
+    let activeActor = GameAPI.getGamePieceSystem().selectedActor;
+
+    triggerLootSpatialTransition(item, activeActor)
+
+
+}
 
 function encounterCompleted(event) {
     console.log("Enc Completed", event, activeAdventures);
@@ -225,17 +286,10 @@ class GameAdventureSystem {
 
         }.bind(this);
 
-            function processRewardItem(item) {
-                console.log("processRewardItem", item)
-                let activeActor = GameAPI.getGamePieceSystem().selectedActor;
-                GuiAPI.notifyItemLooted(activeActor, item);
-                activeActor.processItemLooted(item);
-            }
+
 
             let adventureCompleted = function(wAdv) {
                 setSelectedAdventure(null);
-
-
 
                 playerAdventureDeActivated(wAdv)
                 let activeActor = GameAPI.getGamePieceSystem().selectedActor;

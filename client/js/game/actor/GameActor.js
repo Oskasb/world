@@ -478,17 +478,13 @@ class GameActor {
             requests.push(item.getEquipSlotId());
             requests.push(item.getStatus(ENUMS.ItemStatus.TEMPLATE));
             this.setStatusKey(ENUMS.ActorStatus.EQUIP_REQUESTS, requests);
-        if (this.isPlayerActor()) {
-            saveItemStatus(item.getStatus())
-        }
+
     }
 
     unequipItem(item) {
         this.actorEquipment.call.unequipActorItem(item);
         this.actorInventory.addInventoryItem(item, null, this.call.inventoryItemAdded)
-        if (this.isPlayerActor()) {
-            saveItemStatus(item.getStatus())
-        }
+
     }
 
     getVisualGamePiece() {

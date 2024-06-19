@@ -22,7 +22,8 @@ function loadStoredPlayer(dataList) {
                 let actorStatus = loadActorStatus(actorId);
                 if (actorStatus !== null) {
                     dataList['CLIENT_STAMP'] = client.getStamp();
-                //    actorStatus[ENUMS.ActorStatus.CLIENT_STAMP] = client.getStamp();
+                    actorStatus[ENUMS.ActorStatus.EQUIPPED_ITEMS] = [];
+                    actorStatus[ENUMS.ActorStatus.EQUIP_REQUESTS] = [];
                     dataList['ACTOR_STAMP'] = actorStatus[ENUMS.ActorStatus.CLIENT_STAMP]
                     dataList[ENUMS.ActorStatus.CONFIG_ID] = actorStatus[ENUMS.ActorStatus.CONFIG_ID];
                 }

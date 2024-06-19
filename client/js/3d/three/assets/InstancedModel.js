@@ -405,8 +405,6 @@ class InstancedModel {
 
     decommissionInstancedModel = function() {
 
-        //    this.getSpatial().setScaleXYZ(0, 0, 0);
-        //    ThreeAPI.removeScene(this.obj3d)
         if (this.animator) {
             this.animator.deActivateAnimator();
         }
@@ -414,11 +412,10 @@ class InstancedModel {
         this.originalModel.recoverModelClone(this.getSpatial());
         this.originalAsset.disableAssetInstance(this);
 
-
         if (this.originalModel.isGeometryInstance()) {
-        //    let activeCount = this.originalAsset.getActiveCount();
-        //    let instanceBuffers = this.originalModel.instanceBuffers;
-        //    instanceBuffers.setInstancedCount(activeCount);
+            let activeCount = this.originalAsset.getActiveCount();
+            let instanceBuffers = this.originalModel.instanceBuffers;
+            instanceBuffers.setInstancedCount(activeCount);
         }
 
 

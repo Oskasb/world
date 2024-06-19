@@ -98,6 +98,8 @@ class VisualItem {
         }.bind(this)
 
         let closeVisualItem = function() {
+            this.obj3d.scale.multiplyScalar(0);
+            instance.getSpatial().stickToObj3D(this.obj3d);
             instance.decommissionInstancedModel();
             ThreeAPI.unregisterPrerenderCallback(update);
             this.item.setStatusKey(ENUMS.ItemStatus.ACTIVATION_STATE, ENUMS.ActivationState.DEACTIVATING)
@@ -106,7 +108,7 @@ class VisualItem {
 
 
         function requestDeactivation() {
-        //    console.log("requestDeactivation VItem")
+         //   console.log("requestDeactivation VItem")
             dactivationRequested = true;
         }
 
