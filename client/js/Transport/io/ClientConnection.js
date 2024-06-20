@@ -10,6 +10,7 @@ let msgEvent = {
 
 let relayToWorker = function(msg) {
 //	let json = JSON.stringify({stamp:client.getStamp(), msg:msg})
+	client.lastRequestFrame = GameAPI.getFrame().frame;
 	worker.postMessage([ENUMS.Protocol.CLIENT_TO_WORKER, msg]);
 }
 

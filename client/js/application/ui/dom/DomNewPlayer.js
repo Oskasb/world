@@ -43,7 +43,7 @@ class DomNewPlayer {
                     validationCb(statusMap.out, 'Name too short')
                     isValid = false;
                 }
-            }, 1000)
+            }, 200)
 
         }
 

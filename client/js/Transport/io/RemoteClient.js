@@ -46,6 +46,8 @@ let spatialMap = [
 class RemoteClient {
     constructor(stamp) {
         this.index = index;
+        this.lastMessageFrame = 0;
+        this.lastRequestFrame = 0;
         index++
         this.isPaused = false;
         this.stamp = stamp;
@@ -55,6 +57,7 @@ class RemoteClient {
         this.encounter = null;
         this.remoteIndex = [];
         this.closeTimeout = null;
+        this.isClosed = false;
         GuiAPI.screenText("Player Joined: "+this.index, ENUMS.Message.HINT, 4)
 
         let timeout = function() {
@@ -97,9 +100,11 @@ class RemoteClient {
     }
 
     removeRemoteActor(actorId) {
-        let actor = this.getActorById(actorId);
-        MATH.splice(this.actors, actor);
-        actor.removeGameActor();
+        if (this.isClosed !== true) {
+            let actor = this.getActorById(actorId);
+            MATH.splice(this.actors, actor);
+            actor.removeGameActor();
+        }
     }
 
     getActionById(id) {
@@ -139,6 +144,7 @@ class RemoteClient {
 
         let remote = actor.call.getRemote();
         if (MATH.distanceBetween(remote.pos, remote.lastUpdate.pos) > 50) {
+            this.lastRequestFrame = GameAPI.getFrame().frame
             remote.copyLastFrame();
         }
 
@@ -218,7 +224,7 @@ class RemoteClient {
     //    console.log("Item Messasge", msg);
 
         let item = this.getItemById(itemId);
-
+        this.lastRequestFrame = GameAPI.getFrame().frame
         if (!item) {
             if (msg.indexOf(ENUMS.ItemStatus.ACTOR_ID) !== -1) {
                 let actorId = msg[msg.indexOf(ENUMS.ItemStatus.ACTOR_ID) +1]
@@ -271,7 +277,7 @@ class RemoteClient {
         if (actionId === "none") {
             return;
         }
-
+        this.lastRequestFrame = GameAPI.getFrame().frame
         let isNew = false;
         let action = this.getActionById(actionId);
         if (!action) {
@@ -356,6 +362,7 @@ class RemoteClient {
 
 
     pauseRemoteClient() {
+        this.lastRequestFrame = GameAPI.getFrame().frame
         while (this.actors.length) {
             let remove = this.actors.pop();
 
@@ -370,12 +377,13 @@ class RemoteClient {
     }
 
     unpauseRemoteClient() {
+        this.lastRequestFrame = GameAPI.getFrame().frame
         this.isPaused = false;
     }
 
     handleEncounterMessage(encounterId, msg) {
      //       console.log("Encounter Message; ", msg);
-
+        this.lastRequestFrame = GameAPI.getFrame().frame
             if (!this.encounter) {
                 let playerParty = GameAPI.getGamePieceSystem().playerParty;
                 let participate = false;
@@ -389,7 +397,6 @@ class RemoteClient {
                             participate = true;
                         }
                     }
-
                 }
 
                 if (participate === false) {
@@ -405,7 +412,6 @@ class RemoteClient {
                 this.encounter = new DynamicEncounter(encounterId, msg)
                 this.encounter.isRemote = true;
             }
-
 
         let statusPre = this.encounter.status.call.getStatus(ENUMS.EncounterStatus.ACTIVATION_STATE)
 
@@ -441,6 +447,7 @@ class RemoteClient {
 
     processClientMessage(msg) {
         let gameTime = GameAPI.getGameTime();
+        this.lastMessageFrame = GameAPI.getFrame().frame;
         let stamp = this.stamp;
         GuiAPI.screenText(""+this.index,  ENUMS.Message.SYSTEM, 0.2)
         let actors = this.actors;
@@ -561,6 +568,7 @@ class RemoteClient {
         while (this.actors.length) {
             this.actors.pop().removeGameActor();
         }
+        this.isClosed = true;
     }
 
     getStamp() {

@@ -358,17 +358,23 @@ function setupOptsFriendlyMissile(efct, fromPos, actor, index, onArriveCB, getPo
     let distance = MATH.distanceBetween(fromPos, getPosFunc());
     let tempObj = ThreeAPI.tempObj;
     tempObj.scale.set(1, 1, 1);
-    let bone = actor.getVisualGamePiece().getRandomBone();
 
-    let bonePos = function() {
-        //    let jointId = gamePiece.getRandomJointId();
-        if (actor.getVisualGamePiece() === null) {
-            return actor.getPos();
+    let bonePos;
+
+    if (actor.getVisualGamePiece() === null) {
+        tempObj.position.copy(actor.getPos())
+        bonePos = actor.getPos;
+    } else {
+        let bone = actor.getVisualGamePiece().getRandomBone();
+        bonePos = function() {
+            if (actor.getVisualGamePiece() === null) {
+                return actor.getPos()
+            }
+            return actor.getVisualGamePiece().getBoneWorldPosition(bone);
+
         }
-        return actor.getVisualGamePiece().getBoneWorldPosition(bone);
+        tempObj.position.copy(actor.getVisualGamePiece().getBoneWorldPosition(bone));
     }
-
-    tempObj.position.copy(actor.getVisualGamePiece().getBoneWorldPosition(bone));
 
     let size = actor.getStatus(ENUMS.ActorStatus.SIZE);
     tempObj.quaternion.set(0, 0, 0, 1);
@@ -476,13 +482,20 @@ function setupOptsMagicHit(efct, actor) {
     tempObj.quaternion.set(0, 0, 0, 1);
     efct.quat.copy(tempObj.quaternion);
 
-    let bone = actor.getVisualGamePiece().getRandomBone();
+    let bonePos;
 
-    let bonePos = function() {
-        if (actor.getVisualGamePiece() === null) {
-            return actor.getPos();
+    if (actor.getVisualGamePiece() === null) {
+        tempObj.position.copy(actor.getPos())
+        bonePos = actor.getPos;
+    } else {
+        let bone = actor.getVisualGamePiece().getRandomBone();
+        bonePos = function() {
+            if (actor.getVisualGamePiece() === null) {
+                return actor.getPos()
+            }
+            return actor.getVisualGamePiece().getBoneWorldPosition(bone);
         }
-        return actor.getVisualGamePiece().getBoneWorldPosition(bone);
+        tempObj.position.copy(actor.getVisualGamePiece().getBoneWorldPosition(bone));
     }
 
     tempObj.rotateZ(Math.random()*MATH.TWO_PI)
@@ -517,16 +530,23 @@ function setupOptsMagicHit(efct, actor) {
 function setupOptsBoneLingering(efct, actor) {
     let tempObj = ThreeAPI.tempObj;
     tempObj.scale.set(1, 1, 1);
-    let bone = actor.getVisualGamePiece().getRandomBone();
 
-    let bonePos = function() {
-        if (actor.getVisualGamePiece() === null) {
-            return actor.getPos();
+    let bonePos;
+
+    if (actor.getVisualGamePiece() === null) {
+        tempObj.position.copy(actor.getPos())
+        bonePos = actor.getPos;
+    } else {
+        let bone = actor.getVisualGamePiece().getRandomBone();
+        bonePos = function() {
+            if (actor.getVisualGamePiece() === null) {
+                return actor.getPos()
+            }
+            return actor.getVisualGamePiece().getBoneWorldPosition(bone);
         }
-        return actor.getVisualGamePiece().getBoneWorldPosition(bone);
+        tempObj.position.copy(actor.getVisualGamePiece().getBoneWorldPosition(bone));
     }
 
-    tempObj.position.copy(actor.getVisualGamePiece().getBoneWorldPosition(bone));
     tempObj.quaternion.set(0, 0, 0, 1);
 //    tempObj.lookAt(ThreeAPI.getCamera().position)
     let size = actor.getStatus(ENUMS.ActorStatus.SIZE);
@@ -556,16 +576,21 @@ function setupOptsBoneLingering(efct, actor) {
 function setupOptsBoneToGround(efct, actor) {
     let tempObj = ThreeAPI.tempObj;
     tempObj.scale.set(1, 1, 1);
-    let bone = actor.getVisualGamePiece().getRandomBone();
+    let bonePos;
 
-    let bonePos = function() {
-        if (actor.getVisualGamePiece() === null) {
-            return actor.getPos();
+    if (actor.getVisualGamePiece() === null) {
+        tempObj.position.copy(actor.getPos())
+        bonePos = actor.getPos;
+    } else {
+        let bone = actor.getVisualGamePiece().getRandomBone();
+        bonePos = function() {
+            if (actor.getVisualGamePiece() === null) {
+                return actor.getPos()
+            }
+            return actor.getVisualGamePiece().getBoneWorldPosition(bone);
         }
-        return actor.getVisualGamePiece().getBoneWorldPosition(bone);
+        tempObj.position.copy(actor.getVisualGamePiece().getBoneWorldPosition(bone));
     }
-
-    tempObj.position.copy(actor.getVisualGamePiece().getBoneWorldPosition(bone));
     tempObj.lookAt(ThreeAPI.getCamera().position)
 
     let size = actor.getStatus(ENUMS.ActorStatus.SIZE);
@@ -652,13 +677,19 @@ function setupOptsSprayUpwards(efct, actor, applies) {
 function setupOptsFlames(efct, actor, applies) {
     let tempObj = ThreeAPI.tempObj;
     tempObj.scale.set(1, 1, 1);
-    let bone = actor.getVisualGamePiece().getRandomBone();
+    let bonePos;
 
-    let bonePos = function() {
-        if (actor.getVisualGamePiece() === null) {
-            return actor.getPos();
+    if (actor.getVisualGamePiece() === null) {
+        bonePos = actor.getPos;
+    } else {
+        let bone = actor.getVisualGamePiece().getRandomBone();
+        bonePos = function() {
+            if (actor.getVisualGamePiece() === null) {
+                return actor.getPos()
+            }
+            return actor.getVisualGamePiece().getBoneWorldPosition(bone);
         }
-        return actor.getVisualGamePiece().getBoneWorldPosition(bone);
+        tempObj.position.copy(actor.getVisualGamePiece().getBoneWorldPosition(bone));
     }
 
     tempObj.position.copy(bonePos());

@@ -5,6 +5,7 @@ import {GameServerWorld} from "./GameServerWorld.js";
 import {ServerPlayer} from "./player/ServerPlayer.js";
 import {ServerWorldMessenger} from "../io/ServerWorldMessenger.js";
 import {getEditIndex} from "./utils/EditorFunctions.js";
+import {dispatchMessage} from "./utils/GameServerFunctions.js";
 
 
 let connectedPlayers = [];
@@ -84,6 +85,14 @@ class GameServer {
     }
 
     disconnectConnectedPlayer(player) {
+
+            let message = {
+                request: ENUMS.ClientRequests.REGISTER_PLAYER,
+                command: ENUMS.ServerCommands.PLAYER_DISCONNECTED,
+                stamp:player.stamp
+            }
+
+        dispatchMessage(message)
         MATH.splice(connectedPlayers, player);
     }
 

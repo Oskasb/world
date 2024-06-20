@@ -65,6 +65,11 @@ body.overlay_page {
     background-color: rgba(0, 0, 0, 0);
 }
 
+body.stretch_right {
+    width: fit-content;
+    left: auto;
+}
+
 @keyframes border-pulsate {
     0%   { border-color: rgb(255, 255, 125); }
     50%  { border-color: rgb(0, 220, 255); }
@@ -670,7 +675,8 @@ div.encounter_panel {
     pointer-events: auto;
     font-size: 1.0em;
     top: 0.2em;
-    left: 0.2em;
+    left: auto;
+    width: auto;
     right: 0.2em;
     bottom: 0.2em;
     position: absolute;
@@ -678,18 +684,21 @@ div.encounter_panel {
     border-color: rgba(213, 213, 213, 0.92);
     border-radius: 0.5em;
     border-style: solid;
-    border-width: 0.25em;
+    border-width: 0.1em;
     color: rgb(255, 252, 224);
     box-shadow: 0 0 0.2em rgb(0, 0, 0);
-    opacity: 0.8;
+    opacity: 1;
+    display: inline-flex;
+    justify-content: flex-start;
+    align-items: center;
 }
 
 div.adventure_panel {
     pointer-events: auto;
     font-size: 1.2em;
-    top: 0.5em;
+    top: 0;
     left: 1em;
-    right: 1em;
+    right: 0;
     height: 3.7em;
     position: absolute;
     background-color: rgba(51, 51, 51, 0.6);
@@ -775,16 +784,103 @@ div.adventure_nodes_container {
 }
 
 div.encounter_sync_container {
-    pointer-events: auto;
     font-size: 1em;
-    bottom: 0.2em;
-    left: 2em;
-    right: 2em;
+    top: 0m;
+    left: auto;
+    padding:0.2em;
+    margin-left: 1em;
+    right: 0.7em;
     width: auto;
-    height: 1.2em;
+    height: 70%;
+    bottom: 0;
+    position: relative;
+    display: inline-flex;
+    background-color: rgba(0, 0, 0, 0.47);
+    border: 0.1em solid;
+    border-color: #8f8f8f;
+    border-radius: 0.3em;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: left;
+}
+
+div.player_sync_box {
+    font-size: 1em;
+    top: 0;
+    left: 0;
+    margin: 0.1em;
+    right: auto;
+    width: 1em;
+    bottom: 0;
+    position: relative;
+    background-color: rgba(0, 0, 0, 0.7);
+    border: 0.15em solid;
+    border-color: #8f8f8f;
+    border-radius: 0.3em;
+}
+
+div.client_status_paused {
+    background-color: rgba(134, 134, 134, 0.7);
+    border-color: #595959;
+}
+
+div.player_send {
+    font-size: 1em;
+    top: 110%;
+    left: -0.2em;
+    margin: 0.1em;
+    right: -0.2em;
+    width: auto;
+    bottom: auto;
+    height: 0.3em;
     position: absolute;
 }
 
+div.player_receive {
+    font-size: 1em;
+    top: auto;
+    left: -0.2em;
+    margin: 0.1em;
+    right: -0.2em;
+    width: auto;
+    bottom: 110%;
+    height: 0.3em;
+    position: absolute;
+}
+
+div.sync_dot {
+    background-color: rgb(0, 0, 0);
+    border: 0.2em solid;
+    border-color: #002a1f;
+    border-radius: 100%;
+    transition: border-color 0.15s;
+}
+
+div.sync_dot_on {
+    border-color: #57ff31;
+    transition: border-color 0.0s;
+}
+
+div.actor_sync_status {
+    position: relative;
+    width: auto;
+    margin:0.05em;
+    height: -webkit-fill-available;
+    left: auto;
+    background-color: rgba(134, 134, 134, 0.7);
+    border: 0.15em solid;
+    border-color: #8f8f8f;
+    border-radius: 0.2em;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+    align-items: stretch;
+}
+
+div.sync_dot_off {
+
+}
 
 div.adventure_node_indicator {
     pointer-events: none;

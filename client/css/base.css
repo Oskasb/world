@@ -362,10 +362,10 @@ iframe.adventure_note {
 
 iframe.encounter_status {
     z-index: 100;
-    top: 5em;
-    right: 5em;
-    height: 30em;
-    width: 280em;
+    top: 3em;
+    right: 3em;
+    height: 40em;
+    width: 140em;
     border: 0;
     position: fixed;
     transform: translate3d(0px, 0px, 0px);
@@ -373,7 +373,7 @@ iframe.encounter_status {
 }
 
 iframe.minimap {
-    top: 25em;
+    top: 32em;
     right: 30em;
     width: 240em;
     height: 240em;

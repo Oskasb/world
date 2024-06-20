@@ -7,7 +7,7 @@ import { GameWalkGrid } from "./gameworld/GameWalkGrid.js";
 import { PhysicalWorld } from "./gameworld/PhysicalWorld.js";
 import {getPlayerStatus, setPlayerStatus} from "../application/utils/StatusUtils.js";
 import {ENUMS} from "../application/ENUMS.js";
-import {isDev} from "../application/utils/DebugUtils.js";
+import {getUrlParam, isDev} from "../application/utils/DebugUtils.js";
 import {DomNewPlayer} from "../application/ui/dom/DomNewPlayer.js";
 import {
     getLocalAccount, getLocalAccountStatus, loadActorStatus, loadPlayerStatus,
@@ -172,12 +172,18 @@ class GameMain {
             GuiAPI.activateMinimap()
         } else {
 
+
+
             let account = getLocalAccount();
             console.log("Local Account; ", account);
 
             let dataList = {};
-            loadStoredPlayer(dataList)
 
+            if (getUrlParam('new') === true) {
+
+            } else {
+                loadStoredPlayer(dataList)
+            }
 
             setTimeout(function() {
 

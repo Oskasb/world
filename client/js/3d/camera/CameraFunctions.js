@@ -2,6 +2,7 @@ import {Vector3} from "../../../libs/three/math/Vector3.js";
 import * as CursorUtils from "./CursorUtils.js";
 import {Object3D} from "../../../libs/three/core/Object3D.js";
 import {updateViewObstruction} from "../../application/utils/PhysicsUtils.js";
+import {isDev} from "../../application/utils/DebugUtils.js";
 
 let CAM_MODES = {
     CAM_AUTO:CAM_AUTO,

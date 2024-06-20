@@ -1,6 +1,7 @@
 import { ItemSlot } from "../gamepieces/ItemSlot.js";
 import {ENUMS} from "../../application/ENUMS.js";
 import {saveItemStatus} from "../../application/setup/Database.js";
+import {isDev} from "../../application/utils/DebugUtils.js";
 
 let parsedConfigData;
 
@@ -191,7 +192,9 @@ class ActorEquipment {
             let item = getItemFromListById(this.items, itemId);
 
             if (!item) {
-                console.log("No such item here:", itemId, this.items);
+                if (isDev()) {
+                    console.log("No such item here:", itemId, this.items);
+                }
                 return null;
             }
             return item;

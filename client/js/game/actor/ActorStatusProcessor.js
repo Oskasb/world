@@ -450,7 +450,7 @@ function processActorEquipment(actor) {
         }
 
         if (equippedId !== slotItemId) {
-            console.log("Slot status missmatch", equippedId , slotItemId)
+        //    console.log("Slot status missmatch", equippedId , slotItemId)
         }
 
 
@@ -490,7 +490,7 @@ function processActorEquipment(actor) {
 
         if (isLoading) {
             if (Math.random() < 0.05) {
-                actor.actorText.say("Loading Items")
+        //        actor.actorText.say("Loading Items")
             }
         }
 

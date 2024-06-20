@@ -45,6 +45,8 @@ class Client {
         this.INPUT_STATE = null;
         this.stamp = -1;
         this.page = null;
+        this.lastMessageFrame = 0;
+        this.lastRequestFrame = 0;
     }
 
     setStamp(stamp) {

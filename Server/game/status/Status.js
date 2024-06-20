@@ -8,7 +8,7 @@ class Status {
     constructor(statusValues) {
         this.statusMap = statusValues || {};
 
-        if (this.statusMap[ENUMS.ActorStatus.ACTOR_ID]) {
+        if (this.statusMap[ENUMS.ActorStatus.EXISTS] === true) {
             console.log("Load existing actor status", this.statusMap[ENUMS.ActorStatus.ACTOR_ID]);
         } else if (this.statusMap[ENUMS.ActorStatus.CONFIG_ID]) {
             let configId = statusValues[ENUMS.ActorStatus.CONFIG_ID]

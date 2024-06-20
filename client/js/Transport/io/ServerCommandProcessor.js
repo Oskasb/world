@@ -152,6 +152,12 @@ function processServerCommand(protocolKey, message) {
 
     let clientStamp = client.getStamp();
     let stamp = message.stamp;
+
+    if (stamp === clientStamp) {
+        let frame = GameAPI.getFrame().frame;
+        client.lastMessageFrame = frame;
+    }
+
     let msg = message;
     let encounter;
     let actorId;
@@ -214,6 +220,8 @@ function processServerCommand(protocolKey, message) {
         case ENUMS.ServerCommands.PLAYER_DISCONNECTED:
             console.log("Player Disconnected; ", stamp, msg);
             GuiAPI.screenText("Player Disconnected", ENUMS.Message.HINT, 2)
+        //    let remoteClient = remoteClients[stamp];
+            remoteClients[stamp].closeRemoteClient();
             break;
         case ENUMS.ServerCommands.ACTOR_INIT:
             stamp = msg.status[ENUMS.ActorStatus.CLIENT_STAMP];
@@ -228,6 +236,9 @@ function processServerCommand(protocolKey, message) {
                 // use remote client here...
                 let remoteClient = remoteClients[stamp];
                 if (remoteClient) {
+                    if (remoteClient === null) {
+                        console.log("client is null already...")
+                    }
                 } else {
                 //    console.log("ACTOR_INIT Remote client missing for stamp; ", stamp, msg, remoteClients);
                     remoteClient = new RemoteClient(stamp);
@@ -322,8 +333,8 @@ function processServerCommand(protocolKey, message) {
             console.log("ACTOR_REMOVED; ", stamp, message);
             actorId = message.actorId;
 
-            let remoteClient = remoteClients[stamp];
-            if (remoteClient) {
+            let remoteClient = remoteClients[stamp] || null;
+            if (remoteClient !== null) {
                remoteClient.removeRemoteActor(actorId);
             } else {
                 let actor = GameAPI.getActorById(actorId);

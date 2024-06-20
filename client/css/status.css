@@ -1,0 +1,39 @@
+div.IN_COMBAT {
+    border-color:red;
+}
+
+div.EXIT_ENCOUNTER {
+    border-color: #009f21;
+}
+
+div.RETREATING {
+    border-color: #7c5000;
+}
+
+div.NAVIGATION_STATE {
+    border-color: #00c4ff;
+}
+
+div.SELECTED_ACTION {
+    border-color: #fff100;
+}
+
+div.SELECTED_ENCOUNTER {
+    background-color: #006464;
+}
+
+div.ACTIVATING_ENCOUNTER {
+    background-color: cyan;
+}
+
+div.ACTIVATED_ENCOUNTER {
+    background-color: #5000a8;
+}
+
+div.DEACTIVATING_ENCOUNTER {
+    background-color: #885400;
+}
+
+div.DEAD {
+    background-color: red;
+}
