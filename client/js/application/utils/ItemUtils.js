@@ -1,13 +1,18 @@
 import {readConfig} from "./ConfigUtils.js";
 
+function getVisualConfigIconClass(visdualConfig) {
+    let cString = visdualConfig.data['icon_class'];
+    if (typeof (cString) === "string") {
+        return cString
+    }
+    return ""
+}
+
 function getItemIconClass(itemId) {
     let visualCfg = getVisualConfigByItemId(itemId);
 
     if (visualCfg !== null) {
-        let cString = visualCfg.data['icon_class'];
-        if (typeof (cString) === "string") {
-            return cString
-        }
+        getVisualConfigIconClass(visualCfg);
     }
     return "";
 }
@@ -78,5 +83,7 @@ export {
     getItemConfigStatus,
     getItemIconClass,
     getItemConfigByItemId,
-    getVisualConfigByItemId
+    getVisualConfigByItemId,
+    getVisualConfigByVisualId,
+    getVisualConfigIconClass
 }

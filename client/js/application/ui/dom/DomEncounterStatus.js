@@ -112,18 +112,27 @@ function statusUpdated(statusKey, actor, div, currentStatus, sType) {
 function checkStatusChanged(statusKey, actor, div, statuses) {
 
     let currentStatus = actor.getStatus(statusKey);
+
+    if (!statuses[statusKey]) {
+        statuses[statusKey] = {
+            key:statusKey,
+            lastValue:'init'
+        }
+    }
+
     let lastStatus = statuses[statusKey]
     let sType = typeof(currentStatus);
 
     if (sType === 'object') {
         let checksum = MATH.stupidChecksumArray(currentStatus)
-        if (checksum !== lastStatus) {
-            statuses[statusKey] = checksum;
+        if (checksum !== lastStatus.lastValue) {
+            lastStatus.lastValue = checksum;
             statusUpdated(statusKey, actor, div, currentStatus, sType)
         }
 
     } else {
-        if (lastStatus !== currentStatus) {
+        if (lastStatus.lastValue !== currentStatus) {
+            lastStatus.lastValue = currentStatus;
             statusUpdated(statusKey, actor, div, currentStatus, sType);
         }
     }
@@ -256,7 +265,14 @@ class DomEncounterStatus {
                 let activeActor = GameAPI.getGamePieceSystem().selectedActor;
 
                 if (activeActor !== null) {
-
+                    if (playerClientInfo.actorInfos.length === 0) {
+                        let info = {
+                            actor:activeActor,
+                            div:DomUtils.createDivElement(playerClientInfo.div, activeActor.getStatus(ENUMS.ActorStatus.ACTOR_ID), '', 'actor_sync_status'),
+                            statuses:{}
+                        }
+                        playerClientInfo.actorInfos[0] = info;
+                    }
                 }
 
                 let remoteClients = getRemoteClients();

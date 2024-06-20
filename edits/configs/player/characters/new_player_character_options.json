@@ -8,7 +8,7 @@
       "label":"Farmer",
       "pos": [-893, 4, 519],
       "text": "Hard at work sowing and plowing. You have had a nice life, until today when bandits and pirates decided to raid your village.",
-      "inventory_items": [],
+      "inventory_items": ["ITEM_HAT_RED", "ITEM_HELMET_BRONZE"],
       "equipped_items": ["ITEM_PITCHFORK", "ITEM_SHIRT_LEATHER", "ITEM_LEGS_LEATHER", "ITEM_BOOTS_LEATHER"]
     },
     {

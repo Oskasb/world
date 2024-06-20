@@ -1,6 +1,7 @@
 import {HtmlElement} from "./HtmlElement.js";
 import {poolFetch, poolReturn} from "../../utils/PoolUtils.js";
 import {ENUMS} from "../../ENUMS.js";
+import {getItemIconClass, getVisualConfigByVisualId, getVisualConfigIconClass} from "../../utils/ItemUtils.js";
 
 let activeDomItems = [];
 let dragEvent = {};
@@ -175,9 +176,10 @@ class DomItem {
             let backplate = htmlElement.call.getChildElement("backplate");
 
             let itemDiv = htmlElement.call.getChildElement("item_icon");
-            let visualPiece=item.visualGamePiece;
-            let visualConf = visualPiece.config;
-            let iconClass = visualConf['icon_class'];
+
+            let visualConfig = getVisualConfigByVisualId(item.config['visual_id'])
+
+            let iconClass = getVisualConfigIconClass(visualConfig);
 
             if (!iconClass) {
                 iconClass = 'NYI_ICON'

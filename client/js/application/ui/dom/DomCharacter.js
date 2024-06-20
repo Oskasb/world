@@ -226,7 +226,8 @@ class DomCharacter {
                 }
             }
 
-            let items = actor.actorEquipment.items;
+            let items = []
+            actor.actorEquipment.getEquippedItems(items);
 
             if (itemDivs.length !== 0 && itemDivs.length !== items.length) {
                 clearItemDivs()
@@ -244,7 +245,9 @@ class DomCharacter {
             for (let i = 0; i < itemDivs.length; i++) {
                 let domItem = itemDivs[i];
                 let item = domItem.call.getItem();
-                let slotId = item.getStatus(ENUMS.ItemStatus.EQUIPPED_SLOT);
+
+                // let slotId = item.getStatus(ENUMS.ItemStatus.EQUIPPED_SLOT);
+                let slotId = item.config['equip_slot'];
                 let target = htmlElement.call.getChildElement(slotId);
 
                 if (!target) {

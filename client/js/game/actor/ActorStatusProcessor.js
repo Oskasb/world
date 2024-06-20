@@ -471,7 +471,7 @@ function processActorEquipment(actor) {
                 equipment.call.unequipActorItem(slotItem, true);
              //   console.log("Item UNequipped by server", slotId, slotItem);
             } else {
-                console.log("Empty Slot", slotId, slotItemId, equippedId)
+            //    console.log("Empty Slot", slotId, slotItemId, equippedId)
             }
 
             if (equippedId === "") {

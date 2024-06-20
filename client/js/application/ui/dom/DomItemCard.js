@@ -1,6 +1,7 @@
 import {HtmlElement} from "./HtmlElement.js";
 import {ENUMS} from "../../ENUMS.js";
 import {poolFetch, poolReturn} from "../../utils/PoolUtils.js";
+import {getVisualConfigByVisualId, getVisualConfigIconClass} from "../../utils/ItemUtils.js";
 
 let activeDomItems = [];
 
@@ -36,10 +37,12 @@ class DomItemCard {
 
 
             let instance = item.getVisualGamePiece().call.getInstance()
-            if (instance) {
 
-                item.getVisualGamePiece().visualModelPalette.setFromValuearray(statusMap['PALETTE_VALUES']);
-                item.getVisualGamePiece().visualModelPalette.applyPaletteToInstance(instance)
+            if (instance !== null) {
+                let modelPalette = item.getVisualGamePiece().call.getPalette()
+
+                modelPalette.setFromValuearray(statusMap['PALETTE_VALUES']);
+                modelPalette.applyPaletteToInstance(instance)
             }
 
             setTargetCoordinates(pTop, pLeft+width*0.5)
@@ -77,21 +80,6 @@ class DomItemCard {
                 paletteEdit.initDomPalette(statusMap['PALETTE_VALUES'], paletteEditReady, editPalette)
             }
 
-            /*
-
-            palette[0] = Math.round(Math.random()*100);
-            palette[1] = Math.round(Math.random()*100);
-            palette[2] = Math.round(Math.random()*100);
-            palette[3] = Math.round(Math.random()*100);
-
-
-        //    statusMap['PALETTE_VALUES'] = item.getStatus(ENUMS.ItemStatus.PALETTE_VALUES);
-            item.getVisualGamePiece().visualModelPalette.setFromValuearray(palette);
-            let instance = item.getVisualGamePiece().call.getInstance()
-            if (instance) {
-                item.getVisualGamePiece().visualModelPalette.applyPaletteToInstance(instance)
-            }
-            */
         }
 
         let readyCb = function() {
@@ -118,9 +106,9 @@ class DomItemCard {
             let backplate = htmlElement.call.getChildElement("backplate");
 
             let itemDiv = htmlElement.call.getChildElement("item_icon");
-            let visualPiece=item.visualGamePiece;
-            let visualConf = visualPiece.config;
-            let iconClass = visualConf['icon_class'];
+
+            let visualConfig = getVisualConfigByVisualId(item.config['visual_id'])
+            let iconClass = getVisualConfigIconClass(visualConfig);
 
             if (!iconClass) {
                 iconClass = 'NYI_ICON'

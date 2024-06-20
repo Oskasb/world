@@ -35,11 +35,6 @@ class ActorInventory {
             console.log("Add Inv Item ", item)
         }
 
-            if (this.actor.isPlayerActor()) {
-                saveItemStatus(item.getStatus())
-            }
-
-
         let slotKey = null;
         if (typeof (slot) === 'string') {
             slotKey = slot;
@@ -55,12 +50,27 @@ class ActorInventory {
             }
         }
 
-        let switchItem = this.items[slotKey].item;
+        let slotItem = this.items[slotKey];
+        if (!slotItem) {
+            console.log("Bas slot lookup ", slotKey, this.items)
+        }
+
+
+        let switchItem = null;
+        if (slotItem) {
+            switchItem = slotItem.item;
+        }
+
         let invStatus = this.actor.getStatus(ENUMS.ActorStatus.INVENTORY_ITEMS);
 
         if (item === null) {
             invStatus[this.items[slotKey].index] = "";
         } else {
+
+            if (this.actor.isPlayerActor()) {
+                saveItemStatus(item.getStatus())
+            }
+
             invStatus[this.items[slotKey].index] = item.getStatus(ENUMS.ItemStatus.ITEM_ID);
             item.setStatusKey(ENUMS.ItemStatus.EQUIPPED_SLOT, slotKey);
         }

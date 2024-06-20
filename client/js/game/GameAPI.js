@@ -290,8 +290,8 @@ class GameAPI {
                 return item
             }
         }
-        //    console.log("No actor by index; ", index, actors);
-
+            console.log("No item by id; ", itemId, items);
+        return null;
     }
 
     initGameMain() {

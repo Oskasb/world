@@ -358,7 +358,7 @@ function processServerCommand(protocolKey, message) {
             if (stamp === clientStamp) {
                 let itemId = message.status[1];
                 let item = GameAPI.getItemById(itemId)
-                if (!item) {
+                if (item === null) {
                     console.log("No client item found:", itemId, message )
                     return;
                 }

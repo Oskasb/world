@@ -17,6 +17,7 @@ function getItemFromListById(items, itemId) {
 class ActorEquipment {
     constructor(parsedEquipSlotData) {
         this.items = [];
+
         let hidden = null;
         if (!parsedConfigData) {
             parsedConfigData = parsedEquipSlotData;
@@ -225,6 +226,21 @@ class ActorEquipment {
 
         return this.itemSlots[item.getEquipSlotId()];
     };
+
+
+    getEquippedItems(store) {
+
+        for (let key in this.itemSlots) {
+
+            let itemId = this.actor.getStatus(ENUMS.ActorStatus[key])
+            if (itemId !== "") {
+                let item = GameAPI.getItemById(itemId);
+                if (item !== null) {
+                    store.push(item)
+                }
+            }
+        }
+    }
 
     getJointForItemSlot(itemSlot) {
         return this.slotToJointMap[itemSlot.slotId]

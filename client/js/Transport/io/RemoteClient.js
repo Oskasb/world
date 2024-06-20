@@ -225,7 +225,7 @@ class RemoteClient {
 
         let item = this.getItemById(itemId);
         this.lastRequestFrame = GameAPI.getFrame().frame
-        if (!item) {
+        if (item === null) {
             if (msg.indexOf(ENUMS.ItemStatus.ACTOR_ID) !== -1) {
                 let actorId = msg[msg.indexOf(ENUMS.ItemStatus.ACTOR_ID) +1]
                 let actor = this.getActorById(actorId);
