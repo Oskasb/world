@@ -212,7 +212,6 @@ class DomItem {
         let setTargetElement = function(target, root) {
             targetElement = target;
             targetRoot = root;
-
         }
 
         let clearIframe = function() {

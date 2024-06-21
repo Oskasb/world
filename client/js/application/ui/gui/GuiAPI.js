@@ -27,6 +27,9 @@ let mapNavUiSystem = new NavigationStatePageSystem(ENUMS.NavigationState.MAP, 'p
 let domTransition;
 let domCharacter;
 let minimap = null;
+
+let rootElements = {};
+
 class GuiAPI {
     constructor() {
         let inMenueFlag = false;
@@ -179,6 +182,15 @@ class GuiAPI {
     //    console.log("addInstanceSystem", sysKey, uiSysKey, assetId, poolSize, renderOrder)
         this.instantiator.addInstanceSystem(sysKey, uiSysKey, assetId, poolSize, renderOrder)
     };
+
+
+    setUiStatusHtmlElement(uiStateKey, htmlElement) {
+        rootElements[uiStateKey] = htmlElement;
+    }
+
+    getUiStatusHtmlElement(uiStateKey) {
+        return rootElements[uiStateKey];
+    }
 
     getBufferElementByUiSysKey = function(uiSysKey) {
         return this.instantiator.getElementBufferByKey(uiSysKey);

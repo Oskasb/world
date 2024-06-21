@@ -205,6 +205,7 @@ class DomInventory {
 
         let close = function() {
             ThreeAPI.unregisterPrerenderCallback(update);
+            actor.deactivateUiState(ENUMS.UiStates.INVENTORY);
             clearItemDivs();
             actor = null;
             htmlElement.closeHtmlElement();
@@ -214,14 +215,14 @@ class DomInventory {
         let htmlReady = function() {
             readyCb()
             htmlElement.container.style.visibility = 'visible';
+            GuiAPI.setUiStatusHtmlElement(ENUMS.UiStates.INVENTORY, htmlElement)
             statusMap.id = actor.getStatus(ENUMS.ActorStatus.ACTOR_ID);
             statusMap.name = actor.getStatus(ENUMS.ActorStatus.NAME);
-
-
 
             setTimeout(function() {
                 ThreeAPI.registerPrerenderCallback(update);
                 setInitTransforms();
+                actor.activateUiState(ENUMS.UiStates.INVENTORY);
             },1)
         }
 

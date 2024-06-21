@@ -107,7 +107,14 @@ class ActorInventory {
         } else {
             return null;
         }
+    }
 
+    fetchInventoryItems(store) {
+        for (let key in this.items) {
+            if (this.items[key].item !== null) {
+                store.push(this.items[key].item)
+            }
+        }
     }
 
 }

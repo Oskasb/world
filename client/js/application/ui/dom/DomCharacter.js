@@ -251,6 +251,7 @@ class DomCharacter {
         let close = function() {
             ThreeAPI.unregisterPrerenderCallback(update);
             clearItemDivs();
+            actor.deactivateUiState(ENUMS.UiStates.CHARACTER);
             actor = null;
             htmlElement.closeHtmlElement();
             poolReturn(htmlElement);
@@ -266,7 +267,7 @@ class DomCharacter {
             setInitTransforms();
             htmlElement.container.style.visibility = 'visible';
             statusMap.id = actor.getStatus(ENUMS.ActorStatus.ACTOR_ID);
-
+            GuiAPI.setUiStatusHtmlElement(ENUMS.UiStates.CHARACTER, htmlElement)
 
             setTimeout(function() {
                 headerDiv.style.transitionDuration = adsrEnvelope.attack.duration+"s";
@@ -279,6 +280,7 @@ class DomCharacter {
                 transformToCenter(topDiv);
                 transformToCenter(bottomDiv)
                 ThreeAPI.registerPrerenderCallback(update);
+                actor.activateUiState(ENUMS.UiStates.CHARACTER);
             },1)
         }
 

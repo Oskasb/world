@@ -362,6 +362,7 @@ class ActorStatus {
         this.statusMap[ENUMS.ActorStatus.ACTIVE_ADVENTURE] = "";
         this.statusMap[ENUMS.ActorStatus.COMPLETED_ADVENTURES] = [];
         this.statusMap[ENUMS.ActorStatus.ADVENTURE_PROGRESS] = [];
+        this.statusMap[ENUMS.ActorStatus.ACTIVE_UI_STATES] = [];
 
         let updateTO = null;
         this.request = {request:ENUMS.ClientRequests.APPLY_ACTOR_STATUS, status:this.sendStatus}

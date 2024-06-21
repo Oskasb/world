@@ -484,11 +484,26 @@ class GameActor {
     unequipItem(item) {
         this.actorEquipment.call.unequipActorItem(item);
         this.actorInventory.addInventoryItem(item, null, this.call.inventoryItemAdded)
-
     }
 
     getVisualGamePiece() {
         return this.visualActor;
+    }
+
+    activateUiState(stateKey) {
+        let list = this.getStatus(ENUMS.ActorStatus.ACTIVE_UI_STATES);
+        if (list.indexOf(stateKey) === -1) {
+            list.push(stateKey);
+        }
+    }
+
+    deactivateUiState(stateKey) {
+        let list = this.getStatus(ENUMS.ActorStatus.ACTIVE_UI_STATES);
+        if (list.indexOf(stateKey) !== -1) {
+            MATH.splice(list, stateKey);
+        } else {
+            console.log("UI State not active? ", stateKey);
+        }
     }
 
     getCenterMass() {

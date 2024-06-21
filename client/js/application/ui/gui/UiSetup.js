@@ -7,6 +7,7 @@ import { PartyUiSystem } from "./systems/PartyUiSystem.js";
 import { ActorActionUiSystem} from "./systems/ActorActionUiSystem.js";
 import {WorldInteractUiSystem} from "./systems/WorldInteractUiSystem.js";
 import {isDev} from "../../utils/DebugUtils.js";
+import {DomItemsOverlay} from "../dom/DomItemsOverlay.js";
 
 
 let partyUiSystem = null;
@@ -29,6 +30,7 @@ class UiSetup {
             partyUiSystem = new PartyUiSystem()
             let textSysCb = function() {
                 callback('textSysCb loaded');
+                new DomItemsOverlay();
             };
             let inputReady = function() {
                 GuiAPI.getTextSystem().initTextSystem(textSysCb);

@@ -37,6 +37,9 @@ function clearActorEncounterStatus(actor) {
     actor.setStatusKey(ENUMS.ActorStatus.ACTIVATED_ENCOUNTER, '');
     actor.setStatusKey(ENUMS.ActorStatus.SELECTED_ENCOUNTER, '');
     actor.setStatusKey(ENUMS.ActorStatus.DAMAGE_APPLIED, 0);
+    actor.setStatusKey(ENUMS.ActorStatus.NAVIGATION_STATE, ENUMS.NavigationState.WORLD)
+    actor.setStatusKey(ENUMS.ActorStatus.ACTIVE_UI_STATES, [])
+
 }
 
 function getPlayerStatus(key) {
