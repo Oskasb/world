@@ -28,7 +28,23 @@ class ActorInventory {
         return null;
     }
 
+    isInventorySlot(toSlot) {
+        if (typeof (this.items[toSlot]) === 'object') {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
+
+    getInvItemSlotId(item) {
+        for (let key in this.items) {
+            if (this.items[key].item === item) {
+                return key;
+            }
+        }
+        return null;
+    }
 
     addInventoryItem(item, slot, callback) {
         if (isDev()) {

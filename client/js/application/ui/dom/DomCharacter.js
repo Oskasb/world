@@ -1,5 +1,6 @@
 import {HtmlElement} from "./HtmlElement.js";
 import {poolFetch, poolReturn} from "../../utils/PoolUtils.js";
+import {requestItemSlotChange} from "../../utils/EquipmentUtils.js";
 
 let defaultAdsr = {
     attack: {duration:0.5, from:0, to: 1.2, easing:"cubic-bezier(0.7, 0.2, 0.85, 1.15)"},
@@ -52,21 +53,7 @@ class DomCharacter {
                     }
 
                     console.log("Drag To Inv Slot", slotId, dragTargetSlot, dragItem);
-                    let invItem = actor.actorInventory.getItemAtSlot(sourceSlot);
-                    if (invItem !== dragItem) {
-                        console.log("Not switching inv items.. ")
-                        let equippedItem = actor.actorEquipment.getEquippedItemBySlotId(sourceSlot);
-                        if (equippedItem !== null) {
-                            actor.actorEquipment.call.unequipActorItem(equippedItem);
-                        }
-                    } else {
-                        actor.actorInventory.addInventoryItem(null, sourceSlot, null);
-                    }
-                    let switchItem = actor.actorEquipment.getEquippedItemBySlotId(slotId);
-                    if (switchItem !== null) {
-                        actor.actorInventory.addInventoryItem(switchItem, sourceSlot);
-                    }
-                    actor.equipItem(dragItem);
+                    requestItemSlotChange(actor, dragItem, slotId);
                 }
             }
         }

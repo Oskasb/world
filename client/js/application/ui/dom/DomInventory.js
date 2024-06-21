@@ -1,5 +1,6 @@
 import {HtmlElement} from "./HtmlElement.js";
 import {poolFetch, poolReturn} from "../../utils/PoolUtils.js";
+import {requestItemSlotChange} from "../../utils/EquipmentUtils.js";
 
 let defaultAdsr = {
     attack: {duration:0.5, from:0, to: 1.2, easing:"cubic-bezier(0.7, 0.2, 0.85, 1.15)"},
@@ -33,6 +34,8 @@ class DomInventory {
                 if (dragTargetSlot !== null) {
                     let slotId = dragTargetSlot.id;
                     console.log("Drag To Inv Slot", slotId, dragTargetSlot, dragItem);
+                    requestItemSlotChange(actor, dragItem, slotId);
+                    return;
                     sourceSlot = dragItem.getStatus(ENUMS.ItemStatus.EQUIPPED_SLOT);
                     let invItem = actor.actorInventory.getItemAtSlot(sourceSlot);
                     if (invItem !== dragItem) {

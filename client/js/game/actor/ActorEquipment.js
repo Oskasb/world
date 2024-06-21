@@ -183,7 +183,13 @@ class ActorEquipment {
         }
     }
 
-
+    isEquipmentSlot(slotId) {
+        if (typeof (this.itemSlots[slotId]) === 'object') {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     getEquippedItemBySlotId(slotId) {
 
