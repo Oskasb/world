@@ -16,6 +16,7 @@ function requestItemSlotChange(actor, item, toSlot) {
 
             let invItem = actor.actorInventory.getItemAtSlot(toSlot);
             actor.actorInventory.addInventoryItem(item, toSlot, null);
+            actor.actorInventory.addInventoryItem(null, fromSlot, null);
             if (invItem !== null) {
                 actor.actorInventory.addInventoryItem(invItem, fromSlot, null);
             }
@@ -48,7 +49,7 @@ function requestItemSlotChange(actor, item, toSlot) {
                     let moveToSlot = actor.actorInventory.getFirstEmptySlotKey();
 
                     if (typeof (moveToSlot) === 'string') {
-                        actor.actorInventory.addInventoryItem(invItem, moveToSlot, null);
+                        actor.actorInventory.addInventoryItem(item, moveToSlot, null);
                     } else {
                         console.log("Inventory overflow, ADD TO STASH HERE...", invItem);
                     }

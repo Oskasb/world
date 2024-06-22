@@ -1,7 +1,13 @@
 import {HtmlElement} from "./HtmlElement.js";
 import {poolFetch, poolReturn} from "../../utils/PoolUtils.js";
 import {ENUMS} from "../../ENUMS.js";
-import {getItemIconClass, getVisualConfigByVisualId, getVisualConfigIconClass} from "../../utils/ItemUtils.js";
+import {
+    getItemIconClass,
+    getItemUiStateKey,
+    getVisualConfigByVisualId,
+    getVisualConfigIconClass
+} from "../../utils/ItemUtils.js";
+
 
 let activeDomItems = [];
 let dragEvent = {};
@@ -25,11 +31,22 @@ class DomItem {
         }
 
         let update = function() {
-            if (targetRoot === null) {
+
+            let slotId = item.getStatus(ENUMS.ItemStatus.EQUIPPED_SLOT);
+
+            let uiStateKey = getItemUiStateKey(item);
+            let slotHtmlElem =  GuiAPI.getUiStatusHtmlElement(uiStateKey);
+            if (!slotHtmlElem) {
                 return;
             }
 
-            if (targetElement === null) {
+            targetRoot = slotHtmlElem.call.getRootElement();
+            targetElement = slotHtmlElem.call.getChildElement(slotId);
+            if (!targetRoot) {
+                return;
+            }
+
+            if (!targetElement) {
                 return;
             }
 

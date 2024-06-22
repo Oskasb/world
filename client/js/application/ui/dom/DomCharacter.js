@@ -162,14 +162,6 @@ class DomCharacter {
             return null;
         }
 
-        let clearItemDivs = function() {
-            while(itemDivs.length) {
-                console.log("Return DomItem")
-                let domItem = itemDivs.pop();
-                domItem.call.close();
-                poolReturn(domItem);
-            }
-        }
 
         let update = function() {
             if (actor === null) {
@@ -212,45 +204,10 @@ class DomCharacter {
                     }
                 }
             }
-
-            let items = []
-            actor.actorEquipment.getEquippedItems(items);
-
-            if (itemDivs.length !== 0 && itemDivs.length !== items.length) {
-                clearItemDivs()
-            }
-
-            if (itemDivs.length < items.length) {
-                for (let i = 0; i < items.length; i++) {
-                    let item = items[i]
-                    let itemDiv = poolFetch('DomItem');
-                    itemDiv.call.setItem(item);
-                    itemDivs.push(itemDiv);
-                }
-            }
-
-            for (let i = 0; i < itemDivs.length; i++) {
-                let domItem = itemDivs[i];
-                let item = domItem.call.getItem();
-
-                // let slotId = item.getStatus(ENUMS.ItemStatus.EQUIPPED_SLOT);
-                let slotId = item.config['equip_slot'];
-                let target = htmlElement.call.getChildElement(slotId);
-
-                if (!target) {
-                    console.log("No parent div for slot: ", slotId, item);
-            //        MATH.splice(itemDivs, itemDivs[i]);
-            //        i--;
-                //    clearItemDivs()
-                } else {
-                    domItem.call.setTargetElement(target, htmlElement.call.getRootElement())
-                }
-            }
         }
 
         let close = function() {
             ThreeAPI.unregisterPrerenderCallback(update);
-            clearItemDivs();
             actor.deactivateUiState(ENUMS.UiStates.CHARACTER);
             actor = null;
             htmlElement.closeHtmlElement();

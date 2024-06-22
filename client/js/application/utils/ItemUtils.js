@@ -77,6 +77,15 @@ function getItemQuality(itemId) {
     return ENUMS.quality[rarity];
 }
 
+function getItemUiStateKey(item) {
+    let slotId = item.getStatus(ENUMS.ItemStatus.EQUIPPED_SLOT);
+    if (typeof ENUMS.EquipmentSlots[slotId] === 'string') {
+        return ENUMS.UiStates.CHARACTER;
+    } else if (typeof ENUMS.InventorySlots[slotId] === 'string') {
+        return ENUMS.UiStates.INVENTORY;
+    }
+}
+
 export {
     getItemRarity,
     getItemQuality,
@@ -85,5 +94,6 @@ export {
     getItemConfigByItemId,
     getVisualConfigByItemId,
     getVisualConfigByVisualId,
-    getVisualConfigIconClass
+    getVisualConfigIconClass,
+    getItemUiStateKey
 }

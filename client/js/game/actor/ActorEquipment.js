@@ -91,7 +91,7 @@ class ActorEquipment {
             let currentSlotStatus = this.actor.getStatus(ENUMS.ActorStatus[slotId]);
 
             if (currentSlotStatus === item.getStatus(ENUMS.ItemStatus.ITEM_ID)) {
-        //        console.log("Unequip currently equipped itemId", slotId)
+                console.log("Unequip currently equipped itemId", slotId)
                 this.actor.setStatusKey(ENUMS.ActorStatus[slotId], "")
             }
 

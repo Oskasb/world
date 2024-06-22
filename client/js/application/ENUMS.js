@@ -531,6 +531,40 @@ ENUMS.rarity = {
         REMOVED:'REMOVED'
     }
 
+    ENUMS.EquipmentSlots = {
+        SLOT_HEAD:      'SLOT_HEAD',
+        SLOT_BODY:      'SLOT_BODY',
+        SLOT_CHEST:     'SLOT_CHEST',
+        SLOT_WRIST:     'SLOT_WRIST',
+        SLOT_HANDS:     'SLOT_HANDS',
+        SLOT_WAIST:     'SLOT_WAIST',
+        SLOT_LEGS:      'SLOT_LEGS',
+        SLOT_SKIRT:     'SLOT_SKIRT',
+        SLOT_FEET:      'SLOT_FEET',
+        SLOT_HAND_R:    'SLOT_HAND_R',
+        SLOT_HAND_L:    'SLOT_HAND_L',
+        SLOT_BACK:      'SLOT_BACK',
+        SLOT_WRIST_L:   'SLOT_WRIST_L',
+        SLOT_WRIST_R:   'SLOT_WRIST_R',
+    }
+
+ENUMS.InventorySlots = {
+    SLOT_0:      'SLOT_0',
+    SLOT_1:      'SLOT_1',
+    SLOT_2:      'SLOT_2',
+    SLOT_3:      'SLOT_3',
+    SLOT_4:      'SLOT_4',
+    SLOT_5:      'SLOT_5',
+    SLOT_6:      'SLOT_6',
+    SLOT_7:      'SLOT_7',
+    SLOT_8:      'SLOT_8',
+    SLOT_9:      'SLOT_9',
+    SLOT_10:     'SLOT_10',
+    SLOT_11:     'SLOT_11',
+}
+
+
+
     ENUMS.Controls = {
         SAMPLE_STATUS:'SAMPLE_STATUS',
         CONTROL_PITCH:'CONTROL_PITCH',

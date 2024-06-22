@@ -28,13 +28,6 @@ function includeItemsList(itemsList, uiStateKey) {
             items.push(item);
             let domItem = poolFetch('DomItem');
             domItem.call.setItem(item);
-
-            let htmlElement = GuiAPI.getUiStatusHtmlElement(uiStateKey);
-            let rootElem = htmlElement.call.getRootElement();
-
-            let slotId = item.getStatus(ENUMS.ItemStatus.EQUIPPED_SLOT);
-            let targetDiv = htmlElement.call.getChildElement(slotId);
-            domItem.call.setTargetElement(targetDiv, rootElem);
             domItems.push(domItem);
         } else {
             console.log("Item already included... something is bad", item, items)

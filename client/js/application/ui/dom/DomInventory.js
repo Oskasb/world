@@ -53,8 +53,6 @@ class DomInventory {
         }
 
         let htmlElement = new HtmlElement();
-        let invItems = {};
-        let slottedItems = {};
         let buttonDiv = null;
         let adsrEnvelope;
         let slotElements = {};
@@ -103,17 +101,6 @@ class DomInventory {
 
         let rebuild;
 
-        let clearItemDivs = function() {
-            console.log("clearItemDivs")
-            for (let key in invItems) {
-                if (invItems[key] !== null) {
-                    let domItem = invItems[key];
-                    domItem.call.close();
-                    poolReturn(domItem);
-                    invItems[key] = null;
-                }
-            }
-        }
 
         let getDragOverSlot = function() {
             let dragX = dragEvent.x;
@@ -158,55 +145,11 @@ class DomInventory {
             }
 
 
-            let items = actor.actorInventory.items;
-
-            for (let key in slottedItems) {
-                if (items[key].item === null) {
-                    slottedItems[key] = null;
-                }
-            }
-
-            for (let key in items) {
-                let item = items[key].item;
-                if (item !== null) {
-                    if (!slottedItems[key]) {
-                        slottedItems[key] = item;
-                    }
-                }
-            }
-
-            for (let key in slottedItems) {
-                let item = slottedItems[key];
-
-                if (typeof (invItems[key]) === 'object') {
-                    if (invItems[key] !== null) {
-                        if (invItems[key].call.getItem() !== item) {
-                            invItems[key].call.close();
-                            invItems[key] = null;
-                        } else {
-                            let slotId = item.getStatus(ENUMS.ItemStatus.EQUIPPED_SLOT);
-                            let target = htmlElement.call.getChildElement(slotId);
-                            invItems[key].call.setTargetElement(target, htmlElement.call.getRootElement())
-                        }
-
-                    }
-
-                } else {
-                    let domItem = poolFetch('DomItem');
-                    domItem.call.setItem(item);
-                    let target = htmlElement.call.getChildElement(key);
-                    console.log("Target Elem: ", target)
-                    domItem.call.setTargetElement(target, htmlElement.call.getRootElement())
-                    invItems[key] = domItem;
-                }
-            }
-
         }
 
         let close = function() {
             ThreeAPI.unregisterPrerenderCallback(update);
             actor.deactivateUiState(ENUMS.UiStates.INVENTORY);
-            clearItemDivs();
             actor = null;
             htmlElement.closeHtmlElement();
             poolReturn(htmlElement);
