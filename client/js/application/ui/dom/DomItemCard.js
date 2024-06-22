@@ -36,14 +36,18 @@ class DomItemCard {
         //    statusMap['PALETTE_VALUES'] = item.getStatus(ENUMS.ItemStatus.PALETTE_VALUES);
 
 
-            let instance = item.getVisualGamePiece().call.getInstance()
+            if (item.visualItem !== null) {
+                let instance = item.visualItem.call.getInstance()
 
-            if (instance !== null) {
-                let modelPalette = item.getVisualGamePiece().call.getPalette()
+                if (instance !== null) {
+                    let modelPalette = item.visualItem.call.getPalette()
 
-                modelPalette.setFromValuearray(statusMap['PALETTE_VALUES']);
-                modelPalette.applyPaletteToInstance(instance)
+                    modelPalette.setFromValuearray(statusMap['PALETTE_VALUES']);
+                    modelPalette.applyPaletteToInstance(instance)
+                }
             }
+
+
 
             setTargetCoordinates(pTop, pLeft+width*0.5)
         }

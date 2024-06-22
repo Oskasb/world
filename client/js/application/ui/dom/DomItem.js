@@ -10,88 +10,151 @@ import {
 import {requestItemSlotChange} from "../../utils/EquipmentUtils.js";
 import {getActiveUiStates} from "../../utils/ActorUtils.js";
 
-
 let activeDomItems = [];
-let dragEvent = {};
 
-
-let getDragOverSlot = function(dragEvent) {
-    let dragX = dragEvent.x;
-    let dragY = dragEvent.y;
-    let item = dragEvent.item;
-    let slotId = item.getEquipSlotId();
-    //    for (let key in slotElements) {
-    let slot = htmlElement.call.getChildElement(slotId);
-    if (slot) {
-        let rect = DomUtils.getElementCenter(slot, htmlElement.call.getRootElement());
-        let inside = DomUtils.xyInsideRect(dragX, dragY, rect);
-        if (inside === true) {
-            return slot
-        } else {
-            slot.style.borderColor = "rgba(155, 200, 255, 0.95)"
-            slot.style.boxShadow =  "0 0 1.3em rgba(85, 200, 255, 1)";
-        }
-    }
-
-    //    }
-    return null;
+let slotInfo = {
+    slot:null,
+    htmlElement:null,
+    uiState:''
 }
 
-let dragItems = [];
-let dragOverElements = [];
+function getTargetSlotElement(dragEvent, activeUiStates) {
+    for (let key in activeUiStates) {
+        let htmlElement = GuiAPI.getUiStatusHtmlElement(activeUiStates[key])
+        let item = dragEvent.item;
+        let slotId = item.getEquipSlotId();
+        let slot = htmlElement.call.getChildElement(slotId);
+        if (slot) {
+            slotInfo.slot = slot;
+            slotInfo.htmlElement = htmlElement;
+            slotInfo.uiState = activeUiStates[key];
+            return slotInfo;
+        }
+    }
+    return null
+}
 
+
+function indicateTargetSlot(dragEvent, activeUiStates, on) {
+
+        let sInfo = getTargetSlotElement(dragEvent, activeUiStates)
+        if (sInfo !== null) {
+            let slot = sInfo.slot;
+            let htmlElement = sInfo.htmlElement;
+            if (on === true) {
+                slot.style.borderColor = "rgba(115, 230, 125, 0.95)"
+            } else {
+                slot.style.borderColor = ""
+            }
+        }
+
+}
+
+function getSlotsForUiState(uiState) {
+    if (uiState === ENUMS.UiStates.CHARACTER) {
+        return ENUMS.EquipmentSlots;
+    } else if (uiState === ENUMS.UiStates.INVENTORY) {
+        return ENUMS.InventorySlots;
+    }  else {
+        console.log("unsupported ui state slots", uiState);
+    }
+
+}
+
+function getSlotAtDragEvent(dragEvent, activeUiStates) {
+    for (let key in activeUiStates) {
+        let htmlElement = GuiAPI.getUiStatusHtmlElement(activeUiStates[key])
+
+        let slotEnums = getSlotsForUiState(activeUiStates[key])
+
+        for (let key in slotEnums) {
+            let slotDiv = htmlElement.call.getChildElement(key);
+            let rect = DomUtils.getElementCenter(slotDiv, htmlElement.call.getRootElement());
+            let inside = DomUtils.xyInsideRect(dragEvent.x, dragEvent.y, rect);
+            if (inside === true) {
+
+                return slotDiv
+            }
+        }
+    }
+    return null
+}
+
+function releaseDragOverIndicator(dragEvent, activeUiStates) {
+    while (dragOverElements.length) {
+        let releaseSlot = dragOverElements.pop()
+        releaseSlot.style.borderColor = ""
+        indicateTargetSlot(dragEvent, activeUiStates, true)
+    }
+}
+
+function indicateCurrentSlotAtDragPoint(dragEvent, activeUiStates) {
+    let slot = getSlotAtDragEvent(dragEvent, activeUiStates);
+    if (slot === null) {
+        releaseDragOverIndicator(dragEvent, activeUiStates)
+    } else {
+        let slotIndex = dragOverElements.indexOf(slot)
+        if (slotIndex === -1) {
+            releaseDragOverIndicator(dragEvent, activeUiStates)
+
+            console.log("Target div: ", slot)
+
+            let targetSlot = dragOverSlotIsTarget(dragEvent, activeUiStates);
+
+            if (targetSlot === slot) {
+                slot.style.borderColor = "rgba(199, 255, 225, 1)"
+            } else {
+                slot.style.borderColor = "rgba(75, 140, 185, 0.95)"
+            }
+            dragOverElements.push(slot);
+        }
+    }
+}
+
+function dragOverSlotIsTarget(dragEvent, activeUiStates) {
+    let sInfo = getTargetSlotElement(dragEvent, activeUiStates)
+    if (sInfo !== null) {
+        let slot = sInfo.slot;
+        let htmlElement = sInfo.htmlElement;
+        let rect = DomUtils.getElementCenter(slot, htmlElement.call.getRootElement());
+        let inside = DomUtils.xyInsideRect(dragEvent.x, dragEvent.y, rect);
+        if (inside === true) {
+            slot.style.boxShadow =  "0 0 1.3em rgba(185, 255, 215, 1)";
+            return slot
+        } else {
+            slot.style.boxShadow =  "";
+        }
+    }
+}
+
+let draggingDomItems = [];
+let dragOverElements = [];
+let dragTargetElements = [];
 
 let handleItemDragEvent = function(dragEvent) {
-    console.log("handleItemDragEvent", dragEvent);
+
     let item = dragEvent.item;
     let domItem = dragEvent.domItem;
     let activeUiStates = getActiveUiStates();
+    let targetSlot = dragOverSlotIsTarget(dragEvent, activeUiStates)
+    if (dragEvent.dragActive === true) {
+        if (draggingDomItems.indexOf(domItem) === -1) {
+            draggingDomItems.push(domItem);
+            console.log("start drag active", dragEvent);
+            indicateTargetSlot(dragEvent, activeUiStates, true)
+        }
+        indicateCurrentSlotAtDragPoint(dragEvent, activeUiStates);
+    } else {
+        if (targetSlot) {
+            targetSlot.style.boxShadow =  "";
+        }
+        console.log("Drop DomItem event", dragEvent)
+        indicateTargetSlot(dragEvent, activeUiStates, false)
+        MATH.splice(draggingDomItems, domItem);
+    }
 
     // do: Set a "start drag" state, map to inputPointer. Get coords, use coords to update pos etc, wait for stop drag to end it
 
-    let slot = getDragOverSlot(dragEvent)
-    if (slot !== null) {
-        //    console.log("Drag Listening", slot)
-        if (dragTargetSlot !== slot) {
-            if (dragTargetSlot !== null) {
-                dragTargetSlot.style.borderColor = "";
-            }
-            slot.style.borderColor = "white";
-            //    dragTargetSlot = slot;
-        }
-    } else {
-        if (dragTargetSlot !== null) {
-            dragTargetSlot.style.borderColor = "";
-            //    dragTargetSlot = null;
-        }
-    }
-
-
-    } else {
-
-        if (dragItem !== null) {
-            let slotId = dragItem.getEquipSlotId();
-            let slot = htmlElement.call.getChildElement(slotId);
-
-            if (slot) {
-                slot.style.borderColor = ""
-                slot.style.boxShadow =  "";
-            }
-        }
-
-        if (dragTargetSlot !== null) {
-
-            let slotId = dragTargetSlot.id;
-            let sourceSlot = dragItem.getStatus(ENUMS.ItemStatus.EQUIPPED_SLOT);
-            if (sourceSlot === slotId) {
-                console.log("Drag back to origin")
-                return;
-            }
-
-            console.log("Drag To Inv Slot", slotId, dragTargetSlot, dragItem);
-            requestItemSlotChange(actor, dragItem, slotId);
-        }
-    }
 }
 
 function dragListener(e) {
@@ -107,7 +170,7 @@ class DomItem {
             listener = dragListener;
             evt.on(ENUMS.Event.UI_ITEM_DRAG, listener)
         }
-
+        let dragEvent = {};
         let domItem = this;
         let htmlElement = new HtmlElement();
         let item = null;
@@ -164,6 +227,7 @@ class DomItem {
                     dragEvent.y = targetY;
                     dragEvent.item = getItem();
                     dragEvent.domItem = domItem;
+                    dragEvent.dragActive = true;
                     evt.dispatch(ENUMS.Event.UI_ITEM_DRAG, dragEvent)
                 }
 
@@ -263,7 +327,12 @@ class DomItem {
             dragActive = false;
             rootElement.style.zIndex = '';
             rootElement.style.transition = sourceTransition;
-            evt.dispatch(ENUMS.Event.UI_ITEM_DRAG, null)
+            dragEvent.x = dragX;
+            dragEvent.y = dragY;
+            dragEvent.item = getItem();
+            dragEvent.domItem = domItem;
+            dragEvent.dragActive = false;
+            evt.dispatch(ENUMS.Event.UI_ITEM_DRAG, dragEvent)
             dragY = 0;
             dragX = 0;
         }

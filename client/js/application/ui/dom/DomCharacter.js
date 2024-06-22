@@ -49,8 +49,6 @@ class DomCharacter {
         let topDiv;
         let bottomDiv;
         let invDiv;
-
-
         let inv = null;
 
         let closeInv = function() {
@@ -69,7 +67,6 @@ class DomCharacter {
             }
         }
 
-
         let readyCb = function() {
             invDiv = htmlElement.call.getChildElement('button_inventory');
             headerDiv = htmlElement.call.getChildElement('header_container');
@@ -84,29 +81,6 @@ class DomCharacter {
         }
 
         let rebuild;
-
-        let getDragOverSlot = function() {
-            let dragX = dragEvent.x;
-            let dragY = dragEvent.y;
-            let item = dragEvent.item;
-            let slotId = item.getEquipSlotId();
-        //    for (let key in slotElements) {
-                let slot = htmlElement.call.getChildElement(slotId);
-                if (slot) {
-                    let rect = DomUtils.getElementCenter(slot, htmlElement.call.getRootElement());
-                    let inside = DomUtils.xyInsideRect(dragX, dragY, rect);
-                    if (inside === true) {
-                        return slot
-                    } else {
-                        slot.style.borderColor = "rgba(155, 200, 255, 0.95)"
-                        slot.style.boxShadow =  "0 0 1.3em rgba(85, 200, 255, 1)";
-                    }
-                }
-
-        //    }
-            return null;
-        }
-
 
         let update = function() {
             if (actor === null) {
@@ -128,8 +102,6 @@ class DomCharacter {
             statusMap.WORLD_LEVEL = actor.getStatus(ENUMS.ActorStatus.WORLD_LEVEL);
             statusMap.TRAVEL = actor.getStatus(ENUMS.ActorStatus.TRAVEL);
             statusMap.STRONGHOLD_ID = actor.getStatus(ENUMS.ActorStatus.STRONGHOLD_ID);
-
-
         }
 
         let close = function() {

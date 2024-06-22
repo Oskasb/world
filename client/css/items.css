@@ -216,6 +216,7 @@ div.item_container {
 }
 
 div.item_container p {
+    pointer-events: none;
     color: rgba(0, 0, 0, 0.95);
     text-shadow: 0 0 16px rgb(255, 255, 255);
     top: 20%;
