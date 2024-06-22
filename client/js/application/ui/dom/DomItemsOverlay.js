@@ -69,12 +69,12 @@ function updateActorUiState(actor, uiStateKey, open) {
     }
 }
 
-function renderItemIcons() {
-    console.log("render item count", domItems.length)
-    for (let i = 0; i < domItems.length; i++) {
-        let domItem = domItems[i];
-        let item = domItem.call.getItem();
+let count = 0;
 
+function renderItemIcons() {
+    if (count !== domItems.length) {
+        count = domItems.length;
+        console.log("render item count", domItems.length)
     }
 }
 

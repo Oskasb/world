@@ -105,6 +105,17 @@ function getPlayerActor() {
     return GameAPI.getGamePieceSystem().selectedActor;
 }
 
+let none = [];
+
+function getActiveUiStates() {
+    let a = getPlayerActor();
+    if (a) {
+        return a.getStatus(ENUMS.ActorStatus.ACTIVE_UI_STATES)
+    } else {
+        return none;
+    }
+}
+
 export {
     mapItemConfigs,
     getItemConfigs,
@@ -112,5 +123,6 @@ export {
     autoEquipActorByLevel,
     activateActorVisuals,
     deactivateActorVisuals,
-    getPlayerActor
+    getPlayerActor,
+    getActiveUiStates
 }

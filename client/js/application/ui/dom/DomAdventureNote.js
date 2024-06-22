@@ -4,7 +4,7 @@ import {
     getItemConfigByItemId,
     getItemIconClass,
     getItemRarity,
-    getVisualConfigByItemId
+    getVisualConfigByItemId, getVisualConfigIconClass
 } from "../../utils/ItemUtils.js";
 import {ENUMS} from "../../ENUMS.js";
 
@@ -165,7 +165,7 @@ class DomAdventureNote {
 
                 let vconfig = getVisualConfigByItemId(itemId);
 
-                let itemClass = getItemIconClass(itemId)
+                let itemClass = getVisualConfigIconClass(vconfig)
 
            //     console.log("Reward Item Config ", itemClass ,  config, vconfig);
 

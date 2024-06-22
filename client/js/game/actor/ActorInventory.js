@@ -68,7 +68,7 @@ class ActorInventory {
 
         let slotItem = this.items[slotKey];
         if (!slotItem) {
-            console.log("Bas slot lookup ", slotKey, this.items)
+            console.log("Bad slot lookup ", slotKey, this.items)
         }
 
 

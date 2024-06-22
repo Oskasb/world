@@ -37,7 +37,7 @@ function requestItemSlotChange(actor, item, toSlot) {
     } else if (fromEquip === true) {
         console.log("Drag from paperdoll", item, fromSlot, toSlot);
         actor.actorEquipment.call.unequipActorItem(item);
-
+        actor.actorInventory.addInventoryItem(item, toSlot, null);
         if (toInv === true) {
             console.log("Drag from equipped to inv", item, fromSlot, toSlot);
             let invItem = actor.actorInventory.getItemAtSlot(toSlot);
@@ -50,12 +50,13 @@ function requestItemSlotChange(actor, item, toSlot) {
 
                     if (typeof (moveToSlot) === 'string') {
                         actor.actorInventory.addInventoryItem(item, moveToSlot, null);
+
                     } else {
                         console.log("Inventory overflow, ADD TO STASH HERE...", invItem);
                     }
                 }
             }
-
+            console.log("Post UnEquip process ", actor.actorStatus.statusMap);
         } else if (toEquip === true) {
             console.log("Not a thing - Drag from equipped to equipped", item, fromSlot, toSlot);
         }

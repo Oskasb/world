@@ -15,52 +15,8 @@ let dragListening = false;
 class DomCharacter {
     constructor() {
 
-        let dragItem = null;
-        let sourceSlot
-        let dragTargetSlot = null;
-
-        let switchCB = function(dragItem, switchItem) {
-            if (switchItem !== null) {
-                actor.actorInventory.addInventoryItem(switchItem, sourceSlot, null);
-            }
-        }
-
-        let handleItemDragEvent = function(e) {
-            if (e !== null) {
-                dragListening = true;
-                dragEvent = e;
-                dragItem = e.item;
-            } else {
-                dragListening = false;
-
-                if (dragItem !== null) {
-                    let slotId = dragItem.getEquipSlotId();
-                    let slot = htmlElement.call.getChildElement(slotId);
-
-                    if (slot) {
-                        slot.style.borderColor = ""
-                        slot.style.boxShadow =  "";
-                    }
-                }
-
-                if (dragTargetSlot !== null) {
-
-                    let slotId = dragTargetSlot.id;
-                    sourceSlot = dragItem.getStatus(ENUMS.ItemStatus.EQUIPPED_SLOT);
-                    if (sourceSlot === slotId) {
-                        console.log("Drag back to origin")
-                        return;
-                    }
-
-                    console.log("Drag To Inv Slot", slotId, dragTargetSlot, dragItem);
-                    requestItemSlotChange(actor, dragItem, slotId);
-                }
-            }
-        }
-
         let actor = null;
         let htmlElement = new HtmlElement();
-        let itemDivs = [];
 
         let adsrEnvelope;
 
@@ -111,18 +67,8 @@ class DomCharacter {
                 inv = poolFetch('DomInventory');
                 inv.call.activate(actor, invDiv, closeInv);
             }
-
         }
 
-
-        function dragListener(e) {
-            if (inv !== null) {
-                inv.call.handleItemDragEvent(e);
-            }
-            handleItemDragEvent(e);
-        }
-
-        evt.on(ENUMS.Event.UI_ITEM_DRAG, dragListener)
 
         let readyCb = function() {
             invDiv = htmlElement.call.getChildElement('button_inventory');
@@ -138,7 +84,6 @@ class DomCharacter {
         }
 
         let rebuild;
-
 
         let getDragOverSlot = function() {
             let dragX = dragEvent.x;
@@ -184,26 +129,7 @@ class DomCharacter {
             statusMap.TRAVEL = actor.getStatus(ENUMS.ActorStatus.TRAVEL);
             statusMap.STRONGHOLD_ID = actor.getStatus(ENUMS.ActorStatus.STRONGHOLD_ID);
 
-            if (dragListening === true) {
-                if (dragEvent !== null) {
-                    let slot = getDragOverSlot()
-                    if (slot !== null) {
-                        //    console.log("Drag Listening", slot)
-                        if (dragTargetSlot !== slot) {
-                            if (dragTargetSlot !== null) {
-                                dragTargetSlot.style.borderColor = "";
-                            }
-                            slot.style.borderColor = "white";
-                            dragTargetSlot = slot;
-                        }
-                    } else {
-                        if (dragTargetSlot !== null) {
-                            dragTargetSlot.style.borderColor = "";
-                            dragTargetSlot = null;
-                        }
-                    }
-                }
-            }
+
         }
 
         let close = function() {
