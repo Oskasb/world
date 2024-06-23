@@ -8,7 +8,7 @@ import {
     getVisualConfigIconClass
 } from "../../utils/ItemUtils.js";
 import {requestItemSlotChange} from "../../utils/EquipmentUtils.js";
-import {getActiveUiStates} from "../../utils/ActorUtils.js";
+import {getActiveUiStates, getPlayerActor} from "../../utils/ActorUtils.js";
 
 let activeDomItems = [];
 
@@ -46,6 +46,7 @@ function indicateTargetSlot(dragEvent, activeUiStates, on) {
             } else {
                 slot.style.borderColor = ""
             }
+            return slot;
         }
 
 }
@@ -68,7 +69,7 @@ function getSlotAtDragEvent(dragEvent, activeUiStates) {
         let slotEnums = getSlotsForUiState(activeUiStates[key])
 
         for (let key in slotEnums) {
-            let slotDiv = htmlElement.call.getChildElement(key);
+            let slotDiv = htmlElement.call.getChildElement(slotEnums[key]);
             let rect = DomUtils.getElementCenter(slotDiv, htmlElement.call.getRootElement());
             let inside = DomUtils.xyInsideRect(dragEvent.x, dragEvent.y, rect);
             if (inside === true) {
@@ -85,20 +86,18 @@ function releaseDragOverIndicator(dragEvent, activeUiStates) {
         let releaseSlot = dragOverElements.pop()
         releaseSlot.style.borderColor = ""
         indicateTargetSlot(dragEvent, activeUiStates, true)
+        return releaseSlot;
     }
 }
 
 function indicateCurrentSlotAtDragPoint(dragEvent, activeUiStates) {
     let slot = getSlotAtDragEvent(dragEvent, activeUiStates);
     if (slot === null) {
-        releaseDragOverIndicator(dragEvent, activeUiStates)
+        return releaseDragOverIndicator(dragEvent, activeUiStates)
     } else {
         let slotIndex = dragOverElements.indexOf(slot)
         if (slotIndex === -1) {
             releaseDragOverIndicator(dragEvent, activeUiStates)
-
-            console.log("Target div: ", slot)
-
             let targetSlot = dragOverSlotIsTarget(dragEvent, activeUiStates);
 
             if (targetSlot === slot) {
@@ -108,6 +107,7 @@ function indicateCurrentSlotAtDragPoint(dragEvent, activeUiStates) {
             }
             dragOverElements.push(slot);
         }
+        return slot;
     }
 }
 
@@ -136,20 +136,28 @@ let handleItemDragEvent = function(dragEvent) {
     let item = dragEvent.item;
     let domItem = dragEvent.domItem;
     let activeUiStates = getActiveUiStates();
-    let targetSlot = dragOverSlotIsTarget(dragEvent, activeUiStates)
+    let isTargetSlot = dragOverSlotIsTarget(dragEvent, activeUiStates)
+    let equipToSlot = indicateTargetSlot(dragEvent, activeUiStates, dragEvent.dragActive)
+    let currentHoverSlot = indicateCurrentSlotAtDragPoint(dragEvent, activeUiStates);
+
     if (dragEvent.dragActive === true) {
         if (draggingDomItems.indexOf(domItem) === -1) {
             draggingDomItems.push(domItem);
             console.log("start drag active", dragEvent);
-            indicateTargetSlot(dragEvent, activeUiStates, true)
         }
-        indicateCurrentSlotAtDragPoint(dragEvent, activeUiStates);
     } else {
-        if (targetSlot) {
-            targetSlot.style.boxShadow =  "";
+
+        if (isTargetSlot) {
+            isTargetSlot.style.boxShadow =  "";
         }
         console.log("Drop DomItem event", dragEvent)
-        indicateTargetSlot(dragEvent, activeUiStates, false)
+
+
+        if (currentHoverSlot !== null) {
+            console.log("Drop Item On SlotId", currentHoverSlot.id)
+            requestItemSlotChange(getPlayerActor(), item, currentHoverSlot.id);
+        }
+
         MATH.splice(draggingDomItems, domItem);
     }
 

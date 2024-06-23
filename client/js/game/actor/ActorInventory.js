@@ -46,10 +46,12 @@ class ActorInventory {
         return null;
     }
 
+
+
     addInventoryItem(item, slot, callback) {
-        if (isDev()) {
-            console.log("Add Inv Item ", item)
-        }
+    //    if (isDev()) {
+            console.log("Add Inv Item ", item, slot)
+    //    }
 
         let slotKey = null;
         if (typeof (slot) === 'string') {
@@ -59,12 +61,24 @@ class ActorInventory {
         } else {
             slotKey = this.getFirstEmptySlotKey();
             if (slotKey === null) {
+                console.log("Inventory full...")
                 if (typeof (callback) === 'function') {
                     callback(null);
                     return;
                 }
             }
         }
+
+        let invStatus = this.actor.getStatus(ENUMS.ActorStatus.INVENTORY_ITEMS);
+        let currentInvSlotKey = this.getInvItemSlotId(item);
+        if (currentInvSlotKey !== null) {
+            if (currentInvSlotKey === slotKey) {
+                console.log("Item already in place", slotKey, item);
+                return;
+            }
+            invStatus[this.items[currentInvSlotKey].index] = "";
+        }
+
 
         let slotItem = this.items[slotKey];
         if (!slotItem) {
@@ -77,7 +91,7 @@ class ActorInventory {
             switchItem = slotItem.item;
         }
 
-        let invStatus = this.actor.getStatus(ENUMS.ActorStatus.INVENTORY_ITEMS);
+
 
         if (item === null) {
             invStatus[this.items[slotKey].index] = "";

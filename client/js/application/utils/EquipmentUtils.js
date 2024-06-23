@@ -8,6 +8,11 @@ function requestItemSlotChange(actor, item, toSlot) {
     let fromInv = actor.actorInventory.isInventorySlot(fromSlot)
     let fromEquip = actor.actorEquipment.isEquipmentSlot(fromSlot)
 
+    if (fromSlot === toSlot) {
+        console.log("Drop on source", fromSlot, toSlot);
+        return;
+    }
+
 
     if (fromInv === true) {
 
@@ -16,7 +21,7 @@ function requestItemSlotChange(actor, item, toSlot) {
 
             let invItem = actor.actorInventory.getItemAtSlot(toSlot);
             actor.actorInventory.addInventoryItem(item, toSlot, null);
-            actor.actorInventory.addInventoryItem(null, fromSlot, null);
+    //        actor.actorInventory.addInventoryItem(null, fromSlot, null);
             if (invItem !== null) {
                 actor.actorInventory.addInventoryItem(invItem, fromSlot, null);
             }
@@ -35,11 +40,10 @@ function requestItemSlotChange(actor, item, toSlot) {
         }
 
     } else if (fromEquip === true) {
-        console.log("Drag from paperdoll", item, fromSlot, toSlot);
-        actor.actorEquipment.call.unequipActorItem(item);
-        actor.actorInventory.addInventoryItem(item, toSlot, null);
         if (toInv === true) {
-            console.log("Drag from equipped to inv", item, fromSlot, toSlot);
+            console.log("Drag from paperdoll to inv", item, fromSlot, toSlot);
+            actor.actorEquipment.call.unequipActorItem(item);
+            actor.actorInventory.addInventoryItem(item, toSlot, null);
             let invItem = actor.actorInventory.getItemAtSlot(toSlot);
             if (invItem !== null) {
                 let switchedSlotId = invItem.getEquipSlotId();
@@ -65,6 +69,7 @@ function requestItemSlotChange(actor, item, toSlot) {
         console.log("Item from unsupported slotid", fromSlot, item)
     }
 
+    console.log("Actor StatusMap", actor.actorStatus.statusMap)
 
 
 }
