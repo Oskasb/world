@@ -24,7 +24,7 @@ class DomInventory {
 
         let setInitTransforms = function() {
             rootElem = htmlElement.call.getRootElement();
-            rootElem.style.transform = "translate3d(50%, -68%, 0)";
+            rootElem.style.transform = "translate3d(-150%, -50%, 0)";
         }
 
         let retrigger = function() {

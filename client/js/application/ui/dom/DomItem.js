@@ -143,18 +143,24 @@ let handleItemDragEvent = function(dragEvent) {
     if (dragEvent.dragActive === true) {
         if (draggingDomItems.indexOf(domItem) === -1) {
             draggingDomItems.push(domItem);
-            console.log("start drag active", dragEvent);
+    //        console.log("start drag active", dragEvent);
         }
     } else {
+
+        let sInfo = getTargetSlotElement(dragEvent, activeUiStates)
+
+        if (sInfo.slot) {
+            sInfo.slot.style.borderColor =  "";
+        }
 
         if (isTargetSlot) {
             isTargetSlot.style.boxShadow =  "";
         }
-        console.log("Drop DomItem event", dragEvent)
+    //    console.log("Drop DomItem event", dragEvent)
 
 
-        if (currentHoverSlot !== null) {
-            console.log("Drop Item On SlotId", currentHoverSlot.id)
+        if (currentHoverSlot) {
+        //    console.log("Drop Item On SlotId", currentHoverSlot.id)
             requestItemSlotChange(getPlayerActor(), item, currentHoverSlot.id);
         }
 
@@ -220,14 +226,9 @@ class DomItem {
             let pLeft = rect.x;
 
                 rootElement.style.fontSize = targetElement.style.fontSize;
-                rootElement.style.width = rect.width+'px';
-                rootElement.style.height = rect.height+'px';
 
-                let dragScaleY = 1 // bodyRect.height / rootElement.offsetHeight;
-                let dragScaleX = 1 // bodyRect.width / rootElement.offsetWidth;
-
-                let targetY = dragScaleY*dragY+pTop+rect.height*0.5;
-                let targetX = dragScaleX*dragX+pLeft+rect.width*0.5
+                let targetY = dragY+pTop+rect.height*0.5;
+                let targetX = dragX+pLeft+rect.width*0.5
 
                 setTargetCoordinates(targetY, targetX);
                 if (dragActive === true) {
@@ -237,6 +238,13 @@ class DomItem {
                     dragEvent.domItem = domItem;
                     dragEvent.dragActive = true;
                     evt.dispatch(ENUMS.Event.UI_ITEM_DRAG, dragEvent)
+
+                    rootElement.style.width = 110+'em';
+                    rootElement.style.height = 110+'em';
+
+                } else {
+                    rootElement.style.width = rect.width+'px';
+                    rootElement.style.height = rect.height+'px';
                 }
 
         }
@@ -325,8 +333,9 @@ class DomItem {
 
             startOffsetTop = rootElement.offsetTop;
             startOffsetLeft = rootElement.offsetLeft;
-            console.log("Drag Item", e, client);
+        //    console.log("Drag Item", e, client);
             rootElement.style.zIndex = 5000;
+
             sourceTransition = rootElement.style.transition;
             rootElement.style.transition = "";
         }

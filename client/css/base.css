@@ -260,8 +260,8 @@ iframe.inventory {
     z-index: 200;
     top: 50%;
     right: 50%;
-    width: 302em;
-    height: 450em;
+    width: 180em;
+    height: 650em;
     position: absolute;
     color: #ecffdc;
     border: none;

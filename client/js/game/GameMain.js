@@ -179,6 +179,10 @@ class GameMain {
 
             let dataList = {};
 
+            if (getUrlParam('local') === true) {
+
+            }
+
             if (getUrlParam('new') === true) {
 
             } else {
