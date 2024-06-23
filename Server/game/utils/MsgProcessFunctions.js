@@ -175,7 +175,7 @@ function processClientRequest(request, stamp, message, connectedClient) {
             actor = player.getPlayerActor(message.status[1])
 
             if (actor) {
-                actor.updateStatusFromMessage(message.status);
+                actor.updateStatusFromMessage(message);
             } else {
                 console.log("actor not found", message)
                 return;
@@ -183,6 +183,7 @@ function processClientRequest(request, stamp, message, connectedClient) {
 
         //    getGameServerWorld().initServerEncounter(msgEvent)
             message.command = ENUMS.ServerCommands.ACTOR_UPDATE;
+        //    console.log("relayActorMessage", message);
             relayActorMessage(actor, message, player);
 
             break;

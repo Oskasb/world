@@ -10,70 +10,26 @@ function requestItemSlotChange(actor, item, toSlot) {
     let fromInv = actor.actorInventory.isInventorySlot(fromSlot)
     let fromEquip = actor.actorEquipment.isEquipmentSlot(fromSlot)
 
+    let equipRequests = actor.getStatus(ENUMS.ActorStatus.EQUIP_REQUESTS);
+
+
     if (fromSlot === toSlot) {
         console.log("Drop on source", fromSlot, toSlot);
         return;
     }
 
+    let uiState = "";
 
-    if (fromInv === true) {
-
-        if (toInv === true) {
-            console.log("Drag between inventory slots", item, fromSlot, toSlot);
-
-            let invItem = actor.actorInventory.getItemAtSlot(toSlot);
-            actor.actorInventory.addInventoryItem(item, toSlot, null);
-    //        actor.actorInventory.addInventoryItem(null, fromSlot, null);
-            if (invItem !== null) {
-                actor.actorInventory.addInventoryItem(invItem, fromSlot, null);
-            }
-
-        } else if (toEquip === true) {
-
-            console.log("Drag from inventory to equip", item, fromSlot, toSlot);
-            let switchItem = actor.actorEquipment.getEquippedItemBySlotId(toSlot);
-        //    console.log("Drag to paperdoll", item, fromSlot, toSlot);
-
-            actor.equipItem(item);
-            if (switchItem !== null) {
-                actor.actorInventory.addInventoryItem(switchItem, fromSlot, null);
-            }
-
-        }
-
-    } else if (fromEquip === true) {
-        if (toInv === true) {
-            console.log("Drag from paperdoll to inv", item, fromSlot, toSlot);
-            actor.actorEquipment.call.unequipActorItem(item);
-            actor.actorInventory.addInventoryItem(item, toSlot, null);
-            let invItem = actor.actorInventory.getItemAtSlot(toSlot);
-            if (invItem !== null) {
-                let switchedSlotId = invItem.getEquipSlotId();
-                if (switchedSlotId === fromSlot) {
-                    actor.equipItem(invItem);
-                } else {
-                    let moveToSlot = actor.actorInventory.getFirstEmptySlotKey();
-
-                    if (typeof (moveToSlot) === 'string') {
-                        actor.actorInventory.addInventoryItem(item, moveToSlot, null);
-
-                    } else {
-                        console.log("Inventory overflow, ADD TO STASH HERE...", invItem);
-                    }
-                }
-            }
-            console.log("Post UnEquip process ", actor.actorStatus.statusMap);
-        } else if (toEquip === true) {
-            console.log("Not a thing - Drag from equipped to equipped", item, fromSlot, toSlot);
-        }
-
-    } else {
-        console.log("Item from unsupported slotid", fromSlot, item)
+    if (toInv === true) {
+        console.log("Drag to inventory slot", item, fromSlot, toSlot);
+        uiState = ENUMS.UiStates.INVENTORY;
+    } else if (toEquip === true) {
+        console.log("Drag to equip slot", item, fromSlot, toSlot);
+        uiState = ENUMS.UiStates.CHARACTER;
     }
+    equipRequests.push(toSlot, item.getStatus(ENUMS.ItemStatus.TEMPLATE), item.id, uiState);
 
-    console.log("Actor StatusMap", actor.actorStatus.statusMap)
-
-
+    console.log("Actor StatusMap EQUIP_REQUESTS", equipRequests)
 }
 
 export {

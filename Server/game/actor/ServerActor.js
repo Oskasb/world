@@ -249,7 +249,14 @@ class ServerActor {
                 let currentItemId = invItems[slotIndex];
 
                 if (currentItemId === "") {
-                    console.log("Put item into free inv slot");
+
+                    if (invItems.indexOf(itemId) !== -1) {
+                        console.log("Move inv item into free inv slot");
+                        invItems[invItems.indexOf(itemId)] = "";
+                    } else {
+                        console.log("Put item into free inv slot");
+                    };
+
                     invItems[slotIndex] = itemId;
                 } else if (currentItemId !== itemId) {
                     console.log("Put item on top of inv item", currentItemId);
@@ -265,7 +272,7 @@ class ServerActor {
 
 
         } else {
-            console.log("applyActorEquipRequest uiStateKey not yt supported", uiStateKey);
+            console.log("applyActorEquipRequest uiStateKey not yet supported", uiStateKey);
         }
     }
 

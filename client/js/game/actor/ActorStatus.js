@@ -93,6 +93,7 @@ function sendUpdatedOnly(status, statusMap) {
 }
 
 let hardStateMap = [
+    ENUMS.ActorStatus.EQUIP_REQUESTS,
     ENUMS.ActorStatus.IN_COMBAT,
     ENUMS.ActorStatus.TURN_STATE,
     ENUMS.ActorStatus.HAS_TURN,
@@ -137,6 +138,7 @@ let hardStateMap = [
 
 let detailsMap = [
     ENUMS.ActorStatus.ACTIVATION_STATE,
+
     ENUMS.ActorStatus.PATH_POINTS,
     ENUMS.ActorStatus.SELECTED_TARGET,
     ENUMS.ActorStatus.ALIGNMENT,

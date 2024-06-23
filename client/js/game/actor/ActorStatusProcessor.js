@@ -417,6 +417,7 @@ function processActorEquipment(actor) {
 
     let equipment = actor.actorEquipment;
 
+
     let isLoading = false;
 
     for (let i = 0; i < equipment.slots.length;i++) {
@@ -424,6 +425,12 @@ function processActorEquipment(actor) {
         let slotItem = equipment.getEquippedItemBySlotId(slotId);
 
         let equippedId = actor.getStatus(ENUMS.ActorStatus[slotId]);
+
+        if (equipRequests.indexOf(equippedId) !== -1) {
+        //    console.log("Equipped item still in request")
+        }
+
+
         let slotItemId = "";
         if (slotItem !== null) {
             slotItemId = slotItem.getStatus(ENUMS.ItemStatus.ITEM_ID);
