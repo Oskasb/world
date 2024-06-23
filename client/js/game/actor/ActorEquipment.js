@@ -100,11 +100,13 @@ class ActorEquipment {
                 let requests = this.actor.getStatus(ENUMS.ActorStatus.EQUIP_REQUESTS)
 
             //    if (requests.indexOf(slotId) === -1) {
-                    requests.push(slotId);
                     requests.push("");
+                    requests.push("");
+                    requests.push(item.getStatus(ENUMS.ItemStatus.ITEM_ID));
+                    requests.push(ENUMS.UiStates.INVENTORY);
                     this.actor.setStatusKey(ENUMS.ActorStatus.EQUIP_REQUESTS, requests);
            //     }
-                MATH.splice(this.actor.getStatus(ENUMS.ActorStatus.EQUIPPED_ITEMS), item.getStatus(ENUMS.ItemStatus.TEMPLATE));
+           //     MATH.splice(this.actor.getStatus(ENUMS.ActorStatus.EQUIPPED_ITEMS), item.getStatus(ENUMS.ItemStatus.TEMPLATE));
             } else {
 
             }

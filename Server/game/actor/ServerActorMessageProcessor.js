@@ -28,6 +28,11 @@ class ServerActorMessageProcessor {
             let slotId = itemTemplateList[i];
             i++;
             let templateId = itemTemplateList[i];
+            i++;
+            let itemId = itemTemplateList[i];
+            i++;
+            let uiState = itemTemplateList[i];
+            serverActor.applyActorEquipRequest(slotId, templateId, itemId, uiState)
 
             if (templateId === "") {
                 serverActor.unequipItemBySlot(slotId)
@@ -49,6 +54,7 @@ class ServerActorMessageProcessor {
                     console.log("Template Already equipped on Server ", templateId)
                 }
             }
+
         }
     }
 
@@ -95,9 +101,9 @@ class ServerActorMessageProcessor {
                             this.updateEquippedItems(status, newValue);
                         //    let serverActor = getServerActorByActorId(status.getStatus(ENUMS.ActorStatus.ACTOR_ID))
                         //    console.log("updateEquippedItems ACTIVE", status, msg);
-                        //    let message = serverActor.buildServerActorStatusMessage(ENUMS.ClientRequests.APPLY_ACTOR_STATUS, ENUMS.ServerCommands.ACTOR_UPDATE)
-                            status.setStatusKey(ENUMS.ActorStatus.EQUIP_REQUESTS, []);
-                        //    dispatchMessage(message)
+
+
+
 
                         }
 

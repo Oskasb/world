@@ -1,4 +1,6 @@
-
+function getInvSlotIndex(invSlotId) {
+    return invSlotId.split('_')[1];
+}
 
 function requestItemSlotChange(actor, item, toSlot) {
     let paperdollSlot = item.getEquipSlotId()
@@ -75,5 +77,6 @@ function requestItemSlotChange(actor, item, toSlot) {
 }
 
 export {
-    requestItemSlotChange
+    requestItemSlotChange,
+    getInvSlotIndex
 }

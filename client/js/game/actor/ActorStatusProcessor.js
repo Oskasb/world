@@ -413,27 +413,7 @@ let unequipList = [];
 function processActorEquipment(actor) {
 
 
-    let equippedStatus = actor.getStatus(ENUMS.ActorStatus.EQUIPPED_ITEMS);
     let equipRequests = actor.getStatus(ENUMS.ActorStatus.EQUIP_REQUESTS)
-
-/*
-    if (equipRequests.length !== 0) {
-        console.log("equipRequests", equipRequests)
-        for (let i = 0; i < equipRequests.length; i++) {
-            let slotId = equipRequests[i];
-            i++;
-            let templateId = equipRequests[i];
-            if (templateId !== "") {
-                if (equippedStatus.indexOf(templateId) !== -1) {
-                //    actor.equipItem(templateId)
-                    // equippedStatus.push(templateId);
-                }
-            }
-        }
-    }
-
-*/
-
 
     let equipment = actor.actorEquipment;
 

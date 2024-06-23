@@ -24,18 +24,15 @@ function processActorInit(stamp, msg) {
         console.log("initLocalPlayerControlledActor; ", stamp, msg);
 
         let items = [];
-        let equiped = playerActor.getStatus(ENUMS.ActorStatus.EQUIPPED_ITEMS)
-/*
-        while (startingItems.length) {
-            playerActor.equipItem(startingItems.pop())
-        }
-*/
+
         for (let i = 0; i < startingItems.length; i++) {
             let template = startingItems[i].getStatus(ENUMS.ItemStatus.TEMPLATE);
             let slotId = GameAPI.getGamePieceSystem().getItemConfig(template)['equip_slot'];
         //    console.log(slotId);;
             items.push(slotId);
             items.push(template);
+            items.push("");
+            items.push(ENUMS.UiStates.CHARACTER);
         }
 
         playerActor.setStatusKey(ENUMS.ActorStatus.EQUIPPED_ITEMS, [])

@@ -6,8 +6,8 @@ import {ServerActorTurnSequencer} from "./ServerActorTurnSequencer.js";
 import {
     dispatchMessage,
     getGameServer,
-    getGameServerWorld,
-    registerGameServerUpdateCallback,
+    getGameServerWorld, getServerItemByItemId,
+    registerGameServerUpdateCallback, registerServerItem,
     statusMapFromMsg, unregisterGameServerUpdateCallback
 } from "../utils/GameServerFunctions.js";
 import {TilePath} from "../../../client/js/game/piece_functions/TilePath.js";
@@ -16,6 +16,8 @@ import {SimpleUpdateMessage} from "../utils/SimpleUpdateMessage.js";
 import {ServerAction} from "../action/ServerAction.js";
 import {ServerTransition} from "../encounter/movement/ServerTransition.js";
 import {MATH} from "../../../client/js/application/MATH.js";
+import {getInvSlotIndex} from "../../../client/js/application/utils/EquipmentUtils.js";
+import {ServerItem} from "../item/ServerItem.js";
 
 
 class ServerActor {
@@ -90,6 +92,7 @@ class ServerActor {
             this.equippedItems.push(serverItem);
             serverItem.setStatusKey(ENUMS.ItemStatus.ACTOR_ID, this.status.getStatus(ENUMS.ActorStatus.ACTOR_ID))
             serverItem.setStatusKey(ENUMS.ItemStatus.ITEM_ID, serverItem.id)
+            serverItem.setStatusKey(ENUMS.ItemStatus.EQUIPPED_SLOT, serverItem.slotId)
         //    console.log("Server Equip: to actor_id",serverItem.id, this.status.getStatus(ENUMS.ActorStatus.ACTOR_ID))
             this.setStatusKey(ENUMS.ActorStatus[serverItem.slotId], serverItem.id)
             console.log("Equip Slot", ENUMS.ActorStatus[serverItem.slotId], serverItem.id)
@@ -135,9 +138,9 @@ class ServerActor {
                 console.log("Unequip from slot ", slotId, currentItemId);
                 this.setStatusKey(ENUMS.ActorStatus[slotId], "");
             }
-
-            let eqStatus = this.getStatus(ENUMS.ActorStatus.EQUIPPED_ITEMS);
-            MATH.splice(eqStatus, item.getStatus(ENUMS.ItemStatus.TEMPLATE));
+            item.setStatusKey(ENUMS.ItemStatus.EQUIPPED_SLOT, "")
+        //    let eqStatus = this.getStatus(ENUMS.ActorStatus.EQUIPPED_ITEMS);
+        //    MATH.splice(eqStatus, item.getStatus(ENUMS.ItemStatus.TEMPLATE));
 
         //    console.log("Unequip Server Item ", item);
         } else {
@@ -202,6 +205,68 @@ class ServerActor {
             return false;
         }
 
+    }
+
+    getFirstFreeInvSlotIndex() {
+        let invItems = this.getStatus(ENUMS.ActorStatus.INVENTORY_ITEMS);
+        for (let i = 0; i < invItems.length; i++) {
+            if (invItems[i] === "") {
+                return i;
+            }
+        }
+        console.log("Server inventory full... ouch")
+    }
+
+    applyActorEquipRequest(slotId, templateId, itemId, uiStateKey) {
+        console.log("applyActorEquipRequest", slotId, templateId, itemId, uiStateKey)
+        if (uiStateKey === ENUMS.UiStates.CHARACTER) {
+            let currentItemId = this.getStatus(ENUMS.ActorStatus[ENUMS.EquipmentSlots[slotId]])
+
+            let serverItem = getServerItemByItemId(itemId);
+            if (!serverItem) {
+                serverItem = new ServerItem(templateId, this.getStatus(ENUMS.ActorStatus.CLIENT_STAMP), slotId, itemId);
+                registerServerItem(serverItem)
+                serverItem.dispatchItemStatus(ENUMS.ClientRequests.LOAD_SERVER_ITEM, ENUMS.ServerCommands.ITEM_INIT)
+            }
+            this.equipServerItem(serverItem)
+
+            if (currentItemId !== "") {
+                console.log("Equip item on top of existing equipped item, switching...", currentItemId)
+                this.unequipItemBySlot(slotId)
+                let invSlotIndex = this.getFirstFreeInvSlotIndex();
+                let invItems = this.getStatus(ENUMS.ActorStatus.INVENTORY_ITEMS);
+                invItems[invSlotIndex] = itemId;
+            } else {
+                console.log("Equip item on empty slot...")
+            }
+
+
+        } else if (uiStateKey === ENUMS.UiStates.INVENTORY) {
+            let invItems = this.getStatus(ENUMS.ActorStatus.INVENTORY_ITEMS)
+
+            if (slotId !== "") {
+                let slotIndex = getInvSlotIndex(ENUMS.InventorySlots[slotId]);
+                let currentItemId = invItems[slotIndex];
+
+                if (currentItemId === "") {
+                    console.log("Put item into free inv slot");
+                    invItems[slotIndex] = itemId;
+                } else if (currentItemId !== itemId) {
+                    console.log("Put item on top of inv item", currentItemId);
+                } else if (currentItemId === itemId) {
+                    console.log("Put item on top of itself, should not be happeningm")
+                } else {
+                    console.log("This should never happen...")
+                }
+
+
+            }
+
+
+
+        } else {
+            console.log("applyActorEquipRequest uiStateKey not yt supported", uiStateKey);
+        }
     }
 
     sendActorMessage() {
