@@ -885,31 +885,34 @@ MATH.stupidChecksumArray = function(arr) {
 		return -1;
 	}
 
+	let step = 0;
 	let addLevel = function(array) {
+		step++;
 		if (typeof (array) === 'undefined') {
-			sum += 0.1
+			sum += 0.1 + step*0.1;
 			return;
 		}
 		if (typeof (array) !== 'object') {
 			if (array.length) {
-				sum+=array.length
+				sum+=array.length*step;
 			} else {
 				if (typeof (array) === 'number') {
-					sum += array;
+					sum += array*step;
 				}
 			}
 		} else {
 			for (let i = 0; i < array.length; i++) {
+				step++;
 				if (typeof (array[i].length) === 'number') {
-					sum+=array[i].length
+					sum+=array[i].length*step;
 					if (typeof (array[i] === 'string')) {
-						sum += i;
+						sum += i*step + array[i].length*step;
 					} else {
 						addLevel(array[i])
 					}
 				} else {
 					if (typeof (array[i] === 'number')) {
-						sum += array[i];
+						sum += array[i]*step;
 					}
 				}
 			}

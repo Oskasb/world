@@ -48,6 +48,11 @@ class DomInventory {
 
             let items = actor.actorInventory.items;
 
+            let invState = actor.getStatus(ENUMS.ActorStatus.INVENTORY_ITEMS);
+         //   MATH.copyArrayValues(invState, lastFrameState);
+
+            MATH.emptyArray(lastFrameState); // For debugging
+
             for (let key in items) {
                 let slot = htmlElement.call.getChildElement(key);
                 slotElements[key] = slot;
@@ -60,13 +65,24 @@ class DomInventory {
         }
 
         let rebuild;
-
+        let lastFrameState = [];
         let update = function() {
 
             if (actor === null) {
                 console.log("No actor")
                 return;
             }
+
+            let invState = actor.getStatus(ENUMS.ActorStatus.INVENTORY_ITEMS);
+
+            for (let i = 0; i < invState.length; i++) {
+                let itemId = invState[i];
+                if (lastFrameState[i] !== itemId) {
+                    console.log("Inv state updated", i, itemId);
+                }
+            }
+            MATH.copyArrayValues(invState, lastFrameState);
+
 
         }
 

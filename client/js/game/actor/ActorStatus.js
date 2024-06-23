@@ -94,6 +94,7 @@ function sendUpdatedOnly(status, statusMap) {
 
 let hardStateMap = [
     ENUMS.ActorStatus.EQUIP_REQUESTS,
+    ENUMS.ActorStatus.INVENTORY_ITEMS,
     ENUMS.ActorStatus.IN_COMBAT,
     ENUMS.ActorStatus.TURN_STATE,
     ENUMS.ActorStatus.HAS_TURN,
@@ -392,12 +393,12 @@ class ActorStatus {
         }
 
         for (let key in map) {
+
             if (testHardState(key) === true) {
             //    console.log("Apply Server Command msg testHardState", key, map[key]);
                 if (this.statusMap[key] !== map[key]) {
                     this.actor.statusFeedback.setStatusKey(key, map[key], this.actor)
                 }
-
                 this.statusMap[key] = map[key];
             } else {
             //    console.log("Not hard state testHardState", key, map[key]);

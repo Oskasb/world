@@ -28,7 +28,7 @@ function requestItemSlotChange(actor, item, toSlot) {
         uiState = ENUMS.UiStates.CHARACTER;
     }
     equipRequests.push(toSlot, item.getStatus(ENUMS.ItemStatus.TEMPLATE), item.id, uiState);
-
+    actor.setStatusKey(ENUMS.EQUIP_REQUESTS, equipRequests);
     console.log("Actor StatusMap EQUIP_REQUESTS", equipRequests)
 }
 
