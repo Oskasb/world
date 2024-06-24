@@ -3,7 +3,7 @@ import {notifyCameraStatus} from "../../3d/camera/CameraFunctions.js";
 import {
     applyStatusMessageToMap,
     applyStatusToMap, getClientStampFromStatusMessage,
-    getStatusFromMsg,
+    getStatusFromMsg, messageFromStatusMap,
     statusMapFromMsg
 } from "../../../../Server/game/utils/GameServerFunctions.js";
 import {ENUMS} from "../../application/ENUMS.js";
@@ -352,8 +352,17 @@ function processServerCommand(protocolKey, message) {
         case ENUMS.ServerCommands.ITEM_UPDATE:
         //    console.log("ITEM_UPDATE; ", message);
 
+
+
             if (stamp === clientStamp) {
-                let itemId = message.status[1];
+                let itemId;
+                if (typeof (message.status.length) === 'number') {
+                    itemId = message.status[1];
+                } else {
+                    itemId = message.status[ENUMS.ItemStatus.ITEM_ID];
+                    message.status = messageFromStatusMap(message.status);
+                }
+
                 let item = GameAPI.getItemById(itemId)
                 if (item === null) {
                     console.log("No client item found:", itemId, message )

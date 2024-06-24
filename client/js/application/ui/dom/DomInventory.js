@@ -48,8 +48,6 @@ class DomInventory {
 
             let items = actor.actorInventory.items;
 
-            let invState = actor.getStatus(ENUMS.ActorStatus.INVENTORY_ITEMS);
-         //   MATH.copyArrayValues(invState, lastFrameState);
 
             MATH.emptyArray(lastFrameState); // For debugging
 

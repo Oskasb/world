@@ -220,16 +220,22 @@ class ServerActor {
     applyActorEquipRequest(slotId, templateId, itemId, uiStateKey) {
         console.log("applyActorEquipRequest", slotId, templateId, itemId, uiStateKey)
         let invItems = this.getStatus(ENUMS.ActorStatus.INVENTORY_ITEMS);
+        let serverItem = getServerItemByItemId(itemId);
+
+        let isUpdate = true;
+
+        if (!serverItem) {
+            isUpdate = false;
+            serverItem = new ServerItem(templateId, this.getStatus(ENUMS.ActorStatus.CLIENT_STAMP), slotId, itemId);
+            registerServerItem(serverItem)
+            serverItem.dispatchItemStatus(ENUMS.ClientRequests.LOAD_SERVER_ITEM, ENUMS.ServerCommands.ITEM_INIT)
+        }
+
+        serverItem.setStatusKey(ENUMS.ItemStatus.ACTOR_ID, this.getStatus(ENUMS.ActorStatus.ACTOR_ID));
+
         if (uiStateKey === ENUMS.UiStates.CHARACTER) {
+
             let currentItemId = this.getStatus(ENUMS.ActorStatus[ENUMS.EquipmentSlots[slotId]])
-
-            let serverItem = getServerItemByItemId(itemId);
-            if (!serverItem) {
-                serverItem = new ServerItem(templateId, this.getStatus(ENUMS.ActorStatus.CLIENT_STAMP), slotId, itemId);
-                registerServerItem(serverItem)
-                serverItem.dispatchItemStatus(ENUMS.ClientRequests.LOAD_SERVER_ITEM, ENUMS.ServerCommands.ITEM_INIT)
-            }
-
 
             if (currentItemId !== "") {
                 console.log("Equip item on top of existing equipped item, switching...", currentItemId)
@@ -267,6 +273,7 @@ class ServerActor {
                         this.unequipEquippedItem(serverItem)
                     };
 
+                    serverItem.setStatusKey(ENUMS.ItemStatus.EQUIPPED_SLOT, slotId)
                     invItems[slotIndex] = itemId;
                 } else if (currentItemId !== itemId) {
                     console.log("Put item on top of inv item", currentItemId);
@@ -276,14 +283,18 @@ class ServerActor {
                     console.log("This should never happen...")
                 }
 
-
             }
-
-
 
         } else {
             console.log("applyActorEquipRequest uiStateKey not yet supported", uiStateKey);
         }
+
+
+        if (isUpdate === true) {
+            serverItem.dispatchItemStatus(ENUMS.ClientRequests.APPLY_ITEM_STATUS, ENUMS.ServerCommands.ITEM_UPDATE)
+        }
+
+
     }
 
     sendActorMessage() {

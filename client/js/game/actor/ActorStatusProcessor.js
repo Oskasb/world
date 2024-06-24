@@ -488,6 +488,7 @@ function processActorEquipment(actor) {
 }
 
 function processInventoryStatus(actor) {
+    return;
     let invStatus = actor.getStatus(ENUMS.ActorStatus.INVENTORY_ITEMS);
     let inv = actor.actorInventory;
     for (let i = 0; i < invStatus.length; i++) {
