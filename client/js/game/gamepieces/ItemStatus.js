@@ -34,7 +34,9 @@ class ItemStatus {
                     console.log("changing type for status is bad", key, status)
                 }
             }
+            simpleSend.call.broadcastStatus(ENUMS.ItemStatus.ITEM_ID, this.statusMap, ENUMS.ClientRequests.APPLY_ITEM_STATUS);
 
+        return;
             let actor = GameAPI.getActorById(this.statusMap[ENUMS.ItemStatus.ACTOR_ID])
             if (!actor) {
                 return;
@@ -63,8 +65,10 @@ class ItemStatus {
         }.bind(this);
 
         let lastPulseTime = 0;
+        let pulseTimeout;
 
         let pulseStatusUpdate = function() {
+            console.log("pulseStatusUpdate item", this.statusMap);
             let gameTime = GameAPI.getGameTime();
 
             let equipSlotId = getStatusByKey(ENUMS.ItemStatus.EQUIPPED_SLOT);
@@ -74,10 +78,17 @@ class ItemStatus {
                 setStatusByKey(ENUMS.ItemStatus.EQUIPPED_SLOT, item.config['equip_slot'])
             }
 
-            if (lastPulseTime < gameTime -5) {
+            if (lastPulseTime < gameTime -2) {
+                clearTimeout(pulseTimeout);
                 lastPulseTime = gameTime;
                 simpleSend.call.broadcastStatus(ENUMS.ItemStatus.ITEM_ID, this.statusMap, ENUMS.ClientRequests.APPLY_ITEM_STATUS);
+            } else {
+                clearTimeout(pulseTimeout);
+                pulseTimeout = setTimeout(function() {
+                    pulseStatusUpdate();
+                }, 2000);
             }
+
         }.bind(this);
 
         this.call = {

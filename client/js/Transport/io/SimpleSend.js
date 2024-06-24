@@ -73,7 +73,7 @@ class SimpleSend {
             sendStatus.push(statusMap[statusMessageKey])
             skipKey = statusMessageKey;
 
-                if (lastFullSend < gameTime -0.5) {
+                if (lastFullSend < gameTime -2.5) {
                     lastFullSend = gameTime;
                     fullSend(statusMap)
                 } else {

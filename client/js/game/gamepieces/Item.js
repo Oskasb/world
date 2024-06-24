@@ -53,7 +53,6 @@ class Item {
             return updateCallback
         }
 
-
         this.paletteUpdated = true;
 
         let applyStatusMessage = function(msg) {
@@ -108,7 +107,7 @@ class Item {
 
     disposeItem() {
         this.setStatusKey(ENUMS.ItemStatus.ACTIVATION_STATE, ENUMS.ActivationState.DEACTIVATING)
-        ThreeAPI.unregisterPostrenderCallback(this.status.call.pulseStatusUpdate);
+    //    ThreeAPI.unregisterPostrenderCallback(this.status.call.pulseStatusUpdate);
         if (this.visualItem !== null) {
             this.visualItem.call.requestDeactivation();
             this.visualItem = null;

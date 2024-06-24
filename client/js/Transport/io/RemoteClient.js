@@ -224,53 +224,13 @@ class RemoteClient {
 
         console.log("Item Messasge", msg);
 
-        let item = this.getItemById(itemId);
+        let item = GameAPI.getItemById(itemId);
         this.lastRequestFrame = GameAPI.getFrame().frame
         if (item === null) {
-            if (msg.indexOf(ENUMS.ItemStatus.ACTOR_ID) !== -1) {
-                let actorId = msg[msg.indexOf(ENUMS.ItemStatus.ACTOR_ID) +1]
-                let actor = this.getActorById(actorId);
-
-                if (!actor) {
-            //        console.log("Item remote no actor..", itemId, msg)
-                    GuiAPI.screenText("Item pre Actor "+this.index,  ENUMS.Message.SYSTEM, 1.5)
-                    return;
-                }
-
-                if (msg.indexOf(ENUMS.ItemStatus.EQUIPPED_SLOT) !== -1) {
-                    let idIdx = msg.indexOf(ENUMS.ItemStatus.EQUIPPED_SLOT)+1
-                    let slotId = msg[idIdx]
-                    if (slotId === '') {
-                        GuiAPI.screenText("Sync Item",  ENUMS.Message.SYSTEM, 1.0)
-                        return;
-                    }
-                    item = actor.actorEquipment.getEquippedItemBySlotId(slotId);
-                    if (item) {
-                        if (item.id !== itemId) {
-                            console.log("item.id !== itemId", item.id, itemId);
-
-                        }
-                    //    item.id = itemId;
-                        ThreeAPI.unregisterPostrenderCallback(item.status.call.pulseStatusUpdate);
-                        this.items.push(item);
-                    } else {
-                        console.log("Item not equipped as expected..")
-                        return;
-                    }
-                }
-            }
+            console.log("Remote Client item not yet loaded...")
+        } else {
+            item.call.applyStatusMessage(msg);
         }
-
-        if (!item) {
-            GuiAPI.screenText("Sync Remote",  ENUMS.Message.SYSTEM, 1.0)
-        //     console.log("Item missing.. ", itemId, this.items)
-            return;
-        }
-
-        item.call.applyStatusMessage(msg);
-
-
-
     }
 
     handleActionMessage(actionId, msg) {

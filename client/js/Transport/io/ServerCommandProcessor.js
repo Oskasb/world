@@ -108,7 +108,7 @@ function processItemInit(msg) {
             console.log("itemLoaded: ", item, status)
         }
 
-        ThreeAPI.addPostrenderCallback(item.status.call.pulseStatusUpdate)
+    //    ThreeAPI.addPostrenderCallback(item.status.call.pulseStatusUpdate)
         let equippedToActorId = item.getStatus(ENUMS.ItemStatus.ACTOR_ID);
         let actor = GameAPI.getActorById(equippedToActorId);
 
