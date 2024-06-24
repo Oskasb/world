@@ -16,6 +16,9 @@ import {
     storePlayerStatus
 } from "../application/setup/Database.js";
 import {initLoadedPlayerState, loadStoredPlayer} from "../application/utils/PlayerUtils.js";
+import {getPlayerActor} from "../application/utils/ActorUtils.js";
+import {requestItemSlotChange} from "../application/utils/EquipmentUtils.js";
+import {poolFetch} from "../application/utils/PoolUtils.js";
 
 let tempVec3 = new Vector3()
 let gameWalkGrid = null
@@ -37,6 +40,10 @@ function activateLoadedPlayer() {
     let loginCount = getLocalAccountStatus(ENUMS.AccountStatus.LOGIN_COUNT)
     storeLocalAccountStatus(ENUMS.AccountStatus.LOGIN_COUNT, loginCount+1);
     storePlayerStatus();
+
+    function eqReady() {
+
+    }
 
     setTimeout(function() {
         GuiAPI.activateMinimap();
@@ -197,7 +204,12 @@ class GameMain {
                 } else {
 
                     function loadedPlayerReady() {
-                        GuiAPI.activateDomTransition('WELCOME BACK', dataList, activateLoadedPlayer)
+
+                        function activate() {
+                            activateLoadedPlayer()
+                        }
+
+                        GuiAPI.activateDomTransition('WELCOME BACK', dataList, activate)
                     }
 
                     initLoadedPlayerState(dataList, loadedPlayerReady);

@@ -124,9 +124,13 @@ class ActorInventory {
     }
 
     fetchInventoryItems(store) {
-        for (let key in this.items) {
-            if (this.items[key].item !== null) {
-                store.push(this.items[key].item)
+        let invItems = this.actor.getStatus(ENUMS.ActorStatus.INVENTORY_ITEMS);
+
+        for (let i = 0; i < invItems.length; i++) {
+            let id=invItems[i];
+            if (id !== "") {
+                let item = GameAPI.getItemById(invItems[i])
+                store.push(item);
             }
         }
     }

@@ -476,7 +476,8 @@ class GameAdventureSystem {
             }
 
             let addToInvCb = function(item) {
-                actor.actorInventory.addInventoryItem(item);
+                // actor.actorInventory.addInventoryItem(item);
+                startingItems.push(item);
             }
 
             let delayed = function() {

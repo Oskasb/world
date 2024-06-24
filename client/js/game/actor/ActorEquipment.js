@@ -175,7 +175,7 @@ class ActorEquipment {
             let localId = localState[slotKey]
             if (localId !== slotStatus) {
                 if (localId !== "") {
-                    console.log("Unequip Client Item", localId);
+                //    console.log("Unequip Client Item", localId);
                     let item = GameAPI.getItemById(localId);
                     if (item !== null) {
                         unequipActorItem(item);
@@ -183,7 +183,7 @@ class ActorEquipment {
                 }
 
                 if (slotStatus !== "") {
-                    console.log("Equip Client Item", slotStatus);
+                //    console.log("Equip Client Item", slotStatus);
                     let item = GameAPI.getItemById(slotStatus);
                     if (item !== null) {
                         equipActorItem(item);
@@ -199,13 +199,30 @@ class ActorEquipment {
             }
         }
 
+        let activateLoadedStatus = function() {
+            console.log("activateLoadedStatus equipment");
+            for (let key in ENUMS.EquipmentSlots) {
+
+                let slotId = ENUMS.EquipmentSlots[key]
+                let slotItemId = this.actor.getStatus(ENUMS.ActorStatus[slotId])
+                console.log("activateLoadedStatus item: ", slotId, slotItemId);
+                if (slotItemId !== "") {
+                    let item = GameAPI.getItemById(slotItemId);
+                    console.log("activateLoadedStatus item: ", item);
+                    equipActorItem(item);
+                }
+            }
+        }.bind(this);
+
+
         this.call = {
             equipActorItem:equipActorItem,
             unequipActorItem:unequipActorItem,
             showEquipment:showEquipment,
             hideEquipment:hideEquipment,
             getEquipmentStatusKey:getEquipmentStatusKey,
-            synchEquipment:synchEquipment
+            synchEquipment:synchEquipment,
+            activateLoadedStatus:activateLoadedStatus
         }
 
     }

@@ -3,6 +3,7 @@ import {ENUMS} from "../ENUMS.js";
 import {evt} from "../event/evt.js";
 import {notifyCameraStatus} from "../../3d/camera/CameraFunctions.js";
 import {clearActorEncounterStatus, setPlayerStatus} from "./StatusUtils.js";
+import {requestItemSlotChange} from "./EquipmentUtils.js";
 
 function loadStoredPlayer(dataList) {
     let account = getLocalAccount();
@@ -46,10 +47,16 @@ let slots = [
       'SLOT_HAND_L',
       'SLOT_BACK',
       'SLOT_WRIST_L',
-      'SLOT_WRIST_R']
+      'SLOT_WRIST_R'
+]
+
+let loadedItems = [];
+
 function itemLoaded(item) {
-    let slot = item.getEquipSlotId()
+    let slot = item.getStatus(ENUMS.ItemStatus.EQUIPPED_SLOT);
+    loadedItems.push(item);
     console.log("Saved Item Loaded ", slot, item);
+
 }
 function loadStoredItemId(itemId, cb) {
 
@@ -60,13 +67,15 @@ function loadStoredItemId(itemId, cb) {
     }
 
     evt.dispatch(ENUMS.Event.LOAD_ITEM,  {id: itemStatus[ENUMS.ItemStatus.TEMPLATE], itemId:itemStatus[ENUMS.ItemStatus.ITEM_ID], callback:itemLoaded})
-
 }
 
-function getEquippedItemStatuses(statusMap, itemsLoadedCB) {
-    let list = {};
+function getEquippedItemStatuses(statusMap) {
+
+    let actorId = statusMap[ENUMS.ActorStatus.ACTOR_ID];
+
     for (let i = 0; i < slots.length; i++) {
         if (statusMap[slots[i]] !== "") {
+            console.log("Load to Equip Slot ", statusMap[slots[i]])
             loadStoredItemId(statusMap[slots[i]])
         }
     }
@@ -75,11 +84,11 @@ function getEquippedItemStatuses(statusMap, itemsLoadedCB) {
 
     for (let i = 0; i < invItems.length; i++) {
         if (invItems[i] !== "") {
+            console.log("Load to INVENTORY Slot ", invItems[i])
             loadStoredItemId(invItems[i])
         }
     }
 
-    return list;
 }
 
 function initLoadedPlayerState(dataList, readyCB) {
@@ -112,24 +121,27 @@ function initLoadedPlayerState(dataList, readyCB) {
 
         clearActorEncounterStatus(actor)
         actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_INACTIVE)
-        setTimeout(function() {
-            evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, {request:ENUMS.ClientRequests.LOAD_SERVER_ACTOR, status:actor.getStatus()})
-            readyCB();
-        }, 200)
+        let statusMap = JSON.parse(JSON.stringify(actor.getStatus()));
         actor.removeGameActor()
+        setTimeout(function() {
+            evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, {request:ENUMS.ClientRequests.LOAD_SERVER_ACTOR, status:statusMap})
+        }, 500)
+        readyCB(loadedItems);
     }
 
     function actorLoaded(actor) {
         console.log("init player with loaded actor", actor);
         actor.setStatusKey(ENUMS.ActorStatus.IN_COMBAT, false);
         actor.setStatusKey(ENUMS.ActorStatus.IS_ACTIVE, 0);
+
+
+
         actor.activateGameActor(actorReady);
+
+
     }
 
-
-    let equippedItems = getEquippedItemStatuses(actorStatus);
-
-    console.log("equippedItems :", equippedItems);
+    getEquippedItemStatuses(actorStatus);
 
     evt.dispatch(ENUMS.Event.LOAD_ACTOR, {status: actorStatus, callback:actorLoaded});
     GameAPI.getGamePieceSystem().playerActorId = actorStatus[ENUMS.ActorStatus.ACTOR_ID];

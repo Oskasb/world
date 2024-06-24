@@ -13,6 +13,8 @@ import {processStatisticalActionApplied} from "../../game/actions/ActionStatusPr
 import {applyRemoteConfigMessage, setEditIndexClient} from "../../application/utils/ConfigUtils.js";
 import {saveFileFromSocketMessage} from "../../../../Server/game/utils/EditorFunctions.js";
 import {isDev} from "../../application/utils/DebugUtils.js";
+import {saveItemStatus} from "../../application/setup/Database.js";
+import {getPlayerStatus} from "../../application/utils/StatusUtils.js";
 
 
 let remoteClients = {}
@@ -21,22 +23,38 @@ function processActorInit(stamp, msg) {
     let status = msg.status;
 
     let initLocalPlayerControlledActor = function(playerActor, startingItems) {
-        console.log("initLocalPlayerControlledActor; ", stamp, msg);
+        console.log("initLocalPlayerControlledActor; ", stamp, msg, playerActor, startingItems);
 
         let items = [];
 
-        for (let i = 0; i < startingItems.length; i++) {
-            let template = startingItems[i].getStatus(ENUMS.ItemStatus.TEMPLATE);
-            let slotId = GameAPI.getGamePieceSystem().getItemConfig(template)['equip_slot'];
+        let invSlotIndex = 0;
+
+        while (startingItems.length) {
+            let item = startingItems.pop();
+            let template = item.getStatus(ENUMS.ItemStatus.TEMPLATE);
+
+            let currentSlotId = item.getStatus(ENUMS.ItemStatus.EQUIPPED_SLOT);
+            let uiState = ENUMS.UiStates.INVENTORY;
+            let slotId = "" // GameAPI.getGamePieceSystem().getItemConfig(template)['equip_slot'];
+            if (typeof (ENUMS.EquipmentSlots[currentSlotId]) === 'string' ) {
+                console.log("Init Local Equipped Item ", item);
+                uiState = ENUMS.UiStates.CHARACTER;
+                slotId = currentSlotId;
+            } else {
+                console.log("Init Local Inventory Item ", item);
+                slotId = 'SLOT_'+invSlotIndex;
+                invSlotIndex++;
+            }
+
         //    console.log(slotId);;
             items.push(slotId);
             items.push(template);
             items.push("");
-            items.push(ENUMS.UiStates.CHARACTER);
+            items.push(uiState);
         }
 
         playerActor.setStatusKey(ENUMS.ActorStatus.EQUIPPED_ITEMS, [])
-
+        
         setTimeout(function() {
 
         //    playerActor.setStatusKey(ENUMS.ActorStatus.EQUIPPED_ITEMS, [])
@@ -55,14 +73,14 @@ function processActorInit(stamp, msg) {
 
            setTimeout(function() {
                playerActor.setStatusKey(ENUMS.ActorStatus.EQUIP_REQUESTS, items)
-               setTimeout(function() {
-                   playerActor.setStatusKey(ENUMS.ActorStatus.EQUIP_REQUESTS, [])
-               }, 200)
-           }, 500)
+           //    setTimeout(function() {
+           //        playerActor.setStatusKey(ENUMS.ActorStatus.EQUIP_REQUESTS, [])
+          //    }, 200)
+           }, 200)
 
 
         //    GameAPI.getGamePieceSystem().grabLooseItems(playerActor);
-        }, 300)
+        }, 100)
 
     }
 
@@ -109,11 +127,22 @@ function processItemInit(msg) {
         }
 
     //    ThreeAPI.addPostrenderCallback(item.status.call.pulseStatusUpdate)
-        let equippedToActorId = item.getStatus(ENUMS.ItemStatus.ACTOR_ID);
-        let actor = GameAPI.getActorById(equippedToActorId);
+        let ownerActorId = item.getStatus(ENUMS.ItemStatus.ACTOR_ID);
+
+        saveItemStatus(item.getStatus());
+
+        let slotId = item.getStatus(ENUMS.ItemStatus.EQUIPPED_SLOT);
+
+        let actor = GameAPI.getActorById(ownerActorId);
 
         if (actor) {
-            actor.equipItem(item)
+
+            if (actor.actorInventory.isInventorySlot(slotId)) {
+
+            } else {
+                actor.equipItem(item)
+            }
+
         } else {
             GameAPI.getGamePieceSystem().addLooseItem(item);
         }
@@ -370,6 +399,7 @@ function processServerCommand(protocolKey, message) {
                 }
             //    console.log("Item ", item, message.status);
                 item.call.applyStatusMessage(message.status)
+                saveItemStatus(item.getStatus());
             } else {
                 processRemoteStatus(stamp, message.status)
             }
