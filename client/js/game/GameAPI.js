@@ -290,7 +290,8 @@ class GameAPI {
                 return item
             }
         }
-            console.log("No item by id; ", itemId, items);
+
+        gamePieceSystem.loadServerItem(itemId);
         return null;
     }
 

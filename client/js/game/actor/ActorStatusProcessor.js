@@ -416,7 +416,7 @@ function processActorEquipment(actor) {
     let equipRequests = actor.getStatus(ENUMS.ActorStatus.EQUIP_REQUESTS)
 
     let equipment = actor.actorEquipment;
-
+    equipment.call.synchEquipment();
 
     let isLoading = false;
 
@@ -437,6 +437,9 @@ function processActorEquipment(actor) {
         }
 
         if (equippedId !== slotItemId) {
+            if (equippedId === undefined) {
+                return;
+            }
         //    console.log("Slot status missmatch", equippedId , slotItemId)
         }
 

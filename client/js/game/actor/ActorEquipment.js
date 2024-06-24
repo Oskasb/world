@@ -85,9 +85,10 @@ class ActorEquipment {
             updateAddModifiers(this.items)
 
             let itemSlot = this.getSlotForItem(item);
-            let slotId = item.getEquipSlotId();
+        //    let slotId = item.getEquipSlotId();
             itemSlot.setSlotItem(null);
 
+            /*
             let currentSlotStatus = this.actor.getStatus(ENUMS.ActorStatus[slotId]);
 
             if (currentSlotStatus === item.getStatus(ENUMS.ItemStatus.ITEM_ID)) {
@@ -110,7 +111,7 @@ class ActorEquipment {
             } else {
 
             }
-
+*/
         }.bind(this)
 
         let getEquipmentStatusKey = function(key, store) {
@@ -162,12 +163,49 @@ class ActorEquipment {
             hidden = true;
         }.bind(this)
 
+
+        let localState = {};
+        for (let key in ENUMS.EquipmentSlots) {
+            localState[ENUMS.EquipmentSlots[key]] = "";
+        }
+
+
+        let updateSlotStatus = function(slotKey) {
+            let slotStatus = this.actor.getStatus(slotKey);
+            let localId = localState[slotKey]
+            if (localId !== slotStatus) {
+                if (localId !== "") {
+                    console.log("Unequip Client Item", localId);
+                    let item = GameAPI.getItemById(localId);
+                    if (item !== null) {
+                        unequipActorItem(item);
+                    }
+                }
+
+                if (slotStatus !== "") {
+                    console.log("Equip Client Item", slotStatus);
+                    let item = GameAPI.getItemById(slotStatus);
+                    if (item !== null) {
+                        equipActorItem(item);
+                    }
+                }
+                localState[slotKey] = slotStatus;
+            }
+        }.bind(this);
+
+        function synchEquipment() {
+            for (let key in ENUMS.EquipmentSlots) {
+                updateSlotStatus(key)
+            }
+        }
+
         this.call = {
             equipActorItem:equipActorItem,
             unequipActorItem:unequipActorItem,
             showEquipment:showEquipment,
             hideEquipment:hideEquipment,
-            getEquipmentStatusKey:getEquipmentStatusKey
+            getEquipmentStatusKey:getEquipmentStatusKey,
+            synchEquipment:synchEquipment
         }
 
     }

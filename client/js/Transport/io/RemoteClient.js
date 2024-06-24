@@ -160,6 +160,7 @@ class RemoteClient {
 
 
     applyRemoteEquipment(actor) {
+        return;
         let equippedList = actor.getStatus(ENUMS.ActorStatus.EQUIPPED_ITEMS);
         let actorItems = actor.actorEquipment.items;
 
@@ -221,7 +222,7 @@ class RemoteClient {
 
     handleItemMessage(itemId, msg) {
 
-    //    console.log("Item Messasge", msg);
+        console.log("Item Messasge", msg);
 
         let item = this.getItemById(itemId);
         this.lastRequestFrame = GameAPI.getFrame().frame

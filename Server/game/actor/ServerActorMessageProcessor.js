@@ -31,44 +31,6 @@ class ServerActorMessageProcessor {
             serverActor.applyActorEquipRequest(slotId, templateId, itemId, uiState)
         }
 
-        /*
-       for (let i = 0; i < itemTemplateList.length; i++) {
-
-           let slotId = itemTemplateList[i];
-           i++;
-           let templateId = itemTemplateList[i];
-           i++;
-           let itemId = itemTemplateList[i];
-           i++;
-           let uiState = itemTemplateList[i];
-           serverActor.applyActorEquipRequest(slotId, templateId, itemId, uiState)
-       /*
-        return;
-
-           if (templateId === "") {
-               serverActor.unequipItemBySlot(slotId)
-           } else {
-               if (currentItems.indexOf(templateId) === -1) {
-                   let slottedItemId = status.getStatus(ENUMS.ActorStatus[slotId]);
-                   if (slottedItemId !== "") {
-                       console.log("Create item for slot status ", slotId, slottedItemId)
-                   }
-
-                   let serverItem = new ServerItem(itemTemplateList[i], status.getStatus(ENUMS.ActorStatus.CLIENT_STAMP), slotId, slottedItemId);
-                   registerServerItem(serverItem)
-
-                   serverActor.equipServerItem(serverItem)
-                   //    if (status.getStatus(ENUMS.ActorStatus.PLAYER_STAMP) === getServerStamp()) {
-                   serverItem.dispatchItemStatus(ENUMS.ClientRequests.LOAD_SERVER_ITEM, ENUMS.ServerCommands.ITEM_INIT)
-                   //    }
-               } else {
-                   console.log("Template Already equipped on Server ", templateId)
-               }
-           }
-              }
-
-       */
-
     }
 
     processTurnStateRequest(status, newValue) {

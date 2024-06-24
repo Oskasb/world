@@ -11,6 +11,7 @@ import {getRemoteClients} from "../Transport/io/ServerCommandProcessor.js";
 import {ClientStronghold} from "./gameworld/ClientStronghold.js";
 import {setPlayerStatus} from "../application/utils/StatusUtils.js";
 import {storePlayerActorStatus, storePlayerStatus} from "../application/setup/Database.js";
+import {ENUMS} from "../application/ENUMS.js";
 
 let strongholds = [];
 let statsConfig = {};
@@ -53,6 +54,12 @@ let loadItem = function(event) {
 
 
         let item = new Item(event['id'], itemConfig, event['itemId'])
+
+
+    if (itemLoadQueue.indexOf(item.id) !== -1) {
+        console.log("Queued Item Loaded", item);
+        MATH.splice(itemLoadQueue, item.id);
+    }
 
         items.push(item);
         /*
@@ -166,6 +173,7 @@ let processConnectionMessage = function(event) {
 
 }
 
+let itemLoadQueue = [];
 
 class GamePieceSystem {
     constructor() {
@@ -173,6 +181,16 @@ class GamePieceSystem {
         this.playerActorId = -1;
         this.playerParty = new PlayerParty();
         this.selectedActor = null;
+
+
+    }
+
+    loadServerItem(itemId) {
+        if (itemLoadQueue.indexOf(itemId) === -1) {
+            itemLoadQueue.push(itemId);
+            evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, {request:ENUMS.ClientRequests.LOAD_SERVER_ITEM, status:itemId})
+            console.log("Init load request", itemId);
+        };
 
     }
 

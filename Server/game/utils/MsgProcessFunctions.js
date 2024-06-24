@@ -87,6 +87,22 @@ function processClientRequest(request, stamp, message, connectedClient) {
             }
 
             break
+
+        case ENUMS.ClientRequests.LOAD_SERVER_ITEM:
+            console.log("LOAD_SERVER_ITEM: ", message);
+
+            let serverItem = getServerItemByItemId(message.status)
+
+            if (!serverItem) {
+                console.log("No Server Item", message)
+                return;
+            }
+            message.status = serverItem.status.statusMap;
+            message.command = ENUMS.ServerCommands.ITEM_INIT;
+            connectedClient.call.returnDataMessage(message)
+
+            break
+
         case ENUMS.ClientRequests.UPDATE_STRONGHOLD:
             player = getGameServer().getConnectedPlayerByStamp(connectedClient.stamp);
             player.updatePlayerStronghold(message);
