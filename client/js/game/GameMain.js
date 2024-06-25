@@ -10,7 +10,7 @@ import {ENUMS} from "../application/ENUMS.js";
 import {getUrlParam, isDev} from "../application/utils/DebugUtils.js";
 import {DomNewPlayer} from "../application/ui/dom/DomNewPlayer.js";
 import {
-    getLocalAccount, getLocalAccountStatus, loadActorStatus, loadPlayerStatus,
+    getLocalAccount, getLocalAccountStatus, loadActorStatus, loadPlayerStatus, resetDatabase,
     storeLocalAccountStatus,
     storePlayerActorStatus,
     storePlayerStatus
@@ -209,7 +209,18 @@ class GameMain {
                             activateLoadedPlayer()
                         }
 
-                        GuiAPI.activateDomTransition('WELCOME BACK', dataList, activate)
+                        function reset() {
+                            resetDatabase();
+                            window.location.reload();
+                            //    startPlayerSession()
+                        }
+
+                        let transitionOptions = [
+                            {id:"button_reset", text:"RESET", onClick:reset},
+                            {id:"button_continue", text:"CONTINUE", onClick:activate}
+                        ]
+
+                        GuiAPI.activateDomTransition('WELCOME BACK', dataList, activate, null, transitionOptions)
                     }
 
                     initLoadedPlayerState(dataList, loadedPlayerReady);

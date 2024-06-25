@@ -28,7 +28,7 @@ class DomTransition {
             transition : "WELCOME",
             datalist: ""
         }
-
+        let transitionOptions = [];
         let datalist = []
 
         let closeCb = function() {
@@ -42,6 +42,7 @@ class DomTransition {
             topDiv.style.transform = "translate3d(0, -100%, 0)"
             bottomDiv.style.transitionDuration = 0+"s";
             bottomDiv.style.transform = "translate3d(0, 100%, 0)"
+
         }
 
         let retrigger = function() {
@@ -55,6 +56,10 @@ class DomTransition {
         let topDiv;
         let bottomDiv;
 
+        let optionsDiv;
+
+        let dynDivs = [];
+
         let readyCb = function() {
 
             centerDiv = htmlElement.call.getChildElement('center_container');
@@ -62,6 +67,7 @@ class DomTransition {
             bottomDiv = htmlElement.call.getChildElement('bottom_container');
         //    let reloadDiv = htmlElement.call.getChildElement('reload');
             let transitionDiv = htmlElement.call.getChildElement('transition');
+            optionsDiv = htmlElement.call.getChildElement('options_container');
         //    DomUtils.addClickFunction(reloadDiv, rebuild)
             DomUtils.addClickFunction(centerDiv, release)
 
@@ -79,11 +85,18 @@ class DomTransition {
 
         ThreeAPI.registerPrerenderCallback(update);
 
+        function clearDivArray(array) {
+            while(array.length) {
+                DomUtils.removeDivElement(array.pop());
+            }
+        }
+
         let close = function() {
             ThreeAPI.unregisterPrerenderCallback(update);
             htmlElement.closeHtmlElement()
+            transitionOptions = [];
+            clearDivArray(dynDivs);
         }
-
 
         let transformToCenter = function(div) {
             div.style.transform = "translate3d(0, 0, 0)"
@@ -96,6 +109,7 @@ class DomTransition {
 
         let activate = function(label, data, cb, adsr) {
             callback = cb;
+
             if (data) {
                 MATH.emptyArray(datalist);
                 if (data.length) {
@@ -148,8 +162,8 @@ class DomTransition {
                 bottomDiv.style.transitionTimingFunction = adsrEnvelope.attack.easing;
                 transformToCenter(centerDiv);
                 transformToCenter(topDiv);
-                transformToCenter(bottomDiv)
-
+                transformToCenter(bottomDiv);
+                applyOptions();
             },1)
 
         }
@@ -177,9 +191,29 @@ class DomTransition {
             }
         }.bind(this)
 
+
+
+        function applyOptions() { // {id:"button_reset", text:"RESET", onClick:reset},
+            console.log("applyOptions transitionOptions", transitionOptions)
+            for (let i = 0; i < transitionOptions.length; i++) {
+
+                let opt = transitionOptions[i];
+                let div = DomUtils.createDivElement(optionsDiv, opt.id, "<p>"+opt.text+"</p>", 'options_button');
+                DomUtils.addElementClass(div, opt.id)
+                DomUtils.addClickFunction(div, opt.onClick)
+                dynDivs.push(div);
+            }
+        }
+
+        function setOptions(opts) {
+            console.log("setOptions transitionOptions", transitionOptions)
+            transitionOptions = opts;
+        }
+
         this.call = {
             close:close,
             activate:activate,
+            setOptions:setOptions,
             release:release
         }
 

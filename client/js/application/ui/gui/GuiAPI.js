@@ -170,8 +170,11 @@ class GuiAPI {
         return this.guiPageSystem.activateGuiPage(pageId, callback)
     }
 
-    activateDomTransition(transitionName, data, callback, adsr) {
-        domTransition.call.activate(transitionName, data, callback, adsr)
+    activateDomTransition(transitionName, data, callback, adsr, transitionOptions) {
+        domTransition.call.activate(transitionName, data, callback, adsr);
+        if (transitionOptions) {
+            domTransition.call.setOptions(transitionOptions);
+        }
     }
 
     screenText(string, msgType, duration) {
