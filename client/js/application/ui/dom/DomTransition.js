@@ -193,6 +193,8 @@ class DomTransition {
                     activationDone(callback)
             //    }, 1.575*adsrEnvelope.attack.duration*1000)
             }
+            transitionOptions = [];
+            clearDivArray(dynDivs);
         }.bind(this)
 
 
@@ -202,7 +204,7 @@ class DomTransition {
             for (let i = 0; i < transitionOptions.length; i++) {
                 let opt = transitionOptions[i];
                 let optsContainer = optionsContainers[opt.container || 'bottom'];
-                
+
                 let div = DomUtils.createDivElement(optsContainer, opt.id, "<p>"+opt.text+"</p>", 'options_button');
                 DomUtils.addElementClass(div, opt.id)
                 DomUtils.addClickFunction(div, opt.onClick)

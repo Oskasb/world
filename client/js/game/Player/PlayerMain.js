@@ -288,12 +288,18 @@ class PlayerMain {
 
             let host = wEnc.getHostActor();
             host.actorText.say("Ha ha! Good Luck wimp.")
-            let ready = function(domTransition) {
+            let ready = function() {
                 wEnc.requestEncounterBattle()
                 domTransition.call.release();
             }
 
-            GuiAPI.activateDomTransition('BATTLE', config, ready)
+            let release = function() {
+                domTransition.call.release();
+            }
+
+            let opts = [{id:"button_continue", container:"bottom", text:"FIGHT", onClick:release}]
+
+            let domTransition = GuiAPI.activateDomTransition('BATTLE', config, ready, null, opts)
             if (e.skip === true) {
 
                 let pos = host.getSpatialPosition();

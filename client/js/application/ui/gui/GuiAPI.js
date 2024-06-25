@@ -175,6 +175,7 @@ class GuiAPI {
         if (transitionOptions) {
             domTransition.call.setOptions(transitionOptions);
         }
+        return domTransition;
     }
 
     screenText(string, msgType, duration) {
