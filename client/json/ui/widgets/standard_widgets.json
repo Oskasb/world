@@ -266,6 +266,23 @@
             },
 
             {
+              "id":"widget_world_nameplate",
+              "layout":"layout_world_nameplate",
+              "text": {
+                "sprite_font": "sprite_font_button_big",
+                "feedback": "feedback_text_action_button"
+              },
+              "icon": {
+                "icon_config": "button_sequencer_icon_config",
+                "feedback": "feedback_button_icon_grey"
+              },
+              "surface": {
+                "nineslice": "nineslice_surface_world_nameplate",
+                "feedback": "feedback_icon_button"
+              }
+            },
+
+            {
               "id":"widget_party_portrait_actor_button",
               "layout":"layout_party_portrait_actor_button",
               "text": {
@@ -359,6 +376,18 @@
               "surface": {
                 "nineslice": "nineslice_surface_portrait_button",
                 "feedback": "feedback_opponent_icon_button"
+              }
+            },
+            {
+              "id":"widget_world_nameplate_frame",
+              "layout":"layout_world_nameplate_frame",
+              "icon": {
+                "icon_config": "progress_vertical_actionbutton",
+                "feedback": "feedback_icon_action_progress"
+              },
+              "surface": {
+                "nineslice": "nineslice_surface_world_nameplate_frame",
+                "feedback": "feedback_surface_container"
               }
             },
             {

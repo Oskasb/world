@@ -11,6 +11,7 @@ import {PieceAttacher} from "../gamepieces/PieceAttacher.js";
 import {VisualEquipment} from "./VisualEquipment.js";
 import {deactivateActorVisuals} from "../../application/utils/ActorUtils.js";
 import {isDev} from "../../application/utils/DebugUtils.js";
+import {VisualNameplate} from "./VisualNameplate.js";
 
 let tempObj3d = new Object3D();
 let tempVec = new Vector3();
@@ -49,6 +50,8 @@ class VisualActor {
         let active = false;
 
 
+        let visualNameplate = new VisualNameplate();
+
         let setActor = function(a, onReady) {
 
 
@@ -86,6 +89,7 @@ class VisualActor {
 
             let modelReady = function(vPiece) {
                 visualEquipment.call.setVisualActor(vPiece);
+                visualNameplate.call.setStatusMap(actor.getStatus())
                 onReady(vPiece)
             }
 
@@ -162,8 +166,10 @@ class VisualActor {
             actor.getSpatialQuaternion(tempObj3d.quaternion);
             actor.getSpatialScale(tempObj3d.scale);
             instance.getSpatial().stickToObj3D(tempObj3d);
+            visualNameplate.call.setPos(this.getAboveHead(0.5))
+
             activeFrames++;
-        }
+        }.bind(this);
 
         function activate() {
             activeFrames = 0;
@@ -217,7 +223,7 @@ class VisualActor {
                 deactivated = true;
                 active = false;
                 visualEquipment.call.deactivateVisualEquipment();
-
+            visualNameplate.call.deactivateNameplate()
         }
 
         function remove() {
@@ -229,7 +235,9 @@ class VisualActor {
         }
 
         function getScaleCB(scaleVec) {
-            actor.getSpatialScale(scaleVec);
+            if (actor !== null) {
+                actor.getSpatialScale(scaleVec);
+            }
         }
 
         this.call = {

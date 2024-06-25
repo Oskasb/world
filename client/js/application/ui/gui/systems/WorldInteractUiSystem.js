@@ -3,8 +3,8 @@ import {GuiControlButton} from "../widgets/GuiControlButton.js";
 import {colorMapFx, frameFeedbackMap, elementColorMap} from "../../../../game/visuals/Colors.js";
 import {poolFetch} from "../../../utils/PoolUtils.js";
 
-let playerPortraitLayoutId = 'widget_icon_button_tiny'
-let frameLayoutId = 'widget_button_state_tiny_frame'
+let playerPortraitLayoutId = 'widget_world_nameplate'
+let frameLayoutId = 'widget_world_nameplate_frame'
 
 let interactibleActors = [];
 let hintedActors = [];
@@ -82,7 +82,7 @@ let onActivate = function(statusKey) {
         if (actor === playerActor) {
             actor.actorText.say('Me '+statusKey)
         } else {
-            actor.actorText.say("Hi "+statusKey);
+            actor.actorText.say("Hi "+playerActor.getStatus(ENUMS.ActorStatus.NAME));
         }
     }
 
@@ -112,11 +112,11 @@ let fitTimeout = null;
 
 let onReady = function(button) {
     let actor = GameAPI.getActorById(button.statusKey)
-    button.setButtonIcon(actor.getStatus(ENUMS.ActorStatus.ICON_KEY))
+    button.setButtonIcon('text_background') // actor.getStatus(ENUMS.ActorStatus.ICON_KEY))
 }
 
 function addActorButton(actor) {
-    let button = new GuiControlButton(actor.id, playerPortraitLayoutId, onActivate, testActive, 0, 0, onReady, frameLayoutId)
+    let button = new GuiControlButton(actor.id, playerPortraitLayoutId, onActivate, testActive, 0, 0, onReady, frameLayoutId, actor.getStatus(ENUMS.ActorStatus.NAME))
     actorButtons.push(button)
     let statusUI = poolFetch('WorldActorStatusUI')
     statusUI.activateWorldActorStatus(actor, button.guiWidget);

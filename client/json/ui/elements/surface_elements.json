@@ -18,6 +18,17 @@
               }
             },
             {
+              "id":"nineslice_surface_world_nameplate_frame",
+              "config": {
+                "padding": { "x":0.0, "y":0.0},
+                "image": {
+                  "layer": "UI_ELEMENTS_BACK",
+                  "atlas_key": "GUI_16x16",
+                  "border_thickness": {"x": 0.18, "y": 0.18}
+                }
+              }
+            },
+            {
               "id":"nineslice_surface_action_button",
               "config": {
                 "padding": { "x":0.0, "y":0.0},
@@ -47,6 +58,17 @@
                   "layer": "UI_ELEMENTS_BACK",
                   "atlas_key": "GUI_16x16",
                   "border_thickness": {"x": 0.45, "y": 0.45}
+                }
+              }
+            },
+            {
+              "id":"nineslice_surface_world_nameplate",
+              "config": {
+                "padding": { "x":0.0, "y":0.0},
+                "image": {
+                  "layer": "UI_ELEMENTS_BACK",
+                  "atlas_key": "GUI_16x16",
+                  "border_thickness": {"x": 0.15, "y": 0.15}
                 }
               }
             },
