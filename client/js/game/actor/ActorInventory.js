@@ -20,9 +20,11 @@ class ActorInventory {
     }
 
     getFirstEmptySlotKey() {
-        for (let key in this.items) {
-            if (this.items[key].item === null) {
-                return key;
+
+        let invItems = this.actor.getStatus(ENUMS.ActorStatus.INVENTORY_ITEMS);
+        for (let i =0; i< invItems.length; i++) {
+            if (invItems[i] === "") {
+                return 'SLOT_'+i;
             }
         }
         return null;

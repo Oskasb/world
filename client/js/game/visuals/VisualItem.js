@@ -136,10 +136,16 @@ class VisualItem {
         let visualId = item.config['visual_id'];
         let vConf = visualConfigs[visualId];
     //    console.log("Set Visual Item ", vConf, item);
-        let vPal = this.call.getPalette()
-        vPal.applyPaletteSelection(vConf['palette'])
-        let pValues = this.item.getStatus(ENUMS.ItemStatus.PALETTE_VALUES);
-        vPal.toValueArray(pValues);
+        let vPal = this.call.getPalette();
+        let paletteStatus = this.item.getStatus(ENUMS.ItemStatus.PALETTE_VALUES);
+        if (paletteStatus.length !== 0) {
+            this.item.paletteUpdated = true
+        } else {
+            vPal.applyPaletteSelection(vConf['palette'])
+            let pValues = this.item.getStatus(ENUMS.ItemStatus.PALETTE_VALUES);
+            vPal.toValueArray(pValues);
+        }
+
         setupVisualModel(this, vConf, onReady)
     //
     }

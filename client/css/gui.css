@@ -1064,6 +1064,10 @@ div.terrain_edit {
     height: 2.0em;
 }
 
+div.string_edit_container {
+    height: 3.0em;
+}
+
 div.data_edit {
     height: fit-content;
     background: rgba(21, 47, 65, 0.63);
@@ -1147,6 +1151,11 @@ div.item_slider {
 
 div.terrain_slider {
     top: 0.2em;
+}
+
+div.string_input {
+    top: 0.2em;
+    font-size: 2em;
 }
 
 div.terrain_slider p {

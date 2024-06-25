@@ -63,11 +63,6 @@ class ActorEquipment {
         //    console.log("Equip Actor Item ", item, slotId)
             item.setStatusKey(ENUMS.ItemStatus.EQUIPPED_SLOT, slotId);
             this.actor.setStatusKey(ENUMS.ActorStatus[slotId], item.getStatus(ENUMS.ItemStatus.ITEM_ID));
-
-            if (this.actor.isPlayerActor()) {
-                saveItemStatus(item.getStatus())
-            }
-
             itemSlot.setSlotItem(item);
 
         }.bind(this);

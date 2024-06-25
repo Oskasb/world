@@ -129,8 +129,6 @@ function processItemInit(msg) {
     //    ThreeAPI.addPostrenderCallback(item.status.call.pulseStatusUpdate)
         let ownerActorId = item.getStatus(ENUMS.ItemStatus.ACTOR_ID);
 
-        saveItemStatus(item.getStatus());
-
         let slotId = item.getStatus(ENUMS.ItemStatus.EQUIPPED_SLOT);
 
         let actor = GameAPI.getActorById(ownerActorId);
@@ -380,8 +378,6 @@ function processServerCommand(protocolKey, message) {
             break;
         case ENUMS.ServerCommands.ITEM_UPDATE:
         //    console.log("ITEM_UPDATE; ", message);
-
-
 
             if (stamp === clientStamp) {
                 let itemId;

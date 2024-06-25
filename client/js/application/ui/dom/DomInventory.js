@@ -79,11 +79,13 @@ class DomInventory {
                     if (itemId) {
                         let item = GameAPI.getItemById(itemId);
                         console.log("Inv state updated", i, itemId, item);
+                    /*
                         let slotId = item.getStatus(ENUMS.ItemStatus.EQUIPPED_SLOT);
                         if (slotId !== 'SLOT_'+i) {
                             item.setStatusKey(ENUMS.ItemStatus.EQUIPPED_SLOT, 'SLOT_'+i);
                             item.setStatusKey(ENUMS.ItemStatus.ACTOR_ID, actor.getStatus(ENUMS.ActorStatus.ACTOR_ID));
                         }
+                    */
                     }
                 }
             }

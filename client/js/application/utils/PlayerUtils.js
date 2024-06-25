@@ -53,10 +53,13 @@ let slots = [
 let loadedItems = [];
 
 function itemLoaded(item) {
+    let itemStatus = loadItemStatus(item.getStatus(ENUMS.ItemStatus.ITEM_ID));
+    for (let key in itemStatus) {
+        item.setStatusKey(key, itemStatus[key]);
+    }
     let slot = item.getStatus(ENUMS.ItemStatus.EQUIPPED_SLOT);
+    console.log("Saved Item Loaded ", slot, item.getStatus(ENUMS.ItemStatus.ITEM_ID), item.getStatus());
     loadedItems.push(item);
-    console.log("Saved Item Loaded ", slot, item);
-
 }
 function loadStoredItemId(itemId, cb) {
 

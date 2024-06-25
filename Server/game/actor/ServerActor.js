@@ -266,6 +266,10 @@ class ServerActor {
         if (!serverItem) {
             serverItem = new ServerItem(templateId, this.getStatus(ENUMS.ActorStatus.CLIENT_STAMP), slotId, itemId);
             registerServerItem(serverItem)
+            serverItem.setStatusKey(ENUMS.ItemStatus.ACTOR_ID, this.getStatus(ENUMS.ActorStatus.ACTOR_ID));
+            if (typeof (slotId) === 'string') {
+                serverItem.setStatusKey(ENUMS.ItemStatus.EQUIPPED_SLOT, slotId);
+            }
             serverItem.dispatchItemStatus(ENUMS.ClientRequests.LOAD_SERVER_ITEM, ENUMS.ServerCommands.ITEM_INIT)
         }
 

@@ -65,6 +65,7 @@ function saveActorStatus(statusMap) {
 
 function saveItemStatus(statusMap) {
     let id = statusMap[ENUMS.ItemStatus.ITEM_ID];
+    console.log("Save Item Status ", id, [db.items]);
     db.items[id] = statusMap;
     localStorage.setItem('items', JSON.stringify(db.items));
 }

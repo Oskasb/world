@@ -2,6 +2,7 @@ import {HtmlElement} from "./HtmlElement.js";
 import {ENUMS} from "../../ENUMS.js";
 import {poolFetch, poolReturn} from "../../utils/PoolUtils.js";
 import {getVisualConfigByVisualId, getVisualConfigIconClass} from "../../utils/ItemUtils.js";
+import {saveItemStatus} from "../../setup/Database.js";
 
 let activeDomItems = [];
 
@@ -78,6 +79,7 @@ class DomItemCard {
                 poolReturn(paletteEdit);
                 paletteEdit = null;
                 item.status.call.pulseStatusUpdate();
+                saveItemStatus(item.status.statusMap);
                 // item.setStatusKey(ENUMS.ItemStatus.PALETTE_VALUES, statusMap['PALETTE_VALUES'])
                 return;
             } else {

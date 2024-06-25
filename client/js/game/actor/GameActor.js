@@ -17,6 +17,7 @@ import {evt} from "../../application/event/evt.js";
 import {activateActorVisuals, deactivateActorVisuals} from "../../application/utils/ActorUtils.js";
 import {isDev} from "../../application/utils/DebugUtils.js";
 import {saveItemStatus} from "../../application/setup/Database.js";
+import {requestItemSlotChange} from "../../application/utils/EquipmentUtils.js";
 
 // let index = 1; // zero index get culled by connection
 let tempVec = new Vector3();
@@ -442,23 +443,12 @@ class GameActor {
 
         let slotId = item.getEquipSlotId();
         let existingItem = this.actorEquipment.getEquippedItemBySlotId(slotId);
+
         if (existingItem !== null) {
-            console.log("Add to Inv", item)
-            this.actorInventory.addInventoryItem(item, null, this.call.inventoryItemAdded);
-        } else {
-            let requests = this.getStatus(ENUMS.ActorStatus.EQUIP_REQUESTS)
-            requests.push(item.getEquipSlotId());
-            requests.push(item.getStatus(ENUMS.ItemStatus.TEMPLATE));
-            requests.push(item.getStatus(ENUMS.ItemStatus.ITEM_ID));
-            requests.push(ENUMS.UiStates.CHARACTER);
-            console.log("loot: ", requests);
-            this.setStatusKey(ENUMS.ActorStatus.EQUIP_REQUESTS, requests);
+            slotId = this.actorInventory.getFirstEmptySlotKey();
         }
 
-
-        if (this.isPlayerActor()) {
-            saveItemStatus(item.getStatus())
-        }
+        requestItemSlotChange(this, item, slotId)
 
     }
 
