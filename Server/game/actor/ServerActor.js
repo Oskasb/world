@@ -7,7 +7,7 @@ import {
     dispatchMessage,
     getGameServer,
     getGameServerWorld, getServerItemByItemId,
-    registerGameServerUpdateCallback, registerServerItem,
+    registerGameServerUpdateCallback, registerServerItem, removeServerItem,
     statusMapFromMsg, unregisterGameServerUpdateCallback
 } from "../utils/GameServerFunctions.js";
 import {TilePath} from "../../../client/js/game/piece_functions/TilePath.js";
@@ -18,6 +18,7 @@ import {ServerTransition} from "../encounter/movement/ServerTransition.js";
 import {MATH} from "../../../client/js/application/MATH.js";
 import {getInvSlotIndex} from "../../../client/js/application/utils/EquipmentUtils.js";
 import {ServerItem} from "../item/ServerItem.js";
+import {addItemToInventory, equipActorItem} from "../utils/EquipmentUtils.js";
 
 
 class ServerActor {
@@ -37,6 +38,8 @@ class ServerActor {
         this.serverTransition = new ServerTransition(this);
 
         this.sendFunction = null; // when in encounter use
+
+        this.items = [];
 
         let selectServerActorActionId = function(trigger) {
             if (trigger === ENUMS.Trigger.ON_ACTIVATE) {
@@ -87,17 +90,27 @@ class ServerActor {
         this.setStatusKey(ENUMS.ActorStatus.SEQUENCER_INITIATIVE, Math.random())
     }
 
+    clearInventoryItemId(itemId) {
+        let invItems = this.getStatus(ENUMS.ActorStatus.INVENTORY_ITEMS);
+        for (let i = 0; i < invItems.length; i++) {
+            if (invItems[i] === itemId) {
+                invItems[i] = ""
+            }
+        }
+    }
+
     equipServerItem(serverItem, targetSlot) {
         if (this.equippedItems.indexOf(serverItem) === -1) {
             this.equippedItems.push(serverItem);
             serverItem.setStatusKey(ENUMS.ItemStatus.ACTOR_ID, this.status.getStatus(ENUMS.ActorStatus.ACTOR_ID))
             serverItem.setStatusKey(ENUMS.ItemStatus.ITEM_ID, serverItem.id)
-            serverItem.setStatusKey(ENUMS.ItemStatus.EQUIPPED_SLOT, serverItem.slotId)
+            serverItem.setStatusKey(ENUMS.ItemStatus.EQUIPPED_SLOT, targetSlot)
         //    console.log("Server Equip: to actor_id",serverItem.id, this.status.getStatus(ENUMS.ActorStatus.ACTOR_ID))
             this.setStatusKey(ENUMS.ActorStatus[targetSlot], serverItem.id)
             console.log("Equip Slot", ENUMS.ActorStatus[targetSlot], serverItem.id)
+            this.clearInventoryItemId(serverItem.id);
         } else {
-            console.log("Item already equipped", serverItem, this)
+            console.log("Item already equipped", serverItem.id)
         }
     }
 
@@ -124,20 +137,38 @@ class ServerActor {
                 return eqItem;
             }
         }
-
     }
 
-    unequipEquippedItem(item) {
+
+
+    unequipEquippedItem(item, targetInvSlot) {
         MATH.splice(this.equippedItems, item);
         let slotKey = item.getStatus(ENUMS.ItemStatus.EQUIPPED_SLOT);
+
+        if (!slotKey) {
+            console.log("slotKey missing for unequip item", item.id);
+           for (let key in ENUMS.EquipmentSlots) {
+               if (this.getStatus(ENUMS.ActorStatus[ENUMS.EquipmentSlots[key]]) === item.id) {
+                   slotKey = ENUMS.EquipmentSlots[key];
+               }
+           }
+        }
+
         let currentItemId = this.getStatus(ENUMS.ActorStatus[slotKey])
         if (currentItemId !== "") {
             console.log("Unequip from slot ", slotKey, currentItemId);
             let serverItem = getServerItemByItemId(currentItemId);
             if (serverItem) {
-                let invSlotIndex = this.getFirstFreeInvSlotIndex();
-                serverItem.setStatusKey(ENUMS.ItemStatus.EQUIPPED_SLOT, "SLOT_"+invSlotIndex);
-                this.setStatusKey(ENUMS.ActorStatus["SLOT_"+invSlotIndex], serverItem.id);
+                let invItems = this.getStatus(ENUMS.ActorStatus.INVENTORY_ITEMS);
+                if (targetInvSlot) {
+                    invItems[getInvSlotIndex(targetInvSlot)] = serverItem.id;
+                    serverItem.setStatusKey(ENUMS.ItemStatus.EQUIPPED_SLOT, targetInvSlot);
+                } else {
+                    let invSlotIndex = this.getFirstFreeInvSlotIndex();
+                    serverItem.setStatusKey(ENUMS.ItemStatus.EQUIPPED_SLOT, "SLOT_"+invSlotIndex);
+                    invItems[invSlotIndex] = serverItem.id;
+                }
+                serverItem.dispatchItemStatus();
             }
             this.setStatusKey(ENUMS.ActorStatus[slotKey], "");
         }
@@ -187,6 +218,12 @@ class ServerActor {
                 activeEncounters[i].handleHostActorRemoved()
             }
         }
+
+        while (this.items.length) {
+            let item = this.items.pop();
+            removeServerItem(item);
+        }
+
     }
 
     buildServerActorStatusMessage(request, command) {
@@ -224,96 +261,32 @@ class ServerActor {
 
     applyActorEquipRequest(slotId, templateId, itemId, uiStateKey) {
         console.log("applyActorEquipRequest", slotId, templateId, itemId, uiStateKey)
-        let invItems = this.getStatus(ENUMS.ActorStatus.INVENTORY_ITEMS);
         let serverItem = getServerItemByItemId(itemId);
 
-        let isUpdate = true;
-
         if (!serverItem) {
-            isUpdate = false;
             serverItem = new ServerItem(templateId, this.getStatus(ENUMS.ActorStatus.CLIENT_STAMP), slotId, itemId);
             registerServerItem(serverItem)
-            let invSlotIndex = this.getFirstFreeInvSlotIndex();
-            serverItem.setStatusKey(ENUMS.ItemStatus.EQUIPPED_SLOT, "SLOT_"+invSlotIndex);
-        //    if (uiStateKey === ENUMS.UiStates.CHARACTER) {
-                serverItem.setStatusKey(ENUMS.ItemStatus.ACTOR_ID, this.getStatus(ENUMS.ActorStatus.ACTOR_ID));
-        //    }
             serverItem.dispatchItemStatus(ENUMS.ClientRequests.LOAD_SERVER_ITEM, ENUMS.ServerCommands.ITEM_INIT)
         }
 
         serverItem.setStatusKey(ENUMS.ItemStatus.ACTOR_ID, this.getStatus(ENUMS.ActorStatus.ACTOR_ID));
 
         if (uiStateKey === ENUMS.UiStates.CHARACTER) {
-
-            let currentItemId = this.getStatus(ENUMS.ActorStatus[ENUMS.EquipmentSlots[slotId]])
-
-            if (currentItemId !== "") {
-
-                if (currentItemId === serverItem.id) {
-
-                } else {
-                    console.log("Equip item on top of existing equipped item, switching...", currentItemId)
-                    this.unequipItemBySlot(slotId)
-                    serverItem.setStatusKey(ENUMS.ItemStatus.EQUIPPED_SLOT, slotId);
-                }
-
-
-
-            } else {
-                let fromSlot = invItems.indexOf(serverItem.id);
-
-                if (fromSlot === -1) {
-                    console.log("Equip item from non-inv source")
-                } else {
-                    invItems[fromSlot] = "";
-                }
-
-                console.log("Equip item on empty slot...")
-            }
-            this.equipServerItem(serverItem, slotId)
-
+            equipActorItem(this, serverItem, slotId);
         } else if (uiStateKey === ENUMS.UiStates.INVENTORY) {
-
-            if (slotId !== "") {
-                let slotIndex = getInvSlotIndex(ENUMS.InventorySlots[slotId]);
-                let currentItemId = invItems[slotIndex];
-
-                if (currentItemId === "") {
-
-                    if (invItems.indexOf(serverItem.id) !== -1) {
-                        console.log("Move inv item into free inv slot");
-                        invItems[invItems.indexOf(serverItem.id)] = "";
-                    } else {
-                        console.log("Put item into free inv slot", slotId, serverItem.id);
-                        this.unequipEquippedItem(serverItem)
-                    };
-
-                    serverItem.setStatusKey(ENUMS.ItemStatus.EQUIPPED_SLOT, slotId)
-                    invItems[slotIndex] = serverItem.id;
-                } else if (currentItemId !== serverItem.id) {
-                    console.log("Put item on top of inv item", currentItemId);
-                } else if (currentItemId === serverItem.id) {
-                    console.log("Put item on top of itself, should not be happeningm")
-                } else {
-                    console.log("This should never happen...")
-                }
-
-            } else { // determine slot here on the server...
-                let invSlotIndex = this.getFirstFreeInvSlotIndex();
-                serverItem.setStatusKey(ENUMS.ItemStatus.EQUIPPED_SLOT, "SLOT_"+invSlotIndex);
-                invItems[invSlotIndex] = serverItem.id;
-                console.log("Put item into inventory from nowhere", serverItem.id)
-            }
-
+            addItemToInventory(this, serverItem, slotId)
         } else {
             console.log("applyActorEquipRequest uiStateKey not yet supported", uiStateKey);
         }
 
+        if (this.items.indexOf(serverItem) === -1) {
+            this.items.push(serverItem);
+        }
 
     //    if (isUpdate === true) {
-        setTimeout(function() {
+    //    setTimeout(function() {
             serverItem.dispatchItemStatus(ENUMS.ClientRequests.APPLY_ITEM_STATUS, ENUMS.ServerCommands.ITEM_UPDATE)
-        }, 100)
+    //    }, 100)
 
     //    }
 

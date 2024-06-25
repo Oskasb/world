@@ -49,6 +49,7 @@ class ServerItem {
         this.msgEvent.msg.request = request;
         this.msgEvent.msg.command = command;
         this.msgEvent.msg.stamp = this.stamp;
+        this.msgEvent.msg.status = this.status.statusMap;
     //    console.log("Dispatch item msg", this.msgEvent.msg)
         dispatchMessage(this.msgEvent.msg);
     }

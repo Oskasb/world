@@ -103,7 +103,7 @@ class ServerActorMessageProcessor {
 
                     if (returnFullStatus === true) {
                         message.status = messageFromStatusMap(status.statusMap, zeroKey);
-                        console.log("returnFullStatus", message.status)
+                    //    console.log("returnFullStatus", message.status)
                     }
                 }
             }
