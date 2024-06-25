@@ -2,6 +2,7 @@ import { ItemSlot } from "../gamepieces/ItemSlot.js";
 import {ENUMS} from "../../application/ENUMS.js";
 import {saveItemStatus} from "../../application/setup/Database.js";
 import {isDev} from "../../application/utils/DebugUtils.js";
+import {poolReturn} from "../../application/utils/PoolUtils.js";
 
 let parsedConfigData;
 
@@ -59,17 +60,25 @@ class ActorEquipment {
 
             updateAddModifiers(this.items)
 
-            let slotId = item.getEquipSlotId();
+        //    let slotId = item.getEquipSlotId();
         //    console.log("Equip Actor Item ", item, slotId)
-            item.setStatusKey(ENUMS.ItemStatus.EQUIPPED_SLOT, slotId);
-            this.actor.setStatusKey(ENUMS.ActorStatus[slotId], item.getStatus(ENUMS.ItemStatus.ITEM_ID));
+        //    item.setStatusKey(ENUMS.ItemStatus.EQUIPPED_SLOT, slotId);
+        //    this.actor.setStatusKey(ENUMS.ActorStatus[slotId], item.getStatus(ENUMS.ItemStatus.ITEM_ID));
             itemSlot.setSlotItem(item);
 
         }.bind(this);
 
 
         let unequipActorItem = function(item, passive) {
-        //    console.log("UnEquip Actor Item ", item)
+            console.log("UnEquip Actor Item ", item)
+
+            if (item.visualItem !== null) {
+                if (item.visualItem.item !== null) {
+                    item.visualItem.call.requestDeactivation();
+                    poolReturn(item.visualItem);
+                }
+            }
+
             if (this.items.indexOf(item) !== -1) {
                 MATH.splice(this.items, item);
             } else {
@@ -80,33 +89,10 @@ class ActorEquipment {
             updateAddModifiers(this.items)
 
             let itemSlot = this.getSlotForItem(item);
-        //    let slotId = item.getEquipSlotId();
-            itemSlot.setSlotItem(null);
-
-            /*
-            let currentSlotStatus = this.actor.getStatus(ENUMS.ActorStatus[slotId]);
-
-            if (currentSlotStatus === item.getStatus(ENUMS.ItemStatus.ITEM_ID)) {
-             //   console.log("Unequip currently equipped itemId", slotId)
-                this.actor.setStatusKey(ENUMS.ActorStatus[slotId], "")
+            if (itemSlot.item === item) {
+                itemSlot.setSlotItem(null);
             }
 
-            if (passive !== true) {
-
-                let requests = this.actor.getStatus(ENUMS.ActorStatus.EQUIP_REQUESTS)
-
-            //    if (requests.indexOf(slotId) === -1) {
-                    requests.push("");
-                    requests.push("");
-                    requests.push(item.getStatus(ENUMS.ItemStatus.ITEM_ID));
-                    requests.push(ENUMS.UiStates.INVENTORY);
-                    this.actor.setStatusKey(ENUMS.ActorStatus.EQUIP_REQUESTS, requests);
-           //     }
-           //     MATH.splice(this.actor.getStatus(ENUMS.ActorStatus.EQUIPPED_ITEMS), item.getStatus(ENUMS.ItemStatus.TEMPLATE));
-            } else {
-
-            }
-*/
         }.bind(this)
 
         let getEquipmentStatusKey = function(key, store) {
@@ -170,7 +156,7 @@ class ActorEquipment {
             let localId = localState[slotKey]
             if (localId !== slotStatus) {
                 if (localId !== "") {
-                //    console.log("Unequip Client Item", localId);
+                    console.log("Unequip Client Item", localId);
                     let item = GameAPI.getItemById(localId);
                     if (item !== null) {
                         unequipActorItem(item);

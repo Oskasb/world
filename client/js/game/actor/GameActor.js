@@ -477,7 +477,7 @@ class GameActor {
 
     unequipItem(item) {
         this.actorEquipment.call.unequipActorItem(item);
-        this.actorInventory.addInventoryItem(item, null, this.call.inventoryItemAdded)
+    //    this.actorInventory.addInventoryItem(item, null, this.call.inventoryItemAdded)
     }
 
     getVisualGamePiece() {

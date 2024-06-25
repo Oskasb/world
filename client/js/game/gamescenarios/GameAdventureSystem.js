@@ -472,6 +472,9 @@ class GameAdventureSystem {
             let equipCb = function(item) {
             //    console.log("Equip CB", item)
                 startingItems.push(item);
+
+                let slot = item.config['equip_slot'];
+                item.setStatusKey(ENUMS.ItemStatus.EQUIPPED_SLOT, slot);
                 actor.equipItem(item);
             }
 

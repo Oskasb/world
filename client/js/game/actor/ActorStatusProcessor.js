@@ -417,7 +417,7 @@ function processActorEquipment(actor) {
 
     let equipment = actor.actorEquipment;
     equipment.call.synchEquipment();
-
+    return;
     let isLoading = false;
 
     for (let i = 0; i < equipment.slots.length;i++) {
@@ -488,20 +488,7 @@ function processActorEquipment(actor) {
 }
 
 function processInventoryStatus(actor) {
-    return;
-    let invStatus = actor.getStatus(ENUMS.ActorStatus.INVENTORY_ITEMS);
-    let inv = actor.actorInventory;
-    for (let i = 0; i < invStatus.length; i++) {
-        if (invStatus[i] !== inv.inventoryStatus[i]) {
-            if (invStatus[i] === "") {
-            } else {
-                let item = GameAPI.getItemById(invStatus[i]);
-                inv.addInventoryItem(item, i)
-            }
-            actor.actorText.say("Synch Inventory "+i)
-            inv.inventoryStatus[i] = invStatus[i];
-        }
-    }
+
 }
 
 function processAdventureStatus(actor) {
