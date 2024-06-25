@@ -12,7 +12,7 @@ function equipActorItem(actor, serverItem, slotId) {
 
         } else {
             console.log("Equip item on top of existing equipped item, switching...", currentItemId)
-            this.unequipItemBySlot(slotId)
+            actor.unequipItemBySlot(slotId)
             serverItem.setStatusKey(ENUMS.ItemStatus.EQUIPPED_SLOT, slotId);
         }
 
