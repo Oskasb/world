@@ -15,7 +15,20 @@ function equipActorItem(actor, serverItem, slotId) {
             actor.unequipItemBySlot(slotId)
 
             let switchItem = getServerItemByItemId(currentItemId);
-            addItemToInventory(actor, switchItem, serverItem.getStatus(ENUMS.ItemStatus.EQUIPPED_SLOT), true)
+
+            if (switchItem) {
+
+                let switchFromSlot = switchItem.getStatus(ENUMS.ItemStatus.EQUIPPED_SLOT);
+                if (typeof (switchFromSlot) === "string") {
+                    addItemToInventory(actor, switchItem, serverItem.getStatus(ENUMS.ItemStatus.EQUIPPED_SLOT), true)
+                } else {
+                    console.log("There should be a slot id here... ", currentItemId);
+                }
+
+            } else {
+                console.log("There should be an item here when switching", currentItemId);
+            }
+
             serverItem.setStatusKey(ENUMS.ItemStatus.EQUIPPED_SLOT, slotId);
         }
 

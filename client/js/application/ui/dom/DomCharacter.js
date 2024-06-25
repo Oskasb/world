@@ -1,6 +1,7 @@
 import {HtmlElement} from "./HtmlElement.js";
 import {poolFetch, poolReturn} from "../../utils/PoolUtils.js";
 import {requestItemSlotChange} from "../../utils/EquipmentUtils.js";
+import {ENUMS} from "../../ENUMS.js";
 
 let defaultAdsr = {
     attack: {duration:0.5, from:0, to: 1.2, easing:"cubic-bezier(0.7, 0.2, 0.85, 1.15)"},
@@ -107,9 +108,11 @@ class DomCharacter {
         let close = function() {
             ThreeAPI.unregisterPrerenderCallback(update);
             actor.deactivateUiState(ENUMS.UiStates.CHARACTER);
-            actor = null;
+
+        //    GuiAPI.setNavigationState(ENUMS.NavigationState.WORLD);
             htmlElement.closeHtmlElement();
             poolReturn(htmlElement);
+
         }
 
         let transformToCenter = function(div) {
@@ -164,6 +167,7 @@ class DomCharacter {
             topDiv.style.transform = "translate3d(0, -100%, 0)"
             //     bottomDiv.style.transitionDuration = 0+"s";
             bottomDiv.style.transform = "translate3d(0, 100%, 0)"
+            actor.setStatusKey(ENUMS.ActorStatus.NAVIGATION_STATE, ENUMS.NavigationState.WORLD);
             setTimeout(function() {
                 close();
             }, adsrEnvelope.release.duration*1000+200)

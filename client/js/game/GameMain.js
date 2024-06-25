@@ -216,8 +216,8 @@ class GameMain {
                         }
 
                         let transitionOptions = [
-                            {id:"button_reset", text:"RESET", onClick:reset},
-                            {id:"button_continue", text:"CONTINUE", onClick:activate}
+                            {id:"button_reset", container:"top", text:"RESET", onClick:reset},
+                            {id:"button_continue", container:"bottom", text:"CONTINUE", onClick:activate}
                         ]
 
                         GuiAPI.activateDomTransition('WELCOME BACK', dataList, activate, null, transitionOptions)

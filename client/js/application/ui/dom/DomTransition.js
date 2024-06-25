@@ -56,7 +56,10 @@ class DomTransition {
         let topDiv;
         let bottomDiv;
 
-        let optionsDiv;
+        let optionsContainers = {
+            top:null,
+            bottom:null
+        };
 
         let dynDivs = [];
 
@@ -67,7 +70,8 @@ class DomTransition {
             bottomDiv = htmlElement.call.getChildElement('bottom_container');
         //    let reloadDiv = htmlElement.call.getChildElement('reload');
             let transitionDiv = htmlElement.call.getChildElement('transition');
-            optionsDiv = htmlElement.call.getChildElement('options_container');
+            optionsContainers.bottom = htmlElement.call.getChildElement('options_container_bottom');
+            optionsContainers.top = htmlElement.call.getChildElement('options_container_top');
         //    DomUtils.addClickFunction(reloadDiv, rebuild)
             DomUtils.addClickFunction(centerDiv, release)
 
@@ -196,9 +200,10 @@ class DomTransition {
         function applyOptions() { // {id:"button_reset", text:"RESET", onClick:reset},
             console.log("applyOptions transitionOptions", transitionOptions)
             for (let i = 0; i < transitionOptions.length; i++) {
-
                 let opt = transitionOptions[i];
-                let div = DomUtils.createDivElement(optionsDiv, opt.id, "<p>"+opt.text+"</p>", 'options_button');
+                let optsContainer = optionsContainers[opt.container || 'bottom'];
+                
+                let div = DomUtils.createDivElement(optsContainer, opt.id, "<p>"+opt.text+"</p>", 'options_button');
                 DomUtils.addElementClass(div, opt.id)
                 DomUtils.addClickFunction(div, opt.onClick)
                 dynDivs.push(div);

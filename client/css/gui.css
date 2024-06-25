@@ -926,7 +926,6 @@ div.options_container {
     position: absolute;
     bottom: 26em;
     height: 12em;
-    border: 0.5em solid white;
     display: inline-flex;
     justify-content: space-around;
     flex-direction: row;
