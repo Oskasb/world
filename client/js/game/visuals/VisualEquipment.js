@@ -87,15 +87,22 @@ class VisualEquipment {
 
         }
 
+        let unreadyTimeout;
 
         function vItemReady(vItem) {
 
             if (vItem.item === null) {
                 console.log("vItem cancelled before ready", vItem)
+                clearTimeout(unreadyTimeout);
+                unreadyTimeout = setTimeout(function() {
+                    vItemReady(vItem)
+                }, 400)
+
                 return;
             }
 
             if (cancelled) {
+                clearTimeout(unreadyTimeout);
                 console.log("vItem cancelled before instance", vItem)
                 return;
             }

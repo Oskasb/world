@@ -10,7 +10,7 @@ function requestItemSlotChange(actor, item, toSlot) {
     let fromInv = actor.actorInventory.isInventorySlot(fromSlot)
     let fromEquip = actor.actorEquipment.isEquipmentSlot(fromSlot)
 
-    let equipRequests = actor.getStatus(ENUMS.ActorStatus.EQUIP_REQUESTS);
+    let equipRequests = MATH.copyArrayValues(actor.getStatus(ENUMS.ActorStatus.EQUIP_REQUESTS), []);
 
 
     if (fromSlot === toSlot) {
@@ -28,7 +28,8 @@ function requestItemSlotChange(actor, item, toSlot) {
         uiState = ENUMS.UiStates.CHARACTER;
     }
     equipRequests.push(toSlot, item.getStatus(ENUMS.ItemStatus.TEMPLATE), item.id, uiState);
-    actor.setStatusKey(ENUMS.EQUIP_REQUESTS, equipRequests);
+
+    actor.setStatusKey(ENUMS.ActorStatus.EQUIP_REQUESTS, equipRequests);
     console.log("Actor StatusMap EQUIP_REQUESTS", equipRequests)
 }
 

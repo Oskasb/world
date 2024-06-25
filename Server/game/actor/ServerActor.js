@@ -156,7 +156,12 @@ class ServerActor {
 
         let currentItemId = this.getStatus(ENUMS.ActorStatus[slotKey])
         if (currentItemId !== "") {
-            console.log("Unequip from slot ", slotKey, currentItemId);
+        //    console.log("Unequip from slot ", slotKey, currentItemId);
+
+            if (typeof (currentItemId) !== 'string') {
+                console.log("Not string ID, it should be... ", currentItemId)
+            }
+
             let serverItem = getServerItemByItemId(currentItemId);
             if (serverItem) {
                 let invItems = this.getStatus(ENUMS.ActorStatus.INVENTORY_ITEMS);
@@ -289,7 +294,7 @@ class ServerActor {
 
     //    if (isUpdate === true) {
     //    setTimeout(function() {
-            serverItem.dispatchItemStatus(ENUMS.ClientRequests.APPLY_ITEM_STATUS, ENUMS.ServerCommands.ITEM_UPDATE)
+            serverItem.dispatchItemStatus()
     //    }, 100)
 
     //    }

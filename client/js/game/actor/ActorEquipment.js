@@ -70,7 +70,7 @@ class ActorEquipment {
 
 
         let unequipActorItem = function(item, passive) {
-            console.log("UnEquip Actor Item ", item)
+       //    console.log("UnEquip Actor Item ", item)
 
             if (item.visualItem !== null) {
                 if (item.visualItem.item !== null) {
@@ -154,19 +154,23 @@ class ActorEquipment {
         let updateSlotStatus = function(slotKey) {
             let slotStatus = this.actor.getStatus(slotKey);
             let localId = localState[slotKey]
+        //    console.log("updateSlotStatus", localId , slotStatus);
             if (localId !== slotStatus) {
+                console.log("updateSlotStatus", localId , slotStatus);
                 if (localId !== "") {
-                    console.log("Unequip Client Item", localId);
+
                     let item = GameAPI.getItemById(localId);
                     if (item !== null) {
+                        console.log("Unequip Client Item", item);
                         unequipActorItem(item);
                     }
                 }
 
                 if (slotStatus !== "") {
-                //    console.log("Equip Client Item", slotStatus);
+
                     let item = GameAPI.getItemById(slotStatus);
                     if (item !== null) {
+                        console.log("Equip Client Item", item);
                         equipActorItem(item);
                     }
                 }

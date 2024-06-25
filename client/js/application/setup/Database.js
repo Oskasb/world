@@ -60,6 +60,10 @@ function saveActorStatus(statusMap) {
     db.actors[id] = statusMap;
  //   statusMap[ENUMS.ActorStatus.EQUIP_REQUESTS] = [];
  //   statusMap[ENUMS.ActorStatus.EQUIPPED_ITEMS] = [];
+    if (typeof (statusMap['undefined']) !== 'undefined') {
+        console.log("Status map containes undefined", statusMap['undefined'], [statusMap]);
+        delete statusMap['undefined']
+    }
     localStorage.setItem('actors', JSON.stringify(db.actors));
 }
 
@@ -67,6 +71,10 @@ function saveItemStatus(statusMap) {
     let id = statusMap[ENUMS.ItemStatus.ITEM_ID];
     console.log("Save Item Status ", id, [db.items]);
     db.items[id] = statusMap;
+    if (typeof (statusMap['undefined']) !== 'undefined') {
+        console.log("Status map containes undefined", statusMap['undefined'], [statusMap]);
+        delete statusMap['undefined']
+    }
     localStorage.setItem('items', JSON.stringify(db.items));
 }
 
@@ -77,6 +85,10 @@ function savePlayerStatus(statusMap) {
         return;
     }
     db.players[id] = statusMap;
+    if (typeof (statusMap['undefined']) !== 'undefined') {
+        console.log("Status map containes undefined", statusMap['undefined'], [statusMap]);
+        delete statusMap['undefined']
+    }
     console.log("savePlayerStatus", db.players, statusMap);
     localStorage.setItem('players', JSON.stringify(db.players));
 }

@@ -46,8 +46,8 @@ class ServerItem {
     }
 
     dispatchItemStatus(request, command) {
-        this.msgEvent.msg.request = request;
-        this.msgEvent.msg.command = command;
+        this.msgEvent.msg.request = request || ENUMS.ClientRequests.APPLY_ITEM_STATUS;
+        this.msgEvent.msg.command = command || ENUMS.ServerCommands.ITEM_UPDATE;
         this.msgEvent.msg.stamp = this.stamp;
         this.msgEvent.msg.status = this.status.statusMap;
     //    console.log("Dispatch item msg", this.msgEvent.msg)

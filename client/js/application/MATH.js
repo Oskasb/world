@@ -833,6 +833,7 @@ MATH.copyArrayValues = function(from, to) {
 	for (let i = 0; i < from.length; i++) {
 		to[i] = from[i];
 	}
+	return to;
 }
 
 MATH.copyArray = function(from, to) {

@@ -13,6 +13,9 @@ function equipActorItem(actor, serverItem, slotId) {
         } else {
             console.log("Equip item on top of existing equipped item, switching...", currentItemId)
             actor.unequipItemBySlot(slotId)
+
+            let switchItem = getServerItemByItemId(currentItemId);
+            addItemToInventory(actor, switchItem, serverItem.getStatus(ENUMS.ItemStatus.EQUIPPED_SLOT), true)
             serverItem.setStatusKey(ENUMS.ItemStatus.EQUIPPED_SLOT, slotId);
         }
 
@@ -36,25 +39,33 @@ function unequipActorItem(actor, serverItem) {
 
 
 
-function addItemToInventory(actor, serverItem, slotId) {
+function addItemToInventory(actor, serverItem, slotId, isASwitch) {
     let invItems = actor.getStatus(ENUMS.ActorStatus.INVENTORY_ITEMS);
+
+
+
     if (slotId !== "") {
         let slotIndex = getInvSlotIndex(ENUMS.InventorySlots[slotId]);
         let currentItemId = invItems[slotIndex];
 
         if (currentItemId === "") {
 
-            let currentIndex = invItems.indexOf(serverItem.id)
 
-            if (currentIndex !== -1) {
-                console.log("Move inv item into free inv slot");
-                invItems[currentIndex] = "";
-            } else {
-                console.log("Put item into free inv slot", slotId, serverItem.id);
+            if (isASwitch === true) {
                 actor.unequipEquippedItem(serverItem, slotId)
-            };
+            } else {
+                let currentIndex = invItems.indexOf(serverItem.id)
 
-            serverItem.setStatusKey(ENUMS.ItemStatus.EQUIPPED_SLOT, slotId)
+                if (currentIndex !== -1) {
+                    console.log("Move inv item into free inv slot");
+                    invItems[currentIndex] = "";
+                    serverItem.setStatusKey(ENUMS.ItemStatus.EQUIPPED_SLOT, slotId)
+                } else {
+                    console.log("Put item into free inv slot", slotId, serverItem.id);
+                    actor.unequipEquippedItem(serverItem, slotId)
+                };
+            }
+
             invItems[slotIndex] = serverItem.id;
         } else if (currentItemId !== serverItem.id) {
             console.log("Put item on top of inv item", currentItemId);
@@ -74,9 +85,9 @@ function addItemToInventory(actor, serverItem, slotId) {
 
     } else { // determine slot here on the server...
         let invSlotIndex = actor.getFirstFreeInvSlotIndex();
-        serverItem.setStatusKey(ENUMS.ItemStatus.EQUIPPED_SLOT, "SLOT_"+invSlotIndex);
-        invItems[invSlotIndex] = serverItem.id;
-        console.log("Put item into inventory", serverItem.id)
+        console.log("Put item into inventory", "SLOT_"+invSlotIndex, serverItem.id)
+        addItemToInventory(actor, serverItem, "SLOT_"+invSlotIndex)
+
     }
 }
 

@@ -384,7 +384,23 @@ class GameActor {
 
         let currentStatus = this.actorStatus.getStatusByKey(key)
 
+        let isUpdated = false;
         if (currentStatus !== status) {
+            isUpdated = true;
+        } else {
+            if (typeof (currentStatus.length) === 'number') {
+                for (let i = 0; i < currentStatus[i]; i++) {
+                    if (currentStatus[i] !== status[i]) {
+                        isUpdated = true;
+                        continue;
+                    }
+                }
+            }
+        }
+
+
+
+        if (isUpdated === true) {
             this.statusFeedback.setStatusKey(key, status, this);
             this.actorStatus.setStatusKey(key, status);
             this.sendStatus(0.1)
@@ -453,31 +469,11 @@ class GameActor {
     }
 
     equipItem(item) {
-
-    //    let equippedList = this.getStatus(ENUMS.ActorStatus.EQUIPPED_ITEMS);
-
-            this.actorEquipment.call.equipActorItem(item);
-
-        //    if (equippedList.indexOf(item.configId) === -1) {
-         //       equippedList.push(item.configId);
-        //    } else {
-        //        console.log("item already registered", item);
-        //    }
-
-            item.setStatusKey(ENUMS.ItemStatus.ACTOR_ID, this.getStatus(ENUMS.ActorStatus.ACTOR_ID));
-            let requests = this.getStatus(ENUMS.ActorStatus.EQUIP_REQUESTS)
-            //    if (requests.indexOf(item.getStatus(ENUMS.ItemStatus.TEMPLATE)) === -1) {
-            requests.push(item.getEquipSlotId());
-            requests.push(item.getStatus(ENUMS.ItemStatus.TEMPLATE));
-            requests.push(item.getStatus(ENUMS.ItemStatus.ITEM_ID));
-            requests.push(ENUMS.UiStates.CHARACTER);
-            this.setStatusKey(ENUMS.ActorStatus.EQUIP_REQUESTS, requests);
-
+        this.actorEquipment.call.equipActorItem(item);
     }
 
     unequipItem(item) {
         this.actorEquipment.call.unequipActorItem(item);
-    //    this.actorInventory.addInventoryItem(item, null, this.call.inventoryItemAdded)
     }
 
     getVisualGamePiece() {
