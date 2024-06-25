@@ -6,6 +6,8 @@ import {ENUMS} from "../../application/ENUMS.js";
 import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
 import {VisualDestinationsLayer} from "../visuals/VisualDestinationsLayer.js";
 import {WorldAdventureUiSystem} from "../../application/ui/gui/systems/WorldAdventureUiSystem.js";
+import {getPlayerActor} from "../../application/utils/ActorUtils.js";
+import {getPlayerStatus} from "../../application/utils/StatusUtils.js";
 
 let spatialTransition
 
@@ -415,7 +417,6 @@ class GameAdventureSystem {
         if (event['activate_selection'] === true) {
             //    actor.activateWalkGrid(3);
             actor.call.activateActionKey("ACTION_TRAVEL_WALK", ENUMS.ActorStatus.TRAVEL)
-
             setTimeout(function() {
                 evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, {request:ENUMS.ClientRequests.LOAD_SERVER_ACTOR, status:actor.getStatus()})
             }, 200)

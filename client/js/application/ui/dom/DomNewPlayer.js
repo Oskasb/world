@@ -1,7 +1,8 @@
 import {poolFetch} from "../../utils/PoolUtils.js";
-import {setPlayerStatus} from "../../utils/StatusUtils.js";
+import {getPlayerStatus, setPlayerStatus} from "../../utils/StatusUtils.js";
 import {ENUMS} from "../../ENUMS.js";
 import {getConfigByEditId} from "../../utils/ConfigUtils.js";
+import {getPlayerActor} from "../../utils/ActorUtils.js";
 
 class DomNewPlayer {
     constructor(onCloseCB) {
@@ -156,6 +157,7 @@ class DomNewPlayer {
 
         function enterWorld() {
             console.log("Enter World ", selectedCharacterId, statusMap.NAME, statusMap);
+            setPlayerStatus(ENUMS.PlayerStatus.PLAYER_NAME, statusMap.NAME)
             htmlElement.closeHtmlElement()
             setTimeout(function() {
                 evt.dispatch(ENUMS.Event.SELECT_ADVENTURER, {activate_selection:true})
@@ -247,7 +249,7 @@ class DomNewPlayer {
                 ThreeAPI.registerPrerenderCallback(update);
 
 
-                setTimeout(selectName, 500);
+            //    setTimeout(selectName, 500);
 
             }
 

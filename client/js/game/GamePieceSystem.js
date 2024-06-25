@@ -9,7 +9,7 @@ import {trackDebugConfig} from "../application/utils/DebugUtils.js";
 import {evt} from "../application/event/evt.js";
 import {getRemoteClients} from "../Transport/io/ServerCommandProcessor.js";
 import {ClientStronghold} from "./gameworld/ClientStronghold.js";
-import {setPlayerStatus} from "../application/utils/StatusUtils.js";
+import {getPlayerStatus, setPlayerStatus} from "../application/utils/StatusUtils.js";
 import {storePlayerActorStatus, storePlayerStatus} from "../application/setup/Database.js";
 import {ENUMS} from "../application/ENUMS.js";
 
@@ -339,6 +339,8 @@ class GamePieceSystem {
         gameActor.call.setAsSelection();
         setPlayerStatus(ENUMS.PlayerStatus.ACTIVE_ACTOR_ID, gameActor.getStatus(ENUMS.ActorStatus.ACTOR_ID))
         this.selectedActor = gameActor;
+        gameActor.setStatusKey(ENUMS.ActorStatus.NAME, getPlayerStatus(ENUMS.PlayerStatus.PLAYER_NAME));
+
         storePlayerActorStatus();
         storePlayerStatus();
     }

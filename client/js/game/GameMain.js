@@ -199,8 +199,13 @@ class GameMain {
             setTimeout(function() {
 
                 if (typeof (dataList[ENUMS.ActorStatus.CONFIG_ID]) !== 'string') {
+                    dataList = {};
                     dataList['NEW USER'] = 'INIT';
-                    GuiAPI.activateDomTransition('WELCOME', null, startPlayerSession)
+                    let release = function() {
+                        domTransition.call.release();
+                    }
+                    let opts = [{id:"button_continue", container:"bottom", text:"CREATE CHARACTER", onClick:release}]
+                    let domTransition = GuiAPI.activateDomTransition('WELCOME', dataList, startPlayerSession, null, opts)
                 } else {
 
                     function loadedPlayerReady() {

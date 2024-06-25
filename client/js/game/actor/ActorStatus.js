@@ -308,16 +308,16 @@ class ActorStatus {
         this.statusMap[ENUMS.ActorStatus.ACTIONS] = [];
         this.statusMap[ENUMS.ActorStatus.COMBAT_STATUS] = [];
         this.statusMap[ENUMS.ActorStatus.VEL_X] = 0;
-        this.statusMap[ENUMS.ActorStatus.VEL_y] = 0;
+        this.statusMap[ENUMS.ActorStatus.VEL_Y] = 0;
         this.statusMap[ENUMS.ActorStatus.VEL_Z] = 0;
         this.statusMap[ENUMS.ActorStatus.POS_X] = 0;
-        this.statusMap[ENUMS.ActorStatus.POS_y] = 0;
+        this.statusMap[ENUMS.ActorStatus.POS_Y] = 0;
         this.statusMap[ENUMS.ActorStatus.POS_Z] = 0;
         this.statusMap[ENUMS.ActorStatus.SCALE_X] = 1;
-        this.statusMap[ENUMS.ActorStatus.SCALE_y] = 1;
+        this.statusMap[ENUMS.ActorStatus.SCALE_Y] = 1;
         this.statusMap[ENUMS.ActorStatus.SCALE_Z] = 1;
         this.statusMap[ENUMS.ActorStatus.QUAT_X] = 0;
-        this.statusMap[ENUMS.ActorStatus.QUAT_y] = 0;
+        this.statusMap[ENUMS.ActorStatus.QUAT_Y] = 0;
         this.statusMap[ENUMS.ActorStatus.QUAT_Z] = 0;
         this.statusMap[ENUMS.ActorStatus.QUAT_W] = 1;
         this.statusMap[ENUMS.ActorStatus.SELECTED_TARGET] = "";
@@ -366,6 +366,7 @@ class ActorStatus {
         this.statusMap[ENUMS.ActorStatus.COMPLETED_ADVENTURES] = [];
         this.statusMap[ENUMS.ActorStatus.ADVENTURE_PROGRESS] = [];
         this.statusMap[ENUMS.ActorStatus.ACTIVE_UI_STATES] = [];
+        this.statusMap[ENUMS.ActorStatus.NAME] = "";
 
         let updateTO = null;
         this.request = {request:ENUMS.ClientRequests.APPLY_ACTOR_STATUS, status:this.sendStatus}
