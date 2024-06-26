@@ -323,8 +323,7 @@ iframe.item_card {
     position: absolute;
     border-radius: 10em;
     z-index: 2000;
-    border: 2em solid rgba(0, 0, 0, 0.41);
-    box-shadow: 0px 0px 4em rgba(0, 0, 0, 0.9);
+    border: none;
 }
 
 iframe.interact_page {

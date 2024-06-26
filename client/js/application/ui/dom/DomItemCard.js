@@ -96,6 +96,7 @@ class DomItemCard {
             let height = bodyRect.height;
             setTargetCoordinates(height*0.5,width *0.5)
             let container = htmlElement.call.getChildElement('container')
+            let panel = htmlElement.call.getChildElement('item_card_panel')
             container.style.visibility = "visible";
             container.style.display = "";
         //    DomUtils.addClickFunction(container, rebuild)
@@ -122,6 +123,7 @@ class DomItemCard {
             }
 
             let rarity = item.getStatus(ENUMS.ItemStatus.RARITY);
+            DomUtils.addElementClass(panel, rarity);
             DomUtils.addElementClass(backplate, rarity);
             DomUtils.addElementClass(itemDiv, iconClass);
             ThreeAPI.registerPrerenderCallback(update);

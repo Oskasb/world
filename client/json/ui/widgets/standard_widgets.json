@@ -270,7 +270,7 @@
               "layout":"layout_world_nameplate",
               "text": {
                 "sprite_font": "sprite_font_button_big",
-                "feedback": "feedback_text_action_button"
+                "feedback": "feedback_text_nameplate"
               },
               "icon": {
                 "icon_config": "button_sequencer_icon_config",

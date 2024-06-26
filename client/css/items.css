@@ -1,4 +1,4 @@
-.item_card_container {
+body.item_card_container {
     top: 0.7em;
     left: 0.5em;
     bottom: 0.5em;
@@ -9,6 +9,9 @@
     position: absolute;
     margin:0;
     padding: 0;
+    background-color: rgba(0, 0, 0, 0);
+    border-width: 0;
+    box-shadow: 0 0 1.0em rgba(0, 0, 0, 1);
 }
 
 body.item_container {
@@ -114,7 +117,7 @@ div.icon_container {
 
     background: radial-gradient(circle, rgb(121, 121, 121) 0%, rgb(47, 47, 47) 99%);
     border: none;
-    box-shadow: 0 0 0.5em rgba(0, 0, 0, 0.05);
+    box-shadow: 0 0 0.4em rgba(0, 0, 0, 1);
 }
 
 div.item_properties {
