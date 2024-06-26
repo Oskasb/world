@@ -120,7 +120,7 @@ div.character_panel h3 {
 div.param {
     left: 0;
     margin-left: 11.5em;
-    width: 32em;
+    width: 26em;
     background: linear-gradient(rgba(168, 255, 248, 0.66) 0%, rgba(2, 40, 40, 0.22) 7%, rgba(0, 45, 82, 0.3) 50%, rgba(0, 134, 206, 0.51) 100%);
     display: inline-block;
 }
@@ -208,7 +208,7 @@ div.equipment_container {
     top: 50%;
     left: 50%;
     height: 92em;
-    width: 56em;
+    width: 50em;
     padding: 0;
     margin: 0;
     position: absolute;

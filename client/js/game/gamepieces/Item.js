@@ -23,11 +23,11 @@ class Item {
             }
         }
 
-        if (typeof (this.status.statusMap[ENUMS.ItemStatus.ITEM_POTENCY]) !== 'string') {
+        if (typeof (this.status.statusMap[ENUMS.ItemStatus.ITEM_POTENCY]) !== typeof (ENUMS.potency.POTENCY_0)) {
             this.status.statusMap[ENUMS.ItemStatus.ITEM_POTENCY] = ENUMS.potency.POTENCY_0;
         }
 
-        if (typeof (this.status.statusMap[ENUMS.ItemStatus.ITEM_RANK]) !== 'string') {
+        if (typeof (this.status.statusMap[ENUMS.ItemStatus.ITEM_RANK]) !== typeof ( ENUMS.rank.RANK_0)) {
             this.status.statusMap[ENUMS.ItemStatus.ITEM_RANK] = ENUMS.rank.RANK_0;
         }
 

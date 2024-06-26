@@ -18,16 +18,16 @@ div.inventory_container {
 
 div.inventory_container h1 {
     margin: 0;
-    margin-left: 2.5em;
-    padding: 0.7em;
+    margin-left: 1.8em;
+    padding: 0.5em;
     color: white;
-    font-size: 2em;
+    font-size: 2.6em;
 }
 
 div.inv_slot {
     margin: 0.15em;
-    width: 6.8em;
-    height: 6.8em;
+    width: 7.8em;
+    height: 7.8em;
     position: relative;
     display: inline-block;
 }

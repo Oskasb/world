@@ -2,7 +2,10 @@ import {HtmlElement} from "./HtmlElement.js";
 import {poolFetch, poolReturn} from "../../utils/PoolUtils.js";
 import {ENUMS} from "../../ENUMS.js";
 import {
-    getItemIconClass,
+    getItemMaxPotency, getItemMaxRank,
+    getItemPotencyIndicatorLevelFill,
+    getItemPotencySlotCount, getItemRankIndicatorLevelFill,
+    getItemRankSlotCount,
     getItemUiStateKey,
     getVisualConfigByVisualId,
     getVisualConfigIconClass
@@ -198,12 +201,91 @@ class DomItem {
 
         let dynDivs = [];
 
+        let potencyDivs = [];
+        let rankDivs = [];
+
         let statusMap = {
 
         }
 
         let closeCb = function() {
             console.log("Close...")
+        }
+
+        function updateRankDivs() {
+            let rank = item.getStatus(ENUMS.ItemStatus.ITEM_RANK);
+
+            if (Math.random() < 0.1) {
+                let pIndex = item.getStatus(ENUMS.ItemStatus.ITEM_RANK);
+                pIndex++;
+                if (pIndex === getItemMaxRank(item)) {
+                    pIndex = 0
+                }
+
+                //    let potency = Math.floor(MATH.randomBetween(0.5, getItemMaxPotency(item)+0.5))
+                item.setStatusKey(ENUMS.ItemStatus.ITEM_RANK, ENUMS.rank['RANK_'+pIndex])
+                let levelFill = getItemRankIndicatorLevelFill(item);
+                let indicatorLevel = levelFill.level;
+                let filledIndicators = levelFill.fill;
+
+                for (let i = 0; i < rankDivs.length; i++) {
+                    let iconClass = 'rank_'+indicatorLevel;
+                    if (i < filledIndicators) {
+                        iconClass+='_set'
+                    } else {
+                        iconClass+='_unset'
+                    }
+
+                    if (rankDivs[i].indicatorClass !== iconClass) {
+                        if (typeof (rankDivs[i].indicatorClass) === 'string') {
+                            DomUtils.removeElementClass(rankDivs[i], rankDivs[i].indicatorClass)
+                        }
+                        rankDivs[i].indicatorClass = iconClass
+                        DomUtils.addElementClass(rankDivs[i], rankDivs[i].indicatorClass)
+                    }
+                }
+            }
+
+        }
+
+
+
+        function updatePotencyDivs() {
+            if (Math.random() < 0.1) {
+                let pIndex = item.getStatus(ENUMS.ItemStatus.ITEM_POTENCY);
+                pIndex++;
+                if (pIndex === getItemMaxPotency(item)) {
+                    pIndex = 0
+                }
+
+            //    let potency = Math.floor(MATH.randomBetween(0.5, getItemMaxPotency(item)+0.5))
+                item.setStatusKey(ENUMS.ItemStatus.ITEM_POTENCY, ENUMS.potency['POTENCY_'+pIndex])
+                let levelFill = getItemPotencyIndicatorLevelFill(item);
+                let indicatorLevel = levelFill.level;
+                let filledIndicators = levelFill.fill;
+
+                for (let i = 0; i < potencyDivs.length; i++) {
+                    let iconClass = 'icon_potency';
+                    if (i < filledIndicators) {
+                        iconClass+='_set_'
+                    } else {
+                        iconClass+='_unset_'
+                    }
+                    iconClass+=indicatorLevel
+
+                        if (potencyDivs[i].indicatorClass !== iconClass) {
+                            if (typeof (potencyDivs[i].indicatorClass) === 'string') {
+                                DomUtils.removeElementClass(potencyDivs[i], potencyDivs[i].indicatorClass)
+                            }
+                            potencyDivs[i].indicatorClass = iconClass
+                            DomUtils.addElementClass(potencyDivs[i], potencyDivs[i].indicatorClass)
+                        }
+                }
+            }
+
+            return;
+            let potency = item.getStatus(ENUMS.ItemStatus.ITEM_POTENCY);
+
         }
 
         let update = function() {
@@ -225,6 +307,9 @@ class DomItem {
             if (!targetElement) {
                 return;
             }
+
+            updateRankDivs()
+            updatePotencyDivs()
 
             let rect = DomUtils.getElementCenter(targetElement, targetRoot)
 
@@ -364,6 +449,21 @@ class DomItem {
             dragX = 0;
         }
 
+        let rankSlots = 0;
+        let potencySlots = 0;
+
+        function attachPotencySlots() {
+            for (let i = 0; i < potencySlots; i++) {
+                let div = DomUtils.createDivElement(potencyContainer, 'potency_slot_'+i, '', 'item_potency_slot')
+                potencyDivs.push(div);
+            }
+        }
+        function attachRankSlots() {
+            for (let i = 0; i < rankSlots; i++) {
+                let div = DomUtils.createDivElement(rankContainer, 'rank_slot_'+i, '', 'item_rank_slot')
+                rankDivs.push(div);
+            }
+        }
         let readyCb = function() {
             rootElement = htmlElement.call.getRootElement();
             let bodyRect = DomUtils.getWindowBoundingRect();
@@ -374,7 +474,8 @@ class DomItem {
 
             potencyContainer = htmlElement.call.getChildElement('container_item_potency')
             rankContainer = htmlElement.call.getChildElement('container_item_rank')
-
+            attachPotencySlots()
+            attachRankSlots()
             container.style.visibility = "visible";
             container.style.display = "";
             DomUtils.addClickFunction(container, inspectItem)
@@ -405,8 +506,9 @@ class DomItem {
 
         let setItem = function(itm) {
             item = itm;
+            potencySlots = getItemPotencySlotCount(item);
+            rankSlots = getItemRankSlotCount(item);
             statusMap['ITEM_ID'] = item.getStatus(ENUMS.ItemStatus.ITEM_ID);
-
             statusMap['ITEM_LEVEL'] = item.getStatus(ENUMS.ItemStatus.ITEM_LEVEL);
             htmlElement.initHtmlElement('item', null, statusMap, 'item', readyCb);
         }
@@ -436,6 +538,9 @@ class DomItem {
         }
 
         let close = function() {
+            DomUtils.clearDivArray(dynDivs);
+            DomUtils.clearDivArray(potencyDivs);
+            DomUtils.clearDivArray(rankDivs);
             item = null;
             ThreeAPI.unregisterPrerenderCallback(update);
             clearIframe();

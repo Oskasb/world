@@ -50,6 +50,12 @@ class DomUtils {
         if (div.parentNode) div.parentNode.removeChild(div);
     };
 
+    clearDivArray = function(array) {
+            while(array.length) {
+                this.removeDivElement(array.pop());
+            }
+    }
+
     checkForStylePrefix = function(prefix) {
         if (this.refDiv.style[prefix] === "") return prefix;
     };

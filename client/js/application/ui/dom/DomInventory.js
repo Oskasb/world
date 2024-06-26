@@ -24,7 +24,7 @@ class DomInventory {
 
         let setInitTransforms = function() {
             rootElem = htmlElement.call.getRootElement();
-            rootElem.style.transform = "translate3d(-150%, -50%, 0)";
+            rootElem.style.transform = "translate3d(-126%, -50%, 0)";
         }
 
         let retrigger = function() {
@@ -59,7 +59,10 @@ class DomInventory {
             }
 
             let reloadDiv = htmlElement.call.getChildElement('reload');
-            DomUtils.addClickFunction(reloadDiv, retrigger)
+            if (reloadDiv) {
+                DomUtils.addClickFunction(reloadDiv, retrigger)
+            }
+
         }
 
         let rebuild;

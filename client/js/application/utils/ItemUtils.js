@@ -1,5 +1,26 @@
 import {readConfig} from "./ConfigUtils.js";
 
+
+
+let potencyMap = {};
+potencyMap[ENUMS.quality.POOR] =        {slots:6, steps:6};
+potencyMap[ENUMS.quality.BASIC] =       {slots:3, steps:6};
+potencyMap[ENUMS.quality.GOOD] =        {slots:2, steps:6};
+potencyMap[ENUMS.quality.EXCEPTIONAL] = {slots:4, steps:4};
+potencyMap[ENUMS.quality.SUPERB] =      {slots:5, steps:5};
+
+let rankMap = {};
+rankMap[ENUMS.rarity.PLAIN]     = {slots:2, steps:1};
+rankMap[ENUMS.rarity.COMMON]    = {slots:6, steps:6};
+rankMap[ENUMS.rarity.UNCOMMON]  = {slots:3, steps:3};
+rankMap[ENUMS.rarity.RARE]      = {slots:4, steps:4};
+rankMap[ENUMS.rarity.EPIC]      = {slots:5, steps:5};
+rankMap[ENUMS.rarity.LEGENDARY] = {slots:5, steps:6};
+
+function getSlotStepMaxCount(slotStep) {
+    return slotStep.slots * slotStep.steps;
+}
+
 function getVisualConfigIconClass(visdualConfig) {
     let cString = visdualConfig.data['icon_class'];
     if (typeof (cString) === "string") {
@@ -86,21 +107,55 @@ function getItemUiStateKey(item) {
     }
 }
 
+
+
 function getItemMaxPotency(item) {
     let quality = item.getStatus(ENUMS.ItemStatus.QUALITY);
-    let rarity = item.getStatus(ENUMS.ItemStatus.QUALITY);
-    let level = item.getStatus(ENUMS.ItemStatus.ITEM_LEVEL);
-    let randomValue = Math.floor(MATH.randomBetween(1, 30))
-    return ENUMS.potency['POTENCY_'+randomValue];
-
+    let slotsSteps = potencyMap[quality];
+    return getSlotStepMaxCount(slotsSteps);
 }
 
 function getItemMaxRank(item) {
+    let rarity = item.getStatus(ENUMS.ItemStatus.RARITY);
+    let slotsSteps = rankMap[rarity];
+    return getSlotStepMaxCount(slotsSteps);
+}
+
+function getItemPotencySlotCount(item) {
     let quality = item.getStatus(ENUMS.ItemStatus.QUALITY);
-    let rarity = item.getStatus(ENUMS.ItemStatus.QUALITY);
-    let level = item.getStatus(ENUMS.ItemStatus.ITEM_LEVEL);
-    let randomValue = Math.floor(MATH.randomBetween(1, 30))
-    return ENUMS.potency['RANK_'+randomValue];
+    let slotsSteps = potencyMap[quality];
+    return slotsSteps.slots;
+}
+
+function getItemRankSlotCount(item) {
+    let rarity = item.getStatus(ENUMS.ItemStatus.RARITY);
+    let slotsSteps = rankMap[rarity];
+    return slotsSteps.slots;
+}
+
+let levelFill = {level:0, fill:0}
+function getItemPotencyIndicatorLevelFill(item) {
+    let quality = item.getStatus(ENUMS.ItemStatus.QUALITY);
+    let slotsSteps = potencyMap[quality];
+    let pIndex = item.getStatus(ENUMS.ItemStatus.ITEM_POTENCY);
+    let slots = slotsSteps.slots;
+    let steps = slotsSteps.steps;
+    let max = getSlotStepMaxCount(slotsSteps)
+    levelFill.level = Math.floor(max * MATH.calcFraction(0, max, pIndex) / (slots)) ;
+    levelFill.fill = 1+pIndex - levelFill.level * slots;
+    return levelFill;
+}
+
+function getItemRankIndicatorLevelFill(item) {
+    let rarity = item.getStatus(ENUMS.ItemStatus.RARITY);
+    let slotsSteps = rankMap[rarity];
+    let rIndex = item.getStatus(ENUMS.ItemStatus.ITEM_RANK);
+    let slots = slotsSteps.slots;
+    let steps = slotsSteps.steps;
+    let max = getSlotStepMaxCount(slotsSteps)
+    levelFill.level = Math.floor(max * MATH.calcFraction(0, max, rIndex) / (slots)) ;
+    levelFill.fill = 1+rIndex - levelFill.level * slots;
+    return levelFill;
 }
 
 export {
@@ -114,5 +169,11 @@ export {
     getVisualConfigIconClass,
     getItemUiStateKey,
     getItemMaxPotency,
-    getItemMaxRank
+    getItemMaxRank,
+    getItemPotencySlotCount,
+    getItemRankSlotCount,
+    getItemPotencyIndicatorLevelFill,
+    getItemRankIndicatorLevelFill,
+    potencyMap,
+    rankMap
 }
