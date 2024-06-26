@@ -192,6 +192,12 @@ class DomItem {
         let targetRoot = null;
         let rootElement = null;
         let container = null;
+
+        let potencyContainer = null;
+        let rankContainer = null;
+
+        let dynDivs = [];
+
         let statusMap = {
 
         }
@@ -229,6 +235,10 @@ class DomItem {
 
                 let targetY = dragY+pTop+rect.height*0.5;
                 let targetX = dragX+pLeft+rect.width*0.5
+                let fontSize = rect.height*0.0065
+                if (container.style.fontSize !== fontSize+'em') {
+                    container.style.fontSize =  fontSize+'em'
+                }
 
                 setTargetCoordinates(targetY, targetX);
                 if (dragActive === true) {
@@ -361,6 +371,10 @@ class DomItem {
             let height = bodyRect.height;
             setTargetCoordinates(height*0.5,width *0.5)
             container = htmlElement.call.getChildElement('container')
+
+            potencyContainer = htmlElement.call.getChildElement('container_item_potency')
+            rankContainer = htmlElement.call.getChildElement('container_item_rank')
+
             container.style.visibility = "visible";
             container.style.display = "";
             DomUtils.addClickFunction(container, inspectItem)
@@ -392,6 +406,8 @@ class DomItem {
         let setItem = function(itm) {
             item = itm;
             statusMap['ITEM_ID'] = item.getStatus(ENUMS.ItemStatus.ITEM_ID);
+
+            statusMap['ITEM_LEVEL'] = item.getStatus(ENUMS.ItemStatus.ITEM_LEVEL);
             htmlElement.initHtmlElement('item', null, statusMap, 'item', readyCb);
         }
 

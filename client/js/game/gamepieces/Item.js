@@ -13,6 +13,7 @@ class Item {
         this.configId = configId;
         this.config = config;
         this.visualItem = null;
+
         this.status = new ItemStatus(this.id, configId);
 
         let defaultSatus = config['status'];
@@ -20,6 +21,14 @@ class Item {
             for (let key in defaultSatus) {
                 this.status.statusMap[key] = defaultSatus[key];
             }
+        }
+
+        if (typeof (this.status.statusMap[ENUMS.ItemStatus.ITEM_POTENCY]) !== 'string') {
+            this.status.statusMap[ENUMS.ItemStatus.ITEM_POTENCY] = ENUMS.potency.POTENCY_0;
+        }
+
+        if (typeof (this.status.statusMap[ENUMS.ItemStatus.ITEM_RANK]) !== 'string') {
+            this.status.statusMap[ENUMS.ItemStatus.ITEM_RANK] = ENUMS.rank.RANK_0;
         }
 
     //    this.visualGamePiece.call.setPiece(this)

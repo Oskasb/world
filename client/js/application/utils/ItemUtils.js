@@ -86,6 +86,23 @@ function getItemUiStateKey(item) {
     }
 }
 
+function getItemMaxPotency(item) {
+    let quality = item.getStatus(ENUMS.ItemStatus.QUALITY);
+    let rarity = item.getStatus(ENUMS.ItemStatus.QUALITY);
+    let level = item.getStatus(ENUMS.ItemStatus.ITEM_LEVEL);
+    let randomValue = Math.floor(MATH.randomBetween(1, 30))
+    return ENUMS.potency['POTENCY_'+randomValue];
+
+}
+
+function getItemMaxRank(item) {
+    let quality = item.getStatus(ENUMS.ItemStatus.QUALITY);
+    let rarity = item.getStatus(ENUMS.ItemStatus.QUALITY);
+    let level = item.getStatus(ENUMS.ItemStatus.ITEM_LEVEL);
+    let randomValue = Math.floor(MATH.randomBetween(1, 30))
+    return ENUMS.potency['RANK_'+randomValue];
+}
+
 export {
     getItemRarity,
     getItemQuality,
@@ -95,5 +112,7 @@ export {
     getVisualConfigByItemId,
     getVisualConfigByVisualId,
     getVisualConfigIconClass,
-    getItemUiStateKey
+    getItemUiStateKey,
+    getItemMaxPotency,
+    getItemMaxRank
 }
