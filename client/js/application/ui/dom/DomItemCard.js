@@ -6,7 +6,7 @@ import {
     getItemMaxRank, getItemPotencyIndicatorLevelFill, getItemPotencySlotCount,
     getItemRankIndicatorLevelFill, getItemRankSlotCount,
     getVisualConfigByVisualId,
-    getVisualConfigIconClass
+    getVisualConfigIconClass, updatePotencyDivs, updateRankDivs
 } from "../../utils/ItemUtils.js";
 import {saveItemStatus} from "../../setup/Database.js";
 
@@ -28,61 +28,11 @@ class DomItemCard {
         let rankDivs = [];
 
         let statusMap = {
-            ITEM_RANK:0,
-            ITEM_POTENCY: 0
+            ITEM_RANK:-1,
+            ITEM_POTENCY: -1
         }
 
 
-        function updateRankDivs() {
-
-                let levelFill = getItemRankIndicatorLevelFill(item);
-                let indicatorLevel = levelFill.level;
-                let filledIndicators = levelFill.fill;
-
-                for (let i = 0; i < rankDivs.length; i++) {
-                    let iconClass = 'rank_'+indicatorLevel;
-                    if (i < filledIndicators) {
-                        iconClass+='_set'
-                    } else {
-                        iconClass+='_unset'
-                    }
-
-                    if (rankDivs[i].indicatorClass !== iconClass) {
-                        if (typeof (rankDivs[i].indicatorClass) === 'string') {
-                            DomUtils.removeElementClass(rankDivs[i], rankDivs[i].indicatorClass)
-                        }
-                        rankDivs[i].indicatorClass = iconClass
-                        DomUtils.addElementClass(rankDivs[i], rankDivs[i].indicatorClass)
-                    }
-                }
-
-        }
-
-
-        function updatePotencyDivs() {
-
-                let levelFill = getItemPotencyIndicatorLevelFill(item);
-                let indicatorLevel = levelFill.level;
-                let filledIndicators = levelFill.fill;
-
-                for (let i = 0; i < potencyDivs.length; i++) {
-                    let iconClass = 'icon_potency';
-                    if (i < filledIndicators) {
-                        iconClass+='_set_'
-                    } else {
-                        iconClass+='_unset_'
-                    }
-                    iconClass+=indicatorLevel
-
-                    if (potencyDivs[i].indicatorClass !== iconClass) {
-                        if (typeof (potencyDivs[i].indicatorClass) === 'string') {
-                            DomUtils.removeElementClass(potencyDivs[i], potencyDivs[i].indicatorClass)
-                        }
-                        potencyDivs[i].indicatorClass = iconClass
-                        DomUtils.addElementClass(potencyDivs[i], potencyDivs[i].indicatorClass)
-                    }
-                }
-            }
 
 
         let update = function() {
@@ -105,13 +55,13 @@ class DomItemCard {
             let rank = item.getStatus(ENUMS.ItemStatus.ITEM_RANK)
             if (statusMap['ITEM_RANK'] !== rank) {
                 statusMap['ITEM_RANK'] = rank
-                updateRankDivs()
+                updateRankDivs(item, rankDivs)
             }
 
             let potency = item.getStatus(ENUMS.ItemStatus.ITEM_POTENCY)
             if (statusMap['ITEM_POTENCY'] !== potency) {
                 statusMap['ITEM_POTENCY'] = potency
-                updatePotencyDivs()
+                updatePotencyDivs(item, potencyDivs)
             }
 
             if (item.visualItem !== null) {
@@ -182,6 +132,18 @@ class DomItemCard {
             }
         }
 
+        function activateRankUp() {
+            let rank = item.getStatus(ENUMS.ItemStatus.ITEM_RANK)
+            console.log("activateRankUp", item)
+            item.setStatusKey(ENUMS.ItemStatus.ITEM_RANK, rank+1)
+        }
+
+        function activateEmpower() {
+            let potency = item.getStatus(ENUMS.ItemStatus.ITEM_POTENCY)
+            console.log("activateEmpower", item)
+            item.setStatusKey(ENUMS.ItemStatus.ITEM_POTENCY, potency+1)
+        }
+
         let readyCb = function() {
             rootElement = htmlElement.call.getRootElement();
             let bodyRect = DomUtils.getWindowBoundingRect();
@@ -199,12 +161,16 @@ class DomItemCard {
             attachPotencySlots()
             attachRankSlots()
 
+            let rankUpDiv = htmlElement.call.getChildElement("rank_up");
+            let empowerDiv = htmlElement.call.getChildElement("empower");
+            DomUtils.addClickFunction(rankUpDiv, activateRankUp);
+            DomUtils.addClickFunction(empowerDiv, activateEmpower);
+
 
             let paletteDiv = htmlElement.call.getChildElement("palette_edit");
             if (statusMap['PALETTE_VALUES'].length) {
                 console.log(statusMap['PALETTE_VALUES'])
                 DomUtils.addClickFunction(paletteDiv, editPalette);
-
             } else {
                 paletteDiv.style.display = "none";
             }
@@ -244,6 +210,8 @@ class DomItemCard {
             statusMap['PALETTE_VALUES'] = item.getStatus(ENUMS.ItemStatus.PALETTE_VALUES);
             statusMap['MODIFIERS'] = item.getStatus(ENUMS.ItemStatus.MODIFIERS);
             statusMap['SLOT_ID'] = item.getEquipSlotId()
+            statusMap['ITEM_RANK'] = -1;
+            statusMap['ITEM_POTENCY'] = -1;
             htmlElement.initHtmlElement('item_card', closeItemCard, statusMap, 'item_card', readyCb);
         }
 

@@ -1,4 +1,5 @@
 import {readConfig} from "./ConfigUtils.js";
+import {ENUMS} from "../ENUMS.js";
 
 
 
@@ -158,6 +159,55 @@ function getItemRankIndicatorLevelFill(item) {
     return levelFill;
 }
 
+function updatePotencyDivs(item, potencyDivs) {
+    let levelFill = getItemPotencyIndicatorLevelFill(item);
+    let indicatorLevel = levelFill.level;
+    let filledIndicators = levelFill.fill;
+
+    for (let i = 0; i < potencyDivs.length; i++) {
+        let iconClass = 'icon_potency';
+        if (i < filledIndicators) {
+            iconClass+='_set_'
+        } else {
+            iconClass+='_unset_'
+        }
+        iconClass+=indicatorLevel
+
+        if (potencyDivs[i].indicatorClass !== iconClass) {
+            if (typeof (potencyDivs[i].indicatorClass) === 'string') {
+                DomUtils.removeElementClass(potencyDivs[i], potencyDivs[i].indicatorClass)
+            }
+            potencyDivs[i].indicatorClass = iconClass
+            DomUtils.addElementClass(potencyDivs[i], potencyDivs[i].indicatorClass)
+        }
+    }
+
+}
+
+function updateRankDivs(item, rankDivs) {
+    let levelFill = getItemRankIndicatorLevelFill(item);
+    let indicatorLevel = levelFill.level;
+    let filledIndicators = levelFill.fill;
+
+    for (let i = 0; i < rankDivs.length; i++) {
+        let iconClass = 'rank_'+indicatorLevel;
+        if (i < filledIndicators) {
+            iconClass+='_set'
+        } else {
+            iconClass+='_unset'
+        }
+
+        if (rankDivs[i].indicatorClass !== iconClass) {
+            if (typeof (rankDivs[i].indicatorClass) === 'string') {
+                DomUtils.removeElementClass(rankDivs[i], rankDivs[i].indicatorClass)
+            }
+            rankDivs[i].indicatorClass = iconClass
+            DomUtils.addElementClass(rankDivs[i], rankDivs[i].indicatorClass)
+        }
+    }
+}
+
+
 export {
     getItemRarity,
     getItemQuality,
@@ -174,6 +224,8 @@ export {
     getItemRankSlotCount,
     getItemPotencyIndicatorLevelFill,
     getItemRankIndicatorLevelFill,
+    updatePotencyDivs,
+    updateRankDivs,
     potencyMap,
     rankMap
 }

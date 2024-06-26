@@ -8,7 +8,7 @@ import {
     getItemRankSlotCount,
     getItemUiStateKey,
     getVisualConfigByVisualId,
-    getVisualConfigIconClass
+    getVisualConfigIconClass, updatePotencyDivs, updateRankDivs
 } from "../../utils/ItemUtils.js";
 import {requestItemSlotChange} from "../../utils/EquipmentUtils.js";
 import {getActiveUiStates, getPlayerActor} from "../../utils/ActorUtils.js";
@@ -203,87 +203,12 @@ class DomItem {
         let rankDivs = [];
 
         let statusMap = {
-
+            ITEM_RANK:-1,
+            ITEM_POTENCY: -1
         }
 
         let closeCb = function() {
             console.log("Close...")
-        }
-
-        function updateRankDivs() {
-            let rank = item.getStatus(ENUMS.ItemStatus.ITEM_RANK);
-
-            if (Math.random() < 0.1) {
-                let pIndex = item.getStatus(ENUMS.ItemStatus.ITEM_RANK) || 0;
-                pIndex++;
-                if (pIndex === getItemMaxRank(item)) {
-                    pIndex = 0
-                }
-
-                //    let potency = Math.floor(MATH.randomBetween(0.5, getItemMaxPotency(item)+0.5))
-                item.setStatusKey(ENUMS.ItemStatus.ITEM_RANK, ENUMS.rank['RANK_'+pIndex])
-                let levelFill = getItemRankIndicatorLevelFill(item);
-                let indicatorLevel = levelFill.level;
-                let filledIndicators = levelFill.fill;
-
-                for (let i = 0; i < rankDivs.length; i++) {
-                    let iconClass = 'rank_'+indicatorLevel;
-                    if (i < filledIndicators) {
-                        iconClass+='_set'
-                    } else {
-                        iconClass+='_unset'
-                    }
-
-                    if (rankDivs[i].indicatorClass !== iconClass) {
-                        if (typeof (rankDivs[i].indicatorClass) === 'string') {
-                            DomUtils.removeElementClass(rankDivs[i], rankDivs[i].indicatorClass)
-                        }
-                        rankDivs[i].indicatorClass = iconClass
-                        DomUtils.addElementClass(rankDivs[i], rankDivs[i].indicatorClass)
-                    }
-                }
-            }
-
-        }
-
-
-
-        function updatePotencyDivs() {
-            if (Math.random() < 0.1) {
-                let pIndex = item.getStatus(ENUMS.ItemStatus.ITEM_POTENCY) || 0;
-                pIndex++;
-                if (pIndex === getItemMaxPotency(item)) {
-                    pIndex = 0
-                }
-
-            //    let potency = Math.floor(MATH.randomBetween(0.5, getItemMaxPotency(item)+0.5))
-                item.setStatusKey(ENUMS.ItemStatus.ITEM_POTENCY, ENUMS.potency['POTENCY_'+pIndex])
-                let levelFill = getItemPotencyIndicatorLevelFill(item);
-                let indicatorLevel = levelFill.level;
-                let filledIndicators = levelFill.fill;
-
-                for (let i = 0; i < potencyDivs.length; i++) {
-                    let iconClass = 'icon_potency';
-                    if (i < filledIndicators) {
-                        iconClass+='_set_'
-                    } else {
-                        iconClass+='_unset_'
-                    }
-                    iconClass+=indicatorLevel
-
-                        if (potencyDivs[i].indicatorClass !== iconClass) {
-                            if (typeof (potencyDivs[i].indicatorClass) === 'string') {
-                                DomUtils.removeElementClass(potencyDivs[i], potencyDivs[i].indicatorClass)
-                            }
-                            potencyDivs[i].indicatorClass = iconClass
-                            DomUtils.addElementClass(potencyDivs[i], potencyDivs[i].indicatorClass)
-                        }
-                }
-            }
-
-            return;
-            let potency = item.getStatus(ENUMS.ItemStatus.ITEM_POTENCY);
-
         }
 
         let update = function() {
@@ -306,8 +231,17 @@ class DomItem {
                 return;
             }
 
-            updateRankDivs()
-            updatePotencyDivs()
+            let rank = item.getStatus(ENUMS.ItemStatus.ITEM_RANK)
+            if (statusMap['ITEM_RANK'] !== rank) {
+                statusMap['ITEM_RANK'] = rank
+                updateRankDivs(item, rankDivs)
+            }
+
+            let potency = item.getStatus(ENUMS.ItemStatus.ITEM_POTENCY)
+            if (statusMap['ITEM_POTENCY'] !== potency) {
+                statusMap['ITEM_POTENCY'] = potency
+                updatePotencyDivs(item, potencyDivs)
+            }
 
             let rect = DomUtils.getElementCenter(targetElement, targetRoot)
 
@@ -506,6 +440,8 @@ class DomItem {
             item = itm;
             potencySlots = getItemPotencySlotCount(item);
             rankSlots = getItemRankSlotCount(item);
+            statusMap['ITEM_RANK'] = -1;
+            statusMap['ITEM_POTENCY'] = -1;
             statusMap['ITEM_ID'] = item.getStatus(ENUMS.ItemStatus.ITEM_ID);
             statusMap['ITEM_LEVEL'] = item.getStatus(ENUMS.ItemStatus.ITEM_LEVEL);
             htmlElement.initHtmlElement('item', null, statusMap, 'item', readyCb);

@@ -444,14 +444,13 @@ div.panel_icon {
 }
 
 div.edit_button {
-    position:absolute;
     z-index: 10;
     top: auto;
     font-size: 2em;
     right: 0.5em;
     bottom: 0.5em;
     left: auto;
-    height: 1.1em;
+    height: 1.0em;
     width: 4em;
     border: 0.1em solid;
     border-radius: 0.2em;
@@ -459,13 +458,14 @@ div.edit_button {
     border-color: rgba(255, 242, 101, 1);
     box-shadow: 0 0 0.5em rgba(0, 21, 81, 1);
     background-size: 100%;
-    margin: 0;
+    margin-top: -2em;
     padding: 0;
     transform: translate3d(-0%, -0%, 0);
     color: #000000;
     text-shadow: 0.02em 0.02em 0.2em rgb(255, 255, 255);
-    display: block;
+    display: inline-block;
     text-align: center;
+    scale: 1.2;
 }
 
 div.sample_button {
