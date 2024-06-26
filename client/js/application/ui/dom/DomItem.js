@@ -198,9 +198,7 @@ class DomItem {
 
         let potencyContainer = null;
         let rankContainer = null;
-
         let dynDivs = [];
-
         let potencyDivs = [];
         let rankDivs = [];
 
@@ -216,7 +214,7 @@ class DomItem {
             let rank = item.getStatus(ENUMS.ItemStatus.ITEM_RANK);
 
             if (Math.random() < 0.1) {
-                let pIndex = item.getStatus(ENUMS.ItemStatus.ITEM_RANK);
+                let pIndex = item.getStatus(ENUMS.ItemStatus.ITEM_RANK) || 0;
                 pIndex++;
                 if (pIndex === getItemMaxRank(item)) {
                     pIndex = 0
@@ -252,7 +250,7 @@ class DomItem {
 
         function updatePotencyDivs() {
             if (Math.random() < 0.1) {
-                let pIndex = item.getStatus(ENUMS.ItemStatus.ITEM_POTENCY);
+                let pIndex = item.getStatus(ENUMS.ItemStatus.ITEM_POTENCY) || 0;
                 pIndex++;
                 if (pIndex === getItemMaxPotency(item)) {
                     pIndex = 0

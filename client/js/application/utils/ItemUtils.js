@@ -3,19 +3,19 @@ import {readConfig} from "./ConfigUtils.js";
 
 
 let potencyMap = {};
-potencyMap[ENUMS.quality.POOR] =        {slots:6, steps:6};
-potencyMap[ENUMS.quality.BASIC] =       {slots:3, steps:6};
-potencyMap[ENUMS.quality.GOOD] =        {slots:2, steps:6};
+potencyMap[ENUMS.quality.POOR] =        {slots:2, steps:1};
+potencyMap[ENUMS.quality.BASIC] =       {slots:3, steps:2};
+potencyMap[ENUMS.quality.GOOD] =        {slots:4, steps:3};
 potencyMap[ENUMS.quality.EXCEPTIONAL] = {slots:4, steps:4};
 potencyMap[ENUMS.quality.SUPERB] =      {slots:5, steps:5};
 
 let rankMap = {};
 rankMap[ENUMS.rarity.PLAIN]     = {slots:2, steps:1};
-rankMap[ENUMS.rarity.COMMON]    = {slots:6, steps:6};
+rankMap[ENUMS.rarity.COMMON]    = {slots:2, steps:2};
 rankMap[ENUMS.rarity.UNCOMMON]  = {slots:3, steps:3};
 rankMap[ENUMS.rarity.RARE]      = {slots:4, steps:4};
 rankMap[ENUMS.rarity.EPIC]      = {slots:5, steps:5};
-rankMap[ENUMS.rarity.LEGENDARY] = {slots:5, steps:6};
+rankMap[ENUMS.rarity.LEGENDARY] = {slots:6, steps:6};
 
 function getSlotStepMaxCount(slotStep) {
     return slotStep.slots * slotStep.steps;

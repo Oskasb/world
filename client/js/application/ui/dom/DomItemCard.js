@@ -1,7 +1,13 @@
 import {HtmlElement} from "./HtmlElement.js";
 import {ENUMS} from "../../ENUMS.js";
 import {poolFetch, poolReturn} from "../../utils/PoolUtils.js";
-import {getVisualConfigByVisualId, getVisualConfigIconClass} from "../../utils/ItemUtils.js";
+import {
+    getItemMaxPotency,
+    getItemMaxRank, getItemPotencyIndicatorLevelFill, getItemPotencySlotCount,
+    getItemRankIndicatorLevelFill, getItemRankSlotCount,
+    getVisualConfigByVisualId,
+    getVisualConfigIconClass
+} from "../../utils/ItemUtils.js";
 import {saveItemStatus} from "../../setup/Database.js";
 
 let activeDomItems = [];
@@ -15,9 +21,69 @@ class DomItemCard {
         let targetRoot = null;
         let rootElement = null;
 
+        let potencyContainer = null;
+        let rankContainer = null;
+        let dynDivs = [];
+        let potencyDivs = [];
+        let rankDivs = [];
+
         let statusMap = {
+            ITEM_RANK:0,
+            ITEM_POTENCY: 0
+        }
+
+
+        function updateRankDivs() {
+
+                let levelFill = getItemRankIndicatorLevelFill(item);
+                let indicatorLevel = levelFill.level;
+                let filledIndicators = levelFill.fill;
+
+                for (let i = 0; i < rankDivs.length; i++) {
+                    let iconClass = 'rank_'+indicatorLevel;
+                    if (i < filledIndicators) {
+                        iconClass+='_set'
+                    } else {
+                        iconClass+='_unset'
+                    }
+
+                    if (rankDivs[i].indicatorClass !== iconClass) {
+                        if (typeof (rankDivs[i].indicatorClass) === 'string') {
+                            DomUtils.removeElementClass(rankDivs[i], rankDivs[i].indicatorClass)
+                        }
+                        rankDivs[i].indicatorClass = iconClass
+                        DomUtils.addElementClass(rankDivs[i], rankDivs[i].indicatorClass)
+                    }
+                }
 
         }
+
+
+        function updatePotencyDivs() {
+
+                let levelFill = getItemPotencyIndicatorLevelFill(item);
+                let indicatorLevel = levelFill.level;
+                let filledIndicators = levelFill.fill;
+
+                for (let i = 0; i < potencyDivs.length; i++) {
+                    let iconClass = 'icon_potency';
+                    if (i < filledIndicators) {
+                        iconClass+='_set_'
+                    } else {
+                        iconClass+='_unset_'
+                    }
+                    iconClass+=indicatorLevel
+
+                    if (potencyDivs[i].indicatorClass !== iconClass) {
+                        if (typeof (potencyDivs[i].indicatorClass) === 'string') {
+                            DomUtils.removeElementClass(potencyDivs[i], potencyDivs[i].indicatorClass)
+                        }
+                        potencyDivs[i].indicatorClass = iconClass
+                        DomUtils.addElementClass(potencyDivs[i], potencyDivs[i].indicatorClass)
+                    }
+                }
+            }
+
 
         let update = function() {
             if (targetRoot === null) {
@@ -36,6 +102,17 @@ class DomItemCard {
             rootElement.style.fontSize = DomUtils.rootFontSize();
         //    statusMap['PALETTE_VALUES'] = item.getStatus(ENUMS.ItemStatus.PALETTE_VALUES);
 
+            let rank = item.getStatus(ENUMS.ItemStatus.ITEM_RANK)
+            if (statusMap['ITEM_RANK'] !== rank) {
+                statusMap['ITEM_RANK'] = rank
+                updateRankDivs()
+            }
+
+            let potency = item.getStatus(ENUMS.ItemStatus.ITEM_POTENCY)
+            if (statusMap['ITEM_POTENCY'] !== potency) {
+                statusMap['ITEM_POTENCY'] = potency
+                updatePotencyDivs()
+            }
 
             if (item.visualItem !== null) {
                 let instance = item.visualItem.call.getInstance()
@@ -89,6 +166,22 @@ class DomItemCard {
 
         }
 
+        let rankSlots = 0;
+        let potencySlots = 0;
+
+        function attachPotencySlots() {
+            for (let i = 0; i < potencySlots; i++) {
+                let div = DomUtils.createDivElement(potencyContainer, 'potency_slot_'+i, '', 'item_potency_slot')
+                potencyDivs.push(div);
+            }
+        }
+        function attachRankSlots() {
+            for (let i = 0; i < rankSlots; i++) {
+                let div = DomUtils.createDivElement(rankContainer, 'rank_slot_'+i, '', 'item_rank_slot')
+                rankDivs.push(div);
+            }
+        }
+
         let readyCb = function() {
             rootElement = htmlElement.call.getRootElement();
             let bodyRect = DomUtils.getWindowBoundingRect();
@@ -100,6 +193,12 @@ class DomItemCard {
             container.style.visibility = "visible";
             container.style.display = "";
         //    DomUtils.addClickFunction(container, rebuild)
+
+            potencyContainer = htmlElement.call.getChildElement('container_item_potency')
+            rankContainer = htmlElement.call.getChildElement('container_item_rank')
+            attachPotencySlots()
+            attachRankSlots()
+
 
             let paletteDiv = htmlElement.call.getChildElement("palette_edit");
             if (statusMap['PALETTE_VALUES'].length) {
@@ -131,6 +230,8 @@ class DomItemCard {
 
         let setItem = function(itm, closeItemCard) {
             item = itm;
+            potencySlots = getItemPotencySlotCount(item);
+            rankSlots = getItemRankSlotCount(item);
             statusMap['ITEM_ID'] = item.getStatus(ENUMS.ItemStatus.ITEM_ID);
             statusMap['TEMPLATE'] = item.getStatus(ENUMS.ItemStatus.TEMPLATE);
             statusMap['NAME'] = item.getStatus(ENUMS.ItemStatus.NAME);
@@ -171,6 +272,9 @@ class DomItemCard {
         }
 
         let close = function() {
+            DomUtils.clearDivArray(dynDivs);
+            DomUtils.clearDivArray(potencyDivs);
+            DomUtils.clearDivArray(rankDivs);
             item = null;
             ThreeAPI.unregisterPrerenderCallback(update);
             clearIframe();

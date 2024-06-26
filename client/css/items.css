@@ -56,6 +56,14 @@ div.container_item_potency {
     flex-direction: row;
 }
 
+div.potency_itemcard {
+    left:5.3em;
+    top: 3.2em;
+    font-size: 1.2em;
+}
+
+
+
 div.item_potency_slot {
     z-index: 100;
     width: 1.7em;
@@ -124,6 +132,13 @@ div.container_item_rank {
     display: flex;
     align-content: flex-end;
     flex-direction: column-reverse;
+}
+
+div.rank_itemcard {
+    left:15em;
+    top:3em;
+    bottom:auto;
+    right: auto;
 }
 
 div.item_rank_slot {
