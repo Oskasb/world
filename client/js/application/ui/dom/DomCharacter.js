@@ -21,6 +21,8 @@ class DomCharacter {
 
         let adsrEnvelope;
 
+        let equipContainer;
+
         let statusMap = {
             NAME : ".."
         }
@@ -50,12 +52,21 @@ class DomCharacter {
         let topDiv;
         let bottomDiv;
         let invDiv;
+        let stashDiv;
         let inv = null;
+        let stash = null;
 
         let closeInv = function() {
             if (inv !== null) {
                 inv.call.release()
                 inv = null;
+            }
+        }
+
+        let closeStash = function() {
+            if (stash !== null) {
+                stash.call.release()
+                stash = null;
             }
         }
 
@@ -68,13 +79,26 @@ class DomCharacter {
             }
         }
 
+        let openStash = function() {
+            if (stash !== null) {
+                closeStash();
+            } else {
+                stash = poolFetch('DomStash');
+                stash.call.activate(actor, stashDiv, closeStash);
+                close()
+            }
+        }
+
         let readyCb = function() {
+            equipContainer = htmlElement.call.getChildElement('equipment_container');
             invDiv = htmlElement.call.getChildElement('button_inventory');
+            stashDiv = htmlElement.call.getChildElement('button_stash');
             headerDiv = htmlElement.call.getChildElement('header_container');
             topDiv = htmlElement.call.getChildElement('top_container');
             bottomDiv = htmlElement.call.getChildElement('bottom_container');
             let reloadDiv = htmlElement.call.getChildElement('reload');
             DomUtils.addClickFunction(invDiv, openInventory)
+            DomUtils.addClickFunction(stashDiv, openStash)
             DomUtils.addClickFunction(reloadDiv, retrigger)
             DomUtils.addClickFunction(headerDiv, release)
             DomUtils.addClickFunction(topDiv, release)
@@ -88,6 +112,23 @@ class DomCharacter {
                 console.log("No actor")
                 return;
             }
+
+
+            let invState = actor.getStatus(ENUMS.ActorStatus.INVENTORY_ITEMS);
+
+            let itemCount = 0;
+            for (let i = 0; i < invState.length; i++) {
+                let itemId = invState[i];
+                if (itemId !== "") {
+                    itemCount++;
+                }
+            }
+            statusMap['inventory_count'] = itemCount || "";
+
+            statusMap['stash_count_items'] = itemCount || "";
+            statusMap['stash_count_materials'] = itemCount || "";
+            statusMap['stash_count_currencies'] = itemCount || "";
+            statusMap['stash_count_lore'] = itemCount || "";
 
             statusMap.NAME = actor.getStatus(ENUMS.ActorStatus.NAME);
             statusMap.ACTOR_LEVEL = actor.getStatus(ENUMS.ActorStatus.ACTOR_LEVEL);

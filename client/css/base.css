@@ -268,6 +268,19 @@ iframe.inventory {
     background-color: #f0f8ff00;
 }
 
+iframe.stash {
+    z-index: 200;
+    top: 50em;
+    left: 50%;
+    width: 760em;
+    height: 830em;
+    position: absolute;
+    color: #ecffdc;
+    border: none;
+    background-color: #f0f8ff00;
+}
+
+
 iframe.node_edit {
     bottom: 0;
     left: 50%;

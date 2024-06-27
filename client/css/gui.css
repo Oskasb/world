@@ -98,6 +98,25 @@ div.button_complete p {
     color: #b5ffe5;
 }
 
+.top_0 {
+    top:0;
+}
+
+.top_1 {
+    top:1em;
+}
+
+.top_2 {
+    top:2em;
+}
+
+.top_3 {
+    top:3em;
+}
+
+.top_4 {
+    top:4em;
+}
 
 
 div.background_create_panel {
@@ -180,6 +199,10 @@ div.anchor_close {
 
 div.scale_75 {
     scale: 0.75;
+}
+
+div.scale_150 {
+    scale: 1.5;
 }
 
 div.button_close {
@@ -265,6 +288,20 @@ div.bar_button p {
     font-size: 1.8em;
     text-align: center;
     text-shadow: 0.2em 0.2em 0.3em rgb(0, 0, 0);
+}
+
+
+div.bar_button h2 {
+    color: #abf7ff;
+    position: absolute;
+    padding: 0;
+    margin: 0;
+    left: -0.2em;
+    bottom: auto;
+    font-size: 2.4em;
+    text-align: left;
+    transform: translateY(-0.5em);
+    text-shadow: 0.1em 0.1em 0.2em rgb(0, 0, 0);
 }
 
 div.icon_inventory {

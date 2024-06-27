@@ -9,7 +9,7 @@ let defaultAdsr = {
 }
 
 
-class DomInventory {
+class DomStash {
     constructor() {
         let actor = null;
 
@@ -24,7 +24,7 @@ class DomInventory {
 
         let setInitTransforms = function() {
             rootElem = htmlElement.call.getRootElement();
-            rootElem.style.transform = "translate3d(-126%, -50%, 0)";
+            rootElem.style.transform = "translate3d(-50%, 0, 0)";
         }
 
         let retrigger = function() {
@@ -76,8 +76,6 @@ class DomInventory {
 
             let invState = actor.getStatus(ENUMS.ActorStatus.INVENTORY_ITEMS);
 
-            let itemCount = 0;
-
             for (let i = 0; i < invState.length; i++) {
                 let itemId = invState[i];
                 if (lastFrameState[i] !== itemId) {
@@ -124,12 +122,12 @@ class DomInventory {
 
         let activate = function(actr, btnDiv, onClose) {
             buttonDiv = btnDiv;
-            console.log("Actor inventory", actr)
+            console.log("Player Stash", actr)
             DomUtils.addElementClass(buttonDiv, 'bar_button_active')
             adsrEnvelope = defaultAdsr;
             actor = actr;
             htmlElement = poolFetch('HtmlElement');
-            rebuild = htmlElement.initHtmlElement('inventory', onClose, statusMap, 'inventory', htmlReady);
+            rebuild = htmlElement.initHtmlElement('stash', onClose, statusMap, 'stash', htmlReady);
         }
 
         let release = function() {
@@ -151,4 +149,4 @@ class DomInventory {
     }
 }
 
-export {DomInventory}
+export {DomStash}
