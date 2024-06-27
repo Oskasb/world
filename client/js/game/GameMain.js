@@ -10,6 +10,7 @@ import {ENUMS} from "../application/ENUMS.js";
 import {getUrlParam, isDev} from "../application/utils/DebugUtils.js";
 import {DomNewPlayer} from "../application/ui/dom/DomNewPlayer.js";
 import {
+    getLoadedAccount,
     getLocalAccount, getLocalAccountStatus, loadActorStatus, loadPlayerStatus, resetDatabase,
     storeLocalAccountStatus,
     storePlayerActorStatus,
@@ -181,7 +182,7 @@ class GameMain {
 
 
 
-            let account = getLocalAccount();
+            let account = getLoadedAccount();
             console.log("Local Account; ", account);
 
             let dataList = {};

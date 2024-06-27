@@ -1,22 +1,40 @@
-import {readConfig} from "./ConfigUtils.js";
+import {fetchConfigByEditId, readConfig} from "./ConfigUtils.js";
 import {ENUMS} from "../ENUMS.js";
 
+let itemProgressTables;
+let upgradeTables = {};
 
+function cfgCb(cfg) {
+    itemProgressTables = cfg;
+    upgradeTables = cfg['item_upgrade_tables']
+    console.log('item_upgrade_tables', upgradeTables)
+}
+fetchConfigByEditId('item_progress_tables', cfgCb);
 
-let potencyMap = {};
-potencyMap[ENUMS.quality.POOR] =        {slots:2, steps:1};
-potencyMap[ENUMS.quality.BASIC] =       {slots:3, steps:2};
-potencyMap[ENUMS.quality.GOOD] =        {slots:4, steps:3};
-potencyMap[ENUMS.quality.EXCEPTIONAL] = {slots:4, steps:4};
-potencyMap[ENUMS.quality.SUPERB] =      {slots:5, steps:5};
+function readUpgradeTableKey(table, key) {
+    let data = upgradeTables[table]
+    if (!data) {
+        return {};
+    }
+    return data[key];
+}
 
-let rankMap = {};
-rankMap[ENUMS.rarity.PLAIN]     = {slots:2, steps:1};
-rankMap[ENUMS.rarity.COMMON]    = {slots:2, steps:2};
-rankMap[ENUMS.rarity.UNCOMMON]  = {slots:3, steps:3};
-rankMap[ENUMS.rarity.RARE]      = {slots:4, steps:4};
-rankMap[ENUMS.rarity.EPIC]      = {slots:5, steps:5};
-rankMap[ENUMS.rarity.LEGENDARY] = {slots:6, steps:6};
+function rankEchelonLimit(quality) {
+    return readUpgradeTableKey('item_rank_limits', quality) || 'ECHELON_0';
+}
+
+function potencyEchelonLimit(rarity) {
+    return readUpgradeTableKey('item_potency_limits', rarity) || 'ECHELON_0';
+}
+
+function rankEchelonLevels(echelon) {
+    return readUpgradeTableKey('item_rank_echelon_levels', echelon) || 0;
+}
+
+function potencyEchelonLevels(echelon) {
+    return readUpgradeTableKey('item_potency_echelon_levels', echelon) || 0;
+}
+
 
 function getSlotStepMaxCount(slotStep) {
     return slotStep.slots * slotStep.steps;
@@ -111,58 +129,30 @@ function getItemUiStateKey(item) {
 
 
 function getItemMaxPotency(item) {
-    let quality = item.getStatus(ENUMS.ItemStatus.QUALITY);
-    let slotsSteps = potencyMap[quality];
-    return getSlotStepMaxCount(slotsSteps);
+    let rarity = item.getStatus(ENUMS.ItemStatus.RARITY);
+    let topEchelon = potencyEchelonLimit(rarity);
+    return ENUMS.echelon[topEchelon];
 }
 
 function getItemMaxRank(item) {
-    let rarity = item.getStatus(ENUMS.ItemStatus.RARITY);
-    let slotsSteps = rankMap[rarity];
-    return getSlotStepMaxCount(slotsSteps);
+    let quality = item.getStatus(ENUMS.ItemStatus.QUALITY);
+    let topEchelon = rankEchelonLimit(quality);
+    return ENUMS.echelon[topEchelon];
 }
 
 function getItemPotencySlotCount(item) {
-    let quality = item.getStatus(ENUMS.ItemStatus.QUALITY);
-    let slotsSteps = potencyMap[quality];
-    return slotsSteps.slots;
+    let p = item.getStatus(ENUMS.ItemStatus.ITEM_POTENCY);
+    return potencyEchelonLevels('ECHELON_'+p);
 }
 
 function getItemRankSlotCount(item) {
-    let rarity = item.getStatus(ENUMS.ItemStatus.RARITY);
-    let slotsSteps = rankMap[rarity];
-    return slotsSteps.slots;
-}
-
-let levelFill = {level:0, fill:0}
-function getItemPotencyIndicatorLevelFill(item) {
-    let quality = item.getStatus(ENUMS.ItemStatus.QUALITY);
-    let slotsSteps = potencyMap[quality];
-    let pIndex = item.getStatus(ENUMS.ItemStatus.ITEM_POTENCY);
-    let slots = slotsSteps.slots;
-    let steps = slotsSteps.steps;
-    let max = getSlotStepMaxCount(slotsSteps)
-    levelFill.level = Math.floor(max * MATH.calcFraction(0, max, pIndex) / (slots)) ;
-    levelFill.fill = 1+pIndex - levelFill.level * slots;
-    return levelFill;
-}
-
-function getItemRankIndicatorLevelFill(item) {
-    let rarity = item.getStatus(ENUMS.ItemStatus.RARITY);
-    let slotsSteps = rankMap[rarity];
-    let rIndex = item.getStatus(ENUMS.ItemStatus.ITEM_RANK);
-    let slots = slotsSteps.slots;
-    let steps = slotsSteps.steps;
-    let max = getSlotStepMaxCount(slotsSteps)
-    levelFill.level = Math.floor(max * MATH.calcFraction(0, max, rIndex) / (slots)) ;
-    levelFill.fill = 1+rIndex - levelFill.level * slots;
-    return levelFill;
+    let rank = item.getStatus(ENUMS.ItemStatus.ITEM_RANK);
+    return rankEchelonLevels('ECHELON_'+rank);
 }
 
 function updatePotencyDivs(item, potencyDivs) {
-    let levelFill = getItemPotencyIndicatorLevelFill(item);
-    let indicatorLevel = levelFill.level;
-    let filledIndicators = levelFill.fill;
+    let indicatorLevel = item.getStatus(ENUMS.ItemStatus.ITEM_POTENCY);
+    let filledIndicators = item.getStatus(ENUMS.ItemStatus.POTENCY_ECHELON);
 
     for (let i = 0; i < potencyDivs.length; i++) {
         let iconClass = 'icon_potency';
@@ -185,9 +175,8 @@ function updatePotencyDivs(item, potencyDivs) {
 }
 
 function updateRankDivs(item, rankDivs) {
-    let levelFill = getItemRankIndicatorLevelFill(item);
-    let indicatorLevel = levelFill.level;
-    let filledIndicators = levelFill.fill;
+    let indicatorLevel = item.getStatus(ENUMS.ItemStatus.ITEM_RANK);
+    let filledIndicators = item.getStatus(ENUMS.ItemStatus.RANK_ECHELON);
 
     for (let i = 0; i < rankDivs.length; i++) {
         let iconClass = 'rank_'+indicatorLevel;
@@ -207,6 +196,55 @@ function updateRankDivs(item, rankDivs) {
     }
 }
 
+function attachPotencySlots(item, container, divs) {
+    DomUtils.clearDivArray(divs);
+    let slots = getItemPotencySlotCount(item);
+    for (let i = 0; i < slots; i++) {
+        let div = DomUtils.createDivElement(container, 'potency_slot_'+i, '', 'item_potency_slot')
+        divs.push(div);
+    }
+}
+
+function attachRankSlots(item, container, divs) {
+    DomUtils.clearDivArray(divs);
+    let slots = getItemRankSlotCount(item);
+    for (let i = 0; i < slots; i++) {
+        let div = DomUtils.createDivElement(container, 'rank_slot_'+i, '', 'item_rank_slot')
+        divs.push(div);
+    }
+}
+
+function updateItemProgressUiStatus(item, statusMap, rankContainer, rankDivs, potencyContainer, potencyDivs) {
+
+    let rank = item.getStatus(ENUMS.ItemStatus.ITEM_RANK);
+    let rankEchelon = item.getStatus(ENUMS.ItemStatus.RANK_ECHELON);
+
+    if (statusMap['ITEM_RANK'] !== rank) {
+        statusMap['ITEM_RANK'] = rank
+        statusMap['item_rank_echelon'] = "Rank:"+rank+" Echelon:"+statusMap['RANK_ECHELON']
+        attachRankSlots(item, rankContainer, rankDivs)
+    }
+
+    if (statusMap['RANK_ECHELON'] !== rankEchelon) {
+        statusMap['RANK_ECHELON'] = rankEchelon
+        statusMap['item_rank_echelon'] = "Rank:"+rank+" Echelon:"+rankEchelon
+        updateRankDivs(item, rankDivs)
+    }
+
+    let potency = item.getStatus(ENUMS.ItemStatus.ITEM_POTENCY)
+    let potencyEchelon = item.getStatus(ENUMS.ItemStatus.POTENCY_ECHELON);
+
+    if (statusMap['ITEM_POTENCY'] !== potency) {
+        statusMap['ITEM_POTENCY'] = potency;
+        statusMap['item_potency_echelon'] = "Potency:"+potency+" Echelon:"+potencyEchelon
+        attachPotencySlots(item, potencyContainer, potencyDivs)
+    }
+    if (statusMap['POTENCY_ECHELON'] !== potencyEchelon) {
+        statusMap['POTENCY_ECHELON'] = potencyEchelon;
+        statusMap['item_potency_echelon'] = "Potency:"+potency+" Echelon:"+potencyEchelon
+        updatePotencyDivs(item, potencyDivs)
+    }
+}
 
 export {
     getItemRarity,
@@ -222,10 +260,9 @@ export {
     getItemMaxRank,
     getItemPotencySlotCount,
     getItemRankSlotCount,
-    getItemPotencyIndicatorLevelFill,
-    getItemRankIndicatorLevelFill,
     updatePotencyDivs,
     updateRankDivs,
-    potencyMap,
-    rankMap
+    attachPotencySlots,
+    attachRankSlots,
+    updateItemProgressUiStatus
 }

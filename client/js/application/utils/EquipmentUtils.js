@@ -3,15 +3,11 @@ function getInvSlotIndex(invSlotId) {
 }
 
 function requestItemSlotChange(actor, item, toSlot) {
-    let paperdollSlot = item.getEquipSlotId()
     let fromSlot = item.getStatus(ENUMS.ItemStatus.EQUIPPED_SLOT);
     let toInv = actor.actorInventory.isInventorySlot(toSlot)
     let toEquip = actor.actorEquipment.isEquipmentSlot(toSlot)
-    let fromInv = actor.actorInventory.isInventorySlot(fromSlot)
-    let fromEquip = actor.actorEquipment.isEquipmentSlot(fromSlot)
 
     let equipRequests = MATH.copyArrayValues(actor.getStatus(ENUMS.ActorStatus.EQUIP_REQUESTS), []);
-
 
     if (fromSlot === toSlot) {
         console.log("Drop on source", fromSlot, toSlot);

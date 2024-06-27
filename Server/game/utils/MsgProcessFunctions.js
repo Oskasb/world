@@ -108,23 +108,7 @@ function processClientRequest(request, stamp, message, connectedClient) {
             player.updatePlayerStronghold(message);
             break;
         case ENUMS.ClientRequests.APPLY_ITEM_STATUS:
-            /*
-            player = getGameServer().getConnectedPlayerByStamp(connectedClient.stamp);
 
-            if (!player) {
-                console.log("No player for item, exiting")
-                return;
-            }
-
-            actorId = getStatusFromMsg(ENUMS.ActorStatus.ACTOR_ID, message.status);
-            actor = player.getPlayerActor(actorId)
-
-            if (!actor) {
-            //    console.log("No actor for item msg", connectedClient.stamp)
-                return;
-            }
-*/
-        //    statusValues = statusMapFromMsg(message.status);
             let item = getServerItemByItemId(message.status[1])
 
             if (!item) {

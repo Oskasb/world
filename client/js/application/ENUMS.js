@@ -417,7 +417,9 @@ ENUMS.UiStates = {
         QUALITY:'QUALITY',
         RARITY:'RARITY',
         ITEM_RANK:'ITEM_RANK',
-        ITEM_POTENCY:'ITEM_POTENCY'
+        RANK_ECHELON:'RANK_ECHELON',
+        ITEM_POTENCY:'ITEM_POTENCY',
+        POTENCY_ECHELON:'POTENCY_ECHELON'
     }
 
     ENUMS.itemTypes = {
@@ -446,6 +448,19 @@ ENUMS.rarity = {
     RARE:'RARE',
     EPIC:'EPIC',
     LEGENDARY:'LEGENDARY'
+}
+
+ENUMS.echelon = {
+    ECHELON_0:0,
+    ECHELON_1:1,
+    ECHELON_2:2,
+    ECHELON_3:3,
+    ECHELON_4:4,
+    ECHELON_5:5,
+    ECHELON_6:6,
+    ECHELON_7:7,
+    ECHELON_8:8,
+    ECHELON_9:9
 }
 
 ENUMS.rank = {

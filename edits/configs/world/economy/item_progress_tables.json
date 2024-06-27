@@ -1,0 +1,42 @@
+{
+  "edit_id": "item_progress_tables",
+  "item_upgrade_tables": {
+    "item_rank_limits": {
+      "POOR": "ECHELON_4",
+      "BASIC": "ECHELON_2",
+      "GOOD": "ECHELON_3",
+      "SUPERB": "ECHELON_4",
+      "EXCEPTIONAL": "ECHELON_5"
+    },
+    "item_rank_echelon_levels": {
+      "ECHELON_0": 0,
+      "ECHELON_1": 2,
+      "ECHELON_2": 3,
+      "ECHELON_3": 4,
+      "ECHELON_4": 5,
+      "ECHELON_5": 6,
+      "ECHELON_6": 7,
+      "ECHELON_7": 8,
+      "ECHELON_8": 9
+    },
+    "item_potency_limits": {
+      "PLAIN": "ECHELON_4",
+      "COMMON": "ECHELON_5",
+      "UNCOMMON": "ECHELON_2",
+      "RARE": "ECHELON_3",
+      "EPIC": "ECHELON_4",
+      "LEGENDARY": "ECHELON_5"
+    },
+    "item_potency_echelon_levels": {
+      "ECHELON_0": 0,
+      "ECHELON_1": 1,
+      "ECHELON_2": 2,
+      "ECHELON_3": 3,
+      "ECHELON_4": 4,
+      "ECHELON_5": 5,
+      "ECHELON_6": 6,
+      "ECHELON_7": 7,
+      "ECHELON_8": 8
+    }
+  }
+}

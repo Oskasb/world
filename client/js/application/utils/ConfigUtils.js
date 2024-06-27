@@ -556,6 +556,19 @@ function getConfigByEditId(editId) {
     return savedConfigs[editId]
 }
 
+function fetchConfigByEditId(editId, callback) {
+
+    if (typeof (savedConfigs[editId]) === 'object') {
+        callback(savedConfigs[editId])
+    } else {
+        console.log("Config loading ", editId)
+        setTimeout(function() {
+            fetchConfigByEditId(editId, callback)
+        }, 200)
+    }
+}
+
+
 export {
     loadVariationConfigs,
     readConfig,
@@ -576,5 +589,6 @@ export {
     getReversedConfigs,
     getConfigListAt,
     listifyConfig,
-    getConfigByEditId
+    getConfigByEditId,
+    fetchConfigByEditId
  }

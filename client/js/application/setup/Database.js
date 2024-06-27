@@ -55,6 +55,14 @@ function getLocalAccount() {
 
 }
 
+function getLoadedAccount() {
+    if (typeof (db.account[ENUMS.PlayerStatus.PLAYER_ID])=== 'string') {
+        return db.account;
+    } else {
+        return null;
+    }
+}
+
 function saveActorStatus(statusMap) {
     let id = statusMap[ENUMS.ActorStatus.ACTOR_ID];
     db.actors[id] = statusMap;
@@ -126,6 +134,7 @@ export {
     storeLocalAccountStatus,
     getLocalAccountStatus,
     getLocalAccount,
+    getLoadedAccount,
     saveActorStatus,
     saveItemStatus,
     savePlayerStatus,

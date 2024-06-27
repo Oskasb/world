@@ -2,13 +2,13 @@ import {HtmlElement} from "./HtmlElement.js";
 import {poolFetch, poolReturn} from "../../utils/PoolUtils.js";
 import {ENUMS} from "../../ENUMS.js";
 import {
-    getItemMaxPotency, getItemMaxRank,
-    getItemPotencyIndicatorLevelFill,
-    getItemPotencySlotCount, getItemRankIndicatorLevelFill,
+    attachPotencySlots,
+    attachRankSlots,
+    getItemPotencySlotCount,
     getItemRankSlotCount,
     getItemUiStateKey,
     getVisualConfigByVisualId,
-    getVisualConfigIconClass, updatePotencyDivs, updateRankDivs
+    getVisualConfigIconClass, updateItemProgressUiStatus, updatePotencyDivs, updateRankDivs
 } from "../../utils/ItemUtils.js";
 import {requestItemSlotChange} from "../../utils/EquipmentUtils.js";
 import {getActiveUiStates, getPlayerActor} from "../../utils/ActorUtils.js";
@@ -202,10 +202,7 @@ class DomItem {
         let potencyDivs = [];
         let rankDivs = [];
 
-        let statusMap = {
-            ITEM_RANK:-1,
-            ITEM_POTENCY: -1
-        }
+        let statusMap = {}
 
         let closeCb = function() {
             console.log("Close...")
@@ -231,17 +228,8 @@ class DomItem {
                 return;
             }
 
-            let rank = item.getStatus(ENUMS.ItemStatus.ITEM_RANK)
-            if (statusMap['ITEM_RANK'] !== rank) {
-                statusMap['ITEM_RANK'] = rank
-                updateRankDivs(item, rankDivs)
-            }
+            updateItemProgressUiStatus(item, statusMap, rankContainer, rankDivs, potencyContainer, potencyDivs)
 
-            let potency = item.getStatus(ENUMS.ItemStatus.ITEM_POTENCY)
-            if (statusMap['ITEM_POTENCY'] !== potency) {
-                statusMap['ITEM_POTENCY'] = potency
-                updatePotencyDivs(item, potencyDivs)
-            }
 
             let rect = DomUtils.getElementCenter(targetElement, targetRoot)
 
@@ -381,21 +369,6 @@ class DomItem {
             dragX = 0;
         }
 
-        let rankSlots = 0;
-        let potencySlots = 0;
-
-        function attachPotencySlots() {
-            for (let i = 0; i < potencySlots; i++) {
-                let div = DomUtils.createDivElement(potencyContainer, 'potency_slot_'+i, '', 'item_potency_slot')
-                potencyDivs.push(div);
-            }
-        }
-        function attachRankSlots() {
-            for (let i = 0; i < rankSlots; i++) {
-                let div = DomUtils.createDivElement(rankContainer, 'rank_slot_'+i, '', 'item_rank_slot')
-                rankDivs.push(div);
-            }
-        }
         let readyCb = function() {
             rootElement = htmlElement.call.getRootElement();
             let bodyRect = DomUtils.getWindowBoundingRect();
@@ -406,8 +379,7 @@ class DomItem {
 
             potencyContainer = htmlElement.call.getChildElement('container_item_potency')
             rankContainer = htmlElement.call.getChildElement('container_item_rank')
-            attachPotencySlots()
-            attachRankSlots()
+
             container.style.visibility = "visible";
             container.style.display = "";
             DomUtils.addClickFunction(container, inspectItem)
@@ -432,16 +404,19 @@ class DomItem {
             DomUtils.addElementClass(backplate, rarity);
             DomUtils.addElementClass(itemDiv, iconClass);
 
+
+            statusMap['ITEM_RANK'] = -1;
+            statusMap['ITEM_POTENCY'] = -1;
+            statusMap['RANK_ECHELON'] = -1;
+            statusMap['POTENCY_ECHELON'] = -1;
+
             ThreeAPI.registerPrerenderCallback(update);
 
         }
 
         let setItem = function(itm) {
             item = itm;
-            potencySlots = getItemPotencySlotCount(item);
-            rankSlots = getItemRankSlotCount(item);
-            statusMap['ITEM_RANK'] = -1;
-            statusMap['ITEM_POTENCY'] = -1;
+
             statusMap['ITEM_ID'] = item.getStatus(ENUMS.ItemStatus.ITEM_ID);
             statusMap['ITEM_LEVEL'] = item.getStatus(ENUMS.ItemStatus.ITEM_LEVEL);
             htmlElement.initHtmlElement('item', null, statusMap, 'item', readyCb);

@@ -25,10 +25,12 @@ class Item {
 
         if (typeof (this.status.statusMap[ENUMS.ItemStatus.ITEM_POTENCY]) !== typeof (ENUMS.potency.POTENCY_0)) {
             this.status.statusMap[ENUMS.ItemStatus.ITEM_POTENCY] = ENUMS.potency.POTENCY_0;
+            this.status.statusMap[ENUMS.ItemStatus.POTENCY_ECHELON] = ENUMS.echelon.ECHELON_0;
         }
 
         if (typeof (this.status.statusMap[ENUMS.ItemStatus.ITEM_RANK]) !== typeof ( ENUMS.rank.RANK_0)) {
             this.status.statusMap[ENUMS.ItemStatus.ITEM_RANK] = ENUMS.rank.RANK_0;
+            this.status.statusMap[ENUMS.ItemStatus.RANK_ECHELON] = ENUMS.echelon.ECHELON_0;
         }
 
     //    this.visualGamePiece.call.setPiece(this)
@@ -80,6 +82,7 @@ class Item {
         }
 
     }
+
 
     setStatusKey(key, status) {
         this.status.call.setStatusByKey(key, status);
