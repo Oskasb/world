@@ -1,5 +1,7 @@
 import {HtmlElement} from "./HtmlElement.js";
 import {poolFetch, poolReturn} from "../../utils/PoolUtils.js";
+import {getPlayerStatus} from "../../utils/StatusUtils.js";
+import {ENUMS} from "../../ENUMS.js";
 
 let defaultAdsr = {
     attack: {duration:0.5, from:0, to: 1.2, easing:"cubic-bezier(0.7, 0.2, 0.85, 1.15)"},
@@ -16,7 +18,6 @@ class DomStash {
         let htmlElement = new HtmlElement();
         let buttonDiv = null;
         let adsrEnvelope;
-        let slotElements = {};
         let rootElem;
         let statusMap = {
             name : ".."
@@ -44,19 +45,20 @@ class DomStash {
             e.target.style.borderColor = "";
         }
 
+        let stashContainerDiv;
+
+        function attachStashSlot(slotIndex) {
+
+        }
+
         let readyCb = function() {
 
             let items = actor.actorInventory.items;
-
+            stashContainerDiv = htmlElement.call.getChildElement('stash_container');
 
             MATH.emptyArray(lastFrameState); // For debugging
 
-            for (let key in items) {
-                let slot = htmlElement.call.getChildElement(key);
-                slotElements[key] = slot;
-                DomUtils.addMouseMoveFunction(slot, mouseMove)
-                DomUtils.addPointerExitFunction(slot, mouseOut)
-            }
+
 
             let reloadDiv = htmlElement.call.getChildElement('reload');
             if (reloadDiv) {
@@ -67,39 +69,45 @@ class DomStash {
 
         let rebuild;
         let lastFrameState = [];
+        let slotDivs = [];
+
+        function updateActivePageSlots(slotCount) {
+            DomUtils.clearDivArray(slotDivs);
+            for (let i = 0; i < slotCount; i++) {
+
+                let slotKey ='STASH_SLOT_'+i;
+                    ENUMS.StashSlots[slotKey] = slotKey;
+                let div = DomUtils.createDivElement(stashContainerDiv, slotKey, ''+i, "item_container stash_slot")
+                slotDivs.push(div);
+                DomUtils.addMouseMoveFunction(div, mouseMove)
+                DomUtils.addPointerExitFunction(div, mouseOut)
+            }
+        }
+
         let update = function() {
 
-            if (actor === null) {
-                console.log("No actor")
-                return;
+            let page = ENUMS.PlayerStatus.STASH_PAGE_ITEMS;
+            let stashState = getPlayerStatus(page);
+            if (slotDivs.length !== stashState.length) {
+                updateActivePageSlots(stashState.length);
             }
 
-            let invState = actor.getStatus(ENUMS.ActorStatus.INVENTORY_ITEMS);
-
-            for (let i = 0; i < invState.length; i++) {
-                let itemId = invState[i];
+            for (let i = 0; i < stashState.length; i++) {
+                let itemId = stashState[i];
                 if (lastFrameState[i] !== itemId) {
                     if (itemId) {
                         let item = GameAPI.getItemById(itemId);
-                        console.log("Inv state updated", i, itemId, item);
-                    /*
-                        let slotId = item.getStatus(ENUMS.ItemStatus.EQUIPPED_SLOT);
-                        if (slotId !== 'SLOT_'+i) {
-                            item.setStatusKey(ENUMS.ItemStatus.EQUIPPED_SLOT, 'SLOT_'+i);
-                            item.setStatusKey(ENUMS.ItemStatus.ACTOR_ID, actor.getStatus(ENUMS.ActorStatus.ACTOR_ID));
-                        }
-                    */
+                        console.log("Stash state updated", i, itemId, item);
                     }
                 }
             }
-            MATH.copyArrayValues(invState, lastFrameState);
-
+            MATH.copyArrayValues(stashState, lastFrameState);
 
         }
 
         let close = function() {
             ThreeAPI.unregisterPrerenderCallback(update);
-            actor.deactivateUiState(ENUMS.UiStates.INVENTORY);
+            actor.deactivateUiState(ENUMS.UiStates.STASH);
             actor = null;
             htmlElement.closeHtmlElement();
             poolReturn(htmlElement);
@@ -108,14 +116,14 @@ class DomStash {
         let htmlReady = function() {
             readyCb()
             htmlElement.container.style.visibility = 'visible';
-            GuiAPI.setUiStatusHtmlElement(ENUMS.UiStates.INVENTORY, htmlElement)
+            GuiAPI.setUiStatusHtmlElement(ENUMS.UiStates.STASH, htmlElement)
             statusMap.id = actor.getStatus(ENUMS.ActorStatus.ACTOR_ID);
             statusMap.name = actor.getStatus(ENUMS.ActorStatus.NAME);
 
             setTimeout(function() {
                 ThreeAPI.registerPrerenderCallback(update);
                 setInitTransforms();
-                actor.activateUiState(ENUMS.UiStates.INVENTORY);
+                actor.activateUiState(ENUMS.UiStates.STASH);
             },1)
         }
 

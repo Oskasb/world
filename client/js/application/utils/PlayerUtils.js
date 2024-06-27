@@ -136,11 +136,7 @@ function initLoadedPlayerState(dataList, readyCB) {
         console.log("init player with loaded actor", actor);
         actor.setStatusKey(ENUMS.ActorStatus.IN_COMBAT, false);
         actor.setStatusKey(ENUMS.ActorStatus.IS_ACTIVE, 0);
-
-
-
         actor.activateGameActor(actorReady);
-
 
     }
 

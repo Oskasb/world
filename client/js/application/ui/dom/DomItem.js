@@ -59,6 +59,8 @@ function getSlotsForUiState(uiState) {
         return ENUMS.EquipmentSlots;
     } else if (uiState === ENUMS.UiStates.INVENTORY) {
         return ENUMS.InventorySlots;
+    } else if (uiState === ENUMS.UiStates.STASH) {
+        return ENUMS.StashSlots;
     }  else {
         console.log("unsupported ui state slots", uiState);
     }

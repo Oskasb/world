@@ -2,6 +2,7 @@ import {HtmlElement} from "./HtmlElement.js";
 import {poolFetch, poolReturn} from "../../utils/PoolUtils.js";
 import {requestItemSlotChange} from "../../utils/EquipmentUtils.js";
 import {ENUMS} from "../../ENUMS.js";
+import {getPlayerStatus} from "../../utils/StatusUtils.js";
 
 let defaultAdsr = {
     attack: {duration:0.5, from:0, to: 1.2, easing:"cubic-bezier(0.7, 0.2, 0.85, 1.15)"},
@@ -125,10 +126,10 @@ class DomCharacter {
             }
             statusMap['inventory_count'] = itemCount || "";
 
-            statusMap['stash_count_items'] = itemCount || "";
-            statusMap['stash_count_materials'] = itemCount || "";
-            statusMap['stash_count_currencies'] = itemCount || "";
-            statusMap['stash_count_lore'] = itemCount || "";
+            statusMap['stash_count_items'] = getPlayerStatus(ENUMS.PlayerStatus.STASH_PAGE_ITEMS).length;
+            statusMap['stash_count_materials'] = getPlayerStatus(ENUMS.PlayerStatus.STASH_PAGE_MATERIALS).length || "";;
+            statusMap['stash_count_currencies'] = getPlayerStatus(ENUMS.PlayerStatus.STASH_PAGE_CURRENCIES).length || "";;
+            statusMap['stash_count_lore'] = getPlayerStatus(ENUMS.PlayerStatus.STASH_PAGE_LORE).length || "";
 
             statusMap.NAME = actor.getStatus(ENUMS.ActorStatus.NAME);
             statusMap.ACTOR_LEVEL = actor.getStatus(ENUMS.ActorStatus.ACTOR_LEVEL);

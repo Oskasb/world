@@ -1,6 +1,7 @@
 import {getPlayerActor} from "../../utils/ActorUtils.js";
 import {ENUMS} from "../../ENUMS.js";
 import {poolFetch, poolReturn} from "../../utils/PoolUtils.js";
+import {fetchActiveStashPageItems} from "../../utils/StashUtils.js";
 
 let items = [];
 let domItems = [];
@@ -45,10 +46,15 @@ function getActorInventoryItems(actor, store) {
     actor.actorInventory.fetchInventoryItems(store);
 }
 
+function getPlayerStashPageItems(actor, store) {
+    fetchActiveStashPageItems(store);
+}
+
 let uiStateItems = {};
 
 uiStateItems[ENUMS.UiStates.CHARACTER] = getActorCharacterItems;
 uiStateItems[ENUMS.UiStates.INVENTORY] = getActorInventoryItems;
+uiStateItems[ENUMS.UiStates.STASH] = getPlayerStashPageItems;
 
 function updateActorUiState(actor, uiStateKey, open) {
     MATH.emptyArray(fetchItems);

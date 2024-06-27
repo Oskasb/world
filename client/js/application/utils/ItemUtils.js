@@ -123,6 +123,8 @@ function getItemUiStateKey(item) {
         return ENUMS.UiStates.CHARACTER;
     } else if (typeof ENUMS.InventorySlots[slotId] === 'string') {
         return ENUMS.UiStates.INVENTORY;
+    }else if (typeof ENUMS.StashSlots[slotId] === 'string') {
+        return ENUMS.UiStates.STASH;
     }
 }
 

@@ -38,6 +38,9 @@ class Status {
     }
 
     getStatus(key) {
+        if (!key) {
+            return this.statusMap;
+        }
         return this.statusMap[key];
     }
 

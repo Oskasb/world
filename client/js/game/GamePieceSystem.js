@@ -191,7 +191,6 @@ class GamePieceSystem {
             evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, {request:ENUMS.ClientRequests.LOAD_SERVER_ITEM, status:itemId})
             console.log("Init load request", itemId);
         };
-
     }
 
     getActors() {

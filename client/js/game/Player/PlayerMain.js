@@ -30,6 +30,10 @@ let statusMap = {
         CONTROL_STRAFE:0,
     }
 }
+statusMap[ENUMS.PlayerStatus.STASH_PAGE_ITEMS] = [];
+statusMap[ENUMS.PlayerStatus.STASH_PAGE_MATERIALS] = [];
+statusMap[ENUMS.PlayerStatus.STASH_PAGE_CURRENCIES] = [];
+statusMap[ENUMS.PlayerStatus.STASH_PAGE_LORE] = [];
 
 class PlayerMain {
     constructor() {

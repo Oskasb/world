@@ -20,6 +20,7 @@ import {initLoadedPlayerState, loadStoredPlayer} from "../application/utils/Play
 import {getPlayerActor} from "../application/utils/ActorUtils.js";
 import {requestItemSlotChange} from "../application/utils/EquipmentUtils.js";
 import {poolFetch} from "../application/utils/PoolUtils.js";
+import {stashAllConfigItems} from "../application/utils/StashUtils.js";
 
 let tempVec3 = new Vector3()
 let gameWalkGrid = null
@@ -197,6 +198,8 @@ class GameMain {
                 loadStoredPlayer(dataList)
             }
 
+
+
             setTimeout(function() {
 
                 if (typeof (dataList[ENUMS.ActorStatus.CONFIG_ID]) !== 'string') {
@@ -205,7 +208,15 @@ class GameMain {
                     let release = function() {
                         domTransition.call.release();
                     }
-                    let opts = [{id:"button_continue", container:"bottom", text:"CREATE CHARACTER", onClick:release}]
+
+                    function stashAllItems() {
+                        console.log("Stash All Items", GameAPI.getPlayerMain().status.statusMap)
+                        stashAllConfigItems();
+                    }
+
+                    let opts = [
+                        {id:"button_cheat", container:"top", text:"ITEMS", onClick:stashAllItems},
+                        {id:"button_continue", container:"bottom", text:"NEW CHARACTER", onClick:release}]
                     let domTransition = GuiAPI.activateDomTransition('WELCOME', dataList, startPlayerSession, null, opts)
                 } else {
 

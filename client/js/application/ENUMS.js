@@ -170,10 +170,10 @@ let ENUMS = {}
         PLAYER_ZOOM:'PLAYER_ZOOM',
         PLAYER_WORLD_LEVEL:'PLAYER_WORLD_LEVEL',
         CONTROL_VALUES:'CONTROL_VALUES',
-        STASH_PAGE_ITEMS:[],
-        STASH_PAGE_MATERIALS:[],
-        STASH_PAGE_CURRENCIES:[],
-        STASH_PAGE_LORE:[],
+        STASH_PAGE_ITEMS:'STASH_PAGE_ITEMS',
+        STASH_PAGE_MATERIALS:'STASH_PAGE_MATERIALS',
+        STASH_PAGE_CURRENCIES:'STASH_PAGE_CURRENCIES',
+        STASH_PAGE_LORE:'STASH_PAGE_LORE',
     };
 
     ENUMS.AccountStatus = {
@@ -434,7 +434,8 @@ ENUMS.UiStates = {
         QUEST:'QUEST',
         VEHICLE:'VEHICLE',
         MOUNT:'MOUNT',
-        GADGET:'GADGET'
+        GADGET:'GADGET',
+        LORE:'LORE'
     }
 
     ENUMS.quality = {
@@ -689,8 +690,7 @@ ENUMS.InventorySlots = {
     SLOT_10:     'SLOT_10',
     SLOT_11:     'SLOT_11',
 }
-
-
+ENUMS.StashSlots = {}
 
     ENUMS.Controls = {
         SAMPLE_STATUS:'SAMPLE_STATUS',

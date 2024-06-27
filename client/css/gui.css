@@ -990,6 +990,10 @@ div.button_reset {
     background: radial-gradient(circle, rgba(255,198,118,1) 0%, rgba(255,89,0,1) 42%, rgba(107,25,0,1) 83%, rgba(55,1,0,1) 99%);
 }
 
+div.button_cheat {
+    background: radial-gradient(circle, rgb(20, 248, 255) 0%, rgb(115, 0, 192) 42%, rgb(107, 0, 93) 83%, rgb(55, 0, 54) 99%);
+}
+
 div.button_continue {
     background: radial-gradient(circle, rgb(163, 255, 241) 0%, rgb(69, 233, 255) 42%, rgb(1, 110, 169) 83%, rgb(0, 55, 45) 99%);
 }
