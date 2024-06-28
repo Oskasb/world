@@ -122,6 +122,7 @@ function fetchActiveStashPageItems(store) {
     for (let i = 0; i < viewStashItems.length; i++) {
         store.push(viewStashItems[i])
     }
+    return update;
 }
 
 export {stashAllConfigItems,

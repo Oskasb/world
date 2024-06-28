@@ -101,6 +101,7 @@ class DomStash {
             stashContainerDiv = htmlElement.call.getChildElement('stash_container');
 
             MATH.emptyArray(lastFrameState); // For debugging
+            updateActivePageSlots(getPlayerStatus(ENUMS.PlayerStatus.SLOTS_PER_PAGE), getPlayerStatus(ENUMS.PlayerStatus.ACTIVE_STASH_SUBPAGE));
 
             buttonDivs['tab_items'] = htmlElement.call.getChildElement('tab_items');
             buttonDivs['tab_materials'] = htmlElement.call.getChildElement('tab_materials');
@@ -124,13 +125,15 @@ class DomStash {
         let lastFrameState = [];
         let slotDivs = [];
 
-        function updateActivePageSlots(slotCount) {
+        function updateActivePageSlots(slotCount, subPageIndex) {
             DomUtils.clearDivArray(slotDivs);
+            let pageOffset =slotCount*subPageIndex;
             for (let i = 0; i < slotCount; i++) {
 
-                let slotKey ='STASH_SLOT_'+i;
+                let slotIndex = i+pageOffset;
+                let slotKey ='STASH_SLOT_'+slotIndex;
                     ENUMS.StashSlots[slotKey] = slotKey;
-                let div = DomUtils.createDivElement(stashContainerDiv, slotKey, ''+i, "item_container stash_slot")
+                let div = DomUtils.createDivElement(stashContainerDiv, slotKey, ''+slotIndex, "item_container stash_slot")
                 slotDivs.push(div);
                 DomUtils.addMouseMoveFunction(div, mouseMove)
                 DomUtils.addPointerExitFunction(div, mouseOut)
@@ -148,9 +151,12 @@ class DomStash {
 
             let page = ENUMS.PlayerStatus.STASH_TAB_ITEMS;
             MATH.emptyArray(stashState);
-            fetchActiveStashPageItems(stashState)
-            if (slotDivs.length !== getPlayerStatus(ENUMS.PlayerStatus.SLOTS_PER_PAGE)) {
-                updateActivePageSlots(getPlayerStatus(ENUMS.PlayerStatus.SLOTS_PER_PAGE));
+            let isUpdate = fetchActiveStashPageItems(stashState)
+            if (isUpdate) {
+                updateActivePageSlots(getPlayerStatus(ENUMS.PlayerStatus.SLOTS_PER_PAGE), getPlayerStatus(ENUMS.PlayerStatus.ACTIVE_STASH_SUBPAGE));
+                actor.deactivateUiState(ENUMS.UiStates.STASH);
+            } else {
+                actor.activateUiState(ENUMS.UiStates.STASH);
             }
 
             for (let i = 0; i < stashState.length; i++) {
@@ -171,7 +177,9 @@ class DomStash {
             statusMap[ENUMS.PlayerStatus.STASH_TAB_MATERIALS] = getPlayerStatus(ENUMS.PlayerStatus.STASH_TAB_MATERIALS).length
             statusMap[ENUMS.PlayerStatus.STASH_TAB_CURRENCIES] = getPlayerStatus(ENUMS.PlayerStatus.STASH_TAB_CURRENCIES).length
             statusMap[ENUMS.PlayerStatus.STASH_TAB_LORE] = getPlayerStatus(ENUMS.PlayerStatus.STASH_TAB_LORE).length
-            statusMap['pages_total'] = Math.floor(stashState.length / getPlayerStatus(ENUMS.PlayerStatus.SLOTS_PER_PAGE)) +1
+
+            let tabTotal = getPlayerStatus(ENUMS.PlayerStatus[statusMap[ENUMS.PlayerStatus.ACTIVE_STASH_TAB]]).length
+            statusMap['pages_total'] = Math.floor(tabTotal / getPlayerStatus(ENUMS.PlayerStatus.SLOTS_PER_PAGE)-1)+1
             statusMap['active_tab_header'] = tabLabelMap[statusMap[ENUMS.PlayerStatus.ACTIVE_STASH_TAB]]
             statusMap['subpage'] = statusMap[ENUMS.PlayerStatus.ACTIVE_STASH_SUBPAGE]+1;
 

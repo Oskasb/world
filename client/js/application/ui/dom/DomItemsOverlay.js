@@ -5,6 +5,7 @@ import {fetchActiveStashPageItems} from "../../utils/StashUtils.js";
 
 let items = [];
 let domItems = [];
+let includedItems = [];
 
 function excludeItemsList(itemsList) {
     while (itemsList.length) {
@@ -18,11 +19,18 @@ function excludeItemsList(itemsList) {
                 MATH.splice(domItems, domItem);
             }
         }
-
     }
 }
 
-function includeItemsList(itemsList, uiStateKey) {
+let removeList = []
+function includeItemsList(itemsList) {
+
+    for (let i =0; i < items.length; i++) {
+        if (itemsList.indexOf(items[i]) === -1) {
+            itemsList.push(items[i])
+        }
+    }
+
     while (itemsList.length) {
         let item = itemsList.pop();
         if (items.indexOf(item) === -1) {
@@ -34,6 +42,7 @@ function includeItemsList(itemsList, uiStateKey) {
             console.log("Item already included... something is bad", item, items)
         }
     }
+
 }
 
 let fetchItems = [];
@@ -56,23 +65,32 @@ uiStateItems[ENUMS.UiStates.CHARACTER] = getActorCharacterItems;
 uiStateItems[ENUMS.UiStates.INVENTORY] = getActorInventoryItems;
 uiStateItems[ENUMS.UiStates.STASH] = getPlayerStashPageItems;
 
+let stateItemLists = {};
+
 function updateActorUiState(actor, uiStateKey, open) {
     MATH.emptyArray(fetchItems);
     actor.actorText.say(uiStateKey +' '+open)
     console.log("updateActorUiState", open, uiStateKey, actor.actorStatus.statusMap);
     let getter = uiStateItems[ENUMS.UiStates[uiStateKey]]
 
+    if (!stateItemLists[uiStateKey]) {
+        stateItemLists[uiStateKey] = [];
+    }
+
     if (typeof (getter) === 'function') {
         getter(actor, fetchItems);
         if (open === true) {
-            includeItemsList(fetchItems, uiStateKey);
+            MATH.emptyArray(stateItemLists[uiStateKey]);
+            MATH.copyArrayValues(fetchItems, stateItemLists[uiStateKey])
+            includeItemsList(fetchItems);
         } else {
-            excludeItemsList(fetchItems);
+            excludeItemsList(stateItemLists[uiStateKey]);
         }
 
     } else {
         console.log("Not yet supported uiState", uiStateKey)
     }
+
 }
 
 let count = 0;
@@ -110,8 +128,7 @@ class DomItemsOverlay {
                 }
             }
 
-
-                renderItemIcons()
+            renderItemIcons()
 
 
         }
