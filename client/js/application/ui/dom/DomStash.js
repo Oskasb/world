@@ -1,7 +1,9 @@
 import {HtmlElement} from "./HtmlElement.js";
 import {poolFetch, poolReturn} from "../../utils/PoolUtils.js";
-import {getPlayerStatus} from "../../utils/StatusUtils.js";
+import {getPlayerStatus, setPlayerStatus} from "../../utils/StatusUtils.js";
 import {ENUMS} from "../../ENUMS.js";
+import {getPlayerActor} from "../../utils/ActorUtils.js";
+import {fetchActiveStashPageItems} from "../../utils/StashUtils.js";
 
 let defaultAdsr = {
     attack: {duration:0.5, from:0, to: 1.2, easing:"cubic-bezier(0.7, 0.2, 0.85, 1.15)"},
@@ -23,6 +25,48 @@ class DomStash {
             name : ".."
         }
 
+
+        let buttonDivs = {};
+        let buttonFunctions = {};
+
+        function tabItems() {
+            setPlayerStatus(ENUMS.PlayerStatus.ACTIVE_STASH_TAB, ENUMS.PlayerStatus.STASH_TAB_ITEMS);
+        }
+        function tabMats() {
+            setPlayerStatus(ENUMS.PlayerStatus.ACTIVE_STASH_TAB, ENUMS.PlayerStatus.STASH_TAB_MATERIALS);
+        }
+
+        function tabCurr() {
+            setPlayerStatus(ENUMS.PlayerStatus.ACTIVE_STASH_TAB, ENUMS.PlayerStatus.STASH_TAB_CURRENCIES);
+        }
+        function tabLore() {
+            setPlayerStatus(ENUMS.PlayerStatus.ACTIVE_STASH_TAB, ENUMS.PlayerStatus.STASH_TAB_LORE);
+        }
+
+        function pageBack() {
+            let currentPage = getPlayerStatus(ENUMS.PlayerStatus.ACTIVE_STASH_SUBPAGE);
+            if (currentPage > 0) {
+                currentPage--
+            }
+
+            setPlayerStatus(ENUMS.PlayerStatus.ACTIVE_STASH_SUBPAGE, currentPage);
+        }
+        function pageFor() {
+            let currentPage = getPlayerStatus(ENUMS.PlayerStatus.ACTIVE_STASH_SUBPAGE);
+            if (currentPage < statusMap['pages_total']-1) {
+                currentPage++
+            }
+            setPlayerStatus(ENUMS.PlayerStatus.ACTIVE_STASH_SUBPAGE, currentPage);
+        }
+
+        buttonFunctions['tab_items'] = tabItems;
+        buttonFunctions['tab_materials'] = tabMats;
+        buttonFunctions['tab_currencies'] = tabCurr;
+        buttonFunctions['tab_lore'] = tabLore;
+        buttonFunctions['button_page_back'] = pageBack;
+        buttonFunctions['button_page_forward'] = pageFor;
+
+
         let setInitTransforms = function() {
             rootElem = htmlElement.call.getRootElement();
             rootElem.style.transform = "translate3d(-50%, 0, 0)";
@@ -30,9 +74,10 @@ class DomStash {
 
         let retrigger = function() {
             close();
+            let newStash = poolFetch('DomStash')
             setTimeout(function() {
-                activate( GameAPI.getActorById(statusMap.id))
-            }, 1500);
+                newStash.call.activate(getPlayerActor(), buttonDiv)
+            }, 200);
         }
 
         let mouseMove = function(e) {
@@ -53,12 +98,20 @@ class DomStash {
 
         let readyCb = function() {
 
-            let items = actor.actorInventory.items;
             stashContainerDiv = htmlElement.call.getChildElement('stash_container');
 
             MATH.emptyArray(lastFrameState); // For debugging
 
+            buttonDivs['tab_items'] = htmlElement.call.getChildElement('tab_items');
+            buttonDivs['tab_materials'] = htmlElement.call.getChildElement('tab_materials');
+            buttonDivs['tab_currencies'] = htmlElement.call.getChildElement('tab_currencies');
+            buttonDivs['tab_lore'] = htmlElement.call.getChildElement('tab_lore');
+            buttonDivs['button_page_back'] = htmlElement.call.getChildElement('button_page_back');
+            buttonDivs['button_page_forward'] = htmlElement.call.getChildElement('button_page_forward');
 
+            for (let key in buttonDivs) {
+                DomUtils.addClickFunction(buttonDivs[key], buttonFunctions[key])
+            }
 
             let reloadDiv = htmlElement.call.getChildElement('reload');
             if (reloadDiv) {
@@ -84,13 +137,33 @@ class DomStash {
             }
         }
 
+        let stashState = [];
+
+        let tabLabelMap = {};
+        tabLabelMap[ENUMS.PlayerStatus.STASH_TAB_ITEMS] = 'GEAR'
+        tabLabelMap[ENUMS.PlayerStatus.STASH_TAB_MATERIALS] = 'MATS'
+        tabLabelMap[ENUMS.PlayerStatus.STASH_TAB_CURRENCIES] = 'MONEY'
+        tabLabelMap[ENUMS.PlayerStatus.STASH_TAB_LORE] = 'LORE'
         let update = function() {
 
             let page = ENUMS.PlayerStatus.STASH_TAB_ITEMS;
-            let stashState = getPlayerStatus(page);
+            MATH.emptyArray(stashState);
+            fetchActiveStashPageItems(stashState)
             if (slotDivs.length !== getPlayerStatus(ENUMS.PlayerStatus.SLOTS_PER_PAGE)) {
                 updateActivePageSlots(getPlayerStatus(ENUMS.PlayerStatus.SLOTS_PER_PAGE));
             }
+
+            for (let i = 0; i < stashState.length; i++) {
+                let item = stashState[i];
+                if (lastFrameState[i] !== item) {
+                    if (item) {
+                        let itemId = item.getStatus(ENUMS.ItemStatus.ITEM_ID)
+                        let serverSynchedItem = GameAPI.getItemById(itemId);
+                        console.log("Stash state updated", i, itemId, serverSynchedItem);
+                    }
+                }
+            }
+            MATH.copyArrayValues(stashState, lastFrameState);
 
             statusMap[ENUMS.PlayerStatus.ACTIVE_STASH_TAB] = getPlayerStatus(ENUMS.PlayerStatus.ACTIVE_STASH_TAB)
             statusMap[ENUMS.PlayerStatus.ACTIVE_STASH_SUBPAGE] = getPlayerStatus(ENUMS.PlayerStatus.ACTIVE_STASH_SUBPAGE)
@@ -98,25 +171,15 @@ class DomStash {
             statusMap[ENUMS.PlayerStatus.STASH_TAB_MATERIALS] = getPlayerStatus(ENUMS.PlayerStatus.STASH_TAB_MATERIALS).length
             statusMap[ENUMS.PlayerStatus.STASH_TAB_CURRENCIES] = getPlayerStatus(ENUMS.PlayerStatus.STASH_TAB_CURRENCIES).length
             statusMap[ENUMS.PlayerStatus.STASH_TAB_LORE] = getPlayerStatus(ENUMS.PlayerStatus.STASH_TAB_LORE).length
-
-
-            for (let i = 0; i < stashState.length; i++) {
-                let itemId = stashState[i];
-                if (lastFrameState[i] !== itemId) {
-                    if (itemId) {
-                        let item = GameAPI.getItemById(itemId);
-                        console.log("Stash state updated", i, itemId, item);
-                    }
-                }
-            }
-            MATH.copyArrayValues(stashState, lastFrameState);
+            statusMap['pages_total'] = Math.floor(stashState.length / getPlayerStatus(ENUMS.PlayerStatus.SLOTS_PER_PAGE)) +1
+            statusMap['active_tab_header'] = tabLabelMap[statusMap[ENUMS.PlayerStatus.ACTIVE_STASH_TAB]]
+            statusMap['subpage'] = statusMap[ENUMS.PlayerStatus.ACTIVE_STASH_SUBPAGE]+1;
 
         }
 
         let close = function() {
             ThreeAPI.unregisterPrerenderCallback(update);
             actor.deactivateUiState(ENUMS.UiStates.STASH);
-            actor = null;
             htmlElement.closeHtmlElement();
             poolReturn(htmlElement);
         }
@@ -135,15 +198,18 @@ class DomStash {
             },1)
         }
 
-
         let activate = function(actr, btnDiv, onClose) {
             buttonDiv = btnDiv;
             console.log("Player Stash", actr)
-            DomUtils.addElementClass(buttonDiv, 'bar_button_active')
+            if (buttonDiv) {
+                DomUtils.addElementClass(buttonDiv, 'bar_button_active')
+            }
+
             adsrEnvelope = defaultAdsr;
             actor = actr;
             htmlElement = poolFetch('HtmlElement');
-            rebuild = htmlElement.initHtmlElement('stash', onClose, statusMap, 'stash', htmlReady);
+
+            htmlElement.initHtmlElement('stash', onClose, statusMap, 'stash', htmlReady);
         }
 
         let release = function() {
