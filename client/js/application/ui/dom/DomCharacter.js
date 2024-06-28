@@ -126,10 +126,10 @@ class DomCharacter {
             }
             statusMap['inventory_count'] = itemCount || "";
 
-            statusMap['stash_count_items'] = getPlayerStatus(ENUMS.PlayerStatus.STASH_PAGE_ITEMS).length;
-            statusMap['stash_count_materials'] = getPlayerStatus(ENUMS.PlayerStatus.STASH_PAGE_MATERIALS).length || "";;
-            statusMap['stash_count_currencies'] = getPlayerStatus(ENUMS.PlayerStatus.STASH_PAGE_CURRENCIES).length || "";;
-            statusMap['stash_count_lore'] = getPlayerStatus(ENUMS.PlayerStatus.STASH_PAGE_LORE).length || "";
+            statusMap['stash_count_items'] = getPlayerStatus(ENUMS.PlayerStatus.STASH_TAB_ITEMS).length;
+            statusMap['stash_count_materials'] = getPlayerStatus(ENUMS.PlayerStatus.STASH_TAB_MATERIALS).length || "";;
+            statusMap['stash_count_currencies'] = getPlayerStatus(ENUMS.PlayerStatus.STASH_TAB_CURRENCIES).length || "";;
+            statusMap['stash_count_lore'] = getPlayerStatus(ENUMS.PlayerStatus.STASH_TAB_LORE).length || "";
 
             statusMap.NAME = actor.getStatus(ENUMS.ActorStatus.NAME);
             statusMap.ACTOR_LEVEL = actor.getStatus(ENUMS.ActorStatus.ACTOR_LEVEL);

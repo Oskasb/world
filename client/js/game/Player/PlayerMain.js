@@ -30,10 +30,14 @@ let statusMap = {
         CONTROL_STRAFE:0,
     }
 }
-statusMap[ENUMS.PlayerStatus.STASH_PAGE_ITEMS] = [];
-statusMap[ENUMS.PlayerStatus.STASH_PAGE_MATERIALS] = [];
-statusMap[ENUMS.PlayerStatus.STASH_PAGE_CURRENCIES] = [];
-statusMap[ENUMS.PlayerStatus.STASH_PAGE_LORE] = [];
+statusMap[ENUMS.PlayerStatus.STASH_TAB_ITEMS] = [];
+statusMap[ENUMS.PlayerStatus.STASH_TAB_MATERIALS] = [];
+statusMap[ENUMS.PlayerStatus.STASH_TAB_CURRENCIES] = [];
+statusMap[ENUMS.PlayerStatus.STASH_TAB_LORE] = [];
+statusMap[ENUMS.PlayerStatus.ACTIVE_STASH_TAB] = ENUMS.PlayerStatus.STASH_TAB_ITEMS;
+statusMap[ENUMS.PlayerStatus.ACTIVE_STASH_FILTERS] = [];
+statusMap[ENUMS.PlayerStatus.ACTIVE_STASH_SUBPAGE] = 0;
+statusMap[ENUMS.PlayerStatus.SLOTS_PER_PAGE] = 20;
 
 class PlayerMain {
     constructor() {

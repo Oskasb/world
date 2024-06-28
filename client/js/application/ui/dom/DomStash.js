@@ -86,11 +86,19 @@ class DomStash {
 
         let update = function() {
 
-            let page = ENUMS.PlayerStatus.STASH_PAGE_ITEMS;
+            let page = ENUMS.PlayerStatus.STASH_TAB_ITEMS;
             let stashState = getPlayerStatus(page);
-            if (slotDivs.length !== stashState.length) {
-                updateActivePageSlots(stashState.length);
+            if (slotDivs.length !== getPlayerStatus(ENUMS.PlayerStatus.SLOTS_PER_PAGE)) {
+                updateActivePageSlots(getPlayerStatus(ENUMS.PlayerStatus.SLOTS_PER_PAGE));
             }
+
+            statusMap[ENUMS.PlayerStatus.ACTIVE_STASH_TAB] = getPlayerStatus(ENUMS.PlayerStatus.ACTIVE_STASH_TAB)
+            statusMap[ENUMS.PlayerStatus.ACTIVE_STASH_SUBPAGE] = getPlayerStatus(ENUMS.PlayerStatus.ACTIVE_STASH_SUBPAGE)
+            statusMap[ENUMS.PlayerStatus.STASH_TAB_ITEMS] = getPlayerStatus(ENUMS.PlayerStatus.STASH_TAB_ITEMS).length
+            statusMap[ENUMS.PlayerStatus.STASH_TAB_MATERIALS] = getPlayerStatus(ENUMS.PlayerStatus.STASH_TAB_MATERIALS).length
+            statusMap[ENUMS.PlayerStatus.STASH_TAB_CURRENCIES] = getPlayerStatus(ENUMS.PlayerStatus.STASH_TAB_CURRENCIES).length
+            statusMap[ENUMS.PlayerStatus.STASH_TAB_LORE] = getPlayerStatus(ENUMS.PlayerStatus.STASH_TAB_LORE).length
+
 
             for (let i = 0; i < stashState.length; i++) {
                 let itemId = stashState[i];

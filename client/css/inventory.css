@@ -1,3 +1,22 @@
+div.stash_page {
+    top: 2%;
+    left: 2%;
+    right: auto;
+    border: 0;
+    position: fixed;
+    width: 93%;
+    height: 90%;
+    transform: translate3d(0px, 0px, 0px);
+    color: azure;
+    background: radial-gradient(circle, rgb(0, 126, 154) 50%, rgb(0, 81, 110) 99%);
+    border-radius: 2em;
+    border-width: 0.4em;
+    border-style: solid;
+    border-color: #00c4ff;
+    box-shadow: 0px 0px 0.3em rgb(0, 20, 28);
+
+}
+
 div.inventory_container {
     z-index: 200;
     font-size: 1em;
@@ -33,29 +52,39 @@ div.inv_slot {
 }
 
 div.stash_container {
+    position: absolute;
     z-index: 200;
     font-size: 1em;
-    top: 0;
-    left: 0;
-    right: 0;
+    top: 5em;
+    left: 15em;
+    right: 7em;
     height: auto;
     width: auto;
     padding: 0;
     margin: 0.2em;
     margin-right: -0.2em;
     position: absolute;
-    border: solid #232323;
+    border: solid #000c36;
+    border-width: 0.2em;
+    border-radius: 1em;
     transition-property: transform;
-    background: radial-gradient(circle, rgba(0, 0, 0, 0.0) 50%, rgba(0, 126, 188, 0.52) 99%);
-    box-shadow: 0px 0px 4em rgba(0, 0, 0, 1);
+    background: radial-gradient(circle, rgba(0, 0, 0, 0.1) 20%, rgba(0, 0, 0, 1) 90%);
+    box-shadow: 0px 0px 2em rgb(117, 215, 255);
 }
 
 div.stash_container h1 {
     margin: 0;
+
     margin-left: 1.8em;
     padding: 0.5em;
     color: white;
     font-size: 2.6em;
+}
+
+div.stash_header {
+    position: absolute;
+    left: 10em;
+    top: 1em;
 }
 
 div.stash_slot {
@@ -64,4 +93,76 @@ div.stash_slot {
     height: 7.8em;
     position: relative;
     display: inline-block;
+}
+
+div.stash_close {
+    border: inherit;
+    box-shadow:inherit;
+    position: absolute;
+    font-size: 2.5em;
+    top: 0.8em;
+    right: 0.4em;
+}
+
+div.stash_tab_button {
+    left: -0.6em;
+    width: 5em;
+    height: 1.2em;
+    border-radius: 0.6em;
+    border: #bebebe;
+    border-style: solid;
+    border-width: 0.14em;
+    position: absolute;
+    background-size: 100%;
+    box-shadow: 0 0 0.2em rgba(5, 0, 0, 0.5);
+    margin:0;
+    padding-top: 0.1em;
+    padding-left: 0.4em;
+    font-size: 2.8em;
+    text-align: left;
+    color: rgba(0, 0, 0, 0.8);
+    text-shadow: 0 0 0.7em rgb(255, 255, 255);
+}
+
+div.stash_tab_button h2 {
+    color: #ffefce;
+    position: absolute;
+    padding: 0;
+    margin: 0;
+    bottom:auto;
+    left: auto;
+    right: 0.2em;
+    top: 1.3em;
+    font-size: 0.7em;
+    text-align: left;
+    text-shadow: 0.1em 0.1em 0.4em rgb(0, 0, 0);
+}
+
+div.button_items {
+    background: radial-gradient(circle, rgb(0, 176, 229) 0%, rgb(0, 142, 255) 47%, rgb(0, 84, 211) 83%, rgb(0, 0, 2) 99%);
+    top: 20%;
+}
+div.button_materials {
+    background: radial-gradient(circle, rgb(160, 255, 87) 0%, rgb(115, 255, 45) 47%, rgb(8, 125, 0) 83%, rgb(0, 55, 17) 99%);
+    top: 30%;
+}
+
+div.button_currencies {
+    background: radial-gradient(circle, rgb(255, 231, 78) 0%, rgb(255, 224, 69) 42%, rgb(178, 144, 0) 83%, rgb(55, 38, 0) 99%);
+    top: 40%;
+}
+
+div.button_lore {
+    background: radial-gradient(circle, rgb(226, 107, 255) 0%, rgba(255,45,215,1) 47%, rgba(125,0,42,1) 83%, rgba(55,1,0,1) 99%);
+    top: 50%;
+}
+
+div.button_misc {
+    background: radial-gradient(circle, rgb(163, 255, 241) 0%, rgb(69, 233, 255) 42%, rgb(1, 110, 169) 83%, rgb(0, 55, 45) 99%);
+    top: 60%;
+}
+
+div.button_locations {
+    background: radial-gradient(circle, rgba(245,202,255,1) 0%, rgba(255,45,215,1) 47%, rgba(125,0,42,1) 83%, rgba(55,1,0,1) 99%);
+    top: 70%;
 }

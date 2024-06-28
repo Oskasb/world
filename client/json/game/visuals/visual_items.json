@@ -556,39 +556,39 @@
         "id": "VISUAL_LEGS_CLOTH_WHITE",
         "data": {
           "model_asset":"asset_cloth_legs_white",
-          "icon_class": "icon_legs_yellow"
+          "icon_class": "icon_legs_white"
         }
       },      {
         "id": "VISUAL_SHIRT_CLOTH_WHITE",
         "data": {
           "model_asset":"asset_cloth_shirt_white",
-          "icon_class": "icon_shirt_yellow"
+          "icon_class": "icon_shirt_white"
         }
       },
       {
         "id": "VISUAL_LEGS_CLOTH_RED",
         "data": {
           "model_asset":"asset_cloth_legs_red",
-          "icon_class": "icon_legs_yellow"
+          "icon_class": "icon_legs_red"
         }
       },      {
         "id": "VISUAL_SHIRT_CLOTH_RED",
         "data": {
           "model_asset":"asset_cloth_shirt_red",
-          "icon_class": "icon_shirt_yellow"
+          "icon_class": "icon_shirt_red"
         }
       },
       {
         "id": "VISUAL_LEGS_CLOTH_BLUE",
         "data": {
           "model_asset":"asset_cloth_legs_blue",
-          "icon_class": "icon_legs_yellow"
+          "icon_class": "icon_legs_blue"
         }
       },      {
         "id": "VISUAL_SHIRT_CLOTH_BLUE",
         "data": {
           "model_asset":"asset_cloth_shirt_blue",
-          "icon_class": "icon_shirt_yellow"
+          "icon_class": "icon_shirt_blue"
         }
       },
       {
@@ -610,33 +610,33 @@
         "id": "VISUAL_BOOTS_CLOTH_WHITE",
         "data": {
           "model_asset":"asset_cloth_boots_white",
-          "icon_class": "icon_boots_yellow"
+          "icon_class": "icon_boots_white"
         }
       },      {
         "id": "VISUAL_GLOVES_CLOTH_WHITE",
         "data": {
           "model_asset":"asset_cloth_gloves_white",
-          "icon_class": "icon_gloves_yellow"
+          "icon_class": "icon_gloves_white"
         }
       },
       {
         "id": "VISUAL_BOOTS_CLOTH_RED",
         "data": {
           "model_asset":"asset_cloth_boots_red",
-          "icon_class": "icon_boots_yellow"
+          "icon_class": "icon_boots_red"
         }
       },      {
         "id": "VISUAL_GLOVES_CLOTH_RED",
         "data": {
           "model_asset":"asset_cloth_gloves_red",
-          "icon_class": "icon_gloves_yellow"
+          "icon_class": "icon_gloves_red"
         }
       },
       {
         "id": "VISUAL_BOOTS_CLOTH_BLUE",
         "data": {
           "model_asset":"asset_cloth_boots_blue",
-          "icon_class": "icon_boots_yellow"
+          "icon_class": "icon_boots_blue"
         }
       },      {
         "id": "VISUAL_GLOVES_CLOTH_BLUE",

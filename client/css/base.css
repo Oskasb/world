@@ -270,10 +270,10 @@ iframe.inventory {
 
 iframe.stash {
     z-index: 200;
-    top: 50em;
+    top: 90em;
     left: 50%;
-    width: 910em;
-    height: 830em;
+    width: 720em;
+    height: 510em;
     position: absolute;
     color: #ecffdc;
     border: none;

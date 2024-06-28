@@ -70,6 +70,18 @@ div.icon_boots_yellow {
     background-image: url("/client/assets/images/textures/gui/items/boots_yellow.png");
 }
 
+div.icon_boots_white {
+    background-image: url("/client/assets/images/textures/gui/items/boots_white.png");
+}
+
+div.icon_boots_blue {
+    background-image: url("/client/assets/images/textures/gui/items/boots_blue.png");
+}
+
+div.icon_boots_red {
+    background-image: url("/client/assets/images/textures/gui/items/boots_red.png");
+}
+
 div.icon_bp_steel {
     background-image: url("/client/assets/images/textures/gui/items/bp_steel.png");
 }
@@ -94,6 +106,18 @@ div.icon_shirt_yellow {
     background-image: url("/client/assets/images/textures/gui/items/shirt_yellow.png");
 }
 
+div.icon_shirt_white {
+    background-image: url("/client/assets/images/textures/gui/items/shirt_white.png");
+}
+
+div.icon_shirt_blue {
+    background-image: url("/client/assets/images/textures/gui/items/shirt_blue.png");
+}
+
+div.icon_shirt_red {
+    background-image: url("/client/assets/images/textures/gui/items/shirt_red.png");
+}
+
 div.icon_legs_bronze {
     background-image: url("/client/assets/images/textures/gui/items/legs_bronze.png");
 }
@@ -116,6 +140,15 @@ div.icon_legs_steel {
 div.icon_legs_yellow {
     background-image: url("/client/assets/images/textures/gui/items/legs_yellow.png");
 }
+div.icon_legs_white {
+    background-image: url("/client/assets/images/textures/gui/items/legs_white.png");
+}
+div.icon_legs_blue {
+    background-image: url("/client/assets/images/textures/gui/items/legs_blue.png");
+}
+div.icon_legs_red {
+    background-image: url("/client/assets/images/textures/gui/items/legs_red.png");
+}
 
 div.icon_gloves_scale_white {
     background-image: url("/client/assets/images/textures/gui/items/gloves_scale_white.png");
@@ -129,6 +162,15 @@ div.icon_gloves_steel {
 }
 div.icon_gloves_yellow {
     background-image: url("/client/assets/images/textures/gui/items/gloves_yellow.png");
+}
+div.icon_gloves_white {
+    background-image: url("/client/assets/images/textures/gui/items/gloves_white.png");
+}
+div.icon_gloves_blue {
+    background-image: url("/client/assets/images/textures/gui/items/gloves_blue.png");
+}
+div.icon_gloves_red {
+    background-image: url("/client/assets/images/textures/gui/items/gloves_red.png");
 }
 
 div.icon_gloves_leather {

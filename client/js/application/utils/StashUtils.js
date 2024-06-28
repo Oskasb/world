@@ -25,13 +25,13 @@ function stashItem(item) {
     let itemId = item.getStatus(ENUMS.ItemStatus.ITEM_ID)
     let itemType = item.getStatus(ENUMS.ItemStatus.ITEM_TYPE);
 
-    let page = ENUMS.PlayerStatus.STASH_PAGE_ITEMS;
+    let page = ENUMS.PlayerStatus.STASH_TAB_ITEMS;
     if (itemType === ENUMS.itemTypes.MATERIAL) {
-        page =  ENUMS.PlayerStatus.STASH_PAGE_MATERIALS
+        page =  ENUMS.PlayerStatus.STASH_TAB_MATERIALS
     } else if (itemType === ENUMS.itemTypes.CURRENCY) {
-        page =  ENUMS.PlayerStatus.STASH_PAGE_CURRENCIES
+        page =  ENUMS.PlayerStatus.STASH_TAB_CURRENCIES
     } else if (itemType === ENUMS.itemTypes.LORE) {
-        page =  ENUMS.PlayerStatus.STASH_PAGE_LORE
+        page =  ENUMS.PlayerStatus.STASH_TAB_LORE
     }
 
     let itemStash = getPlayerStatus(ENUMS.PlayerStatus[page]) || [];
@@ -59,19 +59,70 @@ function stashAllConfigItems() {
 
 }
 
+let stashViewState = {};
+stashViewState[ENUMS.PlayerStatus.ACTIVE_STASH_TAB] = null;
+stashViewState[ENUMS.PlayerStatus.ACTIVE_STASH_FILTERS] = [];
+stashViewState[ENUMS.PlayerStatus.ACTIVE_STASH_SUBPAGE] = null;
+stashViewState[ENUMS.PlayerStatus.SLOTS_PER_PAGE] = null;
+let viewStashItems = [];
 
-function fetchActiveStashPageItems(store) {
-    let currentPage = ENUMS.PlayerStatus.STASH_PAGE_ITEMS
-
-    let itemIds = getPlayerStatus(ENUMS.PlayerStatus[currentPage]);
-
-    for (let i = 0; i < itemIds.length; i++) {
-        let id=itemIds[i];
-        if (id !== "") {
-            let item = GameAPI.getItemById(itemIds[i])
-            store.push(item);
+function checkUpdate() {
+    let update = false;
+    for (let key in stashViewState) {
+        let state = getPlayerStatus(ENUMS.PlayerStatus[key]);
+        if (key === ENUMS.PlayerStatus.ACTIVE_STASH_FILTERS) {
+            for (let i = 0; i < state.length; i++) {
+                if (state[i] !== stashViewState[key][i]) {
+                    update = true;
+                }
+            }
+        } else if (state !== stashViewState[key]) {
+            update = true;
+            stashViewState[key] = state;
         }
     }
+
+    if (update === true) {
+        MATH.emptyArray(stashViewState[ENUMS.PlayerStatus.ACTIVE_STASH_FILTERS])
+        MATH.copyArrayValues(getPlayerStatus(ENUMS.PlayerStatus.ACTIVE_STASH_FILTERS), stashViewState[ENUMS.PlayerStatus.ACTIVE_STASH_FILTERS])
+
+    }
+
+    return update;
+}
+
+function fetchActiveStashPageItems(store) {
+    let currentTab = getPlayerStatus(ENUMS.PlayerStatus.ACTIVE_STASH_TAB)
+    let slotsPerPage = getPlayerStatus(ENUMS.PlayerStatus.SLOTS_PER_PAGE)
+    let subpageIndex = getPlayerStatus(ENUMS.PlayerStatus.ACTIVE_STASH_SUBPAGE)
+    let activeFilters = getPlayerStatus(ENUMS.PlayerStatus.ACTIVE_STASH_FILTERS)
+    let itemIds = getPlayerStatus(ENUMS.PlayerStatus[currentTab]);
+
+    let update = checkUpdate();
+
+    if (update === true) {
+        while (viewStashItems.length) {
+            MATH.splice(store, viewStashItems.pop());
+        }
+
+        let startIndex = subpageIndex*slotsPerPage;
+        let matchedCount = 0;
+        for (let i = 0; i < itemIds.length; i++) {
+            let id=itemIds[i];
+            if (id !== "" && matchedCount < startIndex+slotsPerPage) {
+                matchedCount++;
+                if (matchedCount > startIndex) {
+                    let item = GameAPI.getItemById(itemIds[i])
+                    viewStashItems.push(item);
+                }
+            }
+        }
+    }
+
+    for (let i = 0; i < viewStashItems.length; i++) {
+        store.push(viewStashItems[i])
+    }
+
 }
 
 export {stashAllConfigItems,
