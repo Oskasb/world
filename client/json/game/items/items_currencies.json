@@ -1,0 +1,36 @@
+[{
+  "GAME":{
+    "ITEMS":[
+      {
+        "id": "ITEM_CURRENCY_GOLD",
+        "data": {
+          "visual_id":"VISUAL_CURRENCY_GOLD",
+          "status": {
+            "NAME":"Gold",
+            "ITEM_LEVEL": 0,
+            "ITEM_TYPE" : "CURRENCY",
+            "RARITY": "RARE",
+            "QUALITY": "GOOD",
+            "TEXT": "Suitable for regular purchases and trade."
+          }
+        }
+      },
+      {
+        "id": "ITEM_CURRENCY_DIAMOND",
+        "data":       {
+          "visual_id":"VISUAL_CURRENCY_DIAMOND",
+          "status": {
+            "NAME":"Diamond",
+            "ITEM_LEVEL": 0,
+            "ITEM_TYPE" : "CURRENCY",
+            "RARITY": "EPIC",
+            "QUALITY": "SUPERB",
+            "TEXT": "Useful for acquiring extraordinary things."
+          }
+
+        }
+      }
+
+    ]
+  }
+}]

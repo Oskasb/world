@@ -1,0 +1,20 @@
+[{
+  "GAME":{
+    "ITEMS":[
+      {
+        "id": "ITEM_LORE_NOTE_SCRIBBLED_POOR",
+        "data": {
+          "visual_id":"VISUAL_LORE_NOTE_SCRIBBLED",
+          "status": {
+            "NAME":"Note To Self",
+            "ITEM_LEVEL": 0,
+            "ITEM_TYPE" : "LORE",
+            "RARITY": "COMMON",
+            "QUALITY": "POOR",
+            "TEXT": "Wolfe says they are planning it. Beware of the grey senator!"
+          }
+        }
+      }
+    ]
+  }
+}]

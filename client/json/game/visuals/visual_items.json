@@ -2,6 +2,41 @@
   "GAME":{
     "VISUALS":[
       {
+        "id": "VISUAL_MATERIAL_INGOT_IRON",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_ingot_iron"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_INGOT_STEEL",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_ingot_steel"
+        }
+      },
+      {
+        "id": "VISUAL_LORE_NOTE_SCRIBBLED",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_lore_note_scribbled"
+        }
+      },
+      {
+        "id": "VISUAL_CURRENCY_GOLD",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_currency_gold"
+        }
+      },
+      {
+        "id": "VISUAL_CURRENCY_DIAMOND",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_currency_diamond"
+        }
+      },
+      {
         "id": "VISUAL_DRAKEN",
         "data": {
           "model_asset":"asset_svigg",

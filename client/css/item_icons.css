@@ -212,3 +212,68 @@ div.icon_weapon_2h_axe_slicer {
 div.icon_weapon_2h_staff_basic {
     background-image: url("/client/assets/images/textures/gui/items/weapon_2h_staff_basic.png");
 }
+
+div.icon_material_liquid_chemicals {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/liquid_chemicals.png");
+}
+
+div.icon_material_liquid_coolant {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/liquid_coolant.png");
+}
+
+div.icon_material_liquid_poison {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/liquid_poison.png");
+}
+
+div.icon_material_ingot_gold {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/ingot_gold.png");
+}
+
+div.icon_material_ingot_iron {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/ingot_iron.png");
+}
+
+div.icon_material_ingot_silver {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/ingot_silver.png");
+}
+
+div.icon_material_ingot_steel {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/ingot_steel.png");
+}
+
+div.icon_material_leather_oxen {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/leather_oxen.png");
+}
+
+div.icon_material_plate_iron {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/plate_iron.png");
+}
+
+div.icon_material_rings_iron {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/rings_iron.png");
+}
+
+div.icon_material_rings_steel {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/rings_steel.png");
+}
+
+div.icon_currency_gold {
+    background-image: url("/client/assets/images/textures/gui/icons_currencies/icon_currency_gold.png");
+}
+
+div.icon_currency_diamond {
+    background-image: url("/client/assets/images/textures/gui/icons_currencies/icon_currency_diamond.png");
+}
+
+div.icon_potion_health {
+    background-image: url("/client/assets/images/textures/gui/icons_consumables/potion_health.png");
+}
+
+div.icon_potion_stamina {
+    background-image: url("/client/assets/images/textures/gui/icons_consumables/potion_stamina.png");
+}
+
+div.icon_lore_note_scribbled {
+    background-image: url("/client/assets/images/textures/gui/icons_lore/note_scribbled.png");
+}
+

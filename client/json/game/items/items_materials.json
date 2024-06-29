@@ -1,0 +1,162 @@
+[{
+  "GAME":{
+    "ITEMS":[
+      {
+        "id": "ITEM_MATERIAL_INGOT_IRON_PLAIN",
+        "data": {
+          "visual_id":"VISUAL_MATERIAL_INGOT_IRON",
+          "status": {
+            "NAME":"Rough Iron Ingot",
+            "ITEM_LEVEL": 1,
+            "ITEM_TYPE" : "MATERIAL",
+            "RARITY": "PLAIN",
+            "QUALITY": "POOR"
+          }
+        }
+      },
+      {
+        "id": "ITEM_MATERIAL_INGOT_IRON_COMMON",
+        "data": {
+          "visual_id":"VISUAL_MATERIAL_INGOT_IRON",
+          "status": {
+            "NAME":"Raw Iron Ingot",
+            "ITEM_LEVEL": 5,
+            "ITEM_TYPE" : "MATERIAL",
+            "RARITY": "COMMON",
+            "QUALITY": "BASIC"
+          }
+        }
+      },
+      {
+        "id": "ITEM_MATERIAL_INGOT_IRON_UNCOMMON",
+        "data": {
+          "visual_id":"VISUAL_MATERIAL_INGOT_IRON",
+          "status": {
+            "NAME":"Pure Iron Ingot",
+            "ITEM_LEVEL": 15,
+            "ITEM_TYPE" : "MATERIAL",
+            "RARITY": "UNCOMMON",
+            "QUALITY": "BASIC"
+          }
+        }
+      },
+      {
+        "id": "ITEM_MATERIAL_INGOT_IRON_RARE",
+        "data": {
+          "visual_id":"VISUAL_MATERIAL_INGOT_IRON",
+          "status": {
+            "NAME":"Strong Iron Ingot",
+            "ITEM_LEVEL": 25,
+            "ITEM_TYPE" : "MATERIAL",
+            "RARITY": "RARE",
+            "QUALITY": "GOOD"
+          }
+        }
+      },
+      {
+        "id": "ITEM_MATERIAL_INGOT_IRON_EPIC",
+        "data": {
+          "visual_id":"VISUAL_MATERIAL_INGOT_IRON",
+          "status": {
+            "NAME":"Hardened Iron Ingot",
+            "ITEM_LEVEL": 35,
+            "ITEM_TYPE" : "MATERIAL",
+            "RARITY": "EPIC",
+            "QUALITY": "GOOD"
+          }
+        }
+      },
+      {
+        "id": "ITEM_MATERIAL_INGOT_IRON_LEGENDARY",
+        "data": {
+          "visual_id":"VISUAL_MATERIAL_INGOT_IRON",
+          "status": {
+            "NAME":"Infused Iron Ingot",
+            "ITEM_LEVEL": 45,
+            "ITEM_TYPE" : "MATERIAL",
+            "RARITY": "LEGENDARY",
+            "QUALITY": "SUPERB"
+          }
+        }
+      },
+      {
+        "id": "ITEM_MATERIAL_INGOT_STEEL_PLAIN",
+        "data": {
+          "visual_id":"VISUAL_MATERIAL_INGOT_STEEL",
+          "status": {
+            "NAME":"Rough Steel Ingot",
+            "ITEM_LEVEL": 3,
+            "ITEM_TYPE" : "MATERIAL",
+            "RARITY": "PLAIN",
+            "QUALITY": "POOR"
+          }
+        }
+      },
+      {
+        "id": "ITEM_MATERIAL_INGOT_STEEL_COMMON",
+        "data": {
+          "visual_id":"VISUAL_MATERIAL_INGOT_STEEL",
+          "status": {
+            "NAME":"Raw Steel Ingot",
+            "ITEM_LEVEL": 8,
+            "ITEM_TYPE" : "MATERIAL",
+            "RARITY": "COMMON",
+            "QUALITY": "BASIC"
+          }
+        }
+      },
+      {
+        "id": "ITEM_MATERIAL_INGOT_STEEL_UNCOMMON",
+        "data": {
+          "visual_id":"VISUAL_MATERIAL_INGOT_STEEL",
+          "status": {
+            "NAME":"Pure Steel Ingot",
+            "ITEM_LEVEL": 18,
+            "ITEM_TYPE" : "MATERIAL",
+            "RARITY": "UNCOMMON",
+            "QUALITY": "GOOD"
+          }
+        }
+      },
+      {
+        "id": "ITEM_MATERIAL_INGOT_STEEL_RARE",
+        "data": {
+          "visual_id":"VISUAL_MATERIAL_INGOT_STEEL",
+          "status": {
+            "NAME":"Strong Steel Ingot",
+            "ITEM_LEVEL": 28,
+            "ITEM_TYPE" : "MATERIAL",
+            "RARITY": "RARE",
+            "QUALITY": "GOOD"
+          }
+        }
+      },
+      {
+        "id": "ITEM_MATERIAL_INGOT_STEEL_EPIC",
+        "data": {
+          "visual_id":"VISUAL_MATERIAL_INGOT_STEEL",
+          "status": {
+            "NAME":"Hardened Steel Ingot",
+            "ITEM_LEVEL": 38,
+            "ITEM_TYPE" : "MATERIAL",
+            "RARITY": "EPIC",
+            "QUALITY": "SUPERB"
+          }
+        }
+      },
+      {
+        "id": "ITEM_MATERIAL_INGOT_STEEL_LEGENDARY",
+        "data": {
+          "visual_id":"VISUAL_MATERIAL_INGOT_STEEL",
+          "status": {
+            "NAME":"Infused Steel Ingot",
+            "ITEM_LEVEL": 48,
+            "ITEM_TYPE" : "MATERIAL",
+            "RARITY": "LEGENDARY",
+            "QUALITY": "SUPERB"
+          }
+        }
+      }
+    ]
+  }
+}]

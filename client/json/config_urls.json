@@ -134,7 +134,12 @@
       "/game/visuals/visual_travel.json"                     ,
       "/game/items/items_weapons.json"                      ,
       "/game/items/items_armor.json"                      ,
-      "/game/items/items_utilities.json"                      ,
+      "/game/items/items_utilities.json"                     ,
+
+      "/game/items/items_materials.json"                     ,
+      "/game/items/items_currencies.json"                    ,
+      "/game/items/items_lore.json"                          ,
+
 
       "/game/actors/actions/actions_movement.json"           ,
       "/game/actors/actions/actor_travel.json"               ,

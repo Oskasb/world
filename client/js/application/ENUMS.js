@@ -420,6 +420,7 @@ ENUMS.UiStates = {
         MODIFIERS:'MODIFIERS',
         ACTIVATION_STATE:'ACTIVATION_STATE',
         NAME:'NAME',
+        TEXT:'TEXT',
         ITEM_LEVEL:'ITEM_LEVEL',
         ITEM_TYPE:'ITEM_TYPE',
         QUALITY:'QUALITY',
