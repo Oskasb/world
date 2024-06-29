@@ -75,11 +75,12 @@ function getSlotAtDragEvent(dragEvent, activeUiStates) {
 
         for (let key in slotEnums) {
             let slotDiv = htmlElement.call.getChildElement(slotEnums[key]);
-            let rect = DomUtils.getElementCenter(slotDiv, htmlElement.call.getRootElement());
-            let inside = DomUtils.xyInsideRect(dragEvent.x, dragEvent.y, rect);
-            if (inside === true) {
-
-                return slotDiv
+            if (slotDiv !== null) {
+                let rect = DomUtils.getElementCenter(slotDiv, htmlElement.call.getRootElement());
+                let inside = DomUtils.xyInsideRect(dragEvent.x, dragEvent.y, rect);
+                if (inside === true) {
+                    return slotDiv
+                }
             }
         }
     }
@@ -154,10 +155,12 @@ let handleItemDragEvent = function(dragEvent) {
 
         let sInfo = getTargetSlotElement(dragEvent, activeUiStates)
 
-        if (sInfo.slot) {
-            sInfo.slot.style.borderColor =  "";
+        if (sInfo !== null) {
+            if (sInfo.slot) {
+                sInfo.slot.style.borderColor =  "";
+            }
         }
-
+        
         if (isTargetSlot) {
             isTargetSlot.style.boxShadow =  "";
         }
