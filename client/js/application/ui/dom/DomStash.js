@@ -3,7 +3,7 @@ import {poolFetch, poolReturn} from "../../utils/PoolUtils.js";
 import {getPlayerStatus, setPlayerStatus} from "../../utils/StatusUtils.js";
 import {ENUMS} from "../../ENUMS.js";
 import {getPlayerActor} from "../../utils/ActorUtils.js";
-import {fetchActiveStashPageItems} from "../../utils/StashUtils.js";
+import {fetchActiveStashPageItems, stashAllConfigItems} from "../../utils/StashUtils.js";
 
 let defaultAdsr = {
     attack: {duration:0.5, from:0, to: 1.2, easing:"cubic-bezier(0.7, 0.2, 0.85, 1.15)"},
@@ -59,6 +59,12 @@ class DomStash {
             setPlayerStatus(ENUMS.PlayerStatus.ACTIVE_STASH_SUBPAGE, currentPage);
         }
 
+        function cheatAllItems() {
+            console.log("cheat all items")
+            stashAllConfigItems();
+            setTimeout(retrigger, 500);
+        }
+
         buttonFunctions['tab_items'] = tabItems;
         buttonFunctions['tab_materials'] = tabMats;
         buttonFunctions['tab_currencies'] = tabCurr;
@@ -66,6 +72,7 @@ class DomStash {
         buttonFunctions['button_page_back'] = pageBack;
         buttonFunctions['button_page_forward'] = pageFor;
 
+        buttonFunctions['tab_cheat'] = cheatAllItems;
 
         let setInitTransforms = function() {
             rootElem = htmlElement.call.getRootElement();
@@ -109,7 +116,7 @@ class DomStash {
             buttonDivs['tab_lore'] = htmlElement.call.getChildElement('tab_lore');
             buttonDivs['button_page_back'] = htmlElement.call.getChildElement('button_page_back');
             buttonDivs['button_page_forward'] = htmlElement.call.getChildElement('button_page_forward');
-
+            buttonDivs['tab_cheat'] = htmlElement.call.getChildElement('tab_cheat');
             for (let key in buttonDivs) {
                 DomUtils.addClickFunction(buttonDivs[key], buttonFunctions[key])
             }
@@ -133,7 +140,7 @@ class DomStash {
                 let slotIndex = i+pageOffset;
                 let slotKey ='STASH_SLOT_'+slotIndex;
                     ENUMS.StashSlots[slotKey] = slotKey;
-                let div = DomUtils.createDivElement(stashContainerDiv, slotKey, ''+slotIndex, "item_container stash_slot")
+                let div = DomUtils.createDivElement(stashContainerDiv, slotKey, '<p>'+slotIndex+'</p>', "item_container stash_slot")
                 slotDivs.push(div);
                 DomUtils.addMouseMoveFunction(div, mouseMove)
                 DomUtils.addPointerExitFunction(div, mouseOut)
@@ -147,6 +154,7 @@ class DomStash {
         tabLabelMap[ENUMS.PlayerStatus.STASH_TAB_MATERIALS] = 'MATS'
         tabLabelMap[ENUMS.PlayerStatus.STASH_TAB_CURRENCIES] = 'MONEY'
         tabLabelMap[ENUMS.PlayerStatus.STASH_TAB_LORE] = 'LORE'
+        tabLabelMap["STASH_TAB_CHEAT"] = 'CHEAT'
         let update = function() {
 
             let page = ENUMS.PlayerStatus.STASH_TAB_ITEMS;

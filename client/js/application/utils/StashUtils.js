@@ -39,6 +39,7 @@ function stashItem(item) {
     itemStash.push(itemId);
     item.setStatusKey(ENUMS.ItemStatus.EQUIPPED_SLOT, 'STASH_SLOT_'+itemStash.indexOf(itemId))
     setPlayerStatus(ENUMS.PlayerStatus[page], itemStash);
+    saveItemStatus(item.getStatus())
     loadStashItem(item)
 }
 
@@ -113,7 +114,9 @@ function fetchActiveStashPageItems(store) {
                 matchedCount++;
                 if (matchedCount > startIndex) {
                     let item = GameAPI.getItemById(itemIds[i])
-                    viewStashItems.push(item);
+                    if (item !== null) {
+                        viewStashItems.push(item);
+                    }
                 }
             }
         }

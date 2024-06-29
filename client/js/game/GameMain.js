@@ -215,7 +215,7 @@ class GameMain {
                     }
 
                     let opts = [
-                        {id:"button_cheat", container:"top", text:"ITEMS", onClick:stashAllItems},
+                    //    {id:"button_cheat", container:"top", text:"ITEMS", onClick:stashAllItems},
                         {id:"button_continue", container:"bottom", text:"NEW CHARACTER", onClick:release}]
                     let domTransition = GuiAPI.activateDomTransition('WELCOME', dataList, startPlayerSession, null, opts)
                 } else {

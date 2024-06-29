@@ -1,8 +1,8 @@
-import {getLocalAccount, loadActorStatus, loadItemStatus, loadPlayerStatus} from "../setup/Database.js";
+import {db, getLocalAccount, loadActorStatus, loadItemStatus, loadPlayerStatus} from "../setup/Database.js";
 import {ENUMS} from "../ENUMS.js";
 import {evt} from "../event/evt.js";
 import {notifyCameraStatus} from "../../3d/camera/CameraFunctions.js";
-import {clearActorEncounterStatus, setPlayerStatus} from "./StatusUtils.js";
+import {clearActorEncounterStatus, getPlayerStatus, setPlayerStatus} from "./StatusUtils.js";
 import {requestItemSlotChange} from "./EquipmentUtils.js";
 
 function loadStoredPlayer(dataList) {
@@ -72,9 +72,7 @@ function loadStoredItemId(itemId, cb) {
     evt.dispatch(ENUMS.Event.LOAD_ITEM,  {id: itemStatus[ENUMS.ItemStatus.TEMPLATE], itemId:itemStatus[ENUMS.ItemStatus.ITEM_ID], callback:itemLoaded})
 }
 
-function getEquippedItemStatuses(statusMap) {
-
-    let actorId = statusMap[ENUMS.ActorStatus.ACTOR_ID];
+function getItemStatuses(statusMap) {
 
     for (let i = 0; i < slots.length; i++) {
         if (statusMap[slots[i]] !== "") {
@@ -92,6 +90,22 @@ function getEquippedItemStatuses(statusMap) {
         }
     }
 
+}
+
+function loadPlayerStashItems() {
+
+    for (let key in ENUMS.PlayerStatus) {
+        let status = getPlayerStatus([key])
+        if (typeof (status) === 'object') {
+            if(status.length > 0) {
+                if (db.items[status[0]]) {
+                    for (let i = 0; i <status.length; i++ ) {
+                        loadStoredItemId(status[i])
+                    }
+                }
+            }
+        }
+    }
 }
 
 function initLoadedPlayerState(dataList, readyCB) {
@@ -140,8 +154,8 @@ function initLoadedPlayerState(dataList, readyCB) {
 
     }
 
-    getEquippedItemStatuses(actorStatus);
-
+    getItemStatuses(actorStatus);
+    loadPlayerStashItems()
     evt.dispatch(ENUMS.Event.LOAD_ACTOR, {status: actorStatus, callback:actorLoaded});
     GameAPI.getGamePieceSystem().playerActorId = actorStatus[ENUMS.ActorStatus.ACTOR_ID];
 

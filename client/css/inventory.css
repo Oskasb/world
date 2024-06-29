@@ -62,10 +62,13 @@ div.stash_container {
     width: auto;
     padding: 0;
     margin: 0.2em;
-    margin-right: -0.2em;
-    position: absolute;
+    margin-right: -1em;
     border-radius: 1em;
     transition-property: transform;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    justify-content: space-evenly;
 }
 
 div.stash_container h1 {
@@ -157,24 +160,25 @@ div.stash_tab_button h2 {
     font-size: 0.7em;
     text-align: left;
     text-shadow: 0.1em 0.1em 0.4em rgb(0, 0, 0);
+    background-size: 100% 25%;
 }
 
 div.button_items {
-    background: radial-gradient(circle, rgb(0, 176, 229) 0%, rgb(0, 142, 255) 47%, rgb(0, 84, 211) 83%, rgb(0, 0, 2) 99%);
+    background: radial-gradient(circle, rgb(2, 195, 255) 0%, rgb(0, 128, 255) 47%, rgb(0, 65, 231) 83%, rgb(0, 0, 217) 99%);
     top: 20%;
 }
 div.button_materials {
-    background: radial-gradient(circle, rgb(160, 255, 87) 0%, rgb(115, 255, 45) 47%, rgb(8, 125, 0) 83%, rgb(0, 55, 17) 99%);
+    background: radial-gradient(circle, rgb(160, 255, 87) 0%, rgb(115, 255, 45) 47%, rgb(12, 197, 0) 83%, rgb(0, 150, 2) 99%);
     top: 30%;
 }
 
 div.button_currencies {
-    background: radial-gradient(circle, rgb(255, 231, 78) 0%, rgb(255, 224, 69) 42%, rgb(178, 144, 0) 83%, rgb(55, 38, 0) 99%);
+    background: radial-gradient(circle, rgb(255, 231, 78) 0%, rgb(255, 224, 69) 42%, rgb(255, 166, 0) 83%, rgb(182, 109, 0) 99%);
     top: 40%;
 }
 
 div.button_lore {
-    background: radial-gradient(circle, rgb(226, 107, 255) 0%, rgba(255,45,215,1) 47%, rgba(125,0,42,1) 83%, rgba(55,1,0,1) 99%);
+    background: radial-gradient(circle, rgb(255, 46, 227) 0%, rgba(255,45,215,1) 47%, rgb(213, 0, 123) 83%, rgb(141, 0, 60) 99%);
     top: 50%;
 }
 
@@ -183,9 +187,9 @@ div.button_misc {
     top: 60%;
 }
 
-div.button_locations {
-    background: radial-gradient(circle, rgba(245,202,255,1) 0%, rgba(255,45,215,1) 47%, rgba(125,0,42,1) 83%, rgba(55,1,0,1) 99%);
-    top: 70%;
+div.button_cheat {
+    background: radial-gradient(circle, rgb(255, 89, 0) 0%, rgb(229, 33, 0) 47%, rgb(227, 0, 0) 83%, rgb(173, 0, 0) 99%);
+    top: 90%;
 }
 
 div.stash_pagination_container {

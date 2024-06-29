@@ -142,5 +142,6 @@ export {
     loadItemStatus,
     loadPlayerStatus,
     storePlayerActorStatus,
-    storePlayerStatus
+    storePlayerStatus,
+    db
 }
