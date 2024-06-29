@@ -12,6 +12,7 @@ import {
 } from "../../utils/ItemUtils.js";
 import {requestItemSlotChange} from "../../utils/EquipmentUtils.js";
 import {getActiveUiStates, getPlayerActor} from "../../utils/ActorUtils.js";
+import {statusIcons} from "../../../game/visuals/Icons.js";
 
 let activeDomItems = [];
 

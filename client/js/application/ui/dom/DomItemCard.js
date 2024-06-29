@@ -245,6 +245,7 @@ class DomItemCard {
             statusMap['ITEM_POTENCY'] = -1;
             statusMap['RANK_ECHELON'] = -1;
             statusMap['POTENCY_ECHELON'] = -1;
+            statusMap['TEXT'] = item.getStatus(ENUMS.ItemStatus.TEXT) || "";
             htmlElement.initHtmlElement('item_card', closeItemCard, statusMap, 'item_card', readyCb);
         }
 

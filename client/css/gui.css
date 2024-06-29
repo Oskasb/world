@@ -1283,6 +1283,18 @@ div.item_type {
     color: #bfe7e7;
 }
 
+div.item_card_text {
+    color: inherit;
+    background: none;
+    border: none;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    transform: translateY(-0.3em);
+    box-shadow: none;
+    text-shadow: 0.1em 0.1em 0.15em rgba(0, 0, 0, 1);
+}
+
 div.item_id {
     bottom:2.2em;
     right:0.8em;
