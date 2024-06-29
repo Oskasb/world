@@ -157,7 +157,6 @@ class DomStash {
         tabLabelMap["STASH_TAB_CHEAT"] = 'CHEAT'
         let update = function() {
 
-            let page = ENUMS.PlayerStatus.STASH_TAB_ITEMS;
             MATH.emptyArray(stashState);
             let isUpdate = fetchActiveStashPageItems(stashState)
             if (isUpdate) {
@@ -187,7 +186,7 @@ class DomStash {
             statusMap[ENUMS.PlayerStatus.STASH_TAB_LORE] = getPlayerStatus(ENUMS.PlayerStatus.STASH_TAB_LORE).length
 
             let tabTotal = getPlayerStatus(ENUMS.PlayerStatus[statusMap[ENUMS.PlayerStatus.ACTIVE_STASH_TAB]]).length
-            statusMap['pages_total'] = Math.floor(tabTotal / getPlayerStatus(ENUMS.PlayerStatus.SLOTS_PER_PAGE)-1)+1
+            statusMap['pages_total'] = Math.ceil((tabTotal || 1)  / getPlayerStatus(ENUMS.PlayerStatus.SLOTS_PER_PAGE))
             statusMap['active_tab_header'] = tabLabelMap[statusMap[ENUMS.PlayerStatus.ACTIVE_STASH_TAB]]
             statusMap['subpage'] = statusMap[ENUMS.PlayerStatus.ACTIVE_STASH_SUBPAGE]+1;
 

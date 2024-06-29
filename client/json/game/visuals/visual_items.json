@@ -2,10 +2,24 @@
   "GAME":{
     "VISUALS":[
       {
+        "id": "VISUAL_MATERIAL_INGOT_GOLD",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_ingot_gold"
+        }
+      },
+      {
         "id": "VISUAL_MATERIAL_INGOT_IRON",
         "data": {
           "model_asset":"asset_box_dynamic",
           "icon_class": "icon_material_ingot_iron"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_INGOT_SILVER",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_ingot_silver"
         }
       },
       {
@@ -15,6 +29,57 @@
           "icon_class": "icon_material_ingot_steel"
         }
       },
+
+      {
+        "id": "VISUAL_MATERIAL_LEATHER_OXEN",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_leather_oxen"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_LIQUID_CHEMICALS",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_liquid_chemicals"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_LIQUID_COOLANT",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_liquid_coolant"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_LIQUID_POISON",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_liquid_poison"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_PLATE_IRON",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_plate_iron"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_RINGS_IRON",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_rings_iron"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_RINGS_STEEL",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_rings_steel"
+        }
+      },
+
       {
         "id": "VISUAL_LORE_NOTE_SCRIBBLED",
         "data": {
