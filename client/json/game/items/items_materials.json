@@ -637,7 +637,7 @@
       {
         "id": "ITEM_MATERIAL_PLATE_IRON_PLAIN",
         "data": {
-          "visual_id":"VISUAL_MATERIAL_LIQUID_PLATE_IRON",
+          "visual_id":"VISUAL_MATERIAL_PLATE_IRON",
           "status": {
             "NAME":"Rough Iron Plating",
             "ITEM_LEVEL": 5,

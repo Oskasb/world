@@ -31,16 +31,20 @@ class DomStash {
 
         function tabItems() {
             setPlayerStatus(ENUMS.PlayerStatus.ACTIVE_STASH_TAB, ENUMS.PlayerStatus.STASH_TAB_ITEMS);
+            setPlayerStatus(ENUMS.PlayerStatus.ACTIVE_STASH_SUBPAGE, 0);
         }
         function tabMats() {
             setPlayerStatus(ENUMS.PlayerStatus.ACTIVE_STASH_TAB, ENUMS.PlayerStatus.STASH_TAB_MATERIALS);
+            setPlayerStatus(ENUMS.PlayerStatus.ACTIVE_STASH_SUBPAGE, 0);
         }
 
         function tabCurr() {
             setPlayerStatus(ENUMS.PlayerStatus.ACTIVE_STASH_TAB, ENUMS.PlayerStatus.STASH_TAB_CURRENCIES);
+            setPlayerStatus(ENUMS.PlayerStatus.ACTIVE_STASH_SUBPAGE, 0);
         }
         function tabLore() {
             setPlayerStatus(ENUMS.PlayerStatus.ACTIVE_STASH_TAB, ENUMS.PlayerStatus.STASH_TAB_LORE);
+            setPlayerStatus(ENUMS.PlayerStatus.ACTIVE_STASH_SUBPAGE, 0);
         }
 
         function pageBack() {
