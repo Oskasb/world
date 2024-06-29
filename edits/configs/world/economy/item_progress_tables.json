@@ -2,7 +2,7 @@
   "edit_id": "item_progress_tables",
   "item_upgrade_tables": {
     "item_rank_limits": {
-      "POOR": "ECHELON_4",
+      "POOR": "ECHELON_0",
       "BASIC": "ECHELON_2",
       "GOOD": "ECHELON_3",
       "SUPERB": "ECHELON_4",
@@ -20,8 +20,8 @@
       "ECHELON_8": 9
     },
     "item_potency_limits": {
-      "PLAIN": "ECHELON_4",
-      "COMMON": "ECHELON_5",
+      "PLAIN": "ECHELON_0",
+      "COMMON": "ECHELON_1",
       "UNCOMMON": "ECHELON_2",
       "RARE": "ECHELON_3",
       "EPIC": "ECHELON_4",

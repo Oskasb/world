@@ -36,10 +36,8 @@ class DomItemCard {
 
 
 
-        let update = function() {
-            if (targetRoot === null) {
-                return;
-            }
+
+        function updateCardPosition() {
             let bodyRect = DomUtils.getWindowBoundingRect();
             let rootRect = targetRoot.getBoundingClientRect();
             let elemRect = targetElement.getBoundingClientRect();
@@ -48,12 +46,36 @@ class DomItemCard {
             let height = elemRect.height;
 
             let pTop  = bodyRect.height - rootRect.top - bodyRect.top;
+            if (pTop > bodyRect.height*0.5) {
+                pTop -= (rootRect.height*2+height*2);
+            }
+
+
             let pLeft = elemRect.left + rootRect.left - bodyRect.left;
 
-            rootElement.style.fontSize = DomUtils.rootFontSize();
+            if (pLeft > bodyRect.width * 0.5) {
+                pLeft -= (rootRect.width*2 - width)
+            } else {
+                pLeft += rootRect.width*2
+            }
+
+            setTargetCoordinates(pTop, pLeft)
+        }
+
+
+        let update = function() {
+            if (targetRoot === null) {
+                return;
+            }
+
+            let rootSize = DomUtils.rootFontSize()
+            if ( rootElement.style.fontSize !== rootSize) {
+                rootElement.style.fontSize = rootSize;
+            }
+
         //    statusMap['PALETTE_VALUES'] = item.getStatus(ENUMS.ItemStatus.PALETTE_VALUES);
 
-
+            updateCardPosition()
             updateItemProgressUiStatus(item, statusMap, rankContainer, rankDivs, potencyContainer, potencyDivs)
 
             if (item.visualItem !== null) {
@@ -67,9 +89,6 @@ class DomItemCard {
                 }
             }
 
-
-
-            setTargetCoordinates(pTop, pLeft+width*0.5)
         }
 
         let rebuild = function() {

@@ -422,9 +422,8 @@ div.item_container {
     background-color: none;
     opacity: 100;
     color: black;
-
-    background: radial-gradient(circle, rgb(121, 121, 121) 0%, rgb(47, 47, 47) 99%);
-    border: solid rgba(0, 0, 0, 0.25);
+    background-image: radial-gradient(circle, rgb(66, 66, 66) 10%, rgb(33, 33, 33) 99%);
+    border: solid rgba(0, 0, 0, 0.5);
     border-width: 0.7em;
     box-shadow: 0 0 1.5em rgba(115, 180, 250, 0.5);
 }

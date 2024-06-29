@@ -160,7 +160,7 @@ let handleItemDragEvent = function(dragEvent) {
                 sInfo.slot.style.borderColor =  "";
             }
         }
-        
+
         if (isTargetSlot) {
             isTargetSlot.style.boxShadow =  "";
         }

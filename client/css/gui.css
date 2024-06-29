@@ -1430,8 +1430,8 @@ div.UNCOMMON {
     color: #08ff00;
     text-shadow: 0.1em 0.1em 0.15em rgb(0, 73, 2);
     background: rgba(27, 65, 19, 0.25);
-    background-image: linear-gradient(rgb(15, 190, 0) 0%, rgb(31, 89, 17) 7%, rgb(27, 65, 19) 50%, rgb(11, 26, 5) 100%);
-    border-color: #54ea68;
+    background-image: linear-gradient(rgb(13, 154, 0) 0%, rgb(31, 89, 17) 7%, rgb(27, 65, 19) 50%, rgb(11, 26, 5) 100%);
+    border-color: #00cc1d;
     box-shadow: 0 0 0.5em rgb(0, 122, 4);
 }
 
@@ -1439,8 +1439,8 @@ div.RARE {
     color: #c2e6ff;
     text-shadow: 0.1em 0.1em 0.35em rgb(1, 20, 49);
     background: rgba(18, 18, 56, 0.25);
-    background-image: linear-gradient(rgb(35, 130, 255) 0%, rgb(53, 65, 124) 7%, rgb(28, 28, 103) 40%, rgb(0, 7, 35) 100%);
-    border-color: #62acff;
+    background-image: linear-gradient(rgb(0, 102, 236) 0%, rgb(19, 44, 157) 7%, rgb(28, 28, 103) 40%, rgb(0, 7, 35) 100%);
+    border-color: #3594ff;
     box-shadow: 0 0 0.8em rgb(0, 89, 255);
 }
 
@@ -1450,7 +1450,7 @@ div.EPIC {
     background: rgba(79, 41, 101, 0.25);
     background-image: linear-gradient(rgb(239, 0, 255) 0%, rgb(155, 18, 176) 7%, rgb(96, 9, 95) 70%, rgb(89, 5, 66) 100%);
     border-color: #db92ff;
-    box-shadow: 0 0 1.5em rgb(230, 0, 255);
+    box-shadow: 0 0 1.5em rgb(236, 68, 255);
 }
 
 div.LEGENDARY {
@@ -1458,8 +1458,8 @@ div.LEGENDARY {
     text-shadow: 0em 0em 0.25em rgb(255, 241, 171);
     background:rgba(93, 71, 0, 0.25);
     background-image: linear-gradient(rgb(255, 185, 0) 0%, rgb(140, 107, 0) 7%, rgb(82, 43, 0) 70%, rgb(86, 35, 0) 100%);
-    border-color: #ffae00;
-    box-shadow: 0 0 1.0em rgb(255, 229, 94);
+    border-color: #ffc81a;
+    box-shadow: 0 0 1.0em rgb(255, 234, 119);
 }
 
 div.type_undefined {

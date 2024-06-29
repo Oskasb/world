@@ -85,9 +85,8 @@ class DomStash {
 
         let retrigger = function() {
             close();
-            let newStash = poolFetch('DomStash')
             setTimeout(function() {
-                newStash.call.activate(getPlayerActor(), buttonDiv)
+                activate(actor, buttonDiv)
             }, 200);
         }
 
