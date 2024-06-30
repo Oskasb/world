@@ -12,6 +12,7 @@ import {ClientStronghold} from "./gameworld/ClientStronghold.js";
 import {getPlayerStatus, setPlayerStatus} from "../application/utils/StatusUtils.js";
 import {storePlayerActorStatus, storePlayerStatus} from "../application/setup/Database.js";
 import {ENUMS} from "../application/ENUMS.js";
+import {getItemRecipe} from "../application/utils/CraftingUtils.js";
 
 let strongholds = [];
 let statsConfig = {};
@@ -53,8 +54,8 @@ let loadItem = function(event) {
     //
 
 
-        let item = new Item(event['id'], itemConfig, event['itemId'])
-
+    let item = new Item(event['id'], itemConfig, event['itemId'])
+    getItemRecipe(item)
 
     if (itemLoadQueue.indexOf(item.id) !== -1) {
         console.log("Queued Item Loaded", item);

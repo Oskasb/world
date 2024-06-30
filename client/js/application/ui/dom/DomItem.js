@@ -410,6 +410,10 @@ class DomItem {
             DomUtils.addElementClass(backplate, rarity);
             DomUtils.addElementClass(itemDiv, iconClass);
 
+            if (typeof (item.config['equip_slot']) !== 'string') {
+                let levelLabel = htmlElement.call.getChildElement('level_label')
+                levelLabel.style.display = 'none';
+            }
 
             statusMap['ITEM_RANK'] = -1;
             statusMap['ITEM_POTENCY'] = -1;

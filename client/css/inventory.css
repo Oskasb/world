@@ -182,9 +182,14 @@ div.button_lore {
     top: 50%;
 }
 
+div.button_craft {
+    background: radial-gradient(circle, rgb(0, 227, 208) 0%, rgb(0, 163, 185) 47%, rgb(0, 114, 124) 83%, rgb(0, 85, 112) 99%);
+    top: 60%;
+}
+
 div.button_misc {
     background: radial-gradient(circle, rgb(163, 255, 241) 0%, rgb(69, 233, 255) 42%, rgb(1, 110, 169) 83%, rgb(0, 55, 45) 99%);
-    top: 60%;
+    top: 70%;
 }
 
 div.button_cheat {

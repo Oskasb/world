@@ -282,7 +282,7 @@ div.item_card_panel {
 
 div.item_card_panel h1 {
     color: rgba(245, 245, 245, 0.95);
-    text-shadow: 0 0 16px rgb(255, 255, 255);
+    text-shadow: 0 0 0.5em rgba(255, 255, 255, 0.4);
     top: 0em;
     font-size: 2em;
     position: absolute;
@@ -357,7 +357,7 @@ div.params_container {
     position: absolute;
     height: auto;
     display: block;
-    overflow: auto;
+    overflow: visible;
 }
 
 div.item_param {

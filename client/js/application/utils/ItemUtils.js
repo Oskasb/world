@@ -1,17 +1,19 @@
 import {fetchConfigByEditId, readConfig} from "./ConfigUtils.js";
 import {ENUMS} from "../ENUMS.js";
+import {applyResourceHierarchy} from "./CraftingUtils.js";
 
 let itemProgressTables;
 let upgradeTables = {};
-
 function cfgCb(cfg) {
     itemProgressTables = cfg;
     upgradeTables = cfg['item_upgrade_tables']
     console.log('item_upgrade_tables', upgradeTables)
 }
-fetchConfigByEditId('item_progress_tables', cfgCb);
 
-function readUpgradeTableKey(table, key) {
+fetchConfigByEditId('item_progress_tables', cfgCb);
+fetchConfigByEditId('resource_hierarchy', applyResourceHierarchy);
+
+function readConfigTableKey(table, key) {
     let data = upgradeTables[table]
     if (!data) {
         return {};
@@ -19,20 +21,22 @@ function readUpgradeTableKey(table, key) {
     return data[key];
 }
 
+
+
 function rankEchelonLimit(quality) {
-    return readUpgradeTableKey('item_rank_limits', quality) || 'ECHELON_0';
+    return readConfigTableKey('item_rank_limits', quality) || 'ECHELON_0';
 }
 
 function potencyEchelonLimit(rarity) {
-    return readUpgradeTableKey('item_potency_limits', rarity) || 'ECHELON_0';
+    return readConfigTableKey('item_potency_limits', rarity) || 'ECHELON_0';
 }
 
 function rankEchelonLevels(echelon) {
-    return readUpgradeTableKey('item_rank_echelon_levels', echelon) || 0;
+    return readConfigTableKey('item_rank_echelon_levels', echelon) || 0;
 }
 
 function potencyEchelonLevels(echelon) {
-    return readUpgradeTableKey('item_potency_echelon_levels', echelon) || 0;
+    return readConfigTableKey('item_potency_echelon_levels', echelon) || 0;
 }
 
 

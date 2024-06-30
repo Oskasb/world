@@ -12,7 +12,7 @@
           "status": {
             "NAME":"Bronze Helmet",
             "ITEM_LEVEL": 2,
-            "ITEM_TYPE" : "ARMOR",
+            "ITEM_TYPE" : "PLATE_MAIL",
             "RARITY": "COMMON",
             "QUALITY": "BASIC"
           }
@@ -29,9 +29,13 @@
           "status": {
             "NAME":"Steel Helmet",
             "ITEM_LEVEL": 15,
-            "ITEM_TYPE" : "ARMOR",
+            "ITEM_TYPE" : "PLATE_MAIL",
             "RARITY": "UNCOMMON",
-            "QUALITY": "GOOD"
+            "QUALITY": "GOOD",
+            "RESOURCE_MATERIALS": [
+              { "material": "METAL_STEEL", "component": "PLATING"  },
+              { "material": "LEATHER_OXEN", "component": "PLATING"  }
+            ]
           }
         }
       },
@@ -46,7 +50,7 @@
           "status": {
             "NAME":"Viking Helmet",
             "ITEM_LEVEL": 5,
-            "ITEM_TYPE" : "ARMOR",
+            "ITEM_TYPE" : "PLATE_MAIL",
             "RARITY": "UNCOMMON",
             "QUALITY": "GOOD"
           }
@@ -63,7 +67,9 @@
           "status": {
             "NAME":"Viking Helmet",
             "ITEM_LEVEL": 5,
-            "ITEM_TYPE" : "ARMOR"
+            "ITEM_TYPE" : "PLATE_MAIL",
+            "RARITY": "UNCOMMON",
+            "QUALITY": "GOOD"
           }
         }
       },
@@ -78,7 +84,7 @@
           "status": {
             "NAME":"Fire God Helmet",
             "ITEM_LEVEL": 53,
-            "ITEM_TYPE" : "ARMOR",
+            "ITEM_TYPE" : "PLATE_MAIL",
             "RARITY": "LEGENDARY",
             "QUALITY": "EXCEPTIONAL"
           }
@@ -95,7 +101,9 @@
           "status": {
             "NAME":"Helmet",
             "ITEM_LEVEL": 15,
-            "ITEM_TYPE" : "ARMOR"
+            "ITEM_TYPE" : "PLATE_MAIL",
+            "RARITY": "UNCOMMON",
+            "QUALITY": "GOOD"
           }
         }
       },
@@ -110,7 +118,9 @@
           "status": {
             "NAME":"Steel Belt",
             "ITEM_LEVEL": 10,
-            "ITEM_TYPE" : "ARMOR"
+            "ITEM_TYPE" : "PLATE_MAIL",
+            "RARITY": "UNCOMMON",
+            "QUALITY": "GOOD"
           }
         }
       },
@@ -125,7 +135,9 @@
           "status": {
             "NAME":"Helmet",
             "ITEM_LEVEL": 20,
-            "ITEM_TYPE" : "ARMOR"
+            "ITEM_TYPE" : "PLATE_MAIL",
+            "RARITY": "UNCOMMON",
+            "QUALITY": "GOOD"
           }
         }
       },
@@ -140,8 +152,9 @@
           "status": {
             "NAME":"Helmet",
             "ITEM_LEVEL": 30,
-            "ITEM_TYPE" : "ARMOR",
-            "RARITY": "COMMON"
+            "ITEM_TYPE" : "PLATE_MAIL",
+            "RARITY": "RARE",
+            "QUALITY": "GOOD"
           }
         }
       },
@@ -156,7 +169,9 @@
           "status": {
             "NAME":"Belt",
             "ITEM_LEVEL": 40,
-            "ITEM_TYPE" : "ARMOR"
+            "ITEM_TYPE" : "PLATE_MAIL",
+            "RARITY": "RARE",
+            "QUALITY": "GOOD"
           }
         }
       },
@@ -171,7 +186,7 @@
           "status": {
             "NAME":"Fire God Belt",
             "ITEM_LEVEL": 53,
-            "ITEM_TYPE" : "ARMOR",
+            "ITEM_TYPE" : "PLATE_MAIL",
             "RARITY": "LEGENDARY",
             "QUALITY": "EXCEPTIONAL"
           }
@@ -188,8 +203,9 @@
           "status": {
             "NAME":"Scalemail Gloves",
             "ITEM_LEVEL": 25,
-            "ITEM_TYPE" : "ARMOR",
-            "RARITY":"EPIC"
+            "ITEM_TYPE" : "SCALE_MAIL",
+            "RARITY":"EPIC",
+            "QUALITY": "GOOD"
           }
         }
       },
@@ -204,8 +220,9 @@
           "status": {
             "NAME":"Scalemail Boots",
             "ITEM_LEVEL": 25,
-            "ITEM_TYPE" : "ARMOR",
-            "RARITY": "UNCOMMON"
+            "ITEM_TYPE" : "SCALE_MAIL",
+            "RARITY":"EPIC",
+            "QUALITY": "GOOD"
           }
         }
       },
@@ -382,7 +399,9 @@
           "status": {
             "NAME":"Scalemail Skirt",
             "ITEM_LEVEL": 25,
-            "ITEM_TYPE" : "ARMOR"
+            "ITEM_TYPE" : "SCALE_MAIL",
+            "RARITY":"EPIC",
+            "QUALITY": "GOOD"
           }
         }
       },
@@ -397,7 +416,9 @@
           "status": {
             "NAME":"Scalemail Harness",
             "ITEM_LEVEL": 25,
-            "ITEM_TYPE" : "ARMOR"
+            "ITEM_TYPE" : "SCALE_MAIL",
+            "RARITY":"EPIC",
+            "QUALITY": "GOOD"
           }
         }
       },
@@ -672,8 +693,10 @@
           ],
           "status": {
             "NAME":"Chainmail Skirt",
-            "ITEM_LEVEL": 1,
-            "ITEM_TYPE" : "ARMOR"
+            "ITEM_LEVEL": 25,
+            "ITEM_TYPE" : "SCALE_MAIL",
+            "RARITY":"EPIC",
+            "QUALITY": "GOOD"
           }
         }
       },
@@ -687,8 +710,10 @@
           ],
           "status": {
             "NAME":"Scalemail Boots",
-            "ITEM_LEVEL": 1,
-            "ITEM_TYPE" : "ARMOR"
+            "ITEM_LEVEL": 25,
+            "ITEM_TYPE" : "SCALE_MAIL",
+            "RARITY":"EPIC",
+            "QUALITY": "GOOD"
           }
         }
       },
@@ -702,8 +727,10 @@
           ],
           "status": {
             "NAME":"Scalemail Skirt",
-            "ITEM_LEVEL": 1,
-            "ITEM_TYPE" : "ARMOR"
+            "ITEM_LEVEL": 25,
+            "ITEM_TYPE" : "SCALE_MAIL",
+            "RARITY":"EPIC",
+            "QUALITY": "GOOD"
           }
         }
       },
@@ -717,8 +744,10 @@
           ],
           "status": {
             "NAME":"Belt",
-            "ITEM_LEVEL": 1,
-            "ITEM_TYPE" : "ARMOR"
+            "ITEM_LEVEL": 25,
+            "ITEM_TYPE" : "SCALE_MAIL",
+            "RARITY":"EPIC",
+            "QUALITY": "GOOD"
           }
         }
       },
@@ -732,8 +761,10 @@
           ],
           "status": {
             "NAME":"Armor",
-            "ITEM_LEVEL": 1,
-            "ITEM_TYPE" : "ARMOR"
+            "ITEM_LEVEL": 15,
+            "ITEM_TYPE" : "CHAIN_MAIL",
+            "RARITY":"RARE",
+            "QUALITY": "GOOD"
           }
         }
       },
@@ -747,8 +778,10 @@
           ],
           "status": {
             "NAME":"Armor",
-            "ITEM_LEVEL": 1,
-            "ITEM_TYPE" : "ARMOR"
+            "ITEM_LEVEL": 15,
+            "ITEM_TYPE" : "CHAIN_MAIL",
+            "RARITY":"RARE",
+            "QUALITY": "GOOD"
           }
         }
       },
@@ -764,7 +797,7 @@
           "status": {
             "NAME":"Fire God Gloves",
             "ITEM_LEVEL": 53,
-            "ITEM_TYPE" : "ARMOR",
+            "ITEM_TYPE" : "SCALE_MAIL",
             "RARITY": "LEGENDARY",
             "QUALITY": "EXCEPTIONAL"
           }
@@ -782,7 +815,7 @@
           "status": {
             "NAME":"Fire God Boots",
             "ITEM_LEVEL": 53,
-            "ITEM_TYPE" : "ARMOR",
+            "ITEM_TYPE" : "SCALE_MAIL",
             "RARITY": "LEGENDARY",
             "QUALITY": "EXCEPTIONAL"
           }
@@ -799,7 +832,7 @@
           "status": {
             "NAME":"Fire God Scale Kilt",
             "ITEM_LEVEL": 53,
-            "ITEM_TYPE" : "ARMOR",
+            "ITEM_TYPE" : "SCALE_MAIL",
             "RARITY": "LEGENDARY",
             "QUALITY": "EXCEPTIONAL"
           }
@@ -816,7 +849,7 @@
           "status": {
             "NAME":"Fire God Scales",
             "ITEM_LEVEL": 53,
-            "ITEM_TYPE" : "ARMOR",
+            "ITEM_TYPE" : "SCALE_MAIL",
             "RARITY": "LEGENDARY",
             "QUALITY": "EXCEPTIONAL"
           }
@@ -834,7 +867,7 @@
           "status": {
             "NAME":"Fire God Chain",
             "ITEM_LEVEL": 53,
-            "ITEM_TYPE" : "ARMOR",
+            "ITEM_TYPE" : "SCALE_MAIL",
             "RARITY": "LEGENDARY",
             "QUALITY": "EXCEPTIONAL"
           }
@@ -851,7 +884,7 @@
           "status": {
             "NAME":"Fire God Greaves",
             "ITEM_LEVEL": 53,
-            "ITEM_TYPE" : "ARMOR",
+            "ITEM_TYPE" : "CHAIN_MAIL",
             "RARITY": "LEGENDARY",
             "QUALITY": "EXCEPTIONAL"
           }
@@ -867,9 +900,11 @@
 
           ],
           "status": {
-            "NAME":"Armor",
-            "ITEM_LEVEL": 1,
-            "ITEM_TYPE" : "ARMOR"
+            "NAME":"Blue Hat",
+            "ITEM_LEVEL": 3,
+            "ITEM_TYPE" : "CLOTH",
+            "RARITY": "UNCOMMON",
+            "QUALITY": "BASIC"
           }
         }
       },
@@ -882,9 +917,11 @@
 
           ],
           "status": {
-            "NAME":"Armor",
-            "ITEM_LEVEL": 1,
-            "ITEM_TYPE" : "ARMOR"
+            "NAME":"White Hat",
+            "ITEM_LEVEL": 3,
+            "ITEM_TYPE" : "CLOTH",
+            "RARITY": "UNCOMMON",
+            "QUALITY": "BASIC"
           }
         }
       },
@@ -897,9 +934,11 @@
 
           ],
           "status": {
-            "NAME":"Armor",
-            "ITEM_LEVEL": 1,
-            "ITEM_TYPE" : "ARMOR"
+            "NAME":"Pointy White Hat",
+            "ITEM_LEVEL": 7,
+            "ITEM_TYPE" : "CLOTH",
+            "RARITY": "RARE",
+            "QUALITY": "BASIC"
           }
         }
       },
@@ -912,9 +951,11 @@
 
           ],
           "status": {
-            "NAME":"Armor",
-            "ITEM_LEVEL": 1,
-            "ITEM_TYPE" : "ARMOR"
+            "NAME":"Leather Hat",
+            "ITEM_LEVEL": 4,
+            "ITEM_TYPE" : "LEATHER",
+            "RARITY": "COMMON",
+            "QUALITY": "BASIC"
           }
         }
       },
@@ -927,9 +968,11 @@
 
           ],
           "status": {
-            "NAME":"Armor",
-            "ITEM_LEVEL": 1,
-            "ITEM_TYPE" : "ARMOR"
+            "NAME":"Red Hat",
+            "ITEM_LEVEL": 4,
+            "ITEM_TYPE" : "CLOTH",
+            "RARITY": "COMMON",
+            "QUALITY": "BASIC"
           }
         }
       }

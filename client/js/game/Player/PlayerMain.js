@@ -34,6 +34,7 @@ statusMap[ENUMS.PlayerStatus.STASH_TAB_ITEMS] = [];
 statusMap[ENUMS.PlayerStatus.STASH_TAB_MATERIALS] = [];
 statusMap[ENUMS.PlayerStatus.STASH_TAB_CURRENCIES] = [];
 statusMap[ENUMS.PlayerStatus.STASH_TAB_LORE] = [];
+statusMap[ENUMS.PlayerStatus.STASH_TAB_CRAFT] = [];
 statusMap[ENUMS.PlayerStatus.ACTIVE_STASH_TAB] = ENUMS.PlayerStatus.STASH_TAB_ITEMS;
 statusMap[ENUMS.PlayerStatus.ACTIVE_STASH_FILTERS] = [];
 statusMap[ENUMS.PlayerStatus.ACTIVE_STASH_SUBPAGE] = 0;

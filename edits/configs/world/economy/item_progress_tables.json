@@ -3,7 +3,7 @@
   "item_upgrade_tables": {
     "item_rank_limits": {
       "POOR": "ECHELON_0",
-      "BASIC": "ECHELON_2",
+      "BASIC": "ECHELON_0",
       "GOOD": "ECHELON_3",
       "SUPERB": "ECHELON_4",
       "EXCEPTIONAL": "ECHELON_5"
@@ -21,7 +21,7 @@
     },
     "item_potency_limits": {
       "PLAIN": "ECHELON_0",
-      "COMMON": "ECHELON_1",
+      "COMMON": "ECHELON_0",
       "UNCOMMON": "ECHELON_2",
       "RARE": "ECHELON_3",
       "EPIC": "ECHELON_4",

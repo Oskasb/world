@@ -47,6 +47,11 @@ class DomStash {
             setPlayerStatus(ENUMS.PlayerStatus.ACTIVE_STASH_SUBPAGE, 0);
         }
 
+        function tabCraft() {
+            setPlayerStatus(ENUMS.PlayerStatus.ACTIVE_STASH_TAB, ENUMS.PlayerStatus.STASH_TAB_CRAFT);
+            setPlayerStatus(ENUMS.PlayerStatus.ACTIVE_STASH_SUBPAGE, 0);
+        }
+
         function pageBack() {
             let currentPage = getPlayerStatus(ENUMS.PlayerStatus.ACTIVE_STASH_SUBPAGE);
             if (currentPage > 0) {
@@ -66,15 +71,16 @@ class DomStash {
         function cheatAllItems() {
             console.log("cheat all items")
             stashAllConfigItems();
-            setTimeout(retrigger, 500);
         }
 
         buttonFunctions['tab_items'] = tabItems;
         buttonFunctions['tab_materials'] = tabMats;
         buttonFunctions['tab_currencies'] = tabCurr;
         buttonFunctions['tab_lore'] = tabLore;
+        buttonFunctions['tab_craft'] = tabCraft;
         buttonFunctions['button_page_back'] = pageBack;
         buttonFunctions['button_page_forward'] = pageFor;
+
 
         buttonFunctions['tab_cheat'] = cheatAllItems;
 
@@ -117,6 +123,7 @@ class DomStash {
             buttonDivs['tab_materials'] = htmlElement.call.getChildElement('tab_materials');
             buttonDivs['tab_currencies'] = htmlElement.call.getChildElement('tab_currencies');
             buttonDivs['tab_lore'] = htmlElement.call.getChildElement('tab_lore');
+            buttonDivs['tab_craft'] = htmlElement.call.getChildElement('tab_craft');
             buttonDivs['button_page_back'] = htmlElement.call.getChildElement('button_page_back');
             buttonDivs['button_page_forward'] = htmlElement.call.getChildElement('button_page_forward');
             buttonDivs['tab_cheat'] = htmlElement.call.getChildElement('tab_cheat');
@@ -157,6 +164,7 @@ class DomStash {
         tabLabelMap[ENUMS.PlayerStatus.STASH_TAB_MATERIALS] = 'MATS'
         tabLabelMap[ENUMS.PlayerStatus.STASH_TAB_CURRENCIES] = 'MONEY'
         tabLabelMap[ENUMS.PlayerStatus.STASH_TAB_LORE] = 'LORE'
+        tabLabelMap[ENUMS.PlayerStatus.STASH_TAB_CRAFT] = 'CRAFT'
         tabLabelMap["STASH_TAB_CHEAT"] = 'CHEAT'
         let update = function() {
 

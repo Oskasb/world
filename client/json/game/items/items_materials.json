@@ -2,51 +2,12 @@
   "GAME":{
     "ITEMS":[
       {
-        "id": "ITEM_MATERIAL_INGOT_GOLD_PLAIN",
+        "id": "ITEM_MATERIAL_INGOT_GOLD",
         "data": {
           "visual_id":"VISUAL_MATERIAL_INGOT_GOLD",
           "status": {
-            "NAME":"Rough GOLD Ingot",
-            "ITEM_LEVEL": 7,
-            "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "PLAIN",
-            "QUALITY": "BASIC"
-          }
-        }
-      },
-      {
-        "id": "ITEM_MATERIAL_INGOT_GOLD_COMMON",
-        "data": {
-          "visual_id":"VISUAL_MATERIAL_INGOT_GOLD",
-          "status": {
-            "NAME":"Raw GOLD Ingot",
-            "ITEM_LEVEL": 17,
-            "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "COMMON",
-            "QUALITY": "BASIC"
-          }
-        }
-      },
-      {
-        "id": "ITEM_MATERIAL_INGOT_GOLD_UNCOMMON",
-        "data": {
-          "visual_id":"VISUAL_MATERIAL_INGOT_GOLD",
-          "status": {
-            "NAME":"Pure GOLD Ingot",
-            "ITEM_LEVEL": 27,
-            "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "UNCOMMON",
-            "QUALITY": "BASIC"
-          }
-        }
-      },
-      {
-        "id": "ITEM_MATERIAL_INGOT_GOLD_RARE",
-        "data": {
-          "visual_id":"VISUAL_MATERIAL_INGOT_GOLD",
-          "status": {
-            "NAME":"Strong GOLD Ingot",
-            "ITEM_LEVEL": 33,
+            "NAME":"Gold Ingot",
+            "ITEM_LEVEL": 0,
             "ITEM_TYPE" : "MATERIAL",
             "RARITY": "RARE",
             "QUALITY": "GOOD"
@@ -54,64 +15,12 @@
         }
       },
       {
-        "id": "ITEM_MATERIAL_INGOT_GOLD_EPIC",
-        "data": {
-          "visual_id":"VISUAL_MATERIAL_INGOT_GOLD",
-          "status": {
-            "NAME":"Hardened GOLD Ingot",
-            "ITEM_LEVEL": 44,
-            "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "EPIC",
-            "QUALITY": "GOOD"
-          }
-        }
-      },
-      {
-        "id": "ITEM_MATERIAL_INGOT_GOLD_LEGENDARY",
-        "data": {
-          "visual_id":"VISUAL_MATERIAL_INGOT_GOLD",
-          "status": {
-            "NAME":"Infused GOLD Ingot",
-            "ITEM_LEVEL": 48,
-            "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "LEGENDARY",
-            "QUALITY": "SUPERB"
-          }
-        }
-      },
-      {
-        "id": "ITEM_MATERIAL_INGOT_SILVER_PLAIN",
+        "id": "ITEM_MATERIAL_INGOT_SILVER",
         "data": {
           "visual_id":"VISUAL_MATERIAL_INGOT_SILVER",
           "status": {
-            "NAME":"Rough SILVER Ingot",
-            "ITEM_LEVEL": 4,
-            "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "PLAIN",
-            "QUALITY": "POOR"
-          }
-        }
-      },
-      {
-        "id": "ITEM_MATERIAL_INGOT_SILVER_COMMON",
-        "data": {
-          "visual_id":"VISUAL_MATERIAL_INGOT_SILVER",
-          "status": {
-            "NAME":"Raw SILVER Ingot",
-            "ITEM_LEVEL": 14,
-            "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "COMMON",
-            "QUALITY": "BASIC"
-          }
-        }
-      },
-      {
-        "id": "ITEM_MATERIAL_INGOT_SILVER_UNCOMMON",
-        "data": {
-          "visual_id":"VISUAL_MATERIAL_INGOT_SILVER",
-          "status": {
-            "NAME":"Pure SILVER Ingot",
-            "ITEM_LEVEL": 24,
+            "NAME":"Silver Ingot",
+            "ITEM_LEVEL": 0,
             "ITEM_TYPE" : "MATERIAL",
             "RARITY": "UNCOMMON",
             "QUALITY": "GOOD"
@@ -119,63 +28,11 @@
         }
       },
       {
-        "id": "ITEM_MATERIAL_INGOT_SILVER_RARE",
-        "data": {
-          "visual_id":"VISUAL_MATERIAL_INGOT_SILVER",
-          "status": {
-            "NAME":"Strong SILVER Ingot",
-            "ITEM_LEVEL": 32,
-            "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "RARE",
-            "QUALITY": "GOOD"
-          }
-        }
-      },
-      {
-        "id": "ITEM_MATERIAL_INGOT_SILVER_EPIC",
-        "data": {
-          "visual_id":"VISUAL_MATERIAL_INGOT_SILVER",
-          "status": {
-            "NAME":"Hardened SILVER Ingot",
-            "ITEM_LEVEL": 42,
-            "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "EPIC",
-            "QUALITY": "SUPERB"
-          }
-        }
-      },
-      {
-        "id": "ITEM_MATERIAL_INGOT_SILVER_LEGENDARY",
-        "data": {
-          "visual_id":"VISUAL_MATERIAL_INGOT_SILVER",
-          "status": {
-            "NAME":"Infused SILVER Ingot",
-            "ITEM_LEVEL": 46,
-            "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "LEGENDARY",
-            "QUALITY": "SUPERB"
-          }
-        }
-      },
-      {
-        "id": "ITEM_MATERIAL_INGOT_IRON_PLAIN",
+        "id": "ITEM_MATERIAL_INGOT_IRON",
         "data": {
           "visual_id":"VISUAL_MATERIAL_INGOT_IRON",
           "status": {
-            "NAME":"Rough Iron Ingot",
-            "ITEM_LEVEL": 1,
-            "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "PLAIN",
-            "QUALITY": "POOR"
-          }
-        }
-      },
-      {
-        "id": "ITEM_MATERIAL_INGOT_IRON_COMMON",
-        "data": {
-          "visual_id":"VISUAL_MATERIAL_INGOT_IRON",
-          "status": {
-            "NAME":"Raw Iron Ingot",
+            "NAME":"Iron Ingot",
             "ITEM_LEVEL": 5,
             "ITEM_TYPE" : "MATERIAL",
             "RARITY": "COMMON",
@@ -184,89 +41,11 @@
         }
       },
       {
-        "id": "ITEM_MATERIAL_INGOT_IRON_UNCOMMON",
-        "data": {
-          "visual_id":"VISUAL_MATERIAL_INGOT_IRON",
-          "status": {
-            "NAME":"Pure Iron Ingot",
-            "ITEM_LEVEL": 12,
-            "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "UNCOMMON",
-            "QUALITY": "BASIC"
-          }
-        }
-      },
-      {
-        "id": "ITEM_MATERIAL_INGOT_IRON_RARE",
-        "data": {
-          "visual_id":"VISUAL_MATERIAL_INGOT_IRON",
-          "status": {
-            "NAME":"Strong Iron Ingot",
-            "ITEM_LEVEL": 22,
-            "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "RARE",
-            "QUALITY": "GOOD"
-          }
-        }
-      },
-      {
-        "id": "ITEM_MATERIAL_INGOT_IRON_EPIC",
-        "data": {
-          "visual_id":"VISUAL_MATERIAL_INGOT_IRON",
-          "status": {
-            "NAME":"Hardened Iron Ingot",
-            "ITEM_LEVEL": 32,
-            "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "EPIC",
-            "QUALITY": "GOOD"
-          }
-        }
-      },
-      {
-        "id": "ITEM_MATERIAL_INGOT_IRON_LEGENDARY",
-        "data": {
-          "visual_id":"VISUAL_MATERIAL_INGOT_IRON",
-          "status": {
-            "NAME":"Infused Iron Ingot",
-            "ITEM_LEVEL": 41,
-            "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "LEGENDARY",
-            "QUALITY": "SUPERB"
-          }
-        }
-      },
-      {
-        "id": "ITEM_MATERIAL_INGOT_STEEL_PLAIN",
+        "id": "ITEM_MATERIAL_INGOT_STEEL",
         "data": {
           "visual_id":"VISUAL_MATERIAL_INGOT_STEEL",
           "status": {
-            "NAME":"Rough Steel Ingot",
-            "ITEM_LEVEL": 5,
-            "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "PLAIN",
-            "QUALITY": "POOR"
-          }
-        }
-      },
-      {
-        "id": "ITEM_MATERIAL_INGOT_STEEL_COMMON",
-        "data": {
-          "visual_id":"VISUAL_MATERIAL_INGOT_STEEL",
-          "status": {
-            "NAME":"Raw Steel Ingot",
-            "ITEM_LEVEL": 11,
-            "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "COMMON",
-            "QUALITY": "BASIC"
-          }
-        }
-      },
-      {
-        "id": "ITEM_MATERIAL_INGOT_STEEL_UNCOMMON",
-        "data": {
-          "visual_id":"VISUAL_MATERIAL_INGOT_STEEL",
-          "status": {
-            "NAME":"Pure Steel Ingot",
+            "NAME":"Steel Ingot",
             "ITEM_LEVEL": 18,
             "ITEM_TYPE" : "MATERIAL",
             "RARITY": "UNCOMMON",
@@ -275,155 +54,117 @@
         }
       },
       {
-        "id": "ITEM_MATERIAL_INGOT_STEEL_RARE",
-        "data": {
-          "visual_id":"VISUAL_MATERIAL_INGOT_STEEL",
-          "status": {
-            "NAME":"Strong Steel Ingot",
-            "ITEM_LEVEL": 25,
-            "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "RARE",
-            "QUALITY": "GOOD"
-          }
-        }
-      },
-      {
-        "id": "ITEM_MATERIAL_INGOT_STEEL_EPIC",
-        "data": {
-          "visual_id":"VISUAL_MATERIAL_INGOT_STEEL",
-          "status": {
-            "NAME":"Hardened Steel Ingot",
-            "ITEM_LEVEL": 34,
-            "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "EPIC",
-            "QUALITY": "SUPERB"
-          }
-        }
-      },
-      {
-        "id": "ITEM_MATERIAL_INGOT_STEEL_LEGENDARY",
-        "data": {
-          "visual_id":"VISUAL_MATERIAL_INGOT_STEEL",
-          "status": {
-            "NAME":"Infused Steel Ingot",
-            "ITEM_LEVEL": 43,
-            "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "LEGENDARY",
-            "QUALITY": "SUPERB"
-          }
-        }
-      },
-      {
-        "id": "ITEM_MATERIAL_LEATHER_OXEN_PLAIN",
+        "id": "ITEM_MATERIAL_LEATHER_GOAT",
         "data": {
           "visual_id":"VISUAL_MATERIAL_LEATHER_OXEN",
           "status": {
-            "NAME":"Rough Oxen Leather",
+            "NAME":"Goat Leather",
             "ITEM_LEVEL": 5,
             "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "PLAIN",
+            "RARITY": "COMMON",
             "QUALITY": "POOR"
           }
         }
       },
       {
-        "id": "ITEM_MATERIAL_LEATHER_OXEN_COMMON",
+        "id": "ITEM_MATERIAL_LEATHER_OXEN",
         "data": {
           "visual_id":"VISUAL_MATERIAL_LEATHER_OXEN",
           "status": {
-            "NAME":"Raw Oxen Leather",
-            "ITEM_LEVEL": 11,
+            "NAME":"Oxen Leather",
+            "ITEM_LEVEL": 5,
             "ITEM_TYPE" : "MATERIAL",
             "RARITY": "COMMON",
-            "QUALITY": "BASIC"
+            "QUALITY": "POOR"
           }
         }
       },
       {
-        "id": "ITEM_MATERIAL_LEATHER_OXEN_UNCOMMON",
+        "id": "ITEM_MATERIAL_PADDING_GOAT",
         "data": {
           "visual_id":"VISUAL_MATERIAL_LEATHER_OXEN",
           "status": {
-            "NAME":"Pure Oxen Leather",
-            "ITEM_LEVEL": 18,
+            "NAME":"Goat Leather Padding",
+            "ITEM_LEVEL": 5,
             "ITEM_TYPE" : "MATERIAL",
             "RARITY": "UNCOMMON",
-            "QUALITY": "GOOD"
+            "QUALITY": "BASIC"
           }
         }
       },
       {
-        "id": "ITEM_MATERIAL_LEATHER_OXEN_RARE",
+        "id": "ITEM_MATERIAL_PADDING_OXEN",
         "data": {
           "visual_id":"VISUAL_MATERIAL_LEATHER_OXEN",
           "status": {
-            "NAME":"Strong Oxen Leather",
-            "ITEM_LEVEL": 25,
+            "NAME":"Oxen Leather Padding",
+            "ITEM_LEVEL": 5,
             "ITEM_TYPE" : "MATERIAL",
             "RARITY": "RARE",
-            "QUALITY": "GOOD"
+            "QUALITY": "BASIC"
           }
         }
       },
+
       {
-        "id": "ITEM_MATERIAL_LEATHER_OXEN_EPIC",
+        "id": "ITEM_MATERIAL_BINDING_GOAT",
         "data": {
           "visual_id":"VISUAL_MATERIAL_LEATHER_OXEN",
           "status": {
-            "NAME":"Hardened Oxen Leather",
-            "ITEM_LEVEL": 34,
+            "NAME":"Goat Leather Strips",
+            "ITEM_LEVEL": 5,
             "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "EPIC",
-            "QUALITY": "SUPERB"
+            "RARITY": "UNCOMMON",
+            "QUALITY": "BASIC"
           }
         }
       },
       {
-        "id": "ITEM_MATERIAL_LEATHER_OXEN_LEGENDARY",
+        "id": "ITEM_MATERIAL_BINDING_OXEN",
         "data": {
           "visual_id":"VISUAL_MATERIAL_LEATHER_OXEN",
           "status": {
-            "NAME":"Infused Oxen Leather",
-            "ITEM_LEVEL": 43,
+            "NAME":"Oxen Leather Strips",
+            "ITEM_LEVEL": 5,
             "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "LEGENDARY",
-            "QUALITY": "SUPERB"
+            "RARITY": "RARE",
+            "QUALITY": "BASIC"
           }
         }
       },
 
       {
-        "id": "ITEM_MATERIAL_LIQUID_CHEMICALS_PLAIN",
+        "id": "ITEM_MATERIAL_CHEMICALS_IMPURE",
         "data": {
           "visual_id":"VISUAL_MATERIAL_LIQUID_CHEMICALS",
           "status": {
-            "NAME":"Rough Liquid Chemicals",
-            "ITEM_LEVEL": 5,
-            "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "PLAIN",
-            "QUALITY": "POOR"
-          }
-        }
-      },
-      {
-        "id": "ITEM_MATERIAL_LIQUID_CHEMICALS_COMMON",
-        "data": {
-          "visual_id":"VISUAL_MATERIAL_LIQUID_CHEMICALS",
-          "status": {
-            "NAME":"Raw Liquid Chemicals",
+            "NAME":"Impure Chemicals",
             "ITEM_LEVEL": 11,
             "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "COMMON",
+            "RARITY": "UNCOMMON",
             "QUALITY": "BASIC"
           }
         }
       },
       {
-        "id": "ITEM_MATERIAL_LIQUID_CHEMICALS_UNCOMMON",
+        "id": "ITEM_MATERIAL_CHEMICALS_PURE",
         "data": {
           "visual_id":"VISUAL_MATERIAL_LIQUID_CHEMICALS",
           "status": {
-            "NAME":"Pure Liquid Chemicals",
+            "NAME":"Pure Chemicals",
+            "ITEM_LEVEL": 11,
+            "ITEM_TYPE" : "MATERIAL",
+            "RARITY": "RARE",
+            "QUALITY": "BASIC"
+          }
+        }
+      },
+      {
+        "id": "ITEM_MATERIAL_LIQUID_COOLANT",
+        "data": {
+          "visual_id":"VISUAL_MATERIAL_LIQUID_COOLANT",
+          "status": {
+            "NAME":"Liquid Coolant",
             "ITEM_LEVEL": 18,
             "ITEM_TYPE" : "MATERIAL",
             "RARITY": "UNCOMMON",
@@ -432,67 +173,51 @@
         }
       },
       {
-        "id": "ITEM_MATERIAL_LIQUID_CHEMICALS_RARE",
+        "id": "ITEM_MATERIAL_LIQUID_POISON",
         "data": {
-          "visual_id":"VISUAL_MATERIAL_LIQUID_CHEMICALS",
+          "visual_id":"VISUAL_MATERIAL_LIQUID_POISON",
           "status": {
-            "NAME":"Strong Liquid Chemicals",
-            "ITEM_LEVEL": 25,
+            "NAME":"Bottled Poison",
+            "ITEM_LEVEL": 11,
+            "ITEM_TYPE" : "MATERIAL",
+            "RARITY": "COMMON",
+            "QUALITY": "BASIC"
+          }
+        }
+      },
+
+      {
+        "id": "ITEM_MATERIAL_PLATE_IRON",
+        "data": {
+          "visual_id":"VISUAL_MATERIAL_PLATE_IRON",
+          "status": {
+            "NAME":"Iron Plating",
+            "ITEM_LEVEL": 11,
+            "ITEM_TYPE" : "MATERIAL",
+            "RARITY": "UNCOMMON",
+            "QUALITY": "BASIC"
+          }
+        }
+      },
+      {
+        "id": "ITEM_MATERIAL_PLATE_STEEL",
+        "data": {
+          "visual_id":"VISUAL_MATERIAL_PLATE_IRON",
+          "status": {
+            "NAME":"Iron Plating",
+            "ITEM_LEVEL": 21,
             "ITEM_TYPE" : "MATERIAL",
             "RARITY": "RARE",
-            "QUALITY": "GOOD"
+            "QUALITY": "BASIC"
           }
         }
       },
       {
-        "id": "ITEM_MATERIAL_LIQUID_CHEMICALS_EPIC",
+        "id": "ITEM_MATERIAL_RINGS_IRON",
         "data": {
-          "visual_id":"VISUAL_MATERIAL_LIQUID_CHEMICALS",
+          "visual_id":"VISUAL_MATERIAL_RINGS_IRON",
           "status": {
-            "NAME":"Hardened Liquid Chemicals",
-            "ITEM_LEVEL": 34,
-            "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "EPIC",
-            "QUALITY": "SUPERB"
-          }
-        }
-      },
-      {
-        "id": "ITEM_MATERIAL_LIQUID_CHEMICALS_LEGENDARY",
-        "data": {
-          "visual_id":"VISUAL_MATERIAL_LIQUID_CHEMICALS",
-          "status": {
-            "NAME":"Infused Liquid Chemicals",
-            "ITEM_LEVEL": 43,
-            "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "LEGENDARY",
-            "QUALITY": "SUPERB"
-          }
-        }
-      },
-
-
-
-
-      {
-        "id": "ITEM_MATERIAL_LIQUID_COOLANT_PLAIN",
-        "data": {
-          "visual_id":"VISUAL_MATERIAL_LIQUID_COOLANT",
-          "status": {
-            "NAME":"Rough Liquid COOLANT",
-            "ITEM_LEVEL": 5,
-            "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "PLAIN",
-            "QUALITY": "POOR"
-          }
-        }
-      },
-      {
-        "id": "ITEM_MATERIAL_LIQUID_COOLANT_COMMON",
-        "data": {
-          "visual_id":"VISUAL_MATERIAL_LIQUID_COOLANT",
-          "status": {
-            "NAME":"Raw Liquid COOLANT",
+            "NAME":"Iron Rings",
             "ITEM_LEVEL": 11,
             "ITEM_TYPE" : "MATERIAL",
             "RARITY": "COMMON",
@@ -501,377 +226,18 @@
         }
       },
       {
-        "id": "ITEM_MATERIAL_LIQUID_COOLANT_UNCOMMON",
+        "id": "ITEM_MATERIAL_RINGS_STEEL",
         "data": {
-          "visual_id":"VISUAL_MATERIAL_LIQUID_COOLANT",
+          "visual_id":"VISUAL_MATERIAL_RINGS_STEEL",
           "status": {
-            "NAME":"Pure Liquid COOLANT",
-            "ITEM_LEVEL": 18,
+            "NAME":"Steel Rings",
+            "ITEM_LEVEL": 21,
             "ITEM_TYPE" : "MATERIAL",
             "RARITY": "UNCOMMON",
             "QUALITY": "GOOD"
-          }
-        }
-      },
-      {
-        "id": "ITEM_MATERIAL_LIQUID_COOLANT_RARE",
-        "data": {
-          "visual_id":"VISUAL_MATERIAL_LIQUID_COOLANT",
-          "status": {
-            "NAME":"Strong Liquid COOLANT",
-            "ITEM_LEVEL": 25,
-            "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "RARE",
-            "QUALITY": "GOOD"
-          }
-        }
-      },
-      {
-        "id": "ITEM_MATERIAL_LIQUID_COOLANT_EPIC",
-        "data": {
-          "visual_id":"VISUAL_MATERIAL_LIQUID_COOLANT",
-          "status": {
-            "NAME":"Hardened Liquid COOLANT",
-            "ITEM_LEVEL": 34,
-            "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "EPIC",
-            "QUALITY": "SUPERB"
-          }
-        }
-      },
-      {
-        "id": "ITEM_MATERIAL_LIQUID_COOLANT_LEGENDARY",
-        "data": {
-          "visual_id":"VISUAL_MATERIAL_LIQUID_COOLANT",
-          "status": {
-            "NAME":"Infused Liquid COOLANT",
-            "ITEM_LEVEL": 43,
-            "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "LEGENDARY",
-            "QUALITY": "SUPERB"
-          }
-        }
-      },
-
-
-      {
-        "id": "ITEM_MATERIAL_LIQUID_POISON_PLAIN",
-        "data": {
-          "visual_id":"VISUAL_MATERIAL_LIQUID_POISON",
-          "status": {
-            "NAME":"Rough Liquid POISON",
-            "ITEM_LEVEL": 5,
-            "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "PLAIN",
-            "QUALITY": "POOR"
-          }
-        }
-      },
-      {
-        "id": "ITEM_MATERIAL_LIQUID_POISON_COMMON",
-        "data": {
-          "visual_id":"VISUAL_MATERIAL_LIQUID_POISON",
-          "status": {
-            "NAME":"Raw Liquid POISON",
-            "ITEM_LEVEL": 11,
-            "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "COMMON",
-            "QUALITY": "BASIC"
-          }
-        }
-      },
-      {
-        "id": "ITEM_MATERIAL_LIQUID_POISON_UNCOMMON",
-        "data": {
-          "visual_id":"VISUAL_MATERIAL_LIQUID_POISON",
-          "status": {
-            "NAME":"Pure Liquid POISON",
-            "ITEM_LEVEL": 18,
-            "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "UNCOMMON",
-            "QUALITY": "GOOD"
-          }
-        }
-      },
-      {
-        "id": "ITEM_MATERIAL_LIQUID_POISON_RARE",
-        "data": {
-          "visual_id":"VISUAL_MATERIAL_LIQUID_POISON",
-          "status": {
-            "NAME":"Strong Liquid POISON",
-            "ITEM_LEVEL": 25,
-            "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "RARE",
-            "QUALITY": "GOOD"
-          }
-        }
-      },
-      {
-        "id": "ITEM_MATERIAL_LIQUID_POISON_EPIC",
-        "data": {
-          "visual_id":"VISUAL_MATERIAL_LIQUID_POISON",
-          "status": {
-            "NAME":"Hardened Liquid POISON",
-            "ITEM_LEVEL": 34,
-            "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "EPIC",
-            "QUALITY": "SUPERB"
-          }
-        }
-      },
-      {
-        "id": "ITEM_MATERIAL_LIQUID_POISON_LEGENDARY",
-        "data": {
-          "visual_id":"VISUAL_MATERIAL_LIQUID_POISON",
-          "status": {
-            "NAME":"Infused Liquid POISON",
-            "ITEM_LEVEL": 43,
-            "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "LEGENDARY",
-            "QUALITY": "SUPERB"
-          }
-        }
-      },
-
-
-      {
-        "id": "ITEM_MATERIAL_PLATE_IRON_PLAIN",
-        "data": {
-          "visual_id":"VISUAL_MATERIAL_PLATE_IRON",
-          "status": {
-            "NAME":"Rough Iron Plating",
-            "ITEM_LEVEL": 5,
-            "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "PLAIN",
-            "QUALITY": "POOR"
-          }
-        }
-      },
-      {
-        "id": "ITEM_MATERIAL_PLATE_IRON_COMMON",
-        "data": {
-          "visual_id":"VISUAL_MATERIAL_PLATE_IRON",
-          "status": {
-            "NAME":"Raw Iron Plating",
-            "ITEM_LEVEL": 11,
-            "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "COMMON",
-            "QUALITY": "BASIC"
-          }
-        }
-      },
-      {
-        "id": "ITEM_MATERIAL_PLATE_IRON_UNCOMMON",
-        "data": {
-          "visual_id":"VISUAL_MATERIAL_PLATE_IRON",
-          "status": {
-            "NAME":"Pure Iron Plating",
-            "ITEM_LEVEL": 18,
-            "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "UNCOMMON",
-            "QUALITY": "GOOD"
-          }
-        }
-      },
-      {
-        "id": "ITEM_MATERIAL_PLATE_IRON_RARE",
-        "data": {
-          "visual_id":"VISUAL_MATERIAL_PLATE_IRON",
-          "status": {
-            "NAME":"Strong Iron Plating",
-            "ITEM_LEVEL": 25,
-            "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "RARE",
-            "QUALITY": "GOOD"
-          }
-        }
-      },
-      {
-        "id": "ITEM_MATERIAL_PLATE_IRON_EPIC",
-        "data": {
-          "visual_id":"VISUAL_MATERIAL_PLATE_IRON",
-          "status": {
-            "NAME":"Hardened Iron Plating",
-            "ITEM_LEVEL": 34,
-            "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "EPIC",
-            "QUALITY": "SUPERB"
-          }
-        }
-      },
-      {
-        "id": "ITEM_MATERIAL_PLATE_IRON_LEGENDARY",
-        "data": {
-          "visual_id":"VISUAL_MATERIAL_PLATE_IRON",
-          "status": {
-            "NAME":"Infused Iron Plating",
-            "ITEM_LEVEL": 43,
-            "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "LEGENDARY",
-            "QUALITY": "SUPERB"
-          }
-        }
-      },
-
-
-      {
-        "id": "ITEM_MATERIAL_RINGS_IRON_PLAIN",
-        "data": {
-          "visual_id":"VISUAL_MATERIAL_RINGS_IRON",
-          "status": {
-            "NAME":"Rough Iron Rings",
-            "ITEM_LEVEL": 5,
-            "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "PLAIN",
-            "QUALITY": "POOR"
-          }
-        }
-      },
-      {
-        "id": "ITEM_MATERIAL_RINGS_IRON_COMMON",
-        "data": {
-          "visual_id":"VISUAL_MATERIAL_RINGS_IRON",
-          "status": {
-            "NAME":"Raw Iron Rings",
-            "ITEM_LEVEL": 11,
-            "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "COMMON",
-            "QUALITY": "BASIC"
-          }
-        }
-      },
-      {
-        "id": "ITEM_MATERIAL_RINGS_IRON_UNCOMMON",
-        "data": {
-          "visual_id":"VISUAL_MATERIAL_RINGS_IRON",
-          "status": {
-            "NAME":"Pure Iron Rings",
-            "ITEM_LEVEL": 18,
-            "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "UNCOMMON",
-            "QUALITY": "GOOD"
-          }
-        }
-      },
-      {
-        "id": "ITEM_MATERIAL_RINGS_IRON_RARE",
-        "data": {
-          "visual_id":"VISUAL_MATERIAL_RINGS_IRON",
-          "status": {
-            "NAME":"Strong Iron Rings",
-            "ITEM_LEVEL": 25,
-            "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "RARE",
-            "QUALITY": "GOOD"
-          }
-        }
-      },
-      {
-        "id": "ITEM_MATERIAL_RINGS_IRON_EPIC",
-        "data": {
-          "visual_id":"VISUAL_MATERIAL_RINGS_IRON",
-          "status": {
-            "NAME":"Hardened Iron Rings",
-            "ITEM_LEVEL": 34,
-            "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "EPIC",
-            "QUALITY": "SUPERB"
-          }
-        }
-      },
-      {
-        "id": "ITEM_MATERIAL_RINGS_IRON_LEGENDARY",
-        "data": {
-          "visual_id":"VISUAL_MATERIAL_RINGS_IRON",
-          "status": {
-            "NAME":"Infused Iron Rings",
-            "ITEM_LEVEL": 43,
-            "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "LEGENDARY",
-            "QUALITY": "SUPERB"
-          }
-        }
-      },
-
-      {
-        "id": "ITEM_MATERIAL_RINGS_STEEL_PLAIN",
-        "data": {
-          "visual_id":"VISUAL_MATERIAL_RINGS_STEEL",
-          "status": {
-            "NAME":"Rough Steel Rings",
-            "ITEM_LEVEL": 5,
-            "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "PLAIN",
-            "QUALITY": "POOR"
-          }
-        }
-      },
-      {
-        "id": "ITEM_MATERIAL_RINGS_STEEL_COMMON",
-        "data": {
-          "visual_id":"VISUAL_MATERIAL_RINGS_STEEL",
-          "status": {
-            "NAME":"Raw Steel Rings",
-            "ITEM_LEVEL": 11,
-            "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "COMMON",
-            "QUALITY": "BASIC"
-          }
-        }
-      },
-      {
-        "id": "ITEM_MATERIAL_RINGS_STEEL_UNCOMMON",
-        "data": {
-          "visual_id":"VISUAL_MATERIAL_RINGS_STEEL",
-          "status": {
-            "NAME":"Pure Steel Rings",
-            "ITEM_LEVEL": 18,
-            "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "UNCOMMON",
-            "QUALITY": "GOOD"
-          }
-        }
-      },
-      {
-        "id": "ITEM_MATERIAL_RINGS_STEEL_RARE",
-        "data": {
-          "visual_id":"VISUAL_MATERIAL_RINGS_STEEL",
-          "status": {
-            "NAME":"Strong Steel Rings",
-            "ITEM_LEVEL": 25,
-            "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "RARE",
-            "QUALITY": "GOOD"
-          }
-        }
-      },
-      {
-        "id": "ITEM_MATERIAL_RINGS_STEEL_EPIC",
-        "data": {
-          "visual_id":"VISUAL_MATERIAL_RINGS_STEEL",
-          "status": {
-            "NAME":"Hardened Steel Rings",
-            "ITEM_LEVEL": 34,
-            "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "EPIC",
-            "QUALITY": "SUPERB"
-          }
-        }
-      },
-      {
-        "id": "ITEM_MATERIAL_RINGS_STEEL_LEGENDARY",
-        "data": {
-          "visual_id":"VISUAL_MATERIAL_RINGS_STEEL",
-          "status": {
-            "NAME":"Infused Steel Rings",
-            "ITEM_LEVEL": 43,
-            "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "LEGENDARY",
-            "QUALITY": "SUPERB"
           }
         }
       }
-
     ]
   }
 }]

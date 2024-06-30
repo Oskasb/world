@@ -12,7 +12,7 @@
           "status": {
             "NAME":"Hatchet",
             "ITEM_LEVEL": 1,
-            "ITEM_TYPE" : "WEAPON",
+            "ITEM_TYPE" : "HATCHET",
             "RARITY": "PLAIN"
           }
         }
@@ -28,7 +28,7 @@
           "status": {
             "NAME":"Katana",
             "ITEM_LEVEL": 2,
-            "ITEM_TYPE" : "WEAPON",
+            "ITEM_TYPE" : "KATANA",
             "RARITY": "UNCOMMON"
           }
         }
@@ -44,7 +44,7 @@
           "status": {
             "NAME":"Pitchfork",
             "ITEM_LEVEL": 1,
-            "ITEM_TYPE" : "WEAPON",
+            "ITEM_TYPE" : "POLE_ARM",
             "RARITY": "COMMON"
           }
         }
@@ -60,7 +60,7 @@
           "status": {
             "NAME":"Simple Staff",
             "ITEM_LEVEL": 1,
-            "ITEM_TYPE" : "WEAPON",
+            "ITEM_TYPE" : "STAVE",
             "RARITY": "PLAIN"
           }
         }
@@ -76,7 +76,7 @@
           "status": {
             "NAME":"Fiery Slicer",
             "ITEM_LEVEL": 53,
-            "ITEM_TYPE" : "WEAPON",
+            "ITEM_TYPE" : "GREAT_AXE",
             "RARITY": "LEGENDARY",
             "QUALITY": "EXCEPTIONAL"
           }
@@ -93,7 +93,7 @@
           "status": {
             "NAME":"Darkness",
             "ITEM_LEVEL": 30,
-            "ITEM_TYPE" : "WEAPON"
+            "ITEM_TYPE" : "GREAT_AXE"
           }
         }
       },
@@ -108,7 +108,7 @@
           "status": {
             "NAME":"The Sky",
             "ITEM_LEVEL": 30,
-            "ITEM_TYPE" : "WEAPON"
+            "ITEM_TYPE" : "GREAT_AXE"
           }
         }
       },
@@ -123,7 +123,7 @@
           "status": {
             "NAME":"Silver Bite",
             "ITEM_LEVEL": 30,
-            "ITEM_TYPE" : "WEAPON"
+            "ITEM_TYPE" : "GREAT_AXE"
           }
         }
       },
@@ -138,7 +138,7 @@
           "status": {
             "NAME":"Noble Sword",
             "ITEM_LEVEL": 10,
-            "ITEM_TYPE" : "WEAPON"
+            "ITEM_TYPE" : "LONG_SWORD"
           }
         }
       }
