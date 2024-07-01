@@ -225,48 +225,157 @@ div.icon_material_liquid_poison {
     background-image: url("/client/assets/images/textures/gui/icons_materials/liquid_poison.png");
 }
 
-div.icon_material_ingot_gold {
-    background-image: url("/client/assets/images/textures/gui/icons_materials/ingot_gold.png");
+div.icon_material_ingot_lead {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/ingot_lead.png");
 }
-
-div.icon_material_ingot_iron {
-    background-image: url("/client/assets/images/textures/gui/icons_materials/ingot_iron.png");
+div.icon_material_ingot_copper {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/ingot_copper.png");
 }
-
 div.icon_material_ingot_silver {
     background-image: url("/client/assets/images/textures/gui/icons_materials/ingot_silver.png");
 }
+div.icon_material_ingot_gold {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/ingot_gold.png");
+}
+div.icon_material_ingot_platinum {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/ingot_platinum.png");
+}
+div.icon_material_ingot_mithril {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/ingot_mithril.png");
+}
 
+div.icon_material_ingot_bronze {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/ingot_bronze.png");
+}
+div.icon_material_ingot_iron {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/ingot_iron.png");
+}
 div.icon_material_ingot_steel {
     background-image: url("/client/assets/images/textures/gui/icons_materials/ingot_steel.png");
 }
-
-div.icon_material_leather_oxen {
-    background-image: url("/client/assets/images/textures/gui/icons_materials/leather_oxen.png");
+div.icon_material_ingot_titanium {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/ingot_titanium.png");
+}
+div.icon_material_ingot_adamantium {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/ingot_adamantium.png");
 }
 
+div.icon_material_leather_flimsy {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/leather_flimsy.png");
+}
+div.icon_material_leather_patched {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/leather_patched.png");
+}
+div.icon_material_leather_light {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/leather_light.png");
+}
+div.icon_material_leather_rough {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/leather_rough.png");
+}
+div.icon_material_leather_thick {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/leather_thick.png");
+}
+div.icon_material_leather_strong {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/leather_strong.png");
+}
+
+
+div.icon_material_plate_copper {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/plate_copper.png");
+}
+div.icon_material_plate_bronze {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/plate_bronze.png");
+}
 div.icon_material_plate_iron {
     background-image: url("/client/assets/images/textures/gui/icons_materials/plate_iron.png");
 }
+div.icon_material_plate_steel {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/plate_steel.png");
+}
+div.icon_material_plate_titanium {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/plate_titanium.png");
+}
+div.icon_material_plate_adamantium {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/plate_adamantium.png");
+}
 
+
+div.icon_material_rings_copper {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/rings_copper.png");
+}
+div.icon_material_rings_bronze {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/rings_bronze.png");
+}
 div.icon_material_rings_iron {
     background-image: url("/client/assets/images/textures/gui/icons_materials/rings_iron.png");
 }
-
 div.icon_material_rings_steel {
     background-image: url("/client/assets/images/textures/gui/icons_materials/rings_steel.png");
 }
+div.icon_material_rings_titanium {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/rings_titanium.png");
+}
+div.icon_material_rings_adamantium {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/rings_adamantium.png");
+}
 
+
+div.icon_material_scales_copper {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/scales_copper.png");
+}
+div.icon_material_scales_bronze {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/scales_bronze.png");
+}
+div.icon_material_scales_iron {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/scales_iron.png");
+}
 div.icon_material_scales_steel {
     background-image: url("/client/assets/images/textures/gui/icons_materials/scales_steel.png");
 }
+div.icon_material_scales_titanium {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/scales_titanium.png");
+}
+div.icon_material_scales_adamantium {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/scales_adamantium.png");
+}
 
+
+div.icon_material_fabric_weak {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/fabric_weak.png");
+}
+div.icon_material_fabric_stitched {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/fabric_stitched.png");
+}
+div.icon_material_fabric_plain {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/fabric_plain.png");
+}
 div.icon_material_fabric_durable {
     background-image: url("/client/assets/images/textures/gui/icons_materials/fabric_durable.png");
 }
+div.icon_material_fabric_dynamic {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/fabric_dynamic.png");
+}
+div.icon_material_fabric_brilliant {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/fabric_dynamic.png");
+}
 
+div.icon_material_blade_copper {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/blade_copper.png");
+}
+div.icon_material_blade_bronze {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/blade_bronze.png");
+}
 div.icon_material_blade_iron {
     background-image: url("/client/assets/images/textures/gui/icons_materials/blade_iron.png");
+}
+div.icon_material_blade_steel {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/blade_steel.png");
+}
+div.icon_material_blade_titanium {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/blade_titanium.png");
+}
+div.icon_material_blade_adamantium {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/blade_adamantium.png");
 }
 
 div.icon_material_handle_wrapped {
