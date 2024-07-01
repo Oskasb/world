@@ -166,7 +166,7 @@
             "NAME":"Adamantium Ingot",
             "ITEM_LEVEL": 48,
             "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "EPIC",
+            "RARITY": "LEGENDARY",
             "QUALITY": "SUPERB"
           }
         }
@@ -218,7 +218,7 @@
             "NAME":"Rough Leather",
             "ITEM_LEVEL": 5,
             "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "UNCOMMON",
+            "RARITY": "RARE",
             "QUALITY": "GOOD"
           }
         }
@@ -231,7 +231,7 @@
             "NAME":"Thick Leather",
             "ITEM_LEVEL": 5,
             "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "RARE",
+            "RARITY": "EPIC",
             "QUALITY": "GOOD"
           }
         }
@@ -244,7 +244,7 @@
             "NAME":"Strong Leather",
             "ITEM_LEVEL": 5,
             "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "RARE",
+            "RARITY": "LEGENDARY",
             "QUALITY": "SUPERB"
           }
         }
@@ -337,7 +337,7 @@
             "NAME":"Weak Cloth Padding",
             "ITEM_LEVEL": 5,
             "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "UNCOMMON",
+            "RARITY": "PLAIN",
             "QUALITY": "BASIC"
           }
         }
@@ -350,7 +350,7 @@
             "NAME":"Patched Leather Padding",
             "ITEM_LEVEL": 5,
             "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "RARE",
+            "RARITY": "COMMON",
             "QUALITY": "BASIC"
           }
         }
@@ -364,7 +364,7 @@
             "NAME":"Plain Cloth Padding",
             "ITEM_LEVEL": 5,
             "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "RARE",
+            "RARITY": "UNCOMMON",
             "QUALITY": "BASIC"
           }
         }
@@ -390,7 +390,7 @@
             "NAME":"Dynamic Cloth Padding",
             "ITEM_LEVEL": 5,
             "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "RARE",
+            "RARITY": "EPIC",
             "QUALITY": "BASIC"
           }
         }
@@ -403,7 +403,7 @@
             "NAME":"Brilliant Cloth Padding",
             "ITEM_LEVEL": 5,
             "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "RARE",
+            "RARITY": "LEGENDARY",
             "QUALITY": "BASIC"
           }
         }
@@ -418,7 +418,7 @@
             "NAME":"Flimsy Leather Strips",
             "ITEM_LEVEL": 5,
             "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "UNCOMMON",
+            "RARITY": "PLAIN",
             "QUALITY": "BASIC"
           }
         }
@@ -431,7 +431,7 @@
             "NAME":"Patched Leather Strips",
             "ITEM_LEVEL": 5,
             "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "RARE",
+            "RARITY": "COMMON",
             "QUALITY": "BASIC"
           }
         }
@@ -470,7 +470,7 @@
             "NAME":"Thick Leather Strips",
             "ITEM_LEVEL": 5,
             "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "UNCOMMON",
+            "RARITY": "RARE",
             "QUALITY": "BASIC"
           }
         }
@@ -484,7 +484,7 @@
             "ITEM_LEVEL": 5,
             "ITEM_TYPE" : "MATERIAL",
             "RARITY": "RARE",
-            "QUALITY": "BASIC"
+            "QUALITY": "EPIC"
           }
         }
       },
@@ -497,7 +497,7 @@
             "NAME":"Murky Chemicals",
             "ITEM_LEVEL": 11,
             "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "UNCOMMON",
+            "RARITY": "PLAIN",
             "QUALITY": "BASIC"
           }
         }
@@ -510,7 +510,7 @@
             "NAME":"Impure Chemicals",
             "ITEM_LEVEL": 11,
             "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "UNCOMMON",
+            "RARITY": "COMMON",
             "QUALITY": "BASIC"
           }
         }
@@ -523,7 +523,7 @@
             "NAME":"Clear Chemicals",
             "ITEM_LEVEL": 11,
             "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "RARE",
+            "RARITY": "UNCOMMON",
             "QUALITY": "BASIC"
           }
         }
@@ -550,7 +550,7 @@
             "NAME":"Bright Chemicals",
             "ITEM_LEVEL": 11,
             "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "RARE",
+            "RARITY": "EPIC",
             "QUALITY": "BASIC"
           }
         }
@@ -564,7 +564,7 @@
             "ITEM_LEVEL": 11,
             "ITEM_TYPE" : "MATERIAL",
             "RARITY": "RARE",
-            "QUALITY": "BASIC"
+            "QUALITY": "LEGENDARY"
           }
         }
       },
@@ -668,12 +668,12 @@
       {
         "id": "ITEM_MATERIAL_PLATE_COPPER",
         "data": {
-          "visual_id":"VISUAL_MATERIAL_PLATE_IRON",
+          "visual_id":"VISUAL_MATERIAL_PLATE_COPPER",
           "status": {
             "NAME":"Copper Plating",
             "ITEM_LEVEL": 6,
             "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "UNCOMMON",
+            "RARITY": "PLAIN",
             "QUALITY": "BASIC"
           }
         }
@@ -681,12 +681,12 @@
       {
         "id": "ITEM_MATERIAL_PLATE_BRONZE",
         "data": {
-          "visual_id":"VISUAL_MATERIAL_PLATE_IRON",
+          "visual_id":"VISUAL_MATERIAL_PLATE_BRONZE",
           "status": {
             "NAME":"Bronze Plating",
             "ITEM_LEVEL": 14,
             "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "UNCOMMON",
+            "RARITY": "COMMON",
             "QUALITY": "BASIC"
           }
         }
@@ -707,7 +707,7 @@
       {
         "id": "ITEM_MATERIAL_PLATE_STEEL",
         "data": {
-          "visual_id":"VISUAL_MATERIAL_PLATE_IRON",
+          "visual_id":"VISUAL_MATERIAL_PLATE_STEEL",
           "status": {
             "NAME":"Iron Plating",
             "ITEM_LEVEL": 28,
@@ -720,12 +720,12 @@
       {
         "id": "ITEM_MATERIAL_PLATE_TITANIUM",
         "data": {
-          "visual_id":"VISUAL_MATERIAL_PLATE_IRON",
+          "visual_id":"VISUAL_MATERIAL_PLATE_TITANIUM",
           "status": {
             "NAME":"Titanium Plating",
             "ITEM_LEVEL": 34,
             "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "RARE",
+            "RARITY": "EPIC",
             "QUALITY": "SUPERB"
           }
         }
@@ -733,7 +733,7 @@
       {
         "id": "ITEM_MATERIAL_PLATE_ADAMANTIUM",
         "data": {
-          "visual_id":"VISUAL_MATERIAL_PLATE_IRON",
+          "visual_id":"VISUAL_MATERIAL_PLATE_ADAMANTIUM",
           "status": {
             "NAME":"Adamantium Plating",
             "ITEM_LEVEL": 46,
@@ -748,12 +748,12 @@
       {
         "id": "ITEM_MATERIAL_SCALES_COPPER",
         "data": {
-          "visual_id":"VISUAL_MATERIAL_PLATE_IRON",
+          "visual_id":"VISUAL_MATERIAL_SCALES_COPPER",
           "status": {
             "NAME":"Copper Scales",
             "ITEM_LEVEL": 6,
             "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "UNCOMMON",
+            "RARITY": "PLAIN",
             "QUALITY": "BASIC"
           }
         }
@@ -761,12 +761,12 @@
       {
         "id": "ITEM_MATERIAL_SCALES_BRONZE",
         "data": {
-          "visual_id":"VISUAL_MATERIAL_PLATE_IRON",
+          "visual_id":"VISUAL_MATERIAL_SCALES_BRONZE",
           "status": {
             "NAME":"Bronze Scales",
             "ITEM_LEVEL": 14,
             "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "UNCOMMON",
+            "RARITY": "COMMON",
             "QUALITY": "BASIC"
           }
         }
@@ -774,7 +774,7 @@
       {
         "id": "ITEM_MATERIAL_SCALES_IRON",
         "data": {
-          "visual_id":"VISUAL_MATERIAL_PLATE_IRON",
+          "visual_id":"VISUAL_MATERIAL_SCALES_IRON",
           "status": {
             "NAME":"Iron Scales",
             "ITEM_LEVEL": 21,
@@ -787,7 +787,7 @@
       {
         "id": "ITEM_MATERIAL_SCALES_STEEL",
         "data": {
-          "visual_id":"VISUAL_MATERIAL_PLATE_IRON",
+          "visual_id":"VISUAL_MATERIAL_SCALES_STEEL",
           "status": {
             "NAME":"Iron Scales",
             "ITEM_LEVEL": 28,
@@ -800,12 +800,12 @@
       {
         "id": "ITEM_MATERIAL_SCALES_TITANIUM",
         "data": {
-          "visual_id":"VISUAL_MATERIAL_PLATE_IRON",
+          "visual_id":"VISUAL_MATERIAL_SCALES_TITANIUM",
           "status": {
             "NAME":"Titanium Scales",
             "ITEM_LEVEL": 34,
             "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "RARE",
+            "RARITY": "EPIC",
             "QUALITY": "SUPERB"
           }
         }
@@ -813,7 +813,7 @@
       {
         "id": "ITEM_MATERIAL_SCALES_ADAMANTIUM",
         "data": {
-          "visual_id":"VISUAL_MATERIAL_PLATE_IRON",
+          "visual_id":"VISUAL_MATERIAL_SCALES_ADAMANTIUM",
           "status": {
             "NAME":"Adamantium Scales",
             "ITEM_LEVEL": 46,
@@ -828,12 +828,12 @@
       {
         "id": "ITEM_MATERIAL_SCALES_FLIMSY",
         "data": {
-          "visual_id":"VISUAL_MATERIAL_PLATE_IRON",
+          "visual_id":"VISUAL_MATERIAL_SCALES_FLIMSY",
           "status": {
             "NAME":"Flimsy Scales",
             "ITEM_LEVEL": 6,
             "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "UNCOMMON",
+            "RARITY": "PLAIN",
             "QUALITY": "BASIC"
           }
         }
@@ -841,12 +841,12 @@
       {
         "id": "ITEM_MATERIAL_SCALES_PATCHED",
         "data": {
-          "visual_id":"VISUAL_MATERIAL_PLATE_IRON",
+          "visual_id":"VISUAL_MATERIAL_SCALES_PATCHED",
           "status": {
             "NAME":"Patched Scales",
             "ITEM_LEVEL": 14,
             "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "UNCOMMON",
+            "RARITY": "COMMON",
             "QUALITY": "BASIC"
           }
         }
@@ -854,7 +854,7 @@
       {
         "id": "ITEM_MATERIAL_SCALES_LIGHT",
         "data": {
-          "visual_id":"VISUAL_MATERIAL_PLATE_IRON",
+          "visual_id":"VISUAL_MATERIAL_SCALES_LIGHT",
           "status": {
             "NAME":"Light Scales",
             "ITEM_LEVEL": 21,
@@ -867,7 +867,7 @@
       {
         "id": "ITEM_MATERIAL_SCALES_ROUGH",
         "data": {
-          "visual_id":"VISUAL_MATERIAL_PLATE_IRON",
+          "visual_id":"VISUAL_MATERIAL_SCALES_ROUGH",
           "status": {
             "NAME":"Rough Scales",
             "ITEM_LEVEL": 28,
@@ -880,12 +880,12 @@
       {
         "id": "ITEM_MATERIAL_SCALES_THICK",
         "data": {
-          "visual_id":"VISUAL_MATERIAL_PLATE_IRON",
+          "visual_id":"VISUAL_MATERIAL_SCALES_THICK",
           "status": {
             "NAME":"Thick Scales",
             "ITEM_LEVEL": 34,
             "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "RARE",
+            "RARITY": "EPIC",
             "QUALITY": "SUPERB"
           }
         }
@@ -893,7 +893,7 @@
       {
         "id": "ITEM_MATERIAL_SCALES_STRONG",
         "data": {
-          "visual_id":"VISUAL_MATERIAL_PLATE_IRON",
+          "visual_id":"VISUAL_MATERIAL_SCALES_STRONG",
           "status": {
             "NAME":"Strong Scales",
             "ITEM_LEVEL": 46,
@@ -908,12 +908,12 @@
       {
         "id": "ITEM_MATERIAL_RINGS_COPPER",
         "data": {
-          "visual_id":"VISUAL_MATERIAL_RINGS_IRON",
+          "visual_id":"VISUAL_MATERIAL_RINGS_COPPER",
           "status": {
             "NAME":"Copper Rings",
             "ITEM_LEVEL": 11,
             "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "COMMON",
+            "RARITY": "PLAIN",
             "QUALITY": "BASIC"
           }
         }
@@ -921,12 +921,12 @@
       {
         "id": "ITEM_MATERIAL_RINGS_BRONZE",
         "data": {
-          "visual_id":"VISUAL_MATERIAL_RINGS_STEEL",
+          "visual_id":"VISUAL_MATERIAL_RINGS_BRONZE",
           "status": {
             "NAME":"Bronze Rings",
             "ITEM_LEVEL": 5,
             "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "UNCOMMON",
+            "RARITY": "COMMON",
             "QUALITY": "GOOD"
           }
         }
@@ -939,7 +939,7 @@
             "NAME":"Iron Rings",
             "ITEM_LEVEL": 15,
             "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "COMMON",
+            "RARITY": "UNCOMMON",
             "QUALITY": "BASIC"
           }
         }
@@ -952,7 +952,7 @@
             "NAME":"Steel Rings",
             "ITEM_LEVEL": 19,
             "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "UNCOMMON",
+            "RARITY": "RARE",
             "QUALITY": "GOOD"
           }
         }
@@ -960,12 +960,12 @@
       {
         "id": "ITEM_MATERIAL_RINGS_TITANIUM",
         "data": {
-          "visual_id":"VISUAL_MATERIAL_RINGS_IRON",
+          "visual_id":"VISUAL_MATERIAL_RINGS_TITANIUM",
           "status": {
             "NAME":"Titanium Rings",
             "ITEM_LEVEL": 32,
             "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "COMMON",
+            "RARITY": "EPIC",
             "QUALITY": "BASIC"
           }
         }
@@ -973,12 +973,12 @@
       {
         "id": "ITEM_MATERIAL_RINGS_ADAMANTIUM",
         "data": {
-          "visual_id":"VISUAL_MATERIAL_RINGS_STEEL",
+          "visual_id":"VISUAL_MATERIAL_RINGS_ADAMANTIUM",
           "status": {
             "NAME":"Adamantium Rings",
             "ITEM_LEVEL": 43,
             "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "UNCOMMON",
+            "RARITY": "LEGENDARY",
             "QUALITY": "GOOD"
           }
         }
@@ -988,12 +988,12 @@
       {
         "id": "ITEM_MATERIAL_BLADE_COPPER",
         "data": {
-          "visual_id":"VISUAL_MATERIAL_RINGS_IRON",
+          "visual_id":"VISUAL_MATERIAL_BLADE_COPPER",
           "status": {
             "NAME":"Copper Blade",
             "ITEM_LEVEL": 11,
             "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "COMMON",
+            "RARITY": "PLAIN",
             "QUALITY": "BASIC"
           }
         }
@@ -1001,12 +1001,12 @@
       {
         "id": "ITEM_MATERIAL_BLADE_BRONZE",
         "data": {
-          "visual_id":"VISUAL_MATERIAL_RINGS_STEEL",
+          "visual_id":"VISUAL_MATERIAL_BLADE_BRONZE",
           "status": {
             "NAME":"Bronze Blade",
             "ITEM_LEVEL": 5,
             "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "UNCOMMON",
+            "RARITY": "COMMON",
             "QUALITY": "GOOD"
           }
         }
@@ -1014,12 +1014,12 @@
       {
         "id": "ITEM_MATERIAL_BLADE_IRON",
         "data": {
-          "visual_id":"VISUAL_MATERIAL_RINGS_IRON",
+          "visual_id":"VISUAL_MATERIAL_BLADE_IRON",
           "status": {
             "NAME":"Iron Blade",
             "ITEM_LEVEL": 15,
             "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "COMMON",
+            "RARITY": "UNCOMMON",
             "QUALITY": "BASIC"
           }
         }
@@ -1027,12 +1027,12 @@
       {
         "id": "ITEM_MATERIAL_BLADE_STEEL",
         "data": {
-          "visual_id":"VISUAL_MATERIAL_RINGS_STEEL",
+          "visual_id":"VISUAL_MATERIAL_BLADE_STEEL",
           "status": {
             "NAME":"Steel Blade",
             "ITEM_LEVEL": 19,
             "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "UNCOMMON",
+            "RARITY": "RARE",
             "QUALITY": "GOOD"
           }
         }
@@ -1040,12 +1040,12 @@
       {
         "id": "ITEM_MATERIAL_BLADE_TITANIUM",
         "data": {
-          "visual_id":"VISUAL_MATERIAL_RINGS_IRON",
+          "visual_id":"VISUAL_MATERIAL_BLADE_TITANIUM",
           "status": {
             "NAME":"Titanium Blade",
             "ITEM_LEVEL": 32,
             "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "COMMON",
+            "RARITY": "EPIC",
             "QUALITY": "BASIC"
           }
         }
@@ -1053,12 +1053,12 @@
       {
         "id": "ITEM_MATERIAL_BLADE_ADAMANTIUM",
         "data": {
-          "visual_id":"VISUAL_MATERIAL_RINGS_STEEL",
+          "visual_id":"VISUAL_MATERIAL_BLADE_ADAMANTIUM",
           "status": {
             "NAME":"Adamantium Blade",
             "ITEM_LEVEL": 43,
             "ITEM_TYPE" : "MATERIAL",
-            "RARITY": "UNCOMMON",
+            "RARITY": "LEGENDARY",
             "QUALITY": "GOOD"
           }
         }
