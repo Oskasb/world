@@ -1,16 +1,22 @@
 
 
+function computeAmount(weight) {
+    return weight;
+}
+
 function computeComponent(itemConfig, compData, rscHcrConfig) {
 
     let mat = compData.material
-    let matLevelList = rscHcrConfig['material_level_lists'][mat];
-    let materialKey = matLevelList[0];
+    let matReqList = rscHcrConfig['material_requirement_lists'][mat];
+    let materialKey = matReqList[0];
     let compKey = compData.component;
     let recipeComponent = rscHcrConfig['components'][compKey][materialKey];
 
+    let amount = computeAmount(compData.weight)
+
     return {
         templateId: recipeComponent,
-        amount: compData.amount
+        amount: amount
     }
 
 }

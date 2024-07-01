@@ -257,6 +257,31 @@ div.icon_material_rings_steel {
     background-image: url("/client/assets/images/textures/gui/icons_materials/rings_steel.png");
 }
 
+div.icon_material_scales_steel {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/scales_steel.png");
+}
+
+div.icon_material_fabric_durable {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/fabric_durable.png");
+}
+
+div.icon_material_blade_iron {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/blade_iron.png");
+}
+
+div.icon_material_handle_wrapped {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/handle_wrapped.png");
+}
+
+div.icon_material_scales_thick {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/scales_leather.png");
+}
+
+div.icon_material_padding_durable {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/padding_durable.png");
+}
+
+
 div.icon_currency_gold {
     background-image: url("/client/assets/images/textures/gui/icons_currencies/icon_currency_gold.png");
 }
