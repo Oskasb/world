@@ -40,6 +40,10 @@ function getItemConfigByTemplate(templateId) {
     return itemConfigs[templateId];
 }
 
+function recipeCallback(recipeItem) {
+    console.log("recipeCallback :", recipeItem)
+    items.push(recipeItem);
+}
 let loadItem = function(event) {
 
     let itemConfig = getItemConfigByTemplate([event['id']]);
@@ -55,7 +59,7 @@ let loadItem = function(event) {
 
 
     let item = new Item(event['id'], itemConfig, event['itemId'])
-    getItemRecipe(item)
+    getItemRecipe(item, recipeCallback)
 
     if (itemLoadQueue.indexOf(item.id) !== -1) {
         console.log("Queued Item Loaded", item);

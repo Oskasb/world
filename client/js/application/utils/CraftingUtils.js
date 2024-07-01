@@ -14,12 +14,22 @@ function generateItemRecipe(templateId, config) {
    return new ItemRecipe(templateId, config, resourceHierarchyConfig)
 }
 
-function getItemRecipe(item) {
+function getItemRecipe(item, recipeCallback) {
+    if (!item.config) {
+        console.log("No config for item:", item)
+        return;
+
+    }
     if (resourceHierarchyConfig) {
         let templateId = item.getStatus(ENUMS.ItemStatus.TEMPLATE);
         if (!recipes[templateId]) {
             recipes[templateId] = generateItemRecipe(templateId, item.config);
-            console.log("Recipes :", recipes)
+        }
+        if (recipes[templateId].item) {
+            if (typeof (recipeCallback) === 'function') {
+                recipeCallback(recipes[templateId].item)
+            }
+
         }
         return recipes[templateId];
     }

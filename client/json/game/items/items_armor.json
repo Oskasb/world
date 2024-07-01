@@ -433,7 +433,7 @@
           "status": {
             "NAME":"Chainmail Shirt",
             "ITEM_LEVEL": 22,
-            "ITEM_TYPE" : "ARMOR"
+            "ITEM_TYPE" : "CHAIN_MAIL"
           }
         }
       },
@@ -444,7 +444,12 @@
           "equip_slot": "SLOT_LEGS",
           "status_add_modifiers": [
             {"status": "MAX_HP", "value":5}
-          ]
+          ],
+          "status": {
+            "NAME":"Chainmail Leggings",
+            "ITEM_LEVEL": 15,
+            "ITEM_TYPE" : "CHAIN_MAIL"
+          }
         }
       },
 
@@ -457,9 +462,9 @@
             {"status": "MAX_HP", "value":5}
           ],
           "status": {
-            "NAME":"Leather Armor",
+            "NAME":"Leather Body Armor",
             "ITEM_LEVEL": 1,
-            "ITEM_TYPE" : "ARMOR"
+            "ITEM_TYPE" : "LEATHER_ARMOR"
           }
         }
       },
@@ -470,7 +475,12 @@
           "equip_slot": "SLOT_LEGS",
           "status_add_modifiers": [
             {"status": "MAX_HP", "value":5}
-          ]
+          ],
+          "status": {
+            "NAME":"Leather Leggings",
+            "ITEM_LEVEL": 1,
+            "ITEM_TYPE" : "LEATHER_ARMOR"
+          }
         }
       },
 
@@ -485,7 +495,7 @@
           "status": {
             "NAME":"White Shirt",
             "ITEM_LEVEL": 1,
-            "ITEM_TYPE" : "ARMOR"
+            "ITEM_TYPE" : "CLOTH"
           }
         }
       },
@@ -496,7 +506,12 @@
           "equip_slot": "SLOT_LEGS",
           "status_add_modifiers": [
             {"status": "MAX_HP", "value":5}
-          ]
+          ],
+          "status": {
+            "NAME":"Cloth Leggings",
+            "ITEM_LEVEL": 1,
+            "ITEM_TYPE" : "CLOTH"
+          }
         }
       },
 
@@ -522,7 +537,12 @@
           "equip_slot": "SLOT_LEGS",
           "status_add_modifiers": [
             {"status": "MAX_HP", "value":5}
-          ]
+          ],
+          "status": {
+            "NAME":"Cloth Leggings",
+            "ITEM_LEVEL": 1,
+            "ITEM_TYPE" : "CLOTH"
+          }
         }
       },
 
@@ -580,7 +600,12 @@
           "equip_slot": "SLOT_LEGS",
           "status_add_modifiers": [
             {"status": "MAX_HP", "value":5}
-          ]
+          ],
+          "status": {
+            "NAME":"Cloth Leggings",
+            "ITEM_LEVEL": 1,
+            "ITEM_TYPE" : "CLOTH"
+          }
         }
       },
 
@@ -607,7 +632,12 @@
           "equip_slot": "SLOT_FEET",
           "status_add_modifiers": [
             {"status": "MAX_HP", "value":5}
-          ]
+          ],
+          "status": {
+            "NAME":"Cloth Leggings",
+            "ITEM_LEVEL": 1,
+            "ITEM_TYPE" : "CLOTH"
+          }
         }
       },
       {
@@ -632,7 +662,12 @@
           "equip_slot": "SLOT_FEET",
           "status_add_modifiers": [
             {"status": "MAX_HP", "value":5}
-          ]
+          ],
+          "status": {
+            "NAME":"Cloth Leggings",
+            "ITEM_LEVEL": 1,
+            "ITEM_TYPE" : "CLOTH"
+          }
         }
       },
       {
@@ -657,7 +692,12 @@
           "equip_slot": "SLOT_FEET",
           "status_add_modifiers": [
             {"status": "MAX_HP", "value":5}
-          ]
+          ],
+          "status": {
+            "NAME":"Cloth Boots",
+            "ITEM_LEVEL": 1,
+            "ITEM_TYPE" : "CLOTH"
+          }
         }
       },
       {
@@ -682,7 +722,12 @@
           "equip_slot": "SLOT_FEET",
           "status_add_modifiers": [
             {"status": "MAX_HP", "value":5}
-          ]
+          ],
+          "status": {
+            "NAME":"Cloth Boots",
+            "ITEM_LEVEL": 1,
+            "ITEM_TYPE" : "CLOTH"
+          }
         }
       },
 

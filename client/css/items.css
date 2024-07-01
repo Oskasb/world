@@ -56,6 +56,37 @@ div.container_item_potency {
     flex-direction: row;
 }
 
+div.container_item_stack {
+    margin: 0;
+    padding: 0;
+    font-size: 1.5em;
+    text-shadow: inherit;
+    color: inherit;
+    position: absolute;
+    bottom: -3%;
+    right: 0;
+    display: flex;
+    flex-direction: row;
+}
+
+div.container_item_type {
+    margin: 0;
+    padding: 0;
+    color: #c9c9c9;
+    position: absolute;
+    top: -11%;
+    right: -5px;
+    width: 5em;
+    height: 5em;
+    display: flex;
+    flex-direction: row;
+    background-size: 100% 100%;
+}
+
+div.item_type_RECIPE {
+    background-image: url("/client/assets/images/textures/gui/icons_lore/note_recipe.png");
+}
+
 div.potency_itemcard {
     left:5.3em;
     top: 3.2em;

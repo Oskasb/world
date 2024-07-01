@@ -16,11 +16,19 @@ class Item {
 
         this.status = new ItemStatus(this.id, configId);
 
-        let defaultSatus = config['status'];
-        if (typeof(defaultSatus) === 'object') {
-            for (let key in defaultSatus) {
-                this.status.statusMap[key] = defaultSatus[key];
+        if (!config) {
+            console.log("Item Config missing", configId)
+            config = {};
+        }
+        let defaultStatus = config['status'];
+        if (typeof(defaultStatus) === 'object') {
+            for (let key in defaultStatus) {
+                this.status.statusMap[key] = defaultStatus[key];
             }
+        }
+
+        if (typeof (this.status.statusMap[ENUMS.ItemStatus.STACK_SIZE]) !== 'number') {
+            this.status.statusMap[ENUMS.ItemStatus.STACK_SIZE] = 0;
         }
 
         if (typeof (this.status.statusMap[ENUMS.ItemStatus.ITEM_POTENCY]) !== typeof (ENUMS.potency.POTENCY_0)) {

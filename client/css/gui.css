@@ -302,7 +302,7 @@ div.bar_button h2 {
     margin: 0;
     left: -0.2em;
     bottom: auto;
-    font-size: 2.4em;
+    font-size: 1.8em;
     text-align: left;
     transform: translateY(-0.5em);
     text-shadow: 0.1em 0.1em 0.2em rgb(0, 0, 0);
@@ -1428,7 +1428,7 @@ div.PICKUP {
 }
 
 div.PLAIN {
-    color: #9f978f;
+    color: #beb1a4;
     text-shadow: 0.1em 0.1em 0.15em rgba(0, 0, 0, 1);
     background: rgba(37, 36, 32, 0.25);
     background-image: linear-gradient(rgb(70, 69, 69) 0%, rgb(77, 71, 66) 7%, rgb(63, 63, 58) 50%, rgb(47, 47, 43) 100%);
@@ -1446,7 +1446,7 @@ div.COMMON {
 }
 
 div.UNCOMMON {
-    color: #08ff00;
+    color: #baff79;
     text-shadow: 0.1em 0.1em 0.15em rgb(0, 73, 2);
     background: rgba(27, 65, 19, 0.25);
     background-image: linear-gradient(rgb(13, 154, 0) 0%, rgb(31, 89, 17) 7%, rgb(27, 65, 19) 50%, rgb(11, 26, 5) 100%);
@@ -1455,7 +1455,7 @@ div.UNCOMMON {
 }
 
 div.RARE {
-    color: #c2e6ff;
+    color: #c2fdff;
     text-shadow: 0.1em 0.1em 0.35em rgb(1, 20, 49);
     background: rgba(18, 18, 56, 0.25);
     background-image: linear-gradient(rgb(0, 102, 236) 0%, rgb(19, 44, 157) 7%, rgb(28, 28, 103) 40%, rgb(0, 7, 35) 100%);
@@ -1464,7 +1464,7 @@ div.RARE {
 }
 
 div.EPIC {
-    color: #ee00ff;
+    color: #ffa9d4;
     text-shadow: 0em 0em 0.25em rgb(234, 172, 255);
     background: rgba(79, 41, 101, 0.25);
     background-image: linear-gradient(rgb(239, 0, 255) 0%, rgb(155, 18, 176) 7%, rgb(96, 9, 95) 70%, rgb(89, 5, 66) 100%);
@@ -1473,7 +1473,7 @@ div.EPIC {
 }
 
 div.LEGENDARY {
-    color: #ffc400;
+    color: #ffe489;
     text-shadow: 0em 0em 0.25em rgb(255, 241, 171);
     background:rgba(93, 71, 0, 0.25);
     background-image: linear-gradient(rgb(255, 185, 0) 0%, rgb(140, 107, 0) 7%, rgb(82, 43, 0) 70%, rgb(86, 35, 0) 100%);

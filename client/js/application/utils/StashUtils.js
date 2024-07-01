@@ -4,6 +4,7 @@ import {getPlayerStatus, setPlayerStatus} from "./StatusUtils.js";
 import {ENUMS} from "../ENUMS.js";
 import {loadItemStatus, saveItemStatus, savePlayerStatus} from "../setup/Database.js";
 import {evt} from "../event/evt.js";
+import {getItemRecipe} from "./CraftingUtils.js";
 
 
 function itemLoaded(item) {
@@ -27,20 +28,46 @@ function stashItem(item) {
 
     let page = ENUMS.PlayerStatus.STASH_TAB_ITEMS;
     if (itemType === ENUMS.itemTypes.MATERIAL) {
-        page =  ENUMS.PlayerStatus.STASH_TAB_MATERIALS
+        page =  ENUMS.PlayerStatus.STASH_TAB_MATERIALS;
+        if (item.getStatus(ENUMS.ItemStatus.STACK_SIZE) === 0) {
+            item.setStatusKey(ENUMS.ItemStatus.STACK_SIZE, Math.floor(MATH.randomBetween(5, 1000)))
+        }
+
     } else if (itemType === ENUMS.itemTypes.CURRENCY) {
-        page =  ENUMS.PlayerStatus.STASH_TAB_CURRENCIES
+        page =  ENUMS.PlayerStatus.STASH_TAB_CURRENCIES;
+        if (item.getStatus(ENUMS.ItemStatus.STACK_SIZE) === 0) {
+            item.setStatusKey(ENUMS.ItemStatus.STACK_SIZE, Math.floor(MATH.randomBetween(5, 1000)))
+        }
     } else if (itemType === ENUMS.itemTypes.LORE) {
         page =  ENUMS.PlayerStatus.STASH_TAB_LORE
+    } else if (itemType === ENUMS.itemTypes.RECIPE) {
+        console.log("Stash Recipe", item);
+        page =  ENUMS.PlayerStatus.STASH_TAB_CRAFT
+    } else {
+        if (typeof (item.config['equip_slot']) !== 'string') {
+            console.log("No stash tab defined for item ", item);
+        }
     }
 
     let itemStash = getPlayerStatus(ENUMS.PlayerStatus[page]) || [];
 
-    itemStash.push(itemId);
+    if (itemStash.indexOf(itemId) === -1) {
+        itemStash.push(itemId);
+    } else {
+        console.log("Double stash same itemId not ok", item);
+        return;
+    }
+
     item.setStatusKey(ENUMS.ItemStatus.EQUIPPED_SLOT, 'STASH_SLOT_'+itemStash.indexOf(itemId))
     setPlayerStatus(ENUMS.PlayerStatus[page], itemStash);
+
     saveItemStatus(item.getStatus())
     loadStashItem(item)
+
+    if (itemType !== ENUMS.itemTypes.RECIPE) {
+        getItemRecipe(item, stashItem);
+    }
+
 }
 
 

@@ -234,6 +234,13 @@ class DomItem {
                 return;
             }
 
+            let stackSize = item.getStatus(ENUMS.ItemStatus.STACK_SIZE);
+            if (stackSize > 1) {
+                statusMap['container_item_stack'] = stackSize;
+            } else {
+                statusMap['container_item_stack'] = '';
+            }
+
             updateItemProgressUiStatus(item, statusMap, rankContainer, rankDivs, potencyContainer, potencyDivs)
 
 
@@ -405,6 +412,13 @@ class DomItem {
             if (!iconClass) {
                 iconClass = 'NYI_ICON'
             }
+
+            let itemTypeDiv = htmlElement.call.getChildElement("container_item_type");
+            let itemType = item.getStatus(ENUMS.ItemStatus.ITEM_TYPE)
+                if (itemType === ENUMS.itemTypes.RECIPE) {
+                    DomUtils.addElementClass(itemTypeDiv, 'item_type_RECIPE')
+                }
+
 
             let rarity = item.getStatus(ENUMS.ItemStatus.RARITY);
             DomUtils.addElementClass(backplate, rarity);

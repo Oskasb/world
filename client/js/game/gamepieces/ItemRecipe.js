@@ -1,3 +1,5 @@
+import {detachConfig} from "../../application/utils/ConfigUtils.js";
+import {Item} from "./Item.js";
 
 
 function computeAmount(weight) {
@@ -42,11 +44,20 @@ function attachIngredients(config, rscHcrConfig, ingredients) {
 class ItemRecipe {
 
     constructor(templateId, config, resourceHierarchyConfig) {
-
         let ingredients = [];
         this.ingredients = ingredients;
         if (config['status']) {
             attachIngredients(config['status'], resourceHierarchyConfig, ingredients)
+            if (ingredients.length !== 0) {
+                let recipeId = 'RECIPE_'+templateId;
+                config.edit_id = recipeId;
+                let recipeStatus = detachConfig(config);
+                this.item = new Item(templateId, recipeStatus)
+                this.item.config = recipeStatus;
+                this.item.id = recipeId;
+                this.item.setStatusKey(ENUMS.ItemStatus.ITEM_ID, recipeId)
+                this.item.setStatusKey(ENUMS.ItemStatus.ITEM_TYPE, ENUMS.itemTypes.RECIPE)
+            }
         } else {
             console.log("No config.status in template item", templateId, config);
         }

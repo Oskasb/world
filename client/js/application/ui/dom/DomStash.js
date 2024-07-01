@@ -93,7 +93,7 @@ class DomStash {
             close();
             setTimeout(function() {
                 activate(actor, buttonDiv)
-            }, 200);
+            }, 2000);
         }
 
         let mouseMove = function(e) {
@@ -164,7 +164,7 @@ class DomStash {
         tabLabelMap[ENUMS.PlayerStatus.STASH_TAB_MATERIALS] = 'MATS'
         tabLabelMap[ENUMS.PlayerStatus.STASH_TAB_CURRENCIES] = 'MONEY'
         tabLabelMap[ENUMS.PlayerStatus.STASH_TAB_LORE] = 'LORE'
-        tabLabelMap[ENUMS.PlayerStatus.STASH_TAB_CRAFT] = 'CRAFT'
+        tabLabelMap[ENUMS.PlayerStatus.STASH_TAB_CRAFT] = 'RECIPES'
         tabLabelMap["STASH_TAB_CHEAT"] = 'CHEAT'
         let update = function() {
 
@@ -195,6 +195,7 @@ class DomStash {
             statusMap[ENUMS.PlayerStatus.STASH_TAB_MATERIALS] = getPlayerStatus(ENUMS.PlayerStatus.STASH_TAB_MATERIALS).length
             statusMap[ENUMS.PlayerStatus.STASH_TAB_CURRENCIES] = getPlayerStatus(ENUMS.PlayerStatus.STASH_TAB_CURRENCIES).length
             statusMap[ENUMS.PlayerStatus.STASH_TAB_LORE] = getPlayerStatus(ENUMS.PlayerStatus.STASH_TAB_LORE).length
+            statusMap[ENUMS.PlayerStatus.STASH_TAB_CRAFT] = getPlayerStatus(ENUMS.PlayerStatus.STASH_TAB_CRAFT).length
 
             let tabTotal = getPlayerStatus(ENUMS.PlayerStatus[statusMap[ENUMS.PlayerStatus.ACTIVE_STASH_TAB]]).length
             statusMap['pages_total'] = Math.ceil((tabTotal || 1)  / getPlayerStatus(ENUMS.PlayerStatus.SLOTS_PER_PAGE))
