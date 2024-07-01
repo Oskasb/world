@@ -382,9 +382,85 @@ div.icon_material_handle_wrapped {
     background-image: url("/client/assets/images/textures/gui/icons_materials/handle_wrapped.png");
 }
 
-div.icon_material_scales_thick {
-    background-image: url("/client/assets/images/textures/gui/icons_materials/scales_leather.png");
+div.icon_material_scales_flimsy {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/scales_flimsy.png");
 }
+div.icon_material_scales_patched {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/scales_patched.png");
+}
+div.icon_material_scales_light {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/scales_light.png");
+}
+div.icon_material_scales_rough {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/scales_rough.png");
+}
+div.icon_material_scales_thick {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/scales_thick.png");
+}
+div.icon_material_scales_strong {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/scales_strong.png");
+}
+
+
+div.icon_material_strips_flimsy {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/strips_flimsy.png");
+}
+div.icon_material_strips_patched {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/strips_patched.png");
+}
+div.icon_material_strips_light {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/strips_light.png");
+}
+div.icon_material_strips_rough {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/strips_rough.png");
+}
+div.icon_material_strips_thick {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/strips_thick.png");
+}
+div.icon_material_strips_strong {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/strips_strong.png");
+}
+
+
+div.icon_material_chemicals_murky {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/chemicals_murky.png");
+}
+div.icon_material_chemicals_impure {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/chemicals_impure.png");
+}
+div.icon_material_chemicals_clear {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/chemicals_clear.png");
+}
+div.icon_material_chemicals_pure {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/chemicals_pure.png");
+}
+div.icon_material_chemicals_bright {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/chemicals_bright.png");
+}
+div.icon_material_chemicals_infused {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/chemicals_infused.png");
+}
+
+
+div.icon_material_coolant_dirt {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/coolant_dirt.png");
+}
+div.icon_material_coolant_water {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/coolant_water.png");
+}
+div.icon_material_coolant_sand {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/coolant_sand.png");
+}
+div.icon_material_coolant_oil {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/coolant_oil.png");
+}
+div.icon_material_coolant_advanced {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/coolant_advanced.png");
+}
+div.icon_material_coolant_mystical {
+    background-image: url("/client/assets/images/textures/gui/icons_materials/coolant_mystical.png");
+}
+
 
 div.icon_material_padding_durable {
     background-image: url("/client/assets/images/textures/gui/icons_materials/padding_durable.png");

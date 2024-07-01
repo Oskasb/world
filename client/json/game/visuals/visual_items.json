@@ -2,17 +2,17 @@
   "GAME":{
     "VISUALS":[
       {
-        "id": "VISUAL_MATERIAL_INGOT_GOLD",
+        "id": "VISUAL_MATERIAL_INGOT_LEAD",
         "data": {
           "model_asset":"asset_box_dynamic",
-          "icon_class": "icon_material_ingot_gold"
+          "icon_class": "icon_material_ingot_lead"
         }
       },
       {
-        "id": "VISUAL_MATERIAL_INGOT_IRON",
+        "id": "VISUAL_MATERIAL_INGOT_COPPER",
         "data": {
           "model_asset":"asset_box_dynamic",
-          "icon_class": "icon_material_ingot_iron"
+          "icon_class": "icon_material_ingot_copper"
         }
       },
       {
@@ -23,13 +23,104 @@
         }
       },
       {
+        "id": "VISUAL_MATERIAL_INGOT_GOLD",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_ingot_gold"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_INGOT_PLATINUM",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_ingot_platinum"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_INGOT_MITHRIL",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_ingot_mithril"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_INGOT_BRONZE",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_ingot_bronze"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_INGOT_IRON",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_ingot_iron"
+        }
+      },
+
+      {
         "id": "VISUAL_MATERIAL_INGOT_STEEL",
         "data": {
           "model_asset":"asset_box_dynamic",
           "icon_class": "icon_material_ingot_steel"
         }
       },
-
+      {
+        "id": "VISUAL_MATERIAL_INGOT_TITANIUM",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_ingot_titanium"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_INGOT_ADAMANTIUM",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_ingot_adamantium"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_LEATHER_FLIMSY",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_leather_flimsy"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_LEATHER_PATCHED",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_leather_patched"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_LEATHER_LIGHT",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_leather_light"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_LEATHER_ROUGH",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_leather_rough"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_LEATHER_THICK",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_leather_thick"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_LEATHER_STRONG",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_leather_strong"
+        }
+      },
       {
         "id": "VISUAL_MATERIAL_LEATHER_OXEN",
         "data": {
@@ -58,11 +149,63 @@
           "icon_class": "icon_material_liquid_poison"
         }
       },
+
+      {
+        "id": "VISUAL_MATERIAL_PLATE_COPPER",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_plate_copper"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_PLATE_BRONZE",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_plate_bronze"
+        }
+      },
       {
         "id": "VISUAL_MATERIAL_PLATE_IRON",
         "data": {
           "model_asset":"asset_box_dynamic",
           "icon_class": "icon_material_plate_iron"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_PLATE_STEEL",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_plate_steel"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_PLATE_TITANIUM",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_plate_titanium"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_PLATE_ADAMANTIUM",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_plate_adamantium"
+        }
+      },
+
+
+      {
+        "id": "VISUAL_MATERIAL_RINGS_COPPER",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_rings_copper"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_RINGS_BRONZE",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_rings_bronze"
         }
       },
       {
@@ -79,6 +222,376 @@
           "icon_class": "icon_material_rings_steel"
         }
       },
+      {
+        "id": "VISUAL_MATERIAL_RINGS_TITANIUM",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_rings_titanium"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_RINGS_ADAMANTIUM",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_rings_adamantium"
+        }
+      },
+
+
+
+      {
+        "id": "VISUAL_MATERIAL_SCALES_COPPER",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_scales_copper"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_SCALES_BRONZE",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_scales_bronze"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_SCALES_IRON",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_scales_iron"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_SCALES_STEEL",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_scales_steel"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_SCALES_TITANIUM",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_scales_titanium"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_SCALES_ADAMANTIUM",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_scales_adamantium"
+        }
+      },
+
+      {
+        "id": "VISUAL_MATERIAL_SCALES_FLIMSY",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_scales_flimsy"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_SCALES_PATCHED",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_scales_patched"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_SCALES_LIGHT",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_scales_light"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_SCALES_ROUGH",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_scales_rough"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_SCALES_THICK",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_scales_thick"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_SCALES_STRONG",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_scales_strong"
+        }
+      },
+
+
+
+      {
+        "id": "VISUAL_MATERIAL_STRIPS_FLIMSY",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_strips_flimsy"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_STRIPS_PATCHED",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_strips_patched"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_STRIPS_LIGHT",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_strips_light"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_STRIPS_ROUGH",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_strips_rough"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_STRIPS_THICK",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_strips_thick"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_STRIPS_STRONG",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_strips_strong"
+        }
+      },
+
+
+      {
+        "id": "VISUAL_MATERIAL_FABRIC_WEAK",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_fabric_weak"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_FABRIC_WEAK",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_fabric_weak"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_FABRIC_WEAK",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_fabric_weak"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_FABRIC_WEAK",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_fabric_weak"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_FABRIC_WEAK",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_fabric_weak"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_FABRIC_WEAK",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_fabric_weak"
+        }
+      },
+
+
+      {
+        "id": "VISUAL_MATERIAL_FABRIC_WEAK",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_fabric_weak"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_FABRIC_STITCHED",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_fabric_stitched"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_FABRIC_PLAIN",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_fabric_plain"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_FABRIC_DURABLE",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_fabric_durable"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_FABRIC_DYNAMIC",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_fabric_dynamic"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_FABRIC_BRILLIANT",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_fabric_brilliant"
+        }
+      },
+
+
+      {
+        "id": "VISUAL_MATERIAL_BLADE_COPPER",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_blade_copper"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_BLADE_BRONZE",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_blade_bronze"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_BLADE_IRON",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_blade_iron"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_BLADE_STEEL",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_blade_steel"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_BLADE_TITANIUM",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_blade_titanium"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_BLADE_ADAMANTIUM",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_blade_adamantium"
+        }
+      },
+
+
+
+      {
+        "id": "VISUAL_MATERIAL_CHEMICALS_MURKY",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_chemicals_murky"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_CHEMICALS_IMPURE",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_chemicals_impure"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_CHEMICALS_CLEAR",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_chemicals_clear"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_CHEMICALS_PURE",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_chemicals_pure"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_CHEMICALS_BRIGHT",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_chemicals_bright"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_CHEMICALS_INFUSED",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_chemicals_infused"
+        }
+      },
+
+
+
+      {
+        "id": "VISUAL_MATERIAL_COOLANT_DIRT",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_coolant_dirt"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_COOLANT_WATER",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_coolant_water"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_COOLANT_SAND",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_coolant_sand"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_COOLANT_OIL",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_coolant_oil"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_COOLANT_ADVANCED",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_coolant_advanced"
+        }
+      },
+      {
+        "id": "VISUAL_MATERIAL_COOLANT_MYSTICAL",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_material_coolant_mystical"
+        }
+      },
+
 
       {
         "id": "VISUAL_LORE_NOTE_SCRIBBLED",
