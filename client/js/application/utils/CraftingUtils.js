@@ -19,6 +19,7 @@ function getItemRecipe(item) {
         let templateId = item.getStatus(ENUMS.ItemStatus.TEMPLATE);
         if (!recipes[templateId]) {
             recipes[templateId] = generateItemRecipe(templateId, item.config);
+            console.log("Recipes :", recipes)
         }
         return recipes[templateId];
     }

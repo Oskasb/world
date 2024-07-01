@@ -6,7 +6,7 @@ function computeComponent(itemConfig, compData, rscHcrConfig) {
     let matLevelList = rscHcrConfig['material_level_lists'][mat];
     let materialKey = matLevelList[0];
     let compKey = compData.component;
-    let recipeComponent = rscHcrConfig[compKey][materialKey];
+    let recipeComponent = rscHcrConfig['components'][compKey][materialKey];
 
     return {
         templateId: recipeComponent,
@@ -22,6 +22,10 @@ function computeIngredients(itemConfig, components, rscHcrConfig, ingredients) {
 }
 
 function attachIngredients(config, rscHcrConfig, ingredients) {
+    if (!config[ENUMS.ItemStatus.ITEM_TYPE]) {
+        console.log("No ITEM_TYPE for item config", config);
+        return;
+    }
     let itemType = config[ENUMS.ItemStatus.ITEM_TYPE];
     let matComps = rscHcrConfig["item_type_material_components"];
     if (matComps[itemType]) {
@@ -35,7 +39,11 @@ class ItemRecipe {
 
         let ingredients = [];
         this.ingredients = ingredients;
-        attachIngredients(config, resourceHierarchyConfig, ingredients)
+        if (config['status']) {
+            attachIngredients(config['status'], resourceHierarchyConfig, ingredients)
+        } else {
+            console.log("No config.status in template item", templateId, config);
+        }
 
         function getIngredientsList() {
             return ingredients;

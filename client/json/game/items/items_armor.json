@@ -549,7 +549,12 @@
           "equip_slot": "SLOT_LEGS",
           "status_add_modifiers": [
             {"status": "MAX_HP", "value":5}
-          ]
+          ],
+          "status": {
+            "NAME":"Blue Leggings",
+            "ITEM_LEVEL": 1,
+            "ITEM_TYPE" : "ARMOR"
+          }
         }
       },
 

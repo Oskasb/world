@@ -1,0 +1,57 @@
+{
+  "edit_id": "resource_hierarchy",
+  "material_level_lists": {
+    "METAL": ["IRON", "STEEL"],
+    "PRECIOUS_METAL": ["SILVER", "GOLD"],
+    "LEATHER": ["GOAT","OXEN"],
+    "CHEMICALS": ["IMPURE", "PURE"],
+    "COOLANT": ["AIR", "WATER", "OIL"]
+  },
+  "item_type_material_components": {
+    "PLATE_MAIL": [
+      { "material": "METAL", "component": "PLATING", "amount": 3},
+      { "material": "LEATHER", "component": "PADDING", "amount": 2 },
+      { "material": "CHEMICALS", "component": "PROCESSING", "amount": 1 }
+    ],
+    "SCALE_MAIL": [
+      { "material": "METAL", "component": "PLATING", "amount": 1},
+      { "material": "LEATHER", "component": "BINDING", "amount": 3 },
+      { "material": "CHEMICALS", "component": "PROCESSING", "amount": 1 }
+    ]
+  },
+  "components": {
+    "PLATING": {
+      "IRON": "ITEM_MATERIAL_PLATE_IRON",
+      "STEEL": "ITEM_MATERIAL_PLATE_STEEL"
+    },
+    "PADDING": {
+      "GOAT": "ITEM_MATERIAL_PADDING_GOAT",
+      "OXEN": "ITEM_MATERIAL_PADDING_OXEN"
+    },
+    "BINDING": {
+      "GOAT": "ITEM_MATERIAL_BINDING_GOAT",
+      "OXEN": "ITEM_MATERIAL_BINDING_OXEN"
+    },
+    "PROCESSING": {
+      "IMPURE": "ITEM_MATERIAL_CHEMICALS_IMPURE",
+      "PURE": "ITEM_MATERIAL_CHEMICALS_PURE"
+    }
+  },
+  "equip_slot_modifiers": {
+    "SLOT_HEAD":      [],
+    "SLOT_BODY":      [],
+    "SLOT_CHEST":     [],
+    "SLOT_WRIST":     [],
+    "SLOT_HANDS":     [],
+    "SLOT_WAIST":     [],
+    "SLOT_LEGS":      [],
+    "SLOT_SKIRT":     [],
+    "SLOT_FEET":      [],
+    "SLOT_HAND_R":    [],
+    "SLOT_HAND_L":    [],
+    "SLOT_BACK":      [],
+    "SLOT_WRIST_L":   [],
+    "SLOT_WRIST_R":   []
+  }
+
+}

@@ -10,6 +10,7 @@ import {
     getVisualConfigIconClass, updateItemProgressUiStatus, updatePotencyDivs, updateRankDivs
 } from "../../utils/ItemUtils.js";
 import {saveItemStatus} from "../../setup/Database.js";
+import {getItemRecipe} from "../../utils/CraftingUtils.js";
 
 let activeDomItems = [];
 
@@ -245,6 +246,7 @@ class DomItemCard {
             statusMap['ITEM_POTENCY'] = -1;
             statusMap['RANK_ECHELON'] = -1;
             statusMap['POTENCY_ECHELON'] = -1;
+            statusMap['INGREDIENTS'] = getItemRecipe(item).getIngredients();
             statusMap['TEXT'] = item.getStatus(ENUMS.ItemStatus.TEXT) || "";
             htmlElement.initHtmlElement('item_card', closeItemCard, statusMap, 'item_card', readyCb);
         }
