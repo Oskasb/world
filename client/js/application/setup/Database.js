@@ -77,7 +77,7 @@ function saveActorStatus(statusMap) {
 
 function saveItemStatus(statusMap) {
     let id = statusMap[ENUMS.ItemStatus.ITEM_ID];
-    console.log("Save Item Status ", id, [db.items]);
+   // console.log("Save Item Status ", id, [db.items]);
     db.items[id] = statusMap;
     if (typeof (statusMap['undefined']) !== 'undefined') {
         console.log("Status map containes undefined", statusMap['undefined'], [statusMap]);

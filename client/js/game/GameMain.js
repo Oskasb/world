@@ -21,6 +21,7 @@ import {getPlayerActor} from "../application/utils/ActorUtils.js";
 import {requestItemSlotChange} from "../application/utils/EquipmentUtils.js";
 import {poolFetch} from "../application/utils/PoolUtils.js";
 import {stashAllConfigItems} from "../application/utils/StashUtils.js";
+import {getActiveVariations} from "../application/utils/ConfigUtils.js";
 
 let tempVec3 = new Vector3()
 let gameWalkGrid = null
@@ -199,6 +200,9 @@ class GameMain {
             }
 
 
+            let activeVariations = getActiveVariations();
+
+
 
             setTimeout(function() {
 
@@ -214,9 +218,22 @@ class GameMain {
                         stashAllConfigItems();
                     }
 
+
+                    function activateVariation(e) {
+                        console.log('activateVariation', e.target.innerText, e)
+                    }
+
                     let opts = [
                     //    {id:"button_cheat", container:"top", text:"ITEMS", onClick:stashAllItems},
-                        {id:"button_continue", container:"bottom", text:"NEW CHARACTER", onClick:release}]
+                        {id:"button_continue", container:"bottom", text:"NEW CHARACTER", onClick:release}
+                    ]
+
+                    for (let i = 0; i < activeVariations.length; i++) {
+                        let option = {id:"button_cheat", container:"top", text:activeVariations[i], onClick:activateVariation}
+                        opts.push(option);
+                    }
+
+
                     let domTransition = GuiAPI.activateDomTransition('WELCOME', dataList, startPlayerSession, null, opts)
                 } else {
 

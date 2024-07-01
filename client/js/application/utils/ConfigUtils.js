@@ -568,6 +568,9 @@ function fetchConfigByEditId(editId, callback) {
     }
 }
 
+function getActiveVariations() {
+    return activeVariations;
+}
 
 export {
     loadVariationConfigs,
@@ -590,5 +593,6 @@ export {
     getConfigListAt,
     listifyConfig,
     getConfigByEditId,
-    fetchConfigByEditId
+    fetchConfigByEditId,
+    getActiveVariations
  }

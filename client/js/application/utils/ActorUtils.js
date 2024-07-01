@@ -13,12 +13,12 @@ let onItemsData = function(data) {
         let cfg = itemConfigs[key];
         let slot = cfg['equip_slot'];
 
-        if (!slotToItemMap[slot]) {
-            slotToItemMap[slot] = [""];
+        if (typeof (slot) === 'string') {
+            if (!slotToItemMap[slot]) {
+                slotToItemMap[slot] = [];
+            }
+            slotToItemMap[slot].push(key)
         }
-
-        slotToItemMap[slot].push(key)
-
     }
 
  //   console.log("onItemsData itemConfigs", slotToItemMap, itemConfigs)

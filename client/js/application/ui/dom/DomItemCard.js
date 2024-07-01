@@ -268,7 +268,7 @@ class DomItemCard {
 
         let clearIframe = function() {
             htmlElement.closeHtmlElement();
-            console.log("Clear DomItem ", htmlElement)
+        //    console.log("Clear DomItem ", htmlElement)
             let rootElem = htmlElement.call.getRootElement()
             if (rootElem) {
                 DomUtils.removeDivElement(rootElem);

@@ -75,7 +75,7 @@ class DomTransition {
         //    DomUtils.addClickFunction(reloadDiv, rebuild)
             DomUtils.addClickFunction(centerDiv, release)
 
-            DomUtils.addClickFunction(topDiv, release)
+        //    DomUtils.addClickFunction(topDiv, release)
             DomUtils.addClickFunction(bottomDiv, release)
             setInitTransforms();
             release()
