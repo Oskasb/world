@@ -786,13 +786,17 @@ div.container_ingredients {
     width: 96%;
     height: auto;
     margin-left: 0.5em;
-    display: inline-block;
     position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: space-around;
+    flex-direction: row;
+    justify-content: space-evenly;
 }
 
 div.ingredient_icon_frame {
-    width: 3.6em;
-    height: 3.6em;
+    width: 4.3em;
+    height: 4.3em;
     margin: 0.3em;
     display: inline-block;
     position: relative;
@@ -800,6 +804,53 @@ div.ingredient_icon_frame {
     border-width: 0.3em;
     border-style: solid;
     border-color:inherit;
+}
+
+div.ingredient_icon_label {
+    position: absolute;
+    left: 1.0em;
+    top:1.0em;
+    z-index: 100;
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    align-content: center;
+    flex-direction: row;
+}
+
+div.ingredient_icon_label p {
+    margin: 0;
+    position: absolute;
+    top: 0.2em;
+    left: 1.2em;
+    margin-top: 0.2em;
+    padding: 0;
+    color: inherit;
+    font-size: 2.1em;
+}
+
+div.ingredient_icon_label h2 {
+    margin: 0;
+    padding: 0;
+    left: -1em;
+    top: 0.8em;
+    width: 2.5em;
+    overflow: visible;
+    position: absolute;
+    text-align: right;
+}
+
+div.ingredient_icon_label h3 {
+    margin: 0;
+    padding: 0;
+    right: -2.5em;
+    text-align: right;
+    position: absolute;
+    top: auto;
+    bottom: -3.5em;
+    width: 3em;
 }
 
 div.adventure_reward_icon_frame {

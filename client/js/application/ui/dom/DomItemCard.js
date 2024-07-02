@@ -233,8 +233,10 @@ class DomItemCard {
                         styleIconDivByTemplateId(div, ingredients[i].templateId)
                         //    let iHtml = '<h4>'+ingredients[i].templateId+'</h4>';
                         let count = getStashItemCountByTemplateId(ingredients[i].templateId);
-                        let iHtml = '<h5>'+ingredients[i].amount+' / ('+count+')</h5>'
-                        let textDiv = DomUtils.createDivElement(div, 'label_'+i, iHtml, )
+                        let iHtml = '<h2>'+ingredients[i].amount+'</h2>'
+                        iHtml += '<p>/</p>'
+                        iHtml += '<h3>'+count+'</h3>'
+                        let textDiv = DomUtils.createDivElement(div, 'label_'+i, iHtml, "ingredient_icon_label")
 
                     //    div.innerHTML = iHtml;
                     }

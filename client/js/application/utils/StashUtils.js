@@ -172,6 +172,7 @@ function getStashPageItems(pageKey, store) {
 
 let tempStore = [];
 function getAllStashItems() {
+    MATH.emptyArray(tempStore);
     for (let i = 0; i < stashTabs.length; i++) {
         getStashPageItems(stashTabs[i], tempStore)
     }
