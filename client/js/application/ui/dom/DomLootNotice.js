@@ -57,7 +57,7 @@ class DomLootNotice {
             //    header.innerHTML = hostActor.getStatus(ENUMS.ActorStatus.NAME)
                 DomUtils.addClickFunction(header, rebuild)
                 DomUtils.addClickFunction(container, hide)
-            //    setTimeout(hide, 2200)
+                setTimeout(hide, 4200)
                 ThreeAPI.registerPrerenderCallback(update);
             }
 

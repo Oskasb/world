@@ -854,7 +854,7 @@ div.ingredient_icon_label h3 {
 }
 
 div.loot_notice_label_container {
-    left: 3.2em;
+    left: 4.2em;
     right: 0.3em;
     position: absolute;
     height: 1.5em;
@@ -871,10 +871,11 @@ div.loot_notice_label_container {
 
 
 div.loot_notice_icon_frame {
-    width: 2.5em;
+    width: 3.5em;
     position: absolute;
-    height: 2.5em;
-    margin-left: -0.5em;
+    height: 3.5em;
+    margin-top: 0.3em;
+    margin-left: -0.9em;
     display: inline-block;
     border-radius: 9%;
     border-width: 0.3em;
