@@ -56,7 +56,7 @@ function getItemIconClass(itemId) {
     let visualCfg = getVisualConfigByItemId(itemId);
 
     if (visualCfg !== null) {
-        getVisualConfigIconClass(visualCfg);
+        return getVisualConfigIconClass(visualCfg);
     }
     return "";
 }
@@ -72,6 +72,18 @@ function getVisualConfigByVisualId(visualId) {
 }
 
 function getItemConfigByItemId(itemId) {
+    let cfgs = readConfig("GAME","ITEMS")
+//    console.log("getItemConfigByItemId", cfgs)
+    for (let i = 0; i < cfgs.length; i++) {
+        if (cfgs[i].id === itemId) {
+            return cfgs[i];
+        }
+    }
+
+    return null;
+}
+
+function getItemConfigByTemplateId(itemId) {
     let cfgs = readConfig("GAME","ITEMS")
 //    console.log("getItemConfigByItemId", cfgs)
     for (let i = 0; i < cfgs.length; i++) {
@@ -252,6 +264,17 @@ function updateItemProgressUiStatus(item, statusMap, rankContainer, rankDivs, po
     }
 }
 
+function styleIconDivByTemplateId(iconDiv, templateId) {
+    let rarity = getItemRarity(templateId);
+    let iconClass = getItemIconClass(templateId);
+    DomUtils.addElementClass(iconDiv, rarity);
+    let div = DomUtils.createDivElement(iconDiv, 'item_icon_'+templateId, '', 'item_icon')
+    if (iconClass) {
+        DomUtils.addElementClass(div, iconClass);
+    }
+}
+
+
 export {
     getItemRarity,
     getItemQuality,
@@ -270,5 +293,6 @@ export {
     updateRankDivs,
     attachPotencySlots,
     attachRankSlots,
-    updateItemProgressUiStatus
+    updateItemProgressUiStatus,
+    styleIconDivByTemplateId
 }

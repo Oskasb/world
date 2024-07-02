@@ -782,12 +782,36 @@ div.adventure_panel h2 {
     font-size: 1.3em;
 }
 
+div.container_ingredients {
+    width: 96%;
+    height: auto;
+    margin-left: 0.5em;
+    display: inline-block;
+    position: relative;
+}
+
+div.ingredient_icon_frame {
+    width: 3.6em;
+    height: 3.6em;
+    margin: 0.3em;
+    display: inline-block;
+    position: relative;
+    border-radius: 9%;
+    border-width: 0.3em;
+    border-style: solid;
+    border-color:inherit;
+}
+
 div.adventure_reward_icon_frame {
     width: 2em;
     height: 2em;
     margin-left: 0.5em;
     display: inline-block;
     position: relative;
+    border-radius: 9%;
+    border-width: 0.3em;
+    border-style: solid;
+    border-color:inherit;
 }
 
 div.adventure_reward_item_slot {
@@ -812,6 +836,8 @@ div.adventure_rewards_container {
     width: auto;
     height: 2em;
     position: absolute;
+    border-width: 0.4em;
+    border-color:inherit;
 }
 
 div.adventure_nodes_container {

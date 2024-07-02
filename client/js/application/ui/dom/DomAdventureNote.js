@@ -4,7 +4,8 @@ import {
     getItemConfigByItemId,
     getItemIconClass,
     getItemRarity,
-    getVisualConfigByItemId, getVisualConfigIconClass
+    getVisualConfigByItemId,
+    getVisualConfigIconClass
 } from "../../utils/ItemUtils.js";
 import {ENUMS} from "../../ENUMS.js";
 

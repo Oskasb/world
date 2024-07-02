@@ -25,7 +25,19 @@
       "UNCOMMON": "ECHELON_2",
       "RARE": "ECHELON_3",
       "EPIC": "ECHELON_4",
-      "LEGENDARY": "ECHELON_5"
+      "LEGENDARY": "ECHELON_5",
+      "variations": [
+        {
+          "id": "a",
+          "modify": [
+            {"PLAIN": "ECHELON_5"  },
+            {"COMMON": "ECHELON_5"  },
+            {"UNCOMMON": "ECHELON_5"  },
+            {"RARE": "ECHELON_5"  },
+            {"EPIC": "ECHELON_5"  }
+          ]
+        }
+      ]
     },
     "item_potency_echelon_levels": {
       "ECHELON_0": 0,

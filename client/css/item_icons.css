@@ -9,7 +9,7 @@ div.item_icon {
     border-radius: 9%;
     background-size: 100%;
     margin: 0;
-    border: 0.3em solid;
+    border: 0.18em solid;
     border-color: rgba(0, 0, 0, 0.52);
     background-image: url("/client/assets/images/textures/gui/items/icon_nyi.png");
     transform: translate3d(-50%, -50%, 0);

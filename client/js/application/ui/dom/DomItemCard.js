@@ -7,7 +7,7 @@ import {
     getItemPotencySlotCount,
     getItemRankSlotCount,
     getVisualConfigByVisualId,
-    getVisualConfigIconClass, updateItemProgressUiStatus, updatePotencyDivs, updateRankDivs
+    getVisualConfigIconClass, styleIconDivByTemplateId, updateItemProgressUiStatus, updatePotencyDivs, updateRankDivs
 } from "../../utils/ItemUtils.js";
 import {saveItemStatus} from "../../setup/Database.js";
 import {getItemRecipe} from "../../utils/CraftingUtils.js";
@@ -226,15 +226,21 @@ class DomItemCard {
                 paramPalVals.style.display = 'none'
 
                 let ingredients = getItemRecipe(item).getIngredients();
-                let ingHtml = "<h3>INGREDIENTS:</h3>"
-                for (let i = 0; i < ingredients.length; i++) {
-                    ingHtml += '<h4>'+ingredients[i].templateId+'</h4>';
-                    let count = getStashItemCountByTemplateId(ingredients[i].templateId);
-                    ingHtml += '<h5>'+ingredients[i].amount+' / ('+count+')</h5>'
+                if (ingredients.length !== 0) {
+                    let container = htmlElement.call.getChildElement("container_ingredients");
+                    for (let i = 0; i < ingredients.length; i++) {
+                        let div = DomUtils.createDivElement(container, 'ingredients_'+i, '', 'ingredient_icon_frame')
+                        styleIconDivByTemplateId(div, ingredients[i].templateId)
+                        //    let iHtml = '<h4>'+ingredients[i].templateId+'</h4>';
+                        let count = getStashItemCountByTemplateId(ingredients[i].templateId);
+                        let iHtml = '<h5>'+ingredients[i].amount+' / ('+count+')</h5>'
+                        let textDiv = DomUtils.createDivElement(div, 'label_'+i, iHtml, )
 
-
+                    //    div.innerHTML = iHtml;
+                    }
+                } else {
+                    paramRecIngredients.style.display = 'none'
                 }
-                paramRecIngredients.innerHTML = ingHtml;
 
             } else {
                 paramRecIngredients.style.display = 'none'

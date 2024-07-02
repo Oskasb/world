@@ -559,6 +559,7 @@ function getConfigByEditId(editId) {
 function fetchConfigByEditId(editId, callback) {
 
     if (typeof (savedConfigs[editId]) === 'object') {
+        // processJsonVariation(savedConfigs[editId], activeVariations);
         callback(savedConfigs[editId])
     } else {
         console.log("Config loading ", editId)
