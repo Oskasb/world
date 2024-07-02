@@ -7,6 +7,13 @@ import {evt} from "../event/evt.js";
 import {getItemRecipe} from "./CraftingUtils.js";
 
 
+let stashTabs = [
+    ENUMS.PlayerStatus.STASH_TAB_ITEMS,
+    ENUMS.PlayerStatus.STASH_TAB_MATERIALS,
+    ENUMS.PlayerStatus.STASH_TAB_CURRENCIES,
+    ENUMS.PlayerStatus.STASH_TAB_LORE
+]
+
 function itemLoaded(item) {
     let itemStatus = loadItemStatus(item.getStatus(ENUMS.ItemStatus.ITEM_ID));
     for (let key in itemStatus) {
@@ -155,6 +162,40 @@ function fetchActiveStashPageItems(store) {
     return update;
 }
 
+function getStashPageItems(pageKey, store) {
+    let stashList = getPlayerStatus(pageKey);
+    for (let i = 0; i < stashList.length; i++) {
+        let item = GameAPI.getItemById(stashList[i]);
+        store.push(item);
+    }
+}
+
+let tempStore = [];
+function getAllStashItems() {
+    for (let i = 0; i < stashTabs.length; i++) {
+        getStashPageItems(stashTabs[i], tempStore)
+    }
+    return tempStore;
+}
+
+function getStashItemCountByTemplateId(templateId) {
+    let stashItems = getAllStashItems();
+    let count = 0;
+    for (let i = 0; i < stashItems.length; i++) {
+        let item = stashItems[i];
+        if (item.getStatus(ENUMS.ItemStatus.TEMPLATE) === templateId) {
+            if (item.getStatus(ENUMS.ItemStatus.STACK_SIZE) !== 0) {
+                count+=item.getStatus(ENUMS.ItemStatus.STACK_SIZE)
+            } else {
+                count++;
+            }
+        }
+    }
+    return count;
+}
+
+
 export {stashAllConfigItems,
-    fetchActiveStashPageItems
+    fetchActiveStashPageItems,
+    getStashItemCountByTemplateId
 }

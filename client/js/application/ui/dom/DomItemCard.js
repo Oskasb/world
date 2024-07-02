@@ -11,6 +11,7 @@ import {
 } from "../../utils/ItemUtils.js";
 import {saveItemStatus} from "../../setup/Database.js";
 import {getItemRecipe} from "../../utils/CraftingUtils.js";
+import {getStashItemCountByTemplateId} from "../../utils/StashUtils.js";
 
 let activeDomItems = [];
 
@@ -183,6 +184,7 @@ class DomItemCard {
 
         let readyCb = function() {
             rootElement = htmlElement.call.getRootElement();
+            rootElement.style.scale = 0.3;
             let bodyRect = DomUtils.getWindowBoundingRect();
             let width = bodyRect.width;
             let height = bodyRect.height;
@@ -200,6 +202,58 @@ class DomItemCard {
             let empowerDiv = htmlElement.call.getChildElement("empower");
             DomUtils.addClickFunction(rankUpDiv, activateRankUp);
             DomUtils.addClickFunction(empowerDiv, activateEmpower);
+
+            let paramText = htmlElement.call.getChildElement("param_TEXT");
+            let paramEquipSlot = htmlElement.call.getChildElement("param_EQUIPPED_SLOT");
+            let paramModifiers = htmlElement.call.getChildElement("param_MODIFIERS");
+            let paramPalVals = htmlElement.call.getChildElement("param_PALETTE_VALUES");
+            let paramRank = htmlElement.call.getChildElement("param_RANK");
+            let paramPotency = htmlElement.call.getChildElement("param_POTENCY");
+
+            let paramRecIngredients = htmlElement.call.getChildElement("param_INGREDIENTS");
+            let paramCraft = htmlElement.call.getChildElement("param_CRAFT");
+            if (typeof(item.config['equip_slot']) !== 'string' ) {
+                paramRank.style.display = 'none'
+                paramPotency.style.display = 'none'
+                paramEquipSlot.style.display = 'none'
+                paramPalVals.style.display = 'none'
+                paramModifiers.style.display = 'none'
+                paramRecIngredients.style.display = 'none'
+                paramCraft.style.display = 'none'
+            } else if (item.getStatus(ENUMS.ItemStatus.ITEM_TYPE) === ENUMS.itemTypes.RECIPE) {
+                paramRank.style.display = 'none'
+                paramPotency.style.display = 'none'
+                paramPalVals.style.display = 'none'
+
+                let ingredients = getItemRecipe(item).getIngredients();
+                let ingHtml = "<h3>INGREDIENTS:</h3>"
+                for (let i = 0; i < ingredients.length; i++) {
+                    ingHtml += '<h4>'+ingredients[i].templateId+'</h4>';
+                    let count = getStashItemCountByTemplateId(ingredients[i].templateId);
+                    ingHtml += '<h5>'+ingredients[i].amount+' / ('+count+')</h5>'
+
+
+                }
+                paramRecIngredients.innerHTML = ingHtml;
+
+            } else {
+                paramRecIngredients.style.display = 'none'
+                paramCraft.style.display = 'none'
+                let maxRank = getItemMaxRank(item);
+                let maxPotency = getItemMaxPotency(item);
+                if (maxRank === ENUMS.echelon.ECHELON_0) {
+                    paramRank.style.display = 'none'
+                }
+                if (maxPotency === ENUMS.echelon.ECHELON_0) {
+                    paramPotency.style.display = 'none'
+                }
+            }
+
+            if (item.getStatus(ENUMS.ItemStatus.TEXT) === "") {
+                paramText.style.display = 'none';
+            }
+
+
 
             let paletteDiv = htmlElement.call.getChildElement("palette_edit");
             if (statusMap['PALETTE_VALUES'].length) {
