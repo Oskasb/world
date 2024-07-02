@@ -1,5 +1,6 @@
 import {HtmlElement} from "./HtmlElement.js";
 import {poolReturn} from "../../utils/PoolUtils.js";
+import {styleIconDivByTemplateId} from "../../utils/ItemUtils.js";
 
 let noticeQueue = [];
 
@@ -33,6 +34,8 @@ class DomLootNotice {
 
         let hide = function() {
             htmlElement.hideHtmlElement()
+
+
             setTimeout(function() {
                 close();
             }, 1500)
@@ -48,9 +51,13 @@ class DomLootNotice {
                 container = htmlElement.call.getChildElement('notice_container')
                 DomUtils.addElementClass(container, statusMap.rarity)
                 let header = htmlElement.call.getChildElement('header')
+                let iconFrame = htmlElement.call.getChildElement('icon_frame')
+                styleIconDivByTemplateId(iconFrame, statusMap.template)
+
             //    header.innerHTML = hostActor.getStatus(ENUMS.ActorStatus.NAME)
                 DomUtils.addClickFunction(header, rebuild)
-                setTimeout(hide, 2200)
+                DomUtils.addClickFunction(container, hide)
+            //    setTimeout(hide, 2200)
                 ThreeAPI.registerPrerenderCallback(update);
             }
 
@@ -67,7 +74,7 @@ class DomLootNotice {
                     statusMap.item_level = 'Level:'+item.getStatus(ENUMS.ItemStatus.ITEM_LEVEL);
                     statusMap.rarity = item.getStatus(ENUMS.ItemStatus.RARITY);
                     statusMap.quality = item.getStatus(ENUMS.ItemStatus.QUALITY);
-
+                    statusMap.template = item.getStatus(ENUMS.ItemStatus.TEMPLATE);
                     setTimeout(function() {
                         htmlElement.showHtmlElement();
                     }, noticeQueue.length * 400)

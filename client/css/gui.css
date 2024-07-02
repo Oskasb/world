@@ -698,7 +698,7 @@ div.loot_panel {
     top: 1em;
     left: 1em;
     right: 1em;
-    height: auto;
+    min-height: 4em;
     position: absolute;
     background-color: rgba(44, 90, 90, 0.51);
 
@@ -852,6 +852,36 @@ div.ingredient_icon_label h3 {
     bottom: -3.5em;
     width: 3em;
 }
+
+div.loot_notice_label_container {
+    left: 3.2em;
+    right: 0.3em;
+    position: absolute;
+    height: 1.5em;
+    bottom: 0.2em;
+    margin-left: -0.5em;
+    display: inline-block;
+    border-radius: 0.5em;
+    border-width: 0.1em;
+    border-style: solid;
+    border-color: rgba(0, 0, 0, 0.84);
+    background-color: rgba(0, 0, 0, 0.45);
+    box-shadow: inherit;
+}
+
+
+div.loot_notice_icon_frame {
+    width: 2.5em;
+    position: absolute;
+    height: 2.5em;
+    margin-left: -0.5em;
+    display: inline-block;
+    border-radius: 9%;
+    border-width: 0.3em;
+    border-style: solid;
+    border-color: inherit;
+}
+
 
 div.adventure_reward_icon_frame {
     width: 2em;
