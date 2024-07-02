@@ -359,7 +359,7 @@ function setupOptsFriendlyMissile(efct, fromPos, actor, index, onArriveCB, getPo
     let tempObj = ThreeAPI.tempObj;
     tempObj.scale.set(1, 1, 1);
 
-    let bonePos;
+    let bonePos = actor.getPos;
 
     if (actor.getVisualGamePiece() === null) {
         tempObj.position.copy(actor.getPos())
@@ -482,7 +482,7 @@ function setupOptsMagicHit(efct, actor) {
     tempObj.quaternion.set(0, 0, 0, 1);
     efct.quat.copy(tempObj.quaternion);
 
-    let bonePos;
+    let bonePos = actor.getPos;
 
     if (actor.getVisualGamePiece() === null) {
         tempObj.position.copy(actor.getPos())
@@ -531,7 +531,7 @@ function setupOptsBoneLingering(efct, actor) {
     let tempObj = ThreeAPI.tempObj;
     tempObj.scale.set(1, 1, 1);
 
-    let bonePos;
+    let bonePos = actor.getPos;
 
     if (actor.getVisualGamePiece() === null) {
         tempObj.position.copy(actor.getPos())
@@ -576,7 +576,7 @@ function setupOptsBoneLingering(efct, actor) {
 function setupOptsBoneToGround(efct, actor) {
     let tempObj = ThreeAPI.tempObj;
     tempObj.scale.set(1, 1, 1);
-    let bonePos;
+    let bonePos = actor.getPos;
 
     if (actor.getVisualGamePiece() === null) {
         tempObj.position.copy(actor.getPos())
@@ -677,7 +677,7 @@ function setupOptsSprayUpwards(efct, actor, applies) {
 function setupOptsFlames(efct, actor, applies) {
     let tempObj = ThreeAPI.tempObj;
     tempObj.scale.set(1, 1, 1);
-    let bonePos;
+    let bonePos = actor.getPos;
 
     if (actor.getVisualGamePiece() === null) {
         bonePos = actor.getPos;

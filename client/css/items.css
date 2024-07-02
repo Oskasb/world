@@ -404,18 +404,18 @@ div.item_param {
 
 div.item_param h3 {
     font-size: 1.2em;
-    left: 0.1em;
+    left: 0.2em;
     right: auto;
     top: auto;
     bottom: 100%;
-    min-width: 15em;
+    min-width: 78%;
     min-height: 100%;
     color: #ffdfb2;
-    text-shadow: 0 0 0.3em rgb(0, 0, 0);
+    text-shadow: 0 0 0.2em rgb(0, 0, 0);
     padding: 0;
     margin: 0;
-    margin-top: 0.4em;
-    padding-left: 0.2em;
+    margin-top: 0.2em;
+    padding-left: 0.3em;
     text-align: left;
     display: inline-block;
 }
@@ -426,14 +426,14 @@ div.item_param h4 {
     right: auto;
     top: auto;
     bottom: 100%;
-    min-width: 9em;
+    width: 60%;
     min-height: 100%;
     color: #a3e5ff;
     text-shadow: 0 0 0.2em rgb(0, 0, 0);
     padding: 0;
     margin: 0;
     margin-top: -0.5em;
-    padding-left: 0.4em;
+    padding-left: 3%;
     text-align: left;
     display: inline-block;
 }
@@ -443,15 +443,15 @@ div.item_param h5 {
     right: auto;
     top: auto;
     bottom: 100%;
-    min-width: 2em;
+    width: 34%;
     min-height: 100%;
     color: #e3ffd3;
     text-shadow: 0 0 0.2em rgb(0, 0, 0);
     padding: 0;
     margin: 0;
     margin-top: -0.5em;
-    padding-left: 0.5em;
-    text-align: left;
+    text-align: right;
+    overflow: visible;
     display: inline-block;
 }
 

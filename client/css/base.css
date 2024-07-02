@@ -346,18 +346,19 @@ iframe.interact_page {
     width: 340em;
     border: 0;
     position: fixed;
-    transform: translate3d(0px, 0px, 0px);
+    transform: scale3d(0, 0, 0);
     background: none;
 }
 
 iframe.loot_notice {
+    opacity: 1;
     top: 15%;
     right: 52%;
     height: auto;
     width: 260em;
     border: 0;
     position: fixed;
-    transform: translate3d(0px, 0px, 0px);
+    transform: scale3d(0, 0, 0);
     background: none;
 }
 
@@ -368,7 +369,7 @@ iframe.adventure_note {
     width: 220em;
     border: 0;
     position: fixed;
-    transform: translate3d(0px, 0px, 0px);
+    transform: scale3d(0, 0, 0);
     background: none;
 }
 

@@ -5,6 +5,7 @@ let noticeQueue = [];
 
 class DomLootNotice {
     constructor() {
+        let domLootNotice = this;
         let closeTimeout = null;
         if (closeTimeout !== null) {
             clearTimeout(closeTimeout);
@@ -37,19 +38,27 @@ class DomLootNotice {
             }, 1500)
         }
 
+        let rootElement;
             let readyCb = function () {
+                rootElement = htmlElement.call.getRootElement();
+                setTimeout(function() {
+                    rootElement.style.opacity = 1;
+                }, 100)
+
                 container = htmlElement.call.getChildElement('notice_container')
                 DomUtils.addElementClass(container, statusMap.rarity)
                 let header = htmlElement.call.getChildElement('header')
             //    header.innerHTML = hostActor.getStatus(ENUMS.ActorStatus.NAME)
                 DomUtils.addClickFunction(header, rebuild)
-                setTimeout(hide, 1500)
+                setTimeout(hide, 2200)
+                ThreeAPI.registerPrerenderCallback(update);
             }
 
             let rebuild // = htmlElement.initHtmlElement('loot_notice', closeCb, statusMap, 'loot_notice', readyCb);
 
             let notify = function(actor, item) {
                 if (actor === GameAPI.getGamePieceSystem().selectedActor) {
+                    noticeQueue.push(domLootNotice);
                     console.log("loot notice", item)
                     rebuild = htmlElement.initHtmlElement('loot_notice', closeCb, statusMap, 'loot_notice', readyCb);
                 //    let visualPiece = item.visualGamePiece
@@ -58,7 +67,10 @@ class DomLootNotice {
                     statusMap.item_level = 'Level:'+item.getStatus(ENUMS.ItemStatus.ITEM_LEVEL);
                     statusMap.rarity = item.getStatus(ENUMS.ItemStatus.RARITY);
                     statusMap.quality = item.getStatus(ENUMS.ItemStatus.QUALITY);
-                    htmlElement.showHtmlElement();
+
+                    setTimeout(function() {
+                        htmlElement.showHtmlElement();
+                    }, noticeQueue.length * 400)
 
                 } else {
                     console.log("Someone elses loot")
@@ -66,7 +78,14 @@ class DomLootNotice {
 
             }
 
+
             let update = function () {
+
+                let top = (15 + noticeQueue.indexOf(domLootNotice)*6) + '%';
+                if (rootElement.style.top !== top) {
+                    rootElement.style.top = top;
+                }
+
                 let optsContainer = htmlElement.call.getChildElement('interact_container')
                 if (optsContainer) {
                     let gameTime = GameAPI.getGameTime();
@@ -77,10 +96,12 @@ class DomLootNotice {
                 }
             }
 
-            ThreeAPI.registerPrerenderCallback(update);
+
         let clearIframe = function() {
+            MATH.splice(noticeQueue, domLootNotice)
             htmlElement.closeHtmlElement()
         }
+
         let close = function () {
             ThreeAPI.unregisterPrerenderCallback(update);
             htmlElement.hideHtmlElement()

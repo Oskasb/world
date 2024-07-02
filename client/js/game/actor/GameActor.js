@@ -275,6 +275,11 @@ class GameActor {
             return culled;
         }
 
+        let pos = this.actorObj3d.position;
+        function getPosition() {
+            return pos;
+        }
+
         this.call = {
             equipItem:equipItem,
             setRemote:setRemote,
@@ -291,7 +296,8 @@ class GameActor {
             getActiveSpatialTransition:getActiveSpatialTransition,
             inventoryItemAdded:inventoryItemAdded,
             frustumCulled:frustumCulled,
-            isCulled:isCulled
+            isCulled:isCulled,
+            getPosition:getPosition
         }
     }
 
@@ -442,7 +448,7 @@ class GameActor {
     }
 
     getPos() {
-        return this.actorObj3d.position;
+        return this.call.getPosition();
     }
 
     getQuat() {
