@@ -79,7 +79,7 @@ let server = createServer(
             response.setHeader('Cross-origin-Opener-Policy','same-origin');
             response.setHeader('Access-Control-Max-Age', 60*60*24*30);
             response.setHeader('Content-Type', contentType);
-
+            response.setHeader('Cache-control', 'max-age=360000, must-revalidate')
             // response.writeHead(200, {                'Content-Type': contentType             });
             response.end(content, 'utf-8');
          //   console.log('response - Content-Type:'+contentType);

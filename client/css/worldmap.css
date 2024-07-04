@@ -789,16 +789,23 @@ div.grid_tile p {
 }
 
 div.world_level_select {
-    height: 2em;
+    font-size: 1.5em;
+    height: 1em;
     top: 0em;
-    left: 0em;
+    left: 3em;
     width: 2em;
     position: relative;
-    margin: 0.2em;
-    padding: 0;
+    margin: 0.4em;
+    padding: 0.2em;
     display: block;
     align-items: center;
-    color: white;
+    color: #beb1a4;
+    text-shadow: 0.1em 0.1em 0.15em rgba(0, 0, 0, 1);
+    background: rgba(37, 36, 32, 0.25);
+    background-image: linear-gradient(rgb(70, 69, 69) 0%, rgb(77, 71, 66) 7%, rgb(63, 63, 58) 50%, rgb(47, 47, 43) 100%);
+    box-shadow: 0 0 0.5em rgba(0, 0, 0, 0.7);
+    border-color: #605b57;
+    text-align: center;
 }
 
 .header_container {

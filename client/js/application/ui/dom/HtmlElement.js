@@ -41,6 +41,9 @@ class HtmlElement {
         let width = null;
         let height = null;
         let iframeDocument = null;
+
+        let lastStatus = {};
+
         let update = function() {
 
             closed = false;
@@ -57,9 +60,12 @@ class HtmlElement {
 
             let statusMap = this.statusMap;
 
+
+
             for (let key in statusMap) {
                 let elem = iframeDocument.getElementById(key);
-                if (elem) {
+                if (elem && (lastStatus[key] !== statusMap[key])) {
+                    lastStatus[key] = statusMap[key]
                     if (elem.type === 'text') {
                         statusMap[key] = elem.value;
                         updateValueElem(key, elem.value, iframeDocument)
@@ -166,6 +172,9 @@ class HtmlElement {
 
         let close = function() {
             if (closed === false) {
+                for (let key in lastStatus) {
+                    lastStatus[key] = null;
+                }
                 closed = true;
                 this.hideHtmlElement();
                 while (this.onCloseCallbacks.length) {

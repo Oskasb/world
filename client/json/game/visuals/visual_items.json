@@ -451,10 +451,10 @@
         }
       },
       {
-        "id": "VISUAL_MATERIAL_FABRIC_BRILLIANT",
+        "id": "VISUAL_MATERIAL_FABRIC_VIBRANT",
         "data": {
           "model_asset":"asset_box_dynamic",
-          "icon_class": "icon_material_fabric_brilliant"
+          "icon_class": "icon_material_fabric_vibrant"
         }
       },
 

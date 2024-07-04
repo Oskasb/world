@@ -214,6 +214,7 @@ class DomItem {
             console.log("Close...")
         }
 
+
         let update = function() {
 
             let slotId = item.getStatus(ENUMS.ItemStatus.EQUIPPED_SLOT);
@@ -249,7 +250,6 @@ class DomItem {
             let pTop  = rect.y;
             let pLeft = rect.x;
 
-                rootElement.style.fontSize = targetElement.style.fontSize;
 
                 let targetY = dragY+pTop+rect.height*0.5;
                 let targetX = dragX+pLeft+rect.width*0.5
@@ -259,6 +259,13 @@ class DomItem {
                 }
 
                 setTargetCoordinates(targetY, targetX);
+
+
+            if (rootElement.style.fontSize !== targetElement.style.fontSize) {
+                rootElement.style.fontSize = targetElement.style.fontSize;
+            }
+
+
                 if (dragActive === true) {
                     dragEvent.x = targetX;
                     dragEvent.y = targetY;
