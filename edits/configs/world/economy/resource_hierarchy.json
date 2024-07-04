@@ -4,7 +4,7 @@
     "METAL": ["COPPER", "BRONZE", "IRON", "STEEL", "TITANIUM", "ADAMANTIUM"],
     "PRECIOUS_METAL": ["LEAD", "COPPER", "SILVER", "GOLD", "PLATINUM", "MITHRIL"],
     "LEATHER": ["FLIMSY", "PATCHED", "LIGHT", "ROUGH", "THICK", "STRONG"],
-    "CLOTH": ["WEAK", "STITCHED", "PLAIN", "DURABLE", "DYNAMIC", "BRILLIANT"],
+    "CLOTH": ["WEAK", "STITCHED", "PLAIN", "DURABLE", "DYNAMIC", "VIBRANT"],
     "CHEMICALS": ["MURKY", "IMPURE", "CLEAR", "PURE", "BRIGHT", "INFUSED"],
     "COOLANT": ["DIRT", "WATER", "SAND", "OIL", "ADVANCED", "MYSTIC"]
   },
@@ -61,7 +61,7 @@
       "PLAIN": "ITEM_MATERIAL_PADDING_PLAIN",
       "DURABLE": "ITEM_MATERIAL_PADDING_DURABLE",
       "DYNAMIC": "ITEM_MATERIAL_PADDING_DYNAMIC",
-      "BRILLIANT": "ITEM_MATERIAL_PADDING_BRILLIANT"
+      "VIBRANT": "ITEM_MATERIAL_PADDING_VIBRANT"
     },
     "ORNAMENT": {
       "FLIMSY": "ITEM_MATERIAL_LEATHER_FLIMSY",
@@ -100,30 +100,49 @@
       "MYSTIC": "ITEM_MATERIAL_COOLANT_MYSTIC"
     }
   },
-  "rarity_requirement_modifiers": {
-    "PLATING": 1,
-    "ORNAMENT": 1,
-    "PADDING": 1
+  "modifiers": {
+    "RARITY": {
+      "PLAIN": 0,
+      "COMMON": 1,
+      "UNCOMMON": 2,
+      "RARE": 3,
+      "EPIC": 4,
+      "LEGENDARY": 5
+    },
+    "QUALITY": {
+      "POOR": 0,
+      "BASIC": 1,
+      "GOOD": 2,
+      "SUPERB": 3,
+      "EXCEPTIONAL": 4
+    }
   },
-  "quality_requirement_modifiers": {
-    "BINDING": 1,
-    "PROCESSING": 1
+
+  "requirement_material_modifiers": {
+    "BLADE": "RARITY",
+    "PLATING": "RARITY",
+    "RINGS": "RARITY",
+    "SCALES": "RARITY",
+    "PADDING": "RARITY",
+    "ORNAMENT": "RARITY",
+    "BINDING": "QUALITY",
+    "PROCESSING": "QUALITY"
   },
   "equip_slot_modifiers": {
-    "SLOT_HEAD":      [],
-    "SLOT_BODY":      [],
-    "SLOT_CHEST":     [],
-    "SLOT_WRIST":     [],
-    "SLOT_HANDS":     [],
-    "SLOT_WAIST":     [],
-    "SLOT_LEGS":      [],
-    "SLOT_SKIRT":     [],
-    "SLOT_FEET":      [],
-    "SLOT_HAND_R":    [],
-    "SLOT_HAND_L":    [],
-    "SLOT_BACK":      [],
-    "SLOT_WRIST_L":   [],
-    "SLOT_WRIST_R":   []
+    "SLOT_HEAD":    {"multiply": 2, "add": -2},
+    "SLOT_BODY":    {"multiply": 4, "add":  2},
+    "SLOT_CHEST":   {"multiply": 4, "add":  3},
+    "SLOT_WRIST":   {"multiply": 1, "add":  0},
+    "SLOT_HANDS":   {"multiply": 1, "add": -2},
+    "SLOT_WAIST":   {"multiply": 2, "add": -3},
+    "SLOT_LEGS":    {"multiply": 3, "add":  2},
+    "SLOT_SKIRT":   {"multiply": 3, "add":  3},
+    "SLOT_FEET":    {"multiply": 2, "add":  1},
+    "SLOT_HAND_R":  {"multiply": 3, "add":  0},
+    "SLOT_HAND_L":  {"multiply": 2, "add":  0},
+    "SLOT_BACK":    {"multiply": 3, "add":  0},
+    "SLOT_WRIST_L": {"multiply": 2, "add":  0},
+    "SLOT_WRIST_R": {"multiply": 2, "add":  0}
   },
   "item_type_material_components": {
     "KNIFE": [],
@@ -159,38 +178,39 @@
     "STUDDED_CLOTH": [],
     "PLATED_CLOTH": [],
     "LEATHER": [
+      {"component": "SCALES",     "material": "LEATHER",    "weight": 2},
       {"component": "PADDING",    "material": "LEATHER",    "weight": 5},
-      {"component": "PROCESSING", "material": "CHEMICALS",  "weight": 3}
+      {"component": "PROCESSING", "material": "CHEMICALS",  "weight": 4}
     ],
     "LEATHER_ARMOR": [
       {"component": "SCALES",     "material": "LEATHER",    "weight": 6},
       {"component": "PADDING",    "material": "LEATHER",    "weight": 3},
-      {"component": "PROCESSING", "material": "CHEMICALS",  "weight": 3}
+      {"component": "PROCESSING", "material": "CHEMICALS",  "weight": 5}
     ],
     "STUDDED_LEATHER": [
       {"component": "RINGS",      "material": "METAL",      "weight": 3},
       {"component": "PADDING",    "material": "LEATHER",    "weight": 5},
-      {"component": "PROCESSING", "material": "CHEMICALS",  "weight": 3}
+      {"component": "PROCESSING", "material": "CHEMICALS",  "weight": 6}
     ],
     "LAMINATED_ARMOR": [],
     "CHAIN_MAIL": [
       {"component": "RINGS",      "material": "METAL",      "weight": 8},
       {"component": "PADDING",    "material": "LEATHER",    "weight": 3},
-      {"component": "PROCESSING", "material": "CHEMICALS",  "weight": 3}
+      {"component": "PROCESSING", "material": "CHEMICALS",  "weight": 6}
     ],
     "SCALE_MAIL": [
       {"component": "SCALES",     "material": "METAL",      "weight": 7},
       {"component": "RINGS",      "material": "METAL",      "weight": 4},
       {"component": "BINDING",    "material": "LEATHER",    "weight": 5},
-      {"component": "PROCESSING", "material": "CHEMICALS",  "weight": 3}
+      {"component": "PROCESSING", "material": "CHEMICALS",  "weight": 8}
     ],
     "PLATE_MAIL": [
-      {"component": "PLATING",    "material": "METAL",      "weight": 9},
-      {"component": "RINGS",      "material": "METAL",      "weight": 3},
-      {"component": "ORNAMENT",   "material": "METAL",      "weight": 4},
-      {"component": "PADDING",    "material": "LEATHER",    "weight": 5},
-      {"component": "PROCESSING", "material": "CHEMICALS",  "weight": 5},
-      {"component": "PROCESSING", "material": "COOLANT",    "weight": 7}
+      {"component": "PLATING",    "material": "METAL",      "weight": 3},
+      {"component": "RINGS",      "material": "METAL",      "weight": 0},
+      {"component": "ORNAMENT",   "material": "METAL",      "weight": 1},
+      {"component": "PADDING",    "material": "LEATHER",    "weight": 2},
+      {"component": "PROCESSING", "material": "CHEMICALS",  "weight": 6},
+      {"component": "PROCESSING", "material": "COOLANT",    "weight": 6}
     ],
     "WEAPON": [],
     "ARMOR": [],
