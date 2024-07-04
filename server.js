@@ -12,11 +12,11 @@ import {lstat} from 'node:fs';
 import {extname} from 'node:path';
 import {resolve} from 'node:path';
 const ws = WebSocketServer.Server;
-
-const port = process.env.PORT || 8080;
+let localPort = 5006;
+const port = process.env.PORT || localPort;
 import {ServerMain} from "./Server/ServerMain.js";
 let serverMain = new ServerMain();
-
+let publishedServer = true;
 let server = createServer(
 
     function (request, response)
@@ -27,13 +27,35 @@ let server = createServer(
 
     let filePath = '.' + request.url;
     if (filePath.length === 2 || filePath[2] === '?') {
+        console.log("Host:", request.headers.host)
+        let host = request.headers.host;
+        let src = host.split(':')[0];
+        if (src === '127.0.0.1' || src === 'localhost') {
+            publishedServer = false;
+            console.log("Server running Locally")
+        } else {
+            console.log("Server running Remotely")
+        }
+
         filePath = './index.html';
     }
 
 
+
         let ext = extname(filePath);
         let contentType = 'text/html';
+        let cacheControl = 'max-age=3, must-revalidate'
+        if (publishedServer) {
+            cacheControl = 'max-age=3600, public'
+        }
     switch (ext) {
+        case 'glb':
+            if (publishedServer) {
+                cacheControl = 'max-age=36000, public'
+            } else {
+                cacheControl = 'max-age=100, public'
+            }
+            break;
         case '.js':
             contentType = 'text/javascript';
             break;
@@ -45,9 +67,13 @@ let server = createServer(
             break;
         case '.wasm':
             contentType = 'application/wasm';
+            cacheControl = 'max-age=36000, public'
             break;
         case '.png':
             contentType = 'image/png';
+            if (publishedServer) {
+                cacheControl = 'max-age=36000, public'
+            }
             break;
         case '.jpg':
             contentType = 'image/jpg';
@@ -79,7 +105,8 @@ let server = createServer(
             response.setHeader('Cross-origin-Opener-Policy','same-origin');
             response.setHeader('Access-Control-Max-Age', 60*60*24*30);
             response.setHeader('Content-Type', contentType);
-            response.setHeader('Cache-control', 'max-age=360000, must-revalidate')
+
+            response.setHeader('Cache-control', cacheControl)
             // response.writeHead(200, {                'Content-Type': contentType             });
             response.end(content, 'utf-8');
          //   console.log('response - Content-Type:'+contentType);
