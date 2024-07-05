@@ -1388,7 +1388,6 @@
       {
         "id": "VISUAL_BUILDING_COTTAGE",
         "data": {
-          "model_template": "HOUSE_WOOD_6x12",
           "model_asset":"asset_box_dynamic",
           "icon_class": "icon_building_cottage"
         }
@@ -1396,6 +1395,7 @@
       {
         "id": "VISUAL_DEED_COTTAGE",
         "data": {
+          "building_template": "HOUSE_WOOD_6x12",
           "model_asset":"asset_box_dynamic",
           "icon_class": "icon_deed_cottage"
         }

@@ -50,6 +50,9 @@ function stashItem(item) {
     } else if (itemType === ENUMS.itemTypes.RECIPE) {
         console.log("Stash Recipe", item);
         page =  ENUMS.PlayerStatus.STASH_TAB_CRAFT
+    } else if (itemType === ENUMS.itemTypes.DEED || itemType === ENUMS.itemTypes.BUILDING) {
+        console.log("Stash Estate", item);
+        page =  ENUMS.PlayerStatus.STASH_TAB_HOUSING
     } else {
         if (typeof (item.config['equip_slot']) !== 'string') {
             console.log("No stash tab defined for item ", item);

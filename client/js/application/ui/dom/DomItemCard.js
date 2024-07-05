@@ -5,7 +5,7 @@ import {
     getItemMaxPotency,
     getItemMaxRank,
     getItemPotencySlotCount,
-    getItemRankSlotCount,
+    getItemRankSlotCount, getVisualConfigByItemId,
     getVisualConfigByVisualId,
     getVisualConfigIconClass, styleIconDivByTemplateId, updateItemProgressUiStatus, updatePotencyDivs, updateRankDivs
 } from "../../utils/ItemUtils.js";
@@ -13,6 +13,7 @@ import {saveItemStatus} from "../../setup/Database.js";
 import {getItemRecipe} from "../../utils/CraftingUtils.js";
 import {getStashItemCountByTemplateId} from "../../utils/StashUtils.js";
 import {getPlayerActor} from "../../utils/ActorUtils.js";
+import {createByTemplate} from "../../utils/EstateUtils.js";
 
 let activeDomItems = [];
 
@@ -131,22 +132,28 @@ class DomItemCard {
         }
 
 
-
         function activateTravel() {
             console.log("activateTravel", item)
-            let actor = getPlayerActor();
             let worldLevel = item.getStatus(ENUMS.ItemStatus.WORLD_LEVEL);
-            GameAPI.activateWorldLevel(worldLevel)
-            setTimeout(function() {
-                let pos = MATH.vec3FromArray(actor.call.getPosition(), item.getStatus(ENUMS.ItemStatus.POS));
-                actor.setSpatialPosition(pos);
-            }, 1000)
+            let pos = MATH.vec3FromArray(null, item.getStatus(ENUMS.ItemStatus.POS));
+            GameAPI.getPlayer().teleportPlayer(worldLevel, pos)
+            close();
         }
 
         function activateBuild() {
-            console.log("activateBuild", item)
+            let vConf = getVisualConfigByItemId(item.getStatus(ENUMS.ItemStatus.TEMPLATE));
+            console.log("activateBuild", vConf.data['building_template'], vConf, item)
+            let newConfig = createByTemplate(vConf.data['building_template'], getPlayerActor().getPos())
+            let worldLevel = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
+            item.getStatus(ENUMS.ItemStatus.CHILD_ITEMS).push(newConfig.edit_id);
+            item.setStatusKey(ENUMS.ItemStatus.WORLD_LEVEL, worldLevel);
+            item.setStatusKey(ENUMS.ItemStatus.POS, newConfig.pos);
+            close();
         }
 
+        function activateDemolish() {
+            console.log("activateDemolish", item)
+        }
 
         function activateRankUp() {
             let rank = item.getStatus(ENUMS.ItemStatus.ITEM_RANK)
@@ -226,10 +233,16 @@ class DomItemCard {
             let paramPotency = htmlElement.call.getChildElement("param_POTENCY");
             let paramRecIngredients = htmlElement.call.getChildElement("param_INGREDIENTS");
             let paramCraft = htmlElement.call.getChildElement("param_CRAFT");
+
             let paramBuild = htmlElement.call.getChildElement("param_BUILD");
+            let paramVisit = htmlElement.call.getChildElement("param_VISIT");
+            let paramDemolish = htmlElement.call.getChildElement("param_DEMOLISH");
+
             let paramTravel = htmlElement.call.getChildElement("param_TRAVEL");
 
             paramBuild.style.display = 'none'
+            paramVisit.style.display = 'none'
+            paramDemolish.style.display = 'none'
             paramTravel.style.display = 'none'
 
             if (typeof(item.config['equip_slot']) !== 'string' ) {
@@ -278,9 +291,20 @@ class DomItemCard {
             }
 
             if (item.getStatus(ENUMS.ItemStatus.ITEM_TYPE) === ENUMS.itemTypes.DEED) {
-                paramBuild.style.display = ''
-                let build = htmlElement.call.getChildElement("button_build");
-                DomUtils.addClickFunction(build, activateBuild);
+
+                if (item.getStatus(ENUMS.ItemStatus.CHILD_ITEMS).length === 0) {
+                    paramBuild.style.display = '';
+                    let build = htmlElement.call.getChildElement("button_build");
+                    DomUtils.addClickFunction(build, activateBuild);
+                } else {
+                    paramVisit.style.display = ''
+                    paramDemolish.style.display = ''
+                    let visit = htmlElement.call.getChildElement("button_visit");
+                    let demolish = htmlElement.call.getChildElement("button_demolish");
+                    DomUtils.addClickFunction(visit, activateTravel);
+                    DomUtils.addClickFunction(demolish, activateDemolish);
+                }
+
             }
 
             if (item.getStatus(ENUMS.ItemStatus.ITEM_TYPE) === ENUMS.itemTypes.BUILDING) {

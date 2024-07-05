@@ -52,6 +52,11 @@ class DomStash {
             setPlayerStatus(ENUMS.PlayerStatus.ACTIVE_STASH_SUBPAGE, 0);
         }
 
+        function tabHousing() {
+            setPlayerStatus(ENUMS.PlayerStatus.ACTIVE_STASH_TAB, ENUMS.PlayerStatus.STASH_TAB_HOUSING);
+            setPlayerStatus(ENUMS.PlayerStatus.ACTIVE_STASH_SUBPAGE, 0);
+        }
+
         function pageBack() {
             let currentPage = getPlayerStatus(ENUMS.PlayerStatus.ACTIVE_STASH_SUBPAGE);
             if (currentPage > 0) {
@@ -78,6 +83,7 @@ class DomStash {
         buttonFunctions['tab_currencies'] = tabCurr;
         buttonFunctions['tab_lore'] = tabLore;
         buttonFunctions['tab_craft'] = tabCraft;
+        buttonFunctions['tab_housing'] = tabHousing;
         buttonFunctions['button_page_back'] = pageBack;
         buttonFunctions['button_page_forward'] = pageFor;
 
@@ -124,6 +130,7 @@ class DomStash {
             buttonDivs['tab_currencies'] = htmlElement.call.getChildElement('tab_currencies');
             buttonDivs['tab_lore'] = htmlElement.call.getChildElement('tab_lore');
             buttonDivs['tab_craft'] = htmlElement.call.getChildElement('tab_craft');
+            buttonDivs['tab_housing'] = htmlElement.call.getChildElement('tab_housing');
             buttonDivs['button_page_back'] = htmlElement.call.getChildElement('button_page_back');
             buttonDivs['button_page_forward'] = htmlElement.call.getChildElement('button_page_forward');
             buttonDivs['tab_cheat'] = htmlElement.call.getChildElement('tab_cheat');
@@ -165,6 +172,7 @@ class DomStash {
         tabLabelMap[ENUMS.PlayerStatus.STASH_TAB_CURRENCIES] = 'MONEY'
         tabLabelMap[ENUMS.PlayerStatus.STASH_TAB_LORE] = 'LORE'
         tabLabelMap[ENUMS.PlayerStatus.STASH_TAB_CRAFT] = 'RECIPES'
+        tabLabelMap[ENUMS.PlayerStatus.STASH_TAB_HOUSING] = 'ESTATE'
         tabLabelMap["STASH_TAB_CHEAT"] = 'CHEAT'
         let update = function() {
 
@@ -196,6 +204,7 @@ class DomStash {
             statusMap[ENUMS.PlayerStatus.STASH_TAB_CURRENCIES] = getPlayerStatus(ENUMS.PlayerStatus.STASH_TAB_CURRENCIES).length
             statusMap[ENUMS.PlayerStatus.STASH_TAB_LORE] = getPlayerStatus(ENUMS.PlayerStatus.STASH_TAB_LORE).length
             statusMap[ENUMS.PlayerStatus.STASH_TAB_CRAFT] = getPlayerStatus(ENUMS.PlayerStatus.STASH_TAB_CRAFT).length
+            statusMap[ENUMS.PlayerStatus.STASH_TAB_HOUSING] = getPlayerStatus(ENUMS.PlayerStatus.STASH_TAB_HOUSING).length
 
             let tabTotal = getPlayerStatus(ENUMS.PlayerStatus[statusMap[ENUMS.PlayerStatus.ACTIVE_STASH_TAB]]).length
             statusMap['pages_total'] = Math.ceil((tabTotal || 1)  / getPlayerStatus(ENUMS.PlayerStatus.SLOTS_PER_PAGE))

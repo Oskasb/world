@@ -187,8 +187,8 @@ div.button_craft {
     top: 60%;
 }
 
-div.button_misc {
-    background: radial-gradient(circle, rgb(163, 255, 241) 0%, rgb(69, 233, 255) 42%, rgb(1, 110, 169) 83%, rgb(0, 55, 45) 99%);
+div.button_housing {
+    background: radial-gradient(circle, rgb(255, 209, 163) 0%, rgb(255, 153, 69) 42%, rgb(169, 77, 1) 83%, rgb(55, 28, 0) 99%);
     top: 70%;
 }
 

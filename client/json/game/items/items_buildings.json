@@ -11,7 +11,7 @@
             "ITEM_TYPE" : "BUILDING",
             "RARITY": "RARE",
             "QUALITY": "POOR",
-            "TEXT": "Inventory link to the building.",
+            "TEXT": "Inventory link to the Estate.",
             "WORLD_LEVEL": "19",
             "POS": [-735, 3, 735],
             "QUAT": [0, 0, 0, 1]

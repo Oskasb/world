@@ -31,6 +31,10 @@ class Item {
             this.status.statusMap[ENUMS.ItemStatus.STACK_SIZE] = 0;
         }
 
+        if (typeof (this.status.statusMap[ENUMS.ItemStatus.CHILD_ITEMS]) !== 'object') {
+            this.status.statusMap[ENUMS.ItemStatus.CHILD_ITEMS] = [];
+        }
+
         if (typeof (this.status.statusMap[ENUMS.ItemStatus.ITEM_POTENCY]) !== typeof (ENUMS.potency.POTENCY_0)) {
             this.status.statusMap[ENUMS.ItemStatus.ITEM_POTENCY] = ENUMS.potency.POTENCY_0;
             this.status.statusMap[ENUMS.ItemStatus.POTENCY_ECHELON] = ENUMS.echelon.ECHELON_0;

@@ -8,6 +8,7 @@ import {ENUMS} from "../../application/ENUMS.js";
 import {isDev} from "../../application/utils/DebugUtils.js";
 import {storePlayerStatus} from "../../application/setup/Database.js";
 import {DomEncounterStatus} from "../../application/ui/dom/DomEncounterStatus.js";
+import {getPlayerActor} from "../../application/utils/ActorUtils.js";
 
 let tempVec3 = new Vector3()
 
@@ -35,6 +36,7 @@ statusMap[ENUMS.PlayerStatus.STASH_TAB_MATERIALS] = [];
 statusMap[ENUMS.PlayerStatus.STASH_TAB_CURRENCIES] = [];
 statusMap[ENUMS.PlayerStatus.STASH_TAB_LORE] = [];
 statusMap[ENUMS.PlayerStatus.STASH_TAB_CRAFT] = [];
+statusMap[ENUMS.PlayerStatus.STASH_TAB_HOUSING] = [];
 statusMap[ENUMS.PlayerStatus.ACTIVE_STASH_TAB] = ENUMS.PlayerStatus.STASH_TAB_ITEMS;
 statusMap[ENUMS.PlayerStatus.ACTIVE_STASH_FILTERS] = [];
 statusMap[ENUMS.PlayerStatus.ACTIVE_STASH_SUBPAGE] = 0;
@@ -397,6 +399,19 @@ class PlayerMain {
 
     getFocusOnPosition() {
         return this.focusOnPosition;
+    }
+
+    teleportPlayer(worldLevel, posVec3) {
+        let actor = getPlayerActor();
+        actor.setDestination(posVec3);
+        actor.setSpatialPosition(posVec3);
+        evt.dispatch(ENUMS.Event.ENTER_PORTAL, {"world_level": worldLevel, "world_encounters": []})
+        GameAPI.leaveActiveGameWorld();
+        GameAPI.activateWorldLevel(worldLevel);
+        
+        setTimeout(function() {
+            actor.setSpatialPosition(actor.getDestination());
+        }, 400)
     }
 
     setPlayerCharacter(character, oldMain) {
