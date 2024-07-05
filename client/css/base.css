@@ -272,8 +272,8 @@ iframe.stash {
     z-index: 200;
     top: 90em;
     left: 50%;
-    width: 720em;
-    height: 510em;
+    width: 880em;
+    height: 650em;
     position: absolute;
     color: #ecffdc;
     border: none;
@@ -328,11 +328,11 @@ iframe.item_card {
     bottom: 0;
     top:auto;
     margin: 0;
-    padding: 0;
+    padding: 5em;
     left: 50%;
-    width: 300em;
+    width: 410em;
     height: auto;
-    min-height: 300em;
+    min-height: 400em;
     position: absolute;
     border-radius: 10em;
     z-index: 2000;

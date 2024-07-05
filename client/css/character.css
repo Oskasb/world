@@ -64,6 +64,8 @@ div.character_panel {
     z-index: 100;
 }
 
+
+
 div.anchor_close {
     position: absolute;
     top: -0.05em;
@@ -74,6 +76,7 @@ div.anchor_close {
     font-size: 4em;
     z-index: 1000;
 }
+
 
 div.character_panel h1 {
     font-size: 5em;

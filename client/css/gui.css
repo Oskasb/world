@@ -197,6 +197,13 @@ div.anchor_close {
 
 }
 
+div.anchor_inner_corner {
+    top: 0.25em;
+    right: 0.25em;
+    font-size: 3em;
+}
+
+
 div.scale_75 {
     scale: 0.75;
 }
@@ -401,7 +408,7 @@ div.panel_config {
 
 
 div.string_edit {
-    font-size:1.8em;
+    font-size:3.2em;
     width: 25em;
     top: 50%;
     transform: translate(-50%, -50%);

@@ -132,18 +132,19 @@
       "/game/actors/actions/actor_actions_passive.json"      ,
       "/game/actors/actions/statistical/statistical_actions.json"              ,
       "/game/visuals/visual_travel.json"                     ,
-      "/game/items/items_weapons.json"                      ,
-      "/game/items/items_armor.json"                      ,
+      "/game/items/items_weapons.json"                       ,
+      "/game/items/items_armor.json"                         ,
       "/game/items/items_utilities.json"                     ,
 
       "/game/items/items_materials.json"                     ,
       "/game/items/items_currencies.json"                    ,
       "/game/items/items_lore.json"                          ,
-
+      "/game/items/items_deeds.json"                         ,
+      "/game/items/items_buildings.json"                     ,
 
       "/game/actors/actions/actions_movement.json"           ,
       "/game/actors/actions/actor_travel.json"               ,
-      "/game/actors/travel/travel_modes.json"               ,
+      "/game/actors/travel/travel_modes.json"                ,
 
       "/game/visuals/items_armor_default.json"               ,
       "/game/visuals/items_armor_green.json"                        ,

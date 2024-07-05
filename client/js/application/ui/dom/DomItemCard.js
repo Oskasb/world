@@ -12,6 +12,7 @@ import {
 import {saveItemStatus} from "../../setup/Database.js";
 import {getItemRecipe} from "../../utils/CraftingUtils.js";
 import {getStashItemCountByTemplateId} from "../../utils/StashUtils.js";
+import {getPlayerActor} from "../../utils/ActorUtils.js";
 
 let activeDomItems = [];
 
@@ -49,16 +50,16 @@ class DomItemCard {
 
             let pTop  = bodyRect.height - rootRect.top - bodyRect.top;
             if (pTop > bodyRect.height*0.5) {
-                pTop -= (rootRect.height*2+height*2);
+                pTop -= (rootRect.height*2.2 + height * 2);
             }
 
 
             let pLeft = elemRect.left + rootRect.left - bodyRect.left;
 
-            if (pLeft > bodyRect.width * 0.5) {
-                pLeft -= (rootRect.width*2 - width)
+            if (pLeft > bodyRect.width * 0.4) {
+                pLeft -= (rootRect.width*1.2 + width * 1)
             } else {
-                pLeft += rootRect.width*2
+                pLeft += rootRect.width*1.2 + width * 2
             }
 
             setTargetCoordinates(pTop, pLeft)
@@ -131,6 +132,20 @@ class DomItemCard {
 
 
 
+        function activateTravel() {
+            console.log("activateTravel", item)
+            let actor = getPlayerActor();
+            let worldLevel = item.getStatus(ENUMS.ItemStatus.WORLD_LEVEL);
+            GameAPI.activateWorldLevel(worldLevel)
+            setTimeout(function() {
+                let pos = MATH.vec3FromArray(actor.call.getPosition(), item.getStatus(ENUMS.ItemStatus.POS));
+                actor.setSpatialPosition(pos);
+            }, 1000)
+        }
+
+        function activateBuild() {
+            console.log("activateBuild", item)
+        }
 
 
         function activateRankUp() {
@@ -209,9 +224,14 @@ class DomItemCard {
             let paramPalVals = htmlElement.call.getChildElement("param_PALETTE_VALUES");
             let paramRank = htmlElement.call.getChildElement("param_RANK");
             let paramPotency = htmlElement.call.getChildElement("param_POTENCY");
-
             let paramRecIngredients = htmlElement.call.getChildElement("param_INGREDIENTS");
             let paramCraft = htmlElement.call.getChildElement("param_CRAFT");
+            let paramBuild = htmlElement.call.getChildElement("param_BUILD");
+            let paramTravel = htmlElement.call.getChildElement("param_TRAVEL");
+
+            paramBuild.style.display = 'none'
+            paramTravel.style.display = 'none'
+
             if (typeof(item.config['equip_slot']) !== 'string' ) {
                 paramRank.style.display = 'none'
                 paramPotency.style.display = 'none'
@@ -255,6 +275,18 @@ class DomItemCard {
                 if (maxPotency === ENUMS.echelon.ECHELON_0) {
                     paramPotency.style.display = 'none'
                 }
+            }
+
+            if (item.getStatus(ENUMS.ItemStatus.ITEM_TYPE) === ENUMS.itemTypes.DEED) {
+                paramBuild.style.display = ''
+                let build = htmlElement.call.getChildElement("button_build");
+                DomUtils.addClickFunction(build, activateBuild);
+            }
+
+            if (item.getStatus(ENUMS.ItemStatus.ITEM_TYPE) === ENUMS.itemTypes.BUILDING) {
+                paramTravel.style.display = ''
+                let travel = htmlElement.call.getChildElement("button_travel");
+                DomUtils.addClickFunction(travel, activateTravel);
             }
 
             if (item.getStatus(ENUMS.ItemStatus.TEXT) === "") {

@@ -487,3 +487,10 @@ div.icon_lore_note_scribbled {
     background-image: url("/client/assets/images/textures/gui/icons_lore/note_scribbled.png");
 }
 
+div.icon_deed_cottage {
+    background-image: url("/client/assets/images/textures/gui/icons/deed_cottage.png");
+}
+
+div.icon_building_cottage {
+    background-image: url("/client/assets/images/textures/gui/icons/icon_cottage.png");
+}

@@ -6,12 +6,12 @@
         "data": {
           "visual_id":"VISUAL_LORE_NOTE_SCRIBBLED",
           "status": {
-            "NAME":"Note To Self",
+            "NAME":"The Cottage",
             "ITEM_LEVEL": 0,
             "ITEM_TYPE" : "LORE",
-            "RARITY": "COMMON",
+            "RARITY": "PLAIN",
             "QUALITY": "POOR",
-            "TEXT": "Wolfe says they are planning it. Beware of the old senator."
+            "TEXT": "We had to leave the cottage on our island. I hope you get a chance to restore it someday."
           }
         }
       }

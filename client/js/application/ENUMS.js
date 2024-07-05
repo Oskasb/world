@@ -430,7 +430,10 @@ ENUMS.UiStates = {
         RANK_ECHELON:'RANK_ECHELON',
         ITEM_POTENCY:'ITEM_POTENCY',
         POTENCY_ECHELON:'POTENCY_ECHELON',
-        STACK_SIZE:'STACK_SIZE'
+        STACK_SIZE:'STACK_SIZE',
+        WORLD_LEVEL:'WORLD_LEVEL',
+        POS:'POS',
+        QUAT:'QUAT'
     }
 
     ENUMS.itemTypes = {
@@ -486,7 +489,8 @@ ENUMS.UiStates = {
         BUILDING:'BUILDING',
         RECIPE:'RECIPE',
         CONSUMABLE:'CONSUMABLE',
-        CONTAINER:'CONTAINER'
+        CONTAINER:'CONTAINER',
+        DEED:'DEED'
     }
 
     ENUMS.Material = {

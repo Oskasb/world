@@ -3,7 +3,7 @@ body.item_card_container {
     left: 0.5em;
     bottom: 0.5em;
     right: auto;
-    width: 29.5em;
+    width: 39.5em;
     height:auto;
     min-height: 9em;
     position: absolute;
@@ -288,13 +288,16 @@ div.label_item_level h2 {
 }
 
 div.item_card_panel {
+    pointer-events: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
     top: 0;
     left: 0;
     right: auto;
     width: 100%;
     bottom: 0;
     min-height: 9em;
-    font-size: 1em;
+    font-size: 1.4em;
     border-radius: 0.5em;
     position: absolute;
     margin:0;
@@ -306,7 +309,7 @@ div.item_card_panel {
     opacity: 100;
     color: black;
     background: radial-gradient(circle, rgb(121, 121, 121) 0%, rgb(47, 47, 47) 99%);
-    border: 0.2em solid;
+    border: 0.3em solid;
     border-color: rgb(255, 255, 255);
     box-shadow: 0 0 1.5em rgba(115, 180, 250, 0.5);
 }

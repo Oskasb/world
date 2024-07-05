@@ -4,14 +4,17 @@
       {
         "id": "ITEM_BUILDING_COTTAGE",
         "data": {
-          "visual_id":"VISUAL_LORE_NOTE_SCRIBBLED",
+          "visual_id":"VISUAL_BUILDING_COTTAGE",
           "status": {
             "NAME":"Building: Cottage",
             "ITEM_LEVEL": 0,
             "ITEM_TYPE" : "BUILDING",
-            "RARITY": "UNCOMMON",
+            "RARITY": "RARE",
             "QUALITY": "POOR",
-            "TEXT": "Inventory link to the building."
+            "TEXT": "Inventory link to the building.",
+            "WORLD_LEVEL": "19",
+            "POS": [-735, 3, 735],
+            "QUAT": [0, 0, 0, 1]
           }
         }
       }

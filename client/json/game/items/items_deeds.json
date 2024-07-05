@@ -4,12 +4,12 @@
       {
         "id": "ITEM_DEED_COTTAGE",
         "data": {
-          "visual_id":"VISUAL_LORE_NOTE_SCRIBBLED",
+          "visual_id":"VISUAL_DEED_COTTAGE",
           "status": {
             "NAME":"Deed: Cottage",
             "ITEM_LEVEL": 0,
             "ITEM_TYPE" : "DEED",
-            "RARITY": "COMMON",
+            "RARITY": "UNCOMMON",
             "QUALITY": "POOR",
             "TEXT": "Proof of ownership."
           }

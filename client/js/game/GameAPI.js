@@ -218,7 +218,7 @@ class GameAPI {
     }
 
     activateWorldLevel(worldLevel) {
-    //    console.log('activateWorldLevel', worldLevel)
+        console.log('activateWorldLevel', worldLevel)
         let terrainSys = ThreeAPI.getTerrainSystem();
         let worldLevelConfig = this.gameMain.getWorldLevelConfig(worldLevel);
 

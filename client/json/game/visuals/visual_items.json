@@ -593,13 +593,7 @@
       },
 
 
-      {
-        "id": "VISUAL_LORE_NOTE_SCRIBBLED",
-        "data": {
-          "model_asset":"asset_box_dynamic",
-          "icon_class": "icon_lore_note_scribbled"
-        }
-      },
+
       {
         "id": "VISUAL_CURRENCY_GOLD",
         "data": {
@@ -1382,6 +1376,28 @@
         "id":"BARB_GREAVES",
         "data":{
           "model_asset":"skinned_barb_greaves"
+        }
+      },
+      {
+        "id": "VISUAL_LORE_NOTE_SCRIBBLED",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_lore_note_scribbled"
+        }
+      },
+      {
+        "id": "VISUAL_BUILDING_COTTAGE",
+        "data": {
+          "model_template": "HOUSE_WOOD_6x12",
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_building_cottage"
+        }
+      },
+      {
+        "id": "VISUAL_DEED_COTTAGE",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_deed_cottage"
         }
       }
     ]
