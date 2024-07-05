@@ -1,0 +1,20 @@
+[{
+  "GAME":{
+    "ITEMS":[
+      {
+        "id": "ITEM_DEED_COTTAGE",
+        "data": {
+          "visual_id":"VISUAL_LORE_NOTE_SCRIBBLED",
+          "status": {
+            "NAME":"Deed: Cottage",
+            "ITEM_LEVEL": 0,
+            "ITEM_TYPE" : "DEED",
+            "RARITY": "COMMON",
+            "QUALITY": "POOR",
+            "TEXT": "Proof of ownership."
+          }
+        }
+      }
+    ]
+  }
+}]

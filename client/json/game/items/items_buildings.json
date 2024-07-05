@@ -1,0 +1,20 @@
+[{
+  "GAME":{
+    "ITEMS":[
+      {
+        "id": "ITEM_BUILDING_COTTAGE",
+        "data": {
+          "visual_id":"VISUAL_LORE_NOTE_SCRIBBLED",
+          "status": {
+            "NAME":"Building: Cottage",
+            "ITEM_LEVEL": 0,
+            "ITEM_TYPE" : "BUILDING",
+            "RARITY": "UNCOMMON",
+            "QUALITY": "POOR",
+            "TEXT": "Inventory link to the building."
+          }
+        }
+      }
+    ]
+  }
+}]
