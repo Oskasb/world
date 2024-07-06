@@ -1,5 +1,7 @@
 import {ItemStatus} from "./ItemStatus.js";
 import {applyStatusMessageToMap} from "../../../../Server/game/utils/GameServerFunctions.js";
+import {getPlayerStatus} from "../../application/utils/StatusUtils.js";
+import {saveItemStatus} from "../../application/setup/Database.js";
 
 let index = 0;
 
@@ -98,6 +100,10 @@ class Item {
 
     setStatusKey(key, status) {
         this.status.call.setStatusByKey(key, status);
+        let actorId = this.getStatus(ENUMS.ItemStatus.ACTOR_ID);
+        if (actorId === getPlayerStatus(ENUMS.ItemStatus.ACTOR_ID)) {
+            saveItemStatus(this.getStatus())
+        }
     };
 
     getStatus(key) {

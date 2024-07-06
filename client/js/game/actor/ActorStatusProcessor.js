@@ -397,13 +397,16 @@ function processWorldTransition(actor) {
 
     let worldLevel =  GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL);
 
-    if (worldLevel !== lastWorldLevel) {
-        actor.setStatusKey(ENUMS.ActorStatus.WORLD_LEVEL, worldLevel)
-        let fromLevel = lastWorldLevel;
-        actor.actorText.say("Enter world level "+worldLevel)
+    if (worldLevel !== actor.getStatus(ENUMS.ActorStatus.WORLD_LEVEL)) {
         lastWorldLevel = worldLevel;
-        GameAPI.leaveActiveGameWorld();
-        GameAPI.activateWorldLevel(worldLevel);
+        actor.setStatusKey(ENUMS.ActorStatus.WORLD_LEVEL, worldLevel)
+        GameAPI.getPlayer().teleportPlayer(worldLevel, actor.getPos(), true)
+
+    //    let fromLevel = lastWorldLevel;
+        actor.actorText.say("Enter world level "+worldLevel)
+
+    //    GameAPI.leaveActiveGameWorld();
+    //    GameAPI.activateWorldLevel(worldLevel);
     }
 
 }

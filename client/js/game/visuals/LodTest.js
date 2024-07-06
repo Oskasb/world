@@ -70,8 +70,10 @@ class LodTest {
             model.isVisible = true;
         } else {
             if (model.isVisible === true) {
-
-                if (lodLevel > visibility) {
+                if (lodLevel === -2) {
+                    hideCallback(model);
+                    model.isVisible = false;
+                } else if (lodLevel > visibility) {
                     hideCallback(model);
                     model.isVisible = false;
                 } else {

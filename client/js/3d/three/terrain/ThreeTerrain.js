@@ -430,6 +430,7 @@ function clearTerrainGeometries() {
             terrainGeometries[i][j].clearTerrainGeometry();
         }
     }
+    dynamicLodGrid.deactivateLodGrid()
 }
 
 let terrainData;

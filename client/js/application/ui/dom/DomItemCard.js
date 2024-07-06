@@ -302,7 +302,12 @@ class DomItemCard {
                     let visit = htmlElement.call.getChildElement("button_visit");
                     let demolish = htmlElement.call.getChildElement("button_demolish");
                     DomUtils.addClickFunction(visit, activateTravel);
+                    let wLevel = item.getStatus(ENUMS.ItemStatus.WORLD_LEVEL);
+                    let coords = JSON.stringify(item.getStatus(ENUMS.ItemStatus.POS));
+                    statusMap['item_deed_visit'] = "W: "+wLevel+" P:"+coords;
                     DomUtils.addClickFunction(demolish, activateDemolish);
+                    statusMap['item_deed_demolish'] = item.getStatus(ENUMS.ItemStatus.CHILD_ITEMS)[0];
+
                 }
 
             }

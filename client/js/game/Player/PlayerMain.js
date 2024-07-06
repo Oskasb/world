@@ -227,15 +227,50 @@ class PlayerMain {
             let envId= config.env;
             let name = config.name;
 
-            let transitionReady = function() {
-                if (e.pos) {
-                    actor.setDestination(e.pos);
-                }
-                GameAPI.getPlayer().setStatusKey(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL, e.world_level);
+        //    GameAPI.leaveActiveGameWorld();
 
+            GameAPI.leaveActiveGameWorld();
+
+            if (actor) {
+                actor.setStatusKey(ENUMS.ActorStatus.WORLD_LEVEL, e.world_level)
+            }
+            GameAPI.getPlayer().setStatusKey(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL, e.world_level);
+            let transitionReady = function() {
+            //    GameAPI.leaveActiveGameWorld();
+                if (e.pos) {
+                    if (actor) {
+
+                        if (e.pos.length === 3) {
+                            actor.setStatusKey(ENUMS.ActorStatus.SELECTED_DESTINATION, e.pos);
+                        } else {
+                            actor.setDestination(e.pos);
+                        }
+                        actor.setSpatialPosition(actor.getDestination())
+                    } else {
+                        let cPos = ThreeAPI.getCameraCursor().getLookAroundPoint();
+                        if (e.pos.length === 3) {
+                            MATH.vec3FromArray(cPos, e.pos);
+                        } else {
+                            cPos.copy(e.pos);
+                        }
+                    }
+                }
+
+
+
+
+                if (typeof (e.callback) === 'function') {
+                    setTimeout(function() {
+                        e.callback()
+                    }, 100)
+                }
+            //    setTimeout(function() {
+            //        GameAPI.activateWorldLevel(e.worldLevel);
+            //    }, 1000)
             }
 
-            GuiAPI.activateDomTransition(name, config, transitionReady )
+
+
 
             evt.dispatch(ENUMS.Event.ADVANCE_ENVIRONMENT,  {envId:envId, time:0.5});
 
@@ -254,6 +289,15 @@ class PlayerMain {
                 GameAPI.worldModels.loadWorldLevelConfigEdits(e.world_level)
                 evt.dispatch(ENUMS.Event.LOAD_ADVENTURE_ENCOUNTERS, {world_encounters:world_encounters, world_level:worldLevel})
             }
+
+            setTimeout(function() {
+                GameAPI.activateWorldLevel(e.world_level);
+                if (e['prevent_transition'] === true) {
+                    transitionReady()
+                } else {
+                    GuiAPI.activateDomTransition(name, config, transitionReady )
+                }
+            }, 500)
 
         }
 
@@ -401,17 +445,10 @@ class PlayerMain {
         return this.focusOnPosition;
     }
 
-    teleportPlayer(worldLevel, posVec3) {
-        let actor = getPlayerActor();
-        actor.setDestination(posVec3);
-        actor.setSpatialPosition(posVec3);
-        evt.dispatch(ENUMS.Event.ENTER_PORTAL, {"world_level": worldLevel, "world_encounters": []})
-        GameAPI.leaveActiveGameWorld();
-        GameAPI.activateWorldLevel(worldLevel);
-        
-        setTimeout(function() {
-            actor.setSpatialPosition(actor.getDestination());
-        }, 400)
+    teleportPlayer(worldLevel, posVec3, preventTransition) {
+
+        evt.dispatch(ENUMS.Event.ENTER_PORTAL, {"world_level": worldLevel, "world_encounters": [], pos:[posVec3.x, posVec3.y, posVec3.z], prevent_transition:preventTransition})
+
     }
 
     setPlayerCharacter(character, oldMain) {

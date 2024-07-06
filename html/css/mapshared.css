@@ -1,19 +1,17 @@
-
 @font-face {
     font-family: 'Russo One';
-    src: url('../css/fonts/RussoOne-Regular.ttf');
+    src: url('fonts/RussoOne-Regular.ttf');
 }
 
 @font-face {
     font-family: 'Berlin Sans Demi';
-    src: url('../css/fonts/BRLNSDB.TTF');
+    src: url('fonts/BRLNSDB.TTF');
 }
 
 @font-face {
     font-family: 'Berlin Sans Bold';
-    src: url('../css/fonts/BRLNSB.TTF');
+    src: url('fonts/BRLNSB.TTF');
 }
-
 span {
     display:block;
     left:0em;
