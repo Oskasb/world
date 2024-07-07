@@ -189,6 +189,14 @@ class WorldModel {
 
         let worldModelLodUpdate = function(lodLevel) {
             lastLodLevel = lodLevel;
+
+            if (lodLevel === -2) {
+                removeModels()
+                lodDeactivate()
+                setLocModelsLod(this.locationModels, lodLevel);
+                return;
+            }
+
             if (MATH.valueIsBetween(lodLevel, 0, 1)) {
                  lodDeactivate()
             //    lodActivate()
@@ -329,7 +337,10 @@ class WorldModel {
                 if (cfg.model !== originalModel || replace === true) {
                     GameAPI.worldModels.removeWorldModel(this);
                     this.deleteWorldModel();
-                    GameAPI.worldModels.addConfigModel(cfg, cfg.edit_id);
+                    if (cfg.DELETED === true) {
+                        GameAPI.worldModels.addConfigModel(cfg, cfg.edit_id);
+                    }
+
                     return;
                 }
 
@@ -420,8 +431,13 @@ class WorldModel {
         }
     }
 
-    deleteWorldModel() {
-        this.removeLocationModels()
+     deleteWorldModel() {
+         this.call.worldModelLodUpdate(-2)
+         this.removeLocationModels()
+     //
+         ThreeAPI.clearTerrainLodUpdateCallback(this.call.worldModelLodUpdate)
+    //    this.setHidden(true)
+
         MATH.splice(GameAPI.worldModels.getActiveWorldModels(), this);
     }
 

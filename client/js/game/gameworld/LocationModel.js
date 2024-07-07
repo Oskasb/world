@@ -331,7 +331,7 @@ class LocationModel {
 
     removeLocationModel() {
         this.clearLocationBoxes();
-        this.call.lodUpdated(-1);
+        this.call.lodUpdated(-2);
         hideLocationModel(this);
     }
 

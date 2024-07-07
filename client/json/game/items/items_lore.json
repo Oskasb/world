@@ -6,12 +6,12 @@
         "data": {
           "visual_id":"VISUAL_LORE_NOTE_SCRIBBLED",
           "status": {
-            "NAME":"The Cottage",
+            "NAME":"Letter from a friend",
             "ITEM_LEVEL": 0,
             "ITEM_TYPE" : "LORE",
             "RARITY": "PLAIN",
             "QUALITY": "POOR",
-            "TEXT": "We had to leave the cottage on our island. I hope you get a chance to restore it someday."
+            "TEXT": "I am returning home and won't be coming back. I leave the plot on the Outer Isles in your care.<br>  There should be enough materials to set up a small cottage for when you want a home. <br> /Your Friend"
           }
         }
       }

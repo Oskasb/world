@@ -492,6 +492,7 @@ ENUMS.UiStates = {
         RECIPE:'RECIPE',
         CONSUMABLE:'CONSUMABLE',
         CONTAINER:'CONTAINER',
+        ESTATE:'ESTATE',
         DEED:'DEED'
     }
 

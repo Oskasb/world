@@ -50,7 +50,7 @@ function stashItem(item) {
     } else if (itemType === ENUMS.itemTypes.RECIPE) {
         console.log("Stash Recipe", item);
         page =  ENUMS.PlayerStatus.STASH_TAB_CRAFT
-    } else if (itemType === ENUMS.itemTypes.DEED || itemType === ENUMS.itemTypes.BUILDING) {
+    } else if (itemType === ENUMS.itemTypes.DEED || itemType === ENUMS.itemTypes.ESTATE) {
         console.log("Stash Estate", item);
         page =  ENUMS.PlayerStatus.STASH_TAB_HOUSING
     } else {

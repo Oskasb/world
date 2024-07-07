@@ -2,13 +2,13 @@
   "GAME":{
     "ITEMS":[
       {
-        "id": "ITEM_BUILDING_COTTAGE",
+        "id": "ITEM_ESTATE_START",
         "data": {
           "visual_id":"VISUAL_BUILDING_COTTAGE",
           "status": {
-            "NAME":"Building: Cottage",
+            "NAME":"Outer Isles - 1:735",
             "ITEM_LEVEL": 0,
-            "ITEM_TYPE" : "BUILDING",
+            "ITEM_TYPE" : "ESTATE",
             "RARITY": "RARE",
             "QUALITY": "POOR",
             "TEXT": "Inventory link to the Estate.",

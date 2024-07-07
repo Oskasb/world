@@ -14,6 +14,7 @@ import {getItemRecipe} from "../../utils/CraftingUtils.js";
 import {getStashItemCountByTemplateId} from "../../utils/StashUtils.js";
 import {getPlayerActor} from "../../utils/ActorUtils.js";
 import {createByTemplate} from "../../utils/EstateUtils.js";
+import {getConfigByEditId, saveWorldModelEdits} from "../../utils/ConfigUtils.js";
 
 let activeDomItems = [];
 
@@ -134,8 +135,17 @@ class DomItemCard {
 
         function activateTravel() {
             console.log("activateTravel", item)
+            let buildingEditId = item.getStatus(ENUMS.ItemStatus.CHILD_ITEMS)[0];
+            let pos;
+            if (buildingEditId) {
+                let buildingCfg = getConfigByEditId(buildingEditId);
+                console.log("buildingCfg", buildingCfg);
+                pos = MATH.vec3FromArray(null, buildingCfg['pos']);
+            } else {
+                pos = MATH.vec3FromArray(null, item.getStatus(ENUMS.ItemStatus.POS))
+            }
+
             let worldLevel = item.getStatus(ENUMS.ItemStatus.WORLD_LEVEL);
-            let pos = MATH.vec3FromArray(null, item.getStatus(ENUMS.ItemStatus.POS));
             GameAPI.getPlayer().teleportPlayer(worldLevel, pos)
             close();
         }
@@ -152,7 +162,15 @@ class DomItemCard {
         }
 
         function activateDemolish() {
-            console.log("activateDemolish", item)
+            let buildingEditId = item.getStatus(ENUMS.ItemStatus.CHILD_ITEMS).pop();
+            let buildingCfg = getConfigByEditId(buildingEditId);
+            let worldModel = GameAPI.worldModels.getActiveWorldModel(buildingEditId);
+            worldModel.deleteWorldModel();
+            console.log("activateDemolish worldModel", item, buildingCfg, worldModel);
+            buildingCfg.DELETED = true;
+            saveWorldModelEdits(worldModel);
+            saveItemStatus(item.getStatus());
+
         }
 
         function activateRankUp() {
@@ -312,7 +330,7 @@ class DomItemCard {
 
             }
 
-            if (item.getStatus(ENUMS.ItemStatus.ITEM_TYPE) === ENUMS.itemTypes.BUILDING) {
+            if (item.getStatus(ENUMS.ItemStatus.ITEM_TYPE) === ENUMS.itemTypes.ESTATE) {
                 paramTravel.style.display = ''
                 let travel = htmlElement.call.getChildElement("button_travel");
                 DomUtils.addClickFunction(travel, activateTravel);
