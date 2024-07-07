@@ -1399,6 +1399,13 @@
           "model_asset":"asset_box_dynamic",
           "icon_class": "icon_deed_cottage"
         }
+      },
+      {
+        "id": "VISUAL_ICON_ESTATE",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_estate"
+        }
       }
     ]
   }
