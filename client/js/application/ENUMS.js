@@ -435,6 +435,7 @@ ENUMS.UiStates = {
         WORLD_LEVEL:'WORLD_LEVEL',
         POS:'POS',
         QUAT:'QUAT',
+        SIZE_XYZ:'SIZE_XYZ',
         CHILD_ITEMS:'CHILD_ITEMS'
     }
 

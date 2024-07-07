@@ -215,6 +215,7 @@ class PlayerMain {
             if (typeof (loadEncounters) === 'function') {
                 loadEncounters();
             }
+            GameAPI.worldModels.activateWorldLevelEstates(GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL));
         }
 
         let loadEncounters;

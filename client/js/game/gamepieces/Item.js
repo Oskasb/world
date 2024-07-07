@@ -2,6 +2,7 @@ import {ItemStatus} from "./ItemStatus.js";
 import {applyStatusMessageToMap} from "../../../../Server/game/utils/GameServerFunctions.js";
 import {getPlayerStatus} from "../../application/utils/StatusUtils.js";
 import {saveItemStatus} from "../../application/setup/Database.js";
+import {ItemEstate} from "./ItemEstate.js";
 
 let index = 0;
 
@@ -29,12 +30,21 @@ class Item {
             }
         }
 
+        if (this.status.statusMap[ENUMS.ItemStatus.ITEM_TYPE] === ENUMS.itemTypes.ESTATE) {
+            let estate = new ItemEstate(this.status.statusMap);
+            GameAPI.worldModels.registerWorldEstate(estate);
+        }
+
         if (typeof (this.status.statusMap[ENUMS.ItemStatus.STACK_SIZE]) !== 'number') {
             this.status.statusMap[ENUMS.ItemStatus.STACK_SIZE] = 0;
         }
 
         if (typeof (this.status.statusMap[ENUMS.ItemStatus.CHILD_ITEMS]) !== 'object') {
             this.status.statusMap[ENUMS.ItemStatus.CHILD_ITEMS] = [];
+        }
+
+        if (typeof (this.status.statusMap[ENUMS.ItemStatus.SIZE_XYZ]) !== 'object') {
+            this.status.statusMap[ENUMS.ItemStatus.SIZE_XYZ] = [];
         }
 
         if (typeof (this.status.statusMap[ENUMS.ItemStatus.ITEM_POTENCY]) !== typeof (ENUMS.potency.POTENCY_0)) {

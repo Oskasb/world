@@ -14,6 +14,7 @@
             "TEXT": "Inventory link to the Estate.",
             "WORLD_LEVEL": "19",
             "POS": [-735, 3, 735],
+            "SIZE_XYZ": [24, 15, 24],
             "QUAT": [0, 0, 0, 1]
           }
         }

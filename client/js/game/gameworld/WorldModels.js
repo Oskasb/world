@@ -14,6 +14,7 @@ let worldBoxes = [];
 let worldEncounters = [];
 let nodeEncounterConfigs = {};
 let worldTreasures = [];
+let worldEstates = [];
 let skippedTreasures = {};
 let skippedEncounters = {};
 let dynamicSpawnPoints = [];
@@ -552,6 +553,22 @@ class WorldModels {
 
     getWorldModelCount() {
         return worldModels.length;
+    }
+
+    registerWorldEstate(itemEstate) {
+        worldEstates.push(itemEstate);
+    }
+
+    activateWorldLevelEstates(worldLevel) {
+        for (let i = 0; i < worldEstates.length; i++) {
+            let estate = worldEstates[i];
+            let ewl = estate.call.getWorldLevel();
+            if (ewl === worldLevel) {
+                estate.call.estateActivate(true)
+            } else {
+                estate.call.estateActivate(false)
+            }
+        }
     }
 
     getWorldBoxCount() {
