@@ -14,8 +14,9 @@ import {saveItemStatus} from "../../setup/Database.js";
 import {getItemRecipe} from "../../utils/CraftingUtils.js";
 import {getStashItemCountByTemplateId} from "../../utils/StashUtils.js";
 import {getPlayerActor} from "../../utils/ActorUtils.js";
-import {canBuildConstructionKit, createByTemplate} from "../../utils/EstateUtils.js";
+import {canBuildConstructionKit, createByTemplate, initActorEstateBuilding} from "../../utils/EstateUtils.js";
 import {getConfigByEditId, saveWorldModelEdits} from "../../utils/ConfigUtils.js";
+import {getPlayerStatus} from "../../utils/StatusUtils.js";
 
 let activeDomItems = [];
 
@@ -103,29 +104,50 @@ class DomItemCard {
 
                 let canBuild = canBuildConstructionKit(item, getPlayerActor());
 
-                let paramBuild = htmlElement.call.getChildElement("param_BUILD");
-                let paramVisit = htmlElement.call.getChildElement("param_VISIT");
-                let paramDemolish = htmlElement.call.getChildElement("param_DEMOLISH");
+            //    if (canBuild !== buildStatus.canBuild) {
+                    buildStatus.canBuild = canBuild;
 
-                if (item.getStatus(ENUMS.ItemStatus.CHILD_ITEMS).length === 0) {
-                    paramBuild.style.display = '';
-                    let build = htmlElement.call.getChildElement("button_build");
-                    DomUtils.addClickFunction(build, activateBuild);
-                } else {
-                    paramVisit.style.display = ''
-                    paramDemolish.style.display = ''
-                    let visit = htmlElement.call.getChildElement("button_visit");
-                    let demolish = htmlElement.call.getChildElement("button_demolish");
-                    DomUtils.addClickFunction(visit, activateTravel);
-                    let wLevel = item.getStatus(ENUMS.ItemStatus.WORLD_LEVEL);
-                    let coords = JSON.stringify(item.getStatus(ENUMS.ItemStatus.POS));
-                    statusMap['item_deed_visit'] = "W: "+wLevel+" P:"+coords;
-                    DomUtils.addClickFunction(demolish, activateDemolish);
-                    statusMap['item_deed_demolish'] = item.getStatus(ENUMS.ItemStatus.CHILD_ITEMS)[0];
-                }
+                    let paramBuild = htmlElement.call.getChildElement("param_BUILD");
+                    let paramVisit = htmlElement.call.getChildElement("param_VISIT");
+                    let paramDemolish = htmlElement.call.getChildElement("param_DEMOLISH");
+
+                    if (canBuild !== false) {
+                        if (item.getStatus(ENUMS.ItemStatus.CHILD_ITEMS).length === 0) {
+                            statusMap['item_deed_build'] = "Begin Construction";
+                            paramBuild.style.display = '';
+                            let build = htmlElement.call.getChildElement("button_build");
+                            build.style.display = '';
+                            DomUtils.addClickFunction(build, activateBuild);
+                        } else {
+                            paramVisit.style.display = ''
+                            paramDemolish.style.display = ''
+                            let visit = htmlElement.call.getChildElement("button_visit");
+                            let demolish = htmlElement.call.getChildElement("button_demolish");
+                            DomUtils.addClickFunction(visit, activateTravel);
+                            let wLevel = item.getStatus(ENUMS.ItemStatus.WORLD_LEVEL);
+                            let coords = JSON.stringify(item.getStatus(ENUMS.ItemStatus.POS));
+                            statusMap['item_deed_visit'] = "W: "+wLevel+" P:"+coords;
+                            DomUtils.addClickFunction(demolish, activateDemolish);
+                            statusMap['item_deed_demolish'] = item.getStatus(ENUMS.ItemStatus.CHILD_ITEMS)[0];
+                        }
+                    } else {
+                        paramBuild.style.display = '';
+                        htmlElement.call.getChildElement("button_build").style.display = 'none';
+                        statusMap['item_deed_build'] = "Requires Private Estate";
+                    }
+
+
+
+            //    }
+
+
             }
 
         }
+
+        let buildStatus = {
+            canBuild:false
+        };
 
         let rebuild = function() {
             clearIframe();
@@ -182,15 +204,27 @@ class DomItemCard {
         }
 
 
+        function buildCallback(newConfig) {
+            console.log("buildCallback", item, newConfig)
+            if (typeof (newConfig) === 'object') {
+                let worldLevel = getPlayerStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
+                item.getStatus(ENUMS.ItemStatus.CHILD_ITEMS).push(newConfig.edit_id);
+                item.setStatusKey(ENUMS.ItemStatus.WORLD_LEVEL, worldLevel);
+                item.setStatusKey(ENUMS.ItemStatus.POS, newConfig.pos);
+            } else {
+                console.log("Building failure or cancel")
+            }
+        }
 
         function activateBuild() {
          //   let vConf = getVisualConfigByItemId(item.getStatus(ENUMS.ItemStatus.TEMPLATE));
             console.log("activateBuild", item)
-            let newConfig = createByTemplate(item.config['building_template'], getPlayerActor().getPos())
-            let worldLevel = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
-            item.getStatus(ENUMS.ItemStatus.CHILD_ITEMS).push(newConfig.edit_id);
-            item.setStatusKey(ENUMS.ItemStatus.WORLD_LEVEL, worldLevel);
-            item.setStatusKey(ENUMS.ItemStatus.POS, newConfig.pos);
+            let buildingTemplate = item.config['building_template']
+
+
+            let estate = canBuildConstructionKit(item, getPlayerActor());
+            initActorEstateBuilding(getPlayerActor(), estate, buildingTemplate, buildCallback)
+
             close();
         }
 
@@ -359,6 +393,9 @@ class DomItemCard {
             //    let travelText = htmlElement.call.getChildElement("item_travel");
                 let estateCfg = getItemConfigByItemId(item.config['estate_template']);
                 let wl = estateCfg.data.status[ENUMS.ItemStatus.WORLD_LEVEL]
+                if (wl === "19") {
+                    wl = getPlayerStatus(ENUMS.PlayerStatus.PLAYER_ID);
+                }
                 let pos = estateCfg.data.status[ENUMS.ItemStatus.POS]
                 item.setStatusKey(ENUMS.ItemStatus.POS, pos);
                 item.setStatusKey(ENUMS.ItemStatus.WORLD_LEVEL, wl);

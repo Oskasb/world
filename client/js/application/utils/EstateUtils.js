@@ -2,19 +2,26 @@ import {detachConfig, saveWorldModelEdits} from "./ConfigUtils.js";
 import {getPlayerStatus} from "./StatusUtils.js";
 import {ENUMS} from "../ENUMS.js";
 import {getPlayerActor} from "./ActorUtils.js";
+import {poolFetch, poolReturn} from "./PoolUtils.js";
+import {notifyCameraStatus} from "../../3d/camera/CameraFunctions.js";
 
 
-function createByTemplate(templateId, pos) {
+function createByTemplate(templateId, pos, callback) {
     console.log("createByTemplate", templateId, pos);
     let loadedTemplates = GameAPI.worldModels.getLoadedTemplates();
     console.log("Selected Model Template ", templateId, loadedTemplates)
     let map = loadedTemplates[templateId];
     let newConfig = detachConfig(map.config);
+    newConfig.grid = 1;
+    newConfig.on_ground = true;
     newConfig.edit_id = "";
     MATH.vec3ToArray(pos, newConfig.pos, 1);
     let newWmodel = GameAPI.worldModels.addConfigModel(newConfig, newConfig.edit_id)
     MATH.vec3FromArray(newWmodel.getPos(),  newConfig.pos);
     saveWorldModelEdits(newWmodel);
+
+    callback(newWmodel);
+
     return newConfig;
 }
 
@@ -54,24 +61,68 @@ function isPlayerManagedEstate(estate) {
     return hasEstateDeed(getPlayerActor(), estate);
 }
 
+
+function estateQualifiesForConstruction(estate, item) {
+    let buildingTemplate = item.config['building_template'];
+    return estate;
+}
+
 function canBuildConstructionKit(item, actor) {
     let iwl = item.getStatus(ENUMS.ItemStatus.WORLD_LEVEL)
     if (iwl !== actor.getStatus(ENUMS.ActorStatus.WORLD_LEVEL)) {
-        return false;
+    //    return false;
     }
 
     let activeEstate = GameAPI.worldModels.getActiveEstateAtPosition(actor.getPos())
     if (!activeEstate) {
         return false;
     } else {
-        return isPlayerManagedEstate(activeEstate)
+        activeEstate = isPlayerManagedEstate(activeEstate)
+        if (activeEstate) {
+            let qualifies = estateQualifiesForConstruction(activeEstate, item);
+            if (qualifies) {
+                return qualifies
+            }
+        }
     }
+    return false;
+}
+
+
+function initActorEstateBuilding(actor, estate, buildingTemplate, buildCallback) {
+
+    let cursor = poolFetch('DomEditCursor')
+    let pos = MATH.vec3FromArray(cursor.initObj3d.position, estate.call.getStatusPos());
+
+    let modelCallback = function(model) {
+
+        function closeCursor() {
+            newConfig.on_ground = true;
+            let box = model.box;
+        //    ThreeAPI.imprintModelAABBToGround(box);
+            poolReturn(cursor);
+            buildCallback(newConfig);
+        }
+
+        function clickCursor() {
+            newConfig.on_ground = true;
+            console.log("Click construction cursor..")
+        }
+        notifyCameraStatus( ENUMS.CameraStatus.CAMERA_MODE, ENUMS.CameraControls.CAM_EDIT, null)
+        ThreeAPI.getCameraCursor().getLookAroundPoint().copy(pos);
+        ThreeAPI.getCameraCursor().getPos().copy(pos);
+        cursor.initDomEditCursor(closeCursor, model.obj3d, model.call.applyEditCursorUpdate, clickCursor);
+        cursor.statusMap.grid = 1;
+        cursor.call.setGrid(1);
+    }
+
+    let newConfig = createByTemplate(buildingTemplate, pos, modelCallback)
 
 }
 
 export {
     createByTemplate,
     canBuildConstructionKit,
-    isPlayerManagedEstate
-
+    isPlayerManagedEstate,
+    initActorEstateBuilding
 }

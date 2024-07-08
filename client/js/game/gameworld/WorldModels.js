@@ -561,10 +561,12 @@ class WorldModels {
     }
 
     activateWorldLevelEstates(worldLevel) {
+        console.log("activateWorldLevelEstates", worldLevel);
         MATH.emptyArray(activeEstates);
         for (let i = 0; i < worldEstates.length; i++) {
             let estate = worldEstates[i];
             let ewl = estate.call.getWorldLevel();
+            console.log("ewl", ewl);
             if (ewl === worldLevel) {
                 estate.call.estateActivate(true)
                 activeEstates.push(estate);

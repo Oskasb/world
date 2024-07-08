@@ -9,6 +9,7 @@ import {isDev} from "../../application/utils/DebugUtils.js";
 import {storePlayerStatus} from "../../application/setup/Database.js";
 import {DomEncounterStatus} from "../../application/ui/dom/DomEncounterStatus.js";
 import {getPlayerActor} from "../../application/utils/ActorUtils.js";
+import {getPlayerStatus} from "../../application/utils/StatusUtils.js";
 
 let tempVec3 = new Vector3()
 
@@ -225,13 +226,26 @@ class PlayerMain {
             console.log("Portal Event", e)
 
             let actor = GameAPI.getGamePieceSystem().selectedActor;
-            let config =GameAPI.gameMain.getWorldLevelConfig(e.world_level)
+
+            let worldLevel = e.world_level;
+
+            let cfgLevel = worldLevel;
+            if (worldLevel === getPlayerStatus(ENUMS.PlayerStatus.PLAYER_ID)) {
+                cfgLevel = "19";
+            }
+
+            let config =GameAPI.gameMain.getWorldLevelConfig(cfgLevel)
             let envId= config.env;
             let name = config.name;
 
             GameAPI.leaveActiveGameWorld();
 
             if (actor) {
+
+                if (e.world_level === "19") {
+                    e.world_level = getPlayerStatus(ENUMS.PlayerStatus.PLAYER_ID);
+                }
+
                 actor.setStatusKey(ENUMS.ActorStatus.WORLD_LEVEL, e.world_level)
             }
             GameAPI.getPlayer().setStatusKey(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL, e.world_level);
@@ -277,8 +291,8 @@ class PlayerMain {
 
             let world_encounters = []
             MATH.copyArrayValues(e.world_encounters, world_encounters);
-            let worldLevel = e.world_level;
-            world_encounters.push("portals_"+e.world_level)
+
+            world_encounters.push("portals_"+cfgLevel)
 
             if (e.worldEncounter) {
                 e.worldEncounter.removeWorldEncounter()
@@ -288,7 +302,7 @@ class PlayerMain {
 
             loadEncounters = function() {
                 GameAPI.worldModels.loadWorldLevelConfigEdits(e.world_level)
-                evt.dispatch(ENUMS.Event.LOAD_ADVENTURE_ENCOUNTERS, {world_encounters:world_encounters, world_level:worldLevel})
+                evt.dispatch(ENUMS.Event.LOAD_ADVENTURE_ENCOUNTERS, {world_encounters:world_encounters, world_level:cfgLevel})
             }
 
 

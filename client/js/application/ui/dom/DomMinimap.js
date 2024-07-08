@@ -8,6 +8,7 @@ import {poolFetch, poolReturn} from "../../utils/PoolUtils.js";
 import {ENUMS} from "../../ENUMS.js";
 import {PerformanceMonitorUiSystem} from "../gui/systems/PerformanceMonitorUiSystem.js";
 import {isDev} from "../../utils/DebugUtils.js";
+import {getPlayerStatus} from "../../utils/StatusUtils.js";
 
 let tempVec2 = new Vector2()
 let worldSize = 2048;
@@ -575,6 +576,9 @@ class DomMinimap {
                 }
 
                 worldLevel = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
+                if (worldLevel === getPlayerStatus(ENUMS.PlayerStatus.PLAYER_ID)) {
+                    worldLevel = "19";
+                }
                 statusMap.x = centerPos.x;
                 statusMap.y = centerPos.y;
                 statusMap.z = centerPos.z;

@@ -4,6 +4,8 @@ import {VisualEstateBorder} from "../visuals/VisualEstateBorder.js";
 import {isPlayerManagedEstate} from "../../application/utils/EstateUtils.js";
 import {colorMapFx, elementColorMap} from "../visuals/Colors.js";
 import {getPlayerActor} from "../../application/utils/ActorUtils.js";
+import {getPlayerStatus} from "../../application/utils/StatusUtils.js";
+import {saveItemStatus} from "../../application/setup/Database.js";
 
 class ItemEstate {
     constructor(itemStatus) {
@@ -72,6 +74,13 @@ class ItemEstate {
 
 
         function getWorldLevel() {
+            if (worldLevel === "19") {
+                worldLevel = getPlayerStatus(ENUMS.PlayerStatus.PLAYER_ID)
+                if (itemStatus[ENUMS.ItemStatus.WORLD_LEVEL] !== worldLevel) {
+                    itemStatus[ENUMS.ItemStatus.WORLD_LEVEL] = worldLevel;
+                    saveItemStatus(itemStatus);
+                }
+            }
             return worldLevel;
         }
 

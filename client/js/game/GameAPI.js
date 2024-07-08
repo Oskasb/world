@@ -12,6 +12,7 @@ import { GameAdventureSystem } from "./gamescenarios/GameAdventureSystem.js";
 import {poolFetch, poolReturn} from "../application/utils/PoolUtils.js";
 import {trackDebugConfig} from "../application/utils/DebugUtils.js";
 import {ENUMS} from "../application/ENUMS.js";
+import {getPlayerStatus} from "../application/utils/StatusUtils.js";
 
 let cache = {};
 let debugStats = {
@@ -219,7 +220,14 @@ class GameAPI {
     }
 
     activateWorldLevel(worldLevel) {
-        console.log('activateWorldLevel', worldLevel)
+        if (worldLevel === getPlayerStatus(ENUMS.PlayerStatus.PLAYER_ID)) {
+            console.log('activateWorldLevel', worldLevel)
+            worldLevel = "19";
+        } else {
+            console.log('activateWorldLevel', worldLevel)
+        }
+
+
         let terrainSys = ThreeAPI.getTerrainSystem();
         let worldLevelConfig = this.gameMain.getWorldLevelConfig(worldLevel);
 

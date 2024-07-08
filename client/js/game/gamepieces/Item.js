@@ -57,6 +57,13 @@ class Item {
             this.status.statusMap[ENUMS.ItemStatus.RANK_ECHELON] = ENUMS.echelon.ECHELON_0;
         }
 
+        let worldLevel = this.status.statusMap[ENUMS.ItemStatus.WORLD_LEVEL];
+        if (worldLevel === "19") {
+            worldLevel = getPlayerStatus(ENUMS.PlayerStatus.PLAYER_ID);
+            this.status.statusMap[ENUMS.ItemStatus.WORLD_LEVEL] = worldLevel;
+            console.log("Overwrite world 19 with player id", worldLevel);
+        }
+
     //    this.visualGamePiece.call.setPiece(this)
 
         let addModifiers = {};
