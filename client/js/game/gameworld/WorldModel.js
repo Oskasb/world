@@ -210,7 +210,7 @@ class WorldModel {
             } else if (MATH.valueIsBetween(lodLevel, 2, 3)) {
                     if (modelsLoaded === false) {
                         locationModels(this.configData);
-                        setLocModelsLod(this.locationModels, 2);
+                        setLocModelsLod(this.locationModels, lodLevel);
                     }
                  lodDeactivate()
                 //lodActivate()

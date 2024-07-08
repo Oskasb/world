@@ -168,7 +168,7 @@ class LocationModel {
                 }
             }
 
-            lodTest.lodTestModel(model, lodLevel, 2 || config.visibility, showLocationModel, hideLocationModel)
+            lodTest.lodTestModel(model, lodLevel, 3, showLocationModel, hideLocationModel)
 
         }.bind(this)
 
