@@ -12,7 +12,10 @@ import {
 } from "../../utils/ItemUtils.js";
 import {saveItemStatus} from "../../setup/Database.js";
 import {getItemRecipe} from "../../utils/CraftingUtils.js";
-import {getStashItemCountByTemplateId} from "../../utils/StashUtils.js";
+import {
+    getStashItemCountByTemplateId,
+    sendItemToStash
+} from "../../utils/StashUtils.js";
 import {getPlayerActor} from "../../utils/ActorUtils.js";
 import {canBuildConstructionKit, createByTemplate, initActorEstateBuilding} from "../../utils/EstateUtils.js";
 import {getConfigByEditId, saveWorldModelEdits} from "../../utils/ConfigUtils.js";
@@ -264,6 +267,11 @@ class DomItemCard {
             saveItemStatus(item.getStatus())
         }
 
+
+        function activateStashSwitch() {
+            sendItemToStash(item)
+        }
+
         function activateEmpower() {
 
             let potency = item.getStatus(ENUMS.ItemStatus.ITEM_POTENCY)
@@ -324,6 +332,12 @@ class DomItemCard {
             let paramDemolish = htmlElement.call.getChildElement("param_DEMOLISH");
 
             let paramTravel = htmlElement.call.getChildElement("param_TRAVEL");
+
+            let paramStash = htmlElement.call.getChildElement("param_STASH");
+            let buttonStash = htmlElement.call.getChildElement("button_stash");
+
+            DomUtils.addClickFunction(buttonStash, activateStashSwitch);
+
 
             paramBuild.style.display = 'none'
             paramVisit.style.display = 'none'

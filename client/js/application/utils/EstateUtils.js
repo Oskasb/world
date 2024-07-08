@@ -32,12 +32,14 @@ function itemListHasEstateDeed(estate, itemList) {
 
     for (let i = 0; i < itemList.length; i++) {
         let item = GameAPI.getItemById(itemList[i]);
-        if (item.getStatus(ENUMS.ItemStatus.ITEM_TYPE) === ENUMS.itemTypes.DEED) {
-            let wLevel = item.getStatus(ENUMS.ItemStatus.WORLD_LEVEL);
-            if (wLevel === estWorldLevel) {
-                let deedChecksum = MATH.stupidChecksumArray(item.getStatus(ENUMS.ItemStatus.POS))
-                if (checkSum === deedChecksum) {
-                    return estate;
+        if (item !== null) {
+            if (item.getStatus(ENUMS.ItemStatus.ITEM_TYPE) === ENUMS.itemTypes.DEED) {
+                let wLevel = item.getStatus(ENUMS.ItemStatus.WORLD_LEVEL);
+                if (wLevel === estWorldLevel) {
+                    let deedChecksum = MATH.stupidChecksumArray(item.getStatus(ENUMS.ItemStatus.POS))
+                    if (checkSum === deedChecksum) {
+                        return estate;
+                    }
                 }
             }
         }
