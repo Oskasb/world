@@ -6,6 +6,7 @@ import {physicalAlignYGoundTest, testProbeFitsAtPos} from "../../utils/PhysicsUt
 import {detachConfig, listifyConfig, saveEncounterEdits, saveWorldModelEdits} from "../../utils/ConfigUtils.js";
 import {ConfigData} from "../../utils/ConfigData.js";
 import {WorldModel} from "../../../game/gameworld/WorldModel.js";
+import {getPlayerStatus} from "../../utils/StatusUtils.js";
 
 let tempVec = new Vector3();
 let frustumFactor = 0.828;
@@ -18,7 +19,9 @@ let buttonLayer = null;
 let toolsList = [
     "EDIT",
     "ADD",
-    "CONFIG"
+    "CONFIG",
+    "CLEAR_WORLD",
+    "REBUILD_WORLD"
 ]
 
 let modelConfigs = null;
@@ -231,8 +234,23 @@ class DomEditModel {
                 buttonLayer.initWorldButtonLayer(GameAPI.worldModels.getActiveWorldModels(), selectedTool, divClicked)
             }
 
-        }
 
+            if (selectedTool === 'CLEAR_WORLD') {
+                GameAPI.leaveActiveGameWorld();
+                worldCleared = true;
+            }
+
+            if (selectedTool === 'REBUILD_WORLD') {
+
+                if (worldCleared === true) {
+                    GameAPI.activateWorldLevel(getPlayerStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL));
+                    worldCleared = false;
+                }
+
+            }
+
+        }
+        let worldCleared = false;
         let htmlReady = function(el) {
             htmlElem = el;
             let locationsData = GameAPI.worldModels.getActiveLocationData();

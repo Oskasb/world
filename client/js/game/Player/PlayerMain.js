@@ -22,6 +22,7 @@ let cheatInventory = [
 let statusMap = {
     PLAYER_ZOOM:1,
     PLAYER_WORLD_LEVEL: "20",
+    PLAYER_ACTORS: [],
     CONTROL_VALUES: {
         CAM_TURN:0,
         CAM_PITCH:0,
@@ -222,13 +223,11 @@ class PlayerMain {
 
         let enterPortal = function(e) {
             console.log("Portal Event", e)
-            let actor = GameAPI.getGamePieceSystem().selectedActor;
 
+            let actor = GameAPI.getGamePieceSystem().selectedActor;
             let config =GameAPI.gameMain.getWorldLevelConfig(e.world_level)
             let envId= config.env;
             let name = config.name;
-
-        //    GameAPI.leaveActiveGameWorld();
 
             GameAPI.leaveActiveGameWorld();
 
@@ -247,14 +246,16 @@ class PlayerMain {
                             actor.setDestination(e.pos);
                         }
                         actor.setSpatialPosition(actor.getDestination())
-                    } else {
+                    }
+
                         let cPos = ThreeAPI.getCameraCursor().getLookAroundPoint();
                         if (e.pos.length === 3) {
                             MATH.vec3FromArray(cPos, e.pos);
                         } else {
                             cPos.copy(e.pos);
                         }
-                    }
+
+                    ThreeAPI.getCameraCursor().getPos().copy(cPos);
                 }
 
 
@@ -269,7 +270,6 @@ class PlayerMain {
             //        GameAPI.activateWorldLevel(e.worldLevel);
             //    }, 1000)
             }
-
 
 
 
@@ -291,6 +291,8 @@ class PlayerMain {
                 evt.dispatch(ENUMS.Event.LOAD_ADVENTURE_ENCOUNTERS, {world_encounters:world_encounters, world_level:worldLevel})
             }
 
+
+
             setTimeout(function() {
                 GameAPI.activateWorldLevel(e.world_level);
                 if (e['prevent_transition'] === true) {
@@ -298,7 +300,7 @@ class PlayerMain {
                 } else {
                     GuiAPI.activateDomTransition(name, config, transitionReady )
                 }
-            }, 500)
+            }, 1000)
 
         }
 

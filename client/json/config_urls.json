@@ -141,16 +141,17 @@
       "/game/items/items_lore.json"                          ,
       "/game/items/items_deeds.json"                         ,
       "/game/items/items_estates.json"                       ,
+      "/game/items/items_buildings.json"                     ,
 
       "/game/actors/actions/actions_movement.json"           ,
       "/game/actors/actions/actor_travel.json"               ,
       "/game/actors/travel/travel_modes.json"                ,
 
       "/game/visuals/items_armor_default.json"               ,
-      "/game/visuals/items_armor_green.json"                        ,
-      "/game/visuals/items_armor_purple.json"                        ,
-      "/game/visuals/items_armor_red.json"                        ,
-      "/game/visuals/items_weapons.json"                        ,
+      "/game/visuals/items_armor_green.json"                 ,
+      "/game/visuals/items_armor_purple.json"                ,
+      "/game/visuals/items_armor_red.json"                   ,
+      "/game/visuals/items_weapons.json"                     ,
 
       "/game/stats/game_level_stats.json"                    ,
       "/game/stats/game_item_stats.json"                     ,

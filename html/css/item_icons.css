@@ -498,3 +498,7 @@ div.icon_building_cottage {
 div.icon_estate {
     background-image: url("/client/assets/images/textures/gui/icons/icon_estate.png");
 }
+
+div.icon_kit_house {
+    background-image: url("/client/assets/images/textures/gui/icons/icon_kit_house.png");
+}

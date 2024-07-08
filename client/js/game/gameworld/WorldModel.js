@@ -103,7 +103,10 @@ class WorldModel {
                 }
             }
 
-            this.removeLocationModels();
+            if (this.locationModels.length !== 0) {
+                this.removeLocationModels();
+            }
+
             for (let i = 0; i < attachAssets.length; i++) {
                 let model = new LocationModel(this.obj3d, attachAssets[i])
                 model.worldModel = this;

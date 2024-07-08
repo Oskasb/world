@@ -2,6 +2,7 @@ import {HtmlElement} from "./HtmlElement.js";
 import {ENUMS} from "../../ENUMS.js";
 import {poolFetch, poolReturn} from "../../utils/PoolUtils.js";
 import {
+    getItemConfigByItemId,
     getItemMaxPotency,
     getItemMaxRank,
     getItemPotencySlotCount,
@@ -13,7 +14,7 @@ import {saveItemStatus} from "../../setup/Database.js";
 import {getItemRecipe} from "../../utils/CraftingUtils.js";
 import {getStashItemCountByTemplateId} from "../../utils/StashUtils.js";
 import {getPlayerActor} from "../../utils/ActorUtils.js";
-import {createByTemplate} from "../../utils/EstateUtils.js";
+import {canBuildConstructionKit, createByTemplate} from "../../utils/EstateUtils.js";
 import {getConfigByEditId, saveWorldModelEdits} from "../../utils/ConfigUtils.js";
 
 let activeDomItems = [];
@@ -68,6 +69,8 @@ class DomItemCard {
         }
 
 
+
+
         let update = function() {
             if (targetRoot === null) {
                 return;
@@ -91,6 +94,34 @@ class DomItemCard {
 
                     modelPalette.setFromValuearray(statusMap['PALETTE_VALUES']);
                     modelPalette.applyPaletteToInstance(instance)
+                }
+            }
+
+            let itemType = item.getStatus(ENUMS.ItemStatus.ITEM_TYPE);
+
+            if (itemType === ENUMS.itemTypes.KIT) {
+
+                let canBuild = canBuildConstructionKit(item, getPlayerActor());
+
+                let paramBuild = htmlElement.call.getChildElement("param_BUILD");
+                let paramVisit = htmlElement.call.getChildElement("param_VISIT");
+                let paramDemolish = htmlElement.call.getChildElement("param_DEMOLISH");
+
+                if (item.getStatus(ENUMS.ItemStatus.CHILD_ITEMS).length === 0) {
+                    paramBuild.style.display = '';
+                    let build = htmlElement.call.getChildElement("button_build");
+                    DomUtils.addClickFunction(build, activateBuild);
+                } else {
+                    paramVisit.style.display = ''
+                    paramDemolish.style.display = ''
+                    let visit = htmlElement.call.getChildElement("button_visit");
+                    let demolish = htmlElement.call.getChildElement("button_demolish");
+                    DomUtils.addClickFunction(visit, activateTravel);
+                    let wLevel = item.getStatus(ENUMS.ItemStatus.WORLD_LEVEL);
+                    let coords = JSON.stringify(item.getStatus(ENUMS.ItemStatus.POS));
+                    statusMap['item_deed_visit'] = "W: "+wLevel+" P:"+coords;
+                    DomUtils.addClickFunction(demolish, activateDemolish);
+                    statusMap['item_deed_demolish'] = item.getStatus(ENUMS.ItemStatus.CHILD_ITEMS)[0];
                 }
             }
 
@@ -150,10 +181,12 @@ class DomItemCard {
             close();
         }
 
+
+
         function activateBuild() {
-            let vConf = getVisualConfigByItemId(item.getStatus(ENUMS.ItemStatus.TEMPLATE));
-            console.log("activateBuild", vConf.data['building_template'], vConf, item)
-            let newConfig = createByTemplate(vConf.data['building_template'], getPlayerActor().getPos())
+         //   let vConf = getVisualConfigByItemId(item.getStatus(ENUMS.ItemStatus.TEMPLATE));
+            console.log("activateBuild", item)
+            let newConfig = createByTemplate(item.config['building_template'], getPlayerActor().getPos())
             let worldLevel = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
             item.getStatus(ENUMS.ItemStatus.CHILD_ITEMS).push(newConfig.edit_id);
             item.setStatusKey(ENUMS.ItemStatus.WORLD_LEVEL, worldLevel);
@@ -263,6 +296,9 @@ class DomItemCard {
             paramDemolish.style.display = 'none'
             paramTravel.style.display = 'none'
 
+            let itemType = item.getStatus(ENUMS.ItemStatus.ITEM_TYPE)
+
+
             if (typeof(item.config['equip_slot']) !== 'string' ) {
                 paramRank.style.display = 'none'
                 paramPotency.style.display = 'none'
@@ -271,7 +307,7 @@ class DomItemCard {
                 paramModifiers.style.display = 'none'
                 paramRecIngredients.style.display = 'none'
                 paramCraft.style.display = 'none'
-            } else if (item.getStatus(ENUMS.ItemStatus.ITEM_TYPE) === ENUMS.itemTypes.RECIPE) {
+            } else if (itemType === ENUMS.itemTypes.RECIPE) {
                 paramRank.style.display = 'none'
                 paramPotency.style.display = 'none'
                 paramPalVals.style.display = 'none'
@@ -308,31 +344,25 @@ class DomItemCard {
                 }
             }
 
-            if (item.getStatus(ENUMS.ItemStatus.ITEM_TYPE) === ENUMS.itemTypes.DEED) {
 
-                if (item.getStatus(ENUMS.ItemStatus.CHILD_ITEMS).length === 0) {
-                    paramBuild.style.display = '';
-                    let build = htmlElement.call.getChildElement("button_build");
-                    DomUtils.addClickFunction(build, activateBuild);
-                } else {
-                    paramVisit.style.display = ''
-                    paramDemolish.style.display = ''
-                    let visit = htmlElement.call.getChildElement("button_visit");
-                    let demolish = htmlElement.call.getChildElement("button_demolish");
-                    DomUtils.addClickFunction(visit, activateTravel);
-                    let wLevel = item.getStatus(ENUMS.ItemStatus.WORLD_LEVEL);
-                    let coords = JSON.stringify(item.getStatus(ENUMS.ItemStatus.POS));
-                    statusMap['item_deed_visit'] = "W: "+wLevel+" P:"+coords;
-                    DomUtils.addClickFunction(demolish, activateDemolish);
-                    statusMap['item_deed_demolish'] = item.getStatus(ENUMS.ItemStatus.CHILD_ITEMS)[0];
 
-                }
-
-            }
-
-            if (item.getStatus(ENUMS.ItemStatus.ITEM_TYPE) === ENUMS.itemTypes.ESTATE) {
+            if (itemType === ENUMS.itemTypes.ESTATE) {
                 paramTravel.style.display = ''
                 let travel = htmlElement.call.getChildElement("button_travel");
+                statusMap['item_travel'] = JSON.stringify(item.getStatus(ENUMS.ItemStatus.POS));
+                DomUtils.addClickFunction(travel, activateTravel);
+            }
+
+            if (itemType === ENUMS.itemTypes.DEED) {
+                paramTravel.style.display = ''
+                let travel = htmlElement.call.getChildElement("button_travel");
+            //    let travelText = htmlElement.call.getChildElement("item_travel");
+                let estateCfg = getItemConfigByItemId(item.config['estate_template']);
+                let wl = estateCfg.data.status[ENUMS.ItemStatus.WORLD_LEVEL]
+                let pos = estateCfg.data.status[ENUMS.ItemStatus.POS]
+                item.setStatusKey(ENUMS.ItemStatus.POS, pos);
+                item.setStatusKey(ENUMS.ItemStatus.WORLD_LEVEL, wl);
+                statusMap['item_travel'] = "w:"+wl+" pos:"+JSON.stringify(pos);
                 DomUtils.addClickFunction(travel, activateTravel);
             }
 

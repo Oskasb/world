@@ -1,5 +1,6 @@
 import {Vector3} from "../../../libs/three/math/Vector3.js";
 import {poolFetch, poolReturn} from "../../application/utils/PoolUtils.js";
+import {colorMapFx} from "./Colors.js";
 
 
 
@@ -8,6 +9,8 @@ class VisualEstateBorder {
         this.center = new Vector3();
         this.minXYZ = new Vector3();
         this.maxXYZ = new Vector3();
+
+        this.rgba = colorMapFx['HOSTILE']
 
         this.linesFromTo = [[[],[]], [[],[]], [[],[]], [[],[]], [[],[]], [[],[]], [[],[]], [[],[]]];
         this.edgeLines = [];
@@ -25,19 +28,24 @@ class VisualEstateBorder {
                 let lineTo = this.linesFromTo[i][1];
                 this.edgeLines[i].setFrom(lineFrom[0], lineFrom[1]);
                 this.edgeLines[i].setTo(lineTo[0], lineTo[1]);
+                this.edgeLines[i].call.setRgba(this.rgba);
             }
 
         }.bind(this)
 
-
         this.call = {
             update:update
         }
-
     }
 
-    on(center, sizeVec3) {
+    setRgba(rgba) {
+        this.rgba = rgba || colorMapFx['NEUTRAL'];
+    }
+
+    on(center, sizeVec3, rgba) {
         this.center.copy(center)
+
+        this.setRgba(rgba)
 
         let lines = this.linesFromTo;
 

@@ -9,7 +9,7 @@
             "config": {
               "location": {
                 "pos": [-875, 2, 530],
-                "name": "Sheds",
+                "name": "The Farm",
                 "environment": "morning",
                 "size": [200, 100]
               },
@@ -70,15 +70,6 @@
                   "scale": [1, 1, 1],
                   "on_ground": false,
                   "visibility": 3
-                },
-                {
-                  "model": "model_cottage",
-                  "pos": [-877, 1.0, 529],
-                  "rot": [0, -1.3, 0],
-                  "scale": [1, 1, 1],
-                  "on_ground": true,
-                  "visibility": 3,
-                  "palette": "TOWN_RED"
                 },
                 {
                   "model": "model_rabbit",

@@ -258,6 +258,7 @@ class DomEditCursor {
             if (lastUpdateObj3d.position.distanceToSquared(targetObj3d.position) > 0.01) {
                 relay = true;
             } else if (MATH.distanceBetween(lastUpdateObj3d.quaternion, targetObj3d.quaternion) > 0.001) {
+                console.log("Quat Changed")
                 relay = true;
             } else if (lastUpdateObj3d.scale.distanceToSquared(targetObj3d.scale) > 0.001) {
                 relay = true;

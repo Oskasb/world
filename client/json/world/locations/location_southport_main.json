@@ -14,46 +14,7 @@
                 "size": [150, 150]
               },
               "models": [
-                {
-                  "model": "model_block_4",
-                  "pos": [-495, 2, 698],
-                  "rot": [0, 0, 0],
-                  "scale": [1, 1, 1],
-                  "on_ground": true,
-                  "visibility": 3
-                },
-                {
-                  "model": "model_block_4",
-                  "pos": [-475, 2, 668],
-                  "rot": [0, 0, 0],
-                  "scale": [1, 1, 1],
-                  "on_ground": true,
-                  "visibility": 3
-                },
-                {
-                  "model": "model_scraper_10",
-                  "pos": [-495, 2, 680],
-                  "rot": [0, 0, 0],
-                  "scale": [1, 1, 1],
-                  "on_ground": true,
-                  "visibility": 3
-                },
-                {
-                  "model": "model_scraper_10",
-                  "pos": [-500, 2, 716],
-                  "rot": [0, 0, 0],
-                  "scale": [1, 1, 1],
-                  "on_ground": true,
-                  "visibility": 3
-                },
-                {
-                  "model": "model_scraper_17",
-                  "pos": [-466, 2, 710],
-                  "rot": [0, 1.57, 0],
-                  "scale": [1, 1, 1],
-                  "on_ground": true,
-                  "visibility": 3
-                }
+
               ]
             }
           }

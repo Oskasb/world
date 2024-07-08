@@ -163,6 +163,7 @@ let ENUMS = {}
     ENUMS.PlayerStatus = {
         PLAYER_ID:'PLAYER_ID',
         PLAYER_NAME:'PLAYER_NAME',
+        PLAYER_ACTORS:'PLAYER_ACTORS',
         ACTIVE_ACTOR_ID:'ACTIVE_ACTOR_ID',
         CLIENT_STAMP:'CLIENT_STAMP',
         EDIT_MODE:'EDIT_MODE',
@@ -488,7 +489,7 @@ ENUMS.UiStates = {
         MOUNT:'MOUNT',
         GADGET:'GADGET',
         LORE:'LORE',
-        CONSTRUCTION:'CONSTRUCTION',
+        KIT:'KIT',
         BUILDING:'BUILDING',
         RECIPE:'RECIPE',
         CONSUMABLE:'CONSUMABLE',

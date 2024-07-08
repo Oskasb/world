@@ -1393,9 +1393,8 @@
         }
       },
       {
-        "id": "VISUAL_DEED_COTTAGE",
+        "id": "VISUAL_DEED_ESTATE",
         "data": {
-          "building_template": "HOUSE_WOOD_6x12",
           "model_asset":"asset_box_dynamic",
           "icon_class": "icon_deed_cottage"
         }
@@ -1405,6 +1404,13 @@
         "data": {
           "model_asset":"asset_box_dynamic",
           "icon_class": "icon_estate"
+        }
+      },
+      {
+        "id": "VISUAL_ICON_KIT_HOVEL",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_kit_house"
         }
       }
     ]
