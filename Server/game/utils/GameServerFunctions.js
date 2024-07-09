@@ -123,7 +123,9 @@ function dispatchPartyMessage(messageData, playerParty) {
     for (let i = 0; i < playerParty.length; i++) {
         let partyActorId = playerParty[i];
         let partyActor = getServerActorByActorId(partyActorId);
-        partyActor.messageClient(messageData);
+        if (partyActor) {
+            partyActor.messageClient(messageData);
+        }
     }
 
 }
