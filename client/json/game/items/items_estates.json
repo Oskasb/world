@@ -18,6 +18,24 @@
             "QUAT": [0, 0, 0, 1]
           }
         }
+      },
+      {
+        "id": "ITEM_ESTATE_CITY_1",
+        "data": {
+          "visual_id":"VISUAL_ICON_ESTATE",
+          "status": {
+            "NAME":"City - 1:1",
+            "ITEM_LEVEL": 0,
+            "ITEM_TYPE" : "ESTATE",
+            "RARITY": "LEGENDARY",
+            "QUALITY": "POOR",
+            "TEXT": "Inventory link to the Estate.",
+            "WORLD_LEVEL": "20",
+            "POS": [810, 3.5, -232],
+            "SIZE_XYZ": [60, 55, 60],
+            "QUAT": [0, 0, 0, 1]
+          }
+        }
       }
     ]
   }

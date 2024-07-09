@@ -52,6 +52,7 @@ function activateLoadedPlayer() {
     setTimeout(function() {
         GuiAPI.activateMinimap();
         GameAPI.gameAdventureSystem.call.activateAdventures()
+        setTimeout(GuiAPI.getWorldInteractionUi().initWorldInteractUi, 1000)
     }, 1000)
 
 }

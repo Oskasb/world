@@ -11,12 +11,24 @@ class GuiControlButton {
             if (typeof (labelMap) === 'string') {
                 this.name = labelMap
             } else {
-                this.name = labelMap[statusKey] || statusKey;
+                if (typeof (labelMap) === "function") {
+                    this.name = labelMap();
+                } else {
+                    this.name = labelMap[statusKey] || statusKey
+                }
             }
-
         }
 
         this.portraitContainer;
+
+        let updateName = function() {
+            if (typeof (labelMap) === "function") {
+                return labelMap();
+            } else {
+                return this.name
+            }
+        }.bind(this);
+
 
         let activate = function() {
             onActivate(statusKey);
@@ -28,6 +40,7 @@ class GuiControlButton {
 
         let updateButtonState = function(tpf) {
             this.updateButtonState(tpf);
+            this.guiWidget.printWidgetText(updateName());
         }.bind(this)
 
         this.call = {
@@ -57,7 +70,7 @@ class GuiControlButton {
                 testActive: isActive,
                 interactive: true,
                 set_parent:element.guiWidget,
-                text: this.name
+                text: updateName()
             };
 
 

@@ -158,7 +158,7 @@ function generateEstateDeed(item, actor) {
     status[ENUMS.ItemStatus.QUALITY]        = item.getStatus(ENUMS.ItemStatus.QUALITY);
     status[ENUMS.ItemStatus.ITEM_ID]        = id;
     status[ENUMS.ItemStatus.ITEM_TYPE]      = ENUMS.itemTypes.DEED;
-
+    config = detachConfig(config);
     let deedItem = new Item(deedTemplateId, config)
     deedItem.config = config;
     deedItem.id = id;

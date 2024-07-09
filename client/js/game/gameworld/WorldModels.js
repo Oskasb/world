@@ -255,7 +255,7 @@ let activateWorldEncounters = function(event) {
         activateDynamicSpawnPoints()
     }
 
-    setTimeout(GuiAPI.getWorldInteractionUi().initWorldInteractUi, 1000)
+
 
 //    GuiAPI.getWorldInteractionUi().initWorldInteractUi();
     let activeActor = GameAPI.getGamePieceSystem().selectedActor;

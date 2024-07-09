@@ -117,6 +117,9 @@ div.button_complete p {
     top:4em;
 }
 
+.top_5 {
+    top:5em;
+}
 
 div.background_create_panel {
     background-image: url("/client/assets/images/textures/gui/character_creation/create_panel_background.png");

@@ -116,7 +116,12 @@ let onReady = function(button) {
 }
 
 function addActorButton(actor) {
-    let button = new GuiControlButton(actor.id, playerPortraitLayoutId, onActivate, testActive, 0, 0, onReady, frameLayoutId, actor.getStatus(ENUMS.ActorStatus.NAME))
+
+    let getName = function() {
+        return actor.getStatus(ENUMS.ActorStatus.NAME)
+    }
+
+    let button = new GuiControlButton(actor.id, playerPortraitLayoutId, onActivate, testActive, 0, 0, onReady, frameLayoutId, getName)
     actorButtons.push(button)
     let statusUI = poolFetch('WorldActorStatusUI')
     statusUI.activateWorldActorStatus(actor, button.guiWidget);

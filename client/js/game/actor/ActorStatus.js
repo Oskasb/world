@@ -138,6 +138,7 @@ let hardStateMap = [
 ];
 
 let detailsMap = [
+    ENUMS.ActorStatus.NAME,
     ENUMS.ActorStatus.ACTIVATION_STATE,
     ENUMS.ActorStatus.EQUIP_REQUESTS,
     ENUMS.ActorStatus.PATH_POINTS,
