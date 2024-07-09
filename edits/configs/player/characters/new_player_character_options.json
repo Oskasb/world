@@ -8,7 +8,7 @@
       "label":"Farmer",
       "pos": [-893, 4, 519],
       "text": "Hard at work sowing and plowing. You have had a nice life, until today when bandits and pirates decided to raid your village.",
-      "inventory_items": ["ITEM_HAT_RED", "ITEM_HELMET_BRONZE"],
+      "inventory_items": ["ITEM_HAT_RED", "ITEM_LORE_NOTE_SCRIBBLED_POOR", "ITEM_KIT_HOVEL", "ITEM_DEED_ESTATE_START", "ITEM_ESTATE_START"],
       "equipped_items": ["ITEM_PITCHFORK", "ITEM_SHIRT_LEATHER", "ITEM_LEGS_LEATHER", "ITEM_BOOTS_LEATHER"]
     },
     {
@@ -16,16 +16,16 @@
       "label":"Princess",
       "pos":[-906, 5, 582],
       "text": "A life of privilege. Dreams of adventure. A young lady in the lineage of royalty who may grow into glorious queen, or if you choose a different path become an agent of chaos.",
-      "inventory_items": [],
-      "equipped_items": ["ITEM_KATANA", "ITEM_HAT_RED", "ITEM_SHIRT_CLOTH_WHITE", "ITEM_LEGS_CLOTH_WHITE", "ITEM_BOOTS_CLOTH_WHITE", "ITEM_GLOVES_CLOTH_WHITE"]
+      "inventory_items": ["ITEM_GLOVES_CLOTH_WHITE", "ITEM_LORE_NOTE_SCRIBBLED_POOR"],
+      "equipped_items": ["ITEM_KATANA", "ITEM_HAT_RED", "ITEM_SHIRT_CLOTH_WHITE", "ITEM_LEGS_CLOTH_WHITE", "ITEM_BOOTS_CLOTH_WHITE"]
     },
     {
       "id": "ACTOR_OUTLAW",
       "label":"Outlaw",
       "pos":[-728, 4, 785],
       "text": "Growing up among the bandits has been rough. The path of the outlaw will let you choose between becoming the hero or the villain.",
-      "inventory_items": [],
-      "equipped_items": ["ITEM_HATCHET", "ITEM_HELMET_BRONZE", "ITEM_CHEST_BRONZE", "ITEM_LEGS_BRONZE", "ITEM_SHIRT_CHAIN", "ITEM_LEGS_CHAIN", "ITEM_BOOTS_LEATHER"]
+      "inventory_items": [ "ITEM_HELMET_BRONZE", "ITEM_LORE_NOTE_SCRIBBLED_POOR"],
+      "equipped_items": ["ITEM_HATCHET", "ITEM_CHEST_BRONZE", "ITEM_LEGS_BRONZE", "ITEM_SHIRT_CHAIN", "ITEM_LEGS_CHAIN", "ITEM_BOOTS_LEATHER"]
     }
   ]
 }

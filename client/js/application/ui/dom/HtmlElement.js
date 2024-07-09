@@ -5,13 +5,19 @@ let index = 0;
 let activeRootElements = [];
 let colorScale = 1;
 
-function updateValueElem(key, value, iframe) {
-    let elem = iframe.getElementById(key+'_value');
-    if (elem) {
-        if (elem.innerHTML !== value) {
-            elem.innerHTML = value;
+function updateValueElem(key, value, iframe, lastStatus) {
+
+        if (lastStatus[key] !== value) {
+            lastStatus[key] = value
+            let elem = iframe.getElementById(key+'_value');
+            console.log("updateValueElem Range", value)
+            if (elem) {
+                if (elem.innerHTML !== value) {
+                    elem.innerHTML = value;
+                }
+            }
         }
-    }
+
 }
 
 function updateColorElem(key, value, iframe) {
@@ -41,6 +47,9 @@ class HtmlElement {
         let width = null;
         let height = null;
         let iframeDocument = null;
+
+        let lastStatus = {};
+
         let update = function() {
 
             closed = false;
@@ -57,12 +66,17 @@ class HtmlElement {
 
             let statusMap = this.statusMap;
 
+
+
             for (let key in statusMap) {
                 let elem = iframeDocument.getElementById(key);
                 if (elem) {
+
                     if (elem.type === 'text') {
                         statusMap[key] = elem.value;
-                        updateValueElem(key, elem.value, iframeDocument)
+                        updateValueElem(key, elem.value, iframeDocument, lastStatus)
+
+
                     } else if (elem.type === 'range') {
                         if (typeof (statusMap[key]) === 'number') {
                             statusMap[key] = parseFloat(elem.value);
@@ -70,7 +84,7 @@ class HtmlElement {
                             statusMap[key] = elem.value;
                         }
 
-                        updateValueElem(key, elem.value, iframeDocument)
+                        updateValueElem(key, elem.value, iframeDocument, lastStatus)
                     } else if (elem.type === 'color') {
                         updateColorElem(key, ThreeAPI.toRgb(statusMap[key][0], statusMap[key][1], statusMap[key][2]), iframeDocument)
                         MATH.hexToRGB(elem.value, statusMap[key], colorScale)
@@ -78,13 +92,13 @@ class HtmlElement {
 
                         let list = elem.getAttribute('list')
                         if (list) {
-                            updateValueElem(key, elem.value, iframeDocument)
+                            updateValueElem(key, elem.value, iframeDocument, lastStatus)
                             statusMap[key] = elem.value;
                             return;
                         }
                         let name = elem.getAttribute('name')
                         if (name) {
-                            updateValueElem(key, elem.value, iframeDocument)
+                            updateValueElem(key, elem.value, iframeDocument, lastStatus)
                             statusMap[key] = elem.value;
                             return;
                         }
@@ -166,6 +180,9 @@ class HtmlElement {
 
         let close = function() {
             if (closed === false) {
+                for (let key in lastStatus) {
+                    lastStatus[key] = null;
+                }
                 closed = true;
                 this.hideHtmlElement();
                 while (this.onCloseCallbacks.length) {
@@ -265,7 +282,8 @@ class HtmlElement {
                 if (elem) {
                     if (elem.type === 'range') {
                         elem.value = statusMap[key];
-                        updateValueElem(key, elem.value, iframeDocument)
+
+                        updateValueElem(key, elem.value, iframeDocument, statusMap)
                     }
                     if (elem.type === 'color') {
                         elem.value = MATH.rgbToHex(statusMap[key][0]/colorScale, statusMap[key][1]/colorScale,statusMap[key][2]/colorScale);

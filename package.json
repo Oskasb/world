@@ -8,6 +8,6 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "ws": "8.14.2"
+    "ws": "^8.18.0"
   }
 }

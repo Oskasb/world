@@ -342,6 +342,10 @@ class GamePieceSystem {
         evt.dispatch(ENUMS.Event.SET_CAMERA_MODE, {mode:'game_travel'})
         gameActor.call.setAsSelection();
         setPlayerStatus(ENUMS.PlayerStatus.ACTIVE_ACTOR_ID, gameActor.getStatus(ENUMS.ActorStatus.ACTOR_ID))
+        let playerActors = getPlayerStatus(ENUMS.PlayerStatus.PLAYER_ACTORS);
+        if (playerActors.indexOf(gameActor.getStatus(ENUMS.ActorStatus.ACTOR_ID)) === -1) {
+            playerActors.push(gameActor.getStatus(ENUMS.ActorStatus.ACTOR_ID))
+        }
         this.selectedActor = gameActor;
         gameActor.setStatusKey(ENUMS.ActorStatus.NAME, getPlayerStatus(ENUMS.PlayerStatus.PLAYER_NAME));
 

@@ -6,12 +6,12 @@
         "data": {
           "visual_id":"VISUAL_LORE_NOTE_SCRIBBLED",
           "status": {
-            "NAME":"Note To Self",
+            "NAME":"Letter from a friend",
             "ITEM_LEVEL": 0,
             "ITEM_TYPE" : "LORE",
-            "RARITY": "COMMON",
+            "RARITY": "PLAIN",
             "QUALITY": "POOR",
-            "TEXT": "Wolfe says they are planning it. Beware of the old senator."
+            "TEXT": "I am returning home and won't be coming back. I leave the plot on the Outer Isles in your care.<br>  There should be enough materials to set up a small cottage for when you want a home. <br> /Your Friend"
           }
         }
       }

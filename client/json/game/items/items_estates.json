@@ -1,0 +1,24 @@
+[{
+  "GAME":{
+    "ITEMS":[
+      {
+        "id": "ITEM_ESTATE_START",
+        "data": {
+          "visual_id":"VISUAL_ICON_ESTATE",
+          "status": {
+            "NAME":"Outer Isles - 1:735",
+            "ITEM_LEVEL": 0,
+            "ITEM_TYPE" : "ESTATE",
+            "RARITY": "RARE",
+            "QUALITY": "POOR",
+            "TEXT": "Inventory link to the Estate.",
+            "WORLD_LEVEL": "19",
+            "POS": [-735, 3, 735],
+            "SIZE_XYZ": [24, 15, 24],
+            "QUAT": [0, 0, 0, 1]
+          }
+        }
+      }
+    ]
+  }
+}]

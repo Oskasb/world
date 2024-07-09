@@ -1,5 +1,5 @@
 import {getReversedConfigs} from "./ConfigUtils.js";
-import {getItemConfigs} from "./ActorUtils.js";
+import {getItemConfigs, getPlayerActor} from "./ActorUtils.js";
 import {getPlayerStatus, setPlayerStatus} from "./StatusUtils.js";
 import {ENUMS} from "../ENUMS.js";
 import {loadItemStatus, saveItemStatus, savePlayerStatus} from "../setup/Database.js";
@@ -28,7 +28,10 @@ function loadStashItem(item) {
     evt.dispatch(ENUMS.Event.LOAD_ITEM,  {id: itemStatus[ENUMS.ItemStatus.TEMPLATE], itemId:itemStatus[ENUMS.ItemStatus.ITEM_ID], callback:itemLoaded})
 }
 
-function stashItem(item) {
+function stashItem(item, unstash) {
+
+
+
 
     let itemId = item.getStatus(ENUMS.ItemStatus.ITEM_ID)
     let itemType = item.getStatus(ENUMS.ItemStatus.ITEM_TYPE);
@@ -50,6 +53,9 @@ function stashItem(item) {
     } else if (itemType === ENUMS.itemTypes.RECIPE) {
         console.log("Stash Recipe", item);
         page =  ENUMS.PlayerStatus.STASH_TAB_CRAFT
+    } else if (itemType === ENUMS.itemTypes.DEED || itemType === ENUMS.itemTypes.ESTATE) {
+        console.log("Stash Estate", item);
+        page =  ENUMS.PlayerStatus.STASH_TAB_HOUSING
     } else {
         if (typeof (item.config['equip_slot']) !== 'string') {
             console.log("No stash tab defined for item ", item);
@@ -61,7 +67,11 @@ function stashItem(item) {
     if (itemStash.indexOf(itemId) === -1) {
         itemStash.push(itemId);
     } else {
-        console.log("Double stash same itemId not ok", item);
+        if (unstash === true) {
+            MATH.splice(itemStash, itemId)
+        } else {
+            console.log("Double stash same itemId not ok", item);
+        }
         return;
     }
 
@@ -195,8 +205,35 @@ function getStashItemCountByTemplateId(templateId) {
     return count;
 }
 
+function unstashItem(item) {
+    let actor = getPlayerActor();
+    actor.actorInventory.addInventoryItem(item);
+    stashItem(item, true);
+}
+
+function sendItemToStash(item) {
+    let slot = item.getStatus(ENUMS.ItemStatus.EQUIPPED_SLOT);
+    let itemId = item.getStatus(ENUMS.ItemStatus.ITEM_ID);
+
+    let actor = getPlayerActor();
+
+    if (typeof (ENUMS.EquipmentSlots[slot]) === 'string') {
+        actor.actorEquipment.call.unequipActorItem(item);
+        stashItem(item);
+    } else if (typeof (ENUMS.InventorySlots[slot]) === 'string') {
+
+        let invItems = actor.getStatus(ENUMS.ActorStatus.INVENTORY_ITEMS);
+        invItems[invItems.indexOf(itemId)] = "";
+        stashItem(item);
+    } else {
+        unstashItem(item);
+    }
+
+
+}
 
 export {stashAllConfigItems,
     fetchActiveStashPageItems,
-    getStashItemCountByTemplateId
+    getStashItemCountByTemplateId,
+    sendItemToStash,
 }

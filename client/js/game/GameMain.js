@@ -22,6 +22,7 @@ import {requestItemSlotChange} from "../application/utils/EquipmentUtils.js";
 import {poolFetch} from "../application/utils/PoolUtils.js";
 import {stashAllConfigItems} from "../application/utils/StashUtils.js";
 import {getActiveVariations} from "../application/utils/ConfigUtils.js";
+import {evt} from "../application/event/evt.js";
 
 let tempVec3 = new Vector3()
 let gameWalkGrid = null
@@ -237,10 +238,26 @@ class GameMain {
                     let domTransition = GuiAPI.activateDomTransition('WELCOME', dataList, startPlayerSession, null, opts)
                 } else {
 
-                    function loadedPlayerReady() {
+                    function loadedPlayerReady(actorStatusMap) {
 
+                        let triggered = false;
                         function activate() {
-                            activateLoadedPlayer()
+                            if (!triggered) {
+                                let pos = [
+                                    actorStatusMap[ENUMS.ActorStatus.POS_X],
+                                    actorStatusMap[ENUMS.ActorStatus.POS_Y],
+                                    actorStatusMap[ENUMS.ActorStatus.POS_Z]
+                                ]
+                                let worldLevel = actorStatusMap[ENUMS.ActorStatus.WORLD_LEVEL];
+                                setTimeout(function() {
+                                    evt.dispatch(ENUMS.Event.ENTER_PORTAL, {"world_level":worldLevel, "world_encounters": [], pos:pos, callback:activateLoadedPlayer, prevent_transition:true})
+                                }, 1500);
+                                triggered = true;
+                            }
+
+                        //        activateLoadedPlayer();
+
+
                         }
 
                         function reset() {
@@ -257,7 +274,10 @@ class GameMain {
                         GuiAPI.activateDomTransition('WELCOME BACK', dataList, activate, null, transitionOptions)
                     }
 
-                    initLoadedPlayerState(dataList, loadedPlayerReady);
+                    setTimeout(function() {
+                        initLoadedPlayerState(dataList, loadedPlayerReady);
+                    }, 1500)
+
                 }
 
             }, 200)

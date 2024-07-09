@@ -1,0 +1,45 @@
+{
+  "assets": [
+    {
+      "asset": "asset_cottage",
+      "pos": [
+        0,
+        0,
+        0
+      ],
+      "rot": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.007,
+        0.007,
+        0.007
+      ],
+      "solidity": 1,
+      "visibility": 2,
+      "boxes": []
+    }
+  ],
+  "edit_id": "FARM_COTTAGE_2",
+  "no_lod": false,
+  "palette": "DEFAULT",
+  "pos": [
+    -888.93,
+    2.5,
+    517.27
+  ],
+  "rot": [
+    0,
+    0.2,
+    0
+  ],
+  "scale": [
+    1,
+    1,
+    1
+  ],
+  "grid": 0,
+  "on_ground": false
+}

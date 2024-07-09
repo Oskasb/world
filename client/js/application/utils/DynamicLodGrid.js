@@ -8,11 +8,14 @@ class DynamicLodGrid {
         this.lastLodCenter = new Vector3();
         this.dynamicGrid = null;
         this.lodElements = [];
-        this.dynamicGrid = poolFetch( 'DynamicGrid')
+        this.dynamicGrid = null;
     }
 
 
     activateLodGrid(config) {
+        if (this.dynamicGrid === null) {
+            this.dynamicGrid = poolFetch( 'DynamicGrid')
+        }
         this.debug = config['debug'] || false;
         this.config = config;
         this.lodLevels = config['lod_levels'] || 6;
@@ -62,10 +65,10 @@ class DynamicLodGrid {
     }
 
     deactivateLodGrid() {
-        while (this.lodElements.length) {
-            let element = this.lodElements.pop();
-        //    poolReturn(patch)
+        if (this.dynamicGrid === null) {
+            return;
         }
+        this.clearLodGrid();
 
         this.dynamicGrid.deactivateDynamicGrid();
         poolReturn(this.dynamicGrid);
@@ -74,8 +77,7 @@ class DynamicLodGrid {
 
     clearLodGrid() {
         while (this.lodElements.length) {
-            let element = this.lodElements.pop();
-            //    poolReturn(patch)
+            this.lodElements.pop();
         }
 
         let tiles = this.dynamicGrid.dynamicGridTiles;

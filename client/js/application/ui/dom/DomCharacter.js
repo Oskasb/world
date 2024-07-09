@@ -131,7 +131,7 @@ class DomCharacter {
             statusMap['stash_count_currencies'] = getPlayerStatus(ENUMS.PlayerStatus.STASH_TAB_CURRENCIES).length || "";;
             statusMap['stash_count_lore'] = getPlayerStatus(ENUMS.PlayerStatus.STASH_TAB_LORE).length || "";
             statusMap['stash_count_craft'] = getPlayerStatus(ENUMS.PlayerStatus.STASH_TAB_CRAFT).length || "";
-
+            statusMap['stash_count_housing'] = getPlayerStatus(ENUMS.PlayerStatus.STASH_TAB_HOUSING).length || "";
 
             statusMap.NAME = actor.getStatus(ENUMS.ActorStatus.NAME);
             statusMap.ACTOR_LEVEL = actor.getStatus(ENUMS.ActorStatus.ACTOR_LEVEL);

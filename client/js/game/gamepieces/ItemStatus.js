@@ -1,4 +1,5 @@
 import {SimpleSend} from "../../Transport/io/SimpleSend.js";
+import {getPlayerStatus} from "../../application/utils/StatusUtils.js";
 
 class ItemStatus {
     constructor(itemId, itemTemplate) {
@@ -15,6 +16,10 @@ class ItemStatus {
         this.statusMap[ENUMS.ItemStatus.ACTIVATION_STATE] = ENUMS.ActivationState.INACTIVE;
         this.statusMap[ENUMS.ItemStatus.RARITY] = ENUMS.rarity.COMMON;
         this.statusMap[ENUMS.ItemStatus.QUALITY] = ENUMS.quality.POOR;
+        this.statusMap[ENUMS.ItemStatus.CHILD_ITEMS] = [];
+
+
+
 
         this.isRemote = false;
         let setStatusByKey = function(key, status) {

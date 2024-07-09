@@ -18,6 +18,7 @@ class LodTest {
         let locationModel;
         let isBoxTesting = false;
 
+
         let aaBoxTestLocationModel = function() {
             let isVisible = aaBoxTestVisibility(position, size, size, size)
             if (isVisible) {
@@ -70,8 +71,11 @@ class LodTest {
             model.isVisible = true;
         } else {
             if (model.isVisible === true) {
-
-                if (lodLevel > visibility) {
+                if (lodLevel === -2) {
+                    this.call.checkBoxTesting()
+                    hideCallback(model);
+                    model.isVisible = false;
+                } else if (lodLevel > visibility) {
                     hideCallback(model);
                     model.isVisible = false;
                 } else {

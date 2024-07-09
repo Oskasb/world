@@ -143,7 +143,7 @@ function initLoadedPlayerState(dataList, readyCB) {
         setTimeout(function() {
             evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, {request:ENUMS.ClientRequests.LOAD_SERVER_ACTOR, status:statusMap})
         }, 500)
-        readyCB(loadedItems);
+        readyCB(statusMap);
     }
 
     function actorLoaded(actor) {

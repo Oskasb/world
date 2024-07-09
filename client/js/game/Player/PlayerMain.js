@@ -8,6 +8,8 @@ import {ENUMS} from "../../application/ENUMS.js";
 import {isDev} from "../../application/utils/DebugUtils.js";
 import {storePlayerStatus} from "../../application/setup/Database.js";
 import {DomEncounterStatus} from "../../application/ui/dom/DomEncounterStatus.js";
+import {getPlayerActor} from "../../application/utils/ActorUtils.js";
+import {getPlayerStatus} from "../../application/utils/StatusUtils.js";
 
 let tempVec3 = new Vector3()
 
@@ -21,6 +23,7 @@ let cheatInventory = [
 let statusMap = {
     PLAYER_ZOOM:1,
     PLAYER_WORLD_LEVEL: "20",
+    PLAYER_ACTORS: [],
     CONTROL_VALUES: {
         CAM_TURN:0,
         CAM_PITCH:0,
@@ -35,6 +38,7 @@ statusMap[ENUMS.PlayerStatus.STASH_TAB_MATERIALS] = [];
 statusMap[ENUMS.PlayerStatus.STASH_TAB_CURRENCIES] = [];
 statusMap[ENUMS.PlayerStatus.STASH_TAB_LORE] = [];
 statusMap[ENUMS.PlayerStatus.STASH_TAB_CRAFT] = [];
+statusMap[ENUMS.PlayerStatus.STASH_TAB_HOUSING] = [];
 statusMap[ENUMS.PlayerStatus.ACTIVE_STASH_TAB] = ENUMS.PlayerStatus.STASH_TAB_ITEMS;
 statusMap[ENUMS.PlayerStatus.ACTIVE_STASH_FILTERS] = [];
 statusMap[ENUMS.PlayerStatus.ACTIVE_STASH_SUBPAGE] = 0;
@@ -213,34 +217,82 @@ class PlayerMain {
             if (typeof (loadEncounters) === 'function') {
                 loadEncounters();
             }
+            GameAPI.worldModels.activateWorldLevelEstates(GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL));
         }
 
         let loadEncounters;
 
         let enterPortal = function(e) {
             console.log("Portal Event", e)
+
             let actor = GameAPI.getGamePieceSystem().selectedActor;
 
-            let config =GameAPI.gameMain.getWorldLevelConfig(e.world_level)
+            let worldLevel = e.world_level;
+
+            let cfgLevel = worldLevel;
+            if (worldLevel === getPlayerStatus(ENUMS.PlayerStatus.PLAYER_ID)) {
+                cfgLevel = "19";
+            }
+
+            let config =GameAPI.gameMain.getWorldLevelConfig(cfgLevel)
             let envId= config.env;
             let name = config.name;
 
-            let transitionReady = function() {
-                if (e.pos) {
-                    actor.setDestination(e.pos);
-                }
-                GameAPI.getPlayer().setStatusKey(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL, e.world_level);
+            GameAPI.leaveActiveGameWorld();
 
+            if (actor) {
+
+                if (e.world_level === "19") {
+                    e.world_level = getPlayerStatus(ENUMS.PlayerStatus.PLAYER_ID);
+                }
+
+                actor.setStatusKey(ENUMS.ActorStatus.WORLD_LEVEL, e.world_level)
+            }
+            GameAPI.getPlayer().setStatusKey(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL, e.world_level);
+            let transitionReady = function() {
+            //    GameAPI.leaveActiveGameWorld();
+                if (e.pos) {
+                    if (actor) {
+
+                        if (e.pos.length === 3) {
+                            actor.setStatusKey(ENUMS.ActorStatus.SELECTED_DESTINATION, e.pos);
+                        } else {
+                            actor.setDestination(e.pos);
+                        }
+                        actor.setSpatialPosition(actor.getDestination())
+                    }
+
+                        let cPos = ThreeAPI.getCameraCursor().getLookAroundPoint();
+                        if (e.pos.length === 3) {
+                            MATH.vec3FromArray(cPos, e.pos);
+                        } else {
+                            cPos.copy(e.pos);
+                        }
+
+                    ThreeAPI.getCameraCursor().getPos().copy(cPos);
+                }
+
+
+
+
+                if (typeof (e.callback) === 'function') {
+                    setTimeout(function() {
+                        e.callback()
+                    }, 100)
+                }
+            //    setTimeout(function() {
+            //        GameAPI.activateWorldLevel(e.worldLevel);
+            //    }, 1000)
             }
 
-            GuiAPI.activateDomTransition(name, config, transitionReady )
+
 
             evt.dispatch(ENUMS.Event.ADVANCE_ENVIRONMENT,  {envId:envId, time:0.5});
 
             let world_encounters = []
             MATH.copyArrayValues(e.world_encounters, world_encounters);
-            let worldLevel = e.world_level;
-            world_encounters.push("portals_"+e.world_level)
+
+            world_encounters.push("portals_"+cfgLevel)
 
             if (e.worldEncounter) {
                 e.worldEncounter.removeWorldEncounter()
@@ -250,8 +302,19 @@ class PlayerMain {
 
             loadEncounters = function() {
                 GameAPI.worldModels.loadWorldLevelConfigEdits(e.world_level)
-                evt.dispatch(ENUMS.Event.LOAD_ADVENTURE_ENCOUNTERS, {world_encounters:world_encounters, world_level:worldLevel})
+                evt.dispatch(ENUMS.Event.LOAD_ADVENTURE_ENCOUNTERS, {world_encounters:world_encounters, world_level:cfgLevel})
             }
+
+
+
+            setTimeout(function() {
+                GameAPI.activateWorldLevel(e.world_level);
+                if (e['prevent_transition'] === true) {
+                    transitionReady()
+                } else {
+                    GuiAPI.activateDomTransition(name, config, transitionReady )
+                }
+            }, 1000)
 
         }
 
@@ -397,6 +460,12 @@ class PlayerMain {
 
     getFocusOnPosition() {
         return this.focusOnPosition;
+    }
+
+    teleportPlayer(worldLevel, posVec3, preventTransition) {
+
+        evt.dispatch(ENUMS.Event.ENTER_PORTAL, {"world_level": worldLevel, "world_encounters": [], pos:[posVec3.x, posVec3.y, posVec3.z], prevent_transition:preventTransition})
+
     }
 
     setPlayerCharacter(character, oldMain) {

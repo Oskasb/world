@@ -1,0 +1,45 @@
+{
+  "assets": [
+    {
+      "asset": "asset_cavern_entrance",
+      "pos": [
+        0,
+        0,
+        0
+      ],
+      "rot": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.01,
+        0.01,
+        0.01
+      ],
+      "solidity": 0.75,
+      "visibility": 3,
+      "boxes": []
+    }
+  ],
+  "edit_id": "PORTAL_1",
+  "no_lod": false,
+  "palette": "DEFAULT",
+  "pos": [
+    -820.87,
+    4.82,
+    604.41
+  ],
+  "rot": [
+    0,
+    -0.54,
+    0
+  ],
+  "scale": [
+    1,
+    1,
+    1
+  ],
+  "grid": 0,
+  "on_ground": false
+}

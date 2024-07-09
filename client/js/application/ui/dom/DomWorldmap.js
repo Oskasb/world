@@ -5,6 +5,7 @@ import {Vector3} from "../../../../libs/three/math/Vector3.js";
 import {ENUMS} from "../../ENUMS.js";
 import {bodyTransformToObj3d, getBodyPointer, getPhysicalWorld} from "../../utils/PhysicsUtils.js";
 import {generateActiveWorldMap} from "../../utils/MapUtils.js";
+import {getPlayerStatus} from "../../utils/StatusUtils.js";
 let worldSize = 2048;
 let tempObj = new Object3D();
 let pointerVec3 = new Vector3();
@@ -729,11 +730,7 @@ function attachWorldLevelNavigation(container) {
                 defaultWorldLevel = levelConf.id;
             //    GameAPI.getPlayer().setStatusKey(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL, levelConf.id);
                 evt.dispatch(ENUMS.Event.ENTER_PORTAL, {"world_level": levelConf.id, "world_encounters": []})
-                let selectedActor = GameAPI.getGamePieceSystem().selectedActor;
-                if (!selectedActor) {
-                    GameAPI.leaveActiveGameWorld();
-                    GameAPI.activateWorldLevel(levelConf.id);
-                }
+
 
             }
 
@@ -1117,6 +1114,10 @@ class DomWorldmap {
                 }
 
                 worldLevel = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
+                if (worldLevel === getPlayerStatus(ENUMS.PlayerStatus.PLAYER_ID)) {
+                    worldLevel = "19";
+                }
+
 
                 if (worldLevel !== activeWorldLevel) {
                     clearDivArray(spawnDivs);

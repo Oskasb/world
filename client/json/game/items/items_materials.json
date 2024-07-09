@@ -396,11 +396,11 @@
         }
       },
       {
-        "id": "ITEM_MATERIAL_PADDING_BRILLIANT",
+        "id": "ITEM_MATERIAL_PADDING_VIBRANT",
         "data": {
-          "visual_id":"VISUAL_MATERIAL_FABRIC_BRILLIANT",
+          "visual_id":"VISUAL_MATERIAL_FABRIC_VIBRANT",
           "status": {
-            "NAME":"Brilliant Cloth Padding",
+            "NAME":"Vibrant Cloth Padding",
             "ITEM_LEVEL": 5,
             "ITEM_TYPE" : "MATERIAL",
             "RARITY": "LEGENDARY",

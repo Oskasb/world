@@ -1,0 +1,21 @@
+[{
+  "GAME":{
+    "ITEMS":[
+      {
+        "id": "ITEM_DEED_ESTATE_START",
+        "data": {
+          "visual_id":"VISUAL_DEED_ESTATE",
+          "estate_template": "ITEM_ESTATE_START",
+          "status": {
+            "NAME":"Outer Isles - 1:735",
+            "ITEM_LEVEL": 0,
+            "ITEM_TYPE" : "DEED",
+            "RARITY": "UNCOMMON",
+            "QUALITY": "POOR",
+            "TEXT": "This deed qualifies its owner to manage the land within the estate borders."
+          }
+        }
+      }
+    ]
+  }
+}]

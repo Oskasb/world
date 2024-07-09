@@ -1,20 +1,33 @@
 import {detachConfig} from "../../application/utils/ConfigUtils.js";
 import {Item} from "./Item.js";
+import {getItemConfigByItemId} from "../../application/utils/ItemUtils.js";
 
 
-function computeAmount(weight) {
-    return weight;
+function computeAmount(weight, modifiers) {
+    let amountBase = MATH.clamp(weight+modifiers['add'], 0, weight+modifiers['add']);
+    return amountBase * modifiers['multiply'];
 }
 
 function computeComponent(itemConfig, compData, rscHcrConfig) {
 
     let mat = compData.material
     let matReqList = rscHcrConfig['material_requirement_lists'][mat];
-    let materialKey = matReqList[0];
     let compKey = compData.component;
+    let reqModKey = rscHcrConfig['requirement_material_modifiers'][compKey];
+    let requirementIndex = rscHcrConfig['modifiers'][reqModKey][itemConfig[reqModKey]]
+    let materialKey = matReqList[requirementIndex];
     let recipeComponent = rscHcrConfig['components'][compKey][materialKey];
 
-    let amount = computeAmount(compData.weight)
+    let amount = compData.weight;
+
+    let templateConfig = getItemConfigByItemId(itemConfig[ENUMS.ItemStatus.TEMPLATE])
+    if (templateConfig) {
+        let itemSlot = ["equip_slot"]
+        if (typeof (itemSlot) === 'string') {
+            let slotModifiers = rscHcrConfig['equip_slot_modifiers'][itemSlot]
+            amount = computeAmount(amount, slotModifiers)
+        }
+    }
 
     return {
         templateId: recipeComponent,
@@ -25,7 +38,10 @@ function computeComponent(itemConfig, compData, rscHcrConfig) {
 
 function computeIngredients(itemConfig, components, rscHcrConfig, ingredients) {
     for (let i = 0; i < components.length; i++) {
-        ingredients.push(computeComponent(itemConfig, components[i], rscHcrConfig))
+        let component = computeComponent(itemConfig, components[i], rscHcrConfig)
+        if (component.amount > 0) {
+            ingredients.push(component)
+        }
     }
 }
 

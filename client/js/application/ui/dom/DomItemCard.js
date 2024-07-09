@@ -2,16 +2,24 @@ import {HtmlElement} from "./HtmlElement.js";
 import {ENUMS} from "../../ENUMS.js";
 import {poolFetch, poolReturn} from "../../utils/PoolUtils.js";
 import {
+    getItemConfigByItemId,
     getItemMaxPotency,
     getItemMaxRank,
     getItemPotencySlotCount,
-    getItemRankSlotCount,
+    getItemRankSlotCount, getVisualConfigByItemId,
     getVisualConfigByVisualId,
     getVisualConfigIconClass, styleIconDivByTemplateId, updateItemProgressUiStatus, updatePotencyDivs, updateRankDivs
 } from "../../utils/ItemUtils.js";
 import {saveItemStatus} from "../../setup/Database.js";
 import {getItemRecipe} from "../../utils/CraftingUtils.js";
-import {getStashItemCountByTemplateId} from "../../utils/StashUtils.js";
+import {
+    getStashItemCountByTemplateId,
+    sendItemToStash
+} from "../../utils/StashUtils.js";
+import {getPlayerActor} from "../../utils/ActorUtils.js";
+import {canBuildConstructionKit, createByTemplate, initActorEstateBuilding} from "../../utils/EstateUtils.js";
+import {getConfigByEditId, saveWorldModelEdits} from "../../utils/ConfigUtils.js";
+import {getPlayerStatus} from "../../utils/StatusUtils.js";
 
 let activeDomItems = [];
 
@@ -49,20 +57,22 @@ class DomItemCard {
 
             let pTop  = bodyRect.height - rootRect.top - bodyRect.top;
             if (pTop > bodyRect.height*0.5) {
-                pTop -= (rootRect.height*2+height*2);
+                pTop -= (rootRect.height*2.2 + height * 2);
             }
 
 
             let pLeft = elemRect.left + rootRect.left - bodyRect.left;
 
-            if (pLeft > bodyRect.width * 0.5) {
-                pLeft -= (rootRect.width*2 - width)
+            if (pLeft > bodyRect.width * 0.4) {
+                pLeft -= (rootRect.width*1.2 + width * 1)
             } else {
-                pLeft += rootRect.width*2
+                pLeft += rootRect.width*1.2 + width * 2
             }
 
             setTargetCoordinates(pTop, pLeft)
         }
+
+
 
 
         let update = function() {
@@ -91,7 +101,56 @@ class DomItemCard {
                 }
             }
 
+            let itemType = item.getStatus(ENUMS.ItemStatus.ITEM_TYPE);
+
+            if (itemType === ENUMS.itemTypes.KIT) {
+
+                let canBuild = canBuildConstructionKit(item, getPlayerActor());
+
+            //    if (canBuild !== buildStatus.canBuild) {
+                    buildStatus.canBuild = canBuild;
+
+                    let paramBuild = htmlElement.call.getChildElement("param_BUILD");
+                    let paramVisit = htmlElement.call.getChildElement("param_VISIT");
+                    let paramDemolish = htmlElement.call.getChildElement("param_DEMOLISH");
+
+                    if (canBuild !== false) {
+                        if (item.getStatus(ENUMS.ItemStatus.CHILD_ITEMS).length === 0) {
+                            statusMap['item_deed_build'] = "Begin Construction";
+                            paramBuild.style.display = '';
+                            let build = htmlElement.call.getChildElement("button_build");
+                            build.style.display = '';
+                            DomUtils.addClickFunction(build, activateBuild);
+                        } else {
+                            paramVisit.style.display = ''
+                            paramDemolish.style.display = ''
+                            let visit = htmlElement.call.getChildElement("button_visit");
+                            let demolish = htmlElement.call.getChildElement("button_demolish");
+                            DomUtils.addClickFunction(visit, activateTravel);
+                            let wLevel = item.getStatus(ENUMS.ItemStatus.WORLD_LEVEL);
+                            let coords = JSON.stringify(item.getStatus(ENUMS.ItemStatus.POS));
+                            statusMap['item_deed_visit'] = "W: "+wLevel+" P:"+coords;
+                            DomUtils.addClickFunction(demolish, activateDemolish);
+                            statusMap['item_deed_demolish'] = item.getStatus(ENUMS.ItemStatus.CHILD_ITEMS)[0];
+                        }
+                    } else {
+                        paramBuild.style.display = '';
+                        htmlElement.call.getChildElement("button_build").style.display = 'none';
+                        statusMap['item_deed_build'] = "Requires Private Estate";
+                    }
+
+
+
+            //    }
+
+
+            }
+
         }
+
+        let buildStatus = {
+            canBuild:false
+        };
 
         let rebuild = function() {
             clearIframe();
@@ -130,8 +189,59 @@ class DomItemCard {
         }
 
 
+        function activateTravel() {
+            console.log("activateTravel", item)
+            let buildingEditId = item.getStatus(ENUMS.ItemStatus.CHILD_ITEMS)[0];
+            let pos;
+            if (buildingEditId) {
+                let buildingCfg = getConfigByEditId(buildingEditId);
+                console.log("buildingCfg", buildingCfg);
+                pos = MATH.vec3FromArray(null, buildingCfg['pos']);
+            } else {
+                pos = MATH.vec3FromArray(null, item.getStatus(ENUMS.ItemStatus.POS))
+            }
+
+            let worldLevel = item.getStatus(ENUMS.ItemStatus.WORLD_LEVEL);
+            GameAPI.getPlayer().teleportPlayer(worldLevel, pos)
+            close();
+        }
 
 
+        function buildCallback(newConfig) {
+            console.log("buildCallback", item, newConfig)
+            if (typeof (newConfig) === 'object') {
+                let worldLevel = getPlayerStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
+                item.getStatus(ENUMS.ItemStatus.CHILD_ITEMS).push(newConfig.edit_id);
+                item.setStatusKey(ENUMS.ItemStatus.WORLD_LEVEL, worldLevel);
+                item.setStatusKey(ENUMS.ItemStatus.POS, newConfig.pos);
+            } else {
+                console.log("Building failure or cancel")
+            }
+        }
+
+        function activateBuild() {
+         //   let vConf = getVisualConfigByItemId(item.getStatus(ENUMS.ItemStatus.TEMPLATE));
+            console.log("activateBuild", item)
+            let buildingTemplate = item.config['building_template']
+
+
+            let estate = canBuildConstructionKit(item, getPlayerActor());
+            initActorEstateBuilding(getPlayerActor(), estate, buildingTemplate, buildCallback)
+
+            close();
+        }
+
+        function activateDemolish() {
+            let buildingEditId = item.getStatus(ENUMS.ItemStatus.CHILD_ITEMS).pop();
+            let buildingCfg = getConfigByEditId(buildingEditId);
+            let worldModel = GameAPI.worldModels.getActiveWorldModel(buildingEditId);
+            worldModel.deleteWorldModel();
+            console.log("activateDemolish worldModel", item, buildingCfg, worldModel);
+            buildingCfg.DELETED = true;
+            saveWorldModelEdits(worldModel);
+            saveItemStatus(item.getStatus());
+
+        }
 
         function activateRankUp() {
             let rank = item.getStatus(ENUMS.ItemStatus.ITEM_RANK)
@@ -155,6 +265,11 @@ class DomItemCard {
                 }
             }
             saveItemStatus(item.getStatus())
+        }
+
+
+        function activateStashSwitch() {
+            sendItemToStash(item)
         }
 
         function activateEmpower() {
@@ -209,9 +324,29 @@ class DomItemCard {
             let paramPalVals = htmlElement.call.getChildElement("param_PALETTE_VALUES");
             let paramRank = htmlElement.call.getChildElement("param_RANK");
             let paramPotency = htmlElement.call.getChildElement("param_POTENCY");
-
             let paramRecIngredients = htmlElement.call.getChildElement("param_INGREDIENTS");
             let paramCraft = htmlElement.call.getChildElement("param_CRAFT");
+
+            let paramBuild = htmlElement.call.getChildElement("param_BUILD");
+            let paramVisit = htmlElement.call.getChildElement("param_VISIT");
+            let paramDemolish = htmlElement.call.getChildElement("param_DEMOLISH");
+
+            let paramTravel = htmlElement.call.getChildElement("param_TRAVEL");
+
+            let paramStash = htmlElement.call.getChildElement("param_STASH");
+            let buttonStash = htmlElement.call.getChildElement("button_stash");
+
+            DomUtils.addClickFunction(buttonStash, activateStashSwitch);
+
+
+            paramBuild.style.display = 'none'
+            paramVisit.style.display = 'none'
+            paramDemolish.style.display = 'none'
+            paramTravel.style.display = 'none'
+
+            let itemType = item.getStatus(ENUMS.ItemStatus.ITEM_TYPE)
+
+
             if (typeof(item.config['equip_slot']) !== 'string' ) {
                 paramRank.style.display = 'none'
                 paramPotency.style.display = 'none'
@@ -220,7 +355,7 @@ class DomItemCard {
                 paramModifiers.style.display = 'none'
                 paramRecIngredients.style.display = 'none'
                 paramCraft.style.display = 'none'
-            } else if (item.getStatus(ENUMS.ItemStatus.ITEM_TYPE) === ENUMS.itemTypes.RECIPE) {
+            } else if (itemType === ENUMS.itemTypes.RECIPE) {
                 paramRank.style.display = 'none'
                 paramPotency.style.display = 'none'
                 paramPalVals.style.display = 'none'
@@ -255,6 +390,31 @@ class DomItemCard {
                 if (maxPotency === ENUMS.echelon.ECHELON_0) {
                     paramPotency.style.display = 'none'
                 }
+            }
+
+
+
+            if (itemType === ENUMS.itemTypes.ESTATE) {
+                paramTravel.style.display = ''
+                let travel = htmlElement.call.getChildElement("button_travel");
+                statusMap['item_travel'] = JSON.stringify(item.getStatus(ENUMS.ItemStatus.POS));
+                DomUtils.addClickFunction(travel, activateTravel);
+            }
+
+            if (itemType === ENUMS.itemTypes.DEED) {
+                paramTravel.style.display = ''
+                let travel = htmlElement.call.getChildElement("button_travel");
+            //    let travelText = htmlElement.call.getChildElement("item_travel");
+                let estateCfg = getItemConfigByItemId(item.config['estate_template']);
+                let wl = estateCfg.data.status[ENUMS.ItemStatus.WORLD_LEVEL]
+                if (wl === "19") {
+                    wl = getPlayerStatus(ENUMS.PlayerStatus.PLAYER_ID);
+                }
+                let pos = estateCfg.data.status[ENUMS.ItemStatus.POS]
+                item.setStatusKey(ENUMS.ItemStatus.POS, pos);
+                item.setStatusKey(ENUMS.ItemStatus.WORLD_LEVEL, wl);
+                statusMap['item_travel'] = "w:"+wl+" pos:"+JSON.stringify(pos);
+                DomUtils.addClickFunction(travel, activateTravel);
             }
 
             if (item.getStatus(ENUMS.ItemStatus.TEXT) === "") {

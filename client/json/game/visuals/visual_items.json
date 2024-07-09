@@ -451,10 +451,10 @@
         }
       },
       {
-        "id": "VISUAL_MATERIAL_FABRIC_BRILLIANT",
+        "id": "VISUAL_MATERIAL_FABRIC_VIBRANT",
         "data": {
           "model_asset":"asset_box_dynamic",
-          "icon_class": "icon_material_fabric_brilliant"
+          "icon_class": "icon_material_fabric_vibrant"
         }
       },
 
@@ -593,13 +593,7 @@
       },
 
 
-      {
-        "id": "VISUAL_LORE_NOTE_SCRIBBLED",
-        "data": {
-          "model_asset":"asset_box_dynamic",
-          "icon_class": "icon_lore_note_scribbled"
-        }
-      },
+
       {
         "id": "VISUAL_CURRENCY_GOLD",
         "data": {
@@ -1382,6 +1376,41 @@
         "id":"BARB_GREAVES",
         "data":{
           "model_asset":"skinned_barb_greaves"
+        }
+      },
+      {
+        "id": "VISUAL_LORE_NOTE_SCRIBBLED",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_lore_note_scribbled"
+        }
+      },
+      {
+        "id": "VISUAL_BUILDING_COTTAGE",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_building_cottage"
+        }
+      },
+      {
+        "id": "VISUAL_DEED_ESTATE",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_deed_cottage"
+        }
+      },
+      {
+        "id": "VISUAL_ICON_ESTATE",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_estate"
+        }
+      },
+      {
+        "id": "VISUAL_ICON_KIT_HOVEL",
+        "data": {
+          "model_asset":"asset_box_dynamic",
+          "icon_class": "icon_kit_house"
         }
       }
     ]

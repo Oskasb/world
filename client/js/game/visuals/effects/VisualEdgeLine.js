@@ -16,6 +16,8 @@ class VisualEdgeLine {
 
         this.fxPoints = [];
 
+        let rgba = colorMapFx['GLITTER_FX']
+
         this.recalcPoints = true;
 
         let update = function() {
@@ -46,7 +48,7 @@ class VisualEdgeLine {
                 tempVec.normalize();
                 tempObj.position.x += tempVec.x *0.5;
                 tempObj.position.z += tempVec.z *0.5;
-                let rgba = colorMapFx['GLITTER_FX']
+
                 //    console.log("Draw Points",  this.fxPoints.length)
                 for (let i = 0; i < this.fxPoints.length; i++) {
                     let pointFX = this.fxPoints[i];
@@ -69,7 +71,16 @@ class VisualEdgeLine {
 
         }.bind(this)
 
+        let setRgba = function(clr) {
+            if (clr !== rgba) {
+                rgba = clr;
+                this.recalcPoints = true;
+            }
+
+        }.bind(this)
+
         this.call = {
+            setRgba:setRgba,
             update:update
         }
 
@@ -91,7 +102,8 @@ class VisualEdgeLine {
         }
     }
 
-    on() {
+    on(rgba) {
+        this.call.setRgba(rgba || colorMapFx['GLITTER_FX'])
         this.recalcPoints = true;
         ThreeAPI.addPrerenderCallback(this.call.update);
     }

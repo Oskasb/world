@@ -13,6 +13,12 @@ function showLocationModel(model) {
 
 //    console.log("SHOW LocationModel", model);
 
+    if (model.requestRemove === true) {
+        model.requestRemove = false;
+        return;
+    }
+
+
     let addModelInstance = function(instance) {
         ThreeAPI.getScene().remove(instance.spatial.obj3d)
         instance.spatial.stickToObj3D(model.obj3d);
@@ -31,6 +37,7 @@ function hideLocationModel(model) {
 //    console.log("Hide", model);
     if (model.instance === null) {
     //    console.log("No INstance", model)
+        model.requestRemove = true;
     } else {
         model.instance.decommissionInstancedModel();
         model.instance = null;
@@ -56,6 +63,8 @@ class LocationModel {
         this.palette.initPalette()
         this.bodyPointers = [];
 
+
+        this.requestRemove = false;
 
         inheritConfigTransform(this.obj3d, this.config);
         inheritAsParent(this.obj3d, parentObj3d);
@@ -159,7 +168,7 @@ class LocationModel {
                 }
             }
 
-            lodTest.lodTestModel(model, lodLevel, 2 || config.visibility, showLocationModel, hideLocationModel)
+            lodTest.lodTestModel(model, lodLevel, 3, showLocationModel, hideLocationModel)
 
         }.bind(this)
 
@@ -331,7 +340,7 @@ class LocationModel {
 
     removeLocationModel() {
         this.clearLocationBoxes();
-        this.call.lodUpdated(-1);
+        this.call.lodUpdated(-2);
         hideLocationModel(this);
     }
 
