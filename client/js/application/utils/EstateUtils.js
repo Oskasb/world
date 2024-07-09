@@ -1,9 +1,12 @@
 import {detachConfig, saveWorldModelEdits} from "./ConfigUtils.js";
-import {getPlayerStatus} from "./StatusUtils.js";
+import {getPlayerStatus, setPlayerStatus} from "./StatusUtils.js";
 import {ENUMS} from "../ENUMS.js";
 import {getPlayerActor} from "./ActorUtils.js";
 import {poolFetch, poolReturn} from "./PoolUtils.js";
 import {notifyCameraStatus} from "../../3d/camera/CameraFunctions.js";
+import {Item} from "../../game/gamepieces/Item.js";
+import {loadItemStatus, saveItemStatus} from "../setup/Database.js";
+import {evt} from "../event/evt.js";
 
 
 function createByTemplate(templateId, pos, callback) {
@@ -111,6 +114,8 @@ function initActorEstateBuilding(actor, estate, buildingTemplate, buildCallback)
             console.log("Click construction cursor..")
         }
         notifyCameraStatus( ENUMS.CameraStatus.CAMERA_MODE, ENUMS.CameraControls.CAM_EDIT, null)
+        setPlayerStatus(ENUMS.PlayerStatus.PLAYER_ZOOM, 4);
+
         ThreeAPI.getCameraCursor().getLookAroundPoint().copy(pos);
         ThreeAPI.getCameraCursor().getPos().copy(pos);
         cursor.initDomEditCursor(closeCursor, model.obj3d, model.call.applyEditCursorUpdate, clickCursor);
@@ -122,9 +127,65 @@ function initActorEstateBuilding(actor, estate, buildingTemplate, buildCallback)
 
 }
 
+function initEstates() {
+
+}
+
+let deedConfig = {
+    "visual_id":"VISUAL_DEED_ESTATE",
+    "estate_template": "ITEM_ESTATE_START",
+    "status": {
+        "ITEM_LEVEL": 0,
+        "RARITY": "UNCOMMON",
+        "QUALITY": "POOR",
+        "TEXT": "This deed qualifies its owner to manage the land within the estate borders."
+    }
+}
+
+function generateEstateDeed(item, actor) {
+    let id = "DEED_"+item.getStatus(ENUMS.ItemStatus.ITEM_ID)
+    let estateTemplate = item.getStatus(ENUMS.ItemStatus.TEMPLATE);
+    let deedTemplateId = estateTemplate+"_deed";
+
+    let config = detachConfig(deedConfig);
+    config['estate_template'] = estateTemplate;
+    let status = config['status'];
+    status[ENUMS.ItemStatus.NAME]           = item.getStatus(ENUMS.ItemStatus.NAME);
+    status[ENUMS.ItemStatus.POS]            = item.getStatus(ENUMS.ItemStatus.POS);
+    status[ENUMS.ItemStatus.WORLD_LEVEL]    = item.getStatus(ENUMS.ItemStatus.WORLD_LEVEL);
+    status[ENUMS.ItemStatus.SIZE_XYZ]       = item.getStatus(ENUMS.ItemStatus.SIZE_XYZ);
+    status[ENUMS.ItemStatus.RARITY]         = item.getStatus(ENUMS.ItemStatus.RARITY);
+    status[ENUMS.ItemStatus.QUALITY]        = item.getStatus(ENUMS.ItemStatus.QUALITY);
+    status[ENUMS.ItemStatus.ITEM_ID]        = id;
+    status[ENUMS.ItemStatus.ITEM_TYPE]      = ENUMS.itemTypes.DEED;
+
+    let deedItem = new Item(deedTemplateId, config)
+    deedItem.config = config;
+    deedItem.id = id;
+
+    saveItemStatus(status);
+
+    function itemLoaded(deed) {
+        deed.config = config;
+        let itemStatus = loadItemStatus(deed.getStatus(ENUMS.ItemStatus.ITEM_ID));
+        for (let key in itemStatus) {
+            deed.setStatusKey(key, itemStatus[key]);
+        }
+    //    let slot = deed.getStatus(ENUMS.ItemStatus.EQUIPPED_SLOT);
+        console.log("Deed Item Loaded ", deed.getStatus(ENUMS.ItemStatus.ITEM_ID), deed.getStatus());
+        saveItemStatus(deed.getStatus());
+        actor.actorInventory.addInventoryItem(deed);
+    }
+
+    evt.dispatch(ENUMS.Event.LOAD_ITEM,  {id: status[ENUMS.ItemStatus.TEMPLATE], itemId:status[ENUMS.ItemStatus.ITEM_ID], callback:itemLoaded})
+ //   actor.actorInventory.addInventoryItem(deedItem);
+}
+
 export {
     createByTemplate,
     canBuildConstructionKit,
     isPlayerManagedEstate,
-    initActorEstateBuilding
+    initActorEstateBuilding,
+    initEstates,
+    generateEstateDeed
 }

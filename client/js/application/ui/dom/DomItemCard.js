@@ -17,7 +17,12 @@ import {
     sendItemToStash
 } from "../../utils/StashUtils.js";
 import {getPlayerActor} from "../../utils/ActorUtils.js";
-import {canBuildConstructionKit, createByTemplate, initActorEstateBuilding} from "../../utils/EstateUtils.js";
+import {
+    canBuildConstructionKit,
+    createByTemplate,
+    generateEstateDeed,
+    initActorEstateBuilding
+} from "../../utils/EstateUtils.js";
 import {getConfigByEditId, saveWorldModelEdits} from "../../utils/ConfigUtils.js";
 import {getPlayerStatus} from "../../utils/StatusUtils.js";
 
@@ -111,7 +116,7 @@ class DomItemCard {
                     buildStatus.canBuild = canBuild;
 
                     let paramBuild = htmlElement.call.getChildElement("param_BUILD");
-                    let paramVisit = htmlElement.call.getChildElement("param_VISIT");
+                    let paramAquire = htmlElement.call.getChildElement("param_AQUIRE");
                     let paramDemolish = htmlElement.call.getChildElement("param_DEMOLISH");
 
                     if (canBuild !== false) {
@@ -122,14 +127,14 @@ class DomItemCard {
                             build.style.display = '';
                             DomUtils.addClickFunction(build, activateBuild);
                         } else {
-                            paramVisit.style.display = ''
+                        //    paramVisit.style.display = ''
                             paramDemolish.style.display = ''
-                            let visit = htmlElement.call.getChildElement("button_visit");
+                        //    let visit = htmlElement.call.getChildElement("button_visit");
                             let demolish = htmlElement.call.getChildElement("button_demolish");
                             DomUtils.addClickFunction(visit, activateTravel);
-                            let wLevel = item.getStatus(ENUMS.ItemStatus.WORLD_LEVEL);
-                            let coords = JSON.stringify(item.getStatus(ENUMS.ItemStatus.POS));
-                            statusMap['item_deed_visit'] = "W: "+wLevel+" P:"+coords;
+                       //     let wLevel = item.getStatus(ENUMS.ItemStatus.WORLD_LEVEL);
+                       //     let coords = JSON.stringify(item.getStatus(ENUMS.ItemStatus.POS));
+                       //     statusMap['item_deed_visit'] = "W: "+wLevel+" P:"+coords;
                             DomUtils.addClickFunction(demolish, activateDemolish);
                             statusMap['item_deed_demolish'] = item.getStatus(ENUMS.ItemStatus.CHILD_ITEMS)[0];
                         }
@@ -206,6 +211,9 @@ class DomItemCard {
             close();
         }
 
+        function activateAquireDeed() {
+            generateEstateDeed(item, getPlayerActor())
+        }
 
         function buildCallback(newConfig) {
             console.log("buildCallback", item, newConfig)
@@ -328,7 +336,7 @@ class DomItemCard {
             let paramCraft = htmlElement.call.getChildElement("param_CRAFT");
 
             let paramBuild = htmlElement.call.getChildElement("param_BUILD");
-            let paramVisit = htmlElement.call.getChildElement("param_VISIT");
+            let paramAquire = htmlElement.call.getChildElement("param_AQUIRE");
             let paramDemolish = htmlElement.call.getChildElement("param_DEMOLISH");
 
             let paramTravel = htmlElement.call.getChildElement("param_TRAVEL");
@@ -340,7 +348,7 @@ class DomItemCard {
 
 
             paramBuild.style.display = 'none'
-            paramVisit.style.display = 'none'
+            paramAquire.style.display = 'none'
             paramDemolish.style.display = 'none'
             paramTravel.style.display = 'none'
 
@@ -396,9 +404,14 @@ class DomItemCard {
 
             if (itemType === ENUMS.itemTypes.ESTATE) {
                 paramTravel.style.display = ''
+                paramAquire.style.display = ''
                 let travel = htmlElement.call.getChildElement("button_travel");
                 statusMap['item_travel'] = JSON.stringify(item.getStatus(ENUMS.ItemStatus.POS));
                 DomUtils.addClickFunction(travel, activateTravel);
+
+                let aquire = htmlElement.call.getChildElement("button_aquire");
+                statusMap['item_aquire'] = "Sign Estate Deed";
+                DomUtils.addClickFunction(aquire, activateAquireDeed);
             }
 
             if (itemType === ENUMS.itemTypes.DEED) {

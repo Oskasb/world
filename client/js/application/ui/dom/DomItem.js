@@ -222,16 +222,19 @@ class DomItem {
             let uiStateKey = getItemUiStateKey(item);
             let slotHtmlElem =  GuiAPI.getUiStatusHtmlElement(uiStateKey);
             if (!slotHtmlElem) {
+                close();
                 return;
             }
 
             targetRoot = slotHtmlElem.call.getRootElement();
             targetElement = slotHtmlElem.call.getChildElement(slotId);
             if (!targetRoot) {
+                close();
                 return;
             }
 
             if (!targetElement) {
+                close();
                 return;
             }
 

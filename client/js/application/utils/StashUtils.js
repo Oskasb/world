@@ -30,9 +30,6 @@ function loadStashItem(item) {
 
 function stashItem(item, unstash) {
 
-
-
-
     let itemId = item.getStatus(ENUMS.ItemStatus.ITEM_ID)
     let itemType = item.getStatus(ENUMS.ItemStatus.ITEM_TYPE);
 
