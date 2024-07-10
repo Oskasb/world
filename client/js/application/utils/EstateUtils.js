@@ -1,7 +1,7 @@
 import {detachConfig, saveWorldModelEdits} from "./ConfigUtils.js";
 import {getPlayerStatus, setPlayerStatus} from "./StatusUtils.js";
 import {ENUMS} from "../ENUMS.js";
-import {getPlayerActor} from "./ActorUtils.js";
+import {getItemConfigs, getPlayerActor} from "./ActorUtils.js";
 import {poolFetch, poolReturn} from "./PoolUtils.js";
 import {notifyCameraStatus} from "../../3d/camera/CameraFunctions.js";
 import {Item} from "../../game/gamepieces/Item.js";
@@ -97,14 +97,21 @@ function canBuildConstructionKit(item, actor) {
 function initActorEstateBuilding(actor, estate, buildingTemplate, buildCallback) {
 
     let cursor = poolFetch('DomEditCursor')
-    let pos = MATH.vec3FromArray(cursor.initObj3d.position, estate.call.getStatusPos());
+    let pos = actor.getPos();
 
     let modelCallback = function(model) {
+
+        let imprintCallback = function(res) {
+            console.log("imprintCallback", res)
+            setPlayerStatus(ENUMS.PlayerStatus.PLAYER_ZOOM, 0.4);
+        }
+
 
         function closeCursor() {
             newConfig.on_ground = true;
             let box = model.box;
-        //    ThreeAPI.imprintModelAABBToGround(box);
+            ThreeAPI.alignGroundToAABB(box);
+            ThreeAPI.imprintModelAABBToGround(box, imprintCallback);
             poolReturn(cursor);
             buildCallback(newConfig);
         }
@@ -114,7 +121,7 @@ function initActorEstateBuilding(actor, estate, buildingTemplate, buildCallback)
             console.log("Click construction cursor..")
         }
         notifyCameraStatus( ENUMS.CameraStatus.CAMERA_MODE, ENUMS.CameraControls.CAM_EDIT, null)
-        setPlayerStatus(ENUMS.PlayerStatus.PLAYER_ZOOM, 4);
+        setPlayerStatus(ENUMS.PlayerStatus.PLAYER_ZOOM, 20);
 
         ThreeAPI.getCameraCursor().getLookAroundPoint().copy(pos);
         ThreeAPI.getCameraCursor().getPos().copy(pos);
@@ -181,11 +188,31 @@ function generateEstateDeed(item, actor) {
  //   actor.actorInventory.addInventoryItem(deedItem);
 }
 
+
+function estateLoadedCB(estate) {
+    console.log("Estate Loaded ", estate);
+}
+
+function initiateEstates() {
+    let configs = getItemConfigs();
+    console.log("Item Configs ", configs);
+
+    for (let key in configs) {
+        let cfg = configs[key]
+        if (typeof (cfg['status']) === 'object') {
+            if (cfg.status['ITEM_TYPE'] === ENUMS.itemTypes.ESTATE) {
+                evt.dispatch(ENUMS.Event.LOAD_ITEM,  {id: key, callback:estateLoadedCB})
+            }
+        }
+    }
+}
+
 export {
     createByTemplate,
     canBuildConstructionKit,
     isPlayerManagedEstate,
     initActorEstateBuilding,
     initEstates,
-    generateEstateDeed
+    generateEstateDeed,
+    initiateEstates
 }

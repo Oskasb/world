@@ -1,5 +1,6 @@
 import {getPlayerActor} from "../utils/ActorUtils.js";
 import {getUrlParam} from "../utils/DebugUtils.js";
+import {saveDataTexture} from "../utils/ConfigUtils.js";
 
 let db = {};
 
@@ -7,6 +8,7 @@ db.account= {};
 db.players = {};
 db.actors = {};
 db.items = {};
+db.images = {};
 
 function initLocalDB() {
     if (getUrlParam('reset_db') === true) {
@@ -109,8 +111,53 @@ function loadItemStatus(itemId) {
     return db.items[itemId] || null;
 }
 
+
+function applyBufferImageByKey(playerId, key, bufferData) {
+    let playerComps = playerId.split('_');
+    let components = key.split('_');
+
+    let root = "terrain";
+    let folder = components[0];
+ //   let worldLevel = components{1};
+    let xIndex = 2;
+    let zIndex = 3;
+
+    if (components[1] === playerComps[0]) {
+   //     worldLevel = playerId;
+        if (components[2] === playerComps[1]) {
+            xIndex++;
+            zIndex++
+        } else {
+            console.log("Not Loading some other players buffer data")
+            return;
+        }
+
+    }
+    let array = []
+
+    for (let key in bufferData) {
+        array.push(bufferData[key])
+    }
+
+    saveDataTexture(root, folder, key, new Uint8ClampedArray(array))
+}
+
+function loadStoredImages(playerId) {
+    let images = db.images;
+
+    for (let key in images) {
+        applyBufferImageByKey(playerId, key, images[key])
+    }
+}
+
 function loadPlayerStatus(playerId) {
-    return db.players[playerId] || null;
+
+    if (db.players[playerId]) {
+    //    loadStoredImages(playerId);
+    } else {
+        return null;
+    }
+    return db.players[playerId]
 }
 
 function storePlayerActorStatus() {
@@ -129,6 +176,17 @@ function storePlayerStatus() {
     savePlayerStatus(statusMap);
 }
 
+let imgTimeout;
+
+function storeBufferImage(id, bufferData) {
+    db.images[id] = bufferData;
+    console.log("storeBufferImage", id, db.images);
+    clearTimeout(imgTimeout);
+    imgTimeout = setTimeout(function() {
+        localStorage.setItem('images', JSON.stringify(db.images));
+    }, 500)
+}
+
 export {
     resetDatabase,
     storeLocalAccountStatus,
@@ -141,7 +199,9 @@ export {
     loadActorStatus,
     loadItemStatus,
     loadPlayerStatus,
+    loadStoredImages,
     storePlayerActorStatus,
     storePlayerStatus,
+    storeBufferImage,
     db
 }

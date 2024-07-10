@@ -5,6 +5,9 @@ import {getPhysicalWorld} from "../../../application/utils/PhysicsUtils.js";
 import {loadSavedBuffer, saveDataTexture} from "../../../application/utils/ConfigUtils.js";
 import {ENUMS} from "../../../application/ENUMS.js";
 import {TerrainSliceCallback} from "./TerrainSliceCallback.js";
+import {getPlayerActor} from "../../../application/utils/ActorUtils.js";
+import {getPlayerStatus} from "../../../application/utils/StatusUtils.js";
+import {loadStoredImages} from "../../../application/setup/Database.js";
 
 let bigWorld = null;
 let bigOcean = null;
@@ -330,6 +333,7 @@ function setupBufferListeners(folder, worldLevel, x, z, w, h) {
 }
 
 function updateBufferListeners(worldLevel, x, z) {
+    console.log("updateBufferListeners", worldLevel)
     if (isNaN(x) || isNaN(z)) {
         return;
     }
@@ -367,6 +371,7 @@ let visibleCount = 0;
 let lastPosX = 0;
 let lastPosZ = 0;
 let lastWorldLevel = 20;
+let updateListeners = true;
 let updateBigGeo = function(tpf) {
     let camY = ThreeAPI.getCamera().position.y;
     let posX = Math.floor(lodCenter.x)
@@ -378,8 +383,14 @@ let updateBigGeo = function(tpf) {
         lastWorldLevel = wLevel;
         lastPosX = posX;
         lastPosZ = posZ;
-        updateBufferListeners(wLevel, posX, posZ)
+        updateListeners = true;
     }
+
+    if (updateListeners === true) {
+        updateBufferListeners(wLevel, posX, posZ)
+        updateListeners = false;
+    }
+
 //    bigOcean.getSpatial().setPosXYZ(posX, -3.0, posZ);
   //  oceanInstances[0].getSpatial().setPosXYZ(posX, -3.0, posZ);
   //  oceanInstances[1].getSpatial().setPosXYZ(posX, -3.0, posZ);
@@ -387,7 +398,6 @@ let updateBigGeo = function(tpf) {
         if (i === 1) {
             oceanInstances[i].getSpatial().setPosXYZ(posX, 0.0, posZ);
         }
-
     }
 
 
@@ -446,6 +456,11 @@ let updateBigGeo = function(tpf) {
         }
         heightmap = heightmapContext.getImageData(0, 0, width, height).data;
         terrainUpdate = false;
+
+        while (onTerrainUpdateCallbacks.length) {
+            onTerrainUpdateCallbacks.pop()()
+        }
+
         clearTimeout(physicsUpdateTimeout);
         physicsUpdateTimeout = setTimeout(function() {
             setupAmmoTerrainBody(heightmap, terrainConfig)
@@ -515,16 +530,31 @@ function setTerrainDataImage(imgData, worldLevel) {
 }
 
 
+let onGroundUpdateCallbacks = []
+let onTerrainUpdateCallbacks = []
+
 class TerrainBigGeometry {
     constructor() {
 
+        this.onGroundUpdateCallbacks = onGroundUpdateCallbacks
+        this.onTerrainUpdateCallbacks = onTerrainUpdateCallbacks
+
         this.call = {
+
             updateBigGeo:updateBigGeo
         }
     }
 
 
     applyGroundMaterial(material, worldLevel) {
+
+        if (worldLevel === '19') {
+            let actor = getPlayerActor();
+            if (actor) {
+                worldLevel = getPlayerStatus(ENUMS.PlayerStatus.PLAYER_ID);
+                loadStoredImages(worldLevel);
+            }
+        }
 
         if (!worldLevels[worldLevel]) {
             registerWorldLevel(worldLevel)
@@ -544,6 +574,7 @@ class TerrainBigGeometry {
 
         this.updateGroundCanvasTexture()
         this.updateHeightmapCanvasTexture()
+        updateListeners = true;
         updateBigGeo(0.01);
     }
 
@@ -588,7 +619,13 @@ class TerrainBigGeometry {
         clearTimeout(groundUpdateTimeout);
         groundUpdateTimeout = setTimeout(function() {
             groundUpdate = true;
-        }, 10);
+
+            while (onGroundUpdateCallbacks.length) {
+                updateListeners = true;
+                onGroundUpdateCallbacks.pop()()
+            }
+
+        }, 100);
     }
 
     getTerrainMaterial() {

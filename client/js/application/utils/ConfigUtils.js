@@ -2,6 +2,7 @@ import { ConfigData } from "./ConfigData.js";
 import {ENUMS} from "../ENUMS.js";
 import {isDev} from "./DebugUtils.js";
 import {processJsonVariation} from "./VariationUtils.js";
+import {storeBufferImage} from "../setup/Database.js";
 
 let deletedByIndex = [];
 let deletedConfigs = {};
@@ -395,6 +396,22 @@ function saveAdventureEdits(adv) {
 }
 
 
+let imgSaveTimeouts = {};
+
+
+function relayBufferToServer(saveId, root, folder, id, buffer) {
+    evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, {
+        request:ENUMS.ClientRequests.WRITE_FILE,
+        id:id,
+        root:root,
+        folder:folder,
+        format:"buffer",
+        path: "images/",
+        save:saveId,
+        data:JSON.stringify(buffer)
+    })
+    GuiAPI.screenText("SAVE: "+id,  ENUMS.Message.SAVE_STATUS, 1.2)
+}
 
 function saveDataTexture(root, folder, id, buffer) {
 
@@ -408,6 +425,12 @@ function saveDataTexture(root, folder, id, buffer) {
     savedImageBuffers[id] = {buffer:buffer, timestamp:new Date().getTime()};
     //    console.log("saveDataTexture", root, folder, id)
 
+    clearTimeout(imgSaveTimeouts[id])
+
+    imgSaveTimeouts[id] = setTimeout(function() {
+        relayBufferToServer(saveId, root, folder, id, buffer)
+    }, 2000)
+  /*
     evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, {
         request:ENUMS.ClientRequests.WRITE_FILE,
         id:id,
@@ -418,7 +441,9 @@ function saveDataTexture(root, folder, id, buffer) {
         save:saveId,
         data:JSON.stringify(buffer)
     })
-    GuiAPI.screenText("SAVE: "+id,  ENUMS.Message.SAVE_STATUS, 1.5)
+*/
+  //  GuiAPI.screenText("SAVE: "+id,  ENUMS.Message.SAVE_STATUS, 0.2)
+    storeBufferImage(id, buffer);
 
 }
 

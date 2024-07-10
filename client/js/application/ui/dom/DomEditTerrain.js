@@ -27,6 +27,8 @@ function operateEdit(tool, pos, statusMap, drawStrength) {
     editEvent.noise = statusMap.noise;
     editEvent.strength = statusMap.strength * drawStrength;
     editEvent.biome = statusMap.biome;
+
+    console.log("Operate Terrain Edit ", editEvent)
     evt.dispatch(ENUMS.Event.TERRAIN_APPLY_EDIT, editEvent);
 }
 
@@ -128,6 +130,7 @@ class DomEditTerrain {
             let applyRebuildDiv = htmlElem.call.getChildElement('rebuild');
             DomUtils.addClickFunction(applyRebuildDiv, applyRebuild);
             ThreeAPI.registerPrerenderCallback(update);
+            statusMap.draw = 0;
             updateSelectedTool();
         }
 

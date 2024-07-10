@@ -29,22 +29,29 @@ class ItemEstate {
         let update = function() {
 
             let actor = getPlayerActor();
-            let activeEstate = GameAPI.worldModels.getActiveEstateAtPosition(actor.getPos())
-            let isPlayerManaged = isPlayerManagedEstate(estate)
 
-            if (activeEstate === estate) {
-                if (isPlayerManaged === estate) {
-                    visualEstateBorder.setRgba(elementColorMap['FRIENDLY']);
+            if (actor) {
+                let pos = actor.getPos();
+                let activeEstate = GameAPI.worldModels.getActiveEstateAtPosition(pos)
+                let isPlayerManaged = isPlayerManagedEstate(estate)
+
+                if (activeEstate === estate) {
+                    if (isPlayerManaged === estate) {
+                        visualEstateBorder.setRgba(elementColorMap['FRIENDLY']);
+                    } else {
+                        visualEstateBorder.setRgba(elementColorMap['HOSTILE']);
+                    }
                 } else {
-                    visualEstateBorder.setRgba(elementColorMap['HOSTILE']);
+                    if (isPlayerManaged === estate) {
+                        visualEstateBorder.setRgba(colorMapFx['FRIENDLY']);
+                    } else {
+                        visualEstateBorder.setRgba(colorMapFx['HOSTILE']);
+                    }
                 }
             } else {
-                if (isPlayerManaged === estate) {
-                    visualEstateBorder.setRgba(colorMapFx['FRIENDLY']);
-                } else {
-                    visualEstateBorder.setRgba(colorMapFx['HOSTILE']);
-                }
+                visualEstateBorder.setRgba(elementColorMap['FRIENDLY']);
             }
+
         }
 
         function activateEstate() {
@@ -75,10 +82,12 @@ class ItemEstate {
 
         function getWorldLevel() {
             if (worldLevel === "19") {
-                worldLevel = getPlayerStatus(ENUMS.PlayerStatus.PLAYER_ID)
-                if (itemStatus[ENUMS.ItemStatus.WORLD_LEVEL] !== worldLevel) {
-                    itemStatus[ENUMS.ItemStatus.WORLD_LEVEL] = worldLevel;
-                    saveItemStatus(itemStatus);
+                if (getPlayerActor()) {
+                    worldLevel = getPlayerStatus(ENUMS.PlayerStatus.PLAYER_ID)
+                    if (itemStatus[ENUMS.ItemStatus.WORLD_LEVEL] !== worldLevel) {
+                        itemStatus[ENUMS.ItemStatus.WORLD_LEVEL] = worldLevel;
+                        saveItemStatus(itemStatus);
+                    }
                 }
             }
             return worldLevel;
@@ -107,8 +116,16 @@ class ItemEstate {
             return itemStatus[ENUMS.ItemStatus.POS];
         }
 
+        function getStatusSize() {
+            return itemStatus[ENUMS.ItemStatus.SIZE_XYZ];
+        }
+
         function getStatusWorldLevel() {
             return itemStatus[ENUMS.ItemStatus.WORLD_LEVEL];
+        }
+
+        function getStatusMap(){
+            return itemStatus;
         }
 
         this.call = {
@@ -117,7 +134,10 @@ class ItemEstate {
             posIsInside:posIsInside,
             getEstateActorId:getEstateActorId,
             getStatusWorldLevel:getStatusWorldLevel,
-            getStatusPos:getStatusPos
+            getStatusPos:getStatusPos,
+            getStatusSize:getStatusSize,
+            getStatusMap:getStatusMap
+
         }
 
     }

@@ -11,7 +11,7 @@ import {getUrlParam, isDev} from "../application/utils/DebugUtils.js";
 import {DomNewPlayer} from "../application/ui/dom/DomNewPlayer.js";
 import {
     getLoadedAccount,
-    getLocalAccount, getLocalAccountStatus, loadActorStatus, loadPlayerStatus, resetDatabase,
+    getLocalAccount, getLocalAccountStatus, loadActorStatus, loadPlayerStatus, loadStoredImages, resetDatabase,
     storeLocalAccountStatus,
     storePlayerActorStatus,
     storePlayerStatus
@@ -23,6 +23,7 @@ import {poolFetch} from "../application/utils/PoolUtils.js";
 import {stashAllConfigItems} from "../application/utils/StashUtils.js";
 import {getActiveVariations} from "../application/utils/ConfigUtils.js";
 import {evt} from "../application/event/evt.js";
+import {initiateEstates} from "../application/utils/EstateUtils.js";
 
 let tempVec3 = new Vector3()
 let gameWalkGrid = null
@@ -182,6 +183,10 @@ class GameMain {
             client.page = GuiAPI.activatePage('page_start')
             GameAPI.gameAdventureSystem.call.activateAdventures()
             GuiAPI.activateMinimap()
+            setTimeout(function() {
+                initiateEstates()
+            }, 5000);
+
         } else {
 
 
@@ -250,9 +255,10 @@ class GameMain {
                                     actorStatusMap[ENUMS.ActorStatus.POS_Z]
                                 ]
                                 let worldLevel = actorStatusMap[ENUMS.ActorStatus.WORLD_LEVEL];
+                                loadStoredImages(getPlayerStatus(ENUMS.PlayerStatus.PLAYER_ID))
                                 setTimeout(function() {
                                     evt.dispatch(ENUMS.Event.ENTER_PORTAL, {"world_level":worldLevel, "world_encounters": [], pos:pos, callback:activateLoadedPlayer, prevent_transition:true})
-                                }, 1500);
+                                }, 500);
                                 triggered = true;
                             }
 

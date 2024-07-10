@@ -4,6 +4,7 @@ import {evt} from "../event/evt.js";
 import {notifyCameraStatus} from "../../3d/camera/CameraFunctions.js";
 import {clearActorEncounterStatus, getPlayerStatus, setPlayerStatus} from "./StatusUtils.js";
 import {requestItemSlotChange} from "./EquipmentUtils.js";
+import {initiateEstates} from "./EstateUtils.js";
 
 function loadStoredPlayer(dataList) {
     let account = getLocalAccount();
@@ -155,7 +156,8 @@ function initLoadedPlayerState(dataList, readyCB) {
     }
 
     getItemStatuses(actorStatus);
-    loadPlayerStashItems()
+    loadPlayerStashItems();
+    initiateEstates()
     evt.dispatch(ENUMS.Event.LOAD_ACTOR, {status: actorStatus, callback:actorLoaded});
     GameAPI.getGamePieceSystem().playerActorId = actorStatus[ENUMS.ActorStatus.ACTOR_ID];
 

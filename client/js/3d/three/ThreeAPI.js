@@ -271,9 +271,9 @@ class ThreeAPI {
         terrainSystem.rebuildGround()
     }
 
-    imprintModelAABBToGround(aabb) {
+    imprintModelAABBToGround(aabb, imprintCallback) {
         console.log("Imprint Ground AABB", aabb);
-        terrainSystem.imprintGroundModelAABB(aabb);
+        terrainSystem.imprintGroundModelAABB(aabb, imprintCallback);
         terrainSystem.rebuildGround()
     }
 

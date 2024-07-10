@@ -279,6 +279,11 @@ class WorldModel {
             for (let i = 0; i < this.locationModels.length; i++) {
                 this.locationModels[i].call.setPaletteKey(this.paletteKey)
             }
+            if (this.config.assets) {
+                for (let i = 0; i < this.config.assets.length; i++) {
+                    this.config.assets[i].paletteKey = this.paletteKey;
+                }
+            }
         }.bind(this)
 
         let getPaletteKey = function() {

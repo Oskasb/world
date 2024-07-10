@@ -33,6 +33,8 @@ let vegetationDivs = [];
 let physicsDivs = [];
 let lodGridDivs = [];
 
+let estateDivs = [];
+
 
 function clearDivArray(array) {
     while(array.length) {
@@ -469,6 +471,63 @@ function indicateLabels(htmlElement, mapDiv, statusMap, cursorPos) {
     }
 
 }
+
+let visibleEstates = []
+
+function indicateEstates(htmlElement, mapDiv, statusMap, cursorPos) {
+    let activeEstates = GameAPI.worldModels.getActiveWorldEstates();
+    MATH.emptyArray(visibleEstates);
+
+    for (let i = 0; i < activeEstates.length; i++) {
+        let estate = activeEstates[i];
+            let pos = MATH.vec3FromArray(tempVec, estate.call.getStatusPos());
+            if(pos.x > minX && pos.x < maxX) {
+                if (pos.z > minZ && pos.z < maxZ) {
+                    visibleEstates.push(estate)
+                }
+            }
+    }
+
+    while (estateDivs.length < visibleEstates.length) {
+        let div = DomUtils.createDivElement(mapDiv, 'estate_'+estateDivs.length, '', 'grid_tile')
+        estateDivs.push(div);
+    }
+
+    while (estateDivs.length > visibleEstates.length) {
+        DomUtils.removeDivElement(estateDivs.pop());
+    }
+
+    for (let i = 0; i < estateDivs.length; i++) {
+        let div = estateDivs[i];
+        let estate = visibleEstates[i];
+
+        let size = estate.call.getStatusSize();
+
+        let pos = MATH.vec3FromArray(tempVec, estate.call.getStatusPos());
+        pos.x += size[0]*0.49;
+        pos.z += size[2]*0.49;
+        worldPosDiv(pos, cursorPos, div, zoom)
+
+        let w = size[0]*zoom*0.049
+        let h = size[2]*zoom*0.049
+        //    //    div.style.padding = 0.5*w+"%";
+        div.style.borderWidth = 0.005*w+"em";
+        div.style.width = w+"%";
+        div.style.height = h+"%";
+
+
+        if (zoom > 5) {
+            let status = estate.call.getStatusMap();
+            let name = status[ENUMS.ItemStatus.NAME];
+            div.innerHTML = '<p>'+name+'</p>';
+        } else {
+            div.innerHTML = '';
+        }
+
+    }
+
+}
+
 
 let visibleModels = [];
 function indicateLocations(htmlElement, mapDiv, statusMap, cursorPos) {
@@ -950,6 +1009,7 @@ class DomWorldmap {
         let showLodGrid = false;
         let showAdventures = false;
         let showLabels = false;
+        let showEstates = false;
 
         let toggleAdventures = function(e) {
             showAdventures = !showAdventures;
@@ -984,6 +1044,10 @@ class DomWorldmap {
             showLabels = !showLabels;
         }
 
+        let toggleEstates = function(e) {
+            console.log(GameAPI.worldModels.getActiveWorldEstates());
+            showEstates = !showEstates;
+        }
 
         let readyCb = function() {
             clearGridLines()
@@ -1016,6 +1080,8 @@ class DomWorldmap {
 
             let advsDiv = htmlElement.call.getChildElement('adv')
 
+            let estatesDiv = htmlElement.call.getChildElement('estates')
+
             let levelsContainer = htmlElement.call.getChildElement('levels_container')
             let reloadDiv = htmlElement.call.getChildElement('reload')
 
@@ -1039,6 +1105,7 @@ class DomWorldmap {
             DomUtils.addClickFunction(spawnsDiv, toggleSpawns)
             DomUtils.addClickFunction(lodsDiv, toggleLodGrid)
             DomUtils.addClickFunction(advsDiv, toggleAdventures)
+            DomUtils.addClickFunction(estatesDiv, toggleEstates)
 
             attachWorldLevelNavigation(levelsContainer);
             ThreeAPI.unregisterPrerenderCallback(update);
@@ -1152,6 +1219,12 @@ class DomWorldmap {
                 tempVec.set(statusMap.dstX, statusMap.dstY, statusMap.dstZ);
                 worldPosDiv(tempVec, cursorPos, destinationDiv, zoom)
                 indicateActors(htmlElement, mapDiv, statusMap, cursorPos)
+
+                if (showEstates) {
+                    indicateEstates(htmlElement, mapDiv, statusMap, cursorPos)
+                } else {
+                    clearDivArray(estateDivs);
+                }
 
                 if (showLabels) {
                     indicateLabels(htmlElement, mapDiv, statusMap, cursorPos)

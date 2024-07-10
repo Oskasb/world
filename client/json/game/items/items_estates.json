@@ -6,15 +6,105 @@
         "data": {
           "visual_id":"VISUAL_ICON_ESTATE",
           "status": {
-            "NAME":"Outer Isles - 1:735",
+            "NAME":"19:1",
+            "ITEM_LEVEL": 0,
+            "ITEM_TYPE" : "ESTATE",
+            "RARITY": "UNCOMMON",
+            "QUALITY": "POOR",
+            "TEXT": "Inventory link to the Estate.",
+            "WORLD_LEVEL": "19",
+            "POS": [-725, 3, 835],
+            "SIZE_XYZ": [24, 15, 34],
+            "QUAT": [0, 0, 0, 1]
+          }
+        }
+      },
+      {
+        "id": "ITEM_ESTATE_19:2",
+        "data": {
+          "visual_id":"VISUAL_ICON_ESTATE",
+          "status": {
+            "NAME":"19:2",
+            "ITEM_LEVEL": 0,
+            "ITEM_TYPE" : "ESTATE",
+            "RARITY": "UNCOMMON",
+            "QUALITY": "POOR",
+            "TEXT": "Inventory link to the Estate.",
+            "WORLD_LEVEL": "19",
+            "POS": [-700, 3, 835],
+            "SIZE_XYZ": [24, 15, 34],
+            "QUAT": [0, 0, 0, 1]
+          }
+        }
+      },
+      {
+        "id": "ITEM_ESTATE_19:3",
+        "data": {
+          "visual_id":"VISUAL_ICON_ESTATE",
+          "status": {
+            "NAME":"19:3",
+            "ITEM_LEVEL": 0,
+            "ITEM_TYPE" : "ESTATE",
+            "RARITY": "UNCOMMON",
+            "QUALITY": "POOR",
+            "TEXT": "Inventory link to the Estate.",
+            "WORLD_LEVEL": "19",
+            "POS": [-675, 3, 835],
+            "SIZE_XYZ": [24, 15, 34],
+            "QUAT": [0, 0, 0, 1]
+          }
+        }
+      },
+      {
+        "id": "ITEM_ESTATE_19:4",
+        "data": {
+          "visual_id":"VISUAL_ICON_ESTATE",
+          "status": {
+            "NAME":"19:4",
             "ITEM_LEVEL": 0,
             "ITEM_TYPE" : "ESTATE",
             "RARITY": "RARE",
             "QUALITY": "POOR",
             "TEXT": "Inventory link to the Estate.",
             "WORLD_LEVEL": "19",
-            "POS": [-735, 3, 735],
-            "SIZE_XYZ": [24, 15, 24],
+            "POS": [-790, 3, 790],
+            "SIZE_XYZ": [84, 15, 74],
+            "QUAT": [0, 0, 0, 1]
+          }
+        }
+      },
+      {
+        "id": "ITEM_ESTATE_19:5",
+        "data": {
+          "visual_id":"VISUAL_ICON_ESTATE",
+          "status": {
+            "NAME":"19:5",
+            "ITEM_LEVEL": 0,
+            "ITEM_TYPE" : "ESTATE",
+            "RARITY": "RARE",
+            "QUALITY": "POOR",
+            "TEXT": "Inventory link to the Estate.",
+            "WORLD_LEVEL": "19",
+            "POS": [-700, 3, 780],
+            "SIZE_XYZ": [74, 15, 64],
+            "QUAT": [0, 0, 0, 1]
+          }
+        }
+      },
+      {
+        "id": "ITEM_ESTATE_19:6",
+        "data": {
+          "visual_id":"VISUAL_ICON_ESTATE",
+          "status": {
+            "NAME":"19:6",
+            "ITEM_LEVEL": 0,
+            "ITEM_TYPE" : "ESTATE",
+            "RARITY": "EPIC",
+            "QUALITY": "POOR",
+            "TEXT": "Inventory link to the Estate.",
+            "WORLD_LEVEL": "19",
+            "POS": [-740, 3, 670],
+            "SIZE_XYZ": [164, 15, 136],
             "QUAT": [0, 0, 0, 1]
           }
         }

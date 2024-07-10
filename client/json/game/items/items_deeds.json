@@ -7,7 +7,7 @@
           "visual_id":"VISUAL_DEED_ESTATE",
           "estate_template": "ITEM_ESTATE_START",
           "status": {
-            "NAME":"Outer Isles - 1:735",
+            "NAME":"19:1",
             "ITEM_LEVEL": 0,
             "ITEM_TYPE" : "DEED",
             "RARITY": "UNCOMMON",

@@ -88,13 +88,20 @@ let getThreeTerrainDataAt = function(pos, dataStore) {
     return TerrainFunctions.getGroundDataAt(pos, terrainBigGeometry.getGroundData(), params.groundTxWidth, params.groundTxWidth - 1, dataStore);
 }
 
-let shadeThreeTerrainDataAt = function(pos, size, channelIndex, operation, intensity) {
+let shadeThreeTerrainDataAt = function(pos, size, channelIndex, operation, intensity, shadeDoneCallback) {
+    if (typeof (shadeDoneCallback) === 'function') {
+        terrainBigGeometry.onGroundUpdateCallbacks.push(shadeDoneCallback);
+    }
+
     let params = terrainBigGeometry.getTerrainParams()
     TerrainFunctions.shadeGroundCanvasAt(pos, terrainBigGeometry.getHeightmapCanvas(), params.tx_width, params.tx_width - 1, size, channelIndex, operation, intensity);
     terrainBigGeometry.updateHeightmapCanvasTexture();
 }
 
-let alignThreeTerrainDataToAABB = function(aabb) {
+let alignThreeTerrainDataToAABB = function(aabb, alignDoneCallback) {
+    if (typeof (alignDoneCallback) === 'function') {
+        terrainBigGeometry.onTerrainUpdateCallbacks.push(alignDoneCallback);
+    }
     let params = terrainBigGeometry.getTerrainParams()
     let updateRect =  TerrainFunctions.fitHeightToAABB(aabb, terrainBigGeometry.getHeightmapCanvas(), params.tx_width, params.tx_width - 1, params.minHeight, params.maxHeight);
     terrainBigGeometry.updateHeightmapCanvasTexture(updateRect);
@@ -122,29 +129,43 @@ let imprintEdit = {
     operation : "GROUND"
 }
 
+let imprintQueue = {
+    callbacks:[],
+    imprints:[]
+}
 
+function applyImprint(x, y, z, i) {
+    imprintEdit.radius = 1.0;
+    imprintEdit.sharpness = 0.65;
+    imprintEdit.noise = 1;
+    imprintEdit.strength = 5;
+    imprintEdit.pos.x = x // -0.5;
+    imprintEdit.pos.y = y;
+    imprintEdit.pos.z = z +1 //0.5;
+    imprintEdit.radius = 0.25 + Math.round(MATH.sillyRandom(i*0.01)*3) * 1;
+    imprintEdit.operation = 'GROUND';
+    applyTerrainEdit(imprintEdit);
+    imprintEdit.sharpness = 0.99;
+    imprintEdit.noise = 0;
+    imprintEdit.strength = 0;
+    imprintEdit.operation = 'FLATTEN';
+    applyTerrainEdit(imprintEdit);
+    shadeThreeTerrainDataAt(imprintEdit.pos, imprintEdit.radius*1.6, 2, 'lighten', 0.1+0.4/imprintEdit.radius, resolveImprintQueue)
+}
+
+function resolveImprintQueue() {
+    if (imprintQueue.imprints.length !== 0) {
+        let imprint = imprintQueue.imprints.pop();
+        applyImprint(imprint.x, imprint.y, imprint.z, imprint.i)
+    } else {
+        while(imprintQueue.callbacks.length) {
+            imprintQueue.callbacks.pop()()
+        }
+    }
+}
 
 function queueImprint(x, y, z, i) {
-
-    setTimeout(function() {
-        imprintEdit.radius = 1.0;
-        imprintEdit.sharpness = 0.65;
-        imprintEdit.noise = 1;
-        imprintEdit.strength = 5;
-        imprintEdit.pos.x = x // -0.5;
-        imprintEdit.pos.y = y;
-        imprintEdit.pos.z = z +1 //0.5;
-        imprintEdit.radius = 0.25 + Math.round(MATH.sillyRandom(i*0.01)*3) * 1;
-        imprintEdit.operation = 'GROUND';
-        applyTerrainEdit(imprintEdit);
-        imprintEdit.sharpness = 0.99;
-        imprintEdit.noise = 0;
-        imprintEdit.strength = 0;
-        imprintEdit.operation = 'FLATTEN';
-        applyTerrainEdit(imprintEdit);
-        shadeThreeTerrainDataAt(imprintEdit.pos, imprintEdit.radius*1.6, 2, 'lighten', 0.1+0.4/imprintEdit.radius)
-    }, i * 50)
-
+    imprintQueue.imprints.push({x:x, y:x, z:z, i:i})
 }
 
 function testCirclePoint(frac, vec3, height) {
@@ -169,7 +190,10 @@ function testCirclePoint(frac, vec3, height) {
     }
 }
 
-function imprintGroundInAABB(aabb) {
+function imprintGroundInAABB(aabb, imprintCallback) {
+
+
+    imprintQueue.callbacks.push(imprintCallback);
 
     let min = aabb.min;
     let max = aabb.max;
@@ -213,7 +237,7 @@ function imprintGroundInAABB(aabb) {
             }
         }
     }
-
+    resolveImprintQueue();
 }
 
 let constructGeometries = function(heightMapData, transform, groundConfig, sectionInfoCfg) {

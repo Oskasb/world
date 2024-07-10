@@ -556,6 +556,10 @@ class WorldModels {
         return worldModels.length;
     }
 
+    getActiveWorldEstates() {
+        return worldEstates;
+    }
+
     registerWorldEstate(itemEstate) {
         worldEstates.push(itemEstate);
     }

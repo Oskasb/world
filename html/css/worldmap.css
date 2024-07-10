@@ -183,6 +183,26 @@ div.dev_button {
     text-shadow: 0 0 0.4em rgb(255, 255, 255);
 }
 
+div.map_button {
+    right: 0.5em;
+    width: 6em;
+    height: 1em;
+    bottom: 0.2em;
+    border-radius: 0.5em;
+    border: #bebebe;
+    border-style: solid;
+    border-width: 0.1em;
+    position: absolute;
+    background-size: 100%;
+    box-shadow: 0 0 0 0.05em rgba(5, 0, 0, 0.5);
+    margin:0;
+    padding: 0.1em;
+    font-size: 2.5em;
+    text-align: center;
+    color: rgba(0, 0, 0, 0.65);
+    text-shadow: 0 0 0.4em rgb(255, 255, 255);
+}
+
 div.button_labels {
     background: radial-gradient(circle, rgba(245,202,255,1) 0%, rgb(208, 190, 171) 47%, rgb(145, 136, 85) 83%, rgb(61, 46, 26) 99%);
     top: 32%;
@@ -214,6 +234,11 @@ div.button_lod {
 div.button_adv {
     background: radial-gradient(circle, rgb(163, 255, 241) 0%, rgb(69, 233, 255) 42%, rgb(1, 110, 169) 83%, rgb(0, 55, 45) 99%);
     top: 68%;
+}
+
+div.button_estates {
+    background: radial-gradient(circle, rgb(255, 209, 163) 0%, rgb(255, 153, 69) 42%, rgb(169, 77, 1) 83%, rgb(55, 28, 0) 99%);
+    bottom: -2.1em;
 }
 
 div.worldmap_frame {
