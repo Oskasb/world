@@ -30,7 +30,13 @@ class Item {
             }
         }
 
+        let worldLevel = this.status.statusMap[ENUMS.ItemStatus.WORLD_LEVEL];
+
         if (this.status.statusMap[ENUMS.ItemStatus.ITEM_TYPE] === ENUMS.itemTypes.ESTATE) {
+
+            let name = GameAPI.gameMain.getWorldLevelConfig(worldLevel).name;
+            name += " - "+this.status.statusMap[ENUMS.ItemStatus.NAME]
+            this.status.statusMap[ENUMS.ItemStatus.NAME] = name;
             let estate = new ItemEstate(this.status.statusMap);
             GameAPI.worldModels.registerWorldEstate(estate);
         }
@@ -57,7 +63,7 @@ class Item {
             this.status.statusMap[ENUMS.ItemStatus.RANK_ECHELON] = ENUMS.echelon.ECHELON_0;
         }
 
-        let worldLevel = this.status.statusMap[ENUMS.ItemStatus.WORLD_LEVEL];
+
         if (worldLevel === "19") {
             worldLevel = getPlayerStatus(ENUMS.PlayerStatus.PLAYER_ID);
             this.status.statusMap[ENUMS.ItemStatus.WORLD_LEVEL] = worldLevel;

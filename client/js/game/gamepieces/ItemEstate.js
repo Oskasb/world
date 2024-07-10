@@ -26,7 +26,7 @@ class ItemEstate {
         let estate = this;
 
 
-        function update() {
+        let update = function() {
 
             let actor = getPlayerActor();
             let activeEstate = GameAPI.worldModels.getActiveEstateAtPosition(actor.getPos())
@@ -84,7 +84,7 @@ class ItemEstate {
             return worldLevel;
         }
 
-        function estateActivate(bool) {
+        let estateActivate = function(bool) {
             if (bool === true) {
                 if (active === false) {
                     ThreeAPI.registerTerrainLodUpdateCallback(obj3d.position, lodUpdated)
