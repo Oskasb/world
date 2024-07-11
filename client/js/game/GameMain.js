@@ -184,8 +184,9 @@ class GameMain {
             GameAPI.gameAdventureSystem.call.activateAdventures()
             GuiAPI.activateMinimap()
             setTimeout(function() {
-                initiateEstates()
-            }, 5000);
+                initiateEstates();
+                GameAPI.worldModels.activateWorldLevelEstates("20")
+            }, 3000);
 
         } else {
 

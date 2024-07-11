@@ -557,7 +557,7 @@ class WorldModels {
     }
 
     getActiveWorldEstates() {
-        return worldEstates;
+        return activeEstates;
     }
 
     registerWorldEstate(itemEstate) {

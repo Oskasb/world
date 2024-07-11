@@ -215,13 +215,14 @@ class DomItemCard {
             generateEstateDeed(item, getPlayerActor())
         }
 
-        function buildCallback(newConfig) {
-            console.log("buildCallback", item, newConfig)
-            if (typeof (newConfig) === 'object') {
+        function buildCallback(model) {
+            console.log("buildCallback", item, model)
+            if (typeof (model) === 'object') {
+                saveWorldModelEdits(model);
                 let worldLevel = getPlayerStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
-                item.getStatus(ENUMS.ItemStatus.CHILD_ITEMS).push(newConfig.edit_id);
+                item.getStatus(ENUMS.ItemStatus.CHILD_ITEMS).push(model.config.edit_id);
                 item.setStatusKey(ENUMS.ItemStatus.WORLD_LEVEL, worldLevel);
-                item.setStatusKey(ENUMS.ItemStatus.POS, newConfig.pos);
+                item.setStatusKey(ENUMS.ItemStatus.POS, MATH.vec3ToArray(model.getPos(), item.getStatus(ENUMS.ItemStatus.POS)));
             } else {
                 console.log("Building failure or cancel")
             }
@@ -514,7 +515,7 @@ class DomItemCard {
             DomUtils.clearDivArray(dynDivs);
             DomUtils.clearDivArray(potencyDivs);
             DomUtils.clearDivArray(rankDivs);
-            item = null;
+        //    item = null;
             ThreeAPI.unregisterPrerenderCallback(update);
             clearIframe();
         }

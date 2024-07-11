@@ -778,6 +778,32 @@ div.grid_tile p {
     transform: translate3d(0, 0.5em, 0);
 }
 
+div.estate_area {
+    pointer-events: none;
+    position: absolute;
+    top: auto;
+    left: auto;
+    bottom:auto;
+    right:auto;
+    margin: 0em;
+    width: 0;
+    height: 0;
+    padding: 0;
+    border: solid;
+    background: none;
+    border-color: rgba(0, 255, 57, 0.5);
+    border-width: 0.1em;
+    border-radius:  0;
+    display: block;
+    color: #2bff3d;
+    transform-origin: center;
+    transform: translate3d(-50%, -50%, 0);
+}
+
+div.estate_area p {
+    font-size: 1.5em;
+}
+
 .click_container {
     position: absolute;
     bottom: 1em;

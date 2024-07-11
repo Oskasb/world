@@ -481,15 +481,16 @@ function indicateEstates(htmlElement, mapDiv, statusMap, cursorPos) {
     for (let i = 0; i < activeEstates.length; i++) {
         let estate = activeEstates[i];
             let pos = MATH.vec3FromArray(tempVec, estate.call.getStatusPos());
-            if(pos.x > minX && pos.x < maxX) {
-                if (pos.z > minZ && pos.z < maxZ) {
+            let size = estate.call.getStatusSize();
+            if(pos.x > (minX-size[0]*0.5) && pos.x < (maxX+size[0]*0.5)) {
+                if (pos.z > (minZ-size[2]*0.5) && pos.z < (maxZ+size[2]*0.5)) {
                     visibleEstates.push(estate)
                 }
             }
     }
 
     while (estateDivs.length < visibleEstates.length) {
-        let div = DomUtils.createDivElement(mapDiv, 'estate_'+estateDivs.length, '', 'grid_tile')
+        let div = DomUtils.createDivElement(mapDiv, 'estate_'+estateDivs.length, '', 'estate_area')
         estateDivs.push(div);
     }
 
@@ -504,14 +505,14 @@ function indicateEstates(htmlElement, mapDiv, statusMap, cursorPos) {
         let size = estate.call.getStatusSize();
 
         let pos = MATH.vec3FromArray(tempVec, estate.call.getStatusPos());
-        pos.x += size[0]*0.49;
-        pos.z += size[2]*0.49;
+    //    pos.x += size[0]*0.48;
+    //    pos.z += size[2]*0.48;
         worldPosDiv(pos, cursorPos, div, zoom)
 
-        let w = size[0]*zoom*0.049
-        let h = size[2]*zoom*0.049
+        let w = size[0]*zoom*0.048
+        let h = size[2]*zoom*0.048
         //    //    div.style.padding = 0.5*w+"%";
-        div.style.borderWidth = 0.005*w+"em";
+        div.style.borderWidth = 0.05+"em";
         div.style.width = w+"%";
         div.style.height = h+"%";
 

@@ -9,6 +9,13 @@ import {loadItemStatus, saveItemStatus} from "../setup/Database.js";
 import {evt} from "../event/evt.js";
 
 
+function generateModelId(config, pos) {
+    let worldLevel = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
+    ThreeAPI.tempVec3.copy(pos);
+    MATH.decimalifyVec3(ThreeAPI.tempVec3, 1); // File Server uses split('.') for file indexing
+    return "wmdl_"+worldLevel+"_"+ThreeAPI.tempVec3.x+"_"+ThreeAPI.tempVec3.y+"_"+ThreeAPI.tempVec3.z;
+}
+
 function createByTemplate(templateId, pos, callback) {
     console.log("createByTemplate", templateId, pos);
     let loadedTemplates = GameAPI.worldModels.getLoadedTemplates();
@@ -17,11 +24,12 @@ function createByTemplate(templateId, pos, callback) {
     let newConfig = detachConfig(map.config);
     newConfig.grid = 1;
     newConfig.on_ground = true;
-    newConfig.edit_id = "";
+    newConfig.edit_id = generateModelId(newConfig, pos);
     MATH.vec3ToArray(pos, newConfig.pos, 1);
-    let newWmodel = GameAPI.worldModels.addConfigModel(newConfig, newConfig.edit_id)
+    let newWmodel = GameAPI.worldModels.addConfigModel(newConfig, newConfig.edit_id )
+
     MATH.vec3FromArray(newWmodel.getPos(),  newConfig.pos);
-    saveWorldModelEdits(newWmodel);
+ //   saveWorldModelEdits(newWmodel);
 
     callback(newWmodel);
 
@@ -113,7 +121,7 @@ function initActorEstateBuilding(actor, estate, buildingTemplate, buildCallback)
             ThreeAPI.alignGroundToAABB(box);
             ThreeAPI.imprintModelAABBToGround(box, imprintCallback);
             poolReturn(cursor);
-            buildCallback(newConfig);
+            buildCallback(model);
         }
 
         function clickCursor() {
