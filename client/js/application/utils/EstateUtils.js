@@ -120,6 +120,7 @@ function initActorEstateBuilding(actor, estate, buildingTemplate, buildCallback)
             let box = model.box;
             ThreeAPI.alignGroundToAABB(box);
             ThreeAPI.imprintModelAABBToGround(box, imprintCallback);
+            cursor.closeDomEditCursor();
             poolReturn(cursor);
             buildCallback(model);
         }

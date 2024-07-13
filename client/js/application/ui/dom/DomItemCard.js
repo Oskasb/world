@@ -131,7 +131,7 @@ class DomItemCard {
                             paramDemolish.style.display = ''
                         //    let visit = htmlElement.call.getChildElement("button_visit");
                             let demolish = htmlElement.call.getChildElement("button_demolish");
-                            DomUtils.addClickFunction(visit, activateTravel);
+                       //     DomUtils.addClickFunction(visit, activateTravel);
                        //     let wLevel = item.getStatus(ENUMS.ItemStatus.WORLD_LEVEL);
                        //     let coords = JSON.stringify(item.getStatus(ENUMS.ItemStatus.POS));
                        //     statusMap['item_deed_visit'] = "W: "+wLevel+" P:"+coords;
@@ -222,7 +222,7 @@ class DomItemCard {
                 let worldLevel = getPlayerStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
                 item.getStatus(ENUMS.ItemStatus.CHILD_ITEMS).push(model.config.edit_id);
                 item.setStatusKey(ENUMS.ItemStatus.WORLD_LEVEL, worldLevel);
-                item.setStatusKey(ENUMS.ItemStatus.POS, MATH.vec3ToArray(model.getPos(), item.getStatus(ENUMS.ItemStatus.POS)));
+                item.setStatusKey(ENUMS.ItemStatus.POS, MATH.vec3ToArray(model.getPos(), []));
             } else {
                 console.log("Building failure or cancel")
             }

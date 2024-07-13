@@ -283,6 +283,7 @@ class DomEditCursor {
         }.bind(this);
 
         let close = function() {
+            ThreeAPI.unregisterPrerenderCallback(update);
             while (nodeDivs.length) {
                 DomUtils.removeDivElement(nodeDivs.pop());
             }

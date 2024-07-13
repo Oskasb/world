@@ -241,6 +241,9 @@ class WorldModel {
 
         let hold = 1;
         let applyEditCursorUpdate = function(obj3d, grid) {
+
+             // Disable this after trigger
+
             hold += GameAPI.getFrame().tpf;
             this.calcBounds(true);
             this.config.grid = grid;
@@ -384,6 +387,7 @@ class WorldModel {
     }
 
     generateModelId() {
+    //    console.log("generateModelId")
         let worldLevel = GameAPI.getPlayer().getStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
         MATH.decimalifyVec3(this.obj3d.position, 100);
         ThreeAPI.tempVec3.copy(this.obj3d.position);
