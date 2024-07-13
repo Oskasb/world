@@ -26,8 +26,8 @@ function createByTemplate(templateId, pos, callback) {
     newConfig.on_ground = true;
     newConfig.edit_id = generateModelId(newConfig, pos);
     MATH.vec3ToArray(pos, newConfig.pos, 1);
-    let newWmodel = GameAPI.worldModels.addConfigModel(newConfig, newConfig.edit_id )
-
+    let newWmodel = GameAPI.worldModels.addConfigModel(newConfig, newConfig.edit_id , true)
+    newWmodel.call.worldModelLodUpdate(0);
     MATH.vec3FromArray(newWmodel.getPos(),  newConfig.pos);
  //   saveWorldModelEdits(newWmodel);
 

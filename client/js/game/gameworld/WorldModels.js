@@ -100,12 +100,12 @@ function deactivateDynamicSpawnPoints() {
     }
 }
 
-function loadModelFromConfig(config, id) {
+function loadModelFromConfig(config, id, preventInstantiation) {
     if (config.DELETED === true) {
         console.log("Skip Deleted World Model")
         return;
     }
-    let model = new WorldModel(config, id)
+    let model = new WorldModel(config, id, preventInstantiation)
     worldModels.push(model);
 
     return model;
@@ -535,8 +535,8 @@ class WorldModels {
         return nodeEncounterConfigs;
     }
 
-    addConfigModel(config, id) {
-        return loadModelFromConfig(config, id);
+    addConfigModel(config, id, preventInstantiation) {
+        return loadModelFromConfig(config, id, preventInstantiation);
     }
 
     removeWorldModel(worldModel) {

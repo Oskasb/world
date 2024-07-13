@@ -43,7 +43,7 @@ let templateConfig =                 {
 
 class WorldModel {
 
-    constructor(config, id) {
+    constructor(config, id, preventInstantiation) {
     //    console.log("New World Model", config, id)
         if (!config) {
             config = detachConfig(templateConfig);
@@ -191,13 +191,21 @@ class WorldModel {
 
 
         let worldModelLodUpdate = function(lodLevel) {
+
+
+
             lastLodLevel = lodLevel;
 
             if (lodLevel === -2) {
+                preventInstantiation = false;
                 removeModels()
                 lodDeactivate()
                 setLocModelsLod(this.locationModels, lodLevel);
                 return;
+            }
+
+            if (preventInstantiation) {
+                lodLevel = 0;
             }
 
             if (MATH.valueIsBetween(lodLevel, 0, 1)) {
@@ -237,7 +245,12 @@ class WorldModel {
             ThreeAPI.registerTerrainLodUpdateCallback(this.obj3d.position, worldModelLodUpdate)
         }.bind(this);
 
-        ThreeAPI.registerTerrainLodUpdateCallback(this.obj3d.position, worldModelLodUpdate)
+        if (preventInstantiation === true) {
+
+        } else {
+            ThreeAPI.registerTerrainLodUpdateCallback(this.obj3d.position, worldModelLodUpdate)
+        }
+
 
         let hold = 1;
         let applyEditCursorUpdate = function(obj3d, grid) {
@@ -378,10 +391,13 @@ class WorldModel {
             worldModelLodUpdate:worldModelLodUpdate
         }
 
-        if (id !== "preview_model") {
-        //    console.log("loadSavedConfig", this.id)
-            loadSavedConfig(this.id, this.call.applyLoadedConfig)
+        if (preventInstantiation !== true) {
+            if (id !== "preview_model") {
+                //    console.log("loadSavedConfig", this.id)
+                loadSavedConfig(this.id, this.call.applyLoadedConfig)
+            }
         }
+
 
 
     }

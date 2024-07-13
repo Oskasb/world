@@ -218,11 +218,16 @@ class DomItemCard {
         function buildCallback(model) {
             console.log("buildCallback", item, model)
             if (typeof (model) === 'object') {
+                model.call.worldModelLodUpdate(-2);
+
                 saveWorldModelEdits(model);
                 let worldLevel = getPlayerStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
                 item.getStatus(ENUMS.ItemStatus.CHILD_ITEMS).push(model.config.edit_id);
                 item.setStatusKey(ENUMS.ItemStatus.WORLD_LEVEL, worldLevel);
                 item.setStatusKey(ENUMS.ItemStatus.POS, MATH.vec3ToArray(model.getPos(), []));
+                setTimeout(function () {
+                    model.call.worldModelLodUpdate(0);
+                }, 500)
             } else {
                 console.log("Building failure or cancel")
             }
