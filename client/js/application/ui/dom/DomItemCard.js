@@ -218,8 +218,9 @@ class DomItemCard {
         function buildCallback(model) {
             console.log("buildCallback", item, model)
             if (typeof (model) === 'object') {
+                model.preventLod = false;
                 model.call.worldModelLodUpdate(-2);
-
+                model.fitToTerrain();
                 saveWorldModelEdits(model);
                 let worldLevel = getPlayerStatus(ENUMS.PlayerStatus.PLAYER_WORLD_LEVEL)
                 item.getStatus(ENUMS.ItemStatus.CHILD_ITEMS).push(model.config.edit_id);

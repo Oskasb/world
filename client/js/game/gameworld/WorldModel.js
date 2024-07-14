@@ -81,6 +81,7 @@ class WorldModel {
 
         this.locationModels = [];
 
+        this.preventLod = false;
         this.visibility = null;
         this.hidden = false;
 
@@ -192,6 +193,9 @@ class WorldModel {
 
         let worldModelLodUpdate = function(lodLevel) {
 
+            if (this.preventLod === true) {
+                lodLevel = 0;
+            }
 
 
             lastLodLevel = lodLevel;
@@ -415,7 +419,19 @@ class WorldModel {
         return this.obj3d.position;
     }
 
+    fitToTerrain() {
+        let y = ThreeAPI.terrainAt(this.getPos());
+        this.getPos().y = y+0.2;
+        MATH.decimalifyVec3(this.getPos(), 100);
+        this.config.pos[1] = this.getPos().y;
+        this.calcBounds();
+    }
 
+
+    imprintWorldModelToGround(imprintCallback) {
+        this.fitToTerrain();
+        ThreeAPI.imprintModelAABBToGround(this.box, imprintCallback);
+    }
 
     calcBounds(debugDraw) {
         this.box.min.copy(this.getPos());

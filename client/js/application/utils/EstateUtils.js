@@ -108,21 +108,28 @@ function initActorEstateBuilding(actor, estate, buildingTemplate, buildCallback)
     let pos = actor.getPos();
 
     let modelCallback = function(model) {
-
+        model.call.worldModelLodUpdate(0);
+        model.preventLod = true;
         let imprintCallback = function(res) {
             console.log("imprintCallback", res)
             setPlayerStatus(ENUMS.PlayerStatus.PLAYER_ZOOM, 0.4);
+            buildCallback(model);
         }
 
 
         function closeCursor() {
+            setPlayerStatus(ENUMS.PlayerStatus.PLAYER_ZOOM, 1);
             newConfig.on_ground = true;
             let box = model.box;
             ThreeAPI.alignGroundToAABB(box);
-            ThreeAPI.imprintModelAABBToGround(box, imprintCallback);
+            model.fitToTerrain();
+
+            setTimeout(function () {
+
+                model.imprintWorldModelToGround(imprintCallback)
+            }, 2000);
             cursor.closeDomEditCursor();
             poolReturn(cursor);
-            buildCallback(model);
         }
 
         function clickCursor() {
@@ -130,7 +137,7 @@ function initActorEstateBuilding(actor, estate, buildingTemplate, buildCallback)
             console.log("Click construction cursor..")
         }
         notifyCameraStatus( ENUMS.CameraStatus.CAMERA_MODE, ENUMS.CameraControls.CAM_EDIT, null)
-        setPlayerStatus(ENUMS.PlayerStatus.PLAYER_ZOOM, 20);
+        setPlayerStatus(ENUMS.PlayerStatus.PLAYER_ZOOM, 14);
 
         ThreeAPI.getCameraCursor().getLookAroundPoint().copy(pos);
         ThreeAPI.getCameraCursor().getPos().copy(pos);

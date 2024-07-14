@@ -150,13 +150,21 @@ function applyImprint(x, y, z, i) {
     imprintEdit.strength = 0;
     imprintEdit.operation = 'FLATTEN';
     applyTerrainEdit(imprintEdit);
-    shadeThreeTerrainDataAt(imprintEdit.pos, imprintEdit.radius*1.6, 2, 'lighten', 0.1+0.4/imprintEdit.radius, resolveImprintQueue)
+  //  setTimeout(function() {
+        shadeThreeTerrainDataAt(imprintEdit.pos, imprintEdit.radius*1.6, 2, 'lighten', 0.1+0.4/imprintEdit.radius, resolveImprintQueue)
+  //  }, 10)
 }
 
 function resolveImprintQueue() {
     if (imprintQueue.imprints.length !== 0) {
         let imprint = imprintQueue.imprints.pop();
-        applyImprint(imprint.x, imprint.y, imprint.z, imprint.i)
+        console.log(imprint.i);
+
+   //     requestAnimationFrame(function() {
+            applyImprint(imprint.x, imprint.y, imprint.z, imprint.i)
+   //     });
+
+
     } else {
         while(imprintQueue.callbacks.length) {
             imprintQueue.callbacks.pop()()
