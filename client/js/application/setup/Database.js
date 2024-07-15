@@ -1,6 +1,23 @@
 import {getPlayerActor} from "../utils/ActorUtils.js";
 import {getUrlParam} from "../utils/DebugUtils.js";
 import {saveDataTexture} from "../utils/ConfigUtils.js";
+import {Storage} from "./Storage.js";
+
+
+
+let stores = [
+    {name:'account', keyPath:'PLAYER_ID', version:0, index:[]},
+    {name:'players', keyPath:'PLAYER_ID', version:0, index:[]},
+    {name:'actors',  keyPath:'ACTOR_ID',  version:0, index:[]},
+    {name:'items',   keyPath:'ITEM_ID',   version:0, index:[]},
+    {name:'images',  keyPath:'id',        version:0, index:[]}
+]
+
+let dbs = {};
+
+for (let i = 0; i < stores.length; i++) {
+    dbs[stores[i].name] = new Storage(stores[i]);
+}
 
 let db = {};
 
@@ -31,6 +48,7 @@ function initLocalDB() {
 
 function resetDatabase() {
     for (let key in db) {
+        dbs[key].clearAllData();
         localStorage.setItem(key, JSON.stringify({}));
         console.log("Reset Local DB", db);
     }
@@ -38,6 +56,8 @@ function resetDatabase() {
 
 function storeLocalAccountStatus(key, value) {
     db.account[key] = value;
+    dbs['account'].set(db.account['PLAYER_ID'], db.account);
+
     localStorage.setItem('account', JSON.stringify(db.account));
     console.log("Store Account Data ", db.account);
 }
@@ -67,6 +87,7 @@ function getLoadedAccount() {
 
 function saveActorStatus(statusMap) {
     let id = statusMap[ENUMS.ActorStatus.ACTOR_ID];
+    dbs['actors'].set(id, statusMap);
     db.actors[id] = statusMap;
  //   statusMap[ENUMS.ActorStatus.EQUIP_REQUESTS] = [];
  //   statusMap[ENUMS.ActorStatus.EQUIPPED_ITEMS] = [];
@@ -79,6 +100,7 @@ function saveActorStatus(statusMap) {
 
 function saveItemStatus(statusMap) {
     let id = statusMap[ENUMS.ItemStatus.ITEM_ID];
+    dbs['items'].set(id, statusMap);
    // console.log("Save Item Status ", id, [db.items]);
     db.items[id] = statusMap;
     if (typeof (statusMap['undefined']) !== 'undefined') {
@@ -99,6 +121,7 @@ function savePlayerStatus(statusMap) {
         console.log("Status map containes undefined", statusMap['undefined'], [statusMap]);
         delete statusMap['undefined']
     }
+    dbs['players'].set(id, statusMap);
     console.log("savePlayerStatus", db.players, statusMap);
     localStorage.setItem('players', JSON.stringify(db.players));
 }
@@ -180,6 +203,7 @@ let imgTimeout;
 
 function storeBufferImage(id, bufferData) {
     db.images[id] = bufferData;
+    dbs['images'].set(id, bufferData);
     console.log("storeBufferImage", id, db.images);
     clearTimeout(imgTimeout);
     imgTimeout = setTimeout(function() {
@@ -202,6 +226,5 @@ export {
     loadStoredImages,
     storePlayerActorStatus,
     storePlayerStatus,
-    storeBufferImage,
-    db
+    storeBufferImage
 }

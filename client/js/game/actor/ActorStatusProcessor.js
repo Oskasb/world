@@ -531,7 +531,7 @@ let time = 0;
 
 function updateDatabaseStatus(actor) {
     let now = GameAPI.getGameTime()
-    if (now - time > 10) {
+    if (now - time > 3000) {
         now = time;
         if (actor.getStatus(ENUMS.ActorStatus.IN_COMBAT === false)) {
             storePlayerActorStatus();

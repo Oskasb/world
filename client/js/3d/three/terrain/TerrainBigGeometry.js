@@ -333,7 +333,7 @@ function setupBufferListeners(folder, worldLevel, x, z, w, h) {
 }
 
 function updateBufferListeners(worldLevel, x, z) {
-    console.log("updateBufferListeners", worldLevel)
+  //  console.log("updateBufferListeners", worldLevel)
     if (isNaN(x) || isNaN(z)) {
         return;
     }

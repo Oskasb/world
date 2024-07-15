@@ -13,7 +13,6 @@ import {
     getLoadedAccount,
     getLocalAccount, getLocalAccountStatus, loadActorStatus, loadPlayerStatus, loadStoredImages, resetDatabase,
     storeLocalAccountStatus,
-    storePlayerActorStatus,
     storePlayerStatus
 } from "../application/setup/Database.js";
 import {initLoadedPlayerState, loadStoredPlayer} from "../application/utils/PlayerUtils.js";

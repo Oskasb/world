@@ -1,4 +1,4 @@
-import {db, getLocalAccount, loadActorStatus, loadItemStatus, loadPlayerStatus} from "../setup/Database.js";
+import {getLocalAccount, loadActorStatus, loadItemStatus, loadPlayerStatus} from "../setup/Database.js";
 import {ENUMS} from "../ENUMS.js";
 import {evt} from "../event/evt.js";
 import {notifyCameraStatus} from "../../3d/camera/CameraFunctions.js";
@@ -99,11 +99,8 @@ function loadPlayerStashItems() {
         let status = getPlayerStatus([key])
         if (typeof (status) === 'object') {
             if(status.length > 0) {
-                if (db.items[status[0]]) {
-                    for (let i = 0; i <status.length; i++ ) {
-                        loadStoredItemId(status[i])
-                    }
-                }
+                for (let i = 0; i <status.length; i++ ) {
+                    loadStoredItemId(status[i])}
             }
         }
     }

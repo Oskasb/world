@@ -587,7 +587,7 @@ function fetchConfigByEditId(editId, callback) {
         // processJsonVariation(savedConfigs[editId], activeVariations);
         callback(savedConfigs[editId])
     } else {
-        console.log("Config loading ", editId)
+    //    console.log("Config loading ", editId)
         setTimeout(function() {
             fetchConfigByEditId(editId, callback)
         }, 200)
