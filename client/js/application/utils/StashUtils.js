@@ -15,13 +15,18 @@ let stashTabs = [
 ]
 
 function itemLoaded(item) {
-    let itemStatus = loadItemStatus(item.getStatus(ENUMS.ItemStatus.ITEM_ID));
-    for (let key in itemStatus) {
-        item.setStatusKey(key, itemStatus[key]);
+
+    function iStatusCB(itemStatus) {
+        for (let key in itemStatus) {
+            item.setStatusKey(key, itemStatus[key]);
+        }
+        let slot = item.getStatus(ENUMS.ItemStatus.EQUIPPED_SLOT);
+        console.log("Stash Item Loaded ", slot, item.getStatus(ENUMS.ItemStatus.ITEM_ID), item.getStatus());
+        saveItemStatus(item.getStatus());
     }
-    let slot = item.getStatus(ENUMS.ItemStatus.EQUIPPED_SLOT);
-    console.log("Stash Item Loaded ", slot, item.getStatus(ENUMS.ItemStatus.ITEM_ID), item.getStatus());
-    saveItemStatus(item.getStatus());
+
+    loadItemStatus(item.getStatus(ENUMS.ItemStatus.ITEM_ID), iStatusCB);
+
 }
 function loadStashItem(item) {
     let itemStatus = item.getStatus();

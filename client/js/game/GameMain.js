@@ -190,104 +190,109 @@ class GameMain {
         } else {
 
 
+            function accCb(account) {
 
-            let account = getLoadedAccount();
-            console.log("Local Account; ", account);
+                console.log("Local Account; ", account);
 
-            let dataList = {};
+                let dataList = {};
 
-            if (getUrlParam('local') === true) {
-
-            }
-
-            if (getUrlParam('new') === true) {
-
-            } else {
-                loadStoredPlayer(dataList)
-            }
-
-
-            let activeVariations = getActiveVariations();
-
-
-
-            setTimeout(function() {
-
-                if (typeof (dataList[ENUMS.ActorStatus.CONFIG_ID]) !== 'string') {
-                    dataList = {};
-                    dataList['NEW USER'] = 'INIT';
-                    let release = function() {
-                        domTransition.call.release();
-                    }
-
-                    function stashAllItems() {
-                        console.log("Stash All Items", GameAPI.getPlayerMain().status.statusMap)
-                        stashAllConfigItems();
-                    }
-
-
-                    function activateVariation(e) {
-                        console.log('activateVariation', e.target.innerText, e)
-                    }
-
-                    let opts = [
-                    //    {id:"button_cheat", container:"top", text:"ITEMS", onClick:stashAllItems},
-                        {id:"button_continue", container:"bottom", text:"NEW CHARACTER", onClick:release}
-                    ]
-
-                    for (let i = 0; i < activeVariations.length; i++) {
-                        let option = {id:"button_cheat", container:"top", text:activeVariations[i], onClick:activateVariation}
-                        opts.push(option);
-                    }
-
-
-                    let domTransition = GuiAPI.activateDomTransition('WELCOME', dataList, startPlayerSession, null, opts)
-                } else {
-
-                    function loadedPlayerReady(actorStatusMap) {
-
-                        let triggered = false;
-                        function activate() {
-                            if (!triggered) {
-                                let pos = [
-                                    actorStatusMap[ENUMS.ActorStatus.POS_X],
-                                    actorStatusMap[ENUMS.ActorStatus.POS_Y],
-                                    actorStatusMap[ENUMS.ActorStatus.POS_Z]
-                                ]
-                                let worldLevel = actorStatusMap[ENUMS.ActorStatus.WORLD_LEVEL];
-                                loadStoredImages(getPlayerStatus(ENUMS.PlayerStatus.PLAYER_ID))
-                                setTimeout(function() {
-                                    evt.dispatch(ENUMS.Event.ENTER_PORTAL, {"world_level":worldLevel, "world_encounters": [], pos:pos, callback:activateLoadedPlayer, prevent_transition:true})
-                                }, 500);
-                                triggered = true;
-                            }
-
-                        //        activateLoadedPlayer();
-
-
-                        }
-
-                        function reset() {
-                            resetDatabase();
-                            window.location.reload();
-                            //    startPlayerSession()
-                        }
-
-                        let transitionOptions = [
-                            {id:"button_reset", container:"top", text:"RESET", onClick:reset},
-                            {id:"button_continue", container:"bottom", text:"CONTINUE", onClick:activate}
-                        ]
-
-                        GuiAPI.activateDomTransition('WELCOME BACK', dataList, activate, null, transitionOptions)
-                    }
-
-                    setTimeout(function() {
-                        initLoadedPlayerState(dataList, loadedPlayerReady);
-                    }, 1500)
+                if (getUrlParam('local') === true) {
 
                 }
 
-            }, 200)
+                function playerLoadedCB() {
+
+                    setTimeout(function() {
+
+                        if (typeof (dataList[ENUMS.ActorStatus.CONFIG_ID]) !== 'string') {
+                            dataList = {};
+                            dataList['NEW USER'] = 'INIT';
+                            let release = function() {
+                                domTransition.call.release();
+                            }
+
+                            function stashAllItems() {
+                                console.log("Stash All Items", GameAPI.getPlayerMain().status.statusMap)
+                                stashAllConfigItems();
+                            }
+
+
+                            function activateVariation(e) {
+                                console.log('activateVariation', e.target.innerText, e)
+                            }
+
+                            let opts = [
+                                //    {id:"button_cheat", container:"top", text:"ITEMS", onClick:stashAllItems},
+                                {id:"button_continue", container:"bottom", text:"NEW CHARACTER", onClick:release}
+                            ]
+
+                            for (let i = 0; i < activeVariations.length; i++) {
+                                let option = {id:"button_cheat", container:"top", text:activeVariations[i], onClick:activateVariation}
+                                opts.push(option);
+                            }
+
+
+                            let domTransition = GuiAPI.activateDomTransition('WELCOME', dataList, startPlayerSession, null, opts)
+                        } else {
+
+                            function loadedPlayerReady(actorStatusMap) {
+
+                                let triggered = false;
+                                function activate() {
+                                    if (!triggered) {
+                                        let pos = [
+                                            actorStatusMap[ENUMS.ActorStatus.POS_X],
+                                            actorStatusMap[ENUMS.ActorStatus.POS_Y],
+                                            actorStatusMap[ENUMS.ActorStatus.POS_Z]
+                                        ]
+                                        let worldLevel = actorStatusMap[ENUMS.ActorStatus.WORLD_LEVEL];
+                                        loadStoredImages(getPlayerStatus(ENUMS.PlayerStatus.PLAYER_ID))
+                                        setTimeout(function() {
+                                            evt.dispatch(ENUMS.Event.ENTER_PORTAL, {"world_level":worldLevel, "world_encounters": [], pos:pos, callback:activateLoadedPlayer, prevent_transition:true})
+                                        }, 500);
+                                        triggered = true;
+                                    }
+
+                                    //        activateLoadedPlayer();
+
+
+                                }
+
+                                function reset() {
+                                    resetDatabase();
+                                    window.location.reload();
+                                    //    startPlayerSession()
+                                }
+
+                                let transitionOptions = [
+                                    {id:"button_reset", container:"top", text:"RESET", onClick:reset},
+                                    {id:"button_continue", container:"bottom", text:"CONTINUE", onClick:activate}
+                                ]
+
+                                GuiAPI.activateDomTransition('WELCOME BACK', dataList, activate, null, transitionOptions)
+                            }
+
+                            setTimeout(function() {
+                                initLoadedPlayerState(dataList, loadedPlayerReady);
+                            }, 1500)
+
+                        }
+
+                    }, 200)
+
+
+                }
+
+                if (getUrlParam('new') === true) {
+                    playerLoadedCB();
+                } else {
+                    loadStoredPlayer(dataList, playerLoadedCB)
+                }
+            }
+
+            getLocalAccount(accCb);
+
+            let activeVariations = getActiveVariations();
 
         }
 

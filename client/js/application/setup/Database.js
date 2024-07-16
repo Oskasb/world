@@ -56,10 +56,11 @@ function resetDatabase() {
 
 function storeLocalAccountStatus(key, value) {
     db.account[key] = value;
-    dbs['account'].set(db.account['PLAYER_ID'], db.account);
+
 
     localStorage.setItem('account', JSON.stringify(db.account));
     console.log("Store Account Data ", db.account);
+    dbs['account'].set(db.account['PLAYER_ID'], db.account);
 }
 
 function getLocalAccountStatus(key) {
@@ -67,27 +68,26 @@ function getLocalAccountStatus(key) {
 }
 
 
-function getLocalAccount() {
+function getLocalAccount(accountCallback) {
     initLocalDB();
-    if (typeof (db.account[ENUMS.PlayerStatus.PLAYER_ID])=== 'string') {
-        return db.account;
-    } else {
-        return null;
-    }
-
+    getLoadedAccount(accountCallback)
 }
 
-function getLoadedAccount() {
+function getLoadedAccount(accountCallback) {
     if (typeof (db.account[ENUMS.PlayerStatus.PLAYER_ID])=== 'string') {
-        return db.account;
+        setTimeout(function() {
+            accountCallback(db.account)
+        }, 10)
+
+        //    return db.account;
     } else {
-        return null;
+        accountCallback(null)
     }
 }
 
 function saveActorStatus(statusMap) {
     let id = statusMap[ENUMS.ActorStatus.ACTOR_ID];
-    dbs['actors'].set(id, statusMap);
+
     db.actors[id] = statusMap;
  //   statusMap[ENUMS.ActorStatus.EQUIP_REQUESTS] = [];
  //   statusMap[ENUMS.ActorStatus.EQUIPPED_ITEMS] = [];
@@ -96,11 +96,12 @@ function saveActorStatus(statusMap) {
         delete statusMap['undefined']
     }
     localStorage.setItem('actors', JSON.stringify(db.actors));
+    dbs['actors'].set(id, statusMap);
 }
 
 function saveItemStatus(statusMap) {
     let id = statusMap[ENUMS.ItemStatus.ITEM_ID];
-    dbs['items'].set(id, statusMap);
+
    // console.log("Save Item Status ", id, [db.items]);
     db.items[id] = statusMap;
     if (typeof (statusMap['undefined']) !== 'undefined') {
@@ -108,6 +109,7 @@ function saveItemStatus(statusMap) {
         delete statusMap['undefined']
     }
     localStorage.setItem('items', JSON.stringify(db.items));
+    dbs['items'].set(id, statusMap);
 }
 
 function savePlayerStatus(statusMap) {
@@ -121,17 +123,23 @@ function savePlayerStatus(statusMap) {
         console.log("Status map containes undefined", statusMap['undefined'], [statusMap]);
         delete statusMap['undefined']
     }
-    dbs['players'].set(id, statusMap);
+
     console.log("savePlayerStatus", db.players, statusMap);
     localStorage.setItem('players', JSON.stringify(db.players));
+    dbs['players'].set(id, statusMap);
 }
 
-function loadActorStatus(actorId) {
-    return db.actors[actorId] || null;
+function loadActorStatus(actorId, aStatusCB) {
+    setTimeout(function() {
+        aStatusCB(db.actors[actorId] || null);
+    }, 100)
+
 }
 
-function loadItemStatus(itemId) {
-    return db.items[itemId] || null;
+function loadItemStatus(itemId, iStatusCB) {
+    setTimeout(function() {
+        iStatusCB(db.items[itemId] || null);
+    }, 100)
 }
 
 
@@ -173,14 +181,15 @@ function loadStoredImages(playerId) {
     }
 }
 
-function loadPlayerStatus(playerId) {
+function loadPlayerStatus(playerId, statusCb) {
+    setTimeout(function() {
+        if (db.players[playerId]) {
+            statusCb(db.players[playerId])
+        } else {
+            statusCb(null)
+        }
+    }, 10)
 
-    if (db.players[playerId]) {
-    //    loadStoredImages(playerId);
-    } else {
-        return null;
-    }
-    return db.players[playerId]
 }
 
 function storePlayerActorStatus() {
@@ -203,12 +212,14 @@ let imgTimeout;
 
 function storeBufferImage(id, bufferData) {
     db.images[id] = bufferData;
-    dbs['images'].set(id, bufferData);
+
     console.log("storeBufferImage", id, db.images);
     clearTimeout(imgTimeout);
     imgTimeout = setTimeout(function() {
         localStorage.setItem('images', JSON.stringify(db.images));
+        dbs['images'].set(id, bufferData);
     }, 500)
+
 }
 
 export {

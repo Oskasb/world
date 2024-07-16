@@ -1,4 +1,10 @@
-import {getLocalAccount, loadActorStatus, loadItemStatus, loadPlayerStatus} from "../setup/Database.js";
+import {
+    getLoadedAccount,
+    getLocalAccount,
+    loadActorStatus,
+    loadItemStatus,
+    loadPlayerStatus
+} from "../setup/Database.js";
 import {ENUMS} from "../ENUMS.js";
 import {evt} from "../event/evt.js";
 import {notifyCameraStatus} from "../../3d/camera/CameraFunctions.js";
@@ -6,32 +12,56 @@ import {clearActorEncounterStatus, getPlayerStatus, setPlayerStatus} from "./Sta
 import {requestItemSlotChange} from "./EquipmentUtils.js";
 import {initiateEstates} from "./EstateUtils.js";
 
-function loadStoredPlayer(dataList) {
-    let account = getLocalAccount();
-    let id = null;
-    if (account !== null) {
-        id = account[ENUMS.PlayerStatus.PLAYER_ID];
+function loadStoredPlayer(dataList, playerLoadedCB) {
+
+    function accountCallback(account) {
+        let id = null;
+        if (account !== null) {
+            id = account[ENUMS.PlayerStatus.PLAYER_ID];
+        }
+
+        if (id) {
+            dataList[ENUMS.PlayerStatus.PLAYER_ID] = id;
+
+            function pStatusCB(playerStatus) {
+                if (playerStatus !== null) {
+                    dataList[ENUMS.PlayerStatus.PLAYER_NAME] = playerStatus[ENUMS.PlayerStatus.PLAYER_NAME];
+                    let actorId = playerStatus[ENUMS.PlayerStatus.ACTIVE_ACTOR_ID];
+                    dataList[ENUMS.ActorStatus.ACTOR_ID] = actorId;
+                    if (actorId) {
+
+                        function aStatusCB(actorStatus) {
+                            if (actorStatus !== null) {
+                                dataList['CLIENT_STAMP'] = client.getStamp();
+                                actorStatus[ENUMS.ActorStatus.EQUIPPED_ITEMS] = [];
+                                actorStatus[ENUMS.ActorStatus.EQUIP_REQUESTS] = [];
+                                dataList['ACTOR_STAMP'] = actorStatus[ENUMS.ActorStatus.CLIENT_STAMP]
+                                dataList[ENUMS.ActorStatus.CONFIG_ID] = actorStatus[ENUMS.ActorStatus.CONFIG_ID];
+                            }
+                            playerLoadedCB()
+                        }
+
+                        loadActorStatus(actorId, aStatusCB);
+
+                    } else {
+                        playerLoadedCB()
+                    }
+                } else {
+                    playerLoadedCB()
+                }
+
+            }
+
+           loadPlayerStatus(id, pStatusCB);
+
+        } else {
+            playerLoadedCB()
+        }
+
     }
 
-    if (id) {
-        dataList[ENUMS.PlayerStatus.PLAYER_ID] = id;
-        let playerStatus = loadPlayerStatus(id);
-        if (playerStatus !== null) {
-            dataList[ENUMS.PlayerStatus.PLAYER_NAME] = playerStatus[ENUMS.PlayerStatus.PLAYER_NAME];
-            let actorId = playerStatus[ENUMS.PlayerStatus.ACTIVE_ACTOR_ID];
-            dataList[ENUMS.ActorStatus.ACTOR_ID] = actorId;
-            if (actorId) {
-                let actorStatus = loadActorStatus(actorId);
-                if (actorStatus !== null) {
-                    dataList['CLIENT_STAMP'] = client.getStamp();
-                    actorStatus[ENUMS.ActorStatus.EQUIPPED_ITEMS] = [];
-                    actorStatus[ENUMS.ActorStatus.EQUIP_REQUESTS] = [];
-                    dataList['ACTOR_STAMP'] = actorStatus[ENUMS.ActorStatus.CLIENT_STAMP]
-                    dataList[ENUMS.ActorStatus.CONFIG_ID] = actorStatus[ENUMS.ActorStatus.CONFIG_ID];
-                }
-            }
-        }
-    }
+    getLoadedAccount(accountCallback);
+
 }
 
 let slots = [
@@ -54,23 +84,30 @@ let slots = [
 let loadedItems = [];
 
 function itemLoaded(item) {
-    let itemStatus = loadItemStatus(item.getStatus(ENUMS.ItemStatus.ITEM_ID));
-    for (let key in itemStatus) {
-        item.setStatusKey(key, itemStatus[key]);
+
+    function iStatusCB(itemStatus) {
+        for (let key in itemStatus) {
+            item.setStatusKey(key, itemStatus[key]);
+        }
+        let slot = item.getStatus(ENUMS.ItemStatus.EQUIPPED_SLOT);
+        console.log("Saved Item Loaded ", slot, item.getStatus(ENUMS.ItemStatus.ITEM_ID), item.getStatus());
+        loadedItems.push(item);
     }
-    let slot = item.getStatus(ENUMS.ItemStatus.EQUIPPED_SLOT);
-    console.log("Saved Item Loaded ", slot, item.getStatus(ENUMS.ItemStatus.ITEM_ID), item.getStatus());
-    loadedItems.push(item);
+
+    loadItemStatus(item.getStatus(ENUMS.ItemStatus.ITEM_ID), iStatusCB);
+
 }
 function loadStoredItemId(itemId, cb) {
 
-    let itemStatus = loadItemStatus(itemId);
-    if (itemStatus === null) {
-        console.log("Item load request failed", itemId)
-        return;
-    }
 
-    evt.dispatch(ENUMS.Event.LOAD_ITEM,  {id: itemStatus[ENUMS.ItemStatus.TEMPLATE], itemId:itemStatus[ENUMS.ItemStatus.ITEM_ID], callback:itemLoaded})
+    function iStatusCB(itemStatus) {
+        if (itemStatus === null) {
+            console.log("Item load request failed", itemId)
+            return;
+        }
+        evt.dispatch(ENUMS.Event.LOAD_ITEM,  {id: itemStatus[ENUMS.ItemStatus.TEMPLATE], itemId:itemStatus[ENUMS.ItemStatus.ITEM_ID], callback:itemLoaded})
+    }
+    loadItemStatus(itemId, iStatusCB);
 }
 
 function getItemStatuses(statusMap) {
@@ -114,49 +151,57 @@ function initLoadedPlayerState(dataList, readyCB) {
 
     let playerId = dataList[ENUMS.PlayerStatus.PLAYER_ID];
     let actorId = dataList[ENUMS.ActorStatus.ACTOR_ID] ;
-    let playerStatus = loadPlayerStatus(playerId);
 
-    for (let key in playerStatus) {
-        setPlayerStatus(key, playerStatus[key]);
+    function pStatusCB(playerStatus) {
+        for (let key in playerStatus) {
+            setPlayerStatus(key, playerStatus[key]);
+        }
+
+
+        function aStatusCB(actorStatus) {
+            let pos = ThreeAPI.getCameraCursor().getPos()
+            pos.set(
+                actorStatus[ENUMS.ActorStatus.POS_X],
+                actorStatus[ENUMS.ActorStatus.POS_Y],
+                actorStatus[ENUMS.ActorStatus.POS_Z],
+            )
+            ThreeAPI.getCameraCursor().getLookAroundPoint().copy(pos);
+
+            function actorReady(actor) {
+                console.log("loaded actor ready", actor);
+                actor.call.activateActionKey("ACTION_TRAVEL_WALK", ENUMS.ActorStatus.TRAVEL)
+
+                clearActorEncounterStatus(actor)
+                actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_INACTIVE)
+                let statusMap = JSON.parse(JSON.stringify(actor.getStatus()));
+                actor.removeGameActor()
+                setTimeout(function() {
+                    evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, {request:ENUMS.ClientRequests.LOAD_SERVER_ACTOR, status:statusMap})
+                }, 500)
+                readyCB(statusMap);
+            }
+
+            function actorLoaded(actor) {
+                console.log("init player with loaded actor", actor);
+                actor.setStatusKey(ENUMS.ActorStatus.IN_COMBAT, false);
+                actor.setStatusKey(ENUMS.ActorStatus.IS_ACTIVE, 0);
+                actor.activateGameActor(actorReady);
+
+            }
+
+            getItemStatuses(actorStatus);
+            loadPlayerStashItems();
+            initiateEstates()
+            evt.dispatch(ENUMS.Event.LOAD_ACTOR, {status: actorStatus, callback:actorLoaded});
+            GameAPI.getGamePieceSystem().playerActorId = actorStatus[ENUMS.ActorStatus.ACTOR_ID];
+
+        }
+
+        loadActorStatus(actorId, aStatusCB);
+
     }
 
-    let actorStatus = loadActorStatus(actorId);
-    let pos = ThreeAPI.getCameraCursor().getPos()
-    pos.set(
-        actorStatus[ENUMS.ActorStatus.POS_X],
-        actorStatus[ENUMS.ActorStatus.POS_Y],
-        actorStatus[ENUMS.ActorStatus.POS_Z],
-    )
-    ThreeAPI.getCameraCursor().getLookAroundPoint().copy(pos);
-
-
-    function actorReady(actor) {
-        console.log("loaded actor ready", actor);
-        actor.call.activateActionKey("ACTION_TRAVEL_WALK", ENUMS.ActorStatus.TRAVEL)
-
-        clearActorEncounterStatus(actor)
-        actor.setStatusKey(ENUMS.ActorStatus.TRAVEL_MODE, ENUMS.TravelMode.TRAVEL_MODE_INACTIVE)
-        let statusMap = JSON.parse(JSON.stringify(actor.getStatus()));
-        actor.removeGameActor()
-        setTimeout(function() {
-            evt.dispatch(ENUMS.Event.SEND_SOCKET_MESSAGE, {request:ENUMS.ClientRequests.LOAD_SERVER_ACTOR, status:statusMap})
-        }, 500)
-        readyCB(statusMap);
-    }
-
-    function actorLoaded(actor) {
-        console.log("init player with loaded actor", actor);
-        actor.setStatusKey(ENUMS.ActorStatus.IN_COMBAT, false);
-        actor.setStatusKey(ENUMS.ActorStatus.IS_ACTIVE, 0);
-        actor.activateGameActor(actorReady);
-
-    }
-
-    getItemStatuses(actorStatus);
-    loadPlayerStashItems();
-    initiateEstates()
-    evt.dispatch(ENUMS.Event.LOAD_ACTOR, {status: actorStatus, callback:actorLoaded});
-    GameAPI.getGamePieceSystem().playerActorId = actorStatus[ENUMS.ActorStatus.ACTOR_ID];
+    loadPlayerStatus(playerId, pStatusCB);
 
 }
 

@@ -32,7 +32,7 @@ function openIndexedDB(dbSettings, version, key, openSuccessCB, openErrorCB, onI
     openRequest.onsuccess = function(event) {
         let db = event.target.result;
         //    dbSettings.version = db.version;
-        console.log("db success", db);
+     //   console.log("db success", db);
 
 
 
@@ -43,7 +43,7 @@ function openIndexedDB(dbSettings, version, key, openSuccessCB, openErrorCB, onI
         // continue working with database using db object
     };
 
-    console.log("openRequest: ", dbSettings.name, version, openRequest);
+ //   console.log("openRequest: ", dbSettings.name, version, openRequest);
 
     openRequest.onupgradeneeded = function(event) {
         // the existing database version is less than version (or it doesn't exist)
@@ -52,7 +52,7 @@ function openIndexedDB(dbSettings, version, key, openSuccessCB, openErrorCB, onI
 
 
 
-        console.log("db onupgradeneeded", openRequest, event, db);
+   //     console.log("db onupgradeneeded", openRequest, event, db);
         if (event.oldVersion === 0) {
 
 
@@ -83,7 +83,7 @@ function openIndexedDB(dbSettings, version, key, openSuccessCB, openErrorCB, onI
 function storeDbKeyValue(db, settings, putQueue, onSuccess, onError) {
     let key = putQueue.shift();
     let value = putQueue.shift();
-    console.log("transaction", db,  key, value);
+ //   console.log("transaction", db,  key, value);
     let transaction = db.transaction(key, "readwrite"); // (1)
 
 // get an object store to operate on it
@@ -92,7 +92,7 @@ function storeDbKeyValue(db, settings, putQueue, onSuccess, onError) {
     let request = stores.put(value, key); // (3)
 
     request.onsuccess = function() { // (4)
-        console.log("transaction added to the store", request.result);
+     //   console.log("transaction added to the store", request.result);
     //    db.close();
         onSuccess(request.result, settings, putQueue)
     };
@@ -105,17 +105,17 @@ function storeDbKeyValue(db, settings, putQueue, onSuccess, onError) {
 
 
     function complete(e) {
-        console.log("transaction complete", db, e);
+     //   console.log("transaction complete", db, e);
 
         db.close();
-        console.log("transaction closed", db);
+     //   console.log("transaction closed", db);
         settings.version = db.version;
 
 //        setTimeout(function() {
             if (putQueue.length !== 0) {
                 initWriteTransaction(settings, putQueue);
             } else {
-                console.log("DB Put queue completed", settings, db);
+        //        console.log("DB Put queue completed", settings, db);
             }
   //      }, 10)
 
@@ -128,9 +128,9 @@ function storeDbKeyValue(db, settings, putQueue, onSuccess, onError) {
 
 function transactionSuccessCB(res, settings, putQueue) {
     if (putQueue.length === 0) {
-        console.log("transaction queue successfully stored", res);
+    //    console.log("transaction queue successfully stored", res);
     } else {
-        console.log("transaction queue entry stored", res, settings, putQueue);
+    //    console.log("transaction queue entry stored", res, settings, putQueue);
     }
 
 }
@@ -142,7 +142,7 @@ function transactionFailCB(res, settings, putQueue) {
 function attachKeyObjectStoreToDb(db, key) {
     if (db.objectStoreNames.contains(key) === false) {
         const objectStore = db.createObjectStore(key);
-        console.log("attachKeyObjectStoreToDb", db, key, objectStore)
+     //   console.log("attachKeyObjectStoreToDb", db, key, objectStore)
     } else {
         console.log("key store already attached", db, key)
     }
@@ -151,10 +151,10 @@ function attachKeyObjectStoreToDb(db, key) {
 function initWriteTransaction(settings, putQueue) {
 
     if (settings.version === -1) {
-        console.log("settings are upgrading, await callback chain", settings);
+    //    console.log("settings are upgrading, await callback chain", settings);
         return;
     } else {
-        console.log("transaction initialize", settings, putQueue);
+    //    console.log("transaction initialize", settings, putQueue);
     }
 
     let key = putQueue[0];
@@ -164,7 +164,7 @@ function initWriteTransaction(settings, putQueue) {
  //   if (settings.index.indexOf(key) === -1) {
 
         function initCB(db, initKey) {
-            console.log("initCB", db);
+        //    console.log("initCB", db);
 
 
 
@@ -174,7 +174,7 @@ function initWriteTransaction(settings, putQueue) {
         }
 
         function resumeCB(db, initKey, event) {
-            console.log("resumeCB", event, initKey, key, putQueue[0], settings.version, settings);
+        //    console.log("resumeCB", event, initKey, key, putQueue[0], settings.version, settings);
 
             if (event) {
                 console.log("resumeCB before upgrade event", event, initKey, event);
@@ -200,7 +200,7 @@ function initWriteTransaction(settings, putQueue) {
         }
 
         function upgradeCB(db, initKey) {
-            console.log("upgradeCB", db, initKey);
+        //    console.log("upgradeCB", db, initKey);
             attachKeyObjectStoreToDb(db, initKey)
             if (initKey === putQueue[0]) {
             //    storeDbKeyValue(db, settings, putQueue, transactionSuccessCB, transactionFailCB)
@@ -208,7 +208,7 @@ function initWriteTransaction(settings, putQueue) {
         }
 
         function onOpenOK(res, initKey, openRequest) {
-            console.log("openOK", res, initKey, openRequest, putQueue[0]);
+         //   console.log("openOK", res, initKey, openRequest, putQueue[0]);
             if (settings.index.indexOf(initKey) === -1) {
                 settings.index.push(initKey);
             }
@@ -236,7 +236,7 @@ function initWriteTransaction(settings, putQueue) {
 
     if (settings.index.indexOf(key) === -1) {
         settings.version++;
-        console.log("Increment DB version", settings.version)
+     //   console.log("Increment DB version", settings.version)
     }
 
         let v = settings.version;
@@ -269,7 +269,7 @@ class Storage {
         initWriteTransaction(settings, putQueue)
     }
 
-    get(key) {
+    get(key, callback) {
 
     }
 
