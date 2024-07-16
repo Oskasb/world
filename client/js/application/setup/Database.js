@@ -88,6 +88,12 @@ function getLocalAccount(accountCallback) {
 }
 
 function getLoadedAccount(accountCallback) {
+    if (typeof (db.account['PLAYER_ID']) === 'string') {
+        dbs['account'].get(db.account['PLAYER_ID'], accountCallback);
+    } else {
+        accountCallback(null)
+    }
+    return;
     if (typeof (db.account[ENUMS.PlayerStatus.PLAYER_ID])=== 'string') {
         setTimeout(function() {
             accountCallback(db.account)
@@ -144,6 +150,8 @@ function savePlayerStatus(statusMap) {
 }
 
 function loadActorStatus(actorId, aStatusCB) {
+    dbs['actors'].get(actorId, aStatusCB);
+    return;
     setTimeout(function() {
         aStatusCB(db.actors[actorId] || null);
     }, 100)
@@ -151,6 +159,12 @@ function loadActorStatus(actorId, aStatusCB) {
 }
 
 function loadItemStatus(itemId, iStatusCB) {
+    if (!itemId || typeof (itemId) === 'undefined') {
+        console.log("Loading bad itemId", itemId);
+        return;
+    }
+    dbs['items'].get(itemId, iStatusCB);
+    return;
     setTimeout(function() {
         iStatusCB(db.items[itemId] || null);
     }, 100)
