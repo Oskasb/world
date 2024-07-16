@@ -190,14 +190,19 @@ function generateEstateDeed(item, actor) {
 
     function itemLoaded(deed) {
         deed.config = config;
-        let itemStatus = loadItemStatus(deed.getStatus(ENUMS.ItemStatus.ITEM_ID));
-        for (let key in itemStatus) {
-            deed.setStatusKey(key, itemStatus[key]);
+
+        function iStatusCB(itemStatus) {
+            for (let key in itemStatus) {
+                deed.setStatusKey(key, itemStatus[key]);
+            }
+            //    let slot = deed.getStatus(ENUMS.ItemStatus.EQUIPPED_SLOT);
+            console.log("Deed Item Loaded ", deed.getStatus(ENUMS.ItemStatus.ITEM_ID), deed.getStatus());
+            saveItemStatus(deed.getStatus());
+            actor.actorInventory.addInventoryItem(deed);
         }
-    //    let slot = deed.getStatus(ENUMS.ItemStatus.EQUIPPED_SLOT);
-        console.log("Deed Item Loaded ", deed.getStatus(ENUMS.ItemStatus.ITEM_ID), deed.getStatus());
-        saveItemStatus(deed.getStatus());
-        actor.actorInventory.addInventoryItem(deed);
+
+        loadItemStatus(deed.getStatus(ENUMS.ItemStatus.ITEM_ID), iStatusCB);
+
     }
 
     evt.dispatch(ENUMS.Event.LOAD_ITEM,  {id: status[ENUMS.ItemStatus.TEMPLATE], itemId:status[ENUMS.ItemStatus.ITEM_ID], callback:itemLoaded})

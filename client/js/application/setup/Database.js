@@ -20,7 +20,7 @@ for (let i = 0; i < stores.length; i++) {
 }
 
 let db = {};
-
+db.stores = {};
 db.account= {};
 db.players = {};
 db.actors = {};
@@ -44,13 +44,27 @@ function initLocalDB() {
             console.log("Init Local DB", key, db[key]);
         }
     }
+    console.log("DB version stores", db.stores);
+    for (let i = 0; i < stores.length; i++) {
+        stores[i].version = db.stores[stores[i].name] || 0;
+    }
+}
+
+function updateStoresDbVersion(name, version) {
+    db.stores[name] = version;
+    localStorage.setItem('stores', JSON.stringify(db.stores));
 }
 
 function resetDatabase() {
+    let dbVersionStores = {};
     for (let key in db) {
-        dbs[key].clearAllData();
         localStorage.setItem(key, JSON.stringify({}));
         console.log("Reset Local DB", db);
+    }
+    for (let i = 0; i < stores.length; i++) {
+        stores[i].version = 0;
+        dbVersionStores[stores[i].name] = 0;
+        dbs[stores[i].name].clearAllData();
     }
 }
 
@@ -215,15 +229,16 @@ function storeBufferImage(id, bufferData) {
 
     console.log("storeBufferImage", id, db.images);
     clearTimeout(imgTimeout);
+    dbs['images'].set(id, bufferData);
     imgTimeout = setTimeout(function() {
         localStorage.setItem('images', JSON.stringify(db.images));
-        dbs['images'].set(id, bufferData);
     }, 500)
 
 }
 
 export {
     resetDatabase,
+    updateStoresDbVersion,
     storeLocalAccountStatus,
     getLocalAccountStatus,
     getLocalAccount,

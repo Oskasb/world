@@ -1,3 +1,4 @@
+import {updateStoresDbVersion} from "./Database.js";
 
 let dbs = {};
 
@@ -17,7 +18,7 @@ function vChange(event) {
 function openIndexedDB(dbSettings, version, key, openSuccessCB, openErrorCB, onInitCB, onResumeCB, onUpgradeCB, onClose) {
 
     let openRequest = indexedDB.open(dbSettings.name, version);
-
+//   console.log("openRequest: ", dbSettings.name, version, openRequest);
     openRequest.onblocked = function(event) {
         console.error("Blocked", event);
         openErrorCB(dbs[dbSettings.name], dbSettings);
@@ -25,7 +26,7 @@ function openIndexedDB(dbSettings, version, key, openSuccessCB, openErrorCB, onI
 
     openRequest.onerror = function(event) {
         let db = event.target.result;
-        console.error("Error", event, openRequest.error);
+        console.error("Error", dbs[dbSettings.name], dbSettings, version, key, event, openRequest);
         openErrorCB(dbs[dbSettings.name], dbSettings);
     };
 
@@ -43,7 +44,7 @@ function openIndexedDB(dbSettings, version, key, openSuccessCB, openErrorCB, onI
         // continue working with database using db object
     };
 
- //   console.log("openRequest: ", dbSettings.name, version, openRequest);
+
 
     openRequest.onupgradeneeded = function(event) {
         // the existing database version is less than version (or it doesn't exist)
@@ -53,17 +54,23 @@ function openIndexedDB(dbSettings, version, key, openSuccessCB, openErrorCB, onI
 
 
    //     console.log("db onupgradeneeded", openRequest, event, db);
-        if (event.oldVersion === 0) {
+        if (version === 1) {
 
 
             db.addEventListener('close', onClose, false)
 
-            console.log("Init new DB", db);
+
             db.onversionchange = vChange;
             db.onabort = onAbort;
             db.onerror = onError;
             dbs[dbSettings.name] = db;
-            onInitCB(db, key);
+            if (event.oldVersion === 0) {
+                console.log("Init new DB", db, event, openRequest);
+                onInitCB(db, key);
+            } else {
+                console.log("Start existing DB Session", db, event, openRequest);
+            }
+
         } else if (event.newVersion === event.oldVersion === version) {
             console.log("open at same version", event.newVersion, db, event);
             onResumeCB(db, key);
@@ -110,7 +117,7 @@ function storeDbKeyValue(db, settings, putQueue, onSuccess, onError) {
         db.close();
      //   console.log("transaction closed", db);
         settings.version = db.version;
-
+        updateStoresDbVersion(settings.name, settings.version)
 //        setTimeout(function() {
             if (putQueue.length !== 0) {
                 initWriteTransaction(settings, putQueue);
@@ -128,7 +135,7 @@ function storeDbKeyValue(db, settings, putQueue, onSuccess, onError) {
 
 function transactionSuccessCB(res, settings, putQueue) {
     if (putQueue.length === 0) {
-    //    console.log("transaction queue successfully stored", res);
+    //    console.log("transaction queue successfully stored", res, dbs[settings.name]);
     } else {
     //    console.log("transaction queue entry stored", res, settings, putQueue);
     }
