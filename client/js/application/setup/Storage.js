@@ -1,34 +1,67 @@
 
 let dbs = {};
 
+function onAbort(e) {
+    console.log("DB Aborting...", e);
+}
 
-function openIndexedDB(dbSettings, version, key, openSuccessCB, openErrorCB, onInitCB, onResumeCB, onUpgradeCB) {
+function onError(e) {
+    console.log("DB Error...", e);
+}
+
+function vChange(event) {
+    console.log("version change event ", event)
+    //    onResumeCB(db, key, event);
+}
+
+function openIndexedDB(dbSettings, version, key, openSuccessCB, openErrorCB, onInitCB, onResumeCB, onUpgradeCB, onClose) {
 
     let openRequest = indexedDB.open(dbSettings.name, version);
+
+    openRequest.onblocked = function(event) {
+        console.error("Blocked", event);
+        openErrorCB(dbs[dbSettings.name], dbSettings);
+    };
+
+    openRequest.onerror = function(event) {
+        let db = event.target.result;
+        console.error("Error", event, openRequest.error);
+        openErrorCB(dbs[dbSettings.name], dbSettings);
+    };
+
+    openRequest.onsuccess = function(event) {
+        let db = event.target.result;
+        //    dbSettings.version = db.version;
+        console.log("db success", db);
+
+
+
+
+        db.onclose = onClose
+
+        openSuccessCB(db, key, openRequest);
+        // continue working with database using db object
+    };
 
     console.log("openRequest: ", dbSettings.name, version, openRequest);
 
     openRequest.onupgradeneeded = function(event) {
         // the existing database version is less than version (or it doesn't exist)
 
-        let db = openRequest.result;
+        let db = event.target.result;
 
 
 
         console.log("db onupgradeneeded", openRequest, event, db);
         if (event.oldVersion === 0) {
 
-        //    const db = event.target.result;
-            // Create an objectStore for this database
-        //    const objectStore = db.createObjectStore(name);
 
-            function vChange(event) {
-                console.log("version change event ", event, dbSettings)
-                onResumeCB(db, key, event);
-            }
+            db.addEventListener('close', onClose, false)
 
             console.log("Init new DB", db);
             db.onversionchange = vChange;
+            db.onabort = onAbort;
+            db.onerror = onError;
             dbs[dbSettings.name] = db;
             onInitCB(db, key);
         } else if (event.newVersion === event.oldVersion === version) {
@@ -43,20 +76,7 @@ function openIndexedDB(dbSettings, version, key, openSuccessCB, openErrorCB, onI
 
     };
 
-    openRequest.onerror = function() {
-        console.error("Error", openRequest.error);
-        openErrorCB(dbs[dbSettings.name], dbSettings);
-    };
 
-    openRequest.onsuccess = function() {
-        let db = openRequest.result;
-    //    dbSettings.version = db.version;
-
-        console.log("db success", db);
-        openSuccessCB(db, key);
-
-        // continue working with database using db object
-    };
 
 }
 
@@ -86,13 +106,21 @@ function storeDbKeyValue(db, settings, putQueue, onSuccess, onError) {
 
     function complete(e) {
         console.log("transaction complete", db, e);
+
+        db.close();
+        console.log("transaction closed", db);
         settings.version = db.version;
-        if (putQueue.length !== 0) {
-            initWriteTransaction(settings, putQueue);
-        } else {
-            console.log("DB Put queue completed", settings, db);
-        }
-    //    db.close();
+
+//        setTimeout(function() {
+            if (putQueue.length !== 0) {
+                initWriteTransaction(settings, putQueue);
+            } else {
+                console.log("DB Put queue completed", settings, db);
+            }
+  //      }, 10)
+
+
+    //
     }
 
     transaction.oncomplete = complete
@@ -138,16 +166,7 @@ function initWriteTransaction(settings, putQueue) {
         function initCB(db, initKey) {
             console.log("initCB", db);
 
-            let callOnClose = function(evt) {
-                console.log("callOnClose", evt, db, settings, putQueue.length);
-                if (putQueue.length !== 0) {
-                    initWriteTransaction(settings, putQueue);
-                } else {
-                    console.log("DB Put queue completed", settings, db);
-                }
-            }
 
-            db.onclose = callOnClose
 
             attachKeyObjectStoreToDb(db, initKey)
         //    db.addEventListener('close', callOnClose, false)
@@ -156,13 +175,25 @@ function initWriteTransaction(settings, putQueue) {
 
         function resumeCB(db, initKey, event) {
             console.log("resumeCB", event, initKey, key, putQueue[0], settings.version, settings);
-            attachKeyObjectStoreToDb(db, initKey)
-            if (initKey === putQueue[0]) {
-                storeDbKeyValue(db, settings, putQueue, transactionSuccessCB, transactionFailCB)
-            } else {
+
+            if (event) {
+                console.log("resumeCB before upgrade event", event, initKey, event);
+
                 if (putQueue.length !== 0) {
-                    settings.version = db.version;
+                    settings.version = db.version+1;
                     initWriteTransaction(settings, putQueue)
+                }
+            //    attachKeyObjectStoreToDb(db, putQueue[0])
+            //    initWriteTransaction(settings, putQueue)
+            } else {
+                attachKeyObjectStoreToDb(db, initKey)
+                if (initKey === putQueue[0]) {
+                    storeDbKeyValue(db, settings, putQueue, transactionSuccessCB, transactionFailCB)
+                } else {
+                    if (putQueue.length !== 0) {
+                        settings.version = db.version;
+                        initWriteTransaction(settings, putQueue)
+                    }
                 }
             }
 
@@ -172,12 +203,12 @@ function initWriteTransaction(settings, putQueue) {
             console.log("upgradeCB", db, initKey);
             attachKeyObjectStoreToDb(db, initKey)
             if (initKey === putQueue[0]) {
-                storeDbKeyValue(db, settings, putQueue, transactionSuccessCB, transactionFailCB)
+            //    storeDbKeyValue(db, settings, putQueue, transactionSuccessCB, transactionFailCB)
             }
         }
 
-        function onOpenOK(res, initKey) {
-            console.log("openOK", res, initKey, putQueue[0]);
+        function onOpenOK(res, initKey, openRequest) {
+            console.log("openOK", res, initKey, openRequest, putQueue[0]);
             if (settings.index.indexOf(initKey) === -1) {
                 settings.index.push(initKey);
             }
@@ -189,6 +220,16 @@ function initWriteTransaction(settings, putQueue) {
 
         }
 
+    function onClose(evt) {
+        console.log("unexpected DB close", evt, db, settings, putQueue.length);
+        if (putQueue.length !== 0) {
+            initWriteTransaction(settings, putQueue);
+        } else {
+            console.log("DB Put queue completed", settings, db);
+        }
+    }
+
+
         function onOpenFail(db, dbSettings) {
             console.log("openFail", db);
         }
@@ -198,22 +239,10 @@ function initWriteTransaction(settings, putQueue) {
         console.log("Increment DB version", settings.version)
     }
 
-
-
-    if (currentVersion === settings.version) {
-        settings.version = -1;
-        storeDbKeyValue(dbs[settings.name], settings, putQueue, transactionSuccessCB, transactionFailCB)
-    } else {
         let v = settings.version;
         settings.version = -1;
-        openIndexedDB(settings, v, putQueue[0], onOpenOK, onOpenFail, initCB, resumeCB, upgradeCB);
-    }
+        openIndexedDB(settings, v, putQueue[0], onOpenOK, onOpenFail, initCB, resumeCB, upgradeCB, onClose);
 
- //   } else {
-    //    if (putQueue.length === 2) {
-  //          storeDbKeyValue(dbs[settings.name], settings, putQueue, transactionSuccessCB, transactionFailCB)
-
-  //  }
 }
 
 class Storage {

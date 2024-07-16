@@ -55,8 +55,12 @@ class DomNewPlayer {
             if (isValid === true) {
                 setPlayerStatus(ENUMS.PlayerStatus.PLAYER_NAME, inValue);
                 statusMap.NAME = inValue;
-                editString.closeEditTool();
-                editString = null;
+
+                if (editString !== null) {
+                    editString.closeEditTool();
+                    editString = null;
+                }
+
                 validName = true;
                 DomUtils.removeElementClass(buttonNameDiv, 'animate_button_border')
                 DomUtils.removeElementClass(nameLabelDiv, 'animate_button_border')
@@ -75,7 +79,7 @@ class DomNewPlayer {
             header:"Name",
             context:"Select a display name.",
             from:"input",
-            NAME:"Enter Name",
+            NAME:"ENTER NAME",
             text_top:"info_text_top",
             text_bottom:"info_text_bottom",
             onUpdate:onUpdate,
@@ -180,6 +184,14 @@ class DomNewPlayer {
                 }
                 DomUtils.addClickFunction(div, onClick)
 
+                if (i === 0) {
+                    setTimeout(function() {
+                        onClick()
+                        isValid = true;
+                        onSubmit('Tester')
+                    }, 100)
+
+                }
             }
         }
 
