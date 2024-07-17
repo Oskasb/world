@@ -52,6 +52,13 @@ class ItemEstate {
                 visualEstateBorder.setRgba(elementColorMap['FRIENDLY']);
             }
 
+            if (worldLodLevel < 0) {
+                let visible = ThreeAPI.testBoxIsVisible(box3);
+                if (visible === false) {
+                    deactivateEstate()
+                }
+            }
+
         }
 
         function activateEstate() {
@@ -70,11 +77,13 @@ class ItemEstate {
             }
         }
 
+        let worldLodLevel = -1;
+
         function lodUpdated(lodLevel) {
+            worldLodLevel = lodLevel;
+
             if (lodLevel > -1) {
                 activateEstate()
-            } else {
-                deactivateEstate()
             }
         }
 
