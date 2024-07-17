@@ -127,7 +127,7 @@ function initActorEstateBuilding(actor, estate, buildingTemplate, buildCallback)
             setTimeout(function () {
 
                 model.imprintWorldModelToGround(imprintCallback)
-            }, 100);
+            }, 2000);
             cursor.closeDomEditCursor();
             poolReturn(cursor);
         }
