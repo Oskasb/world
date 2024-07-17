@@ -764,7 +764,10 @@ div.adventure_panel {
 
 
 div.adventure_panel_selected {
-    box-shadow: 0 0 0.5em rgb(167, 255, 242);
+    box-shadow: 0 0 0.4em rgb(225, 225, 72);
+    background-color: rgba(205, 205, 31, 0.4);
+    border-color: rgb(255, 255, 40);
+    color: #ffef5c;
     opacity: 1;
 }
 
