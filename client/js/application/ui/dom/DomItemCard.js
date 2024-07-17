@@ -183,7 +183,7 @@ class DomItemCard {
                 poolReturn(paletteEdit);
                 paletteEdit = null;
                 item.status.call.pulseStatusUpdate();
-                saveItemStatus(item.status.statusMap);
+                saveItemStatus(item.getStatus());
                 // item.setStatusKey(ENUMS.ItemStatus.PALETTE_VALUES, statusMap['PALETTE_VALUES'])
                 return;
             } else {

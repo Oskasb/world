@@ -65,7 +65,7 @@ class ItemRecipe {
         if (config['status']) {
             attachIngredients(config['status'], resourceHierarchyConfig, ingredients)
             if (ingredients.length !== 0) {
-                let recipeId = 'RECIPE_'+templateId;
+                let recipeId = 'item_RECIPE_'+templateId;
                 config.edit_id = recipeId;
                 let recipeStatus = detachConfig(config);
                 this.item = new Item(templateId, recipeStatus)

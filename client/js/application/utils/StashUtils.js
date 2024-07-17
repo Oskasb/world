@@ -191,6 +191,18 @@ function getAllStashItems() {
     return tempStore;
 }
 
+
+function fetchAllStashItemIDs() {
+    MATH.emptyArray(tempStore);
+    for (let key in stashTabs) {
+        let tabList = getPlayerStatus(ENUMS.PlayerStatus[key]);
+        for (let i = 0; i < tabList.length; i++) {
+            tempStore.push(tabList[i]);
+        }
+    }
+    return tempStore;
+}
+
 function getStashItemCountByTemplateId(templateId) {
     let stashItems = getAllStashItems();
     let count = 0;
@@ -234,7 +246,9 @@ function sendItemToStash(item) {
 
 }
 
-export {stashAllConfigItems,
+export {
+    fetchAllStashItemIDs,
+    stashAllConfigItems,
     fetchActiveStashPageItems,
     getStashItemCountByTemplateId,
     sendItemToStash,

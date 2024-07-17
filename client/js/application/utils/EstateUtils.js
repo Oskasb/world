@@ -127,7 +127,7 @@ function initActorEstateBuilding(actor, estate, buildingTemplate, buildCallback)
             setTimeout(function () {
 
                 model.imprintWorldModelToGround(imprintCallback)
-            }, 2000);
+            }, 100);
             cursor.closeDomEditCursor();
             poolReturn(cursor);
         }
@@ -166,7 +166,7 @@ let deedConfig = {
 }
 
 function generateEstateDeed(item, actor) {
-    let id = "DEED_"+item.getStatus(ENUMS.ItemStatus.ITEM_ID)
+    let id = item.getStatus(ENUMS.ItemStatus.ITEM_ID)+'_DEED'
     let estateTemplate = item.getStatus(ENUMS.ItemStatus.TEMPLATE);
     let deedTemplateId = estateTemplate+"_deed";
 
@@ -186,7 +186,7 @@ function generateEstateDeed(item, actor) {
     deedItem.config = config;
     deedItem.id = id;
 
-    saveItemStatus(status);
+    saveItemStatus(deedItem.getStatus());
 
     function itemLoaded(deed) {
         deed.config = config;

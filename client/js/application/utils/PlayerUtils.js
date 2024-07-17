@@ -11,6 +11,7 @@ import {notifyCameraStatus} from "../../3d/camera/CameraFunctions.js";
 import {clearActorEncounterStatus, getPlayerStatus, setPlayerStatus} from "./StatusUtils.js";
 import {requestItemSlotChange} from "./EquipmentUtils.js";
 import {initiateEstates} from "./EstateUtils.js";
+import {fetchAllStashItemIDs} from "./StashUtils.js";
 
 function loadStoredPlayer(dataList, playerLoadedCB) {
 
@@ -99,6 +100,12 @@ function itemLoaded(item) {
 }
 function loadStoredItemId(itemId, cb) {
 
+    let checkString = itemId.split('_')[0];
+    if (checkString !== 'item') {
+        console.error("Checking item", itemId);
+        return;
+    }
+
 
     function iStatusCB(itemStatus) {
         if (itemStatus === null) {
@@ -132,14 +139,9 @@ function getItemStatuses(statusMap) {
 
 function loadPlayerStashItems() {
 
-    for (let key in ENUMS.PlayerStatus) {
-        let status = getPlayerStatus([key])
-        if (typeof (status) === 'object') {
-            if(status.length > 0) {
-                for (let i = 0; i <status.length; i++ ) {
-                    loadStoredItemId(status[i])}
-            }
-        }
+    let itemList = fetchAllStashItemIDs();
+    for (let i = 0; i <itemList.length; i++ ) {
+        loadStoredItemId(itemList[i])
     }
 }
 
