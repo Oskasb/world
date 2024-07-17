@@ -195,7 +195,7 @@ function getAllStashItems() {
 function fetchAllStashItemIDs() {
     MATH.emptyArray(tempStore);
     for (let key in stashTabs) {
-        let tabList = getPlayerStatus(ENUMS.PlayerStatus[key]);
+        let tabList = getPlayerStatus(ENUMS.PlayerStatus[stashTabs[key]]);
         for (let i = 0; i < tabList.length; i++) {
             tempStore.push(tabList[i]);
         }

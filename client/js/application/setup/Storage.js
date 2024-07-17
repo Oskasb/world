@@ -117,7 +117,7 @@ function readDbKey(db, settings, queueKey, queueCB, onSuccess, onError) {
 
         let data = event.target.result;
 
-        console.log("Read DB success", queueKey, event)
+    //    console.log("Read DB success", queueKey, event)
         queueCB(data);
         onSuccess(event, settings, queueKey);
     }
@@ -221,16 +221,16 @@ function initReadTransaction(settings) {
     let callback = settings.getQueue.shift()
 
     function onOpenOK(res, initKey, callback, openRequest) {
-           console.log("openOK", res, initKey, openRequest, settings.getQueue[0]);
+        //   console.log("openOK", res, initKey, openRequest, settings.getQueue[0]);
         if (settings.index.indexOf(initKey) === -1) {
             settings.index.push(initKey);
         }
         if (key === initKey) {
-            console.log("Perform get from here", res, settings.name, settings.getQueue[0], initKey)
+         //   console.log("Perform get from here", res, settings.name, settings.getQueue[0], initKey)
             readDbKey(res, settings, initKey, callback, transactionSuccessCB, transactionFailCB)
         //    storeDbKeyValue(res, settings, putQueue, transactionSuccessCB, transactionFailCB)
         } else {
-            console.log("open on other initKey", settings.name, settings.getQueue[0], key, initKey)
+            console.log("open on other initKey - SHOULD NOT HAPPEN", settings.name, settings.getQueue[0], key, initKey)
         }
     }
 

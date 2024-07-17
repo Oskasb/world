@@ -91,7 +91,7 @@ function itemLoaded(item) {
             item.setStatusKey(key, itemStatus[key]);
         }
         let slot = item.getStatus(ENUMS.ItemStatus.EQUIPPED_SLOT);
-        console.log("Saved Item Loaded ", slot, item.getStatus(ENUMS.ItemStatus.ITEM_ID), item.getStatus());
+    //    console.log("Saved Item Loaded ", slot, item.getStatus(ENUMS.ItemStatus.ITEM_ID), item.getStatus());
         loadedItems.push(item);
     }
 
@@ -99,7 +99,6 @@ function itemLoaded(item) {
 
 }
 function loadStoredItemId(itemId, cb) {
-
     let checkString = itemId.split('_')[0];
     if (checkString !== 'item') {
         console.error("Checking item", itemId);
