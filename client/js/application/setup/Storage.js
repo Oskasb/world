@@ -21,17 +21,23 @@ function openIndexedDB(dbSettings, version, key, dataOrCB, openSuccessCB, openEr
 //   console.log("openRequest: ", dbSettings.name, version, openRequest);
     openRequest.onblocked = function(event) {
         console.error("Blocked", event);
-        openErrorCB(dbs[dbSettings.name], dbSettings);
+        openErrorCB(event, dbSettings);
     };
 
     openRequest.onerror = function(event) {
         let db = event.target.result;
         console.error("Error", dbs[dbSettings.name], dbSettings, version, key, event, openRequest);
-        openErrorCB(dbs[dbSettings.name], dbSettings);
+        openErrorCB(event, dbSettings);
     };
 
     openRequest.onsuccess = function(event) {
         let db = event.target.result;
+
+        if (!dbs[dbSettings.name]) {
+            dbs[dbSettings.name] = db;
+            console.log("DB Session started", db, event, openRequest);
+        }
+
         openSuccessCB(db, key, dataOrCB, openRequest);
         // continue working with database using db object
     };
@@ -49,7 +55,7 @@ function openIndexedDB(dbSettings, version, key, dataOrCB, openSuccessCB, openEr
             db.onerror = onError;
             dbs[dbSettings.name] = db;
             if (event.oldVersion === 0) {
-                console.log("Init new DB", db, event, openRequest);
+                console.log("Init new DB Session", db, event, openRequest);
                 onInitCB(db, key);
             } else {
                 console.log("Start existing DB Session", db, event, openRequest);

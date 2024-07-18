@@ -12,6 +12,7 @@ import {clearActorEncounterStatus, getPlayerStatus, setPlayerStatus} from "./Sta
 import {requestItemSlotChange} from "./EquipmentUtils.js";
 import {initiateEstates} from "./EstateUtils.js";
 import {fetchAllStashItemIDs} from "./StashUtils.js";
+import {getItemRecipe} from "./CraftingUtils.js";
 
 function loadStoredPlayer(dataList, playerLoadedCB) {
 
@@ -95,18 +96,25 @@ function itemLoaded(item) {
         loadedItems.push(item);
     }
 
+
     loadItemStatus(item.getStatus(ENUMS.ItemStatus.ITEM_ID), iStatusCB);
 
 }
 function loadStoredItemId(itemId, cb) {
-    let checkString = itemId.split('_')[0];
-    if (checkString !== 'item') {
-        console.error("Checking item", itemId);
+    let checkString = itemId.split('_');
+    if (checkString[0] !== 'item' || checkString[1] === 'RECIPE') {
+        console.error("Check item id fail", itemId);
         return;
+    } else {
+
     }
 
 
     function iStatusCB(itemStatus) {
+        if (itemStatus[ENUMS.ItemStatus.ITEM_TYPE] === ENUMS.itemTypes.RECIPE) {
+            console.log("Recipes load from parent item loading");
+            return;
+        }
         if (itemStatus === null) {
             console.log("Item load request failed", itemId)
             return;

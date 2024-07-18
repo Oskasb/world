@@ -29,7 +29,6 @@ function getItemRecipe(item, recipeCallback) {
             if (typeof (recipeCallback) === 'function') {
                 recipeCallback(recipes[templateId].item)
             }
-
         }
         return recipes[templateId];
     }

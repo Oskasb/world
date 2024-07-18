@@ -123,6 +123,12 @@ function saveItemStatus(statusMap) {
         return;
     }
 
+
+    if (statusMap[ENUMS.ItemStatus.ITEM_TYPE] === ENUMS.itemTypes.RECIPE) {
+        console.log("Not storing Recipes, they are global", statusMap[ENUMS.ItemStatus.ITEM_ID]);
+        return;
+    }
+
    // console.log("Save Item Status ", id, [db.items]);
  //   db.items[id] = statusMap;
     if (typeof (statusMap['undefined']) !== 'undefined') {
@@ -156,10 +162,12 @@ function loadActorStatus(actorId, aStatusCB) {
 
 function loadItemStatus(itemId, iStatusCB) {
 
-    let checkString = itemId.split('_')[0];
-    if (checkString !== 'item') {
-        console.error("Checking item", itemId);
+    let checkString = itemId.split('_');
+    if (checkString[0] !== 'item' || checkString[1] === 'RECIPE') {
+        console.error("Check item id fail", itemId);
         return;
+    } else {
+
     }
 
     if (!itemId || typeof (itemId) === 'undefined') {
