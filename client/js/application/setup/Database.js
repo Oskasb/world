@@ -162,14 +162,6 @@ function loadActorStatus(actorId, aStatusCB) {
 
 function loadItemStatus(itemId, iStatusCB) {
 
-    let checkString = itemId.split('_');
-    if (checkString[0] !== 'item' || checkString[1] === 'RECIPE') {
-        console.error("Check item id fail", itemId);
-        return;
-    } else {
-
-    }
-
     if (!itemId || typeof (itemId) === 'undefined') {
         console.log("Loading bad itemId", itemId);
         return;

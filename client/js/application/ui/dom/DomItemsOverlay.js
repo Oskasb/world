@@ -98,7 +98,7 @@ let count = 0;
 function renderItemIcons() {
     if (count !== domItems.length) {
         count = domItems.length;
-        console.log("render item count", domItems.length)
+        console.log("render item count", domItems.length, domItems)
     }
 }
 

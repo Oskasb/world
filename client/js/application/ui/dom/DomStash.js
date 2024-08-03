@@ -4,6 +4,7 @@ import {getPlayerStatus, setPlayerStatus} from "../../utils/StatusUtils.js";
 import {ENUMS} from "../../ENUMS.js";
 import {getPlayerActor} from "../../utils/ActorUtils.js";
 import {fetchActiveStashPageItems, stashAllConfigItems} from "../../utils/StashUtils.js";
+import {saveItemStatus} from "../../setup/Database.js";
 
 let defaultAdsr = {
     attack: {duration:0.5, from:0, to: 1.2, easing:"cubic-bezier(0.7, 0.2, 0.85, 1.15)"},
@@ -192,6 +193,14 @@ class DomStash {
                         let itemId = item.getStatus(ENUMS.ItemStatus.ITEM_ID)
                         let serverSynchedItem = GameAPI.getItemById(itemId);
                         console.log("Stash state updated", i, itemId, serverSynchedItem);
+
+                        let eqSlot = item.getStatus(ENUMS.ItemStatus.EQUIPPED_SLOT)
+                        if (eqSlot === "") {
+                            item.setStatusKey(ENUMS.ItemStatus.EQUIPPED_SLOT, 'STASH_SLOT_'+i)
+                            saveItemStatus(item.getStatus())
+                        }
+
+
                     }
                 }
             }

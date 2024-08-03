@@ -450,11 +450,12 @@ class DomItem {
 
         let setItem = function(itm) {
             item = itm;
-
+            this.item = item;
+        //    console.log("Set Item ", item)
             statusMap['ITEM_ID'] = item.getStatus(ENUMS.ItemStatus.ITEM_ID);
             statusMap['ITEM_LEVEL'] = item.getStatus(ENUMS.ItemStatus.ITEM_LEVEL);
             htmlElement.initHtmlElement('item', null, statusMap, 'item', readyCb);
-        }
+        }.bind(this)
 
         let getItem = function() {
             return item;
