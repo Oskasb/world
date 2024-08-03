@@ -260,7 +260,10 @@ class GameMain {
 
                                 function reset() {
                                     resetDatabase();
-                                    window.location.reload();
+                                    setTimeout(function() {
+                                //        window.location.reload();
+                                    }, 1000)
+
                                     //    startPlayerSession()
                                 }
 

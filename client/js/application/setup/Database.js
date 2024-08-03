@@ -136,6 +136,7 @@ function saveItemStatus(statusMap) {
         delete statusMap['undefined']
     }
 //    localStorage.setItem('items', JSON.stringify(db.items));
+    console.log("Save item Status map", id, [statusMap]);
     dbs['items'].set(id, statusMap);
 }
 

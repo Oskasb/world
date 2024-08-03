@@ -8,6 +8,7 @@ let domItems = [];
 let includedItems = [];
 
 function excludeItemsList(itemsList) {
+    console.log("excludeItemsList", itemsList)
     while (itemsList.length) {
         let item = itemsList.pop();
         MATH.splice(items, item);
@@ -25,12 +26,14 @@ function excludeItemsList(itemsList) {
 let removeList = []
 function includeItemsList(itemsList) {
 
+    console.log("includeItemsList", itemsList)
+    /*
     for (let i =0; i < items.length; i++) {
         if (itemsList.indexOf(items[i]) === -1) {
             itemsList.push(items[i])
         }
     }
-
+    */
     while (itemsList.length) {
         let item = itemsList.pop();
         if (items.indexOf(item) === -1) {
@@ -77,14 +80,16 @@ function updateActorUiState(actor, uiStateKey, open) {
         stateItemLists[uiStateKey] = [];
     }
 
+    let itemsForState = stateItemLists[uiStateKey];
+
     if (typeof (getter) === 'function') {
         getter(actor, fetchItems);
         if (open === true) {
-            MATH.emptyArray(stateItemLists[uiStateKey]);
-            MATH.copyArrayValues(fetchItems, stateItemLists[uiStateKey])
+            MATH.emptyArray(itemsForState);
+            MATH.copyArrayValues(fetchItems, itemsForState)
             includeItemsList(fetchItems);
         } else {
-            excludeItemsList(stateItemLists[uiStateKey]);
+            excludeItemsList(itemsForState);
         }
 
     } else {
