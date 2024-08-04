@@ -188,7 +188,7 @@ let listener = null;
 
 class DomItem {
     constructor() {
-
+        this.item = null;
         if (listener === null) {
             listener = dragListener;
             evt.on(ENUMS.Event.UI_ITEM_DRAG, listener)
@@ -486,10 +486,11 @@ class DomItem {
             DomUtils.clearDivArray(potencyDivs);
             DomUtils.clearDivArray(rankDivs);
             item = null;
+            this.item = null;
             ThreeAPI.unregisterPrerenderCallback(update);
             clearIframe();
             closeItemCard();
-        }
+        }.bind(this)
 
         this.call = {
             setItem:setItem,

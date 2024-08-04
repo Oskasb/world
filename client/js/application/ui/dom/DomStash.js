@@ -192,7 +192,7 @@ class DomStash {
                     if (item) {
                         let itemId = item.getStatus(ENUMS.ItemStatus.ITEM_ID)
                         let serverSynchedItem = GameAPI.getItemById(itemId);
-                        console.log("Stash state updated", i, itemId, serverSynchedItem);
+               //         console.log("Stash state updated", i, itemId, serverSynchedItem);
 
                         let eqSlot = item.getStatus(ENUMS.ItemStatus.EQUIPPED_SLOT)
                         if (eqSlot === "") {

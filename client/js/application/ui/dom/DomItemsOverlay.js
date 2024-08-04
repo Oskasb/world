@@ -6,43 +6,78 @@ import {fetchActiveStashPageItems} from "../../utils/StashUtils.js";
 let items = [];
 let domItems = [];
 let includedItems = [];
+let failRemoves =[];
+let removeDomItems = [];
 
-function excludeItemsList(itemsList) {
-    console.log("excludeItemsList", itemsList)
-    while (itemsList.length) {
-        let item = itemsList.pop();
-        MATH.splice(items, item);
-        for (let i = 0; i < domItems.length; i++) {
-            if (domItems[i].call.getItem() === item) {
-                let domItem =  domItems[i];
-                domItem.call.close();
-                poolReturn(domItem);
-                MATH.splice(domItems, domItem);
-            }
+function removeDomItemByItem(item) {
+    for (let i = 0; i < domItems.length; i++) {
+        if (domItems[i].call.getItem() === item) {
+            let domItem =  domItems[i];
+            removeDomItems.push(domItem);
+            return domItem;
         }
     }
+    if (failRemoves.indexOf(item) === -1) {
+    //    failRemoves.push(item);
+        console.log("Item not registered", item, domItems)
+    }
+
+}
+
+function clearRemoveList() {
+    while (removeDomItems.length) {
+        let domItem = removeDomItems.pop();
+        let item = domItem.call.getItem()
+        console.log("clearRemoveList item", item, domItem)
+        domItem.call.close();
+        poolReturn(domItem);
+        MATH.splice(items, item);
+        MATH.splice(domItems, domItem);
+    }
+    console.log("remaining items to show", items.length, items)
+}
+
+function excludeItemsList(itemsList) {
+    console.log("excludeItemsList", itemsList.length, itemsList)
+    while (itemsList.length) {
+        let item = itemsList.pop();
+
+    //    console.log("Remove item ", item)
+        let removed = removeDomItemByItem(item);
+        console.log("Remove removed item ", item, removed)
+    }
+
+    console.log("removeDomItems", removeDomItems.length, removeDomItems)
+
+    clearRemoveList();
+    console.log("failRemoves Item", [failRemoves, domItems])
 }
 
 let removeList = []
 function includeItemsList(itemsList) {
 
-    console.log("includeItemsList", itemsList)
-    /*
-    for (let i =0; i < items.length; i++) {
+    console.log("includeItemsList", itemsList.length, itemsList)
+/*
+    for (let i =0; i < items.length; i++) { // if a domItem is missing for whatever reason add it here
         if (itemsList.indexOf(items[i]) === -1) {
+            console.log("item was missing so adding it again...", items[i])
             itemsList.push(items[i])
         }
     }
-    */
+*/
     while (itemsList.length) {
         let item = itemsList.pop();
         if (items.indexOf(item) === -1) {
             items.push(item);
             let domItem = poolFetch('DomItem');
+            console.log("domItem.call.setItem", item, domItem)
+            if (domItem.item) {
+                console.log("dom item already has item, not closed?", domItem.item);
+            }
             domItem.call.setItem(item);
             domItems.push(domItem);
         } else {
-            console.log("Item already included... something is bad", item, items)
+        //    console.log("Item already included... something is bad", item, items)
         }
     }
 
@@ -84,12 +119,13 @@ function updateActorUiState(actor, uiStateKey, open) {
 
     if (typeof (getter) === 'function') {
         getter(actor, fetchItems);
+        excludeItemsList(itemsForState);
         if (open === true) {
-            MATH.emptyArray(itemsForState);
+        //    MATH.emptyArray(itemsForState);
             MATH.copyArrayValues(fetchItems, itemsForState)
             includeItemsList(fetchItems);
         } else {
-            excludeItemsList(itemsForState);
+
         }
 
     } else {
@@ -100,10 +136,39 @@ function updateActorUiState(actor, uiStateKey, open) {
 
 let count = 0;
 
+function pruneItemsMissingDomItems(item) {
+    for (let i = 0; i < domItems.length; i++) {
+        if (domItems[i].call.getItem() === item) {
+            return 0;
+        }
+    }
+    MATH.splice(items, item);
+    return -1;
+}
+
+
+function clearClosedDomItems() {
+    for (let i = 0; i < domItems.length; i++) {
+        let domItem = domItems[i];
+        let item = domItem.call.getItem();
+        if (item === null) {
+            removeDomItems.push(domItem);
+        }
+    }
+    clearRemoveList();
+
+    for (let i = 0;i < items.length; i++) {
+        let item = items[i];
+        i += pruneItemsMissingDomItems(item);
+    }
+
+}
+
 function renderItemIcons() {
     if (count !== domItems.length) {
+        clearClosedDomItems();
         count = domItems.length;
-        console.log("render item count", domItems.length, domItems)
+        console.log("render item count", items.length, domItems.length, [items, domItems])
     }
 }
 
@@ -115,6 +180,8 @@ class DomItemsOverlay {
             let actor = getPlayerActor();
             if (actor) {
                 let uiStates = actor.getStatus(ENUMS.ActorStatus.ACTIVE_UI_STATES);
+
+
                 if (currentStates.length > uiStates.length) {
                     for (let i=0; i < currentStates.length; i++) {
                         if (uiStates.indexOf(currentStates[i]) === -1) {
@@ -131,6 +198,11 @@ class DomItemsOverlay {
                         updateActorUiState(actor, uiStates[i], true)
                     }
                 }
+
+                if (failRemoves.length > 0) {
+                //    excludeItemsList(failRemoves)
+                }
+
             }
 
             renderItemIcons()
