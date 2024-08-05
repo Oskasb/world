@@ -163,10 +163,23 @@ function loadActorStatus(actorId, aStatusCB) {
 
 function loadItemStatus(itemId, iStatusCB) {
 
+
+
+
     if (!itemId || typeof (itemId) === 'undefined') {
         console.log("Loading bad itemId", itemId);
         return;
     }
+
+    let checkString = itemId.split('_');
+    if (checkString[1] === 'RECIPE') {
+        console.log("Skip load recipe from DB - Recipes load from parent item loading");
+        // console.error("Check item id fail", itemId);
+        return;
+    } else {
+
+    }
+
     dbs['items'].get(itemId, iStatusCB);
 }
 

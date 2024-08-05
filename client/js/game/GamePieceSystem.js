@@ -41,7 +41,7 @@ function getItemConfigByTemplate(templateId) {
 }
 
 function recipeCallback(recipeItem) {
-    console.log("recipeCallback :", recipeItem)
+ //   console.log("recipeCallback :", recipeItem)
     items.push(recipeItem);
 }
 let loadItem = function(event) {

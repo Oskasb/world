@@ -5,8 +5,6 @@ import {fetchActiveStashPageItems} from "../../utils/StashUtils.js";
 
 let items = [];
 let domItems = [];
-let includedItems = [];
-let failRemoves =[];
 let removeDomItems = [];
 
 function removeDomItemByItem(item) {
@@ -17,10 +15,6 @@ function removeDomItemByItem(item) {
             return domItem;
         }
     }
-    if (failRemoves.indexOf(item) === -1) {
-    //    failRemoves.push(item);
-        console.log("Item not registered", item, domItems)
-    }
 
 }
 
@@ -28,35 +22,35 @@ function clearRemoveList() {
     while (removeDomItems.length) {
         let domItem = removeDomItems.pop();
         let item = domItem.call.getItem()
-        console.log("clearRemoveList item", item, domItem)
+    //    console.log("clearRemoveList item", item, domItem)
         domItem.call.close();
         poolReturn(domItem);
         MATH.splice(items, item);
         MATH.splice(domItems, domItem);
     }
-    console.log("remaining items to show", items.length, items)
+//    console.log("remaining items to show", items.length, items)
 }
 
 function excludeItemsList(itemsList) {
-    console.log("excludeItemsList", itemsList.length, itemsList)
+ //   console.log("excludeItemsList", itemsList.length, itemsList)
     while (itemsList.length) {
         let item = itemsList.pop();
 
-    //    console.log("Remove item ", item)
+    //    console.log("Remove item ", item).reload(
         let removed = removeDomItemByItem(item);
-        console.log("Remove removed item ", item, removed)
+    //    console.log("Remove removed item ", item, removed)
     }
 
-    console.log("removeDomItems", removeDomItems.length, removeDomItems)
+ //   console.log("removeDomItems", removeDomItems.length, removeDomItems)
 
     clearRemoveList();
-    console.log("failRemoves Item", [failRemoves, domItems])
+
 }
 
 let removeList = []
 function includeItemsList(itemsList) {
 
-    console.log("includeItemsList", itemsList.length, itemsList)
+ //   console.log("includeItemsList", itemsList.length, itemsList)
 /*
     for (let i =0; i < items.length; i++) { // if a domItem is missing for whatever reason add it here
         if (itemsList.indexOf(items[i]) === -1) {
@@ -70,7 +64,7 @@ function includeItemsList(itemsList) {
         if (items.indexOf(item) === -1) {
             items.push(item);
             let domItem = poolFetch('DomItem');
-            console.log("domItem.call.setItem", item, domItem)
+        //    console.log("domItem.call.setItem", item, domItem)
             if (domItem.item) {
                 console.log("dom item already has item, not closed?", domItem.item);
             }
@@ -107,8 +101,8 @@ let stateItemLists = {};
 
 function updateActorUiState(actor, uiStateKey, open) {
     MATH.emptyArray(fetchItems);
-    actor.actorText.say(uiStateKey +' '+open)
-    console.log("updateActorUiState", open, uiStateKey, actor.actorStatus.statusMap);
+  //  actor.actorText.say(uiStateKey +' '+open)
+ //   console.log("updateActorUiState", open, uiStateKey, actor.actorStatus.statusMap);
     let getter = uiStateItems[ENUMS.UiStates[uiStateKey]]
 
     if (!stateItemLists[uiStateKey]) {
@@ -199,9 +193,6 @@ class DomItemsOverlay {
                     }
                 }
 
-                if (failRemoves.length > 0) {
-                //    excludeItemsList(failRemoves)
-                }
 
             }
 

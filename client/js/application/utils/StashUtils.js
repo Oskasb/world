@@ -33,23 +33,57 @@ function loadStashItem(item) {
     evt.dispatch(ENUMS.Event.LOAD_ITEM,  {id: itemStatus[ENUMS.ItemStatus.TEMPLATE], itemId:itemStatus[ENUMS.ItemStatus.ITEM_ID], callback:itemLoaded})
 }
 
+function getStashTabItemByTemplateId(stashTab, templateId) {
+    let tabItems = getStashPageItems(stashTab);
+    for (let i = 0; i < tabItems.length; i++) {
+        let tabItem = tabItems[i];
+        let tabItemTemplateId = tabItem.getStatus(ENUMS.ItemStatus.TEMPLATE);
+        if (tabItemTemplateId === templateId) {
+            return tabItem;
+        }
+    }
+    return false;
+}
+
+function combineItemStackToStashTab(stashTab, item) {
+    let existingStackItem = getStashTabItemByTemplateId(stashTab, item.getStatus(ENUMS.ItemStatus.TEMPLATE));
+    if (existingStackItem !== false) {
+        let addStack = item.getStatus(ENUMS.ItemStatus.STACK_SIZE);
+        let existingStack = existingStackItem.getStatus(ENUMS.ItemStatus.STACK_SIZE);
+        existingStackItem.setStatusKey(ENUMS.ItemStatus.STACK_SIZE, existingStack + addStack);
+        return existingStackItem;
+    }
+    return item;
+
+}
+
 function stashItem(item, unstash) {
 
-    let itemId = item.getStatus(ENUMS.ItemStatus.ITEM_ID)
+
     let itemType = item.getStatus(ENUMS.ItemStatus.ITEM_TYPE);
 
     let page = ENUMS.PlayerStatus.STASH_TAB_ITEMS;
     if (itemType === ENUMS.itemTypes.MATERIAL) {
         page =  ENUMS.PlayerStatus.STASH_TAB_MATERIALS;
-        if (item.getStatus(ENUMS.ItemStatus.STACK_SIZE) === 0) {
+        if (item.getStatus(ENUMS.ItemStatus.STACK_SIZE) === 0) { // For debug adding
             item.setStatusKey(ENUMS.ItemStatus.STACK_SIZE, Math.floor(MATH.randomBetween(5, 1000)))
         }
+
+        if (unstash !== true) {
+            item = combineItemStackToStashTab(page, item)
+        }
+
 
     } else if (itemType === ENUMS.itemTypes.CURRENCY) {
         page =  ENUMS.PlayerStatus.STASH_TAB_CURRENCIES;
         if (item.getStatus(ENUMS.ItemStatus.STACK_SIZE) === 0) {
             item.setStatusKey(ENUMS.ItemStatus.STACK_SIZE, Math.floor(MATH.randomBetween(5, 1000)))
         }
+
+        if (unstash !== true) {
+            item = combineItemStackToStashTab(page, item)
+        }
+
     } else if (itemType === ENUMS.itemTypes.LORE) {
         page =  ENUMS.PlayerStatus.STASH_TAB_LORE
     } else if (itemType === ENUMS.itemTypes.RECIPE) {
@@ -64,6 +98,7 @@ function stashItem(item, unstash) {
         }
     }
 
+    let itemId = item.getStatus(ENUMS.ItemStatus.ITEM_ID)
     let itemStash = getPlayerStatus(ENUMS.PlayerStatus[page]) || [];
 
     if (itemStash.indexOf(itemId) === -1) {
@@ -175,11 +210,16 @@ function fetchActiveStashPageItems(store) {
 }
 
 function getStashPageItems(pageKey, store) {
+    if (!store) {
+        MATH.emptyArray(tempStore);
+        store = tempStore;
+    }
     let stashList = getPlayerStatus(pageKey);
     for (let i = 0; i < stashList.length; i++) {
         let item = GameAPI.getItemById(stashList[i]);
         store.push(item);
     }
+    return store;
 }
 
 let tempStore = [];

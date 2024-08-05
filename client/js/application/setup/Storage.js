@@ -115,7 +115,7 @@ function storeDbKeyValue(db, settings, key, value, onSuccess, onError) {
 
 function readDbKey(db, settings, queueKey, queueCB, onSuccess, onError) {
 
-
+    console.log("readDbKey", queueKey, settings);
     let transaction = db.transaction(queueKey, "readonly"); // (1)
     let stores = transaction.objectStore(queueKey); // (2)
     let request = stores.get(queueKey);

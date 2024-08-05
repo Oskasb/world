@@ -102,9 +102,10 @@ function itemLoaded(item) {
 }
 function loadStoredItemId(itemId, cb) {
     let checkString = itemId.split('_');
-    if (checkString[0] !== 'item' || checkString[1] === 'RECIPE') {
-        console.error("Check item id fail", itemId);
-        return;
+    if (checkString[1] === 'RECIPE') {
+    //    console.log("Skip load recipe from DB - Recipes load from parent item loading");
+        // console.error("Check item id fail", itemId);
+    //    return;
     } else {
 
     }
@@ -112,8 +113,8 @@ function loadStoredItemId(itemId, cb) {
 
     function iStatusCB(itemStatus) {
         if (itemStatus[ENUMS.ItemStatus.ITEM_TYPE] === ENUMS.itemTypes.RECIPE) {
-            console.log("Recipes load from parent item loading");
-            return;
+        //    console.log("Recipes load from parent item loading");
+        //    return;
         }
         if (itemStatus === null) {
             console.log("Item load request failed", itemId)
